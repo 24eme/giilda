@@ -3,13 +3,21 @@ use_helper('Float');
 use_helper('Date');
 use_helper('Prix');
 ?>
+<div class="row row-margin">
+    <div class="col-xs-8">
+        <h2 class="vertical-center" style="margin: 0 0 20px 0;">Mouvements en attente de facturation</h2>
+    </div>
+    <div class="col-xs-4 text-right">
+        <a href="<?php echo url_for('facture_creation', array('identifiant' => $societe->identifiant, 'type-facture' => FactureClient::TYPE_FACTURE_MOUVEMENT_DRM));?>" class="btn btn-sm btn-default">Facturer les mouvements</a>
+    </div>
+</div>
+
 <?php if (!count($mouvements)) : ?>
     <div class="row row-margin">
-        <p>Pas de mouvements en attente de facturation</p>
+        <p class="text-center text-muted">Pas de mouvements en attente de facturation</p>
     </div>
 <?php else : ?>
     <div class="row row-margin">
-        <legend>Mouvements en attente de facturation</legend>
         <div class="col-xs-12">
             <div class="list-group">
                 <li class="list-group-item col-xs-12">
@@ -35,12 +43,6 @@ use_helper('Prix');
                 <?php endforeach; ?>
             </div>
         </div>
-    </div>   
-    <div class="row row-margin">
-        <form id="generation_form" action="<?php echo url_for('facture_generer', $societe); ?>" method="post">
-            <?php include_partial('facture/datesGeneration', array('form' => $form)) ?>
-                <button id="generation_facture" class="btn btn-lg btn-success">Générer une facture pour ces mouvements</button>
-         
-        </form>
     </div>
 <?php endif; ?>
+   

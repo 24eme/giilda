@@ -4,7 +4,6 @@ use_helper('Float');
 
         
 \noindent{
-<?php if(!$avoir) : ?>
 \begin{minipage}[b]{1\textwidth}
 \noindent{
        \begin{flushleft}
@@ -23,7 +22,6 @@ Lorsque, à l'expiration d'un délai de trois mois suivant leur date d'exigibili
 \end{flushleft}
 }
 \vspace{-2.7cm}
-<?php endif; ?>
     \begin{flushright}
     \begin{minipage}[b]{0.205\textwidth}
      \vspace{-2.6cm}
@@ -54,6 +52,6 @@ Lorsque, à l'expiration d'un délai de trois mois suivant leur date d'exigibili
             \end{tikzpicture} 
  \end{minipage}
  \end{flushright}
-<?php if(!$avoir) : ?> \end{minipage} <?php endif; ?>
+\end{minipage}
 }
  \vspace{2.8cm}

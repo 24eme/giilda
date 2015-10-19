@@ -12,8 +12,11 @@ class FactureClient extends acCouchdbClient {
     
     const STATUT_REDRESSEE = 'REDRESSE';
     const STATUT_NONREDRESSABLE = 'NON_REDRESSABLE';
+    
+    const TYPE_FACTURE_MOUVEMENT_DRM = "MOUVEMENTS_DRM";
 
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
+     public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Mouvements de DRM');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -358,8 +361,8 @@ class FactureClient extends acCouchdbClient {
   return ;
       }
       $avoir = clone $f;
-
-      $avoir->constructIds($f->getCompte(), $f->region);
+    
+      $avoir->constructIds($f->getCompte()->getSociete(), $f->region);
 
       foreach($avoir->lignes as $ligne) {
           foreach($ligne->details as $detail) {

@@ -67,6 +67,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function constructIds($doc) {
         if (!$doc)
             throw new sfException('Pas de document attribué');
+      
         $this->region = $doc->getRegionViticole();
         $this->identifiant = $doc->identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
@@ -186,7 +187,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
         $ligne = $this->lignes->add($keyLigne);
-        $ligne->libelle = $keyLigne;
+        $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
         $details = $ligne->getOrAdd('details')->add();
 
         $details->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];

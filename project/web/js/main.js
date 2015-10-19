@@ -29,7 +29,7 @@
         $(this).find(".select2autocomplete").each(function () {
             var urlAjax = $(this).data('ajax');
             $(this).select2({
-                placeholder: 'Enter name',
+                placeholder: 'Entrer un nom',
                 minimumInputLength: 3,
                 allowClear: true,
                 ajax: {
@@ -55,7 +55,7 @@
                         }
 
                     }}});
-        });
+            });
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',

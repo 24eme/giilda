@@ -8,9 +8,7 @@
             <?php echo $form['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
         </div>
     </div>
-    <div class="col-xs-2">
-    </div>
-    <div class="col-xs-2">
-        <button id="btn_rechercher" class="btn btn-md btn-success pull-right" type="submit">Rechercher</button>
+    <div class="col-xs-4">
+        <button id="btn_rechercher" class="btn btn-md btn-default" type="submit">Rechercher</button>
     </div>
 </form>

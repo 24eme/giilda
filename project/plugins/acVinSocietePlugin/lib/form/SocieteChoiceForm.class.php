@@ -17,7 +17,6 @@ class SocieteChoiceForm extends baseForm {
     public function configure() {
         $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id)));
         $this->widgetSchema->setLabel('identifiant', 'Sélectionner une societe&nbsp;:');
-
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => true)));
 
         $this->validatorSchema['identifiant']->setMessage('required', 'Le choix d\'une societe est obligatoire');
@@ -33,5 +32,5 @@ class SocieteChoiceForm extends baseForm {
     public function getSociete() {
         return $this->getValidator('identifiant')->getDocument();
     }
-
+    
 }

@@ -26,14 +26,14 @@
     <div class="row row-margin">
         <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;">
             <?php if ($sans_categorie): ?>
-                <div class="col-xs-9">
+                <div class="col-xs-8">
                     <div class="row">
                         <div class="col-xs-6 text-center lead text-muted">Libellé</div>
                         <div class="col-xs-3 text-center lead text-muted">Code comptable</div>
                         <div class="col-xs-3 text-center lead text-muted">Quantité</div>
                     </div>
                 </div>
-                <div class="col-xs-3">
+                <div class="col-xs-4">
                     <div class="row">
                         <div class="col-xs-5 text-center lead text-muted">Prix&nbsp;U. (Taux)</div>
                         <div class="col-xs-7 text-center lead text-muted">Total</div>
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 <?php else: ?>
-                  <div class="form-group line <?php if (!$f_ligne['libelle']->getValue() && !$f_ligne->hasError()): ?>empty<?php endif; ?>" style="padding-top:  15px;">
+                    <div class="form-group line <?php if (!$f_ligne['libelle']->getValue() && !$f_ligne->hasError()): ?>empty<?php endif; ?>" style="padding-top:  15px;">
                         <div class="col-xs-7">
                             <div class="row">
                                 <div class="col-xs-6 <?php echo (($f_ligne['libelle']->hasError()) ? 'has-error' : null) ?>">
@@ -120,7 +120,7 @@
                     <div class="col-xs-12">
                         <?php foreach ($f_ligne['details'] as $key_detail => $f_detail): ?>
                             <div data-line="#<?php echo $f_ligne->renderId() ?>" id="<?php echo $f_detail->renderId() ?>" class="form-group detail <?php if (!$f_detail['libelle']->getValue() && !$f_detail->hasError()): ?>empty<?php endif; ?>" >
-                                <div class="col-xs-9">
+                                <div class="col-xs-8">
                                     <div class="row">
                                         <div class="col-xs-6 <?php echo (($f_detail['libelle']->hasError()) ? 'has-error' : null) ?>">
                                             <?php echo $f_detail['libelle']->render(array('class' => 'form-control', 'data-detail' => "#" . $f_detail->renderId(), 'placeholder' => 'Libellé du detail')); ?>
@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-3">
+                                <div class="col-xs-4">
                                     <div class="row">
                                         <div class="col-xs-5 <?php echo (($f_detail['prix_unitaire']->hasError()) ? 'has-error' : null) ?>">
                                             <?php echo $f_detail['prix_unitaire']->render(array('class' => 'form-control text-right data-sum-element', 'data-sum-element' => "#" . $f_detail['montant_ht']->renderId(), 'data-detail' => "#" . $f_detail->renderId(), 'placeholder' => 'Prix U.')); ?>
@@ -157,9 +157,9 @@
                                         </div>
                                         <div class="col-xs-5">
                                             <?php if ($key_detail == count($f_ligne['details']) - 1): ?>
-                                                <!--<button type="button" class="btn btn-success data-add-line hidden" data-form="#form_edition_facture" data-form-action="<?php echo isset($baseFacture) ? url_for("facture_avoir", array('sf_subject' => $baseFacture, 'not_redirect' => true)) : url_for("facture_edition", array('id' => $facture->_id, 'not_redirect' => true)) ?>"><span class="glyphicon glyphicon-plus"></span></button>-->
+                                                                    <!--<button type="button" class="btn btn-success data-add-line hidden" data-form="#form_edition_facture" data-form-action="<?php // echo isset($baseFacture) ? url_for("facture_avoir", array('sf_subject' => $baseFacture, 'not_redirect' => true)) : url_for("facture_edition", array('id' => $f->_id, 'not_redirect' => true))      ?>"><span class="glyphicon glyphicon-plus"></span></button>-->
                                             <?php else: ?>
-                                                <!--<button data-detail="#<?php echo $f_detail->renderId() ?>" type="button" class="btn btn-danger data-clean-line hidden"><span class="glyphicon glyphicon-trash"></span></button>-->
+                                                                    <!--<button data-detail="#<?php echo $f_detail->renderId() ?>" type="button" class="btn btn-danger data-clean-line hidden"><span class="glyphicon glyphicon-trash"></span></button>-->
                                             <?php endif; ?>
                                         </div>
                                     </div>
@@ -174,32 +174,55 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="form-group form-group-lg">
-                <div class="col-xs-2 text-center"></div>
-                <div class="col-xs-4 text-center"></div>
-                <div class="col-xs-2 text-center"><label class="control-label lead">Total HT</label></div>
-                <?php $ids_total_ht = array(); ?>
-                <?php
-                foreach ($form['lignes'] as $f_ligne): $ids_total_ht[] = "#" . $f_ligne['montant_ht']->renderId();
-                endforeach;
-                ?>
-                <div class="col-xs-2 text-center"><strong><input id="total_ht" type="text" class="form-control input-lg text-right data-sum-element" data-sum="<?php echo implode(" + ", $ids_total_ht) ?>" data-sum-element="#total_ttc" readonly="readonly" value="<?php echo $facture->total_ht ?>" /></strong></div>
+                <div class="col-xs-8 text-center"></div>
+                <div class="col-xs-4 text-center">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <label class="control-label lead">Total HT</label>
+                        </div>
+                        <div class="col-xs-7">
+                            <?php $ids_total_ht = array(); ?>
+                            <?php
+                            foreach ($form['lignes'] as $f_ligne): $ids_total_ht[] = "#" . $f_ligne['montant_ht']->renderId();
+                            endforeach;
+                            ?>
+                            <strong>    <input id="total_ht" type="text" class="form-control input-lg text-right data-sum-element" data-sum="<?php echo implode(" + ", $ids_total_ht) ?>" data-sum-element="#total_ttc" readonly="readonly" value="<?php echo $facture->total_ht ?>" /></strong>
+
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group form-group-lg">
-                <div class="col-xs-2 text-center"></div>
-                <div class="col-xs-4 text-center"></div>
-                <div class="col-xs-2 text-center"><label class="control-label lead">Total TVA</label></div>
-                <?php $ids_total_tva = array(); ?>
-                <?php
-                foreach ($form['lignes'] as $f_ligne): $ids_total_tva[] = "#" . $f_ligne['montant_tva']->renderId();
-                endforeach;
-                ?>
-                <div class="col-xs-2 text-center"><strong><input id="total_tva" type="text" class="form-control input-lg text-right data-sum-element"  data-sum="<?php echo implode(" + ", $ids_total_tva) ?>" data-sum-element="#total_ttc" readonly="readonly" value="<?php echo $facture->total_taxe ?>" /></strong></div>
+                <div class="col-xs-8 text-center"></div>
+                <div class="col-xs-4 text-center">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <label class="control-label lead">Total TVA</label>
+
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <?php $ids_total_tva = array(); ?>
+                            <?php
+                            foreach ($form['lignes'] as $f_ligne): $ids_total_tva[] = "#" . $f_ligne['montant_tva']->renderId();
+                            endforeach;
+                            ?>
+                            <strong><input id="total_tva" type="text" class="form-control input-lg text-right data-sum-element"  data-sum="<?php echo implode(" + ", $ids_total_tva) ?>" data-sum-element="#total_ttc" readonly="readonly" value="<?php echo $facture->total_taxe ?>" />
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group form-group-lg">
-                <div class="col-xs-2 text-center"></div>
-                <div class="col-xs-4 text-center"></div>
-                <div class="col-xs-2 text-center"><label class="control-label lead">Total TTC</label></div>
-                <div class="col-xs-2 text-center"><strong><input id="total_ttc" type="text" class="form-control input-lg text-right" data-sum="#total_ht + #total_tva" readonly="readonly" value="<?php echo $facture->total_ttc ?>" /></strong></div>
+                <div class="col-xs-8 text-center"></div>
+                <div class="col-xs-4 text-center">
+                    <div class="row">
+                        <div class="col-xs-5">
+                            <label class="control-label lead">Total TTC</label>
+                        </div> 
+                        <div class="col-xs-7 text-center">
+                            <input id="total_ttc" type="text" class="form-control input-lg text-right" data-sum="#total_ht + #total_tva" readonly="readonly" value="<?php echo $facture->total_ttc ?>" />
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -209,7 +232,7 @@
             <a class="btn btn-danger btn-lg btn-upper" href="<?php echo url_for('facture_societe', $facture->getSociete()) ?>">Annuler</a>
         </div>
         <div class="col-xs-6 text-right">
-            <button type="submit" class="btn btn-default btn-lg btn-upper">Valider</button>
+            <button type="submit" class="btn btn-success btn-lg btn-upper">Valider</button>
         </div>
     </div>
 

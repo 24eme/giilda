@@ -46,8 +46,8 @@ if (!$current_nb_pages)
     $nb_blank -= FactureLatex::NB_LIGNES_ENTETE;
 
 include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $nb_blank, 'end_document' => true, 'avoir' => $avoir));
-include_partial('facture/templateReglement', array('facture' => $facture, 'avoir' => $avoir));
-if ($nb_echeances)
+include_partial('facture/templateReglement', array('facture' => $facture));
+if ($nb_echeances && !$avoir)
     include_partial('facture/templateEcheances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
 ?>
 \end{document}

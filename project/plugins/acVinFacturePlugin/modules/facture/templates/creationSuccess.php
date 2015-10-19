@@ -41,10 +41,19 @@ use_helper('Float');
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>    
+                <div class="form-group <?php if ($formNouvelleFacture["message_communication"]->hasError()): ?>has-error<?php endif; ?>">
+                    <?php echo $formNouvelleFacture["message_communication"]->renderError(); ?>
+                    <?php echo $formNouvelleFacture["message_communication"]->renderLabel("Cadre de communication", array("class" => "col-xs-4 control-label")); ?>
+                    <div class="col-xs-8">
+                       
+                            <?php echo $formNouvelleFacture["message_communication"]->render(array("class" => "form-control input-lg")); ?>
+                      
+                    </div>
+                </div>                
                 <div class="form-group text-right">
                     <div class="col-xs-6 col-xs-offset-6">
-                        <button class="btn btn-default btn-lg btn-block btn-upper" type="submit">Générer la facture</button>
+                        <button class="btn btn-success btn-lg btn-block btn-upper" type="submit">Générer la facture</button>
                     </div>
                 </div>
             </div>
