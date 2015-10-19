@@ -3,7 +3,7 @@
     <?php include_partial('drm_edition/itemFormErrors', array('form' => $form)) ?>
 </div>
 
-<div id="colonnes_dr">
+<div id="colonnes_dr" class="row">
     <?php
     include_partial('drm_edition/itemHeader', array('config' => $config,
         'drm' => $drm,

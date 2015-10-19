@@ -66,7 +66,7 @@
                 <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Compléments d'informations</h3>
+                            <h3 class="panel-title text-center">Compléments d'informations à destination des douanes</h3>
                         </div>
                         <div class="panel-body row">
                             <div class="col-sm-7">
