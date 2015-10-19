@@ -8,7 +8,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title text-center">CVO</h3>
             </div>
-            <table id="table_drm_cvo_recap" class="table table-bordered table-condensed">
+            <table id="table_drm_cvo_recap" class="table table-striped table-bordered table-condensed">
                 <thead >
                     <tr>                        
                         <th>&nbsp;</th>
@@ -19,20 +19,20 @@
                         <th>Montant</th>
                     </tr>
                 </thead>
-                <tbody class="drm_cvo_list">
-                    <tr class="droit_cvo_row" >   
-                        <td class="droit_cvo">CVO</td>
-                        <td class="droit_cvo_facturable"><?php
+                <tbody>
+                    <tr >   
+                        <td>CVO</td>
+                        <td><?php
                             echoFloat($recapCvo->totalVolumeDroitsCvo);
                             echo " hl";
                             ?></td>
         <?php if($recapCvo->totalVolumeReintegration) : ?>
-                        <td class="droit_cvo_reintegration"><?php
+                        <td><?php
                             echoFloat($recapCvo->totalVolumeReintegration);
                             echo " hl";
                             ?></td>
         <?php endif; ?>
-                        <td class="droit_cvo_total"><?php
+                        <td><?php
                             echoFloat($recapCvo->totalPrixDroitCvo);
                             echo " €";
                             ?></td>
@@ -47,7 +47,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title text-center">Droits de circulation</h3>
             </div>
-            <table id="table_droit_circulation" class="table table-bordered table-condensed">
+            <table class="table table-bordered table-striped table-condensed">
                 <thead >
                     <tr>             
                         <th>Libellé</th>
@@ -60,22 +60,22 @@
                         <?php endif; ?>
                     </tr>
                 </thead>
-                <tbody class="drm_droit_circulation_list">
+                <tbody>
                     <?php foreach ($drm->getDroitsDouane() as $droitDouane): ?>
-                        <tr class="droit_circulation_row" >                        
-                            <td class="droit_circulation_libelle"><?php echo $droitDouane->libelle; ?></td>
-                            <td class="droit_circulation_code"><?php echo $droitDouane->code; ?></td>
-                            <td class="droit_circulation_volume_imposable"><?php echoFloat($droitDouane->volume_taxe - $droitDouane->volume_reintegre); echo " hl" ?></td>
-                            <td class="droit_circulation_taux"><?php
+                        <tr>                        
+                            <td><?php echo $droitDouane->libelle; ?></td>
+                            <td><?php echo $droitDouane->code; ?></td>
+                            <td><?php echoFloat($droitDouane->volume_taxe - $droitDouane->volume_reintegre); echo " hl" ?></td>
+                            <td><?php
                                 echoFloat($droitDouane->taux);
                                 echo " €/hl";
                                 ?></td>
-                            <td class="droit_circulation_montant"><?php
+                            <td><?php
                                 echoFloat($droitDouane->total);
                                 echo " €";
                                 ?></td>
                                 <?php if ($drm->isPaiementAnnualise()): ?> 
-                                <td class="droit_circulation_cumul"><?php
+                            <td><?php
                                 echoFloat($droitDouane->cumul);
                                 echo " €";
                                 ?></td>

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h3>Compte capsules <small>(CRD)</small></h3>
-             <table class="table table-bordered table-condensed">
+             <table class="table table-bordered table-striped table-condensed">
                 <thead>
                     <tr>                        
                         <th rowspan="2">CRD</th>

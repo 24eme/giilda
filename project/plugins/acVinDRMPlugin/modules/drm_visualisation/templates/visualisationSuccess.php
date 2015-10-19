@@ -1,6 +1,12 @@
-    <?php use_helper("Date"); ?>
+<?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
-<!-- #principal -->
+
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('drm') ?>">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)) ?>"><?php echo $drm->etablissement->nom ?></a></li>
+    <li class="active"><a href=""><?php echo getDrmTitle($drm); ?></a></li>
+</ol>
+
     <?php if (!$isTeledeclarationMode): ?>
         <?php include_partial('drm/header', array('drm' => $drm)); ?> 
         <ul id="recap_infos_header">

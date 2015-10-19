@@ -19,9 +19,6 @@
 	var colonnesDR = $('#colonnes_dr');
     var colonnes;
 
-//
-//	var actifPopupLien;
-
 	$(document).ready( function()
 	{
 

@@ -5,9 +5,9 @@
 <table id="drm_export_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th class="<?php if($isTeledeclarationMode): ?>col-xs-4<?php else: ?>col-xs-7<?php endif; ?>">Pays</th>
-            <th class="<?php if($isTeledeclarationMode): ?>col-xs-3<?php else: ?>col-xs-4<?php endif; ?>">Volumes</th>
-            <?php if($isTeledeclarationMode): ?>
+            <th class="<?php if($isTeledeclarationMode && 1 == 2): ?>col-xs-4<?php else: ?>col-xs-7<?php endif; ?>">Pays</th>
+            <th class="<?php if($isTeledeclarationMode && 1 == 2): ?>col-xs-3<?php else: ?>col-xs-4<?php endif; ?>">Volumes</th>
+            <?php if($isTeledeclarationMode && 1 == 2): ?>
             <th class="col-xs-2">Type de doc</th>
             <th class="col-xs-2">Numéro&nbsp;de&nbsp;document</th>  
             <?php endif; ?>
@@ -35,7 +35,7 @@
                     <div class="input-group-addon">hl</div>
                 </div>
             </td>
-            <?php if ($isTeledeclarationMode) : ?>
+            <?php if ($isTeledeclarationMode && 1 == 2) : ?>
             <td></td>
             <td></td>
             <?php endif; ?>

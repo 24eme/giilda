@@ -63,9 +63,6 @@
 
         $.initSelect2PermissifNoAjax  = function()
         {
-        	console.log(
-        			$('select.select2permissifNoAjax').attr("id")		
-        	);
             if ($('.select2permissifNoAjax').length) {
                 var lastValue = null;
                 $('.select2permissifNoAjax').select2({
@@ -91,7 +88,6 @@
             }
         }
         
-        
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',
@@ -99,8 +95,10 @@
             focusOnShow: true,
             useCurrent: false
         });
+
         $(this).find("form.form-ajax-modal").on('submit', function () {
             var form = $(this);
+            var callback = $(this).attr('callback');
             $.post($(this).attr('action'),
                     $(this).serialize(),
                     function (data)
@@ -111,8 +109,11 @@
                             return;
                         }
 
+                        console.log(data);
+
                         $(options.selectors.ajaxModal).modal('hide');
                     }, "json");
+            
             return false;
         });
 
