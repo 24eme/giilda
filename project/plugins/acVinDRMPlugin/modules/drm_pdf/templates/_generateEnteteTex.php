@@ -12,7 +12,7 @@ if($drm->declarant->caution){
 ?>
 
 \def\InterloireAdresse{<?php echo getAdresseInterloire(); ?>} 
-\def\InterloireContact{<?php echo getDrmContact($drm); ?>} 
+\def\InterloireContact{<?php //echo getDrmContact($drm); ?>} 
 
 \def\DRMSocieteRaisonSociale{<?php echo $drm->societe->raison_sociale; ?>}
 \def\DRMSocieteAdresse{<?php echo getDrmSocieteAdresse($drm); ?>}   
@@ -43,7 +43,7 @@ Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
 <?php endif; ?>
  }
  
-\rhead{\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}  \\
+\rhead{ \\
 \vspace{-2cm}
 \InterloireAdresse
  \begin{small} \InterloireContact \\ 
