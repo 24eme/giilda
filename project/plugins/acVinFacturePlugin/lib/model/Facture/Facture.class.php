@@ -165,7 +165,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             $total = round($total, 2);
 
             $ligne->updateTotaux();
-
+            
             if ($totalTva != $ligne->montant_tva) {
                 throw new sfException("Incohérence");
             }
