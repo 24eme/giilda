@@ -14,13 +14,9 @@
                         <p>Régime de CRD : <?php echo EtablissementClient::$regimes_crds_libelles_longs[$regime]; ?></p>
                     <?php endif; ?>
                     <?php foreach ($crdAllGenre as $genre => $crds): ?>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-
-                                <h3 class="panel-title text-center">Stocks CRD de vins <?php echo getLibelleForGenre($genre); ?> <small>(en nombre de capsules)</small></h3>
-                            </div>
+                        <h3>Stocks CRD de vins <?php echo getLibelleForGenre($genre); ?> <small>(en nombre de capsules)</small></h3>
                             <table id="table_drm_crds" class="table table-bordered table-condensed table-striped">
-                                <thead >
+                                <thead>
                                     <tr>
                                         <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD <a data-form="#form_crds" href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="btn btn-xs link-submit btn-link"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></th>
                                         <th class="col-xs-1 text-center vertical-center" rowspan="2">Stock</th>
@@ -56,7 +52,6 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
-                        </div>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
                 <div class="row">

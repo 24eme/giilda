@@ -14,7 +14,7 @@
                 <div class="col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Déclaration des documents d'accompagnement</h3>
+                            <h3 class="panel-title text-center"><strong>Déclaration des documents d'accompagnement</strong></h3>
                         </div>
                         <table id="table_drm_adminitration" class="table table-bordered table-striped">
                             <thead >
@@ -39,8 +39,7 @@
                 <div class="col-xs-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a class="btn_ajouter_ligne_template btn btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a>
-                            <h3 class="panel-title text-center">Relevé de non apurement</h3>
+                            <h3 class="panel-title text-center"><strong>Relevé de non apurement</strong></h3>
                         </div>
                         <table id="table_drm_non_apurement" class="table table-bordered table-striped">
                             <thead >
@@ -59,14 +58,19 @@
                                 ?>
                                 <?php include_partial('templateNonApurementItem', array('form' => $annexesForm->getFormTemplate())); ?>
                             </tbody>
-
+                            <thead>
+                                <tr>
+                                    <td colspan="4"><a class="btn_ajouter_ligne_template btn btn-sm btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a></td>
+                                </tr>
+                            </thead>
                         </table>
                     </div>
+
                 </div>
                 <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">Compléments d'informations à destination des douanes</h3>
+                            <h3 class="panel-title text-center"><strong>Compléments d'informations à destination des douanes</strong></h3>
                         </div>
                         <div class="panel-body row">
                             <div class="col-sm-7">

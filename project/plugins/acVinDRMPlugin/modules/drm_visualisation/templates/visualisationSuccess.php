@@ -1,7 +1,6 @@
-<?php use_helper("Date"); ?>
+    <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
 <!-- #principal -->
-<section id="principal" class="drm">
     <?php if (!$isTeledeclarationMode): ?>
         <?php include_partial('drm/header', array('drm' => $drm)); ?> 
         <ul id="recap_infos_header">
@@ -27,10 +26,10 @@
 
     <div id="drm_validation_coordonnees">
         <div class="drm_validation_societe">    
-            <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+            <?php //include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
         </div>
         <div class="drm_validation_etablissement">
-            <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+            <?php //include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
         </div>
     </div>
 
@@ -79,7 +78,6 @@
             <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
         <?php endif; ?>
     </div>
-</section>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 ?>

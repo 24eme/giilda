@@ -1,5 +1,7 @@
 <div class="row">
-
+<div class="col-xs-12">
+<h3>Annexes</h3>
+</div>
 <?php if (count($drm->documents_annexes)): ?>
 <div class="col-xs-4">
     <div class="panel panel-default">
