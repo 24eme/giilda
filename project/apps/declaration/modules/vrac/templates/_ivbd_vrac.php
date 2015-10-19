@@ -82,7 +82,7 @@
 \def\CONTRATDELAIPAIEMENT{<?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?>}
 
 \def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->taux_courtage ?>}
-\def\CONTRATREPARTITION{<?php echo str_replace('%', '\%', VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->cvo_repartition]); ?>}
+\def\CONTRATREPARTITION{<?php echo str_replace('%', '\%', VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition]); ?>}
 
 \def\DATELIMITERETIRAISON{<?php echo format_date($vrac->date_limite_retiraison) ?>}
 
