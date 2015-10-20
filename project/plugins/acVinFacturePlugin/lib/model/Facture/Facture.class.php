@@ -67,6 +67,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function constructIds($doc) {
         if (!$doc)
             throw new sfException('Pas de document attribué');
+
         $this->region = $doc->getRegionViticole();
         $this->identifiant = $doc->identifiant;
         $this->numero_facture = FactureClient::getInstance()->getNextNoFacture($this->identifiant, date('Ymd'));
@@ -165,7 +166,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             $total = round($total, 2);
 
             $ligne->updateTotaux();
-            
+
             if ($totalTva != $ligne->montant_tva) {
                 throw new sfException("Incohérence");
             }
@@ -186,7 +187,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
         $ligne = $this->lignes->add($keyLigne);
-        $ligne->libelle = $keyLigne;
+        $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
         $details = $ligne->getOrAdd('details')->add();
 
         $details->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
@@ -197,12 +198,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         $details->libelle = $produit_libelle;
         if ($contrat_identifiant) {
-            $details->libelle .= ' (' . $contrat_identifiant.')';
+            $details->libelle .= ' (' . $contrat_identifiant . ')';
         }
-//$this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
-        $ligne->origine_mouvements = $this->createLigneOriginesMouvements($ligne, $ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE]);
+        //$this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
+        foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
+        $keysOrigin = explode(':', $origine);
+            $ligne->origine_mouvements->getOrAdd($keysOrigin[0])->add(null, $keysOrigin[1]);
+        }
         //   $this->verifLigneAndVolumeOrigines($ligne);
-        
     }
 
     protected function verifLigneAndVolumeOrigines($ligne) {
@@ -243,17 +246,26 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $origines;
     }
 
+    public function hasArgument($arg) {
+        foreach ($this->arguments as $argumentKey => $argumentValue) {
+            if($arg == $argumentValue){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public function getEcheancesPapillon() {
         $echeance = new stdClass();
         $echeance->echeance_date = Date::addDelaiToDate('+2 month', $this->date_facturation);
-        
+
         $echeance->montant_ttc = 0;
         foreach ($this->lignes as $ligne) {
-          $echeance->montant_ttc += $ligne->montant_tva + $ligne->montant_ht;
-        }        
+            $echeance->montant_ttc += $ligne->montant_tva + $ligne->montant_ht;
+        }
         return array($echeance);
     }
-    
+
     /* private function createOrigineLibelle($ligne, $transacteur, $famille, $view) {
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
       if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {

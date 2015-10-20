@@ -7,12 +7,11 @@ use_helper('Float');
     <?php include_component('facture', 'chooseSociete', array('identifiant' => $societe->identifiant)); ?>
 
     <div class="col-xs-12">
-        <a href="<?php echo url_for('facture_creation', $societe); ?>" class="btn btn-md btn-info pull-right"><span class="glyphicon glyphicon-briefcase"></span>&nbsp;Création d'une factures</a>
+        <a href="<?php echo url_for('facture_creation', $societe); ?>" class="btn btn-md btn-default pull-right">Création d'une factures</a>
     </div>
     <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures)); ?>
 
-     <hr />    
-    <br />
+     <hr />
     <?php include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe, 'form' => $form)) ?>
     
 </div>

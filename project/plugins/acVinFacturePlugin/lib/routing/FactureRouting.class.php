@@ -29,7 +29,7 @@ class FactureRouting {
        $r->prependRoute('facture_redirect_to_doc', new sfRoute('/facture/redirect/:iddocument', array('module' => 'facture', 'action' => 'redirect')));
 
 
-        $r->prependRoute('defacturer', new FactureRoute('/facture/:identifiant/defacturer',
+        $r->prependRoute('defacturer', new FactureRoute('/facture/:id/defacturer',
                                                                                 array('module' => 'facture', 
                                                                                       'action' => 'defacturer'),
 									 array('sf_method' => array('get','post')),

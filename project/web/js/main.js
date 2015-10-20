@@ -15,7 +15,7 @@
         $(document).initAdvancedElements();
 
         $.initSelect2PermissifNoAjax();
-        
+
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
             var link = $(e.relatedTarget);
             $(this).load(link.attr("href"), function () {
@@ -32,8 +32,18 @@
         });
         $(this).find(".select2autocomplete").each(function () {
             var urlAjax = $(this).data('ajax');
+            var defaultValue = $(this).val();
+            var defaultValueSplitted = defaultValue.split(',');
+            var select2 = $(this);
             $(this).select2({
-                placeholder: 'Enter name',
+                initSelection: function (element, callback) {
+                    console.log(defaultValue);
+                    if (defaultValue != '') {
+                        callback({id: defaultValueSplitted[0], text: defaultValueSplitted[1]});
+                        select2.val(defaultValueSplitted[0]);
+                    }
+                },
+                placeholder: 'Entrer un nom',
                 minimumInputLength: 3,
                 allowClear: true,
                 ajax: {
@@ -62,7 +72,7 @@
             });
         });
 
-        $.initSelect2PermissifNoAjax  = function()
+        $.initSelect2PermissifNoAjax = function ()
         {
             if ($('.select2permissifNoAjax').length) {
                 var lastValue = null;
@@ -70,25 +80,25 @@
                     data: JSON.parse($('input.select2permissifNoAjax').attr('data-choices')),
                     multiple: false,
                     placeholder: true,
-                    createSearchChoice: function(term, data) {
-                        if ($(data).filter(function() {
+                    createSearchChoice: function (term, data) {
+                        if ($(data).filter(function () {
                             return this.text.localeCompare(term) === 0;
                         }).length === 0) {
                             return {id: term, text: term + ' (nouveau)'};
                         }
                     }
-                }).on("select2-close", function() {
+                }).on("select2-close", function () {
                     var old_choices = JSON.parse($('input.select2permissifNoAjax').attr('data-choices'));
-                    old_choices.push({ id:  lastValue, text : lastValue + ' (nouveau)'});
-                    $('input.select2permissifNoAjax').select2("val",lastValue);
+                    old_choices.push({id: lastValue, text: lastValue + ' (nouveau)'});
+                    $('input.select2permissifNoAjax').select2("val", lastValue);
                     $('input.select2permissifNoAjax').val(lastValue);
                     $('.select2permissifNoAjax .select2-chosen').text(lastValue);
-                }).on("select2-highlight", function(e) {
+                }).on("select2-highlight", function (e) {
                     lastValue = e.val;
                 })
             }
         }
-        
+
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',
@@ -116,7 +126,7 @@
                         
                         $(options.selectors.ajaxModal).modal('hide');
                     }, "json");
-            
+
             return false;
         });
 
@@ -124,15 +134,15 @@
             'show': true
         });
 
-        $(this).find('.link-submit').on('click', function() {
+        $(this).find('.link-submit').on('click', function () {
             var form = $($(this).attr('data-form'));
             form.attr('action', $(this).attr('href'));
             form.submit();
-            
+
             return false;
         });
-        $(this).find('.pointer').on('click', function() {
-            if($(this).attr('data-pointer')) {
+        $(this).find('.pointer').on('click', function () {
+            if ($(this).attr('data-pointer')) {
                 $($(this).attr('data-pointer')).click();
             }
 
