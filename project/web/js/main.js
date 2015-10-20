@@ -9,6 +9,7 @@
             ajaxModal: '#ajax-modal'
         }
     };
+
     $(document).ready(function ()
     {
         $(document).initAdvancedElements();
@@ -109,8 +110,10 @@
                             return;
                         }
 
-                        console.log(data);
-
+                        if(form.data('related-element')) {
+                            $(form.data('related-element')).trigger("modal_callback", data);
+                        }
+                        
                         $(options.selectors.ajaxModal).modal('hide');
                     }, "json");
             

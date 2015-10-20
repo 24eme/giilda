@@ -5,7 +5,7 @@
             <h4 class="modal-title text-center">Détails des contrats<br /><span class="text-muted"><?php echo $detail->getLibelle(ESC_RAW); ?></span></h4>
         </div>
         <?php if($detail->hasContratVrac()): ?>
-        <form class="form-horizontal form-ajax-modal" data-content=".ajax-content" method="post" action="<?php echo url_for('drm_vrac_details', $detail) ?>">
+        <form data-related-element="#input_sortie_vrac_<?php echo $detail->getHashForKey() ?>" class="form-horizontal form-ajax-modal" data-content=".ajax-content" method="post" action="<?php echo url_for('drm_vrac_details', $detail) ?>">
             <div class="modal-body">
                 <div class="ajax-content">
                     <?php include_partial('formContent',array('form' => $form, 'detail' => $detail, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
