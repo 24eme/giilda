@@ -65,6 +65,14 @@
                 colonne.focus();
                 colonne.focusChampDefault();
             }
+
+            $('.drm_input_details').on('modal_callback', function(e, data) {
+                $(this).val(data.volume);
+
+                if($(this).data('hash')) {
+                    colonnes.findByHash($(this).data('hash')).calculer();
+                }
+            });
 		}
 
         initCreationDrmPopup();
