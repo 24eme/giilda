@@ -14,6 +14,10 @@ class factureActions extends sfActions {
         }
     }
 
+    public function executeMouvements(sfWebRequest $request) {
+        
+    }
+    
     public function executeEdition(sfWebRequest $request) {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
         if (!$this->facture) {
@@ -143,41 +147,43 @@ class factureActions extends sfActions {
     public function executeCreation(sfWebRequest $request) {
 
         $this->societe = $this->getRoute()->getSociete();
-        $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
         $this->values = array();
-        $this->templatesFactures = ConfigurationClient::getConfiguration()->getTemplatesFactures();
+        
         $default = $request->hasParameter('type-facture') ? array('modele' => $request->getParameter('type-facture')) : array();
-        $this->formNouvelleFacture = new FacturationTemplateForm($this->templatesFactures, $default);
+        $this->form = new FactureGenerationForm($default);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
         }
 
-        $this->formNouvelleFacture->bind($request->getParameter($this->formNouvelleFacture->getName()));
+        $this->form->bind($request->getParameter($this->form->getName()));
 
-        if (!$this->formNouvelleFacture->isValid()) {
+        if (!$this->form->isValid()) {
 
             return sfView::SUCCESS;
         }
-
-        $this->values = $this->formNouvelleFacture->getValues();
-
-        if ($this->values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DRM) {
-            return $this->redirect('facture_generer', array('identifiant' => $this->societe->identifiant, 'date_facturation' => $this->date_facturation));
-        }
-        $templateFacture = TemplateFactureClient::getInstance()->find($this->values['modele']);
-
-        $generation = FactureClient::getInstance()->createFactureBySociete($templateFacture, $this->societe, $this->value['date_facturation'], null, $templateFacture->arguments->toArray(true, false));
-
-        if (!$generation) {
-            $this->getUser()->setFlash("error", "Cet opérateur a déjà été facturé pour ce type de facture.");
-
-            return $this->redirect('facture_societe', $this->societe);
+        
+        $values = $this->form->getValues();
+        $date_facturation = (!isset($values['date_facturation'])) ? null : DATE::getIsoDateFromFrenchDate($values['date_facturation']);
+        $message_communication = (!isset($values['message_communication'])) ? null : $values['message_communication'];
+        $date_mouvement = (isset($values['date_mouvement']) && $values['date_mouvement'] != '') ? $values['date_mouvement'] : $date_facturation;
+        if (!isset($values['modele']) || !$values['modele'] || $values['modele'] == FactureGenerationMasseForm::TYPE_DOCUMENT_TOUS) {
+            unset($values['modele']);
         }
 
-        $generation->save();
-        return $this->redirect('facture_edition', array('id' => $generation->documents->getFirst()));
+        $this->societe = $this->getRoute()->getSociete();
+
+        $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
+        // $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $parameters);
+
+        if ($mouvementsBySoc) {
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
+            $generation->save();
+        }
+       return $this->redirect('facture_societe', $this->societe);
+
+       
     }
 
     public function executeDefacturer(sfWebRequest $resquest) {
@@ -189,7 +195,7 @@ class factureActions extends sfActions {
     }
 
     public function executeGenerer(sfWebRequest $request) {
-        $parameters = $request->getParameter('facture_generation');
+        $parameters = $request->getParameter('facture_generation');        
         $date_facturation = (!isset($parameters['date_facturation'])) ? null : DATE::getIsoDateFromFrenchDate($parameters['date_facturation']);
         $message_communication = (!isset($parameters['message_communication'])) ? null : $parameters['message_communication'];
         $parameters['date_mouvement'] = (isset($parameters['date_mouvement']) && $parameters['date_mouvement'] != '') ? $parameters['date_mouvement'] : $date_facturation;

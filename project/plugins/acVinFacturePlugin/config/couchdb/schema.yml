@@ -85,12 +85,23 @@ Facture:
                           definition:
                             fields:
                               libelle: {}
-                              identifiant_analytique: {  }
+                              identifiant_analytique: { required: false }
                               quantite: {type: float}
                               taux_tva: {type: float}
                               prix_unitaire: {type: float}
                               montant_tva: {type: float}
                               montant_ht: {type: float}
+                              origine_type: { }
+                              origine_mouvements:
+                                type: collection
+                                required: false  
+                                definition:
+                                  fields:
+                                    '*':
+                                      type: array_collection
+                                      definition:
+                                        fields:
+                                          '*': { }
       echeances:
         type: array_collection
         definition:
@@ -106,14 +117,43 @@ Facture:
         type: collection
         definition:
           fields:
-            #DRM ou SRV ID => "libelle"
             '*': {}
       templates:
         type: collection
         definition:
           fields:
-            #DRM ou SRV ID => "libelle"
             '*': {}
+
+MouvementsFacture:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      type: {  }
+      campagne: {  }     
+      libelle: {  }
+      mouvements:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*':
+                    class: FactureMouvement
+                    inheritance: Mouvement
+                    type: collection
+                    definition:
+                      fields:                          
+                        identifiant_analytique: {  }
+                        identifiant_analytique_libelle: {  }
+                        identifiant_analytique_libelle_compta: {  }
+                        identifiant: {  }
+                        libelle: {  }
+                        quantite: { type: float }
+                        facture: { type: integer }
+                        facturable: { type: integer }
 
 TemplateFacture:
   definition:

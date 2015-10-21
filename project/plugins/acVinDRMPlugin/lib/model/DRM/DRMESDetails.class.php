@@ -80,7 +80,6 @@ class DRMESDetails extends BaseDRMESDetails {
 
     public function createMouvements($template_mouvement) {
         $mouvements = array();
-
         // Check les éventuels suppressions
         if ($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash())) {
             $mother_this = $this->getDocument()->motherGet($this->getHash());
@@ -103,6 +102,7 @@ class DRMESDetails extends BaseDRMESDetails {
 
     public function pushMouvement(&$mouvements, $template_mouvement, $detail) {
         $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
+        
         if (!$mouvement) {
             return;
         }

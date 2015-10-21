@@ -14,9 +14,10 @@ class FactureClient extends acCouchdbClient {
     const STATUT_NONREDRESSABLE = 'NON_REDRESSABLE';
     
     const TYPE_FACTURE_MOUVEMENT_DRM = "MOUVEMENTS_DRM";
+    const TYPE_FACTURE_MOUVEMENT_DIVERS = "MOUVEMENTS_DIVERS";
 
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
-     public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Mouvements de DRM');
+     public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Mouvements de DRM',self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Mouvements divers');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -43,7 +44,7 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
-    public function createDoc($cotisations, $doc, $date_facturation = null, $message_communication = null, $arguments = array()) {
+    public function createDocFromTemplate($cotisations, $doc, $date_facturation = null, $message_communication = null, $arguments = array()) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($doc);        
@@ -105,7 +106,7 @@ class FactureClient extends acCouchdbClient {
             throw new sfException("Pas de template pour cette facture");
         }
 
-        $f = $this->createDoc($cotisations, $facture->getCompte(), date('Y-m-d'), null, $template->arguments->toArray(true, false));
+        $f = $this->createDocFromTemplate($cotisations, $facture->getCompte(), date('Y-m-d'), null, $template->arguments->toArray(true, false));
 
         $f->_id = $facture->_id;
         $f->_rev = $facture->_rev;
@@ -268,11 +269,11 @@ class FactureClient extends acCouchdbClient {
         
         $cotisations = $template->generateCotisations($societe, $template->campagne);
         
-//        if(!count($cotisations)) {
-//          return null;
-//        }
+        if(!count($cotisations)) {
+          return null;
+        }
 
-        $f = FactureClient::getInstance()->createDoc($cotisations, $societe, $date_facturation, null, $template->arguments->toArray(true, false));
+        $f = FactureClient::getInstance()->createDocFromTemplate($cotisations, $societe, $date_facturation, null, $template->arguments->toArray(true, false));
         $f->save();
 
         $generation->somme += $f->total_ttc;
@@ -284,7 +285,6 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null) {
-        
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;

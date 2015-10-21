@@ -10,7 +10,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     protected $declarant_document = null;
     protected $archivage_document = null;
 
-    const MESSAGE_DEFAULT = "ICI le message par défaut : Vous pouvez retrouver nos infos jours après jours sur http://www.vinsvaldeloire.fr";
+    const MESSAGE_DEFAULT = "";
 
     public function __construct() {
         parent::__construct();
@@ -188,24 +188,26 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         $ligne = $this->lignes->add($keyLigne);
         $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
-        $details = $ligne->getOrAdd('details')->add();
+        $detail = $ligne->getOrAdd('details')->add();
 
-        $details->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-        $details->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
-        $details->taux_tva = 0.2;
+        $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+        $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
+        $detail->taux_tva = 0.2;
         $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-        $contrat_identifiant = $ligneByType->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID];
 
-        $details->libelle = $produit_libelle;
-        if ($contrat_identifiant) {
-            $details->libelle .= ' (' . $contrat_identifiant . ')';
+        $detail->libelle = $produit_libelle;
+        $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
+        if($transacteur){
+        $detail->libelle .= $this->createOrigine($transacteur, $famille, $ligneByType);
+            
         }
-        //$this->createOrigineLibelle($ligne, $transacteur, $famille, $ligneByType);
+        if($ligneByType->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE]){
+            
+        }
         foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
-        $keysOrigin = explode(':', $origine);
+            $keysOrigin = explode(':', $origine);
             $ligne->origine_mouvements->getOrAdd($keysOrigin[0])->add(null, $keysOrigin[1]);
         }
-        //   $this->verifLigneAndVolumeOrigines($ligne);
     }
 
     protected function verifLigneAndVolumeOrigines($ligne) {
@@ -248,13 +250,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function hasArgument($arg) {
         foreach ($this->arguments as $argumentKey => $argumentValue) {
-            if($arg == $argumentValue){
+            if ($arg == $argumentValue) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public function getEcheancesPapillon() {
         $echeance = new stdClass();
         $echeance->echeance_date = Date::addDelaiToDate('+2 month', $this->date_facturation);
@@ -266,36 +268,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return array($echeance);
     }
 
-    /* private function createOrigineLibelle($ligne, $transacteur, $famille, $view) {
-      sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
-      if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {
-      if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART) {
-      $origine_libelle = " (" . $transacteur . ") " . SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-      return $origine_libelle;
-      }
-      $origine_libelle = 'n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
-      $origine_libelle .= ' (' . $transacteur . ') ';
-      if ($famille == EtablissementFamilles::FAMILLE_NEGOCIANT)
-      $origine_libelle .= SV12Client::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-      return $origine_libelle;
-      }
+    private function createOrigine($transacteur, $famille, $view) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
+        if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
 
-      if ($ligne->origine_type == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
-      if ($ligne->produit_type == FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS) {
-      if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-      $origine_libelle = 'n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
-      } else {
-      $origine_libelle = 'n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
-      }
-      $origine_libelle .= ' (' . $transacteur . ') ';
-      if ($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR)
-      $origine_libelle .= DRMClient::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-      return $origine_libelle;
-      }
-      return DRMClient::getInstance()->getLibelleFromId($ligne->origine_identifiant);
-      }
-      }
-     */
+            if ($famille == SocieteClient::SUB_TYPE_VITICULTEUR) {
+                
+                $origine_libelle = ' contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
+            } else {
+                $origine_libelle = ' contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+            }
+            $origine_libelle .= ' (' . $transacteur . ') ';
+          
+            return $origine_libelle;
+        }
+    }
 
     public function storePapillons() {
         foreach ($this->lignes as $typeLignes) {

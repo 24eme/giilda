@@ -5,6 +5,7 @@
  * Base model for FactureLigne
 
  * @property string $libelle
+ * @property string $produit_identifiant_analytique
  * @property float $montant_tva
  * @property float $montant_ht
  * @property acCouchdbJson $origine_mouvements
@@ -12,6 +13,8 @@
 
  * @method string getLibelle()
  * @method string setLibelle()
+ * @method string getProduitIdentifiantAnalytique()
+ * @method string setProduitIdentifiantAnalytique()
  * @method float getMontantTva()
  * @method float setMontantTva()
  * @method float getMontantHt()

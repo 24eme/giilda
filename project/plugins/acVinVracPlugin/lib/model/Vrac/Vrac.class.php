@@ -86,7 +86,7 @@ class Vrac extends BaseVrac {
     }
 
     public function update($params = array()) {
-
+        
         $this->prix_initial_total = null;
         switch ($this->type_transaction) {
             case VracClient::TYPE_TRANSACTION_RAISINS : {
@@ -120,10 +120,11 @@ class Vrac extends BaseVrac {
             $this->setPrixUnitaire($this->prix_initial_unitaire);
         }
 
-        if ($this->isTeledeclare()) {
-            $this->cvo_repartition = $this->calculCvoRepartition();
+        if ($this->isTeledeclare()) {            
             $this->cvo_nature = VracClient::CVO_NATURE_MARCHE_DEFINITIF;
         }
+        
+        $this->cvo_repartition = $this->calculCvoRepartition();
     }
 
     public function createVisa() {
@@ -339,14 +340,15 @@ class Vrac extends BaseVrac {
         }
     }
 
-    public function setCvoRepartition($repartition) {
-        if (!is_null($this->volume_enleve) && $this->volume_enleve > 0)
-            return;
-
-        $this->_set('cvo_repartition', $repartition);
-    }
+//    public function setCvoRepartition($repartition) {
+//        if (!is_null($this->volume_enleve) && $this->volume_enleve > 0)
+//            return;
+//
+//        $this->_set('cvo_repartition', $repartition);
+//    }
 
     public function calculCvoRepartition() {
+        
         if (!$this->getAcheteurObject()->isInterLoire()) {
 
             return VracClient::CVO_REPARTITION_100_VITI; 

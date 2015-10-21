@@ -45,7 +45,6 @@ use_helper('Date');
                                 <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
                             </div>
                         </span>
-                      
                     </li>
 
                 <?php endforeach; ?>

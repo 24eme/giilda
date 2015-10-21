@@ -35,6 +35,11 @@
             var defaultValueSplitted = defaultValue.split(',');
             var select2 = $(this);
             $(this).select2({
+                
+                onselected : function(){
+                  console.log('fre');  
+                },
+                
                 initSelection: function (element, callback) {
                     console.log(defaultValue);
                     if (defaultValue != '') {
@@ -68,6 +73,9 @@
                         }
 
                     }}
+            });
+            $(this).on('choose',function(){
+                console.log('select');
             });
         });
 

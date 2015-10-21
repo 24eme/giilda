@@ -19,35 +19,35 @@ use_helper('Float');
 <?php endif; ?>
 <div class="col-xs-12">
     <form method="post" action="" role="form" class="form-horizontal">
-        <?php echo $formNouvelleFacture->renderHiddenFields(); ?>
-        <?php echo $formNouvelleFacture->renderGlobalErrors(); ?>
+        <?php echo $form->renderHiddenFields(); ?>
+        <?php echo $form->renderGlobalErrors(); ?>
         <div class="row">
             <div class="col-xs-8 col-xs-offset-2">
-                <div class="form-group <?php if ($formNouvelleFacture["modele"]->hasError()): ?>has-error<?php endif; ?>">
-                    <?php echo $formNouvelleFacture["modele"]->renderError() ?>
-                    <?php echo $formNouvelleFacture["modele"]->renderLabel("Type de facture", array("class" => "col-xs-4 control-label")); ?>
+                <div class="form-group <?php if ($form["modele"]->hasError()): ?>has-error<?php endif; ?>">
+                    <?php echo $form["modele"]->renderError() ?>
+                    <?php echo $form["modele"]->renderLabel("Type de facture", array("class" => "col-xs-4 control-label")); ?>
                     <div class="col-xs-8">
-                        <?php echo $formNouvelleFacture["modele"]->render(array("class" => "form-control input-lg")); ?>
+                        <?php echo $form["modele"]->render(array("class" => "form-control input-lg")); ?>
                     </div>
                 </div>
-                <div class="form-group <?php if ($formNouvelleFacture["date_facturation"]->hasError()): ?>has-error<?php endif; ?>">
-                    <?php echo $formNouvelleFacture["date_facturation"]->renderError(); ?>
-                    <?php echo $formNouvelleFacture["date_facturation"]->renderLabel("Date de facturation", array("class" => "col-xs-4 control-label")); ?>
+                <div class="form-group <?php if ($form["date_facturation"]->hasError()): ?>has-error<?php endif; ?>">
+                    <?php echo $form["date_facturation"]->renderError(); ?>
+                    <?php echo $form["date_facturation"]->renderLabel("Date de facturation", array("class" => "col-xs-4 control-label")); ?>
                     <div class="col-xs-8">
                         <div class="input-group date-picker">
-                            <?php echo $formNouvelleFacture["date_facturation"]->render(array("class" => "form-control input-lg", "placeholder" => "Date de facturation")); ?>
+                            <?php echo $form["date_facturation"]->render(array("class" => "form-control input-lg", "placeholder" => "Date de facturation")); ?>
                             <div class="input-group-addon">
                                 <span class="glyphicon-calendar glyphicon"></span>
                             </div>
                         </div>
                     </div>
                 </div>    
-                <div class="form-group <?php if ($formNouvelleFacture["message_communication"]->hasError()): ?>has-error<?php endif; ?>">
-                    <?php echo $formNouvelleFacture["message_communication"]->renderError(); ?>
-                    <?php echo $formNouvelleFacture["message_communication"]->renderLabel("Cadre de communication", array("class" => "col-xs-4 control-label")); ?>
+                <div class="form-group <?php if ($form["message_communication"]->hasError()): ?>has-error<?php endif; ?>">
+                    <?php echo $form["message_communication"]->renderError(); ?>
+                    <?php echo $form["message_communication"]->renderLabel("Cadre de communication", array("class" => "col-xs-4 control-label")); ?>
                     <div class="col-xs-8">
                        
-                            <?php echo $formNouvelleFacture["message_communication"]->render(array("class" => "form-control input-lg")); ?>
+                            <?php echo $form["message_communication"]->render(array("class" => "form-control input-lg")); ?>
                       
                     </div>
                 </div>                
