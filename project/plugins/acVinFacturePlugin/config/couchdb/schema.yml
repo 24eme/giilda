@@ -130,7 +130,9 @@ MouvementsFacture:
       _id: {  }
       _rev: {  }
       type: {  }
-      campagne: {  }     
+      campagne: {  }
+      date: {  }
+      identifiant: {  }
       libelle: {  }
       mouvements:
         type: collection
@@ -152,6 +154,7 @@ MouvementsFacture:
                         identifiant: {  }
                         libelle: {  }
                         quantite: { type: float }
+                        prix_unitaire: { type: float }
                         facture: { type: integer }
                         facturable: { type: integer }
 
