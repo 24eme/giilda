@@ -12,7 +12,8 @@ class MouvementsFacture extends BaseMouvementsFacture {
              $date = date('Ymd');
          }
          
-        $this->identifiant = MouvementsFactureClient::getInstance()->getNextNoFacture($date);
+        $this->identifiant = MouvementsFactureClient::getInstance()->getNextNoMouvementsFacture($date);
+       
         $this->_id = MouvementsFactureClient::getInstance()->getId($this->identifiant);
     }
 }

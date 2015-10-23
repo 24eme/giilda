@@ -13,8 +13,10 @@
  */
 class FactureMouvementsEditionForm extends acCouchdbObjectForm {
 
-    public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+    protected $interpro_id;
 
+    public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+        $this->interpro_id = $options['interpro_id'];
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -25,25 +27,29 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
 
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
         $this->setValidator('date', new sfValidatorString(array('required' => false)));
-        
+
         $this->getObject()->mouvements->add("nouvelle");
 
-        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject()->mouvements));
+        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
     }
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
-//
-//        if ($this->getObject()->lignes->exist("nouvelle")) {
-//            $newLine = $this->getObject()->lignes->get("nouvelle")->toArray(true, false);
-//            $this->getObject()->lignes->remove("nouvelle");
-//            $this->getObject()->lignes->add(uniqid(), $newLine);
-//        }
-//
+        if ($this->getObject()->mouvements->exist("nouvelle")) {
+            $newMvt = $this->getObject()->mouvements->get("nouvelle")->toArray(true, false);
+            $this->getObject()->mouvements->remove("nouvelle");
+            $this->getObject()->mouvements->add(uniqid(), $newMvt);
+        }
+        foreach ($this->getObject()->mouvements as $mouvement) {
+
+            $mouvement->facturable = 1;
+            $mouvement->facture = 0;
+        }
+        
 //        $this->getObject()->lignes->cleanLignes();
-//        $this->getObject()->updateTotaux();
+        $this->getObject()->valide->date_saisie = $values['date'];
     }
 
 }

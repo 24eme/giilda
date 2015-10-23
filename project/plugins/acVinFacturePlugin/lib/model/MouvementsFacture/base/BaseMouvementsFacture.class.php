@@ -8,6 +8,8 @@
  * @property string $_rev
  * @property string $type
  * @property string $campagne
+ * @property string $date
+ * @property string $identifiant
  * @property string $libelle
  * @property acCouchdbJson $mouvements
 
@@ -19,6 +21,10 @@
  * @method string setType()
  * @method string getCampagne()
  * @method string setCampagne()
+ * @method string getDate()
+ * @method string setDate()
+ * @method string getIdentifiant()
+ * @method string setIdentifiant()
  * @method string getLibelle()
  * @method string setLibelle()
  * @method acCouchdbJson getMouvements()

@@ -10,6 +10,7 @@
  * @property string $identifiant
  * @property string $libelle
  * @property float $quantite
+ * @property float $prix_unitaire
  * @property integer $facture
  * @property integer $facturable
 
@@ -25,6 +26,8 @@
  * @method string setLibelle()
  * @method float getQuantite()
  * @method float setQuantite()
+ * @method float getPrixUnitaire()
+ * @method float setPrixUnitaire()
  * @method integer getFacture()
  * @method integer setFacture()
  * @method integer getFacturable()

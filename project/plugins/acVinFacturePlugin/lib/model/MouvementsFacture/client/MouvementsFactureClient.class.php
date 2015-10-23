@@ -15,16 +15,20 @@ class MouvementsFactureClient extends acCouchdbClient {
     public function getId($identifiant) {
         return 'MOUVEMENTSFACTURE-'.$identifiant;
     }
-    public function getNextNoFacture($date)
+    
+    public function getNextNoMouvementsFacture($date)
     {   
-        $id = '';
+        $num = '';
     	$mouvementsfacture = self::getAtDate($date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+            
         if (count($mouvementsfacture) > 0) {
-            $id .= ((double)str_replace('FACTURE-'.$date.'-', '', max($mouvementsfacture)) + 1);
+           $incr = ((double)str_replace('MOUVEMENTSFACTURE-'.$date, '', max($mouvementsfacture)) + 1);
+            
+            $num .= $date.sprintf('%02d',$incr);
         } else {
-            $id.= $date.'01';
+            $num.= $date.'01';
         }
-        return $id;
+        return $num;
     }
     
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
