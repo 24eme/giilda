@@ -92,10 +92,9 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
          * STOCK DÉBUT DE MOIS
          */
         ?>
-        \rowcolor{gray}
-        \multicolumn{2}{|c|}{ \small{\color{white}{\textbf{STOCK DBUT DE MOIS}} }} &
+        \multicolumn{2}{|>{\columncolor[rgb]{0.6,0.6,0.6}}c|}{ \small{\color{white}{\textbf{STOCK DBUT DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->total_debut_mois); ?>}}}} 
+            \multicolumn{1}{>{\columncolor[rgb]{0.6,0.6,0.6}}r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->total_debut_mois); ?>}}}} 
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>  
         \\	
@@ -173,7 +172,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \rowcolor{lightgray}
         \multicolumn{2}{|r|}{ \small{\textbf{TOTAL SORTIES}} } &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($produit->total_sorties); ?>}} }
+            \multicolumn{1}{>{\columncolor[rgb]{0.6,0.6,0.6}}r|}{   \small{\textbf{<?php echoFloatWithHl($produit->total_sorties); ?>}} }
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>  
         \\
@@ -184,8 +183,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
          * STOCK FIN DE MOIS
          */
         ?>
-        \rowcolor{gray}
-        \multicolumn{2}{|c|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
+        \multicolumn{2}{|>{\columncolor[rgb]{0.6,0.6,0.6}}c|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->stocks_fin->revendique); ?>}}}} 
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
