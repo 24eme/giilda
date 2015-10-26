@@ -371,4 +371,12 @@ class Societe extends BaseSociete {
         $this->add('teledeclaration_email', $email);
     }
 
+    public function hasLegalSignature() {
+        return $this->add('legal_signature')->add('v1');
+    }
+
+    public function setLegalSignature($s) {
+        return $this->add('legal_signature')->add('v1', $s);
+    }
+
 }

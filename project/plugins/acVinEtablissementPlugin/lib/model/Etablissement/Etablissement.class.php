@@ -412,4 +412,8 @@ class Etablissement extends BaseEtablissement {
         return $this->exist('crd_regime') && $this->crd_regime;
     }
 
+    public function hasLegalSignature() {
+        return $this->getSociete()->hasLegalSignature();
+    }
+
 }
