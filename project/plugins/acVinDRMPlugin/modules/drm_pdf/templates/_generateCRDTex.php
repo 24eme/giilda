@@ -48,15 +48,15 @@ $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non
         <?php foreach ($crdsByGenre as $genre_crd => $crds): ?>
             <?php foreach ($crds as $key_crd => $crd): ?>
                 \multicolumn{1}{|l}{\small{\textbf{<?php echo $genre_crd . ' ' . $crd->getLibelle(); ?>}}} &
-                \multicolumn{1}{|r}{\small{\textbf{<?php echo $crd->stock_debut; ?>}}} &
+                \multicolumn{1}{|r}{\small{\textbf{<?php echo getArialNumber($crd->stock_debut); ?>}}} &
 
-                \multicolumn{1}{|r}{\small{\textbf{<?php echo $crd->entrees_achats; ?>}}} &
-                \multicolumn{1}{|r}{\small{<?php echo $crd->entrees_retours; ?>}} &
-                \multicolumn{1}{|r}{\small{<?php echo $crd->entrees_excedents; ?>}} &
-                \multicolumn{1}{|r}{\small{\textbf{<?php echo $crd->sorties_utilisations; ?>}}} &	 
-                \multicolumn{1}{|r}{\small{<?php echo $crd->sorties_destructions; ?>}} &	 
-                \multicolumn{1}{|r}{\small{<?php echo $crd->sorties_manquants; ?>}} &
-                \multicolumn{1}{|r|}{\small{\textbf{<?php echo $crd->stock_fin; ?>}}}
+                \multicolumn{1}{|r}{\small{\textbf{<?php echo getArialNumber($crd->entrees_achats); ?>}}} &
+                \multicolumn{1}{|r}{\small{<?php echo getArialNumber($crd->entrees_retours); ?>}} &
+                \multicolumn{1}{|r}{\small{<?php echo getArialNumber($crd->entrees_excedents); ?>}} &
+                \multicolumn{1}{|r}{\small{\textbf{<?php echo getArialNumber($crd->sorties_utilisations); ?>}}} &	 
+                \multicolumn{1}{|r}{\small{<?php echo getArialNumber($crd->sorties_destructions); ?>}} &	 
+                \multicolumn{1}{|r}{\small{<?php echo getArialNumber($crd->sorties_manquants); ?>}} &
+                \multicolumn{1}{|r|}{\small{\textbf{<?php echo getArialNumber($crd->stock_fin); ?>}}}
 
                 \\ 			 
                 \hline

@@ -45,7 +45,7 @@ Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
  
 \rhead{\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}  \\
 \vspace{-2cm}
-\InterloireAdresse
+\InterloireAdresse \\
  \begin{small} \InterloireContact \\ 
  \end{small} 
  \begin{large}

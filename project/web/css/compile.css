@@ -762,7 +762,7 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn{width:500px}
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul{display:inline-block}#principal #espace_drm .etablissements_drms li div.etablissement_drms ul li{width:100%;border:none;text-align:left}
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toCreate button{padding:0 10px;background:rgba(0,0,0,0) url("../images/pictos/pi_orange_plus.png") no-repeat scroll 0 0}
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toFinish button{background:rgba(0,0,0,0) url("../images/pictos/pi_red_alerte.png") no-repeat scroll 0 0;padding:0 10px}
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul a{bottom:0;left:0;position:absolute;right:0;top:0;padding:0 30px}
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul a{bottom:0;left:0;position:absolute;right:0;top:0;padding:0 20px}
 #principal #espace_drm .etablissements_drms li div.etablissement_drms ul li.action a{vertical-align:bottom}
 #principal #drm_informations form{font-size:12px;margin:0 0 0 70px}#principal #drm_informations form .ligne_form{margin:0 0 20px}#principal #drm_informations form .ligne_form *{display:inline-block;vertical-align:top}
 #principal #drm_informations form .ligne_form label{margin:0 10px 0 0;width:350px}
