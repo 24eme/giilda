@@ -40,7 +40,7 @@
 \setlength{\headwidth}{28.2cm}
 \setlength{\topmargin}{-3.5cm}
 \setlength{\footskip}{-1cm}
-
+\setlength\arrayrulewidth{0.6pt}
 
 <?php include_partial('drm_pdf/generateEnteteTex', array('drm' => $drm, 'nbPages' => $nbPages)); ?>
 \begin{document}
