@@ -89,13 +89,19 @@ class drmActions extends drmGeneriqueActions {
      */
     public function executeChoixCreation(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
+
+        $identifiant = $request->getParameter('identifiant');
+        $this->etablissement = EtablissementClient::getInstance()->retrieveById($identifiant);
+
+        if ($isTeledeclarationMode && !$this->etablissement->hasLegalSignature()) {
+            return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+        }
         if ($request->isMethod(sfWebRequest::POST)) {
             if (!$request->getParameter('drmChoixCreation')) {
                 new sfException("Le formulaire n'est pas valide");
             }
             $drmChoixCreation = $request->getParameter('drmChoixCreation');
             $choixCreation = $drmChoixCreation['type_creation'];
-            $identifiant = $request->getParameter('identifiant');
             $periode = $request->getParameter('periode');
             $this->creationDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $identifiant, 'periode' => $periode));
             $this->creationDrmForm->bind($request->getParameter($this->creationDrmForm->getName()), $request->getFiles($this->creationDrmForm->getName()));
