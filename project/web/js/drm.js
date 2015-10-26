@@ -58,7 +58,6 @@
             }
 
             $.initProduitForm();
-            //$.initDetailsPopups();
 
             if (colonnes.colonnes.length > 1) {
                 var colonne = colonnes.colonnes[1];

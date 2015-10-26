@@ -27,9 +27,13 @@
         });
     });
     $.fn.initAdvancedElements = function () {
+
+        $(this).find('.input-float').inputNumberFormat();
+
         $(this).find(".select2").select2({
             allowClear: true
         });
+
         $(this).find(".select2autocomplete").each(function () {
             var urlAjax = $(this).data('ajax');
             var defaultValue = $(this).val();
@@ -162,12 +166,15 @@
             $($(this).attr('data-container')).append(content);
             content.initAdvancedElements();
         });
+
         $(this).find('.dynamic-element-delete').on('click', function () {
             $($(this).attr('data-line')).remove();
             if ($($(this).attr('data-lines')).length < 1 && $(this).attr('data-add')) {
                 $($(this).attr('data-add')).trigger('click');
             }
         });
+
+
     }
 
 })(jQuery);
