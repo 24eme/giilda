@@ -37,3 +37,8 @@ function sprintFloat($float, $format = "%01.02f") {
 function echoFloatWithHl($float) {    
     echo ($float)? sprintFloat($float).' hl' : '';
 }
+
+
+function getArialNumber($number) {
+    return number_format($number, 0, '.', ' ');
+}
