@@ -163,7 +163,7 @@
                             <?php echo $form['degre']->renderLabel("Degré :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <?php echo $form['degre']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <?php echo $form['degre']->render(); ?>
                                     <span class="input-group-addon">&nbsp;°&nbsp;&nbsp;</span>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@
                             <?php echo $form['surface']->renderLabel("Surface :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <?php echo $form['surface']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <?php echo $form['surface']->render(); ?>
                                     <span class="input-group-addon">&nbsp;<?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['surface']['libelle'] ?></span>
                                 </div>
                             </div>
@@ -232,7 +232,7 @@
                             <?php echo $form['jus_quantite']->renderLabel("Volume :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <?php echo $form['jus_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <?php echo $form['jus_quantite']->render(); ?>
                                     <span class="input-group-addon">&nbsp;<?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['jus_quantite']['libelle'] ?></span>
                                 </div>
                                 <?php if(isset($form['bouteilles_contenance_libelle'])): ?>
@@ -247,7 +247,7 @@
                             <?php echo $form['raisin_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <?php echo $form['raisin_quantite']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <?php echo $form['raisin_quantite']->render(); ?>
                                     <span class="input-group-addon"><?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['raisin_quantite']['libelle'] ?>&nbsp;&nbsp;&nbsp;</span>
                                 </div>
                             </div>
@@ -259,7 +259,7 @@
                             <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-7">
                                 <div class="input-group">
-                                    <?php echo $form['prix_initial_unitaire']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
+                                    <?php echo $form['prix_initial_unitaire']->render(); ?>
                                     <span class="input-group-addon"><?php echo $configuration->getUnites()[$form->getObject()->type_transaction]['prix_initial_unitaire']['libelle'] ?></span>
                                 </div>
                             </div>

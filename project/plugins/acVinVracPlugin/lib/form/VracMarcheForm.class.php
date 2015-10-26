@@ -42,13 +42,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setWidget('millesime', new bsWidgetFormChoice(array('choices' => $this->millesimes), array('class' => 'autocomplete permissif')));
         $this->setWidget('categorie_vin', new bsWidgetFormChoice(array('choices' => $this->getCategoriesVin(), 'expanded' => true)));
         $this->setWidget('domaine', new bsWidgetFormInput());
-        $this->setWidget('raisin_quantite', new bsWidgetFormInput());
+        $this->setWidget('raisin_quantite', new bsWidgetFormInputFloat());
         $this->setWidget('lot', new bsWidgetFormInput());
-        $this->setWidget('jus_quantite', new bsWidgetFormInput());
+        $this->setWidget('jus_quantite', new bsWidgetFormInputFloat());
         $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenances)));
-        $this->setWidget('prix_initial_unitaire', new bsWidgetFormInput());
-        $this->setWidget('degre', new bsWidgetFormInput());
-        $this->setWidget('surface', new bsWidgetFormInput());
+        $this->setWidget('prix_initial_unitaire', new bsWidgetFormInputFloat());
+        $this->setWidget('degre', new bsWidgetFormInputFloat());
+        $this->setWidget('surface', new bsWidgetFormInputFloat());
         $this->setWidget('selection', new bsWidgetFormInputCheckbox());
         $this->setWidget('millesime_85_15', new bsWidgetFormInputCheckbox());
         $this->setWidget('cepage_85_15', new bsWidgetFormInputCheckbox());

@@ -32,16 +32,16 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('clause_reserve_propriete', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
-        $this->setWidget('taux_courtage', new bsWidgetFormInput());
+        $this->setWidget('taux_courtage', new bsWidgetFormInputFloat());
         
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
         $this->setWidget('conditionnement_crd', new bsWidgetFormChoice(array('choices' => $this->getConditionnementsCRD(), 'expanded' => true)));
 
         $this->setWidget('annee_contrat', new bsWidgetFormChoice(array('choices' => $anneesContrat, 'expanded' => true)));
-        $this->setWidget('seuil_revision', new bsWidgetFormInput());
-        $this->setWidget('acompte', new bsWidgetFormInput());
-        $this->setWidget('pourcentage_variation', new bsWidgetFormInput());
+        $this->setWidget('seuil_revision', new bsWidgetFormInputFloat());
+        $this->setWidget('acompte', new bsWidgetFormInputFloat());
+        $this->setWidget('pourcentage_variation', new bsWidgetFormInputFloat());
         $this->setWidget('reference_contrat', new bsWidgetFormInput());
         $this->setWidget('cahier_charge', new bsWidgetFormInputCheckbox());
 
