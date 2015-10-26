@@ -106,7 +106,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 ~ \\~ \\
 <?php if($hasObservations): ?>
 \begin{tabular}{L{280mm}}	
-\multicolumn{1}{|>{\columncolor[rgb]{1,1,1}}l|}~~~~\textbf{Observations : }<?php echo $drm->observations; ?>}
+\multicolumn{1}{>{\columncolor[rgb]{1,1,1}}l}~~~~\textbf{Observations : }<?php echo $drm->observations; ?>}
 \end{tabular}
 ~ \\
 <?php endif; ?>
