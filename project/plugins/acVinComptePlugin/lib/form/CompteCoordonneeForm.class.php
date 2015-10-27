@@ -19,6 +19,15 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->reduct_rights = $reduct_rights;
         parent::__construct($compte, $options, $CSRFSecret); 
         $this->defaults['pays'] = 'FR';   
+        if($compte->hasDroit(Roles::TELEDECLARATION_VRAC)){
+            $this->defaults['droits'][] =  Roles::CONTRAT; 
+        }
+        if($compte->hasDroit(Roles::TELEDECLARATION_DRM)){
+            $this->defaults['droits'][] =  Roles::DRM; 
+        }
+          if($compte->hasDroit(Roles::OBSERVATOIRE)){
+            $this->defaults['droits'][] =  Roles::OBSERVATOIRE; 
+        }
     }
 
     public function configure() {
@@ -85,7 +94,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
 
     public function getDroits() {
 
-        return array(Roles::CONTRAT => "Contrat");
+        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM",Roles::OBSERVATOIRE =>  "Observatoire");
     }
    
     public function getCountryList() {
@@ -111,8 +120,8 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         if($this->compte->isSocieteContact())
         {
             $this->compte->statut = $this->compte->getSociete()->statut;          
-            $this->compte->add('type_societe',$this->compte->getSociete()->type_societe);  
-            $this->compte->buildDroits();
+            $this->compte->add('type_societe',$this->compte->getSociete()->type_societe);            
+            $this->compte->updateDroits($this->getValue('droits'));                  
         }
         if($this->compte->isEtablissementContact()){
             $this->compte->statut = $this->compte->getEtablissement()->statut;
