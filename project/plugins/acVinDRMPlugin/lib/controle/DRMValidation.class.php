@@ -23,6 +23,7 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'siret_absent', "Le numéro de siret n'a pas été renseigné");
         $this->addControle('vigilance', 'no_accises_absent', "Le numéro d'accise n'a pas été renseigné");
         $this->addControle('vigilance', 'caution_absent', "Le type de caution n'a pas été renseigné");
+        $this->addControle('vigilance', 'observations', "Les observations n'ont pas été renseignées");
     }
 
     public function controle() {
@@ -30,9 +31,12 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_replis = 0;
         $total_entrees_declassement = 0;
         $total_sorties_declassement = 0;
+        $total_entrees_excedents = 0;
+         $total_entrees_manipulation = 0;
+         $total_sorties_destructionperte = 0;    
 
         foreach ($this->document->getProduitsDetails() as $detail) {
-            
+
             if (!$detail->getConfig()->entrees->exist('declassement')) {
                 break;
             }
@@ -42,6 +46,10 @@ class DRMValidation extends DocumentValidation {
             $total_entrees_declassement += $detail->entrees->declassement;
             $total_sorties_declassement += $detail->sorties->declassement;
 
+            $total_entrees_excedents += $detail->entrees->excedents;
+            $total_entrees_manipulation += $detail->entrees->manipulation;
+            
+            $total_sorties_destructionperte += $detail->sorties->destructionperte;
 
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
@@ -106,6 +114,13 @@ class DRMValidation extends DocumentValidation {
             }
             if (!$this->document->declarant->caution) {
                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));
+            }
+
+            if (!$this->document->observations && 
+                    (($total_entrees_excedents > 0)
+                    || ($total_entrees_manipulation > 0)
+                    || ($total_sorties_destructionperte > 0))) {
+                $this->addPoint('vigilance', 'observations', "Entrée excédents (".$total_entrees_excedents." hl), manipulation (".$total_entrees_manipulation." hl), sortie manquant (".$total_sorties_destructionperte.")", $this->generateUrl('drm_annexes', $this->document));
             }
         }
 
