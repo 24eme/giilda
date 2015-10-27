@@ -24,13 +24,15 @@ class setDroitsForAllComptesTask extends sfBaseTask {
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('droit', null, sfCommandOption::PARAMETER_OPTIONAL, 'droit', null),
+            new sfCommandOption('type', null, sfCommandOption::PARAMETER_OPTIONAL, 'type', null),
         ));
 
         $this->namespace = 'teledeclaration';
         $this->name = 'setDroitsForAllComptesTask';
         $this->briefDescription = '';
         $this->detailedDescription = <<<EOF
-The [maintenanceCompteStatut|INFO] task does things.
+The [setDroitsForAllComptesTask|INFO] task does things.
 Call it with:
 
   [php symfony teledeclaration:setCodeCreationForSupsendusTask|INFO]
@@ -42,8 +44,30 @@ EOF;
 
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
-        $this->createDroits();
+        if (isset($options['droit']) && $options['droit']) {
+            $droit = $options['droit'];
+            if (!isset($options['type']) || !$options['type']) {
+                throw new sfException("il faut spécifier un type d'etablissement pour y associer le droit $droit");
+            }
+            $type = $options['type'];
+            $rowsCompte = CompteAllView::getInstance()->findByInterproAndStatutVIEW("INTERPRO-inter-loire", CompteClient::STATUT_ACTIF);
+            foreach ($rowsCompte as $compteView) {
+                $compte = CompteClient::getInstance()->find($compteView->id);
+                if($compte->isActif()){
+                    $societe = $compte->getSociete();
+                   if($societe->type_societe == $type){
+                    $compteSociete = $societe->getMasterCompte();
+                      if(!$compteSociete->hasDroit($droit)){
+                          $compteSociete->getOrAdd('droits')->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+                         // $compteSociete->save();
+                          echo "Ouverture du droit $droit pour le compte $compteSociete->_id\n";
+                      }
+                   }
+                }
+            }
+        } else {
+            $this->createDroits();
+        }
     }
 
     public function createDroits() {
