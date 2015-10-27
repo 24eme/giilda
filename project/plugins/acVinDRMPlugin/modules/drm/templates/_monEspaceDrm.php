@@ -34,10 +34,12 @@
                                                 include_partial('drm/creationDrmPopup', array('periode' => $drmsByEtb->periode, 'identifiant' => $etb, 'drmCreationForm' => $drmsToCreateForms[$etb . '_' . $drmsByEtb->periode]));
                                             }
                                         }
-                                        if (!$etablissement->hasLegalSignature()) {
+                                        if ($isTeledeclarationMode && !$etablissement->hasLegalSignature()) {
                                             echo '<li class="statut_toCreate"><a href="'.url_for('drm_societe', array('identifiant' => $etablissement->getIdentifiant())).'"><span>Activer votre espace DRM</span></a></li>';
                                         }else{ 
-                                            echo '<li class="statut_toCreate"><a href="'.$lienNouvelle.'" class="'.($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : ''.'"><span>Créer la DRM '.getFrPeriodeElision($drmsByEtb->periode).'</span></a></li>';
+                                            echo '<li class="statut_toCreate"><a href="'.$lienNouvelle.'" class="';
+                                            echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '';
+                                            echo '"><span>Créer la DRM '.getFrPeriodeElision($drmsByEtb->periode).'</span></a></li>';
                                         }
                                         ?>
                                     <?php endif; ?>
