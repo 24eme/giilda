@@ -29,14 +29,19 @@
                                         $lienNouvelle = url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode));
                                         if ($isTeledeclarationMode) {
                                             $lienNouvelle = url_for('drm_etablissement', array('identifiant' => $etb)) . '#drm_nouvelle_' . $drmsByEtb->periode . '_' . $etb;
-                                            if (!$hasNoPopupCreation) {
+                                            if (!$hasNoPopupCreation && $etablissement->hasLegalSignature()) {
+                                                //gestion de la popup de création
                                                 include_partial('drm/creationDrmPopup', array('periode' => $drmsByEtb->periode, 'identifiant' => $etb, 'drmCreationForm' => $drmsToCreateForms[$etb . '_' . $drmsByEtb->periode]));
                                             }
                                         }
+                                        if ($isTeledeclarationMode && !$etablissement->hasLegalSignature()) {
+                                            echo '<li class="statut_toCreate"><a href="'.url_for('drm_societe', array('identifiant' => $etablissement->getIdentifiant())).'"><span>Activer votre espace DRM</span></a></li>';
+                                        }else{ 
+                                            echo '<li class="statut_toCreate"><a href="'.$lienNouvelle.'" class="';
+                                            echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '';
+                                            echo '"><span>Créer la DRM '.getFrPeriodeElision($drmsByEtb->periode).'</span></a></li>';
+                                        }
                                         ?>
-                                        <li class="statut_toCreate">
-                                            <a href="<?php echo $lienNouvelle; ?>" class="<?php echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '' ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
-                                        </li>
                                     <?php endif; ?>
     <?php if ($drmsByEtb->statut == DRMCalendrier::STATUT_VALIDEE): ?>
                                         <li class="statut_validee">
