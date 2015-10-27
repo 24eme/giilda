@@ -115,6 +115,23 @@ var openedPopupAjoutCRD = function () {
     });
 };
 
+var initLegalSignaturePopup = function () {
+    $('a.legal_signature_popup').fancybox({
+//        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: '50%',
+        closeClick: false,
+        closeBtn: false,
+        helpers: {
+            overlay: {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
+        }
+    });
+    $('a.legal_signature_popup').click();
+
+};
+
+
 var initRegimeCrdsPopup = function () {
     $('a.crd_regime_choice_popup').fancybox({
         autoSize: true,
@@ -326,6 +343,7 @@ $(document).ready(function ()
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initRegimeCrdsPopup();
+    initLegalSignaturePopup();
     initCrds();
     initFavoris();
     initValidationDrmStockMvt();

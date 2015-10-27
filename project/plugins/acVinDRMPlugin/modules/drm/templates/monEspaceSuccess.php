@@ -9,7 +9,7 @@
             <h2 class="titre_societe">Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
         <?php endif; ?>
             <div style="text-align: center; font-weight: bold;"><?php echo getHelpMsgText('drm_calendrier_texte1'); ?></div>
-
+<?php if (!$etablissement->hasLegalSignature()) { include_component('drm', 'legalSignature', array('etablissement' => $etablissement)); } ?>
     <?php endif; ?>
 
     <!-- #contenu_etape -->

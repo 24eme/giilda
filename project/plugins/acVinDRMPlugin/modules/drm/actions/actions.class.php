@@ -344,4 +344,19 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
     }
 
+    public function executeLegalSignature(sfWebRequest $request) {
+        $identifiant = $request->getParameter('identifiant');
+        $etablissement = EtablissementClient::getInstance()->retrieveById($identifiant);
+        $this->legalSignatureForm = new DRMLegalSignatureForm($etablissement);
+
+        if ($request->isMethod(sfRequest::POST)) {
+            echo "POST ";
+            $this->legalSignatureForm->bind($request->getParameter($this->legalSignatureForm->getName()));
+            if ($this->legalSignatureForm->isValid()) {
+                $this->legalSignatureForm->save();
+            }
+        }
+        return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+    }
+
 }

@@ -372,11 +372,13 @@ class Societe extends BaseSociete {
     }
 
     public function hasLegalSignature() {
-        return $this->add('legal_signature')->add('v1');
+        if ($this->add('legal_signature'))
+            return $this->add('legal_signature')->add('v1');
+        return false;
     }
 
-    public function setLegalSignature($s) {
-        return $this->add('legal_signature')->add('v1', $s);
+    public function setLegalSignature() {
+        return $this->add('legal_signature')->add('v1', date('NOW'));
     }
 
 }
