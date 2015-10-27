@@ -59,7 +59,7 @@ EOF;
                     $compteSociete = $societe->getMasterCompte();
                       if(!$compteSociete->hasDroit($droit)){
                           $compteSociete->getOrAdd('droits')->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
-                         // $compteSociete->save();
+                          $compteSociete->save();
                           echo "Ouverture du droit $droit pour le compte $compteSociete->_id\n";
                       }
                    }
