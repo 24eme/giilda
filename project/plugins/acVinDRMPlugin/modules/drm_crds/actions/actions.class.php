@@ -6,6 +6,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->drm->crdsInitDefault();
+        $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
         $this->crdsForms = new DRMCrdsForm($this->drm);
         $this->initDeleteForm();
         if ($request->getParameter('add_crd')) {

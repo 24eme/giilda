@@ -405,9 +405,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->setInterpros();
         $this->generateMouvements();
-	if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
-	        $this->generateDroitsDouanes();
-	}
+        if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+            $this->generateDroitsDouanes();
+        }
 
         $this->archivage_document->archiver();
 
@@ -1024,7 +1024,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function hasManyCrds() {
         return $this->nbTotalCrdsTypes() > 0;
     }
-   
+
     public function initCrds() {
         $toRemoves = array();
         $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
@@ -1071,8 +1071,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$this->exist('crds') || (!$this->crds)) {
             $this->add('crds');
         }
-        $regimeCrd = $this->getEtablissement()->crd_regime;
-        $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
+        $regimeCrd = ($this->getEtablissement()->exist('crd_regime'))? $this->getEtablissement()->crd_regime : null;
+        if ($regimeCrd) {
+            $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
+        }
     }
 
     public function getAllGenres() {
@@ -1142,7 +1144,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$nodeAnnexe)
             return false;
         foreach ($this->documents_annexes as $annexe) {
-            if($annexe->fin || $annexe->debut){
+            if ($annexe->fin || $annexe->debut) {
                 return true;
             }
         }
@@ -1239,12 +1241,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function initDroitsDouane() {
-	try {
-	        foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
-        	    $droitDouane->clearDroitDouane();
-        	}
-	}catch(Exception $e) {
-	}
+        try {
+            foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
+                $droitDouane->clearDroitDouane();
+            }
+        } catch (Exception $e) {
+            
+        }
     }
 
     /** Fin Droit de circulation douane */
