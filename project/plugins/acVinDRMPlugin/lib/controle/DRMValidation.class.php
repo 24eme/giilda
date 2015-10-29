@@ -46,10 +46,10 @@ class DRMValidation extends DocumentValidation {
             $total_entrees_declassement += $detail->entrees->declassement;
             $total_sorties_declassement += $detail->sorties->declassement;
 
-            $total_entrees_excedents += $detail->entrees->excedents;
-            $total_entrees_manipulation += $detail->entrees->manipulation;
+            $total_entrees_excedents += ($detail->getConfig()->entrees->exist('excedents'))? $detail->entrees->excedents : 0;
+            $total_entrees_manipulation += ($detail->getConfig()->entrees->exist('manipulation'))? $detail->entrees->manipulation : 0;
             
-            $total_sorties_destructionperte += $detail->sorties->destructionperte;
+            $total_sorties_destructionperte += ($detail->getConfig()->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0;
 
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
