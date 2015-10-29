@@ -9,7 +9,7 @@
     <div id="application_drm">
         <div id="contenu_etape">
             <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_produits_texte1'); ?></p>
-            <form id="form_choix_produits" action="<?php echo url_for('drm_choix_produit', $form->getObject()) ?>" method="post">
+            <form id="form_choix_produits" action="<?php echo url_for('drm_choix_produit', $form->getObject()) ?>" method="post" class="hasBrouillon">
                 <?php echo $form->renderHiddenFields(); ?>
                 <?php echo $form->renderGlobalErrors(); ?>
                 <div id="contenu_onglet">
@@ -20,9 +20,10 @@
                 </div>
                 <div class="btn_etape">
                     <a href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn_etape_prec"><span>Précédent</span></a>
-                    <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
-                        <span>Supprimer la DRM</span>
+                   <a class="btn_majeur btn_annuaire save_brouillon" href="#">
+                        <span>Enregistrer le brouillon</span>
                     </a>
+                         <a class="drm_delete_lien" href="#drm_delete_popup"></a>
                     <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Etape Suivante</span></button>
                 </div>
             </form>

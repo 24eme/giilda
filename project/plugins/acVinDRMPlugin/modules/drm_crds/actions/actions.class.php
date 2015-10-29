@@ -23,6 +23,9 @@ class drm_crdsActions extends drmGeneriqueActions {
                     $this->redirect('drm_crd', array('sf_subject' => $this->crdsForms->getObject(), 'add_crd' => $this->addCrdRegime, 'genre' => $this->addCrdGenre));
                 }
 
+                if ($request->getParameter('brouillon')) {
+                      $this->redirect('drm_crd', $this->crdsForms->getObject());
+                }
                 $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
             }
         }

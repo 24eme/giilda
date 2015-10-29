@@ -15,20 +15,24 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                if($request->hasParameter('add_produit')) {
+                if ($request->hasParameter('add_produit')) {
                     $this->redirect($this->redirect('drm_choix_produit', array('sf_subject' => $this->drm, 'add_produit' => $request->getParameter('add_produit'))));
                 }
-                
+
+                if ($request->getParameter('brouillon')) {
+                    return $this->redirect('drm_choix_produit', $this->form->getObject());
+                }
+
                 return $this->redirect('drm_edition', $this->form->getObject());
             }
         }
 
-        if($request->hasParameter('add_produit')) {
+        if ($request->hasParameter('add_produit')) {
             $this->formAddProduitsByCertification = new DRMAddProduitByCertificationForm($this->drm, array('produitFilter' => $request->getParameter('add_produit')));
         }
 
-        if ($this->showPopupRegimeCrd){
-           $this->crdRegimeForm = new DRMCrdRegimeChoiceForm($this->drm);
+        if ($this->showPopupRegimeCrd) {
+            $this->crdRegimeForm = new DRMCrdRegimeChoiceForm($this->drm);
         }
     }
 

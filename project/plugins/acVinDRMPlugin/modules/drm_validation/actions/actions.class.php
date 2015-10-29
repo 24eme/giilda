@@ -1,3 +1,4 @@
+
 <?php
 
 /*
@@ -20,6 +21,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->drm->cleanDeclaration();
+        $this->initDeleteForm();
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);

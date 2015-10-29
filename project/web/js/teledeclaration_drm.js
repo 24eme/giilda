@@ -182,7 +182,13 @@ var initCreationDrmPopup = function () {
 };
 
 var initDeleteDrmPopup = function () {
-
+    
+    $('a.drm_delete_lien_colonne').click(function(){
+        $('a.drm_delete_lien').click();
+        console.log("clisk");
+        return false;
+    })
+    
     $('a.drm_delete_lien').fancybox({
         autoSize: true,
         autoCenter: true,
@@ -336,6 +342,18 @@ var initMsgAide = function () {
     });
 };
 
+var initSaveBrouillon =  function () {
+
+    var form = $('form.hasBrouillon');
+
+     $('.save_brouillon').click(function(){
+         var action = form.attr('action')+'?brouillon=1';
+         form.attr('action',action);
+         form.submit();
+         return false;
+     });
+};
+
 $(document).ready(function ()
 {
     initCreationDrmPopup();
@@ -352,4 +370,5 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();
+    initSaveBrouillon();
 });

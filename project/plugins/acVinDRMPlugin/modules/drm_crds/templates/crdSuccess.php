@@ -10,7 +10,7 @@
             <div id="contenu_onglet">                    
             <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_crds_texte1'); ?></p>
 
-<form id="form_crds" action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post">
+<form id="form_crds" action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post"  class="hasBrouillon" >
     <?php echo $crdsForms->renderGlobalErrors(); ?>
     <?php echo $crdsForms->renderHiddenFields(); ?>
     <?php foreach ($allCrdsByRegimeAndByGenre as $regime => $crdAllGenre): ?>
@@ -67,9 +67,10 @@
         <a class="btn_etape_prec" href="<?php echo url_for('drm_edition', $drm); ?>">
             <span>Précédent</span>
         </a>
-       <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
-                        <span>Supprimer la DRM</span>
-                    </a>
+        <a class="btn_majeur btn_annuaire save_brouillon" href="#">
+            <span>Enregistrer le brouillon</span>
+        </a>
+         <a class="drm_delete_lien" href="#drm_delete_popup"></a>
         <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button>
     </div>
 </form>

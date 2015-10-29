@@ -5,6 +5,9 @@
             if ($societe->isViticulteur() || $societe->isCourtier()):
                 $action_size_class = ' actions_2 ';
             endif;
+              if ($societe->isNegociant() && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DRM) && isset($accueil) && $accueil):
+                $action_size_class = ' actions_2 ';
+            endif;
             if (!$societe->isViticulteur()):
                 ?>
                 <li class="stats_contrats_brouillon <?php echo $action_size_class; ?>"> 
