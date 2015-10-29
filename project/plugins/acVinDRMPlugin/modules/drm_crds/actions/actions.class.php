@@ -25,7 +25,7 @@ class drm_crdsActions extends drmGeneriqueActions {
                 }
 
                 if ($request->getParameter('brouillon')) {
-                      $this->redirect('drm_crd', $this->crdsForms->getObject());
+                    return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
                 }
                 $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
             }

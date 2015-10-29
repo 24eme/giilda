@@ -20,7 +20,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
                 }
 
                 if ($request->getParameter('brouillon')) {
-                    return $this->redirect('drm_choix_produit', $this->form->getObject());
+                    return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
                 }
 
                 return $this->redirect('drm_edition', $this->form->getObject());

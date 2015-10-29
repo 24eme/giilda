@@ -18,7 +18,7 @@ class drm_editionActions extends drmGeneriqueActions {
                 $this->formValidation->save();
                 if ($this->isTeledeclarationMode) {
                     if ($request->getParameter('brouillon')) {
-                        $this->redirect('drm_edition', $this->formValidation->getObject());
+                      return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
                     } else {
                         $this->redirect('drm_crd', $this->formValidation->getObject());
                     }

@@ -14,7 +14,7 @@ class drm_annexesActions extends drmGeneriqueActions {
             if ($this->annexesForm->isValid()) {
                 $this->annexesForm->save();
                 if ($request->getParameter('brouillon')) {
-                    $this->redirect('drm_annexes', $this->annexesForm->getObject());
+                   return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
                 }
                 $this->redirect('drm_validation', $this->annexesForm->getObject());
             }
