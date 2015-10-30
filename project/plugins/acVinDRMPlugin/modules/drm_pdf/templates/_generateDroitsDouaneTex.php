@@ -103,15 +103,25 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \hline
 <?php endforeach; ?>  
 \end{tabular}
-~ \\~ \\
+
+\vspace{0.5cm}
+
 <?php if($hasObservations): ?>
-\begin{tabular}{L{280mm}}	
-\multicolumn{1}{>{\columncolor[rgb]{1,1,1}}l}~~~~\textbf{Observations : }<?php echo $drm->observations; ?>}
+
+\begin{tabular}{|C{280mm}|}
+
+\multicolumn{1}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Observations}}}}
+\\ 				 
+\hline   
+\multicolumn{1}{|C{280mm}|}{<?php echo $drm->observations; ?>} \\
+\hline   
 \end{tabular}
-~ \\
+
+ \vspace{0.5cm}
+ 
 <?php endif; ?>
 \fcolorbox{white}{white}{
-\hspace{0.25cm}
+\hspace{-0.25cm}
 \begin{minipage}[t]{0.6\textwidth}
 \begin{tabular}{|C{170mm}|}			 	 
 \multicolumn{1}{|c|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{PARTIE RÉSERVÉE À L'ADMINISTRATION}}}}
@@ -137,7 +147,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \begin{tabular}{|C{100mm}|}	
 \hline
 ~ \\
-\multicolumn{1}{|l|}{\small{\underline{\textbf{Fait}} : sur la plateforme de télédeclaration}} \\	~ \\
+\multicolumn{1}{|l|}{\small{\underline{\textbf{Fait}} : sur la plateforme <?php echo sfConfig::get('app_teledeclaration_url'); ?>}} \\	~ \\
 \multicolumn{1}{|l|}{\small{\underline{\textbf{Le}} : <?php echo $drm->getEuValideDate(); ?> }} \\	~ \\
 \hline  
 ~ \\	

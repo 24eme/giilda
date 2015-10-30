@@ -557,6 +557,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->hasVrac() || $this->hasConditionneExport();
     }
 
+    public function isNeant() {
+        return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT);
+    }
+    
     public function isEnvoyee() {
         if (!$this->exist('valide')) {
 

@@ -22,7 +22,7 @@
             </p>
             <br/> 
             <p>
-                Pour activer votre espace DRM, vous devez prendre connaissance et accepter le contrat d’inscription à la télédéclaration de la DRM. Pour cela, cliquez <a href="/data/contrat_service_v1.pdf">ici</a>.
+                Pour activer votre espace DRM, vous devez prendre connaissance et accepter le contrat d’inscription à la télédéclaration de la DRM. Pour cela, <a href="/data/contrat_service_v1.pdf" style="text-decoration: underline;">cliquez ici</a>.
             </p>
             <br/>
             <?php echo $legalSignatureForm['terms']->render(array('required' => 'true')); ?><label for="drm_legal_signature_terms">J’accepte le <a href="/data/contrat_service_v1.pdf">contrat d’inscription</a> à la télédéclaration de la DRM.</label>
