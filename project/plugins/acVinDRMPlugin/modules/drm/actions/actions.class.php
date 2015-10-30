@@ -11,7 +11,6 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeConnexion(sfWebRequest $request) {
 
-        //  $this->redirect403IfIsTeledeclaration();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $societe = $this->etablissement->getSociete();
 

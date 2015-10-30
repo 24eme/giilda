@@ -17,7 +17,7 @@
             <p>Etes vous sur(e) de vouloir supprimer <?php echo $drm->_id; ?> ?</p>
             <div id="btn_etape_dr">
                 <input class="btn_majeur btn_annuler" type="submit" name="confirm" value="Oui"/>
-                <a id="drm_validation_societe_annuler_btn" style="float: left;" class="btn_majeur btn_annuler" href="/vinsdeloire_dev.php/drm/80001201/edition/201507/validation"><span>annuler</span></a>
+                <a id="drm_validation_societe_annuler_btn" style="float: left;" class="btn_majeur btn_annuler" href="#"><span>annuler</span></a>
                 
             </div>
         </form>
