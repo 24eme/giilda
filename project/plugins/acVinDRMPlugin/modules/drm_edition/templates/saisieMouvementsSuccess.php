@@ -39,9 +39,7 @@
                     <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>">
                         <span>Précédent</span>
                     </a>
-                    <?php if (!$isTeledeclarationMode): ?>
-                        <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
-                    <?php endif; ?>
+                 
 
                     <a class="btn_majeur btn_annuaire save_brouillon" href="#">
                         <span>Enregistrer le brouillon</span>
