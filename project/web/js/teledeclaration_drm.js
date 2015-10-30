@@ -115,6 +115,23 @@ var openedPopupAjoutCRD = function () {
     });
 };
 
+var initLegalSignaturePopup = function () {
+    $('a.legal_signature_popup').fancybox({
+//        autoSize: true,
+        autoCenter: true,
+        height: 'auto',
+        width: '50%',
+        closeClick: false,
+        closeBtn: false,
+        helpers: {
+            overlay: {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
+        }
+    });
+    $('a.legal_signature_popup').click();
+
+};
+
+
 var initRegimeCrdsPopup = function () {
     $('a.crd_regime_choice_popup').fancybox({
         autoSize: true,
@@ -165,7 +182,13 @@ var initCreationDrmPopup = function () {
 };
 
 var initDeleteDrmPopup = function () {
-
+    
+    $('a.drm_delete_lien_colonne').click(function(){
+        $('a.drm_delete_lien').click();
+        console.log("clisk");
+        return false;
+    })
+    
     $('a.drm_delete_lien').fancybox({
         autoSize: true,
         autoCenter: true,
@@ -319,6 +342,18 @@ var initMsgAide = function () {
     });
 };
 
+var initSaveBrouillon =  function () {
+
+    var form = $('form.hasBrouillon');
+
+     $('.save_brouillon').click(function(){
+         var action = form.attr('action')+'?brouillon=1';
+         form.attr('action',action);
+         form.submit();
+         return false;
+     });
+};
+
 $(document).ready(function ()
 {
     initCreationDrmPopup();
@@ -326,6 +361,7 @@ $(document).ready(function ()
     initAjoutProduitPopup();
     initAjoutCrdsPopup();
     initRegimeCrdsPopup();
+    initLegalSignaturePopup();
     initCrds();
     initFavoris();
     initValidationDrmStockMvt();
@@ -334,4 +370,5 @@ $(document).ready(function ()
     initSignatureDrmPopup();
     initBoldSaisie();
     initMsgAide();
+    initSaveBrouillon();
 });

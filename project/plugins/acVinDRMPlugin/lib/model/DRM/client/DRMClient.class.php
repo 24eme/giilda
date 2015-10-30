@@ -36,8 +36,7 @@ class DRMClient extends acCouchdbClient {
         self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
         self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
-    public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant");
-            //, self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
+    public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant", self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
     protected $drm_historiques = array();
 
     /**
@@ -291,7 +290,7 @@ class DRMClient extends acCouchdbClient {
         }
 
         krsort($drms);
-        
+
         return array_shift($drms);
     }
 
@@ -448,16 +447,15 @@ class DRMClient extends acCouchdbClient {
             $drm->generateByDRM($drmLast);
             return $drm;
         }
-
-        $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
-        if ($dsLast) {
-            $drm->generateByDS($dsLast);
-            return $drm;
+        if (!$drm->getEtablissement()->isNegociant()) {
+            $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+            if ($dsLast) {
+                $drm->generateByDS($dsLast);
+                return $drm;
+            }
         }
-
         return $drm;
     }
-  
 
     public function generateVersionCascade($drm) {
         if (!$drm->needNextVersion()) {

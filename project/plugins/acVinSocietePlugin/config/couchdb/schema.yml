@@ -70,3 +70,8 @@ Societe:
                   nom: {}
                   ordre: {}
 
+      legal_signature:
+        type: collection
+        definition:
+          fields:
+            '*': {}

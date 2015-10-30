@@ -53,6 +53,7 @@
                         <button type="submit" class="btn_etape_suiv" id="button_drm_validation" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?>><span>Valider</span></button>
 
                     <?php endif; ?>
+                          <a class="drm_delete_lien" href="#drm_delete_popup"></a>
                 </div>
             </form>
         </div>
@@ -60,4 +61,5 @@
 </section>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
+include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>

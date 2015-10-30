@@ -2,6 +2,12 @@
 
 class drmComponents extends sfComponents {
 
+    public function executeLegalSignature() {
+        if (!$this->etablissement)
+            throw new sfException('need an identifiant of etablissement ('.$this->etablissement.' provided)');
+        $this->legalSignatureForm = new DRMLegalSignatureForm($this->etablissement);
+    }
+
     public function executeChooseEtablissement() {
         if (!$this->form) {
             $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire', array('identifiant' => $this->identifiant));

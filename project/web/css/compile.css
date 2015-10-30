@@ -699,6 +699,7 @@ bouton.recherche_contact #btn_rechercher{height:26px}
 #modification_compte .ligne_form label,#creation_compte_teledeclaration .ligne_form label{width:300px}
 #col_reglementation .lien_notice{font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;text-transform:uppercase;color:#d00815;display:inline-block;margin:30px 0 0 0}
 #colonne .lien_lecteur_pdf{font-size:11px}#colonne .lien_lecteur_pdf a{text-decoration:underline}
+.opacity40{opacity:.4}
 .itemcache{display:none}
 p#date_drm{font-size:14px;font-style:italic;margin:20px 0}
 .tooltip{background:#3e3e3e;border-radius:4px;display:inline-block !important;color:#fff;padding:3px 8px;position:absolute;white-space:nowrap;z-index:20;margin-left:10px;text-transform:none !important;font-size:13px;font-weight:bold}
@@ -878,12 +879,12 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #colonne #form_produit_declaration input.ui-autocomplete-input{width:100%}
 #colonne input.ui-autocomplete-input{background:url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;font-size:12px;padding:5px 5px 5px 25px;width:200px;height:30px}
 .add_produit_popup_certification_content h2{font-size:15px;font-weight:bold;text-transform:uppercase}
+a.lien_drm_supprimer{color:#d00815;display:inline-block;font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;margin:20px 0 0;text-decoration:underline}
 #principal.drm{width:700px !important;padding:20px 15px 0 10px}#principal.drm .recherche_etablissement{background:none repeat scroll 0 0 #ecebeb;padding:10px 10px 30px}
 #principal.drm #rail_etapes li{font-size:9pt;width:20%;padding:0 10px}
 #principal.drm #rail_etapes li>*{padding:0 5px}
 #principal.drm .popup_raccourcis{float:right;position:relative}
-#principal.drm #application_drm{width:675px;border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px}#principal.drm #application_drm a.lien_drm_supprimer{color:#d00815;display:inline-block;font-family:"HelveticaNeue75bold",Helvetica,Arial,sans-serif;margin:5px 0 0;text-decoration:underline}
-#principal.drm #application_drm .choix_produit_explication{font-size:13px;font-weight:bold;padding:10px 20px}
+#principal.drm #application_drm{width:675px;border-radius:5px 5px 5px 5px;-webkit-border-radius:5px 5px 5px 5px;-moz-border-radius:5px 5px 5px 5px;border-radius:5px 5px 5px 5px}#principal.drm #application_drm .choix_produit_explication{font-size:13px;font-weight:bold;padding:10px 20px}
 #principal.drm #application_drm .choix_produit_skip_etape{line-height:30px;padding:0 20px}#principal.drm #application_drm .choix_produit_skip_etape a{float:right;vertical-align:middle}
 #principal.drm #application_drm .choix_produit_add_produit{padding:20px 20px}#principal.drm #application_drm .choix_produit_add_produit a,#principal.drm #application_drm .choix_produit_add_produit button{float:right;vertical-align:middle}
 #principal.drm #application_drm #contenu_onglet{padding:10px 0}

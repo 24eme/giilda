@@ -90,7 +90,7 @@ $favoris_sorties = $favoris->sorties;
             <ul>
                 <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
                     <li class="<?php echo ($key != 'revendique') ? ' itemcache' : ' li_gris'; ?>">
-                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" title="<?php echo getHelpMsgText('drm_mouvements_aide4'); ?>"></a>
+                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" title="<?php echo getHelpMsgText('drm_mouvements_aide4'); ?>"></a>
                     </li>
                 <?php endforeach; ?>
             </ul>
