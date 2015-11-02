@@ -198,7 +198,7 @@ Comme pour les mouvements de Cave, il est possible d'indiquer plusieurs mouvemen
  15. date d'envoi (pour le type non apurement)
  16. numero d'ascise du destinataire (pour le non apurement)
  17. le numéro de document d'accompagnement (pour les documents DAADAC, DSADSAC, EMPREINTE et non apurement)
- 18. les observations (si la ligne est "OBSERVATIONS" en cas de saut de ligne, lres remplacer par des \n)
+ 18. les observations (si la ligne est "OBSERVATIONS" en cas de saut de ligne, les remplacer par des \\n)
 
 [Voici un exemple ne contenant que quelques lignes de type ANNEXE](https://github.com/24eme/vinsdeloire/blob/master/doc/edi/exemple_annexe.csv "csv_de_type_annexe")
 
