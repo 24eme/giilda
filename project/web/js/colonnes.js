@@ -971,7 +971,7 @@
 
         this.isNum = function() {
 
-            return this.element.is('input.num');
+            return this.element.is('input.input-float');
         }
 
         this.isSomme = function() {
@@ -1021,7 +1021,7 @@
 
         this.setVal = function(value) {
             this.element.val(value);
-            this.element.nettoyageChamps();
+            this.element.change();
         }
 
         this.calculer = function() {
@@ -1169,18 +1169,14 @@
             }
 
             var colonne = this.colonne;
-            var is_float = this.element.hasClass('num_float');
-            
-            this.element.saisieNum
-            (
-                is_float,
-                function(){
-                    colonne.active(); 
-                },
-                function(){
-                    colonne.calculer();
-                }
-            );
+
+            this.element.on('keypress', function() {
+                colonne.active(); 
+            });
+
+            this.element.on('blur', function() {
+                colonne.calculer(); 
+            });
         }
 
         this._reinitText = function() {

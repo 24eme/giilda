@@ -8,7 +8,7 @@
     <td class="form-group <?php if($form['volume']->hasError()): ?>has-error<?php endif; ?>">
         <?php echo $form['volume']->renderError(); ?>
         <div class="input-group" class="">
-            <?php echo $form['volume']->render(array("class" => "form-control text-right")); ?>
+            <?php echo $form['volume']->render(array("class" => "input-float form-control text-right")); ?>
             <div class="input-group-addon">hl</div>
         </div>
     </td>
