@@ -33,7 +33,7 @@ $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non
         \\ 			 
         \hline   				 
         \multicolumn{1}{|C{47mm}}{\cellcolor[gray]{0.7}\small{\textbf{CRD}}} &
-        \multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Stock}}} &
+        \multicolumn{1}{|C{22mm}}{\cellcolor[gray]{0.7}\small{\textbf{Stock début de mois}}} &
 
         \multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Achats}}} &
         \multicolumn{1}{|C{26mm}}{\cellcolor[gray]{0.7}\small{\textbf{Retours}}} &

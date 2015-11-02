@@ -9,7 +9,7 @@
             <?php echo $deleteForm->renderHiddenFields(); ?>
             <?php echo $deleteForm->renderGlobalErrors(); ?>
 
-               <p>Etes vous sur(e) de vouloir cette DRM <?php echo getFrPeriodeElision($drm->periode); ?> ?</p>               
+               <p>Etes-vous sûr(e) de vouloir cette DRM <?php echo getFrPeriodeElision($drm->periode); ?> ?</p>               
         
             <div class="ligne_btn">
                 <a id="drm_delete_popup_close" class="btn_rouge btn_majeur annuler popup_close" style="float: left;" href="#" >Annuler</a>           

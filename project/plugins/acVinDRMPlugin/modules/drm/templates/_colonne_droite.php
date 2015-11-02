@@ -23,7 +23,7 @@ if ($isTeledeclarationMode):
                     <div class="ligne_btn txt_centre">
                         <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
                     </div>
-                <?php endif; ?>        
+                <?php endif; ?>                   
             </div>
         </div>
     </div>
@@ -40,7 +40,7 @@ $text_retour_espace = 'Actions';
 if (isset($drm)) {
     $url_retour_espace = ($isTeledeclarationMode) ?
             url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $drm->identifiant));
-        $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
+    $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
 }
 ?>
 <div class="bloc_col" >
@@ -55,6 +55,11 @@ if (isset($drm)) {
             <?php if (isset($drm) || $isTeledeclarationMode): ?>
                 <?php if (!isset($isMonEspace)): ?>
                     <a href="<?php echo $url_retour_espace; ?>" class="btn_majeur btn_acces"><?php echo $text_retour_espace; ?> </a>
+                    <?php if (!$drm->isValidee()): ?>
+                        <a class="drm_delete_lien_colonne lien_drm_supprimer">
+                            <span>Supprimer la DRM</span>
+                        </a> 
+                    <?php endif; ?>
                 <?php elseif ($isTeledeclarationMode): ?>
                     <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
                 <?php endif; ?>
@@ -71,7 +76,7 @@ if (isset($drm)) {
                 <p><strong><?php echo $etablissementPrincipal->identifiant; ?></strong></p>
                 <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>            
             </div>
-        <?php endif;?>
+        <?php endif; ?>
     </div>
 </div>
 <?php end_slot();
@@ -96,7 +101,7 @@ if (isset($drm)) {
             <p class="lien_lecteur_pdf">
                 Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>
-     
+
             <h3>Votre contact</h3>
 
             <ul class="contact"> 

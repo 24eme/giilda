@@ -6,6 +6,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->drm->crdsInitDefault();
+        $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
         $this->crdsForms = new DRMCrdsForm($this->drm);
         $this->initDeleteForm();
         if ($request->getParameter('add_crd')) {
@@ -23,6 +24,9 @@ class drm_crdsActions extends drmGeneriqueActions {
                     $this->redirect('drm_crd', array('sf_subject' => $this->crdsForms->getObject(), 'add_crd' => $this->addCrdRegime, 'genre' => $this->addCrdGenre));
                 }
 
+                if ($request->getParameter('brouillon')) {
+                    return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
+                }
                 $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
             }
         }

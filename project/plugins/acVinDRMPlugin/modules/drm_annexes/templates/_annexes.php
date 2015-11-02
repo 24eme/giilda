@@ -5,7 +5,7 @@
             <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_annexes_texte1'); ?></p>
         <h2>Déclaration des documents d'accompagnement</h2>        
         <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
-        <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" method="post">
+        <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" method="post" class="hasBrouillon">
 
             <?php echo $annexesForm->renderGlobalErrors(); ?>
             <?php echo $annexesForm->renderHiddenFields(); ?>
@@ -97,9 +97,10 @@
                 <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">
                     <span>Précédent</span>
                 </a>
-                 <a class="drm_delete_lien lien_drm_supprimer" href="#drm_delete_popup">
-                        <span>Supprimer la DRM</span>
+                 <a class="btn_majeur btn_annuaire save_brouillon" href="#">
+                        <span>Enregistrer le brouillon</span>
                     </a>
+                 <a class="drm_delete_lien" href="#drm_delete_popup"></a>
                 <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button>
             </div>
         </form>
