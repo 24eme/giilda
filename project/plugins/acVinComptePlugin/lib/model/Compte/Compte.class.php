@@ -469,7 +469,10 @@ class Compte extends BaseCompte {
     }
 
     public function hasDroit($droit) {
-        $droits = $this->get('droits')->toArray(0, 1);
+	if (! $this->exist('droits')) {
+		return false;
+	}
+        $droits = $this->get('droits')->toArray(0,1);
         return in_array($droit, $droits);
     }
 
