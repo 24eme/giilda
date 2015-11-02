@@ -325,7 +325,7 @@ class vracActions extends sfActions {
         $this->signatureRequired = !$this->vrac->isSocieteHasSigned($this->societe);
         if (!$this->signatureRequired) {
             $societeId = $this->societe->_id;
-            throw new sfException("La societe $societeId a déja signé ce contrat.");
+	    return $this->redirect('vrac_visualisation', $this->vrac);
         }
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
         $this->vrac->signatureByEtb($this->etablissement_concerned);
