@@ -30,9 +30,9 @@ class Date {
             return date('Y-m-d', $lastdaymonth);
         }
         
-        public static function addDelaiToDate($delai,$date=null) {
+        public static function addDelaiToDate($delai,$date=null,$format='Y-m-d') {
             if(!$date) $date = date('Y-m-d');
-           return date('Y-m-d', strtotime($delai, strtotime($date)));
+           return date($format, strtotime($delai, strtotime($date)));
         }
 
 
