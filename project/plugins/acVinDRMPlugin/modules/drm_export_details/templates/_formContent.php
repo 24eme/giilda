@@ -1,3 +1,5 @@
+<?php use_helper('Float'); ?>
+
 <?php    
     echo $form->renderHiddenFields();
     echo $form->renderGlobalErrors();
@@ -31,7 +33,7 @@
             <td class="lead text-right">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
-                    <input type="text" class="form-control text-right" readonly="readonly" value="<?php echo $detail->sorties->export > 0 ? $detail->sorties->export : "0.00" ?>" />
+                    <input type="text" class="form-control input-float text-right" data-decimal="4" readonly="readonly" value="<?php echo sprintFloat($detail->sorties->export > 0 ? $detail->sorties->export : "0.00") ?>" />
                     <div class="input-group-addon">hl</div>
                 </div>
             </td>

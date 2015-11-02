@@ -13,7 +13,11 @@ class bsWidgetFormInputFloat extends sfWidgetFormInputText
   {
     sfApplicationConfiguration::getActive()->loadHelpers('Float');
     
-    list($int, $float)=explode(".", $value);
+    $int = $value;
+    $float = null;
+    if(count(explode(".", $value)) >= 2) {
+      list($int, $float) = explode(".", $value);
+    }
     $format = ($value !== null && trim($value) !== "" && strlen($float) <= $this->getOption('decimal_auto'));
 
     if($format) {

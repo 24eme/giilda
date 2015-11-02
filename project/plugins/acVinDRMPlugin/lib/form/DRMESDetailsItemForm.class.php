@@ -12,7 +12,7 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
     public function configure() {
 
         $this->setWidget('identifiant', new bsWidgetFormChoice(array('choices' => $this->getIdentifiantChoices()), array('class' => 'autocomplete')));
-        $this->setWidget('volume', new bsWidgetFormInput(array(), array('autocomplete' => 'off', 'class' => 'num num_float form-control')));
+        $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
 
         if ($this->isTeledeclarationMode) {
             $this->setWidget('numero_document', new bsWidgetFormInput());

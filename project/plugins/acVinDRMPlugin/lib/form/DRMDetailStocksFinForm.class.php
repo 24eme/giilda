@@ -7,9 +7,9 @@ class DRMDetailStocksFinForm  extends acCouchdbObjectForm {
     	foreach ($configurationDetail->getStocksFin() as $key => $value) {
     		if ($value->readable) {
 	    		if (!$value->writable) {
-	    			$this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
+	    			$this->setWidget($key, new bsWidgetFormInputFloat(array('decimal' => 4), array('readonly' => 'readonly')));
 	    		} else {
-	    			$this->setWidget($key, new sfWidgetFormInputFloat());
+	    			$this->setWidget($key, new bsWidgetFormInputFloat(array('decimal' => 4)));
 	    		}
 	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false)));
     		}
