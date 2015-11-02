@@ -143,21 +143,25 @@ MouvementsFacture:
         type: collection
         definition:
           fields:
-            '*':
-              class: FactureMouvement
-              inheritance: Mouvement
+            '*': #11009901
               type: collection
               definition:
-                fields:                          
-                  identifiant_analytique: {  }
-                  identifiant_analytique_libelle: {  }
-                  identifiant_analytique_libelle_compta: {  }
-                  identifiant: {  }
-                  libelle: {  }
-                  quantite: { type: float }
-                  prix_unitaire: { type: float }
-                  facture: { type: integer }
-                  facturable: { type: integer }
+                fields:
+                  '*':  #c74d5e852c5
+                    class: FactureMouvement
+                    inheritance: Mouvement
+                    type: collection
+                    definition:
+                      fields:                          
+                        identifiant_analytique: {  }
+                        identifiant_analytique_libelle: {  }
+                        identifiant_analytique_libelle_compta: {  }
+                        identifiant: {  }
+                        libelle: {  }
+                        quantite: { type: float }
+                        prix_unitaire: { type: float }
+                        facture: { type: integer }
+                        facturable: { type: integer }
 
 TemplateFacture:
   definition:

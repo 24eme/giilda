@@ -11,6 +11,7 @@
  * @property string $date
  * @property string $identifiant
  * @property string $libelle
+ * @property acCouchdbJson $valide
  * @property acCouchdbJson $mouvements
 
  * @method string get_id()
@@ -27,6 +28,8 @@
  * @method string setIdentifiant()
  * @method string getLibelle()
  * @method string setLibelle()
+ * @method acCouchdbJson getValide()
+ * @method acCouchdbJson setValide()
  * @method acCouchdbJson getMouvements()
  * @method acCouchdbJson setMouvements()
  

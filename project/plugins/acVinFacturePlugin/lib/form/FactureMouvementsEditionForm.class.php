@@ -38,17 +38,20 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
         if ($this->getObject()->mouvements->exist("nouvelle")) {
-            $newMvt = $this->getObject()->mouvements->get("nouvelle")->toArray(true, false);
+            $mvtsEtb = $this->getObject()->mouvements->get("nouvelle")->toArray(true, false);
+            $nouveauMvt = $this->getObject()->mouvements->get("nouvelle")->get("nouvelle");
             $this->getObject()->mouvements->remove("nouvelle");
-            $this->getObject()->mouvements->add(uniqid(), $newMvt);
+            $identifiant = preg_replace('/^SOCIETE-/', '', $nouveauMvt->identifiant);
+            $this->getObject()->mouvements->getOrAdd($identifiant)->add(uniqid(), $nouveauMvt);
         }
-        foreach ($this->getObject()->mouvements as $mouvement) {
+        foreach ($this->getObject()->mouvements as $mouvementEtb) {
+            foreach ($mouvementEtb as $mouvement) {
+                $mouvement->facturable = 1;
+                $mouvement->facture = 0;
+            }
+        }
 
-            $mouvement->facturable = 1;
-            $mouvement->facture = 0;
-        }
-        
-//        $this->getObject()->lignes->cleanLignes();
+//      $this->getObject()->lignes->cleanLignes();
         $this->getObject()->valide->date_saisie = $values['date'];
     }
 
