@@ -2,6 +2,8 @@
     <div id="add_produit_popup" class="add_produit_popup_certification_content">
         <h2>Choix d'un produit&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_ajout_produit_aide1'); ?>" style="float:right;"></a></h2>
         <br>
+        <p>Merci de sélectionner un produit dans la liste ci-dessous :</p>
+        <br>
         <form action="<?php echo url_for('drm_choix_produit_add_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion(), 'add_produit' => $form->getProduitFilter())) ?>" method="post">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
