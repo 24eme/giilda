@@ -67,11 +67,11 @@ class drm_crdsActions extends drmGeneriqueActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
+            }
                 if ($retour == 'crds') {
-                    $this->redirect('drm_crd', $this->form->getObject());
-                } else {
-                    $this->redirect('drm_choix_produit', $this->form->getObject());
-                }
+                $this->redirect('drm_crd', $this->form->getObject());
+            } else {
+                $this->redirect('drm_choix_produit', $this->form->getObject());
             }
         }
     }

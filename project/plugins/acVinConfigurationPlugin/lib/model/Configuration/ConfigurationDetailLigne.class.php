@@ -59,7 +59,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
             if(!$etb->exist('crd_regime')){
                 return true;
             }
-            if($etb->crd_regime != EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU){
+            if(($etb->crd_regime != EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) && ($etb->crd_regime != EtablissementClient::REGIME_CRD_PERSONNALISE)){
                 return false;
             }
         }
