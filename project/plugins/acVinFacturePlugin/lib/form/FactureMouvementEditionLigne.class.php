@@ -5,7 +5,7 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
     protected $interpro_id;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
-       $this->interpro_id = $options['interpro_id'];
+        $this->interpro_id = $options['interpro_id'];
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -20,21 +20,21 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
 
 
 
-        $this->setValidator('identifiant', new ValidatorSociete(array('required' => true)));
-        $this->setValidator("identifiant_analytique", new sfValidatorString(array('required' => true)));
-        $this->setValidator("libelle", new sfValidatorString(array('required' => true)));
-        $this->setValidator("quantite", new sfValidatorNumber(array('required' => true)));
-        $this->setValidator("prix_unitaire", new sfValidatorNumber(array('required' => true)));
+        $this->setValidator('identifiant', new ValidatorSociete(array('required' => false)));
+        $this->setValidator("identifiant_analytique", new sfValidatorString(array('required' => false)));
+        $this->setValidator("libelle", new sfValidatorString(array('required' => false)));
+        $this->setValidator("quantite", new sfValidatorNumber(array('required' => false)));
+        $this->setValidator("prix_unitaire", new sfValidatorNumber(array('required' => false)));
 
         $this->validatorSchema['identifiant']->setMessage('required', 'Le choix d\'une societe est obligatoire');
 
-//        $this->validatorSchema->setPreValidator(new FactureEditionLigneValidator());
 
         $this->configureTypeSociete(array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
-        $this->widgetSchema->setNameFormat('facture_mouvment_edition_ligne[%s]');
+        $this->widgetSchema->setNameFormat('facture_mouvement_edition_ligne[%s]');
+        $this->validatorSchema->setPreValidator(new FactureMouvementsEditionValidator());
     }
-    
-       public function configureTypeSociete($types) {
+
+    public function configureTypeSociete($types) {
         $this->getWidget('identifiant')->setOption('type_societe', $types);
         $this->getValidator('identifiant')->setOption('type_societe', $types);
     }
@@ -42,5 +42,5 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
     public function getSociete() {
         return $this->getValidator('identifiant')->getDocument();
     }
-    
+
 }

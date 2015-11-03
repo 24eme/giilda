@@ -1,5 +1,5 @@
 function(doc) {
-    if (doc.type != "DRM" && doc.type != "SV12") {
+    if (doc.type != "DRM" && doc.type != "MouvementsFacture") {
 
         return;
     }

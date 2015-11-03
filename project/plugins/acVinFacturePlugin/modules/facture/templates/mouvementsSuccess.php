@@ -43,35 +43,34 @@
 
                     <div class="col-xs-1 text-center lead text-muted">Prix&nbsp;U.</div>
                 </div>
-                <?php foreach ($form['mouvements'] as $key_ligne => $f_ligne): ?>
-
-                    <div class="form-group line ">
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <?php echo $f_ligne['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
+                <?php foreach ($form['mouvements'] as $key_etb => $etbMvts): ?>
+                    <?php foreach ($etbMvts as $key_mvt => $mvt): ?>
+                        <div class="form-group line ">
+                            <div class="col-xs-12">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <?php echo $mvt['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <?php echo $mvt['identifiant_analytique']->renderError(); ?> 
+                                        <?php echo $mvt['identifiant_analytique']->render(array('class' => 'form-control input-lg text-right')); ?> 
+                                    </div>
+                                    <div class="col-xs-3">
+                                          <?php echo $mvt['libelle']->renderError(); ?> 
+                                        <?php echo $mvt['libelle']->render(array('class' => 'form-control input-lg text-right')); ?>  
+                                    </div>
+                                    <div class="col-xs-1">
+                                          <?php echo $mvt['quantite']->renderError(); ?> 
+                                        <?php echo $mvt['quantite']->render(array('class' => 'form-control input-lg text-right')); ?>  
+                                    </div>
+                                    <div class="col-xs-1">
+                                          <?php echo $mvt['prix_unitaire']->renderError(); ?> 
+                                        <?php echo $mvt['prix_unitaire']->render(array('class' => 'form-control input-lg text-right')); ?>  
+                                    </div>
                                 </div>
-                                <div class="col-xs-2">
-
-                                    <?php echo $f_ligne['identifiant_analytique']->render(array('class' => 'form-control input-lg text-right')); ?> 
-                                </div>
-                                <div class="col-xs-3">
-
-                                    <?php echo $f_ligne['libelle']->render(array('class' => 'form-control input-lg text-right')); ?>  
-                                </div>
-                                <div class="col-xs-1">
-
-                                    <?php echo $f_ligne['quantite']->render(array('class' => 'form-control input-lg text-right')); ?>  
-                                </div>
-                                <div class="col-xs-1">
-
-                                    <?php echo $f_ligne['prix_unitaire']->render(array('class' => 'form-control input-lg text-right')); ?>  
-                                </div>
-
                             </div>
                         </div>
-
-                    </div>
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
             </div>
         </div>
