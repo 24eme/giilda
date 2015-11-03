@@ -28,7 +28,7 @@
     });
     $.fn.initAdvancedElements = function () {
 
-        $(this).find('.input-float').inputNumberFormat();
+        $(this).find('.input-float').inputNumberFormat({ 'decimal': 4, 'decimalAuto': 2 });
         $(this).find('.input-integer').inputNumberFormat({ 'decimal': 0, 'decimalAuto': 0 });
 
         $(this).find(".select2").select2({
