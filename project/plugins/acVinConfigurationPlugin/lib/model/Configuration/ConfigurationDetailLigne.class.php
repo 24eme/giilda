@@ -57,7 +57,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
         }
          if(($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
             if(!$etb->exist('crd_regime')){
-                return false;
+                return true;
             }
             if($etb->crd_regime != EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU){
                 return false;

@@ -9,10 +9,13 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
         $this->crdsForms = new DRMCrdsForm($this->drm);
         $this->initDeleteForm();
+
+        $this->showPopupRegimeCrd = $request->getParameter('popupCRD') || !$this->drm->getEtablissement()->hasRegimeCrd();
+
         if ($request->getParameter('add_crd')) {
             $this->addCrdRegime = $request->getParameter('add_crd');
             $this->addCrdGenre = $request->getParameter('genre');
-            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm,array('genre' => $this->addCrdGenre));
+            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm, array('genre' => $this->addCrdGenre));
         }
 
         if ($request->isMethod(sfRequest::POST)) {
@@ -30,6 +33,9 @@ class drm_crdsActions extends drmGeneriqueActions {
                 $this->redirect('drm_redirect_etape', $this->crdsForms->getObject());
             }
         }
+        if ($this->showPopupRegimeCrd) {
+            $this->crdRegimeForm = new DRMCrdRegimeChoiceForm($this->drm);
+        }
     }
 
     public function executeAjoutTypeCrd(sfWebRequest $request) {
@@ -41,10 +47,9 @@ class drm_crdsActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_crd', $this->form->getObject());
-            } 
+            }
             $regimes = $this->form->getRegimeCrds();
             $this->regime = $regimes[0];
-            
         }
     }
 
@@ -52,6 +57,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $drm = $this->getRoute()->getDRM();
         $etablissement = $drm->getEtablissement();
+        $retour = $request->getParameter('retour', null);
         if (!$this->isTeledeclarationDrm()) {
             $this->redirect403IfIsNotTeledeclaration();
         }
@@ -61,7 +67,11 @@ class drm_crdsActions extends drmGeneriqueActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->redirect('drm_choix_produit', $this->form->getObject());
+                if ($retour == 'crds') {
+                    $this->redirect('drm_crd', $this->form->getObject());
+                } else {
+                    $this->redirect('drm_choix_produit', $this->form->getObject());
+                }
             }
         }
     }

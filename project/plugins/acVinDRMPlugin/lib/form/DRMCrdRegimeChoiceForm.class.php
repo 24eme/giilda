@@ -47,13 +47,7 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
         $this->etablissement->add('crd_regime', $crd_regime);
         $this->etablissement->save();
         $this->drm->forceModified();
-        $this->drm->add('crds')->add($crd_regime);
+        $this->drm->add('crds')->add($crd_regime);        
         $this->drm->save();
-    }
-
-    public function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
-        $this->setDefault('crd_regime', EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE);
-    }
-
+    }    
 }

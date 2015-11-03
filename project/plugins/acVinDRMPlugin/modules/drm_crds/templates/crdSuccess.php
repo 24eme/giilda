@@ -53,7 +53,7 @@
                                             <td class="crds_sortiesManquants"><?php echo $crdsForms['sorties_manquants_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int')); ?></td>
                                             <td class="crds_fin_de_mois"><?php echo (is_null($crd->stock_fin)) ? "0" : $crd->stock_fin; ?></td>
                                         </tr>
-        <?php endforeach; ?>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                             <br/>
@@ -61,8 +61,8 @@
                                 <a href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="btn_majeur submit_button">Ajouter des types de CRD</a>
                             </div>
                             <br/>
-    <?php endforeach; ?>
-<?php endforeach; ?>
+                        <?php endforeach; ?>
+                    <?php endforeach; ?>
                     <div class="btn_etape">
                         <a class="btn_etape_prec" href="<?php echo url_for('drm_edition', $drm); ?>">
                             <span>Précédent</span>
@@ -76,12 +76,15 @@
                 </form>
                 <?php if (isset($addCrdForm) && isset($addCrdRegime)): ?>
                     <a class="btn_majeur ajout_crds_popup " style="display: none;" href="#add_crds_<?php echo $addCrdRegime ?>">Ajouter CRD</a>
-    <?php include_partial('ajout_crds_popups', array('form' => $addCrdForm, 'regime' => $addCrdRegime)); ?>
-<?php endif; ?>
+                    <?php include_partial('ajout_crds_popups', array('form' => $addCrdForm, 'regime' => $addCrdRegime)); ?>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </section>
+<?php if (isset($crdRegimeForm)): ?>
+    <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => 'crds')); ?>
+<?php endif; ?>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => true));
 include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
