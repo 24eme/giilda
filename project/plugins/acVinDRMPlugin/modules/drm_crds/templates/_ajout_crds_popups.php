@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <?php echo $form['stock_debut_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>
                             <div class="col-sm-4">
-                            <?php echo $form['stock_debut_'.$regime]->render(array('class' => 'form-control text-right')); ?>
+                            <?php echo $form['stock_debut_'.$regime]->render(); ?>
                             </div>
                         </div>
                         <?php echo $form['genre_crd_'.$regime]->renderError(); ?>

@@ -28,7 +28,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
             $this->setWidget('couleur_crd_' . $regime, new bsWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeCouleurs())));
             $this->setWidget('litrage_crd_' . $regime, new bsWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeLitrages())));
-            $this->setWidget('stock_debut_' . $regime, new bsWidgetFormInput());
+            $this->setWidget('stock_debut_' . $regime, new bsWidgetFormInputInteger());
             $this->setWidget('genre_crd_' . $regime, new bsWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getGenres())));
 
 
