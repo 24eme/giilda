@@ -34,9 +34,13 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_declassement = 0;
         $total_entrees_excedents = 0;
          $total_entrees_manipulation = 0;
-         $total_sorties_destructionperte = 0;    
+         $total_sorties_destructionperte = 0;
+
+        $total_mouvement_absolu = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
+
+            $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
 
             if (!$detail->getConfig()->entrees->exist('declassement')) {
                 break;
@@ -96,7 +100,7 @@ class DRMValidation extends DocumentValidation {
         }
         if ($this->isTeledeclarationDrm) {
 
-            if (!$this->document->getEtablissement()->exist('crd_regime') || !$this->document->getEtablissement()->get('crd_regime')) {
+            if ($total_mouvement_absolu && (!$this->document->getEtablissement()->exist('crd_regime') || !$this->document->getEtablissement()->get('crd_regime'))) {
                 $this->addPoint('erreur', 'regime_crd', "vous pouvez l'indiquer dans l'écran CRD", $this->generateUrl('drm_crd', $this->document));
             }
 
