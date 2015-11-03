@@ -374,7 +374,7 @@ class DRMDetail extends BaseDRMDetail {
     public function isEdited() {
         return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
     }
-
+    
     public function hasMovements() {
         if ($this->hasMouvement()) {
 

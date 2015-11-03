@@ -23,8 +23,7 @@ class DRMLatex extends GenericLatex {
     function __construct(DRM $drm, $config = null) {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
         $this->drm = $drm;
-        $configuration = $drm->getConfig();
-        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne;
+        $this->libelles_detail_ligne = $drm->allLibelleDetailLigneForDRM();
     }
 
     public function getNbPages() {
@@ -40,14 +39,13 @@ class DRMLatex extends GenericLatex {
             $nbPages+= (int) ($nb_produits / DRMLatex::NB_PRODUITS_PER_PAGE) + 1;
         }
         $cpt_crds_annexes = $this->drm->nbTotalCrdsTypes();
-        if (count($cpt_crds_annexes)) {
+        if ($cpt_crds_annexes) {
             $nbPages++;
         }
         if ($this->drm->exist('releve_non_apurement') && count($this->drm->releve_non_apurement) && (count($this->drm->releve_non_apurement) >= 4)) {
             $nbPages++;
         }
         $nbPages++;
-
         return $nbPages;
     }
 

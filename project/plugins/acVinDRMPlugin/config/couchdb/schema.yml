@@ -283,6 +283,8 @@ DRM:
                                                                                                                   vracsanscontratacquitte: { type: float, required: false } #NOUVEAU
                                                                                                                   ventefrancebouteillecrd: { type: float, required: false } #NOUVEAU
                                                                                                                   ventefrancebibcrd: { type: float, required: false } #NOUVEAU
+                                                                                                                  ventefrancebouteillecrdacquitte: { type: float, required: false } #NOUVEAU
+                                                                                                                  ventefrancebibcrdacquitte: { type: float, required: false } #NOUVEAU
                                                                                                                   vrac: { type: float, required: false } #ANCIEN et NOUVEAU
                                                                                                                   consommationfamilialedegustation: { type: float, required: false } #NOUVEAU
                                                                                                                   distillationusageindustriel: { type: float, required: false } #NOUVEAU

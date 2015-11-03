@@ -2,6 +2,7 @@
 use_helper('DRM');
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
+$etablissement = $drm->getEtablissement();
 ?>
 <div id="colonne_intitules" style="width: 210px">
     <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
@@ -55,14 +56,16 @@ $favoris_sorties = $favoris->sorties;
             <p>Sorties&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 5px 0 0;" title="<?php echo getHelpMsgText('drm_mouvements_aide3'); ?>"></a></p>
             <ul>
                 <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
-                    <?php if ($favoris_sorties->exist($key)): ?>
-                        <li>    
-                            <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
-                                <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
+                    <?php if ($item->isWritableForEtablissement($etablissement)): ?> 
+                        <?php if ($favoris_sorties->exist($key)): ?>
+                            <li>    
+                                <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
+                                    <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
 
-                            </span>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
+                                </span>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
 
-                        </li>
+                            </li>
+                        <?php endif; ?>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </ul>
@@ -70,15 +73,17 @@ $favoris_sorties = $favoris->sorties;
                 <p class="extendable">Autres sorties</p>
                 <ul style="display: none;">
                     <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
-                        <?php if (!$favoris_sorties->exist($key)): ?>
-                            <li>
-                                <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) < DRMClient::$drm_max_favoris_by_types_mvt[DRMClient::DRM_TYPE_MVT_SORTIES] ) ? 'clickable' : ''; ?>">
-                                    <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
-                                </span>
+                        <?php if ($item->isWritableForEtablissement($etablissement)): ?> 
+                            <?php if (!$favoris_sorties->exist($key)): ?>
+                                <li>
+                                    <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) < DRMClient::$drm_max_favoris_by_types_mvt[DRMClient::DRM_TYPE_MVT_SORTIES] ) ? 'clickable' : ''; ?>">
+                                        <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
+                                    </span>
 
-                                &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
+                                    &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
 
-                            </li>
+                                </li>
+                            <?php endif; ?> 
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>

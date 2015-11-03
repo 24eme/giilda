@@ -16,14 +16,14 @@ class drm_editionActions extends drmGeneriqueActions {
             $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
             if ($this->formValidation->isValid()) {
                 $this->formValidation->save();
-                if ($this->isTeledeclarationMode) {
-                    if ($request->getParameter('brouillon')) {
-                      return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
-                    } else {
-                        $this->redirect('drm_crd', $this->formValidation->getObject());
-                    }
+                if ($request->getParameter('brouillon')) {
+                    return $this->redirect('drm_etablissement', array('identifiant' => $this->drm->identifiant));
                 } else {
-                    $this->redirect('drm_validation', $this->formValidation->getObject());
+                    if ($this->isTeledeclarationMode) {
+                        $this->redirect('drm_crd', $this->formValidation->getObject());
+                    } else {
+                        $this->redirect('drm_validation', $this->formValidation->getObject());
+                    }
                 }
             }
         }
@@ -126,7 +126,7 @@ class drm_editionActions extends drmGeneriqueActions {
                 $this->form->save();
                 if ($request->isXmlHttpRequest()) {
                     $this->getUser()->setFlash("notice", 'Les labels ont étés mis à jour avec success.');
-                    //return $this->renderPartial('labelsList', array('form' => $this->form));
+//return $this->renderPartial('labelsList', array('form' => $this->form));
                     return $this->renderText(json_encode(array("success" => true, "document" => array("id" => $this->drm->get('_id'), "revision" => $this->drm->get('_rev')), 'content' => $this->form->getObject()->getLabelsLibelle())));
                 }
             }
