@@ -1,8 +1,8 @@
 <?php use_helper('DRM'); ?>
 <?php if ($drm->hasManyCrds()): ?>
-    <h2>COMPTE CAPSULES (CRD)</h2>
-    <fieldset id="crds_drm">
-        <?php foreach ($drm->getAllCrdsByRegimeAndByGenre() as $regime => $crdAllGenre): ?>
+    <?php foreach ($drm->getAllCrdsByRegimeAndByGenre() as $regime => $crdAllGenre): ?>
+        <h2>COMPTE CAPSULES <?php echo EtablissementClient::$regimes_crds_libelles[$regime]; ?></h2>
+        <fieldset id="crds_drm">
             <?php foreach ($crdAllGenre as $genre => $crds) : ?>
                 <h2><?php echo getLibelleForGenre($genre); ?>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide6'); ?>"></a></h2>
 
@@ -46,6 +46,6 @@
                     </tbody>
                 </table>
             <?php endforeach; ?>
-        <?php endforeach; ?>
-    </fieldset> 
+        </fieldset> 
+    <?php endforeach; ?>
 <?php endif; ?>

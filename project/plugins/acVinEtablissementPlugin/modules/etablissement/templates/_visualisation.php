@@ -17,13 +17,7 @@ if (!isset($fromSociete))
                 Type établissement :
             </label>
             <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?>
-        </div>
-        <!--        <div class="form_ligne">
-                    <label for="ordre">
-                        Ordre affichage :
-                    </label> 
-        <?php //echo $ordre;  ?>
-                </div>-->
+        </div>        
         <div class="form_ligne"> 
             <label for="nom">
                 Nom du chai :
@@ -122,7 +116,16 @@ if (!isset($fromSociete))
             <label for="adresse_societe">
                 Adresse de la société :</label>
             <?php echo display_adresse_societe($etablissement); ?>
-        </div>  
+        </div>          
+         <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime) : ?>
+            <div class="form_ligne">
+                <label for="crd_regime">
+                    Régime de CRD : 
+                </label>
+                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?>
+                
+            </div>  
+        <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
             <div class="form_ligne"> 
                 <label for="commentaire">

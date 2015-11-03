@@ -560,7 +560,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function isNeant() {
         return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT);
     }
-    
+
     public function isEnvoyee() {
         if (!$this->exist('valide')) {
 
@@ -1075,7 +1075,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$this->exist('crds') || (!$this->crds)) {
             $this->add('crds');
         }
-        $regimeCrd = ($this->getEtablissement()->exist('crd_regime'))? $this->getEtablissement()->crd_regime : null;
+        $regimeCrd = ($this->getEtablissement()->exist('crd_regime')) ? $this->getEtablissement()->crd_regime : null;
         if ($regimeCrd) {
             $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
         }
@@ -1255,4 +1255,24 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /** Fin Droit de circulation douane */
+    
+    
+    public function allLibelleDetailLigneForDRM() {
+        $config = $this->getConfig();
+        $libelles_detail_ligne = $config->libelle_detail_ligne;     
+        $toRemove = array();
+        foreach ($libelles_detail_ligne as $catKey => $cat) {
+            foreach ($cat as $typeKey => $detail) {
+                if(!$config->declaration->detail->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())){
+                    $toRemove[] = $catKey.'/'.$typeKey;
+                }
+            }
+        }
+        foreach ($toRemove as $removeNode){
+            
+                    $libelles_detail_ligne->remove($removeNode);
+        }
+        return $libelles_detail_ligne;
+    }
+
 }

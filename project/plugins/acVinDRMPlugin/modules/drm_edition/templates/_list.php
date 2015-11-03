@@ -25,6 +25,7 @@
                 <?php
                 include_component('drm_edition', 'itemForm', array(
                     'config' => $config,
+                    'drm' => $drm,
                     'detail' => $produit,
                     'active' => ($detail && $detail->getHash() == $produit->getHash()),
                     'form' => $form,
