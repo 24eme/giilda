@@ -47,7 +47,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     }
     
     public function isWritableForEtablissement($etb) {
-        if(($this->getKey() == "ventefrancebibcrdacquitte") || ($this->getKey() == "ventefrancebouteillecrdacquitte")){
+        if(($this->getKey() == "achatcrdacquitte") || ($this->getKey() == "ventefrancebibcrdacquitte") || ($this->getKey() == "ventefrancebouteillecrdacquitte")){
             if(!$etb->exist('crd_regime')){
                 return false;
             }
@@ -55,7 +55,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
                 return false;
             }
         }
-         if(($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
+         if(($this->getKey() == "achatcrd") || ($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
             if(!$etb->exist('crd_regime')){
                 return true;
             }

@@ -254,6 +254,7 @@ DRM:
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   achatnoncrd: { type: float, required: false } #NOUVEAU
                                                                                                                   achatcrd: { type: float, required: false } #NOUVEAU
+                                                                                                                  achatcrdacquitte: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   transferts: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
