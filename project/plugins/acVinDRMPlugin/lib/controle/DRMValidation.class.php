@@ -12,6 +12,7 @@ class DRMValidation extends DocumentValidation {
     public function configure($isTeledeclarationDrm = false) {
         $this->addControle('erreur', 'repli', "La somme des replis en entrée et en sortie n'est pas la même");
         $this->addControle('erreur', 'declassement', "La somme des déclassements en entrée et en sortie n'est pas la même");
+        $this->addControle('erreur', 'regime_crd', "Le régime CRD n'a pas été rempli");
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
@@ -33,9 +34,13 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_declassement = 0;
         $total_entrees_excedents = 0;
          $total_entrees_manipulation = 0;
-         $total_sorties_destructionperte = 0;    
+         $total_sorties_destructionperte = 0;
+
+        $total_mouvement_absolu = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
+
+            $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
 
             if (!$detail->getConfig()->entrees->exist('declassement')) {
                 break;
@@ -94,6 +99,10 @@ class DRMValidation extends DocumentValidation {
             }
         }
         if ($this->isTeledeclarationDrm) {
+
+            if ($total_mouvement_absolu && (!$this->document->getEtablissement()->exist('crd_regime') || !$this->document->getEtablissement()->get('crd_regime'))) {
+                $this->addPoint('erreur', 'regime_crd', "vous pouvez l'indiquer dans l'écran CRD", $this->generateUrl('drm_crd', $this->document));
+            }
 
             foreach ($this->document->getAllCrdsByRegimeAndByGenre() as $regime => $crdByRegime) {
                 foreach ($crdByRegime as $genre => $crds) {
