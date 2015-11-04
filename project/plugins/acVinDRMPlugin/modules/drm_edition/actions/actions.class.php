@@ -83,6 +83,7 @@ class drm_editionActions extends drmGeneriqueActions {
                             "content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config,
                                 'detail' => $detail,
                                 'active' => false,
+                                'drm' => $this->drm,
                                 'favoris' => $this->drm->getAllFavoris(),
                                 'isTeledeclarationMode' => $this->isTeledeclarationMode)),
                             "produit" => array("old_hash" => $detail->getCepage()->getHash(), "hash" => $detail->getHash(), "libelle" => sprintf("%s (%s)", $detail->getLibelle("%format_libelle%"), $detail->getCepage()->getConfig()->getCodeProduit())),
