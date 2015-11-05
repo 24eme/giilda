@@ -43,13 +43,16 @@ $etablissement = $drm->getEtablissement();
                 </p>
                 <ul>
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
-                        <?php if ($favoris_entrees->exist($key)): ?>
-                            <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
-                                <?php
-                                echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
-                                    'class' => 'num num_float somme_detail bold_on_blur'));
-                                ?>
-                            </li>
+
+                        <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?> 
+                            <?php if ($favoris_entrees->exist($key)): ?>
+                                <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
+                                    <?php
+                                    echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
+                                        'class' => 'num num_float somme_detail bold_on_blur'));
+                                    ?>
+                                </li>
+                            <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
@@ -60,13 +63,15 @@ $etablissement = $drm->getEtablissement();
                     </p>
                     <ul>
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
-                            <?php if (!$favoris_entrees->exist($key)): ?>
-                                <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
-                                    <?php
-                                    echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
-                                        'class' => 'num num_float somme_detail bold_on_blur'))
-                                    ?>
-                                </li>
+                            <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?> 
+                                <?php if (!$favoris_entrees->exist($key)): ?>
+                                    <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
+                                        <?php
+                                        echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
+                                            'class' => 'num num_float somme_detail bold_on_blur'))
+                                        ?>
+                                    </li>
+                                <?php endif; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </ul>
@@ -104,19 +109,19 @@ $etablissement = $drm->getEtablissement();
                     <ul>
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
                             <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?> 
-                            <?php if (!$favoris_sorties->exist($key)): ?>
-                                <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
-                                    <?php if ($key == "vrac"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details <?php echo (!$detail->getCVOTaux()) ? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>"  <?php echo (!$detail->getCVOTaux()) ? 'disabled="disabled"' : '' ?>  />
-                                    <?php elseif ($key == "export"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
-                                    <?php elseif ($key == "cooperative"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
-                                    <?php else: ?>
-                                        <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail bold_on_blur')) ?>
-                                    <?php endif; ?>
-                                </li>    
-                                <?php  endif; ?>
+                                <?php if (!$favoris_sorties->exist($key)): ?>
+                                    <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
+                                        <?php if ($key == "vrac"): ?>
+                                            <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details <?php echo (!$detail->getCVOTaux()) ? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>"  <?php echo (!$detail->getCVOTaux()) ? 'disabled="disabled"' : '' ?>  />
+                                        <?php elseif ($key == "export"): ?>
+                                            <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                        <?php elseif ($key == "cooperative"): ?>
+                                            <input type="text" class="btn_detail num num_float somme_detail bold_on_blur input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
+                                        <?php else: ?>
+                                            <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail bold_on_blur')) ?>
+                                        <?php endif; ?>
+                                    </li>    
+                                <?php endif; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </ul>
