@@ -73,6 +73,10 @@ if (isset($drm)) {
             </div>
             <div class="text-center" style="text-align: center;">
                 <p><strong><?php echo $etablissementPrincipal->nom; ?></strong></p>
+<?php if (!$etablissementPrincipal->isActif()) :?>
+                <p><strong style="color: red;">SUSPENDU</strong></p>
+
+<?php endif; ?>
                 <p><strong><?php echo $etablissementPrincipal->identifiant; ?></strong></p>
                 <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>            
             </div>
@@ -95,7 +99,7 @@ if (isset($drm)) {
             <p>
                 En cas de besoin n'hésitez pas à consulter la notice en format pdf.
             </p>
-            <a href="#" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
+            <a href="/data/guide_drm.pdf" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
             <br/>
             <br/>
             <p class="lien_lecteur_pdf">

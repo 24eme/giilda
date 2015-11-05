@@ -208,7 +208,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     private function importCrdsFromCSV($just_check = false) {
         $num_ligne = 1;
-        $crd_regime = $this->drm->getEtablissementObject()->get('crd_regime');
+        $etablissementObj = $this->drm->getEtablissementObject();
+        
+        $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
         $all_contenances = sfConfig::get('app_vrac_contenances');
         foreach ($this->getDocRows() as $csvRow) {
             if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {

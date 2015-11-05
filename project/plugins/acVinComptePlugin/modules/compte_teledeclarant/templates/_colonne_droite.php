@@ -50,13 +50,13 @@ endif;
             <p>
                 En cas de besoin n'hésitez pas à consulter la notice en format pdf.
             </p>
-            <a href="#" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
+            <a href="/data/guide_drm.pdf" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
             <br/>
             <br/>
             <p class="lien_lecteur_pdf">
                 Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>
-
+            
         </div>
     </div>   
     <script type="text/javascript">
