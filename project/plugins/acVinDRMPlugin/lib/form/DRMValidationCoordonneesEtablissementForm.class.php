@@ -14,23 +14,23 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         parent::configure();
        
         $this->setWidget('cvi', new sfWidgetFormInput());
-        $this->setValidator('cvi', new sfValidatorString(array('required' => true)));
+        $this->setValidator('cvi', new sfValidatorString(array('required' => true), array('required' => 'Le cvi est obligatoire.')));
         $this->widgetSchema->setLabel('cvi', 'CVI :');
 
         $this->setWidget('adresse', new sfWidgetFormInput());
-        $this->setValidator('adresse', new sfValidatorString(array('required' => true)));
+        $this->setValidator('adresse', new sfValidatorString(array('required' => true), array('required' => 'L\'adresse est obligatoire.')));
         $this->widgetSchema->setLabel('adresse', 'Adresse :');
 
         $this->setWidget('code_postal', new sfWidgetFormInput());
-        $this->setValidator('code_postal', new sfValidatorString(array('required' => true)));
+        $this->setValidator('code_postal', new sfValidatorString(array('required' => true), array('required' => 'Le code postal est obligatoire.')));
         $this->widgetSchema->setLabel('code_postal', 'Code postal :');
 
         $this->setWidget('commune', new sfWidgetFormInput());
-        $this->setValidator('commune', new sfValidatorString(array('required' => true)));
+        $this->setValidator('commune', new sfValidatorString(array('required' => true), array('required' => 'Le code postal est obligatoire.')));
         $this->widgetSchema->setLabel('commune', 'Commune :');
 
         $this->setWidget('no_accises', new sfWidgetFormInput());
-        $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
+        $this->setValidator('no_accises', new sfValidatorString(array('required' => true), array('required' => 'Le numéro d\'accise est obligatoire.')));
         $this->widgetSchema->setLabel('no_accises', 'Accises :');
 
         if ($this->drm->declarant->exist('adresse_compta')) {
@@ -73,7 +73,7 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
             $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
         }
         
-        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : EtablissementClient::CAUTION_DISPENSE;
+        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : null;
         
         $this->setDefault('caution', $defaultCaution);
 
