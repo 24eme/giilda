@@ -69,9 +69,9 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
                             $details->get('sorties')->add('ventefrancebibcrd', $details->get('sorties')->ventefrancebibcrdacquitte);
                             $details->get('sorties')->ventefrancebibcrdacquitte = 0;
                         }
-                          if($details->get('entrees')->exist('achatcrdacquitte') && $details->get('entrees')->achatcrdacquitte){
-                            $details->get('entrees')->add('achatcrd', $details->get('entrees')->achatcrdacquitte);
-                            $details->get('entrees')->achatcrdacquitte = 0;
+                          if($details->get('entrees')->exist('retourmarchandisetaxeesacquitte') && $details->get('entrees')->retourmarchandisetaxeesacquitte){
+                            $details->get('entrees')->add('retourmarchandisetaxees', $details->get('entrees')->retourmarchandisetaxeesacquitte);
+                            $details->get('entrees')->retourmarchandisetaxeesacquitte = 0;
                         }
                     }
                 }
@@ -88,9 +88,9 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
                             $details->get('sorties')->add('ventefrancebibcrdacquitte', $details->get('sorties')->ventefrancebibcrd);
                             $details->get('sorties')->ventefrancebibcrd = 0;
                         }
-                        if($details->get('entrees')->exist('achatcrd') && $details->get('entrees')->achatcrd){
-                            $details->get('entrees')->add('achatcrdacquitte', $details->get('entrees')->achatcrd);
-                            $details->get('entrees')->achatcrd = 0;
+                        if($details->get('entrees')->exist('retourmarchandisetaxees') && $details->get('entrees')->retourmarchandisetaxees){
+                            $details->get('entrees')->add('retourmarchandisetaxeesacquitte', $details->get('entrees')->retourmarchandisetaxees);
+                            $details->get('entrees')->retourmarchandisetaxees = 0;
                         }
                     }
                 }
