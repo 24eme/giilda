@@ -253,13 +253,13 @@ DRM:
                                                                                                                 fields:
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   achatnoncrd: { type: float, required: false } #NOUVEAU
-                                                                                                                  achatcrd: { type: float, required: false } #NOUVEAU
-                                                                                                                  achatcrdacquitte: { type: float, required: false } #NOUVEAU
+                                                                                                                  achatcrd: { type: float, required: false } #NOUVEAU                                                                                                                  
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   transferts: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisenontaxees: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisetaxees: { type: float, required: false } #NOUVEAU
+                                                                                                                  retourmarchandisetaxeesacquitte: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertcomptamatierecession: { type: float, required: false } #NOUVEAU
                                                                                                                   travailafacon: { type: float, required: false } #NOUVEAU
                                                                                                                   revendique: { type: float, required: false } #NOUVEAU
