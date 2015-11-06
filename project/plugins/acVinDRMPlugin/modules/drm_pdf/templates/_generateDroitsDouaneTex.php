@@ -5,6 +5,7 @@ use_helper('Display');
 
 $droitsDouane = $drm->droits->douane;
 $paiement_douane_moyen = $drm->societe->paiement_douane_moyen;
+$frequence_douane_moyen = $drm->societe->paiement_douane_frequence;
 
 $hasAnnexes = $drm->hasAnnexes(); 
 $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non_apurement);
@@ -97,8 +98,8 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \multicolumn{1}{|l}{\small{\textbf{<?php echo $droitDouane->libelle; ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($droitDouane->getVolume()).' hl';  ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->taux.' €/hl'; ?>}}} &
-    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($droitDouane->total).' €'; ?>}}} &
-    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($droitDouane->cumul).' €'; ?>}}} 
+    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->total).' €'; ?>}}} &
+    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->cumul).' €'; ?>}}} 
     \\ 			 
     \hline
 <?php endforeach; ?>  
@@ -151,11 +152,11 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \multicolumn{1}{|l|}{\small{\underline{\textbf{Le}} : <?php echo $drm->getEuValideDate(); ?> }} \\	~ \\
 \hline  
 ~ \\	
-\multicolumn{1}{|l|}{\small{\textbf{Moyen de paiement utilisé : }}} \\
-\multicolumn{1}{|L{70mm}|}{Numéraire~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_NUMERAIRE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~~~~~~~~~Obligation cautionnée~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_OBLIGATION_CAUTIONNEES)? '\squareChecked' : '$\square$'; ?>
+\multicolumn{1}{|l|}{\small{\textbf{Moyen de paiement utilisé (en paiement <?php echo (DRMPaiement::$frequence_paiement_libelles[$frequence_douane_moyen]); ?>) : }}} \\
+\multicolumn{1}{|L{70mm}|}{Numéraire~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_NUMERAIRE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Obligation cautionnée~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_OBLIGATION_CAUTIONNEES)? '\squareChecked' : '$\square$'; ?>
 } 
 \\
-\multicolumn{1}{|L{70mm}|}{ Chèque~:~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_CHEQUE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~~~~~~~~~Virement~:~~~~~~~~~~~~~~~~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_VIREMENT)? '\squareChecked' : '$\square$'; ?>
+\multicolumn{1}{|L{70mm}|}{ Chèque~:~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_CHEQUE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Virement~:~~~~~~~~~~~~~~~~~~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_VIREMENT)? '\squareChecked' : '$\square$'; ?>
 }\\
 ~ \\
 \hline

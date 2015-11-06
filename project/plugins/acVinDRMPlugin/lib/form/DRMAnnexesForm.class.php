@@ -46,6 +46,14 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->setValidator('observations', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('observations', 'Observations générales');
 
+        $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
+        $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'a été choisie")));
+        $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement');
+
+        $this->setWidget('paiement_douane_moyen', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneMoyen())));
+        $this->setValidator('paiement_douane_moyen', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneMoyen())), array('required' => "Aucun moyen de paiement des droits douane n'a été choisi")));
+        $this->widgetSchema->setLabel('paiement_douane_moyen', 'Moyen de paiement');
+
         $this->embedForm('releve_non_apurement', new DRMReleveNonApurementItemsForm($this->drm->getReleveNonApurement()));
         $this->widgetSchema->setNameFormat('drmAnnexesForm[%s]');
     }
@@ -59,8 +67,18 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         foreach ($this->getEmbeddedForms() as $key => $releveNonApurementForm) {
             $releveNonApurementForm->updateObject($values[$key]);
         }
+
+        $paiement_douane_moyen = $values['paiement_douane_moyen'];
+        $paiement_douane_frequence = $values['paiement_douane_frequence'];
+        $this->drm->getSociete()->add('paiement_douane_moyen', $paiement_douane_moyen);
+        $this->drm->getSociete()->add('paiement_douane_frequence', $paiement_douane_frequence);
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
         $this->drm->save();
+
+        $societe = $this->drm->getEtablissement()->getSociete();
+        $societe->add('paiement_douane_moyen', $paiement_douane_moyen);
+        $societe->add('paiement_douane_frequence', $paiement_douane_frequence);
+        $societe->save();
     }
 
     public function updateDefaultsFromObject() {
@@ -75,6 +93,15 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
                     $this->setDefault($docType . '_fin', $docNode->fin);
                 }
             }
+        }
+        $societe = $this->drm->getEtablissement()->getSociete();
+        if ($societe->exist('paiement_douane_moyen')) {
+           
+            $this->setDefault('paiement_douane_moyen', $societe->paiement_douane_moyen);
+        }
+        if ($societe->exist('paiement_douane_frequence')) {
+         
+            $this->setDefault('paiement_douane_frequence', $societe->paiement_douane_frequence);
         }
     }
 
@@ -107,13 +134,21 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
 
         $this->docTypesList = array();
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
-$this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE;
+        $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAE;
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
 
 
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
 
         return $this->docTypesList;
+    }
+
+    public function getPaiementDouaneFrequence() {
+        return DRMPaiement::$frequence_paiement_libelles;
+    }
+
+    public function getPaiementDouaneMoyen() {
+        return DRMPaiement::$moyens_paiement_libelles;
     }
 
 }
