@@ -74,9 +74,9 @@
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> 
             <br/>
-            <br/>
+            <br/>         
             <table id="table_drm_complement_informations_observation" class="table_recap">
                 <thead >
                     <tr>
@@ -93,6 +93,36 @@
 
             </table>
             <br /><br /> 
+             
+             <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">   
+                  <thead >
+                    <tr>
+                        <th colspan="2">Condition de paiement des douanes</th>
+                    </tr>
+                </thead>
+                <tbody class="drm_non_apurement" id="nonapurement_list">
+                    <tr> 
+                        <td class="drm_quantite_sucre_label">
+                            <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
+                        </td>
+                        <td class="drm_paiement_douane_list">
+                             <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
+                            <?php echo $annexesForm['paiement_douane_frequence']->render(); ?>
+                        </td>
+                    </tr>
+                     <tr> 
+                        <td class="drm_quantite_sucre_label">
+                            <?php echo $annexesForm['paiement_douane_moyen']->renderLabel(); ?>
+                        </td>
+                        <td class="drm_paiement_douane_list">
+                               <?php echo $annexesForm['paiement_douane_moyen']->renderError(); ?>
+                            <?php echo $annexesForm['paiement_douane_moyen']->render(); ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <br/>
             <div class="btn_etape">
                 <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">
                     <span>Précédent</span>
