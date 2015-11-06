@@ -40,7 +40,7 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->setWidget('fax', new sfWidgetFormInput());
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('fax', 'Fax :');
-        
+
         $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
         $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'est choisie")));
         $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement :');
@@ -97,6 +97,10 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->drm->societe->fax = $values['fax'];
         $this->drm->societe->paiement_douane_frequence = $values['paiement_douane_frequence'];
         $this->drm->societe->paiement_douane_moyen = $values['paiement_douane_moyen'];
+        $societe = $this->drm->getEtablissement()->getSociete();
+        $societe->add('paiement_douane_moyen', $values['paiement_douane_moyen']);
+        $societe->add('paiement_douane_frequence', $values['paiement_douane_frequence']);
+        $societe->save();
     }
 
     public function getPaiementDouaneFrequence() {
