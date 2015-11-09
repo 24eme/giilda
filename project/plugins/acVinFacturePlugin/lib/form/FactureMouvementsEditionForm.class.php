@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of FactureMouvementsEditionForm
  *
@@ -37,6 +30,8 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
+        $dateFacture = Date::getIsoDateFromFrenchDate($values["date"]);
+        $this->getObject()->set('date',$dateFacture);
         if ($this->getObject()->mouvements->exist("nouvelle")) {
             $mvtsEtb = $this->getObject()->mouvements->get("nouvelle")->toArray(true, false);
             $nouveauMvt = $this->getObject()->mouvements->get("nouvelle")->get("nouvelle");
@@ -48,6 +43,8 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             foreach ($mouvementEtb as $mouvement) {
                 $mouvement->facturable = 1;
                 $mouvement->facture = 0;
+                $mouvement->region = EtablissementClient::HORS_REGION;
+                $mouvement->date = $dateFacture;
             }
         }
 
