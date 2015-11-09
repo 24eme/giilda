@@ -11,9 +11,9 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
                 if (!$value->writable 
                    || (preg_match('/AOC|IGP/', $certif) && ($key == 'declassement'))
 		   ||  (preg_match('/VINSSIG/', $certif) && ($key == 'repli'))) {
-                    $this->setWidget($key, new bsWidgetFormInputFloat(array('decimal' => 4), array('readonly' => 'readonly')));
+                    $this->setWidget($key, new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
                 } else {
-                    $this->setWidget($key, new bsWidgetFormInputFloat(array('decimal' => 4)));
+                    $this->setWidget($key, new bsWidgetFormInputFloat());
                 }
                 $this->setValidator($key, new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
             }

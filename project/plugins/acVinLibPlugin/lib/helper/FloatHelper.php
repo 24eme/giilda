@@ -1,47 +1,56 @@
 <?php
 
-function sprintFloat($float, $format = "%01.02f") 
+function formatFloat($number, $defaultDecimalFormat = null, $maxDecimalAuthorized = null, $format = null) {
+    
+    return FloatHelper::getInstance()->format($number, $defaultDecimalFormat, $maxDecimalAuthorized, $format);
+}
+
+function formatFloatFr($number, $defaultDecimalFormat = null, $maxDecimalAuthorized = null, $format = null) {
+    
+    return FloatHelper::getInstance()->formatFr($number, $defaultDecimalFormat, $maxDecimalAuthorized, $format);
+}
+
+function sprintFloat($number, $format = "%01.02f") 
 {
-	if (is_null($float))
-		return null;
-  return sprintf($format, $float);
+    return formatFloat($number, null, null, $format);
 }
 
 function sprintFloatFr($float, $format = "%01.02f")
 {
-
-  return preg_replace('/\./', ',', sprintFloat($float, $format));
+    return formatFloatFr($number, null, null, $format);
 }
 
-function echoFloat($float) 
+function echoFloat($number) 
 {
-  echo sprintFloat($float);
+    echo formatFloat($number);
 }
 
-function echoLongFloat($float) 
+function echoFloatFr($number)
 {
-  echo sprintFloat($float, "%01.04f");
+    echo formatFloatFr($number);
 }
 
-function echoLongFloatFr($float)
+function echoLongFloat($number) 
 {
-  echo sprintFloatFr($float, "%01.04f");
+    echo formatFloat($number, 4, 4);
 }
 
-function echoFloatFr($float)
+function echoLongFloatFr($number)
 {
-  echo sprintFloatFr($float);
+    echo formatFloatFr($number, 4, 4);
 }
 
-function echoSignedFloat($float) 
+function echoSignedFloat($number) 
 {
-  echo ($float>0)? '+'.sprintFloat($float) : sprintFloat($float);
+    echo ($number>0)? '+'.formatFloat($number) : formatFloat($number);
 }
 
-function echoArialFloat($float) {
-    echo number_format($float, 2, '.', ' ');
+function echoArialFloat($number) {
+    
+    echo number_format($number, 2, '.', ' ');
 }
 
-function getArialFloat($float) {
-    return number_format($float, 2, '.', ' ');
+function getArialFloat($number) {
+    
+    return number_format($number, 2, '.', ' ');
 }

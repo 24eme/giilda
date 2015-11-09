@@ -1,4 +1,4 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex .views/mouvementfacture.json
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/bin/config.inc project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex .views/mouvementfacture.json
 
 project/cache:
 	mkdir project/cache
@@ -18,6 +18,9 @@ project/config/app.yml:
 project/config/databases.yml:
 	cp project/config/databases.yml.example project/config/databases.yml
 	mkdir -p .views
+
+project/bin/config.inc:
+	cp project/bin/config.example.inc project/bin/config.inc
 
 project/web/declaration_dev.php:
 	cp project/web/declaration_dev.php.example project/web/declaration_dev.php

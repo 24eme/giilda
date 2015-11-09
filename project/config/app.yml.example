@@ -208,3 +208,7 @@ all:
           email: 'mail@example.org'
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
+
+  float:
+    default_decimal_format: 2
+    max_decimal_authorized: 4
