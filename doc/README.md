@@ -3,3 +3,5 @@
 [Documentation relative à ElasticSearch](ElasticSearch.md)
 
 [Documentation LDAP](LDAP.md)
+
+[Détails des droits](Droits.md)
