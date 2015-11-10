@@ -840,6 +840,7 @@ bouton#colonnes_dr .btn_edition_label{height:26px}
 #table_drm_crds th.mainth{border-bottom:1px solid #e3e2e2}
 .table_drm_annexes input[type="text"]{text-align:right}
 .table_drm_annexes th.mainth{border-bottom:1px solid #e3e2e2}
+.table_drm_annexes .drm_paiement_douane_list ul.radio_list li{width:115px}
 #declaratif_info .onglets_declaratif{margin-top:15px}#declaratif_info .onglets_declaratif strong{padding-right:5px !important}
 #declaratif_info .contenu_onglet_declaratif.alignes{padding-left:249px}
 #declaratif_info .contenu_onglet_declaratif .col{display:inline-block;text-align:left;vertical-align:top;width:235px}.ielt8 #declaratif_info .contenu_onglet_declaratif .col{display:inline-block;display:inline-block}.ielt8 .ielt8 #declaratif_info .contenu_onglet_declaratif .col{display:inline;zoom:1}

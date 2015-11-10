@@ -223,3 +223,9 @@ function getHelpMsgText($idText) {
     return $helpMsgsTexts["drm"][$idText];
     
 }
+
+function echoDroitDouane($float) {
+    if (is_null($float))
+        $float = 0;
+    echo round($float);
+}

@@ -63,12 +63,12 @@
                             echo " €/hl";
                             ?></td>
                         <td class="droit_circulation_montant"><?php
-                            echoFloat($droitDouane->total);
+                            echoDroitDouane($droitDouane->total);
                             echo " €";
                             ?></td>
                             <?php if ($drm->isPaiementAnnualise()): ?> 
                             <td class="droit_circulation_cumul"><?php
-                            echoFloat($droitDouane->cumul);
+                            echoDroitDouane($droitDouane->cumul);
                             echo " €";
                             ?></td>
         <?php endif; ?>
