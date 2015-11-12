@@ -1,6 +1,6 @@
 <?php
 
-class UploadCSVNoCVOForm extends sfForm {
+class UploadCSVNoCVOForm extends BaseForm {
     public function configure() {
       $this->setWidget('file', new sfWidgetFormInputFile(array('label' => 'Fichier')));
       $this->setValidator('file', new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir').'/upload')));

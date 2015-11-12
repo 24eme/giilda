@@ -78,7 +78,7 @@ const COMPTE_FONCTION_PARTENAIRE = 'PARTENAIRE';
         $c->nom_a_afficher = $line[self::CSV_COMPTE_NOM_CONTACT];
 	      $c->id_societe = $societe->_id;
         $c->statut = $societe->statut;
-	       $c->adresse = preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE1]);
+	      $c->adresse = preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE1]);
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE2])) {
         $c->add('adresse_complementaire',preg_replace('/,/', '', $line[self::CSV_COMPTE_ADRESSE2]));
         if(preg_match('/[a-z]/i', $line[self::CSV_COMPTE_ADRESSE3])) {

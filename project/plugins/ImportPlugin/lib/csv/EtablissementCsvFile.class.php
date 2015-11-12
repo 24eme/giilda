@@ -2,20 +2,18 @@
 
 class EtablissementCsvFile extends CsvFile 
 {
-  const CSVPAR_DOSSIER = 1;
-  const CSVPAR_CODE_CLIENT = 0;
-  const CSVPAR_NOM_DU_PARTENAIRE = 2;
-  const CSVPAR_NOM_REDUIT = 3;
-  const CSVPAR_TYPE_PARTENAIRE = 4;
-  const CSVPAR_COOPERATIVEGROUPEMENT = 5;
-  const CSVPAR_CODE_COURTIER = 6;
-  const CSVPAR_CODE_PARTENAIRE_RECETTE_LOCALE = 7;
-  const CSVPAR_EN_ACTIVITE = 8;
-  const CSVPAR_ADRESSE1 = 9;
-  const CSVPAR_ADRESSE2 = 10;
-  const CSVPAR_ADRESSE3 = 11;
-  const CSVPAR_ADRESSE4 = 12;
-  const CSVPAR_CODE_POSTAL = 13;
+
+  const CSV_ID = 0;
+  const CSV_ID_SOCIETE = 2;
+  const CSV_STATUT = 2;
+  const CSV_NOM = 2;
+  const CSV_REGION = 5;
+  const CSV_NO_ACCISES = 6;
+  const CSV_COMMENTAIRE = 7;
+  const CSV_SITE_FICHE = 8;
+  const CSV_CVI = 9;
+  const CSV_RECETTE_LOCALE = 11;
+  const CSV_CARTE_PRO = 13;
   const CSVPAR_COMMUNE = 14;
   const CSVPAR_CODE_PAYS = 15;
   const CSVPAR_DATE_CREATION = 16;
@@ -75,11 +73,6 @@ class EtablissementCsvFile extends CsvFile
 	          continue;
           }
 	
-	        $chai = 1;
-	        if (isset($line[self::CSVCAV_CODE_CHAI]) && $line[self::CSVPAR_TYPE_PARTENAIRE] != self::CSV_TYPE_PARTENAIRE_COURTIER && $line[self::CSVCOURTIER_ISCOURTIER] != self::CSVCOURTIER_ISCOURTIER_VALEUR) {
-		        $chai = $line[self::CSVCAV_CODE_CHAI];
-	        }
-          
           $id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
   	       $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
           if ($e) {

@@ -42,3 +42,6 @@ fi
 
 echo "Import des contacts"
 
+cat $DATA_DIR/producteurs.csv | awk -F ';' '{ print $2 ";VITICULTEUR;" $4 ";;ACTIF;;" $13 ";;;" $5 ";" $6 ";" $7 ";;" $8 ";" $10 ";;" $17 ";" $14 ";;" $15 ";" $16 ";;" }' > $DATA_DIR/societes.csv
+
+php symfony import:societe $DATA_DIR/societes.csv
