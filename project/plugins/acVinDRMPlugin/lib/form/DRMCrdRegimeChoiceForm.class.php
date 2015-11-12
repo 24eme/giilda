@@ -43,7 +43,7 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        $crd_regime = $values['crd_regime'];
+        $crd_regime = $values['crd_regime'];       
         $this->etablissement->add('crd_regime', $crd_regime);
         $this->etablissement->save();
         $this->drm->forceModified();

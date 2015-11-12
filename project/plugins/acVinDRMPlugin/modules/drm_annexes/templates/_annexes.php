@@ -1,8 +1,9 @@
-<?php ?>
-
+<?php
+$paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null;
+?>
 <div id="contenu_etape">
     <div id="contenu_onglet">
-            <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_annexes_texte1'); ?></p>
+        <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_annexes_texte1'); ?></p>
         <h2>Déclaration des documents d'accompagnement</h2>        
         <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
         <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" method="post" class="hasBrouillon">
@@ -30,7 +31,7 @@
             <br/>
             <br>
             <h2>Relevé de non apurement</h2>
-        <div><?php echo getHelpMsgText('drm_annexes_texte3'); ?></div><br/>
+            <div><?php echo getHelpMsgText('drm_annexes_texte3'); ?></div><br/>
             <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
@@ -58,8 +59,8 @@
             <br/>
             <br/>
             <h2>Compléments d'information</h2>
-             <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">   
-                  <thead >
+            <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">   
+                <thead >
                     <tr>
                         <th colspan="2">Information sur le sucre</th>
                     </tr>
@@ -93,45 +94,55 @@
 
             </table>
             <br /><br /> 
-             
-             <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">   
-                  <thead >
+
+            <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">   
+                <thead >
                     <tr>
-                        <th colspan="2">Condition de paiement des douanes</th>
+                        <th colspan="3">Condition de paiement des douanes</th>
                     </tr>
                 </thead>
                 <tbody class="drm_non_apurement" id="nonapurement_list">
                     <tr> 
-                        <td class="drm_quantite_sucre_label">
+                        <td class="drm_quantite_sucre_label" style="width: 255px;">
                             <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
                         </td>
-                        <td class="drm_paiement_douane_list">
-                             <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
+                        <td class="drm_paiement_douane_frequence" style="height: 55px;">
+                            <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
                             <?php echo $annexesForm['paiement_douane_frequence']->render(); ?>
                         </td>
+
                     </tr>
-                     <tr> 
-                        <td class="drm_quantite_sucre_label">
-                            <?php echo $annexesForm['paiement_douane_moyen']->renderLabel(); ?>
+                    <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  > 
+                        <td>    
+                            Cumul des droits douaniers (en €)
                         </td>
-                        <td class="drm_paiement_douane_list">
-                               <?php echo $annexesForm['paiement_douane_moyen']->renderError(); ?>
-                            <?php echo $annexesForm['paiement_douane_moyen']->render(); ?>
+                        <td>
+                            <ul>
+
+                                <?php foreach ($drm->getAllGenres() as $genre): ?>
+                                <li style="padding: 10px;">
+                                        <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
+                                        <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
+                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>   
+                                    </li>  
+
+                                <?php endforeach; ?>
+                            </ul>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <br/>
             <br/>
-            <div class="btn_etape">
-                <a class="btn_etape_prec" href="<?php echo url_for('drm_crd', $drm); ?>">
+            <div class = "btn_etape">
+                <a class = "btn_etape_prec" href = "<?php echo url_for('drm_crd', $drm); ?>">
                     <span>Précédent</span>
                 </a>
-                 <a class="btn_majeur btn_annuaire save_brouillon" href="#">
-                        <span>Enregistrer le brouillon</span>
-                    </a>
-                 <a class="drm_delete_lien" href="#drm_delete_popup"></a>
-                <button class="btn_etape_suiv" id="button_drm_validation" type="submit"><span>Suivant</span></button>
+                <a class = "btn_majeur btn_annuaire save_brouillon" href = "#">
+                    <span>Enregistrer le brouillon</span>
+                </a>
+                <a class = "drm_delete_lien" href = "#drm_delete_popup"></a>
+                <button class = "btn_etape_suiv" id = "button_drm_validation" type = "submit"><span>Suivant</span></button>
             </div>
         </form>
 
