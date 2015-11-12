@@ -39,10 +39,12 @@ class MouvementfactureFacturationView extends acCouchdbView
             ->getView($this->design, $this->view)->rows;
     }
     
-    public function getMouvementsBySociete($societe,$facturee, $facturable) {        
+    public function getMouvementsBySociete($societe,$facturee, $facturable,$facturationBySoc = false) {        
+        $identifiantFirstEntity = ($facturationBySoc)? $societe->identifiant : $societe->identifiant.'00';
+        $identifiantLastEntity = ($facturationBySoc)? $societe->identifiant : $societe->identifiant.'99';
 	return $this->client
-	  ->startkey(array($facturee,$facturable,$societe->getRegionViticole(),$societe->identifiant.'00'))
-	  ->endkey(array($facturee,$facturable,$societe->getRegionViticole(),$societe->identifiant.'99', array()))
+	  ->startkey(array($facturee,$facturable,$societe->getRegionViticole(),$identifiantFirstEntity))
+	  ->endkey(array($facturee,$facturable,$societe->getRegionViticole(),$identifiantLastEntity, array()))
 	  ->reduce(false)
 	  ->getView($this->design, $this->view)->rows;
     }
@@ -74,7 +76,7 @@ class MouvementfactureFacturationView extends acCouchdbView
     }
 
     public function getMouvementsNonFacturesBySociete($societe) {
-      return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1));
+      return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1,true));
     }
     
     public function getMouvements($facturee, $facturable,$level) {

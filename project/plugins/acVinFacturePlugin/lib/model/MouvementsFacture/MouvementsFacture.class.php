@@ -13,7 +13,7 @@ class MouvementsFacture extends BaseMouvementsFacture {
          }
          
         $this->identifiant = MouvementsFactureClient::getInstance()->getNextNoMouvementsFacture($date);
-       
+        $this->periode = substr($date, 0,6);
         $this->_id = MouvementsFactureClient::getInstance()->getId($this->identifiant);
     }
 }

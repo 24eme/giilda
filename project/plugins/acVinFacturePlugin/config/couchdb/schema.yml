@@ -131,6 +131,7 @@ MouvementsFacture:
       _rev: {  }
       type: {  }
       campagne: {  }
+      periode: {  }
       date: {  }
       identifiant: {  }
       libelle: {  }
@@ -143,11 +144,11 @@ MouvementsFacture:
         type: collection
         definition:
           fields:
-            '*': #11009901
+            '*': 
               type: collection
               definition:
                 fields:
-                  '*':  #c74d5e852c5
+                  '*':  
                     class: FactureMouvement
                     inheritance: Mouvement
                     type: collection
@@ -162,6 +163,8 @@ MouvementsFacture:
                         prix_unitaire: { type: float }
                         facture: { type: integer }
                         facturable: { type: integer }
+                        region : { }
+                        date : { }
 
 TemplateFacture:
   definition:
