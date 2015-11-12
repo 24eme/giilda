@@ -43,6 +43,7 @@ drm:
   drm_annexes_aide3: "Renseignez la date d’expédition en utilisant le calendrier."
   drm_annexes_aide4: "Précisez le numéro d’accise du destinataire de la marchandise."
   drm_annexes_aide5: "Portez à la connaissance d’InterLoire ou de la Douane des informations liées à la DRM.<br/>Ce cadre doit être obligatoirement rempli en cas de déclaration d’excédents ou de manquants suite à des inventaires douaniers."
+  drm_annexes_aide6: "Choisissez ici les conditions de paiement aux douanes.<br/>En fréquence \"annuelle\" un cumul du paiement aux douanes est calculé et vous avez la possibilité ici de le maintenir à jour."
   drm_validation_texte1: "Cette dernière étape vous permet de vérifier les éléments saisis avant la validation de la déclaration."
   drm_validation_aide1: "Vérifiez les informations de votre société.<br/>Complétez ou modifiez ces informations en cliquant sur le bouton MODIFIER."
   drm_validation_aide2: "Vérifiez les informations du chai ou de l’entrepôt concerné par la DRM.<br/>Complétez ou modifiez ces informations en cliquant sur le bouton MODIFIER."

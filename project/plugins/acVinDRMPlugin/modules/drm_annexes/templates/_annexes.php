@@ -98,7 +98,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
             <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">   
                 <thead >
                     <tr>
-                        <th colspan="3">Condition de paiement des douanes</th>
+                        <th colspan="2">Condition de paiement des douanes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide6'); ?>"  style="padding: 0 0 0 10px;"></a></th>
                     </tr>
                 </thead>
                 <tbody class="drm_non_apurement" id="nonapurement_list">
