@@ -7,7 +7,7 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_ADMINISTRATION)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
-         <?php include_partial('drm_annexes/annexes', array('drm' => $drm, 'annexesForm' => $annexesForm)); ?>
+         <?php include_partial('drm_annexes/annexes', array('drm' => $drm, 'annexesForm' => $annexesForm, 'societe' => $societe)); ?>
     </div>
     
 </section>

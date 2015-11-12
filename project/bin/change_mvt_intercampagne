@@ -1,0 +1,99 @@
+#!/bin/bash
+
+. bin/config.inc
+. bin/import_functions.inc
+
+curl "http://10.20.37.1:5984/vinsdeloire_prod/_changes?since=2701409" > /tmp/CHANGES_LOIRE
+
+cat /tmp/CHANGES_LOIRE | grep "DRM" | grep -E "DRM\-[0-9]{8}\-201508" | cut -d "," -f 2 | sed 's/"id":"//g' | sed 's/"//g' | sort | uniq > /tmp/CHANGES_DRM_201508
+
+cat /tmp/CHANGES_DRM_201508 | sed -r 's/(.*)/curl http:\/\/10.20.37.1:5984\/vinsdeloire_prod\/\1 > \/tmp\/drms\/\1.json /g' > /tmp/GET_CHANGES_DRM_201508.sh
+
+rm -rf /tmp/drms
+mkdir /tmp/drms
+
+bash /tmp/GET_CHANGES_DRM_201508.sh
+
+
+
+cat /tmp/DRM_201508 | grep -Ev 'achatnoncrd":null' | grep -E '"achatnoncrd":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev 'achatnoncrd":null' | grep  '"achatnoncrd":"'
+
+cat /tmp/DRM_201508 | grep -Ev 'regularisation":null' | grep -E '"regularisation":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev 'regularisation":null' | grep '"regularisation":"'
+
+cat /tmp/DRM_201508 | grep -Ev '"transfertsinternes":null' | grep -E '"transfertsinternes":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev '"transfertsinternes":null' | grep '"transfertsinternes":"'
+
+cat /tmp/DRM_201508 | grep -Ev '"transfertcomptamatierecession":null' | grep -E '"transfertcomptamatierecession":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev '"transfertcomptamatierecession":null' | grep '"transfertcomptamatierecession":"'
+
+cat /tmp/DRM_201508 | grep -Ev '"cession":null' | grep -E '"cession":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev '"cession":null' | grep '"cession":"'
+
+cat /tmp/DRM_201508 | grep -Ev '"distillationusageindustriel":null' | grep -E '"distillationusageindustriel":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev '"distillationusageindustriel":null' | grep '"distillationusageindustriel":"'
+
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratsuspendu":null' | grep -E '"vracsanscontratsuspendu":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratsuspendu":null' | grep '"vracsanscontratsuspendu":"'
+
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratacquitte":null' | grep -E '"vracsanscontratacquitte":[0-9]{1}'
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratacquitte":null' | grep -E '"vracsanscontratacquitte":"'
+
+
+/!\
+
+cat /tmp/DRM_201508 | grep -Ev 'achatnoncrd":null' | grep  '"achatnoncrd":"Achat non CRD",' | sed 's/"achatnoncrd":"Achat non CRD",//g' > /tmp/DRM_201508_achatnoncrd_to_change
+
+while read myline; do
+IDDOC=`echo $myline | sed -r 's/(.*)(DRM-.*[0-9]{1})"(.*)/\2/g' | cut -d '"' -f 1`;
+DOCFILEPATH=/tmp/$IDDOC".json"
+echo $myline > $DOCFILEPATH;
+curl -v -H "Content-Type: application/json" -X PUT --data "@"$DOCFILEPATH http://10.20.37.1:5984/vinsdeloire_prod/"$IDDOC" 
+echo $IDDOC
+done < /tmp/DRM_201508_achatnoncrd_to_change;
+
+/!\
+
+cat /tmp/DRM_201508 | grep -Ev '"distillationusageindustriel":null' | grep -E '"distillationusageindustriel":[0-9]{1}' | sed 's/distillationusageindustriel/usageindustriel/g' > /tmp/DRM_201508_usageindustriel_to_change
+
+while read myline; do
+IDDOC=`echo $myline | sed -r 's/(.*)(DRM-.*[0-9]{1})"(.*)/\2/g' | cut -d '"' -f 1`;
+DOCFILEPATH=/tmp/$IDDOC".json"
+echo $myline > $DOCFILEPATH;
+curl -v -H "Content-Type: application/json" -X PUT --data "@"$DOCFILEPATH http://10.20.37.1:5984/vinsdeloire_prod/"$IDDOC" 
+echo $IDDOC
+done < /tmp/DRM_201508_usageindustriel_to_change;
+
+/!\
+
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratacquitte":null' | grep -E '"vracsanscontratacquitte":[0-9]{1}' | sed 's/vracsanscontratacquitte/vracsanscontrat/g' > /tmp/DRM_201508_vracsanscontratacquitte_to_change
+
+while read myline; do
+IDDOC=`echo $myline | sed -r 's/(.*)(DRM-.*[0-9]{1})"(.*)/\2/g' | cut -d '"' -f 1`;
+DOCFILEPATH=/tmp/$IDDOC".json"
+echo $myline > $DOCFILEPATH;
+curl -v -H "Content-Type: application/json" -X PUT --data "@"$DOCFILEPATH http://10.20.37.1:5984/vinsdeloire_prod/"$IDDOC" 
+done < /tmp/DRM_201508_vracsanscontratacquitte_to_change;
+
+/!\
+
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratsuspendu":null' | grep -E '"vracsanscontratsuspendu":[0-9]{1}' | sed 's/vracsanscontratsuspendu/vracsanscontrat/g' > /tmp/DRM_201508_vracsanscontratsuspendu_to_change
+
+while read myline; do
+IDDOC=`echo $myline | sed -r 's/(.*)(DRM-.*[0-9]{1})"(.*)/\2/g' | cut -d '"' -f 1`;
+DOCFILEPATH=/tmp/$IDDOC".json"
+echo $myline > $DOCFILEPATH;
+curl -v -H "Content-Type: application/json" -X PUT --data "@"$DOCFILEPATH http://10.20.37.1:5984/vinsdeloire_prod/"$IDDOC" 
+done < /tmp/DRM_201508_vracsanscontratsuspendu_to_change;
+
+/!\
+#FAVORIS ,"vracsanscontratsuspendu":"Vrac suspendu"
+cat /tmp/DRM_201508 | grep -Ev '"vracsanscontratsuspendu":null' | grep  ',"vracsanscontratsuspendu":"Vrac suspendu"' | sed 's/,"vracsanscontratsuspendu":"Vrac suspendu"//g' > /tmp/DRM_201508_vracsanscontratsuspendufavoris_to_change
+
+while read myline; do
+IDDOC=`echo $myline | sed -r 's/(.*)(DRM-.*[0-9]{1})"(.*)/\2/g' | cut -d '"' -f 1`;
+DOCFILEPATH=/tmp/$IDDOC".json"
+echo $myline > $DOCFILEPATH;
+curl -v -H "Content-Type: application/json" -X PUT --data "@"$DOCFILEPATH http://10.20.37.1:5984/vinsdeloire_prod/"$IDDOC" 
+done < /tmp/DRM_201508_vracsanscontratsuspendufavoris_to_change;
