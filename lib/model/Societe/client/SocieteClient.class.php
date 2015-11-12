@@ -69,7 +69,7 @@ class SocieteClient extends acCouchdbClient {
         $societe = new Societe();
         $societe->raison_sociale = $raison_sociale;
         $societe->type_societe = $type;
-        $societe->interpro = 'INTERPRO-inter-loire';
+        $societe->interpro = 'INTERPRO-declaration';
         $societe->identifiant = $this->getNextIdentifiantSociete();
         $societe->statut = SocieteClient::STATUT_EN_CREATION;
         $societe->cooperative = 0;
