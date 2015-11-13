@@ -396,7 +396,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $this->update();
         $this->storeIdentifiant($options);
-        $this->storeDates();
+        if (!isset($options['validation_step']) || !$options['validation_step']) {
+            $this->storeDates();
+        }
         $this->cleanDeclaration();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
@@ -414,10 +416,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!isset($options['no_vracs']) || !$options['no_vracs']) {
             $this->updateVracs();
         }
-
-        if ($this->getSuivante() && $this->isSuivanteCoherente()) {
-            $this->getSuivante()->precedente = $this->get('_id');
-            $this->getSuivante()->save();
+        if (!isset($options['validation_step']) || !$options['validation_step']) {
+            if ($this->getSuivante() && $this->isSuivanteCoherente()) {
+                $this->getSuivante()->precedente = $this->get('_id');
+                $this->getSuivante()->save();
+            }
         }
     }
 
@@ -1255,22 +1258,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     /** Fin Droit de circulation douane */
-    
-    
     public function allLibelleDetailLigneForDRM() {
         $config = $this->getConfig();
-        $libelles_detail_ligne = $config->libelle_detail_ligne;     
+        $libelles_detail_ligne = $config->libelle_detail_ligne;
         $toRemove = array();
         foreach ($libelles_detail_ligne as $catKey => $cat) {
             foreach ($cat as $typeKey => $detail) {
-                if(!$config->declaration->detail->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())){
-                    $toRemove[] = $catKey.'/'.$typeKey;
+                if (!$config->declaration->detail->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
+                    $toRemove[] = $catKey . '/' . $typeKey;
                 }
             }
         }
-        foreach ($toRemove as $removeNode){
-            
-                    $libelles_detail_ligne->remove($removeNode);
+        foreach ($toRemove as $removeNode) {
+
+            $libelles_detail_ligne->remove($removeNode);
         }
         return $libelles_detail_ligne;
     }

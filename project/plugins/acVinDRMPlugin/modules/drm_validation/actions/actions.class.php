@@ -21,12 +21,14 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->drm->cleanDeclaration();
+        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'validation_step' => true, 'no_vracs' => true));
         $this->initDeleteForm();
+        $this->recapCvo = $this->recapCvo();
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
         } else {
-            $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne,$this->isTeledeclarationMode);
+            $this->formCampagne = new DRMEtablissementCampagneForm($this->drm->identifiant, $this->drm->campagne, $this->isTeledeclarationMode);
         }
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {
@@ -53,10 +55,10 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form = new DRMValidationCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-            
+
             return sfView::SUCCESS;
         }
-        
+
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($request->getParameter('brouillon')) {
             $this->form->save();
@@ -69,10 +71,10 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form->save();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
-        if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
-             $mailManager = new DRMEmailManager($this->getMailer());
-             $mailManager->setDRM($this->drm);
-             $mailManager->sendMailValidation();
+        if (!$this->isUsurpationMode() && $this->isTeledeclarationMode) {
+            $mailManager = new DRMEmailManager($this->getMailer());
+            $mailManager->setDRM($this->drm);
+            $mailManager->sendMailValidation();
         }
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
@@ -105,7 +107,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
         $this->form = new DRMValidationCoordonneesSocieteForm($this->drm);
-        if($request->isMethod(sfWebRequest::POST)) {
+        if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
@@ -116,6 +118,23 @@ class drm_validationActions extends drmGeneriqueActions {
                 $this->redirect('drm_validation', $this->drm);
             }
         }
+    }
+
+    public function recapCvo() {
+        $recapCvo = new stdClass();
+        $recapCvo->totalVolumeDroitsCvo = 0;
+        $recapCvo->totalVolumeReintegration = 0;
+        $recapCvo->totalPrixDroitCvo = 0;
+        foreach ($this->mouvements as $mouvement) {
+            if ($mouvement->facturable) {
+                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
+            }
+            if ($mouvement->type_hash == 'entrees/reintegration') {
+                $recapCvo->totalVolumeReintegration += $mouvement->volume;
+            }
+        }
+        return $recapCvo;
     }
 
 }
