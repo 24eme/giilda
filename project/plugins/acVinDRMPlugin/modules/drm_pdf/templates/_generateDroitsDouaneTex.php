@@ -4,8 +4,8 @@ use_helper('DRMPdf');
 use_helper('Display');
 
 $droitsDouane = $drm->droits->douane;
-$paiement_douane_moyen = $drm->societe->paiement_douane_moyen;
-$frequence_douane_moyen = $drm->societe->paiement_douane_frequence;
+$paiement_douane_moyen = ($drm->societe->exist('paiement_douane_moyen'))? $drm->societe->paiement_douane_moyen : null;
+$frequence_douane_moyen = ($drm->societe->exist('paiement_douane_frequence'))? $drm->societe->paiement_douane_frequence : null;
 
 $hasAnnexes = $drm->hasAnnexes(); 
 $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non_apurement);
@@ -152,7 +152,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \multicolumn{1}{|l|}{\small{\underline{\textbf{Le}} : <?php echo $drm->getEuValideDate(); ?> }} \\	~ \\
 \hline  
 ~ \\	
-\multicolumn{1}{|l|}{\small{\textbf{Moyen de paiement utilisé (en paiement <?php echo (DRMPaiement::$frequence_paiement_libelles[$frequence_douane_moyen]); ?>) : }}} \\
+\multicolumn{1}{|l|}{\small{\textbf{Moyen de paiement utilisé (en paiement <?php echo ($frequence_douane_moyen)? (DRMPaiement::$frequence_paiement_libelles[$frequence_douane_moyen]) : "Non renseigné" ; ?>) : }}} \\
 \multicolumn{1}{|L{70mm}|}{Numéraire~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_NUMERAIRE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Obligation cautionnée~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_OBLIGATION_CAUTIONNEES)? '\squareChecked' : '$\square$'; ?>
 } 
 \\
