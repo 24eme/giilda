@@ -7,7 +7,7 @@ class SocieteCsvFile extends CsvFile
     const CSV_NOM = 2;
     const CSV_NOM_REDUIT = 3;
     const CSV_STATUT = 4;
-    const CSV_CODE_FOURNISSEUR = 5;
+    const CSV_TYPE_FOURNISSEUR = 5;
     const CSV_SIRET = 6;
     const CSV_CODE_NAF = 7;
     const CSV_TVA_INTRACOMMUNAUTAIRE = 8;
@@ -25,7 +25,7 @@ class SocieteCsvFile extends CsvFile
     const CSV_MOBILE = 20;
     const CSV_FAX = 21;
     const CSV_WEB = 22;
-    const CSV_COMMENTAIRE = 23;
+    const CSV_COMMENTAIRE = 23; 
 
     private function verifyCsvLine($line) {
         if (!preg_match('/[0-9]+/', $line[self::CSV_ID])) {
@@ -62,42 +62,19 @@ class SocieteCsvFile extends CsvFile
                 /*if ($line[self::CSV_COOPGROUP] == 'C') {
               		$s->cooperative = 1;
                 }*/
-          	    //Incohérent mais ce champ signifie en réalisé suspendu
-                if ($line[self::CSV_STATUT] == SocieteClient::STATUT_SUSPENDU) {
-                    $s->statut = SocieteClient::STATUT_SUSPENDU;
-                }else{
-                    $s->statut = SocieteClient::STATUT_ACTIF;
-                }
-              	if ($line[self::CSV_TYPE] == 'N') {
-            		$s->type_societe = SocieteClient::SUB_TYPE_NEGOCIANT;
-                		$s->code_comptable_client = sprintf("04%06d", $line[self::CSV_CODE]);
-                }else if ($line[self::CSV_TYPE] == 'C') {
-            		$s->type_societe = SocieteClient::SUB_TYPE_COURTIER;
-              	}else if ($line[self::CSV_TYPE] == SocieteClient::SUB_TYPE_VITICULTEUR) {
-            		$s->type_societe = SocieteClient::SUB_TYPE_VITICULTEUR;
-            		$s->code_comptable_client = sprintf("02%06d", $line[self::CSV_ID]);
-              	}else if ($line[self::CSV_TYPE] == 'R') {
-                    $s->type_societe = SocieteClient::SUB_TYPE_DOUANE;
-              	}else if ($line[self::CSV_TYPE] == 'D') {
-                    $s->type_societe = SocieteClient::TYPE_PRESSE;
-              	}else if ($line[self::CSV_TYPE] == 'A') {
-                    $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
-                } else{
-                    $t = $line[self::CSV_TYPE];
-                    $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
-                    //throw new sfException("type inconnu => type : $t ");
-              	}
+                $s->statut = $line[self::CSV_STATUT];
+                $s->type_societe = $line[self::CSV_TYPE];
   	            /*if ($line[self::CSV_ENSEIGNE]) {
 	                $s->enseignes->add(null, $line[self::CSV_ENSEIGNE]);
                 }*/
                 /*if($line[self::CSV_CODE_FOURNISSEUR]){
                     $s->code_comptable_fournisseur = sprintf('%08d', $line[self::CSV_CODE_FOURNISSEUR]);                
                 }*/
-                $s->add('type_fournisseur', array());
+                /*$s->add('type_fournisseur', array());
                 if($line[self::CSV_CODE_FOURNISSEUR]){
                     $fournisseur_tag = preg_replace ('/([A-Za-z ]*)(MDV|PLV)/','$2',$line[self::CSV_CODE_FOURNISSEUR]);
                     $s->add('type_fournisseur',array($fournisseur_tag));
-                }
+                }*/
               	$s->save();
 
                 $c = $s->getContact();
