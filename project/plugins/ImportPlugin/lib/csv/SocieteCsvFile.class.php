@@ -63,25 +63,7 @@ class SocieteCsvFile extends CsvFile
               		$s->cooperative = 1;
                 }*/
                 $s->statut = $line[self::CSV_STATUT];
-              	if ($line[self::CSV_TYPE] == 'N') {
-            		$s->type_societe = SocieteClient::SUB_TYPE_NEGOCIANT;
-                		$s->code_comptable_client = sprintf("04%06d", $line[self::CSV_CODE]);
-                }else if ($line[self::CSV_TYPE] == 'C') {
-            		$s->type_societe = SocieteClient::SUB_TYPE_COURTIER;
-              	}else if ($line[self::CSV_TYPE] == SocieteClient::SUB_TYPE_VITICULTEUR) {
-            		$s->type_societe = SocieteClient::SUB_TYPE_VITICULTEUR;
-            		$s->code_comptable_client = sprintf("02%06d", $line[self::CSV_ID]);
-              	}else if ($line[self::CSV_TYPE] == 'R') {
-                    $s->type_societe = SocieteClient::SUB_TYPE_DOUANE;
-              	}else if ($line[self::CSV_TYPE] == 'D') {
-                    $s->type_societe = SocieteClient::TYPE_PRESSE;
-              	}else if ($line[self::CSV_TYPE] == 'A') {
-                    $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
-                } else{
-                    $t = $line[self::CSV_TYPE];
-                    $s->type_societe = SocieteClient::SUB_TYPE_AUTRE;
-                    //throw new sfException("type inconnu => type : $t ");
-              	}
+                $s->type_societe = $line[self::CSV_TYPE];
   	            /*if ($line[self::CSV_ENSEIGNE]) {
 	                $s->enseignes->add(null, $line[self::CSV_ENSEIGNE]);
                 }*/
