@@ -49,7 +49,8 @@
                         <?php include_partial('itemMouvementFacture', array('mvt' => $mvt)); ?>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
-                <?php include_partial('templateMouvementFactureItem', array('mvt' => $form->getFormTemplate())); ?>
+                <?php
+                include_partial('templateMouvementFactureItem', array('mvt' => $form->getFormTemplate())); ?>
             </div>
                 <div class="ajouter_mouvement_facture">
                     <a class="btn_ajouter_ligne_template btn_majeur" data-container="#mouvementsfacture_list" data-template="#template_mouvementfacture" href="#">Ajouter un non apurement</a>
