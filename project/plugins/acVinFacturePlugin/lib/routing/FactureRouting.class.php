@@ -42,9 +42,11 @@ class FactureRouting {
         $r->prependRoute('facture_massive', new sfRoute('/facture_massive', array('module' => 'facture',
             'action' => 'massive')));
        
-         $r->prependRoute('facture_mouvements', new sfRoute('/facture_mouvements', array('module' => 'facture',
-            'action' => 'mouvements')));
+         $r->prependRoute('facture_mouvements', new sfRoute('/facture_mouvements_list', array('module' => 'facture',
+            'action' => 'mouvementsList')));
        
+         $r->prependRoute('facture_mouvements_edition', new sfRoute('/facture_mouvements/:id', array('module' => 'facture',
+            'action' => 'mouvements-edition')));
         
         $r->prependRoute('facture_pdf', new sfRoute('/facture/pdf/:id', array('module' => 'facture',
             'action' => 'latex'), array('sf_method' => array('get')), array('model' => 'Facture',

@@ -16,10 +16,7 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
         $this->setWidget("libelle", new sfWidgetFormInput());
         $this->setWidget("quantite", new sfWidgetFormInputFloat());
         $this->setWidget("prix_unitaire", new sfWidgetFormInputFloat());
-
-
-
-
+        
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => false)));
         $this->setValidator("identifiant_analytique", new sfValidatorString(array('required' => false)));
         $this->setValidator("libelle", new sfValidatorString(array('required' => false)));
@@ -28,10 +25,17 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
 
         $this->validatorSchema['identifiant']->setMessage('required', 'Le choix d\'une societe est obligatoire');
 
-
         $this->configureTypeSociete(array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
         $this->widgetSchema->setNameFormat('facture_mouvement_edition_ligne[%s]');
         $this->validatorSchema->setPreValidator(new FactureMouvementsEditionValidator());
+    }
+
+    public function setDefaults($defaults) {
+        parent::setDefaults($defaults);
+        if (array_key_exists('identifiant', $defaults) && $defaults['identifiant']) {
+            $societe = SocieteClient::getInstance()->find($defaults['identifiant']);
+            $this->setDefault('identifiant', 'SOCIETE-' . $defaults['identifiant'] . ',' . $societe->raison_sociale . ' ' . $societe->identifiant . ' / ' . $societe->siege->commune . ' ' . $societe->siege->code_postal . ' (Société)');
+        }
     }
 
     public function configureTypeSociete($types) {

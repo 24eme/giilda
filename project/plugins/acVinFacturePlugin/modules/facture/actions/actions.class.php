@@ -14,7 +14,7 @@ class factureActions extends sfActions {
         }
     }
 
-    public function executeMouvements(sfWebRequest $request) {
+    public function executeNouveauMouvements(sfWebRequest $request) {
 
         $this->factureMouvements = MouvementsFactureClient::getInstance()->createMouvementsFacture();
         $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
@@ -29,8 +29,33 @@ class factureActions extends sfActions {
             return sfView::SUCCESS;
         }
         $this->form->save();
+        $this->redirect('facture_mouvements_edition',array('id' => $this->factureMouvements->identifiant));
+    }
+    
+    public function executeMouvementsList(sfWebRequest $request) {
+
+        $this->factureMouvementsAll = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
+
+        
     }
 
+    public function executeMouvementsedition(sfWebRequest $request) {
+        
+        $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-'.$request->getParameter('id'));
+        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
+        if (!$request->isMethod(sfWebRequest::POST)) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if (!$this->form->isValid()) {
+            return sfView::SUCCESS;
+        }
+        $this->form->save();
+    }
+    
     public function executeEdition(sfWebRequest $request) {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
         if (!$this->facture) {
