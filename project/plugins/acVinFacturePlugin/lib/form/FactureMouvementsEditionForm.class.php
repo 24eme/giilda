@@ -28,6 +28,30 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
     }
 
+     public function bind(array $taintedValues = null, array $taintedFiles = null) {
+        foreach ($this->embeddedForms as $key => $form) {
+            if ($form instanceof FactureMouvementEditionLignesForm) {
+                if (isset($taintedValues[$key])) {
+                    $form->bind($taintedValues[$key], $taintedFiles[$key]);
+                    $this->updateEmbedForm($key, $form);
+                }
+            }
+        }
+        parent::bind($taintedValues, $taintedFiles);
+    }
+
+    public function updateEmbedForm($name, $form) {
+        $this->widgetSchema[$name] = $form->getWidgetSchema();
+        $this->validatorSchema[$name] = $form->getValidatorSchema();
+    }
+
+    public function getFormTemplate() {
+        $mouvementsFacture = new MouvementsFacture();
+        $form_embed = new FactureMouvementEditionLigneForm($mouvementsFacture->getOrAdd('mouvements')->add(), array('key' => uniqid(), 'interpro_id' => $this->interpro_id));
+        $form = new FactureMouvementsCollectionTemplateForm($this, 'mouvements', $form_embed);
+        return $form->getFormTemplate();
+    }
+    
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $dateFacture = Date::getIsoDateFromFrenchDate($values["date"]);

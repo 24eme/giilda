@@ -6,9 +6,6 @@ use_helper('Float');
 <div id="contenu_etape" class="col-xs-12">
     <?php include_component('facture', 'chooseSociete', array('identifiant' => $societe->identifiant)); ?>
 
-    <div class="col-xs-12">
-        <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default pull-right">Mouvements de factures</a>
-    </div>
     <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures)); ?>
 
      <hr />

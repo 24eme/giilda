@@ -1,106 +1,54 @@
-/* =================================================================================== */
-/* JQUERY CONTEXT */
-/* =================================================================================== */
-(function($)
+
+
+var initCollectionMouvementsFactureTemplate = function (element, regexp_replace, callback)
 {
-    var _doc = $(document);
 
-    _doc.ready(function()
+    $(element).on('click', function ()
     {
-        $('.data-sum-element').change(function() {
-            try {
-                var elements = JSON.parse($(this).attr('data-sum-element'));
-            } catch (e) {
+        var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
 
-            }
-
-            if(!elements) {
-                sumElement($($(this).attr('data-sum-element')));
-                return;
-            }
-
-            for(keyElement in elements) {
-                sumElement($(elements[keyElement]));
-            }
-        });
-
-        $('.detail input').keypress(function() {
-            stateDetail($($(this).attr('data-detail')));
-        });
-
-        $('.data-clean-line').click(function() {
-            if(!confirm("Étes-vous sur de vouloir supprimer cette ligne ?")) {
-                return;
-            }
-            cleanDetail($($(this).attr('data-detail')));
-        });
-
-        $('.data-add-line').click(function() {
-            var form = $($(this).attr('data-form'));
-            form.attr('action', $(this).attr('data-form-action'));
-            form.submit();
-        });
-
-//        $('.detail').hover(function() {
-//            if($(this).hasClass('empty')) {
-//                return;
-//            }
-//            $(this).find('button').removeClass("hidden");
-//        }, function() {
-//            $(this).find('button').addClass("hidden");
-//        });
-    });
-
-    var stateLine = function(groupLine) {
-        var line = groupLine.find('.line');
-        if(groupLine.find('.detail.empty').length == groupLine.find('.detail').length) {
-            line.addClass('empty');
-            line.css('opacity', '0.5');
-        } else {
-            line.removeClass('empty');
-            line.css('opacity', '1');
-        }
-    }
-
-    var cleanDetail = function(detail) {
-        detail.find('input').each(function() {
-            $(this).val(null);
-            $(this).change();
-        });
-        stateDetail(detail);
-    }
-   
-    var stateDetail = function(detail) {
-        var empty = true;
-        detail.find('input').each(function() {
-            if($(this).val()) {
-                empty = false;
-            }
-        });
-
-        if(empty) {
-            detail.css('opacity', '0.5');
-            detail.addClass('empty');
-        } else {
-            detail.css('opacity', '1');
-            detail.removeClass('empty');
-            detail.find('button').removeClass("hidden");
-        }
-
-        stateLine($(detail.attr('data-line')));
-    }
-
-    var sumElement = function(element) {
-        var sum = 0;
         try {
-            var expression = element.attr('data-sum').replace(/(#[0-9a-zA-Z_-]+)/g, 'parseFloat(($("$1").val()) ? $("$1").val() : 0)');
-            sum = eval(element.attr('data-sum').replace(/(#[0-9a-zA-Z_-]+)/g, 'parseFloat(($("$1").val()) ? $("$1").val() : 0)'));
-        } catch (e) {
+            var params = jQuery.parseJSON($(this).attr('data-template-params'));
+        } catch (err) {
 
         }
 
-        element.val(Math.round(sum * 100) / 100);
+        for (key in params) {
+            bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
+        }
 
-        element.change();
-    }
-})(jQuery);
+        var bloc = $($(this).attr('data-container')).children('div').last().after(bloc_html);
+
+        if (callback) {
+            callback(bloc);
+            initCollectionDeleteMouvementsFactureTemplate();
+        }
+        return false;
+    });
+}
+
+var initCollectionDeleteMouvementsFactureTemplate = function ()
+{
+    $('.mouvements_facture_delete_row .btn_supprimer_ligne_template').on('click', function ()
+    {
+        var element = $(this).parent().parent().parent().parent();
+        if(element.parent().children('.mvt_ligne').size() > 1){
+            $(element).remove();
+            
+        }
+        return false;
+    });
+}
+
+var initMouvementsFacture = function () {
+    initCollectionMouvementsFactureTemplate('.ajouter_mouvement_facture .btn_ajouter_ligne_template', /var---nbItem---/g, function (bloc) {
+    });
+    initCollectionDeleteMouvementsFactureTemplate();
+}
+
+
+
+$(document).ready(function ()
+{
+    initMouvementsFacture();
+});

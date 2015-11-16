@@ -10,12 +10,11 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     }
 
     public function configure() {
-        $this->getObject()->add('nouvelle');
         foreach ($this->getObject() as $keyMvt => $mouvement) {
             $this->embedForm($keyMvt, new FactureMouvementEditionLigneForm($mouvement,array('interpro_id' => $this->interpro_id,'key' => $keyMvt)));
         }
         $this->widgetSchema->setNameFormat('facture_mouvement_etablissement_edition_ligne[%s]');
-    }    
+    }
   
     
 }
