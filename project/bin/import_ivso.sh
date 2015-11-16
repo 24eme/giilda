@@ -42,6 +42,12 @@ fi
 
 echo "Import des contacts"
 
-cat $DATA_DIR/producteurs.csv | awk -F ';' '{ print $2 ";VITICULTEUR;" $4 ";;ACTIF;;" $13 ";;;" $5 ";" $6 ";" $7 ";;" $8 ";" $10 ";;" $17 ";" $14 ";;" $15 ";" $16 ";;" }' > $DATA_DIR/societes.csv
+#cat $DATA_DIR/producteurs_produits.csv | awk -F ';' '{ print $2 ";VITICULTEUR;" $4 ";;ACTIF;;" $13 ";;;" $5 ";" $6 ";" $7 ";;" $8 ";" $10 ";;" $17 ";" $14 ";;" $15 ";" $16 ";;" }' > $DATA_DIR/societes.csv
+
+cat $DATA_DIR/producteurs_produits.csv | awk -F ";" '{ print $2 ";VITICULTEUR;" $4 ";;ACTIF;;" $14 ";;;" $5 ";" $6 ";" $7 ";;" $8 ";" $10 ";" $12 ";FR;" $18 ";" $15 ";;" $16 ";" $17 ";;"  }' > $DATA_DIR/societes.csv
 
 php symfony import:societe $DATA_DIR/societes.csv
+
+cat $DATA_DIR/producteurs_produits.csv | awk -F ";" '{ print $2 ";" $2 ";VITICULTEUR;" $4 ";ACTIF;;" $3 ";;;;" $5 ";" $6 ";" $7 ";;" $8 ";" $10 ";" $12 ";FR;" $18 ";" $15 ";;" $16 ";" $17 ";;"  }' > $DATA_DIR/etablissements.csv
+
+php symfony import:etablissement $DATA_DIR/etablissements.csv
