@@ -1,4 +1,4 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml project/bin/config.inc project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex .views/mouvementfacture.json
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/bin/config.inc project/web/declaration_dev.php project/web/components/vins/vins-preview.html .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json project/data/latex .views/mouvementfacture.json .views/elasticsearch
 
 project/cache:
 	mkdir project/cache
@@ -57,6 +57,9 @@ project/web/components/vins/vins-preview.html: project/web/components/vins/fontc
 
 .views/generation.json: project/config/databases.yml project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.reduce.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.reduce.view.js
 	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.reduce.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.reduce.view.js > $@ || rm >@
+
+.views/elasticsearch:
+	cd project ; bash bin/elastic_configure && touch ../.views/elasticsearch ; cd ..
 
 clean:
 	rm -f .views/*
