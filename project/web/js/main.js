@@ -47,7 +47,6 @@
                 },
                 
                 initSelection: function (element, callback) {
-                    console.log(defaultValue);
                     if (defaultValue != '') {
                         callback({id: defaultValueSplitted[0], text: defaultValueSplitted[1]});
                         select2.val(defaultValueSplitted[0]);

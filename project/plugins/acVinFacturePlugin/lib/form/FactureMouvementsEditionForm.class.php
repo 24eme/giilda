@@ -56,6 +56,10 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         parent::doUpdateObject($values);
         $dateFacture = Date::getIsoDateFromFrenchDate($values["date"]);
         $this->getObject()->set('date',$dateFacture);
+        $this->getObject()->remove('mouvements');
+        foreach ($this->embeddedForms as $embeddedKey => $embeddedForm) {
+            var_dump($embeddedKey); exit;
+        }
         if ($this->getObject()->mouvements->exist("nouvelle")) {
             $mvtsEtb = $this->getObject()->mouvements->get("nouvelle")->toArray(true, false);
             $nouveauMvt = $this->getObject()->mouvements->get("nouvelle")->get("nouvelle");
