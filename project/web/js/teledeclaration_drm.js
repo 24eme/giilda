@@ -289,6 +289,16 @@ var initNonApurement = function () {
     initCollectionDeleteNonApurementTemplate();
 }
 
+var initAnnexes = function () {
+    $(".drm_paiement_douane_frequence input").change(function(){
+       if($(this).val() == "ANNUELLE"){
+          $(".drm_paiement_douane_cumul").show();
+       }else{
+           $(".drm_paiement_douane_cumul").hide();
+       } 
+    });
+    
+}
 
 var initBoldSaisie = function () {
     var pattern = '/^[a-z]*(\[[a-z]*\])(\[[a-z]*\])$/i';
@@ -366,6 +376,7 @@ $(document).ready(function ()
     initFavoris();
     initValidationDrmStockMvt();
     initNonApurement();
+    initAnnexes();
     initUpdateEtablissementValidation();
     initSignatureDrmPopup();
     initBoldSaisie();

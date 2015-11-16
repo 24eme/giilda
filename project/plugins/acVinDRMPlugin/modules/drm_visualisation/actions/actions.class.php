@@ -23,7 +23,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
         $this->drm_suivante = $this->drm->getSuivante();
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-        $this->recapCvo = $this->recapCvo();
+        $this->recapCvo = $this->recapCvo();        
     }
 
     public function recapCvo() {
