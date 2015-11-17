@@ -1,4 +1,3 @@
-<section id="principal" class="recherche_contact">
 <script>
    $(document).ready(function() {
    $(".removetag").click(function() {
@@ -6,7 +5,7 @@
      });
      });
 </script>
-	<section id="contenu_etape">
+	<section class="col-xs-9" id="contenu_etape">
 		<form>
 			<div id="recherche_contact" class="section_label_maj">
                            <div>
@@ -20,12 +19,10 @@
 </div>
 			</div>
 		</form>
-	</section>
 
 	<span><?php echo $nb_results; ?> résultat(s) trouvé(s) (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</span>
         
 	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>">Télécharger le tableur</a>
-	
 	
 	
 	<?php if($nb_results > 0): ?>
@@ -54,7 +51,7 @@
 		</div>
         
 		
-		<table id="resultats_contact" class="table_recap">	
+		<table id="resultats_contact" class="table table-bordered table-condensed">	
 			<?php $cpt = 0; ?>
 
 			<thead>
@@ -146,9 +143,8 @@
 	end_slot();
 ?>
 
-<?php slot('colApplications');  ?>
 		<?php if (count($selected_typetags)) :  ?>
-			<div class="bloc_col">
+			<div class="bloc_col col-xs-3">
 				<h2>tags sélectionnés</h2>
 				<ul class="liste_tags">
 					<li>
@@ -215,4 +211,3 @@
 			</form>
 		</div>
                 <?php endif; ?>
-<?php end_slot(); ?>

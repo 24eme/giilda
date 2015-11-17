@@ -11,5 +11,5 @@ all:
     class: acElasticaDatabase
     param:
       dsn: http://127.0.0.1:9200/
-      dbname: declaration
+      dbname: giilda
 
