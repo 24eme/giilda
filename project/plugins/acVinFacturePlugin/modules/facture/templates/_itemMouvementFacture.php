@@ -1,8 +1,9 @@
 
-<div class="form-group line mvt_ligne" >                            
+<div class="form-group line mvt_ligne" >   
     <div class="col-xs-12">
         <div class="row">
             <div class="col-xs-4">
+                <?php echo $mvt['identifiant']->renderError(); ?>
                 <?php echo $mvt['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
             </div>
             <div class="col-xs-2">

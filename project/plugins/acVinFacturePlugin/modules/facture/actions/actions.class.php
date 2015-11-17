@@ -50,11 +50,11 @@ class factureActions extends sfActions {
 
         $this->form->bind($request->getParameter($this->form->getName()));
 
-        if (!$this->form->isValid()) {            
-            return sfView::SUCCESS;
-        }
+        if ($this->form->isValid()) {  
+       //    var_dump('here'); exit;
         $this->form->save();
         $this->redirect('facture_mouvements_edition',array('id' => $this->factureMouvements->identifiant));
+        }
     }
     
     public function executeEdition(sfWebRequest $request) {

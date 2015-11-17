@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of FactureMouvementsEditionForm
  *
@@ -28,7 +29,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
     }
 
-     public function bind(array $taintedValues = null, array $taintedFiles = null) {
+    public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {
             if ($form instanceof FactureMouvementEditionLignesForm) {
                 if (isset($taintedValues[$key])) {
@@ -51,33 +52,36 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $form = new FactureMouvementsCollectionTemplateForm($this, 'mouvements', $form_embed);
         return $form->getFormTemplate();
     }
-    
+
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $dateFacture = Date::getIsoDateFromFrenchDate($values["date"]);
-        $this->getObject()->set('date',$dateFacture);
+        $this->getObject()->set('date', $dateFacture);
         $this->getObject()->remove('mouvements');
+
+        $mouvements = $this->getObject()->add('mouvements');
+
         foreach ($this->embeddedForms as $embeddedKey => $embeddedForm) {
-            var_dump($embeddedKey); exit;
-        }
-        if ($this->getObject()->mouvements->exist("nouvelle")) {
-            $mvtsEtb = $this->getObject()->mouvements->get("nouvelle")->toArray(true, false);
-            $nouveauMvt = $this->getObject()->mouvements->get("nouvelle")->get("nouvelle");
-            $this->getObject()->mouvements->remove("nouvelle");
-            $identifiant = preg_replace('/^SOCIETE-/', '', $nouveauMvt->identifiant);
-            $this->getObject()->mouvements->getOrAdd($identifiant)->add(uniqid(), $nouveauMvt);
-        }
-        foreach ($this->getObject()->mouvements as $mouvementEtb) {
-            foreach ($mouvementEtb as $mouvement) {
-                $mouvement->facturable = 1;
-                $mouvement->facture = 0;
-                $mouvement->region = EtablissementClient::HORS_REGION;
-                $mouvement->date = $dateFacture;
+            foreach ($embeddedForm->embeddedForms as $socKey => $etbForm) {
+                foreach ($etbForm->embeddedForms as $mvtKey => $mvtForm) {
+                    $mvtValues = $values["mouvements"];
+                    $societeKey = str_replace('SOCIETE-', '', $mvtValues[$socKey][$mvtKey]['identifiant']);
+                    $mvt = $mouvements->getOrAdd($societeKey)->getOrAdd($mvtKey);
+                    $mvt->identifiant_analytique = $mvtValues[$socKey][$mvtKey]['identifiant_analytique'];
+                    $mvt->identifiant_analytique_libelle = $mvtValues[$socKey][$mvtKey]['identifiant_analytique'];
+                    $mvt->identifiant_analytique_libelle_compta = $mvtValues[$socKey][$mvtKey]['identifiant_analytique'];
+                    $mvt->identifiant = $mvtValues[$socKey][$mvtKey]['identifiant'];
+                    $mvt->libelle = $mvtValues[$socKey][$mvtKey]['libelle'];
+                    $mvt->quantite = $mvtValues[$socKey][$mvtKey]['quantite'];
+                    $mvt->prix_unitaire = $mvtValues[$socKey][$mvtKey]['prix_unitaire'];
+                    $mvt->facture = 0;
+                    $mvt->facturable = 0;
+                    $mvt->region = "HORS_REGION";
+                    $mvt->date = date('Y-m-d');
+                }
             }
         }
-
-//      $this->getObject()->lignes->cleanLignes();
-        $this->getObject()->valide->date_saisie = $values['date'];
+     
     }
 
 }

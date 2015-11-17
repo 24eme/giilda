@@ -18,20 +18,20 @@ class FactureMouvementsEditionValidator extends sfValidatorSchema {
     }
 
     protected function doClean($values) {
-        if (empty($values['quantite']) && empty($values['libelle']) && empty($values['prix_unitaire'])) {
-            return $values;
-        }
-
-        $errors = array();
-
-        if (empty($values['libelle'])) {
-            $errors['libelle'] = new sfValidatorError($this, 'required');
-        }
-
-        if (count($errors)) {
-
-            throw new sfValidatorErrorSchema($this, $errors);
-        }
+//        if (empty($values['quantite']) && empty($values['libelle']) && empty($values['prix_unitaire'])) {
+//            return $values;
+//        }
+//
+//        $errors = array();
+//
+//        if (empty($values['libelle'])) {
+//            $errors['libelle'] = new sfValidatorError($this, 'required');
+//        }
+//
+//        if (count($errors)) {
+//
+//            throw new sfValidatorErrorSchema($this, $errors);
+//        }
 
         return $values;
     }

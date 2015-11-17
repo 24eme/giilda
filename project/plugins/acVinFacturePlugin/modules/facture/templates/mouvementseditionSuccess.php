@@ -4,19 +4,23 @@
 <div class="col-xs-12">
     <h2>Mouvements de facture</h2>
 
+    
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 
-        <?php echo $form->renderHiddenFields() ?>
-        <?php echo $form->renderGlobalErrors() ?>
+        <?php echo $form->renderHiddenFields(); ?>
+        <?php echo $form->renderGlobalErrors(); ?>       
+       
+
 
         <?php if ($form->hasErrors()): ?>
             <div class="alert alert-danger" role="alert">
-                Veuuillez compléter ou corriger les erreurs
+                Veuillez compléter ou corriger les erreurs
             </div>
         <?php endif; ?>
         <div class="row row-margin"  style="border-bottom: 1px dotted #d2d2d2; padding-bottom: 20px;">
             <div class="col-xs-6">
                 <div class="row">
+                    <div class="col-xs-12"><?php echo $form['libelle']->renderError(); ?>  </div>
                     <div class="col-xs-12"><?php echo $form['libelle']->renderLabel(); ?>  </div>
                     <div class="col-xs-12"><?php echo $form['libelle']->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
                 </div>
@@ -25,6 +29,7 @@
             </div>
             <div class="col-xs-6">
                 <div class="row">
+                     <div class="col-xs-12"><?php echo $form['libelle']->renderError(); ?>  </div>
                     <div class="col-xs-12"><?php echo $form['date']->renderLabel(); ?>  </div>
                     <div class="col-xs-12"><?php echo $form['date']->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
                 </div>

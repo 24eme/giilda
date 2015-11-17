@@ -27,7 +27,7 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
 
         $this->configureTypeSociete(array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
         $this->widgetSchema->setNameFormat('facture_mouvement_edition_ligne[%s]');
-        $this->validatorSchema->setPreValidator(new FactureMouvementsEditionValidator());
+      //  $this->validatorSchema->setPreValidator(new FactureMouvementsEditionValidator());
     }
 
     public function setDefaults($defaults) {
@@ -46,5 +46,6 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
     public function getSociete() {
         return $this->getValidator('identifiant')->getDocument();
     }
+      
 
 }
