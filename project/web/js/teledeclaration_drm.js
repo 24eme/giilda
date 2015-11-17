@@ -182,13 +182,13 @@ var initCreationDrmPopup = function () {
 };
 
 var initDeleteDrmPopup = function () {
-    
-    $('a.drm_delete_lien_colonne').click(function(){
+
+    $('a.drm_delete_lien_colonne').click(function () {
         $('a.drm_delete_lien').click();
         console.log("clisk");
         return false;
     })
-    
+
     $('a.drm_delete_lien').fancybox({
         autoSize: true,
         autoCenter: true,
@@ -204,15 +204,21 @@ var initDeleteDrmPopup = function () {
 
 var initFavoris = function () {
     $('div.groupe span.categorie_libelle').click(function () {
-        var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
-        var value = $('#colonne_intitules form #' + id_fav_input).val();
-        if (value === "1") {
-            $('#colonne_intitules form #' + id_fav_input).val("");
+        if ($(this).hasClass('clickable')) {
+
+            $('div.groupe span.categorie_libelle').each(function () {
+                $(this).removeClass('clickable');
+            });
+            var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
+            var value = $('#colonne_intitules form #' + id_fav_input).val();
+            if (value === "1") {
+                $('#colonne_intitules form #' + id_fav_input).val("");
+            }
+            else {
+                $('#colonne_intitules form #' + id_fav_input).val("1");
+            }
+            $("#colonne_intitules form").submit();
         }
-        else {
-            $('#colonne_intitules form #' + id_fav_input).val("1");
-        }
-        $("#colonne_intitules form").submit();
     });
 }
 
@@ -290,14 +296,14 @@ var initNonApurement = function () {
 }
 
 var initAnnexes = function () {
-    $(".drm_paiement_douane_frequence input").change(function(){
-       if($(this).val() == "ANNUELLE"){
-          $(".drm_paiement_douane_cumul").show();
-       }else{
-           $(".drm_paiement_douane_cumul").hide();
-       } 
+    $(".drm_paiement_douane_frequence input").change(function () {
+        if ($(this).val() == "ANNUELLE") {
+            $(".drm_paiement_douane_cumul").show();
+        } else {
+            $(".drm_paiement_douane_cumul").hide();
+        }
     });
-    
+
 }
 
 var initBoldSaisie = function () {
@@ -344,7 +350,7 @@ var initMsgAide = function () {
     msgsAide.tooltip
             ({
                 placement: 'right',
-                html : true
+                html: true
             });
 
     msgsAide.click(function () {
@@ -352,16 +358,16 @@ var initMsgAide = function () {
     });
 };
 
-var initSaveBrouillon =  function () {
+var initSaveBrouillon = function () {
 
     var form = $('form.hasBrouillon');
 
-     $('.save_brouillon').click(function(){
-         var action = form.attr('action')+'?brouillon=1';
-         form.attr('action',action);
-         form.submit();
-         return false;
-     });
+    $('.save_brouillon').click(function () {
+        var action = form.attr('action') + '?brouillon=1';
+        form.attr('action', action);
+        form.submit();
+        return false;
+    });
 };
 
 $(document).ready(function ()
