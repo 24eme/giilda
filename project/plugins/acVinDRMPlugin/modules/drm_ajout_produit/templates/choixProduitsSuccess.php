@@ -18,7 +18,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-4 text-left">
-                    <a tabindex="-1" href="<?php echo url_for('drm_societe', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+                    <a tabindex="-1" href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
                 </div>
                 <div class="col-xs-4 text-center">
                     <a class="btn btn-default" href="#drm_delete_popup">
