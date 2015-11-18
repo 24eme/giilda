@@ -134,7 +134,7 @@ class ProduitCsvFile extends CsvFile {
         $this->errors = array();
         $csv = $this->getCsv();
 
-        $this->oldconfig = clone $this->config;
+        //$this->oldconfig = clone $this->config;
 
         $this->config->declaration->remove('certifications');
         $this->config->declaration->add('certifications');
@@ -161,17 +161,17 @@ class ProduitCsvFile extends CsvFile {
                 $produit = $this->getProduit($newHash);
                 $produit->setDonneesCsv($line);
 
-                if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {
+                /*if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {
                   echo "ADDED;".$newHash." \n";
                 } else {
                   echo "UPDATED;".$newHash." \n";
                   if($this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d')) != $produit->getTauxCvo(date('Y-m-d'))) {
                         echo "/!\ CVO;".$newHash." ".$this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d'))." => ".$produit->getTauxCvo(date('Y-m-d'))." \n";
                   }
-                }                
+                }*/               
             }
 
-            foreach($this->oldconfig->getProduits() as $produit) {
+            /*foreach($this->oldconfig->getProduits() as $produit) {
                 try {
                 $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
                 } catch(Exception $e) {
@@ -184,7 +184,7 @@ class ProduitCsvFile extends CsvFile {
                 if(!$this->config->exist($hash)) {
                     echo "DELETED;".$hash." \n";
                 }
-            }
+            }*/
         } catch (Execption $e) {
             $this->errors[] = $e->getMessage();
         }
