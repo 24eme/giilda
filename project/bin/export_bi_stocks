@@ -76,6 +76,12 @@ done
 cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' > $TMP/sed_produit_libelle
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUSSM\/mentions\/DEFAUT\/lieux\/LEPALLET\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"Muscadet Sèvre et Maine Le Pallet"/' >> $TMP/sed_produit_libelle
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/CDL\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Anjou Coteaux de la Loire Blanc Chenin"/' >> $TMP/sed_produit_libelle
+echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/TRANQ\/appellations\/SAVCDS\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Savennières Coulée de Serrant"/' >> $TMP/sed_produit_libelle 
+echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV\/mentions\/DEFAUT\/lieux\/CDS\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Savennières Coulée de Serrant"/' >> $TMP/sed_produit_libelle 
+echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Anjou Fines bulles Rosé"/' >> $TMP/sed_produit_libelle 
+echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/CLO\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Crémant de Loire Rosé"/' >> $TMP/sed_produit_libelle 
+echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Saumur Fines bulles Rosé"/' >> $TMP/sed_produit_libelle 
+echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/TOU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Touraine Fines bulles Rosé"/' >> $TMP/sed_produit_libelle 
 
 
 # Récupération correspondance libellés pour nouvelle conf
