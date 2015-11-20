@@ -1,72 +1,75 @@
 
 var generateMouvementsFacture = function (element, regexp_replace, callback)
 {
-    var uuid = UUID.generate();
-    var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, uuid);
+    if ($(element).length) {
+
+        var uuid = UUID.generate();
+        var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, uuid);
 
 
-    var inputsToGetValues = $(element).children('div').last().find('input');
-    var selectsToGetValues = $(element).children('div').last().find('select');
+        var inputsToGetValues = $(element).children('div').last().find('input');
+        var selectsToGetValues = $(element).children('div').last().find('select');
 
-    var bloc = $(element).children('div').last().after(bloc_html);
+        var bloc = $(element).children('div').last().after(bloc_html);
 
 
-    $(element).children('div').last().find('input').each(function () {
-        var name = $(this).attr('name');
-        var value = "";
-        if ((name != undefined) && (name.contains(uuid))) {
-            var nameReduct = name.substring(name.lastIndexOf("["));
-            inputsToGetValues.each(function () {
-                var inputName = $(this).attr('name');
-                if ((inputName != undefined) && (inputName.contains(nameReduct))) {
+        $(element).children('div').last().find('input').each(function () {
+            var name = $(this).attr('name');
+            var value = "";
+            if ((name != undefined) && (name.contains(uuid))) {
+                var nameReduct = name.substring(name.lastIndexOf("["));
+                inputsToGetValues.each(function () {
+                    var inputName = $(this).attr('name');
+                    if ((inputName != undefined) && (inputName.contains(nameReduct))) {
 
-                    if (nameReduct != "[identifiant]") {
+                        if (nameReduct != "[identifiant]") {
 
-                        value = $(this).val();
+                            value = $(this).val();
+                        }
                     }
-                }
-            });
-        }
-        $(this).val(value);
-    });
-
-    $(element).children('div').last().find('select').each(function () {
-        var valueSelected = $(selectsToGetValues).find('option[selected="selected"]').val();
-        $(this).find('option[value="' + valueSelected + '"]').attr('selected', 'selected');
-    });
-
-    $(element).children('div').find('input').each(function () {
-        var name = $(this).attr('name');
-        if (name != undefined) {
-            if ($(this).val() && name.substring(name.lastIndexOf("[")) == "[identifiant]") {
-                var new_value = $(this).val();
-                $(this).val(new_value + "," + $(this).parent().find('.select2-container').find('.select2-chosen').text());
+                });
             }
+            $(this).val(value);
+        });
+
+        $(element).children('div').last().find('select').each(function () {
+            var valueSelected = $(selectsToGetValues).find('option[selected="selected"]').val();
+            $(this).find('option[value="' + valueSelected + '"]').attr('selected', 'selected');
+        });
+
+        $(element).children('div').find('input').each(function () {
+            var name = $(this).attr('name');
+            if (name != undefined) {
+                if ($(this).val() && name.substring(name.lastIndexOf("[")) == "[identifiant]") {
+                    var new_value = $(this).val();
+                    $(this).val(new_value + "," + $(this).parent().find('.select2-container').find('.select2-chosen').text());
+                }
+            }
+        });
+
+
+
+        if (callback) {
+            callback(bloc);
+            initCollectionDeleteMouvementsFactureTemplate();
+            $(document).initAdvancedElements();
+            initCollectionMouvementsFactureTemplate(element, regexp_replace, callback);
         }
-    });
-
-
-
-    if (callback) {
-        callback(bloc);
-        initCollectionDeleteMouvementsFactureTemplate();
-        $(document).initAdvancedElements();
-        initCollectionMouvementsFactureTemplate(element, regexp_replace, callback);
+        return false;
     }
-    return false;
 }
 
 var isConformForNewLine = function (element) {
     var result = true;
     $(element).children('div').last().find('input').each(function () {
-        if ($(this).attr('name') != undefined){
-            if (($(this).val()==null) || ($(this).val()=="")) {
-                 result = false;
+        if ($(this).attr('name') != undefined) {
+            if (($(this).val() == null) || ($(this).val() == "")) {
+                result = false;
             }
-    }
+        }
     });
     $(element).children('div').last().find('select').each(function () {
-        if (($(this).attr('name') != undefined) &&  (($(this).val()==null) || ($(this).val()==""))) {
+        if (($(this).attr('name') != undefined) && (($(this).val() == null) || ($(this).val() == ""))) {
             result = false;
         }
     });
@@ -86,7 +89,7 @@ var initCollectionMouvementsFactureTemplate = function (element, regexp_replace,
         }
 
     });
-    
+
     $(lastRowSelects).change(function () {
         var addNewLine = isConformForNewLine(element);
 

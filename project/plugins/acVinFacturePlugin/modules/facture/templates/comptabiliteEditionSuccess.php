@@ -19,7 +19,7 @@
         <?php endif; ?>
 
         <div class="row row-margin">
-            <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" id="mouvementsfacture_list">
+            <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" >
                 <div class="row">
                     <div class="col-xs-4">Code identifiant analytique</div>
                     <div class="col-xs-4 text-center lead text-muted">Libellé compta</div>
