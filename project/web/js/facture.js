@@ -1,57 +1,102 @@
 
+var generateMouvementsFacture = function (element, regexp_replace, callback)
+{
+    var uuid = UUID.generate();
+    var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, uuid);
+
+
+    var inputsToGetValues = $(element).children('div').last().find('input');
+    var selectsToGetValues = $(element).children('div').last().find('select');
+
+    var bloc = $(element).children('div').last().after(bloc_html);
+
+
+    $(element).children('div').last().find('input').each(function () {
+        var name = $(this).attr('name');
+        var value = "";
+        if ((name != undefined) && (name.contains(uuid))) {
+            var nameReduct = name.substring(name.lastIndexOf("["));
+            inputsToGetValues.each(function () {
+                var inputName = $(this).attr('name');
+                if ((inputName != undefined) && (inputName.contains(nameReduct))) {
+
+                    if (nameReduct != "[identifiant]") {
+
+                        value = $(this).val();
+                    }
+                }
+            });
+        }
+        $(this).val(value);
+    });
+
+    $(element).children('div').last().find('select').each(function () {
+        var valueSelected = $(selectsToGetValues).find('option[selected="selected"]').val();
+        $(this).find('option[value="' + valueSelected + '"]').attr('selected', 'selected');
+    });
+
+    $(element).children('div').find('input').each(function () {
+        var name = $(this).attr('name');
+        if (name != undefined) {
+            if ($(this).val() && name.substring(name.lastIndexOf("[")) == "[identifiant]") {
+                var new_value = $(this).val();
+                $(this).val(new_value + "," + $(this).parent().find('.select2-container').find('.select2-chosen').text());
+            }
+        }
+    });
+
+
+
+    if (callback) {
+        callback(bloc);
+        initCollectionDeleteMouvementsFactureTemplate();
+        $(document).initAdvancedElements();
+        initCollectionMouvementsFactureTemplate(element, regexp_replace, callback);
+    }
+    return false;
+}
+
+var isConformForNewLine = function (element) {
+    var result = true;
+    $(element).children('div').last().find('input').each(function () {
+        if ($(this).attr('name') != undefined){
+            if (($(this).val()==null) || ($(this).val()=="")) {
+                 result = false;
+            }
+    }
+    });
+    $(element).children('div').last().find('select').each(function () {
+        if (($(this).attr('name') != undefined) &&  (($(this).val()==null) || ($(this).val()==""))) {
+            result = false;
+        }
+    });
+    return result;
+}
 
 var initCollectionMouvementsFactureTemplate = function (element, regexp_replace, callback)
 {
+    var lastRowInputs = $(element).children('div').last().find('input');
+    var lastRowSelects = $(element).children('div').last().find('input');
 
-    $(element).on('click', function ()
-    {
-        var uuid = UUID.generate();
-        var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, uuid);
+    $(lastRowInputs).change(function () {
+        var addNewLine = isConformForNewLine(element);
 
-
-        var inputsToGetValues = $($(this).attr('data-container')).children('div').last().find('input');
-
-        var bloc = $($(this).attr('data-container')).children('div').last().after(bloc_html);
-
-
-        $($(this).attr('data-container')).children('div').last().find('input').each(function () {
-            var name = $(this).attr('name');
-            var value = "";
-            if ((name != undefined) && (name.contains(uuid))) {
-                var nameReduct = name.substring(name.lastIndexOf("["));
-                inputsToGetValues.each(function () {
-                    var inputName = $(this).attr('name');
-                    if ((inputName != undefined) && (inputName.contains(nameReduct))) {
-
-                        if (nameReduct != "[identifiant]") {
-                        
-                            value = $(this).val();
-                        }
-                    }
-                });
-            }
-            $(this).val(value);
-        });
-
-        $($(this).attr('data-container')).children('div').find('input').each(function () {
-            var name = $(this).attr('name');
-            if (name != undefined) {
-                if ($(this).val() && name.substring(name.lastIndexOf("[")) == "[identifiant]") {
-                    var new_value = $(this).val();
-                    $(this).val(new_value + "," + $(this).parent().find('.select2-container').find('.select2-chosen').text());
-                }
-            }
-        });
-
-
-
-        if (callback) {
-            callback(bloc);
-            initCollectionDeleteMouvementsFactureTemplate();
-               $(document).initAdvancedElements();
+        if (addNewLine) {
+            generateMouvementsFacture(element, regexp_replace, callback);
         }
-        return false;
+
     });
+    
+    $(lastRowSelects).change(function () {
+        var addNewLine = isConformForNewLine(element);
+
+        if (addNewLine) {
+            generateMouvementsFacture(element, regexp_replace, callback);
+        }
+
+    });
+
+
 }
 
 var initCollectionDeleteMouvementsFactureTemplate = function ()
@@ -68,7 +113,9 @@ var initCollectionDeleteMouvementsFactureTemplate = function ()
 }
 
 var initMouvementsFacture = function () {
-    initCollectionMouvementsFactureTemplate('.ajouter_mouvement_facture .btn_ajouter_ligne_template', /var---nbItem---/g, function (bloc) {
+    generateMouvementsFacture('#mouvementsfacture_list', /var---nbItem---/g, function (bloc) {
+    });
+    initCollectionMouvementsFactureTemplate('#mouvementsfacture_list', /var---nbItem---/g, function (bloc) {
     });
     initCollectionDeleteMouvementsFactureTemplate();
 }

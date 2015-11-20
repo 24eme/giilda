@@ -11,19 +11,18 @@
  *
  * @author mathurin
  */
-class ComptabiliteIdentifiantAnalytiqueEditionForm extends acCouchdbObjectForm {
+class ComptabiliteIdentifiantsAnalytiquesEditionForm extends acCouchdbObjectForm {
 
-    public function  __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+    public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         parent::__construct($object, $options, $CSRFSecret);
     }
 
     public function configure() {
 
+        
 
-      
-
-
-        $this->widgetSchema->setNameFormat('comptabilite_identifiant_analytique[%s]');
+        $this->widgetSchema->setNameFormat('comptabilite_identifiants_analytiques[%s]');
     }
 
+    
 }

@@ -39,7 +39,7 @@
         <br/>
 
         <div class="row row-margin">
-            <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" id="mouvementsfacture_list">
+            <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" id="mouvementsfacture_list"  data-template="#template_mouvementfacture">
                 <div class="row">
                     <div class="col-xs-3">Identité</div>
                     <div class="col-xs-2 text-center lead text-muted">Code comptable</div>
@@ -57,11 +57,9 @@
                 <?php
                 include_partial('templateMouvementFactureItem', array('mvt' => $form->getFormTemplate())); ?>
             </div>
-                <div class="ajouter_mouvement_facture">
-                    <a class="btn_ajouter_ligne_template btn_majeur" data-container="#mouvementsfacture_list" data-template="#template_mouvementfacture" href="#">Ajouter un non apurement</a>
-                </div>
+               
         </div>
-
+<br/>
         <div class="row row-margin">
             <div class="col-xs-6 text-left">
                 <a class="btn btn-danger btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>

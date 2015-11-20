@@ -41,7 +41,7 @@ class FactureEditionLigneDetailForm extends acCouchdbObjectForm {
         
         $this->validatorSchema->setPreValidator(new FactureEditionLigneDetailValidator());
     }
-    
+        
      protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         

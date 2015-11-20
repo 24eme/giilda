@@ -11,14 +11,15 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget("identifiant_analytique", new sfWidgetFormInput());
+        $this->setWidget("identifiant_analytique", new sfWidgetFormChoice(array('choices' => $this->getIdentifiantsAnalytiques())));
+
         $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id)));
         $this->setWidget("libelle", new sfWidgetFormInput());
         $this->setWidget("quantite", new sfWidgetFormInputFloat());
         $this->setWidget("prix_unitaire", new sfWidgetFormInputFloat());
-        
+
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => false)));
-        $this->setValidator("identifiant_analytique", new sfValidatorString(array('required' => false)));
+        $this->setValidator("identifiant_analytique", new sfValidatorChoice(array('choices' => array_keys($this->getIdentifiantsAnalytiques()), 'required' => true)));
         $this->setValidator("libelle", new sfValidatorString(array('required' => false)));
         $this->setValidator("quantite", new sfValidatorNumber(array('required' => false)));
         $this->setValidator("prix_unitaire", new sfValidatorNumber(array('required' => false)));
@@ -27,7 +28,7 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
 
         $this->configureTypeSociete(array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
         $this->widgetSchema->setNameFormat('facture_mouvement_edition_ligne[%s]');
-      //  $this->validatorSchema->setPreValidator(new FactureMouvementsEditionValidator());
+        //  $this->validatorSchema->setPreValidator(new FactureMouvementsEditionValidator());
     }
 
     public function setDefaults($defaults) {
@@ -46,6 +47,9 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
     public function getSociete() {
         return $this->getValidator('identifiant')->getDocument();
     }
-      
+    
+    public function getIdentifiantsAnalytiques() {
+        return  ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
+    }
 
 }

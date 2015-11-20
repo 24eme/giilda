@@ -1,5 +1,4 @@
 <?php use_helper('Float'); ?>
-<?php use_helper('Float'); ?>
 <?php use_javascript('facture.js'); ?>
 
 

@@ -8,7 +8,7 @@
             </div>
             <div class="col-xs-2">
                 <?php echo $mvt['identifiant_analytique']->renderError(); ?> 
-                <?php echo $mvt['identifiant_analytique']->render(array('class' => 'form-control input-md text-right')); ?> 
+                <?php echo $mvt['identifiant_analytique']->render(array('class' => 'form-control input-md text-right select2')); ?> 
             </div>
             <div class="col-xs-3">
                 <?php echo $mvt['libelle']->renderError(); ?> 

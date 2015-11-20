@@ -88,7 +88,7 @@ class FactureRouting {
             'type' => 'object')
         ));
         
-         $r->prependRoute('comptabilite_edition', new EtablissementRoute('/comptabilite-edition', array('module' => 'facture',
+         $r->prependRoute('comptabilite_edition', new sfRoute('/comptabilite-edition', array('module' => 'facture',
             'action' => 'comptabiliteEdition'), array('sf_method' => array('get', 'post')), array('model' => 'Comptabilite',
             'type' => 'object')
         ));

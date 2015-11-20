@@ -5,4 +5,8 @@ class ComptabiliteClient extends acCouchdbClient {
     {
       return acCouchdbManager::getClient("Comptabilite");
     }  
+    
+    public function findCompta() {
+        return $this->find('COMPTABILITE');
+    }
 }
