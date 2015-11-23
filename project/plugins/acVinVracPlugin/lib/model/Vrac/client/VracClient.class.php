@@ -502,7 +502,7 @@ class VracClient extends acCouchdbClient {
 
 	$list_complete = array();
 
-	if (count($list) {
+	if (count($list)) {
 	        krsort($list);
 		$first = preg_replace('/-.*/', '', array_pop($list));
 		$last = preg_replace('/-.*/', '', array_shift($list));
