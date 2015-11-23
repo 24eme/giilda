@@ -96,7 +96,7 @@ while(<STDIN>) {
 	        print "numero de plan;" if ($verbose);
 	        print "1\n";
 	        print "section analytique;" if ($verbose);
-	        print $field[7]."\n";
+	        printf ("%05d\n", $field[7]);
 	        print "montant;" if ($verbose);
 	        print $field[10]."\n";
 	        print "quantite;" if ($verbose);
