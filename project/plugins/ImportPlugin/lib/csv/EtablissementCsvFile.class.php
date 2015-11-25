@@ -26,7 +26,8 @@ class EtablissementCsvFile extends CsvFile
   const CSV_TEL_PERSO = 20;
   const CSV_MOBILE = 21;
   const CSV_FAX = 22;
-  const CSV_COMMENTAIRE = 23;
+  const CSV_WEB = 23;
+  const CSV_COMMENTAIRE = 24;
 
   private function verifyCsvLine($line) {
         if (!preg_match('/[0-9]+/', $line[self::CSV_ID])) {
@@ -42,6 +43,8 @@ class EtablissementCsvFile extends CsvFile
       foreach ($csvs as $line) {
         try {
       	  $this->verifyCsvLine($line);
+
+          print_r($line);
 
           /*$famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
           if (!$famille) {
@@ -89,6 +92,8 @@ class EtablissementCsvFile extends CsvFile
           $e->compte = $s->compte_societe;
         	
           $e->save();
+
+          echo $e->_id . "\n";
       
       }catch(Exception $e) {
         echo $e->getMessage()."\n";

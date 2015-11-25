@@ -41,6 +41,7 @@ class SocieteCsvFile extends CsvFile
         foreach ($csvs as $line) {
             try {
               	$this->verifyCsvLine($line);
+                print_r($line);
                 $id = sprintf("%06d", $line[self::CSV_ID]);
 
               	$s = SocieteClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
@@ -76,6 +77,7 @@ class SocieteCsvFile extends CsvFile
                     $s->add('type_fournisseur',array($fournisseur_tag));
                 }*/
               	$s->save();
+                echo $s->_id."\n";                
 
                 $c = $s->getContact();
                 $c->adresse = preg_replace('/,/', '', $line[self::CSV_ADRESSE]);
