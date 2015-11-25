@@ -499,15 +499,17 @@ class VracClient extends acCouchdbClient {
             }
             $list[$c] = $c;
         }
-        krsort($list);
-	$first = preg_replace('/-.*/', '', array_pop($list));
-	$last = preg_replace('/-.*/', '', array_shift($list));
 
 	$list_complete = array();
 
-	for($i = $first ; $i <= $last ; $i++) {
-		$campagne = $i.'-'.($i + 1);
-		$list_complete[$campagne] = $campagne;
+	if (count($list)) {
+	        krsort($list);
+		$first = preg_replace('/-.*/', '', array_pop($list));
+		$last = preg_replace('/-.*/', '', array_shift($list));
+		for($i = $first ; $i <= $last ; $i++) {
+			$campagne = $i.'-'.($i + 1);
+			$list_complete[$campagne] = $campagne;
+		}
 	}
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list_complete);
     }
