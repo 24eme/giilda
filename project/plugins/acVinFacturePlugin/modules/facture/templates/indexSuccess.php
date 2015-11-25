@@ -5,6 +5,9 @@
         <div class="col-xs-12">
             <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default pull-right">Mouvements de factures</a>
         </div>
+         <div class="col-xs-12">
+            <a href="<?php echo url_for('comptabilite_edition'); ?>" class="btn btn-md btn-default pull-right">Gérer les identifiants analytiques</a>
+        </div>
         <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
         <?php //include_component('facture','generationMasse'); ?>
     </div>

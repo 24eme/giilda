@@ -274,5 +274,18 @@ class factureActions extends sfActions {
     private function getLatexTmpPath() {
         return "/tmp/";
     }
+    
+     public function executeComptabiliteEdition(sfWebRequest $request) {
+        $compta = ComptabiliteClient::getInstance()->find('COMPTABILITE');       
+        $this->form = new ComptabiliteEditionForm($compta);
+        
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                return $this->redirect('comptabilite_edition');
+            }
+        }
+    }
 
 }

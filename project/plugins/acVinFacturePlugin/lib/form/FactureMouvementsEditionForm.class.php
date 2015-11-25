@@ -22,8 +22,6 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
         $this->setValidator('date', new sfValidatorString(array('required' => false)));
 
-        $this->getObject()->mouvements->add("nouvelle");
-
         $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');

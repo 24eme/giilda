@@ -28,10 +28,13 @@
     });
     $.fn.initAdvancedElements = function () {
 
-        $(this).find('.input-float').inputNumberFormat({ 'decimal': 4, 'decimalAuto': 2 });
-        $(this).find('.input-integer').inputNumberFormat({ 'decimal': 0, 'decimalAuto': 0 });
+        $(this).find('.input-float').inputNumberFormat({'decimal': 4, 'decimalAuto': 2});
+        $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
-        $(this).find(".select2").select2({
+        $(this).find("select2").select2({
+            allowClear: true
+        });
+        $(this).find("select.select2").select2({
             allowClear: true
         });
 
@@ -41,11 +44,9 @@
             var defaultValueSplitted = defaultValue.split(',');
             var select2 = $(this);
             $(this).select2({
-                
-                onselected : function(){
-                  console.log('fre');  
+                onselected: function () {
+                    console.log('fre');
                 },
-                
                 initSelection: function (element, callback) {
                     if (defaultValue != '') {
                         callback({id: defaultValueSplitted[0], text: defaultValueSplitted[1]});
@@ -79,7 +80,7 @@
 
                     }}
             });
-            $(this).on('choose',function(){
+            $(this).on('choose', function () {
                 console.log('select');
             });
         });
@@ -132,10 +133,10 @@
                             return;
                         }
 
-                        if(form.data('related-element')) {
+                        if (form.data('related-element')) {
                             $(form.data('related-element')).trigger("modal_callback", data);
                         }
-                        
+
                         $(options.selectors.ajaxModal).modal('hide');
                     }, "json");
 

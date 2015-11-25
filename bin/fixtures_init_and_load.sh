@@ -111,6 +111,8 @@ curl -s -X PUT -d '{"_id":"CONFIGURATION","type":"Configuration","campagne":null
 
 curl -s -X PUT -d '{ "_id": "CURRENT", "type": "Current", "configurations": { "2000-08-01": "CONFIGURATION" } }' $DBURL$DBNAME/CURRENT
 
+curl -s -X PUT -d '{  "_id": "COMPTABILITE",   "type": "Comptabilite",   "identifiants_analytiques": { "1002015": { "identifiant_analytique": 1002015, "identifiant_analytique_libelle": "Foire aux Vins 2015","identifiant_analytique_libelle_compta": "Foire aux Vins 2015 (Subv. Général 14)"} } }' $DBURL$DBNAME/COMPTABILITE
+
 #curl -s -X PUT -d '{ "_id": "TEMPLATE-FACTURE-VIDE", "type": "TemplateFacture", "campagne": null, "template": "VIDE", "libelle": "Facture vierge", "docs": [ ], "cotisations": { "vierge": { "modele": "Cotisation", "callback": "", "libelle": "Nouvelle facture", "code_comptable": "", "details": { "vierge": { "modele": "CotisationFixe", "prix": null, "tva": null, "libelle": "Ligne de facture vierge", "complement_libelle": "",  "callback": "",  "docs": [  ]  }}}}}' $DBURL$DBNAME/TEMPLATE-FACTURE-VIDE
 
 

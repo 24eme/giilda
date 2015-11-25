@@ -1,20 +1,19 @@
 
-
-var initCollectionMouvementsFactureTemplate = function (element, regexp_replace, callback)
+var generateMouvementsFacture = function (element, regexp_replace, callback)
 {
+    if ($(element).length) {
 
-    $(element).on('click', function ()
-    {
         var uuid = UUID.generate();
-        var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, uuid);
+        var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, uuid);
 
 
-        var inputsToGetValues = $($(this).attr('data-container')).children('div').last().find('input');
+        var inputsToGetValues = $(element).children('div').last().find('input');
+        var selectsToGetValues = $(element).children('div').last().find('select');
 
-        var bloc = $($(this).attr('data-container')).children('div').last().after(bloc_html);
+        var bloc = $(element).children('div').last().after(bloc_html);
 
 
-        $($(this).attr('data-container')).children('div').last().find('input').each(function () {
+        $(element).children('div').last().find('input').each(function () {
             var name = $(this).attr('name');
             var value = "";
             if ((name != undefined) && (name.contains(uuid))) {
@@ -24,7 +23,7 @@ var initCollectionMouvementsFactureTemplate = function (element, regexp_replace,
                     if ((inputName != undefined) && (inputName.contains(nameReduct))) {
 
                         if (nameReduct != "[identifiant]") {
-                        
+
                             value = $(this).val();
                         }
                     }
@@ -33,7 +32,12 @@ var initCollectionMouvementsFactureTemplate = function (element, regexp_replace,
             $(this).val(value);
         });
 
-        $($(this).attr('data-container')).children('div').find('input').each(function () {
+        $(element).children('div').last().find('select').each(function () {
+            var valueSelected = $(selectsToGetValues).find('option[selected="selected"]').val();
+            $(this).find('option[value="' + valueSelected + '"]').attr('selected', 'selected');
+        });
+
+        $(element).children('div').find('input').each(function () {
             var name = $(this).attr('name');
             if (name != undefined) {
                 if ($(this).val() && name.substring(name.lastIndexOf("[")) == "[identifiant]") {
@@ -48,10 +52,54 @@ var initCollectionMouvementsFactureTemplate = function (element, regexp_replace,
         if (callback) {
             callback(bloc);
             initCollectionDeleteMouvementsFactureTemplate();
-               $(document).initAdvancedElements();
+            $(document).initAdvancedElements();
+            initCollectionMouvementsFactureTemplate(element, regexp_replace, callback);
         }
         return false;
+    }
+}
+
+var isConformForNewLine = function (element) {
+    var result = true;
+    $(element).children('div').last().find('input').each(function () {
+        if ($(this).attr('name') != undefined) {
+            if (($(this).val() == null) || ($(this).val() == "")) {
+                result = false;
+            }
+        }
     });
+    $(element).children('div').last().find('select').each(function () {
+        if (($(this).attr('name') != undefined) && (($(this).val() == null) || ($(this).val() == ""))) {
+            result = false;
+        }
+    });
+    return result;
+}
+
+var initCollectionMouvementsFactureTemplate = function (element, regexp_replace, callback)
+{
+    var lastRowInputs = $(element).children('div').last().find('input');
+    var lastRowSelects = $(element).children('div').last().find('input');
+
+    $(lastRowInputs).change(function () {
+        var addNewLine = isConformForNewLine(element);
+
+        if (addNewLine) {
+            generateMouvementsFacture(element, regexp_replace, callback);
+        }
+
+    });
+
+    $(lastRowSelects).change(function () {
+        var addNewLine = isConformForNewLine(element);
+
+        if (addNewLine) {
+            generateMouvementsFacture(element, regexp_replace, callback);
+        }
+
+    });
+
+
 }
 
 var initCollectionDeleteMouvementsFactureTemplate = function ()
@@ -68,7 +116,9 @@ var initCollectionDeleteMouvementsFactureTemplate = function ()
 }
 
 var initMouvementsFacture = function () {
-    initCollectionMouvementsFactureTemplate('.ajouter_mouvement_facture .btn_ajouter_ligne_template', /var---nbItem---/g, function (bloc) {
+    generateMouvementsFacture('#mouvementsfacture_list', /var---nbItem---/g, function (bloc) {
+    });
+    initCollectionMouvementsFactureTemplate('#mouvementsfacture_list', /var---nbItem---/g, function (bloc) {
     });
     initCollectionDeleteMouvementsFactureTemplate();
 }

@@ -14,9 +14,11 @@
 class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
+    protected $newUniqId;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $options['interpro_id'];
+        $this->newUniqId = uniqid();
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -29,8 +31,8 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        foreach ($this->getEmbeddedForms() as $key => $releveNonApurementItemForm) {
-            $releveNonApurementItemForm->updateObject($values[$key]);
+        foreach ($this->getEmbeddedForms() as $key => $factureMouvementItemForm) {
+            $factureMouvementItemForm->updateObject($values[$key]);
         }
     }
 

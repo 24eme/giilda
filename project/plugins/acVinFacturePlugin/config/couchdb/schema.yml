@@ -165,6 +165,25 @@ MouvementsFacture:
                         facturable: { type: integer }
                         region : { }
                         date : { }
+                        
+Comptabilite:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      type: {  }      
+      identifiants_analytiques:
+        type: collection
+        definition:
+          fields:
+            '*': 
+              type: collection
+              definition:
+                fields:                          
+                  identifiant_analytique: {  }
+                  identifiant_analytique_libelle: {  }
+                  identifiant_analytique_libelle_compta: {  }
+                                        
 
 TemplateFacture:
   definition:

@@ -1,0 +1,69 @@
+<?php
+
+class ComptabiliteEditionForm extends acCouchdbObjectForm {
+
+    const NOUVELLE_LIGNE = "nouvelle";
+
+    public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+
+        parent::__construct($object, $options, $CSRFSecret);
+    }
+
+    public function configure() {
+
+
+        $this->getObject()->getOrAdd('identifiants_analytiques')->add(self::NOUVELLE_LIGNE);
+
+        foreach ($this->getObject()->getOrAdd('identifiants_analytiques') as $iaKey => $identifiant_analytique) {
+
+            $this->setWidget("identifiant_analytique_" . $iaKey, new sfWidgetFormInput());
+            $this->setWidget("identifiant_analytique_libelle_" . $iaKey, new sfWidgetFormInput());
+            $this->setWidget("identifiant_analytique_libelle_compta_" . $iaKey, new sfWidgetFormInput());
+
+
+            $this->setValidator("identifiant_analytique_" . $iaKey, new sfValidatorNumber(array("required" => false)));
+            $this->setValidator("identifiant_analytique_libelle_" . $iaKey, new sfValidatorString(array('required' => false)));
+            $this->setValidator("identifiant_analytique_libelle_compta_" . $iaKey, new sfValidatorString(array('required' => false)));
+        }
+        $this->widgetSchema->setNameFormat('comptabilite_edition[%s]');
+    }
+
+    protected function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+         $this->getObject()->remove('identifiants_analytiques');
+        $identifiants_analytiques = $this->getObject()->getOrAdd('identifiants_analytiques');
+        foreach ($values as $key => $value) {
+            $matches = array();
+            if (preg_match('/^identifiant_analytique([a-z_]*)_([0-9]*)/', $key, $matches)) {
+                if (!$matches[1]) {
+
+                    $identifiants_analytiques->getOrAdd($matches[2])->identifiant_analytique = $value;
+                } else {
+
+                    $identifiants_analytiques->getOrAdd($matches[2])->add('identifiant_analytique' . $matches[1], $value);
+                }
+            }
+            if (preg_match('/^identifiant_analytique([a-z_]*)_nouvelle/', $key, $matches)) {
+
+                $newNode = $identifiants_analytiques->getOrAdd($values['identifiant_analytique_nouvelle']);
+                if (!$matches[1]) {
+                    $newNode->identifiant_analytique = $value;
+                } else {
+                    $newNode->add('identifiant_analytique' . $matches[1], $value);
+                }
+            }
+        }
+    }
+
+    public function setDefaults($defaults) {
+        parent::setDefaults($defaults);
+
+        foreach ($this->getObject()->getOrAdd('identifiants_analytiques') as $iaKey => $identifiant_analytique) {
+
+            $this->setDefault("identifiant_analytique_" . $iaKey, $identifiant_analytique->identifiant_analytique);
+            $this->setDefault("identifiant_analytique_libelle_" . $iaKey, $identifiant_analytique->identifiant_analytique_libelle);
+            $this->setDefault("identifiant_analytique_libelle_compta_" . $iaKey, $identifiant_analytique->identifiant_analytique_libelle_compta);
+        }
+    }
+
+}
