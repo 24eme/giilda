@@ -641,6 +641,28 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function save() {
         $this->region = $this->getEtablissement()->region;
+        $listEntrees = $listSorties = null;
+        foreach ($this->getProduits() as $produit) {
+            foreach ($produit->getProduitsDetails() as $produit_hash => $detail) {
+                if (!$listEntrees && !$listSorties) {
+                    $listEntrees = array_keys($detail->getConfig()->getEntreesSorted());
+                    $listSorties = array_keys($detail->getConfig()->getSortiesSorted());
+                }
+                foreach ($detail->entrees as $keyEntree => $valueEntree) {
+                    if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
+                            $this->get($produit_hash)->entrees->$keyEntree = null; 
+                    }
+                }
+                foreach ($detail->sorties as $keySortie => $valueSortie) {
+                    if ($valueSortie instanceof DRMESDetails) {
+                        continue;
+                    }
+                    if ($valueSortie && !in_array($keySortie, $listSorties)) {
+                        $this->get($produit_hash)->sorties->$keyEntree = null; 
+                    }
+                }
+            }
+        }
         parent::save();
     }
 
