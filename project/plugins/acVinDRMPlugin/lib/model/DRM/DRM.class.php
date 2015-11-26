@@ -650,7 +650,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 }
                 foreach ($detail->entrees as $keyEntree => $valueEntree) {
                     if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
-                            $this->get($produit_hash)->entrees->$keyEntree = null; 
+                            $this->get($produit_hash)->entrees->remove($keyEntree); 
                     }
                 }
                 foreach ($detail->sorties as $keySortie => $valueSortie) {
@@ -658,7 +658,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                         continue;
                     }
                     if ($valueSortie && !in_array($keySortie, $listSorties)) {
-                        $this->get($produit_hash)->sorties->$keyEntree = null; 
+                        $this->get($produit_hash)->sorties->remove($keyEntree); 
                     }
                 }
             }
