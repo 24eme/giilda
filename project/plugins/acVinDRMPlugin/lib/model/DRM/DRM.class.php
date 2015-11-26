@@ -642,6 +642,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function save() {
         $this->region = $this->getEtablissement()->region;
         $listEntrees = $listSorties = null;
+        $key_to_remove = array();
         foreach ($this->getProduits() as $produit) {
             foreach ($produit->getProduitsDetails() as $produit_hash => $detail) {
                 if (!$listEntrees && !$listSorties) {
@@ -650,18 +651,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 }
                 foreach ($detail->entrees as $keyEntree => $valueEntree) {
                     if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
-                            $this->get($produit_hash)->entrees->remove($keyEntree); 
+                        $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
+                          
                     }
                 }
                 foreach ($detail->sorties as $keySortie => $valueSortie) {
                     if ($valueSortie instanceof DRMESDetails) {
                         continue;
                     }
-                    if ($valueSortie && !in_array($keySortie, $listSorties)) {
-                        $this->get($produit_hash)->sorties->remove($keyEntree); 
+                    if ($valueSortie && !in_array($keySortie, $listSorties)) {                        
+                       $key_to_remove[] = $produit_hash.'/sorties/'.$keySortie;
                     }
                 }
             }
+        }
+        
+        foreach ($key_to_remove as $key) {
+           $this->remove($key);
         }
         parent::save();
     }
