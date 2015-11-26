@@ -17,18 +17,7 @@ class factureActions extends sfActions {
     public function executeNouveauMouvements(sfWebRequest $request) {
 
         $this->factureMouvements = MouvementsFactureClient::getInstance()->createMouvementsFacture();
-        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
-        if (!$request->isMethod(sfWebRequest::POST)) {
-
-            return sfView::SUCCESS;
-        }
-
-        $this->form->bind($request->getParameter($this->form->getName()));
-
-        if (!$this->form->isValid()) {
-            return sfView::SUCCESS;
-        }
-        $this->form->save();
+        $this->factureMouvements->save();
         $this->redirect('facture_mouvements_edition',array('id' => $this->factureMouvements->identifiant));
     }
     

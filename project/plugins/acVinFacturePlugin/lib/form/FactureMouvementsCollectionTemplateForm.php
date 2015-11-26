@@ -30,7 +30,7 @@ class FactureMouvementsCollectionTemplateForm extends BaseForm {
        
         $this->embedForm($this->unique_var, $this->form_embed);
         $name = sprintf($this->form->widgetSchema->getNameFormat(), $this->field);
-        $this->widgetSchema->setNameFormat($name.'[nouvelle][%s]');
+        $this->widgetSchema->setNameFormat($name.'[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
 
     }

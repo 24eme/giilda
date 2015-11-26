@@ -179,7 +179,8 @@ Comptabilite:
             '*': 
               type: collection
               definition:
-                fields:                          
+                fields:       
+                  identifiant_analytique_numero_compte: {  }
                   identifiant_analytique: {  }
                   identifiant_analytique_libelle: {  }
                   identifiant_analytique_libelle_compta: {  }

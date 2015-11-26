@@ -44,6 +44,11 @@ class FactureRouting {
        
          $r->prependRoute('facture_mouvements', new sfRoute('/facture_mouvements_list', array('module' => 'facture',
             'action' => 'mouvementsList')));
+         
+         $r->prependRoute('facture_mouvements_nouveaux', new sfRoute('/facture_mouvements_nouveaux', array('module' => 'facture',
+            'action' => 'nouveauMouvements')));
+         
+         
        
          $r->prependRoute('facture_mouvements_edition', new sfRoute('/facture_mouvements/:id', array('module' => 'facture',
             'action' => 'mouvements-edition')));
