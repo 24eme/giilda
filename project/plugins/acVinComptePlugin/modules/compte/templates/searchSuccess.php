@@ -8,11 +8,14 @@
 	<section class="col-xs-9" id="contenu_etape">
 		<form>
 			<div id="recherche_contact" class="section_label_maj">
-                           <div>
-   <label for="champ_recherche">Recherche d'un contact&nbsp;:</label><br /><?php //'; ?>
-				<input id="champ_recherche" class="ui-autocomplete-input" type="text" name="q" value="<?php echo $q; ?>" role="textbox" aria-autocomplete="list" aria-haspopup="true"> 
-				<button id="btn_rechercher" type="submit">Rechercher</button>
-                           </div>
+				
+                <div class="input-group">
+                    <input id="champ_recherche" class="form-control input-lg" type="text" name="q" value="<?php echo $q; ?>"> 
+                    <span class="input-group-btn">
+                        <button class="btn btn-lg btn-info" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+
 <div>
 <label for="contacts_all">Inclure les contacts suspendus </label>
 <input type="checkbox" value="1" name="contacts_all" id="contacts_all"<?php if($contacts_all) echo " CHECKED"; ?>/>
@@ -20,9 +23,9 @@
 			</div>
 		</form>
 
-	<span><?php echo $nb_results; ?> résultat(s) trouvé(s) (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</span>
+	<span> (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</span>
         
-	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>">Télécharger le tableur</a>
+	
 	
 	
 	<?php if($nb_results > 0): ?>
@@ -51,52 +54,66 @@
 		</div>
         
 		
-		<table id="resultats_contact" class="table table-bordered table-condensed">	
+		
 			<?php $cpt = 0; ?>
 
-			<thead>
-				<tr>
-                                        <th>Type</th>
-					<th>Nom</th>
-					<th>Adresse</th>
-					<th>Téléphone</th>
-					<th>Email</th>
-				</tr>
-			</thead>
+            <div class="list-group">
+			<?php foreach($results as $res): ?>
 
-			<tbody>
-				<?php foreach($results as $res): ?>
+				<?php 
+					$data = $res->getData();
+                    $societe_informations = $data['societe_informations'];
+				?>
+                        
+				<div class="list-group-item">
+                    <h4 class="list-group-item-heading">
+                        <span class="glyphicon glyphicon-home"></span> 
+                        <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a> 
+                        <?php if($societe_informations['raison_sociale'] != $data['nom_a_afficher']): ?><small><span class="glyphicon glyphicon-home"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
+                        <?php endif; ?>
+                        <small class="pull-right"><span class="label label-info"><?php echo $societe_informations['type'] ?></span></small>
+                    </h4>
+                    <p class="list-group-item-text">
+                        <?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?> <?php echo $data['commune']; ?>
+                    </p>
+                    <ul class="list-inline" style="margin-bottom: 0;">
+                            <?php if($data['email']): ?>
+                            <li><a href="mailto:<?php echo $data['email']; ?>"><?php echo $data['email']; ?></a></li>
+                            <?php endif; ?>
+                            <?php if($data['telephone_bureau']): ?>
+                            <li>Bureau : <?php echo $data['telephone_bureau'] ?></li>
+                            <?php endif; ?>
+                            <?php if($data['telephone_mobile']): ?>
+                            <li>Mobile : <?php echo $data['telephone_mobile'] ?></li>
+                            <?php endif; ?>
+                            <?php if($data['telephone_perso']): ?>
+                            <li>Perso : <?php echo $data['telephone_perso'] ?></li>
+                            <?php endif; ?>
+                        </ul>
+                         
+                     <!--
+                                            <?php 
+                                            $class_picto = "contact_picto";
+                                            $compte_type = $data['compte_type'];
+                                            if($compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT){
+                                                $class_picto = "etablissement_picto";
+                                            }
+                                            if($compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
+                                                $class_picto = "societe_picto";
+                                            }
+											$texte_infobulle =  '<span>Type :</span> '. $societe_informations['type'].'<br /><span>Nom :</span> '.$societe_informations['raison_sociale'];
+                                            ?>
+                                            <td
+												class="<?php echo $class_picto; ?>" data-contact-infos="<?php echo $texte_infobulle; ?>">
+											</td>
+					<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a></td>
+					<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
+					<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
+					<td><?php echo $data['email']; ?></td>-->
+				</div>
 
-					<?php 
-						$data = $res->getData();
-                        $societe_informations = $data['societe_informations'];
-						$class = ($cpt % 2) ? ' class="even"' : ''; 
-					?>
-                            
-					<tr <?php echo $class; ?>>
-                                                <?php 
-                                                $class_picto = "contact_picto";
-                                                $compte_type = $data['compte_type'];
-                                                if($compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT){
-                                                    $class_picto = "etablissement_picto";
-                                                }
-                                                if($compte_type == CompteClient::TYPE_COMPTE_SOCIETE){
-                                                    $class_picto = "societe_picto";
-                                                }
-												$texte_infobulle =  '<span>Type :</span> '. $societe_informations['type'].'<br /><span>Nom :</span> '.$societe_informations['raison_sociale'];
-                                                ?>
-                                                <td
-													class="<?php echo $class_picto; ?>" data-contact-infos="<?php echo $texte_infobulle; ?>">
-												</td>
-						<td><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a></td>
-						<td><?php echo $data['adresse']; ?>, <?php echo $data['code_postal']; ?>, <?php echo $data['commune']; ?></td>
-						<td><?php echo $data['telephone_bureau']; ?> <?php echo $data['telephone_mobile'] ?> <?php echo $data['telephone_perso']; ?> <?php echo $data['fax']; ?></td>
-						<td><?php echo $data['email']; ?></td>
-					</tr>
-
-				<?php endforeach; ?>
-			</tbody>
-		</table>
+			<?php endforeach; ?>
+		</div>
 
 		<div class="pagination">
 			<div class="page_precedente">
@@ -121,81 +138,50 @@
 	<?php endif; ?>
 
 </section>
-<?php
-	slot('colButtons'); 
-?>
- <div class="bloc_col" id="action" >
-	<h2>Actions</h2>
 
-	<div class="contenu">
-            <ul>
-                <li class="">
-			<a class="btn_majeur btn_acces" href="<?php echo url_for('societe');?>">Accueil des contacts</a>
-                </li>
-                <li class="">
-                     <a class="btn_majeur btn_acces" href="<?php echo url_for('compte_search');?>">Accueil rech. avancée</a>
-                </li>
-            </ul>
-		
-	</div>
-</div>
-<?php
-	end_slot();
-?>
+        <div class="col-xs-3">
+        <a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>">Exporter en CSV</a><br />
+        <?php echo $nb_results; ?> résultat(s) trouvé(s)
+        </div>
 
 		<?php if (count($selected_typetags)) :  ?>
-			<div class="bloc_col col-xs-3">
-				<h2>tags sélectionnés</h2>
-				<ul class="liste_tags">
-					<li>
+			<div class="col-xs-3">
+				<h2>Tags sélectionnés</h2>
 						<?php foreach($selected_typetags as $type => $selected_tags) : ?>
-							<ul>
-								<li class="typetag"><h3><?php echo $type; ?></h3></li>
+                            <h3><?php echo ucfirst($type); ?></h3>
+							<div class="list-group">
 								<?php foreach($selected_tags as $t) {
 									$targs = $args_copy->getRawValue();
 									$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
-									echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>&nbsp;';
+									echo '<a class="list-group-item" href="'.url_for('compte_search', $targs).'"><span class="badge"><span class="glyphicon glyphicon-minus"></span></span> '.str_replace('_', ' ', $t).'</a>';
 									$targs = $args_copy->getRawValue();
 									$targs['tag'] = $t;
 									if ($type == 'manuel') {
 									  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'">X</a>)';
 									}
-									echo '</li>';
+									echo '';
 									} ?>
-							</ul>
+							</div>
 						<?php endforeach ?>
-					</li>
-				</ul>
 			</div>
 		<?php endif; ?>
 
-		<div class="bloc_col">
-			<h2>tags dispos</h2>
-			<ul class="liste_tags">
-				<?php 
-				foreach($facets as $type => $ftype) {
-				  if (count($ftype['terms'])) {
-					echo '<li class="typetag">'.$type.'</li><ul>';
-					$i=0;
-                    foreach($ftype['terms'] as $f) {
-                        if (preg_match('/^(export|produit)_/', $f['term'])) {
-                            continue;
-                        }
+		<div class="col-xs-3">
+			<h2>Tags disponibles</h2>
+                <?php foreach($facets as $type => $ftype): ?>
+                    <?php if (count($ftype['terms'])): ?>
+                    <h3><?php echo ucfirst($type) ?></h3>
+			           <div class="list-group">
+                        <?php foreach($ftype['terms'] as $f): ?>
+                            <?php if (preg_match('/^(export|produit)_/', $f['term'])) { continue; } ?>
 
-					  $targs = $args_copy->getRawValue();
-					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
-					  echo '<li class="'.(($i>=20) ? 'tag_overflow' : '').'"><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
-                      $i++;
-					}
-                    ?>
-                    <?php if($i > 20): ?>
-                        <li><a class="tags_more" data-toggle-text="(réduire)" href="">(voir plus)</a></li>
-                    <?php endif; ?>
-					</ul>
-                    <?php
-				  }
-				}
-				?>
+        					<?php $targs = $args_copy->getRawValue(); ?>
+        					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term']))); ?>
+        					  <a class="list-group-item" href="<?php echo url_for('compte_search', $targs) ?>"><span class="glyphicon glyphicon-plus"></span> <?php echo str_replace('_', ' ', $f['term']) ?> <span class="badge"><?php echo $f['count'] ?></span></a>
+    					<?php endforeach; ?>
+    					</div>
+				    <?php endif; ?>
+				<?php endforeach; ?>
 			</ul>
 		</div>
 
