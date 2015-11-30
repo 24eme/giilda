@@ -46,6 +46,14 @@ Ajouter un vhost avec les éléments suivants :
 	# php_value xdebug.max_nesting_level 120
 	</VirtualHost>
 
+L'application a besoin du module rewrite. Pour l'activer :
+
+	$ sudo a2enmod rewrite
+
+Pour la prise en compte de ces deux éléments, il faut redémarrer apache :
+
+	$ sudo /etc/init.d/apache2 restart
+
 # création de la base couchdb
 
 	$ curl -X PUT http://localhost:5984/vinsdeloire
