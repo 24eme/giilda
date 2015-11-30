@@ -1,21 +1,21 @@
-# dépendances
+# dÃ©pendances
 
 Pour Symfony :
 
 	$ sudo aptitude install couchdb libapache2-mod-php5 php5-cli php5-curl
 
-Pour la génération des pdf en latex :
+Pour la gÃ©nÃ©ration des pdf en latex :
 
 	$ sudo aptitude install texlive-fonts-recommended texlive-latex-extra pdflatex pdftk texlive-lang-french texlive-lang-greek
 
 # git
 
-	$ cd /var/www (ou à un autre emplacement)
+	$ cd /var/www (ou Ãá un autre emplacement)
 	$ git clone https://git.gitorious.org/vinsdeloire/vinsdeloire.git
 	$ cd vinsdeloire
 	$ git pull origin prod
 
-# mise à jour du code 
+# mise Ãá jour du code 
 
 A la racine du projet :
 
@@ -23,7 +23,7 @@ A la racine du projet :
 
 # configuration d'apache
 
-Ajouter un vhost avec les éléments suivants :
+Ajouter un vhost avec les Ã©lÃ©ments suivants :
 
 	<VirtualHost *:80>
 	ServerName declaration.dev.vinsdeloire.fr
@@ -42,11 +42,11 @@ Ajouter un vhost avec les éléments suivants :
 		Allow from All
 	</Directory>
 
-	# Dans le cas ou xdebug est installé
+	# Dans le cas ou xdebug est installÃ©
 	# php_value xdebug.max_nesting_level 120
 	</VirtualHost>
 
-# création de la base couchdb
+# crÃ©ation de la base couchdb
 
 	$ curl -X PUT http://localhost:5984/vinsdeloire
 
@@ -58,16 +58,24 @@ Ajouter un vhost avec les éléments suivants :
 	$ sudo chown www-data log cache
 	$ cp config/databases.yml{.example,}
 
-adapter l'adresse du couchdb si nécessaire
+adapter l'adresse du couchdb si nÃ©cessaire
 
 	$ cp config/app.yml{.example,}
 	$ cp bin/config{.example.inc,.inc}
 
-gestion des droits pour les fichiers générés :
+gestion des droits pour les fichiers gÃ©nÃ©rÃ©s :
 
 	$ sudo mkdir data/latex
 	$ sudo chown www-data data/latex
 
-# import/initialisation de données de l'application
+# import/initialisation de donnÃ©es de l'application
 
 	$ php symfony cc
+
+# installation du moteur de recherche des comptes
+
+Pour rÃ©aliser cette installation, il faut que vous installiez d'abord [ElasticSearch].
+
+Une fois elasticsearch fonctionnel avec la river couchdb, vous pouvez executer la commande suivante :
+
+        $ bash bin/elastic_configure
