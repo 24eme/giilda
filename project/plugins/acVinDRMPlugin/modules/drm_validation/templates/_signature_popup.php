@@ -5,6 +5,9 @@
             <p>
                 Vous êtes sur le point de valider votre DRM, une fois votre déclaration validée, vous ne pourrez plus la modifier.
             </p>
+	    <p>
+		Une fois validée, vous recevrez votre DRM par mail.
+	    </p>
             <div class="ligne_btn">
                 <a id="signature_drm_popup_close" class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
 
