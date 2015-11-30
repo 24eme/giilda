@@ -82,7 +82,7 @@ Une fois elasticsearch fonctionnel avec la river couchdb, vous pouvez executer l
 
 # mise en place de l'export LDAP
 
-Afin de permettre aux utilisateurs pouvoir  consulter le contenu des comptes VINSI sur leurs outils de mails, une passerelle LDAP a été développée. Pour l'activer, il faut installer d'abord [LDAP.md](LDAP en suivant la procédure fournie).
+Afin de permettre aux utilisateurs pouvoir  consulter le contenu des comptes VINSI sur leurs outils de mails, une passerelle LDAP a été développée. Pour l'activer, il faut installer d'abord [LDAP en suivant la procédure fournie](LDAP.md).
 
 Un script permet d'importer tous les comptes de la base dans lDAP :
 
