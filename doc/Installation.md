@@ -1,21 +1,21 @@
-# dÃ©pendances
+# dépendances
 
 Pour Symfony :
 
 	$ sudo aptitude install couchdb libapache2-mod-php5 php5-cli php5-curl
 
-Pour la gÃ©nÃ©ration des pdf en latex :
+Pour la génération des pdf en latex :
 
 	$ sudo aptitude install texlive-fonts-recommended texlive-latex-extra pdflatex pdftk texlive-lang-french texlive-lang-greek
 
 # git
 
-	$ cd /var/www (ou Ãá un autre emplacement)
+	$ cd /var/www (ou à un autre emplacement)
 	$ git clone https://git.gitorious.org/vinsdeloire/vinsdeloire.git
 	$ cd vinsdeloire
 	$ git pull origin prod
 
-# mise Ãá jour du code 
+# mise à jour du code 
 
 A la racine du projet :
 
@@ -23,7 +23,7 @@ A la racine du projet :
 
 # configuration d'apache
 
-Ajouter un vhost avec les Ã©lÃ©ments suivants :
+Ajouter un vhost avec les éléments suivants :
 
 	<VirtualHost *:80>
 	ServerName declaration.dev.vinsdeloire.fr
@@ -42,11 +42,11 @@ Ajouter un vhost avec les Ã©lÃ©ments suivants :
 		Allow from All
 	</Directory>
 
-	# Dans le cas ou xdebug est installÃ©
+	# Dans le cas ou xdebug est installé
 	# php_value xdebug.max_nesting_level 120
 	</VirtualHost>
 
-# crÃ©ation de la base couchdb
+# création de la base couchdb
 
 	$ curl -X PUT http://localhost:5984/vinsdeloire
 
@@ -58,23 +58,23 @@ Ajouter un vhost avec les Ã©lÃ©ments suivants :
 	$ sudo chown www-data log cache
 	$ cp config/databases.yml{.example,}
 
-adapter l'adresse du couchdb si nÃ©cessaire
+adapter l'adresse du couchdb si nécessaire
 
 	$ cp config/app.yml{.example,}
 	$ cp bin/config{.example.inc,.inc}
 
-gestion des droits pour les fichiers gÃ©nÃ©rÃ©s :
+gestion des droits pour les fichiers générés :
 
 	$ sudo mkdir data/latex
 	$ sudo chown www-data data/latex
 
-# import/initialisation de donnÃ©es de l'application
+# import/initialisation de données de l'application
 
 	$ php symfony cc
 
 # installation du moteur de recherche des comptes
 
-Pour rÃ©aliser cette installation, il faut que vous installiez d'abord [ElasticSearch].
+Pour réaliser cette installation, il faut que vous installiez d'abord [ElasticSearch].
 
 Une fois elasticsearch fonctionnel avec la river couchdb, vous pouvez executer la commande suivante :
 
