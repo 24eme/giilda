@@ -85,7 +85,24 @@ Par défaut, elasticsearch est prévu pour fonctionner sur plusieurs noeuds. Ce 
 
        $ curl -XPUT "http://127.0.0.1:9200/_settings" -d'{"number_of_replicas" : 0}'
 
-Une fois cette opération réalisée, elasticsearch devrait apparaitre avec un status (*cluster health*) vert (*green*)
+Une fois cette opération réalisée, elasticsearch devrait apparaitre avec un status (*cluster health*) vert (*green*) soit dans le plugin *head*, en interrogeant le statut en http :
+
+	$ curl -XGET 'http://localhost:9200/_cluster/health?pretty=true'
+	{
+	  "cluster_name" : "elasticsearch",
+	  "status" : "green",
+	  "timed_out" : false,
+	  "number_of_nodes" : 1,
+	  "number_of_data_nodes" : 1,
+	  "active_primary_shards" : 6,
+	  "active_shards" : 6,
+	  "relocating_shards" : 0,
+	  "initializing_shards" : 0,
+	  "unassigned_shards" : 0
+	}
+
+
+
 
 # Détail du fonctionnement de la connexion avec CouchDB
 
