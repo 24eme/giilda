@@ -41,7 +41,6 @@ class SocieteCsvFile extends CsvFile
         foreach ($csvs as $line) {
             try {
               	$this->verifyCsvLine($line);
-                print_r($line);
                 $id = sprintf("%06d", $line[self::CSV_ID]);
 
               	$s = SocieteClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);

@@ -194,7 +194,7 @@ class compteActions extends sfCredentialActions {
     }
     
     public function executeSearch(sfWebRequest $request) {
-      $res_by_page = 50;
+      $res_by_page = 30;
       $page = $request->getParameter('page', 1);
       $from = $res_by_page * ($page - 1);
 

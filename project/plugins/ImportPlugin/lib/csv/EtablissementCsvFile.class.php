@@ -44,8 +44,6 @@ class EtablissementCsvFile extends CsvFile
         try {
       	  $this->verifyCsvLine($line);
 
-          print_r($line);
-
           /*$famille = $this->convertTypeInFamille($line[self::CSVPAR_TYPE_PARTENAIRE]);
           if (!$famille) {
 	          echo "Etablissement ERROR: ".$line[self::CSVPAR_CODE_CLIENT].": Pas de Famille connue\n";

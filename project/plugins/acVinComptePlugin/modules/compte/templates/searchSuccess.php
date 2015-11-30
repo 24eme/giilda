@@ -69,7 +69,7 @@
                     <h4 class="list-group-item-heading">
                         <span class="glyphicon glyphicon-home"></span> 
                         <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a> 
-                        <?php if($societe_informations['raison_sociale'] != $data['nom_a_afficher']): ?><small><span class="glyphicon glyphicon-home"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
+                        <?php if($societe_informations['raison_sociale'] && $societe_informations['raison_sociale'] != $data['nom_a_afficher']): ?><small><span class="glyphicon glyphicon-home"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
                         <?php endif; ?>
                         <small class="pull-right"><span class="label label-info"><?php echo $societe_informations['type'] ?></span></small>
                     </h4>
@@ -153,7 +153,7 @@
 								<?php foreach($selected_tags as $t) {
 									$targs = $args_copy->getRawValue();
 									$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
-									echo '<a class="list-group-item" href="'.url_for('compte_search', $targs).'"><span class="badge"><span class="glyphicon glyphicon-minus"></span></span> '.str_replace('_', ' ', $t).'</a>';
+									echo '<a class="list-group-item" href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>';
 									$targs = $args_copy->getRawValue();
 									$targs['tag'] = $t;
 									if ($type == 'manuel') {
@@ -177,7 +177,7 @@
 
         					<?php $targs = $args_copy->getRawValue(); ?>
         					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term']))); ?>
-        					  <a class="list-group-item" href="<?php echo url_for('compte_search', $targs) ?>"><span class="glyphicon glyphicon-plus"></span> <?php echo str_replace('_', ' ', $f['term']) ?> <span class="badge"><?php echo $f['count'] ?></span></a>
+        					  <a class="list-group-item" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $f['term']) ?> <span class="badge"><?php echo $f['count'] ?></span></a>
     					<?php endforeach; ?>
     					</div>
 				    <?php endif; ?>
@@ -186,12 +186,16 @@
 		</div>
 
                 <?php if(isset($args_copy)): ?>
-		<div class="bloc_col">
-		
+		<div class="col-xs-3">
 			<h2>Créer un tag</h2>
 			<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
-			<input id="creer_tag" name="tag" class="tags" type="text" />
-			<input type="submit" value="ajouter" class="btn_majeur btn_modifier"/>
+            <div class="input-group">
+                <input id="creer_tag" name="tag" class="form-control" type="text" />
+    			<span class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-plus"></span></button>
+                </span>
+            </div>
+
 			<input type="hidden" name="q" value="<?php echo $q;?>"/>
 			<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
 			</form>

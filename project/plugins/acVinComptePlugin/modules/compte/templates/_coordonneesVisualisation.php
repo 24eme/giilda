@@ -1,4 +1,4 @@
-<fieldset>
+<div class="col-xs-4">
     <div class="form_ligne">
         <legend>Adresse</legend>
     </div>
@@ -42,8 +42,8 @@
         </label>
         <?php echo $compte->pays; ?>
     </div>
-</fieldset>
-<fieldset>
+</div>
+<div class="col-xs-4">
     <div class="form_ligne">
         <legend>E-mail / téléphone / fax</legend>
     </div>
@@ -95,9 +95,9 @@
             <a href="<?php echo $compte->site_internet; ?>"><?php echo $compte->site_internet; ?></a>
         </div>
     <?php endif; ?>
-</fieldset>
+</div>
 <?php if($compte->exist('droits')): ?>
-<fieldset>
+<div class="col-xs-4">
         <div class="form_ligne">
             <legend>Droits</legend>
         </div>
@@ -108,9 +108,9 @@
                 <?php endforeach; ?>
             </ul>
         </div>
-</fieldset>
+</div>
 <?php endif; ?>
-<fieldset>
+<div class="col-xs-4">
     <div class="form_ligne">
         <legend>Tags - étiquettes </legend>
     </div>
@@ -133,4 +133,4 @@
             </ul>
     </div>
 <?php endforeach; ?>
-</fieldset>
+</div>

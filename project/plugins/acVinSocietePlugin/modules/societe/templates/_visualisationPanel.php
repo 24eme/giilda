@@ -1,9 +1,10 @@
 <?php
 use_helper('Date');
 ?>
-<div id="detail_societe" class="form_section ouvert">
-    <h3>Détail de la société </h3>  
-    <div class="form_contenu">
+<div class="col-xs-12">
+    <div class="panel panel-default">
+    <div class="panel-heading">Détail de la société</div>
+    <div class="panel-body">
         <?php if($modification || $reduct_rights) : ?>
 		<div class="form_modifier">
                     <a href="<?php echo url_for('compte_search', array('q' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_nouveau">Ajouter un tag</a>
@@ -122,5 +123,6 @@ use_helper('Date');
             <pre class="commentaire"><?php echo $societe->commentaire;?></pre>
         </div>
         <?php endif; ?>
+        </div>
     </div>
 </div>
