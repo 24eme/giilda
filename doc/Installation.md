@@ -1,4 +1,4 @@
-# dépendances
+# Dépendances
 
 Pour Symfony :
 
@@ -8,7 +8,7 @@ Pour la génération des pdf en latex :
 
 	$ sudo aptitude install texlive-fonts-recommended texlive-latex-extra pdflatex pdftk texlive-lang-french texlive-lang-greek
 
-# git
+# Déploiement du code via git
 
 	$ cd /var/www (ou à un autre emplacement)
 	$ git clone https://git.gitorious.org/vinsdeloire/vinsdeloire.git
@@ -79,3 +79,11 @@ Pour réaliser cette installation, il faut que vous installiez d'abord [ElasticS
 Une fois elasticsearch fonctionnel avec la river couchdb, vous pouvez executer la commande suivante :
 
         $ bash bin/elastic_configure
+
+# mise en place de l'export LDAP
+
+Afin de permettre aux utilisateurs pouvoir  consulter le contenu des comptes VINSI sur leurs outils de mails, une passerelle LDAP a été développée. Pour l'activer, il faut installer d'abord [LDAP.md](LDAP en suivant la procédure fournie).
+
+Un script permet d'importer tous les comptes de la base dans lDAP :
+
+	$ bash bin/comptes_update_ldap.sh
