@@ -74,7 +74,7 @@ gestion des droits pour les fichiers générés :
 
 # installation du moteur de recherche des comptes
 
-Pour réaliser cette installation, il faut que vous installiez d'abord [ElasticSearch](ElasticSearch.md).
+Pour réaliser cette installation, il faut que vous installiez d'abord [ElasticSearch](ElasticSearch.md) (avec la river couchdb comme [indiqué dans la documentation fournie](ElasticSearch.md)).
 
 Une fois elasticsearch fonctionnel avec la river couchdb, vous pouvez executer la commande suivante :
 
