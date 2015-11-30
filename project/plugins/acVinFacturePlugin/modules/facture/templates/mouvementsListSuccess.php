@@ -14,3 +14,9 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-12">
+        <a href="<?php echo url_for("facture_mouvements_nouveaux"); ?>" class="btn btn-default">Nouveaux mouvements de factures</a>
+     
+    </div>
+</div>

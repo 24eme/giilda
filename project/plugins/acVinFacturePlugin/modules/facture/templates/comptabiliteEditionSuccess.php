@@ -21,7 +21,8 @@
         <div class="row row-margin">
             <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" >
                 <div class="row">
-                    <div class="col-xs-4">Code identifiant analytique</div>
+                    <div class="col-xs-2 text-center lead text-muted">Numéro Compte</div>
+                    <div class="col-xs-2 text-center lead text-muted">Code identifiant analytique</div>
                     <div class="col-xs-4 text-center lead text-muted">Libellé compta</div>
                     <div class="col-xs-4 text-center lead text-muted">Libellé sur factures</div>
                 </div>
@@ -30,11 +31,17 @@
         </div>
         <?php foreach ($form->getObject()->getOrAdd('identifiants_analytiques') as $iakey => $identifiant_analytique) : ?>
            
-                <div class="row row-margin"  style="border-bottom: 1px dotted #d2d2d2; padding: 20px;">
-                    <div class="col-xs-4">
+                <div class="row row-margin"  style="border-bottom: 1px dotted #d2d2d2; padding: 5px;">
+                    <div class="col-xs-2">
+                        <div class="row">
+                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_numero_compte_' . $iakey]->renderError(); ?>  </div>
+                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_numero_compte_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_' . $iakey]->renderError(); ?>  </div>
-                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_' . $iakey]->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
+                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
                         </div>
 
 
@@ -42,14 +49,14 @@
                     <div class="col-xs-4">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_compta_' . $iakey]->renderError(); ?>  </div>
-                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_compta_' . $iakey]->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
+                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_compta_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
                         </div>
 
                     </div>
                     <div class="col-xs-4">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->renderError(); ?>  </div>
-                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
+                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
                         </div>
 
                     </div>
