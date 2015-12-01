@@ -2,65 +2,6 @@
 
 class importVracTask extends importAbstractTask {
 
-    const CSV_LIGNE = 0;
-    const CSV_NUMCONTRAT = 1;
-    const CSV_CAMPAGNE = 2;
-    const CSV_MOIS = 3;
-    const CSV_NUMBORDEREAU = 4;
-    const CSV_NUMORDREMOIS = 5;
-    const CSV_DATE = 6;
-    const CSV_LIEUSIGNATURE = 7;
-    const CSV_DATESAISIE = 8;
-    const CSV_IDVENDEUR = 9;
-    const CSV_IDACHETEUR = 10;
-    const CSV_IDCOURTIER = 11;
-    const CSV_CHAIELABORATION = 12;
-    const CSV_CHAILOGEMENT = 13;
-    const CSV_MILLESIME = 14;
-    const CSV_CODEVIN = 15; #code produit ?
-    const CSV_PRIMEUR = 16;
-    const CSV_BIO = 17;
-    const CSV_PREPARE = 18;
-    const CSV_VOLUME_PROPOSE_HL = 19;
-    const CSV_VOLUME_ENLEVE_HL = 20;
-    const CSV_PRIX_VENTE = 21;
-    const CSV_CODECEPAGE = 22;
-    const CSV_DEBUTRETIRAISON = 23;
-    const CSV_FINRETIRAISON = 24;
-    const CSV_FINRETIRAISONFORMATTE = 25;
-    const CSV_CONDITIONRETIRAISON = 26;
-    const CSV_OBSERVATIONS = 27;
-    const CSV_CLAUSERESERVE = 28;
-    const CSV_ACCOMPTE = 29;
-    const CSV_SOLDEFACTURE = 30;
-    const CSV_SOLDEVOLUMEFACTURE = 31;
-    const CSV_CONTRATANNULE = 32;
-    const CSV_CHIFFREAFFAIRE = 33;
-    const CSV_EXCLUREV2 = 34;
-    const CSV_VERIFONCAT = 35;
-    const CSV_OUINON_O = "O";
-    const CSV_OUINON_N = "N";
-    const CSV_TYPE_PRODUIT_INDETERMINE = 0;
-    const CSV_TYPE_PRODUIT_RAISINS = 1;
-    const CSV_TYPE_PRODUIT_MOUTS = 2;
-    const CSV_TYPE_PRODUIT_VIN_VRAC = 3;
-    const CSV_TYPE_PRODUIT_TIRE_BOUCHE = 5;
-    const CSV_TYPE_PRODUIT_VIN_LATTES = 6;
-    const CSV_TYPE_PRODUIT_VIN_CRD = 7;
-    const CSV_TYPE_PRODUIT_VIN_BOUTEILLE = 8;
-    const CSV_UNITE_VOLUME_HL = 'hl';
-    const CSV_UNITE_VOLUME_L = 'l';
-    const CSV_UNITE_VOLUME_KG = 'kg';
-    const CSV_UNITE_VOLUME_BARRIQUE = 'ba';
-    const CSV_TYPE_CONTRAT_SORTIES_COOP = 'C';
-    const CSV_TYPE_CONTRAT_PLURIANNUEL_PRIX_A_DEFINIR = 'D';
-    const CSV_TYPE_CONTRAT_FITRANEG = 'F';
-    const CSV_TYPE_CONTRAT_FERMAGE = 'M';
-    const CSV_TYPE_CONTRAT_PLURIANNUEL = 'P';
-    const CSV_TYPE_CONTRAT_QUINQUENNAL = 'Q';
-    const CSV_TYPE_CONTRAT_PAS_TRANSACTION_FINANCIERE = 'T';
-    const CSV_TYPE_CONTRAT_VINAIGRERIE = 'V';
-
     protected function configure() {
         // // add your own arguments here
         $this->addArguments(array(
@@ -87,21 +28,15 @@ EOF;
 
     protected function execute($arguments = array(), $options = array()) {
         // initialize the database connection
-        $databaseManager = new sfDatabaseManager($this->configuration);
+        $databaseManager = new sfDatabaseManager($this->configuration);    
+        $context = sfContext::createInstance($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        set_time_limit(0);
-        $i = 1;
-        foreach (file($arguments['file']) as $line) {
-            if (!preg_match('/^Ligne;Numéro Contrat/', $line)) {
-                $data = str_getcsv($line, ';');
-                $vrac = $this->importVrac($data);
-                $vrac->save();
-            }
-
-            $i++;
-        }
+        $csv = new VracCsvFile($arguments['file']);
+        $csv->import();
     }
+
+
 
     public function importVrac($line) {
         $type_transaction = $this->convertTypeTransaction($line);

@@ -34,10 +34,7 @@ EOF;
     $context = sfContext::createInstance($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    set_time_limit(0);
     $csv = new EtablissementCsvFile($arguments['file']);
     $csv->importEtablissements();
-
-    // add your code here
   }
 }

@@ -75,4 +75,6 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-php symfony import:vracs $DATA_DIR/contrats.csv
+cat $DATA_DIR/contrats.csv | awk -F ';' '{ print $2 ";" $5 ";"  $7 ";" $9 ";VIN_VRAC;" $10 ";;" $11 ";" $12 ";" $16 ";;" $15 ";" $24 ";;;;" $20 ";hl;" $22 ";;;" $20 ";" $21 ";" $23 ";" $23 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' > $DATA_DIR/vracs.csv
+
+php symfony import:vracs $DATA_DIR/vracs.csv
