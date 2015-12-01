@@ -75,6 +75,6 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-cat $DATA_DIR/contrats.csv | awk -F ';' '{ print $2 ";" $5 ";"  $7 ";" $9 ";VIN_VRAC;" $10 ";;" $11 ";" $12 ";" $16 ";;" $15 ";" $24 ";;;;" $20 ";hl;" $22 ";;;" $20 ";" $21 ";" $23 ";" $23 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' > $DATA_DIR/vracs.csv
+cat $DATA_DIR/contrats.csv | awk -F ';' '{ date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$7); date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); print $2 ";" $5 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $10 ";;" $11 ";" $12 ";" $16 ";;" $15 ";" $24 ";;;;" $20 ";hl;" $22 ";;;" $20 ";" $21 ";" $23 ";" $23 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' | grep -Ev '^[0-9]+;0;' > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
