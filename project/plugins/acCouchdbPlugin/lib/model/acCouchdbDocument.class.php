@@ -174,7 +174,9 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         $data = $this->getData();
         $this->reset($this);
         $this->loadFromCouchdb($data);
-        $this->_rev = null;
+        if($this->exist('_rev')) {
+            $this->_rev = null;
+        }
         $this->_id = null;
     }
 }
