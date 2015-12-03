@@ -85,6 +85,8 @@ class VracCsvFile extends CsvFile
                 $v->numero_contrat = $dateSaisie->format('Y').$this->verifyAndFormatNumeroContrat($line);
                 $v->numero_archive = $this->verifyAndFormatNumeroArchive($line);
 
+                $v->constructId();
+
                 $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID]);
                 $acheteur = $this->verifyEtablissement($line[self::CSV_ACHETEUR_ID]);
                 $courtier = null;
@@ -92,7 +94,7 @@ class VracCsvFile extends CsvFile
                     $courtier = $this->verifyEtablissement($line[self::CSV_COURTIER_ID]);
                 }
                 $v->vendeur_identifiant = $vendeur->_id;
-                $v->representant_identifiant = null;
+                $v->representant_identifiant = $vendeur->_id;
                 $v->acheteur_identifiant = $acheteur->_id;
                 if($courtier) {
                     $v->mandataire_identifiant = $courtier->_id;
@@ -115,9 +117,11 @@ class VracCsvFile extends CsvFile
                     throw new sfException("La date de début de retiraison est supérieur à celle du début");
                 }
 
-                $v->constructId();
+                
                 //echo $v->_id."\n";
                 //print_r($line);
+
+                $v->save();
 
             }catch(Exception $e) {
                 echo sprintf("%s : #%s\n",$e->getMessage(), implode(";", $line));
@@ -189,7 +193,7 @@ class VracCsvFile extends CsvFile
     }
 
     private function verifyAndFormatMillesime($line) {
-        
+
         return $line[self::CSV_MILLESIME] ? (int) $line[self::CSV_MILLESIME] : null;
     }
 
@@ -258,7 +262,7 @@ class VracCsvFile extends CsvFile
             throw new Exception(sprintf("Number %s is not a float", $number));
         }
 
-        return FloatHelper::getInstance()->format($number);
+        return (float) FloatHelper::getInstance()->format($number);
     }
 
     private function formatAndVerifyDate($date) {
