@@ -570,7 +570,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $this->code_douane = ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE] : null;
         }
 
-        if ($datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE_NOEUD] == $this->getTypeNoeud()) {
+        if (isset($datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE_NOEUD]) && $datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE_NOEUD] == $this->getTypeNoeud()) {
             $this->format_libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE] : null;
         }
     }

@@ -134,7 +134,9 @@ class ProduitCsvFile extends CsvFile {
         $this->errors = array();
         $csv = $this->getCsv();
 
-        $this->oldconfig = clone $this->config;
+        if(!$this->config->isNew()) {
+            $this->oldconfig = clone $this->config;
+        }
 
         $this->config->declaration->remove('certifications');
         $this->config->declaration->add('certifications');
@@ -161,7 +163,7 @@ class ProduitCsvFile extends CsvFile {
                 $produit = $this->getProduit($newHash);
                 $produit->setDonneesCsv($line);
 
-                if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {
+                if(!isset($this->oldconfig) || (!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash)) {
                   echo "ADDED;".$newHash." \n";
                 } else {
                   echo "UPDATED;".$newHash." \n";
@@ -171,18 +173,20 @@ class ProduitCsvFile extends CsvFile {
                 }                
             }
 
-            foreach($this->oldconfig->getProduits() as $produit) {
-                try {
-                $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
-                } catch(Exception $e) {
-                    $correspondance = null;
-                }
-                $hash = $produit->getHash();
-                if($correspondance) {
-                    $hash = $correspondance->getHash();
-                }
-                if(!$this->config->exist($hash)) {
-                    echo "DELETED;".$hash." \n";
+            if(isset($this->oldconfig)) {
+                foreach($this->oldconfig->getProduits() as $produit) {
+                    try {
+                    $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
+                    } catch(Exception $e) {
+                        $correspondance = null;
+                    }
+                    $hash = $produit->getHash();
+                    if($correspondance) {
+                        $hash = $correspondance->getHash();
+                    }
+                    if(!$this->config->exist($hash)) {
+                        echo "DELETED;".$hash." \n";
+                    }
                 }
             }
         } catch (Execption $e) {
