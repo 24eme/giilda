@@ -48,6 +48,7 @@ class ProduitCsvFile extends CsvFile {
     const CSV_PRODUIT_ALIAS_PRODUIT = 36;
     const CSV_PRODUIT_FORMAT_LIBELLE = 37;
     const CSV_PRODUIT_FORMAT_LIBELLE_NOEUD = 38;
+    const CSV_PRODUIT_CEPAGES_AUTORISES = 39;
 
     protected $config;
     protected $errors;
