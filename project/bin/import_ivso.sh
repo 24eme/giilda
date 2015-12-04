@@ -45,6 +45,9 @@ echo "Import de la configuration"
 curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivso
 
+cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 > $DATA_DIR/produits_conversion.csv
+cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
+
 echo "Import des contacts"
 
 #Affichage des entêtes en ligne
@@ -80,6 +83,15 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-cat $DATA_DIR/contrats.csv | awk -F ';' '{ date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$7); date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); print $2 ";" $5 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $10 ";;" $11 ";" $12 ";" $16 ";;" $15 ";" $24 ";;;;" $20 ";hl;" $22 ";;;" $20 ";" $21 ";" $23 ";" $23 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' | grep -Ev '^[0-9]+;0;' > $DATA_DIR/vracs.csv
+cat $DATA_DIR/contrats.csv | tr -d "\n" | tr "\r" "\n" | sort -t ";" -k 16,16 > $DATA_DIR/contrats.csv.sorted.produits
+
+join -a 1 -t ";" -1 16 -2 1 $DATA_DIR/contrats.csv.sorted.produits $DATA_DIR/produits_conversion.csv > $DATA_DIR/contrats_produits.csv
+
+cat $DATA_DIR/contrats_produits.csv | sort -t ";" -k 24,24 > $DATA_DIR/contrats_produits.sorted.cepages
+
+join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR/cepages.csv.sorted > $DATA_DIR/contrats_produits_cepages.csv
+
+cat $DATA_DIR/contrats_produits_cepages.csv | awk -F ';' '{ date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$11); print $4 ";" $7 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" $41 ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' | grep -Ev '^[0-9]+;0;' | sort > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
+
