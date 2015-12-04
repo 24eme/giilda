@@ -73,6 +73,9 @@ class VracCsvFile extends CsvFile
     public function import() {
         $this->errors = array();
         $csvs = $this->getCsv();
+
+        $configuration = ConfigurationClient::getInstance()->getCurrent();
+
         foreach ($csvs as $line) {
             try {
                 $v = new Vrac();
@@ -100,6 +103,16 @@ class VracCsvFile extends CsvFile
                     $v->mandataire_identifiant = $courtier->_id;
                 }
                 $v->setInformations();
+
+                $produit = $configuration->identifyProductByLibelle($line[self::CSV_PRODUIT_LIBELLE]);
+
+                if($produit) {
+                    $v->setProduit($produit->getHash());
+                }
+
+                if(!$v->produit) {
+                    throw new sfException(sprintf("Le produit n'a pas été trouvé %s", $line[self::CSV_PRODUIT_LIBELLE]));
+                }
 
                 $this->verifyTypeTransaction($line);
                 $v->type_transaction = $line[self::CSV_TYPE_TRANSACTION];
