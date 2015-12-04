@@ -23,6 +23,21 @@ class Configuration extends BaseConfiguration {
         return $this->declaration->formatProduits($date, null, null, $format, $attributes);
     }
 
+    public function identifyProductByLibelle($libelle) {
+        $libelleSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($libelle)));
+
+        foreach($this->getProduits() as $produit) {
+            $libelleProduitSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($produit->getLibelleFormat())));
+            //echo $libelleSlugify."/".$libelleProduitSlugify."\n";
+            if($libelleSlugify == $libelleProduitSlugify) {
+
+                return $produit;
+            }
+        }
+
+        return false;
+    }
+
     public function getTemplatesFactures() {
         $factures = array();
         if ($this->exist('factures')) {
