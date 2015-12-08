@@ -3,11 +3,11 @@
             <h2>Veuillez confirmer la validation de la DRM </h2>
             <br/>
             <p>
-                Vous êtes sur le point de valider votre DRM, une fois votre déclaration validée, vous ne pourrez plus la modifier.
+                Vous êtes sur le point de valider votre DRM. Une fois validée, vous recevrez votre DRM par mail et vous ne pourrez plus la modifier.<br /><br />
             </p>
-	    <p>
-		Une fois validée, vous recevrez votre DRM par mail.
-	    </p>
+    	    <p>
+    		Avant de la transmettre à la Douane, par courrier postal, ou par mail, la DRM doit être signée manuellement pour être valable.
+    	    </p>
             <div class="ligne_btn">
                 <a id="signature_drm_popup_close" class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
 
