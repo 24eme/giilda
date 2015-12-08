@@ -99,7 +99,10 @@ class VracCsvFile extends CsvFile
                 $v->vendeur_identifiant = $vendeur->_id;
                 $v->representant_identifiant = $vendeur->_id;
                 $v->acheteur_identifiant = $acheteur->_id;
+                $v->mandataire_exist = false;
+
                 if($courtier) {
+                    $v->mandataire_exist = true;
                     $v->mandataire_identifiant = $courtier->_id;
                 }
                 $v->setInformations();
@@ -120,6 +123,7 @@ class VracCsvFile extends CsvFile
                 $v->categorie_vin = $this->verifyAndFormatCatgeorieVin($line);
                 $v->degre = $this->verifyAndFormatDegre($line);
                 $v->volume_propose = $this->verifyAndFormatVolumePropose($line);
+                $v->volume_enleve = $v->volume_propose;
                 $v->prix_initial_unitaire = $this->formatAndVerifyPrixUnitaire($line);
                 $v->prix_initial_unitaire_hl = $v->prix_initial_unitaire;
 
@@ -129,10 +133,9 @@ class VracCsvFile extends CsvFile
                 if($v->date_debut_retiraison > $v->date_limite_retiraison) {
                     throw new sfException("La date de début de retiraison est supérieur à celle du début");
                 }
-
                 
-                //echo $v->_id."\n";
-                //print_r($line);
+                $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+                $v->update();
 
                 $v->save();
 

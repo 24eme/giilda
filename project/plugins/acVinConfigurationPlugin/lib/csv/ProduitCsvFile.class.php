@@ -165,7 +165,7 @@ class ProduitCsvFile extends CsvFile {
                 $produit->setDonneesCsv($line);
 
                 if(!isset($this->oldconfig) || (!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash)) {
-                  echo "ADDED;".$newHash." \n";
+                  //echo "ADDED;".$newHash." \n";
                 } else {
                   echo "UPDATED;".$newHash." \n";
                   if($this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d')) != $produit->getTauxCvo(date('Y-m-d'))) {

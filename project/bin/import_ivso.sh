@@ -54,11 +54,29 @@ echo "Import des contacts"
 #Affichage des entêtes en ligne
 #head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
-cat $DATA_DIR/contacts_extravitis.csv | awk -F ';' ' function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { famille="AUTRE" ; famille=($13 ? "VITICULTEUR" : famille ) ; famille=($14 ? "NEGOCIANT" : famille ) ; famille=($15 ? "COURTIER" : famille ) ; statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; print $1 ";" famille ";" trim($2 " " $3 " " $4) ";;" statut ";;" $34 ";;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" }' > $DATA_DIR/societes.csv
+cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
+function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
+famille="AUTRE" ; 
+famille=($13 ? "VITICULTEUR" : famille ) ; 
+famille=($14 ? "NEGOCIANT" : famille ) ; 
+famille=($15 ? "COURTIER" : famille ) ; 
+statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
+print $1 ";" famille ";" trim($2 " " $3 " " $4) ";;" statut ";;" $34 ";;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+}' > $DATA_DIR/societes.csv
 
-cat $DATA_DIR/contacts_extravitis.csv | awk -F ';' 'function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { nom=trim($2 " " $3 " " $4) ; famille="AUTRE" ; famille=($13 ? "VITICULTEUR" : famille ) ; famille=($14 ? "NEGOCIANT" : famille ) ; famille=($15 ? "COURTIER" : famille ) ; statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; nom=nom ; if (famille == "AUTRE") next ; print $1 ";" $1 ";" famille ";" nom ";" statut ";HORS_REGION;" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" }' > $DATA_DIR/etablissements.csv
+cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
+function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
+nom=trim($2 " " $3 " " $4) ; 
+famille="AUTRE" ; 
+famille=($13 ? "VITICULTEUR" : famille ) ; 
+famille=($14 ? "NEGOCIANT" : famille ) ; 
+famille=($15 ? "COURTIER" : famille ) ; 
+statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
+nom=nom ; 
+if (famille == "AUTRE") next ; 
+print $1 ";" $1 ";" famille ";" nom ";" statut ";HORS_REGION;" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+}' > $DATA_DIR/etablissements.csv
 
-cat $DATA_DIR/contacts_extravitis.csv | awk -F ';' 'function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { nom=trim($2 " " $3 " " $4) ; famille="AUTRE" ; famille=($13 ? "VITICULTEUR" : famille ) ; famille=($14 ? "NEGOCIANT" : famille ) ; famille=($15 ? "COURTIER" : famille ) ; statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; nom=nom ; if (famille == "AUTRE") next ; print $1 ";" $1 ";" famille ";" nom ";" statut ";HORS_REGION;" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" }' > $DATA_DIR/etablissements.csv
 
 #cat $DATA_DIR/producteurs.csv | cut -d ";" -f 2 | grep -E "^[0-9]+" | sed 's/$/;VITICULTEUR/' > $DATA_DIR/producteurs_ids
 #cat $DATA_DIR/negociant.csv | cut -d ";" -f 2 | grep -E "^[0-9]+" | sed 's/$/;NEGOCIANT/' > $DATA_DIR/negociants_ids
@@ -75,8 +93,6 @@ cat $DATA_DIR/contacts_extravitis.csv | awk -F ';' 'function ltrim(s) { sub(/^[ 
 
 #cat $DATA_DIR/operateurs.csv | awk -F ";" '{ print $1 ";" $2 ";" $5 ";;ACTIF;;" $15 ";;;" $6 ";" $7 ";" $8 ";;" $9 ";" $11 ";" $13 ";FR;" $19 ";" $16 ";;" $17 ";" $18 ";;"  }' > $DATA_DIR/societes.csv
 
-
-
 #cat $DATA_DIR/operateurs.csv | grep -v ";AUTRE;" | awk -F ";" '{ print $1 ";" $1 ";" $2 ";" $5 ";ACTIF;HORS_REGION;" $4 ";;;;" $6 ";" $7 ";" $8 ";;" $9 ";" $11 ";" $13 ";FR;" $19 ";" $16 ";;" $17 ";" $18 ";;"  }' > $DATA_DIR/etablissements.csv
 
 php symfony import:societe $DATA_DIR/societes.csv
@@ -92,7 +108,12 @@ cat $DATA_DIR/contrats_produits.csv | sort -t ";" -k 24,24 > $DATA_DIR/contrats_
 
 join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR/cepages.csv.sorted > $DATA_DIR/contrats_produits_cepages.csv
 
-cat $DATA_DIR/contrats_produits_cepages.csv | awk -F ';' '{ date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$11); libelle_produit=$41; print $4 ";" $7 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' | grep -Ev '^[0-9]+;0;' | sort > $DATA_DIR/vracs.csv
+cat $DATA_DIR/contrats_produits_cepages.csv | awk -F ';' '{ 
+date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); 
+date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$11); 
+libelle_produit=$41; 
+print $4 ";" $7 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 
+}' | grep -Ev '^[0-9]+;0;' | sort > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
 
@@ -122,5 +143,5 @@ print base "sorties?;relogement;" $24 ;
 print base "stocks_fin;revendique;" $25 ;
 print base "stocks?;dont_volume_bloque;" $26 ;
 print base "stocks?;quantite_gagees;" $27 ;
-}' | grep -v ";0$"
+}' | grep -v ";0$" > $DATA_DIR/drm_edi.csv
 

@@ -76,7 +76,6 @@ class SocieteCsvFile extends CsvFile
                     $s->add('type_fournisseur',array($fournisseur_tag));
                 }*/
               	$s->save();
-                echo $s->_id."\n";                
 
                 $c = $s->getContact();
                 $c->adresse = preg_replace('/,/', '', $line[self::CSV_ADRESSE]);

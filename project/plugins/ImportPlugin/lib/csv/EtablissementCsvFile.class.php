@@ -90,9 +90,6 @@ class EtablissementCsvFile extends CsvFile
           $e->compte = $s->compte_societe;
         	
           $e->save();
-
-          echo $e->_id . "\n";
-      
       }catch(Exception $e) {
         echo $e->getMessage()."\n";
       }

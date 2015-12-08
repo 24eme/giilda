@@ -14,7 +14,7 @@ class VracRoute extends sfObjectRoute {
         $this->vrac = VracClient::getInstance()->findByNumContrat($numero_contrat);
         if (!$this->vrac) 
         {
-            throw new sfError404Exception(sprintf('No contrat found with numero "%s".',  $parameters['numero_contrat']));
+            throw new sfError404Exception(sprintf("Le contrat avec le numéro \"%s\" n'a pas été trouvé",  $parameters['numero_contrat']));
         }
         
         return $this->vrac;
