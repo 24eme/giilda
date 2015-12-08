@@ -44,8 +44,9 @@ echo "Import de la configuration"
 
 curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivso
+php symfony cc
 
-cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côtes du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côtes du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côtes du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' > $DATA_DIR/produits_conversion.csv
+cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' > $DATA_DIR/produits_conversion.csv
 cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
 
 echo "Import des contacts"
@@ -94,4 +95,32 @@ join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR
 cat $DATA_DIR/contrats_produits_cepages.csv | awk -F ';' '{ date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$11); libelle_produit=$41; print $4 ";" $7 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 }' | grep -Ev '^[0-9]+;0;' | sort > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
+
+echo "Import des DRM"
+
+cat $DATA_DIR/DRM.csv | tr -d "\r" | sort -t ";" -k 6,6 > $DATA_DIR/DRM_produits.csv.produits.sorted
+
+join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/DRM_produits.csv.produits.sorted $DATA_DIR/produits_conversion.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm_produits.csv
+
+cat $DATA_DIR/drm_produits.csv | awk -F ';' '{ 
+base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;;" ; 
+print base "stocks_debut;revendique;" $10 ; 
+print base "entrees;recolte;" $11 ;  
+print base "entrees;agree;" $12 ;
+print base "?;declassement;" $13 ;
+print base "sorties;perte;" $14 ;
+print base "sorties;lies_et_mouts;" $15 ;
+print base "sorties;usages_industriels;" $16 ;
+print base "sorties?;collective_ou_individuelle;" $17 ;
+print base "sorties?;dsa_dsac;" $18 ;
+print base "sorties?;facture_etc;" $19 ;
+print base "sorties?;france_sans_contrat;" $20 ;
+print base "sorties?;france_sous_contrat;" $21 ;
+print base "sorties?;expedition_ue;" $22 ;
+print base "sorties?;expedition_hors_ue;" $23 ;
+print base "sorties?;relogement;" $24 ;
+print base "stocks_fin;revendique;" $25 ;
+print base "stocks?;dont_volume_bloque;" $26 ;
+print base "stocks?;quantite_gagees;" $27 ;
+}' | grep -v ";0$"
 
