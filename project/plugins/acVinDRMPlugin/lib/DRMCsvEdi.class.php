@@ -58,6 +58,10 @@ class DRMCsvEdi {
         $this->statut = self::STATUT_VALIDE;
     }
 
+    public function getPeriode() {
+
+    }
+
     /**
      * IMPORT DEPUIS LE CSV
      */
@@ -67,6 +71,7 @@ class DRMCsvEdi {
 
     private function checkCSVIntegrity($csv) {
         $ligne_num = 1;
+        $periode = null;
         foreach ($csv->getCsv() as $csvRow) {
             if ($ligne_num == 1 && $csvRow[self::CSV_TYPE] == 'TYPE') {
                 $ligne_num++;
@@ -79,8 +84,14 @@ class DRMCsvEdi {
                 $this->erreurs[] = $this->createWrongFormatPeriodeError($ligne_num, $csvRow);
             }
             if (!preg_match('/^FR0[0-9]{10}$/', $csvRow[self::CSV_NUMACCISE])) {
-                $this->erreurs[] = $this->createWrongFormatNumAcciseError($ligne_num, $csvRow);
+                //$this->erreurs[] = $this->createWrongFormatNumAcciseError($ligne_num, $csvRow);
             }
+
+            if ($periode && $csvRow[self::CSV_PERIODE] != $periode) {
+                $this->erreurs[] = $this->createWrongPeriodeIntegriteError($ligne_num, $csvRow);
+            }
+            $periode = $csvRow[self::CSV_PERIODE];
+
             $ligne_num++;
         }
     }
@@ -123,6 +134,9 @@ class DRMCsvEdi {
                 }
                 $founded_produit = $produit;
             }
+
+            $founded_produit = $configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
+
             if (!$founded_produit) {
                 $this->erreurs[] = $this->productNotFoundError($num_ligne, $csvRow);
                 $num_ligne++;
@@ -166,35 +180,41 @@ class DRMCsvEdi {
      * Functions de création d'erreurs
      */
     private function createWrongFormatTypeError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_TYPE], "Choix possible type : " . implode(', ', self::$permitted_types));
+        return $this->createError($num_ligne, $csvRow[self::CSV_TYPE], "Choix possible type : " . implode(', ', self::$permitted_types), $csvRow);
     }
 
     private function createWrongFormatPeriodeError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_PERIODE], "Format période : AAAAMM");
+        return $this->createError($num_ligne, $csvRow[self::CSV_PERIODE], "Format période : AAAAMM", $csvRow);
+    }
+
+    private function createWrongPeriodeIntegriteError($num_ligne, $csvRow) {
+        return $this->createError($num_ligne, $csvRow[self::CSV_PERIODE], "La période n'est pas toujours la même", $csvRow);
     }
 
     private function createWrongFormatNumAcciseError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_NUMACCISE], "Format numéro d'accise : FR0XXXXXXXXXX");
+        return $this->createError($num_ligne, $csvRow[self::CSV_NUMACCISE], "Format numéro d'accise : FR0XXXXXXXXXX", $csvRow);
     }
 
     private function productNotFoundError($num_ligne, $csvRow) {
         $libellesArray = $this->buildLibellesArrayWithRow($csvRow);
-        return $this->createError($num_ligne, implode(' ', $libellesArray), "Le produit n'a pas été trouvé");
+        return $this->createError($num_ligne, implode(' ', $libellesArray), "Le produit n'a pas été trouvé", $csvRow);
     }
 
     private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "Le catégorie de mouvement n'a pas été trouvé");
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "Le catégorie de mouvement n'a pas été trouvé", $csvRow);
     }
 
     private function typeMouvementNotFoundError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le type de mouvement n'a pas été trouvé");
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le type de mouvement n'a pas été trouvé", $csvRow);
     }
 
-    private function createError($num_ligne, $erreur_csv, $raison) {
+    private function createError($num_ligne, $erreur_csv, $raison, $csvRow) {
         $error = new stdClass();
         $error->num_ligne = $num_ligne;
         $error->erreur_csv = $erreur_csv;
         $error->raison = $raison;
+        $error->ligne = implod(";", $csvRow);
+
         return $error;
     }
 

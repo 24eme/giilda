@@ -124,26 +124,26 @@ cat $DATA_DIR/DRM.csv | tr -d "\r" | sort -t ";" -k 6,6 > $DATA_DIR/drm.csv.prod
 join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits_conversion.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm_produits.csv
 
 cat $DATA_DIR/drm_produits.csv | awk -F ';' '{ 
-base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;;" ; 
+base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;" ; 
 print base "stocks_debut;revendique;" $10 ; 
-print base "entrees;recolte;" $11 ;  
-print base "entrees;agree;" $12 ;
-print base "?;declassement;" $13 ;
-print base "sorties;perte;" $14 ;
-print base "sorties;lies_et_mouts;" $15 ;
-print base "sorties;usages_industriels;" $16 ;
-print base "sorties?;collective_ou_individuelle;" $17 ;
-print base "sorties?;dsa_dsac;" $18 ;
-print base "sorties?;facture_etc;" $19 ;
-print base "sorties?;france_sans_contrat;" $20 ;
-print base "sorties?;france_sous_contrat;" $21 ;
-print base "sorties?;expedition_ue;" $22 ;
-print base "sorties?;expedition_hors_ue;" $23 ;
-print base "sorties?;relogement;" $24 ;
+print base "entrees;recolte;" $11 ;  #récolte
+print base "entrees;revendication;" $12 ; #volume agréé
+print base "?;declassement;" $13 ; #declassement
+print base "sorties;destructionperte;" $14 ; #perte
+print base "sorties;usageindustriel;" $15 ; #lie_et_mouts
+print base "sorties;usageindustriel;" $16 ; #usages_industriels
+print base "sorties;ventefrancebouteillecrd;" $17 ; #collective_ou_individuelle
+print base "sorties;vracsanscontrat;" $18 ; #dsa_dsac
+print base "sorties;vracsanscontrat;" $19 ; #facture_etc
+print base "sorties;vracsanscontrat;" $20 ; #france_sans_contrat
+print base "sorties;vrac;" $21 ; #france_sous_contrat
+print base "sorties;export;" $22 ";UE" ;  #expedition_ue
+print base "sorties;export;" $23 ";HORS UE" ; #expedition_hors_ue
+print base "sorties;travailafacon;" $24 ; #relogement
 print base "stocks_fin;revendique;" $25 ;
-print base "stocks?;dont_volume_bloque;" $26 ;
-print base "stocks?;quantite_gagees;" $27 ;
-}' | grep -v ";0$" > $DATA_DIR/drm_edi.csv
+# print base "stocks?;dont_volume_bloque;" $26 ;
+# print base "stocks?;quantite_gagees;" $27 ;
+}' | grep -v ";0;" | grep -v ";0$" > $DATA_DIR/drm_edi.csv
 
 cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm_factures.csv.produits.sorted
 
@@ -151,8 +151,8 @@ join -a 1 -t ";" -1 5 -2 1  $DATA_DIR/drm_factures.csv.produits.sorted $DATA_DIR
 
 cat $DATA_DIR/drm_factures_produits.csv | awk -F ';' '{
 if (!$10 || $10 == "INCONNU") { next }
-base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;;" ; 
-print base "sorties;contrat;" $21 ";;" $10 ; 
+base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;" ; 
+print base "sorties;vrac;" $21 ";;" $10 ; 
 }' > $DATA_DIR/drm_edi_contrats.csv
 
 cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | sort > $DATA_DIR/drm.csv
