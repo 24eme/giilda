@@ -122,11 +122,10 @@ class VracCsvFile extends CsvFile
                 $v->millesime = $this->verifyAndFormatMillesime($line);
                 $v->categorie_vin = $this->verifyAndFormatCatgeorieVin($line);
                 $v->degre = $this->verifyAndFormatDegre($line);
-                $v->volume_propose = $this->verifyAndFormatVolumePropose($line);
+                $v->jus_quantite = $this->verifyAndFormatVolumePropose($line);
                 $v->volume_enleve = $v->volume_propose;
                 $v->prix_initial_unitaire = $this->formatAndVerifyPrixUnitaire($line);
                 $v->prix_initial_unitaire_hl = $v->prix_initial_unitaire;
-
                 $v->date_debut_retiraison = $this->formatAndVerifyDateRetiraisonDebut($line);
                 $v->date_limite_retiraison = $this->formatAndVerifyDateRetiraisonFin($line);
 
@@ -134,8 +133,9 @@ class VracCsvFile extends CsvFile
                     throw new sfException("La date de début de retiraison est supérieur à celle du début");
                 }
                 
-                $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+                $v->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
                 $v->update();
+                $v->enleverVolume($v->volume_propose);
 
                 $v->save();
 

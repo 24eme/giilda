@@ -119,9 +119,9 @@ php symfony import:vracs $DATA_DIR/vracs.csv
 
 echo "Import des DRM"
 
-cat $DATA_DIR/DRM.csv | tr -d "\r" | sort -t ";" -k 6,6 > $DATA_DIR/DRM_produits.csv.produits.sorted
+cat $DATA_DIR/DRM.csv | tr -d "\r" | sort -t ";" -k 6,6 > $DATA_DIR/drm.csv.produits.sorted
 
-join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/DRM_produits.csv.produits.sorted $DATA_DIR/produits_conversion.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm_produits.csv
+join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits_conversion.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm_produits.csv
 
 cat $DATA_DIR/drm_produits.csv | awk -F ';' '{ 
 base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;;" ; 
@@ -145,3 +145,14 @@ print base "stocks?;dont_volume_bloque;" $26 ;
 print base "stocks?;quantite_gagees;" $27 ;
 }' | grep -v ";0$" > $DATA_DIR/drm_edi.csv
 
+cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm_factures.csv.produits.sorted
+
+join -a 1 -t ";" -1 5 -2 1  $DATA_DIR/drm_factures.csv.produits.sorted $DATA_DIR/produits_conversion.csv > $DATA_DIR/drm_factures_produits.csv
+
+cat $DATA_DIR/drm_factures_produits.csv | awk -F ';' '{
+if (!$10 || $10 == "INCONNU") { next }
+base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;;" ; 
+print base "sorties;contrat;" $21 ";;" $10 ; 
+}' > $DATA_DIR/drm_edi_contrats.csv
+
+cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | sort > $DATA_DIR/drm.csv
