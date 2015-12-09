@@ -23,10 +23,15 @@ class drm_pdfActions extends drmGeneriqueActions {
         $this->drm = $this->getRoute()->getDrm();
         $this->forward404Unless($this->drm);
 
+        if (!$this->drm->isValidee()) {
+            $this->drm->cleanDeclaration();
+            $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationDrm(), 'validation_step' => true, 'no_vracs' => true));
+        }
+
 
         $latex = new DRMLatex($this->drm);
-       // $latex->getLatexFileContents();
-       $latex->echoWithHTTPHeader($request->getParameter('type'));
+        // $latex->getLatexFileContents();
+        $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
 
