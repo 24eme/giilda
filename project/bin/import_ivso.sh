@@ -155,4 +155,22 @@ base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;" ;
 print base "sorties;vrac;" $21 ";;" $10 ; 
 }' > $DATA_DIR/drm_edi_contrats.csv
 
-cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | sort > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | grep ";2015" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+
+echo -n > $TMP/drm_lignes.csv
+
+cat $DATA_DIR/drm.csv | while read ligne  
+do
+    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | awk -F ';' '{ printf "%06d01", $3 }')" ]
+    then
+        if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
+        then
+            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
+        fi
+        echo -n > $TMP/drm_lignes.csv
+    fi
+    PERIODE=$(echo $ligne | cut -d ";" -f 2)
+    IDENTIFIANT=$(echo $ligne | awk -F ';' '{ printf "%06d01", $3 }')
+
+    echo $ligne >> $TMP/drm_lignes.csv
+done

@@ -58,10 +58,6 @@ class DRMCsvEdi {
         $this->statut = self::STATUT_VALIDE;
     }
 
-    public function getPeriode() {
-
-    }
-
     /**
      * IMPORT DEPUIS LE CSV
      */
@@ -213,7 +209,7 @@ class DRMCsvEdi {
         $error->num_ligne = $num_ligne;
         $error->erreur_csv = $erreur_csv;
         $error->raison = $raison;
-        $error->ligne = implod(";", $csvRow);
+        $error->ligne = implode(";", $csvRow);
 
         return $error;
     }

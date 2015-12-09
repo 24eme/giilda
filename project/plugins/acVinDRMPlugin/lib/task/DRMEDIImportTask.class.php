@@ -7,6 +7,8 @@ class DRMEDIImportTask extends sfBaseTask
   {
       $this->addArguments(array(
          new sfCommandArgument('file', sfCommandArgument::REQUIRED, "Fichier csv pour l'import"),
+         new sfCommandArgument('periode', sfCommandArgument::REQUIRED, "Periode de la DRM"),
+         new sfCommandArgument('identifiant', sfCommandArgument::REQUIRED, "Identifiant de l'établissement"),
       ));
 
       $this->addOptions(array(
@@ -35,23 +37,27 @@ EOF;
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
       
       $drm = new DRM();
-      $drm->identifiant = "00099001";
-      $drm->periode = "200909";
+      $drm->identifiant = $arguments['identifiant'];
+      $drm->periode = $arguments['periode'];
 
       $csvFile = new CsvFile($arguments['file']);
         
       $drmCsvEdi = new DRMCsvEdi($drm);
       $drmCsvEdi->checkCSV($csvFile);
 
-      if(!$drmCsvEdi->statut == "VALIDE") {
+      if($drmCsvEdi->statut != "VALIDE") {
           foreach($drmCsvEdi->erreurs as $erreur) {
             echo sprintf("%s : %s;#%s\n", $erreur->raison, $erreur->erreur_csv, $erreur->ligne);
           }
-          
           return;
       }
 
-      $drmCsvEdi->importCSV($csvFile);
+      try {
+        $drmCsvEdi->importCSV($csvFile);
+      } catch(Exception $e) {
+        echo $e->getMessage().";#".$arguments['periode'].";".$arguments['identifiant']."\n";
+        return;
+      }
 
       $drm->numero_archive = "00000";
       $drm->validate();
@@ -62,7 +68,8 @@ EOF;
       }
 
       $drm->save();
-
+      
+      echo "Création : ".$drm->_id."\n";
       
     }
 
