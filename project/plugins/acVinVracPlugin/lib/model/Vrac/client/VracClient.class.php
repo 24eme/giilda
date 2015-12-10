@@ -497,15 +497,15 @@ class VracClient extends acCouchdbClient {
     }
 
     public function listCampagneByEtablissementId($identifiant) {
-        $rows = $this->startkey(array('STATUT', $identifiant))
-                        ->endkey(array('STATUT', $identifiant, array()))
-                        ->group_level(3)
+        $rows = $this->startkey(array($identifiant))
+                        ->endkey(array($identifiant, array()))
+                        ->group_level(2)
                         ->getView('vrac', 'soussigneidentifiant')->rows;
 
         $current = ConfigurationClient::getInstance()->getCurrentCampagne();
         $list = array();
         foreach ($rows as $r) {
-            $c = $r->key[2];
+            $c = $r->key[1];
             if (!$c) {
 
                 continue;

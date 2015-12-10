@@ -8,6 +8,8 @@
         <?php include_component('vrac', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
     </div>
 
+    <?php include_partial('contrat_campagne', array('vracs' => $vracs, 'visualisation' => false, 'campagne' => $campagne, 'identifiant' => $identifiant)); ?>
+
     <div class="col-xs-12">
             <?php if (count($vracs->rows->getRawValue())): ?>
                 <?php include_partial('list', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => false)); ?>

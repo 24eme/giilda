@@ -4,22 +4,19 @@ if(isset($vrac)) $campagneDate = dateCampagneViticole($vrac->dateSignature);
 if(isset($vracs)) $campagneDates = VracClient::getInstance()->listCampagneByEtablissementId($identifiant);
 
 ?>
-<div id="campagne_viticole" class="bloc_col">
-    <h2>Campagne viticole</h2>
-    <div class="contenu">
-            <div id="campagne_viticoleChoice">
-                <?php if($visualisation): ?>
-                    <span><?php echo $campagneDate; ?></span>
-                <?php else: ?>
-		    <form>
-                    <select name="campagne" id="campagne_viticole_date">
-                    <?php foreach ($campagneDates as $c => $c_libelle):?>
-                        <option <?php echo ($c==$campagne)? 'selected="selected"' : ''; ?>><?php echo $c_libelle; ?></option>
-                    <?php endforeach; ?>
-                    </select>
-		    <input type="submit" class="btn_vert btn_majeur" value="changer"/>
-		    </form>
-                <?php endif; ?>
-            </div>
+
+    <div class="col-xs-10 col-xs-offset-1" style="margin-bottom: 20px;">
+        <h3>Campagne viticole</h3>
+        <?php if($visualisation): ?>
+            <span><?php echo $campagneDate; ?></span>
+        <?php else: ?>
+        <form class="form-inline">
+                <select class="form-control" name="campagne" id="campagne_viticole_date">
+                <?php foreach ($campagneDates as $c => $c_libelle):?>
+                    <option <?php echo ($c==$campagne)? 'selected="selected"' : ''; ?>><?php echo $c_libelle; ?></option>
+                <?php endforeach; ?>
+                </select>
+        <button type="submit" class="btn btn-default">Changer</button>
+        </form>
+        <?php endif; ?>
     </div>
-</div>
