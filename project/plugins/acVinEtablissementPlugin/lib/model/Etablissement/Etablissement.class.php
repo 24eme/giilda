@@ -73,6 +73,11 @@ class Etablissement extends BaseEtablissement {
         $phone = preg_replace('/[^0-9\+]+/', '', $phone);
         $phone = preg_replace('/^00/', '+', $phone);
         $phone = preg_replace('/^0/', '+33', $phone);
+        $phone = trim($phone);
+
+        if(!$phone) {
+            return null;
+        }
 
         if (strlen($phone) == 9 && preg_match('/^[64]/', $phone))
             $phone = '+33' . $phone;

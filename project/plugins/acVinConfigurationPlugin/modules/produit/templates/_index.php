@@ -6,7 +6,7 @@
 
     <h2>Produits <span style="color: #878787;"> / <?php echo $id ?><small style="font-size: 10px;">@<?php echo $rev ?></small></span></h2>
 
-    <table class="table_recap table_compact">
+    <table class="table table-condensed table-striped table-bordered">
         <thead>
             <?php include_partial('produit/itemHeader') ?>
         </thead>

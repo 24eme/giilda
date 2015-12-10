@@ -90,6 +90,10 @@ class VracCsvFile extends CsvFile
 
                 $v->constructId();
 
+                if(VracClient::getInstance()->find($v->_id, acCouchdbClient::HYDRATE_JSON)) {
+                    throw new sfException(sprintf("Existe"));
+                }
+
                 $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID]);
                 $acheteur = $this->verifyEtablissement($line[self::CSV_ACHETEUR_ID]);
                 $courtier = null;

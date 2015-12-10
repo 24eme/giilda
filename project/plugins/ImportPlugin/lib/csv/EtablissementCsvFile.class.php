@@ -88,6 +88,7 @@ class EtablissementCsvFile extends CsvFile
           $e->statut = $line[self::CSV_STATUT];
           $e->region = (isset($line[self::CSV_REGION])) ? $line[self::CSV_REGION] : null;
           $e->compte = $s->compte_societe;
+          $e->synchroFromCompte();
         	
           $e->save();
       }catch(Exception $e) {

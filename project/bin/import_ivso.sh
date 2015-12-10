@@ -44,9 +44,9 @@ echo "Import de la configuration"
 
 curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivso
-php symfony cc
+php symfony cc > /dev/null
 
-cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' > $DATA_DIR/produits_conversion.csv
+cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan Bigorre/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne Condomois/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan Tarn et Garonne/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan Coteaux et Terrasses de Montauban/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan Pyrénées Atlantiques/' | sed 's/IGP Cantal/IGP Comté Tolosan Cantal/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' > $DATA_DIR/produits_conversion.csv
 cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
 
 echo "Import des contacts"
@@ -126,24 +126,28 @@ join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits
 cat $DATA_DIR/drm_produits.csv | awk -F ';' '{ 
 base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;" ; 
 print base "stocks_debut;revendique;" $10 ; 
-print base "entrees;recolte;" $11 ;  #récolte
-print base "entrees;revendication;" $12 ; #volume agréé
-print base "?;declassement;" $13 ; #declassement
-print base "sorties;destructionperte;" $14 ; #perte
-print base "sorties;usageindustriel;" $15 ; #lie_et_mouts
-print base "sorties;usageindustriel;" $16 ; #usages_industriels
-print base "sorties;ventefrancebouteillecrd;" $17 ; #collective_ou_individuelle
-print base "sorties;vracsanscontrat;" $18 ; #dsa_dsac
-print base "sorties;vracsanscontrat;" $19 ; #facture_etc
-print base "sorties;vracsanscontrat;" $20 ; #france_sans_contrat
-print base "sorties;vrac;" $21 ; #france_sous_contrat
-print base "sorties;export;" $22 ";UE" ;  #expedition_ue
-print base "sorties;export;" $23 ";HORS UE" ; #expedition_hors_ue
-print base "sorties;travailafacon;" $24 ; #relogement
+# print base "entrees;recolte;" $11 ;  #récolte
+if($12 > 0) { print base "entrees;revendique;" $12 ; } #volume agréé
+if($13 > 0) { print base "entrees;declassement;" $13 ; } #declassement
+if($13 < 0) { print base "sorties;declassement;" gensub(/^-/, "", $13) ; } #declassement
+if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
+if($15 > 0) { print base "sorties;distillationusageindustriel;" $15 ; } #lie_et_mouts
+if($16 > 0) { print base "sorties;distillationusageindustriel;" $16 ; } #usages_industriels
+if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17 ; } #collective_ou_individuelle
+if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18 ; } #dsa_dsac
+if($18 < 0) { print base "entrees;regularisation;" gensub(/^-/, "", $18) ; } #dsa_dsac
+if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19 ; } #facture_etc
+if($19 < 0) { print base "entrees;regularisation;" gensub(/^-/, "", $19) ; } #dsa_dsac
+if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
+if($20 < 0) { print base "entrees;regularisation;" gensub(/^-/, "", $20) ; } #dsa_dsac
+if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
+if($22 > 0) { print base "sorties;export;" $22 ";UE" ; }  #expedition_ue
+if($23 > 0) { print base "sorties;export;" $23 ";HORS UE" ; } #expedition_hors_ue
+if($24 > 0) { print base "sorties;travailafacon;" $24 ; } #relogement
 print base "stocks_fin;revendique;" $25 ;
-# print base "stocks?;dont_volume_bloque;" $26 ;
-# print base "stocks?;quantite_gagees;" $27 ;
-}' | grep -v ";0;" | grep -v ";0$" > $DATA_DIR/drm_edi.csv
+# print base "stocks?;dont_volume_bloque;" $26 ; #dont_volume_bloque
+# print base "stocks?;quantite_gagees;" $27 ; #quantite_gagees
+}' > $DATA_DIR/drm_edi.csv
 
 cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm_factures.csv.produits.sorted
 
@@ -155,7 +159,7 @@ base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;" ;
 print base "sorties;vrac;" $21 ";;" $10 ; 
 }' > $DATA_DIR/drm_edi_contrats.csv
 
-cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | grep ";2015" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | grep -E ";(2014|2015)[0-9]{2};" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 

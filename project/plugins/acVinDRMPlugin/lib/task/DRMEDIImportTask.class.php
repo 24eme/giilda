@@ -40,6 +40,11 @@ EOF;
       $drm->identifiant = $arguments['identifiant'];
       $drm->periode = $arguments['periode'];
 
+      if(DRMClient::getInstance()->find('DRM-'.$drm->identifiant.'-'.$drm->periode, acCouchdbClient::HYDRATE_JSON)) {
+        echo "Exist ; ".$drm->_id."\n";
+        return;
+      }
+
       $csvFile = new CsvFile($arguments['file']);
         
       $drmCsvEdi = new DRMCsvEdi($drm);
@@ -54,22 +59,22 @@ EOF;
 
       try {
         $drmCsvEdi->importCSV($csvFile);
+        $drm->update();
+        $drm->numero_archive = "00000";
+        $drm->validate();
+
+        if($options['date-validation']) {
+            $drm->valide->date_saisie = $options['date-validation'];
+            $drm->valide->date_signee = $options['date-validation'];
+        }
+        $drm->save();
+      
       } catch(Exception $e) {
         echo $e->getMessage().";#".$arguments['periode'].";".$arguments['identifiant']."\n";
         return;
       }
-
-      $drm->numero_archive = "00000";
-      $drm->validate();
-
-      if($options['date-validation']) {
-          $drm->valide->date_saisie = $options['date-validation'];
-          $drm->valide->date_signee = $options['date-validation'];
-      }
-
-      $drm->save();
       
-      echo "Création : ".$drm->_id."\n";
+      echo "Création ; ".$drm->_id."\n";
       
     }
 

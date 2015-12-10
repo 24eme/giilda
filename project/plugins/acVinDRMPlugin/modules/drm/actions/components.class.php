@@ -183,12 +183,16 @@ class drmComponents extends sfComponents {
             $this->periode_fin = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
         }
 
+        try {
         $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, $this->etablissement->identifiant);
         foreach ($revs as $rev) {
             if (!isset($this->recaps[$rev->produit_hash])) {
                 $this->recaps[$rev->produit_hash] = $this->initLigneRecap($conf, $rev->produit_hash);
             }
             $this->recaps[$rev->produit_hash]['volume_revendique_drev'] += $rev->volume;
+        }
+        } catch (Exception $e) {
+
         }
 
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);

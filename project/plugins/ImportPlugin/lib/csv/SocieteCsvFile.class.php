@@ -90,9 +90,9 @@ class SocieteCsvFile extends CsvFile
                 $c->pays = 'FR';
                 $c->email = $line[self::CSV_EMAIL];
                 $c->fax = $line[self::CSV_FAX];
-                $c->telephone_perso =  $line[self::CSV_TEL_PERSO];
-                $c->telephone_bureau = $line[self::CSV_TEL_BUREAU];
-                $c->telephone_mobile = $line[self::CSV_MOBILE];
+                $c->telephone_perso = trim($line[self::CSV_TEL_PERSO]);
+                $c->telephone_bureau = trim($line[self::CSV_TEL_BUREAU]);
+                $c->telephone_mobile = trim($line[self::CSV_MOBILE]);
                 if($line[self::CSV_WEB]) {
                     $c->add('site_internet', $line[self::CSV_WEB]);
                 }
