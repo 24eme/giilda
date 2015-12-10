@@ -83,7 +83,7 @@ Une fois redémarré, le plugin head vous sera accessible à l'adresse suivante 
 
 Par défaut, elasticsearch est prévu pour fonctionner sur plusieurs noeuds. Ce n'est pas notre besoin pour ce projet. Pour désactiver cette fonctionnalité, il faut executer la commande suivante :
 
-       $ curl -XPUT "http://127.0.0.1:9200/_settings" -d'{"number_of_replicas" : 0}'
+       $ curl -X PUT "http://127.0.0.1:9200/_settings" -d'{"number_of_replicas" : 0}'
 
 Une fois cette opération réalisée, elasticsearch devrait apparaitre avec un status (*cluster health*) vert (*green*) soit dans le plugin *head*, en interrogeant le statut en http :
 
