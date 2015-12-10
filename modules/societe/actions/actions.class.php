@@ -28,6 +28,8 @@ class societeActions extends sfCredentialActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
+
+        return $this->redirect('compte_search');
         $this->contactsForm = new ContactsChoiceForm('INTERPRO-inter-loire');
         $this->societes_creation = SocieteClient::getInstance()->getSocietesWithStatut(SocieteClient::STATUT_EN_CREATION);
         $this->formUploadCSVNoCVO = new UploadCSVNoCVOForm();
