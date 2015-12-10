@@ -77,7 +77,7 @@ Pour que les installations de plugins soient effectives, il faut redémarrer ela
 
        $ sudo /etc/init.d/elasticsearch restart
 
-Une fois redémarré, le plugin head vous sera accessible à l'adresse suivante : [http://127.0.0.1/_plugin/head/]
+Une fois redémarré, le plugin head vous sera accessible à l'adresse suivante : [http://127.0.0.1:9200/_plugin/head/]
 
 ##Réduire le nombre de réplicas
 
@@ -87,7 +87,7 @@ Par défaut, elasticsearch est prévu pour fonctionner sur plusieurs noeuds. Ce 
 
 Une fois cette opération réalisée, elasticsearch devrait apparaitre avec un status (*cluster health*) vert (*green*) soit dans le plugin *head*, en interrogeant le statut en http :
 
-	$ curl -XGET 'http://localhost:9200/_cluster/health?pretty=true'
+	$ curl -X GET 'http://localhost:9200/_cluster/health?pretty=true'
 	{
 	  "cluster_name" : "elasticsearch",
 	  "status" : "green",
