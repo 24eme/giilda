@@ -54,7 +54,7 @@ function getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $p
     }
     if ($isTeledeclarationMode) {
         if ($statut == DRMCalendrier::STATUT_VALIDEE) {
-            return 'valide_campagne';
+            return 'valide_campagne panel-success';
         }
         if ($statut == DRMCalendrier::STATUT_EN_COURS) {
             return 'attente_campagne';
@@ -72,7 +72,7 @@ function getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $p
     if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
         return 'attente_campagne';
     }
-    return 'valide_campagne';
+    return 'valide_campagne panel-success';
 }
 
 function hasALink($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
