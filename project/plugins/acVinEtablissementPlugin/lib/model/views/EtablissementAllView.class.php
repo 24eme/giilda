@@ -81,6 +81,7 @@ class EtablissementAllView extends acCouchdbView
 
     public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null, $limit = null) {
       try{
+          throw new Exception("Désactivation temporaire");
 	return $this->findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $filter, $limit);
       }catch(Exception $e) {
 	return $this->findByInterproStatutAndFamilleVIEW($interpro, $statut, $famille, $filter, $limit);

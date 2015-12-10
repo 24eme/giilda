@@ -159,7 +159,7 @@ base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;" ;
 print base "sorties;vrac;" $21 ";;" $10 ; 
 }' > $DATA_DIR/drm_edi_contrats.csv
 
-cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | grep -E ";(2014|2015)[0-9]{2};" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | grep -E ";(2013|2014|2015)[0-9]{2};" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 
