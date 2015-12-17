@@ -9,8 +9,6 @@ if test "$DOC_REV" ; then
   exit
 fi
 
-ping -c 2 $(echo $REPLICATE_TELEDECLARATION_URL | sed 's/http...//' | sed 's/:.*//')
-
 echo "{\"_id\": \"REPLICATION_TELEDECLARATION\", \"source\":\"$COUCHBASE\",\"target\":\"$REPLICATE_TELEDECLARATION_URL\",\"continuous\": true}" > /tmp/params_replication_teleclaration.json
 
 curl -H "Content-Type: application/json" -X POST -d '@/tmp/params_replication_teleclaration.json' "http://$COUCHHOST:$COUCHPORT/_replicator"
