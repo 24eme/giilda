@@ -85,7 +85,7 @@ class VracCsvFile extends CsvFile
                 $v->valide->date_saisie = $this->verifyAndFormatDateSaisie($line);
 
                 $dateSaisie = new DateTime($v->valide->date_saisie);
-                $v->numero_contrat = $dateSaisie->format('Y').$this->verifyAndFormatNumeroContrat($line);
+                $v->numero_contrat = $this->verifyAndFormatNumeroContrat($line);
                 $v->numero_archive = $this->verifyAndFormatNumeroArchive($line);
 
                 $v->constructId();
@@ -151,7 +151,7 @@ class VracCsvFile extends CsvFile
     } 
 
     private function verifyAndFormatNumeroContrat($line) {
-        if($line[self::CSV_NUMERO_PAPIER] && preg_match('/[0-9]+/', $line[self::CSV_NUMERO_PAPIER]) && strlen(trim($line[self::CSV_NUMERO_PAPIER])) <= 7) {
+        if($line[self::CSV_NUMERO_PAPIER] && preg_match('/[0-9]+/', $line[self::CSV_NUMERO_PAPIER]) && strlen(trim($line[self::CSV_NUMERO_PAPIER])) <= 11) {
 
             return sprintf("%07d", $line[self::CSV_NUMERO_PAPIER]);
         }
