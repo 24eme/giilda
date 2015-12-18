@@ -103,13 +103,13 @@ join -t ';' -1 1 -2 2 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_v
 
 cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{ 
     type="CAVE";
-    periode=$4 "XX";
-    identifiant="";
+    periode=$5 sprintf("%02d", $4);
+    identifiant=sprintf("%06d01", $7);
     numaccises="";
-    produit_libelle=$2;
+    produit_libelle=$31;
     catmouvement="";
-    mouvement=$3;
-    volume=$5;
+    mouvement=$36;
+    volume=$33;
 
     print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
 }'
