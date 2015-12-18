@@ -47,16 +47,16 @@ curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(cur
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
 php symfony cc > /dev/null
 
-cat /tmp/giilda/data_ivbd_csv/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' > /tmp/giilda/data_ivbd_csv/produits.csv
+cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' > $DATA_DIR/produits.csv
 
 echo "Import des contacts"
 
-cat /tmp/giilda/data_ivbd_csv/base_ppm.csv | tr -d "\n" | tr "\r" "\n" | awk -F ";" '
+cat $DATA_DIR/base_ppm.csv | tr -d "\n" | tr "\r" "\n" | awk -F ";" '
 {
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2 ";VITICULTEUR;" nom ";;" statut ";;" $26 ";;;adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/societes.csv
 
-cat /tmp/giilda/data_ivbd_csv/base_ppm.csv | tr -d "\n" | tr "\r" "\n" | awk -F ";" '
+cat $DATA_DIR/base_ppm.csv | tr -d "\n" | tr "\r" "\n" | awk -F ";" '
 {
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/etablissements.csv
@@ -66,11 +66,11 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-cat /tmp/giilda/data_ivbd_csv/contrats_contrat.csv | tr -d "\n" | tr "\r" "\n" | grep -E "^[0-9]+;" | sort -t ";" -k 14,14 > /tmp/giilda/data_ivbd_csv/contrats_contrat.csv.sorted.produits
+cat $DATA_DIR/contrats_contrat.csv | tr -d "\n" | tr "\r" "\n" | grep -E "^[0-9]+;" | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
 
-join -t ";" -a 1 -1 14 -2 1 /tmp/giilda/data_ivbd_csv/contrats_contrat.csv.sorted.produits /tmp/giilda/data_ivbd_csv/produits.csv | sort > /tmp/giilda/data_ivbd_csv/contrats_contrat_produit.csv
+join -t ";" -a 1 -1 14 -2 1 $DATA_DIR/contrats_contrat.csv.sorted.produits $DATA_DIR/produits.csv | sort > $DATA_DIR/contrats_contrat_produit.csv
 
-cat /tmp/giilda/data_ivbd_csv/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
+cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
     type_contrat=($24 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $36);
     if(bordereau_origin) {
@@ -89,6 +89,7 @@ cat /tmp/giilda/data_ivbd_csv/contrats_contrat_produit.csv | awk -F ';' 'BEGIN {
     date_debut_retiraison=$25;
     date_fin_retiraison=$54;
     print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" $7 ";;" $10 ";" $12 ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
-}' | sort -rt ";" -k 3,3 > /tmp/giilda/data_ivbd_csv/vracs.csv
+}' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
-php symfony import:vracs /tmp/giilda/data_ivbd_csv/vracs.csv
+php symfony import:vracs $DATA_DIR/vracs.csv
+
