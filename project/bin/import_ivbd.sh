@@ -61,8 +61,8 @@ cat $DATA_DIR/base_ppm.csv | awk -F ";" '
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/etablissements.csv
 
-#php symfony import:societe $DATA_DIR/societes.csv
-#php symfony import:etablissement $DATA_DIR/etablissements.csv
+php symfony import:societe $DATA_DIR/societes.csv
+php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
@@ -91,7 +91,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" $7 ";;" $10 ";" $12 ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
-#php symfony import:vracs $DATA_DIR/vracs.csv
+php symfony import:vracs $DATA_DIR/vracs.csv
 
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
