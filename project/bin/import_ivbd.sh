@@ -95,8 +95,22 @@ php symfony import:vracs $DATA_DIR/vracs.csv
 
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
-join -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv  > $DATA_DIR/contrats_drm_volume_ligne.csv
+join -a 1 -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv  > $DATA_DIR/contrats_drm_volume_ligne.csv
 
 sort -k 1,1 -t ';' $DATA_DIR/contrats_drm.csv > $DATA_DIR/contrats_drm.sorted.csv
 sort -k 1,1 -t ';' $DATA_DIR/contrats_drm_volume_ligne.csv > $DATA_DIR/contrats_drm_volume_ligne.sorted.csv
-join -t ';' $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
+join -a 2 -t ';' $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
+
+
+cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{ 
+    type="CAVE";
+    periode=$4 "XX";
+    identifiant="";
+    numaccises="";
+    produit_libelle=$2;
+    catmouvement="";
+    mouvement=$3;
+    volume=$5;
+
+    print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
+}'
