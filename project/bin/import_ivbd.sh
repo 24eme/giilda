@@ -159,12 +159,12 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
-        mouvement="regularisation";
+        mouvement="manquant";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois") {
         catmouvement="entrees"
-        mouvement="excedents";
+        mouvement="regularisation";
     }
 
     if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {
@@ -186,4 +186,24 @@ join -t ';' -1 5 -2 1 $DATA_DIR/contrats_drm_dca.sorted.csv $DATA_DIR/produits.c
 
 sort -t ';' -k 4,4 $DATA_DIR/contrats_drm_dca_produit.csv  > $DATA_DIR/contrats_drm_dca_produit.sorted.csv 
 join -t ';' -1 1 -2 4 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
+
+cat $DATA_DIR/drm_simple.csv | grep -E ";(2015)[0-9]{2};" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+
+echo -n > $TMP/drm_lignes.csv
+
+cat $DATA_DIR/drm.csv | while read ligne  
+do
+    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
+    then
+        if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
+        then
+            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
+        fi
+        echo -n > $TMP/drm_lignes.csv
+    fi
+    PERIODE=$(echo $ligne | cut -d ";" -f 2)
+    IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
+
+    echo $ligne >> $TMP/drm_lignes.csv
+done
 
