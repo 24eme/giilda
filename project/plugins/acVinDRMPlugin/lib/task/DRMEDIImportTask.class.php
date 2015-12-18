@@ -41,9 +41,14 @@ EOF;
       $drm->periode = $arguments['periode'];
 
       if(DRMClient::getInstance()->find('DRM-'.$drm->identifiant.'-'.$drm->periode, acCouchdbClient::HYDRATE_JSON)) {
-        echo "Exist ; ".$drm->_id."\n";
+        echo "Existe;".'DRM-'.$drm->identifiant.'-'.$drm->periode."\n";
         return;
       }
+
+      if(!EtablissementClient::getInstance()->find($drm->identifiant, acCouchdbClient::HYDRATE_JSON)) {
+          echo "L'établissement n'extiste pas;".$drm->identifiant."\n";
+          return;
+      } 
 
       $csvFile = new CsvFile($arguments['file']);
         
@@ -67,6 +72,7 @@ EOF;
             $drm->valide->date_saisie = $options['date-validation'];
             $drm->valide->date_signee = $options['date-validation'];
         }
+
         $drm->save();
       
       } catch(Exception $e) {

@@ -155,6 +155,7 @@ class DRMCsvEdi {
             if (!$just_check) {
                 $drm_cepage = $this->drm->getOrAdd($founded_produit->getHash());
                 $drm_cepage->getOrAdd('details')->getOrAdd('DEFAUT')->getOrAdd($cat_mouvement)->add($type_mouvement,  floatval($csvRow[self::CSV_CAVE_VOLUME]));
+                $drm_cepage->getOrAdd('details')->getOrAdd('DEFAUT')->add('stocks_fin')->add('revendique');
             }
 
             $num_ligne++;

@@ -47,10 +47,9 @@ curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(cur
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
 php symfony cc > /dev/null
 
-
 echo "CODE_VIN;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
 echo "CODE_VINS_PRODUITS;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
-cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' > $DATA_DIR/produits.csv
+cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel Blanc doux/' > $DATA_DIR/produits.csv
 
 echo "Import des contacts"
 
@@ -64,8 +63,8 @@ cat $DATA_DIR/base_ppm.csv | awk -F ";" '
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/etablissements.csv
 
-php symfony import:societe $DATA_DIR/societes.csv
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+#php symfony import:societe $DATA_DIR/societes.csv
+#php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
@@ -94,7 +93,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" $7 ";;" $10 ";" $12 ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
-php symfony import:vracs $DATA_DIR/vracs.csv
+#php symfony import:vracs $DATA_DIR/vracs.csv
 
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
@@ -109,24 +108,124 @@ join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_v
 
 cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{ 
     type="CAVE";
-    periode=$4 "XX";
-    identifiant="";
+    mois=sprintf("%02d", $4);
+    annee=$5;
+    periode=annee mois;
+    identifiant=sprintf("%06d01", $7);
     numaccises="";
-    produit_libelle=$2;
+    produit_libelle=$46;
     catmouvement="";
-    mouvement=$3;
-    volume=$5;
+    mouvement_extravitis=$36;
+    mouvement=$36;
+    corrective=$23;
+    regularisatrice=$24;
+    volume=gensub(",", ".", "", $33);
+
+    if(corrective == "True" || regularisatrice == "True") {
+
+        next;
+    }
+    if(!mouvement_extravitis) {
+        mouvement=$31;
+    }
+    if(mouvement_extravitis == "Solde précédent" && volume + 0 != 0) {
+        catmouvement="stocks_debut"
+        mouvement="revendique";
+    }
+    if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) - Autres") {
+        catmouvement="sorties"
+        mouvement="vracsanscontratsuspendu";
+    }
+    if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) -Export") {
+        catmouvement="sorties"
+        mouvement="export";
+    }
+    if(mouvement_extravitis == "Total CRD national") {
+        catmouvement="sorties"
+        mouvement="ventefrancebouteillecrd";
+    }
+    if(mouvement_extravitis == "Total DCA sous contrats (droits suspendus)") {
+        catmouvement="sorties"
+        mouvement="vrac";
+    }
+
+    if(mouvement_extravitis == "Entrées du mois suite à un repli") {
+        catmouvement="entrees"
+        mouvement="repli";
+    }
+
+    if(mouvement_extravitis == "Repli vers une autre AOC ou déclassement") {
+        catmouvement="sorties"
+        mouvement="repli";
+    }
+
+    if(mouvement_extravitis == "Entrées du mois (volumes revendiqués)") {
+        catmouvement="entrees"
+        mouvement="revendique";
+    }
+
+    if(mouvement_extravitis == "AOC sous réserve d'"'"'agrément") {
+        catmouvement="entrees"
+        mouvement="revendique";
+    }
+
+    if(mouvement_extravitis == "Autres exonérations") {
+        catmouvement="sorties"
+        mouvement="manquant";
+    }
+
+    if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
+        catmouvement="entrees"
+        mouvement="regularisation";
+    }
+
+    if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
+        catmouvement="stocks_debut"
+        mouvement="revendication";
+    }
+
+    if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {
+        catmouvement="sorties"
+        mouvement="vracsanscontratacquitte";
+    }
+
+    if(!catmouvement) {
+        next;
+    }
 
     print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
-}'
+}' > $DATA_DIR/drm_simple.csv
 
+#Les contrats
 sort -k 5,5 -t ';' $DATA_DIR/contrats_drm_dca.csv > $DATA_DIR/contrats_drm_dca.sorted.csv
 join -t ';' -1 5 -2 1 $DATA_DIR/contrats_drm_dca.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_dca_produit.csv 
 sort -t ';' -k 4,4 $DATA_DIR/contrats_drm_dca_produit.csv  > $DATA_DIR/contrats_drm_dca_produit.sorted.csv 
 join -t ';' -1 1 -2 4 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
 
-
+#Les export
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export.csv > $DATA_DIR/contrats_drm_volume_export.sorted.csv
 join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_export.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_volume_export_produit.csv
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
+
+#Génération finale
+cat $DATA_DIR/drm_simple.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+
+echo -n > $TMP/drm_lignes.csv
+
+cat $DATA_DIR/drm.csv | while read ligne  
+do
+    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
+    then
+        if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
+        then
+            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
+        fi
+        echo -n > $TMP/drm_lignes.csv
+    fi
+    PERIODE=$(echo $ligne | cut -d ";" -f 2)
+    IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
+
+    echo $ligne >> $TMP/drm_lignes.csv
+done
+
