@@ -115,4 +115,4 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 }'
 
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_dca.csv > $DATA_DIR/contrats_drm_dca.sorted.csv
-join -t ';' $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
+join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
