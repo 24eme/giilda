@@ -108,7 +108,15 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     numaccises="";
     produit_libelle=$31;
     catmouvement="";
-    mouvement=$36;
+    mouvement_extravitis=$36;
+    if(mouvement_extravitis == "Solde précédent") {
+        catmouvement="stocks_debut"
+        mouvement="revendique";
+    }
+    if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) - Autres") {
+        catmouvement="sorties"
+        mouvement="vracsanscontratsuspendu";
+    }
     volume=$33;
 
     print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
