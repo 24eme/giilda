@@ -95,12 +95,11 @@ php symfony import:vracs $DATA_DIR/vracs.csv
 
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
-join -a 1 -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv  > $DATA_DIR/contrats_drm_volume_ligne.csv
+join -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv  > $DATA_DIR/contrats_drm_volume_ligne.csv
 
 sort -k 1,1 -t ';' $DATA_DIR/contrats_drm.csv > $DATA_DIR/contrats_drm.sorted.csv
-sort -k 1,1 -t ';' $DATA_DIR/contrats_drm_volume_ligne.csv > $DATA_DIR/contrats_drm_volume_ligne.sorted.csv
-join -a 2 -t ';' $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
-
+sort -k 2,2 -t ';' $DATA_DIR/contrats_drm_volume_ligne.csv > $DATA_DIR/contrats_drm_volume_ligne.sorted.csv
+join -t ';' -1 1 -2 2 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
 
 cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{ 
     type="CAVE";
@@ -114,3 +113,6 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
 }'
+
+sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_dca.csv > $DATA_DIR/contrats_drm_dca.sorted.csv
+join -t ';' $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
