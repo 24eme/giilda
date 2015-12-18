@@ -33,10 +33,10 @@ if test "$1"; then
     ls $TMP/data_ivbd_origin/IVBD | while read ligne  
     do
         echo $DATA_DIR/$ligne
-        iconv -f utf-16 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne > $DATA_DIR/$ligne
+        iconv -f utf-16 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    cp $TMP/data_ivbd_origin/IVBD/base_ppm.csv $DATA_DIR/base_ppm.csv
+    cat $TMP/data_ivbd_origin/IVBD/base_ppm.csv | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/base_ppm.csv
 
     rm -rf $TMP/data_ivbd_origin
 fi
@@ -51,12 +51,12 @@ cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" 
 
 echo "Import des contacts"
 
-cat $DATA_DIR/base_ppm.csv | tr -d "\n" | tr "\r" "\n" | awk -F ";" '
+cat $DATA_DIR/base_ppm.csv | awk -F ";" '
 {
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2 ";VITICULTEUR;" nom ";;" statut ";;" $26 ";;;adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/societes.csv
 
-cat $DATA_DIR/base_ppm.csv | tr -d "\n" | tr "\r" "\n" | awk -F ";" '
+cat $DATA_DIR/base_ppm.csv | awk -F ";" '
 {
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/etablissements.csv
@@ -66,7 +66,7 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-cat $DATA_DIR/contrats_contrat.csv | tr -d "\n" | tr "\r" "\n" | grep -E "^[0-9]+;" | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
+cat $DATA_DIR/contrats_contrat.csv | grep -E "^[0-9]+;" | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
 
 join -t ";" -a 1 -1 14 -2 1 $DATA_DIR/contrats_contrat.csv.sorted.produits $DATA_DIR/produits.csv | sort > $DATA_DIR/contrats_contrat_produit.csv
 
