@@ -45,6 +45,11 @@ EOF;
         return;
       }
 
+      if(!EtablissementClient::getInstance()->find($drm->identifiant, acCouchdbClient::HYDRATE_JSON)) {
+          echo "L'établissement n'extiste pas;".$drm->identifiant."\n";
+          return;
+      } 
+
       $csvFile = new CsvFile($arguments['file']);
         
       $drmCsvEdi = new DRMCsvEdi($drm);
@@ -68,10 +73,6 @@ EOF;
             $drm->valide->date_signee = $options['date-validation'];
         }
 
-        if(!EtablissementClient::getInstance()->find($drm->identifiant, acCouchdbClient::HYDRATE_JSON)) {
-          throw new Exception("L'établissement n'extiste pas");
-        }
-        
         $drm->save();
       
       } catch(Exception $e) {

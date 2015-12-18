@@ -47,7 +47,7 @@ curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(cur
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
 php symfony cc > /dev/null
 
-cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' > $DATA_DIR/produits.csv
+cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel Blanc doux/' > $DATA_DIR/produits.csv
 
 echo "Import des contacts"
 
@@ -61,8 +61,8 @@ cat $DATA_DIR/base_ppm.csv | awk -F ";" '
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/etablissements.csv
 
-php symfony import:societe $DATA_DIR/societes.csv
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+#php symfony import:societe $DATA_DIR/societes.csv
+#php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
@@ -91,7 +91,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" $7 ";;" $10 ";" $12 ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
-php symfony import:vracs $DATA_DIR/vracs.csv
+#php symfony import:vracs $DATA_DIR/vracs.csv
 
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
@@ -106,17 +106,27 @@ join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_v
 
 cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{ 
     type="CAVE";
-    periode=$5 sprintf("%02d", $4);
+    mois=sprintf("%02d", $4);
+    annee=$5;
+    periode=annee mois;
     identifiant=sprintf("%06d01", $7);
     numaccises="";
     produit_libelle=$46;
     catmouvement="";
     mouvement_extravitis=$36;
     mouvement=$36;
+    corrective=$23;
+    regularisatrice=$24;
+    volume=gensub(",", ".", "", $33);
+
+    if(corrective == "True" || regularisatrice == "True") {
+
+        next;
+    }
     if(!mouvement_extravitis) {
         mouvement=$31;
     }
-    if(mouvement_extravitis == "Solde précédent") {
+    if(mouvement_extravitis == "Solde précédent" && volume + 0 != 0) {
         catmouvement="stocks_debut"
         mouvement="revendique";
     }
@@ -162,9 +172,14 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         mouvement="manquant";
     }
 
-    if(mouvement_extravitis == "Autres entrées du mois") {
+    if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
         catmouvement="entrees"
         mouvement="regularisation";
+    }
+
+    if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
+        catmouvement="stocks_debut"
+        mouvement="revendication";
     }
 
     if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {
@@ -176,8 +191,6 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    volume=$33;
-
     print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
 }' > $DATA_DIR/drm_simple.csv
 
@@ -187,7 +200,7 @@ join -t ';' -1 5 -2 1 $DATA_DIR/contrats_drm_dca.sorted.csv $DATA_DIR/produits.c
 sort -t ';' -k 4,4 $DATA_DIR/contrats_drm_dca_produit.csv  > $DATA_DIR/contrats_drm_dca_produit.sorted.csv 
 join -t ';' -1 1 -2 4 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
 
-cat $DATA_DIR/drm_simple.csv | grep -E ";(2015)[0-9]{2};" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_simple.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 
