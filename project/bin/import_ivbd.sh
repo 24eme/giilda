@@ -109,9 +109,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     periode=$5 sprintf("%02d", $4);
     identifiant=sprintf("%06d01", $7);
     numaccises="";
-    produit_libelle=$31;
+    produit_libelle=$46;
     catmouvement="";
     mouvement_extravitis=$36;
+    mouvement=$36;
+    if(!mouvement_extravitis) {
+        mouvement=$31;
+    }
     if(mouvement_extravitis == "Solde précédent") {
         catmouvement="stocks_debut"
         mouvement="revendique";
@@ -120,10 +124,62 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         catmouvement="sorties"
         mouvement="vracsanscontratsuspendu";
     }
+    if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) -Export") {
+        catmouvement="sorties"
+        mouvement="export";
+    }
+    if(mouvement_extravitis == "Total CRD national") {
+        catmouvement="sorties"
+        mouvement="ventefrancebouteillecrd";
+    }
+    if(mouvement_extravitis == "Total DCA sous contrats (droits suspendus)") {
+        catmouvement="sorties"
+        mouvement="vrac";
+    }
+
+    if(mouvement_extravitis == "Entrées du mois suite à un repli") {
+        catmouvement="entrees"
+        mouvement="repli";
+    }
+
+    if(mouvement_extravitis == "Repli vers une autre AOC ou déclassement") {
+        catmouvement="sorties"
+        mouvement="repli";
+    }
+
+    if(mouvement_extravitis == "Entrées du mois (volumes revendiqués)") {
+        catmouvement="entrees"
+        mouvement="revendique";
+    }
+
+    if(mouvement_extravitis == "AOC sous réserve d'"'"'agrément") {
+        catmouvement="entrees"
+        mouvement="revendique";
+    }
+
+    if(mouvement_extravitis == "Autres exonérations") {
+        catmouvement="sorties"
+        mouvement="regularisation";
+    }
+
+    if(mouvement_extravitis == "Autres entrées du mois") {
+        catmouvement="entrees"
+        mouvement="excedents";
+    }
+
+    if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {
+        catmouvement="sorties"
+        mouvement="vracsanscontratacquitte";
+    }
+
+    if(!catmouvement) {
+        next;
+    }
+
     volume=$33;
 
     print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
-}'
+}' > $DATA_DIR/drm_simple.csv
 
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_dca.csv > $DATA_DIR/contrats_drm_dca.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
