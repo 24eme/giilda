@@ -307,7 +307,9 @@ class DRMDetail extends BaseDRMDetail {
 
                 continue;
             }
-
+            if (!$this->getConfig()->exist($hash . "/" . $key)) {
+                continue;
+            }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
             $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
             $mouvement->facture = 0;
@@ -317,6 +319,7 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->version = $this->getDocument()->getVersion();
             $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
+
             if ($this->exist($hash . "/" . $key . "_details")) {
                 $mouvements = array_replace_recursive($mouvements, $this->get($hash . "/" . $key . "_details")->createMouvements($mouvement));
                 continue;
@@ -371,7 +374,7 @@ class DRMDetail extends BaseDRMDetail {
     public function isEdited() {
         return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
     }
-
+    
     public function hasMovements() {
         if ($this->hasMouvement()) {
 
@@ -381,27 +384,35 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getCepage()->hasMovements();
     }
 
-    public function updateDroitsDouanes() {       
+    public function updateDroitsDouanes() {
         $droitsNode = $this->getDocument()->getOrAdd('droits')->getOrAdd('douane');
         $cepageConfig = $this->getCepage()->getConfig();
         $genreKey = $this->getGenre()->getKey();
 
         foreach ($this->getEntrees() as $entreeKey => $entree) {
             $entreeKey = str_replace('_details', '', $entreeKey);
+            if (!$this->getConfig()->exist('entrees/' . $entreeKey)) {
+                continue;
+            }
             $entreeConf = $this->getConfig()->get('entrees/' . $entreeKey);
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
-            if ($entreeConf->taxable_douane && $entreeDrm > 0) {
+            if ($entreeConf->taxable_douane && $entreeDrm && $entreeDrm > 0) {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
 
             $sortieKey = str_replace('_details', '', $sortieKey);
+            if (!$this->getConfig()->exist('sorties/' . $sortieKey)) {
+                continue;
+            }
             $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
+            
             $sortieDrm = $this->get('sorties/' . $sortieKey);
-
-            if ($sortieConf->taxable_douane && $sortieDrm > 0) {
+            
+ 
+            if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }

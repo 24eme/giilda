@@ -396,7 +396,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $this->update();
         $this->storeIdentifiant($options);
-        $this->storeDates();
+        if (!isset($options['validation_step']) || !$options['validation_step']) {
+            $this->storeDates();
+        }
         $this->cleanDeclaration();
 
         if (!isset($options['no_droits']) || !$options['no_droits']) {
@@ -405,19 +407,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->setInterpros();
         $this->generateMouvements();
-	if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
-	        $this->generateDroitsDouanes();
-	}
+        if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+            $this->generateDroitsDouanes();
+        }
 
         $this->archivage_document->archiver();
 
         if (!isset($options['no_vracs']) || !$options['no_vracs']) {
             $this->updateVracs();
         }
-
-        if ($this->getSuivante() && $this->isSuivanteCoherente()) {
-            $this->getSuivante()->precedente = $this->get('_id');
-            $this->getSuivante()->save();
+        if (!isset($options['validation_step']) || !$options['validation_step']) {
+            if ($this->getSuivante() && $this->isSuivanteCoherente()) {
+                $this->getSuivante()->precedente = $this->get('_id');
+                $this->getSuivante()->save();
+            }
         }
     }
 
@@ -557,6 +560,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->hasVrac() || $this->hasConditionneExport();
     }
 
+    public function isNeant() {
+        return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT);
+    }
+
     public function isEnvoyee() {
         if (!$this->exist('valide')) {
 
@@ -634,6 +641,34 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function save() {
         $this->region = $this->getEtablissement()->region;
+        $listEntrees = $listSorties = null;
+        $key_to_remove = array();
+        foreach ($this->getProduits() as $produit) {
+            foreach ($produit->getProduitsDetails() as $produit_hash => $detail) {
+                if (!$listEntrees && !$listSorties) {
+                    $listEntrees = array_keys($detail->getConfig()->getEntreesSorted());
+                    $listSorties = array_keys($detail->getConfig()->getSortiesSorted());
+                }
+                foreach ($detail->entrees as $keyEntree => $valueEntree) {
+                    if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
+                        $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
+                          
+                    }
+                }
+                foreach ($detail->sorties as $keySortie => $valueSortie) {
+                    if ($valueSortie instanceof DRMESDetails) {
+                        continue;
+                    }
+                    if ($valueSortie && !in_array($keySortie, $listSorties)) {                        
+                       $key_to_remove[] = $produit_hash.'/sorties/'.$keySortie;
+                    }
+                }
+            }
+        }
+        
+        foreach ($key_to_remove as $key) {
+           $this->remove($key);
+        }
         parent::save();
     }
 
@@ -1025,10 +1060,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->nbTotalCrdsTypes() > 0;
     }
 
-    public function addCrdType($couleur, $litrage, $type_crd, $stock_debut = null) {
-        return $this->getOrAdd('crds')->getOrAddCrdType($couleur, $litrage, $type_crd, $stock_debut);
-    }
-
     public function initCrds() {
         $toRemoves = array();
         $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
@@ -1075,8 +1106,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$this->exist('crds') || (!$this->crds)) {
             $this->add('crds');
         }
-        $regimeCrd = $this->getEtablissement()->crd_regime;
-        $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
+        $regimeCrd = ($this->getEtablissement()->exist('crd_regime')) ? $this->getEtablissement()->crd_regime : null;
+        if ($regimeCrd) {
+            $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
+        }
     }
 
     public function getAllGenres() {
@@ -1146,7 +1179,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$nodeAnnexe)
             return false;
         foreach ($this->documents_annexes as $annexe) {
-            if($annexe->fin || $annexe->debut){
+            if ($annexe->fin || $annexe->debut) {
                 return true;
             }
         }
@@ -1243,13 +1276,32 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function initDroitsDouane() {
-	try {
-	        foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
-        	    $droitDouane->clearDroitDouane();
-        	}
-	}catch(Exception $e) {
-	}
+        try {
+            foreach ($this->droits->douane as $key_douane_genre => $droitDouane) {
+                $droitDouane->clearDroitDouane();
+            }
+        } catch (Exception $e) {
+            
+        }
     }
 
     /** Fin Droit de circulation douane */
+    public function allLibelleDetailLigneForDRM() {
+        $config = $this->getConfig();
+        $libelles_detail_ligne = $config->libelle_detail_ligne;
+        $toRemove = array();
+        foreach ($libelles_detail_ligne as $catKey => $cat) {
+            foreach ($cat as $typeKey => $detail) {
+                if (!$config->declaration->detail->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
+                    $toRemove[] = $catKey . '/' . $typeKey;
+                }
+            }
+        }
+        foreach ($toRemove as $removeNode) {
+
+            $libelles_detail_ligne->remove($removeNode);
+        }
+        return $libelles_detail_ligne;
+    }
+
 }

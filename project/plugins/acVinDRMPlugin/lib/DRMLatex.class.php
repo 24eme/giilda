@@ -23,12 +23,14 @@ class DRMLatex extends GenericLatex {
     function __construct(DRM $drm, $config = null) {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
         $this->drm = $drm;
-        $configuration = $drm->getConfig();
-        $this->libelles_detail_ligne = $configuration->libelle_detail_ligne;
+        $this->libelles_detail_ligne = $drm->allLibelleDetailLigneForDRM();
     }
 
     public function getNbPages() {
         $nbPages = 0;
+        if ($this->drm->isNeant()) {
+            return 2;
+        }
         foreach ($this->drm->declaration->getProduitsDetailsByCertifications(true) as $produitByCertif) {
             $nb_produits = count($produitByCertif->produits);
             if ($nb_produits == 0) {
@@ -37,15 +39,13 @@ class DRMLatex extends GenericLatex {
             $nbPages+= (int) ($nb_produits / DRMLatex::NB_PRODUITS_PER_PAGE) + 1;
         }
         $cpt_crds_annexes = $this->drm->nbTotalCrdsTypes();
-        if ($this->drm->exist('documents_annexes')) {
-            $cpt_crds_annexes+=count($this->drm->documents_annexes);
-        }
-        if ($this->drm->exist('releve_non_apurement')) {
-            $cpt_crds_annexes+= count($this->drm->releve_non_apurement);
-        }
         if ($cpt_crds_annexes) {
             $nbPages++;
         }
+        if ($this->drm->exist('releve_non_apurement') && count($this->drm->releve_non_apurement) && (count($this->drm->releve_non_apurement) >= 4)) {
+            $nbPages++;
+        }
+        $nbPages++;
         return $nbPages;
     }
 
@@ -67,13 +67,14 @@ class DRMLatex extends GenericLatex {
 
     public function getMvtsEnteesForPdf() {
         $entrees = array();
-
         foreach ($this->libelles_detail_ligne->entrees as $key => $entree) {
+       
             $entreeObj = new stdClass();
             $entreeObj->libelle = $entree->libelle;
             $entreeObj->key = $key;
-            $entrees[] = $entreeObj;
+            $entrees[$entree->libelle] = $entreeObj;
         }
+        ksort($entrees);
         return $entrees;
     }
 
@@ -83,8 +84,9 @@ class DRMLatex extends GenericLatex {
             $sortieObj = new stdClass();
             $sortieObj->libelle = $sortie->libelle;
             $sortieObj->key = $key;
-            $sorties[] = $sortieObj;
+            $sorties[$sortie->libelle] = $sortieObj;
         }
+        ksort($sorties);
         return $sorties;
     }
 

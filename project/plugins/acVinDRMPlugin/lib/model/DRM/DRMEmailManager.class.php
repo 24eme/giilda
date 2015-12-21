@@ -80,25 +80,26 @@ L’application de télédéclaration des contrats d’InterLoire";
 
         $mess = "  
 
-La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration d'InterLoire.
+La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration ". sfConfig::get('app_teledeclaration_url')." .
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 
-Pour toutes questions, veuillez contacter " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
+Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
+
+Pour toutes questions, veuillez contacter: 
+
+ - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
+ - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .    
     
 --
 
-L’application de télédéclaration des DRM d’InterLoire
-
-Rappel de votre identifiant : " . substr($this->drm->identifiant, 0, 6) . "
-    
-Vous pouvez la visualiser à tout moment en cliquant sur le lien suivant : " . $this->getUrlVisualisationDrm() . " .";
-
+L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclaration_url') ." .";
+        
         $pdf = new DRMLatex($this->drm);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();
 
-        $subject = "Validation de votre DRM " . getFrPeriodeElision($this->drm->periode) . " créée le " . $this->getDateSaisieDrmFormatted() . " .";
+        $subject = "Validation de la DRM " . getFrPeriodeElision($this->drm->periode) . " créée le " . $this->getDateSaisieDrmFormatted() . " .";
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $etablissement->getEmailTeledeclaration(), $subject, $mess);
 
