@@ -13,17 +13,29 @@
  */
 class DRMImportCsvEdi extends DRMCsvEdi {
 
-    private $configuration = null;
-    private $mouvements = array();
+    protected $configuration = null;
+    protected $mouvements = array();
+    protected $csvDoc = null;
 
     public function __construct($file, DRM $drm = null) {
-        $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
-        $this->configuration = ConfigurationClient::getCurrent();
-        $this->mouvements = $this->buildAllMouvements();
+        if(is_null($this->csvDoc)) {
+            $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
+        }
+        $this->initConf();
         parent::__construct($file, $drm);
     }
 
-    private function getDocRows() {
+    public function getCsvDoc() {
+
+        return $this->csvDoc;
+    }
+
+    protected function initConf() {
+        $this->configuration = ConfigurationClient::getCurrent();
+        $this->mouvements = $this->buildAllMouvements();
+    }
+
+    public function getDocRows() {
         return $this->getCsv($this->csvDoc->getFileContent());
     }
 
@@ -62,7 +74,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         $this->importMouvementsFromCSV();
         $this->importCrdsFromCSV();
-        $this->drm->teledeclare = true;
+        //$this->drm->teledeclare = true;
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
         $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
         $this->drm->buildFavoris();
@@ -86,7 +98,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
             }
             if (!preg_match('/^FR0[0-9]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
-                $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
+                //$this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
             }
             $ligne_num++;
         }
@@ -127,6 +139,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
                 $founded_produit = $produit;
             }
+
+            if(!$founded_produit) {
+                $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
+            }
+
             if (!$founded_produit) {
                 $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;

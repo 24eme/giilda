@@ -9,6 +9,7 @@ class DRMEDIImportTask extends sfBaseTask
          new sfCommandArgument('file', sfCommandArgument::REQUIRED, "Fichier csv pour l'import"),
          new sfCommandArgument('periode', sfCommandArgument::REQUIRED, "Periode de la DRM"),
          new sfCommandArgument('identifiant', sfCommandArgument::REQUIRED, "Identifiant de l'établissement"),
+         new sfCommandArgument('numero_archive', sfCommandArgument::OPTIONAL, "Numéro d'archive"),
       ));
 
       $this->addOptions(array(
@@ -39,6 +40,9 @@ EOF;
       $drm = new DRM();
       $drm->identifiant = $arguments['identifiant'];
       $drm->periode = $arguments['periode'];
+      if($arguments['numero_archive']) {
+        $drm->numero_archive = $arguments['numero_archive'];
+      }
 
       if(DRMClient::getInstance()->find('DRM-'.$drm->identifiant.'-'.$drm->periode, acCouchdbClient::HYDRATE_JSON)) {
         echo "Existe;".'DRM-'.$drm->identifiant.'-'.$drm->periode."\n";
@@ -46,26 +50,26 @@ EOF;
       }
 
       if(!EtablissementClient::getInstance()->find($drm->identifiant, acCouchdbClient::HYDRATE_JSON)) {
-          echo "L'établissement n'extiste pas;".$drm->identifiant."\n";
+          echo "L'établissement n'existe pas;".$drm->identifiant."\n";
           return;
       } 
 
-      $csvFile = new CsvFile($arguments['file']);
-        
-      $drmCsvEdi = new DRMCsvEdi($drm);
-      $drmCsvEdi->checkCSV($csvFile);
+      $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm);
+      $drmCsvEdi->checkCSV();
 
-      if($drmCsvEdi->statut != "VALIDE") {
-          foreach($drmCsvEdi->erreurs as $erreur) {
-            echo sprintf("%s : %s;#%s\n", $erreur->raison, $erreur->erreur_csv, $erreur->ligne);
+
+      if($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+          $csv = $drmCsvEdi->getCsv();
+          foreach($drmCsvEdi->getCsvDoc()->erreurs as $erreur) {
+            echo sprintf("%s : %s;#%s\n", $erreur->diagnostic, $erreur->csv_erreur, implode(";", $csv[$erreur->num_ligne-1]));
           }
           return;
       }
 
+      
       try {
-        $drmCsvEdi->importCSV($csvFile);
+        $drmCsvEdi->importCSV();
         $drm->update();
-        $drm->numero_archive = "00000";
         $drm->validate();
 
         if($options['date-validation']) {

@@ -258,6 +258,7 @@ class VracCsvFile extends CsvFile
         $date = $line[self::CSV_RETIRAISON_DATE_DEBUT];
 
         if(!$date) {
+            return null;
             throw new Exception(sprintf("La date de début de retiraison est requise", $date));
         }
 
@@ -268,7 +269,8 @@ class VracCsvFile extends CsvFile
         $date = $line[self::CSV_RETIRAISON_DATE_DEBUT];
 
         if(!$date) {
-            throw new Exception(sprintf("La date de début de retiraison est requise", $date));
+            return null;
+            throw new Exception(sprintf("La date de fin de retiraison est requise", $date));
         }
 
         return $this->formatAndVerifyDate($date);

@@ -46,4 +46,24 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
         return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
     }
 
+    public function isWritableForEtablissement($etb) {
+        if(($this->getKey() == "retourmarchandisetaxeesacquitte") || ($this->getKey() == "ventefrancebibcrdacquitte") || ($this->getKey() == "ventefrancebouteillecrdacquitte")){
+            if(!$etb->exist('crd_regime')){
+                return false;
+            }
+            if(($etb->crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($etb->crd_regime == EtablissementClient::REGIME_CRD_PERSONNALISE)){
+                return false;
+            }
+        }
+         if(($this->getKey() == "retourmarchandisetaxees") || ($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
+            if(!$etb->exist('crd_regime')){
+                return true;
+            }
+            if(($etb->crd_regime != EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) && ($etb->crd_regime != EtablissementClient::REGIME_CRD_PERSONNALISE)){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

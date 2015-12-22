@@ -95,6 +95,8 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
 
 php symfony import:vracs $DATA_DIR/vracs.csv
 
+echo "Import des DRM"
+
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
 join -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv  > $DATA_DIR/contrats_drm_volume_ligne.csv
@@ -112,7 +114,8 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     annee=$5;
     periode=annee mois;
     identifiant=sprintf("%06d01", $7);
-    numaccises="";
+    num_accises="";
+    num_archive=sprintf("%05d",$1);
     produit_libelle=$46;
     catmouvement="";
     mouvement_extravitis=$36;
@@ -193,7 +196,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    print type ";" periode ";" identifiant ";" numaccises ";" produit_libelle ";;;;;;" catmouvement ";" mouvement ";" volume;
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;";
 }' > $DATA_DIR/drm_simple.csv
 
 #Les contrats
@@ -217,15 +220,17 @@ cat $DATA_DIR/drm.csv | while read ligne
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
+
         if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
+            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --trace
         fi
+
         echo -n > $TMP/drm_lignes.csv
+
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
     IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-
     echo $ligne >> $TMP/drm_lignes.csv
 done
 
