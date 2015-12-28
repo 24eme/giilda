@@ -84,6 +84,8 @@ La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->n
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 
+Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
+
 Pour toutes questions, veuillez contacter: 
 
  - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .

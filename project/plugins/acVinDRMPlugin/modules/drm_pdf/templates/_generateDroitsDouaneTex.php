@@ -80,7 +80,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \end{large}
 \end{center}
 
-\begin{tabular}{C{43mm} |C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}			 	 
+\begin{tabular}{C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}			 	 
 \multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
 \\ 			 
 \hline   			
@@ -107,10 +107,20 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 
 \vspace{0.5cm}
 
+<?php if($drm->quantite_sucre): ?>
+\begin{tabular}{|C{138mm}|C{138mm}|}
+\hline
+\multicolumn{2}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Information sur le sucre}}}} \\
+\hline
+\rowcolor{lightgray}\small{\textbf{Taux en quintal}} & \rowcolor{white}\small{\textbf{<?php echo $drm->quantite_sucre ?>}} \\
+\hline   
+\end{tabular}
+
+\vspace{0.5cm}
+<?php endif; ?>
+
 <?php if($hasObservations): ?>
-
 \begin{tabular}{|C{280mm}|}
-
 \multicolumn{1}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Observations}}}}
 \\ 				 
 \hline   
@@ -119,8 +129,8 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \end{tabular}
 
  \vspace{0.5cm}
- 
-<?php endif; ?>
+
+ <?php endif; ?>
 \fcolorbox{white}{white}{
 \hspace{-0.25cm}
 \begin{minipage}[t]{0.6\textwidth}

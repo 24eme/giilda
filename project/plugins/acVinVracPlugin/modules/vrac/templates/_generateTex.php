@@ -33,7 +33,7 @@
 }
 
 \AddToShipoutPicture{%
-\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2014\end{minipage}}\fi}
+\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2015\end{minipage}}\fi}
 }
 \makeatother
 
