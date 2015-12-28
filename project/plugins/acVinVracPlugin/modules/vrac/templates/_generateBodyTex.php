@@ -94,7 +94,7 @@ A été conclu le marché suivant: \\
 \textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, conforme à l'art. III-2 de l'Accord Interprofessionnel}
 \\
 \\
-La cotisation interprofessionnelle est payée par moitié par le vendeur et par moitié par l'acheteur. Toutefois :\\
+La cotisation interprofessionnelle est payée en totalité par l'acheteur. Toutefois :\\
 - la cotisation interprofessionnelle concernant une vente à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur ;\\
 - la cotisation interprofessionnelle concernant la vente de raisins et moûts est facturée par InterLoire en totalité auprès de l'acheteur.
 \\
