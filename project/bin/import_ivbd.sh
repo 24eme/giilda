@@ -143,6 +143,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) -Export") {
         catmouvement="sorties"
         mouvement="export";
+        next;
     }
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
@@ -151,6 +152,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Total DCA sous contrats (droits suspendus)") {
         catmouvement="sorties"
         mouvement="vrac";
+        next;
     }
 
     if(mouvement_extravitis == "Entrées du mois suite à un repli") {
@@ -185,7 +187,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
         catmouvement="stocks_debut"
-        mouvement="revendication";
+        mouvement="revendique";
     }
 
     if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {
