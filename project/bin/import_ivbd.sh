@@ -197,7 +197,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;";
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;";
 }' > $DATA_DIR/drm_cave.csv
 
 #Les contrats
@@ -227,7 +227,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
         next;
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat;
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";";
 }' > $DATA_DIR/drm_cave_vrac.csv
 
 #Les export
@@ -236,8 +236,32 @@ join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_export.sorted.csv $DATA_DIR/
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
 
+cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{ 
+    type="CAVE";
+    mois=sprintf("%02d", $4);
+    annee=$5;
+    periode=annee mois;
+    identifiant=sprintf("%06d01", $7);
+    num_accises="";
+    num_archive=sprintf("%05d",$1);
+    produit_libelle=$35;
+    catmouvement="sorties";
+    mouvement="export";
+    corrective=$23;
+    regularisatrice=$24;
+    volume=gensub(",", ".", "", $34);
+    pays=$33
+
+    if(corrective == "True" || regularisatrice == "True") {
+
+        next;
+    }
+
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;";
+}' > $DATA_DIR/drm_cave_export.csv
+
 #Génération finale
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 
