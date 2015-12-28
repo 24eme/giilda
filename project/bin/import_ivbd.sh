@@ -122,7 +122,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     mouvement=$36;
     corrective=$23;
     regularisatrice=$24;
-    volume=gensub(",", ".", "", $33);
+    volume=gensub(",", ".", "", $33)+0;
 
     if(corrective == "True" || regularisatrice == "True") {
 
@@ -132,7 +132,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(!mouvement_extravitis) {
         mouvement=$31;
     }
-    if(mouvement_extravitis == "Solde précédent" && volume + 0 != 0) {
+    if(mouvement_extravitis == "Solde précédent" && volume != 0) {
         catmouvement="stocks_debut"
         mouvement="revendique";
     }
@@ -197,6 +197,18 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(!catmouvement) {
         next;
+    }
+
+    if(volume < 0 && catmouvement == "sorties") {
+        catmouvement = "entrees";
+        mouvement = "regularisation";
+        volume = volume * -1;
+    }
+
+    if(volume < 0 && catmouvement == "entrees") {
+        catmouvement = "sorties";
+        mouvement = "manquant";
+        volume = volume * -1;
     }
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;";
