@@ -108,12 +108,50 @@ cat $DATA_DIR/contrats_produits.csv | sort -t ";" -k 24,24 > $DATA_DIR/contrats_
 
 join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR/cepages.csv.sorted > $DATA_DIR/contrats_produits_cepages.csv
 
-cat $DATA_DIR/contrats_produits_cepages.csv | awk -F ';' '{ 
+# /!\ Transformation arbitraire de la ligne ou l'année est 211 => 2011, 22012 => 2012, 201 => 2015, 20112 => 2012
+cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;10222;10222;2011;/g' | sed 's/;3;10194;10194;22012;/;3;10194;10194;2012;/g' | sed 's/;2;10849;10849;201;12;91236;/;2;10849;10849;2015;12;91236;/g' | sed 's/;88;7922;7922;20112;/;88;7922;7922;2012;/g' > $DATA_DIR/contrats_produits_cepages.clean.csv
+
+# Début génération des Id couchDB
+
+cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{ 
 date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); 
 date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$11); 
+num_bordereau=$7;
+if(length($7) > 7){
+   num_bordereau=substr($7,1,7);
+}
+id_vrac=sprintf("%4d%07d", $5 , num_bordereau);
 libelle_produit=$41; 
-print $4 ";" $7 ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 
-}' | grep -Ev '^[0-9]+;0;' | sort > $DATA_DIR/vracs.csv
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 ";" $18 ";" $19 ";" $20 
+}' | sort > $DATA_DIR/vracs.csv.tmp
+
+
+cat $DATA_DIR/vracs.csv.tmp | awk -F ';' 'BEGIN { id_vrac_prec=0; num_incr=1; num_incr_aux=1; } {
+  id_vrac=$2;
+  num_bordereau=$3;
+if(id_vrac_prec==id_vrac) {
+  if(num_bordereau=="0"){
+    num_bordereau=sprintf("9%06d",num_incr);
+    num_incr=num_incr+1;
+  }else{
+    num_bordereau=sprintf("%1d%06d",num_incr_aux,substr($3,2,6));
+    num_incr_aux=num_incr_aux+1;
+  }  
+}else{
+  if(num_bordereau=="0"){
+    num_bordereau=sprintf("9%06d",num_incr);
+    num_incr=num_incr+1;
+
+if(length(num_bordereau) > 7){
+print num_bordereau;
+}
+  }
+  num_incr_aux=1;
+}
+id_vrac=substr($2,0,4) "" sprintf("%07d",num_bordereau);  
+print $1 ";" id_vrac ";" num_bordereau ";" $0
+id_vrac_prec=$2;
+}' | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);(.*)/\1;\2;\3;\7/g' | sed 's/^Numéro Contrat;   00000000;Numéro ;//g' > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
 
