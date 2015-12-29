@@ -20,7 +20,9 @@ Vrac:
       surface: { type: float }
       degre: { type: float }
       delai_paiement: { }
+      delai_paiement_libelle: { }
       moyen_paiement: { }
+      moyen_paiement_libelle: { }
       date_limite_retiraison: { }
       date_debut_retiraison: { }
       conditions_particulieres: { }

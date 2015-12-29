@@ -102,8 +102,8 @@
 \def\CONTRATOBSERVATIONS{<?php echo $vrac->conditions_particulieres ?>}
 \def\CONTRATFRAISDEGARDE{ ~~~~~\euro/hl}
 
-\def\CONTRATMOYENPAIEMENT{<?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?>}
-\def\CONTRATDELAIPAIEMENT{<?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?>}
+\def\CONTRATMOYENPAIEMENT{<?php echo $vrac->moyen_paiement_libelle ?>}
+\def\CONTRATDELAIPAIEMENT{<?php echo $vrac->delai_paiement_libelle ?>}
 \def\CONTRATACOMPTE{<?php echo $vrac->acompte ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
 

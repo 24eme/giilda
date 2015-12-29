@@ -135,8 +135,8 @@ $colsize = 6;
                 <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte || $vrac->taux_courtage || $vrac->tva): ?>
                 <li class="list-group-item clearfix">
 	                <span class="col-xs-6">
-	                <?php if ($vrac->delai_paiement): ?>Paiement : <strong><?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement]; ?></strong><?php endif; ?>
-	                (<?php if ($vrac->moyen_paiement): ?><strong><?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement]; ?></strong><?php endif; ?>)
+	                <?php if ($vrac->delai_paiement): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><?php endif; ?>
+	                (<?php if ($vrac->moyen_paiement): ?><strong><?php echo $vrac->moyen_paiement_libelle; ?></strong><?php endif; ?>)
 	                <br />
 	                <?php if ($vrac->tva): ?>Facturation <strong><?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?></strong><?php endif; ?>
 	                </span>
