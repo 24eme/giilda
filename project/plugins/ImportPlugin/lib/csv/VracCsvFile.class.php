@@ -2,9 +2,8 @@
 
 class VracCsvFile extends CsvFile 
 {
-    const CSV_NUMERO_CONTRAT = 0;
-    const CSV_NUMERO_PAPIER = 1;
-
+    const CSV_NUMERO_PAPIER = 0;
+    const CSV_NUMERO_CONTRAT = 1;
     const CSV_DATE_SIGNATURE = 2;
     const CSV_DATE_SAISIE = 3;
 
@@ -89,11 +88,11 @@ class VracCsvFile extends CsvFile
                 $dateSaisie = new DateTime($v->valide->date_saisie);
                 $v->numero_contrat = $this->verifyAndFormatNumeroContrat($line);
                 $v->numero_archive = $this->verifyAndFormatNumeroArchive($line);
-
-                $v->constructId();
-
+                $v->_id = $this->verifyAndFormatIdContrat($line);
+              //  $v->constructId();
+                
                 if(VracClient::getInstance()->find($v->_id, acCouchdbClient::HYDRATE_JSON)) {
-                    throw new sfException(sprintf("Existe"));
+                    throw new sfException(sprintf($this->red("Existe")));
                 }
 
                 $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID]);
@@ -133,7 +132,7 @@ class VracCsvFile extends CsvFile
                 }
 
                 if(!$v->produit) {
-                    throw new sfException(sprintf("Le produit n'a pas été trouvé %s", $line[self::CSV_PRODUIT_LIBELLE]));
+                    throw new sfException(sprintf("Le produit n'a pas été trouvé %s", $this->yellow($line[self::CSV_PRODUIT_LIBELLE])));
                 }
 
                 $this->verifyTypeTransaction($line);
@@ -149,7 +148,7 @@ class VracCsvFile extends CsvFile
                 $v->date_limite_retiraison = $this->formatAndVerifyDateRetiraisonFin($line);
 
                 if($v->date_debut_retiraison > $v->date_limite_retiraison) {
-                    throw new sfException("La date de début de retiraison est supérieur à celle du début");
+                    throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
                 }
                 
                 $v->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
@@ -157,9 +156,9 @@ class VracCsvFile extends CsvFile
                 $v->enleverVolume($v->volume_propose);
 
                 $v->save();
-
+                echo sprintf("Le contrat %s a bien été importé\n", $this->green($v->_id));
             }catch(Exception $e) {
-                echo sprintf("%s : #%s\n",$e->getMessage(), implode(";", $line));
+                echo sprintf("%s : #%s\n",$this->red($e->getMessage()), implode(";", $line));
                 $this->error[] = $e->getMessage();
             }
         }
@@ -167,7 +166,7 @@ class VracCsvFile extends CsvFile
 
     private function verifyAndFormatNumeroContrat($line) {
         if($line[self::CSV_NUMERO_PAPIER] && preg_match('/[0-9]+/', $line[self::CSV_NUMERO_PAPIER]) && strlen(trim($line[self::CSV_NUMERO_PAPIER])) <= 11) {
-
+          
             return sprintf("%07d", $line[self::CSV_NUMERO_PAPIER]);
         }
 
@@ -187,6 +186,15 @@ class VracCsvFile extends CsvFile
 
         throw new Exception(sprintf("Le numéro d'archive en nul ou au mauvais format %s", $line[self::CSV_NUMERO_CONTRAT]));
     }
+    
+    private function verifyAndFormatIdContrat($line) {
+        if($line[self::CSV_ID_CONTRAT] && preg_match('/[0-9]{11}/', $line[self::CSV_ID_CONTRAT])) {
+
+            return sprintf("%11d", $line[self::CSV_ID_CONTRAT]);
+        }
+
+        throw new Exception(sprintf("L'id du contrat est nul ou au mauvais format %s", $line[self::CSV_ID_CONTRAT]));
+    }
 
     private function verifyAndFormatDateSignature($line) {
         $date = $line[self::CSV_DATE_SIGNATURE];
@@ -194,7 +202,7 @@ class VracCsvFile extends CsvFile
         if(!$date) {
             throw new Exception(sprintf("La date de signature est requise", $date));
         }
-
+        
         return $this->formatAndVerifyDate($date);
     }
 
@@ -317,6 +325,16 @@ class VracCsvFile extends CsvFile
         return $this->errors;
     }
   
+     public function green($string) {
+        return "\033[32m" . $string . "\033[0m";
+    }
 
+    public function yellow($string) {
+        return "\033[33m" . $string . "\033[0m";
+    }
+
+    public function red($string) {
+        return "\033[31m" . $string . "\033[0m";
+    }
 
 }
