@@ -90,7 +90,12 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     delai_paiement="";
     date_debut_retiraison=$25;
     date_fin_retiraison=$54;
-    print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" $7 ";;" $10 ";" $12 ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
+    vendeur_id=($7) ? $7 : "";
+    intermediaire_id=($14) ? $14 : "";
+    acheteur_id=($10) ? $10 : "";
+    courtier_id=($12) ? $12 : "";
+
+    print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv

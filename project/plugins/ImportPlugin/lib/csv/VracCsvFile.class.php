@@ -19,7 +19,9 @@ class VracCsvFile extends CsvFile
     // const CSV_VENDEUR_CODE_POSTAL = 4;
     const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 6;
 
-    const CSV_ACHETEUR_ID = 7;
+    const CSV_INTERMEDIAIRE_ID = 7;
+
+    const CSV_ACHETEUR_ID = 8;
     // const CSV_ACHETEUR_NOM = 4;
     // const CSV_ACHETEUR_CVI = 4;
     // const CSV_ACHETEUR_ACCISES = 4;
@@ -27,48 +29,48 @@ class VracCsvFile extends CsvFile
     // const CSV_ACHETEUR_COMMUNE = 4;
     // const CSV_ACHETEUR_CODE_POSTAL = 4;
 
-    const CSV_COURTIER_ID = 8;
+    const CSV_COURTIER_ID = 9;
     // const CSV_COURTIER_NOM = 4;
     // const CSV_COURTIER_CARTE_PRO = 4;
     // const CSV_COURTIER_ADRESSE = 4;
     // const CSV_COURTIER_COMMUNE = 4;
     // const CSV_COURTIER_CODE_POSTAL = 4;   
 
-    const CSV_PRODUIT_ID = 9;
-    const CSV_PRODUIT_LIBELLE = 10;
-    const CSV_MILLESIME = 11;
-    const CSV_CEPAGE_ID = 12;
-    const CSV_CEPAGE_LIBELLE = 13;
+    const CSV_PRODUIT_ID = 10;
+    const CSV_PRODUIT_LIBELLE = 11;
+    const CSV_MILLESIME = 12;
+    const CSV_CEPAGE_ID = 13;
+    const CSV_CEPAGE_LIBELLE = 14;
 
-    const CSV_CATEGORIE_VIN = 14;
-    const CSV_CATEGORIE_VIN_INFO = 15;
+    const CSV_CATEGORIE_VIN = 15;
+    const CSV_CATEGORIE_VIN_INFO = 16;
     
-    const CSV_SURFACE = 16;
-    const CSV_LOT = 17;
-    const CSV_DEGRE = 18;
+    const CSV_SURFACE = 17;
+    const CSV_LOT = 18;
+    const CSV_DEGRE = 19;
 
-    const CSV_QUANTITE = 19;
-    const CSV_QUANTITE_UNITE = 20;
+    const CSV_QUANTITE = 20;
+    const CSV_QUANTITE_UNITE = 21;
 
-    const CSV_VOLUME_PROPOSE = 21;
-    const CSV_VOLUME_ENLEVE = 22;
+    const CSV_VOLUME_PROPOSE = 22;
+    const CSV_VOLUME_ENLEVE = 23;
 
-    const CSV_PRIX_UNITAIRE = 23;
-    const CSV_PRIX_UNITAIRE_HL = 24;
+    const CSV_PRIX_UNITAIRE = 24;
+    const CSV_PRIX_UNITAIRE_HL = 25;
 
-    const CSV_DELAI_PAIEMENT = 25;
-    const CSV_ACOMPTE_SIGNATURE = 26;
-    const CSV_MOYEN_PAIEMENT = 27;
-    const CSV_TAUX_COURTAGE = 28;
-    const CSV_REPARTITION_COURTAGE = 29;
+    const CSV_DELAI_PAIEMENT = 26;
+    const CSV_ACOMPTE_SIGNATURE = 27;
+    const CSV_MOYEN_PAIEMENT = 28;
+    const CSV_TAUX_COURTAGE = 29;
+    const CSV_REPARTITION_COURTAGE = 30;
 
-    const CSV_REPARTITION_CVO = 30;
+    const CSV_REPARTITION_CVO = 31;
 
-    const CSV_RETIRAISON_DATE_DEBUT = 31;
-    const CSV_RETIRAISON_DATE_FIN = 32;
+    const CSV_RETIRAISON_DATE_DEBUT = 32;
+    const CSV_RETIRAISON_DATE_FIN = 33;
 
-    const CSV_CLAUSES = 33;
-    const CSV_COMMENTAIRES = 34;
+    const CSV_CLAUSES = 34;
+    const CSV_COMMENTAIRES = 35;
 
     public function import() {
         $this->errors = array();
@@ -96,12 +98,25 @@ class VracCsvFile extends CsvFile
 
                 $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID]);
                 $acheteur = $this->verifyEtablissement($line[self::CSV_ACHETEUR_ID]);
+                
+                $representant = null;
+                if($line[self::CSV_INTERMEDIAIRE_ID]) {
+                    $representant = $this->verifyEtablissement($line[self::CSV_INTERMEDIAIRE_ID]);
+                }
+
                 $courtier = null;
                 if($line[self::CSV_COURTIER_ID]) {
                     $courtier = $this->verifyEtablissement($line[self::CSV_COURTIER_ID]);
                 }
+
                 $v->vendeur_identifiant = $vendeur->_id;
-                $v->representant_identifiant = $vendeur->_id;
+                
+                if($representant) {
+                    $v->representant_identifiant = $representant->_id;
+                } else {
+                    $v->representant_identifiant = $vendeur->_id;
+                }
+
                 $v->acheteur_identifiant = $acheteur->_id;
                 $v->mandataire_exist = false;
 
