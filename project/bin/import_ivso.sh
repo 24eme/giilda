@@ -77,24 +77,6 @@ if (famille == "AUTRE") next ;
 print $1 ";" $1 ";" famille ";" nom ";" statut ";HORS_REGION;" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
-
-#cat $DATA_DIR/producteurs.csv | cut -d ";" -f 2 | grep -E "^[0-9]+" | sed 's/$/;VITICULTEUR/' > $DATA_DIR/producteurs_ids
-#cat $DATA_DIR/negociant.csv | cut -d ";" -f 2 | grep -E "^[0-9]+" | sed 's/$/;NEGOCIANT/' > $DATA_DIR/negociants_ids
-#cat $DATA_DIR/courtier.csv | cut -d ";" -f 12 | grep -E "^[0-9]+" | sed 's/$/;COURTIER/' > $DATA_DIR/courtiers_ids
-#cat $DATA_DIR/producteurs_ids $DATA_DIR/negociants_ids $DATA_DIR/courtiers_ids | sort -t ";" -k 1,1 > $DATA_DIR/operateurs_ids_familles
-
-#cat $DATA_DIR/producteurs_produits.csv | sort -t ";" -k 2,2 > $DATA_DIR/producteurs_produits.sorted.csv
-
-#join -t ";" -v 2 -1 1 -2 2 $DATA_DIR/operateurs_ids_familles $DATA_DIR/producteurs_produits.sorted.csv | cut -d ";" -f 1 | grep -E "^[0-9]+" | sed 's/$/;AUTRE/' > $DATA_DIR/autres_ids
-
-#cat $DATA_DIR/producteurs_ids $DATA_DIR/negociants_ids $DATA_DIR/courtiers_ids $DATA_DIR/autres_ids | sort -t ";" -k 1,1 > $DATA_DIR/operateurs_ids_familles
-
-#join -t ";" -1 1 -2 2 $DATA_DIR/operateurs_ids_familles $DATA_DIR/producteurs_produits.sorted.csv | sort -t ";" -k 1,1 > $DATA_DIR/operateurs.csv
-
-#cat $DATA_DIR/operateurs.csv | awk -F ";" '{ print $1 ";" $2 ";" $5 ";;ACTIF;;" $15 ";;;" $6 ";" $7 ";" $8 ";;" $9 ";" $11 ";" $13 ";FR;" $19 ";" $16 ";;" $17 ";" $18 ";;"  }' > $DATA_DIR/societes.csv
-
-#cat $DATA_DIR/operateurs.csv | grep -v ";AUTRE;" | awk -F ";" '{ print $1 ";" $1 ";" $2 ";" $5 ";ACTIF;HORS_REGION;" $4 ";;;;" $6 ";" $7 ";" $8 ";;" $9 ";" $11 ";" $13 ";FR;" $19 ";" $16 ";;" $17 ";" $18 ";;"  }' > $DATA_DIR/etablissements.csv
-
 php symfony import:societe $DATA_DIR/societes.csv
 php symfony import:etablissement $DATA_DIR/etablissements.csv
 
@@ -122,7 +104,29 @@ if(length($7) > 7){
 }
 id_vrac=sprintf("%4d%07d", $5 , num_bordereau);
 libelle_produit=$41; 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 ";" $18 ";" $19 ";" $20 
+vin_bio=$19;
+vin_prepare=$20;
+caracteristiques_vins=""
+if(vin_bio=="O"){
+  caracteristiques_vins="agriculture_biologique";
+}
+if(vin_prepare=="O"){
+  caracteristiques_vins=caracteristiques_vins "" (length(caracteristiques_vins))? ",vin_prepare" : "vin_prepare" ;
+}
+
+cle_delais_paiement="";
+libelle_delais_paiement=$33;
+if(libelle_delais_paiement=="Comptant"){
+  cle_delais_paiement="COMPTANT";
+}else if(libelle_delais_paiement=="60 jours à compter de l'"'"'émission de la facture"){
+  cle_delais_paiement="60_JOURS";
+}else if(libelle_delais_paiement=="Délai prévu par accord professionnel"){
+  cle_delais_paiement="ACCORD_INTERPROFESSIONNEL";
+}else if(libelle_delais_paiement=="45 jours à compter du mois d'"'"'émission de la facture"){
+  cle_delais_paiement="45_JOURS";
+}
+
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" cle_delais_paiement ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 ";" caracteristiques_vins
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
@@ -151,9 +155,9 @@ print num_bordereau;
 id_vrac=substr($2,0,4) "" sprintf("%07d",num_bordereau);  
 print $1 ";" id_vrac ";" num_bordereau ";" $0
 id_vrac_prec=$2;
-}' | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);(.*)/\1;\2;\3;\7/g' | sed 's/^Numéro Contrat;   00000000;Numéro ;//g' > $DATA_DIR/vracs.csv
+}' | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);(.*)/\1;\2;\7/g' | sed 's/^Numéro Contrat;   00000000;Numéro ;//g' | sed 's/;   00000000//g' > $DATA_DIR/vracs.csv
 
-php symfony import:vracs $DATA_DIR/vracs.csv
+php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
 
 echo "Import des DRM"
 

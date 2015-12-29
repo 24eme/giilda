@@ -7,8 +7,9 @@ ivso:
         condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "taux_repartition", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd"]
       delais_paiement:
         "COMPTANT": "Comptant"
-        "ACCORD_INTERPROESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
+        "ACCORD_INTERPROFESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
         "60_JOURS": "60 jours fin de mois"
+        "45_JOURS": "45 jours à compter du mois d'émission de la facture"
 ivbd:
   configuration:
     vrac:
