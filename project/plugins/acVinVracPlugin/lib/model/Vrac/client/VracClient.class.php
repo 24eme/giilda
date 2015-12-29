@@ -175,7 +175,20 @@ class VracClient extends acCouchdbClient {
     }
 
     public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        
         return $this->find($this->getId($num_contrat), $hydrate);
+    }
+
+    public function findDocIdByNumArchive($campagne, $num_contrat) {
+        
+        $doc_id = ArchivageAllView::getInstance()->findDocId("Vrac", $campagne, $num_contrat);
+
+        if($doc_id) {
+            
+            return $doc_id;
+        }
+        
+        return ArchivageAllView::getInstance()->findDocId("Vrac", ConfigurationClient::getInstance()->getPreviousCampagne($campagne), $num_contrat);
     }
 
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {

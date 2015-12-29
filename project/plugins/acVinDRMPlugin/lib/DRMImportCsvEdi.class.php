@@ -177,7 +177,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     if ($type_key == 'export') {
                         $pays = array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList);
-                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd();
+                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add();
                         if ($detailNode->volume) {
                             $volume+=$detailNode->volume;
                         }
@@ -187,13 +187,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailNode->date_enlevement = $date->format('Y-m-d');
                     }
                     if ($type_key == 'vrac' || $type_key == 'contrat') {
-                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd();
+                        $vrac_id = VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID]);
+
+                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add();
                         if ($detailNode->volume) {
                             $volume+=$detailNode->volume;
                         }
                         $date = new DateTime($this->drm->getDate());
                         $detailNode->volume = $volume;
-                        $detailNode->identifiant = KeyInflector::slugify($csvRow[self::CSV_CAVE_EXPORTPAYS]);
+                        $detailNode->identifiant = $vrac_id;
                         $detailNode->date_enlevement = $date->format('Y-m-d');
                     }
                 } else {
@@ -211,6 +213,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                     if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
                         if (!$csvRow[self::CSV_CAVE_CONTRATID]) {
+                            $this->csvDoc->addErreur($this->contratIDEmptyError($num_ligne, $csvRow));
+                            $num_ligne++;
+                            continue;
+                        }
+
+                        $vrac_id = VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID]);
+
+                        if(!$vrac_id) {
                             $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
                             $num_ligne++;
                             continue;
@@ -398,8 +408,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_EXPORTPAYS], "Le pays d'export n'a pas été trouvé");
     }
 
-    private function contratIDNotFoundError($num_ligne, $csvRow) {
+    private function contratIDEmptyError($num_ligne, $csvRow) {
         return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRATID], "L'id du contrat ne peut pas être vide");
+    }
+
+    private function contratIDNotFoundError($num_ligne, $csvRow) {
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRATID], "Le contrat n'a pas été trouvé");
     }
 
     private function observationsEmptyError($num_ligne, $csvRow) {

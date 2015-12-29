@@ -44,6 +44,20 @@ class ArchivageAllView extends acCouchdbView
         return $this->getLastNumeroArchiveByTypeAndCampagne($type, $campagne, $fourchette_basse, $fourchette_haute, $format);
     }
 
+    public function findDocId($type, $campagne, $numero, $format = "%05d") {
+        $rows = $this->getViewByTypeAndCampagne($type, $campagne, $numero, $numero, $format)
+                     ->reduce(false)
+                     ->limit(1)
+                     ->getView($this->design, $this->view)->rows;
+
+        if(count($rows) == 0) {
+
+            return null;
+        }
+
+        return $rows[0]->id;
+    }
+
     protected function getViewByTypeAndCampagne($type, $campagne, $fourchette_basse = 0, $fourchette_haute = 99999, $format) {
 
             return $this->client
