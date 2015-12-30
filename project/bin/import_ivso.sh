@@ -183,7 +183,7 @@ if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19+0 ; } #facture_e
 if($19 < 0) { print base "entrees;regularisation;" ($19+0)*-1 ; } #dsa_dsac
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
 if($20 < 0) { print base "entrees;regularisation;" ($20+0)*-1 ; } #dsa_dsac
-if($21 > 0) { print base "sorties;vrac;" $21+0 ; } #france_sous_contrat
+# if($21 > 0) { print base "sorties;vrac;" $21+0 ; } #france_sous_contrat
 if($22 > 0) { print base "sorties;export;" $22+0 ";UE" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23+0 ";HORS UE" ; } #expedition_hors_ue
 if($24 > 0) { print base "sorties;travailafacon;" $24+0 ; } #relogement
