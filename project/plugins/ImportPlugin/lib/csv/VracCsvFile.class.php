@@ -135,6 +135,8 @@ class VracCsvFile extends CsvFile
                     throw new sfException(sprintf("Le produit n'a pas été trouvé %s", $this->yellow($line[self::CSV_PRODUIT_LIBELLE])));
                 }
 
+                $v->cepage_libelle = $this->formatAndVerifyCepage($line);
+
                 $this->verifyTypeTransaction($line);
                 $v->type_transaction = $line[self::CSV_TYPE_TRANSACTION];
                 $v->millesime = $this->verifyAndFormatMillesime($line);
@@ -297,6 +299,11 @@ class VracCsvFile extends CsvFile
         }
 
         return $this->formatAndVerifyDate($date);
+    }
+
+    private function formatAndVerifyCepage($line) {
+
+        return $line[self::CSV_CEPAGE_LIBELLE];
     }
 
     private function formatAndVerifyFloat($number) {
