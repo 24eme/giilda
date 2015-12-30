@@ -165,8 +165,9 @@ cat $DATA_DIR/DRM.csv | tr -d "\r" | sort -t ";" -k 6,6 > $DATA_DIR/drm.csv.prod
 
 join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits_conversion.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm_produits.csv
 
-cat $DATA_DIR/drm_produits.csv | awk -F ';' '{ 
-base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;" ; 
+cat $DATA_DIR/drm_produits.csv | awk -F ';' '{
+identifiant=sprintf("%06d01", $4);
+base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
 print base "stocks_debut;revendique;" $10 ; 
 # print base "entrees;recolte;" $11 ;  #récolte
 if($12 > 0) { print base "entrees;revendique;" $12+0 ; } #volume agréé
@@ -189,7 +190,7 @@ if($24 > 0) { print base "sorties;travailafacon;" $24+0 ; } #relogement
 print base "stocks_fin;revendique;" $25+0 ;
 # print base "stocks?;dont_volume_bloque;" $26+0 ; #dont_volume_bloque
 # print base "stocks?;quantite_gagees;" $27+0 ; #quantite_gagees
-}' > $DATA_DIR/drm_edi.csv
+}' > $DATA_DIR/drm_cave.csv
 
 cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm_factures.csv.produits.sorted
 
@@ -197,28 +198,30 @@ join -a 1 -t ";" -1 5 -2 1  $DATA_DIR/drm_factures.csv.produits.sorted $DATA_DIR
 
 cat $DATA_DIR/drm_factures_produits.csv | awk -F ';' '{
 if (!$10 || $10 == "INCONNU") { next }
-base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;" ; 
+identifiant=sprintf("%06d01", $17);
+base="CAVE;" $5 ";" identifiant ";;" $45 ";;;;;;;" ; 
 numero_contrat=gensub(/-/, "00", 1, $10);
-
 print base "sorties;vrac;" $21+0 ";;" numero_contrat ; 
-}' > $DATA_DIR/drm_edi_contrats.csv
+}' > $DATA_DIR/drm_cave_contrats.csv
 
-cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 
 cat $DATA_DIR/drm.csv | while read ligne  
 do
-    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | awk -F ';' '{ printf "%06d01", $3 }')" ]
+    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
+
         if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
         then
             php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
         fi
+
         echo -n > $TMP/drm_lignes.csv
+
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
-    IDENTIFIANT=$(echo $ligne | awk -F ';' '{ printf "%06d01", $3 }')
-
+    IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
     echo $ligne >> $TMP/drm_lignes.csv
 done
