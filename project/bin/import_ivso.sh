@@ -42,7 +42,7 @@ fi
 
 echo "Import de la configuration"
 
-curl -X DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
+curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivso
 php symfony cc > /dev/null
 
@@ -204,7 +204,7 @@ numero_contrat=gensub(/-/, "00", 1, $10);
 print base "sorties;vrac;" $21+0 ";;" numero_contrat ; 
 }' > $DATA_DIR/drm_cave_contrats.csv
 
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | grep -E ";2012[0-9]+;" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3  | grep -E ";(2012(08|09|10|11|12))|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 
