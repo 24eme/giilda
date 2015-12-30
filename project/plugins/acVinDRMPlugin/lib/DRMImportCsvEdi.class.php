@@ -187,7 +187,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailNode->date_enlevement = $date->format('Y-m-d');
                     }
                     if ($type_key == 'vrac' || $type_key == 'contrat') {
-                        $vrac_id = VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID]);
+                        $vrac_id = $this->findContratDocId($csvRow[self::CSV_CAVE_CONTRATID]);
 
                         $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add();
                         if ($detailNode->volume) {
@@ -218,7 +218,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             continue;
                         }
 
-                        $vrac_id = VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID]);
+                        $vrac_id = $this->findContratDocId($csvRow[self::CSV_CAVE_CONTRATID]);
 
                         if(!$vrac_id) {
                             $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
@@ -374,6 +374,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     break;
             }
         }
+    }
+
+    private function findContratDocId($csvRow) {
+        if($vrac = VracClient::getInstance()->findByNumContrat($csvRow[self::CSV_CAVE_CONTRATID], acCouchdbClient::HYDRATE_JSON)) {
+
+            return $vrac->_id;
+        }
+
+        return VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID]);
     }
 
     /**
