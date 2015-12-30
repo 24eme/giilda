@@ -96,8 +96,8 @@ cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;1022
 # Début génération des Id couchDB
 
 cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{ 
-date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$9); 
-date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2","",$11); 
+date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $9); 
+date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $11); 
 num_bordereau=$7;
 if(length($7) > 7){
    num_bordereau=substr($7,1,7);
@@ -169,26 +169,26 @@ cat $DATA_DIR/drm_produits.csv | awk -F ';' '{
 base="CAVE;" $5 ";" $4 ";;" $37 ";;;;;;" ; 
 print base "stocks_debut;revendique;" $10 ; 
 # print base "entrees;recolte;" $11 ;  #récolte
-if($12 > 0) { print base "entrees;revendique;" $12 ; } #volume agréé
-if($13 > 0) { print base "entrees;declassement;" $13 ; } #declassement
-if($13 < 0) { print base "sorties;declassement;" gensub(/^-/, "", $13) ; } #declassement
-if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
-if($15 > 0) { print base "sorties;distillationusageindustriel;" $15 ; } #lie_et_mouts
-if($16 > 0) { print base "sorties;distillationusageindustriel;" $16 ; } #usages_industriels
-if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17 ; } #collective_ou_individuelle
-if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18 ; } #dsa_dsac
-if($18 < 0) { print base "entrees;regularisation;" gensub(/^-/, "", $18) ; } #dsa_dsac
-if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19 ; } #facture_etc
-if($19 < 0) { print base "entrees;regularisation;" gensub(/^-/, "", $19) ; } #dsa_dsac
+if($12 > 0) { print base "entrees;revendique;" $12+0 ; } #volume agréé
+if($13 > 0) { print base "entrees;declassement;" $13+0 ; } #declassement
+if($13 < 0) { print base "sorties;declassement;" ($13+0)*-1 ; } #declassement
+if($14 > 0) { print base "sorties;destructionperte;" $14+0 ; } #perte
+if($15 > 0) { print base "sorties;distillationusageindustriel;" $15+0 ; } #lie_et_mouts
+if($16 > 0) { print base "sorties;distillationusageindustriel;" $16+0 ; } #usages_industriels
+if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17+0 ; } #collective_ou_individuelle
+if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18+0 ; } #dsa_dsac
+if($18 < 0) { print base "entrees;regularisation;" ($18+0)*-1 ; } #dsa_dsac
+if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19+0 ; } #facture_etc
+if($19 < 0) { print base "entrees;regularisation;" ($19+0)*-1 ; } #dsa_dsac
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
-if($20 < 0) { print base "entrees;regularisation;" gensub(/^-/, "", $20) ; } #dsa_dsac
-if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
-if($22 > 0) { print base "sorties;export;" $22 ";UE" ; }  #expedition_ue
-if($23 > 0) { print base "sorties;export;" $23 ";HORS UE" ; } #expedition_hors_ue
-if($24 > 0) { print base "sorties;travailafacon;" $24 ; } #relogement
-print base "stocks_fin;revendique;" $25 ;
-# print base "stocks?;dont_volume_bloque;" $26 ; #dont_volume_bloque
-# print base "stocks?;quantite_gagees;" $27 ; #quantite_gagees
+if($20 < 0) { print base "entrees;regularisation;" ($20+0)*-1 ; } #dsa_dsac
+if($21 > 0) { print base "sorties;vrac;" $21+0 ; } #france_sous_contrat
+if($22 > 0) { print base "sorties;export;" $22+0 ";UE" ; }  #expedition_ue
+if($23 > 0) { print base "sorties;export;" $23+0 ";HORS UE" ; } #expedition_hors_ue
+if($24 > 0) { print base "sorties;travailafacon;" $24+0 ; } #relogement
+print base "stocks_fin;revendique;" $25+0 ;
+# print base "stocks?;dont_volume_bloque;" $26+0 ; #dont_volume_bloque
+# print base "stocks?;quantite_gagees;" $27+0 ; #quantite_gagees
 }' > $DATA_DIR/drm_edi.csv
 
 cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm_factures.csv.produits.sorted
@@ -198,10 +198,12 @@ join -a 1 -t ";" -1 5 -2 1  $DATA_DIR/drm_factures.csv.produits.sorted $DATA_DIR
 cat $DATA_DIR/drm_factures_produits.csv | awk -F ';' '{
 if (!$10 || $10 == "INCONNU") { next }
 base="CAVE;" $5 ";" $17 ";;" $45 ";;;;;;" ; 
-print base "sorties;vrac;" $21 ";;" $10 ; 
+numero_contrat=gensub(/-/, "00", 1, $10);
+
+print base "sorties;vrac;" $21+0 ";;" numero_contrat ; 
 }' > $DATA_DIR/drm_edi_contrats.csv
 
-cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | grep -E ";(2013|2014|2015)[0-9]{2};" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_edi.csv $DATA_DIR/drm_edi_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 echo -n > $TMP/drm_lignes.csv
 
