@@ -206,22 +206,22 @@ print base "sorties;vrac;" $21+0 ";;" numero_contrat ;
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3  | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
 
-echo -n > $TMP/drm_lignes.csv
+echo -n > $DATA_DIR/drm_lignes.csv
 
 cat $DATA_DIR/drm.csv | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
 
-        if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
+        if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
         fi
 
-        echo -n > $TMP/drm_lignes.csv
+        echo -n > $DATA_DIR/drm_lignes.csv
 
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
     IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo $ligne >> $TMP/drm_lignes.csv
+    echo $ligne >> $DATA_DIR/drm_lignes.csv
 done

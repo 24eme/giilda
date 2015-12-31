@@ -95,7 +95,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     acheteur_id=($10) ? $10 : "";
     courtier_id=($12) ? $12 : "";
 
-    print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";;" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;"
+    print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";;" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
@@ -282,23 +282,23 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 #Génération finale
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
 
-echo -n > $TMP/drm_lignes.csv
+echo -n > $DATA_DIR/drm_lignes.csv
 
 cat $DATA_DIR/drm.csv | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
 
-        if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
+        if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --trace
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --trace
         fi
 
-        echo -n > $TMP/drm_lignes.csv
+        echo -n > $DATA_DIR/drm_lignes.csv
 
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
     IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo $ligne >> $TMP/drm_lignes.csv
+    echo $ligne >> $DATA_DIR/drm_lignes.csv
 done
 
