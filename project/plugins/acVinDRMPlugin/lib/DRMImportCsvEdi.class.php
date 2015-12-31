@@ -69,7 +69,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     /**
      * IMPORT DEPUIS LE CSV
      */
-    public function importCSV() {
+    public function importCSV($withSave = true) {
         $this->importAnnexesFromCSV();
 
         $this->importMouvementsFromCSV();
@@ -80,8 +80,36 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $this->drm->buildFavoris();
         $this->drm->storeDeclarant();
         $this->drm->initSociete();
+        $this->updateAndControlCoheranceStocks();
+
+        if($withSave) {
+            $this->drm->save();
+        }
+    }
+
+    public function updateAndControlCoheranceStocks() {
+        $stocks = array();
+        foreach($this->drm->getProduitsDetails() as $detail) {
+          $stocks[$detail->getHash()] = $detail->stocks_fin->revendique;
+        }
+
         $this->drm->update();
-        $this->drm->save();
+        
+        foreach($this->drm->getProduitsDetails() as $detail) {
+            if(!array_key_exists($detail->getHash(), $stocks) || is_null($stocks[$detail->getHash()])) {
+                continue;
+            }
+
+            if(round($stocks[$detail->getHash()], 2) == round($detail->stocks_fin->revendique, 2)) {
+                continue;
+            }
+            $this->csvDoc->addErreur($this->createError(1, sprintf("%s %0.2f hl (CSV) / %0.2f hl (calculé)", $detail->produit_libelle, $stocks[$detail->getHash()], $detail->stocks_fin->revendique), "Le stock fin de mois du CSV différent du calculé"));
+        }
+
+        if ($this->csvDoc->hasErreurs()) {
+            $this->csvDoc->setStatut(self::STATUT_WARNING);
+            $this->csvDoc->save();
+        }
     }
 
     private function checkCSVIntegrity() {
@@ -168,8 +196,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if (!$just_check) {
                 $drmDetails = $this->drm->addProduit($founded_produit->getHash());
 
-                $detailTotalVol = floatval(KeyInflector::slugify($csvRow[self::CSV_CAVE_VOLUME]));
-                $volume = floatval(KeyInflector::slugify($csvRow[self::CSV_CAVE_VOLUME]));
+                $detailTotalVol = round(floatval($csvRow[self::CSV_CAVE_VOLUME]), 2);
+                $volume = round(floatval($csvRow[self::CSV_CAVE_VOLUME]), 2);
                 $cat_key = $confDetailMvt->getParent()->getKey();
                 $type_key = $confDetailMvt->getKey();
                 if ($confDetailMvt->hasDetails()) {
