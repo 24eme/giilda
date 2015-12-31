@@ -302,3 +302,9 @@ do
     echo $ligne >> $DATA_DIR/drm_lignes.csv
 done
 
+echo "Contrôle de cohérence des DRM"
+
+cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
+do
+  php symfony drm:controle-coherence "$ligne"
+done
