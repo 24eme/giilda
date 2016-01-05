@@ -50,13 +50,14 @@ EOF;
             $detail = $configuration->get($datas[0])->getOrAdd($datas[1])->add($datas[2])->add($datas[3]);
             $detail->readable = (int) $datas[4];
             $detail->writable = (int) $datas[5];
+            $detail->revendiquant = (int) $datas[8];
             $detail->details = (int) $datas[6];
             $detail->mouvement_coefficient = (int) $datas[7];
-            $detail->vrac = (int) $datas[8];
-            $detail->facturable = (int) $datas[9];
-            $detail->douane_type = $datas[10];
-            $detail->douane_cat = $datas[11];
-            $detail->taxable_douane = (int) $datas[12];
+            $detail->vrac = (int) $datas[9];
+            $detail->facturable = (int) $datas[10];
+            $detail->douane_type = $datas[11];
+            $detail->douane_cat = $datas[12];
+            $detail->taxable_douane = (int) $datas[13];
         }
 
         foreach (file($import_dir . '/libelle_detail_ligne.csv') as $line) {
