@@ -4,16 +4,23 @@ $favoris_sorties = $favoris->sorties;
 ?>
 <div class="col-xs-4">
     <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
-            <?php echo $formFavoris->renderHiddenFields(); ?>
-            <?php echo $formFavoris->renderGlobalErrors(); ?>
-    <div class="list-group" style="margin-top: 76px;" id="colonne_intitules">
-        
+        <?php echo $formFavoris->renderHiddenFields(); ?>
+        <?php echo $formFavoris->renderGlobalErrors(); ?>
+        <div class="list-group" style="margin-top: 76px;" id="colonne_intitules">
+
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
-                <h4 style="height:22px;" class="hidden form-group form-group-xs">Stock théorique dbt de mois</h4>
-                    <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>               
-                        <h4 style="height:22px;" class="form-group form-group-xs <?php echo ($key != 'revendique') ? ' hidden' : ' li_gris'; ?>">
-                            <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
+                <h4 class="form-group form-group-xs">Stock début</h4>
+                <ul class="list-unstyled">
+                    <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>         
+                        <?php if ($key != 'instance'): ?>
+                            <li class="categorie_libelle form-group form-group-xs">
+                                <span id="<?php echo 'stock_debut_' . $key ?>" class="categorie_libelle <?php echo 'stock_debut_' . $key ?>">                                    
+                                 <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
+                                </span>
+                            </li>
+                        <?php endif; ?>
                     <?php endforeach; ?>
+                </ul>
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
@@ -83,13 +90,18 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="6">
-                <h4 style="height:22px;" class="hidden form-group form-group-xs">Stock théorique fin de mois</h4>
+                <h4 style="height:22px;" class="form-group form-group-xs">Stock théorique fin de mois</h4>
+                <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
-                        <h4 style="height:22px;" class="form-group form-group-xs <?php echo ($key != 'revendique') ? ' hidden' : ' li_gris'; ?>">
-                            <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
-                        </h4>
-                    <?php endforeach; ?>
+                        <?php if ($key != 'instance'): ?>
+                            <li class="form-group form-group-xs <?php echo ($key != 'revendique') ? '' : ' li_gris'; ?>">
+                                <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
+                            </li> 
+                        <?php endif; ?>
+                    <?php endforeach;
+                    ?>
+                </ul>
             </div>
-    </div>
-     </form>
+        </div>
+    </form>
 </div>
