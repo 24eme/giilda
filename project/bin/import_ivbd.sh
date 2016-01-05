@@ -149,7 +149,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     }
     if(mouvement_extravitis == "Solde précédent" && volume != 0) {
         catmouvement="stocks_debut"
-        mouvement="revendique";
+        mouvement="initial";
     }
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) - Autres") {
         catmouvement="sorties"
@@ -182,12 +182,12 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Entrées du mois (volumes revendiqués)") {
         catmouvement="entrees"
-        mouvement="revendique";
+        mouvement="recolte";
     }
 
     if(mouvement_extravitis == "AOC sous réserve d'"'"'agrément") {
         catmouvement="entrees"
-        mouvement="revendique";
+        mouvement="recolte";
     }
 
     if(mouvement_extravitis == "Autres exonérations") {
@@ -202,7 +202,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
         catmouvement="stocks_debut"
-        mouvement="revendique";
+        mouvement="initial";
     }
 
     if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {

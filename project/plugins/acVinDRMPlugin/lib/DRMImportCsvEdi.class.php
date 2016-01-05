@@ -90,7 +90,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     public function updateAndControlCoheranceStocks() {
         $stocks = array();
         foreach($this->drm->getProduitsDetails() as $detail) {
-          $stocks[$detail->getHash()] = $detail->stocks_fin->revendique;
+          $stocks[$detail->getHash()] = $detail->stocks_fin->final;
         }
 
         $this->drm->update();
@@ -100,10 +100,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 continue;
             }
 
-            if(round($stocks[$detail->getHash()], 2) == round($detail->stocks_fin->revendique, 2)) {
+            if(round($stocks[$detail->getHash()], 2) == round($detail->stocks_fin->final, 2)) {
                 continue;
             }
-            $this->csvDoc->addErreur($this->createError(1, sprintf("%s %0.2f hl (CSV) / %0.2f hl (calculé)", $detail->produit_libelle, $stocks[$detail->getHash()], $detail->stocks_fin->revendique), "Le stock fin de mois du CSV différent du calculé"));
+            $this->csvDoc->addErreur($this->createError(1, sprintf("%s %0.2f hl (CSV) / %0.2f hl (calculé)", $detail->produit_libelle, $stocks[$detail->getHash()], $detail->stocks_fin->final), "Le stock fin de mois du CSV différent du calculé"));
         }
 
         if ($this->csvDoc->hasErreurs()) {

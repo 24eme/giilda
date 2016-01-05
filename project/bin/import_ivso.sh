@@ -168,9 +168,9 @@ join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits
 cat $DATA_DIR/drm_produits.csv | awk -F ';' '{
 identifiant=sprintf("%06d01", $4);
 base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
-print base "stocks_debut;revendique;" $10 ; 
-if($11 > 0) { print base "entrees;revendique;" $11 ; }  #récolte
-if($12 > 0) { print base "entrees;revendique;" $12 ; } #volume agréé
+print base "stocks_debut;initial;" $10 ; 
+if($11 > 0) { print base "entrees;recolte;" $11 ; } #récolte
+if($12 > 0) { print base "entrees;recolte;" $12 ; } #volume agréé
 if($13 > 0) { print base "entrees;declassement;" 13 ; } #declassement
 if($13 < 0) { print base "sorties;declassement;" $13*-1 ; } #declassement
 if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
@@ -187,7 +187,7 @@ if($20 < 0) { print base "entrees;regularisation;" $20*-1 ; } #dsa_dsac
 if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
 if($24 > 0) { print base "sorties;travailafacon;" $24 ; } #relogement
-print base "stocks_fin;revendique;" $25 ;
+print base "stocks_fin;final;" $25 ;
 # print base "stocks?;dont_volume_bloque;" $26 ; #dont_volume_bloque
 # print base "stocks?;quantite_gagees;" $27 ; #quantite_gagees
 }' > $DATA_DIR/drm_cave.csv
