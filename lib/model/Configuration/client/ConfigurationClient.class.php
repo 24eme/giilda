@@ -246,6 +246,41 @@ class ConfigurationClient extends acCouchdbClient {
         return $countries[$code];
     }
 
+    public function findCountryByCode($code) {
+        $code = strtoupper($code);
+
+        if(!array_key_exists($code, $this->getCountryList())) {
+
+            return null;
+        }
+
+        return $code;
+
+    }
+
+    public function findCountryByLibelle($libelle) {
+        $libelleSlugified = KeyInflector::slugify($libelle);
+        foreach($this->getCountryList() as $code => $name) {
+            if(KeyInflector::slugify($name) == $libelleSlugified) {
+
+                return $code;
+            }
+        }
+
+        return null;
+    }
+
+    public function findCountry($code_or_libelle) {
+        $code = $this->findCountryByCode($code_or_libelle);
+
+        if($code) {
+
+            return $code;
+        }
+
+        return $this->findCountryByLibelle($code_or_libelle);
+    }
+
     public function formatLibelles($libelles, $format = "%g% %a% %m% %l% %co% %ce%") {
         $format_index = array('%c%' => self::VALUE_LIBELLE_CERTIFICATION,
                           '%g%' => self::VALUE_LIBELLE_GENRE,
