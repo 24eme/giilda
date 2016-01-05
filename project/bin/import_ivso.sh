@@ -46,7 +46,7 @@ curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(cu
 php symfony import:configuration CONFIGURATION data/import/configuration/ivso
 php symfony cc > /dev/null
 
-cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan Bigorre/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne Condomois/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan Tarn et Garonne/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan Coteaux et Terrasses de Montauban/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan Pyrénées Atlantiques/' | sed 's/IGP Cantal/IGP Comté Tolosan Cantal/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' > $DATA_DIR/produits_conversion.csv
+cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan Bigorre/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne Condomois/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan Tarn et Garonne/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan Coteaux et Terrasses de Montauban/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan Pyrénées Atlantiques/' | sed 's/IGP Cantal/IGP Comté Tolosan Cantal/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' | sed 's/IGP Lot et Garonne/IGP/' > $DATA_DIR/produits_conversion.csv
 cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
 
 echo "Import des contacts"
@@ -168,28 +168,28 @@ join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits
 cat $DATA_DIR/drm_produits.csv | awk -F ';' '{
 identifiant=sprintf("%06d01", $4);
 base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
-print base "stocks_debut;revendique;" $10 ; 
+print base "stocks_debut;revendique;" ($10+0) ; 
 # print base "entrees;recolte;" $11 ;  #récolte
-if($12 > 0) { print base "entrees;revendique;" $12+0 ; } #volume agréé
-if($13 > 0) { print base "entrees;declassement;" $13+0 ; } #declassement
-if($13 < 0) { print base "sorties;declassement;" ($13+0)*-1 ; } #declassement
-if($14 > 0) { print base "sorties;destructionperte;" $14+0 ; } #perte
-if($15 > 0) { print base "sorties;distillationusageindustriel;" $15+0 ; } #lie_et_mouts
-if($16 > 0) { print base "sorties;distillationusageindustriel;" $16+0 ; } #usages_industriels
-if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17+0 ; } #collective_ou_individuelle
-if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18+0 ; } #dsa_dsac
-if($18 < 0) { print base "entrees;regularisation;" ($18+0)*-1 ; } #dsa_dsac
-if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19+0 ; } #facture_etc
-if($19 < 0) { print base "entrees;regularisation;" ($19+0)*-1 ; } #dsa_dsac
-if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
-if($20 < 0) { print base "entrees;regularisation;" ($20+0)*-1 ; } #dsa_dsac
-# if($21 > 0) { print base "sorties;vrac;" $21+0 ; } #france_sous_contrat
-if($22 > 0) { print base "sorties;export;" $22+0 ";UE" ; }  #expedition_ue
-if($23 > 0) { print base "sorties;export;" $23+0 ";HORS UE" ; } #expedition_hors_ue
-if($24 > 0) { print base "sorties;travailafacon;" $24+0 ; } #relogement
-print base "stocks_fin;revendique;" $25+0 ;
-# print base "stocks?;dont_volume_bloque;" $26+0 ; #dont_volume_bloque
-# print base "stocks?;quantite_gagees;" $27+0 ; #quantite_gagees
+if($12 > 0) { print base "entrees;revendique;" ($12+0) ; } #volume agréé
+if($13 > 0) { print base "entrees;declassement;" ($13+0) ; } #declassement
+if($13 < 0) { print base "sorties;declassement;" (($13+0)*(-1)) ; } #declassement
+if($14 > 0) { print base "sorties;destructionperte;" ($14+0) ; } #perte
+if($15 > 0) { print base "sorties;distillationusageindustriel;" ($15+0) ; } #lie_et_mouts
+if($16 > 0) { print base "sorties;distillationusageindustriel;" ($16+0) ; } #usages_industriels
+if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" ($17+0) ; } #collective_ou_individuelle
+if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" ($18+0) ; } #dsa_dsac
+if($18 < 0) { print base "entrees;regularisation;" (($18+0)*(-1)) ; } #dsa_dsac
+if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" ($19+0) ; } #facture_etc
+if($19 < 0) { print base "entrees;regularisation;" (($19+0)*(-1)) ; } #dsa_dsac
+if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20+0 ; } #france_sans_contrat
+if($20 < 0) { print base "entrees;regularisation;" (($20+0)*(-1)) ; } #dsa_dsac
+# if($21 > 0) { print base "sorties;vrac;" ($21+0) ; } #france_sous_contrat
+if($22 > 0) { print base "sorties;export;" ($22+0) ";Union Européenne" ; }  #expedition_ue
+if($23 > 0) { print base "sorties;export;" ($23+0) ";Hors Union Européenne" ; } #expedition_hors_ue
+if($24 > 0) { print base "sorties;travailafacon;" ($24+0) ; } #relogement
+print base "stocks_fin;revendique;" ($25+0) ;
+# print base "stocks?;dont_volume_bloque;" ($26+0) ; #dont_volume_bloque
+# print base "stocks?;quantite_gagees;" ($27+0) ; #quantite_gagees
 }' > $DATA_DIR/drm_cave.csv
 
 cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm_factures.csv.produits.sorted
@@ -201,27 +201,34 @@ if (!$10 || $10 == "INCONNU") { next }
 identifiant=sprintf("%06d01", $17);
 base="CAVE;" $5 ";" identifiant ";;" $45 ";;;;;;;" ; 
 numero_contrat=gensub(/-/, "00", 1, $10);
-print base "sorties;vrac;" $21+0 ";;" numero_contrat ; 
+print base "sorties;vrac;" ($21+0) ";;" numero_contrat ; 
 }' > $DATA_DIR/drm_cave_contrats.csv
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3  | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
 
-echo -n > $TMP/drm_lignes.csv
+echo -n > $DATA_DIR/drm_lignes.csv
 
 cat $DATA_DIR/drm.csv | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
 
-        if [ $(cat $TMP/drm_lignes.csv | wc -l) -gt 0 ]
+        if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $TMP/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
         fi
 
-        echo -n > $TMP/drm_lignes.csv
+        echo -n > $DATA_DIR/drm_lignes.csv
 
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
     IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo $ligne >> $TMP/drm_lignes.csv
+    echo $ligne >> $DATA_DIR/drm_lignes.csv
+done
+
+echo "Contrôle de cohérence des DRM"
+
+cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
+do
+  php symfony drm:controle-coherence "$ligne"
 done

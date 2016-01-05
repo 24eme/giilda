@@ -45,46 +45,51 @@ EOF;
       }
 
       if(DRMClient::getInstance()->find('DRM-'.$drm->identifiant.'-'.$drm->periode, acCouchdbClient::HYDRATE_JSON)) {
-        echo "Existe;".'DRM-'.$drm->identifiant.'-'.$drm->periode."\n";
+        echo "Existe : ".'DRM-'.$drm->identifiant.'-'.$drm->periode."\n";
         return;
       }
 
       if(!EtablissementClient::getInstance()->find($drm->identifiant, acCouchdbClient::HYDRATE_JSON)) {
           echo "L'établissement n'existe pas;".$drm->identifiant."\n";
           return;
-      } 
-
-      $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm);
-      $drmCsvEdi->checkCSV();
-
-
-      if($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
-          $csv = $drmCsvEdi->getCsv();
-          foreach($drmCsvEdi->getCsvDoc()->erreurs as $erreur) {
-            echo sprintf("%s : %s;#%s\n", $erreur->diagnostic, $erreur->csv_erreur, implode(";", $csv[$erreur->num_ligne-1]));
-          }
-          return;
       }
 
-      
       try {
-        $drmCsvEdi->importCSV();
-        $drm->update();
-        $drm->validate();
+          $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm);
+          $drmCsvEdi->checkCSV();
 
-        if($options['date-validation']) {
-            $drm->valide->date_saisie = $options['date-validation'];
-            $drm->valide->date_signee = $options['date-validation'];
-        }
+          if($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+              $csv = $drmCsvEdi->getCsv();
+              foreach($drmCsvEdi->getCsvDoc()->erreurs as $erreur) {
+                  echo sprintf("%s : %s;#%s\n", $erreur->diagnostic, $erreur->csv_erreur, implode(";", $csv[$erreur->num_ligne-1]));
+              }
+              return;
+          }
+      
+          $drmCsvEdi->importCSV();
 
-        $drm->save();
+          if($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+              $csv = $drmCsvEdi->getCsv();
+              foreach($drmCsvEdi->getCsvDoc()->erreurs as $erreur) {
+                  echo sprintf("%s : %s;#%s\n", $erreur->diagnostic, $erreur->csv_erreur, implode(";", $csv[$erreur->num_ligne-1]));
+              }
+          }
+
+          $drm->validate();
+
+          if($options['date-validation']) {
+              $drm->valide->date_saisie = $options['date-validation'];
+              $drm->valide->date_signee = $options['date-validation'];
+          }
+
+          $drm->save();
       
       } catch(Exception $e) {
         echo $e->getMessage().";#".$arguments['periode'].";".$arguments['identifiant']."\n";
         return;
       }
       
-      echo "Création ; ".$drm->_id."\n";
+      echo "Création : ".$drm->_id."\n";
       
     }
 
