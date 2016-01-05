@@ -118,7 +118,7 @@ L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclarat
                 $resultEmailArr[] = $this->drm->email_transmission;
             }
         } catch (Exception $e) {
-            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
+          //  $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter ');
             return null;
         }
 

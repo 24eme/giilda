@@ -109,6 +109,11 @@ class DRMDetail extends BaseDRMDetail {
         return !$this->hasPrecedente();
     }
 
+    public function canSetStockInitial() {
+        //TODO : Parametrer en fct de la DATE DRM
+        return true;
+    }
+
     public function canSetLabels() {
 
         return !$this->hasPrecedente();
@@ -127,7 +132,7 @@ class DRMDetail extends BaseDRMDetail {
     protected function update($params = array()) {
         parent::update($params);
 
-        $this->total_debut_mois = $this->stocks_debut->revendique;
+        $this->total_debut_mois = $this->stocks_debut->initial;
 
         if ($this->sorties->exist('vrac_details')) {
             $this->sorties->vrac = 0;
@@ -150,7 +155,12 @@ class DRMDetail extends BaseDRMDetail {
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
 
-        $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+        $this->stocks_fin->final = $this->stocks_debut->initial + $this->total_entrees - $this->total_sorties;
+
+        $total_entrees_revendique = $this->getTotalByKey('entrees', true);
+        $total_sorties_revendique = $this->getTotalByKey('sorties', true);
+
+        $this->stocks_fin->revendique = $this->stocks_debut->revendique + $total_entrees_revendique - $total_sorties_revendique;
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
@@ -163,7 +173,7 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->cvo->volume_taxable = $this->total_facturable;
 
-        $this->total = $this->stocks_fin->revendique;
+        $this->total = $this->stocks_fin->final;
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -179,11 +189,17 @@ class DRMDetail extends BaseDRMDetail {
         }
     }
 
-    private function getTotalByKey($key) {
+    private function getTotalByKey($key, $onlyRevendiquant = false) {
         $sum = 0;
-        foreach ($this->get($key, true) as $k) {
+        foreach ($this->get($key, true) as $n => $k) {
             if (!is_object($k)) {
-                $sum += $k;
+                if ($onlyRevendiquant) {
+                    if (!$this->getConfig()->$key->$n->revendiquant) {
+                        $sum += $k;
+                    }
+                } else {
+                    $sum += $k;
+                }
             }
         }
         return $sum;
@@ -374,7 +390,7 @@ class DRMDetail extends BaseDRMDetail {
     public function isEdited() {
         return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
     }
-    
+
     public function hasMovements() {
         if ($this->hasMouvement()) {
 
@@ -408,10 +424,10 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
             $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
-            
+
             $sortieDrm = $this->get('sorties/' . $sortieKey);
-            
- 
+
+
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
