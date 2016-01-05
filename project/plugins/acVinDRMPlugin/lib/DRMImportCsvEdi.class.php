@@ -204,7 +204,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $detailTotalVol += floatval($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
                     if ($type_key == 'export') {
-                        $pays = array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList);
+                        $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
                         $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add();
                         if ($detailNode->volume) {
                             $volume+=$detailNode->volume;
@@ -233,7 +233,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             } else {
                 if ($confDetailMvt->hasDetails()) {
                     if ($confDetailMvt->getKey() == 'export') {
-                        if (!array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList)) {
+                        $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
+                        if (!$pays) {
                             $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
                             $num_ligne++;
                             continue;

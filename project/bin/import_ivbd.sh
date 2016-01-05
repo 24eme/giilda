@@ -30,13 +30,23 @@ if test "$REMOTE_DATA"; then
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
-    ls $TMP/data_ivbd_origin/IVBD | while read ligne  
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep "utf-16" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         echo $DATA_DIR/$ligne
-        iconv -f utf-16 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
+        iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    cat $TMP/data_ivbd_origin/IVBD/base_ppm.csv | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/base_ppm.csv
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep "iso-8859-1" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    do
+        echo $DATA_DIR/$ligne
+        iconv -f iso-8859-1 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
+    done
+
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    do
+        echo $DATA_DIR/$ligne
+        cat $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
+    done
 
     rm -rf $TMP/data_ivbd_origin
 fi
@@ -252,7 +262,13 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
 #Les export
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export.csv > $DATA_DIR/contrats_drm_volume_export.sorted.csv
 join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_export.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_volume_export_produit.csv
-sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
+
+sort -k 5,5 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv  > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
+sort -k 1,1 -t ";" $DATA_DIR/base_pays.csv | cut -d ";" -f 1,6 | sed 's/TCHEQUE (REPUBLIQUE)/République tchèque/' | sed 's/IRLANDE, ou EIRE/Irlande/' | sed 's/COREE (REPUBLIQUE DE)/Corée du Sud/' > $DATA_DIR/base_pays.sorted.csv
+
+join -t ";" -1 5 -2 1 $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv $DATA_DIR/base_pays.sorted.csv > $DATA_DIR/contrats_drm_volume_export_produit_pays.csv
+
+sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit_pays.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
 
 cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{ 
@@ -269,7 +285,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $34);
-    pays=$33
+    pays=$36
 
     if(corrective == "True" || regularisatrice == "True") {
 
