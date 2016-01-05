@@ -61,7 +61,7 @@ EOF;
                     continue;
                 }
 
-                if($drmProduitPrevious->volume_stock_fin_mois != $drmProduit->volume_stock_debut_mois) {
+                if(round($drmProduitPrevious->volume_stock_fin_mois, 2) != round($drmProduit->volume_stock_debut_mois, 2)) {
                     echo sprintf("Le stock fin de mois et le stock début de mois ne corresondent pas : #%s;%s/%s;%0.2f/%0.2f;%s\n", $drmProduit->etablissement_identifiant, $drmProduitPrevious->periode, $drmProduit->periode, $drmProduitPrevious->volume_stock_fin_mois, $drmProduit->volume_stock_debut_mois, $drmProduit->produit_libelle);
                     $stocks_fin[$drmProduit->produit_hash] = $drmProduit;
                     continue;

@@ -7,9 +7,9 @@ REMOTE_DATA=$1
 SYMFODIR=$(pwd);
 DATA_DIR=$TMP/data_ivbd_csv
 
-if test "$1"; then
+if test "$REMOTE_DATA"; then
     echo "Récupération de l'archive"
-    scp $1 $TMP/data_ivbd.tgz
+    scp $REMOTE_DATA $TMP/data_ivbd.tgz
     
     echo "Désarchivage"
     rm -rf $TMP/data_ivbd_origin
@@ -76,7 +76,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     type_contrat=($24 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $36);
     if(bordereau_origin) {
-        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", "", bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", "", bordereau_origin);
+        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", "", bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
     } else {
         numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;
@@ -127,7 +127,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     mouvement=$36;
     corrective=$23;
     regularisatrice=$24;
-    volume=gensub(",", ".", "", $33)+0;
+    volume=gensub(",", ".", 1, $33);
 
     if(corrective == "True" || regularisatrice == "True") {
 
@@ -238,7 +238,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     mouvement="vrac";
     corrective=$23;
     regularisatrice=$24;
-    volume=gensub(",", ".", "", $36);
+    volume=gensub(",", ".", 1, $36);
     num_contrat=$35
 
     if(corrective == "True" || regularisatrice == "True") {
@@ -268,7 +268,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     mouvement="export";
     corrective=$23;
     regularisatrice=$24;
-    volume=gensub(",", ".", "", $34);
+    volume=gensub(",", ".", 1, $34);
     pays=$33
 
     if(corrective == "True" || regularisatrice == "True") {
