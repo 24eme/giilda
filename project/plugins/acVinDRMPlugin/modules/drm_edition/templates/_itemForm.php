@@ -139,8 +139,10 @@ $favoris_sorties = $favoris->sorties;
                             <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->stocks_fin, $key); ?>">
                                  
                                 <?php 
-                                // class = somme_detail somme_stock_fin
-                                echo $subform->render(array('data-val-defaut' => $subform->getValue(), 'class' => $subform->getWidget()->getAttribute('class') . '  bold_on_blur')); ?>
+                                $class = "";
+                           //      $class = " somme_detail somme_stock_fin ";
+                           //      $class.= ($key == 'revendique')? " revendique " : "";
+                                echo $subform->render(array('data-val-defaut' => $subform->getValue(), 'class' => $subform->getWidget()->getAttribute('class') . $class.'  bold_on_blur')); ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
