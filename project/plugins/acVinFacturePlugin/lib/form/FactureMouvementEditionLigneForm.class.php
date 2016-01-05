@@ -3,9 +3,12 @@
 class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
+    protected $uniqkeyMvt;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $options['interpro_id'];
+        $this->uniqkeyMvt = $options['uniqkeyMvt'];
+        var_dump($this->uniqkeyMvt);
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -50,6 +53,16 @@ class FactureMouvementEditionLigneForm extends acCouchdbObjectForm {
     
     public function getIdentifiantsAnalytiques() {
         return  ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
+    }
+    
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $numero_document = $values['numero_document'];
+        $date_emission = $values['date_emission'];
+        $numero_accise = $values['numero_accise'];
+        if ($numero_document && $date_emission && $numero_accise) {
+            $this->getObject()->getParent()->updateNonApurement($this->keyNonApurement, $numero_document, $date_emission, $numero_accise);
+        }
     }
 
 }
