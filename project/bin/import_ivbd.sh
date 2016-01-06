@@ -147,7 +147,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(!mouvement_extravitis) {
         mouvement=$31;
     }
-    if(mouvement_extravitis == "Solde précédent" && volume != 0) {
+    if(mouvement_extravitis == "Solde précédent" && volume*1 != 0) {
         catmouvement="stocks_debut"
         mouvement="initial";
     }
@@ -157,8 +157,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     }
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) -Export") {
         catmouvement="sorties"
-        mouvement="export";
-        next;
+        mouvement="vracsanscontratsuspendu";
     }
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
@@ -214,13 +213,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    if(volume < 0 && catmouvement == "sorties") {
+    if(volume*1 < 0 && catmouvement == "sorties") {
         catmouvement = "entrees";
         mouvement = "regularisation";
         volume = volume * -1;
     }
 
-    if(volume < 0 && catmouvement == "entrees") {
+    if(volume*1 < 0 && catmouvement == "entrees") {
         catmouvement = "sorties";
         mouvement = "manquant";
         volume = volume * -1;
