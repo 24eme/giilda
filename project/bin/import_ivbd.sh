@@ -86,7 +86,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     type_contrat=($24 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $36);
     if(bordereau_origin) {
-        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", "", bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
+        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", 1, bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
     } else {
         numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;

@@ -170,7 +170,9 @@ identifiant=sprintf("%06d01", $4);
 base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
 print base "stocks_debut;initial;" $10 ; 
 if($11 > 0) { print base "entrees;recolte;" $11 ; } #récolte
-if($12 > 0) { print base "entrees;recolte;" $12 ; } #volume agréé
+if($11 < 0) { print base "sorties;transfertsappellation;" $11*-1 ; } #récolte
+if($12 > 0) { print base "entrees;transfertsappellation;" $12 ; } #volume agréé
+if($12 < 0) { print base "sorties;transfertsappellation;" $12*-1 ; } #volume agréé
 if($13 > 0) { print base "entrees;declassement;" 13 ; } #declassement
 if($13 < 0) { print base "sorties;declassement;" $13*-1 ; } #declassement
 if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
