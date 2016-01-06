@@ -30,13 +30,23 @@ if test "$REMOTE_DATA"; then
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
-    ls $TMP/data_ivbd_origin/IVBD | while read ligne  
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep "utf-16" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         echo $DATA_DIR/$ligne
-        iconv -f utf-16 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
+        iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    cat $TMP/data_ivbd_origin/IVBD/base_ppm.csv | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/base_ppm.csv
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep "iso-8859-1" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    do
+        echo $DATA_DIR/$ligne
+        iconv -f iso-8859-1 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
+    done
+
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    do
+        echo $DATA_DIR/$ligne
+        cat $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
+    done
 
     rm -rf $TMP/data_ivbd_origin
 fi
@@ -76,7 +86,7 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     type_contrat=($24 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $36);
     if(bordereau_origin) {
-        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", "", bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
+        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", 1, bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
     } else {
         numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;
@@ -137,9 +147,9 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(!mouvement_extravitis) {
         mouvement=$31;
     }
-    if(mouvement_extravitis == "Solde précédent" && volume != 0) {
+    if(mouvement_extravitis == "Solde précédent" && volume*1 != 0) {
         catmouvement="stocks_debut"
-        mouvement="revendique";
+        mouvement="initial";
     }
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) - Autres") {
         catmouvement="sorties"
@@ -147,8 +157,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     }
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) -Export") {
         catmouvement="sorties"
-        mouvement="export";
-        next;
+        mouvement="vracsanscontratsuspendu";
     }
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
@@ -172,12 +181,12 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Entrées du mois (volumes revendiqués)") {
         catmouvement="entrees"
-        mouvement="revendique";
+        mouvement="recolte";
     }
 
     if(mouvement_extravitis == "AOC sous réserve d'"'"'agrément") {
         catmouvement="entrees"
-        mouvement="revendique";
+        mouvement="recolte";
     }
 
     if(mouvement_extravitis == "Autres exonérations") {
@@ -192,7 +201,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
         catmouvement="stocks_debut"
-        mouvement="revendique";
+        mouvement="initial";
     }
 
     if(mouvement_extravitis == "Total DSA, Fact.. (droits acquittés)") {
@@ -204,13 +213,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    if(volume < 0 && catmouvement == "sorties") {
+    if(volume*1 < 0 && catmouvement == "sorties") {
         catmouvement = "entrees";
         mouvement = "regularisation";
         volume = volume * -1;
     }
 
-    if(volume < 0 && catmouvement == "entrees") {
+    if(volume*1 < 0 && catmouvement == "entrees") {
         catmouvement = "sorties";
         mouvement = "manquant";
         volume = volume * -1;
@@ -252,7 +261,13 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
 #Les export
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export.csv > $DATA_DIR/contrats_drm_volume_export.sorted.csv
 join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_export.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_volume_export_produit.csv
-sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
+
+sort -k 5,5 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv  > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
+sort -k 1,1 -t ";" $DATA_DIR/base_pays.csv | cut -d ";" -f 1,6 | sed 's/TCHEQUE (REPUBLIQUE)/République tchèque/' | sed 's/IRLANDE, ou EIRE/Irlande/' | sed 's/COREE (REPUBLIQUE DE)/Corée du Sud/' > $DATA_DIR/base_pays.sorted.csv
+
+join -t ";" -1 5 -2 1 $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv $DATA_DIR/base_pays.sorted.csv > $DATA_DIR/contrats_drm_volume_export_produit_pays.csv
+
+sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit_pays.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
 
 cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{ 
@@ -269,7 +284,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $34);
-    pays=$33
+    pays=$36
 
     if(corrective == "True" || regularisatrice == "True") {
 
