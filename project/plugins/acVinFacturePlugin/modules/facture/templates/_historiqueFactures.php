@@ -10,7 +10,6 @@ use_helper('Date');
             <div class="list-group">
                 <?php
                 foreach ($factures->getRawValue() as $facture) :
-                    //        var_dump($facture); exit;
                     $fc = FactureClient::getInstance();
                     $f = $fc->find($facture->id);
                     $date = format_date($facture->value[FactureSocieteView::VALUE_DATE_FACTURATION], 'dd/MM/yyyy') . ' (créée le ' . $fc->getDateCreation($facture->id) . ')';

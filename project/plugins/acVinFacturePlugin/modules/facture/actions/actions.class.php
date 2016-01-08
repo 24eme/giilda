@@ -18,19 +18,17 @@ class factureActions extends sfActions {
 
         $this->factureMouvements = MouvementsFactureClient::getInstance()->createMouvementsFacture();
         $this->factureMouvements->save();
-        $this->redirect('facture_mouvements_edition',array('id' => $this->factureMouvements->identifiant));
+        $this->redirect('facture_mouvements_edition', array('id' => $this->factureMouvements->identifiant));
     }
-    
+
     public function executeMouvementsList(sfWebRequest $request) {
 
         $this->factureMouvementsAll = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
-
-        
     }
 
     public function executeMouvementsedition(sfWebRequest $request) {
-        
-        $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-'.$request->getParameter('id'));
+
+        $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
         $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
         if (!$request->isMethod(sfWebRequest::POST)) {
 
@@ -39,13 +37,12 @@ class factureActions extends sfActions {
 
         $this->form->bind($request->getParameter($this->form->getName()));
 
-        if ($this->form->isValid()) {  
-       //    var_dump('here'); exit;
-        $this->form->save();
-        $this->redirect('facture_mouvements_edition',array('id' => $this->factureMouvements->identifiant));
+        if ($this->form->isValid()) {
+            $this->form->save();
+           $this->redirect('facture_mouvements_edition', array('id' => $this->factureMouvements->identifiant));
         }
     }
-    
+
     public function executeEdition(sfWebRequest $request) {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
         if (!$this->facture) {
@@ -263,11 +260,11 @@ class factureActions extends sfActions {
     private function getLatexTmpPath() {
         return "/tmp/";
     }
-    
-     public function executeComptabiliteEdition(sfWebRequest $request) {
-        $compta = ComptabiliteClient::getInstance()->find('COMPTABILITE');       
+
+    public function executeComptabiliteEdition(sfWebRequest $request) {
+        $compta = ComptabiliteClient::getInstance()->find('COMPTABILITE');
         $this->form = new ComptabiliteEditionForm($compta);
-        
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {

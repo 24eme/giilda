@@ -4,8 +4,7 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
     if ($(element).length) {
 
         var uuid = UUID.generate();
-        var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, uuid);
-
+        var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, "nouveau_"+uuid);
 
         var inputsToGetValues = $(element).children('div').last().find('input');
         var selectsToGetValues = $(element).children('div').last().find('select');

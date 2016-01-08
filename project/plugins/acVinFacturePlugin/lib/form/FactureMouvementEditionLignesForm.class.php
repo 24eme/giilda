@@ -21,17 +21,17 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        foreach ($this->getObject() as $keyMvt => $mvt) {
-            $this->embedForm($keyMvt, new FactureMouvementEtablissementEditionLigneForm($mvt, array('interpro_id' => $this->interpro_id, 'keyMvt' => $keyMvt)));
+        foreach ($this->getObject() as $identifiantKey => $mvts) {
+            foreach ($mvts as $uniqKey => $mvt) {
+                $mvtId = $identifiantKey . '_' . $uniqKey;
+                $this->embedForm($mvtId, new FactureMouvementEtablissementEditionLigneForm($mvt, array('interpro_id' => $this->interpro_id, 'keyMvt' => $mvtId)));
+            }
         }
-        $this->widgetSchema->setNameFormat('facture_mouvement_edition_lignes[%s]');
+        $this->widgetSchema->setNameFormat('facture_mouvement_edition_ligne[%s]');
     }
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        foreach ($this->getEmbeddedForms() as $key => $factureMouvementItemForm) {
-            $factureMouvementItemForm->updateObject($values[$key]);
-        }
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
@@ -41,16 +41,30 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             }
         }
         foreach ($taintedValues as $key => $values) {
+
             if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
                 continue;
             }
-            $this->embedForm($key, new FactureMouvementEditionLigneForm($key, array('interpro_id' => $this->interpro_id, 'uniqkeyMvt' => $key)));
+            if (preg_match('/^nouveau_/', $key)) {
+                foreach ($values as $keyValue => $value) {
+                    if (($keyValue == 'identifiant') && $value && ($soc = SocieteClient::getInstance()->find($value))) {
+                        $hasIdentifiant = true;
+                    }
+                }
+                $identifiant = str_replace("SOCIETE-", "", $value);
+                $keyMvt = str_replace("nouveau_", "", $key);
+                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
+
+                $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
+            }
         }
     }
 
-    public function updateEmbedForm($name, $form) {
-        $this->widgetSchema[$name] = $form->getWidgetSchema();
-        $this->validatorSchema[$name] = $form->getValidatorSchema();
+    public function unEmbedForm($key) {
+        unset($this->widgetSchema[$key]);
+        unset($this->validatorSchema[$key]);
+        unset($this->embeddedForms[$key]);
+        $this->getObject()->remove($key);
     }
 
 }
