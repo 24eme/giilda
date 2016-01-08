@@ -3,13 +3,12 @@
 
 <div class="col-xs-12">
     <h2>Mouvements de facture</h2>
-<?php echo $form; ?>
     
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 
         <?php echo $form->renderHiddenFields(); ?>
         <?php echo $form->renderGlobalErrors(); ?>       
-       
+
 
 
         <?php if ($form->hasErrors()): ?>
@@ -29,7 +28,7 @@
             </div>
             <div class="col-xs-6">
                 <div class="row">
-                     <div class="col-xs-12"><?php echo $form['date']->renderError(); ?>  </div>
+                    <div class="col-xs-12"><?php echo $form['date']->renderError(); ?>  </div>
                     <div class="col-xs-12"><?php echo $form['date']->renderLabel(); ?>  </div>
                     <div class="col-xs-12"><?php echo $form['date']->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
                 </div>
@@ -46,20 +45,17 @@
                     <div class="col-xs-3 text-center lead text-muted">Complément de libellé</div>
                     <div class="col-xs-1 text-center lead text-muted">Quantité</div>
                     <div class="col-xs-1 text-center lead text-muted">Prix&nbsp;U.</div>
-                      <div class="col-xs-1 text-center lead text-muted">&nbsp;</div>
+                    <div class="col-xs-1 text-center lead text-muted">&nbsp;</div>
                 </div>
-
-                <?php foreach ($form['mouvements'] as $key_etb => $etbMvts): ?>
-                    <?php foreach ($etbMvts as $key_mvt => $mvt): ?>
-                        <?php include_partial('itemMouvementFacture', array('mvt' => $mvt)); ?>
-                    <?php endforeach; ?>
-                <?php endforeach; ?>
-                <?php
-                include_partial('templateMouvementFactureItem', array('mvt' => $form->getFormTemplate())); ?>
+                <?php foreach ($form['mouvements'] as $key => $mvtForm): ?>
+                        <?php include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm)); ?>
+                   
+                <?php endforeach; ?> 
+                <?php include_partial('templateMouvementFactureItem', array('mvtForm' => $form->getFormTemplate(), 'mvtKey' => $form->getNewMvtId())); ?>
             </div>
-               
+
         </div>
-<br/>
+        <br/>
         <div class="row row-margin">
             <div class="col-xs-6 text-left">
                 <a class="btn btn-danger btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>

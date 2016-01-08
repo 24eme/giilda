@@ -38,5 +38,5 @@ class FactureMouvementsCollectionTemplateForm extends BaseForm {
     public function getFormTemplate() {
         return $this[$this->unique_var];
     }
-   
+       
 }
