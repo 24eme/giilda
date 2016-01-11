@@ -141,7 +141,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
-
+// PLUS UTILISE => TEMPLATES 
     public function storeLignes($cotisations) {
         foreach ($cotisations as $key => $cotisation) {
             $ligne = $this->lignes->add($key);
@@ -178,7 +178,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeLignesFromMouvements($mvts, $type_facturation, $famille) {
-        // var_dump($mvts); exit;
         foreach ($mvts as $lignesByType) {
             $this->storeLigneFromMouvements($lignesByType, $type_facturation, $famille);
         }
@@ -186,12 +185,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeLigneFromMouvements($ligneByType, $type_facturation, $famille) {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
-
+       
         $ligne = $this->lignes->add($keyLigne);
         if ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
-            $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
+            $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);            
         } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
-            $ligne->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+            $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE].' '.$ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+            $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
         }
 
         $detail = $ligne->getOrAdd('details')->add();

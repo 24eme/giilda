@@ -190,9 +190,8 @@ class factureActions extends sfActions {
 
         $filters_parameters = $this->constuctFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
-
+        
         if ($mouvementsBySocFiltered) {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['type_document'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
             $generation->save();
@@ -251,6 +250,7 @@ class factureActions extends sfActions {
         $this->forward404Unless($this->facture);
         $latex = new FactureLatex($this->facture);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
+    //    var_dump($latex->echoWithHTTPHeader('latex'));
         exit;
     }
 
