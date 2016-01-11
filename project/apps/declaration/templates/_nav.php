@@ -27,6 +27,7 @@
             'target' => '_self'
       ));
 
+/*
       include_component('global', 'navItem', array(
             'libelle' => 'Import VR',
             'prefix' => 'revendication',
@@ -53,7 +54,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-
+*/
        include_component('global', 'navItem', array(
             'libelle' => 'Stocks',
             'prefix' => 'stocks',
@@ -62,7 +63,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-
+/*
        include_component('global', 'navItem', array(
             'libelle' => 'Alertes',
             'prefix' => 'alerte',
@@ -71,7 +72,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-
+*/
 
        /*include_component('global', 'navItem', array(
             'libelle' => 'Relance',
