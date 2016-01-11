@@ -49,7 +49,8 @@ use_helper('Float');
 <br/>
 <div class="row">
     <div class="col-xs-12">
-        <a href="<?php echo url_for("facture_mouvements_nouveaux"); ?>" class="btn btn-default">Nouveaux mouvements de factures</a>
+        <a href="<?php echo url_for("facture"); ?>" class="btn btn-default">Retour à la facturation</a>
+        <a href="<?php echo url_for("facture_mouvements_nouveaux"); ?>" class="btn btn-default pull-right">Nouveaux mouvements de factures</a>
 
     </div>
 </div>

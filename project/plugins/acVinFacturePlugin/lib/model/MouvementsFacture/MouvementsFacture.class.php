@@ -43,5 +43,9 @@ class MouvementsFacture extends BaseMouvementsFacture {
     public function getLibelleFromId() {
         return "Facturation libre : ".$this->getLibelle()." (".Date::francizeDate($this->getDate()).")";
     }
+    public function findMouvement($mvtId,$soc) {
+        return $this->mouvements->get($soc.'01')->get($mvtId);
+    }
+    
 
 }

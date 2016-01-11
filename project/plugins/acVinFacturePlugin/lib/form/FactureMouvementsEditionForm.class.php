@@ -75,9 +75,9 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
                     $idEtb = ($keys[0] == 'nouveau') ? $societeIdentifiant . '01' : $keys[0];
                     $mvtObj = $this->getObject()->getOrAdd('mouvements')->getOrAdd($idEtb)->getOrAdd($keys[1]);
                     $mvtObj['identifiant'] = $idEtb;
-                    $mvtObj['identifiant_analytique'] = $mvtValues['identifiant_analytique'];
+                    $mvtObj->updateIdentifiantAnalytique($mvtValues['identifiant_analytique']);
                     $mvtObj['libelle'] = $mvtValues['libelle'];
-                    $mvtObj['quantite'] = floatval($mvtValues['quantite']);
+                    $mvtObj['quantite'] = -1 * floatval($mvtValues['quantite']);
                     $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
                     $mvtObj->facture = 0;
                     $mvtObj->facturable = 1;

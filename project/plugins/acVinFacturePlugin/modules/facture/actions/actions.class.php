@@ -198,7 +198,7 @@ class factureActions extends sfActions {
 
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
 
-        var_dump($mouvementsBySoc); exit;
+      
 
         if ($mouvementsBySoc) {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
