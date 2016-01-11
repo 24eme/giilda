@@ -3,11 +3,14 @@
 
 <ol class="breadcrumb">
     <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
-    <li class="active"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
+    <li class="<?php echo !isset($etablissement) ? "active" : "" ?>"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
+    <?php if(isset($etablissement)): ?>
+    <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>
+    <?php endif; ?>
 </ol>
 
 <section class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="<?php if(isset($etablissement)): ?>opacity: 0.6<?php endif; ?>">
         <div class="list-group">
             <div class="list-group-item">
                 <h2><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
@@ -89,12 +92,13 @@
         <?php endif; ?>
         <?php
         foreach ($etablissements as $etablissementId => $etb) : ?>
-    <div class="col-xs-12">
+    <div class="col-xs-12" <?php if(isset($etablissement) && $etablissement->_id != $etablissementId): ?>opacity: 0.6<?php endif; ?>>
         <div class="list-group">
 <?php include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre, 'fromSociete' => true, 'modification' => $modification, 'reduct_rights' => $reduct_rights));
         endforeach;
         ?>
         </div>
+    <a name="<?php echo $etablissementId ?>"></a>
     </div>
     <!--<div class="col-xs-3">
     <?php if ($modification || $reduct_rights) : ?>  
