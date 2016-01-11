@@ -7,6 +7,7 @@ COUCHBASE=giilda
 ELASTHOST=localhost
 ELASTPORT=9200
 ELASTBASE=giilda
+ELASTKIBANAINDEX=.kibana #ne pas changer
 #PDFDIR=data/archive/
 #SAMBA_IP=xxx.xxx.xxx.xxx
 #SAMBA_SHAREDIR=aaaaa

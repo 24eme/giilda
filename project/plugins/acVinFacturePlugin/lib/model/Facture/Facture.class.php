@@ -141,7 +141,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
-
+// PLUS UTILISE => TEMPLATES 
     public function storeLignes($cotisations) {
         foreach ($cotisations as $key => $cotisation) {
             $ligne = $this->lignes->add($key);
@@ -177,31 +177,40 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
-    public function storeLignesFromMouvements($mvts, $famille) {
+    public function storeLignesFromMouvements($mvts, $type_facturation, $famille) {
         foreach ($mvts as $lignesByType) {
-            $this->storeLigneFromMouvements($lignesByType, $famille);
+            $this->storeLigneFromMouvements($lignesByType, $type_facturation, $famille);
         }
     }
 
-    public function storeLigneFromMouvements($ligneByType, $famille) {
+    public function storeLigneFromMouvements($ligneByType, $type_facturation, $famille) {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
-
+       
         $ligne = $this->lignes->add($keyLigne);
-        $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
+        if ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+            $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);            
+        } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+            $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE].' '.$ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+            $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
+        }
+
         $detail = $ligne->getOrAdd('details')->add();
 
         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
         $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
         $detail->taux_tva = 0.2;
-        $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-
+        if ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+            $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+        } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+           
+            $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
+        }
         $detail->libelle = $produit_libelle;
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        if($transacteur){
-        $detail->libelle .= $this->createOrigine($transacteur, $famille, $ligneByType);
-            
+        if ($transacteur) {
+            $detail->libelle .= $this->createOrigine($transacteur, $famille, $ligneByType);
         }
-        if($ligneByType->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE]){
+        if ($ligneByType->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE]) {
             
         }
         foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
@@ -273,13 +282,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
 
             if ($famille == SocieteClient::SUB_TYPE_VITICULTEUR) {
-                
+
                 $origine_libelle = ' contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
             } else {
                 $origine_libelle = ' contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
             }
             $origine_libelle .= ' (' . $transacteur . ') ';
-          
+
             return $origine_libelle;
         }
     }

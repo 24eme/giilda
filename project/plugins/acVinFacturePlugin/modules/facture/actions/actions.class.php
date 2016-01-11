@@ -39,7 +39,7 @@ class factureActions extends sfActions {
 
         if ($this->form->isValid()) {
             $this->form->save();
-           $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+            $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
         }
     }
 
@@ -134,9 +134,9 @@ class factureActions extends sfActions {
 
             return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
         }
-        if ($this->baseFacture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+       // if ($this->baseFacture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
             return $this->redirect('defacturer', $this->baseFacture);
-        }
+       // }
 
 
         $this->facture = FactureClient::createAvoir($this->baseFacture);
@@ -176,7 +176,6 @@ class factureActions extends sfActions {
 
         $default = $request->hasParameter('type-facture') ? array('modele' => $request->getParameter('type-facture')) : array();
         $this->form = new FactureGenerationForm($default);
-
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
@@ -189,19 +188,12 @@ class factureActions extends sfActions {
             return sfView::SUCCESS;
         }
 
-        $values = $this->form->getValues();
-        $date_facturation = (!isset($values['date_facturation'])) ? null : DATE::getIsoDateFromFrenchDate($values['date_facturation']);
-        $message_communication = (!isset($values['message_communication'])) ? null : $values['message_communication'];
-        $date_mouvement = (isset($values['date_mouvement']) && $values['date_mouvement'] != '') ? $values['date_mouvement'] : $date_facturation;
-
-
-
+        $filters_parameters = $this->constuctFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-
-      
-
-        if ($mouvementsBySoc) {
-            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
+        $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
+        
+        if ($mouvementsBySocFiltered) {
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['type_document'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
             $generation->save();
         }
         return $this->redirect('facture_societe', $this->societe);
@@ -238,14 +230,14 @@ class factureActions extends sfActions {
 
     public function executeRedirect(sfWebRequest $request) {
         $iddoc = $request->getParameter('iddocument');
-       
+
         if (preg_match('/^DRM/', $iddoc)) {
             $drm = DRMClient::getInstance()->find($iddoc);
             return $this->redirect('drm_visualisation', $drm);
         } else if (preg_match('/^SV12/', $iddoc)) {
             $sv12 = SV12Client::getInstance()->find($iddoc);
             return $this->redirect('sv12_visualisation', $sv12);
-        }else if (preg_match('/^MOUVEMENTSFACTURE/', $iddoc)) {
+        } else if (preg_match('/^MOUVEMENTSFACTURE/', $iddoc)) {
             $mouvementFacture = MouvementsFactureClient::getInstance()->find($iddoc);
             return $this->redirect('facture_mouvements_edition', array('id' => $mouvementFacture->identifiant));
         }
@@ -258,6 +250,7 @@ class factureActions extends sfActions {
         $this->forward404Unless($this->facture);
         $latex = new FactureLatex($this->facture);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
+    //    var_dump($latex->echoWithHTTPHeader('latex'));
         exit;
     }
 
@@ -276,6 +269,29 @@ class factureActions extends sfActions {
                 return $this->redirect('comptabilite_edition');
             }
         }
+    }
+
+    private function constuctFactureFiltersParameters() {
+        $values = $this->form->getValues();
+        $filters_parameters = array();
+        $filters_parameters['date_mouvement'] = date('Y-m-d');
+        $filters_parameters['message_communication'] = "";
+        $filters_parameters['type_document'] = 'DRM';
+
+        if (isset($values['date_facturation']) && $values['date_facturation']) {
+            $filters_parameters['date_mouvement'] = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
+        }
+        if (isset($values['message_communication']) && $values['message_communication']) {
+            $filters_parameters['message_communication'] = $values['message_communication'];
+        }
+        if (isset($values['modele']) && $values['modele']) {
+            if ($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS) {
+                $filters_parameters['type_document'] = 'MouvementsFacture';
+            } elseif ($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DRM) {
+                $filters_parameters['type_document'] = 'DRM';
+            }
+        }
+        return $filters_parameters;
     }
 
 }

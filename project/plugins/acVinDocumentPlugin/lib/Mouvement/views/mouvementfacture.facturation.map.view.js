@@ -22,19 +22,22 @@ function(doc) {
               }
  	var categorie = (mouv.categorie)? mouv.categorie : doc.libelle;
  	var mouv_hash = (mouv.produit_hash)? mouv.produit_hash : mouv.identifiant_analytique;
-         var type_hash = (mouv.type_hash)? mouv.type_hash : doc.libelle;
-         var mouv_produit_libelle = (mouv.produit_libelle)? mouv.produit_libelle : mouv.identifiant_analytique_libelle;
-         var mouv_volume = (mouv.volume)? mouv.volume : mouv.quantite;
-         var mouv_prix = (mouv.cvo)? mouv.cvo : mouv.prix_unitaire;
-         var type_libelle = (type_libelle)? mouv.type_libelle : doc.libelle;
+        var type_hash = (mouv.type_hash)? mouv.type_hash : doc.libelle;
+        var mouv_produit_libelle = (mouv.produit_libelle)? mouv.produit_libelle : mouv.identifiant_analytique_libelle;
+        var mouv_volume = (mouv.volume)? mouv.volume : mouv.quantite;
+        var mouv_prix = (mouv.cvo)? mouv.cvo : mouv.prix_unitaire;
+        var type_libelle = (mouv.type_libelle)? mouv.type_libelle : mouv.libelle;
            
-         var docId = doc.type+'-'+doc.identifiant+'-'+doc.periode;       
-         if (doc.type != "DRM") {
-  
+        var docId = doc.type+'-'+doc.identifiant+'-'+doc.periode;
+         var vrac_destinataire = mouv.vrac_destinataire;
+         if (doc.type == "MouvementsFacture") {  
             docId=doc._id;
+            vrac_destinataire = type_libelle;
          }
 
-         emit([mouv.facture, mouv.facturable, region, identifiant, doc.type,categorie , mouv_hash, doc.periode, mouv.vrac_numero, mouv.vrac_destinataire, type_hash , mouv.detail_identifiant], [mouv_produit_libelle , type_libelle, mouv_volume, mouv_prix, mouv.date, mouv.vrac_destinataire, mouv.detail_libelle, docId , doc._id+':'+key]);
+                emit([mouv.facture, mouv.facturable, region, identifiant, doc.type,categorie , mouv_hash, doc.periode, mouv.vrac_numero, vrac_destinataire , type_hash , mouv.detail_identifiant], [mouv_produit_libelle , type_libelle, mouv_volume, mouv_prix, mouv.date, mouv.vrac_destinataire, mouv.detail_libelle, docId , doc._id+':'+key]);
+
+
           } 
      }
   }

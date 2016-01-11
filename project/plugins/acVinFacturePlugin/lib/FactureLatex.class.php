@@ -4,7 +4,7 @@ class FactureLatex extends GenericLatex {
 
   private $facture = null;
 
-  const MAX_LIGNES_PERPAGE = 48;
+  const MAX_LIGNES_PERPAGE = 46;
   const NB_LIGNES_PAPILLONS_FIXE = 2;
   const NB_LIGNES_PAPILLONS_PAR_ECHEANCE = 3;
   const NB_LIGNES_ENTETE = 10;
