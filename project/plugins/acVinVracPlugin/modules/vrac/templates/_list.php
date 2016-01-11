@@ -72,7 +72,13 @@
         <?php
         echo ($elt[VracHistoryView::VALUE_ACHETEUR_ID]) ?
                 'Acheteur : ' . link_to($elt[VracHistoryView::VALUE_ACHETEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_ACHETEUR_ID])) : '';
-        ?>
+            ?>
+        <?php
+            $has_representant = ($elt[VracHistoryView::VALUE_REPRESENTANT_ID] != $elt[VracHistoryView::VALUE_VENDEUR_ID]) ? $elt[VracHistoryView::VALUE_REPRESENTANT_ID] : 0;
+            if ($has_representant) echo '<br/>';
+            echo ($has_representant) ?
+                'Representant : ' . link_to($elt[VracHistoryView::VALUE_REPRESENTANT_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_REPRESENTANT_ID])) : '';
+            ?>
         <?php if($elt[VracHistoryView::VALUE_MANDATAIRE_ID]): ?>
             <br />
         <?php
