@@ -76,7 +76,7 @@ $colsize = 6;
 <div class="row col-xs-12 text-center">
     	<?php if (in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))): ?>
     		<h3><?php echo $vrac->produit_libelle ?> <small><?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('millesime_85_15')): ?> (85/15)<?php endif;?></small></h3>
-    		<?php if ($vrac->cepage): ?>
+    		<?php if ($vrac->cepage_libelle): ?>
             Cépage : <strong><?php echo $vrac->cepage_libelle ?><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></strong><br />
             <?php endif; ?>
     	<?php else: ?>
@@ -132,11 +132,11 @@ $colsize = 6;
             <ul class="list-group">
                 
                 
-                <?php if ($vrac->delai_paiement || $vrac->moyen_paiement || $vrac->acompte || $vrac->taux_courtage || $vrac->tva): ?>
+                <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->taux_courtage || $vrac->tva): ?>
                 <li class="list-group-item clearfix">
 	                <span class="col-xs-6">
-	                <?php if ($vrac->delai_paiement): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><?php endif; ?>
-	                (<?php if ($vrac->moyen_paiement): ?><strong><?php echo $vrac->moyen_paiement_libelle; ?></strong><?php endif; ?>)
+	                <?php if ($vrac->delai_paiement_libelle): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><?php endif; ?>
+	                <?php if ($vrac->moyen_paiement_libelle): ?>(<strong><?php echo $vrac->moyen_paiement_libelle; ?></strong>)<?php endif; ?>
 	                <br />
 	                <?php if ($vrac->tva): ?>Facturation <strong><?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?></strong><?php endif; ?>
 	                </span>

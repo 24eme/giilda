@@ -173,7 +173,7 @@ if($11 > 0) { print base "entrees;recolte;" $11 ; } #récolte
 if($11 < 0) { print base "sorties;transfertsappellation;" $11*-1 ; } #récolte
 if($12 > 0) { print base "entrees;transfertsappellation;" $12 ; } #volume agréé
 if($12 < 0) { print base "sorties;transfertsappellation;" $12*-1 ; } #volume agréé
-if($13 > 0) { print base "entrees;declassement;" 13 ; } #declassement
+if($13 > 0) { print base "entrees;declassement;" $13 ; } #declassement
 if($13 < 0) { print base "sorties;declassement;" $13*-1 ; } #declassement
 if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
 if($15 > 0) { print base "sorties;distillationusageindustriel;" $15 ; } #lie_et_mouts
@@ -208,24 +208,50 @@ print base "sorties;vrac;" $21 ";;" numero_contrat ;
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3  | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
 
-echo -n > $DATA_DIR/drm_lignes.csv
+rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-cat $DATA_DIR/drm.csv | while read ligne  
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm.csv
+
+# ls $DATA_DIR/drms | while read ligne
+# do
+#     cat $DATA_DIR/drms/$ligne | awk -F ';' '
+#       BEGIN { somme_transfert_appellation=0; somme_declassement=0; somme_recolte=0 } 
+#       {  
+#           if($13 == "transfertsappellation") {
+#               if($12 == "entrees") { somme_transfert_appellation = somme_transfert_appellation + $14; } 
+#               if($12 == "sorties") { somme_transfert_appellation = somme_transfert_appellation - $14; } 
+#           }
+          
+#           if($13 == "declassement") {
+#               if($12 == "entrees") { somme_declassement = somme_declassement + $14; } 
+#               if($12 == "sorties") { somme_declassement = somme_declassement - $14; } 
+#           }
+
+#           if($13 == "recolte") {
+#               if($12 == "entrees") { somme_recolte = somme_recolte + $14; } 
+#               if($12 == "sorties") { somme_recolte = somme_recolte - $14; } 
+#           }
+          
+#       } 
+#       END {
+
+#           if(!somme_declassement && !somme_recolte && somme_transfert_appellation) {
+#               somme_transfert_appellation = 0;
+#           }
+
+#           if((somme_declassement + somme_transfert_appellation) != 0 && (somme_declassement + somme_transfert_appellation + somme_recolte) != 0 ) {  
+#               print "'$DATA_DIR/drms/$ligne';transfert: " somme_transfert_appellation
+#               print "'$DATA_DIR/drms/$ligne';declassement: " somme_declassement
+#               print "'$DATA_DIR/drms/$ligne';recolte: " somme_recolte
+#           }
+#       }'
+# done
+
+ls $DATA_DIR/drms | while read ligne
 do
-    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
-    then
-
-        if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
-        then
-            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT --trace
-        fi
-
-        echo -n > $DATA_DIR/drm_lignes.csv
-
-    fi
-    PERIODE=$(echo $ligne | cut -d ";" -f 2)
-    IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo $ligne >> $DATA_DIR/drm_lignes.csv
+    PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
+    IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT
 done
 
 echo "Contrôle de cohérence des DRM"
