@@ -417,4 +417,9 @@ class Etablissement extends BaseEtablissement {
         return $this->exist('crd_regime') && $this->crd_regime;
     }
 
+    public function getCrdRegime() {
+
+        return EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
+    }
+
 }
