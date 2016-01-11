@@ -101,6 +101,9 @@ $colsize = 6;
                 <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
 	</h3>
 <?php endif; ?>
+<?php if ($vrac->exist('volume_enleve')): ?>
+<p>dont <?php echoFloat($vrac->volume_enleve); ?> hl enlevé(s)</p>
+<?php endif; ?>
 </div>
 </div>
 <div class="row col-xs-4">
