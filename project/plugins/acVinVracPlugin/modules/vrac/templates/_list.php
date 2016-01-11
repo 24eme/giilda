@@ -12,15 +12,14 @@
 <table class="table">    
     <thead>
         <tr>
-            <th style="width: 0;">Type</th>
-            <th style="width: 90px;">N°&nbsp;Contrat</th>
-            <th style="width: 150px;">Date</th>
+        <th style="width: 0;">&nbsp;</th>
+            <th style="width: 70px;">&nbsp;</th>
+            <th style="width: 110px;">Date</th>
             <th>Soussignés</th>   
-            <th>Produit</th>
-            <th style="width: 90px;">Millésime</th>
-            <th style="width: 90px;">Vol. (hl)</th>
-            <th style="width: 90px;">Prix (€/hl)</th>
-            <th style="width: 140px;"></th>
+            <th>Produit (Millésime)</th>
+            <th style="width: 50px;">Vol.&nbsp;prop. (Vol.&nbsp;enl.)</th>
+            <th style="width: 50px;">Prix</th>
+            <th style="width: 90px;"></th>
         </tr>
     </thead>
     <tbody>
@@ -56,11 +55,11 @@
                     </td>
                     <td style="vertical-align: middle;">
                     <?php if($elt[VracHistoryView::VALUE_STATUT] && $elt[VracHistoryView::VALUE_DATE_SIGNATURE]): ?>
-                        Signé le <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SIGNATURE], "dd/MM/yyyy", "fr_FR"); ?>
+            <span class="glyphicon glyphicon-check" aria-hidden="true"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SIGNATURE], "dd/MM/yyyy", "fr_FR"); ?><br/>
                     <?php else: ?>
                     <?php endif; ?>
                     <?php if($elt[VracHistoryView::VALUE_DATE_SAISIE]): ?>
-                        Saisie le <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SAISIE], "dd/MM/yyyy", "fr_FR"); ?>
+                           <span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SAISIE], "dd/MM/yyyy", "fr_FR"); ?></span>
                     <?php else: ?>
                     <?php endif; ?>
                     </td>
@@ -73,7 +72,13 @@
         <?php
         echo ($elt[VracHistoryView::VALUE_ACHETEUR_ID]) ?
                 'Acheteur : ' . link_to($elt[VracHistoryView::VALUE_ACHETEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_ACHETEUR_ID])) : '';
-        ?>
+            ?>
+        <?php
+            $has_representant = ($elt[VracHistoryView::VALUE_REPRESENTANT_ID] != $elt[VracHistoryView::VALUE_VENDEUR_ID]) ? $elt[VracHistoryView::VALUE_REPRESENTANT_ID] : 0;
+            if ($has_representant) echo '<br/>';
+            echo ($has_representant) ?
+                'Representant : ' . link_to($elt[VracHistoryView::VALUE_REPRESENTANT_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_REPRESENTANT_ID])) : '';
+            ?>
         <?php if($elt[VracHistoryView::VALUE_MANDATAIRE_ID]): ?>
             <br />
         <?php
@@ -84,23 +89,35 @@
         <?php endif; ?>
                         </ul>
                     </td>              
-                    <td style="vertical-align: middle;"><?php echo ucfirst(showType($v)) ?> : <?php echo ($elt[VracHistoryView::VALUE_TYPE] == VracClient::TYPE_TRANSACTION_VIN_VRAC || $elt[VracHistoryView::VALUE_TYPE] == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $elt[VracHistoryView::VALUE_PRODUITLIBELLE] : $elt[VracHistoryView::VALUE_CEPAGELIBELLE]; ?></td>
-                    <td style="vertical-align: middle;"><?php echo $elt[VracHistoryView::VALUE_MILLESIME]; ?></td>
-                    <td style="vertical-align: middle;" class="text-right">           
+                    <td style="vertical-align: middle;"><?php
+
+            $produit = ($elt[VracHistoryView::VALUE_TYPE] == VracClient::TYPE_TRANSACTION_VIN_VRAC || $elt[VracHistoryView::VALUE_TYPE] == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $elt[VracHistoryView::VALUE_PRODUITLIBELLE] : $elt[VracHistoryView::VALUE_CEPAGELIBELLE];
+            $millesime = $elt[VracHistoryView::VALUE_MILLESIME] ? $elt[VracHistoryView::VALUE_MILLESIME] : 'nm';
+            if ($produit)
+                echo "<b>$produit</b> ($millesime)";?></td>
+                     <td style="vertical-align: middle;" class="text-right">           
         <?php
-        if (isset($elt[VracHistoryView::VALUE_VOLUME_PROPOSE]))
+        if (isset($elt[VracHistoryView::VALUE_VOLUME_PROPOSE])) {
             echoFloat($elt[VracHistoryView::VALUE_VOLUME_PROPOSE]);
-        else
-            echo '0.00';
+            echo '&nbsp;hl<br/>';
+            echo '<span class="text-muted">';
+            if ($elt[VracHistoryView::VALUE_VOLUME_ENLEVE]) {
+                echoFloat($elt[VracHistoryView::VALUE_VOLUME_ENLEVE]);
+                echo '&nbsp;hl';
+            }else{
+                echo '0.00&nbsp;hl';
+            }
+            echo '</span>';
+        }
         ?>
                     </td>
                     <td style="vertical-align: middle;" class="text-right">
                          
         <?php
-        if (isset($elt[VracHistoryView::VALUE_PRIX_UNITAIRE]))
-            echoFloat($elt[VracHistoryView::VALUE_PRIX_UNITAIRE]);
-        else
-            echo '0.00';
+            if (isset($elt[VracHistoryView::VALUE_PRIX_UNITAIRE])) {
+                echoFloat($elt[VracHistoryView::VALUE_PRIX_UNITAIRE]);
+                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['prix_initial_unitaire']['libelle'] ;
+            }
         ?>
                     </td>
                     <td style="vertical-align: middle;" class="text-center">

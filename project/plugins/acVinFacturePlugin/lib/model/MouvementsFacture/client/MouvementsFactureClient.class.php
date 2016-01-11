@@ -33,5 +33,5 @@ class MouvementsFactureClient extends acCouchdbClient {
     
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->startkey('MOUVEMENTSFACTURE-'.$date.'00')->endkey('MOUVEMENTSFACTURE-'.$date.'99')->execute($hydrate);        
-    }
+    }    
 }

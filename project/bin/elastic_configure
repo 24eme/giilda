@@ -21,98 +21,36 @@ fi
 
 curl -s -X PUT -d '@/tmp/filter.json' http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/app > /dev/null
 
+
 if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
     curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
-    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_compte" > /dev/null
-    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_etablissement" > /dev/null
-    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_societe" > /dev/null
-    curl -s -X DELETE "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_alerte" > /dev/null
 fi
 
-echo '{
-    "type" : "couchdb",
-    "couchdb" : {
-        "host" : "'$COUCHHOST'",
-        "port" : "'$COUCHPORT'",
-        "db" : "'$COUCHBASE'",
-        "filter" : "app/type",
-        "filter_params" : {
-            "type" : "Compte"
-	}
-    },
-    "index" : {
-        "index" : "'$ELASTBASE'",
-        "type" : "Compte",
-        "bulk_size" : "100",
-        "bulk_timeout" : "10ms"
-    }
-}' > /tmp/elastic.configure.json
-
-curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_compte/_meta" > /dev/null
+curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE/" -d '
+index :
+    number_of_shards : 5 
+    number_of_replicas : 0 
+'
 
 echo '{
     "type" : "couchdb",
     "couchdb" : {
+        "ignore_attachments":true,
         "host" : "'$COUCHHOST'",
         "port" : "'$COUCHPORT'",
         "db" : "'$COUCHBASE'",
-        "filter" : "app/type",
-        "filter_params" : {
-            "type" : "Etablissement"
-	}
+        "filter" : null
     },
     "index" : {
         "index" : "'$ELASTBASE'",
-        "type" : "Etablissement",
-        "bulk_size" : "100",
-        "bulk_timeout" : "10ms"
+        "number_of_replicas" : 0,
+        "type" : "full",
+        "bulk_size" : 1000,
+        "flush_interval" : "1s",
+        "max_concurrent_bulk" : 3
     }
 }' > /tmp/elastic.configure.json
 
-curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_etablissement/_meta" > /dev/null
-
-
-echo '{
-    "type" : "couchdb",
-    "couchdb" : {
-        "host" : "'$COUCHHOST'",
-        "port" : "'$COUCHPORT'",
-        "db" : "'$COUCHBASE'",
-        "filter" : "app/type",
-        "filter_params" : {
-            "type" : "Societe"
-	}
-    },
-    "index" : {
-        "index" : "'$ELASTBASE'",
-        "type" : "Societe",
-        "bulk_size" : "100",
-        "bulk_timeout" : "10ms"
-    }
-}' > /tmp/elastic.configure.json
-
-curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_societe/_meta" > /dev/null
-
-
-echo '{
-    "type" : "couchdb",
-    "couchdb" : {
-        "host" : "'$COUCHHOST'",
-        "port" : "'$COUCHPORT'",
-        "db" : "'$COUCHBASE'",
-        "filter" : "app/type",
-        "filter_params" : {
-            "type" : "Alerte"
-    }
-    },
-    "index" : {
-        "index" : "'$ELASTBASE'",
-        "type" : "Alerte",
-        "bulk_size" : "100",
-        "bulk_timeout" : "10ms"
-    }
-}' > /tmp/elastic.configure.json
-
-curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"_alerte/_meta" > /dev/null
+curl -s -X PUT -d '@/tmp/elastic.configure.json' "http://$ELASTHOST:$ELASTPORT/_river/"$ELASTBASE"/_meta" > /dev/null
 
 rm /tmp/elastic.configure.json

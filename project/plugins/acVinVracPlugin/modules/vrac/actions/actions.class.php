@@ -787,7 +787,11 @@ class vracActions extends sfActions {
         }
         $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
         $this->vrac->delete();
-        $this->redirect('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $this->compte->_id)));
+        if ($this->compte) {
+            $this->redirect('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $this->compte->_id)));
+        }else{
+            $this->redirect('vrac');
+        }
     }
 
     public function executeNotice(sfWebRequest $request) {

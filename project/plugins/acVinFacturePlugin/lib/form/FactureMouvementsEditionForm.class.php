@@ -62,27 +62,37 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     protected function doUpdateObject($values) {
 
         $this->getObject()->set('libelle', $values['libelle']);
-        $this->getObject()->set('date', Date::getIsoDateFromFrenchDate($values["date"]));
+        $date = Date::getIsoDateFromFrenchDate($values["date"]);
+        $this->getObject()->set('date', $date);
+        $this->getObject()->getOrAdd('valide')->set('date_saisie', $date);
         $this->getObject()->remove('mouvements');
         foreach ($this->getEmbeddedForms() as $mouvementsKey => $mouvementsForm) {
             foreach ($mouvementsForm->getEmbeddedForms() as $keyMvt => $mvt) {
                 $mvtValues = $values[$mouvementsKey][$keyMvt];
-                $societeKey = str_replace('SOCIETE-', '', $mvtValues['identifiant']);
-                $keys = explode('_', $keyMvt);
-                $idSoc = ($keys[0] == 'nouveau') ? $societeKey : $keys[0];
-                $mvtObj = $this->getObject()->getOrAdd('mouvements')->getOrAdd($idSoc)->getOrAdd($keys[1]);
-                $mvtObj['identifiant'] = $mvtValues['identifiant'];
-                $mvtObj['identifiant_analytique'] = $mvtValues['identifiant_analytique'];
-                $mvtObj['libelle'] = $mvtValues['libelle'];
-                $mvtObj['quantite'] = floatval($mvtValues['quantite']);
-                $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
-                $mvtObj->facture = 0;
-                $mvtObj->facturable = 0;
-                $mvtObj->region = "HORS_REGION";
-                $mvtObj->date = date('Y-m-d');
+                if ($mvtValues['identifiant']) {
+                    $societeIdentifiant = str_replace('SOCIETE-', '', $mvtValues['identifiant']);
+                    $keys = explode('_', $keyMvt);
+                    $idEtb = ($keys[0] == 'nouveau') ? $societeIdentifiant . '01' : $keys[0];
+                    $mvtObj = $this->getObject()->getOrAdd('mouvements')->getOrAdd($idEtb)->getOrAdd($keys[1]);
+                    $mvtObj['identifiant'] = $idEtb;
+                    $mvtObj->updateIdentifiantAnalytique($mvtValues['identifiant_analytique']);
+                    $mvtObj['libelle'] = $mvtValues['libelle'];
+                    $mvtObj['quantite'] = -1 * floatval($mvtValues['quantite']);
+                    $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
+                    $mvtObj->facture = 0;
+                    $mvtObj->facturable = 1;
+                    $mvtObj->region = "HORS_REGION";
+                    $mvtObj->date = date('Y-m-d');
+                }
             }
         }
         $this->getObject()->save();
+    }
+
+    public function setDefaults($defaults) {
+        parent::setDefaults($defaults);
+        $date = Date::francizeDate($this->getObject()->getDate());
+        $this->setDefault('date', $date);
     }
 
 }

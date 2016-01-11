@@ -32,12 +32,12 @@ use_helper('Prix');
                         <span class="col-xs-2"><?php echo format_date($mouvement->date, 'dd/MM/yyyy'); ?></span>
                         <span class="col-xs-3"><?php
                             $numeroFormatted = (strstr($mouvement->numero, 'DRM') !== false) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
-                                    SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
+                                    $mouvement->nom_facture;
 
                             echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
                             ?></span>
                         <span class="col-xs-3"><?php echo $mouvement->produit_libelle ?></span>
-                        <span class="col-xs-2"><?php echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle ?></span>
+                        <span class="col-xs-2"><?php echo  $mouvement->type_libelle; ?></span>
                         <span class="col-xs-2"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</span>
                     </li>
                 <?php endforeach; ?>
