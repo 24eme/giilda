@@ -15,9 +15,9 @@ Installation :
 Installation des plugins necessaires au module de statistiques :
 
 > cd /opt/logstash
-> bin/plugin install logstash-input-couchdb_changes
-> bin/plugin install logstash-output-elasticsearch
-> bin/plugin install logstash-output-http
+> sudo bin/plugin install logstash-input-couchdb_changes
+> sudo bin/plugin install logstash-output-elasticsearch
+> sudo bin/plugin install logstash-output-http
 
 ### ElasticSearch 2.1.1
 
@@ -27,7 +27,7 @@ Récupération du .deb :
 
 Installation :
 
-> sudo dpkg -i /tmp/logstash_2.1.1-1_all.deb
+> sudo dpkg -i /tmp/elasticsearch-2.1.1.deb
 
 Installation du plugin HEAD :
 
