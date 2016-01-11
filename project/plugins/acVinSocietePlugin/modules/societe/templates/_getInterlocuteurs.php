@@ -1,3 +1,5 @@
+<?php use_helper('Compte') ?>
+
 <?php
 if (!is_null($contacts)):
     ?>
@@ -9,7 +11,7 @@ if (!is_null($contacts)):
                     ?>
                     <li class="list-group-item">
                             <?php if (!isset($no_link) || !$no_link): ?>
-                                    <h4 class="list-group-item-heading"><a title="<?php echo $contact->compte_type ?>" href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>"><?php echo $contact->nom_a_afficher; ?></a></h4>
+                                    <h4 class="list-group-item-heading"><span class="<?php echo comptePictoCssClass($contact) ?>"></span> <a title="<?php echo $contact->compte_type ?>" href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>"><?php echo $contact->nom_a_afficher; ?></a></h4>
                             <?php else: ?>
                                 <?php echo $contact->nom_a_afficher; ?>
                             <?php endif; ?>

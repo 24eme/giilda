@@ -44,6 +44,8 @@ class etablissementActions extends sfCredentialActions {
         $this->societe = $this->etablissement->getSociete();
         $this->contact = $this->etablissement->getContact(); 
         $this->applyRights();
+
+        $this->redirect('societe_visualisation', array('sf_subject' => $this->etablissement->getSociete(), 'etablissement' => $this->etablissement->_id));
     }
 
 }

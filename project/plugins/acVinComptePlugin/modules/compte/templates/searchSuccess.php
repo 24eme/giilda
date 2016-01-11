@@ -1,3 +1,9 @@
+<?php use_helper('Compte') ?>
+
+<ol class="breadcrumb">
+    <li class="active"><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+</ol>
+
 <script>
    $(document).ready(function() {
    $(".removetag").click(function() {
@@ -5,7 +11,8 @@
      });
      });
 </script>
-	<section class="col-xs-9" id="contenu_etape">
+
+    <section class="col-xs-9" id="contenu_etape">
 		<form>
 			<div id="recherche_contact" class="section_label_maj">
 				
@@ -67,7 +74,7 @@
                         
 				<div class="list-group-item">
                     <h4 class="list-group-item-heading">
-                        <span class="glyphicon glyphicon-home"></span> 
+                        <span class="<?php echo comptePictoCssClass($data) ?>"></span> 
                         <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a> 
                         <?php if($societe_informations['raison_sociale'] && $societe_informations['raison_sociale'] != $data['nom_a_afficher']): ?><small><span class="glyphicon glyphicon-home"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
                         <?php endif; ?>
@@ -138,10 +145,11 @@
 	<?php endif; ?>
 
 </section>
-
         <div class="col-xs-3">
-        <a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>">Exporter en CSV</a><br />
-        <?php echo $nb_results; ?> résultat(s) trouvé(s)
+            <a href="<?php echo url_for('societe_creation', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a> 
+         <a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>"> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
+         <br />
+            <span class="lead"><?php echo $nb_results; ?> résultat(s) trouvé(s)</span>
         </div>
 
 		<?php if (count($selected_typetags)) :  ?>

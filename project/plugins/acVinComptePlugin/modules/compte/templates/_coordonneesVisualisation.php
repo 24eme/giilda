@@ -1,136 +1,46 @@
-<div class="col-xs-4">
-    <div class="form_ligne">
-        <legend>Adresse</legend>
+<div class="row">
+    <div class="col-xs-6">
+        <address class="lead">
+        <?php echo $compte->adresse; ?><br />
+        <?php if ($compte->adresse_complementaire) : ?><?php echo $compte->adresse_complementaire ?><br /><?php endif ?>
+        <?php echo $compte->code_postal; ?> <?php echo $compte->commune; ?> <small class="text-muted">(<?php echo $compte->pays; ?>)</small>
+        </address>
     </div>
-    <div class="form_ligne">
-        <label for="adresse">
-            Adresse :
-        </label>
-        <?php echo $compte->adresse; ?>
+
+    <div class="col-xs-6">
+        <dl class="dl-horizontal">
+            <?php if ($compte->email) : ?>
+            <dt>Email :</dt><dd><a href="mailto:<?php echo $compte->email; ?>"><?php echo $compte->email; ?></a></dd>
+            <?php endif; ?>
+            <?php if ($compte->telephone_perso) : ?>
+            <dt>Tél. perso :</dt><dd><a href="callto:<?php echo $compte->telephone_perso; ?>"><?php echo $compte->telephone_perso; ?></a></dd>
+            <?php endif; ?>
+            <?php if ($compte->telephone_bureau) : ?>
+            <dt>Tél. bureau :</dt><dd><a href="callto:<?php echo $compte->telephone_bureau; ?>"><?php echo $compte->telephone_bureau; ?></a></dd>
+            <?php endif; ?>
+            <?php if ($compte->telephone_mobile) : ?>
+            <dt>Tél. mobile :</dt><dd><a href="callto:<?php echo $compte->telephone_mobile; ?>"><?php echo $compte->telephone_mobile; ?></a></dd>
+            <?php endif; ?>
+            <?php if ($compte->fax) : ?>
+            <dt>Fax :</dt><dd><a href="callto:<?php echo $compte->fax; ?>"><?php echo $compte->fax; ?></a></dd>
+            <?php endif; ?>
+            <?php if ($compte->exist('site_internet') && $compte->site_internet) : ?>
+            <dt>Site Internet :</dt><dd><a href="<?php echo $compte->site_internet; ?>"><?php echo $compte->site_internet; ?></a></dd>
+            <?php endif; ?>
+        </dl>
     </div>
-    <?php if ($compte->adresse_complementaire) : ?>
-        <div class="form_ligne">
-            <label for="adresse_complementaire">
-                Adresse complémentaire :
-            </label>
-            <?php echo $compte->adresse_complementaire; ?>
-        </div>
-    <?php endif; ?>
-    <div class="form_ligne">
-        <label for="code_postal">
-            Code postal :
-        </label>
-        <?php echo $compte->code_postal; ?>
-    </div>
-    <div class="form_ligne">
-        <label for="commune">
-            Commune :
-        </label>
-        <?php echo $compte->commune; ?>
-    </div>   
-    <?php if ($compte->cedex) : ?>
-        <div class="form_ligne">
-            <label for="cedex">
-                Cedex :
-            </label>
-            <?php echo $compte->cedex; ?>
-        </div>       
-    <?php endif; ?>
-    <div class="form_ligne">
-        <label for="pays">
-            Pays :
-        </label>
-        <?php echo $compte->pays; ?>
-    </div>
-</div>
-<div class="col-xs-4">
-    <div class="form_ligne">
-        <legend>E-mail / téléphone / fax</legend>
-    </div>
-    <?php if ($compte->email) : ?>
-        <div class="form_ligne">
-            <label for="email">
-                E-mail : 
-            </label>
-            <?php echo $compte->email; ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($compte->telephone_perso) : ?>
-        <div class="form_ligne">
-            <label for="telephone_perso">
-                Téléphone perso :
-            </label>
-            <?php echo $compte->telephone_perso; ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($compte->telephone_bureau) : ?>
-        <div class="form_ligne">
-            <label for="telephone_bureau">
-                Téléphone bureau :
-            </label>
-            <?php echo $compte->telephone_bureau; ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($compte->telephone_mobile) : ?>
-        <div class="form_ligne">
-            <label for="telephone_mobile">
-                Téléphone mobile :
-            </label>
-            <?php echo $compte->telephone_mobile; ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($compte->fax) : ?>
-        <div class="form_ligne">
-            <label for="fax">
-                Fax :
-            </label>
-            <?php echo $compte->fax; ?>
-        </div>
-    <?php endif; ?>
-    <?php if ($compte->exist('site_internet')) : ?>
-        <div class="form_ligne">
-            <label for="site_internet">
-                Site Internet :
-            </label>
-            <a href="<?php echo $compte->site_internet; ?>"><?php echo $compte->site_internet; ?></a>
-        </div>
-    <?php endif; ?>
-</div>
-<?php if($compte->exist('droits')): ?>
-<div class="col-xs-4">
-        <div class="form_ligne">
-            <legend>Droits</legend>
-        </div>
-        <div class="form_ligne">
-            <ul>
-                <?php foreach ($compte->getDroits() as $droit) : ?>
-                    <li><?php echo $droit; ?></li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-</div>
-<?php endif; ?>
-<div class="col-xs-4">
-    <div class="form_ligne">
-        <legend>Tags - étiquettes </legend>
-    </div>
+
+    <div class="col-xs-12">
+        <strong>Tags :</strong>
         <?php foreach ($compte->tags as $type_tag => $selected_tags) : ?>
-            <div class="form_ligne">
-            <label for="tags" class="label_liste"><?php echo $type_tag; ?></label>
-            <ul>
-                <?php
-                foreach ($selected_tags as $t) {
-                    $targs['tags'] = implode(',',array($type_tag . ':' . $t));
-                    echo '<li><a href="' . url_for('compte_search', $targs) . '">' . str_replace('_', ' ', $t) . '</a>&nbsp;';
-                    $targs['tag'] = $t;
-                    $targs['q'] = $compte->identifiant;
-                    if ($type_tag == 'manuel') {
-                        echo '(<a class="removetag" href="' . url_for('compte_removetag', $targs) . '">X</a>)';
-                    }
-                    echo '</li>';
-                }
-                ?>
-            </ul>
+            <?php foreach ($selected_tags as $t): ?>
+            <?php $targs['tags'] = implode(',',array($type_tag . ':' . $t)); ?>
+            <span class="btn-group"><a title="<?php echo ucfirst($type_tag) ?>" class="btn btn-sm btn-default disabled"><?php echo substr(strtoupper($type_tag),0,1); ?></a><a class="btn btn-default btn-sm" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $t) ?></a>
+            <?php $targs['tag'] = $t; ?>
+            <?php $targs['q'] = $compte->identifiant ?>
+            <?php if ($type_tag == 'manuel'): ?><a class="btn btn-default btn-sm" href="<?php echo url_for('compte_removetag', $targs) ?>"><span class="glyphicon glyphicon-trash"></span></a><?php endif; ?>
+            </span>
+            <?php endforeach; ?>
+    <?php endforeach; ?>
     </div>
-<?php endforeach; ?>
 </div>

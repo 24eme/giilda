@@ -1,3 +1,11 @@
+<?php use_helper('Compte') ?>
+
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+    <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $etablissement->getSociete()->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $etablissement->getSociete()->raison_sociale; ?></a></li>
+    <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></span></li>
+</ol>
+
 <!-- #principal -->
 <section id="principal">
         <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a>
@@ -10,7 +18,7 @@
         <!-- #contenu_etape -->    
         <section id="contacts">
          <div id="nouveau_etablissement">
-            <h2><?php echo $etablissement->nom; ?></h2>
+            <h2><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></h2>
             <div class="form_btn">
                 <?php if($modification && !$reduct_rights): ?>
                 <a href="<?php echo url_for('etablissement_modification',$etablissement);?>" class="btn_majeur btn_modifier">Modifier</a>    

@@ -1,11 +1,56 @@
 <?php
 use_helper('Etablissement');
+
 $typesLiaisons = EtablissementClient::getTypesLiaisons();
 if (!isset($fromSociete))
     $fromSociete = false;
 ?>
-<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
-    <h3><?php echo $etablissement->nom; ?></h3>
+
+<div class="list-group">
+    <div class="list-group-item">
+        <h2><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
+            <span class="text-muted">(Chai)</span>
+        <a href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn btn-default">Modifier</a></h2>
+        <p class="lead">
+            <span class="label label-primary"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?></span>
+            <span class="label label-success"><?php echo $etablissement->statut; ?></span>
+        </p>
+    </div>
+    <div class="list-group-item <?php if($etablissement->isSameCoordonneeThanSociete()): ?>text-center text-muted disabled<?php endif; ?>">
+        <?php if($etablissement->isSameCoordonneeThanSociete()): ?>
+            <em>Même coordonnées que la société</em>
+        <?php else : ?>
+            <?php include_partial('compte/coordonneesVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
+        <?php endif; ?>
+    </div>
+    <div class="list-group-item">
+        <ul class="list-inline">
+            <?php if ($etablissement->recette_locale && $etablissement->recette_locale->nom) : ?>
+                <li><attr>Recette locale :</attr> <a href="<?php echo url_for('societe_visualisation', SocieteClient::getInstance()->find($etablissement->recette_locale->id_douane)); ?>">
+                <?php echo $etablissement->recette_locale->nom; ?></a></li>
+            <?php endif; ?>
+            <?php if ($etablissement->cvi): ?>
+                <li>CVI : <?php echo $etablissement->cvi; ?></li>
+            <?php endif; ?>
+            <?php if ($etablissement->no_accises): ?>
+                <li>Numéro d'accises : <?php echo $etablissement->no_accises; ?></li>
+            <?php endif; ?>
+            <?php if ($etablissement->carte_pro && $etablissement->isCourtier()) : ?>
+            <li>Carte professionnelle : <?php echo $etablissement->carte_pro; ?></li>  
+            <?php endif; ?>
+            <li>Région : <?php echo $etablissement->region; ?></li>
+        </ul>
+
+        <?php if ($etablissement->commentaire) : ?>  
+            <strong>Commentaires :</strong> <?php echo $etablissement->commentaire;?>
+        <?php endif; ?>
+    </div>
+</div>
+
+
+
+<!--<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
+    <h3><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></h3>
     <div class="form_contenu">
         <div class="form_modifier">
             <?php if ($fromSociete) : ?>
@@ -18,12 +63,6 @@ if (!isset($fromSociete))
             </label>
             <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?>
         </div>
-        <!--        <div class="form_ligne">
-                    <label for="ordre">
-                        Ordre affichage :
-                    </label> 
-        <?php //echo $ordre;  ?>
-                </div>-->
         <div class="form_ligne"> 
             <label for="nom">
                 Nom du chai :
@@ -150,4 +189,4 @@ if (!isset($fromSociete))
             <?php endforeach; ?>
         <?php endif; ?>     
     </div>
-</div>
+</div>-->
