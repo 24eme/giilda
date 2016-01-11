@@ -76,7 +76,7 @@ $colsize = 6;
 <div class="row col-xs-12 text-center">
     	<?php if (in_array($vrac->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))): ?>
     		<h3><?php echo $vrac->produit_libelle ?> <small><?php echo ($vrac->millesime)? $vrac->millesime : 'Non millésimé'; ?><?php if ($vrac->get('millesime_85_15')): ?> (85/15)<?php endif;?></small></h3>
-    		<?php if ($vrac->cepage): ?>
+    		<?php if ($vrac->cepage_libelle): ?>
             Cépage : <strong><?php echo $vrac->cepage_libelle ?><?php if ($vrac->get('cepage_85_15')): ?> (85/15)<?php endif;?></strong><br />
             <?php endif; ?>
     	<?php else: ?>
