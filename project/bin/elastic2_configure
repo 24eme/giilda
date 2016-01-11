@@ -320,11 +320,12 @@ curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE/_mapping" -d '@/tmp/elast
 rm /tmp/elastic2.mapping.json
 
 
-echo "
+echo '
 input {
 	couchdb_changes {
-		db => "$ELASTBASE"
-		initial_sequence => 0
+		db => "'$COUCHBASE'"
+		host => "'$COUCHHOST'"
+		port => '$COUCHPORT'
 	}
 }
 filter {
@@ -341,18 +342,18 @@ filter {
 	}
 }
 output {
-        if [@metadata][action] == 'delete' {
+        if [@metadata][action] == "delete" {
                 http {
                         http_method => "delete"
-                        url => "http://$ELASTHOST:$ELASTBASE/$ELASTBASE/%{[type]}/%{[@metadata][_id]}"
+                        url => "http://'$ELASTHOST':'$ELASTPORT'/'$ELASTBASE'/%{[type]}/%{[@metadata][_id]}"
                 }
         } else {
                 elasticsearch {
-                        index => "$ELASTBASE"
+                        index => "'$ELASTBASE'"
                         document_id => "%{[@metadata][_id]}"
                 }
         }
 }
-" > /tmp/$ELASTBASE.conf
+' > "/tmp/"$ELASTBASE.conf
 echo write logstash configuration in /etc/logstash/conf.d
-sudo cp /tmp/$ELASTBASE.conf /etc/logstash/conf.d
+sudo cp "/tmp/"$ELASTBASE.conf /etc/logstash/conf.d
