@@ -32,9 +32,9 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     public function setDefaults($defaults) {
         parent::setDefaults($defaults);
-        if (array_key_exists('identifiant', $defaults) && $defaults['identifiant']) {
-            $societe = SocieteClient::getInstance()->find($defaults['identifiant']);
-            $this->setDefault('identifiant', $defaults['identifiant'] . ',' . $societe->raison_sociale . ' ' . $societe->identifiant . ' / ' . $societe->siege->commune . ' ' . $societe->siege->code_postal . ' (Société)');
+        if (array_key_exists('identifiant', $defaults) && $defaults['identifiant']) {            
+            $societe = EtablissementClient::getInstance()->find($defaults['identifiant'])->getSociete();
+            $this->setDefault('identifiant', "SOCIETE-".$societe->identifiant . ',' . $societe->raison_sociale . ' ' . $societe->identifiant . ' / ' . $societe->siege->commune . ' ' . $societe->siege->code_postal . ' (Société)');
         }
     }
 

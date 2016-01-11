@@ -39,7 +39,7 @@ class factureActions extends sfActions {
 
         if ($this->form->isValid()) {
             $this->form->save();
-           $this->redirect('facture_mouvements_edition', array('id' => $this->factureMouvements->identifiant));
+           $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
         }
     }
 
@@ -190,7 +190,6 @@ class factureActions extends sfActions {
         }
 
         $values = $this->form->getValues();
-
         $date_facturation = (!isset($values['date_facturation'])) ? null : DATE::getIsoDateFromFrenchDate($values['date_facturation']);
         $message_communication = (!isset($values['message_communication'])) ? null : $values['message_communication'];
         $date_mouvement = (isset($values['date_mouvement']) && $values['date_mouvement'] != '') ? $values['date_mouvement'] : $date_facturation;
@@ -199,6 +198,7 @@ class factureActions extends sfActions {
 
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
 
+        var_dump($mouvementsBySoc); exit;
 
         if ($mouvementsBySoc) {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
@@ -238,12 +238,16 @@ class factureActions extends sfActions {
 
     public function executeRedirect(sfWebRequest $request) {
         $iddoc = $request->getParameter('iddocument');
+       
         if (preg_match('/^DRM/', $iddoc)) {
             $drm = DRMClient::getInstance()->find($iddoc);
             return $this->redirect('drm_visualisation', $drm);
         } else if (preg_match('/^SV12/', $iddoc)) {
             $sv12 = SV12Client::getInstance()->find($iddoc);
             return $this->redirect('sv12_visualisation', $sv12);
+        }else if (preg_match('/^MOUVEMENTSFACTURE/', $iddoc)) {
+            $mouvementFacture = MouvementsFactureClient::getInstance()->find($iddoc);
+            return $this->redirect('facture_mouvements_edition', array('id' => $mouvementFacture->identifiant));
         }
         return $this->forward404();
     }

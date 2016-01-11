@@ -76,7 +76,8 @@ class MouvementfactureFacturationView extends acCouchdbView
     }
 
     public function getMouvementsNonFacturesBySociete($societe) {
-      return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1,true));
+      
+      return $this->buildMouvements($this->getMouvementsBySociete($societe, 0, 1));
     }
     
     public function getMouvements($facturee, $facturable,$level) {
