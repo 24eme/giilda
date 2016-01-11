@@ -12,12 +12,12 @@
 <table class="table">    
     <thead>
         <tr>
-            <th style="width: 0;">Type</th>
-            <th style="width: 50px;">N°&nbsp;Contrat</th>
-            <th style="width: 100px;">Date</th>
+        <th style="width: 0;">&nbsp;</th>
+            <th style="width: 70px;">&nbsp;</th>
+            <th style="width: 110px;">Date</th>
             <th>Soussignés</th>   
             <th>Produit (Millésime)</th>
-            <th style="width: 50px;">Vol.&nbsp;proposés (Vol.&nbsp;enlevés)</th>
+            <th style="width: 50px;">Vol.&nbsp;prop. (Vol.&nbsp;enl.)</th>
             <th style="width: 50px;">Prix</th>
             <th style="width: 90px;"></th>
         </tr>
