@@ -33,13 +33,8 @@ use_helper('Float');
                 <div class="form-group <?php if ($form["date_facturation"]->hasError()): ?>has-error<?php endif; ?>">
                     <?php echo $form["date_facturation"]->renderError(); ?>
                     <?php echo $form["date_facturation"]->renderLabel("Date de facturation", array("class" => "col-xs-4 control-label")); ?>
-                    <div class="col-xs-8">
-                        <div class="input-group date-picker">
+                    <div class="col-xs-8 date-picker">
                             <?php echo $form["date_facturation"]->render(array("class" => "form-control input-lg", "placeholder" => "Date de facturation")); ?>
-                            <div class="input-group-addon">
-                                <span class="glyphicon-calendar glyphicon"></span>
-                            </div>
-                        </div>
                     </div>
                 </div>    
                 <div class="form-group <?php if ($form["message_communication"]->hasError()): ?>has-error<?php endif; ?>">

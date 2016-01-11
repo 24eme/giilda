@@ -3,6 +3,7 @@ class FactureClient extends acCouchdbClient {
 
     const FACTURE_LIGNE_ORIGINE_TYPE_DRM = "DRM";
     const FACTURE_LIGNE_ORIGINE_TYPE_SV12 = "SV12";
+    const FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE = "MouvementsFacture";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE = "propriete";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT = "contrat";
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
@@ -16,7 +17,7 @@ class FactureClient extends acCouchdbClient {
     const TYPE_FACTURE_MOUVEMENT_DRM = "MOUVEMENTS_DRM";
     const TYPE_FACTURE_MOUVEMENT_DIVERS = "MOUVEMENTS_DIVERS";
 
-    public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
+    public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12, self::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE);
      public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Mouvements de DRM',self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Mouvements divers');
 
     public static function getInstance() {
@@ -44,6 +45,7 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-'.$idClient.'-'.$date.'00')->endkey('FACTURE-'.$idClient.'-'.$date.'99')->execute($hydrate);        
     }
 
+    /** ICI INUTILE => PLUS DE CREATION DEPUIS DES TEMPLATES **/
     public function createDocFromTemplate($cotisations, $doc, $date_facturation = null, $message_communication = null, $arguments = array()) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
@@ -61,13 +63,13 @@ class FactureClient extends acCouchdbClient {
         return $facture;
     }
     
-    public function createDocFromMouvements($mouvementsSoc, $societe, $date_facturation, $message_communication) {
+    public function createDocFromMouvements($mouvementsSoc, $societe, $type_facturation, $date_facturation, $message_communication) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);        
         $facture->storeEmetteur();
         $facture->storeDeclarant($societe);
-        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);     
+        $facture->storeLignesFromMouvements($mouvementsSoc, $type_facturation, $societe->famille);     
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
@@ -177,7 +179,6 @@ class FactureClient extends acCouchdbClient {
                           $mouvementsBySoc[$identifiant] = $mouvements;
                           continue;
                       }
-                        
                       if(isset($parameters['type_document']) && !in_array($parameters['type_document'], self::$origines)) {
                           unset($mouvements[$key]);
                           $mouvementsBySoc[$identifiant] = $mouvements;
@@ -252,7 +253,7 @@ class FactureClient extends acCouchdbClient {
       }
       return $mouvementsBySoc;
     }
-
+/** FONCTION INUTILTE **/
     public function createFactureBySociete($template, $societe_or_id, $date_facturation = null) {
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
@@ -284,7 +285,7 @@ class FactureClient extends acCouchdbClient {
         return $generation;
     }
 
-    public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null) {
+    public function createFacturesBySoc($generationFactures, $type_facturation , $date_facturation, $message_communication = null) {
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
@@ -294,7 +295,7 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $date_facturation, $message_communication);
+            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $type_facturation, $date_facturation, $message_communication);
            
             $f->save();
 
