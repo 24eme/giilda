@@ -5,7 +5,7 @@
  *
  */
 class TemplateFacture extends BaseTemplateFacture {
-
+/** INUTILE => PLUS DE TEMPLATE GIILDA **/
     public function generateCotisations($identifiant_or_societe, $campagne, $force = false) {
         $template = $this;
         $societe = $identifiant_or_societe;
@@ -38,6 +38,8 @@ class TemplateFacture extends BaseTemplateFacture {
         return $cotisations;
     }
 
+    
+    /*** INUTILE ICI PLUS DE GENERATION POUR LES FACTURE A PARTIR DE COTISATION... */
     public function generateCotisationsForFacture(&$cotisations,$societe,$document = null) {
         foreach ($this->cotisations as $key => $cotisation) {
 

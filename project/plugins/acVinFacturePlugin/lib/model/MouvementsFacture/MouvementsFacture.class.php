@@ -33,7 +33,7 @@ class MouvementsFacture extends BaseMouvementsFacture {
         foreach ($this->mouvements as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
                 if($mvt->facturable && !$mvt->facture){
-                    $montant += $mvt->quantite *  $mvt->prix_unitaire;
+                    $montant += -1* $mvt->quantite *  $mvt->prix_unitaire;
                 } 
             }
         }
