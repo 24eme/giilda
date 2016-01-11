@@ -242,8 +242,9 @@ class drmActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = false;
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
-        if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
-            throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+
+        // if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
+        //     throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
 
         $this->campagne = $request->getParameter('campagne');
         if (!$this->campagne) {
