@@ -1090,7 +1090,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+                    $count_entree =  $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->stock_fin + $crd->stock_debut;
+                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0 && !$count_entree) {
                         $toRemoves[] = $regime . '/' . $key;
                     }
                 }
