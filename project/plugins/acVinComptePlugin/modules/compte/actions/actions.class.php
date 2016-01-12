@@ -71,6 +71,8 @@ class compteActions extends sfCredentialActions {
             $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
         if($this->compte->isEtablissementContact())
             $this->redirect('etablissement_visualisation',array('identifiant' => preg_replace ('/^ETABLISSEMENT-/', '', $this->compte->getEtablissementOrigine())));
+
+        $this->redirect($this->generateUrl('societe_visualisation', array('identifiant' => $this->societe->identifiant, 'interlocuteur' => $this->compte->_id)).'#'.$this->compte->_id);  
     }    
 
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {

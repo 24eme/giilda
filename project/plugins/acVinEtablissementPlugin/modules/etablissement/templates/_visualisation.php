@@ -1,17 +1,11 @@
-<?php
-use_helper('Etablissement');
-
-$typesLiaisons = EtablissementClient::getTypesLiaisons();
-if (!isset($fromSociete))
-    $fromSociete = false;
-?>
+<?php use_helper('Etablissement'); ?>
 
 <div class="list-group">
     <div class="list-group-item">
-        <h2><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
+        <h2 style="margin-top: 5px; margin-bottom: 5px;"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
             <span class="text-muted">(Chai)</span>
         <a href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn btn-default">Modifier</a></h2>
-        <p class="lead">
+        <p class="lead" style="margin-bottom: 5px;">
             <span class="label label-primary"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?></span>
             <span class="label label-success"><?php echo $etablissement->statut; ?></span>
         </p>
@@ -48,6 +42,10 @@ if (!isset($fromSociete))
 </div>
 
 
+<?php $typesLiaisons = EtablissementClient::getTypesLiaisons();
+if (!isset($fromSociete))
+    $fromSociete = false;
+?>
 
 <!--<div id="etablissement_<?php echo $etablissement->identifiant; ?>" class="etablissement form_section ouvert">
     <h3><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></h3>
