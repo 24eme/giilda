@@ -134,9 +134,9 @@ class factureActions extends sfActions {
 
             return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
         }
-        if ($this->baseFacture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+       // if ($this->baseFacture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
             return $this->redirect('defacturer', $this->baseFacture);
-        }
+       // }
 
 
         $this->facture = FactureClient::createAvoir($this->baseFacture);

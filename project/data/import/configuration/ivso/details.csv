@@ -1,19 +1,19 @@
-#declaration;detail;key;detail;readable;writable;popup;sens du mvt;non_revendique;lié à vrac;CVO;Douane type;lien avec XML Douane;taxable douane
+#declaration;detail;key;detail;readable;writable;popup;sens du mvt;revendique;lié à vrac;CVO;Douane type;lien avec XML Douane;taxable douane
 declaration;detail;stocks_debut;initial;1;1;0;0;0;0;0;STOCK;;0
 declaration;detail;stocks_debut;revendique;1;1;0;0;0;0;0;STOCK;;0
 declaration;detail;stocks_debut;instance;1;0;0;0;0;0;0;STOCK;;0
-declaration;detail;entrees;vci;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/mouvements-internes/integration-vci-agree;0
-declaration;detail;entrees;achatcrd;1;1;0;1;0;0;0;ACQUITTE;entrees-periode/achats-reintegrations;0
-declaration;detail;entrees;achatnoncrd;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/volume-produit;0
-declaration;detail;entrees;regularisation;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/autres-entrees;0
-declaration;detail;entrees;transfertsinternes;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
+declaration;detail;entrees;vci;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/integration-vci-agree;0
+declaration;detail;entrees;achatcrd;1;1;0;1;1;0;0;ACQUITTE;entrees-periode/achats-reintegrations;0
+declaration;detail;entrees;achatnoncrd;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/volume-produit;0
+declaration;detail;entrees;regularisation;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/autres-entrees;0
+declaration;detail;entrees;transfertsinternes;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;transfertsappellation;1;1;0;-1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
-declaration;detail;entrees;repli;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
-declaration;detail;entrees;declassement;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
-declaration;detail;entrees;retourmarchandisenontaxees;1;1;0;1;0;0;1;SUSPENDU;entrees-periode/replacement-suspension;0
-declaration;detail;entrees;retourmarchandisetaxees;1;1;0;1;0;0;1;SUSPENDU;entrees-periode/replacement-suspension;1
-declaration;detail;entrees;transfertcomptamatierecession;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/replacement-suspension;0
-declaration;detail;entrees;travailafacon;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/travail-a-facon;0
+declaration;detail;entrees;repli;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
+declaration;detail;entrees;declassement;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
+declaration;detail;entrees;retourmarchandisenontaxees;1;1;0;1;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;0
+declaration;detail;entrees;retourmarchandisetaxees;1;1;0;1;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;1
+declaration;detail;entrees;transfertcomptamatierecession;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/replacement-suspension;0
+declaration;detail;entrees;travailafacon;1;1;0;1;1;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/travail-a-facon;0
 declaration;detail;entrees;recolte;1;1;0;1;0;0;0;SUSPENDU;entrees-periode/volume-produit;0
 declaration;detail;sorties;vracsanscontratsuspendu;1;1;0;-1;1;0;1;SUSPENDU;sorties-periode/sorties-avec-paiement-droits;1
 declaration;detail;sorties;vracsanscontratacquitte;1;1;0;-1;1;0;1;ACQUITTE;sorties-periode/sorties-sans-paiement-droits;0

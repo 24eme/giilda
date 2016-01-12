@@ -27,13 +27,24 @@ use_helper('Vrac');
                     <?php endif; ?>                           
                 </div>
             </h2>
-			<div class="row">
-				<div class="col-xs-6">
+          </div>
+          <div class="col-xs-4 text-left">
 		        	<p>
 		            	<span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
 		            </p>
-				</div>
-				<div class="col-xs-6 text-right">
+           </div>
+		   <div class="col-xs-4 text-center">	
+            <?php if ($vrac->isVise()) : ?>
+            <p style="font-size: 24px;">
+ 			N° <?php echo $vrac->numero_archive; ?> (<?php echo $vrac->campagne; ?>) <span class="pull-right">
+            </p>
+           </div>
+		   <div class="col-xs-3 text-right">	
+            <p style="font-size:24px">
+                            <span class="statut <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"></span><strong class="bg-success legende_statut_texte"><?php echo $vrac->getStatutLabel(); ?></strong></span>
+ 			</p>
+           </div>
+		   <div class="col-xs-1 text-right">	
             	<form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
                 <div id="ligne_btn">
                 <?php if (!$isTeledeclarationMode): ?>
@@ -43,7 +54,7 @@ use_helper('Vrac');
                                 <a href="<?php echo url_for('vrac_solder', $vrac) ?>" class="btn btn-default">Solder</a>
                             <?php endif; ?>
                             <?php if ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE) : ?>
-                                <a href="<?php echo url_for('vrac_nonsolder', $vrac) ?>" class="btn">Annuler</a>
+                                <a href="<?php echo url_for('vrac_nonsolder', $vrac) ?>" class="btn">Désolder</a>
                             <?php endif; ?>
                         <?php endif; ?>
                 <?php endif; ?>
@@ -62,14 +73,7 @@ use_helper('Vrac');
                     <?php endif; ?>                                 
                 </div>
             </form>
-			</div>
-			</div>
-			
-			
-            <?php if ($vrac->isVise()) : ?>
-            <h3>
- 			N° <?php echo $vrac->numero_archive; ?> (<?php echo $vrac->campagne; ?>) <span class="pull-right"><span class="statut <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"></span><strong class="bg-success legende_statut_texte"><?php echo $vrac->getStatutLabel(); ?></strong></span>
- 			</h3>
+                </div>
  			<?php endif; ?>
 
             <?php if ($signatureDemande): ?>

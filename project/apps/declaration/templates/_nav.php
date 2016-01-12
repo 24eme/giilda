@@ -27,6 +27,7 @@
             'target' => '_self'
       ));
 
+/*
       include_component('global', 'navItem', array(
             'libelle' => 'Import VR',
             'prefix' => 'revendication',
@@ -53,7 +54,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-
+*/
        include_component('global', 'navItem', array(
             'libelle' => 'Stocks',
             'prefix' => 'stocks',
@@ -62,7 +63,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-
+/*
        include_component('global', 'navItem', array(
             'libelle' => 'Alertes',
             'prefix' => 'alerte',
@@ -71,7 +72,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-
+*/
 
        /*include_component('global', 'navItem', array(
             'libelle' => 'Relance',
@@ -97,7 +98,7 @@
 endif; ?></ul>
 <ul class="nav navbar-nav navbar-right">
 <?php if ($sf_user->hasCredential('admin')) : ?>
-     <li><a tabindex="-1" class="admin" href="<?php echo url_for('produits') ?>">Admin</a></li>
+     <li><a tabindex="-1" class="admin" href="<?php echo url_for('produits') ?>">Produits</a></li>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
      <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a></li>

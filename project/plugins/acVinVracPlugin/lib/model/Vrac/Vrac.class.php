@@ -847,7 +847,7 @@ class Vrac extends BaseVrac {
     }
     
     public function isBrouillon() {
-        return $this->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON;
+        return ($this->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) || ($this->valide->statut == null);
     }
 
     public function isTeledeclarationAnnulable() {

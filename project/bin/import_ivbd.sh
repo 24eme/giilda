@@ -82,9 +82,15 @@ cat $DATA_DIR/contrats_contrat.csv | grep -E "^[0-9]+;" | sort -t ";" -k 14,14 >
 
 join -t ";" -a 1 -1 14 -2 1 $DATA_DIR/contrats_contrat.csv.sorted.produits $DATA_DIR/produits.csv | sort > $DATA_DIR/contrats_contrat_produit.csv
 
-cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
-    type_contrat=($24 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
-    bordereau_origin=gensub(/ /, "", "g", $36);
+sort -t ";" -k 58,58 $DATA_DIR/contrats_contrat_produit.csv > $DATA_DIR/contrats_contrat_produit.csv.delai_paiement
+
+cat $DATA_DIR/contrats_p_paiement_delai.csv | cut -d ";" -f 2,3 | sort -t ";" -k 2,2 > $DATA_DIR/contrats_p_paiement_delai.csv.sorted
+
+join -t ";" -a 1 -1 58 -2 2 $DATA_DIR/contrats_contrat_produit.csv.delai_paiement $DATA_DIR/contrats_p_paiement_delai.csv.sorted > $DATA_DIR/contrats_contrat_produit_delai_paiement.csv
+
+cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
+    type_contrat=($25 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
+    bordereau_origin=gensub(/ /, "", "g", $37);
     if(bordereau_origin) {
         numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", 1, bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
     } else {
@@ -93,19 +99,21 @@ cat $DATA_DIR/contrats_contrat_produit.csv | awk -F ';' 'BEGIN { num_bordereau_i
     }
     produit=$70;
     cepage="";
-    millesime=($15 && $15 > 0) ? $15 : "";
-    degre=$52;
-    volume_propose=$47;
-    prix_unitaire=$17;
-    delai_paiement="";
-    date_debut_retiraison=$25;
-    date_fin_retiraison=$54;
-    vendeur_id=($7) ? $7 : "";
-    intermediaire_id=($14) ? $14 : "";
-    acheteur_id=($10) ? $10 : "";
-    courtier_id=($12) ? $12 : "";
+    millesime=($16 && $17 > 0) ? $16 : "";
+    degre=$53;
+    volume_propose=$48;
+    prix_unitaire=$18;
+    delai_paiement_cle=$1;
+    delai_paiement_libelle=$71;
+    acompte=$58;
+    date_debut_retiraison=$26;
+    date_fin_retiraison=$55;
+    vendeur_id=($8) ? $8 : "";
+    intermediaire_id=($15) ? $15 : "";
+    acheteur_id=($11) ? $11 : "";
+    courtier_id=($14) ? $13 : "";
 
-    print $2 ";" numero_bordereau ";" $3 ";" $4 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $1 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";;" delai_paiement ";;;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;;"
+    print $3 ";" numero_bordereau ";" $4 ";" $5 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $2 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv
