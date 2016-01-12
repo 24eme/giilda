@@ -141,11 +141,18 @@ class societeActions extends sfCredentialActions {
     public function executeVisualisation(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->etablissements = $this->societe->getEtablissementsObj();
+        $this->interlocuteurs = SocieteClient::getInstance()->getInterlocuteursWithOrdre($this->societe->identifiant, true);
 
         if($request->getParameter('etablissement')) {
             $this->etablissement = EtablissementClient::getInstance()->find($request->getParameter('etablissement'));
         }
+
+        if($request->getParameter('interlocuteur')) {
+            $this->interlocuteur = CompteClient::getInstance()->find($request->getParameter('interlocuteur'));
+        }
+
         $this->applyRights();
+
     }
 
     public function executeAnnulation(sfWebRequest $request) {

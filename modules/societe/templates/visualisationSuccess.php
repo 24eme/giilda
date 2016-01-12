@@ -3,22 +3,25 @@
 
 <ol class="breadcrumb">
     <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
-    <li class="<?php echo !isset($etablissement) ? "active" : "" ?>"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
+    <li class="<?php echo (!isset($etablissement) && !isset($interlocuteur)) ? "active" : "" ?>"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
     <?php if(isset($etablissement)): ?>
-    <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>
+        <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>
+    <?php endif; ?>
+    <?php if(isset($interlocuteur)): ?>
+        <li class="active"><a href="<?php echo url_for('compte_visualisation', array('identifiant' => $interlocuteur->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($interlocuteur->getRawValue()) ?>"></span> <?php echo ($interlocuteur->nom_a_afficher)? $interlocuteur->nom_a_afficher : $interlocuteur->nom ;?></a></li>
     <?php endif; ?>
 </ol>
 
 <section class="row">
-    <div class="col-xs-12" style="<?php if(isset($etablissement)): ?>opacity: 0.6<?php endif; ?>">
+    <div class="col-xs-12" style="<?php if(isset($etablissement) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
         <div class="list-group">
             <div class="list-group-item">
-                <h2><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
+                <h2 style="margin-top: 5px; margin-bottom: 5px;"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
                 <span class="text-muted">(Société)</span>
                 <?php if($modification || $reduct_rights) : ?>
-                <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default">Modifier</a>
+                <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default">Modifier</a></h2>
                 <?php endif; ?>
-                <p class="lead">
+                <p class="lead" style="margin-bottom: 5px;">
                     <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
                     <span class="label label-success"><?php echo $societe->statut; ?></span>
                     <small><?php if($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation,'dd/MM/yyyy'); ?></span><?php endif; ?>
@@ -88,26 +91,28 @@
 
         </div>
     </div>
-    <?php if (count($etablissements)): ?>
-        <?php endif; ?>
-        <?php
-        foreach ($etablissements as $etablissementId => $etb) : ?>
-    <div class="col-xs-12" <?php if(isset($etablissement) && $etablissement->_id != $etablissementId): ?>opacity: 0.6<?php endif; ?>>
-        <div class="list-group">
-<?php include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre, 'fromSociete' => true, 'modification' => $modification, 'reduct_rights' => $reduct_rights));
-        endforeach;
-        ?>
+    <?php foreach ($etablissements as $etablissementId => $etb) : ?>
+        <div class="col-xs-12" style="<?php if((isset($etablissement) && $etablissement->_id != $etablissementId) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
+            <?php include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre, 'fromSociete' => true, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
+            <a name="<?php echo $etablissementId ?>"></a>
         </div>
-    <a name="<?php echo $etablissementId ?>"></a>
-    </div>
-    <!--<div class="col-xs-3">
-    <?php if ($modification || $reduct_rights) : ?>  
-            <a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default btn-block">Nouvel interlocuteur</a>
+    <?php endforeach; ?>
+
+    <?php foreach ($interlocuteurs as $interlocuteurId => $compte) : ?>
+        <?php if($compte->isSocieteContact() || $compte->isEtablissementContact()): ?><?php continue; ?><?php endif; ?>
+        <div class="col-xs-4" style="<?php if(isset($etablissement) || (isset($interlocuteur) && $interlocuteur->_id != $compte->_id)): ?>opacity: 0.6<?php endif; ?>">
+                <?php include_partial('compte/visualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
+            <a name="<?php echo $compte->_id ?>"></a>
+        </div>
+    <?php endforeach; ?>
+
+    <div class="col-xs-12 text-center">
+        <?php if ($modification || $reduct_rights) : ?>
             <?php if (!$reduct_rights && $societe->canHaveChais()) : ?>  
-                <a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default btn-block">Nouvel Etablissement</a>
+                <a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement</a>
             <?php endif; ?>
+            <a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un interlocuteur</a>
         <?php endif; ?> 
-            
-        <?php include_component('societe', 'getInterlocuteursWithSuspendus'); ?>
-    </div>-->
+        <?php //include_component('societe', 'getInterlocuteursWithSuspendus'); ?>
+    </div>
 </section>
