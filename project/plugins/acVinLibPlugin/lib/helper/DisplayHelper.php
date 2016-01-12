@@ -65,7 +65,7 @@ function display_latex_message_communication($string) {
                     \centering {~}";
             return;
         }
-        echo "\centering {".$msg."}";
+        echo '\textbf{'.$msg.'} ';
         return;
             
 }
