@@ -1,6 +1,6 @@
 <div class="row">
     <div class="<?php if (isset($smallBlock)): ?>col-xs-12 <?php else: ?>col-xs-6 <?php endif; ?> <?php if (isset($smallBlock)): ?>text-center<?php endif; ?>">
-        <address style="margin-bottom: 5px;" class="<?php if (!isset($smallBlock)): ?>lead<?php endif ?>">
+        <address class="<?php if (!isset($smallBlock)): ?>lead<?php endif ?>">
         <?php echo $compte->adresse; ?><br />
         <?php if ($compte->adresse_complementaire) : ?><?php echo $compte->adresse_complementaire ?><br /><?php endif ?>
         <?php echo $compte->code_postal; ?> <?php echo $compte->commune; ?> <small class="text-muted">(<?php echo $compte->pays; ?>)</small>
@@ -35,7 +35,7 @@
         <?php foreach ($compte->tags as $type_tag => $selected_tags) : ?>
             <?php foreach ($selected_tags as $t): ?>
             <?php $targs['tags'] = implode(',',array($type_tag . ':' . $t)); ?>
-            <span class="btn-group"><a title="<?php echo ucfirst($type_tag) ?>" class="btn <?php if (!isset($smallBlock)): ?>btn-sm<?php else: ?>btn-xs<?php endif; ?> btn-default disabled"><?php echo substr(strtoupper($type_tag),0,1); ?></a><a class="btn btn-default <?php if (!isset($smallBlock)): ?>btn-sm<?php else: ?>btn-xs<?php endif; ?>" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $t) ?></a>
+            <span class="btn-group"><a  href="" title="<?php echo ucfirst($type_tag) ?>" class="btn <?php if (!isset($smallBlock)): ?>btn-sm<?php else: ?>btn-xs<?php endif; ?> btn-default active"><?php echo substr(strtoupper($type_tag),0,1); ?></a><a class="btn btn-default <?php if (!isset($smallBlock)): ?>btn-sm<?php else: ?>btn-xs<?php endif; ?>" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $t) ?></a>
             <?php $targs['tag'] = $t; ?>
             <?php $targs['q'] = $compte->identifiant ?>
             <?php if ($type_tag == 'manuel'): ?><a class="btn btn-default <?php if (!isset($smallBlock)): ?>btn-sm<?php else: ?>btn-xs<?php endif; ?>" href="<?php echo url_for('compte_removetag', $targs) ?>"><span class="glyphicon glyphicon-trash"></span></a><?php endif; ?>
