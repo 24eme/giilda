@@ -3,11 +3,11 @@ $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 ?>
 <div class="col-xs-4">
-    <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" method="post">
+    <form action="<?php echo url_for('drm_choix_favoris', $formFavoris->getObject()) ?>" id="colonne_intitules" method="post">
         <?php echo $formFavoris->renderHiddenFields(); ?>
         <?php echo $formFavoris->renderGlobalErrors(); ?>
-        <div class="list-group" style="margin-top: 96px;" id="colonne_intitules">
-
+        <div class="head" style="margin-top: 37px;"></div>
+        <div class="list-group" >
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
                 <h4 class="form-group form-group-xs">Stock début</h4>
                 <ul class="list-unstyled">
