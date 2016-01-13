@@ -88,11 +88,11 @@ class SocieteCsvFile extends CsvFile
                 $c->code_postal = $line[self::CSV_CODE_POSTAL];
                 $c->commune = $line[self::CSV_COMMUNE];
                 $c->pays = 'FR';
-                $c->email = $line[self::CSV_EMAIL];
-                $c->fax = $line[self::CSV_FAX];
-                $c->telephone_perso = trim($line[self::CSV_TEL_PERSO]);
-                $c->telephone_bureau = trim($line[self::CSV_TEL_BUREAU]);
-                $c->telephone_mobile = trim($line[self::CSV_MOBILE]);
+                $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL]);
+                $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX]);
+                $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO]);
+                $c->telephone_bureau = $this->formatAndVerifyPhone($line[self::CSV_TEL_BUREAU]);
+                $c->telephone_mobile = $this->formatAndVerifyPhone($line[self::CSV_MOBILE]);
                 if($line[self::CSV_WEB]) {
                     $c->add('site_internet', $line[self::CSV_WEB]);
                 }
@@ -128,6 +128,32 @@ class SocieteCsvFile extends CsvFile
         }
         
         return $country;
+    }
+
+    protected function formatAndVerifyPhone($phone) {
+
+        $phone = str_replace("+33", "0", trim($phone));
+        $phone = preg_replace("/[\._ -]/", "", $phone);
+
+        if($phone && strlen($phone) == 9) {
+            $phone = "0".$phone;
+        }
+
+        if($phone && !preg_match("/^[0-9]{10}$/", $phone)) {
+            echo sprintf("Le numéro de téléphone n'est pas correct %s\n", $phone);
+        }
+
+        return $phone;
+    }
+
+    protected function formatAndVerifyEmail($email) {
+        $email = trim($email);
+
+        if($email && !preg_match("/^[a-z0-9çéèàâê_\.-]+@[a-z0-9\.-]+$/i", $email)) {
+            echo sprintf("L'email n'est pas correct %s\n", $email);
+        }
+
+        return $email;
     }
 
 
