@@ -11,7 +11,7 @@ Societe:
       raison_sociale_abregee: { }
       statut: { }
       code_comptable_client: { }
-      code_comptable_fournisseur: { }     
+      code_comptable_fournisseur: { }
       teledeclaration_email: { required: false }
       type_fournisseur:
         required: false
