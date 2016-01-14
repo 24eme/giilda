@@ -8,29 +8,10 @@ class VracCsvFile extends CsvFile {
     const CSV_DATE_SAISIE = 3;
     const CSV_TYPE_TRANSACTION = 4;
     const CSV_VENDEUR_ID = 5;
-    // const CSV_VENDEUR_NOM = 6;
-    // const CSV_VENDEUR_CVI = 7;
-    // const CSV_VENDEUR_ACCISES = 4;
-    // const CSV_VENDEUR_ADRESSE = 4;
-    // const CSV_VENDEUR_COMMUNE = 4;
-    // const CSV_VENDEUR_CODE_POSTAL = 4;
     const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 6;
     const CSV_INTERMEDIAIRE_ID = 7;
     const CSV_ACHETEUR_ID = 8;
-    // const CSV_ACHETEUR_NOM = 4;
-    // const CSV_ACHETEUR_CVI = 4;
-    // const CSV_ACHETEUR_ACCISES = 4;
-    // const CSV_ACHETEUR_ADRESSE = 4;
-    // const CSV_ACHETEUR_COMMUNE = 4;
-    // const CSV_ACHETEUR_CODE_POSTAL = 4;
-
     const CSV_COURTIER_ID = 9;
-    // const CSV_COURTIER_NOM = 4;
-    // const CSV_COURTIER_CARTE_PRO = 4;
-    // const CSV_COURTIER_ADRESSE = 4;
-    // const CSV_COURTIER_COMMUNE = 4;
-    // const CSV_COURTIER_CODE_POSTAL = 4;   
-
     const CSV_PRODUIT_ID = 10;
     const CSV_PRODUIT_LIBELLE = 11;
     const CSV_MILLESIME = 12;
@@ -57,8 +38,8 @@ class VracCsvFile extends CsvFile {
     const CSV_RETIRAISON_DATE_DEBUT = 33;
     const CSV_RETIRAISON_DATE_FIN = 34;
     const CSV_CLAUSES = 35;
-    const CSV_COMMENTAIRES = 36;
-    const CSV_LABELS = 37;
+    const CSV_LABELS = 36;
+    const CSV_COMMENTAIRES = 37;
     const LABEL_BIO = 'agriculture_biologique';
     const LABEL_VIN_PREPARE = 'vin_prepare';
 
@@ -151,16 +132,22 @@ class VracCsvFile extends CsvFile {
                     }
                 }
 
-
                 if ($v->date_debut_retiraison > $v->date_limite_retiraison) {
                     throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
                 }
-
-                $v->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
                 if ($line[self::CSV_CLE_DELAI_PAIEMENT]) {
                     $v->delai_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];
                 }
                 $v->delai_paiement_libelle = $line[self::CSV_DELAI_PAIEMENT];
+                $v->acompte = $this->formatAndVerifyAcompte($line);
+                if(preg_match("/clause_reserve_propriete/", $line[self::CSV_CLAUSES])) {
+                    $v->clause_reserve_propriete = 1; 
+                }
+                
+                $v->commentaire = $line[self::CSV_COMMENTAIRES];
+
+                $v->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+
                 $v->update();
                 $v->enleverVolume($v->volume_propose);
 
@@ -273,11 +260,17 @@ class VracCsvFile extends CsvFile {
         return $number;
     }
 
+    private function formatAndVerifyAcompte($line) {
+        $number = $this->formatAndVerifyFloat($line[self::CSV_ACOMPTE_SIGNATURE]);
+
+        return $number;
+    }
+
     private function formatAndVerifyDateRetiraisonDebut($line) {
         $date = $line[self::CSV_RETIRAISON_DATE_DEBUT];
 
         if (!$date) {
-            return null;
+
             throw new Exception(sprintf("La date de début de retiraison est requise", $date));
         }
 
@@ -285,10 +278,10 @@ class VracCsvFile extends CsvFile {
     }
 
     private function formatAndVerifyDateRetiraisonFin($line) {
-        $date = $line[self::CSV_RETIRAISON_DATE_DEBUT];
+        $date = $line[self::CSV_RETIRAISON_DATE_FIN];
 
         if (!$date) {
-            return null;
+
             throw new Exception(sprintf("La date de fin de retiraison est requise", $date));
         }
 
