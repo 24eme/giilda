@@ -1,3 +1,4 @@
+
 <?php
 
 class FactureClient extends acCouchdbClient {
@@ -49,7 +50,7 @@ class FactureClient extends acCouchdbClient {
         $facture->constructIds($doc);
         $facture->storeEmetteur();
         $facture->storeDeclarant($doc);
-        $facture->storeLignes($cotisations);
+        $facture->storeLignesFromTemplate($cotisations);
         $facture->updateTotaux();
         $facture->storeOrigines();
         $facture->storeTemplates();
@@ -82,6 +83,7 @@ class FactureClient extends acCouchdbClient {
         return $facture;
     }
 
+// INUTILE
     public function regenerate($facture_or_id) {
 
         $facture = $facture_or_id;
@@ -181,13 +183,13 @@ class FactureClient extends acCouchdbClient {
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
                     }
-                    if (isset($parameters['type_document']) && !in_array($parameters['type_document'], self::$origines)) {
+                    if (isset($parameters['modele']) && !in_array($parameters['modele'], self::$origines)) {
                         unset($mouvements[$key]);
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
                     }
 
-                    if (isset($parameters['type_document']) && $parameters['type_document'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
+                    if (isset($parameters['modele']) && $parameters['modele'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
                         unset($mouvements[$key]);
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
@@ -222,6 +224,8 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsBySoc;
     }
 
+    
+    // INUTILE => On veut les Mouvements
     public function getComptesIdFilterWithParameters($arguments) {
         $comptes = CompteClient::getInstance()->getComptes($arguments['requete']);
 
@@ -362,6 +366,8 @@ class FactureClient extends acCouchdbClient {
         return '';
     }
 
+    
+    //INUTILE
     public function createAvoir(Facture $f) {
         if (!$f->isRedressable()) {
             return;
@@ -407,6 +413,8 @@ class FactureClient extends acCouchdbClient {
         return $avoir;
     }
 
+    
+    
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
         if (!$f->isRedressable()) {
             return;
