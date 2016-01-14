@@ -13,8 +13,14 @@
                 <a href="<?php echo url_for('comptabilite_edition'); ?>" class="btn btn-md btn-default pull-right">Gérer les identifiants analytiques</a>
             </div>
         </div>
+         <br/>
+        <div class="row row-margin">
+            <div class="col-xs-12">
+                <a href="<?php echo url_for('facture_generation'); ?>" class="btn btn-md btn-default pull-right">Génération de facture</a>
+            </div>
+        </div>
         <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
-        <?php //include_component('facture','generationMasse'); ?>
+        <?php include_component('facture','generationMasse'); ?>
     </div>
 </div>
 <div class="row">

@@ -11,7 +11,7 @@ class generationActions extends sfActions {
       return $this->generation;
   }
   
-  public function executeView(sfWebRequest $request) {
+  public function executeView(sfWebRequest $request) {      
       $this->generation = $this->getGenerationFromRequest($request);
   }
   

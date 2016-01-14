@@ -5,7 +5,7 @@
 <div class="page-header no-border">
     <div class="btn-group pull-right">
         <?php if($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && GenerationClient::getInstance()->isRegenerable($generation)): ?>
-        <a href="<?php echo url_for('generation_regenerate', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>" onclick='return confirm("Étes vous sûr de vouloir regénérer les factures ?");' class="btn btn-sm btn-default btn-default-step btn-upper"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Regénérer</a>
+        <a href="<?php // echo url_for('generation_regenerate', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>" onclick='return confirm("Étes vous sûr de vouloir regénérer les factures ?");' class="btn btn-sm btn-default btn-default-step btn-upper"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Regénérer</a>
         <?php endif; ?>
     </div>
     <h2>Génération N° <?php echo $generation->identifiant; ?><small> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small></h2>
@@ -56,7 +56,7 @@
 
 <div class="row row-margin">
     <div class="col-xs-4 text-left">
-        <?php if($backUrl): ?>
+        <?php if(isset($backUrl) && $backUrl): ?>
         <a class="btn btn-default btn-default-step btn-lg btn-upper" href="<?php echo $backUrl ?>"><span class="eleganticon arrow_carrot-left"></span>&nbsp;&nbsp;Retour</a>
         <?php endif; ?>
     </div>

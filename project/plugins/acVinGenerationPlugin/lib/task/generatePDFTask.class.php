@@ -50,7 +50,7 @@ EOF;
         	if (!$generation) {
         	  throw new sfException("$gid n'est pas un document valide");
         	}
-        	$g = GenerationClient::getInstance()->getGenerator($generation, $this->configuration, $options);
+        	$g = GenerationClient::getInstance()->getGenerator($generation, $this->configuration, $options);                
         	echo $g->generate()."\n";
       } catch(Exception $e) {
 	        if ($options['debug']) {

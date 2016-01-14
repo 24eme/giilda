@@ -183,13 +183,13 @@ class FactureClient extends acCouchdbClient {
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
                     }
-                    if (isset($parameters['type_document']) && !in_array($parameters['type_document'], self::$origines)) {
+                    if (isset($parameters['modele']) && !in_array($parameters['modele'], self::$origines)) {
                         unset($mouvements[$key]);
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
                     }
 
-                    if (isset($parameters['type_document']) && $parameters['type_document'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
+                    if (isset($parameters['modele']) && $parameters['modele'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
                         unset($mouvements[$key]);
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
@@ -224,6 +224,8 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsBySoc;
     }
 
+    
+    // INUTILE => On veut les Mouvements
     public function getComptesIdFilterWithParameters($arguments) {
         $comptes = CompteClient::getInstance()->getComptes($arguments['requete']);
 

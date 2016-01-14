@@ -93,7 +93,7 @@ class GenerationClient extends acCouchdbClient {
     public function getClassForGeneration($generation) {
         switch ($generation->type_document) {
             case GenerationClient::TYPE_DOCUMENT_FACTURES:
-
+                
                 return 'GenerationFacturePDF';
 
             case GenerationClient::TYPE_DOCUMENT_DS:
