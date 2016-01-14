@@ -63,10 +63,46 @@ cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" 
 
 echo "Import des contacts"
 
-cat $DATA_DIR/base_ppm.csv | awk -F ";" '
+cat $DATA_DIR/base_ppm.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm.sorted.id.csv
+
+cat $DATA_DIR/base_coordonnees.csv | sort -t ";" -k 3,3 > $DATA_DIR/base_coordonnees.sorted.id.csv
+
+join -t ";" -1 2 -2 3 $DATA_DIR/base_ppm.sorted.id.csv $DATA_DIR/base_coordonnees.sorted.id.csv > $DATA_DIR/base_ppm_coordonnees.csv
+
+cat $DATA_DIR/base_ppm_coordonnees.csv | sort -t ";" -k 41,41 | sed 's/;COMMUNE;/;INSEE;/' > $DATA_DIR/base_ppm_coordonnees.sorted.communes.csv
+
+cat $DATA_DIR/base_commune_francaise.csv | awk -F ";" '{ insee=$10; commune=$17; prefix=gensub(/[()]+/, "", "g", $16); if (prefix && prefix != "L'"'"'") { prefix = prefix " "; } commune = prefix "" commune; print insee ";" commune }' | sed -r 's/[+]{1}(.{1})/\U\1/g' | sort -t ";" -k 1,1 > $DATA_DIR/communes.csv
+
+join -t ";" -1 41 -2 1 $DATA_DIR/base_ppm_coordonnees.sorted.communes.csv $DATA_DIR/communes.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes.csv | awk -F ";" '
 {
-    nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2 ";VITICULTEUR;" nom ";;" statut ";;" $26 ";;;adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
-}' > $DATA_DIR/societes.csv
+    identifiant=sprintf("%06d", $2);
+    nom=$11 " " $12 " " $13;
+    statut=($19) ? "SUSPENDU" : "ACTIF";
+    adresse1=$38;
+    adresse2=$39;
+    adresse3=$40;
+    code_postal=$42;
+    insee=$1;
+    commune=$60;
+    cedex=$44;
+    siren=$26;
+    siret=$27;
+    if(!siret && siren) {
+        siret=siren;
+    }
+    pays=$41;
+    email="";
+    tel_bureau="";
+    tel_perso="";
+    mobile="";
+    fax="";
+    web="";
+    commentaire="";
+
+    print identifiant ";VITICULTEUR;" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+}' | sort > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/base_ppm.csv | awk -F ";" '
 {
