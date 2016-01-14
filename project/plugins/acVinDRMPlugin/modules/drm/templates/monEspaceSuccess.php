@@ -16,12 +16,6 @@
             <h2>Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
         <?php endif; ?>
 
-        <?php if ($etablissement->type_dr) : ?>
-            <div class="alert alert-warning">
-                Cet opérateur effectue des <?php echo $etablissement->type_dr; ?>
-            </div>
-        <?php endif; ?>
-
         <?php if ($isTeledeclarationMode) : if ($campagne == -1) : ?>
             <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode,'accueil_drm' => true, 'calendrier' => $calendrier)); ?>
         <?php endif; endif; ?>

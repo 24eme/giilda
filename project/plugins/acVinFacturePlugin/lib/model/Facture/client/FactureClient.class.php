@@ -1,3 +1,4 @@
+
 <?php
 
 class FactureClient extends acCouchdbClient {
@@ -49,7 +50,7 @@ class FactureClient extends acCouchdbClient {
         $facture->constructIds($doc);
         $facture->storeEmetteur();
         $facture->storeDeclarant($doc);
-        $facture->storeLignes($cotisations);
+        $facture->storeLignesFromTemplate($cotisations);
         $facture->updateTotaux();
         $facture->storeOrigines();
         $facture->storeTemplates();
@@ -82,6 +83,7 @@ class FactureClient extends acCouchdbClient {
         return $facture;
     }
 
+// INUTILE
     public function regenerate($facture_or_id) {
 
         $facture = $facture_or_id;
@@ -362,6 +364,8 @@ class FactureClient extends acCouchdbClient {
         return '';
     }
 
+    
+    //INUTILE
     public function createAvoir(Facture $f) {
         if (!$f->isRedressable()) {
             return;
@@ -407,6 +411,8 @@ class FactureClient extends acCouchdbClient {
         return $avoir;
     }
 
+    
+    
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
         if (!$f->isRedressable()) {
             return;
