@@ -83,8 +83,8 @@ class VracCsvFile extends CsvFile {
                 $v->numero_archive = $this->verifyAndFormatNumeroArchive($line);
                 $v->constructId();
 
-                if (VracClient::getInstance()->find($v->_id, acCouchdbClient::HYDRATE_JSON)) {
-                    throw new sfException(sprintf($this->red("Existe")));
+                if ($vracDoublon = VracClient::getInstance()->find($v->_id, acCouchdbClient::HYDRATE_JSON)) {
+                    throw new sfException(sprintf($this->red("Existe $v->_id archivage : $vracDoublon->numero_archive ")));
                 }
 
                 $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID]);
