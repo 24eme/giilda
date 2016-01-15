@@ -32,19 +32,19 @@ if test "$REMOTE_DATA"; then
 
     file -i $TMP/data_ivbd_origin/IVBD/* | grep "utf-16" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo $DATA_DIR/$ligne
+        echo "$DATA_DIR/$ligne utf-16le" 
         iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    file -i $TMP/data_ivbd_origin/IVBD/* | grep "iso-8859-1" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -E "(iso-8859-1|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo $DATA_DIR/$ligne
+        echo "$DATA_DIR/$ligne iso-8859-1"
         iconv -f iso-8859-1 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo $DATA_DIR/$ligne
+        echo "$DATA_DIR/$ligne autres"
         cat $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
@@ -108,6 +108,8 @@ cat $DATA_DIR/base_ppm.csv | awk -F ";" '
 {
     nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
 }' > $DATA_DIR/etablissements.csv
+
+#cat $DATA_DIR/base_evv.csv | sort -t ";" -k 1,1
 
 php symfony import:societe $DATA_DIR/societes.csv
 php symfony import:etablissement $DATA_DIR/etablissements.csv

@@ -202,7 +202,7 @@ Vrac:
 
       volume_propose: { type: float }
       volume_enleve: { type: float }
-      
+
       enlevement_date: {  }
       enlevement_frais_garde: { type: float }
 

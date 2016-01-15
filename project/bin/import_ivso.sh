@@ -110,10 +110,16 @@ caracteristiques_vins=""
 if(vin_bio=="O"){
   caracteristiques_vins="agriculture_biologique";
 }
-if(vin_prepare=="O"){
-  caracteristiques_vins=caracteristiques_vins "" (length(caracteristiques_vins))? ",vin_prepare" : "vin_prepare" ;
+if(vin_prepare=="P"){
+ caracteristiques_vins=caracteristiques_vins "," "vin_prepare" ;
 }
 
+date_debut_retiraison=$26;
+date_fin_retiraison=$28;
+
+clause_reserve_propriete=($31 == "O") ? "clause_reserve_propriete" : "";
+
+acompte=$32;
 cle_delais_paiement="";
 libelle_delais_paiement=$33;
 if(libelle_delais_paiement=="Comptant"){
@@ -126,7 +132,16 @@ if(libelle_delais_paiement=="Comptant"){
   cle_delais_paiement="45_JOURS";
 }
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" cle_delais_paiement ";" $33 ";" $32 ";;;;100_ACHETEUR;" $26 ";" $28 ";;" $30 ";" caracteristiques_vins
+commentaires=$30;
+exclure_v2=$39;
+
+if(exclure_v2 == "O") {
+    next;
+}
+
+annule=$36;
+
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" cle_delais_paiement ";" $33 ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
