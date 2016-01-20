@@ -195,9 +195,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
         $ligne = $this->lignes->add($keyLigne);
-        if ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+        $origin_mouvement =$ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
+        if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
-        } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+        } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
             $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE] . ' ' . $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
             $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
         }
@@ -207,13 +208,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
         $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
         $detail->taux_tva = 0.2;
-        if ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+        $produit_libelle = "";
+        if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-        } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
-
-            $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
+        } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+            $produit_libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST];
         }
-        
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
         if ($transacteur) {
             $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
