@@ -186,7 +186,7 @@ class factureActions extends sfActions {
         $filters_parameters = $this->constuctFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);           
-
+        
         if ($mouvementsBySocFiltered) {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['type_document'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
             $generation->save();
@@ -210,7 +210,7 @@ class factureActions extends sfActions {
         if (!isset($parameters['type_document']) || !$parameters['type_document'] || $parameters['type_document'] == FactureGenerationMasseForm::TYPE_DOCUMENT_TOUS) {
             unset($parameters['type_document']);
         }
-
+        
         $this->societe = $this->getRoute()->getSociete();
 
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));

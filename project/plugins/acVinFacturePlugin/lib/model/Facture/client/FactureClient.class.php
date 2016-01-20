@@ -72,6 +72,7 @@ class FactureClient extends acCouchdbClient {
         $facture->updateAvoir();
         $facture->updateTotaux();
         $facture->storeOrigines();
+        var_dump($type_facturation); exit;
         if ($type_facturation == "DRM") {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM, FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
         } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
