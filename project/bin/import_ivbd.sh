@@ -135,6 +135,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { 
         numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;
     }
+
     produit=$70;
     cepage="";
     millesime=($16 && $17 > 0) ? $16 : "";
@@ -151,7 +152,9 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { 
     acheteur_id=($11) ? $11 : "";
     courtier_id=($14) ? $13 : "";
 
-    print $3 ";" numero_bordereau ";" $4 ";" $5 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $2 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";;;"
+    clause_reserve_propriete=($54 == "True") ? "clause_reserve_propriete" : "";
+
+    print $3 ";" numero_bordereau ";" $4 ";" $5 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $2 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";;;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
 php symfony import:vracs $DATA_DIR/vracs.csv

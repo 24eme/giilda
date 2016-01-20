@@ -197,9 +197,9 @@ if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17 ; } #collective_
 if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18 ; } #dsa_dsac
 if($18 < 0) { print base "entrees;regularisation;" $18*-1 ; } #dsa_dsac
 if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19 ; } #facture_etc
-if($19 < 0) { print base "entrees;regularisation;" $19*-1 ; } #dsa_dsac
+if($19 < 0) { print base "entrees;regularisation;" $19*-1 ; } #facture_etc
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
-if($20 < 0) { print base "entrees;regularisation;" $20*-1 ; } #dsa_dsac
+if($20 < 0) { print base "entrees;regularisation;" $20*-1 ; } #france_sans_contrat
 # if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
 if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
