@@ -15,7 +15,7 @@ if test "$REMOTE_DATA"; then
     rm -rf $TMP/data_ivbd_origin
     mkdir $TMP/data_ivbd_origin
     cd $TMP/data_ivbd_origin
-    tar -zxvf $TMP/data_ivbd.tgz
+    tar -zxf $TMP/data_ivbd.tgz
 
     rm $TMP/data_ivbd.tgz
 
@@ -32,19 +32,19 @@ if test "$REMOTE_DATA"; then
 
     file -i $TMP/data_ivbd_origin/IVBD/* | grep "utf-16" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo "$DATA_DIR/$ligne utf-16le" 
+        #echo "$DATA_DIR/$ligne utf-16le" 
         iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
     file -i $TMP/data_ivbd_origin/IVBD/* | grep -E "(iso-8859-1|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo "$DATA_DIR/$ligne iso-8859-1"
+        #echo "$DATA_DIR/$ligne iso-8859-1"
         iconv -f iso-8859-1 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
     file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo "$DATA_DIR/$ligne autres"
+        #echo "$DATA_DIR/$ligne autres"
         cat $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
@@ -61,7 +61,7 @@ echo "CODE_VIN;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE
 echo "CODE_VINS_PRODUITS;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
 cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel Blanc doux/' > $DATA_DIR/produits.csv
 
-echo "Import des contacts"
+echo "Construction du fichier d'import des Contacts"
 
 cat $DATA_DIR/base_ppm.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm.sorted.id.csv
 
@@ -111,20 +111,34 @@ cat $DATA_DIR/base_ppm.csv | awk -F ";" '
 
 #cat $DATA_DIR/base_evv.csv | sort -t ";" -k 1,1
 
-php symfony import:societe $DATA_DIR/societes.csv
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+echo "Construction du fichier d'import des Contrats de vente"
 
-echo "Import des contrats"
+cat $DATA_DIR/contrats_contrat.csv | sort -t ";" -k 14,14 | sed 's/;VIN;/;CODE_VIN;/' | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
 
-cat $DATA_DIR/contrats_contrat.csv | grep -E "^[0-9]+;" | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
-
-join -t ";" -a 1 -1 14 -2 1 $DATA_DIR/contrats_contrat.csv.sorted.produits $DATA_DIR/produits.csv | sort > $DATA_DIR/contrats_contrat_produit.csv
+join -t ";" -1 14 -2 1 $DATA_DIR/contrats_contrat.csv.sorted.produits $DATA_DIR/produits.csv > $DATA_DIR/contrats_contrat_produit.csv
 
 sort -t ";" -k 58,58 $DATA_DIR/contrats_contrat_produit.csv > $DATA_DIR/contrats_contrat_produit.csv.delai_paiement
+cat $DATA_DIR/contrats_p_paiement_delai.csv | sed 's/CLE/DELAI_PAIEMENT/' | sed 's/LIBELLE/DELAI_PAIEMENT_LIBELLE/' | cut -d ";" -f 2,3 | sort -t ";" -k 2,2 > $DATA_DIR/contrats_p_paiement_delai.csv.sorted
 
-cat $DATA_DIR/contrats_p_paiement_delai.csv | cut -d ";" -f 2,3 | sort -t ";" -k 2,2 > $DATA_DIR/contrats_p_paiement_delai.csv.sorted
+join -t ";" -a 1 -1 58 -2 2 -o auto $DATA_DIR/contrats_contrat_produit.csv.delai_paiement $DATA_DIR/contrats_p_paiement_delai.csv.sorted > $DATA_DIR/contrats_contrat_produit_delai_paiement.csv
 
-join -t ";" -a 1 -1 58 -2 2 $DATA_DIR/contrats_contrat_produit.csv.delai_paiement $DATA_DIR/contrats_p_paiement_delai.csv.sorted > $DATA_DIR/contrats_contrat_produit_delai_paiement.csv
+sort -t ";" -k 1,1 $DATA_DIR/contrats_retiraison.csv > $DATA_DIR/contrats_retiraison.sorted.csv
+sort -t ";" -k 3,3 $DATA_DIR/contrats_contrat_produit_delai_paiement.csv > $DATA_DIR/contrats_contrat_produit_delai_paiement.sorted.csv
+
+join -t ";" -a 1 -1 3 -2 1 -o auto $DATA_DIR/contrats_contrat_produit_delai_paiement.sorted.csv $DATA_DIR/contrats_retiraison.sorted.csv > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison.csv
+
+#Type de vins
+cat $DATA_DIR/contrats_p_type_vin.csv | sed 's/CLE/TYPE_VIN/' | sed 's/LIBELLE/TYPE_VIN_LIBELLE/' | cut -d ";" -f 2,3 | sort -t ";" -k 2,2 > $DATA_DIR/contrats_p_type_vin.sorted.csv
+sort -t ";" -k 21,21 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison.csv > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison.sorted.csv
+
+join -t ";" -1 21 -2 2 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison.sorted.csv $DATA_DIR/contrats_p_type_vin.sorted.csv > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.csv
+
+#Marque
+cat $DATA_DIR/contrats_contrat_marques.csv | sed 's/ID_Marque/ID_MARQUE/' | sort -t ";" -k 2,2 > $DATA_DIR/contrats_contrat_marques.sorted.csv
+cat $DATA_DIR/contrats_marque.csv | cut -d ";" -f 1,7 | sed 's/Id_Marque/ID_MARQUE/' | sort -t ";" -k 1,1 > $DATA_DIR/contrats_marque.sorted.csv
+
+join -t ";" -1 2 -2 1 $DATA_DIR/contrats_contrat_marques.sorted.csv $DATA_DIR/contrats_marque.sorted.csv | cut -d ";" -f 2,3 |sort -t ";" -k 1,1 > $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv
+echo "NUM_CONTRAT;LIBELLE_MARQUE" >> $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv
 
 cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
     type_contrat=($25 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
@@ -135,7 +149,10 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { 
         numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;
     }
-
+    num=$2;
+    date_signature=$5;
+    date_saisie=$6;
+    produit_id=$4;
     produit=$70;
     cepage="";
     millesime=($16 && $17 > 0) ? $16 : "";
@@ -154,12 +171,10 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { 
 
     clause_reserve_propriete=($54 == "True") ? "clause_reserve_propriete" : "";
 
-    print $3 ";" numero_bordereau ";" $4 ";" $5 ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" $2 ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";;;"
+    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";;;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
-php symfony import:vracs $DATA_DIR/vracs.csv
-
-echo "Import des DRM"
+echo "Construction du fichier d'import des DRM"
 
 sort -t ';' -k 2,2 $DATA_DIR/contrats_drm_parametre_ligne.csv > $DATA_DIR/contrats_drm_parametre_ligne.sorted.csv
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume.csv > $DATA_DIR/contrats_drm_volume.sorted.csv
@@ -345,6 +360,18 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 
 #Génération finale
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
+
+
+echo "Import des contacts"
+
+php symfony import:societe $DATA_DIR/societes.csv
+php symfony import:etablissement $DATA_DIR/etablissements.csv
+
+echo "Import des contrats"
+
+php symfony import:vracs $DATA_DIR/vracs.csv
+
+echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
