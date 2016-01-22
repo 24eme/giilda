@@ -35,11 +35,11 @@ EOF;
     
     $facture = FactureClient::getInstance()->find($arguments['id'], acCouchdbClient::HYDRATE_JSON);
 
-    if(isset($facture->numero_interloire)) {
+    if(isset($facture->numero_interpro)) {
       return;
     }
 
-    $facture->numero_interloire = preg_replace('/^\d{2}(\d{2}).*/', '$1', $facture->date_emission) . '/' . EtablissementClient::getPrefixForRegion($facture->region) . '-' . $facture->numero_archive;
+    $facture->numero_interpro = preg_replace('/^\d{2}(\d{2}).*/', '$1', $facture->date_emission) . '/' . EtablissementClient::getPrefixForRegion($facture->region) . '-' . $facture->numero_archive;
 
     FactureClient::getInstance()->storeDoc($facture);
 

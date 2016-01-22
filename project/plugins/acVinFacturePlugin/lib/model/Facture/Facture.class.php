@@ -74,10 +74,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->_id = FactureClient::getInstance()->getId($this->identifiant, $this->numero_facture);
     }
 
-    public function getNumeroInterloire() {
-        if ($this->_get('numero_ava')) {
+    public function getNumeroInterpro() {
+        if ($this->_get('numero_interpro')) {
 
-            return $this->_get('numero_ava');
+            return $this->_get('numero_interpro');
         }
 
         return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . $this->numero_archive;
@@ -546,7 +546,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
 
         $this->archivage_document->preSave();
-        $this->numero_ava = $this->getNumeroInterloire();
+        $this->numero_interpro = $this->getNumeroInterpro();
     }
 
     public function storeDeclarant($doc) {

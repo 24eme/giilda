@@ -116,7 +116,7 @@ class FactureClient extends acCouchdbClient {
         $f->_id = $facture->_id;
         $f->_rev = $facture->_rev;
         $f->numero_facture = $facture->numero_facture;
-        $f->numero_ava = $facture->numero_ava;
+        $f->numero_interpro = $facture->numero_interpro;
         $f->numero_archive = $facture->numero_archive;
 
         return $f;
@@ -402,7 +402,7 @@ class FactureClient extends acCouchdbClient {
         $avoir->add('templates');
 
         $avoir->numero_archive = null;
-        $avoir->numero_ava = null;
+        $avoir->numero_interpro = null;
         $avoir->versement_comptable = 0;
         $avoir->versement_comptable_paiement = 1;
         $avoir->storeDatesCampagne(date('Y-m-d'));
