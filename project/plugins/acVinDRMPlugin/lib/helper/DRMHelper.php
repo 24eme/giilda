@@ -29,7 +29,6 @@ function getDrmTitle($drm) {
 }
 
 function getFrPeriodeElision($periode) {
-
     $annee = substr($periode, 0, 4);
     $mois = substr($periode, 4, 2);
     $date = $annee . '-' . $mois . '-01';

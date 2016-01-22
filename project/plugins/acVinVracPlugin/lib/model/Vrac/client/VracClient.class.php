@@ -30,7 +30,6 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_DATE_CAMPAGNE = 25;
     const VRAC_VIEW_DATE_SAISIE = 26;
     const VRAC_VIEW_MILLESIME = 27;
-    
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;
@@ -134,20 +133,19 @@ class VracClient extends acCouchdbClient {
 
         return $id;
     }
-    
-    public function buildNumeroContrat($annee, $teledeclare = 1, $bordereau = null)
-    {
-    	if ($teledeclare && $bordereau) {
-    		throw new sfException('options de generation d\'identifiant vrac non coherentes');
-    	}
-    	$numero = $annee;
-    	$numero .= $teledeclare;
-    	if ($bordereau) {
-    		$numero .= sprintf("%06d", $bordereau);
-    	} else {
-    		$numero .= sprintf("%06d", $this->getNextNoContrat($annee));
-    	}
-    	return $numero;
+
+    public function buildNumeroContrat($annee, $teledeclare = 1, $bordereau = null) {
+        if ($teledeclare && $bordereau) {
+            throw new sfException('options de generation d\'identifiant vrac non coherentes');
+        }
+        $numero = $annee;
+        $numero .= $teledeclare;
+        if ($bordereau) {
+            $numero .= sprintf("%06d", $bordereau);
+        } else {
+            $numero .= sprintf("%06d", $this->getNextNoContrat($annee));
+        }
+        return $numero;
     }
 
     public function getNumeroContrat($id_or_numerocontrat) {
@@ -161,10 +159,10 @@ class VracClient extends acCouchdbClient {
     }
 
     public function getNextNoContrat($date = null) {
-        $date = ($date)? $date : date('Y');
+        $date = ($date) ? $date : date('Y');
         $contrats = self::getAtDate($date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
         if (count($contrats) > 0) {
-           return substr(str_replace('VRAC-', '', max($contrats)), -6);
+            return substr(str_replace('VRAC-', '', max($contrats)), -6);
         } else {
             return 1;
         }
@@ -175,19 +173,19 @@ class VracClient extends acCouchdbClient {
     }
 
     public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        
+
         return $this->find($this->getId($num_contrat), $hydrate);
     }
 
     public function findDocIdByNumArchive($campagne, $num_contrat) {
-        
+
         $doc_id = ArchivageAllView::getInstance()->findDocId("Vrac", $campagne, $num_contrat);
 
-        if($doc_id) {
-            
+        if ($doc_id) {
+
             return $doc_id;
         }
-        
+
         return ArchivageAllView::getInstance()->findDocId("Vrac", ConfigurationClient::getInstance()->getPreviousCampagne($campagne), $num_contrat);
     }
 
@@ -201,15 +199,14 @@ class VracClient extends acCouchdbClient {
     }
 
     public function getBySoussigne($campagne, $identifiant) {
-       
-       return $this->descending(true)
-                   ->startkey(array($identifiant, $campagne, array()))
-                   ->endkey(array($identifiant, $campagne))
-	           ->reduce(false)
-                   ->getView('vrac', 'soussigneidentifiant'); 
+
+        return $this->descending(true)
+                        ->startkey(array($identifiant, $campagne, array()))
+                        ->endkey(array($identifiant, $campagne))
+                        ->reduce(false)
+                        ->getView('vrac', 'soussigneidentifiant');
     }
-    
-    
+
     public function retrieveAllVracsTeledeclares() {
 
         return $this->descending(true)
@@ -230,15 +227,15 @@ class VracClient extends acCouchdbClient {
         }
 
         $allStatuts = self::$statuts_teledeclaration_sorted;
-        
-        array_unshift($allStatuts,"SOLDENONSOLDE");
-        array_unshift($allStatuts,self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES);
-        array_unshift($allStatuts,self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI);
-        
+
+        array_unshift($allStatuts, "SOLDENONSOLDE");
+        array_unshift($allStatuts, self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES);
+        array_unshift($allStatuts, self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI);
+
         if (($key = array_search(self::STATUS_CONTRAT_ATTENTE_SIGNATURE, $allStatuts)) !== false) {
             unset($allStatuts[$key]);
         }
-        
+
         if (!in_array(strtoupper($statut), $allStatuts) && $statut != 'tous') {
             throw new sfException("wrong statut id ($statut)");
         }
@@ -825,6 +822,24 @@ class VracClient extends acCouchdbClient {
     public function toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier) {
         return ($statut === self::STATUS_CONTRAT_ATTENTE_SIGNATURE) &&
                 (($societe->isCourtier() && !$signature_courtier) || ($societe->isNegociant() && !$signature_acheteur) || ($societe->isViticulteur() && !$signature_vendeur));
+    }
+
+    public function buildEnlevements($vrac) {
+        $all_mouvements_vendeur = DRMMouvementsConsultationView::getInstance()->findByEtablissement($vrac->vendeur_identifiant);
+        $enlevements = array();
+        foreach ($all_mouvements_vendeur->rows as $rowView) {
+            $vrac_view_id = $rowView->key[DRMMouvementsConsultationView::KEY_DETAIL_IDENTIFIANT];
+            if ($vrac_view_id && $vrac_view_id == $vrac->_id) {
+                
+                $index = $rowView->value[DRMMouvementsConsultationView::VALUE_MOUVEMENT_ID];
+                $enlevements[$index] = new stdClass();
+                $enlevements[$index]->drm_id = $rowView->id;
+                $enlevements[$index]->periode = $rowView->key[DRMMouvementsConsultationView::KEY_PERIODE];
+                $enlevements[$index]->volume = $rowView->value[DRMMouvementsConsultationView::VALUE_VOLUME] * -1;
+               
+            }
+        }
+        return $enlevements;
     }
 
 }

@@ -82,7 +82,7 @@ use_helper('Vrac');
             <?php endif; ?>
 
             
-            <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+            <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
             
             
             <div class="ligne_btn">

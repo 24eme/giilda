@@ -607,6 +607,7 @@ class vracActions extends sfActions {
         $this->signatureDemande = false;
         $this->compte = null;
         $this->societe = null;
+        $this->enlevements = VracClient::getInstance()->buildEnlevements($this->vrac);
         if ($this->isTeledeclarationVrac()) {
             $this->initSocieteAndEtablissementPrincipal();
             $this->signatureDemande = !$this->vrac->isSocieteHasSigned($this->societe);
