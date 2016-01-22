@@ -3,18 +3,11 @@
             <h2>Veuillez confirmer la validation de la DRM </h2>
             <br/>
             <p>
-                Vous êtes sur le point de valider votre DRM, une fois votre déclaration validée, vous ne pourrez plus la modifier.
+                Vous êtes sur le point de valider votre DRM. Une fois validée, vous recevrez votre DRM par mail et vous ne pourrez plus la modifier.<br /><br />
             </p>
-            <p>
-                Après validation vous receverez votre DRM par mail et vous avez la possibilité de la transmettre ci dessous à un email supplémentaire.
-            </p>
-            <div class="ligne_form">       
-                <span>
-                    <?php echo $validationForm['email_transmission']->renderLabel(); ?>
-                    <?php echo $validationForm['email_transmission']->renderError(); ?>
-                    <input id="drm_email_transmission_visible" type="text"  value="<?php echo ($drm->exist('email_transmission') && $drm->email_transmission)? $drm->email_transmission : ''; ?>">
-                </span>
-            </div>
+    	    <p>
+    		Avant de la transmettre à la Douane, par courrier postal, ou par mail, la DRM doit être signée manuellement pour être valable.
+    	    </p>
             <div class="ligne_btn">
                 <a id="signature_drm_popup_close" class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
 

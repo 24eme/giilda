@@ -123,7 +123,7 @@ Les lignes de CAVE se constituents des champs suivants :
  
  **Pour les compléments :**
  
- 15. le pays de l'export (si le mouvement est un export, sinon vide)
+ 15. le pays de l'export (Code ISO 3166 https://fr.wikipedia.org/wiki/ISO_3166) (si le mouvement est un export, sinon vide)
  16. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
  17. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
 

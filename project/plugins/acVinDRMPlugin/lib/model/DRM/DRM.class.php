@@ -641,6 +641,34 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function save() {
         $this->region = $this->getEtablissement()->region;
+        $listEntrees = $listSorties = null;
+        $key_to_remove = array();
+        foreach ($this->getProduits() as $produit) {
+            foreach ($produit->getProduitsDetails() as $produit_hash => $detail) {
+                if (!$listEntrees && !$listSorties) {
+                    $listEntrees = array_keys($detail->getConfig()->getEntreesSorted());
+                    $listSorties = array_keys($detail->getConfig()->getSortiesSorted());
+                }
+                foreach ($detail->entrees as $keyEntree => $valueEntree) {
+                    if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
+                        $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
+                          
+                    }
+                }
+                foreach ($detail->sorties as $keySortie => $valueSortie) {
+                    if ($valueSortie instanceof DRMESDetails) {
+                        continue;
+                    }
+                    if ($valueSortie && !in_array($keySortie, $listSorties)) {                        
+                       $key_to_remove[] = $produit_hash.'/sorties/'.$keySortie;
+                    }
+                }
+            }
+        }
+        
+        foreach ($key_to_remove as $key) {
+           $this->remove($key);
+        }
         parent::save();
     }
 
@@ -1062,7 +1090,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+                    $count_entree =  $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->stock_fin + $crd->stock_debut;
+                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0 && !$count_entree) {
                         $toRemoves[] = $regime . '/' . $key;
                     }
                 }
