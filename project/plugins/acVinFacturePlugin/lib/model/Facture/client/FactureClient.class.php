@@ -61,20 +61,20 @@ class FactureClient extends acCouchdbClient {
         return $facture;
     }
 
-    public function createDocFromMouvements($mouvementsSoc, $societe, $type_facturation, $date_facturation, $message_communication) {
+    public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeEmetteur();
         $facture->storeDeclarant($societe);
-        $facture->storeLignesFromMouvements($mouvementsSoc, $type_facturation, $societe->famille);
+        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
         $facture->storeOrigines();
-        if ($type_facturation == "DRM") {
+        if ($modele == "DRM") {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM, FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
-        } elseif ($type_facturation == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+        } elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS, FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS);
         }
         if (trim($message_communication)) {
@@ -293,7 +293,7 @@ class FactureClient extends acCouchdbClient {
         return $generation;
     }
 
-    public function createFacturesBySoc($generationFactures, $type_facturation, $date_facturation, $message_communication = null) {
+    public function createFacturesBySoc($generationFactures, $modele, $date_facturation, $message_communication = null) {
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
@@ -303,7 +303,8 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $type_facturation, $date_facturation, $message_communication);
+           
+            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication);
 
             $f->save();
 
@@ -316,7 +317,7 @@ class FactureClient extends acCouchdbClient {
     }
 
     private function ttc($p) {
-        return $p + $p * 0.196;
+        return $p + $p * 0.2;
     }
 
     public function getTypes() {

@@ -178,20 +178,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
-    public function storeLignesFromMouvements($mvts, $type_facturation, $famille) {
+    public function storeLignesFromMouvements($mvts, $famille) {
         foreach ($mvts as $ligneByType) {
             if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != 'Contrat') {
-                $this->storeLigneFromMouvements($ligneByType, $type_facturation, $famille);
+                $this->storeLigneFromMouvements($ligneByType, $famille);
             }
         }
         foreach ($mvts as $ligneByType) {
             if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == 'Contrat') {
-                $this->storeLigneFromMouvements($ligneByType, $type_facturation, $famille);
+                $this->storeLigneFromMouvements($ligneByType,  $famille);
             }
         }
     }
 
-    public function storeLigneFromMouvements($ligneByType, $type_facturation, $famille) {
+    public function storeLigneFromMouvements($ligneByType, $famille) {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
         $ligne = $this->lignes->add($keyLigne);

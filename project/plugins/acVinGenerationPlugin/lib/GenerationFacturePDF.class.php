@@ -33,7 +33,7 @@ class GenerationFacturePDF extends GenerationPDF {
             $societe = SocieteClient::getInstance()->find($societeID);
             if (!$societe)
                 throw new sfException($societeID . " unknown :(");
-            $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $arguments['date_facturation'], $message_communication);
+            $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $arguments['modele'], $arguments['date_facturation'], $message_communication);
             $facture->save();
             $this->generation->somme += $facture->total_ttc;
             $this->generation->documents->add($cpt, $facture->_id);
