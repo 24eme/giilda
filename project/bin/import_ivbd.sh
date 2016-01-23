@@ -137,10 +137,16 @@ join -t ";" -1 21 -2 2 $DATA_DIR/contrats_contrat_produit_delai_paiement_retirai
 cat $DATA_DIR/contrats_contrat_marques.csv | sed 's/ID_Marque/ID_MARQUE/' | sort -t ";" -k 2,2 > $DATA_DIR/contrats_contrat_marques.sorted.csv
 cat $DATA_DIR/contrats_marque.csv | cut -d ";" -f 1,7 | sed 's/Id_Marque/ID_MARQUE/' | sort -t ";" -k 1,1 > $DATA_DIR/contrats_marque.sorted.csv
 
-join -t ";" -1 2 -2 1 $DATA_DIR/contrats_contrat_marques.sorted.csv $DATA_DIR/contrats_marque.sorted.csv | cut -d ";" -f 2,3 |sort -t ";" -k 1,1 > $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv
+join -t ";" -1 2 -2 1 $DATA_DIR/contrats_contrat_marques.sorted.csv $DATA_DIR/contrats_marque.sorted.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv
 echo "NUM_CONTRAT;LIBELLE_MARQUE" >> $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv
 
-cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
+sort -t ";" -k 2,2 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.csv > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.sorted.csv
+
+join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.sorted.csv $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv | sed 's/;TYPE_VIN_LIBELLE;$/;TYPE_VIN_LIBELLE;LIBELLE_MARQUE/' > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv
+
+#tail -n 1 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
+
+cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
     type_contrat=($25 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $37);
     if(bordereau_origin) {
@@ -149,29 +155,36 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement.csv | awk -F ';' 'BEGIN { 
         numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;
     }
-    num=$2;
+    num=$1;
     date_signature=$5;
     date_saisie=$6;
     produit_id=$4;
     produit=$70;
     cepage="";
-    millesime=($16 && $17 > 0) ? $16 : "";
+    millesime=($17 && $17 > 0) ? $17 : "";
     degre=$53;
+    bouteille_contenance=($72) ? $72 / 10000 : "";
     volume_propose=$48;
     prix_unitaire=$18;
-    delai_paiement_cle=$1;
+    delai_paiement_cle=$3;
     delai_paiement_libelle=$71;
     acompte=$58;
     date_debut_retiraison=$26;
     date_fin_retiraison=$55;
-    vendeur_id=($8) ? $8 : "";
-    intermediaire_id=($15) ? $15 : "";
-    acheteur_id=($11) ? $11 : "";
-    courtier_id=($14) ? $13 : "";
+    vendeur_id=($9) ? $9 : "";
+    intermediaire_id=($16) ? $16 : "";
+    acheteur_id=($12) ? $12 : "";
+    courtier_id=($14) ? $14 : "";
+    bio=($52) ? "agriculture_biologique" : ""; 
+    categorie_vin=$78;
+    if(categorie_vin == "AUTRES") {
+        categorie_vin="GENERIQUE";
+    }
+    categorie_vin_info=$79;
 
     clause_reserve_propriete=($54 == "True") ? "clause_reserve_propriete" : "";
 
-    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";GENERIQUE;;;;" degre ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";;;"
+    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" bio ";;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
 echo "Construction du fichier d'import des DRM"
