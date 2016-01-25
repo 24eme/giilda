@@ -104,6 +104,7 @@ if(length($7) > 7){
    num_bordereau=substr($7,1,7);
 }
 id_vrac=sprintf("%4d%07d", $5 , num_bordereau);
+produit_id=$2; 
 libelle_produit=$41; 
 vin_bio=$19;
 vin_prepare=$20;
@@ -146,10 +147,10 @@ volume_enleve="";
 if(exclure_v2 == "O") {
     next;
 }
-
+proprietaire="";
 annule=$36;
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 

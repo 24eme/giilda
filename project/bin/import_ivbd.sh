@@ -113,7 +113,10 @@ cat $DATA_DIR/base_ppm.csv | awk -F ";" '
 
 echo "Construction du fichier d'import des Contrats de vente"
 
-cat $DATA_DIR/contrats_contrat.csv | sort -t ";" -k 14,14 | sed 's/;VIN;/;CODE_VIN;/' | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
+# Supprimer les retours chariots au milieu d'une lignes
+cat $DATA_DIR/contrats_contrat.csv | tr "\n" "#" | sed -r 's/;([,0-9-]*|VOLUME_SOLDAGE)#/;\1|/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/contrats_contrat.cleaned.csv
+
+cat $DATA_DIR/contrats_contrat.cleaned.csv | sort -t ";" -k 14,14 | sed 's/;VIN;/;CODE_VIN;/' | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
 
 join -t ";" -1 14 -2 1 $DATA_DIR/contrats_contrat.csv.sorted.produits $DATA_DIR/produits.csv > $DATA_DIR/contrats_contrat_produit.csv
 
@@ -165,9 +168,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     degre=$53;
     bouteille_contenance=($72) ? $72 / 10000 : "";
     volume_propose=$48;
-    prix_unitaire=$18;
-    delai_paiement_cle=$3;
-    delai_paiement_libelle=$71;
+    prix_unitaire=$19;
     acompte=$58;
     date_debut_retiraison=$26;
     date_fin_retiraison=$55;
@@ -181,10 +182,41 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
         categorie_vin="GENERIQUE";
     }
     categorie_vin_info=$79;
+    proprietaire=$65;
+    if(proprietaire == "V") { proprietaire = "vendeur"; }
+    if(proprietaire == "I") { proprietaire = "vendeur"; }
+    if(proprietaire == "A") { proprietaire = "acheteur"; }
+    if(proprietaire == "C") { proprietaire = "mandataire"; }
+
+    cle_delais_paiement="";
+    libelle_delais_paiement=$71;
+    if(libelle_delais_paiement=="A réception / Comptant"){
+      cle_delais_paiement="COMPTANT";
+    }else if(libelle_delais_paiement=="30 jours"){
+      cle_delais_paiement="30_JOURS";
+    }else if(libelle_delais_paiement=="45 jours"){
+      cle_delais_paiement="45_JOURS";
+    }else if(libelle_delais_paiement=="60 jours"){
+      cle_delais_paiement="60_JOURS";
+    }else if(libelle_delais_paiement=="75 jours"){
+      cle_delais_paiement="75_JOURS";
+    }
+
+    if(!libelle_delais_paiement) {
+        libelle_delais_paiement="Autre / Non précisé";
+    }
 
     clause_reserve_propriete=($54 == "True") ? "clause_reserve_propriete" : "";
+    autorisation_nom_vin=($22 == "True") ? "autorisation_nom_vin" : "";
+    autorisation_nom_producteur=($23 == "True") ? "autorisation_nom_producteur" : "";
+    crd_negoce=($73 == "True") ? "NEGOCE_ACHEMINE" : "";
+    tire_bouche=($74 == "True") ? "ACHAT_TIRE_BOUCHE" : "";
+    preparation_vin=($75 == "True") ? "PREPARATION_VIN_VENDEUR" : "PREPARATION_VIN_ACHETEUR";
+    embouteillage=($76 == "True") ? "EMBOUTEILLAGE_VENDEUR" : "EMBOUTEILLAGE_ACHETEUR";
 
-    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" bio ";;"
+    clauses=autorisation_nom_vin "," autorisation_nom_producteur "," clause_reserve_propriete "," crd_negoce "," tire_bouche "," preparation_vin "," embouteillage;
+
+    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delai_paiement_cle ";" delai_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";;"
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
 
 echo "Construction du fichier d'import des DRM"
@@ -375,14 +407,17 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
 
 
-echo "Import des contacts"
+echo "Import des sociétés"
 
 php symfony import:societe $DATA_DIR/societes.csv
+
+echo "Import des établissements"
+
 php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-php symfony import:vracs $DATA_DIR/vracs.csv
+php symfony import:vracs $DATA_DIR/vracs.csv --env="ivbd"
 
 echo "Import des DRM"
 

@@ -63,7 +63,7 @@ class EtablissementCsvFile extends CsvFile
           $s = SocieteClient::getInstance()->find($id_societe);
 
           if (!$s) {
-            echo "WARNING: Societe ".$line[$id_societe]." n'existe pas\n";
+            echo "WARNING: Societe ".$id_societe." n'existe pas\n";
             continue;
           }
 	

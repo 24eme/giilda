@@ -12,35 +12,37 @@ class VracCsvFile extends CsvFile {
     const CSV_INTERMEDIAIRE_ID = 7;
     const CSV_ACHETEUR_ID = 8;
     const CSV_COURTIER_ID = 9;
-    const CSV_PRODUIT_ID = 10;
-    const CSV_PRODUIT_LIBELLE = 11;
-    const CSV_MILLESIME = 12;
-    const CSV_CEPAGE_ID = 13;
-    const CSV_CEPAGE_LIBELLE = 14;
-    const CSV_CATEGORIE_VIN = 15;
-    const CSV_CATEGORIE_VIN_INFO = 16;
-    const CSV_SURFACE = 17;
-    const CSV_LOT = 18;
-    const CSV_DEGRE = 19;
-    const CSV_RECIPIENT_CONTENANCE = 20;
-    const CSV_QUANTITE = 21;
-    const CSV_QUANTITE_UNITE = 22;
-    const CSV_VOLUME_PROPOSE = 23;
-    const CSV_VOLUME_ENLEVE = 24;
-    const CSV_PRIX_UNITAIRE = 25;
-    const CSV_PRIX_UNITAIRE_HL = 26;
-    const CSV_CLE_DELAI_PAIEMENT = 27;
-    const CSV_DELAI_PAIEMENT = 28;
-    const CSV_ACOMPTE_SIGNATURE = 29;
-    const CSV_MOYEN_PAIEMENT = 30;
-    const CSV_TAUX_COURTAGE = 31;
-    const CSV_REPARTITION_COURTAGE = 32;
-    const CSV_REPARTITION_CVO = 33;
-    const CSV_RETIRAISON_DATE_DEBUT = 34;
-    const CSV_RETIRAISON_DATE_FIN = 35;
-    const CSV_CLAUSES = 36;
-    const CSV_LABELS = 37;
-    const CSV_COMMENTAIRES = 38;
+    const CSV_RESPONSABLE = 10;
+    const CSV_PRODUIT_ID = 11;
+    const CSV_PRODUIT_LIBELLE = 12;
+    const CSV_MILLESIME = 13;
+    const CSV_CEPAGE_ID = 14;
+    const CSV_CEPAGE_LIBELLE = 15;
+    const CSV_CATEGORIE_VIN = 16;
+    const CSV_CATEGORIE_VIN_INFO = 17;
+    const CSV_SURFACE = 18;
+    const CSV_LOT = 19;
+    const CSV_DEGRE = 20;
+    const CSV_RECIPIENT_CONTENANCE = 21;
+    const CSV_QUANTITE = 22;
+    const CSV_QUANTITE_UNITE = 23;
+    const CSV_VOLUME_PROPOSE = 24;
+    const CSV_VOLUME_ENLEVE = 25;
+    const CSV_PRIX_UNITAIRE = 26;
+    const CSV_PRIX_UNITAIRE_HL = 27;
+    const CSV_CLE_DELAI_PAIEMENT = 28;
+    const CSV_DELAI_PAIEMENT = 29;
+    const CSV_ACOMPTE_SIGNATURE = 30;
+    const CSV_MOYEN_PAIEMENT = 31;
+    const CSV_TAUX_COURTAGE = 32;
+    const CSV_REPARTITION_COURTAGE = 33;
+    const CSV_REPARTITION_CVO = 34;
+    const CSV_RETIRAISON_DATE_DEBUT = 35;
+    const CSV_RETIRAISON_DATE_FIN = 36;
+    const CSV_CLAUSES = 37;
+    const CSV_LABELS = 38;
+    const CSV_COMMENTAIRES = 39;
+
     const LABEL_BIO = 'agriculture_biologique';
     const LABEL_VIN_PREPARE = 'vin_prepare';
 
@@ -99,6 +101,8 @@ class VracCsvFile extends CsvFile {
                 }
                 $v->setInformations();
 
+                $v->responsable = $this->verifyAndFormatResponsable($line);
+
                 $produit = $configuration->identifyProductByLibelle($line[self::CSV_PRODUIT_LIBELLE]);
 
                 if ($produit) {
@@ -115,7 +119,20 @@ class VracCsvFile extends CsvFile {
                 $v->type_transaction = $line[self::CSV_TYPE_TRANSACTION];
                 $v->millesime = $this->verifyAndFormatMillesime($line);
                 $v->categorie_vin = $this->verifyAndFormatCatgeorieVin($line);
+                $v->domaine = $this->verifyAndFormatDomaine($line, $v);
                 $v->degre = $this->verifyAndFormatDegre($line);
+
+                $v->bouteilles_contenance_volume = $this->verifyAndFormatBouteillesContenanceVolume($line);
+                $v->bouteilles_contenance_libelle = $this->verifyAndFormatBouteillesContenanceLibelle($line, $v);
+
+                if($v->bouteilles_contenance_volume && $v->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+                    throw new sfException("Le contrat à une contenance de bouteille mais n'a pas été signalé en contrat bouteille");
+                }
+
+                if($v->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE && !$v->bouteilles_contenance_volume) {
+                    throw new sfException("Le contrat a été signalé en contrat bouteille, mais n'a pas de contenance");
+                }
+
                 $v->jus_quantite = $this->verifyAndFormatVolumePropose($line);
                 $v->volume_enleve = $v->volume_propose;
                 $v->prix_initial_unitaire = $this->formatAndVerifyPrixUnitaire($line);
@@ -133,7 +150,7 @@ class VracCsvFile extends CsvFile {
                     }
                 }
 
-                if ($v->date_debut_retiraison > $v->date_limite_retiraison) {
+                if ($v->date_debut_retiraison && $v->date_limite_retiraison && $v->date_debut_retiraison > $v->date_limite_retiraison) {
                     throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
                 }
                 if ($line[self::CSV_CLE_DELAI_PAIEMENT]) {
@@ -141,9 +158,24 @@ class VracCsvFile extends CsvFile {
                 }
                 $v->delai_paiement_libelle = $line[self::CSV_DELAI_PAIEMENT];
                 $v->acompte = $this->formatAndVerifyAcompte($line);
+                
                 if(preg_match("/clause_reserve_propriete/", $line[self::CSV_CLAUSES])) {
-                    $v->clause_reserve_propriete = 1; 
+                    $v->clause_reserve_propriete = true; 
                 }
+
+                if(preg_match("/autorisation_nom_vin/", $line[self::CSV_CLAUSES])) {
+                    $v->autorisation_nom_vin = true; 
+                }
+
+                if(preg_match("/autorisation_nom_producteur/", $line[self::CSV_CLAUSES])) {
+                    $v->autorisation_nom_producteur = true; 
+                }
+
+                $v->conditionnement_crd = $this->formatAndVerifyConditionnementCrd($line);
+
+                $v->embouteillage = $this->formatAndVerifyEmbouteillage($line);
+
+                $v->preparation_vin = $this->formatAndVerifyPreparationVin($line);
                 
                 $v->commentaire = $line[self::CSV_COMMENTAIRES];
 
@@ -219,6 +251,22 @@ class VracCsvFile extends CsvFile {
         
     }
 
+    private function verifyAndFormatResponsable($line) {
+        $responsable = $line[self::CSV_RESPONSABLE];
+
+        if(!$responsable) {
+
+            return null;
+        }
+
+        if(!in_array($responsable, array('vendeur', 'acheteur', 'mandataire'))) {
+
+            throw new Exception(sprintf("Le type de responsable %s n'existe pas", $responsable));
+        }
+
+        return $responsable;
+    }
+
     private function verifyAndFormatMillesime($line) {
 
         return $line[self::CSV_MILLESIME] ? (int) $line[self::CSV_MILLESIME] : null;
@@ -227,6 +275,15 @@ class VracCsvFile extends CsvFile {
     private function verifyAndFormatCatgeorieVin($line) {
 
         return ($line[self::CSV_CATEGORIE_VIN]) ? $line[self::CSV_CATEGORIE_VIN] : VracClient::CATEGORIE_VIN_GENERIQUE;
+    }
+
+    private function verifyAndFormatDomaine($line, $vrac) {
+        $domaine = trim($line[self::CSV_CATEGORIE_VIN_INFO]);
+        if($vrac->categorie_vin == VracClient::CATEGORIE_VIN_GENERIQUE && $domaine) {
+            echo sprintf("%s : #%s\n", $this->yellow("Attention un domaine a été déclaré alors que le vin est générique"), implode(";", $line));
+        }
+
+        return ($domaine) ? $domaine : null;
     }
 
     private function verifyAndFormatDegre($line) {
@@ -244,7 +301,7 @@ class VracCsvFile extends CsvFile {
 
         if (!$number) {
 
-            throw new Exception(sprintf("Le volume proposé est requis", $number));
+            throw new Exception(sprintf("Le volume proposé est requis"));
         }
 
         return $number;
@@ -255,10 +312,45 @@ class VracCsvFile extends CsvFile {
 
         if (!$number) {
 
-            throw new Exception(sprintf("Le prix unitaire est requis", $number));
+            throw new Exception(sprintf("Le prix unitaire est requis"));
         }
 
         return $number;
+    }
+
+    private function verifyAndFormatBouteillesContenanceVolume($line) {
+        $contenance = $line[self::CSV_RECIPIENT_CONTENANCE];
+
+        if(!$contenance) {
+
+            return null;
+        }
+
+        $contenances = VracConfiguration::getInstance()->getContenances();
+
+        if(!in_array($contenance, $contenances)) {
+            
+            throw new Exception(sprintf("La contenance %s n'existe pas en configuration", $contenance));
+        }
+
+        return $contenance;
+    }
+
+    private function verifyAndFormatBouteillesContenanceLibelle($line, $vrac) {
+
+        if(!$vrac->bouteilles_contenance_volume) {
+
+            return null;
+        }
+
+        $contenances = VracConfiguration::getInstance()->getContenances();
+
+        if(!in_array($vrac->bouteilles_contenance_volume, $contenances)) {
+            
+            throw new Exception(sprintf("La contenance %s n'existe pas en configuration", $vrac->bouteilles_contenance_volume));
+        }
+
+        return array_search($vrac->bouteilles_contenance_volume, $contenances);
     }
 
     private function formatAndVerifyAcompte($line) {
@@ -272,7 +364,8 @@ class VracCsvFile extends CsvFile {
 
         if (!$date) {
 
-            throw new Exception(sprintf("La date de début de retiraison est requise", $date));
+            return null;
+            //throw new Exception(sprintf("La date de début de retiraison est requise", $date));
         }
 
         return $this->formatAndVerifyDate($date);
@@ -287,6 +380,45 @@ class VracCsvFile extends CsvFile {
         }
 
         return $this->formatAndVerifyDate($date);
+    }
+
+    private function formatAndVerifyConditionnementCrd($line) {
+        $conditionnements = array_keys(VracConfiguration::getInstance()->getConditionnementsCRD());
+
+        foreach($conditionnements as $conditionnement) {
+            if(preg_match("/".$conditionnement."/", $line[self::CSV_CLAUSES])) {
+
+                return $conditionnement;
+            }
+        }
+
+        return null;
+    }
+
+    private function formatAndVerifyPreparationVin($line) {
+        $acteurs = array_keys(VracConfiguration::getInstance()->getActeursPreparationVin());
+
+        foreach($acteurs as $acteur) {
+            if(preg_match("/"."PREPARATION_VIN_".$acteur."/", $line[self::CSV_CLAUSES])) {
+
+                return $acteur;
+            }
+        }
+
+        return null;
+    }
+
+    private function formatAndVerifyEmbouteillage($line) {
+        $acteurs = array_keys(VracConfiguration::getInstance()->getActeursEmbouteillage());
+
+        foreach($acteurs as $acteur) {
+            if(preg_match("/"."EMBOUTEILLAGE_".$acteur."/", $line[self::CSV_CLAUSES])) {
+
+                return $acteur;
+            }
+        }
+
+        return null;
     }
 
     private function formatAndVerifyCepage($line) {
