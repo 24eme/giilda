@@ -159,7 +159,7 @@ class DRMDetail extends BaseDRMDetail {
 
         $total_entrees_revendique = $this->getTotalByKey('entrees', true);
         $total_sorties_revendique = $this->getTotalByKey('sorties', true);
-        $this->stocks_fin->revendique = $this->stocks_debut->revendique + $total_entrees_revendique - $total_sorties_revendique;
+        $this->stocks_fin->dont_revendique = $this->stocks_debut->dont_revendique + $total_entrees_revendique - $total_sorties_revendique;
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
@@ -173,7 +173,7 @@ class DRMDetail extends BaseDRMDetail {
         $this->cvo->volume_taxable = $this->total_facturable;
 
         $this->total = $this->stocks_fin->final;
-        $this->total_revendique = $this->stocks_fin->revendique;
+        $this->total_revendique = $this->stocks_fin->dont_revendique;
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -189,12 +189,12 @@ class DRMDetail extends BaseDRMDetail {
         }
     }
 
-    private function getTotalByKey($key, $onlyRevendiquant = false) {
+    private function getTotalByKey($key, $onlyRevendique = false) {
         $sum = 0;
         foreach ($this->get($key, true) as $n => $k) {
             if (!is_object($k)) {
-                if ($onlyRevendiquant) {
-                    if ($this->getConfig()->$key->$n->revendiquant) {
+                if ($onlyRevendique) {
+                    if ($this->getConfig()->$key->$n->revendique) {
                         $sum += $k;
                     }
                 } else {

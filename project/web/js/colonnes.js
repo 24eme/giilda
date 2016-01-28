@@ -423,13 +423,13 @@
             this.groupes.calculer();
         }
 
-        this.total = function () {
+        this.totalRecolte = function () {
 
-            return this.groupes.total();
+            return this.groupes.totalRecolte();
         }
 
-        this.totalRevendique = function () {
-            return this.groupes.totalRevendique();
+        this.totalDontRevendique = function () {
+            return this.groupes.totalDontRevendique();
         }
 
         this.getHash = function () {
@@ -683,19 +683,19 @@
             }
         }
 
-        this.total = function () {
+        this.totalRecolte = function () {
             var somme = 0;
             for (key in this.groupes) {
-                somme += this.groupes[key].total();
+                somme += this.groupes[key].totalRecolte();
             }
 
             return somme;
         }
 
-        this.totalRevendique = function () {
+        this.totalDontRevendique = function () {
             var sommeR = 0;
             for (key in this.groupes) {
-                sommeR += this.groupes[key].totalRevendique();
+                sommeR += this.groupes[key].totalDontRevendique();
             }
 
             return sommeR;
@@ -827,13 +827,13 @@
             this.champs.calculer();
         }
 
-        this.total = function () {
+        this.totalRecolte = function () {
 
-            return this.champs.total();
+            return this.champs.totalRecolte();
         }
 
-        this.totalRevendique = function () {
-            return this.champs.totalRevendique();
+        this.totalDontRevendique = function () {
+            return this.champs.totalDontRevendique();
         }
 
         this.enabled = function () {
@@ -922,10 +922,10 @@
             return somme;
         }
 
-        this.sommeEntreesRevendiquant = function () {
+        this.sommeEntreesRevendique = function () {
             var somme = 0;
             for (key in this.champs) {
-                if (this.champs[key].isRevendiquantEntree()) {
+                if (this.champs[key].isRevendiqueEntree()) {
                     somme += this.champs[key].somme();
                 }
             }
@@ -933,10 +933,21 @@
             return somme;
         }
 
-        this.sommeSortiesRevendiquant = function () {
+        this.sommeSortiesRevendique = function () {
             var somme = 0;
             for (key in this.champs) {
-                if (this.champs[key].isRevendiquantSortie()) {
+                if (this.champs[key].isRevendiqueSortie()) {
+                    somme += this.champs[key].somme();
+                }
+            }
+
+            return somme;
+        }
+        
+          this.sommeEntreesRecolte = function () {
+            var somme = 0;
+            for (key in this.champs) {
+                if (this.champs[key].isRecolteEntree()) {
                     somme += this.champs[key].somme();
                 }
             }
@@ -944,19 +955,30 @@
             return somme;
         }
 
-        this.total = function () {
+        this.sommeSortiesRecolte = function () {
             var somme = 0;
             for (key in this.champs) {
-                somme += this.champs[key].total();
+                if (this.champs[key].isRecolteSortie()) {
+                    somme += this.champs[key].somme();
+                }
             }
 
             return somme;
         }
 
-        this.totalRevendique = function () {
+        this.totalRecolte = function () {
+            var somme = 0;
+            for (key in this.champs) {
+                somme += this.champs[key].totalRecolte();
+            }
+
+            return somme;
+        }
+
+        this.totalDontRevendique = function () {
             var sommeR = 0;
             for (key in this.champs) {
-                sommeR += this.champs[key].totalRevendique();
+                sommeR += this.champs[key].totalDontRevendique();
             }
             return sommeR;
         }
@@ -1021,24 +1043,31 @@
             return this.element.is('input.input-float');
         }
 
-        this.isSomme = function () {
-
-            return this.element.hasClass('somme_groupe');
-        }
+     
 
         this.isSommeDetail = function () {
 
             return this.element.hasClass('somme_detail');
         }
 
-        this.isRevendiquantEntree = function () {
+        this.isRecolteEntree = function () {
 
-            return this.element.hasClass('revendiquant_entree');
+            return this.element.hasClass('recolte_entree');
         }
 
-        this.isRevendiquantSortie = function () {
+        this.isRecolteSortie = function () {
 
-            return this.element.hasClass('revendiquant_sortie');
+            return this.element.hasClass('recolte_sortie');
+        }
+
+        this.isRevendiqueEntree = function () {
+
+            return this.element.hasClass('revendique_entree');
+        }
+
+        this.isRevendiqueSortie = function () {
+
+            return this.element.hasClass('revendique_sortie');
         }
 
         this.isTotalDebut = function () {
@@ -1046,9 +1075,9 @@
             return this.element.hasClass('somme_stock_debut');
         }
 
-        this.isTotalDebutRevendique = function () {
+        this.isTotalDebutDontRevendique = function () {
 
-            return this.element.hasClass('somme_stock_debut_revendique');
+            return this.element.hasClass('somme_stock_debut_dont_revendique');
         }
 
         this.isTotalFin = function () {
@@ -1056,19 +1085,19 @@
             return this.element.hasClass('somme_stock_fin');
         }
 
-        this.isTotalFinRevendique = function () {
+        this.isTotalFinDontRevendique = function () {
 
-            return this.element.hasClass('somme_stock_fin_revendique');
+            return this.element.hasClass('somme_stock_fin_dont_revendique');
         }
 
-        this.isSommeEntrees = function () {
+        this.isSommeEntreesRecolte = function () {
 
-            return this.element.hasClass('somme_entrees');
+            return this.element.hasClass('somme_entrees_recolte');
         }
 
-        this.isSommeSorties = function () {
+        this.isSommeSortiesRecolte = function () {
 
-            return this.element.hasClass('somme_sorties');
+            return this.element.hasClass('somme_sorties_recolte');
         }
 
 
@@ -1105,26 +1134,33 @@
         this.calculer = function () {
 
             if (this.isSommeEntreesRevendiques()) {
-                this.setVal(this.champs.sommeEntreesRevendiquant());
+                this.setVal(this.champs.sommeEntreesRevendique());
 
                 return;
             }
 
             if (this.isSommeSortiesRevendiques()) {
-                this.setVal(this.champs.sommeSortiesRevendiquant());
+                this.setVal(this.champs.sommeSortiesRevendique());
+
+                return;
+            }
+            
+            if (this.isSommeEntreesRecolte()) {
+                this.setVal(this.champs.sommeEntreesRecolte());
 
                 return;
             }
 
-            if (this.isSomme()) {
-                this.setVal(this.champs.somme());
+            if (this.isSommeSortiesRecolte()) {
+                this.setVal(this.champs.sommeSortiesRecolte());
 
                 return;
             }
+          
 
             if (this.isTotalFin()) {
                 var val_before = this.getVal();
-                this.setVal(this.colonne.total());
+                this.setVal(this.colonne.totalRecolte());
 
                 if (this.isSommeDetail() && val_before != this.getVal()) {
                     this.champs.calculer();
@@ -1133,11 +1169,11 @@
                 return;
             }
 
-            if (this.isTotalFinRevendique()) {
+            if (this.isTotalFinDontRevendique()) {
                 var val_before = this.getVal();
-                this.setVal(this.colonne.totalRevendique());
+                this.setVal(this.colonne.totalDontRevendique());
 
-                if (this.isSommeDetail() && val_before != this.getVal()) {
+                if (val_before != this.getVal()) {
                     this.champs.calculer();
                 }
 
@@ -1156,18 +1192,18 @@
             return 0;
         }
 
-        this.total = function () {
+        this.totalRecolte = function () {
             if (this.isTotalDebut()) {
 
                 return this.getVal();
             }
 
-            if (this.isSommeEntrees()) {
+            if (this.isSommeEntreesRecolte()) {
 
                 return this.getVal();
             }
 
-            if (this.isSommeSorties()) {
+            if (this.isSommeSortiesRecolte()) {
 
                 return -this.getVal();
             }
@@ -1175,9 +1211,9 @@
             return 0;
         }
 
-        this.totalRevendique = function () {
+        this.totalDontRevendique = function () {
 
-            if (this.isTotalDebutRevendique()) {
+            if (this.isTotalDebutDontRevendique()) {
                 return this.getVal();
             }
 
