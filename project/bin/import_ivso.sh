@@ -185,9 +185,9 @@ identifiant=sprintf("%06d01", $4);
 base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
 print base "stocks_debut;initial;" $10 ; 
 if($11 > 0) { print base "entrees;recolte;" $11 ; } #récolte
-if($11 < 0) { print base "sorties;transfertsappellation;" $11*-1 ; } #récolte
-if($12 > 0) { print base "entrees;transfertsappellation;" $12 ; } #volume agréé
-if($12 < 0) { print base "sorties;transfertsappellation;" $12*-1 ; } #volume agréé
+if($11 < 0) { print base "sorties;transfertsrecolte;" $11*-1 ; } #récolte
+if($12 > 0) { print base "entrees;transfertsrecolte;" $12 ; } #volume agréé
+if($12 < 0) { print base "sorties;transfertsrecolte;" $12*-1 ; } #volume agréé
 if($13 > 0) { print base "entrees;declassement;" $13 ; } #declassement
 if($13 < 0) { print base "sorties;declassement;" $13*-1 ; } #declassement
 if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
@@ -232,7 +232,7 @@ awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm.csv
 #     cat $DATA_DIR/drms/$ligne | awk -F ';' '
 #       BEGIN { somme_transfert_appellation=0; somme_declassement=0; somme_recolte=0 } 
 #       {  
-#           if($13 == "transfertsappellation") {
+#           if($13 == "transfertsrecolte") {
 #               if($12 == "entrees") { somme_transfert_appellation = somme_transfert_appellation + $14; } 
 #               if($12 == "sorties") { somme_transfert_appellation = somme_transfert_appellation - $14; } 
 #           }

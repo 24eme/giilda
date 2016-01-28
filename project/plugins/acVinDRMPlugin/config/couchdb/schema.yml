@@ -253,7 +253,7 @@ DRM:
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  revendique: { type: float, required: false }
+                                                                                                                  dont_revendique: { type: float, required: false }
                                                                                                                   instance: { type: float, required: false }
                                                                                                                   #bloque: { type: float, required: false }
                                                                                                                   initial: { type: float, required: false }                                                                                             
@@ -266,7 +266,7 @@ DRM:
                                                                                                                   achatnoncrd: { type: float, required: false } #NOUVEAU
                                                                                                                   achatcrd: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
-                                                                                                                  transfertsappellation: { type: float, required: false } #NOUVEAU
+                                                                                                                  transfertsrecolte: { type: float, required: false } #NOUVEAU
                                                                                                                   transferts: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
                                                                                                                   retourmarchandisenontaxees: { type: float, required: false } #NOUVEAU
@@ -301,7 +301,7 @@ DRM:
                                                                                                                   usageindustriel: { type: float, required: false } #NOUVEAU
                                                                                                                   distillation: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
-                                                                                                                  transfertsappellation: { type: float, required: false } #NOUVEAU
+                                                                                                                  transfertsrecolte: { type: float, required: false } #NOUVEAU
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   travailafacon: { type: float, required: false } #NOUVEAU
                                                                                                                   export: { type: float, required: false } #ANCIEN ET NOUVEAU                                                                                                                  
@@ -373,7 +373,7 @@ DRM:
                                                                                                               class: DRMDetailNoeud
                                                                                                               definition:
                                                                                                                 fields:
-                                                                                                                  revendique: { type: float, required: false }
+                                                                                                                  dont_revendique: { type: float, required: false }
                                                                                                                   instance: { type: float, required: false }
                                                                                                                   final: { type: float, required: false }
                                                                                                                   #bloque: { type: float, required: false }

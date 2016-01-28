@@ -65,12 +65,12 @@ class DRMValidation extends DocumentValidation {
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
             }
-            if (!$detail->getConfig()->entrees->exist('transfertsappellation')) {
+            if (!$detail->getConfig()->entrees->exist('transfertsrecolte')) {
                 break;
             }
             
-            $total_entrees_transfert_appellation += $detail->entrees->transfertsappellation;
-            $total_sorties_transfert_appellation += $detail->sorties->transfertsappellation;
+            $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
+            $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
             
         }
 
