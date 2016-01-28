@@ -29,4 +29,9 @@ ivbd:
           "prix_initial_unitaire":
             "cle": "EURO_TONNEAU"
             "libelle": "€/T"
-
+      delais_paiement:
+        "COMPTANT": "Comptant"
+        "30_JOURS": "30 jours fin de mois"
+        "45_JOURS": "45 jours fin de mois"
+        "60_JOURS": "60 jours fin de mois"
+        "75_JOURS": "75 jours fin de mois"

@@ -94,6 +94,7 @@ join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR
 cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;10222;10222;2011;/g' | sed 's/;3;10194;10194;22012;/;3;10194;10194;2012;/g' | sed 's/;2;10849;10849;201;12;91236;/;2;10849;10849;2015;12;91236;/g' | sed 's/;88;7922;7922;20112;/;88;7922;7922;2012;/g' > $DATA_DIR/contrats_produits_cepages.clean.csv
 
 # Début génération des Id couchDB
+#tail -n 1 $DATA_DIR/contrats_produits_cepages.clean.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
 cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{ 
 date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $9); 
@@ -103,6 +104,7 @@ if(length($7) > 7){
    num_bordereau=substr($7,1,7);
 }
 id_vrac=sprintf("%4d%07d", $5 , num_bordereau);
+produit_id=$2; 
 libelle_produit=$41; 
 vin_bio=$19;
 vin_prepare=$20;
@@ -132,16 +134,23 @@ if(libelle_delais_paiement=="Comptant"){
   cle_delais_paiement="45_JOURS";
 }
 
+delais_paiement_libelle=$33;
+
 commentaires=$30;
 exclure_v2=$39;
+degre=$23;
+recipient_contenance="";
+prix_unitaire_hl=$24;
+volume_propose=$21;
+volume_enleve="";
 
 if(exclure_v2 == "O") {
     next;
 }
-
+proprietaire="";
 annule=$36;
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" $2 ";" libelle_produit ";" $17 ";" $1 ";" $42 ";;;" $21 ";hl;" $23 ";;;" $21 ";" $22 ";" $24 ";" $24 ";" cle_delais_paiement ";" $33 ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
