@@ -49,7 +49,7 @@ php symfony cc > /dev/null
 cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan Bigorre/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne Condomois/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan Tarn et Garonne/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan Coteaux et Terrasses de Montauban/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan Pyrénées Atlantiques/' | sed 's/IGP Cantal/IGP Comté Tolosan Cantal/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' | sed 's/IGP Lot et Garonne/IGP/' > $DATA_DIR/produits_conversion.csv
 cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
 
-echo "Import des contacts"
+echo "Construction du fichier d'import des Contacts"
 
 #Affichage des entêtes en ligne
 #head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
@@ -77,10 +77,7 @@ if (famille == "AUTRE") next ;
 print $1 ";" $1 ";" famille ";" nom ";" statut ";HORS_REGION;" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
-php symfony import:societe $DATA_DIR/societes.csv
-php symfony import:etablissement $DATA_DIR/etablissements.csv
-
-echo "Import des contrats"
+echo "Construction du fichier d'import des Contrats de vente"
 
 cat $DATA_DIR/contrats.csv | tr -d "\n" | tr "\r" "\n" | sort -t ";" -k 16,16 > $DATA_DIR/contrats.csv.sorted.produits
 
@@ -149,8 +146,12 @@ if(exclure_v2 == "O") {
 }
 proprietaire="";
 annule=$36;
+statut="NONSOLDE";
+if(annule=="O") {
+  statut="ANNULE";
+}
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
@@ -181,9 +182,7 @@ print $1 ";" id_vrac ";" num_bordereau ";" $0
 id_vrac_prec=$2;
 }' | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);(.*)/\1;\2;\7/g' | sed 's/^Numéro Contrat;   00000000;Numéro ;//g' | sed 's/;   00000000//g' > $DATA_DIR/vracs.csv
 
-php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
-
-echo "Import des DRM"
+echo "Construction du fichier d'import des DRM"
 
 cat $DATA_DIR/DRM.csv | tr -d "\r" | sort -t ";" -k 6,6 > $DATA_DIR/drm.csv.produits.sorted
 
@@ -271,16 +270,27 @@ awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm.csv
 #       }'
 # done
 
-ls $DATA_DIR/drms | while read ligne
-do
-    PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
-    IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
-    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT
-done
-
 echo "Contrôle de cohérence des DRM"
 
 cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
 do
     php symfony drm:controle-coherence "$ligne"
+done
+
+echo "Import des contacts"
+
+php symfony import:societe $DATA_DIR/societes.csv
+php symfony import:etablissement $DATA_DIR/etablissements.csv
+
+echo "Import des contrats"
+
+php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
+
+echo "Import des DRM"
+
+ls $DATA_DIR/drms | while read ligne
+do
+    PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
+    IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT
 done
