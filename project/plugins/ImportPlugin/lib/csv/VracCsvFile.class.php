@@ -200,7 +200,7 @@ class VracCsvFile extends CsvFile {
         }
 
 
-        throw new Exception(sprintf("Le numéro de contrat en nul ou au mauvais format %s", $line[self::CSV_NUMERO_CONTRAT]));
+        throw new Exception(sprintf("Le numéro de contrat est nul ou au mauvais format %s", $line[self::CSV_NUMERO_CONTRAT]));
     }
 
     private function verifyAndFormatNumeroArchive($line) {
@@ -209,7 +209,7 @@ class VracCsvFile extends CsvFile {
             return sprintf("%05d", $line[self::CSV_NUMERO_PAPIER]);
         }
 
-        throw new Exception(sprintf("Le numéro d'archive en nul ou au mauvais format %s", $line[self::CSV_NUMERO_PAPIER]));
+        throw new Exception(sprintf("Le numéro d'archive est nul ou au mauvais format %s", $line[self::CSV_NUMERO_PAPIER]));
     }
 
     private function verifyAndFormatDateSignature($line) {
@@ -387,7 +387,7 @@ class VracCsvFile extends CsvFile {
 
         if (!$date) {
 
-            throw new Exception(sprintf("La date de fin de retiraison est requise", $date));
+            echo sprintf("%s : #%s\n", $this->yellow("La date de fin de retiraison est vide"), implode(";", $line));
         }
 
         return $this->formatAndVerifyDate($date);
