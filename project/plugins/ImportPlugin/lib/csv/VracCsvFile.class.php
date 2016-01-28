@@ -7,41 +7,42 @@ class VracCsvFile extends CsvFile {
     const CSV_DATE_SIGNATURE = 2;
     const CSV_DATE_SAISIE = 3;
     const CSV_TYPE_TRANSACTION = 4;
-    const CSV_VENDEUR_ID = 5;
-    const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 6;
-    const CSV_INTERMEDIAIRE_ID = 7;
-    const CSV_ACHETEUR_ID = 8;
-    const CSV_COURTIER_ID = 9;
-    const CSV_RESPONSABLE = 10;
-    const CSV_PRODUIT_ID = 11;
-    const CSV_PRODUIT_LIBELLE = 12;
-    const CSV_MILLESIME = 13;
-    const CSV_CEPAGE_ID = 14;
-    const CSV_CEPAGE_LIBELLE = 15;
-    const CSV_CATEGORIE_VIN = 16;
-    const CSV_CATEGORIE_VIN_INFO = 17;
-    const CSV_SURFACE = 18;
-    const CSV_LOT = 19;
-    const CSV_DEGRE = 20;
-    const CSV_RECIPIENT_CONTENANCE = 21;
-    const CSV_QUANTITE = 22;
-    const CSV_QUANTITE_UNITE = 23;
-    const CSV_VOLUME_PROPOSE = 24;
-    const CSV_VOLUME_ENLEVE = 25;
-    const CSV_PRIX_UNITAIRE = 26;
-    const CSV_PRIX_UNITAIRE_HL = 27;
-    const CSV_CLE_DELAI_PAIEMENT = 28;
-    const CSV_DELAI_PAIEMENT = 29;
-    const CSV_ACOMPTE_SIGNATURE = 30;
-    const CSV_MOYEN_PAIEMENT = 31;
-    const CSV_TAUX_COURTAGE = 32;
-    const CSV_REPARTITION_COURTAGE = 33;
-    const CSV_REPARTITION_CVO = 34;
-    const CSV_RETIRAISON_DATE_DEBUT = 35;
-    const CSV_RETIRAISON_DATE_FIN = 36;
-    const CSV_CLAUSES = 37;
-    const CSV_LABELS = 38;
-    const CSV_COMMENTAIRES = 39;
+    const CSV_STATUT = 5;
+    const CSV_VENDEUR_ID = 6;
+    const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 7;
+    const CSV_INTERMEDIAIRE_ID = 8;
+    const CSV_ACHETEUR_ID = 9;
+    const CSV_COURTIER_ID = 10;
+    const CSV_RESPONSABLE = 11;
+    const CSV_PRODUIT_ID = 12;
+    const CSV_PRODUIT_LIBELLE = 13;
+    const CSV_MILLESIME = 14;
+    const CSV_CEPAGE_ID = 15;
+    const CSV_CEPAGE_LIBELLE = 16;
+    const CSV_CATEGORIE_VIN = 17;
+    const CSV_CATEGORIE_VIN_INFO = 18;
+    const CSV_SURFACE = 19;
+    const CSV_LOT = 20;
+    const CSV_DEGRE = 21;
+    const CSV_RECIPIENT_CONTENANCE = 22;
+    const CSV_QUANTITE = 23;
+    const CSV_QUANTITE_UNITE = 24;
+    const CSV_VOLUME_PROPOSE = 25;
+    const CSV_VOLUME_ENLEVE = 26;
+    const CSV_PRIX_UNITAIRE = 27;
+    const CSV_PRIX_UNITAIRE_HL = 28;
+    const CSV_CLE_DELAI_PAIEMENT = 29;
+    const CSV_DELAI_PAIEMENT = 30;
+    const CSV_ACOMPTE_SIGNATURE = 31;
+    const CSV_MOYEN_PAIEMENT = 32;
+    const CSV_TAUX_COURTAGE = 33;
+    const CSV_REPARTITION_COURTAGE = 34;
+    const CSV_REPARTITION_CVO = 35;
+    const CSV_RETIRAISON_DATE_DEBUT = 36;
+    const CSV_RETIRAISON_DATE_FIN = 37;
+    const CSV_CLAUSES = 38;
+    const CSV_LABELS = 39;
+    const CSV_COMMENTAIRES = 40;
 
     const LABEL_BIO = 'agriculture_biologique';
     const LABEL_VIN_PREPARE = 'vin_prepare';
@@ -178,11 +179,10 @@ class VracCsvFile extends CsvFile {
                 $v->preparation_vin = $this->formatAndVerifyPreparationVin($line);
                 
                 $v->commentaire = $line[self::CSV_COMMENTAIRES];
-
-                $v->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
-
                 $v->update();
-                $v->enleverVolume($v->volume_propose);
+                //$v->enleverVolume($v->volume_enleve);
+
+                $v->valide->statut = $this->verifyAndFormatStatut($line);
 
                 $v->save();
                 echo sprintf("Le contrat %s a bien été importé\n", $this->green($v->_id));
@@ -230,6 +230,17 @@ class VracCsvFile extends CsvFile {
         }
 
         return $this->formatAndVerifyDate($date);
+    }
+
+    private function verifyAndFormatStatut($line) {
+        $statut = $line[self::CSV_STATUT];
+        $statuts = VracClient::getInstance()->getStatuts();
+
+        if(!array_key_exists($line[self::CSV_STATUT], $statuts)) {
+            throw new Exception(sprintf("Le statut %s n'existe pas", $statut));
+        }
+
+        return $statut;
     }
 
     private function verifyEtablissement($id) {
