@@ -132,7 +132,8 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
-                              revendiquant: { type: integer }
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -152,7 +153,8 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
-                              revendiquant: { type: integer }
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -171,8 +173,9 @@ Configuration:
                             fields:
                               readable: { type: integer }
                               writable: { type: integer }
-                              details: { type: integer }
-                              revendiquant: { type: integer }
+                              details: { type: integer }                              
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -191,8 +194,9 @@ Configuration:
                             fields:
                               readable: {  }
                               writable: {  }
-                              details: {  }
-                              revendiquant: { type: integer }
+                              details: {  }                              
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: {  }
                               vrac: { type: integer }
                               facturable: {  }

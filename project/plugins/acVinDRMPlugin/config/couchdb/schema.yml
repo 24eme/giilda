@@ -260,6 +260,7 @@ DRM:
                                                                                                               definition:
                                                                                                                 fields:
                                                                                                                   '*': { type: float }
+
                                                                                                             sorties:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
