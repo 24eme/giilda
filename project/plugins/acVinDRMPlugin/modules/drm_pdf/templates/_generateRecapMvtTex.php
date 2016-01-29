@@ -180,7 +180,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \rowcolor{gray}
         \multicolumn{2}{|c|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->stocks_fin->revendique); ?>}}}} 
+            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->stocks_fin->final); ?>}}}} 
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>  
         \\	

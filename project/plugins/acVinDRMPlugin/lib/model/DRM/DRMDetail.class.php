@@ -152,20 +152,18 @@ class DRMDetail extends BaseDRMDetail {
                 $this->sorties->cooperative+=$cooperative_detail->volume;
             }
         }
-        $this->total_entrees = $this->getTotalByKey('entrees');
-        $this->total_sorties = $this->getTotalByKey('sorties');
+        $this->total_entrees = $this->getTotalByKey('entrees','recolte');
+        $this->total_sorties = $this->getTotalByKey('sorties','recolte');
 
         $this->stocks_fin->final = $this->stocks_debut->initial + $this->total_entrees - $this->total_sorties;
 
-        $total_entrees_revendique = $this->getTotalByKey('entrees', true);
-        $total_sorties_revendique = $this->getTotalByKey('sorties', true);
+        $total_entrees_revendique = $this->getTotalByKey('entrees', 'revendique');
+        $total_sorties_revendique = $this->getTotalByKey('sorties', 'revendique');
         $this->stocks_fin->dont_revendique = $this->stocks_debut->dont_revendique + $total_entrees_revendique - $total_sorties_revendique;
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
-        if ($this->entrees->exist('revendique')) {
-            $this->total_recolte = $this->entrees->revendique;
-        }
+        
         $this->total_facturable = 0;
         $this->updateNoeud('entrees', -1);
         $this->updateNoeud('sorties', 1);
@@ -189,12 +187,12 @@ class DRMDetail extends BaseDRMDetail {
         }
     }
 
-    private function getTotalByKey($key, $onlyRevendique = false) {
+    private function getTotalByKey($key, $onlyCaracteristique = false) {
         $sum = 0;
         foreach ($this->get($key, true) as $n => $k) {
             if (!is_object($k)) {
-                if ($onlyRevendique) {
-                    if ($this->getConfig()->$key->$n->revendique) {
+                if ($onlyCaracteristique) {
+                    if ($this->getConfig()->$key->$n->$onlyCaracteristique) {
                         $sum += $k;
                     }
                 } else {
