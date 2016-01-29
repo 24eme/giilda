@@ -484,11 +484,11 @@ EOF;
   public function importLigneDS($drm, $line) {
     $produit = $drm->addProduit($this->getHash($this->getCodeProduit($line)));
 
-    if (is_null($produit->stocks_debut->revendique)) {
-      $produit->stocks_debut->revendique = 0;
+    if (is_null($produit->stocks_debut->dont_revendique)) {
+      $produit->stocks_debut->dont_revendique = 0;
     }
 
-    $produit->stocks_debut->revendique = $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]);
+    $produit->stocks_debut->dont_revendique = $this->convertToFloat($line[self::CSV_DS_VOLUME_LIBRE]);
   }
 
   public function importLigneContrat($drm, $line) {
