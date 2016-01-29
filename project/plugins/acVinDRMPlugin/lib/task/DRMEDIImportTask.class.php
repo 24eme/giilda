@@ -17,6 +17,7 @@ class DRMEDIImportTask extends sfBaseTask
         new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
         new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
         new sfCommandOption('date-validation', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', false),
+        new sfCommandOption('creation-depuis-precedente', null, sfCommandOption::PARAMETER_REQUIRED, 'Créatio depuis la précédente', false),
       ));
 
       $this->namespace        = 'drm';
@@ -36,22 +37,27 @@ EOF;
       // initialize the database connection
       $databaseManager = new sfDatabaseManager($this->configuration);
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-      
-      $drm = new DRM();
-      $drm->identifiant = $arguments['identifiant'];
-      $drm->periode = $arguments['periode'];
-      if($arguments['numero_archive']) {
-        $drm->numero_archive = $arguments['numero_archive'];
-      }
 
-      if(DRMClient::getInstance()->find('DRM-'.$drm->identifiant.'-'.$drm->periode, acCouchdbClient::HYDRATE_JSON)) {
-        echo "Existe : ".'DRM-'.$drm->identifiant.'-'.$drm->periode."\n";
+      if(DRMClient::getInstance()->find('DRM-'.$arguments['identifiant'].'-'.$arguments['periode'], acCouchdbClient::HYDRATE_JSON)) {
+        echo "Existe : ".'DRM-'.$arguments['identifiant'].'-'.$arguments['periode']."\n";
         return;
       }
 
-      if(!EtablissementClient::getInstance()->find($drm->identifiant, acCouchdbClient::HYDRATE_JSON)) {
-          echo "L'établissement n'existe pas;".$drm->identifiant."\n";
+      if(!EtablissementClient::getInstance()->find($arguments['identifiant'], acCouchdbClient::HYDRATE_JSON)) {
+          echo "L'établissement n'existe pas;".$arguments['identifiant']."\n";
           return;
+      }
+      
+      if($options['creation-depuis-precedente']) {
+          DRMClient::getInstance()->createDocByPeriode($arguments['identifiant'], $arguments['periode']);
+      } else {
+          $drm = new DRM();
+          $drm->identifiant = $arguments['identifiant'];
+          $drm->periode = $arguments['periode'];
+      }
+
+      if($arguments['numero_archive']) {
+        $drm->numero_archive = $arguments['numero_archive'];
       }
 
       try {

@@ -62,7 +62,7 @@ famille=($14 ? "NEGOCIANT" : famille ) ;
 famille=($15 ? "COURTIER" : famille ) ; 
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
 print $1 ";" famille ";" trim($2 " " $3 " " $4) ";;" statut ";;" $34 ";;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
-}' > $DATA_DIR/societes.csv
+}' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
@@ -270,13 +270,6 @@ awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm.csv
 #       }'
 # done
 
-echo "Contrôle de cohérence des DRM"
-
-cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
-do
-    php symfony drm:controle-coherence "$ligne"
-done
-
 echo "Import des contacts"
 
 php symfony import:societe $DATA_DIR/societes.csv
@@ -293,4 +286,12 @@ do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
     php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT
+#    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --creation-depuis-precedente=true
+done
+
+echo "Contrôle de cohérence des DRM"
+
+cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
+do
+    php symfony drm:controle-coherence "$ligne"
 done
