@@ -28,6 +28,8 @@
     });
     $.fn.initAdvancedElements = function () {
 
+        var element = $(this);
+
         $(this).find('.input-float').inputNumberFormat({'decimal': 4, 'decimalAuto': 2});
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
@@ -111,6 +113,48 @@
                 })
             }
         }
+        
+        $(this).find('.hamzastyle').each(function() {
+            var select2 = $(this);
+            select2.select2({
+                multiple: true,
+                data: function() {
+                    var data = [];
+                    element.find(select2.attr('data-hamzastyle-container')).find('.hamzastyle-item').each(function() {
+                        data = data.concat(JSON.parse($(this).attr('data-words')));
+                    });
+
+                    var data = unique(data.sort());
+
+                    dataFinal = [];
+                    for(key in data) {
+                        dataFinal.push({ id: key, text: (data[key]+"") });
+                    }
+
+                    return { results: dataFinal };
+                }
+            })
+        });
+
+        $(this).find('.hamzastyle').on("change", function(e) {
+            var selectedWords = $(this).select2("data");
+            element.find($(this).attr('data-hamzastyle-container')).find('.hamzastyle-item').each(function() {
+                var words = $(this).attr('data-words');
+                var find = true;
+                for(key in selectedWords) {
+                    var word = selectedWords[key].text;
+                    if (words.indexOf(word) === -1) {
+                        find = false;
+                    }
+                }
+                if (find) {     
+                    $(this).show();    
+                } else {
+                    $(this).hide();    
+                }
+             });
+            
+        })
 
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',

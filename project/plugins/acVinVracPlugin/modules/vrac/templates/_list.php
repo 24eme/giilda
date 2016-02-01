@@ -4,12 +4,18 @@
 
 <?php if(count($vracs->rows) > 0): ?>
 <?php if(isset($hamza_style) && $hamza_style) : ?>
-    <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_contrats', 
-                                                     'mots' => vrac_get_words($vracs->rows),
-                                                     'consigne' => "Saisissez un numéro de contrat, un soussigné ou un produit :")) ?>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <h3>Filtrer</h3>
+        <div class="form-group">
+            <input type="hidden" data-placeholder="Saisissez un numéro de contrat, un soussigné ou un produit" data-hamzastyle-container="#table_contrats" class="hamzastyle form-control" />
+        </div>
+    </div>
+</div>
 <?php endif; ?>
 
-<table class="table">    
+
+<table id="table_contrats" class="table">
     <thead>
         <tr>
         <th style="width: 0;">&nbsp;</th>
@@ -29,7 +35,7 @@
                 $vracid = preg_replace('/VRAC-/', '', $elt[VracHistoryView::VALUE_NUMERO]);
                 $v = VracClient::getInstance()->findByNumContrat($vracid);
                 ?>
-                <tr id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracHistoryView::VALUE_STATUT]) ?>" >
+                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($elt[VracHistoryView::VALUE_ACHETEUR_NOM]), Search::getWords($elt[VracHistoryView::VALUE_VENDEUR_NOM]), Search::getWords($elt[VracHistoryView::VALUE_PRODUITLIBELLE]), array(strtolower($elt[VracHistoryView::VALUE_ACHETEUR_NOM]), strtolower($elt[VracHistoryView::VALUE_VENDEUR_NOM]), strtolower($elt[VracHistoryView::VALUE_PRODUITLIBELLE]), strtolower(($elt[VracClient::VRAC_VIEW_NUMARCHIVE]) ? $elt[VracClient::VRAC_VIEW_NUMARCHIVE] : ""))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracHistoryView::VALUE_STATUT]) ?> hamzastyle-item" >
                     <td style="vertical-align: middle;" class="text-center">
                     <span class="<?php echo typeToPictoCssClass($elt[VracHistoryView::VALUE_TYPE]) ?>" style="font-size: 24px;"></span>
                     </td>

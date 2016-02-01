@@ -12,7 +12,7 @@
 
     <div class="col-xs-12">
             <?php if (count($vracs->rows->getRawValue())): ?>
-                <?php include_partial('list', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => false)); ?>
+                <?php include_partial('list', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => true)); ?>
             <?php else: ?>
                 <p>Il n'existe aucun contrat pour cette recherche</p>
             <?php endif; ?>
