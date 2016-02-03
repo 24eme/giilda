@@ -26,9 +26,18 @@
     </div>
     <?php endif; ?>
 
+    <div class="row">
+        <div class="col-xs-12">
+            <h3>Filtrer</h3>
+            <div class="form-group">
+                <input type="hidden" data-placeholder="Saisissez un produit ou un mois" data-hamzastyle-container="#table_stocks" class="hamzastyle form-control" />
+            </div>
+        </div>
+    </div>
+
     <div class="row" style="margin-top: 20px;">
         <div class="col-xs-12">
-            <table class="table table-bordered table-condensed table-striped">
+            <table id="table_stocks" class="table table-bordered table-condensed table-striped">
                 <thead>
                     <tr>
                         <th class="col-xs-2">Mois</td>
@@ -43,7 +52,7 @@
                     <?php $i = 1; ?>
                     <?php foreach($produits->getRawValue() as $produit): ?>
                     <?php $i++; ?>
-                            <tr id="<?php echo produit_get_id($produit) ?>">
+                            <tr class="hamzastyle-item" data-words='<?php echo json_encode(array_merge(Search::getWords($produit->produit_libelle), Search::getWords($produit->mois), array(strtolower($produit->produit_libelle), strtolower($produit->mois))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo produit_get_id($produit) ?>">
                                 <td><a href="<?php echo url_for('drm_visualisation', array('identifiant' => $etablissement->identifiant, 'periode_version' => DRMClient::getInstance()->buildPeriodeAndVersion($produit->periode, $produit->version)))?>"><?php echo $produit->mois ?></a></td>
                                 <td><?php echo $produit->produit_libelle ?></td>
                                 <td><strong><?php echoFloat($produit->total_debut_mois) ?></strong></td>
