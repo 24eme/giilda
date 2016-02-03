@@ -60,7 +60,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
                                              <?php if($facture->emetteur->exist('email')): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?> 
                                               <?php endif;?>} 
-\def\InterloireSIRET{429 164 072 00077}
+\def\InterloireSIRET{429 164 072 00143}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
 \def\InterloireBANQUE{<?php echo $coordonneesBancaires->banque; ?>}

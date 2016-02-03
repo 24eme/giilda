@@ -47,3 +47,4 @@ use_helper('Display');
 			\end{flushleft}
 		\hspace{6cm}
 \end{minipage}
+\vspace{-1cm}
