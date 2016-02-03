@@ -128,7 +128,9 @@
 
                     dataFinal = [];
                     for(key in data) {
-                        dataFinal.push({ id: key, text: (data[key]+"") });
+                        if(data[key]+"") {
+                            dataFinal.push({ id: key, text: (data[key]+"") });
+                        }
                     }
 
                     return { results: dataFinal };

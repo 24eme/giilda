@@ -67,7 +67,7 @@ class Search {
 
     public static function getWords($value) {
         $words = array();
-        $expressions = preg_split('/([,; \|()])/', $value);
+        $expressions = preg_split('#([,; \|/()\'])#', $value);
         $words_mandatories = array("ac");
         foreach($expressions as $exp) {
             if(preg_match('/[\wû]{3,}/', $exp) || in_array(strtolower($exp), $words_mandatories)) {

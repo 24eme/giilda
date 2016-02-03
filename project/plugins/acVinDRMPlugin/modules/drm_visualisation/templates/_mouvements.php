@@ -11,14 +11,16 @@ if(!isset($isTeledeclarationMode)) {
 
 <?php if (count($mouvements) > 0): ?>
     <?php if (isset($hamza_style)) : ?>
-        <?php
-        include_partial('global/hamzaStyle', array('table_selector' => '#table_mouvements',
-            'mots' => mouvement_get_words($mouvements),
-            'consigne' => "Saisissez un produit, un type de mouvement, un numéro de contrat, un pays d'export, etc. :"))
-        ?>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <input type="hidden" data-placeholder="Saisissez un produit, un type de mouvement, un numéro de contrat, un pays d'export, etc. :" data-hamzastyle-container="#table_mouvements" class="hamzastyle form-control" />
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
 
-    <table class="table table-striped table-condensed">
+    <table id="table_mouvements" class="table table-striped table-condensed">
         <thead>
             <tr>
                 <?php if (!$isTeledeclarationMode): ?>
@@ -32,11 +34,12 @@ if(!isset($isTeledeclarationMode)) {
         <tbody>
             <?php $i = 1; ?>
     <?php foreach ($mouvements as $mouvement): ?>
-                <tr id="<?php echo mouvement_get_id($mouvement) ?>" class="<?php
+                <?php $libelleDoc = acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id); ?>
+                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($mouvement->produit_libelle), Search::getWords($mouvement->type_libelle), Search::getWords($libelleDoc), Search::getWords($mouvement->detail_libelle), array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($libelleDoc), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php
         echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
                     <?php if(!$isTeledeclarationMode): ?>
                     <td>
-			<a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id) ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a><br/>
+			<a title="Saisi le <?php echo format_date($mouvement->date_version, 'D') ?>" href="<?php echo url_for('redirect_visualisation', array('id_doc' => $mouvement->doc_id)) ?>"><?php echo $libelleDoc ?><?php echo ($mouvement->version) ? ' ('.$mouvement->version.')' : '' ?></a><br/>
                         <small><em>Mouvement saisi le <?php echo format_date($mouvement->date_version, 'D') ?></em></small>
                     </td>
                     <?php endif; ?>
