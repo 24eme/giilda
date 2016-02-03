@@ -106,7 +106,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function canSetStockDebutMois() {
 
-        return !$this->hasPrecedente();
+       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
     }
 
     public function canSetLabels() {
