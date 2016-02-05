@@ -95,7 +95,19 @@
             'etablissement' => null,
             'target' => '_self'
        ));
-endif; ?></ul>
+	endif; 
+	
+	include_component('global', 'navItem', array(
+			'libelle' => 'Stats',
+			'prefix' => 'statistique',
+			'route' => 'statistiques',
+			'route_etablissement' => null,
+			'etablissement' => null,
+			'target' => '_self'
+	));
+
+
+?></ul>
 <ul class="nav navbar-nav navbar-right">
 <?php if ($sf_user->hasCredential('admin')) : ?>
      <li><a tabindex="-1" class="admin" href="<?php echo url_for('produits') ?>">Produits</a></li>
