@@ -64,6 +64,17 @@ class WidgetSociete extends sfWidgetFormInput
     {
         $this->identifiant = $value;
 
+        if($this->identifiant) {
+            $societes = SocieteAllView::getInstance()->findBySociete($this->identifiant);
+            if(!$societes) {
+                $value = null;
+            } else {
+                foreach($societes as $key => $societe) {
+                    $value = $societe->id.','.SocieteAllView::getInstance()->makeLibelle($societe->key);
+                }
+            }
+        }
+
         return parent::render($name, $value, $attributes, $errors);
     }
     
