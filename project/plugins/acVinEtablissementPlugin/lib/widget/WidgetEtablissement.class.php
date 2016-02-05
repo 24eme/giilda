@@ -1,6 +1,6 @@
 <?php 
 
-class WidgetEtablissement extends bsWidgetFormChoice
+class WidgetEtablissement extends sfWidgetFormInput
 {
     protected $identifiant = null;
 
@@ -8,21 +8,14 @@ class WidgetEtablissement extends bsWidgetFormChoice
     {
         parent::__construct($options, $attributes);
         
-	if($this->getOption('ajax')) {
-            $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
-            $this->setOption('choices', $this->getChoicesDefault());
-        } else {
-            $this->setOption('choices', $this->getChoices());
-        }
+        $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
     }
 
     protected function configure($options = array(), $attributes = array())
     {
         parent::configure($options, $attributes);
 
-        $this->setOption('choices', array());
         $this->addOption('familles', array());
-        $this->addOption('ajax', false);
         $this->addRequiredOption('interpro_id', null);
     }
 
@@ -51,45 +44,20 @@ class WidgetEtablissement extends bsWidgetFormChoice
         return sfContext::getInstance()->getRouting()->generate('etablissement_autocomplete_all', array('interpro_id' => $interpro_id));
     }
 
-    public function getChoicesDefault() {
-        if(!$this->identifiant) {
-
-            return array();
-        }
-        $etablissements = EtablissementAllView::getInstance()->findByEtablissement($this->identifiant);
-        if (!$etablissements) {
-
-            return array();
-        }
-        
-        $choices = array();
-        foreach($etablissements as $key => $etablissement) {
-            $choices[EtablissementClient::getInstance()->getId($etablissement->id)] = EtablissementAllView::getInstance()->makeLibelle($etablissement);
-        }
-
-        return $choices;
-    }
-
-    public function getChoices() {
-        $familles = $this->getOption('familles');
-        if (!is_array($familles) && $familles) {
-            $familles = array($familles);
-        }
-
-        $etablissements = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($this->getOption('interpro_id'), EtablissementClient::STATUT_ACTIF, $familles);
-
-        $choices = array("" => "");
-
-        foreach($etablissements as $etablissement) {
-            $choices[EtablissementClient::getInstance()->getId($etablissement->id)] = EtablissementAllView::getInstance()->makeLibelle($etablissement);
-        }
-
-        return $choices;
-    }
-
     public function render($name, $value = null, $attributes = array(), $errors = array())
     {
         $this->identifiant = $value;
+
+        if($this->identifiant) {
+            $etablissements = EtablissementAllView::getInstance()->findByEtablissement($this->identifiant);
+            if(!$etablissements) {
+                $value = null;
+            } else {
+                foreach($etablissements as $key => $etablissement) {
+                    $value = $etablissement->id.','.EtablissementAllView::getInstance()->makeLibelle($etablissement);
+                }
+            }
+        }
 
         return parent::render($name, $value, $attributes, $errors);
     }

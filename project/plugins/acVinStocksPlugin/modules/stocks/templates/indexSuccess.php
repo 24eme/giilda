@@ -1,11 +1,9 @@
-    <!-- #principal -->
-    <section id="principal"  class="stocks">
-        <p id="fil_ariane"><strong>Page d'accueil</strong></p>
-        
-        <!-- #contenu_etape -->
-        <section id="contenu_etape">
-            <?php include_component('stocks', 'chooseEtablissement', array('form' => $form)); ?>
-        </section>
-        <!-- fin #contenu_etape -->
-    </section>
-    <!-- fin #principal -->
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('vrac') ?>" class="active">Page d'accueil</a></li>
+</ol>
+
+<div class="row">
+    <div class="col-xs-12">
+        <?php include_component('stocks', 'formEtablissementChoice') ?>
+    </div>
+</div>
