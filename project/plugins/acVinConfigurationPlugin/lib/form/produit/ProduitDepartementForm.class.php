@@ -1,5 +1,5 @@
 <?php
-class ProduitDepartementForm extends sfForm {
+class ProduitDepartementForm extends BaseForm {
 
     public function configure() {
     	$this->setWidgets(array(
