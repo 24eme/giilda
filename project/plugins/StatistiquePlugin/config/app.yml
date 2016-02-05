@@ -1,0 +1,167 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+all:
+  statistiques:
+    drm:
+      title: "Etat des lieux de saisie des DRMs"
+      nb_resultat: 20
+      elasticsearch_host: "http://127.0.0.1:9200/"
+      elasticsearch_dbname: "drm"
+      elasticsearch_type: "DRM"
+      champs:
+        id:
+          libelle: "Identifiant"
+          noeud: "_id"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        mode_de_saisie:
+          libelle: "Saisie"
+          noeud: "mode_de_saisie"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        etablissement_raison_sociale:
+          libelle: "Raison sociale"
+          noeud: "declarant.raison_sociale"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        etablissement_nom_commerical:
+          libelle: "Nom"
+          noeud: "declarant.nom"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        total_debut_mois:
+          libelle: "Total début de mois"
+          noeud: "%declaration%.total_debut_mois"
+          need_replace: true
+          replace: "%declaration%"
+          var_replace: "hashProduitFilter"
+          print_number: true
+        total_entrees_nettes:
+          libelle: "Total entrées nettes"
+          noeud: "%declaration%.total_entrees_nettes"
+          need_replace: true
+          replace: "%declaration%"
+          var_replace: "hashProduitFilter"
+          print_number: true
+        total_entrees_reciproque:
+          libelle: "Total entrées avec réciproque"
+          noeud: "%declaration%.total_entrees_reciproque"
+          need_replace: true
+          replace: "%declaration%"
+          var_replace: "hashProduitFilter"
+          print_number: true
+        total_sorties_nettes:
+          libelle: "Total sorties nettes"
+          noeud: "%declaration%.total_sorties_nettes"
+          need_replace: true
+          replace: "%declaration%"
+          var_replace: "hashProduitFilter"
+          print_number: true
+        total_sorties_reciproque:
+          libelle: "Total sorties avec réciproque"
+          noeud: "%declaration%.total_sorties_reciproque"
+          need_replace: true
+          replace: "%declaration%"
+          var_replace: "hashProduitFilter"
+          print_number: true
+        total_fin_de_mois:
+          libelle: "Total fin de mois"
+          noeud: "%declaration%.total"
+          need_replace: true
+          replace: "%declaration%"
+          var_replace: "hashProduitFilter"
+          print_number: true
+    vrac:
+      title: "Etat des lieux de saisie des contrats interprofessionnels"
+      nb_resultat: 20
+      elasticsearch_host: "http://127.0.0.1:9200/"
+      elasticsearch_dbname: "giilda_ivso"
+      elasticsearch_type: "VRAC"
+      champs:
+        id:
+          libelle: "Visa"
+          noeud: "_id"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        produit:
+          libelle: "Produit"
+          noeud: "produit_libelle"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        label:
+          libelle: "Label"
+          noeud: "labels_libelle"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        mentions:
+          libelle: "Mentions"
+          noeud: "mentions_libelle"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        volume:
+          libelle: "Volume"
+          noeud: "volume_propose"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: true
+        prix_unitaire:
+          libelle: "Prix unitaire"
+          noeud: "prix_unitaire"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: true
+        date_saisie:
+          libelle: "Saisie"
+          noeud: "valide.date_saisie"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        vendeur:
+          libelle: "Vendeur"
+          noeud: "vendeur.raison_sociale"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        acheteur:
+          libelle: "Acheteur"
+          noeud: "acheteur.raison_sociale"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        courtier:
+          libelle: "Courtier"
+          noeud: "mandataire.raison_sociale"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
+        statut:
+          libelle: "Statut"
+          noeud: "valide.statut"
+          need_replace: false
+          replace: null
+          var_replace: null
+          print_number: false
