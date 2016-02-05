@@ -1,36 +1,39 @@
-stocks_debut;initial;"Initial récolté";"Stock initial récolté";"Stock initial récolté"
-stocks_debut;instance;"En instance de revendication";"Vin en instance de revendication";"Vin en instance de revendication"
-stocks_debut;dont_revendique;"dont revendiqué";"Stock revendiqué dbt de mois";"Stock revendiqué dbt de mois"
-entrees;achatcrd;"Achat CRD";"Achat de vin en CRD";"Achat de vin en CRD"
-entrees;achatnoncrd;"Achat non CRD";"Achat de vin non CRD";"Achat de vin non CRD"
-entrees;declassement;"Déclassement";"Déclassement";"Déclassement"
-entrees;recolte;"Récolte";"Récolte";"Récolte"
-entrees;revendication;"Revendication de récolte";"Revendication de récolte";"Revendication de récolte"
-entrees;regularisation;"Régularisation";"Régularisation";"Régularisation"
-entrees;transfertsinternes;"Transfert interne";"Transferts internes d'un chai à un autre";"Transferts internes d'un chai à un autre"
-entrees;transfertsrecolte;"Transfert de recolte";"Transfert de recolte";"Transfert de recolte"
-entrees;repli;"Repli";"Repli";"Repli"
-entrees;travailafacon;"Travail à façon";"Retour d'embouteillage, relogement, travail à façon, distillation à façon";"Retour d'embouteillage, relogement, travail à façon, distillation à façon"
-entrees;retourmarchandisenontaxees;"Retour non taxé";"Retour de marchandises non taxées";"Retour de marchandises non taxées"
-entrees;retourmarchandisetaxees;"Retour déjà taxé";"Retour de marchandises ayant déjà été taxées";"Retour de marchandises ayant déjà été taxées"
-entrees;transfertcomptamatierecession;"Transfert externe";"Transfert de comptabilité matière et cession";"Transfert de comptabilité matière et cession"
-sorties;ventefrancebibcrd;"Bib CRD";"Ventes en France de Bib sous CRD";"Ventes en France de Bib sous CRD"
-sorties;ventefrancebouteillecrd;"Bouteilles CRD";"Ventes en France de Bouteilles sous CRD";"Ventes en France de Bouteilles sous CRD"
-sorties;cession;"Cession";"Cession d'activité";"Cession d'activité"
-sorties;consommationfamilialedegustation;"Conso. Familiale";"Consomation familiale et dégustation";"Consomation familiale et dégustation"
-sorties;vrac;"Contrat";"Contrat de vin en vrac ou conditionné";"Contrat de vin en vrac ou conditionné"
-sorties;declassement;"Déclassement";"Déclassement";"Déclassement"
-sorties;destructionperte;"Destruction/perte";"Destruction et pertes";"Destruction et pertes"
-sorties;manquant;"Manquant";"Manquant";"Manquant"
-sorties;export;"Export";"Export";"Export"
-sorties;contrathorsinterpro;"Contrats hors interpro";"Contrats hors interpro";"Contrats hors interpro"
-sorties;transfertsinternes;"Transfert interne";"Transferts internes d'un chai à un autre";"Transferts internes d'un chai à un autre"
-sorties;repli;"Repli";"Repli";"Repli"
-sorties;transfertsrecolte;"Transfert de récolte";"Transfert de récolte";"Transfert de récolte"
-sorties;travailafacon;"Travail à façon";"Sortie d'embouteillage, relogement, travail à façon, distillation à façon";"Sortie d'embouteillage, relogement, travail à façon, distillation à façon"
-sorties;vracsanscontratacquitte;"Vrac acquitté";"Sortie de vrac sans contrat (acquitté)";"Sortie de vrac sans contrat (acquitté)"
-sorties;vracsanscontratsuspendu;"Vrac suspendu";"Sortie de vrac sans contrat (suspendu)";"Sortie de vrac sans contrat (suspendu)"
-sorties;distillationusageindustriel;"Usages industr.";"Distillation et usages industriels";"Distillation et usages industriels"
-stocks_fin;final;"Final récolté";"Final récolté";"Stock final récolté";"Stock final récolté"
-stocks_fin;instance;"En instance de revendication";"En instance de revendication";"En instance de revendication"
-stocks_fin;dont_revendique;"dont revendiqué";"Stock revendiqué en fin de mois";"Stock revendiqué en fin de mois"
+stocks_debut;initial;Initial récolté;Stock initial récolté;Stock initial récolté
+stocks_debut;instance;En instance de revendication;Vin en instance de revendication;Vin en instance de revendication
+stocks_debut;dont_revendique;dont revendiqué;Stock revendiqué dbt de mois;Stock revendiqué dbt de mois
+entrees;achatcrd;Achat CRD;Achat de vin en CRD;Achat de vin en CRD
+entrees;achatnoncrd;Achat non CRD;Achat de vin non CRD;Achat de vin non CRD
+entrees;declassement;Déclassement;Déclassement;Déclassement
+entrees;recolte;Récolte;Récolte;Récolte
+entrees;revendication;Revendication de récolte;Revendication de récolte;Revendication de récolte
+entrees;regularisation;Régularisation;Régularisation;Régularisation
+entrees;transfertsinternes;Transfert interne;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre
+entrees;transfertsrecolte;Transfert de recolte;Transfert de recolte;Transfert de recolte
+entrees;repli;Repli;Repli;Repli
+entrees;travailafacon;Travail à façon;Retour d'embouteillage, relogement, travail à façon, distillation à façon;Retour d'embouteillage, relogement, travail à façon, distillation à façon
+entrees;retourmarchandisenontaxees;Retour non taxé;Retour de marchandises non taxées;Retour de marchandises non taxées
+entrees;retourmarchandisetaxees;Retour déjà taxé;Retour de marchandises ayant déjà été taxées;Retour de marchandises ayant déjà été taxées
+entrees;transfertcomptamatierecession;Transfert externe;Transfert de comptabilité matière et cession;Transfert de comptabilité matière et cession
+entrees;sortie_negative;Entrée négative;Entrée négative;Entrée négative
+sorties;ventefrancebibcrd;Bib CRD;Ventes en France de Bib sous CRD;Ventes en France de Bib sous CRD
+sorties;ventefrancebouteillecrd;Bouteilles CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD
+sorties;cession;Cession;Cession d'activité;Cession d'activité
+sorties;consommationfamilialedegustation;Conso. Familiale;Consomation familiale et dégustation;Consomation familiale et dégustation
+sorties;vrac;Contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné
+sorties;declassement;Déclassement;Déclassement;Déclassement
+sorties;destructionperte;Destruction/perte;Destruction et pertes;Destruction et pertes
+sorties;manquant;Manquant;Manquant;Manquant
+sorties;export;Export;Export;Export
+sorties;contrathorsinterpro;Contrats hors interpro;Contrats hors interpro;Contrats hors interpro
+sorties;transfertsinternes;Transfert interne;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre
+sorties;repli;Repli;Repli;Repli
+sorties;transfertsrecolte;Transfert de récolte;Transfert de récolte;Transfert de récolte
+sorties;travailafacon;Travail à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon
+sorties;vracsanscontratacquitte;Vrac acquitté;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté)
+sorties;vracsanscontratsuspendu;Vrac suspendu;Sortie de vrac sans contrat (suspendu);Sortie de vrac sans contrat (suspendu)
+sorties;distillationusageindustriel;Usages industr.;Distillation et usages industriels;Distillation et usages industriels
+sorties;entree_negative;Entrée négative;Entrée négative;Entrée négative
+sorties;entree_recolte_negative;Entrée négative de récolte;Entrée négative de récolte;Entrée négative de récolte
+stocks_fin;final;Final récolté;Final récolté;Stock final récolté
+stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication
+stocks_fin;dont_revendique;dont revendiqué;Stock revendiqué en fin de mois;Stock revendiqué en fin de mois

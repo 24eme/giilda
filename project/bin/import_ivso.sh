@@ -105,12 +105,13 @@ produit_id=$2;
 libelle_produit=$41; 
 vin_bio=$19;
 vin_prepare=$20;
-caracteristiques_vins=""
+caracteristiques_vins="";
+preparation_vin="";
 if(vin_bio=="O"){
   caracteristiques_vins="agriculture_biologique";
 }
 if(vin_prepare=="P"){
- caracteristiques_vins=caracteristiques_vins "," "vin_prepare" ;
+  preparation_vin="NEGOCE_ACHEMINE";
 }
 
 date_debut_retiraison=$26;
@@ -151,7 +152,10 @@ if(annule=="O") {
   statut="ANNULE";
 }
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
+
+clauses=clause_reserve_propriete "," preparation_vin;
+
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
@@ -211,13 +215,13 @@ if($19 < 0) { print base "entrees;sortie_negative;" $19*-1 ";;;;sortie négative
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
 if($20 < 0) { print base "entrees;sortie_negative;" $20*-1 ";;;;sortie négative de france sans contrat" ; } #france_sans_contrat
 # if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
-if($21 < 0) { print base "sorties;sortie_negative;" $21*-1 ";;;;sortie négative de france sous contrat" ; }
+if($21 < 0) { print base "entrees;sortie_negative;" $21*-1 ";;;;sortie négative de france sous contrat" ; }
 if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedition_ue
-if($22 < 0) { print base "sorties;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
+if($22 < 0) { print base "entrees;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
-if($23 < 0) { print base "sorties;sortie_negative;" $23*-1 ";;;;sortie négative de expedition hors ue" ; } #expedition_hors_ue
+if($23 < 0) { print base "entrees;sortie_negative;" $23*-1 ";;;;sortie négative de expedition hors ue" ; } #expedition_hors_ue
 if($24 > 0) { print base "sorties;travailafacon;" $24 ; } #relogement
-if($24 < 0) { print base "sorties;sortie_negative;" $24*-1 ";;;;sortie négative de relogement" ; } #relogement
+if($24 < 0) { print base "entrees;sortie_negative;" $24*-1 ";;;;sortie négative de relogement" ; } #relogement
 print base "stocks_fin;final;" $25 ;
 print base "stocks_fin;dont_revendique;" $25 ;
 # print base "stocks?;dont_volume_bloque;" $26 ; #dont_volume_bloque
