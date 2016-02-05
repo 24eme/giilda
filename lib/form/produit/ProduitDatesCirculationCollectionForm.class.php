@@ -11,7 +11,7 @@
  *
  * @author mathurin
  */
-class ProduitDatesCirculationCollectionForm extends sfForm {
+class ProduitDatesCirculationCollectionForm extends BaseForm {
 
     public function configure() {
         if (!$dates_circulation = $this->getOption('dates_circulation'))
