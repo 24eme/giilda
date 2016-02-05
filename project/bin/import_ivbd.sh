@@ -251,6 +251,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $33);
+    commentaire="";
 
     if(corrective == "True" || regularisatrice == "True") {
 
@@ -260,18 +261,23 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(!mouvement_extravitis) {
         mouvement=$31;
     }
+    
     if(mouvement_extravitis == "Solde précédent" && volume*1 != 0) {
         catmouvement="stocks_debut"
         mouvement="initial";
     }
+    
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) - Autres") {
         catmouvement="sorties"
         mouvement="vracsanscontratsuspendu";
     }
+
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) -Export") {
         catmouvement="sorties"
-        mouvement="vracsanscontratsuspendu";
+        mouvement="export";
+        next;
     }
+
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
         mouvement="ventefrancebouteillecrd";
@@ -294,7 +300,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Entrées du mois (volumes revendiqués)") {
         catmouvement="entrees"
-        mouvement="recolte";
+        mouvement="revendication";
     }
 
     if(mouvement_extravitis == "AOC sous réserve d'"'"'agrément") {
@@ -305,11 +311,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
         mouvement="manquant";
+        commentaire="Autres exonérations";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
         catmouvement="entrees"
         mouvement="regularisation";
+        commentaire="Autres entrées du mois";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
@@ -326,19 +334,21 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    if(volume*1 < 0 && catmouvement == "sorties") {
+    if((volume * 1) < 0 && catmouvement == "sorties") {
         catmouvement = "entrees";
-        mouvement = "regularisation";
+        mouvement = "sortie_negative";
         volume = volume * -1;
+        commentaire="Sortie négative " mouvement_extravitis;
     }
 
-    if(volume*1 < 0 && catmouvement == "entrees") {
+    if((volume * 1) < 0 && catmouvement == "entrees") {
         catmouvement = "sorties";
-        mouvement = "manquant";
+        mouvement = "entree_negative";
         volume = volume * -1;
+        commentaire="Entrée négative " mouvement_extravitis;
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;";
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;" commentaire;
 }' > $DATA_DIR/drm_cave.csv
 
 #Les contrats
@@ -380,8 +390,8 @@ sort -k 1,1 -t ";" $DATA_DIR/base_pays.csv | cut -d ";" -f 1,6 | sed 's/TCHEQUE 
 
 join -t ";" -1 5 -2 1 $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv $DATA_DIR/base_pays.sorted.csv > $DATA_DIR/contrats_drm_volume_export_produit_pays.csv
 
-sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export_produit_pays.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
-join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
+sort -k 4,4 -t ';' $DATA_DIR/contrats_drm_volume_export_produit_pays.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
+join -t ';' -1 1 -2 4 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
 
 cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{ 
     type="CAVE";

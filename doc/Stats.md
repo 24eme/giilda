@@ -2,6 +2,10 @@
 
 ## Installation
 
+### Prérecquis
+
+    sudo aptitude install openjdk-7-jre
+
 ### ElasticSearch 2.1.1
 
 Récupération du .deb :
@@ -14,7 +18,7 @@ Installation :
 
 Installation du plugin HEAD :
 
-    sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
+    sudo /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
 
 ### Logstash 2.1.1
 
