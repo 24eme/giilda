@@ -134,7 +134,12 @@ if(libelle_delais_paiement=="Comptant"){
 
 delais_paiement_libelle=$33;
 
-commentaires=$30;
+commentaires="";
+if(exclure_v2 == "O") {
+    commentaires = "Ce contrat est un ancien contrat exclut depuis la v2\n";
+}
+
+commentaires=commentaires "" $30;
 exclure_v2=$39;
 degre=$23;
 recipient_contenance="";
@@ -142,9 +147,7 @@ prix_unitaire_hl=$24;
 volume_propose=$21;
 volume_enleve="";
 
-if(exclure_v2 == "O") {
-    next;
-}
+
 proprietaire="";
 annule=$36;
 statut="NONSOLDE";
