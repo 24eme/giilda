@@ -2,6 +2,10 @@
 
 ## Installation
 
+### Prérecquis
+
+    sudo aptitude install openjdk-7-jre
+
 ### ElasticSearch 2.1.1
 
 Récupération du .deb :
