@@ -230,6 +230,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
                     $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
                 }
+
+                if(isset($csvRow[self::CSV_CAVE_COMMENTAIRE]) && $csvRow[self::CSV_CAVE_COMMENTAIRE] && trim($csvRow[self::CSV_CAVE_COMMENTAIRE])) {
+                    $this->drm->commentaire .= sprintf("%s hl de %s\n", $detailTotalVol, trim($csvRow[self::CSV_CAVE_COMMENTAIRE]));
+                }
+
             } else {
                 if ($confDetailMvt->hasDetails()) {
                     if ($confDetailMvt->getKey() == 'export') {
