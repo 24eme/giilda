@@ -105,12 +105,13 @@ produit_id=$2;
 libelle_produit=$41; 
 vin_bio=$19;
 vin_prepare=$20;
-caracteristiques_vins=""
+caracteristiques_vins="";
+preparation_vin="";
 if(vin_bio=="O"){
   caracteristiques_vins="agriculture_biologique";
 }
 if(vin_prepare=="P"){
- caracteristiques_vins=caracteristiques_vins "," "vin_prepare" ;
+  preparation_vin="NEGOCE_ACHEMINE";
 }
 
 date_debut_retiraison=$26;
@@ -151,7 +152,10 @@ if(annule=="O") {
   statut="ANNULE";
 }
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clause_reserve_propriete ";" caracteristiques_vins ";" commentaires
+
+clauses=clause_reserve_propriete "," preparation_vin;
+
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
@@ -192,27 +196,34 @@ cat $DATA_DIR/drm_produits.csv | awk -F ';' '{
 identifiant=sprintf("%06d01", $4);
 base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
 print base "stocks_debut;initial;" $10 ; 
-if($11 > 0) { print base "entrees;recolte;" $11 ; } #récolte
-if($11 < 0) { print base "sorties;transfertsrecolte;" $11*-1 ; } #récolte
-if($12 > 0) { print base "entrees;transfertsrecolte;" $12 ; } #volume agréé
-if($12 < 0) { print base "sorties;transfertsrecolte;" $12*-1 ; } #volume agréé
+print base "stocks_debut;dont_revendique;" $10 ; 
+if($11 > 0) { print base "entrees;recolte;" $11 } #récolte
+if($11 < 0) { print base "sorties;entree_recolte_negative;" $11*-1 ";;;;entrée négative de récolte" ; } #récolte
+if($12 > 0) { print base "entrees;revendication;" $12 ; } #volume agréé
+if($12 < 0) { print base "sorties;entree_negative;" $12*-1 ";;;;entrée négative de volume agrée" ; } #volume agréé
 if($13 > 0) { print base "entrees;declassement;" $13 ; } #declassement
-if($13 < 0) { print base "sorties;declassement;" $13*-1 ; } #declassement
+if($13 < 0) { print base "sorties;entree_negative;" $13*-1 ";;;;entrée négative de déclassement" ; } #declassement
 if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
 if($15 > 0) { print base "sorties;distillationusageindustriel;" $15 ; } #lie_et_mouts
 if($16 > 0) { print base "sorties;distillationusageindustriel;" $16 ; } #usages_industriels
 if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17 ; } #collective_ou_individuelle
+if($17 < 0) { print base "entrees;sortie_negative;" $17*-1 ";;;;sortie négative de collective_ou_individuelle" ; }
 if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18 ; } #dsa_dsac
-if($18 < 0) { print base "entrees;regularisation;" $18*-1 ; } #dsa_dsac
+if($18 < 0) { print base "entrees;sortie_negative;" $18*-1 ";;;;sortie négative de dsa dsac" ; } #dsa_dsac
 if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19 ; } #facture_etc
-if($19 < 0) { print base "entrees;regularisation;" $19*-1 ; } #facture_etc
+if($19 < 0) { print base "entrees;sortie_negative;" $19*-1 ";;;;sortie négative de facture etc" } #facture_etc
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
-if($20 < 0) { print base "entrees;regularisation;" $20*-1 ; } #france_sans_contrat
+if($20 < 0) { print base "entrees;sortie_negative;" $20*-1 ";;;;sortie négative de france sans contrat" ; } #france_sans_contrat
 # if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
+if($21 < 0) { print base "entrees;sortie_negative;" $21*-1 ";;;;sortie négative de france sous contrat" ; }
 if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedition_ue
+if($22 < 0) { print base "entrees;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
+if($23 < 0) { print base "entrees;sortie_negative;" $23*-1 ";;;;sortie négative de expedition hors ue" ; } #expedition_hors_ue
 if($24 > 0) { print base "sorties;travailafacon;" $24 ; } #relogement
+if($24 < 0) { print base "entrees;sortie_negative;" $24*-1 ";;;;sortie négative de relogement" ; } #relogement
 print base "stocks_fin;final;" $25 ;
+print base "stocks_fin;dont_revendique;" $25 ;
 # print base "stocks?;dont_volume_bloque;" $26 ; #dont_volume_bloque
 # print base "stocks?;quantite_gagees;" $27 ; #quantite_gagees
 }' > $DATA_DIR/drm_cave.csv

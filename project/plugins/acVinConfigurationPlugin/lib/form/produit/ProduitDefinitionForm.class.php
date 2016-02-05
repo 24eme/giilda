@@ -19,7 +19,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             'code' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
         ));
 
-        $this->widgetSchema->setHelp('code', "Ce code est pour inter-loire (il en général identique à la clé sauf pour les couleurs)");
+        $this->widgetSchema->setHelp('code', "Ce code est pour l'interpro (il en général identique à la clé sauf pour les couleurs)");
 
         if ($this->getObject()->hasCodes()) {
             $this->setWidget('code_produit', new sfWidgetFormInputText());
@@ -165,29 +165,20 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         if ($object->hasDroit(ConfigurationDroits::DROIT_DOUANE)) {
             $this->getNoeudInterpro($object)->droits->remove('douane');
             foreach ($values['droit_douane'] as $value) {
-                //if ($value['taux'] > 0) {
+
                 $this->setDroit('DOUANE', 'Douane');
-                $date = $value['date'];
-                if ($date) {
-                    $date = explode('/', $date);
-                    $date = new DateTime($date[2] . '-' . $date[1] . '-' . $date[0]);
-                }
+                $date = new DateTime($value['date']);
+
                 $this->setNodeDroit($this->getNoeudDroit('douane', $object)->add(), $date->format('c'), $value['taux'], 'DOUANE', 'Douane');
-                //}
             }
         }
         if ($object->hasDroit(ConfigurationDroits::DROIT_CVO)) {
             $this->getNoeudInterpro()->droits->remove('cvo');
             foreach ($values['droit_cvo'] as $value) {
-                //if ($value['taux'] > 0) {
+
                 $this->setDroit('CVO', 'Cvo');
-                $date = $value['date'];
-                if ($date) {
-                    $date = explode('/', $date);
-                    $date = new DateTime($date[2] . '-' . $date[1] . '-' . $date[0]);
-                }
+                $date = new DateTime($value['date']);
                 $this->setNodeDroit($this->getNoeudDroit('cvo', $object)->add(), $date->format('c'), $value['taux'], 'CVO', 'Cvo');
-                //}
             }
         }
         if (array_key_exists('dates_circulation', $values)) {
@@ -219,7 +210,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $object->getDocument()->save();
         return $object;
     }
-    
+
     public function initDefault($param) {
         
     }

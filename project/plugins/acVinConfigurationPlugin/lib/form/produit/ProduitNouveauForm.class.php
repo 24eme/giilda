@@ -1,5 +1,5 @@
 <?php
-class ProduitNouveauForm extends sfForm {
+class ProduitNouveauForm extends BaseForm {
 	
     protected $produit;
 	protected $configuration;

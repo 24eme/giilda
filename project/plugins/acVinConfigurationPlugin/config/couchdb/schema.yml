@@ -281,7 +281,7 @@ Configuration:
                                                   definition:
                                                     fields:
                                                       date: {  }
-                                                      taux: { type: float }
+                                                      taux: {  }
                                                       code: {  }
                                                       libelle: {  }
                         genres:
@@ -427,7 +427,7 @@ Configuration:
                                                               definition:
                                                                 fields:
                                                                   date: {  }
-                                                                  taux: { type: float }
+                                                                  taux: {  }
                                                                   code: {  }
                                                                   libelle: {  }
                                     departements:
@@ -579,7 +579,7 @@ Configuration:
                                                                           definition:
                                                                             fields:
                                                                               date: {  }
-                                                                              taux: { type: float }
+                                                                              taux: {  }
                                                                               code: {  }
                                                                               libelle: {  }
                                                 departements:
@@ -660,7 +660,7 @@ Configuration:
                                                                                       definition:
                                                                                         fields:
                                                                                           date: {  }
-                                                                                          taux: { type: float }
+                                                                                          taux: {  }
                                                                                           code: {  }
                                                                                           libelle: {  }            
                                                             departements:
@@ -810,7 +810,7 @@ Configuration:
                                                                                                   definition:
                                                                                                     fields:
                                                                                                       date: {  }
-                                                                                                      taux: { type: float }
+                                                                                                      taux: {  }
                                                                                                       code: {  }
                                                                                                       libelle: {  }            
                                                                         departements:
@@ -961,7 +961,7 @@ Configuration:
                                                                                                               definition:
                                                                                                                 fields:
                                                                                                                   date: {  }
-                                                                                                                  taux: { type: float }
+                                                                                                                  taux: {  }
                                                                                                                   code: {  }
                                                                                                                   libelle: {  }            
                                                                                     departements:
@@ -1107,7 +1107,7 @@ Configuration:
                                                                                                                           definition:
                                                                                                                             fields:
                                                                                                                               date: {  }
-                                                                                                                              taux: { type: float }
+                                                                                                                              taux: {  }
                                                                                                                               code: {  }
                                                                                                                               libelle: {  }
                         detail:
