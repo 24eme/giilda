@@ -1,5 +1,5 @@
 <?php
-class ProduitDroitCollectionForm extends sfForm
+class ProduitDroitCollectionForm extends BaseForm
 {
   public function configure()
   {

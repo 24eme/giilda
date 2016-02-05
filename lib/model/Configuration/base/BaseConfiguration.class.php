@@ -10,7 +10,10 @@
  * @property string $campagne
  * @property acCouchdbJson $labels
  * @property acCouchdbJson $contenances
+ * @property acCouchdbJson $factures
  * @property acCouchdbJson $droits
+ * @property acCouchdbJson $mvts_favoris
+ * @property acCouchdbJson $correspondances
  * @property acCouchdbJson $libelle_detail_ligne
  * @property acCouchdbJson $alias
  * @property ConfigurationDeclaration $declaration
@@ -27,8 +30,14 @@
  * @method acCouchdbJson setLabels()
  * @method acCouchdbJson getContenances()
  * @method acCouchdbJson setContenances()
+ * @method acCouchdbJson getFactures()
+ * @method acCouchdbJson setFactures()
  * @method acCouchdbJson getDroits()
  * @method acCouchdbJson setDroits()
+ * @method acCouchdbJson getMvtsFavoris()
+ * @method acCouchdbJson setMvtsFavoris()
+ * @method acCouchdbJson getCorrespondances()
+ * @method acCouchdbJson setCorrespondances()
  * @method acCouchdbJson getLibelleDetailLigne()
  * @method acCouchdbJson setLibelleDetailLigne()
  * @method acCouchdbJson getAlias()

@@ -11,7 +11,7 @@
  *
  * @author mathurin
  */
-class ProduitDateCirculationForm extends sfForm {
+class ProduitDateCirculationForm extends BaseForm {
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         parent::__construct($defaults, $options, $CSRFSecret);
