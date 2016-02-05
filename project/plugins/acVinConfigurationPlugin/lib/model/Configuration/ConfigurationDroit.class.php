@@ -25,5 +25,13 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         } 
         return $taux;
     }
+    
+    public function getStringTaux() {
+        $taux = $this->getTaux();
+        if(is_array($taux)){
+            return $taux[0].$taux[1];
+        }
+        return $taux;
+    }
 
 }

@@ -3,7 +3,7 @@ class ProduitDroitForm extends BaseForm {
 
     public function configure() {
     	$this->setWidgets(array(
-			'date' => new bsWidgetFormInput( array('default' => ''), array('class' => 'hasDatepicker') ),
+			'date' => new bsWidgetFormInputDate(),
 			'taux' => new bsWidgetFormInput()  		
     	));
 		$this->widgetSchema->setLabels(array(
@@ -13,16 +13,19 @@ class ProduitDroitForm extends BaseForm {
                 
                
 		$this->setValidators(array(
-			'date' => new sfValidatorString(array('required' => false)),
+			'date' => new sfValidatorDate(array('required' => false)),
 			'taux' => new sfValidatorString(array('required' => false))
 		));
 		if ($droit = $this->getOption('droit')) {
+  
 			$date = new DateTime($droit->date);
 			$this->setDefaults(array(
 	    		'date' => $date->format('d/m/Y'),
-	    		'taux' => $droit->taux
+	    		'taux' => $droit->getStringTaux()
 	    	));
 		}		
         $this->widgetSchema->setNameFormat('produit_droit[%s]');
     }
+    
+   
 }
