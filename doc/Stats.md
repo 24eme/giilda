@@ -18,7 +18,7 @@ Installation :
 
 Installation du plugin HEAD :
 
-    sudo /usr/share/elasticsearch/bin/plugin -install mobz/elasticsearch-head
+    sudo /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
 
 ### Logstash 2.1.1
 
