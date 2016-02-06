@@ -49,9 +49,8 @@ class EtablissementCsvFile extends CsvFile
             continue;
           }*/
 
-          $id = sprintf("%06d01", $line[self::CSV_ID]);
-          $id_societe = sprintf("%06d", $line[self::CSV_ID]);
-
+          $id = $line[self::CSV_ID];
+          $id_societe = $line[self::CSV_ID_SOCIETE];
 
       	  $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
           

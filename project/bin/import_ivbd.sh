@@ -63,6 +63,13 @@ cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" 
 
 echo "Construction du fichier d'import des Contacts"
 
+cat $DATA_DIR/extra_ppm_attribut.csv | sort -t ";" -k 3,3 > $DATA_DIR/extra_ppm_attribut.sorted.csv
+
+cat $DATA_DIR/maitre_ppm_attribut_ref.csv | sort -t ";" -k 1,1 > $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv
+
+join -t ";" -1 3 -2 1 $DATA_DIR/extra_ppm_attribut.sorted.csv $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv > $DATA_DIR/ppm_attributs.csv
+
+
 cat $DATA_DIR/base_ppm.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm.sorted.id.csv
 
 cat $DATA_DIR/base_coordonnees.csv | sort -t ";" -k 3,3 > $DATA_DIR/base_coordonnees.sorted.id.csv
@@ -75,9 +82,21 @@ cat $DATA_DIR/base_commune_francaise.csv | awk -F ";" '{ insee=$10; commune=$17;
 
 join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.communes.csv $DATA_DIR/communes.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes.csv | awk -F ";" '
+#Récupération des familles à partir des autres docs
+cat $DATA_DIR/contrats_drm.csv | cut -d ";" -f 7 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' > $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 6 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 9 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;NEGOCIANT/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;COURTIER/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 13 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;REPRESENTANT/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv
+
+join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv $DATA_DIR/ppm_famille.uniq.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | awk -F ";" '
 {
-    identifiant=sprintf("%06d", $2);
+    identifiant=sprintf("%06d", $1);
     nom=$11 " " $12 " " $13;
     statut=($19) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
@@ -100,16 +119,61 @@ cat $DATA_DIR/base_ppm_coordonnees_communes.csv | awk -F ";" '
     fax="";
     web="";
     commentaire="";
+    famille="AUTRE";
+    if($61) {
+        famille=$61;
+    }
 
-    print identifiant ";VITICULTEUR;" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
 }' | sort > $DATA_DIR/societes.csv
 
-cat $DATA_DIR/base_ppm.csv | awk -F ";" '
-{
-    nom=$10 " " $11 " " $12; statut=($18) ? "SUSPENDU" : "ACTIF";  print $2  ";" $2 ";VITICULTEUR;" nom ";" statut ";HORS_REGION;cvi;no_accises;carte_pro;recette_locale:adresse;;;;code_postal;commune;cedex;pays;email;tel_bureau;tel_perso;mobile;fax;web;commentaire"
-}' > $DATA_DIR/etablissements.csv
+cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
 
-#cat $DATA_DIR/base_evv.csv | sort -t ";" -k 1,1
+cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv_mfv.sorted.csv
+
+join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 23,23 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
+
+join -a 1 -t ";" -1 1 -2 23 -o auto  $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv  $DATA_DIR/evv_numero_ppm.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
+{
+    identifiant_societe=sprintf("%06d", $1);
+    identifiant=identifiant_societe "01";
+    nom=$11 " " $12 " " $13;
+    statut=($19) ? "SUSPENDU" : "ACTIF";
+    adresse1=$38;
+    adresse2=$39;
+    adresse3=$40;
+    code_postal=$42;
+    insee=$1;
+    commune=$60;
+    cedex=$44;
+    siren=$26;
+    siret=$27;
+    if(!siret && siren) {
+        siret=siren;
+    }
+    pays=$41;
+    email="";
+    tel_bureau="";
+    tel_perso="";
+    mobile="";
+    fax="";
+    web="";
+    commentaire="";
+    cvi=$64;
+    famille="AUTRE";
+    if($61) {
+        famille=$61;
+    }
+    if(famille == "AUTRE") {
+        next;
+    }
+
+    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";HORS_REGION;" cvi ";;;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+}' | sort > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
