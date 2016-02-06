@@ -22,17 +22,25 @@ fi
 curl -s -X PUT -d '@/tmp/filter.json' http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/app > /dev/null
 
 
-if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
-    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
+if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_drm" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
+    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_drm" > /dev/null
+fi
+if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_vrac" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
+    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_vrac" > /dev/null
 fi
 if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
     curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX > /dev/null
 fi
 
-curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE/" -d '
+curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_drm/" -d '
 index :
     number_of_shards : 3 
     number_of_replicas : 0 
+'
+curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_vrac/" -d '
+index :
+    number_of_shards : 3
+    number_of_replicas : 0
 '
 curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX/" -d '
 index :
@@ -40,320 +48,10 @@ index :
     number_of_replicas : 0 
 '
 
-echo '
-{
-      "VRAC" : {
-        "properties" : {
-          "doc" : {
-            "properties" : {
-              "acheteur" : {
-                "properties" : {
-                  "adresse" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "code_postal" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "commune" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "cvi" : {
-                    "type" : "string"
-                  },
-                  "nom" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "raison_sociale" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "region" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  }
-                }
-              },
-              "acheteur_identifiant" : {
-                "type" : "string"
-              },
-              "campagne" : {
-                "type" : "string"
-              },
-              "categorie_vin" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "cepage_libelle" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "cvo_repartition" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "date_campagne" : {
-                "type" : "date",
-                "format" : "strict_date_optional_time||epoch_millis"
-              },
-              "date_debut_retiraison" : {
-                "type" : "date",
-                "format" : "strict_date_optional_time||epoch_millis"
-              },
-              "date_limite_retiraison" : {
-                "type" : "date",
-                "format" : "strict_date_optional_time||epoch_millis"
-              },
-              "date_signature" : {
-                "type" : "date",
-                "format" : "strict_date_optional_time||epoch_millis"
-              },
-              "degre" : {
-                "type" : "double"
-              },
-              "delai_paiement" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "delai_paiement_libelle" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "interlocuteur_commercial" : {
-                "type" : "object"
-              },
-              "jus_quantite" : {
-                "type" : "long"
-              },
-              "label" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "mandataire" : {
-                "properties" : {
-                  "adresse" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "code_postal" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "commune" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "nom" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "raison_sociale" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  }
-                }
-              },
-              "mandataire_exist" : {
-                "type" : "boolean"
-              },
-              "mandataire_identifiant" : {
-                "type" : "string"
-              },
-              "millesime" : {
-                "type" : "long"
-              },
-              "numero_archive" : {
-                "type" : "string"
-              },
-              "numero_contrat" : {
-                "type" : "string"
-              },
-              "prix_initial_total" : {
-                "type" : "long"
-              },
-              "prix_initial_unitaire" : {
-                "type" : "long"
-              },
-              "prix_initial_unitaire_hl" : {
-                "type" : "long"
-              },
-              "prix_total" : {
-                "type" : "long"
-              },
-              "prix_unitaire" : {
-                "type" : "long"
-              },
-              "prix_unitaire_hl" : {
-                "type" : "long"
-              },
-              "produit" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "produit_libelle" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "representant" : {
-                "properties" : {
-                  "adresse" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "code_postal" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "commune" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "cvi" : {
-                    "type" : "string"
-                  },
-                  "nom" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "raison_sociale" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "region" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  }
-                }
-              },
-              "representant_identifiant" : {
-                "type" : "string"
-              },
-              "type" : {
-                "type" : "string"
-              },
-              "type_transaction" : {
-                "type" : "string",
-                "index" : "not_analyzed"
-              },
-              "unites" : {
-                "properties" : {
-                  "jus_quantite" : {
-                    "type" : "object"
-                  },
-                  "prix_initial_unitaire" : {
-                    "type" : "object"
-                  },
-                  "raisin_quantite" : {
-                    "type" : "object"
-                  },
-                  "surface" : {
-                    "type" : "object"
-                  },
-                  "volume_initial" : {
-                    "type" : "object"
-                  }
-                }
-              },
-              "valide" : {
-                "properties" : {
-                  "date_saisie" : {
-                    "type" : "date",
-                    "format" : "strict_date_optional_time||epoch_millis"
-                  },
-                  "statut" : {
-                    "type" : "string"
-                  }
-                }
-              },
-              "vendeur" : {
-                "properties" : {
-                  "adresse" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "code_postal" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "commune" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "cvi" : {
-                    "type" : "string"
-                  },
-                  "nom" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "raison_sociale" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  },
-                  "region" : {
-                    "type" : "string",
-                    "index" : "not_analyzed"
-                  }
-                }
-              },
-              "vendeur_identifiant" : {
-                "type" : "string"
-              },
-              "volume_enleve" : {
-                "type" : "long"
-              },
-              "volume_propose" : {
-                "type" : "long"
-              }
-            }
-          }
-        }
-      }
-}
-' > /tmp/elastic2.mapping.json
-
-curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE/_mapping" -d '@/tmp/elastic2.mapping.json' > /dev/null
-
-rm /tmp/elastic2.mapping.json
+curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_drm/_mapping" -d '@data/elasticsearch/mapping_drm' > /dev/null
+curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_vrac/_mapping" -d '@data/elasticsearch/mapping_vrac' > /dev/null
 
 
-echo '
-input {
-	couchdb_changes {
-		db => "'$COUCHBASE'"
-		host => "'$COUCHHOST'"
-		port => '$COUCHPORT'
-	}
-}
-filter {
-	if [@metadata][_id] !~ /^VRAC-.+$/ {
-		drop { }
-	}
-	mutate {
-		add_field => { "type" => "%{[@metadata][_id]}" }
-	}
-	mutate {
-		gsub => [
-			"type", "^([A-Z]+)-.+$", "\1"
-		]
-	}
-}
-output {
-        if [@metadata][action] == "delete" {
-                http {
-                        http_method => "delete"
-                        url => "http://'$ELASTHOST':'$ELASTPORT'/'$ELASTBASE'/%{[type]}/%{[@metadata][_id]}"
-                }
-        } else {
-                elasticsearch {
-                        index => "'$ELASTBASE'"
-                        document_id => "%{[@metadata][_id]}"
-                }
-        }
-}
-' > "/tmp/"$ELASTBASE.conf
+cat data/logstash/logstash.conf | sed "s/ELASTHOST/$ELASTHOST/g" | sed "s/ELASTPORT/$ELASTPORT/g" | sed "s/ELASTBASE/$ELASTBASE/g" | sed "s/COUCHHOST/$COUCHHOST/g" | sed "s/COUCHPORT/$COUCHPORT/g" | sed "s/COUCHBASE/$COUCHBASE/g" > "/tmp/"$ELASTBASE".conf"
 echo write logstash configuration in /etc/logstash/conf.d
-sudo cp "/tmp/"$ELASTBASE.conf /etc/logstash/conf.d
+sudo mv "/tmp/"$ELASTBASE".conf" /etc/logstash/conf.d
