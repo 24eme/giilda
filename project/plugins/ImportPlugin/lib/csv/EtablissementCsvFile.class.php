@@ -78,7 +78,7 @@ class EtablissementCsvFile extends CsvFile
           $e->identifiant = $id;
           $e->constructId();
 
-        	$e->nom = $line[self::CSV_NOM];
+        	$e->nom = trim($line[self::CSV_NOM]);
           $e->cvi = (isset($line[self::CSV_CVI])) ? $line[self::CSV_CVI] : null;
           $e->no_accises = (isset($line[self::CSV_NO_ACCISES])) ? $line[self::CSV_NO_ACCISES] : null;
           $e->carte_pro = (isset($line[self::CSV_CARTE_PRO])) ? $line[self::CSV_CARTE_PRO] : null;

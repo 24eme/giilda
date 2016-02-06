@@ -194,7 +194,8 @@ class EtablissementClient extends acCouchdbClient {
     public static function getFamillesSocieteTypesArray() {
         return array(SocieteClient::SUB_TYPE_VITICULTEUR => EtablissementFamilles::FAMILLE_PRODUCTEUR,
             SocieteClient::SUB_TYPE_NEGOCIANT => EtablissementFamilles::FAMILLE_NEGOCIANT,
-            SocieteClient::SUB_TYPE_COURTIER => EtablissementFamilles::FAMILLE_COURTIER);
+            SocieteClient::SUB_TYPE_COURTIER => EtablissementFamilles::FAMILLE_COURTIER,
+            SocieteClient::SUB_TYPE_REPRESENTANT => EtablissementFamilles::FAMILLE_REPRESENTANT,);
     }
 
     public static function getStatuts() {
