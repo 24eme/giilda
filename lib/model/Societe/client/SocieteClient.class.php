@@ -6,6 +6,7 @@ class SocieteClient extends acCouchdbClient {
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
     const SUB_TYPE_COURTIER = 'COURTIER';
+    const SUB_TYPE_REPRESENTANT = 'REPRESENTANT';
     const TYPE_PRESSE = 'PRESSE';
     const TYPE_PARTENAIRE = 'PARTENAIRE';
     const SUB_TYPE_DOUANE = 'DOUANE';
