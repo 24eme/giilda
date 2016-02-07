@@ -18,11 +18,13 @@ class statistiqueActions extends sfActions {
 	protected function getFields($key, $value)
 	{
 		if (!isset($value['properties'])) {
-			return $key;
+			return array($key => $key);
 		}
+		$result = array();
 		foreach ($value['properties'] as $subkey => $subvalue) {
-			return $this->getFields($key.'.'.$subkey, $subvalue);
+			$result = array_merge($result, $this->getFields($key.'.'.$subkey, $subvalue));
 		}
+		return $result;
 	}
 
     public function executeDrmStatistiques(sfWebRequest $request) {
@@ -31,25 +33,32 @@ class statistiqueActions extends sfActions {
         if (!$this->statistiquesConfig) {
             throw new sfException('No configuration set for elasticsearch type drm');
         }
-        $this->form = new StatistiqueDRMFilterForm();
-        $this->query = $this->form->getDefaultQuery();
         
-        if ($request->hasParameter($this->form->getName())) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                if ($q = $this->form->getQuery()) {
-                    $this->query = $q;
-                }
-            }
-        }
         $client = acElasticaManager::initializeClient($this->statistiquesConfig['elasticsearch_host'], $this->statistiquesConfig['elasticsearch_dbname']);
         $index = $client->getDefaultIndex()->getType($this->statistiquesConfig['elasticsearch_type']);
         
         $this->fields = array();
         $mapping = $index->getMapping()[$this->statistiquesConfig['elasticsearch_dbname']]['mappings'][$this->statistiquesConfig['elasticsearch_type']]['properties']['doc']['properties'];
+
         foreach ($mapping as $propertie => $value) {
         	$key = 'doc.'.$propertie;
-        	$this->fields[] = $this->getFields($key, $value);
+        	$this->fields = array_merge($this->fields, $this->getFields($key, $value));
+        }
+
+        $this->form = new StatistiqueDRMFilterForm($this->fields);
+        $this->query = $this->form->getDefaultQuery();
+        $this->collapseIn = false;
+        $this->filters = array();
+        
+        if ($request->hasParameter($this->form->getName())) {
+        	$this->form->bind($request->getParameter($this->form->getName()));
+        	if ($this->form->isValid()) {
+        		if ($q = $this->form->getQuery()) {
+        			$this->query = $q;
+        			$this->collapseIn = $this->form->getCollapseIn();
+        			$this->filters = $this->form->getParameters();
+        		}
+        	}
         }
         
         $elasticaQuery = new acElasticaQuery();
@@ -68,17 +77,6 @@ class statistiqueActions extends sfActions {
         if (!$this->statistiquesConfig) {
             throw new sfException('No configuration set for elasticsearch type vrac');
         }
-        
-        $this->form = new StatistiqueVracFilterForm();
-        $this->query = $this->form->getDefaultQuery();
-        if ($request->hasParameter($this->form->getName())) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                if ($q = $this->form->getQuery()) {
-                    $this->query = $q;
-                }
-            }
-        }
 
         $client = acElasticaManager::initializeClient($this->statistiquesConfig['elasticsearch_host'], $this->statistiquesConfig['elasticsearch_dbname']);
         $index = $client->getDefaultIndex()->getType($this->statistiquesConfig['elasticsearch_type']);
@@ -87,7 +85,23 @@ class statistiqueActions extends sfActions {
         $mapping = $index->getMapping()[$this->statistiquesConfig['elasticsearch_dbname']]['mappings'][$this->statistiquesConfig['elasticsearch_type']]['properties']['doc']['properties'];
         foreach ($mapping as $propertie => $value) {
         	$key = 'doc.'.$propertie;
-        	$this->fields[] = $this->getFields($key, $value);
+        	$this->fields = array_merge($this->fields, $this->getFields($key, $value));
+        }
+        
+        $this->form = new StatistiqueVracFilterForm($this->fields);
+        $this->query = $this->form->getDefaultQuery();
+        $this->collapseIn = false;
+        $this->filters = array();
+        
+        if ($request->hasParameter($this->form->getName())) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                if ($q = $this->form->getQuery()) {
+                    $this->query = $q;
+        			$this->collapseIn = $this->form->getCollapseIn();
+        			$this->filters = $this->form->getParameters();
+                }
+            }
         }
         
         $elasticaQuery = new acElasticaQuery();

@@ -50,5 +50,6 @@
     <script src="/js/vrac.js"></script>
     <script src="/js/drm.js"></script>
     <script src="/js/facture.js"></script>
+    <script src="/js/stats.js"></script>
   </body>
 </html>
