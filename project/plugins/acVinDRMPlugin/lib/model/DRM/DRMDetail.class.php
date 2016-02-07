@@ -105,7 +105,6 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-
         return !$this->hasPrecedente();
     }
 

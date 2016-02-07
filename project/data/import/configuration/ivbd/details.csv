@@ -1,6 +1,6 @@
 #declaration;detail;key;detail;readable;writable;popup;sens du mvt;recolte;revendique;lié à vrac;CVO;Douane type;lien avec XML Douane;taxable douane
-declaration;detail;stocks_debut;initial;1;1;0;0;0;0;0;0;STOCK;;0
-declaration;detail;stocks_debut;dont_revendique;1;1;0;0;0;0;0;0;STOCK;;0
+declaration;detail;stocks_debut;initial;1;0;0;0;0;0;0;0;STOCK;;0
+declaration;detail;stocks_debut;dont_revendique;1;0;0;0;0;0;0;0;STOCK;;0
 declaration;detail;stocks_debut;instance;1;0;0;0;0;0;0;0;STOCK;;0
 declaration;detail;entrees;achatcrd;1;1;0;1;1;1;0;0;ACQUITTE;entrees-periode/achats-reintegrations;0
 declaration;detail;entrees;achatnoncrd;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/volume-produit;0

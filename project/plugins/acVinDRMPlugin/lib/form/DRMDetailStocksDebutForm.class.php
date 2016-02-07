@@ -5,11 +5,11 @@ class DRMDetailStocksDebutForm  extends acCouchdbObjectForm {
     public function configure() {
     	$configurationDetail = $this->getObject()->getParent()->getConfig();
     	foreach ($configurationDetail->getStocksDebut() as $key => $value) {
-    		if ($value->readable) {                    
-	    		if (!$value->writable || !$this->getObject()->getParent()->canSetStockDebutMois()) {
-	    			$this->setWidget($key, new bsWidgetFormInputFloat(array(), array()));
-	    		} else {
+    		if ($value->readable) {      
+	    		if ($value->writable || $this->getObject()->getParent()->canSetStockDebutMois()) {
 	    			$this->setWidget($key, new bsWidgetFormInputFloat());
+	    		} else {
+	    			$this->setWidget($key, new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
 	    		}
 	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false)));
     		}
