@@ -78,11 +78,11 @@
 
 \def\CONTRATPRIXTOUTELETTRE{cinq mille deux cents trente}
 \def\CONTRATPRIX{<?php echo $vrac->prix_initial_unitaire ?>}
-\def\CONTRATMOYENPAIEMENT{<?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?>}
-\def\CONTRATDELAIPAIEMENT{<?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?>}
+\def\CONTRATMOYENPAIEMENT{<?php echo ($vrac->moyen_paiement) ? VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] : " " ?>}
+\def\CONTRATDELAIPAIEMENT{<?php echo ($vrac->delai_paiement) ? VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] : " " ?>}
 
 \def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->taux_courtage ?>}
-\def\CONTRATREPARTITION{<?php echo str_replace('%', '\%', VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition]); ?>}
+\def\CONTRATREPARTITION{<?php echo ($vrac->taux_repartition) ? str_replace('%', '\%', VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition]) : " " ; ?>}
 
 \def\DATELIMITERETIRAISON{<?php echo format_date($vrac->date_limite_retiraison) ?>}
 
