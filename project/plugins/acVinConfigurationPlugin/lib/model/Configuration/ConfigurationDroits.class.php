@@ -13,7 +13,6 @@ class ConfigurationDroits extends BaseConfigurationDroits {
     const DROIT_DOUANE = 'douane';
 
     protected $currentDroits = array();
-
     protected $sumCurrentDroits = null;
 
     public function addDroit($date, $taux, $code, $libelle) {
@@ -26,25 +25,26 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 
     public function getCurrentDroit($date_cvo, $sumtree = true) {
         if ($this->currentDroits) {
+            $sumCurrentDroits = clone $this->currentDroits;
+            $this->currentDroits = null;
             if ($sumtree) {
-                if (!$this->sumCurrentDroits) {
-                    $this->sumCurrentDroits = clone $this->currentDroits;
 
-                    $taux = $this->sumCurrentDroits->getTaux();
-                    if (is_array($taux)) {
-                        $sign = $taux[0];
-                        $value = $taux[1];
-                        $parentCVO = $this->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
-                        if ($sign == '+') {
-                            $this->sumCurrentDroits->taux = $parentCVO->taux + $value;
-                        } elseif ($sign == '-') {
-                            $this->sumCurrentDroits->taux = $parentCVO->taux - $value;
-                        }
+                $taux = $sumCurrentDroits->getTaux();
+                if (is_array($taux)) {
+                    $sign = $taux[0];
+                    $value = $taux[1];
+                    $parentCVO = $this->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, false);
+                    if (is_array($parentCVO->taux)) {
+                        $parentCVO = $parentCVO->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, false);
                     }
-                }
-                return $this->sumCurrentDroits;
+                    if ($sign == '+') {
+                        $sumCurrentDroits->taux = $parentCVO->taux + $value;
+                    } elseif ($sign == '-') {
+                        $sumCurrentDroits->taux = $parentCVO->taux - $value;
+                    }
+                }                
             }
-            return $this->currentDroits;
+            return $sumCurrentDroits;
         }
 
         $currentDroit = null;
@@ -70,7 +70,7 @@ class ConfigurationDroits extends BaseConfigurationDroits {
         try {
             $parent = $this->getNoeud()->getParentNode();
 
-            $this->currentDroits = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, $sumtree);
+            $this->currentDroits = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, false);
 
             return $this->currentDroits;
         } catch (sfException $e) {
