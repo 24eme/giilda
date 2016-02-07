@@ -116,7 +116,6 @@ class sfValidatorSchema extends sfValidatorBase implements ArrayAccess
 
       throw $errorSchema;
     }
-
     // pre validator
     try
     {
