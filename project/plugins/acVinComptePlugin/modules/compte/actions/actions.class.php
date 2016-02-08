@@ -107,7 +107,10 @@ class compteActions extends sfCredentialActions {
     }
 
     public function executeSearchcsv(sfWebRequest $request) {
-      $index = acElasticaManager::getType('Compte');
+      $this->statistiquesConfig = sfConfig::get('app_statistiques_compte');
+      $client = acElasticaManager::initializeClient($this->statistiquesConfig['elasticsearch_host'], $this->statistiquesConfig['elasticsearch_dbname']);
+      $index = $client->getDefaultIndex()->getType($this->statistiquesConfig['elasticsearch_type']);
+      
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
       $resset = $index->search($q);
@@ -212,7 +215,11 @@ class compteActions extends sfCredentialActions {
 	$q->addFacet($elasticaFacet);
       }
 
-      $index = acElasticaManager::getType('Compte');
+      
+      $this->statistiquesConfig = sfConfig::get('app_statistiques_compte');
+      $client = acElasticaManager::initializeClient($this->statistiquesConfig['elasticsearch_host'], $this->statistiquesConfig['elasticsearch_dbname']);
+      $index = $client->getDefaultIndex()->getType($this->statistiquesConfig['elasticsearch_type']);
+      
       $resset = $index->search($q);
 
       $this->results = $resset->getResults();
