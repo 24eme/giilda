@@ -43,8 +43,7 @@ if(!isset($isTeledeclarationMode)) {
                         <small><em>Mouvement saisi le <?php echo format_date($mouvement->date_version, 'D') ?></em></small>
                     </td>
                     <?php endif; ?>
-                    </td>
-                    <td><?php echo $mouvement->produit_libelle ?> </td>
+                    <td><a href="#<?php echo str_replace(' ', '_', $mouvement->produit_libelle) ?>" class="anchor_to_hamza_style"> <?php echo $mouvement->produit_libelle ?> </a></td>
                     <td><?php
                         if ($mouvement->vrac_numero) {
                             echo (!isset($no_link) || !$no_link) ? '<a href="' . url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)) . '">' : '';

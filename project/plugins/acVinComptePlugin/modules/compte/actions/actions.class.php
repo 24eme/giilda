@@ -78,25 +78,24 @@ class compteActions extends sfCredentialActions {
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
       $query = $request->getParameter('q', '*');
       if (! $request->getParameter('contacts_all') ) {
-	$query .= " doc.statut:ACTIF";
+		$query .= " doc.statut:ACTIF";
       }
       $this->selected_rawtags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
       $this->selected_typetags = array();
       foreach ($this->selected_rawtags as $t) {
-	if (preg_match('/^([^:]+):(.+)$/', $t, $m)) {
-	  if (!isset($this->selected_typetags[$m[1]])) {
-	    $this->selected_typetags[$m[1]] = array();
-	  }
-	  $this->selected_typetags[$m[1]][] = $m[2];
-	}
-	$query .= ' doc.tags.'.$t;
+		if (preg_match('/^([^:]+):(.+)$/', $t, $m)) {
+	  		if (!isset($this->selected_typetags[$m[1]])) {
+	    		$this->selected_typetags[$m[1]] = array();
+	  		}
+	  		$this->selected_typetags[$m[1]][] = $m[2];
+		}
+		$query .= ' doc.tags.'.$t;
       }
       $this->real_q = $query;
       if ($extratag) {
-	$query .= ($excludeextratag) ? ' -' : ' ';
-	$query .= 'doc.tags.manuel:'.$extratag;
+		$query .= ($excludeextratag) ? ' -' : ' ';
+		$query .= 'doc.tags.manuel:'.$extratag;
       }
-
       $qs = new acElasticaQueryQueryString($query);
       $q = new acElasticaQuery();
       $q->setQuery($qs);
@@ -130,19 +129,21 @@ class compteActions extends sfCredentialActions {
       $index = acElasticaManager::getType('compte');
       $tag = Compte::transformTag($request->getParameter('tag'));
       $q = $this->initSearch($request, $tag, !$remove);
-      $q->setLimit(1000000);
+
+      //$q->setLimit(1000000);
       $resset = $index->search($q);
+
       if (!$tag) {
-	throw new sfException("Un tag doit être fourni pour pouvoir être ajouté");
+		throw new sfException("Un tag doit être fourni pour pouvoir être ajouté");
       }
       if (!$this->real_q) {
-	throw new sfException("Il n'est pas possible d'ajouter un tag sur l'ensemble des contacts");
+		throw new sfException("Il n'est pas possible d'ajouter un tag sur l'ensemble des contacts");
       }
       $cpt = 0;
       $nbimpactables =  $resset->getTotalHits();
       foreach ($resset->getResults() as $res) {
 	$data = $res->getData();
-	$doc = CompteClient::getInstance()->findByIdentifiant($data['identifiant'], acCouchdbClient::HYDRATE_JSON);
+	$doc = CompteClient::getInstance()->findByIdentifiant($data['doc']['identifiant'], acCouchdbClient::HYDRATE_JSON);
 	if (!$doc) {
 	  continue;
 	}
@@ -163,7 +164,7 @@ class compteActions extends sfCredentialActions {
 	}
       }
       $q = $this->initSearch($request, $tag, !$remove);
-      $q->setLimit(1000000);
+      //$q->setLimit(1000000);
       $resset = $index->search($q);
 
       $nbimpactes = $resset->getTotalHits();
@@ -183,14 +184,14 @@ class compteActions extends sfCredentialActions {
     
     public function executeAddtag(sfWebRequest $request) {
       if (!$this->addremovetag($request, false)) {
-	return ;
+		return ;
       }
       return $this->redirect('compte_search', $this->args);
     }
     
     public function executeRemovetag(sfWebRequest $request) {
       if (!$this->addremovetag($request, true)) {
-	return ;
+		return ;
       }
       $this->args['tags'] = implode(',', array_diff($this->selected_rawtags, array('manuel:'.$request->getParameter('tag'))));
       return $this->redirect('compte_search', $this->args);
@@ -210,8 +211,6 @@ class compteActions extends sfCredentialActions {
 		$elasticaFacet->setField($f);
 		$q->addFacet($elasticaFacet);
       }
-      
-      //print_r(json_encode($q->toArray()));exit;
 
       $index = acElasticaManager::getType('compte');
       

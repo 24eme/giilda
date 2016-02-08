@@ -157,6 +157,14 @@
              });
             
         })
+        
+        $(this).find('.hamzastyle-item').each(function(){
+            $(this).find('.anchor_to_hamza_style').click(function(){                
+                var anchor = $(this).attr('href').replace(/_/g, " ").replace('#',"");  
+               console.log(anchor) ;
+            });
+            
+        });
 
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
