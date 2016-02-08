@@ -4,6 +4,12 @@
 # default values
 all:
   statistiques:
+    compte:
+      title: ""
+      nb_resultat: 20
+      elasticsearch_host: "http://127.0.0.1:9200/"
+      elasticsearch_dbname: "comptes"
+      elasticsearch_type: "COMPTE"
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20

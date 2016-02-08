@@ -28,6 +28,9 @@ fi
 if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_vrac" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
     curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_vrac" > /dev/null
 fi
+if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_compte" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
+    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_compte" > /dev/null
+fi
 if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
     curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX > /dev/null
 fi
@@ -42,6 +45,11 @@ index :
     number_of_shards : 3
     number_of_replicas : 0
 '
+curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_compte/" -d '
+index :
+    number_of_shards : 3
+    number_of_replicas : 0
+'
 curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX/" -d '
 index :
     number_of_shards : 3 
@@ -50,6 +58,7 @@ index :
 
 curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_drm/_mapping" -d '@data/elasticsearch/mapping_drm' > /dev/null
 curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_vrac/_mapping" -d '@data/elasticsearch/mapping_vrac' > /dev/null
+curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_compte/_mapping" -d '@data/elasticsearch/mapping_compte' > /dev/null
 
 
 cat data/logstash/logstash.conf | sed "s/ELASTHOST/$ELASTHOST/g" | sed "s/ELASTPORT/$ELASTPORT/g" | sed "s/ELASTBASE/$ELASTBASE/g" | sed "s/COUCHHOST/$COUCHHOST/g" | sed "s/COUCHPORT/$COUCHPORT/g" | sed "s/COUCHBASE/$COUCHBASE/g" > "/tmp/"$ELASTBASE".conf"
