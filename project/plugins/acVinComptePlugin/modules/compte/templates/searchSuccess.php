@@ -117,18 +117,19 @@
 	<?php endif; ?>
 
 </section>
-    <div class="col-xs-3">
+<section class="col-xs-3">
+    <div class="col-xs-12">
         <a href="<?php echo url_for('societe_creation', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a> 
-     <a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>"> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
-     <br />
-        <span class="lead"><?php echo $nb_results; ?> résultat(s) trouvé(s)</span>
+     	<a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>"> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
+
+        <p style="margin-top: 10px;"><strong><?php echo $nb_results; ?></strong> résultat(s) trouvé(s)</p>
     </div>
 
 	<?php if (count($selected_typetags)) :  ?>
-		<div class="col-xs-3">
-			<h2>Tags sélectionnés</h2>
+		<div class="col-xs-12">
+			<h4>Tags sélectionnés</h4>
 					<?php foreach($selected_typetags as $type => $selected_tags) : ?>
-                        <h3><?php echo ucfirst($type); ?></h3>
+                        <h6><?php echo ucfirst($type); ?></h6>
 						<div class="list-group">
 							<?php foreach($selected_tags as $t) {
 								$targs = $args_copy->getRawValue();
@@ -146,18 +147,18 @@
 		</div>
 	<?php endif; ?>
 
-	<div class="col-xs-3">
-		<h2>Tags disponibles</h2>
+	<div class="col-xs-12">
+		<h4>Tags disponibles</h4>
             <?php foreach($facets as $type => $ftype): ?>
-                <?php if (count($ftype['terms'])): ?>
-                <h3><?php echo ucfirst($type) ?></h3>
+                <?php if (count($ftype['buckets'])): ?>
+                <h6><?php echo ucfirst($type) ?></h6>
 		           <div class="list-group">
-                    <?php foreach($ftype['terms'] as $f): ?>
-                        <?php if (preg_match('/^(export|produit)_/', $f['term'])) { continue; } ?>
+                    <?php foreach($ftype['buckets'] as $f): ?>
+                        <?php if (preg_match('/^(export|produit)_/', $f['key'])) { continue; } ?>
 
     					<?php $targs = $args_copy->getRawValue(); ?>
-    					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term']))); ?>
-    					  <a class="list-group-item list-group-item-xs" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $f['term']) ?> <span class="badge"><?php echo $f['count'] ?></span></a>
+    					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key']))); ?>
+    					  <a class="list-group-item list-group-item-xs" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge"><?php echo $f['doc_count'] ?></span></a>
 					<?php endforeach; ?>
 					</div>
 			    <?php endif; ?>
@@ -166,8 +167,8 @@
 	</div>
 
             <?php if(isset($args_copy)): ?>
-	<div class="col-xs-3">
-		<h2>Créer un tag</h2>
+	<div class="col-xs-12">
+		<h4>Créer un tag</h4>
 		<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
         <div class="input-group">
             <input id="creer_tag" name="tag" class="form-control" type="text" />
@@ -181,4 +182,5 @@
 		</form>
 	</div>
     <?php endif; ?>
+</section>
 </div>
