@@ -26,7 +26,7 @@ class Vrac extends BaseVrac {
     			if ($str) {
     				$str .= ', ';
     			}
-    			$str .= ConfigurationClient::getCurrent()->labels->toArray()[$label]; 
+                $str .= $label;
     		}
     		return $str;
     	}

@@ -7,6 +7,7 @@
  * Derniere date de modification : 29-05-12
  */
 use_helper('Vrac');
+use_helper('Date');
 ?>
 <div class="row">      
         <div class="col-xs-12">
@@ -36,7 +37,8 @@ use_helper('Vrac');
 		   <div class="col-xs-4 text-center">	
             <?php if ($vrac->isVise()) : ?>
             <p style="font-size: 24px;">
- 			N° <?php echo $vrac->numero_archive; ?> (<?php echo $vrac->campagne; ?>) <span class="pull-right">
+ 			N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_campagne, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
+			<small class="text-muted"><?php echo preg_replace('/^(....)(.)/', '\1 \2 ', $vrac->numero_contrat); ?></small>
             </p>
            </div>
 		   <div class="col-xs-3 text-right">	
