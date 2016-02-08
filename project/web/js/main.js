@@ -2,8 +2,13 @@
 /**
  * Initialisation
  ******************************************/
+
+        
+
+        
 (function ($)
 {
+    
     var options = {
         selectors: {
             ajaxModal: '#ajax-modal'
@@ -26,6 +31,7 @@
             $(this).html("");
         });
     });
+    
     $.fn.initAdvancedElements = function () {
 
         var element = $(this);
@@ -55,8 +61,19 @@
                         select2.val(defaultValueSplitted[0]);
                     }
                 },
+                
                 placeholder: 'Entrer un nom',
                 minimumInputLength: 3,
+                formatInputTooShort: function (input, min) { 
+                	var n = min - input.length; 
+                	return  min + " caractère" + (n == 1 ? "" : "s") + " min";
+                },
+                formatNoMatches: function () { 
+                	return "Aucun résultat"; 
+                },
+                formatSearching: function () { 
+                	return "Recherche…"; 
+                },
                 allowClear: true,
                 ajax: {
                     quietMillis: 150,
