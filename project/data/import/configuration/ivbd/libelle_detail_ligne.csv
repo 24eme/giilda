@@ -14,7 +14,7 @@ entrees;travailafacon;"Travail à façon";"Retour d'embouteillage, relogement, t
 entrees;retourmarchandisenontaxees;"Retour non taxé";"Retour de marchandises non taxées";"Retour de marchandises non taxées"
 entrees;retourmarchandisetaxees;"Retour déjà taxé";"Retour de marchandises ayant déjà été taxées";"Retour de marchandises ayant déjà été taxées"
 entrees;transfertcomptamatierecession;"Transfert externe";"Transfert de comptabilité matière et cession";"Transfert de comptabilité matière et cession"
-entrees;sortie_negative;Entrée négative;Entrée négative;Entrée négative
+entrees;sortie_negative;Sortie négative;Sortie négative;Sortie négative
 sorties;ventefrancebibcrd;"Bib CRD";"Ventes en France de Bib sous CRD";"Ventes en France de Bib sous CRD"
 sorties;ventefrancebouteillecrd;"Bouteilles CRD";"Ventes en France de Bouteilles sous CRD";"Ventes en France de Bouteilles sous CRD"
 sorties;cession;"Cession";"Cession d'activité";"Cession d'activité"
