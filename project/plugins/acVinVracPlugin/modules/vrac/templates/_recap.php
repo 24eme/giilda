@@ -231,12 +231,14 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                     </span>
                                     <span class="col-xs-6">
                                         <span class=" pull-right">
-                                            <?php echo $enlevement->volume . " hl"; ?>
+                                            <?php echoFloat($enlevement->volume) ; echo " hl"; ?>
                                         </span>
                                     </span>
                                 </li> 
                         <?php endforeach; ?> 
-                            <?php endif; ?>
+			<?php else: ?>
+<p class="text-center"><i>Pas d'enlèvement réalisé pour le moment sur ce contrat</i></p>
+                        <?php endif; ?>
                    
                 </ul>
             </div>
