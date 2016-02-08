@@ -45,7 +45,7 @@ use_helper('Date');
         <div class="col-xs-4 text-right">	
             <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
                 <div class="btn-group">
-                    <span style="background-color: #e6e6e6; border-color: #adadad; color: #333; cursor: default;" class="btn btn-default btn-disabled <?php //echo ($vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE)?  'btn-success' :'' ?> <?php //echo ($vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)?  'btn-warning' :'' ?>  statut  <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"><?php echo $vrac->getStatutLabel(); ?></span>
+                    <span style="background-color: #e6e6e6; border-color: #adadad; color: #333; cursor: default; font-weight: bold;" class="btn btn-default btn-disabled  statut  <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"><?php echo $vrac->getStatutLabel(); ?></span>
                     <?php if (!$isTeledeclarationMode): ?>
 
                         <?php if ($vrac->valide->statut != VracClient::STATUS_CONTRAT_ANNULE) : ?>
