@@ -40,9 +40,13 @@ class acElasticaManager {
     }
 
     public static function getType($type) {
-      if (!isset(self::getInstance()->_client)) 
-	throw new sfException('ElasticSearch not reacheable');
-      return self::getInstance()->_client->getDefaultIndex()->getType($type);
+    	$statistiquesConfig = sfConfig::get('app_statistiques_'.$type);
+    	if (!$statistiquesConfig) {
+    		throw new sfException($type.' doesn\'t exist in elasticsearch configuration.');
+    	}
+    	$client = acElasticaManager::initializeClient($statistiquesConfig['elasticsearch_host'], $statistiquesConfig['elasticsearch_dbname']);
+    	$index = $client->getDefaultIndex()->getType($statistiquesConfig['elasticsearch_type']);
+    	return $index;
     }
 
 }
