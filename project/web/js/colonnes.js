@@ -1171,7 +1171,7 @@
 
             if (this.isTotalFinDontRevendique()) {
                 var val_before = this.getVal();
-                this.setVal(this.colonne.totalDontRevendique().toFixed(2));
+                this.setVal(this.colonne.totalDontRevendique());
 
                 if (val_before != this.getVal()) {
                     this.champs.calculer();
