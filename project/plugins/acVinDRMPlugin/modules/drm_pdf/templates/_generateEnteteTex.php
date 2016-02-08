@@ -1,4 +1,7 @@
 <?php
+use_helper('Date');
+use_helper('DRM');
+use_helper('Orthographe');
 use_helper('DRMPdf');
 use_helper('Display');
 $caution = 'Non défini';
@@ -49,6 +52,7 @@ Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
  \begin{small} \InterloireContact \\ 
  \end{small} 
  \begin{large}
+\textbf{DRM <?php echo getFrPeriodeElision($drm->periode); ?>} \\
 \textbf{Signé électroniquement le <?php echo $drm->getEuValideDate(); ?>}
 \end{large}
  }
