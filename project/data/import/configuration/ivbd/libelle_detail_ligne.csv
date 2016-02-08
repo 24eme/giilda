@@ -14,7 +14,6 @@ entrees;travailafacon;"Travail à façon";"Retour d'embouteillage, relogement, t
 entrees;retourmarchandisenontaxees;"Retour non taxé";"Retour de marchandises non taxées";"Retour de marchandises non taxées"
 entrees;retourmarchandisetaxees;"Retour déjà taxé";"Retour de marchandises ayant déjà été taxées";"Retour de marchandises ayant déjà été taxées"
 entrees;transfertcomptamatierecession;"Transfert externe";"Transfert de comptabilité matière et cession";"Transfert de comptabilité matière et cession"
-entrees;sortie_negative;Sortie négative;Sortie négative;Sortie négative
 sorties;ventefrancebibcrd;"Bib CRD";"Ventes en France de Bib sous CRD";"Ventes en France de Bib sous CRD"
 sorties;ventefrancebouteillecrd;"Bouteilles CRD";"Ventes en France de Bouteilles sous CRD";"Ventes en France de Bouteilles sous CRD"
 sorties;cession;"Cession";"Cession d'activité";"Cession d'activité"
@@ -32,8 +31,6 @@ sorties;travailafacon;"Travail à façon";"Sortie d'embouteillage, relogement, t
 sorties;vracsanscontratacquitte;"Vrac acquitté";"Sortie de vrac sans contrat (acquitté)";"Sortie de vrac sans contrat (acquitté)"
 sorties;vracsanscontratsuspendu;"Vrac suspendu";"Sortie de vrac sans contrat (suspendu)";"Sortie de vrac sans contrat (suspendu)"
 sorties;distillationusageindustriel;"Usages industr.";"Distillation et usages industriels";"Distillation et usages industriels"
-sorties;entree_negative;Entrée négative;Entrée négative;Entrée négative
-sorties;entree_recolte_negative;Entrée négative de récolte;Entrée négative de récolte;Entrée négative de récolte
 stocks_fin;final;"Final récolté";"Final récolté";"Stock final récolté";"Stock final récolté"
 stocks_fin;instance;"En instance de revendication";"En instance de revendication";"En instance de revendication"
 stocks_fin;dont_revendique;"dont revendiqué";"Stock revendiqué en fin de mois";"Stock revendiqué en fin de mois"
