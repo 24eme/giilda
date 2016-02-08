@@ -401,17 +401,21 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if((volume * 1) < 0 && catmouvement == "sorties") {
         catmouvement = "entrees";
-        mouvement = "sortie_negative";
+        mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
         commentaire="Sortie négative " mouvement_extravitis;
     }
 
     if((volume * 1) < 0 && catmouvement == "entrees") {
         catmouvement = "sorties";
-        mouvement = "entree_negative";
+        mouvement = "destructionperte";
         volume = volume * -1;
         commentaire="Entrée négative " mouvement_extravitis;
     }
+
+    if(catmouvement == "stocks_debut" && mouvement == "initial") {
+        print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";dont_revendique;" volume ";;;" commentaire;
+    } 
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;" commentaire;
 }' > $DATA_DIR/drm_cave.csv
