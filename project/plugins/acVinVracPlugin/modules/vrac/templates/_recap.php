@@ -128,6 +128,8 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                         <?php if ($vrac->bouteilles_contenance_libelle): ?>Contenance : <strong><?php echo $vrac->bouteilles_contenance_libelle ?></strong><?php endif; ?>
                                     </li>
                                 <?php endif; ?>
+                               <li class="list-group-item">Date de signature : <strong><?php echo format_date($vrac->date_signature, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
+                               <li class="list-group-item">Campagne viticole : <strong><?php echo $vrac->campagne; ?></strong></li>
                             </ul>
                         </div>
                     </div>

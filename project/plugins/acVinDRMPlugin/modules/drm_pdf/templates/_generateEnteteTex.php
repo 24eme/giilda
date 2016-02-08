@@ -34,7 +34,7 @@ if($drm->declarant->caution){
 \lhead{
 Raison sociale : \textbf{\DRMSocieteRaisonSociale} \\
 Adresse du siège de l’Entrepôt : \textbf{\DRMAdresseChai} \\
-Numéro Interloire : \textbf{\DRMIdentifiantIL}~~~CVI : \textbf{\DRMCvi}~~~Siret : \textbf{\DRMSiret} \\
+Code client : \textbf{\DRMIdentifiantIL}~~~CVI : \textbf{\DRMCvi}~~~Siret : \textbf{\DRMSiret} \\
 Numéro d'Accise : \textbf{\DRMNumAccise} \\
 Adresse compta matière : \textbf{\DRMAdresseComptaMatiere} \\
 Caution : \textbf{<?php echo $caution; ?>} \\
