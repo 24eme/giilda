@@ -215,7 +215,7 @@ A été conclu le marché suivant: \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 
 \CONTRATPRODUITNATURE ~ \large{\CONTRATPRODUITLIBELLE}  & \multicolumn{1}{c|}{\large{\CONTRATPRODUITDEGRE}} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} &  \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} & \CONTRATPRODUITCEPAGE \\
-\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & <?php if ($vrac->get('85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
+\multicolumn{1}{|l|}{\textit{\CONTRATCONDITIONNEMENT}}  & ~ & <?php if ($vrac->exist('85_15')): ?>\multicolumn{1}{c|}{\textit{85/15(\%)}}<?php else: ?>~<?php endif; ?> & ~  & ~ & ~ \\
 \multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}}  & ~ & ~ & ~  & ~ & ~ \\
 ~ & ~ & ~ & ~ & ~ & ~  \\
 \hline
