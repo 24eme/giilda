@@ -46,7 +46,7 @@ class acElasticaManager {
     	}
     	$client = acElasticaManager::initializeClient($statistiquesConfig['elasticsearch_host'], $statistiquesConfig['elasticsearch_dbname']);
     	$elasticType = ($elasticType)? $elasticType : $statistiquesConfig['elasticsearch_type'];
-    	$index = $client->getDefaultIndex()->getType($statistiquesConfig['elasticsearch_type']);
+    	$index = $client->getDefaultIndex()->getType($elasticType);
     	return $index;
     }
 
