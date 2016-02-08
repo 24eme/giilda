@@ -74,6 +74,8 @@ EOF;
             $configuration->getOrAdd('mvts_favoris')->add($mvt[0], $mvt[0]);
         }
 
+        $configuration->labels->add('agriculture_biologique', "Agriculture Biologique");
+
         $configuration->save();
     }
 

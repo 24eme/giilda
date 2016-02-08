@@ -156,7 +156,7 @@ Vrac:
       categorie_vin: {   } # Générique ou domaine
       domaine: {  }
       label:
-        type: array_collection
+        type: collection
         definition:
           fields:
             '*': {  }

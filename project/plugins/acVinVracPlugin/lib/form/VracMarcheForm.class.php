@@ -168,6 +168,12 @@ class VracMarcheForm extends acCouchdbObjectForm {
         if(!$this->getObject()->categorie_vin) {
             $this->setDefault('categorie_vin', VracClient::CATEGORIE_VIN_GENERIQUE);
         }
+        if($this->getObject()->label) {
+            $this->setDefault('label', array_keys($this->getObject()->label->toArray(true, false)));
+        } else {
+            $this->setDefault('label', array());
+        }
+
     }
 
     public function getProduits() {
@@ -238,6 +244,14 @@ class VracMarcheForm extends acCouchdbObjectForm {
 	}
         $unites->prix_initial_unitaire->add($configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['libelle']);
         $unites->volume_initial->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['libelle']);
+
+        $this->getObject()->remove('label');
+        $this->getObject()->add('label');
+        if(isset($values['label'])) {
+            foreach($values['label'] as $label_key) {
+                $this->getObject()->label->add($label_key, $this->getLabels()[$label_key]);
+            }
+        }
     }
 
     public function getDomaines() {

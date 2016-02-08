@@ -45,9 +45,8 @@ class VracCsvFile extends CsvFile {
     const CSV_COMMENTAIRES = 40;
 
     const LABEL_BIO = 'agriculture_biologique';
-    const LABEL_VIN_PREPARE = 'vin_prepare';
 
-    public static $labels_array = array(self::LABEL_BIO => "Biologique", self::LABEL_VIN_PREPARE => "Vin Préparé");
+    public static $labels_array = array(self::LABEL_BIO => "Agriculture Biologique");
 
     public function import() {
         $this->errors = array();
@@ -143,10 +142,10 @@ class VracCsvFile extends CsvFile {
 
                 if ($line[self::CSV_LABELS]) {
                     $labels_contrat_array = explode(",", $line[self::CSV_LABELS]);
-                    foreach ($labels_contrat_array as $label) {
+                    foreach ($labels_contrat_array as $label_key => $label_libelle) {
                         if (in_array($label, array_keys(self::$labels_array))) {
 
-                            $v->getOrAdd('label')->add(null, $label);
+                            $v->getOrAdd('label')->add($label_key, $label_libelle);
                         }
                     }
                 }
