@@ -248,6 +248,13 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
         categorie_vin="GENERIQUE";
     }
     categorie_vin_info=$79;
+    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(chateau|château|Chateau|Château|CHATEAU|CHÂTEAU)/) {
+        categorie_vin="CHATEAU";
+    }
+    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(domaine|Domaine|DOMAINE)/) {
+        categorie_vin="DOMAINE";
+    }
+
     proprietaire=$65;
     if(proprietaire == "V") { proprietaire = "vendeur"; }
     if(proprietaire == "I") { proprietaire = "vendeur"; }
