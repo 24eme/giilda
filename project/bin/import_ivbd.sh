@@ -413,6 +413,10 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         commentaire="Entrée négative " mouvement_extravitis;
     }
 
+    if(catmouvement == "stocks_debut" && mouvement == "initial") {
+        print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";dont_revendique;" volume ";;;" commentaire;
+    } 
+
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;" commentaire;
 }' > $DATA_DIR/drm_cave.csv
 
