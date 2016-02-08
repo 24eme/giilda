@@ -177,7 +177,7 @@ class VracClient extends acCouchdbClient {
         return $this->find($this->getId($num_contrat), $hydrate);
     }
 
-    public function findDocIdByNumArchive($campagne, $num_contrat) {
+    public function findDocIdByNumArchive($campagne, $num_contrat, $recursive = 0) {
 
         $doc_id = ArchivageAllView::getInstance()->findDocId("Vrac", $campagne, $num_contrat);
 
@@ -186,7 +186,14 @@ class VracClient extends acCouchdbClient {
             return $doc_id;
         }
 
-        return ArchivageAllView::getInstance()->findDocId("Vrac", ConfigurationClient::getInstance()->getPreviousCampagne($campagne), $num_contrat);
+        $recursive = $recursive - 1;
+
+        if($recursive < 0) {
+
+            return null;
+        }
+    
+        return $this->findDocIdByNumArchive(ConfigurationClient::getInstance()->getPreviousCampagne($campagne), $num_contrat, $recursive);
     }
 
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
