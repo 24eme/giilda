@@ -132,7 +132,7 @@ Adresse : \textbf{\CONTRATVENDEURADRESSE} \\
 \hspace*{0.5cm}
 Pour le compte de : \textbf{\CONTRATVENDEURPAYEUR}
 <?php endif; ?>
-\\ ~ \\
+\\ ~ 
 \hspace*{0.5cm}
 \textbf{B)} ACHETEUR : \textbf{\CONTRATACHETEURNOM} \\
 \hspace*{0.5cm}
@@ -147,7 +147,7 @@ Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 \hspace{2cm}
 \begin{minipage}[t]{0.3\textwidth}
 N° CVI : \textbf{\CONTRATVENDEURCVI} \\
-Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ ~ \\
+Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ 
 N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
@@ -210,11 +210,11 @@ les chais du négociant. Les numéros de lot et d'embouteilleur devront figurer 
 Le cas échéant, le millésime devra également figurer sur les bouchons.
  ~ \\   ~ \\
 %PARTIE 7%
-\circled{7}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
+\circled{7}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année : 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
 \hspace*{0.5cm}
 Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
 En année 1, préciser :\small ~- si une révision est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
-\hspace*{2.92cm}
+\hspace*{3.32cm}
 - le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
 \hspace*{0.5cm}
 \normalsize
