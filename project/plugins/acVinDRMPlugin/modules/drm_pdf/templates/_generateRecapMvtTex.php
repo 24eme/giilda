@@ -8,11 +8,6 @@ $mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf();
 $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
 ?>
 
-\begin{center}
-\begin{Large}
-\textbf{DRM <?php echo getFrPeriodeElision($drm->periode); ?>}
-\end{Large}
-\end{center}
 
 
 <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true) as $certification => $produitsDetailsByCertifications) : ?>
@@ -190,5 +185,4 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
             \newpage
         <?php endif; ?>
     <?php endfor; ?>
-        \newpage
 <?php endforeach; ?> 

@@ -8,6 +8,6 @@
         <?php include_partial('drm_visualisation/stock', array('drm' => $drm, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     </div>
     <div id="mouvements" role="tabpanel" class="tab-pane">
-        <?php include_partial('drm_visualisation/mouvements', array('mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => $visualisation, 'hamza_style' => true)) ?>
+        <?php include_partial('drm_visualisation/mouvements', array('drm' => $drm,'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => $visualisation, 'hamza_style' => true)) ?>
     </div>
 </div>
