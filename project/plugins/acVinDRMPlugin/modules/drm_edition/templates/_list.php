@@ -19,7 +19,9 @@
 
             </script>
             <div style="float: left;" id="col_saisies_cont" class="section_label_maj">
-            <?php $first = true; ?>
+            <?php $first = true;
+            $cpt = 1;
+            ?>
             <?php foreach ($produits as $produit): ?>  
                 <?php if(!$produit->hasMovements()): continue; endif; ?> 
                 <?php
@@ -27,9 +29,11 @@
                     'config' => $config,
                     'detail' => $produit,
                     'active' => ($detail && $detail->getHash() == $produit->getHash()),
+                    'numProduit' => $cpt*100,
                     'form' => $form,
                     'favoris' => $favoris,
                     'isTeledeclarationMode' => $isTeledeclarationMode));
+                $cpt++;
                 ?>
                 <?php $first = $first && !$produit->hasMovements(); ?>
             <?php endforeach; ?>

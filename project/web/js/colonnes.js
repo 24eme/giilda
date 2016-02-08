@@ -341,7 +341,9 @@
         }
 
         this.focusChampDefault = function () {
-            this.element.find(this.element.attr('data-input-focus')).focus();
+            var tabIndex = this.element.attr('data-input-focus');
+            var field = this.element.find('input[tabindex='+tabIndex+']');
+            field.focus();
         }
 
         this.unFocus = function () {
@@ -404,6 +406,13 @@
                 object.unActive();
 
                 object.colonnes.event_valider(object);
+                var select2Produit = $("#s2id_produit_declaration_hashref").data('select2');
+                setTimeout(function () {
+                    if (!select2Produit.opened()) {
+                        select2Produit.open();
+                    }
+                }, 0);
+
             }, 'json');
         }
 
@@ -943,8 +952,8 @@
 
             return somme;
         }
-        
-          this.sommeEntreesRecolte = function () {
+
+        this.sommeEntreesRecolte = function () {
             var somme = 0;
             for (key in this.champs) {
                 if (this.champs[key].isRecolteEntree()) {
@@ -1043,7 +1052,7 @@
             return this.element.is('input.input-float');
         }
 
-     
+
 
         this.isSommeDetail = function () {
 
@@ -1144,7 +1153,7 @@
 
                 return;
             }
-            
+
             if (this.isSommeEntreesRecolte()) {
                 this.setVal(this.champs.sommeEntreesRecolte());
 
@@ -1156,7 +1165,7 @@
 
                 return;
             }
-          
+
 
             if (this.isTotalFin()) {
                 var val_before = this.getVal();
