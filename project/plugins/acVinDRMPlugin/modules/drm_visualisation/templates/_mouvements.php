@@ -24,17 +24,21 @@ if(!isset($isTeledeclarationMode)) {
         <thead>
             <tr>
                 <?php if (!$isTeledeclarationMode): ?>
-                <th class="col-xs-3">Date de modification</th>
+                <th class="col-xs-2">Date de modification</th>
                 <?php endif; ?>
                 <th class="col-xs-3">Produits</th>
                 <th class="col-xs-3">Type</th>
-                <th class="col-xs-3">Volume</th>
+                <th class="col-xs-2">Volume</th>
+                <th class="col-xs-2">Stock début (dont rev.)</th>
+                <th class="col-xs-2">Stock fin (dont rev.)</th>
             </tr>
         </thead>
         <tbody>
             <?php $i = 1; ?>
-    <?php foreach ($mouvements as $mouvement): ?>
-                <?php $libelleDoc = acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id); ?>
+    <?php foreach ($mouvements as $mouvement):
+        $cepage = $drm->get($mouvement->produit_hash);
+        ?>
+                 <?php $libelleDoc = acCouchdbManager::getClient($mouvement->type)->getLibelleFromId($mouvement->doc_id); ?>
                 <tr data-words='<?php echo json_encode(array_merge(Search::getWords($mouvement->produit_libelle), Search::getWords($mouvement->type_libelle), Search::getWords($libelleDoc), Search::getWords($mouvement->detail_libelle), array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($libelleDoc), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php
         echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation))? " facturable" : ""; ?>">
                     <?php if(!$isTeledeclarationMode): ?>
@@ -52,10 +56,13 @@ if(!isset($isTeledeclarationMode)) {
                         } else {
                             echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle;
                         }
-                        ?></td>
+                        ?>
+                    </td>
                     <td <?php echo ($mouvement->volume > 0) ? ' class="positif"' : 'class="negatif"'; ?> >
         <?php echoSignedFloat($mouvement->volume); ?>
                     </td>
+                    <td><?php echoFloat($cepage->total_debut_mois).' hl'; ?> ( <?php echo ($cepage->details->DEFAUT->stocks_debut->dont_revendique)? sprintFloat($cepage->details->DEFAUT->stocks_debut->dont_revendique) : "0.00" ; ?> ) </td>
+                    <td><?php echoFloat($cepage->total).' hl'; ?> ( <?php echo ($cepage->details->DEFAUT->stocks_fin->dont_revendique)? sprintFloat($cepage->details->DEFAUT->stocks_fin->dont_revendique) : "0.00" ; ?> ) </td>
                 </tr>
     <?php endforeach; ?>
         </tbody>
