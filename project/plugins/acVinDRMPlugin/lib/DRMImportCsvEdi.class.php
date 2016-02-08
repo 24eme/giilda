@@ -205,7 +205,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     if ($type_key == 'export') {
                         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
-                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add();
+                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add($pays);
                         if ($detailNode->volume) {
                             $volume+=$detailNode->volume;
                         }
@@ -217,7 +217,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     if ($type_key == 'vrac' || $type_key == 'contrat') {
                         $vrac_id = $this->findContratDocId($csvRow);
 
-                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add();
+                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add($vrac_id);
                         if ($detailNode->volume) {
                             $volume+=$detailNode->volume;
                         }
