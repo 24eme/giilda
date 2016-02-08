@@ -26,7 +26,7 @@ class bsWidgetFormSelectCheckbox extends sfWidgetFormSelectCheckbox {
             $baseAttributes['checked'] = 'checked';
           }
 
-          $inputs[$id] = $this->renderContentTag('label', $this->renderTag('input', array_merge($baseAttributes, $attributes)). '&nbsp;' . self::escapeOnce($option), array('for' => $id, 'class' => 'checkbox-inline'));
+          $inputs[$id] = $this->renderContentTag('label', $this->renderTag('input', array_merge($baseAttributes, $attributes)). '' . self::escapeOnce($option), array('for' => $id, 'class' => 'checkbox-inline'));
         }
 
         return call_user_func($this->getOption('formatter'), $this, $inputs);
