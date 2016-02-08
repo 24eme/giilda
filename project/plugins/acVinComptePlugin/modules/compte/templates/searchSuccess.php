@@ -149,15 +149,15 @@
 	<div class="col-xs-3">
 		<h2>Tags disponibles</h2>
             <?php foreach($facets as $type => $ftype): ?>
-                <?php if (count($ftype['terms'])): ?>
+                <?php if (count($ftype['buckets'])): ?>
                 <h3><?php echo ucfirst($type) ?></h3>
 		           <div class="list-group">
-                    <?php foreach($ftype['terms'] as $f): ?>
-                        <?php if (preg_match('/^(export|produit)_/', $f['term'])) { continue; } ?>
+                    <?php foreach($ftype['buckets'] as $f): ?>
+                        <?php if (preg_match('/^(export|produit)_/', $f['key'])) { continue; } ?>
 
     					<?php $targs = $args_copy->getRawValue(); ?>
-    					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term']))); ?>
-    					  <a class="list-group-item list-group-item-xs" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $f['term']) ?> <span class="badge"><?php echo $f['count'] ?></span></a>
+    					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key']))); ?>
+    					  <a class="list-group-item list-group-item-xs" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge"><?php echo $f['doc_count'] ?></span></a>
 					<?php endforeach; ?>
 					</div>
 			    <?php endif; ?>

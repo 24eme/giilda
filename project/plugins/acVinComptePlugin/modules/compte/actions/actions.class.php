@@ -220,6 +220,7 @@ class compteActions extends sfCredentialActions {
       $this->results = $resset->getResults();
       $this->nb_results = $resset->getTotalHits();
       $this->facets = $resset->getFacets();
+      //var_dump($this->facets);exit;
 
       $this->last_page = ceil($this->nb_results / $res_by_page); 
       $this->current_page = $page;
