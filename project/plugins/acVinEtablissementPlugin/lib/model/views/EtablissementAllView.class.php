@@ -127,8 +127,8 @@ class EtablissementAllView extends acCouchdbView
 	$r = $er->getData();
 	$e = new stdClass();
 	$e->id = $r['_id'];
-	$e->key = array($r['interpro'], $r['statut'], $r['famille'], $r['id_societe'], $r['_id'], $r['nom'], $r['identifiant'], $r['cvi'], $r['region']);
-	$e->value = array($r['siege']['adresse'], $r['siege']['commune'], $r['siege']['code_postal']);
+	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['famille'], $r['doc']['id_societe'], $r['doc']['_id'], $r['doc']['nom'], $r['doc']['identifiant'], $r['doc']['cvi'], $r['doc']['region']);
+	$e->value = array($r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
 	$res[] = $e;
       }
       return $res;
