@@ -57,33 +57,33 @@
     <div class="list-group">
 		<?php foreach($results as $res): ?>
 			<?php $data = $res->getData(); ?>
-            <?php $societe_informations = $data['societe_informations']; ?>
+            <?php $societe_informations = $data['doc']['societe_informations']; ?>
 			<div class="list-group-item">
                 <div class="row">
                 <div class="col-xs-8">
                     <span class="lead"><span class="<?php echo comptePictoCssClass($data) ?>"></span></span>
-                    <a class="lead" href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['identifiant'])); ?>"><?php echo $data['nom_a_afficher']; ?></a>
-                    <?php if($data['compte_type'] == 'INTERLOCUTEUR'): ?><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
+                    <a class="lead" href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['doc']['identifiant'])); ?>"><?php echo $data['doc']['nom_a_afficher']; ?></a>
+                    <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
                     <?php endif; ?></span>
                     <?php if($societe_informations['type']): ?><small class="text-muted">(<?php echo $societe_informations['type'] ?>)</small><?php endif; ?>
                     <br />
-                    <?php echo $data['adresse']; ?> <?php if ($data['adresse_complementaire']): ?><small>(<?php echo $data['adresse_complementaire']; ?>)</small><?php endif; ?><br />
-                    <?php echo $data['code_postal']; ?> <?php echo $data['commune']; ?><br />
+                    <?php echo $data['doc']['adresse']; ?> <?php if ($data['doc']['adresse_complementaire']): ?><small>(<?php echo $data['doc']['adresse_complementaire']; ?>)</small><?php endif; ?><br />
+                    <?php echo $data['doc']['code_postal']; ?> <?php echo $data['doc']['commune']; ?><br />
                     
                 </div>
                 <div class="col-xs-4">
                     <ul class="list-unstyled" style="margin-bottom: 0;">
-                        <?php if($data['telephone_bureau']): ?>
-                        <li>Bureau : <a href="callto:<?php echo $data['telephone_bureau'] ?>"><?php echo $data['telephone_bureau'] ?></a></li>
+                        <?php if($data['doc']['telephone_bureau']): ?>
+                        <li>Bureau : <a href="callto:<?php echo $data['doc']['telephone_bureau'] ?>"><?php echo $data['doc']['telephone_bureau'] ?></a></li>
                         <?php endif; ?>
-                        <?php if($data['telephone_mobile']): ?>
-                        <li>Mobile : <a href="callto:<?php echo $data['telephone_mobile'] ?>"><?php echo $data['telephone_mobile'] ?></a></li>
+                        <?php if($data['doc']['telephone_mobile']): ?>
+                        <li>Mobile : <a href="callto:<?php echo $data['doc']['telephone_mobile'] ?>"><?php echo $data['doc']['telephone_mobile'] ?></a></li>
                         <?php endif; ?>
-                        <?php if($data['telephone_perso']): ?>
-                        <li>Perso : <a href="callto:<?php echo $data['telephone_perso'] ?>"><?php echo $data['telephone_perso'] ?></a></li>
+                        <?php if($data['doc']['telephone_perso']): ?>
+                        <li>Perso : <a href="callto:<?php echo $data['doc']['telephone_perso'] ?>"><?php echo $data['doc']['telephone_perso'] ?></a></li>
                         <?php endif; ?>
-                        <?php if($data['email']): ?>
-                            <li><a href="mailto:<?php echo $data['email']; ?>"><?php echo $data['email']; ?></a></li>
+                        <?php if($data['doc']['email']): ?>
+                            <li><a href="mailto:<?php echo $data['doc']['email']; ?>"><?php echo $data['doc']['email']; ?></a></li>
                         <?php endif; ?>
                     </ul>
                 </div>
