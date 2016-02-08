@@ -296,7 +296,8 @@ join -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contr
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume_ligne.csv > $DATA_DIR/contrats_drm_volume_ligne.sorted.csv
 join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_ligne.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_volume_ligne_produits.csv
 
-sort -k 1,1 -t ';' $DATA_DIR/contrats_drm.csv > $DATA_DIR/contrats_drm.sorted.csv
+#sort et suppression des sauts de lignes
+cat $DATA_DIR/contrats_drm.csv | sed 's/^/#/' | sed -r 's/^#([0-9]+;[0-9]+;)/|\1/' | tr -d "\n" | tr -d "#" | tr "|" "\n" | sort -k 1,1 -t ';' > $DATA_DIR/contrats_drm.sorted.csv
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_ligne_produits.csv > $DATA_DIR/contrats_drm_volume_ligne_produits.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne_produits.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
 
@@ -435,7 +436,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $36);
-    num_contrat=$35
+    num_contrat=$35;
 
     if(corrective == "True" || regularisatrice == "True") {
 
@@ -508,7 +509,7 @@ do
 
         if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --trace
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4)
         fi
 
         echo -n > $DATA_DIR/drm_lignes.csv
