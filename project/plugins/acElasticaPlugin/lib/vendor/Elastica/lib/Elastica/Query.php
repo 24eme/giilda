@@ -268,7 +268,7 @@ class Elastica_Query extends Elastica_Param
      */
     public function setFacets(array $facets)
     {
-        $this->_params['facets'] = array();
+        $this->_params['aggs'] = array();
         foreach ($facets as $facet) {
             $this->addFacet($facet);
         }
@@ -284,7 +284,7 @@ class Elastica_Query extends Elastica_Param
      */
     public function addFacet(Elastica_Facet_Abstract $facet)
     {
-        $this->_params['facets'][$facet->getName()] = $facet->toArray();
+        $this->_params['aggs'][$facet->getName()] = $facet->toArray();
 
         return $this;
     }

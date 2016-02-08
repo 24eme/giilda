@@ -94,18 +94,19 @@ class EtablissementAllView extends acCouchdbView
 	$q[$i] = '*'.$q[$i].'*';
       }
       if ($statut) {
-	$q[] = 'statut:'.$statut;
+	$q[] = 'doc.statut:'.$statut;
       }
 
       if ($famille == EtablissementFamilles::PSEUDOFAMILLE_COOPERATIVE) {
-	$q[] = 'cooperative:1';
+	$q[] = 'doc.cooperative:1';
       }else if ($famille) {
-	$q[] = 'famille:'.$famille;
+	$q[] = 'doc.famille:'.$famille;
       }
+      $q[] = 'doc.type:Etablissement';
 
       $query = implode(' ', $q);
 
-      $index = acElasticaManager::getType('Etablissement');
+      $index = acElasticaManager::getType('compte');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($query);

@@ -42,7 +42,7 @@ class CompteAllView extends acCouchdbView {
     }
 
     private function findByInterproELASTIC($interpro, $qs = null, $limit = 100, $query = array()) {
-      $index = acElasticaManager::getType('Compte');
+      $index = acElasticaManager::getType('compte');
       $q = new acElasticaQuery();
 
       if($qs) {
