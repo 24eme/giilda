@@ -95,7 +95,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         $haslabel = 0;
                         foreach ($vrac->label as $label):
                             echo ($haslabel++) ? ', ' : '';
-                            echo ConfigurationClient::getCurrent()->labels->toArray()[$label];
+                            echo $label;
                         endforeach;
                         ?>
                     </div>

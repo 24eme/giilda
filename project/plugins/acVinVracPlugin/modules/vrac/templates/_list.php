@@ -120,8 +120,8 @@
                     <td style="vertical-align: middle;" class="text-right">
                          
         <?php
-            if (isset($elt[VracHistoryView::VALUE_PRIX_UNITAIRE])) {
-                echoFloat($elt[VracHistoryView::VALUE_PRIX_UNITAIRE]);
+            if (isset($elt[VracHistoryView::VALUE_PRIX_UNITAIRE_INITIAL])) {
+                echoFloat($elt[VracHistoryView::VALUE_PRIX_UNITAIRE_INITIAL]);
                 echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['prix_initial_unitaire']['libelle'] ;
             }
         ?>
