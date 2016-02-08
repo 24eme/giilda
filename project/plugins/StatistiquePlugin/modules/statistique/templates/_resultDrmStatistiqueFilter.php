@@ -21,9 +21,9 @@
 	$parameters['periode_version'] = ($item['doc']['version'])? $item['doc']['periode'].'-'.$item['doc']['version'] : $item['doc']['periode'];
 	?>
 		<tr>
-			<td><a href="<?php echo url_for('drm_visualisation', $parameters) ?>" target="_blank"><?php echo $hit->getId() ?></a></td>
+			<td><a href="<?php echo url_for('drm_visualisation', $parameters) ?>"><?php echo $hit->getId() ?></a></td>
 			<td><?php echo $item['doc']['periode'] ?></td>
-			<td><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $item['doc']['identifiant'])) ?>" target="_blank"><?php echo $item['doc']['declarant']['nom'] ?></a></td>
+			<td><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $item['doc']['identifiant'])) ?>"><?php echo $item['doc']['declarant']['nom'] ?></a></td>
 			<td><?php echo number_format($item['doc']['declaration']['total_debut_mois'], 2, ',', ' ') ?></td>
 			<td><?php echo number_format($item['doc']['declaration']['total_entrees'], 2, ',', ' ') ?></td>
 			<td><?php echo number_format($item['doc']['declaration']['total_recolte'], 2, ',', ' ') ?></td>
