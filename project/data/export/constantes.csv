@@ -184,9 +184,17 @@ PAYS;CI;Côte d’Ivoire
 PAYS;DK;Danemark
 PAYS;DJ;Djibouti
 PAYS;DM;Dominique
+PAYS;EG;Égypte
 PAYS;SV;El Salvador
+PAYS;AE;Émirats arabes unis
+PAYS;EC;Équateur
+PAYS;ER;Érythrée
 PAYS;ES;Espagne
 PAYS;EE;Estonie
+PAYS;VA;État de la Cité du Vatican
+PAYS;FM;États fédérés de Micronésie
+PAYS;US;États-Unis
+PAYS;ET;Éthiopie
 PAYS;FJ;Fidji
 PAYS;FI;Finlande
 PAYS;FR;France
@@ -211,6 +219,24 @@ PAYS;GS;Géorgie du Sud et les îles Sandwich du Sud
 PAYS;HT;Haïti
 PAYS;HN;Honduras
 PAYS;HU;Hongrie
+PAYS;BV;Île Bouvet
+PAYS;CX;Île Christmas
+PAYS;NF;Île Norfolk
+PAYS;IM;Île de Man
+PAYS;AX;Îles Åland
+PAYS;KY;Îles Caïmans
+PAYS;CC;Îles Cocos - Keeling
+PAYS;CK;Îles Cook
+PAYS;FO;Îles Féroé
+PAYS;HM;Îles Heard et MacDonald
+PAYS;FK;Îles Malouines
+PAYS;MP;Îles Mariannes du Nord
+PAYS;MH;Îles Marshall
+PAYS;UM;Îles Mineures Éloignées des États-Unis
+PAYS;SB;Îles Salomon
+PAYS;TC;Îles Turks et Caïques
+PAYS;VG;Îles Vierges britanniques
+PAYS;VI;Îles Vierges des États-Unis
 PAYS;IN;Inde
 PAYS;ID;Indonésie
 PAYS;IQ;Irak
@@ -351,32 +377,4 @@ PAYS;WF;Wallis-et-Futuna
 PAYS;YE;Yémen
 PAYS;ZM;Zambie
 PAYS;ZW;Zimbabwe
-PAYS;ZZ;région indéterminée
-PAYS;QO;régions éloignées de l’Océanie
-PAYS;EG;Égypte
-PAYS;AE;Émirats arabes unis
-PAYS;EC;Équateur
-PAYS;ER;Érythrée
-PAYS;VA;État de la Cité du Vatican
-PAYS;FM;États fédérés de Micronésie
-PAYS;US;États-Unis
-PAYS;ET;Éthiopie
-PAYS;BV;Île Bouvet
-PAYS;CX;Île Christmas
-PAYS;NF;Île Norfolk
-PAYS;IM;Île de Man
-PAYS;KY;Îles Caïmans
-PAYS;CC;Îles Cocos - Keeling
-PAYS;CK;Îles Cook
-PAYS;FO;Îles Féroé
-PAYS;HM;Îles Heard et MacDonald
-PAYS;FK;Îles Malouines
-PAYS;MP;Îles Mariannes du Nord
-PAYS;MH;Îles Marshall
-PAYS;UM;Îles Mineures Éloignées des États-Unis
-PAYS;SB;Îles Salomon
-PAYS;TC;Îles Turks et Caïques
-PAYS;VG;Îles Vierges britanniques
-PAYS;VI;Îles Vierges des États-Unis
-PAYS;AX;Îles Åland
 PAYS;inconnu;Inconnu
