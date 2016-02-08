@@ -248,6 +248,13 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
         categorie_vin="GENERIQUE";
     }
     categorie_vin_info=$79;
+    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(chateau|château|Chateau|Château|CHATEAU|CHÂTEAU)/) {
+        categorie_vin="CHATEAU";
+    }
+    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(domaine|Domaine|DOMAINE)/) {
+        categorie_vin="DOMAINE";
+    }
+
     proprietaire=$65;
     if(proprietaire == "V") { proprietaire = "vendeur"; }
     if(proprietaire == "I") { proprietaire = "vendeur"; }
@@ -318,9 +325,10 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     volume=gensub(",", ".", 1, $33);
     commentaire="";
 
-    if(corrective == "True" || regularisatrice == "True") {
+    modificatrice=(corrective == "True" || regularisatrice == "True");
 
-        next;
+    if(modificatrice) {
+        commentaire=commentaire " - Mouvement correctif de " mouvement_extravitis;
     }
 
     if(!mouvement_extravitis) {
@@ -399,18 +407,22 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    if((volume * 1) < 0 && catmouvement == "sorties") {
+    if((volume * 1) < 0 && catmouvement == "sorties" && !modificatrice) {
         catmouvement = "entrees";
         mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
-        commentaire="Sortie négative " mouvement_extravitis;
+        commentaire= commentaire " - Sortie négative " mouvement_extravitis;
     }
 
-    if((volume * 1) < 0 && catmouvement == "entrees") {
+    if((volume * 1) < 0 && catmouvement == "entrees" && !modificatrice) {
         catmouvement = "sorties";
         mouvement = "destructionperte";
         volume = volume * -1;
-        commentaire="Entrée négative " mouvement_extravitis;
+        commentaire= commentaire " - Entrée négative " mouvement_extravitis;
+    }
+
+    if(mouvement == "initial" && catmouvement =="stocks_debut" && modificatrice) {
+        next;
     }
 
     if(catmouvement == "stocks_debut" && mouvement == "initial") {
@@ -441,13 +453,14 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $36);
     num_contrat=$35;
+    commentaire="";
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        next;
+        commentaire = commentaire " - Mouvement correctif de vrac";
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";";
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";" commentaire;
 }' > $DATA_DIR/drm_cave_vrac.csv
 
 #Les export
@@ -476,14 +489,15 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $34);
-    pays=$36
+    pays=$36;
+    commentaire="";
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        next;
+        commentaire = commentaire " - Mouvement correctif export";
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;";
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;" commentaire;
 }' > $DATA_DIR/drm_cave_export.csv
 
 #Génération finale
