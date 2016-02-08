@@ -1,0 +1,118 @@
+{
+
+      "COMPTE" : {
+        "properties" : {
+          "@timestamp" : {
+            "type" : "date",
+            "format" : "strict_date_optional_time||epoch_millis"
+          },
+          "@version" : {
+            "type" : "string"
+          },
+          "doc" : {
+            "properties" : {
+              "adresse" : {
+                "type" : "string"
+              },
+              "adresse_societe" : {
+                "type" : "long"
+              },
+              "code_postal" : {
+                "type" : "string"
+              },
+              "commune" : {
+                "type" : "string"
+              },
+              "compte_type" : {
+                "type" : "string"
+              },
+              "email" : {
+                "type" : "string"
+              },
+              "fax" : {
+                "type" : "string"
+              },
+              "id_societe" : {
+                "type" : "string"
+              },
+              "identifiant" : {
+                "type" : "string"
+              },
+              "interpro" : {
+                "type" : "string"
+              },
+              "mot_de_passe" : {
+                "type" : "string"
+              },
+              "nom" : {
+                "type" : "string"
+              },
+              "nom_a_afficher" : {
+                "type" : "string"
+              },
+              "origines" : {
+                "type" : "string"
+              },
+              "pays" : {
+                "type" : "string"
+              },
+              "societe_informations" : {
+                "properties" : {
+                  "adresse" : {
+                    "type" : "string"
+                  },
+                  "code_postal" : {
+                    "type" : "string"
+                  },
+                  "commune" : {
+                    "type" : "string"
+                  },
+                  "email" : {
+                    "type" : "string"
+                  },
+                  "fax" : {
+                    "type" : "string"
+                  },
+                  "raison_sociale" : {
+                    "type" : "string"
+                  },
+                  "telephone" : {
+                    "type" : "string"
+                  },
+                  "type" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "statut" : {
+                "type" : "string"
+              },
+              "tags" : {
+                "properties" : {
+                  "automatique" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "telephone_bureau" : {
+                "type" : "string"
+              },
+              "telephone_mobile" : {
+                "type" : "string"
+              },
+              "type" : {
+                "type" : "string"
+              }
+            }
+          },
+          "doc_as_upsert" : {
+            "type" : "boolean"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      }
+
+}
+

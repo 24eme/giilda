@@ -13,19 +13,7 @@ class DRMDetailForm extends acCouchdbObjectForm {
 //            $this->setWidget('total_debut_mois', new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
 //        }
 
-        if ($this->getObject()->canSetStockInitial()) {
-            $this->setWidget('initial', new bsWidgetFormInputFloat());
-        } else {
 
-            $this->setWidget('initial', new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
-        }
-
-        $this->setValidator('initial', new sfValidatorNumber(array('required' => false)));
-
-
-        $this->setWidget('revendique', new bsWidgetFormInputFloat());
-        $this->setWidget('revendique', new bsWidgetFormInputFloat(array()));
-        $this->setValidator('revendique', new sfValidatorNumber(array('required' => false)));
 
 
         $this->stocks_debut = new DRMDetailStocksDebutForm($this->getObject()->stocks_debut);
