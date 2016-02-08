@@ -101,11 +101,10 @@ class EtablissementAllView extends acCouchdbView
       }else if ($famille) {
 	$q[] = 'doc.famille:'.$famille;
       }
-      $q[] = 'doc.type:Etablissement';
 
       $query = implode(' ', $q);
 
-      $index = acElasticaManager::getType('compte');
+      $index = acElasticaManager::getType('compte', 'ETABLISSEMENT');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($query);
