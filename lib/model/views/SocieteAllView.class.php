@@ -36,7 +36,7 @@ class SocieteAllView extends acCouchdbView
 	$query[] = "*$q*";
       }
       if ($statut) {
-	$query[] = "statut:$statut";
+	$query[] = "doc.statut:$statut";
       }
       if (count($typesocietes)) {
 	$tq = '';
@@ -44,13 +44,14 @@ class SocieteAllView extends acCouchdbView
 	  if ($tq) {
 	    $tq .= ' OR ';
 	  }
-	  $tq .= 'type_societe:'.$ts;
+	  $tq .= 'doc.type_societe:'.$ts;
 	}
 	$query[] = '('.$tq.')';
       }
+      $query[] = 'doc.type:Societe';
       $q = implode(' ', $query);
 
-      $index = acElasticaManager::getType('Societe');
+      $index = acElasticaManager::getType('compte');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($q);
