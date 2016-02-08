@@ -21,7 +21,7 @@
 		?>
 			<tr>
 				<td>
-					<a href="<?php echo ($item['doc']['numero_archive'])? url_for("vrac_visualisation", array('numero_contrat' => $hit->getId())) : url_for("vrac_redirect_saisie", array('numero_contrat' => $hit->getId())); ?>" target="_blank"><?php echo $item['doc']['numero_archive'] ?></a>
+					<a href="<?php echo ($item['doc']['numero_archive'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>" target="_blank"><?php echo $item['doc']['numero_archive'] ?></a>
 				</td>
 				<td><?php echo $item['doc']['produit_libelle'] ?></td>
 				<td><?php echo number_format($item['doc']['volume_propose'], 2, ',', ' ') ?></td>
