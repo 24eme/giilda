@@ -101,11 +101,10 @@ class EtablissementAllView extends acCouchdbView
       }else if ($famille) {
 	$q[] = 'doc.famille:'.$famille;
       }
-      $q[] = 'doc.type:Etablissement';
 
       $query = implode(' ', $q);
 
-      $index = acElasticaManager::getType('compte');
+      $index = acElasticaManager::getType('compte', 'ETABLISSEMENT');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($query);
@@ -127,9 +126,9 @@ class EtablissementAllView extends acCouchdbView
       foreach ($resultset->getResults() as $er) {
 	$r = $er->getData();
 	$e = new stdClass();
-	$e->id = $r['_id'];
-	$e->key = array($r['interpro'], $r['statut'], $r['famille'], $r['id_societe'], $r['_id'], $r['nom'], $r['identifiant'], $r['cvi'], $r['region']);
-	$e->value = array($r['siege']['adresse'], $r['siege']['commune'], $r['siege']['code_postal']);
+	$e->id = $er->getId();
+	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['famille'], $r['doc']['id_societe'], $er->getId(), $r['doc']['nom'], $r['doc']['identifiant'], $r['doc']['cvi'], $r['doc']['region']);
+	$e->value = array($r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
 	$res[] = $e;
       }
       return $res;
