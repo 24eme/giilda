@@ -78,7 +78,7 @@ class compteActions extends sfCredentialActions {
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
       $query = $request->getParameter('q', '*');
       if (! $request->getParameter('contacts_all') ) {
-	$query .= " statut:ACTIF";
+	$query .= " doc.statut:ACTIF";
       }
       $this->selected_rawtags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
       $this->selected_typetags = array();
@@ -89,12 +89,12 @@ class compteActions extends sfCredentialActions {
 	  }
 	  $this->selected_typetags[$m[1]][] = $m[2];
 	}
-	$query .= ' tags.'.$t;
+	$query .= ' doc.tags.'.$t;
       }
       $this->real_q = $query;
       if ($extratag) {
 	$query .= ($excludeextratag) ? ' -' : ' ';
-	$query .= 'tags.manuel:'.$extratag;
+	$query .= 'doc.tags.manuel:'.$extratag;
       }
 
       $qs = new acElasticaQueryQueryString($query);
@@ -107,9 +107,7 @@ class compteActions extends sfCredentialActions {
     }
 
     public function executeSearchcsv(sfWebRequest $request) {
-      $this->statistiquesConfig = sfConfig::get('app_statistiques_compte');
-      $client = acElasticaManager::initializeClient($this->statistiquesConfig['elasticsearch_host'], $this->statistiquesConfig['elasticsearch_dbname']);
-      $index = $client->getDefaultIndex()->getType($this->statistiquesConfig['elasticsearch_type']);
+      $index = acElasticaManager::getType('compte');
       
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
@@ -129,7 +127,7 @@ class compteActions extends sfCredentialActions {
     }
 
     private function addremovetag(sfWebRequest $request, $remove = false) {
-      $index = acElasticaManager::getType('Compte');
+      $index = acElasticaManager::getType('compte');
       $tag = Compte::transformTag($request->getParameter('tag'));
       $q = $this->initSearch($request, $tag, !$remove);
       $q->setLimit(1000000);
@@ -206,19 +204,16 @@ class compteActions extends sfCredentialActions {
       $q = $this->initSearch($request);
       $q->setLimit($res_by_page);
       $q->setFrom($from);
-      $facets = array('manuel' => 'tags.manuel', 'export' => 'tags.export', 'produit' => 'tags.produit', 'automatique' => 'tags.automatique');
+      $facets = array('manuel' => 'doc.tags.manuel', 'export' => 'doc.tags.export', 'produit' => 'doc.tags.produit', 'automatique' => 'doc.tags.automatique');
       foreach($facets as $nom => $f) {
-	$elasticaFacet 	= new acElasticaFacetTerms($nom);
-	$elasticaFacet->setField($f);
-	$elasticaFacet->setSize(200);
-	$elasticaFacet->setOrder('count');
-	$q->addFacet($elasticaFacet);
+		$elasticaFacet 	= new acElasticaFacetTerms($nom);
+		$elasticaFacet->setField($f);
+		$q->addFacet($elasticaFacet);
       }
-
       
-      $this->statistiquesConfig = sfConfig::get('app_statistiques_compte');
-      $client = acElasticaManager::initializeClient($this->statistiquesConfig['elasticsearch_host'], $this->statistiquesConfig['elasticsearch_dbname']);
-      $index = $client->getDefaultIndex()->getType($this->statistiquesConfig['elasticsearch_type']);
+      //print_r(json_encode($q->toArray()));exit;
+
+      $index = acElasticaManager::getType('compte');
       
       $resset = $index->search($q);
 

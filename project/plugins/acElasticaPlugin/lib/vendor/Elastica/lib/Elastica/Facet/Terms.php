@@ -16,7 +16,7 @@ class Elastica_Facet_Terms extends Elastica_Facet_Abstract
      *
      * @var array
      */
-    protected $_orderTypes = array('count', 'term', 'reverse_count', 'reverse_term');
+    protected $_orderTypes = array('_count', 'term', 'reverse_count', 'reverse_term');
 
     /**
      * Sets the field for the terms.
