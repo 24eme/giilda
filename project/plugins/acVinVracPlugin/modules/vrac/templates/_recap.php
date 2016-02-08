@@ -107,8 +107,10 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
                             </h3>
                         <?php endif; ?>
-                        <?php if ($vrac->exist('volume_enleve')): ?>
+                        <?php if ($vrac->exist('volume_enleve') && $vrac->get('volume_enleve')): ?>
                             <p>dont <?php echoFloat($vrac->volume_enleve); ?> hl enlevé(s)</p>
+                        <?php else: ?>
+                            <p>pas d'enlevement enregistré</p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -237,7 +239,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 </li> 
                         <?php endforeach; ?> 
 			<?php else: ?>
-<p class="text-center"><i>Pas d'enlèvement réalisé pour le moment sur ce contrat</i></p>
+<p class="text-center"><i>Pas d'enlèvement enregistré pour le moment sur ce contrat</i></p>
                         <?php endif; ?>
                    
                 </ul>
