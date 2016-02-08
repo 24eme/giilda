@@ -15,7 +15,6 @@ declaration;detail;entrees;transfertcomptamatierecession;1;1;0;1;1;1;0;0;SUSPEND
 declaration;detail;entrees;transfertsinternes;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;transfertsrecolte;1;1;0;1;1;0;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;travailafacon;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/travail-a-facon;0
-declaration;detail;entrees;sortie_negative;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/autres-entrees;0
 declaration;detail;sorties;vracsanscontratsuspendu;1;1;0;-1;1;1;0;1;SUSPENDU;sorties-periode/sorties-avec-paiement-droits;1
 declaration;detail;sorties;vracsanscontratacquitte;1;1;0;-1;1;1;0;1;ACQUITTE;sorties-periode/sorties-sans-paiement-droits;0
 declaration;detail;sorties;ventefrancebouteillecrd;1;1;0;-1;1;1;0;1;MIXTE;sorties-periode/sorties-avec-paiement-droits;1
@@ -33,8 +32,6 @@ declaration;detail;sorties;travailafacon;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-perio
 declaration;detail;sorties;export;1;1;1;-1;1;1;0;1;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;detail;sorties;destructionperte;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
 declaration;detail;sorties;manquant;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
-declaration;detail;sorties;entree_negative;1;1;0;1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
-declaration;detail;sorties;entree_recolte_negative;1;1;0;1;1;0;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
 declaration;detail;stocks_fin;dont_revendique;1;0;0;0;0;0;0;0;STOCK;;0
 declaration;detail;stocks_fin;instance;1;0;0;0;0;0;0;0;STOCK;;0
 declaration;detail;stocks_fin;final;1;0;0;0;0;0;0;0;STOCK;;0

@@ -19,16 +19,13 @@ class Search {
 	        if(preg_match($matcher, $word_text)) {
                     
 	          $find = true;
-	          unset($words_text[$key_text]);
 	          break;
 	        }
-	        unset($words_text[$key_text]);
 	      }
 	      if(!$find) {
 	        return false;
 	      }
 	    }
-
 	    return $find;
   	}
         
@@ -36,7 +33,6 @@ class Search {
 	    $reg = "/[ ]+/";
 	    $text = self::normalize($text);
 	    $term = self::normalize($term);
-
 	    $words_text = preg_split($reg, $text);
 	    $words_term = preg_split($reg, $term);
 
@@ -56,7 +52,6 @@ class Search {
 	        return false;
 	      }
 	    }
-
 	    return $find;
   	}
 

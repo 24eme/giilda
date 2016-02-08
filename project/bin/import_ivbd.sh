@@ -59,7 +59,7 @@ php symfony cc > /dev/null
 
 echo "CODE_VIN;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
 echo "CODE_VINS_PRODUITS;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
-cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Rosette/;Rosette Blanc doux/' | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes de bergerac blanc$/;Côtes de Bergerac Blanc demi sec/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel Blanc doux/' > $DATA_DIR/produits.csv
+cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel Blanc/' > $DATA_DIR/produits.csv
 
 echo "Construction du fichier d'import des Contacts"
 
@@ -248,6 +248,13 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
         categorie_vin="GENERIQUE";
     }
     categorie_vin_info=$79;
+    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(chateau|château|Chateau|Château|CHATEAU|CHÂTEAU)/) {
+        categorie_vin="CHATEAU";
+    }
+    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(domaine|Domaine|DOMAINE)/) {
+        categorie_vin="DOMAINE";
+    }
+
     proprietaire=$65;
     if(proprietaire == "V") { proprietaire = "vendeur"; }
     if(proprietaire == "I") { proprietaire = "vendeur"; }
@@ -296,7 +303,8 @@ join -t ';' -1 3 -2 2  $DATA_DIR/contrats_drm_volume.sorted.csv  $DATA_DIR/contr
 sort -t ';' -k 3,3 $DATA_DIR/contrats_drm_volume_ligne.csv > $DATA_DIR/contrats_drm_volume_ligne.sorted.csv
 join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_ligne.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_volume_ligne_produits.csv
 
-sort -k 1,1 -t ';' $DATA_DIR/contrats_drm.csv > $DATA_DIR/contrats_drm.sorted.csv
+#sort et suppression des sauts de lignes
+cat $DATA_DIR/contrats_drm.csv | sed 's/^/#/' | sed -r 's/^#([0-9]+;[0-9]+;)/|\1/' | tr -d "\n" | tr -d "#" | tr "|" "\n" | sort -k 1,1 -t ';' > $DATA_DIR/contrats_drm.sorted.csv
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_ligne_produits.csv > $DATA_DIR/contrats_drm_volume_ligne_produits.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne_produits.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
 
@@ -317,9 +325,10 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     volume=gensub(",", ".", 1, $33);
     commentaire="";
 
-    if(corrective == "True" || regularisatrice == "True") {
+    modificatrice=(corrective == "True" || regularisatrice == "True");
 
-        next;
+    if(modificatrice) {
+        commentaire=commentaire " - Mouvement correctif de " mouvement_extravitis;
     }
 
     if(!mouvement_extravitis) {
@@ -398,19 +407,27 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         next;
     }
 
-    if((volume * 1) < 0 && catmouvement == "sorties") {
+    if((volume * 1) < 0 && catmouvement == "sorties" && !modificatrice) {
         catmouvement = "entrees";
-        mouvement = "sortie_negative";
+        mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
-        commentaire="Sortie négative " mouvement_extravitis;
+        commentaire= commentaire " - Sortie négative " mouvement_extravitis;
     }
 
-    if((volume * 1) < 0 && catmouvement == "entrees") {
+    if((volume * 1) < 0 && catmouvement == "entrees" && !modificatrice) {
         catmouvement = "sorties";
-        mouvement = "entree_negative";
+        mouvement = "destructionperte";
         volume = volume * -1;
-        commentaire="Entrée négative " mouvement_extravitis;
+        commentaire= commentaire " - Entrée négative " mouvement_extravitis;
     }
+
+    if(mouvement == "initial" && catmouvement =="stocks_debut" && modificatrice) {
+        next;
+    }
+
+    if(catmouvement == "stocks_debut" && mouvement == "initial") {
+        print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";dont_revendique;" volume ";;;" commentaire;
+    } 
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;" commentaire;
 }' > $DATA_DIR/drm_cave.csv
@@ -435,14 +452,15 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $36);
-    num_contrat=$35
+    num_contrat=$35;
+    commentaire="";
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        next;
+        commentaire = commentaire " - Mouvement correctif de vrac";
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";";
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";" commentaire;
 }' > $DATA_DIR/drm_cave_vrac.csv
 
 #Les export
@@ -471,14 +489,15 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $34);
-    pays=$36
+    pays=$36;
+    commentaire="";
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        next;
+        commentaire = commentaire " - Mouvement correctif export";
     }
 
-    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;";
+    print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;" commentaire;
 }' > $DATA_DIR/drm_cave_export.csv
 
 #Génération finale
@@ -508,7 +527,7 @@ do
 
         if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --trace
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4)
         fi
 
         echo -n > $DATA_DIR/drm_lignes.csv
