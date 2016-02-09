@@ -23,6 +23,9 @@
     {
 
         //$('.autocomplete').combobox();
+    	
+
+    	$(".stickyHeader").sticky({ topSpacing: 0});
 
         if (colonnesDR.length)
         {

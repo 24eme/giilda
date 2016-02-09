@@ -51,5 +51,6 @@
     <script src="/js/drm.js"></script>
     <script src="/js/facture.js"></script>
     <script src="/js/stats.js"></script>
+    <script src="/js/lib/jquery.sticky.js"></script>
   </body>
 </html>
