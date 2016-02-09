@@ -108,7 +108,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCvo();
     \end{large}
     \textbf{- VENDANGES FRAICHES -}\\
     ~  \\
-    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMARCHIVE} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
+    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
     \\ dans un délai maximal de 10 jours après signature du présent bordereau
 \end{center}	
 \end{minipage}
@@ -119,7 +119,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCvo();
 \hline
 ~ \\
 		 \textbf{CACHET DE L'IVBD} \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ N° \begin{Large}
-	  \CONTRATNUMENREGISTREMENT 
+	  \CONTRATNUMARCHIVE
 \end{Large} ~~~~~~~~~~~~~~~~~~~~~~~ \CONTRATDATEENTETE \\
 \hline
 \end{tabularx}
