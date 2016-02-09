@@ -617,6 +617,7 @@ class vracActions extends sfActions {
         $this->redirect403IsInVracAndNotAllowedToSee();
 
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
+        
 
         if ($this->isTeledeclarationMode) {
             $this->isProprietaire = $this->isTeledeclarationMode && $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
