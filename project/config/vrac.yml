@@ -4,7 +4,7 @@ ivso:
       pdf: "vrac/pdf_ivso"
       champs:
         soussigne: ["vendeur_tva", "acheteur_type", "vendeur_identifiant", "acheteur_producteur", "acheteur_negociant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
-        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "taux_repartition", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd"]
+        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
       delais_paiement:
         "COMPTANT": "Comptant"
         "ACCORD_INTERPROFESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
@@ -15,7 +15,7 @@ ivbd:
     vrac:
       pdf: "vrac/pdf_ivbd"
       champs:
-        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "taux_repartition", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd"]
+        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
       unites:
         "MOUTS":
           "prix_initial_unitaire":

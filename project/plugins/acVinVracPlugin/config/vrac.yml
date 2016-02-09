@@ -10,7 +10,7 @@ all:
       champs:
         soussigne: ["vendeur_tva", "acheteur_type", "vendeur_identifiant", "representant_identifiant", "acheteur_producteur", "acheteur_negociant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
         marche: ["cepage_85_15", "millesime_85_15", "label", "produit", "cepage", "selection", "millesime", "categorie_vin", "domaine", "raisin_quantite", "jus_quantite", "bouteilles_contenance_libelle", "prix_initial_unitaire", "degre", "surface", "lot"]
-        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "taux_repartition", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "taux_courtage", "preparation_vin", "embouteillage", "conditionnement_crd", "annee_contrat", "seuil_revision", "pourcentage_variation"]
+        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd", "annee_contrat", "seuil_revision", "pourcentage_variation"]
       transactions:
         "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendange fraiche"
         "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"

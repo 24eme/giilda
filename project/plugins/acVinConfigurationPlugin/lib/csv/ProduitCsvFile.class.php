@@ -82,19 +82,6 @@ class ProduitCsvFile extends CsvFile {
                 '/cepages/' . $this->getKeyProduit($line[self::CSV_PRODUIT_CEPAGE_CODE], false, true);
     }
 
-    private function couleurKeyProduitToCode($key, $new = true) {
-        $keyProduit = split('/', $key);
-        if (count($keyProduit) != 2) {
-            return $this->couleurKeyToCode($keyProduit[0]);
-        } else {
-            if ($new) {
-                return $this->couleurKeyToCode($keyProduit[0]);
-            } else {
-                return $this->couleurKeyToCode($keyProduit[1]);
-            }
-        }
-    }
-
     private function couleurKeyToCode($key) {
         $correspondances = array(1 => "rouge",
             2 => "rose",
@@ -102,7 +89,7 @@ class ProduitCsvFile extends CsvFile {
 
         if (!isset($correspondances[$key])) {
 
-            return Configuration::DEFAULT_KEY;
+            return $key;
         }
 
         return $correspondances[$key];

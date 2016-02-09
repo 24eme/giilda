@@ -23,9 +23,9 @@
     {
 
         //$('.autocomplete').combobox();
-    	
 
-    	$(".stickyHeader").sticky({ topSpacing: 0});
+
+        $(".stickyHeader").sticky({topSpacing: 0});
 
         if (colonnesDR.length)
         {
@@ -92,9 +92,9 @@
     var initRaccourcis = function () {
         $('li.no_favoris a.raccourcis_ouvrir').each(function () {
             $(this).keypress(function (e) {
-                    var idCol =  $(this).data('groupe-id');
+                var idCol = $(this).data('groupe-id');
                 if (e.which == 13) {
-                    $('div.no_favoris[data-groupe-id="'+idCol+'"] > p').trigger('click');
+                    $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
                 }
             });
         });
@@ -245,15 +245,18 @@
     };
 
     var initFavoris = function () {
-        $('div.groupe span.categorie_libelle').click(function () {
-            var id_fav_input = $(this).attr('id').replace('star_', 'drmFavoris_');
-            var value = $('#colonne_intitules form #' + id_fav_input).val();
-            if (value === "1") {
-                $('#colonne_intitules form #' + id_fav_input).val("");
-            } else {
-                $('#colonne_intitules form #' + id_fav_input).val("1");
-            }
-            $("#colonne_intitules form").submit();
+        $('form#colonne_intitules').find('span.categorie_libelle').each(function () {
+            $(this).parent().click(function () {
+                
+                var id_fav_input = $(this).find('.categorie_libelle').attr('id').replace('star_', 'drmFavoris_');
+                var value = $('#colonne_intitules input#' + id_fav_input).val();
+                if (value === "1") {
+                    $('#colonne_intitules input#' + id_fav_input).val("");
+                } else {
+                    $('#colonne_intitules input#' + id_fav_input).val("1");
+                }
+                $("form#colonne_intitules").submit();
+            });
         });
     }
 
@@ -459,6 +462,6 @@
         $('.drm_details_tableBody td.volume').unbind();
         $('.drm_details_tableBody td.volume').bind('keyup', $.majSommeLabelBind);
     }
- 
+
 
 })(jQuery);
