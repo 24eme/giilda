@@ -52,7 +52,6 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCvo();
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE}
 
-
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vrac->vendeur->raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}

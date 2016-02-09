@@ -69,7 +69,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         <?php
         foreach ($produits_for_page as $counter => $produit):
             ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo $produit->getLibelle("%format_libelle%"); ?>}}}} 
+            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo preg_replace('/[a-zéà]*$/i', ' ', $produit->getLibelle("%format_libelle%")); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>  
         \\	
