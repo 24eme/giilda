@@ -9,6 +9,8 @@ class Configuration extends BaseConfiguration {
     const DEFAULT_KEY = 'DEFAUT';
     const DEFAULT_DENSITE = "1.3";
 
+    protected $identifyLibelleProduct = array();
+
     public function constructId() {
         $this->set('_id', "CONFIGURATION");
     }
@@ -24,13 +26,19 @@ class Configuration extends BaseConfiguration {
     }
 
     public function identifyProductByLibelle($libelle) {
+        if(array_key_exists($libelle, $this->identifyLibelleProduct)) {
+
+            return $this->identifyLibelleProduct[$libelle];
+        }
+
         $libelleSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($libelle)));
 
         foreach($this->getProduits() as $produit) {
             $libelleProduitSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($produit->getLibelleFormat())));
             //echo $libelleSlugify."/".$libelleProduitSlugify."\n";
             if($libelleSlugify == $libelleProduitSlugify) {
-
+                $this->identifyLibelleProduct[$libelle] = $produit;
+                
                 return $produit;
             }
         }
