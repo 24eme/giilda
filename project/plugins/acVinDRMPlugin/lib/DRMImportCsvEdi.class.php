@@ -88,14 +88,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     public function updateAndControlCoheranceStocks() {
-        $stocks = array();
+        /*$stocks = array();
         foreach($this->drm->getProduitsDetails() as $detail) {
           $stocks[$detail->getHash()] = $detail->stocks_fin->final;
-        }
+        }*/
 
         $this->drm->update();
         
-        foreach($this->drm->getProduitsDetails() as $detail) {
+        /*foreach($this->drm->getProduitsDetails() as $detail) {
             if(!array_key_exists($detail->getHash(), $stocks) || is_null($stocks[$detail->getHash()])) {
                 continue;
             }
@@ -104,7 +104,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 continue;
             }
             $this->csvDoc->addErreur($this->createError(1, sprintf("%s %0.2f hl (CSV) / %0.2f hl (calculé)", $detail->produit_libelle, $stocks[$detail->getHash()], $detail->stocks_fin->final), "Le stock fin de mois du CSV différent du calculé"));
-        }
+        }*/
 
         if ($this->csvDoc->hasErreurs()) {
             $this->csvDoc->setStatut(self::STATUT_WARNING);
@@ -157,7 +157,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
             $founded_produit = false;
 
-            foreach ($all_produits as $produit) {
+            /*foreach ($all_produits as $produit) {
                 if ($founded_produit) {
                     break;
                 }
@@ -166,7 +166,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     continue;
                 }
                 $founded_produit = $produit;
-            }
+            }*/
 
             if(!$founded_produit) {
                 $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
