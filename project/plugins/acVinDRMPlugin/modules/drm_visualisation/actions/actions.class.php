@@ -23,6 +23,13 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
         $this->drm_suivante = $this->drm->getSuivante();
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
+        $this->mouvementsByProduit = array();
+        foreach ($this->mouvements as $mouvement) {
+            if (!array_key_exists($mouvement->produit_hash, $this->mouvementsByProduit)) {
+                $this->mouvementsByProduit[$mouvement->produit_hash] = array();
+            }
+            $this->mouvementsByProduit[$mouvement->produit_hash][] = $mouvement;
+        }
         $this->recapCvo = $this->recapCvo();
     }
 
@@ -33,7 +40,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $recapCvo->totalPrixDroitCvo = 0;
         foreach ($this->mouvements as $mouvement) {
             if ($mouvement->facturable) {
-                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo ;
+                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
                 $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
             }
             if ($mouvement->type_hash == 'entrees/reintegration') {
