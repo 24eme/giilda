@@ -3,7 +3,7 @@ use_helper('Date');
 use_helper('Display');
 $moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement(); 
 $delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement(); 
-$contratRepartitions = VracConfiguration::getInstance()->getRepartitionCvo();
+$contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
 ?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper

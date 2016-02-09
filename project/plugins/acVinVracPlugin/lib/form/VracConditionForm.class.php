@@ -32,7 +32,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
         $this->setWidget('taux_courtage', new bsWidgetFormInputFloat());
-        $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
+        $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCourtageRepartition())));
         
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
@@ -101,8 +101,8 @@ class VracConditionForm extends acCouchdbObjectForm {
         return VracConfiguration::getInstance()->getMoyensPaiement();
     }
 
-    public function getCvoRepartition() {
-        return VracConfiguration::getInstance()->getRepartitionCvo();
+    public function getCourtageRepartition() {
+        return VracConfiguration::getInstance()->getRepartitionCourtage();
     }
 
     public function getTva() {

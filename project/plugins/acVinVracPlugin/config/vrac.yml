@@ -25,7 +25,7 @@ all:
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
         "ESPECES": "Espèces"
-      repartition_cvo:
+      repartition_courtage:
         "50_50": "50/50 pour l'acheteur et le vendeur"
         "ACHETEUR": "100% pour l'acheteur"
         "VENDEUR": "100% pour le vendeur"
