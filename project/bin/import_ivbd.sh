@@ -506,15 +506,15 @@ cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export
 
 echo "Import des sociétés"
 
-php symfony import:societe $DATA_DIR/societes.csv
+# php symfony import:societe $DATA_DIR/societes.csv
 
 echo "Import des établissements"
 
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+# php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des contrats"
 
-php symfony import:vracs $DATA_DIR/vracs.csv --env="ivbd"
+# php symfony import:vracs $DATA_DIR/vracs.csv --env="ivbd"
 
 echo "Import des DRM"
 
