@@ -31,10 +31,9 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setWidget('clause_reserve_propriete', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
-        if ($this->getObject()->mandataire_exist) {
-            $this->setWidget('taux_courtage', new bsWidgetFormInputFloat());
-            $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
-        }
+        $this->setWidget('taux_courtage', new bsWidgetFormInputFloat());
+        $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
+        
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
         $this->setWidget('conditionnement_crd', new bsWidgetFormChoice(array('choices' => $this->getConditionnementsCRD(), 'expanded' => true)));
@@ -65,10 +64,10 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setValidator('clause_reserve_propriete', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('autorisation_nom_vin', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('autorisation_nom_producteur', new sfValidatorBoolean(array('required' => false)));
-        if ($this->getObject()->mandataire_exist) {
-            $this->setValidator('taux_courtage', new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('taux_repartition', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))));
-        }
+
+        $this->setValidator('taux_courtage', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('taux_repartition', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))));
+
         $this->setValidator('preparation_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursPreparationVin()))));
         $this->setValidator('embouteillage', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursEmbouteillage()))));
         $this->setValidator('conditionnement_crd', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getConditionnementsCRD()))));
@@ -87,6 +86,9 @@ class VracConditionForm extends acCouchdbObjectForm {
         }
         if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
             unset($this['preparation_vin'], $this['embouteillage'], $this['conditionnement_crd']);
+        }
+        if (!$this->getObject()->mandataire_exist) {
+            unset($this['taux_courtage'], $this['taux_repartition']);
         }
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
