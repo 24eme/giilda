@@ -1,4 +1,4 @@
-<?php use_helper('Date') ?>
+<?php use_helper('Date'); use_helper('Display'); ?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
 \usepackage[french]{babel}
@@ -48,22 +48,22 @@
 
 \def\VILLEVENDEUR{<?php echo $vrac->vendeur->commune ?>}
 \def\VILLEACHETEUR{<?php echo $vrac->acheteur->commune ?>}
-\def\RSACHETEUR{<?php echo $vrac->acheteur->raison_sociale ?>}
+\def\RSACHETEUR{<?php echo escape_string_for_latex($vrac->acheteur->raison_sociale) ?>}
 
-\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATVENDEURNOM{<?php echo escape_string_for_latex($vrac->vendeur->raison_sociale) ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
-\def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
+\def\CONTRATVENDEURADRESSE{<?php echo escape_string_for_latex($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune) ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
-\def\CONTRATVENDEURPAYEUR{<?php echo $vrac->representant->raison_sociale ?>}
+\def\CONTRATVENDEURPAYEUR{<?php echo escape_string_for_latex($vrac->representant->raison_sociale) ?>}
 
-\def\CONTRATACHETEURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEURNOM{<?php echo escape_string_for_latex($vrac->acheteur->raison_sociale) ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
-\def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
+\def\CONTRATACHETEURADRESSE{<?php echo escape_string_for_latex($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune) ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo escape_string_for_latex($vrac->mandataire->raison_sociale) ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
-\def\CONTRATCOURTIERADRESSE{<?php echo $vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune ?>}
+\def\CONTRATCOURTIERADRESSE{<?php echo escape_string_for_latex($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune) ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
 
