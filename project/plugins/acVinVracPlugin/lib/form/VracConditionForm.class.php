@@ -10,7 +10,7 @@
  * @author mathurin
  */
 class VracConditionForm extends acCouchdbObjectForm {
-	
+
     protected $isTeledeclarationMode;
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
@@ -19,20 +19,20 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-    	$anneesContrat = array(1 => "Année 1", 2 => "Année 2", 3 => "Année 3");
+        $anneesContrat = array(1 => "Année 1", 2 => "Année 2", 3 => "Année 3");
         $this->setWidget('delai_paiement', new bsWidgetFormChoice(array('choices' => $this->getDelaiPaiement())));
         $this->setWidget('moyen_paiement', new bsWidgetFormChoice(array('choices' => $this->getMoyenPaiement())));
         $this->setWidget('date_limite_retiraison', new bsWidgetFormInputDate());
         $this->setWidget('date_debut_retiraison', new bsWidgetFormInputDate());
-        $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCvoRepartition())));
         $this->setWidget('conditions_particulieres', new bsWidgetFormTextarea());
         $this->setWidget('tva', new bsWidgetFormChoice(array('choices' => $this->getTva(), 'expanded' => true)));
-        
+
         $this->setWidget('pluriannuel', new bsWidgetFormInputCheckbox());
         $this->setWidget('clause_reserve_propriete', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
         $this->setWidget('taux_courtage', new bsWidgetFormInputFloat());
+        $this->setWidget('taux_repartition', new bsWidgetFormChoice(array('choices' => $this->getCourtageRepartition())));
         
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
@@ -54,39 +54,42 @@ class VracConditionForm extends acCouchdbObjectForm {
             'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
             'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
 
-        $this->setValidators(array(
-            'delai_paiement' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getDelaiPaiement()))),
-            'moyen_paiement' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getMoyenPaiement()))),
-            'tva' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTva()))),
-            'conditions_particulieres' => new sfValidatorString(array('required' => false)),
-        	'taux_repartition' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))),
-        	'date_limite_retiraison' => new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)),
-        	'date_debut_retiraison' => new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)),
-        	'pluriannuel' => new sfValidatorBoolean(array('required' => false)),
-        	'clause_reserve_propriete' => new sfValidatorBoolean(array('required' => false)),
-        	'autorisation_nom_vin' => new sfValidatorBoolean(array('required' => false)),
-        	'autorisation_nom_producteur' => new sfValidatorBoolean(array('required' => false)),
-        	'taux_courtage' => new sfValidatorNumber(array('required' => false)),
-            'preparation_vin' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursPreparationVin()))),
-            'embouteillage' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursEmbouteillage()))),
-            'conditionnement_crd' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getConditionnementsCRD()))),
-        	'annee_contrat' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($anneesContrat))),
-        	'seuil_revision' => new sfValidatorNumber(array('required' => false)),
-        	'acompte' => new sfValidatorNumber(array('required' => false)),
-        	'pourcentage_variation' => new sfValidatorNumber(array('required' => false)),
-        	'reference_contrat' => new sfValidatorString(array('required' => false)),
-            'cahier_charge' => new sfValidatorBoolean(array('required' => false)),
-        ));
-        
+        $this->setValidator('delai_paiement', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getDelaiPaiement()))));
+        $this->setValidator('moyen_paiement', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getMoyenPaiement()))));
+        $this->setValidator('tva', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTva()))));
+        $this->setValidator('conditions_particulieres', new sfValidatorString(array('required' => false)));
+        $this->setValidator('date_limite_retiraison', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)));
+        $this->setValidator('date_debut_retiraison', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)));
+        $this->setValidator('pluriannuel', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('clause_reserve_propriete', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('autorisation_nom_vin', new sfValidatorBoolean(array('required' => false)));
+        $this->setValidator('autorisation_nom_producteur', new sfValidatorBoolean(array('required' => false)));
+
+        $this->setValidator('taux_courtage', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('taux_repartition', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))));
+
+        $this->setValidator('preparation_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursPreparationVin()))));
+        $this->setValidator('embouteillage', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursEmbouteillage()))));
+        $this->setValidator('conditionnement_crd', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getConditionnementsCRD()))));
+        $this->setValidator('annee_contrat', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($anneesContrat))));
+        $this->setValidator('seuil_revision', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('acompte', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('pourcentage_variation', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('reference_contrat', new sfValidatorString(array('required' => false)));
+        $this->setValidator('cahier_charge', new sfValidatorBoolean(array('required' => false)));
+
         $this->useFields(VracConfiguration::getInstance()->getChamps('condition'));
-        
+
 
         if (!in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
-        	unset($this['autorisation_nom_vin'], $this['autorisation_nom_producteur']);
+            unset($this['autorisation_nom_vin'], $this['autorisation_nom_producteur']);
         }
-		if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
-			unset($this['preparation_vin'], $this['embouteillage'], $this['conditionnement_crd']);
-		}
+        if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+            unset($this['preparation_vin'], $this['embouteillage'], $this['conditionnement_crd']);
+        }
+        if (!$this->getObject()->mandataire_exist) {
+            unset($this['taux_courtage'], $this['taux_repartition']);
+        }
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
 
@@ -98,8 +101,8 @@ class VracConditionForm extends acCouchdbObjectForm {
         return VracConfiguration::getInstance()->getMoyensPaiement();
     }
 
-    public function getCvoRepartition() {
-        return VracConfiguration::getInstance()->getRepartitionCvo();
+    public function getCourtageRepartition() {
+        return VracConfiguration::getInstance()->getRepartitionCourtage();
     }
 
     public function getTva() {
@@ -119,44 +122,44 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function doUpdateObject($values) {
-        parent::doUpdateObject($values); 
-    	if ($this->getObject()->clause_reserve_propriete === null) {
-        	$this->getObject()->clause_reserve_propriete = 0;
-        } 
-    	if (!isset($values['cahier_charge']) || !$values['cahier_charge']) {
-        	$this->getObject()->cahier_charge = 0;
-    	}
-    	if (isset($values['cahier_charge']) && $values['cahier_charge']) {
-        	$this->getObject()->cahier_charge = 1;    		
-    	}
+        parent::doUpdateObject($values);
+        if ($this->getObject()->clause_reserve_propriete === null) {
+            $this->getObject()->clause_reserve_propriete = 0;
+        }
+        if (!isset($values['cahier_charge']) || !$values['cahier_charge']) {
+            $this->getObject()->cahier_charge = 0;
+        }
+        if (isset($values['cahier_charge']) && $values['cahier_charge']) {
+            $this->getObject()->cahier_charge = 1;
+        }
     }
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-            $this->setDefault('date_limite_retiraison', $this->getObject()->getDateLimiteRetiraison('d/m/Y'));
-            $this->setDefault('date_debut_retiraison', $this->getObject()->getDateDebutRetiraison('d/m/Y'));
+        $this->setDefault('date_limite_retiraison', $this->getObject()->getDateLimiteRetiraison('d/m/Y'));
+        $this->setDefault('date_debut_retiraison', $this->getObject()->getDateDebutRetiraison('d/m/Y'));
         if ($this->getObject()->clause_reserve_propriete === null) {
-        	$this->setDefault('clause_reserve_propriete', true);
+            $this->setDefault('clause_reserve_propriete', true);
         }
         if (!$this->getObject()->preparation_vin) {
-        	$this->setDefault('preparation_vin', 'VENDEUR');
+            $this->setDefault('preparation_vin', 'VENDEUR');
         }
         if (!$this->getObject()->embouteillage) {
-        	$this->setDefault('embouteillage', 'ACHETEUR');
+            $this->setDefault('embouteillage', 'ACHETEUR');
         }
         if (!$this->getObject()->conditionnement_crd) {
-        	$this->setDefault('conditionnement_crd', 'NEGOCE_ACHEMINE');
+            $this->setDefault('conditionnement_crd', 'NEGOCE_ACHEMINE');
         }
         if (!$this->getObject()->annee_contrat) {
-        	$this->setDefault('annee_contrat', 1);
+            $this->setDefault('annee_contrat', 1);
         }
         if ($this->getObject()->cahier_charge) {
-        	$this->setDefault('cahier_charge', true);
+            $this->setDefault('cahier_charge', true);
         } else {
-        	$this->setDefault('cahier_charge', false);
+            $this->setDefault('cahier_charge', false);
         }
         if (!$this->getObject()->tva) {
-        	$this->setDefault('tva', 'AVEC');        	
+            $this->setDefault('tva', 'AVEC');
         }
     }
 

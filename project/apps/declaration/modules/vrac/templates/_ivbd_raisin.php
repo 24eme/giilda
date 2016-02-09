@@ -1,4 +1,10 @@
-<?php use_helper('Date') ?>
+<?php 
+use_helper('Date');
+use_helper('Display');
+$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement(); 
+$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement(); 
+$contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
+?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
 \usepackage[french]{babel}
@@ -42,29 +48,27 @@
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
 \def\CONTRATANNEEENREGISTREMENT{<?php echo substr($vrac->numero_contrat, 2, 2)?>}
 \def\CONTRATVISA{Pas de visa}
-\def\CONTRATDATEENTETE{}
+\def\CONTRATDATEENTETE{<?php echo date("d/m/Y", strtotime($vrac->valide->date_saisie)); ?>}
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE}
 
-
-\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
-\def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
-\def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
+\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vrac->vendeur->raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
+\def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
-\def\CONTRATVENDEURPAYEUR{<?php echo $vrac->representant->raison_sociale ?>}
+\def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
-\def\CONTRATACHETEURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
-\def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
-\def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
+\def\CONTRATACHETEURNOM{<?php echo display_latex_string($vrac->acheteur->raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
+\def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($vrac->mandataire->raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
-\def\CONTRATCOURTIERADRESSE{<?php echo $vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune ?>}
+\def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
 
-\def\CONTRATVOLUMEENTOUTELETTRE{huit mille sept cents vingt trois}
 \def\CONTRATVOLUME{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
 \def\CONTRATCEPAGEPRODUIT{<?php echo $vrac->cepage_libelle ?>}
@@ -79,13 +83,13 @@
 
 \def\CONTRATPRIXTOUTELETTRE{cinq mille deux cents trente}
 \def\CONTRATPRIX{<?php echo $vrac->prix_initial_unitaire ?>}
-\def\CONTRATMOYENPAIEMENT{<?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?>}
-\def\CONTRATDELAIPAIEMENT{<?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?>}
+\def\CONTRATMOYENPAIEMENT{<?php echo (array_key_exists($vrac->moyen_paiement, $moyensDePaiements))? $moyensDePaiements[$vrac->moyen_paiement] : ''; ?>}
+\def\CONTRATDELAIPAIEMENT{<?php echo (array_key_exists($vrac->delai_paiement, $delaisDePaiements))? $delaisDePaiements[$vrac->delai_paiement] : '' ?>}
 
 \def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->taux_courtage ?>}
-\def\CONTRATREPARTITION{<?php echo str_replace('%', '\%', VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition]); ?>}
+\def\CONTRATREPARTITION{<?php echo (array_key_exists($vrac->taux_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->taux_repartition]) : '' ?>}
 
-\def\DATELIMITERETIRAISON{<?php echo format_date($vrac->date_limite_retiraison) ?>}
+\def\DATELIMITERETIRAISON{<?php echo date("d/m/Y", strtotime($vrac->date_limite_retiraison)); ?>}
 \def\SURFACECONTRAT{<?php echo $vrac->surface ?>}
 \def\CONTRATOBSERVATIONS{<?php echo $vrac->conditions_particulieres ?>}
 
@@ -103,7 +107,7 @@
     \end{large}
     \textbf{- VENDANGES FRAICHES -}\\
     ~  \\
-    n° IF - \CONTRATANNEEENREGISTREMENT - \begin{large}\textbf{\CONTRATNUMARCHIVE} \end{large} \\ ~ \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
+    n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
     \\ dans un délai maximal de 10 jours après signature du présent bordereau
 \end{center}	
 \end{minipage}
@@ -113,9 +117,9 @@
 \begin{tabularx}{\textwidth}{|X|}
 \hline
 ~ \\
-	 \textbf{CACHET DE L'IVBD} \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ N° \begin{Large}
-	  \CONTRATNUMENREGISTREMENT 
-\end{Large}	 \\ ~ \\ 
+		 \textbf{CACHET DE L'IVBD} \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ N° \begin{Large}
+	  \CONTRATNUMARCHIVE
+\end{Large} ~~~~~~~~~~~~~~~~~~~~~~~ \CONTRATDATEENTETE \\
 \hline
 \end{tabularx}
 \end{minipage}
@@ -255,7 +259,7 @@ en avertir l'IVBD par courrier signé et circonstancié.\\
 <?php if ($vrac->mandataire_identifiant): ?>
 \begin{center}
 Le Courtier,\\
-Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_courtier)? date("d/m/Y", strtotime($vrac->valide->date_signature_courtier)) : date("d/m/Y", strtotime($vrac->date_signature)); ?>}
 \end{center}
 <?php else: ?>
 ~ \\
@@ -264,13 +268,13 @@ Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signatur
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 Le Vendeur,\\
-Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_vendeur)? date("d/m/Y", strtotime($vrac->valide->date_signature_vendeur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
 \end{center}
 \end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 L'Acheteur,\\
-Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_acheteur)? date("d/m/Y", strtotime($vrac->valide->date_signature_acheteur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
 \end{center}
 \end{minipage}
 

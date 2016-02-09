@@ -37,9 +37,9 @@ class VracConfiguration
 		return $this->configuration['moyens_paiement'];
 	}
 	
-	public function getRepartitionCvo()
+	public function getRepartitionCourtage()
 	{
-		return $this->configuration['repartition_cvo'];
+		return $this->configuration['repartition_courtage'];
 	}
 	
 	public function getTva()

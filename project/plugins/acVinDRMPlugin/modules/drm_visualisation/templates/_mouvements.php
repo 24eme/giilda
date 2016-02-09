@@ -40,8 +40,8 @@ if (!isset($isTeledeclarationMode)) {
 
                     <td><a href="#<?php echo str_replace(' ', '_', $produit_libelle) ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock début</strong></td>
-                    <td> <span class="pull-right"><?php echoFloat($produit->total_debut_mois) . ' hl'; ?></span></td> 
-                    <td> <span class="pull-left">( <?php echo ($produit->details->DEFAUT->stocks_debut->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_debut->dont_revendique) : "0.00"; ?> )</span></td>
+                    <td><strong> <span class="pull-right"><?php echoFloat($produit->total_debut_mois) . ' hl'; ?></span></strong></td> 
+                    <td><strong> <span class="pull-left">( <?php echo ($produit->details->DEFAUT->stocks_debut->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_debut->dont_revendique) : "0.00"; ?> )</span></strong></td>
                 </tr>
 
                 <?php foreach ($mouvements as $mouvement): ?>
@@ -69,8 +69,8 @@ if (!isset($isTeledeclarationMode)) {
 
                     <td><a href="#<?php echo str_replace(' ', '_', $produit_libelle) ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock fin</strong></td>
-                    <td><span class="pull-right"><?php echoFloat($produit->total) . ' hl'; ?></span></td>
-                    <td><span class="pull-left">( <?php echo ($produit->details->DEFAUT->stocks_fin->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_fin->dont_revendique) : "0.00"; ?> )</span></td>
+                    <td><strong><span class="pull-right"><?php echoFloat($produit->total) . ' hl'; ?></span></strong></td>
+                    <td><strong><span class="pull-left">( <?php echo ($produit->details->DEFAUT->stocks_fin->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_fin->dont_revendique) : "0.00"; ?> )</span></strong></td>
                 </tr>
 
             <?php endforeach; ?>

@@ -163,7 +163,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                             <?php if ($vrac->tva): ?>Facturation <strong><?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?></strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">
-                            <?php if ($vrac->taux_courtage): ?>Taux de courtage : <strong><?php echo $vrac->taux_courtage ?></strong>% (<?php if ($vrac->taux_repartition): ?><strong><?php echo VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition] ?></strong><?php endif; ?>)<?php endif; ?>
+                            <?php if ($vrac->taux_courtage): ?>Taux de courtage : <strong><?php echo $vrac->taux_courtage ?></strong>% (<?php if ($vrac->taux_repartition): ?><strong><?php echo VracConfiguration::getInstance()->getRepartitionCourtage()[$vrac->taux_repartition] ?></strong><?php endif; ?>)<?php endif; ?>
                             <br />
                             <?php if ($vrac->acompte): ?>Acompte : <strong><?php echo $vrac->acompte ?></strong>€<?php endif; ?>
                         </span>         

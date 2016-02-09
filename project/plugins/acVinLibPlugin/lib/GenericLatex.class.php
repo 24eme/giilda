@@ -33,15 +33,17 @@ class GenericLatex {
     if (!preg_match('/Transcript written/', $output) || preg_match('/Fatal error/', $output)) {
       throw new sfException($output);
     }
+/*
     if ($ret) {
       $log = $this->getLatexFileNameWithoutExtention().'.log';
       $grep = preg_grep('/^!/', file($log));
-      array_unshift($grep, "/!\ Latex error\n");
-      array_unshift($grep, "Latex log $log:\n");
       if ($grep){
+	      array_unshift($grep, "/!\ Latex error\n");
+	      array_unshift($grep, "Latex log $log:\n");
               throw new sfException(implode(' ', $grep));
       }
     }
+*/
     $pdfpath = $this->getLatexFileNameWithoutExtention().'.pdf';
     if (!file_exists($pdfpath)) {
       throw new sfException("pdf not created ($pdfpath): ".$output);

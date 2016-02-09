@@ -54,7 +54,7 @@
 		            </div>
 		            <?php endif; ?>
 		            <div class="col-sm-12"></div>
-                    <?php if (isset($form['taux_courtage'])): ?>
+                    <?php if ($vrac->mandataire_exist && isset($form['taux_courtage'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['taux_courtage']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['taux_courtage']->renderError(); ?>
 		                <?php echo $form['taux_courtage']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
