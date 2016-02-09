@@ -54,7 +54,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCvo();
 
 \def\VILLEVENDEUR{<?php echo $vrac->vendeur->commune ?>}
 \def\VILLEACHETEUR{<?php echo $vrac->acheteur->commune ?>}
-\def\RSACHETEUR{<?php echo $vrac->acheteur->raison_sociale ?>}
+\def\RSACHETEUR{<?php echo display_latex_string($vrac->acheteur->raison_sociale); ?>}
 
 \def\CONTRATVENDEURNOM{<?php echo display_latex_string($vrac->vendeur->raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
