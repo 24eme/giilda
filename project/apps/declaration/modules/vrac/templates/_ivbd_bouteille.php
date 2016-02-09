@@ -1,4 +1,10 @@
-<?php use_helper('Date') ?>
+<?php 
+use_helper('Date');
+use_helper('Display');
+$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement(); 
+$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement(); 
+$contratRepartitions = VracConfiguration::getInstance()->getRepartitionCvo();
+?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
 \usepackage[french]{babel}
@@ -42,7 +48,7 @@
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
 \def\CONTRATANNEEENREGISTREMENT{<?php echo substr($vrac->numero_contrat, 2, 2)?>}
 \def\CONTRATVISA{Pas de visa}
-\def\CONTRATDATEENTETE{}
+\def\CONTRATDATEENTETE{<?php echo date("d/m/Y", strtotime($vrac->valide->date_saisie)); ?>}
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE}
 
@@ -51,13 +57,13 @@
 \def\RSACHETEUR{<?php echo $vrac->acheteur->raison_sociale ?>}
 
 \def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
-\def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
+\def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo $vrac->representant->raison_sociale ?>}
 
 \def\CONTRATACHETEURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
-\def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
+\def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
@@ -66,8 +72,6 @@
 \def\CONTRATCOURTIERADRESSE{<?php echo $vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
 
-
-\def\CONTRATVOLUMEENTOUTELETTRE{huit mille sept cents vingt trois}
 \def\CONTRATVOLUME{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
 \def\CONTRATCOULEURPRODUIT{??}
@@ -81,13 +85,13 @@
 
 \def\CONTRATPRIXTOUTELETTRE{cinq mille deux cents trente}
 \def\CONTRATPRIX{<?php echo $vrac->prix_initial_unitaire ?>}
-\def\CONTRATMOYENPAIEMENT{<?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?>}
-\def\CONTRATDELAIPAIEMENT{<?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?>}
+\def\CONTRATMOYENPAIEMENT{<?php echo (array_key_exists($vrac->moyen_paiement, $moyensDePaiements))? $moyensDePaiements[$vrac->moyen_paiement] : ''; ?>}
+\def\CONTRATDELAIPAIEMENT{<?php echo (array_key_exists($vrac->delai_paiement, $delaisDePaiements))? $delaisDePaiements[$vrac->delai_paiement] : '' ?>}
 
 \def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->taux_courtage ?>}
-\def\CONTRATREPARTITION{<?php echo str_replace('%', '\%', VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition]) ?>}
+\def\CONTRATREPARTITION{<?php echo (array_key_exists($vrac->taux_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->taux_repartition]) : '' ?>}
 
-\def\DATELIMITERETIRAISON{<?php echo format_date($vrac->date_limite_retiraison) ?>}
+\def\DATELIMITERETIRAISON{<?php echo date("d/m/Y", strtotime($vrac->date_limite_retiraison)); ?>}
 
 \begin{document}
 \begin{minipage}[t]{0.6\textwidth}
@@ -103,7 +107,7 @@
     \end{large}
     \textbf{- AVEC RETIRAISON EN BOUTEILLES -}\\
     ~  \\
-    n° IB - \CONTRATANNEEENREGISTREMENT - \begin{large}\textbf{\CONTRATNUMARCHIVE} \end{large} \\ ~ \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
+    n° IB - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMARCHIVE} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
     \\ dans un délai maximal de 10 jours après signature du présent bordereau
 \end{center}	
 \end{minipage}
@@ -113,9 +117,9 @@
 \begin{tabularx}{\textwidth}{|X|}
 \hline
 ~ \\
-	 \textbf{CACHET DE L'IVBD} \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ N° \begin{Large}
+	 \textbf{CACHET DE L'IVBD} \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ N° \begin{Large}
 	  \CONTRATNUMENREGISTREMENT 
-\end{Large}	 \\ ~ \\ 
+\end{Large} ~~~~~~~~~~~~~~~~~~~~~~~ \CONTRATDATEENTETE \\
 \hline
 \end{tabularx}
 \end{minipage}
@@ -157,12 +161,8 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \end{minipage}
  ~ \\ ~ \\
 %PARTIE 2%
-\circled{2}~~\textbf{Désignation des produits :} \\
-\normalsize
-\hspace*{0.5cm}
-\textbf{Volume} : \textbf{\CONTRATVOLUME}~hl \\
-\hspace*{0.5cm}
-\textbf{Produit} : \textbf{\CONTRATAPPELLATIONPRODUIT} ~~ de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT}  \\
+
+\circled{2}~~\textbf{Désignation des produits :}\normalsize \textbf{\CONTRATAPPELLATIONPRODUIT} de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT} ( \textbf{Volume} : \textbf{\CONTRATVOLUME}~hl ) \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
 \hspace*{0.5cm}
@@ -221,13 +221,8 @@ En année 1, préciser :\small ~- si une révision est envisagée pour les anné
 En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
  ~ \\   ~ \\ 
 %PARTIE 8-a%
-\circled{8a}~~\textbf{Prix et conditions de paiement:} \\
-\hspace*{0.5cm}
-Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T \\
-\hspace*{0.5cm}
-Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} \\
-\hspace*{0.5cm}
-Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
+\circled{8a}~~\textbf{Prix et conditions de paiement:} 
+Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T ( Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} , Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} ) \\
 \hspace*{0.5cm}
 \tiny{Rappel : Les Accords Interprofessionnel de l'IVBD encadrent strictement, dans leur article 11, les delais de paiement maximaux. Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours \\
 \hspace*{0.5cm}
@@ -235,7 +230,7 @@ calendaires après chacune des dates de retiraison prévues. Lorsque les bordere
 \hspace*{0.5cm}
 Dans tous les autres cas, les délais de paiement son ceux prévus à l'article L 443-1 du Code de Commerce.\\
 \hspace*{0.5cm}
-Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000\texteuro ) en cas de non respect de ces dispositions. 
+Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 euros ) en cas de non respect de ces dispositions. 
   ~ \\   ~ \\ 
 %PARTIE 8-b%
 \normalsize
@@ -247,9 +242,7 @@ Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE}\% est à la charge de \textb
 \hspace*{0.5cm}
 La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur et pour moitié à la charge du vendeur, au taux en vigueur au moment de son\\
 \hspace*{0.5cm}
-exigibilité.\\
-\hspace*{0.5cm}
-Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> (attestation d'achat en franchise à fournir)
+exigibilité. Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?>~La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> \small{(attestation d'achat en franchise à fournir)}
   ~ \\   ~ \\ 
 %PARTIE 9%
 \circled{9}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\
@@ -297,7 +290,7 @@ en avertir l'IVBD par courrier signé et circonstancié.\\
 <?php if ($vrac->mandataire_identifiant): ?>
 \begin{center}
 Le Courtier,\\
-Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_courtier)? date("d/m/Y", strtotime($vrac->valide->date_signature_courtier)) : date("d/m/Y", strtotime($vrac->date_signature)); ?>}
 \end{center}
 <?php else: ?>
 ~ \\
@@ -306,13 +299,13 @@ Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signatur
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 Le Vendeur,\\
-Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_vendeur)? date("d/m/Y", strtotime($vrac->valide->date_signature_vendeur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
 \end{center}
 \end{minipage}
 \begin{minipage}[t]{0.3\textwidth}
 \begin{center}
 L'Acheteur,\\
-Signé électroniquement, le \textbf{<?php echo format_date($vrac->date_signature) ?>}
+Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_acheteur)? date("d/m/Y", strtotime($vrac->valide->date_signature_acheteur)) : date("d/m/Y", strtotime($vrac->date_signature));  ?>}
 \end{center}
 \end{minipage}
 
