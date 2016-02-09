@@ -259,6 +259,11 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(domaine|Domaine|DOMAINE)/) {
         categorie_vin="DOMAINE";
     }
+    if(categorie_vin_info) {
+        categorie_vin="MENTION";
+    } else {
+        categorie_vin="GENERIQUE";
+    }
 
     proprietaire=$65;
     if(proprietaire == "V") { proprietaire = "vendeur"; }

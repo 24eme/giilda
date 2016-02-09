@@ -90,9 +90,7 @@ all:
             "libelle": "hl"
       categories:
         "GENERIQUE": "Générique"
-        "DOMAINE": "Domaine"
-        "CHATEAU": "Château"
-        "MARQUE": "Marque"
+        "MENTION": "Avec mention"
       contenances:
         "Bouteille 37 cl": 0.0037
         "Bouteille 37,5 cl": 0.00375
