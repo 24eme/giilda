@@ -24,7 +24,7 @@
             </div>
 
             <div class="col-sm-3">
-                <div class="panel panel-default">
+                <div class="panel panel-default stickyHeader">
                     <div class="panel-heading">Édition des Produits</div>
                     <div class="panel-body">
                         <?php include_component('drm_edition', 'produitForm', array('drm' => $drm, 'config' => $config)) ?>

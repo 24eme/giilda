@@ -233,6 +233,7 @@
             }
 
             this._initBoutons();
+            this._initClavier();
             this.groupes.init();
             this.colonnes.event_colonne_init(this);
             this.calculer();
@@ -463,6 +464,31 @@
                 object.valider();
                 return false;
             });
+        }
+
+        this._initClavier = function () {
+            var object = this;
+            
+
+
+            this.element.keydown(function (e)
+            {
+                if (e.keyCode == 27)
+                {
+                	var hasModal = false;
+                	$(".modal").each(function() {
+                		if ($(this).hasClass('in')) {
+                			$("#"+$(this).attr('id')).modal('hide');
+                			hasModal = true;
+                		}
+                	});
+                	if (!hasModal) {
+                		object.reinit();
+                	}
+                    e.preventDefault();
+                }
+            });
+            
         }
     }
 
