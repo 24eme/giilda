@@ -21,15 +21,9 @@ class drm_visualisationActions extends drmGeneriqueActions {
             $this->no_link = true;
         }
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
-        $this->drm_suivante = $this->drm->getSuivante();
+        $this->drm_suivante = $this->drm->getSuivante();     
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-        $this->mouvementsByProduit = array();
-        foreach ($this->mouvements as $mouvement) {
-            if (!array_key_exists($mouvement->produit_hash, $this->mouvementsByProduit)) {
-                $this->mouvementsByProduit[$mouvement->produit_hash] = array();
-            }
-            $this->mouvementsByProduit[$mouvement->produit_hash][] = $mouvement;
-        }
+        $this->createMouvementsByProduits($this->mouvements);
         $this->recapCvo = $this->recapCvo();
     }
 

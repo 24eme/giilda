@@ -44,7 +44,7 @@ class drmGeneriqueActions extends sfActions {
 
     protected function isTeledeclarationDrm() {
 
-        return true;
+       // return true;
         return $this->getUser()->hasTeledeclarationDrm();
     }
     
@@ -54,6 +54,17 @@ class drmGeneriqueActions extends sfActions {
     
     protected function isUsurpationMode() {
         return $this->getUser()->isUsurpationCompte();
+    }
+    
+    protected function createMouvementsByProduits($mouvements) {
+        $this->mouvementsByProduit = array();
+        foreach ($mouvements as $mouvement) {
+            if (!array_key_exists($mouvement->produit_hash, $this->mouvementsByProduit)) {
+                $this->mouvementsByProduit[$mouvement->produit_hash] = array();
+            }
+            $this->mouvementsByProduit[$mouvement->produit_hash][] = $mouvement;
+        }
+        return $this->mouvementsByProduit;
     }
 
 }
