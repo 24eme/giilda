@@ -66,6 +66,7 @@ Etablissement:
                adresse_complementaire: { required: false }
                code_postal: {  }
                commune: {  }
+	       pays: {}
        comptabilite:
            type: collection
            definition:
@@ -73,3 +74,4 @@ Etablissement:
                adresse: {  }
                code_postal: {  }
                commune: {  }
+	       pays: {}
