@@ -36,7 +36,7 @@ if (!isset($isTeledeclarationMode)) {
                 $produit_libelle = $produit->getLibelle();
                 $libelleDoc = DRMClient::getInstance()->getLibelleFromId($drm->_id);
                 ?>
-                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords($produit_libelle), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower($produit_libelle), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
+                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords("Stock début"), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower("Stock début"), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
                     <td><a href="#filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock début</strong></td>
@@ -65,7 +65,7 @@ if (!isset($isTeledeclarationMode)) {
                 <?php endforeach; ?>
 
 
-                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords($produit_libelle), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower($produit_libelle), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
+                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords("Stock fin"), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower("Stock fin"), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
                     <td><a href="#mouvements&filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock fin</strong></td>

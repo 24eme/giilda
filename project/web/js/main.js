@@ -33,47 +33,6 @@
             $(this).html("");
         });
     });
-
-    $.initQueryHash = function () {
-        $(window).on('hashchange', function() {
-            if($(document).find('.hamzastyle').length) {
-                var params = jQuery.parseParams(location.hash.replace("#", ""));
-                var filtres = [];
-                if(params.filtre && params.filtre.match(/\[/)) {
-                    filtres = JSON.parse(params.filtre);
-                } else if (params.filtre) {
-                    filtres.push(params.filtre);
-                }
-
-                var select2Data = [];
-                for(key in filtres) {
-                    select2Data.push({ id: filtres[key], text: filtres[key] });
-                }
-
-                $(document).find('.hamzastyle').select2("data", select2Data);
-
-                $(document).find('.hamzastyle-item').each(function() {
-                    var words = $(this).attr('data-words');
-                    var find = true;
-                    for(key in filtres) {
-                        var word = filtres[key];
-                        if (words.indexOf(word) === -1) {
-                            find = false;
-                        }
-                    }
-                    if (find) {     
-                        $(this).show();    
-                    } else {
-                        $(this).hide();    
-                    }
-                });
-            }
-        });
-
-        if(location.hash) {
-            $(window).trigger('hashchange');
-        }
-    }
     
     $.fn.initAdvancedElements = function () {
 
@@ -273,6 +232,47 @@
         });
 
 
+    }
+
+    $.initQueryHash = function () {
+        $(window).on('hashchange', function() {
+            if($(document).find('.hamzastyle').length) {
+                var params = jQuery.parseParams(location.hash.replace("#", ""));
+                var filtres = [];
+                if(params.filtre && params.filtre.match(/\[/)) {
+                    filtres = JSON.parse(params.filtre);
+                } else if (params.filtre) {
+                    filtres.push(params.filtre);
+                }
+
+                var select2Data = [];
+                for(key in filtres) {
+                    select2Data.push({ id: filtres[key], text: filtres[key] });
+                }
+
+                $(document).find('.hamzastyle').select2("data", select2Data);
+
+                $(document).find('.hamzastyle-item').each(function() {
+                    var words = $(this).attr('data-words');
+                    var find = true;
+                    for(key in filtres) {
+                        var word = filtres[key];
+                        if (words.indexOf(word) === -1) {
+                            find = false;
+                        }
+                    }
+                    if (find) {     
+                        $(this).show();    
+                    } else {
+                        $(this).hide();    
+                    }
+                });
+            }
+        });
+
+        if(location.hash) {
+            $(window).trigger('hashchange');
+        }
     }
 
 })(jQuery);
