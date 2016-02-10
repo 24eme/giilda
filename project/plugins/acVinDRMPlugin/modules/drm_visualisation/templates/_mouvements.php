@@ -36,7 +36,7 @@ if (!isset($isTeledeclarationMode)) {
                 $produit_libelle = $produit->getLibelle();
                 $libelleDoc = DRMClient::getInstance()->getLibelleFromId($drm->_id);
                 ?>
-                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords("Stock début"), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower("Stock début"), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
+                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock début"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
                     <td><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock début</strong></td>
@@ -45,7 +45,7 @@ if (!isset($isTeledeclarationMode)) {
                 </tr>
 
                 <?php foreach ($mouvements as $mouvement): ?>
-                    <tr data-words='<?php echo json_encode(array_merge(Search::getWords($mouvement->produit_libelle), Search::getWords($mouvement->type_libelle), Search::getWords($libelleDoc), Search::getWords($mouvement->detail_libelle), array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($libelleDoc), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation)) ? " facturable" : ""; ?>">
+                    <tr data-words='<?php echo json_encode(array_merge(array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation)) ? " facturable" : ""; ?>">
                         <td><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $mouvement->produit_libelle ?> </a></td>
                         <td><?php
                             if ($mouvement->vrac_numero) {
@@ -65,7 +65,7 @@ if (!isset($isTeledeclarationMode)) {
                 <?php endforeach; ?>
 
 
-                <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords("Stock fin"), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower("Stock fin"), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
+                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock fin"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
                     <td><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock fin</strong></td>
