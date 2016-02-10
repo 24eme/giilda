@@ -7,7 +7,6 @@ class FactureGenerationForm extends BaseForm {
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
-        $defaults['modele'] = FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM;
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
