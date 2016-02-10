@@ -24,24 +24,49 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $this->drm_suivante = $this->drm->getSuivante();     
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
         $this->createMouvementsByProduits($this->mouvements);
-        $this->recapCvo = $this->recapCvo();
+
+        $this->recapCvos = $this->recapCvos();
     }
 
-    public function recapCvo() {
-        $recapCvo = new stdClass();
-        $recapCvo->totalVolumeDroitsCvo = 0;
-        $recapCvo->totalVolumeReintegration = 0;
-        $recapCvo->totalPrixDroitCvo = 0;
+    public function recapCvos() {
+        $recapCvos = array();
+
+        $recapCvos["TOTAL"] = new stdClass();
+        $recapCvos["TOTAL"]->totalVolumeDroitsCvo = 0;
+        $recapCvos["TOTAL"]->totalVolumeReintegration = 0;
+        $recapCvos["TOTAL"]->totalPrixDroitCvo = 0;
+        $recapCvos["TOTAL"]->version = null;
+
         foreach ($this->mouvements as $mouvement) {
+            $version = $mouvement->version;
+            if(!$version) {
+                $version = "M00";
+            }
+            if(!array_key_exists($version, $recapCvos)) {
+                $recapCvos[$version] = new stdClass();
+                $recapCvos[$version]->totalVolumeDroitsCvo = 0;
+                $recapCvos[$version]->totalVolumeReintegration = 0;
+                $recapCvos[$version]->totalPrixDroitCvo = 0;
+                $recapCvos[$version]->version = $version;
+            }
             if ($mouvement->facturable) {
-                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
-                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
+                $recapCvos[$version]->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvos["TOTAL"]->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvos[$version]->totalVolumeDroitsCvo += $mouvement->volume * -1;
+                $recapCvos["TOTAL"]->totalVolumeDroitsCvo += $mouvement->volume * -1;
             }
             if ($mouvement->type_hash == 'entrees/reintegration') {
-                $recapCvo->totalVolumeReintegration += $mouvement->volume;
+                $recapCvos[$version]->totalVolumeReintegration += $mouvement->volume;
+                $recapCvos["TOTAL"]->totalVolumeReintegration += $mouvement->volume;
             }
         }
-        return $recapCvo;
+
+        if(count($recapCvos) <= 2) {
+
+            return array("TOTAL" => $recapCvos["TOTAL"]);
+        } 
+
+        return $recapCvos;
     }
 
 }
