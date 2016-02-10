@@ -496,10 +496,9 @@ class Vrac extends BaseVrac {
         return $this->_set('numero_archive', $numero);
     }
 
-    public function getNumeroArchive($numero) {
-        if ($this->exist('numero_archive')) {
-            $numero = $this->_get('numero_archive');
-            return $numero;
+    public function getDateVisa() {
+        if ($this->exist('date_visa')) {
+            return $this->_get('date_visa');
         }
 
         return $this->getDateSaisie();
