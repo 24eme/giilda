@@ -54,24 +54,24 @@
 		            </div>
 		            <?php endif; ?>
 		            <div class="col-sm-12"></div>
-                    <?php if ($vrac->mandataire_exist && isset($form['taux_courtage'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['taux_courtage']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['taux_courtage']->renderError(); ?>
-		                <?php echo $form['taux_courtage']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
+                    <?php if ($vrac->mandataire_exist && isset($form['courtage_taux'])): ?>
+		            <div class="form-group col-sm-6 <?php if($form['courtage_taux']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['courtage_taux']->renderError(); ?>
+		                <?php echo $form['courtage_taux']->renderLabel("Taux de courtage :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
 							<div class="input-group">
-		                    	<?php echo $form['taux_courtage']->render(); ?>
+		                    	<?php echo $form['courtage_taux']->render(); ?>
 								<span class="input-group-addon">&nbsp;%&nbsp;&nbsp;</span>
 							</div>
 		                </div>
 		            </div>
 		            <?php endif; ?>
-		        	<?php if (isset($form['taux_repartition']) && $vrac->mandataire_exist): ?>
-		            <div class="form-group col-sm-6 <?php if($form['taux_repartition']->hasError()): ?>has-error<?php endif; ?>">
-		                <?php echo $form['taux_repartition']->renderError(); ?>
-		                <?php echo $form['taux_repartition']->renderLabel("Répartition du courtage :", array('class' => 'col-sm-5 control-label')); ?>
+		        	<?php if (isset($form['courtage_repartition']) && $vrac->mandataire_exist): ?>
+		            <div class="form-group col-sm-6 <?php if($form['courtage_repartition']->hasError()): ?>has-error<?php endif; ?>">
+		                <?php echo $form['courtage_repartition']->renderError(); ?>
+		                <?php echo $form['courtage_repartition']->renderLabel("Répartition du courtage :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
-		                    <?php echo $form['taux_repartition']->render(); ?>
+		                    <?php echo $form['courtage_repartition']->render(); ?>
 		                </div>
 		            </div>
 		            <?php endif; ?>

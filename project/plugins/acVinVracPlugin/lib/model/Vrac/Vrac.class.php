@@ -881,9 +881,19 @@ class Vrac extends BaseVrac {
         }
         return $etablissement->famille === $etb_type;
     }
-    
-//    public function setDomaine($domaine) {
-//        $this->domaine = strtoupper(KeyInflector::unaccent($domaine));
-//    }
+
+    /* Méthode introduire lors du changement de schéma (finetuning) == à virer pour la mise en prod */
+    public function getCourtageTaux() {
+        if (!$this->exist('courtage_taux')) {
+            return $this->get('repartition_taux');
+        }
+        return $this->_get('courtage_taux');
+    }
+    public function getCourtageRepartition() {
+        if (!$this->exist('courtage_repartition')) {
+            return $this->get('taux_repartition');
+        }
+        return $this->_get('courtage_repartition');
+    }
     
 }

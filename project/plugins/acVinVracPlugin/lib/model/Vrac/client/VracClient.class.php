@@ -71,7 +71,7 @@ class VracClient extends acCouchdbClient {
     const STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI = "ATTENTE_SIGNATURE_MOI";
     const STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES = "ATTENTE_SIGNATURE_AUTRES";
 
-    public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
+    public static $types_transaction = array('' => '', VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
         VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
         VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
