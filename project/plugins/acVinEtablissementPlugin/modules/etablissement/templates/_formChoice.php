@@ -6,7 +6,7 @@
     <div class="col-xs-10">
     <div class="form-group<?php if($form['identifiant']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $form['identifiant']->renderError(); ?>
-        <?php echo $form['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
+        <?php echo $form['identifiant']->render(array('class' => 'form-control select2SubmitOnChange select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
     </div>
     </div>
     <div class="col-xs-2">
