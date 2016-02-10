@@ -268,6 +268,12 @@
                     }
                 });
             }
+            if($(document).find('.nav.nav-tabs').length) {
+                var params = jQuery.parseParams(location.hash.replace("#", ""));
+                if(params.tab) {
+                    $('.nav.nav-tabs a[aria-controls="'+params.tab+'"]').tab('show');
+                }
+            }
         });
 
         if(location.hash) {
