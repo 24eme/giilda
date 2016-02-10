@@ -34,24 +34,21 @@
     <?php endif; ?>
 
     <?php if ($drm->isModifiable()): ?>
-        <div style="text-align: right;">
+        <div class="pull-right">
             <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
         </div>
     <?php endif; ?>
 
     <?php if (!$drm->isMaster()): ?>
-        <div id="points_vigilance">
-            <ul>
-                <li class="warning">Ce n'est pas la <a href="<?php echo url_for('drm_visualisation', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif n'est donc pas à jour.</a></li>
-            </ul>
+        <div class="alert alert-warning">
+            Ce n'est pas la <a href="<?php echo url_for('drm_visualisation', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif des stocks n'est donc pas à jour.
         </div>
     <?php endif; ?>
 <?php endif; ?>
 
 <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true)) ?>
 
-<?php if (!$isTeledeclarationMode): ?>
-    <br/>
+<?php if (!$isTeledeclarationMode && $drm->commentaire): ?>
     <div class="row">
         <div class="col-xs-12">
             <h4>Commentaire</h4>
@@ -68,7 +65,6 @@
     <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>  
 <?php endif; ?>   
 <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
-<br />
 <div class="row">
     <div class="col-xs-4">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace</a>

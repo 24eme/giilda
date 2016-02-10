@@ -19,8 +19,6 @@
     {
         $(document).initAdvancedElements();
 
-        $.initSelect2PermissifNoAjax();
-
         $.initQueryHash();
 
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
@@ -41,9 +39,6 @@
         $(this).find('.input-float').inputNumberFormat({'decimal': 4, 'decimalAuto': 2});
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
-        $(this).find("select2").select2({
-            allowClear: true
-        });
         $(this).find("select.select2").select2({
             allowClear: true
         });
@@ -103,31 +98,34 @@
             });
         });
 
-        $.initSelect2PermissifNoAjax = function ()
-        {
-            if ($('.select2permissifNoAjax').length) {
-                var lastValue = null;
-                $('.select2permissifNoAjax').select2({
-                    data: JSON.parse($('input.select2permissifNoAjax').attr('data-choices')),
-                    multiple: false,
-                    placeholder: true,
-                    createSearchChoice: function (term, data) {
-                        if ($(data).filter(function () {
-                            return this.text.localeCompare(term) === 0;
-                        }).length === 0) {
-                            return {id: term, text: term + ' (nouveau)'};
-                        }
-                    }
-                }).on("select2-close", function () {
-                    var old_choices = JSON.parse($('input.select2permissifNoAjax').attr('data-choices'));
-                    old_choices.push({id: lastValue, text: lastValue + ' (nouveau)'});
-                    $('input.select2permissifNoAjax').select2("val", lastValue);
-                    $('input.select2permissifNoAjax').val(lastValue);
-                    $('.select2permissifNoAjax .select2-chosen').text(lastValue);
-                }).on("select2-highlight", function (e) {
-                    lastValue = e.val;
-                })
+        $(this).find(".select2SubmitOnChange").on("change", function(e) {
+            if(e.val) {
+                $(this).parents('form').submit();
             }
+        });
+
+        if ($(this).find('.select2permissifNoAjax').length) {
+            var lastValue = null;
+            $('.select2permissifNoAjax').select2({
+                data: JSON.parse($('input.select2permissifNoAjax').attr('data-choices')),
+                multiple: false,
+                placeholder: true,
+                createSearchChoice: function (term, data) {
+                    if ($(data).filter(function () {
+                        return this.text.localeCompare(term) === 0;
+                    }).length === 0) {
+                        return {id: term, text: term + ' (nouveau)'};
+                    }
+                }
+            }).on("select2-close", function () {
+                var old_choices = JSON.parse($('input.select2permissifNoAjax').attr('data-choices'));
+                old_choices.push({id: lastValue, text: lastValue + ' (nouveau)'});
+                $('input.select2permissifNoAjax').select2("val", lastValue);
+                $('input.select2permissifNoAjax').val(lastValue);
+                $('.select2permissifNoAjax .select2-chosen').text(lastValue);
+            }).on("select2-highlight", function (e) {
+                lastValue = e.val;
+            })
         }
         
         $(this).find('.hamzastyle').each(function() {
@@ -267,6 +265,12 @@
                         $(this).hide();    
                     }
                 });
+            }
+            if($(document).find('.nav.nav-tabs').length) {
+                var params = jQuery.parseParams(location.hash.replace("#", ""));
+                if(params.tab) {
+                    $('.nav.nav-tabs a[aria-controls="'+params.tab+'"]').tab('show');
+                }
             }
         });
 
