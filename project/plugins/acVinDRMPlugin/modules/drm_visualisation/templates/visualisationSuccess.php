@@ -34,7 +34,7 @@
     <?php endif; ?>
 
     <?php if ($drm->isModifiable()): ?>
-        <div style="text-align: right;">
+        <div class="pull-right">
             <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
         </div>
     <?php endif; ?>
