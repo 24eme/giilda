@@ -8,6 +8,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $options['interpro_id'];
         $this->keyMvt = $options['keyMvt'];
+        
         parent::__construct($object, $options, $CSRFSecret);
     }
 
@@ -32,8 +33,10 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     public function setDefaults($defaults) {
         parent::setDefaults($defaults);
-        if (array_key_exists('identifiant', $defaults) && $defaults['identifiant']) {
-            $societe = EtablissementClient::getInstance()->find($defaults['identifiant'])->getSociete();
+        if($this->getObject()->getIdentifiant()) {
+            var_dump($societe); exit;
+            $societe = SocieteClient::getInstance()->findByIdentifiantSociete($this->getObject()->getIdentifiant());
+            
             $this->setDefault('identifiant', "SOCIETE-" . $societe->identifiant . ',' . $societe->raison_sociale . ' ' . $societe->identifiant . ' / ' . $societe->siege->commune . ' ' . $societe->siege->code_postal . ' (Société)');
         }
         if (array_key_exists('quantite', $defaults) && $defaults['quantite']) {

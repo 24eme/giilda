@@ -4,7 +4,7 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
     if ($(element).length) {
 
         var uuid = UUID.generate();
-        var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, "nouveau_"+uuid);
+        var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, "nouveau_" + uuid);
 
         var inputsToGetValues = $(element).children('div').last().find('input');
         var selectsToGetValues = $(element).children('div').last().find('select');
@@ -20,11 +20,9 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
                 inputsToGetValues.each(function () {
                     var inputName = $(this).attr('name');
                     if ((inputName != undefined) && (inputName.contains(nameReduct))) {
-
-                        if (nameReduct != "[identifiant]") {
-
+                        if (nameReduct != "[identifiant]" && nameReduct != "[quantite]") {
                             value = $(this).val();
-                        }
+                        }                       
                     }
                 });
             }
@@ -32,8 +30,8 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
         });
 
         $(element).children('div').last().find('select').each(function () {
-            var valueSelected = $(selectsToGetValues).find('option[selected="selected"]').val();
-            $(this).find('option[value="' + valueSelected + '"]').attr('selected', 'selected');
+            var valueSelected = selectsToGetValues.val();
+            $(this).val(valueSelected);
         });
 
         $(element).children('div').find('input').each(function () {
@@ -61,9 +59,12 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
 var isConformForNewLine = function (element) {
     var result = true;
     $(element).children('div').last().find('input').each(function () {
-        if ($(this).attr('name') != undefined) {
+        if ($(this).attr('name') != undefined)
+        {
             if (($(this).val() == null) || ($(this).val() == "")) {
-                result = false;
+                if ($(this).attr('name').indexOf('libelle') <= -1) {
+                    result = false;
+                }
             }
         }
     });
