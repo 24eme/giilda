@@ -204,12 +204,12 @@ class EtablissementClient extends acCouchdbClient {
         return array(self::RECETTE_LOCALE => 'Recette locale');
     }
 
-    public static function getRegionsWithoutHorsInterpro() {
+    public static function getRegionsWithoutHorsInterLoire() {
         return array(self::REGION_CVO => self::REGION_CVO);
     }
 
     public static function getRegions() {
-        return array_merge(self::getRegionsWithoutHorsInterpro(), array(self::REGION_HORS_CVO => self::REGION_HORS_CVO));
+        return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORS_CVO => self::REGION_HORS_CVO));
     }
 
     public static function getTypeDR() {
@@ -237,20 +237,9 @@ class EtablissementClient extends acCouchdbClient {
         $result = new stdClass();
         $region = $etb->region;
         $contacts = sfConfig::get('app_teledeclaration_contact_contrat');
-
+        
         if ($etb->famille == SocieteClient::SUB_TYPE_COURTIER) {
-            $code_postal = $etb->siege->code_postal;
-
-            if($code_postal && substr($code_postal, 0, 2) == "44"){
-                $region = self::REGION_NANTES;
-            }
-            if($code_postal && substr($code_postal, 0, 2) == "49"){
-                $region = self::REGION_ANGERS;
-            }
-            if($code_postal && substr($code_postal, 0, 2) == "37"){
-
-                $region = self::REGION_TOURS;
-            }
+            $region = self::REGION_HORS_CVO;
             
             $result->nom = $contacts[$region]['nom'];
             $result->email = $contacts[$region]['email'];
