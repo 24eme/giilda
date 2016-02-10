@@ -1,5 +1,5 @@
 <?php
-class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute {
+class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute, InterfaceEtablissementRoute {
 
     protected $societe = null;
     
@@ -18,5 +18,10 @@ class SocieteRoute extends sfObjectRoute implements InterfaceSocieteRoute {
            $this->societe = $this->getObject();
       }
       return $this->societe;
+    }
+
+    public function getEtablissement() {
+        
+        return $this->getSociete()->getEtablissementPrincipal();
     }
 }

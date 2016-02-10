@@ -66,7 +66,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setValidator('autorisation_nom_producteur', new sfValidatorBoolean(array('required' => false)));
 
         $this->setValidator('taux_courtage', new sfValidatorNumber(array('required' => false)));
-        $this->setValidator('taux_repartition', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCvoRepartition()))));
+        $this->setValidator('taux_repartition', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCourtageRepartition()))));
 
         $this->setValidator('preparation_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursPreparationVin()))));
         $this->setValidator('embouteillage', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getActeursEmbouteillage()))));
