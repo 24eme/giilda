@@ -60,9 +60,7 @@ $tabindex = $numProduit + 1;
                     </ul>
 
                     <div class="groupe p_gris" data-groupe-id="3">
-                        <p  class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?> extendable">
-
-                        </p>
+                        <p  class="form-group form-group-xs extendable"></p>
                         <ul class="list-unstyled">
                             <?php foreach ($form['entrees'] as $key => $subform): ?>
                                 <?php
@@ -129,7 +127,7 @@ $tabindex = $numProduit + 1;
                     </ul>
 
                     <div class="groupe p_gris" data-groupe-id="5">
-                        <p class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?> extendable"></p>
+                        <p class="form-group form-group-xs extendable"></p>
                         <ul class="list-unstyled">
                             <?php foreach ($form['sorties'] as $key => $subform): ?>
                                 <?php
