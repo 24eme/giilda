@@ -98,13 +98,11 @@ case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
 
 function getRegion($region) {
     switch ($region) {
-        case EtablissementClient::REGION_NANTES :
-            return 'Vertou,';
-        case EtablissementClient::REGION_HORSINTERLOIRE :
-        case EtablissementClient::REGION_ANGERS :
-        case EtablissementClient::REGION_TOURS :
+        case EtablissementClient::REGION_CVO :
+            return 'Interpro';
+        case EtablissementClient::REGION_HORS_CVO :
         default:
-            return 'Tours,';
+            return 'Hors Interpro,';
     }
 }
 

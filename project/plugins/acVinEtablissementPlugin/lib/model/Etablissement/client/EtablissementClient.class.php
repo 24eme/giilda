@@ -6,11 +6,8 @@ class EtablissementClient extends acCouchdbClient {
      *
      * @return EtablissementClient
      */
-    const HORS_REGION = 'HORS_REGION';
-    const REGION_TOURS = 'TOURS';
-    const REGION_ANGERS = 'ANGERS';
-    const REGION_NANTES = 'NANTES';
-    const REGION_HORSINTERLOIRE = 'HORS_INTERLOIRE';
+    const REGION_HORS_CVO = 'REGION_HORS_CVO';
+    const REGION_CVO = 'REGION_CVO';
     const RECETTE_LOCALE = 'RECETTE_LOCALE';
     const TYPE_DR_DRM = 'DRM';
     const TYPE_DR_DRA = 'DRA';
@@ -207,14 +204,12 @@ class EtablissementClient extends acCouchdbClient {
         return array(self::RECETTE_LOCALE => 'Recette locale');
     }
 
-    public static function getRegionsWithoutHorsInterLoire() {
-        return array(self::REGION_TOURS => self::REGION_TOURS,
-            self::REGION_ANGERS => self::REGION_ANGERS,
-            self::REGION_NANTES => self::REGION_NANTES);
+    public static function getRegionsWithoutHorsInterpro() {
+        return array(self::REGION_CVO => self::REGION_CVO);
     }
 
     public static function getRegions() {
-        return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORSINTERLOIRE => self::REGION_HORSINTERLOIRE));
+        return array_merge(self::getRegionsWithoutHorsInterpro(), array(self::REGION_HORS_CVO => self::REGION_HORS_CVO));
     }
 
     public static function getTypeDR() {
@@ -234,9 +229,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function getPrefixForRegion($region) {
-        $prefixs = array(self::REGION_TOURS => '1',
-            self::REGION_ANGERS => '2',
-            self::REGION_NANTES => '3');
+        $prefixs = array(self::REGION_CVO => '1');
         return $prefixs[$region];
     }
 

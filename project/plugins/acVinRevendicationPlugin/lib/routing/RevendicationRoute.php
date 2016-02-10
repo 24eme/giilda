@@ -48,6 +48,6 @@ class RevendicationRoute extends sfObjectRoute  {
     }
 
     public function getOdgs() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterpro();
     }
 }

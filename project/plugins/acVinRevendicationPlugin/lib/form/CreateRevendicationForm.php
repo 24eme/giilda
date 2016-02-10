@@ -37,7 +37,7 @@ class CreateRevendicationForm extends BaseForm {
     }
 
     public function getOdgs() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterpro();
     }
 
     public function getCampagnes() {

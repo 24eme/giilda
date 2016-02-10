@@ -361,7 +361,7 @@ class Vrac extends BaseVrac {
 
     public function calculCvoRepartition() {
         
-        if (!$this->getAcheteurObject()->isInterLoire()) {
+        if (!$this->getAcheteurObject()->isInterpro()) {
 
             return VracClient::CVO_REPARTITION_100_VITI; 
         }
@@ -551,7 +551,7 @@ class Vrac extends BaseVrac {
         if (!$isRaisinMout)
             return false;
         $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
-        return !$nego->isInterLoire();
+        return !$nego->isInterpro();
     }
 
     public function isVitiRaisinsMoutsTypeVins() {
