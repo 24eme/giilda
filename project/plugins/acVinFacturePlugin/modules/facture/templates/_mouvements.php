@@ -8,7 +8,7 @@ use_helper('Prix');
         <h2 class="vertical-center" style="margin: 0 0 20px 0;">Mouvements en attente de facturation</h2>
     </div>
     <div class="col-xs-4 text-right">
-        <a href="<?php echo url_for('facture_creation', array('identifiant' => $societe->identifiant, 'type-facture' => FactureClient::TYPE_FACTURE_MOUVEMENT_DRM));?>" class="btn btn-sm btn-default">Facturer les mouvements</a>
+        <a href="<?php echo url_for('facture_creation', array('identifiant' => $societe->identifiant, 'type-facture' => FactureClient::TYPE_FACTURE_MOUVEMENT_DRM));?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Facturer les mouvements</a>
     </div>
 </div>
 
@@ -20,16 +20,15 @@ use_helper('Prix');
     <div class="row row-margin">
         <div class="col-xs-12">
             <div class="list-group">
-                <li class="list-group-item col-xs-12">
-                    <span class="col-xs-2">Date</span>
+                <li class="list-group-item col-xs-12 text-muted">
                     <span class="col-xs-3">Document</span>
                     <span class="col-xs-3">Produits</span>
                     <span class="col-xs-2">Type</span>
-                    <span class="col-xs-2">Prix TTC</span>
+                    <span class="col-xs-2 text-right">Volume</span>
+                    <span class="col-xs-2 text-right">Prix TTC</span>
                 </li>
                 <?php foreach ($mouvements as $mouvement): ?>
                     <li class="list-group-item col-xs-12">
-                        <span class="col-xs-2"><?php echo format_date($mouvement->date, 'dd/MM/yyyy'); ?></span>
                         <span class="col-xs-3"><?php
                             $numeroFormatted = (strstr($mouvement->numero, 'DRM') !== false) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
                                     $mouvement->nom_facture;
@@ -38,7 +37,8 @@ use_helper('Prix');
                             ?></span>
                         <span class="col-xs-3"><?php echo $mouvement->produit_libelle ?></span>
                         <span class="col-xs-2"><?php echo  $mouvement->type_libelle; ?></span>
-                        <span class="col-xs-2"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</span>
+                        <span class="col-xs-2 text-right"><?php echoFloat($mouvement->volume); ?> &nbsp;hl</span>
+                        <span class="col-xs-2 text-right"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</span>
                     </li>
                 <?php endforeach; ?>
             </div>

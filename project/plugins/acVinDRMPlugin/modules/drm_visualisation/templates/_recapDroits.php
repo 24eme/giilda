@@ -12,28 +12,28 @@
                 <thead >
                     <tr>                        
                         <th>&nbsp;</th>
-                        <th>Volumes facturables</th>
+                        <th class="text-right">Volumes facturables</th>
         <?php if($recapCvos["TOTAL"]->totalVolumeReintegration) : ?> 
-                       <th>Volumes réintégrés</th>
+                        <th class="text-right">Volumes réintégrés</th>
         <?php endif; ?>
-                        <th>Montant</th>
+                        <th class="text-right">Montant</th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php foreach($recapCvos as $recapCvo): ?>
                     <tr >   
                         <td><?php if($recapCvo->version): ?><small class="text-muted"><?php echo $recapCvo->version ?></small> <?php endif; ?>CVO</td>
-                        <td><?php
+                        <td class="text-right"><?php
                             echoFloat($recapCvo->totalVolumeDroitsCvo);
                             echo " hl";
                             ?></td>
         <?php if($recapCvo->totalVolumeReintegration) : ?>
-                        <td><?php
+                        <td class="text-right"><?php
                             echoFloat($recapCvo->totalVolumeReintegration);
                             echo " hl";
                             ?></td>
         <?php endif; ?>
-                        <td><?php
+                        <td class="text-right"><?php
                             echoFloat($recapCvo->totalPrixDroitCvo);
                             echo " €";
                             ?></td>
