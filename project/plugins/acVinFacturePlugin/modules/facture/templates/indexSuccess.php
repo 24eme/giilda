@@ -4,7 +4,7 @@
         <?php include_component('facture', 'chooseSociete'); ?>
         <div class="row row-margin">
             <div class="col-xs-12">
-                <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default pull-right">Mouvements de factures</a>
+                <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default pull-right">Facturation libre</a>
             </div>
         </div>
         <br/>

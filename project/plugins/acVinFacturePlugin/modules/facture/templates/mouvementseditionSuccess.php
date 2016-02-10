@@ -2,7 +2,7 @@
 <?php use_javascript('facture.js'); ?>
 
 <div class="col-xs-12">
-    <h2>Mouvements de facture</h2>
+    <h2>Edition de factures libres</h2>
     
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 
