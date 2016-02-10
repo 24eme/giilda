@@ -38,7 +38,7 @@ if (!isset($isTeledeclarationMode)) {
                 ?>
                 <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords($produit_libelle), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower($produit_libelle), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
-                    <td><a href="#<?php echo str_replace(' ', '_', $produit_libelle) ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
+                    <td><a href="#filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock début</strong></td>
                     <td><strong> <span class="pull-right"><?php echoFloat($produit->total_debut_mois) . ' hl'; ?></span></strong></td> 
                     <td><strong> <span class="pull-left">( <?php echo ($produit->details->DEFAUT->stocks_debut->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_debut->dont_revendique) : "0.00"; ?> )</span></strong></td>
@@ -46,7 +46,7 @@ if (!isset($isTeledeclarationMode)) {
 
                 <?php foreach ($mouvements as $mouvement): ?>
                     <tr data-words='<?php echo json_encode(array_merge(Search::getWords($mouvement->produit_libelle), Search::getWords($mouvement->type_libelle), Search::getWords($libelleDoc), Search::getWords($mouvement->detail_libelle), array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($libelleDoc), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation)) ? " facturable" : ""; ?>">
-                        <td><a href="#<?php echo str_replace(' ', '_', $mouvement->produit_libelle) ?>" class="anchor_to_hamza_style"> <?php echo $mouvement->produit_libelle ?> </a></td>
+                        <td><a href="#filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $mouvement->produit_libelle ?> </a></td>
                         <td><?php
                             if ($mouvement->vrac_numero) {
                                 echo (!isset($no_link) || !$no_link) ? '<a href="' . url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)) . '">' : '';
@@ -67,7 +67,7 @@ if (!isset($isTeledeclarationMode)) {
 
                 <tr data-words='<?php echo json_encode(array_merge(Search::getWords($produit_libelle), Search::getWords($produit_libelle), Search::getWords($libelleDoc), Search::getWords($produit_libelle), array(strtolower($produit_libelle), strtolower($produit_libelle), strtolower($libelleDoc))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
-                    <td><a href="#<?php echo str_replace(' ', '_', $produit_libelle) ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
+                    <td><a href="#mouvements&filtre=<?php echo strtolower($produit_libelle); ?>" class="anchor_to_hamza_style"> <?php echo $produit_libelle ?> </a></td>
                     <td><strong>Stock fin</strong></td>
                     <td><strong><span class="pull-right"><?php echoFloat($produit->total) . ' hl'; ?></span></strong></td>
                     <td><strong><span class="pull-left">( <?php echo ($produit->details->DEFAUT->stocks_fin->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_fin->dont_revendique) : "0.00"; ?> )</span></strong></td>

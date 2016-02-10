@@ -21,6 +21,8 @@
 
         $.initSelect2PermissifNoAjax();
 
+        $.initQueryHash();
+
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
             var link = $(e.relatedTarget);
             $(this).load(link.attr("href"), function () {
@@ -31,6 +33,47 @@
             $(this).html("");
         });
     });
+
+    $.initQueryHash = function () {
+        $(window).on('hashchange', function() {
+            if($(document).find('.hamzastyle').length) {
+                var params = jQuery.parseParams(location.hash.replace("#", ""));
+                var filtres = [];
+                if(params.filtre && params.filtre.match(/\[/)) {
+                    filtres = JSON.parse(params.filtre);
+                } else if (params.filtre) {
+                    filtres.push(params.filtre);
+                }
+
+                var select2Data = [];
+                for(key in filtres) {
+                    select2Data.push({ id: filtres[key], text: filtres[key] });
+                }
+
+                $(document).find('.hamzastyle').select2("data", select2Data);
+
+                $(document).find('.hamzastyle-item').each(function() {
+                    var words = $(this).attr('data-words');
+                    var find = true;
+                    for(key in filtres) {
+                        var word = filtres[key];
+                        if (words.indexOf(word) === -1) {
+                            find = false;
+                        }
+                    }
+                    if (find) {     
+                        $(this).show();    
+                    } else {
+                        $(this).hide();    
+                    }
+                });
+            }
+        });
+
+        if(location.hash) {
+            $(window).trigger('hashchange');
+        }
+    }
     
     $.fn.initAdvancedElements = function () {
 
@@ -99,9 +142,6 @@
 
                     }}
             });
-            $(this).on('choose', function () {
-                console.log('select');
-            });
         });
 
         $.initSelect2PermissifNoAjax = function ()
@@ -137,7 +177,7 @@
                 multiple: true,
                 data: function() {
                     var data = [];
-                    element.find(select2.attr('data-hamzastyle-container')).find('.hamzastyle-item').each(function() {
+                    element.find('.hamzastyle-item').each(function() {
                         data = data.concat(JSON.parse($(this).attr('data-words')));
                     });
 
@@ -146,7 +186,7 @@
                     dataFinal = [];
                     for(key in data) {
                         if(data[key]+"") {
-                            dataFinal.push({ id: key, text: (data[key]+"") });
+                            dataFinal.push({ id: (data[key]+""), text: (data[key]+"") });
                         }
                     }
 
@@ -156,33 +196,19 @@
         });
 
         $(this).find('.hamzastyle').on("change", function(e) {
-            var selectedWords = $(this).select2("data");
-            element.find($(this).attr('data-hamzastyle-container')).find('.hamzastyle-item').each(function() {
-                var words = $(this).attr('data-words');
-                var find = true;
-                for(key in selectedWords) {
-                    var word = selectedWords[key].text;
-                    if (words.indexOf(word) === -1) {
-                        find = false;
-                    }
-                }
-                if (find) {     
-                    $(this).show();    
-                } else {
-                    $(this).hide();    
-                }
-             });
-            
+            var select2Data = $(this).select2("data");
+            var selectedWords = [];
+            for(key in select2Data) {
+                selectedWords.push(select2Data[key].text);
+            }
+
+            if(!selectedWords.length) {
+                document.location.hash = "";
+            } else {
+                document.location.hash = encodeURI("#filtre=" + JSON.stringify(selectedWords));
+            }
         })
         
-        $(this).find('.hamzastyle-item').each(function(){
-            $(this).find('.anchor_to_hamza_style').click(function(){                
-                var anchor = $(this).attr('href').replace(/_/g, " ").replace('#',"");  
-               console.log(anchor) ;
-            });
-            
-        });
-
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',
