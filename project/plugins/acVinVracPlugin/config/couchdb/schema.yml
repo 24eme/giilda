@@ -199,6 +199,7 @@ Vrac:
 #Validations
       date_campagne: { }
       date_signature: { }
+      date_visa: { }
 
       volume_propose: { type: float }
       volume_enleve: { type: float }
