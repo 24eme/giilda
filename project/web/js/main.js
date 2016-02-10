@@ -19,7 +19,7 @@
     {
         $(document).initAdvancedElements();
 
-        $.initSelect2PermissifNoAjax();
+        $.initQueryHash();
 
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
             var link = $(e.relatedTarget);
@@ -39,9 +39,6 @@
         $(this).find('.input-float').inputNumberFormat({'decimal': 4, 'decimalAuto': 2});
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
-        $(this).find("select2").select2({
-            allowClear: true
-        });
         $(this).find("select.select2").select2({
             allowClear: true
         });
@@ -99,36 +96,36 @@
 
                     }}
             });
-            $(this).on('choose', function () {
-                console.log('select');
-            });
         });
 
-        $.initSelect2PermissifNoAjax = function ()
-        {
-            if ($('.select2permissifNoAjax').length) {
-                var lastValue = null;
-                $('.select2permissifNoAjax').select2({
-                    data: JSON.parse($('input.select2permissifNoAjax').attr('data-choices')),
-                    multiple: false,
-                    placeholder: true,
-                    createSearchChoice: function (term, data) {
-                        if ($(data).filter(function () {
-                            return this.text.localeCompare(term) === 0;
-                        }).length === 0) {
-                            return {id: term, text: term + ' (nouveau)'};
-                        }
-                    }
-                }).on("select2-close", function () {
-                    var old_choices = JSON.parse($('input.select2permissifNoAjax').attr('data-choices'));
-                    old_choices.push({id: lastValue, text: lastValue + ' (nouveau)'});
-                    $('input.select2permissifNoAjax').select2("val", lastValue);
-                    $('input.select2permissifNoAjax').val(lastValue);
-                    $('.select2permissifNoAjax .select2-chosen').text(lastValue);
-                }).on("select2-highlight", function (e) {
-                    lastValue = e.val;
-                })
+        $(this).find(".select2SubmitOnChange").on("change", function(e) {
+            if(e.val) {
+                $(this).parents('form').submit();
             }
+        });
+
+        if ($(this).find('.select2permissifNoAjax').length) {
+            var lastValue = null;
+            $('.select2permissifNoAjax').select2({
+                data: JSON.parse($('input.select2permissifNoAjax').attr('data-choices')),
+                multiple: false,
+                placeholder: true,
+                createSearchChoice: function (term, data) {
+                    if ($(data).filter(function () {
+                        return this.text.localeCompare(term) === 0;
+                    }).length === 0) {
+                        return {id: term, text: term + ' (nouveau)'};
+                    }
+                }
+            }).on("select2-close", function () {
+                var old_choices = JSON.parse($('input.select2permissifNoAjax').attr('data-choices'));
+                old_choices.push({id: lastValue, text: lastValue + ' (nouveau)'});
+                $('input.select2permissifNoAjax').select2("val", lastValue);
+                $('input.select2permissifNoAjax').val(lastValue);
+                $('.select2permissifNoAjax .select2-chosen').text(lastValue);
+            }).on("select2-highlight", function (e) {
+                lastValue = e.val;
+            })
         }
         
         $(this).find('.hamzastyle').each(function() {
@@ -137,7 +134,7 @@
                 multiple: true,
                 data: function() {
                     var data = [];
-                    element.find(select2.attr('data-hamzastyle-container')).find('.hamzastyle-item').each(function() {
+                    element.find('.hamzastyle-item').each(function() {
                         data = data.concat(JSON.parse($(this).attr('data-words')));
                     });
 
@@ -146,7 +143,7 @@
                     dataFinal = [];
                     for(key in data) {
                         if(data[key]+"") {
-                            dataFinal.push({ id: key, text: (data[key]+"") });
+                            dataFinal.push({ id: (data[key]+""), text: (data[key]+"") });
                         }
                     }
 
@@ -156,33 +153,19 @@
         });
 
         $(this).find('.hamzastyle').on("change", function(e) {
-            var selectedWords = $(this).select2("data");
-            element.find($(this).attr('data-hamzastyle-container')).find('.hamzastyle-item').each(function() {
-                var words = $(this).attr('data-words');
-                var find = true;
-                for(key in selectedWords) {
-                    var word = selectedWords[key].text;
-                    if (words.indexOf(word) === -1) {
-                        find = false;
-                    }
-                }
-                if (find) {     
-                    $(this).show();    
-                } else {
-                    $(this).hide();    
-                }
-             });
-            
+            var select2Data = $(this).select2("data");
+            var selectedWords = [];
+            for(key in select2Data) {
+                selectedWords.push(select2Data[key].text);
+            }
+
+            if(!selectedWords.length) {
+                document.location.hash = "";
+            } else {
+                document.location.hash = encodeURI("#filtre=" + JSON.stringify(selectedWords));
+            }
         })
         
-        $(this).find('.hamzastyle-item').each(function(){
-            $(this).find('.anchor_to_hamza_style').click(function(){                
-                var anchor = $(this).attr('href').replace(/_/g, " ").replace('#',"");  
-               console.log(anchor) ;
-            });
-            
-        });
-
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',
@@ -247,6 +230,53 @@
         });
 
 
+    }
+
+    $.initQueryHash = function () {
+        $(window).on('hashchange', function() {
+            if($(document).find('.hamzastyle').length) {
+                var params = jQuery.parseParams(location.hash.replace("#", ""));
+                var filtres = [];
+                if(params.filtre && params.filtre.match(/\[/)) {
+                    filtres = JSON.parse(params.filtre);
+                } else if (params.filtre) {
+                    filtres.push(params.filtre);
+                }
+
+                var select2Data = [];
+                for(key in filtres) {
+                    select2Data.push({ id: filtres[key], text: filtres[key] });
+                }
+
+                $(document).find('.hamzastyle').select2("data", select2Data);
+
+                $(document).find('.hamzastyle-item').each(function() {
+                    var words = $(this).attr('data-words');
+                    var find = true;
+                    for(key in filtres) {
+                        var word = filtres[key];
+                        if (words.indexOf(word) === -1) {
+                            find = false;
+                        }
+                    }
+                    if (find) {     
+                        $(this).show();    
+                    } else {
+                        $(this).hide();    
+                    }
+                });
+            }
+            if($(document).find('.nav.nav-tabs').length) {
+                var params = jQuery.parseParams(location.hash.replace("#", ""));
+                if(params.tab) {
+                    $('.nav.nav-tabs a[aria-controls="'+params.tab+'"]').tab('show');
+                }
+            }
+        });
+
+        if(location.hash) {
+            $(window).trigger('hashchange');
+        }
     }
 
 })(jQuery);

@@ -145,7 +145,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function importMouvementsFromCSV($just_check = false) {
-        $all_produits = $this->configuration->declaration->getProduitsAll();
+        //$all_produits = $this->configuration->declaration->getProduitsAll();
 
         $num_ligne = 1;
         foreach ($this->getDocRows() as $csvRow) {
@@ -153,7 +153,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $num_ligne++;
                 continue;
             }
-            $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
+            //$csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
 
             $founded_produit = false;
 

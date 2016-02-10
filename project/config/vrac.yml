@@ -15,7 +15,7 @@ ivbd:
     vrac:
       pdf: "vrac/pdf_ivbd"
       champs:
-        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
+        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd", "taux_courtage", "taux_repartition"]
       unites:
         "MOUTS":
           "prix_initial_unitaire":

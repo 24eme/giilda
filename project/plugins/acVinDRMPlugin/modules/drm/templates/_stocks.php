@@ -52,7 +52,7 @@
                     <?php $i = 1; ?>
                     <?php foreach($produits->getRawValue() as $produit): ?>
                     <?php $i++; ?>
-                            <tr class="hamzastyle-item" data-words='<?php echo json_encode(array_merge(Search::getWords($produit->produit_libelle), Search::getWords($produit->mois), array(strtolower($produit->produit_libelle), strtolower($produit->mois))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo produit_get_id($produit) ?>">
+                            <tr class="hamzastyle-item" data-words='<?php echo json_encode(array_merge(array(strtolower($produit->produit_libelle), strtolower($produit->mois))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo produit_get_id($produit) ?>">
                                 <td><a href="<?php echo url_for('drm_visualisation', array('identifiant' => $etablissement->identifiant, 'periode_version' => DRMClient::getInstance()->buildPeriodeAndVersion($produit->periode, $produit->version)))?>"><?php echo $produit->mois ?></a></td>
                                 <td><?php echo $produit->produit_libelle ?></td>
                                 <td><strong><?php echoFloat($produit->total_debut_mois) ?></strong></td>

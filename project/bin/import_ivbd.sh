@@ -172,7 +172,12 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
         next;
     }
 
-    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";HORS_REGION;" cvi ";;;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    region="CVO";
+    if(code_postal !~ /^(24|33|46|47)/) {
+        region="HORS_CVO";
+    }
+
+    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";;;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
 }' | sort > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
@@ -253,6 +258,11 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     }
     if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(domaine|Domaine|DOMAINE)/) {
         categorie_vin="DOMAINE";
+    }
+    if(categorie_vin_info) {
+        categorie_vin="MENTION";
+    } else {
+        categorie_vin="GENERIQUE";
     }
 
     proprietaire=$65;

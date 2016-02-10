@@ -50,3 +50,7 @@ panel.disabled {
     cursor: not-allowed;
     opacity: 0.6;
 }
+
+.versionner {
+    outline: 1px dotted #ff0000 !important;
+}

@@ -10,7 +10,7 @@ all:
       champs:
         soussigne: ["vendeur_tva", "acheteur_type", "vendeur_identifiant", "representant_identifiant", "acheteur_producteur", "acheteur_negociant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
         marche: ["cepage_85_15", "millesime_85_15", "label", "produit", "cepage", "selection", "millesime", "categorie_vin", "domaine", "raisin_quantite", "jus_quantite", "bouteilles_contenance_libelle", "prix_initial_unitaire", "degre", "surface", "lot"]
-        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd", "annee_contrat", "seuil_revision", "pourcentage_variation"]
+        condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd", "annee_contrat", "seuil_revision", "pourcentage_variation", "taux_courtage", "taux_repartition"]
       transactions:
         "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendange fraiche"
         "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"
@@ -25,7 +25,7 @@ all:
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
         "ESPECES": "Espèces"
-      repartition_cvo:
+      repartition_courtage:
         "50_50": "50/50 pour l'acheteur et le vendeur"
         "ACHETEUR": "100% pour l'acheteur"
         "VENDEUR": "100% pour le vendeur"
@@ -90,9 +90,7 @@ all:
             "libelle": "hl"
       categories:
         "GENERIQUE": "Générique"
-        "DOMAINE": "Domaine"
-        "CHATEAU": "Château"
-        "MARQUE": "Marque"
+        "MENTION": "Avec mention"
       contenances:
         "Bouteille 37 cl": 0.0037
         "Bouteille 37,5 cl": 0.00375
