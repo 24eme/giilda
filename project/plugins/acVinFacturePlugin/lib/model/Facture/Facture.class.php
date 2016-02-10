@@ -36,9 +36,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $configs = sfConfig::get('app_configuration_facture');
         $emetteur = new stdClass();
 
-        if (!array_key_exists($this->region, $configs['emetteur']))
-            throw new sfException(sprintf('Config %s not found in app.yml', $this->region));
-        $this->emetteur = $configs['emetteur'][$this->region];
+        if (!$configs && !isset($configs['emetteur'])) {
+            throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
+        }
+
+        $this->emetteur = $configs['emetteur'];
     }
 
     public function getCoordonneesBancaire() {

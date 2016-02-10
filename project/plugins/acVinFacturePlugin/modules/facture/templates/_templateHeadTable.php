@@ -1,7 +1,7 @@
 <?php 
 $qt_libelle = "Quantité en hl";
 $prix_u_libelle = "Taux";
-$titre_type_facture = "Facture de cotisation interprofessionnelle";
+$titre_type_facture = "Cotisation interprofessionnelle";
 if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
     $qt_libelle = "Quantité";
     $prix_u_libelle = "Prix U.";    

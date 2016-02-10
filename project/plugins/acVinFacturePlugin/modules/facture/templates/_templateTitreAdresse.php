@@ -18,9 +18,6 @@ use_helper('Display');
 		\node[draw=gray, inner sep=0pt, rounded corners=3pt, line width=2pt, fit=(tab0.north west) (tab0.north east) (tab0.south east) (tab0.south west)] {};	
 	\end{tikzpicture}
 	\\
-	\begin{small}
-	Cotisation selon Accord interprofessionnel en vigueur
-	\end{small}
         <?php if($facture->hasMessageCommunication() && !$avoir): ?>
         \vspace{0.3cm}
 			\begin{tikzpicture}

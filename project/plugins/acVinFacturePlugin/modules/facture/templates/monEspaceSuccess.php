@@ -10,7 +10,8 @@ use_helper('Float');
 <div class="row">
     <div class="col-xs-12">
         <?php include_component('facture', 'chooseSociete', array('identifiant' => $societe->identifiant)); ?>
-
+    </div>
+    <div class="col-xs-12">
         <?php include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures)); ?>
          <hr />
         <?php include_partial('facture/mouvements', array('mouvements' => $mouvements, 'societe' => $societe, 'form' => $form)) ?>    
