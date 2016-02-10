@@ -77,7 +77,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumeroInterpro() {
-        
+
         return $this->getNumeroPieceComptable();
     }
 
@@ -86,8 +86,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
+        $prefix = "";
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
+            $prefix = "L";
+        }
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+            $prefix = "C";
+        }
 
-        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . $this->numero_archive;
+        return $prefix.preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d',$this->numero_archive);
     }
 
     public function getTaxe() {
@@ -189,7 +196,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         foreach ($mvts as $ligneByType) {
             if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == 'Contrat') {
-                $this->storeLigneFromMouvements($ligneByType,  $famille);
+                $this->storeLigneFromMouvements($ligneByType, $famille);
             }
         }
     }
@@ -198,7 +205,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
         $ligne = $this->lignes->add($keyLigne);
-        $origin_mouvement =$ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
+        $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
         if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
         } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
