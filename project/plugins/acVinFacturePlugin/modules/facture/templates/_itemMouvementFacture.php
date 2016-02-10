@@ -6,11 +6,11 @@
                 <?php echo $mvtForm['identifiant']->renderError(); ?>
                 <?php echo $mvtForm['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-4">
                 <?php echo $mvtForm['identifiant_analytique']->renderError(); ?> 
                 <?php echo $mvtForm['identifiant_analytique']->render(array('class' => 'form-control input-md text-right select2')); ?> 
             </div>
-            <div class="col-xs-3">
+            <div class="col-xs-2">
                 <?php echo $mvtForm['libelle']->renderError(); ?> 
                 <?php echo $mvtForm['libelle']->render(array('class' => 'form-control input-md text-right')); ?>  
             </div>
