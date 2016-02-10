@@ -2,7 +2,7 @@
 <?php use_javascript('facture.js'); ?>
 
 
-<h2><?php if ($facture->numero_interpro): ?>Édition de <?php if ($facture->isAvoir()): ?>l'<?php else: ?>la <?php endif; ?><?php else: ?>Création <?php if ($facture->isAvoir()): ?>d'un<?php else: ?>d'une<?php endif; ?> <?php endif; ?><?php if ($facture->isAvoir()): ?>Avoir <?php else: ?>Facture<?php endif; ?> <?php if ($facture->numero_interpro): ?>n°<?php echo $facture->numero_interpro; ?><?php endif; ?> <small>(Daté du <?php
+<h2><?php if ($facture->numero_piece_comptable): ?>Édition de <?php if ($facture->isAvoir()): ?>l'<?php else: ?>la <?php endif; ?><?php else: ?>Création <?php if ($facture->isAvoir()): ?>d'un<?php else: ?>d'une<?php endif; ?> <?php endif; ?><?php if ($facture->isAvoir()): ?>Avoir <?php else: ?>Facture<?php endif; ?> <?php if ($facture->numero_piece_comptable): ?>n°<?php echo $facture->numero_piece_comptable; ?><?php endif; ?> <small>(Daté du <?php
         $date = new DateTime($facture->date_facturation);
         echo $date->format('d/m/Y');
         ?>)</small>

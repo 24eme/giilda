@@ -8,7 +8,8 @@ Facture:
       identifiant: {}
       code_comptable_client: {}
       numero_facture: {}
-      numero_interpro: {}
+      numero_piece_comptable: {}
+      numero_piece_comptable_origine: {}
       numero_adherent: {}
       date_emission: {}
       date_facturation: {}

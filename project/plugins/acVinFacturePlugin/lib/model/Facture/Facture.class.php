@@ -77,16 +77,17 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumeroInterpro() {
-        if ($this->_get('numero_interpro')) {
+        
+        return $this->getNumeroPieceComptable();
+    }
 
-            return $this->_get('numero_interpro');
+    public function getNumeroPieceComptable() {
+        if ($this->_get('numero_piece_comptable')) {
+
+            return $this->_get('numero_piece_comptable');
         }
 
         return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . $this->numero_archive;
-    }
-
-    public function getNumeroReference() {
-        return substr($this->numero_facture, 6, 2) . ' ' . substr($this->numero_facture, 0, 6);
     }
 
     public function getTaxe() {
@@ -548,7 +549,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
 
         $this->archivage_document->preSave();
-        $this->numero_interpro = $this->getNumeroInterpro();
+        $this->numero_piece_comptable = $this->getNumeroPieceComptable();
     }
 
     public function storeDeclarant($doc) {

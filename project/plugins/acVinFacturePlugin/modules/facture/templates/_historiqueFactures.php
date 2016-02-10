@@ -16,7 +16,7 @@ use_helper('Date');
                     ?>
                     <li class="list-group-item col-xs-12">
                         <span class="col-xs-1"><?php if ($f->isAvoir()): ?>AVOIR<?php else: ?>FACTURE<?php endif; ?></span>
-                        <span class="col-xs-2">N° <?php echo $f->numero_interpro ?></span>
+                        <span class="col-xs-2">N° <?php echo $f->numero_piece_comptable ?></span>
                         <span class="col-xs-4"><?php echo $date; ?></span>
                         <span class="col-xs-2 text-right"><?php echo echoFloat($f->total_ttc); ?> € TTC</span>
                         <span class="col-xs-3 text-right">
