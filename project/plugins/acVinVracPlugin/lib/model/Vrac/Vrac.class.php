@@ -491,6 +491,19 @@ class Vrac extends BaseVrac {
         return $this->numero_contrat;
     }
 
+    public function setNumeroArchive($numero) {
+        $this->setDateVisa(date('Y-m-d'));
+        return $this->_set('numero_archive', $numero);
+    }
+
+    public function getDateVisa() {
+        if ($this->exist('date_visa')) {
+            return $this->_get('date_visa');
+        }
+
+        return $this->getDateSaisie();
+    }
+
     public function enleverVolume($vol) {
         $this->volume_enleve += $vol;
 
