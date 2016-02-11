@@ -128,4 +128,6 @@ var initMouvementsFacture = function () {
 $(document).ready(function ()
 {
     initMouvementsFacture();
+    console.log('ready');
+    $('.btn-suppr-ligne').click(function() {console.log('click'); $(this).parents('.row').remove();});
 });

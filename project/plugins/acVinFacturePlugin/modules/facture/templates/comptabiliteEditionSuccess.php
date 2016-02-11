@@ -56,7 +56,7 @@
                     <div class="col-xs-4">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->renderError(); ?>  </div>
-                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
+                            <div class="col-xs-12"><span class="col-xs-10"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?></span><span class="col-xs-2"> <button type="button" class="btn btn-danger btn-suppr-ligne"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span></div>
                         </div>
 
                     </div>
@@ -67,7 +67,7 @@
 
         <div class="row row-margin">
             <div class="col-xs-6 text-left">
-                <a class="btn btn-danger btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>
+                <a class="btn btn-default btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" class="btn btn-success btn-lg btn-upper">Valider</button>
