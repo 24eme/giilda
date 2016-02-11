@@ -15,7 +15,6 @@ $current_nb_pages = 0;
 foreach ($facture->lignes as $type => $typeLignes) {
     $line_nb_current_page++;
     ?>
-    \small{\textbf{<?php echo format_date($facture->date_emission, 'dd/MM/yyyy'); ?> }} &
     \small{\textbf{<?php echo $typeLignes->libelle; ?> }} &
     \multicolumn{1}{r|}{~} &
     \multicolumn{1}{r|}{~} &

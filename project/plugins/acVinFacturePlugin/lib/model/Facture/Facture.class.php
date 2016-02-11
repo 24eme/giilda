@@ -580,7 +580,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
-        //$this->code_comptable_client = preg_replace("/^[0]+/", "", $this->getCompte()->identifiant_interne);
+        $this->code_comptable_client = $doc->code_comptable_client;
     }
 
     public function isPayee() {

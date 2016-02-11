@@ -1,6 +1,5 @@
 <?php $url_post = (isset($massive) && $massive)? url_for('facture_generation') : ""; ?>
 
-<h3>Générer les factures</h3>
 <form method="post" action="<?php echo $url_post; ?>" role="generationForm" class="form-horizontal">
         <?php echo $generationForm->renderHiddenFields(); ?>
         <?php echo $generationForm->renderGlobalErrors(); ?>

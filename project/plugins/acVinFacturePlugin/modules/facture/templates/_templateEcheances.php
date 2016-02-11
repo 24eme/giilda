@@ -17,7 +17,7 @@ use_helper('Date');
    \centering \fontsize{7}{8}\selectfont Par chèque à l'ordre : Interprofession des Vins du Sud Ouest \\ ~ &
    
     \centering \small{Echéance} &
-    \centering \small{Ref. Client / Ref. Facture} &
+    \centering \small{Client~/~Facture} &
     \multicolumn{1}{c}{\small{Montant TTC}} \\
                         
                 \centering \small{~} & 
