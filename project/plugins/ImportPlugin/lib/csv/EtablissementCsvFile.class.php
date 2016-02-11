@@ -65,7 +65,7 @@ class EtablissementCsvFile extends CsvFile
             echo "WARNING: Societe ".$id_societe." n'existe pas\n";
             continue;
           }
-	
+
           /*$id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
   	       $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
           if ($e) {
@@ -77,6 +77,8 @@ class EtablissementCsvFile extends CsvFile
 
           $e->identifiant = $id;
           $e->constructId();
+
+          $e->famille=$line[self::CSV_TYPE];
 
         	$e->nom = trim($line[self::CSV_NOM]);
           $e->cvi = (isset($line[self::CSV_CVI])) ? $line[self::CSV_CVI] : null;
