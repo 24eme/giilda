@@ -16,6 +16,7 @@
                 <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
             </div>
             <div class="col-xs-8">
+                <h3>Générer toutes les factures</h3>
                 <?php include_component('facture','generationMasse'); ?>
             </div>
         </div>
