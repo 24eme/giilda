@@ -74,9 +74,6 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('produit_non_interpro', 'Produit hors Interpro : ');
         $this->setValidator('produit_non_interpro', new sfValidatorString(array('required' => false)));
 
-        $this->embedForm('dates_circulation', new ProduitDatesCirculationCollectionForm(null, array('dates_circulation' => $this->getDatesCirculation()))
-        );
-
         $this->widgetSchema->setNameFormat('produit_definition[%s]');
         $this->mergePostValidator(new ProduitDefinitionValidatorSchema($this->getObject()));
     }
