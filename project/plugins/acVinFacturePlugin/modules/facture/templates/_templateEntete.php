@@ -65,8 +65,8 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 
 \def\FactureNum{<?php echo $facture->numero_piece_comptable; ?>}
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
-\def\FactureRefClient{<?php echo $facture->code_comptable_client; ?>}
-
+\def\FactureRefClient{<?php echo $facture->numero_adherent; ?>}
+\def\FactureRefCodeComptableClient{<?php echo $facture->code_comptable_client; ?>}
 \def\FactureClientNom{<?php $nom = ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale; 
                             echo display_latex_string($nom,';',40);
                      ?>}
