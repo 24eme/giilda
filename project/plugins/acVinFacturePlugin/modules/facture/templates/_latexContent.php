@@ -15,7 +15,7 @@ $current_nb_pages = 0;
 foreach ($facture->lignes as $type => $typeLignes) {
     $line_nb_current_page++;
     ?>
-    \small{\textbf{<?php echo $typeLignes->libelle; ?> }} &
+    \small{\textbf{<?php echo $typeLignes->getLibellePrincipal(); ?>}<?php if($typeLignes->getLibelleSecondaire()): ?> <?php echo $typeLignes->getLibelleSecondaire(); ?><?php endif; ?>} &
     \multicolumn{1}{r|}{~} &
     \multicolumn{1}{r|}{~} &
     \multicolumn{1}{r}{~}
