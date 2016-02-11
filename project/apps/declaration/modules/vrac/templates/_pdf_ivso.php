@@ -267,7 +267,7 @@ Autorisation d'utilisation du nom du producteur.\\
 <?php endif; ?>
 <?php endif; ?>
 <?php if ($vrac->courtage_taux): ?>
-Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\% <?php if ($vrac->courtage_repartition): ?>(\textbf{<?php echo VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->courtage_repartition] ?>})<?php endif; ?> \\
+Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\% <?php if ($vrac->courtage_repartition): ?>(\textbf{<?php echo VracConfiguration::getInstance()->getRepartitionCourtage()[$vrac->courtage_repartition] ?>})<?php endif; ?> \\
 <?php endif; ?>
 Date de début de retiraison : \textbf{\CONTRATDATEMINENLEVEMENT}\\
 Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
