@@ -7,7 +7,7 @@
             <?php echo $generationForm["modele"]->renderError() ?>
             <?php echo $generationForm["modele"]->renderLabel("Type de facture", array("class" => "col-xs-4 control-label")); ?>
             <div class="col-xs-8">
-                <?php echo $generationForm["modele"]->render(array("class" => "form-control")); ?>
+                <?php echo $generationForm["modele"]->render(); ?>
             </div>
         </div>
         <div class="form-group <?php if ($generationForm["date_facturation"]->hasError()): ?>has-error<?php endif; ?>">
