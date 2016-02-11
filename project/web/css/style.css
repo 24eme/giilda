@@ -54,7 +54,3 @@ panel.disabled {
 .versionner {
     outline: 1px dotted #ff0000 !important;
 }
-
-.breadcrumb {
-    margin-bottom: 0;
-}

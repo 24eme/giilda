@@ -34,6 +34,17 @@
 
             colonnes.event_valider = function (colonne) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('list-group-item-success');
+                /*var select2Produit = $("#s2id_produit_declaration_hashref").data('select2');
+                setTimeout(function () {
+                    if (!select2Produit.opened()) {
+                        select2Produit.open();
+                    }
+                }, 0);*/
+                var next = colonne.getNext();
+                if(next) {
+                    next.focus();
+                    next.focusChampDefault();
+                }
             }
 
             colonnes.event_focus = function (colonne) {
