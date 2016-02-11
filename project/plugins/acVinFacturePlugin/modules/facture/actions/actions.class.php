@@ -167,7 +167,6 @@ class factureActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->values = array();
 
-        $default = $request->hasParameter('type-facture') ? array('modele' => $request->getParameter('type-facture')) : array();
         $this->form = new FactureGenerationForm($default);
         if (!$request->isMethod(sfWebRequest::POST)) {
 

@@ -140,6 +140,8 @@ class VracCsvFile extends CsvFile {
                 $v->date_debut_retiraison = $this->formatAndVerifyDateRetiraisonDebut($line);
                 $v->date_limite_retiraison = $this->formatAndVerifyDateRetiraisonFin($line);
 
+                $v->vendeur_tva = 1;
+
                 if ($line[self::CSV_LABELS]) {
                     $labels_contrat_array = explode(",", $line[self::CSV_LABELS]);
                     foreach ($labels_contrat_array as $label_key => $label_libelle) {

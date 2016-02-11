@@ -8,7 +8,7 @@ use_helper('Prix');
         <h2 class="vertical-center" style="margin: 0 0 20px 0;">Mouvements en attente de facturation</h2>
     </div>
     <div class="col-xs-4 text-right">
-        <a href="<?php echo url_for('facture_creation', array('identifiant' => $societe->identifiant, 'type-facture' => FactureClient::TYPE_FACTURE_MOUVEMENT_DRM));?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Facturer les mouvements</a>
+        <a href="<?php echo url_for('facture_creation', array('identifiant' => $societe->identifiant));?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Facturer les mouvements</a>
     </div>
 </div>
 

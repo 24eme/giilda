@@ -114,5 +114,18 @@ class FactureLigne extends BaseFactureLigne {
             $this->details->remove($key);
         }
     }
+
+    public function getLibellePrincipal() {
+
+        return trim(preg_replace("/\(.*\)/", "", $this->libelle));
+    }
+
+    public function getLibelleSecondaire() {
+        if(!preg_match("/\(.*\)/", $this->libelle)) {
+
+            return null;
+        }
+        return trim(preg_replace("/.*(\(.*\)).*/", '\1', $this->libelle));
+    }
     
 }

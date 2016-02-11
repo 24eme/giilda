@@ -116,10 +116,12 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
                             </h3>
                         <?php endif; ?>
-                        <?php if ($vrac->exist('volume_enleve') && $vrac->get('volume_enleve')): ?>
-                            <p>dont <?php echoFloat($vrac->volume_enleve); ?> hl enlevé(s)</p>
+                        <?php if ($vrac->exist('volume_enleve') && $vrac->get('volume_enleve') && $vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE): ?>
+                            <p><?php echoFloat($vrac->volume_propose - $vrac->volume_enleve); ?> hl restant à enlever</p>
+                        <?php elseif ($vrac->exist('volume_enleve') && $vrac->get('volume_enleve') && $vrac->valide->statut == VracClient::STATUS_CONTRAT_SOLDE): ?>
+                            <p>Soldé (<?php echoFloat($vrac->volume_propose - $vrac->volume_enleve); ?> hl restant)</p>
                         <?php else: ?>
-                            <p>pas d'enlevement enregistré</p>
+                            <p>Pas d'enlevement enregistré</p>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -237,14 +239,14 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         <?php foreach ($enlevements as $mvt_id => $enlevement): ?>
                           
                                 <li class="list-group-item clearfix">
-                                    <span class="col-xs-6">
-                                        <strong><a href="<?php echo url_for('drm_redirect_to_visualisation', array('identifiant_drm' => $enlevement->drm_id)); ?>"> <?php echo "DRM " . getFrPeriodeElision($enlevement->periode); ?></a></strong>
-                                    </span>
-                                    <span class="col-xs-6">
-                                        <span class=" pull-right">
-                                            <?php echoFloat($enlevement->volume) ; echo " hl"; ?>
+                                    <div class="row">
+                                        <span class="col-xs-6">
+                                            <strong><a href="<?php echo url_for('drm_redirect_to_visualisation', array('identifiant_drm' => $enlevement->drm_id)); ?>"> <?php echo "DRM " . getFrPeriodeElision($enlevement->periode); ?></a></strong>
                                         </span>
-                                    </span>
+                                        <span class="col-xs-6 text-right">
+                                                <?php echoFloat($enlevement->volume) ; echo " hl"; ?>
+                                        </span>
+                                    </div>
                                 </li> 
                         <?php endforeach; ?> 
 			<?php else: ?>
@@ -252,6 +254,16 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         <?php endif; ?>
                    
                 </ul>
+                <div class="panel-footer">
+                    <div class="row">
+                        <strong class="col-xs-6">
+                            TOTAL
+                        </strong>
+                        <strong class="col-xs-6 text-right">
+                                <?php echoFloat($vrac->volume_enleve) ?> hl
+                        </strong>
+                    </div>
+                </div>
             </div>
         </div>
     <?php endif; ?>
