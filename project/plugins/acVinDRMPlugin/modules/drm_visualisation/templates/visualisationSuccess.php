@@ -12,6 +12,10 @@
         <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn btn-success pull-right"><span>Télécharger le PDF</span></a>
     <?php endif; ?>
     <h2><?php echo getDrmTitle($drm); ?> <small>(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small></h2>
+<?php else: ?>
+    <?php include_component('drm', 'formEtablissementChoice', array('identifiant' => $drm->etablissement->_id)) ?>
+    <br/>
+    <br/>
 <?php endif; ?>
 
 <div id="drm_validation_coordonnees">
@@ -31,13 +35,7 @@
                 <li><?php echo MessagesClient::getInstance()->getMessage('msg_rectificatif_suivante') ?></li>
             </ul>
         </div>
-    <?php endif; ?>
-
-    <?php if ($drm->isModifiable()): ?>
-        <div class="pull-right">
-            <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
-        </div>
-    <?php endif; ?>
+    <?php endif; ?>   
 
     <?php if (!$drm->isMaster()): ?>
         <div class="alert alert-warning">
@@ -55,7 +53,7 @@
         </div>
         <div class="col-xs-12">
             <div class="well">
-            <?php echo $drm->commentaire; ?>
+                <?php echo $drm->commentaire; ?>
             </div>
         </div>
     </div>
