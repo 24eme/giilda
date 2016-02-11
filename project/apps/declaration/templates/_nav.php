@@ -96,22 +96,26 @@
             'target' => '_self'
        ));
 	endif; 
-	
-	include_component('global', 'navItem', array(
-			'libelle' => 'Stats',
-			'prefix' => 'statistique',
-			'route' => 'statistiques',
-			'route_etablissement' => null,
-			'etablissement' => null,
-			'target' => '_self'
-	));
-
-
 ?></ul>
 <ul class="nav navbar-nav navbar-right">
-     <li><a tabindex="-1" href="<?php echo url_for('statistiques') ?>"><span class="glyphicon glyphicon-search"></span></a></li>
+<?php if (!$sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-search"></span><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<?php echo url_for("statistiques_vrac") ?>">Contrat d'achat</a></li> 
+            <li><a href="<?php echo url_for("statistiques_drm") ?>">DRM</a></li>
+            <li><a href="<?php echo url_for("societe") ?>">Contacts</a></li>
+          </ul>
+        </li>
+<?php endif; ?>
 <?php if ($sf_user->hasCredential('admin')) : ?>
-     <li><a tabindex="-1" class="admin" href="<?php echo url_for('produits') ?>"><span class="glyphicon glyphicon-cog"></span></a></li>
+        <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span><span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<?php echo url_for("produits") ?>">Catalogue produit</a></li> 
+            <li><a href="<?php echo url_for("comptabilite_edition") ?>">Codes analytiques</a></li>
+          </ul>
+        </li>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
      <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a></li>

@@ -33,9 +33,9 @@ class StatistiqueRouting {
      */
     static public function listenToRoutingLoadConfigurationEvent(sfEvent $event) {
         $r = $event->getSubject();
-        $r->prependRoute('statistiques', new sfRoute('/statistiques', array('module' => 'statistique', 'action' => 'index')));
-        $r->prependRoute('statistiques_drm', new sfRoute('/statistiques/drm', array('module' => 'statistique', 'action' => 'drmStatistiques')));
-        $r->prependRoute('statistiques_vrac', new sfRoute('/statistiques/vrac', array('module' => 'statistique', 'action' => 'vracStatistiques')));
+        $r->prependRoute('statistiques', new sfRoute('/recherche', array('module' => 'statistique', 'action' => 'index')));
+        $r->prependRoute('statistiques_drm', new sfRoute('/recherche/drm', array('module' => 'statistique', 'action' => 'drmStatistiques')));
+        $r->prependRoute('statistiques_vrac', new sfRoute('/recherche/vrac', array('module' => 'statistique', 'action' => 'vracStatistiques')));
     }
 
 }
