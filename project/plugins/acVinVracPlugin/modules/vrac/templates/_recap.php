@@ -11,7 +11,6 @@ $liClass = ($isValidation) ? '' : 'class="lightpadding"';
 $template_validation = (isset($template_validation)) ? $template_validation : false;
 ?>
 
-<div class="row">
     <div class="col-xs-12">
 
         <?php if (!$vrac->isVise()) : ?>
@@ -243,8 +242,8 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Enlèvements depuis les DRM</strong> </div>
-                <ul class="list-group">               
                     <?php if (count($enlevements)): ?>
+                <ul class="list-group">               
                         <?php foreach ($enlevements as $mvt_id => $enlevement): ?>
                           
                                 <li class="list-group-item clearfix">
@@ -259,10 +258,12 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 </li> 
                         <?php endforeach; ?> 
 			<?php else: ?>
-<p class="text-center"><i>Pas d'enlèvement enregistré pour le moment sur ce contrat</i></p>
-                        <?php endif; ?>
-                   
                 </ul>
+            <?php endif; ?>
+            <div class="panel-body text-center text-muted">
+                <i>Pas d'enlèvement enregistré pour le moment sur ce contrat</i>
+            </div>
+                <?php if (count($enlevements)): ?>
                 <div class="panel-footer">
                     <div class="row">
                         <strong class="col-xs-6">
@@ -273,7 +274,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </strong>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
         </div>
     <?php endif; ?>
-</div>

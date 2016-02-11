@@ -1,6 +1,9 @@
 <?php 
 use_helper('Date');
 use_helper('Display');
+$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement(); 
+$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement(); 
+$contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
 ?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
@@ -270,7 +273,7 @@ Autorisation d'utilisation du nom du producteur.\\
 <?php endif; ?>
 <?php endif; ?>
 <?php if ($vrac->courtage_taux): ?>
-Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\% <?php if ($vrac->courtage_repartition): ?>(\textbf{<?php echo VracConfiguration::getInstance()->getRepartitionCourtage()[$vrac->courtage_repartition] ?>})<?php endif; ?> \\
+Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\% <?php if ($vrac->courtage_repartition): ?>(\textbf{<?php echo (array_key_exists($vrac->courtage_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->courtage_repartition]) : '' ?>})<?php endif; ?> \\
 <?php endif; ?>
 Date de début de retiraison : \textbf{\CONTRATDATEMINENLEVEMENT}\\
 Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
@@ -287,7 +290,7 @@ Article 15 : Les transactions liées à des achats de vins sont soumises à des 
 
 \textbf{OBSERVATIONS:} \\
 \fbox{
-\parbox{17.7cm}{~ \\ \CONTRATOBSERVATIONS \\ }
+\parbox[c][4cm]{\textwidth}{ ~ \\ \CONTRATOBSERVATIONS \\ }
 }
 
  ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\  
