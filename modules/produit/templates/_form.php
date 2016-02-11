@@ -178,24 +178,6 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($form->getObject()->hasDroit(ConfigurationDroits::DROIT_CVO)): ?>
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><label>Dates de circulation&nbsp;&nbsp;</label></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div id="forms_dates_circulation">
-                                <?php foreach ($form['dates_circulation'] as $subform): ?>
-                                    <?php include_partial('produit/subformDateCirculation', array('form' => $subform)) ?>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
         <?php if ($form->getObject()->hasLabels()): ?>
             <div class="col-sm-12">
                 <div class="panel panel-default">
