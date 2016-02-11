@@ -18,7 +18,7 @@ class FactureClient extends acCouchdbClient {
     const TYPE_FACTURE_MOUVEMENT_DIVERS = "MOUVEMENTS_DIVERS";
 
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12, self::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE);
-    public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Mouvements de DRM', self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Mouvements divers');
+    public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Facturation CVO', self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Facturation libre');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -116,7 +116,7 @@ class FactureClient extends acCouchdbClient {
         $f->_id = $facture->_id;
         $f->_rev = $facture->_rev;
         $f->numero_facture = $facture->numero_facture;
-        $f->numero_interpro = $facture->numero_interpro;
+        $f->numero_piece_comptable = $facture->numero_piece_comptable;
         $f->numero_archive = $facture->numero_archive;
 
         return $f;
@@ -402,7 +402,7 @@ class FactureClient extends acCouchdbClient {
         $avoir->add('templates');
 
         $avoir->numero_archive = null;
-        $avoir->numero_interpro = null;
+        $avoir->numero_piece_comptable = null;
         $avoir->versement_comptable = 0;
         $avoir->versement_comptable_paiement = 1;
         $avoir->storeDatesCampagne(date('Y-m-d'));
@@ -439,10 +439,13 @@ class FactureClient extends acCouchdbClient {
         $avoir->statut = self::STATUT_NONREDRESSABLE;
         $avoir->storeDatesCampagne(date('Y-m-d'));
         $avoir->numero_archive = null;
+        $avoir->numero_piece_comptable_origine = $avoir->numero_piece_comptable;
+        $avoir->numero_piece_comptable = null;
         $avoir->versement_comptable = 0;
         $avoir->add('taux_tva', round($f->getTauxTva(), 2));
         $avoir->updateTotaux();
         $avoir->save();
+        
         $f->defacturer();
         $f->save();
         return $avoir;

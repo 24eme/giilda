@@ -29,7 +29,7 @@ class FactureLatex extends GenericLatex {
   }
   
   private function getFileNameWithoutExtention() {
-    return  'facture_'.$this->facture->identifiant.'_'.str_replace('/', '-', $this->facture->numero_interpro).'_'.$this->facture->numero_facture.'_'.$this->facture->_rev;
+    return  'facture_'.$this->facture->identifiant.'_'.str_replace('/', '-', $this->facture->numero_piece_comptable).'_'.$this->facture->numero_facture.'_'.$this->facture->_rev;
   }
 
   public function getLatexFileNameWithoutExtention() {

@@ -32,9 +32,15 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     public function setDefaults($defaults) {
         parent::setDefaults($defaults);
-        if (array_key_exists('identifiant', $defaults) && $defaults['identifiant']) {
-            $societe = EtablissementClient::getInstance()->find($defaults['identifiant'])->getSociete();
-            $this->setDefault('identifiant', "SOCIETE-" . $societe->identifiant . ',' . $societe->raison_sociale . ' ' . $societe->identifiant . ' / ' . $societe->siege->commune . ' ' . $societe->siege->code_postal . ' (Société)');
+        if ($this->getObject() && $this->getObject() instanceof FactureMouvement) {
+      
+            if ($this->getObject()->getIdentifiant()) {
+
+                $identifiantSociete = preg_replace('/([0-9]{6})([0-9]{2})/', '\1', $this->getObject()->getIdentifiant());
+                $societe = SocieteClient::getInstance()->findByIdentifiantSociete($identifiantSociete);
+
+                $this->setDefault('identifiant', "SOCIETE-" . $societe->identifiant); // "SOCIETE-" . $societe->identifiant . ',' . $societe->raison_sociale . ' ' . $societe->identifiant . ' / ' . $societe->siege->commune . ' ' . $societe->siege->code_postal . ' (Société)');
+            }
         }
         if (array_key_exists('quantite', $defaults) && $defaults['quantite']) {
             $this->setDefault('quantite', -1 * $defaults['quantite']);

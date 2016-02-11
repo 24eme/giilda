@@ -36,9 +36,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $configs = sfConfig::get('app_configuration_facture');
         $emetteur = new stdClass();
 
-        if (!array_key_exists($this->region, $configs['emetteur']))
-            throw new sfException(sprintf('Config %s not found in app.yml', $this->region));
-        $this->emetteur = $configs['emetteur'][$this->region];
+        if (!$configs && !isset($configs['emetteur'])) {
+            throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
+        }
+
+        $this->emetteur = $configs['emetteur'];
     }
 
     public function getCoordonneesBancaire() {
@@ -73,16 +75,24 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getNumeroInterpro() {
-        if ($this->_get('numero_interpro')) {
 
-            return $this->_get('numero_interpro');
-        }
-
-        return preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . $this->numero_archive;
+        return $this->getNumeroPieceComptable();
     }
 
-    public function getNumeroReference() {
-        return substr($this->numero_facture, 6, 2) . ' ' . substr($this->numero_facture, 0, 6);
+    public function getNumeroPieceComptable() {
+        if ($this->_get('numero_piece_comptable')) {
+
+            return $this->_get('numero_piece_comptable');
+        }
+        $prefix = "";
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
+            $prefix = "L";
+        }
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+            $prefix = "C";
+        }
+
+        return $prefix.preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d',$this->numero_archive);
     }
 
     public function getTaxe() {
@@ -184,7 +194,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         foreach ($mvts as $ligneByType) {
             if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == 'Contrat') {
-                $this->storeLigneFromMouvements($ligneByType,  $famille);
+                $this->storeLigneFromMouvements($ligneByType, $famille);
             }
         }
     }
@@ -193,7 +203,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
         $ligne = $this->lignes->add($keyLigne);
-        $origin_mouvement =$ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
+        $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
         if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
         } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
@@ -544,7 +554,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
 
         $this->archivage_document->preSave();
-        $this->numero_interpro = $this->getNumeroInterpro();
+        $this->numero_piece_comptable = $this->getNumeroPieceComptable();
     }
 
     public function storeDeclarant($doc) {

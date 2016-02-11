@@ -154,13 +154,12 @@ all:
         class: AlerteGenerationDRAManquante  
   facture:
     emetteur:
-      VILLE:
-        adresse: 'adresse'
-        code_postal: 'cp'
-        ville: 'ville'
-        service_facturation: 'nom prenom personne'
-        telephone: 'tel - fax'
-        email: 'email@example.org'
+      adresse: 'adresse'
+      code_postal: 'cp'
+      ville: 'ville'
+      service_facturation: 'nom prenom personne'
+      telephone: 'tel - fax'
+      email: 'email@example.org'
   tva:
     taux:
       19700101: 19.6

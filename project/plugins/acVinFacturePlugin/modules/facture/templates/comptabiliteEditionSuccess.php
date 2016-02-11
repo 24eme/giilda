@@ -21,7 +21,7 @@
         <div class="row row-margin">
             <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" >
                 <div class="row">
-                    <div class="col-xs-2 text-center lead text-muted">Numéro Compte</div>
+                    <div class="col-xs-2 text-center lead text-muted">Numéro Compte Produit</div>
                     <div class="col-xs-2 text-center lead text-muted">Code identifiant analytique</div>
                     <div class="col-xs-4 text-center lead text-muted">Libellé compta</div>
                     <div class="col-xs-4 text-center lead text-muted">Libellé sur factures</div>
