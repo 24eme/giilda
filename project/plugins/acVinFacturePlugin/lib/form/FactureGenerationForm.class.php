@@ -12,7 +12,7 @@ class FactureGenerationForm extends BaseForm {
 
     public function configure() {
 
-        $this->setWidget('modele', new sfWidgetFormChoice(array('choices' => $this->getChoices())));
+        $this->setWidget('modele', new bsWidgetFormChoice(array('choices' => $this->getChoices(), 'expanded' => true)));
         $this->setWidget('date_mouvement', new bsWidgetFormInputDate());
         $this->setWidget('date_facturation', new bsWidgetFormInputDate());
         $this->setWidget('message_communication', new sfWidgetFormTextarea());
@@ -32,7 +32,7 @@ class FactureGenerationForm extends BaseForm {
     }
 
     public function getChoices() {
-        $choices = array_merge(array("" => ""), FactureClient::$type_facture_mouvement);
+        $choices = array_merge(FactureClient::$type_facture_mouvement);
 
         return $choices;
     }

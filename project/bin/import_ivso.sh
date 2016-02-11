@@ -68,7 +68,7 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
 nom=trim($2 " " $3 " " $4) ; 
 famille="AUTRE" ; 
-famille=($13 ? "VITICULTEUR" : famille ) ; 
+famille=($13 ? "PRODUCTEUR" : famille ) ; 
 famille=($14 ? "NEGOCIANT" : famille ) ; 
 famille=($15 ? "COURTIER" : famille ) ; 
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
@@ -148,7 +148,7 @@ exclure_v2=$39;
 degre=$23;
 recipient_contenance="";
 prix_unitaire_hl=$24;
-volume_propose=$21;
+volume_propose=$22;
 volume_enleve="";
 
 

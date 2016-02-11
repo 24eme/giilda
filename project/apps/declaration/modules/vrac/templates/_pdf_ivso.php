@@ -1,4 +1,7 @@
-<?php use_helper('Date') ?>
+<?php 
+use_helper('Date');
+use_helper('Display');
+?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
 \usepackage[frenchb]{babel}
@@ -70,22 +73,22 @@
 \def\CONTRATSOUSTITRE{<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>produits dans le Sud-Ouest<?php else: ?>destinés à l'élaboration d'AOP ou d'IGP du Sud-Ouest<?php endif; ?>}
 
 
-\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vrac->vendeur->raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
 \def\CONTRATVENDEURSIRET{<?php echo $vrac->vendeur->siret ?>}
 \def\CONTRATVENDEURACCISES{<?php echo $vrac->vendeur->no_accises ?>}
-\def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse ?>}
-\def\CONTRATVENDEURCOMMUNE{<?php echo $vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
+\def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse); ?>}
+\def\CONTRATVENDEURCOMMUNE{<?php  echo display_latex_string($vrac->vendeur->code_postal.' '.$vrac->vendeur->commune) ?>}
 
 
-\def\CONTRATACHETEUREURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEUREURNOM{<?php  echo display_latex_string($vrac->acheteur->raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
 \def\CONTRATACHETEURSIRET{<?php echo $vrac->acheteur->siret ?>}
 \def\CONTRATACHETEURACCISES{<?php echo $vrac->acheteur->no_accises ?>}
-\def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse ?>}
-\def\CONTRATACHETEURCOMMUNE{<?php echo $vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
+\def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse); ?>}
+\def\CONTRATACHETEURCOMMUNE{<?php echo display_latex_string($vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($vrac->mandataire->raison_sociale) ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{, n° carte professionnelle:~<?php echo $vrac->mandataire->carte_pro ?>}
 
 \def\CONTRATTYPE{Moûts}
@@ -102,7 +105,7 @@
 
 \def\CONTRATDATEMAXENLEVEMENT{<?php echo format_date($vrac->date_limite_retiraison) ?>}
 \def\CONTRATDATEMINENLEVEMENT{<?php echo format_date($vrac->date_debut_retiraison) ?>}
-\def\CONTRATOBSERVATIONS{<?php echo $vrac->conditions_particulieres ?>}
+\def\CONTRATOBSERVATIONS{<?php echo display_latex_string($vrac->conditions_particulieres); ?>}
 \def\CONTRATFRAISDEGARDE{ ~~~~~\euro/hl}
 
 \def\CONTRATMOYENPAIEMENT{<?php echo ($vrac->moyen_paiement) ? VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] : '' ; ?>}

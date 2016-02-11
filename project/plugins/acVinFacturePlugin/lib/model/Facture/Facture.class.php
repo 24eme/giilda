@@ -221,7 +221,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $ligne->libelle .= ' ('.$etb->etablissement->nom.')';
             }
         } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
-            $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE] . ' ' . $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+            $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE];
             $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
         }
 
@@ -232,10 +232,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $detail->taux_tva = 0.2;
         $produit_libelle = "";
         if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
-
             $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
         } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
-            $produit_libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST];
+            $produit_libelle =  $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+            if($ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST]){
+               $produit_libelle.=" (". $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST].")";
+            }
+            
         }
         $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
         if ($transacteur) {
