@@ -39,7 +39,7 @@ use_helper('Date');
         <div class="col-xs-4 text-center">	
             <p style="font-size: 24px;">
                 N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_campagne, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
-                <small class="text-muted"><?php echo preg_replace('/^(....)(.)/', '\1 \2 ', $vrac->numero_contrat); ?></small>
+                <small class="text-muted"><?php echo preg_replace('/^(....)/', '\1 ', $vrac->numero_contrat); ?></small>
             </p>
         </div>
         <div class="col-xs-4 text-right">	
