@@ -1,8 +1,8 @@
 <?php use_helper('Float'); use_helper('Vrac'); ?>
 
+<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
+
 <?php include_component('vrac', 'etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-
-
 
 <form action="" method="post" class="form-horizontal" id="contrat_validation" >
     <?php echo $form->renderHiddenFields() ?>

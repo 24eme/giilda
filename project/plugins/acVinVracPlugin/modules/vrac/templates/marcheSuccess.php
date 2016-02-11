@@ -1,6 +1,8 @@
 <?php use_helper('Float'); use_helper('Vrac'); ?>
 <?php $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut != VracClient::STATUS_CONTRAT_SOLDE)); ?>
 
+<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
+
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form action="" method="post" class="form-horizontal" id="contrat_marche" >
