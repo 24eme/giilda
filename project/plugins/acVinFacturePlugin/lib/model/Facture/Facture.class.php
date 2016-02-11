@@ -9,6 +9,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     private $documents_origine = array();
     protected $declarant_document = null;
     protected $archivage_document = null;
+    protected $etablissements = array();
 
     const MESSAGE_DEFAULT = "";
 
@@ -92,7 +93,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             $prefix = "C";
         }
 
-        return $prefix.preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d',$this->numero_archive);
+        return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
 
     public function getTaxe() {
@@ -200,12 +201,25 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeLigneFromMouvements($ligneByType, $famille) {
-        $keyLigne = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN] . '-' . $this->identifiant . '-' . $ligneByType->key[MouvementfactureFacturationView::KEYS_PERIODE];
 
+        $etablissements = $this->getEtablissements();
+
+        $keysOrigin = array();
+        foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
+            $keysOrigin = explode(':', $origine);
+        }
+
+        $keyLigne = $keysOrigin[0];
         $ligne = $this->lignes->add($keyLigne);
+
         $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
         if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
+            if (count($etablissements) > 1) {
+                $idEtb = $ligneByType->key[MouvementfactureFacturationView::KEYS_ETB_ID];
+                $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
+                $ligne->libelle .= ' ('.$etb->etablissement->nom.')';
+            }
         } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
             $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE] . ' ' . $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
             $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
@@ -218,6 +232,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $detail->taux_tva = 0.2;
         $produit_libelle = "";
         if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+
             $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
         } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
             $produit_libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST];
@@ -227,10 +242,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
         }
         $detail->libelle = $produit_libelle;
-        foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
-            $keysOrigin = explode(':', $origine);
-            $ligne->origine_mouvements->getOrAdd($keysOrigin[0])->add(null, $keysOrigin[1]);
-        }
+        $ligne->origine_mouvements->getOrAdd($keysOrigin[0])->add(null, $keysOrigin[1]);
     }
 
     protected function verifLigneAndVolumeOrigines($ligne) {
@@ -594,6 +606,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getSociete() {
         return SocieteClient::getInstance()->find($this->identifiant);
+    }
+
+    public function getEtablissements() {
+        if (!$this->etablissements) {
+
+            $this->etablissements = $this->getSociete()->getEtablissementsObj();
+        }
+        return $this->etablissements;
     }
 
     public function getCompte() {
