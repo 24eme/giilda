@@ -44,6 +44,8 @@
                 if(next) {
                     next.focus();
                     next.focusChampDefault();
+                } else {
+                    $('form button.btn-success').focus();
                 }
             }
 
