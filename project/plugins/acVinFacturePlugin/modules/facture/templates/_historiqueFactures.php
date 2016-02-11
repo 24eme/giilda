@@ -21,6 +21,7 @@ use_helper('Date');
                         <span class="col-xs-2 text-right"><?php echo echoFloat($f->total_ttc); ?> € TTC</span>
                         <span class="col-xs-3 text-right">
                             <div class="btn-group text-left">                               
+                                <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
                                 <button type="button" class="btn btn-default btn-default-step btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
                                     <span class="caret"></span>
@@ -41,7 +42,6 @@ use_helper('Date');
                                     <?php endif; ?>
                                   
                                 </ul>
-                                <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
                             </div>
                         </span>
                     </li>
