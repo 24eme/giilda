@@ -128,7 +128,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         $defaults = $this->getDefaults();
-        $defaults['type_transaction'] = 'VIN_VRAC';
+        if (!$this->getObject()->type_transaction) {
+            $defaults['type_transaction'] = 'VIN_VRAC';
+        }
         if ($this->getObject()->vendeur_identifiant) {
             $defaults['vendeur_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->vendeur_identifiant;
         }
