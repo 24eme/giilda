@@ -272,7 +272,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getEcheancesPapillon() {
         $echeance = new stdClass();
-        $echeance->echeance_date = Date::addDelaiToDate('+2 month', $this->date_facturation);
+        $echeance->echeance_date = $this->date_echeance;
 
         $echeance->montant_ttc = 0;
         foreach ($this->lignes as $ligne) {
