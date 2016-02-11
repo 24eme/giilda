@@ -43,13 +43,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getCoordonneesBancaire() {
         $coordonneesBancaires = new stdClass();
-        switch ($this->region) {
-            case EtablissementClient::REGION_HORS_CVO:
-                $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
-                $coordonneesBancaires->bic = ' ABRVFQQQ999';
-                $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
-                break;
-        }
+
+        $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
+        $coordonneesBancaires->bic = ' ABRVFQQQ999';
+        $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
+
         return $coordonneesBancaires;
     }
 
