@@ -1,7 +1,7 @@
         <?php
         for($i=0; $i<($max_lignes - $nb_lignes);$i++):
         ?>
-~ & ~ & ~ & ~ & ~ &\\
+~ & ~ & ~ & ~ &\\
         <?php 
         endfor;
         ?>

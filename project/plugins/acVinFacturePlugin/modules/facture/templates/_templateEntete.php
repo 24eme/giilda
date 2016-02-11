@@ -59,13 +59,13 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
-\def\InterloireBANQUE{<?php echo $coordonneesBancaires->banque; ?>}
+\def\InterloireBANQUE{<?php echo str_replace(" ", "~", $coordonneesBancaires->banque); ?>}
 \def\InterloireBIC{<?php echo $coordonneesBancaires->bic; ?>}
 \def\InterloireIBAN{<?php echo $coordonneesBancaires->iban; ?>}
 
 \def\FactureNum{<?php echo $facture->numero_piece_comptable; ?>}
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
-\def\FactureRefClient{<?php echo $facture->identifiant; ?>}
+\def\FactureRefClient{<?php echo $facture->code_comptable_client; ?>}
 
 \def\FactureClientNom{<?php $nom = ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale; 
                             echo display_latex_string($nom,';',40);

@@ -1,30 +1,34 @@
-<p id="fil_ariane"><strong>Page d'accueil</strong></p>
-<div class="row">
-    <div id="contenu_etape" class="col-xs-12">
-        <?php include_component('facture', 'chooseSociete'); ?>
-        <div class="row row-margin">
-            <div class="col-xs-12">
-                <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default pull-right">Facturation libre</a>
-            </div>
-        </div>
-        <br/>
-        <div class="row row-margin">
-            <div class="col-xs-12">
-                <a href="<?php echo url_for('comptabilite_edition'); ?>" class="btn btn-md btn-default pull-right">Gérer les identifiants analytiques</a>
-            </div>
-        </div>
-         <br/>
-        <div class="row row-margin">
-            <div class="col-xs-12">
-                <a href="<?php echo url_for('facture_generation'); ?>" class="btn btn-md btn-default pull-right">Génération de facture</a>
-            </div>
-        </div>
-        <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
-        <?php include_component('facture','generationMasse'); ?>
-    </div>
-</div>
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('facture') ?>">Page d'accueil</a></li>
+</ol>
+
 <div class="row">
     <div class="col-xs-12">
-        <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-default btn-xs">Mouvements de Facture</a>
+        <?php include_component('facture', 'chooseSociete'); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Génération des factures</h3>
+        <div class="row">
+            <div class="col-xs-12">
+                <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
+            </div>
+            <div class="col-xs-8">
+                <h3>Générer toutes les factures</h3>
+                <?php include_component('facture','generationMasse'); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Facturation libre</h3>
+        <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
+         <a href="<?php echo url_for('comptabilite_edition'); ?>" class="btn btn-md btn-default">Gérer les identifiants analytiques</a>
     </div>
 </div>
