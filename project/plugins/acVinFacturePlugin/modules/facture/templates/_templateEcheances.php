@@ -6,7 +6,7 @@ use_helper('Date');
 
 \begin{minipage}[b]{1\textwidth}
 
-\begin{tabular}{|p{0mm} p{70mm} | p{36mm} p{36mm} p{36mm}}
+\begin{tabular}{|p{0mm} p{87mm} | p{36mm} p{36mm} p{36mm}|}
             \hline
 	\multicolumn{2}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Modalités de règlement}}} &
 	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\  	
@@ -21,7 +21,7 @@ use_helper('Date');
     \multicolumn{1}{c}{\small{Montant TTC}} \\
                         
                 \centering \small{~} & 
-                \centering \fontsize{7}{8}\selectfont Par virement : \fontsize{6}{7}\selectfont RIB~:~\InterloireBANQUE \\  BIC:~\InterloireBIC~IBAN:~\InterloireIBAN &
+                \centering \fontsize{7}{8}\selectfont Par virement bancaire : \InterloireBANQUE \\  \textbf{BIC~:}~\InterloireBIC~\textbf{IBAN~:}~\InterloireIBAN &
       
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefClient~/~\FactureNum} &               
