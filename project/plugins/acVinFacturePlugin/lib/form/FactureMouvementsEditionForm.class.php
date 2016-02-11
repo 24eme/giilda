@@ -70,6 +70,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             foreach ($mouvementsForm->getEmbeddedForms() as $keyMvt => $mvt) {
                 $mvtValues = $values[$mouvementsKey][$keyMvt];
                 if ($mvtValues['identifiant']) {
+                    $societe = SocieteClient::getInstance()->find($mvtValues['identifiant']);
                     $societeIdentifiant = str_replace('SOCIETE-', '', $mvtValues['identifiant']);
                     $keys = explode('_', $keyMvt);
                     $idEtb = ($keys[0] == 'nouveau') ? $societeIdentifiant . '01' : $keys[0];
@@ -81,7 +82,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
                     $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
                     $mvtObj->facture = 0;
                     $mvtObj->facturable = 1;
-                    $mvtObj->region = "REGION_CVO";
+                    $mvtObj->region = $societe->getRegionViticole();
                     $mvtObj->date = date('Y-m-d');
                 }
             }

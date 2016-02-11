@@ -24,7 +24,7 @@ use_helper('Date');
                 \centering \fontsize{7}{8}\selectfont Par virement bancaire : \InterloireBANQUE \\  \textbf{BIC~:}~\InterloireBIC~\textbf{IBAN~:}~\InterloireIBAN &
       
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \centering \small{\FactureRefClient~/~\FactureNum} &               
+                \centering \small{\FactureRefCodeComptableClient~/~\FactureNum} &               
                 \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
 
                 \CutlnPapillon
