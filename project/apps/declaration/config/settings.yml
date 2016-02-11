@@ -32,7 +32,7 @@ ivso:
     error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_DEPRECATED)."\n" ?>
     web_debug:              true
     cache:                  true
-    no_script_name:         false
+    no_script_name:         true
     etag:                   false
   .action:
     error_500_includeexception: true
@@ -42,7 +42,7 @@ ivbd:
     error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_DEPRECATED)."\n" ?>
     web_debug:              true
     cache:                  true
-    no_script_name:         false
+    no_script_name:         true
     etag:                   false
   .action:
     error_500_includeexception: true
