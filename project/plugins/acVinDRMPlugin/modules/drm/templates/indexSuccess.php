@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('drm') ?>" class="active">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('drm') ?>" class="active">DRM</a></li>
 </ol>
 
 <div class="row">

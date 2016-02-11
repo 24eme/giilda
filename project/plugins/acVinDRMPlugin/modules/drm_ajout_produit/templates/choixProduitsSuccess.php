@@ -1,6 +1,8 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
 
+<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+
 <!-- #principal -->
 <section id="principal" class="drm">
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
