@@ -43,7 +43,7 @@ class FactureGenerationMasseForm extends FactureGenerationForm {
     }
 
     public function getRegions() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterpro();
     }
 
     public function getTypesDocument() {

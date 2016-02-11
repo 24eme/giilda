@@ -55,7 +55,7 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getODGs() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterpro();
     }
 
     public function deleteRow($revendication, $identifiant, $produit, $row) {

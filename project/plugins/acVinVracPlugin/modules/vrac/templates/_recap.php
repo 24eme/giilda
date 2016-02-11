@@ -154,7 +154,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
             <ul class="list-group">
 
 
-                <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->taux_courtage || $vrac->tva): ?>
+                <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->courtage_taux || $vrac->tva): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
                             <?php if ($vrac->delai_paiement_libelle): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><?php endif; ?>
@@ -163,7 +163,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                             <?php if ($vrac->tva): ?>Facturation <strong><?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?></strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">
-                            <?php if ($vrac->taux_courtage): ?>Taux de courtage : <strong><?php echo $vrac->taux_courtage ?></strong>% (<?php if ($vrac->taux_repartition): ?><strong><?php echo VracConfiguration::getInstance()->getRepartitionCourtage()[$vrac->taux_repartition] ?></strong><?php endif; ?>)<?php endif; ?>
+                            <?php if ($vrac->courtage_taux): ?>Taux de courtage : <strong><?php echo $vrac->courtage_taux ?></strong>% (<?php if ($vrac->courtage_repartition): ?><strong><?php echo VracConfiguration::getInstance()->getRepartitionCourtage()[$vrac->courtage_repartition] ?></strong><?php endif; ?>)<?php endif; ?>
                             <br />
                             <?php if ($vrac->acompte): ?>Acompte : <strong><?php echo $vrac->acompte ?></strong>€<?php endif; ?>
                         </span>         

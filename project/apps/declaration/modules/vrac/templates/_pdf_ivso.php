@@ -105,8 +105,8 @@
 \def\CONTRATOBSERVATIONS{<?php echo $vrac->conditions_particulieres ?>}
 \def\CONTRATFRAISDEGARDE{ ~~~~~\euro/hl}
 
-\def\CONTRATMOYENPAIEMENT{<?php echo VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] ?>}
-\def\CONTRATDELAIPAIEMENT{<?php echo VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] ?>}
+\def\CONTRATMOYENPAIEMENT{<?php echo ($vrac->moyen_paiement) ? VracConfiguration::getInstance()->getMoyensPaiement()[$vrac->moyen_paiement] : '' ; ?>}
+\def\CONTRATDELAIPAIEMENT{<?php echo ($vrac->delai_paiement) ? VracConfiguration::getInstance()->getDelaisPaiement()[$vrac->delai_paiement] : '' ; ?>}
 \def\CONTRATACOMPTE{<?php echo $vrac->acompte ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
 
@@ -119,7 +119,7 @@
 
 \def\CONTRATGENERIQUEDOMAINE{<?php echo $vrac->renderLabels(); ?>}
 \def\CONTRATCONDITIONNEMENT{<?php if ($vrac->conditionnement_crd == 'NEGOCE_ACHEMINE'): ?>\textbf{P} : Vin préparé pour la mise en bouteille<?php elseif ($vrac->conditionnement_crd == 'ACHAT_TIRE_BOUCHE'): ?>\textbf{TB} : Tiré Bouché<?php else: ?>\textbf{N} : Vin non préparé<?php endif;?>}
-\def\CONTRATTAUXCOURTAGE{<?php echo $vrac->taux_courtage ?>}
+\def\CONTRATTAUXCOURTAGE{<?php echo $vrac->courtage_taux ?>}
 
 \begin{document}
 
@@ -266,8 +266,8 @@ Autorisation d'utilisation du nom du vin.\\
 Autorisation d'utilisation du nom du producteur.\\
 <?php endif; ?>
 <?php endif; ?>
-<?php if ($vrac->taux_courtage): ?>
-Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\% <?php if ($vrac->taux_repartition): ?>(\textbf{<?php echo VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->taux_repartition] ?>})<?php endif; ?> \\
+<?php if ($vrac->courtage_taux): ?>
+Taux de courtage : \textbf{\CONTRATTAUXCOURTAGE}\% <?php if ($vrac->courtage_repartition): ?>(\textbf{<?php echo VracConfiguration::getInstance()->getRepartitionCvo()[$vrac->courtage_repartition] ?>})<?php endif; ?> \\
 <?php endif; ?>
 Date de début de retiraison : \textbf{\CONTRATDATEMINENLEVEMENT}\\
 Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\

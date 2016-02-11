@@ -35,7 +35,7 @@ class RelanceGenerationMasseForm extends BaseForm {
     }
 
     public function getRegions() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterpro();
     }
 
     public function getTypesRelance() {

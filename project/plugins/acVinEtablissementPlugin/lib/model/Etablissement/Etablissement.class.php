@@ -186,8 +186,8 @@ class Etablissement extends BaseEtablissement {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
 
-    public function isInterLoire() {
-        return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
+    public function isInterpro() {
+        return ($this->region != EtablissementClient::REGION_HORS_CVO);
     }
 
     protected function synchroRecetteLocale() {

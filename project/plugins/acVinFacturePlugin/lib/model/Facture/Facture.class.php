@@ -45,13 +45,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getCoordonneesBancaire() {
         $coordonneesBancaires = new stdClass();
-        switch ($this->region) {
-            case EtablissementClient::HORS_REGION:
-                $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
-                $coordonneesBancaires->bic = ' ABRVFQQQ999';
-                $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
-                break;
-        }
+
+        $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
+        $coordonneesBancaires->bic = ' ABRVFQQQ999';
+        $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
+
         return $coordonneesBancaires;
     }
 
@@ -284,7 +282,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getEcheancesPapillon() {
         $echeance = new stdClass();
-        $echeance->echeance_date = Date::addDelaiToDate('+2 month', $this->date_facturation);
+        $echeance->echeance_date = $this->date_echeance;
 
         $echeance->montant_ttc = 0;
         foreach ($this->lignes as $ligne) {
