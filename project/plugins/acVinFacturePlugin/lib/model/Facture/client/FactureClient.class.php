@@ -67,6 +67,7 @@ class FactureClient extends acCouchdbClient {
         $facture->constructIds($societe);
         $facture->storeEmetteur();
         $facture->storeDeclarant($societe);
+        
         $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);
         $facture->updateTotalHT();
         $facture->updateAvoir();
