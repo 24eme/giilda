@@ -361,7 +361,7 @@ class Vrac extends BaseVrac {
 
     public function calculCvoRepartition() {
         
-        if (!$this->getAcheteurObject()->isInterLoire()) {
+        if (!$this->getAcheteurObject()->isInterpro()) {
 
             return VracClient::CVO_REPARTITION_100_VITI; 
         }
@@ -551,7 +551,7 @@ class Vrac extends BaseVrac {
         if (!$isRaisinMout)
             return false;
         $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
-        return !$nego->isInterLoire();
+        return !$nego->isInterpro();
     }
 
     public function isVitiRaisinsMoutsTypeVins() {
@@ -881,9 +881,19 @@ class Vrac extends BaseVrac {
         }
         return $etablissement->famille === $etb_type;
     }
-    
-//    public function setDomaine($domaine) {
-//        $this->domaine = strtoupper(KeyInflector::unaccent($domaine));
-//    }
+
+    /* Méthode introduire lors du changement de schéma (finetuning) == à virer pour la mise en prod */
+    public function getCourtageTaux() {
+        if (!$this->exist('courtage_taux')) {
+            return $this->get('repartition_taux');
+        }
+        return $this->_get('courtage_taux');
+    }
+    public function getCourtageRepartition() {
+        if (!$this->exist('courtage_repartition')) {
+            return $this->get('taux_repartition');
+        }
+        return $this->_get('courtage_repartition');
+    }
     
 }

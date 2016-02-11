@@ -134,9 +134,9 @@ EOF;
 
   protected function getODG($line) {
 
-    $regions = array('T' => EtablissementClient::REGION_TOURS,
-                     'N' => EtablissementClient::REGION_NANTES,
-                     'A' => EtablissementClient::REGION_ANGERS);
+    $regions = array('T' => EtablissementClient::REGION_CVO,
+                     'N' => EtablissementClient::REGION_CVO,
+                     'A' => EtablissementClient::REGION_CVO);
 
     if(!array_key_exists($line[self::CSV_LIGNE_REGION], $regions)) {
 

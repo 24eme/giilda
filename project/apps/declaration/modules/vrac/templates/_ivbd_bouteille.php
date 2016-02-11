@@ -88,8 +88,8 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \def\CONTRATMOYENPAIEMENT{<?php echo (array_key_exists($vrac->moyen_paiement, $moyensDePaiements))? $moyensDePaiements[$vrac->moyen_paiement] : ''; ?>}
 \def\CONTRATDELAIPAIEMENT{<?php echo (array_key_exists($vrac->delai_paiement, $delaisDePaiements))? $delaisDePaiements[$vrac->delai_paiement] : '' ?>}
 
-\def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->taux_courtage ?>}
-\def\CONTRATREPARTITION{<?php echo (array_key_exists($vrac->taux_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->taux_repartition]) : '' ?>}
+\def\CONTRATPOURCENTAGECOURTAGE{<?php echo $vrac->courtage_taux ?>}
+\def\CONTRATREPARTITION{<?php echo (array_key_exists($vrac->courtage_repartition, $contratRepartitions))? str_replace('%', '\%', $contratRepartitions[$vrac->courtage_repartition]) : '' ?>}
 
 \def\DATELIMITERETIRAISON{<?php echo date("d/m/Y", strtotime($vrac->date_limite_retiraison)); ?>}
 

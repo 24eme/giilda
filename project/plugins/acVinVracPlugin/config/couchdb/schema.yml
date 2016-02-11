@@ -33,7 +33,7 @@ Vrac:
       autorisation_nom_producteur: { }
       millesime_85_15: { }
       cepage_85_15: { }
-      taux_courtage: { type: float }
+      courtage_taux: { type: float }
       preparation_vin: { }
       embouteillage: { }
       conditionnement_crd: { }
@@ -191,7 +191,11 @@ Vrac:
       cvo_nature: { }
       #cvo_repartition float ou string? "50/50" ou 0.5
       cvo_repartition: { }
-      taux_repartition: { }
+      courtage_repartition: { }
+      
+      #A virer (finetuning)
+      taux_courtage: {require: false}
+      taux_repartition: { type: float, require:false }
 
       #commentaires
       commentaire: { }

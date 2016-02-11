@@ -59,7 +59,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \def\InterloireSIRET{429 164 072 00077}
 \def\InterloireAPE{APE 9499 Z} 
 \def\InterloireTVAIntracomm{FR 73 429164072}
-\def\InterloireBANQUE{<?php echo $coordonneesBancaires->banque; ?>}
+\def\InterloireBANQUE{<?php echo str_replace(" ", "~", $coordonneesBancaires->banque); ?>}
 \def\InterloireBIC{<?php echo $coordonneesBancaires->bic; ?>}
 \def\InterloireIBAN{<?php echo $coordonneesBancaires->iban; ?>}
 

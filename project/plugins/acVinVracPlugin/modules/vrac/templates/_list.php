@@ -35,7 +35,14 @@
                 $vracid = preg_replace('/VRAC-/', '', $elt[VracHistoryView::VALUE_NUMERO]);
                 $v = VracClient::getInstance()->findByNumContrat($vracid);
                 ?>
-                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($elt[VracHistoryView::VALUE_ACHETEUR_NOM]), strtolower($elt[VracHistoryView::VALUE_VENDEUR_NOM]), strtolower($elt[VracHistoryView::VALUE_MANDATAIRE_NOM]), strtolower($elt[VracHistoryView::VALUE_PRODUITLIBELLE]), strtolower($elt[VracClient::VRAC_VIEW_NUMARCHIVE]), strtolower($elt[VracHistoryView::VALUE_MILLESIME]), strtolower(VracClient::$types_transaction[$elt[VracHistoryView::VALUE_TYPE]]))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracHistoryView::VALUE_STATUT]) ?> hamzastyle-item" >
+                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($elt[VracHistoryView::VALUE_ACHETEUR_NOM]), 
+                                                                         strtolower($elt[VracHistoryView::VALUE_VENDEUR_NOM]), 
+                                                                         strtolower($elt[VracHistoryView::VALUE_MANDATAIRE_NOM]), 
+                                                                         strtolower($elt[VracHistoryView::VALUE_PRODUITLIBELLE]), 
+                                                                         strtolower($elt[VracClient::VRAC_VIEW_NUMARCHIVE]), 
+                                                                         strtolower($elt[VracHistoryView::VALUE_MILLESIME]), 
+                                                                         strtolower(VracClient::$types_transaction[$elt[VracHistoryView::VALUE_TYPE]]))
+                                                       ), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracHistoryView::VALUE_STATUT]) ?> hamzastyle-item" >
                     <td style="vertical-align: middle;" class="text-center">
                     <span class="<?php echo typeToPictoCssClass($elt[VracHistoryView::VALUE_TYPE]) ?>" style="font-size: 24px;"></span>
                     </td>
