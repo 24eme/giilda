@@ -616,8 +616,7 @@ class vracActions extends sfActions {
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
-
-               
+                
                 $this->redirect('vrac_visualisation', $this->vrac);
             }
         }
