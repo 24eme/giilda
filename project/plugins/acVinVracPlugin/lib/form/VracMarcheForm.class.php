@@ -76,13 +76,13 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->setValidator('millesime', new sfValidatorInteger(array('required' => true)));
         $this->setValidator('categorie_vin', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCategoriesVin()))));
         $this->setValidator('domaine', new sfValidatorString(array('required' => false)));
-        $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => true)));
+        $this->setValidator('raisin_quantite', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('jus_quantite', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
         $this->setValidator('degre', new sfValidatorNumber(array('required' => false, 'min' => 7, 'max' => 15)));
-        $this->setValidator('surface', new sfValidatorNumber(array('required' => true)));
+        $this->setValidator('surface', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('selection', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('millesime_85_15', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('cepage_85_15', new sfValidatorBoolean(array('required' => false)));

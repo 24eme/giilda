@@ -150,12 +150,16 @@
                     </div>
                     <div class="panel-body">                        
                         <div class="col-sm-12">	
+                            <?php if(isset($form['lot'])): ?>
                             <div class="col-sm-6">	
                         <?php echo $form['lot']->renderError(); ?>
                             </div>
+                        <?php endif; ?>
+                        <?php if(isset($form['degre'])): ?>
                                 <div class="col-sm-6">	
                         <?php echo $form['degre']->renderError(); ?>
                                 </div>
+                             <?php endif; ?>
                          </div>	
                         <div class="col-sm-12">	
                         <?php if(isset($form['lot'])): ?>

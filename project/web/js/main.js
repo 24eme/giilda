@@ -30,6 +30,10 @@
         $(options.selectors.ajaxModal).on("hidden.bs.modal", function (e) {
             $(this).html("");
         });
+
+        if($('.firstFocus').length) {
+            $('.firstFocus').eq(0).focus();
+        }
     });
     
     $.fn.initAdvancedElements = function () {

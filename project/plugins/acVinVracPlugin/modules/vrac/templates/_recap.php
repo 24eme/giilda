@@ -119,6 +119,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                             <h3>
                                 <?php if ($vrac->jus_quantite): ?><?php echo $vrac->jus_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['jus_quantite']['libelle'] ?><?php endif; ?>
                                 <?php if ($vrac->raisin_quantite): ?><?php echo $vrac->raisin_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['raisin_quantite']['libelle'] ?><?php endif; ?>
+                                <?php if ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS && !$vrac->raisin_quantite && $vrac->surface): ?><?php echo $vrac->surface ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?><?php endif; ?>
                                 <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
                             </h3>
                         <?php endif; ?>
