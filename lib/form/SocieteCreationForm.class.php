@@ -9,7 +9,7 @@
  * Description of class SocieteCreationForm
  * @author mathurin
  */
-class SocieteCreationForm extends sfForm {
+class SocieteCreationForm extends baseForm {
 
     private $societe_types;
     
@@ -24,8 +24,8 @@ class SocieteCreationForm extends sfForm {
     public function configure() {
         parent::configure();
 
-        $this->setWidget('raison_sociale', new sfWidgetFormInput());
-        $this->setWidget('type', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes(), 'expanded' => false)));
+        $this->setWidget('raison_sociale', new bsWidgetFormInput());
+        $this->setWidget('type', new bsWidgetFormChoice(array('choices' => $this->getSocieteTypes(), 'expanded' => false)));
 
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('type', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
