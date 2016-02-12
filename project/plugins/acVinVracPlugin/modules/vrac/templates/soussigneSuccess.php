@@ -62,7 +62,7 @@ endif;
                     <?php echo $form['type_transaction']->renderError(); ?>
                     <div class="form-group <?php if($form['type_transaction']->hasError()): ?>has-error<?php endif; ?>">
                         <div class="col-sm-12 text-center">
-                            <?php echo $form['type_transaction']->render(); ?>
+                            <?php echo $form['type_transaction']->render(array('class' => 'firstFocus')); ?>
                         </div>
                     </div>
                 </div>
@@ -282,7 +282,7 @@ endif;
             <?php if ($isTeledeclarationMode): ?>
                 <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a> 
             <?php else: ?>                        
-                <a tabindex="-1" href="<?php echo url_for('vrac'); ?>" class="btn btn-default">Suspendre la saisie</a> 
+                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a> 
             <?php endif; ?>
         </div>
         <div class="col-xs-4 text-center">

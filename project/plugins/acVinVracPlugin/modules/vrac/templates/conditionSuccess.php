@@ -20,7 +20,7 @@
 		        	<?php if (isset($form['delai_paiement'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['delai_paiement']->renderError(); ?>
-		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label')); ?>
+		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label firstFocus')); ?>
 		                <div class="col-sm-7">
 		                    <?php echo $form['delai_paiement']->render(); ?>
 		                </div>
@@ -86,8 +86,9 @@
                     <h3 class="panel-title"><label>Retiraison</label></h3>
                 </div>
                 <div class="panel-body">
+                    <div class="col-sm-6">
 		        	<?php if (isset($form['date_debut_retiraison'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['date_debut_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+		            <div class="form-group  <?php if($form['date_debut_retiraison']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['date_debut_retiraison']->renderError(); ?>
                         <?php echo $form['date_debut_retiraison']->renderLabel("Date début de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-7">
@@ -95,8 +96,19 @@
                         </div>
 		            </div>
 		            <?php endif; ?>
+		        	<?php if (isset($form['date_limite_retiraison'])): ?>
+		            <div class="form-group  <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['date_limite_retiraison']->renderError(); ?>
+                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-7">
+                            <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+                    </div>
+                    <div class="col-sm-6">
 		            <?php if(isset($form['clause_reserve_propriete'])): ?>
-						<div class="form-group col-sm-6">
+						<div class="form-group">
 							<?php echo $form['clause_reserve_propriete']->renderError(); ?>
 							<div class="checkbox col-sm-7 col-sm-offset-5">
 								<label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
@@ -106,15 +118,7 @@
 							</div>
 						</div>
 					<?php endif; ?>
-		        	<?php if (isset($form['date_limite_retiraison'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
-                        <?php echo $form['date_limite_retiraison']->renderError(); ?>
-                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
-                        <div class="col-sm-7">
-                            <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
-                        </div>
-		            </div>
-		            <?php endif; ?>
+                    </div>
                 </div>
             </div>
            <?php if (isset($form['preparation_vin']) || isset($form['embouteillage']) || isset($form['conditionnement_crd'])): ?>
@@ -270,14 +274,18 @@
             <?php endif; ?>
             
         </div>
+    </div>
 
     <div class="row">
         <div class="col-xs-4 text-left">
-            <a href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+            <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_marche',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
                 <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
+              <?php endif; ?> 
+           <?php if (!$isTeledeclarationMode) : ?>
+                <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</button>
             <?php endif; ?>  
         </div>
         <div class="col-xs-4 text-right">

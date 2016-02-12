@@ -13,6 +13,11 @@
  */
 class ValidatorVracSoussigne extends sfValidatorBase {
 
+    public function __construct($options = array(), $messages = array()) {
+        parent::__construct($options, $messages);
+        $this->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
+    }
+    
     protected function doClean($values) {
 
         $errorSchema = new sfValidatorErrorSchema($this);

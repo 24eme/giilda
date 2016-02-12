@@ -1,6 +1,8 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
 
+<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+
 <!-- #principal -->
 <section id="principal" class="drm">
 

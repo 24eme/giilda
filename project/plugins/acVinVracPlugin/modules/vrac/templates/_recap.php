@@ -29,7 +29,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
     ?>
     <div class="col-xs-<?php echo $colsize; ?>">
         <div class="panel panel-default">
-            <div class="panel-heading"><strong>Vendeur</strong> <?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if ($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
+            <div class="panel-heading"><strong>Vendeur</strong> <?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if ($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right firstFocus">Modifier</a><?php endif; ?></div>
             <div class="text-center panel-body">
             	<?php if (!$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->vendeur_identifiant)) ?>"><?php endif; ?>
                 <strong><?php echo $vrac->getVendeurObject()->getNom(); ?></strong>
@@ -119,6 +119,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                             <h3>
                                 <?php if ($vrac->jus_quantite): ?><?php echo $vrac->jus_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['jus_quantite']['libelle'] ?><?php endif; ?>
                                 <?php if ($vrac->raisin_quantite): ?><?php echo $vrac->raisin_quantite ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['raisin_quantite']['libelle'] ?><?php endif; ?>
+                                <?php if ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS && !$vrac->raisin_quantite && $vrac->surface): ?><?php echo $vrac->surface ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['surface']['libelle'] ?><?php endif; ?>
                                 <?php if ($vrac->prix_initial_unitaire): ?> <small>à</small> <?php echo $vrac->prix_initial_unitaire ?> <?php echo VracConfiguration::getInstance()->getUnites()[$vrac->type_transaction]['prix_initial_unitaire']['libelle'] ?><?php endif; ?>
                             </h3>
                         <?php endif; ?>

@@ -49,5 +49,9 @@ class DRMDetails extends BaseDRMDetails {
 
         return ($key) ? $key : DRM::DEFAULT_KEY;
     }    
+    
+    public function hasTypeDoc(){
+        return true;
+    }
 
 }

@@ -343,7 +343,7 @@
 
         this.focusChampDefault = function () {
             var tabIndex = this.element.attr('data-input-focus');
-            var field = this.element.find('input[tabindex='+tabIndex+']');
+            var field = this.element.find('input[tabindex=' + tabIndex + ']');
             field.focus();
         }
 
@@ -360,6 +360,29 @@
         this.isFocus = function () {
 
             return this.element.hasClass('col_focus');
+        }
+
+        this.isShow = function () {
+            return this.element.is(':visible');
+        }
+
+        this.hide = function () {
+            if (!this.isActive()) {
+                this.unActive();
+                if (this.getNext()) {
+                    this.getNext().focus();
+                    this.getNext().focusChampDefault();
+                }
+                this.element.hide();
+                return true;
+            }
+            return false;
+        }
+
+        this.show = function () {
+            this.unActive();
+            return this.element.show();
+            return true;
         }
 
         this.reinit = function () {
@@ -407,12 +430,6 @@
                 object.unActive();
 
                 object.colonnes.event_valider(object);
-                var select2Produit = $("#s2id_produit_declaration_hashref").data('select2');
-                setTimeout(function () {
-                    if (!select2Produit.opened()) {
-                        select2Produit.open();
-                    }
-                }, 0);
 
             }, 'json');
         }
@@ -442,6 +459,21 @@
             return this.groupes.totalDontRevendique();
         }
 
+        this.getNext = function () {
+            var find = false;
+            for (key in this.colonnes.colonnes) {
+                if (find) {
+                    return this.colonnes.colonnes[key];
+                }
+                if ((this.colonnes.colonnes[key] instanceof ColonneProduit && this.colonnes.colonnes[key].getHash() == this.getHash())
+                        && this.colonnes.colonnes[key].isShow()) {
+                    find = true;
+                }
+            }
+
+            return null;
+        }
+
         this.getHash = function () {
 
             return this.element.attr('data-hash');
@@ -468,27 +500,25 @@
 
         this._initClavier = function () {
             var object = this;
-            
-
 
             this.element.keydown(function (e)
             {
                 if (e.keyCode == 27)
                 {
-                	var hasModal = false;
-                	$(".modal").each(function() {
-                		if ($(this).hasClass('in')) {
-                			$("#"+$(this).attr('id')).modal('hide');
-                			hasModal = true;
-                		}
-                	});
-                	if (!hasModal) {
-                		object.reinit();
-                	}
+                    var hasModal = false;
+                    $(".modal").each(function () {
+                        if ($(this).hasClass('in')) {
+                            $("#" + $(this).attr('id')).modal('hide');
+                            hasModal = true;
+                        }
+                    });
+                    if (!hasModal) {
+                        object.reinit();
+                    }
                     e.preventDefault();
                 }
             });
-            
+
         }
     }
 

@@ -1,10 +1,10 @@
 <?php
 use_helper('Float');
-?>    
+?>
 
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('facture') ?>">Page d'accueil</a></li>
-    <li><a href="<?php echo url_for('facture_societe', $societe) ?>" class="active"><?php echo $societe->raison_sociale ?></a></li>
+    <li><a href="<?php echo url_for('facture') ?>">Factures</a></li>
+    <li><a href="<?php echo url_for('facture_societe', $societe) ?>" class="active"><?php echo $societe->raison_sociale ?> (<?php echo $societe->identifiant ?>)</a></li>
 </ol>
 
 <div class="row">

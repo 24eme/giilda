@@ -19,7 +19,7 @@
      ));
 
       include_component('global', 'navItem', array(
-            'libelle' => 'Facture',
+            'libelle' => 'Factures',
             'prefix' => 'facture',
             'route' => 'facture',
             'route_etablissement' => 'facture_etablissement',

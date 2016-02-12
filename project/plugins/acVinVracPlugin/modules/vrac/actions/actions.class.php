@@ -481,7 +481,16 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(1);
                 $this->form->save();
+
+                if($request->getParameter('precedent')) {
+
+                    return $this->redirect('vrac');
+                }
+
                 $this->redirect('vrac_marche', $this->vrac);
+            } elseif($request->getParameter('precedent')) {
+                
+                return $this->redirect('vrac');
             }
         }
     }
@@ -520,9 +529,15 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(2);
                 $this->form->save();
-                $this->redirect('vrac_condition', $this->vrac);
-            } else {
+
+                if($request->getParameter('redirect')) {
+                    return $this->redirect($request->getParameter('redirect'));
+                }
+
+                return $this->redirect('vrac_condition', $this->vrac);
+            } elseif($request->getParameter('redirect')) {
                 
+                return $this->redirect($request->getParameter('redirect'));
             }
         }
     }
@@ -551,8 +566,15 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(3);
                 $this->form->save();
+
+                if($request->getParameter('redirect')) {
+                    return $this->redirect($request->getParameter('redirect'));
+                }
+
                 $this->redirect('vrac_validation', $this->vrac);
-            }
+            } elseif($request->getParameter('redirect')) {
+                    return $this->redirect($request->getParameter('redirect'));
+                }
         }
     }
 
@@ -594,6 +616,7 @@ class vracActions extends sfActions {
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
+                
                 $this->redirect('vrac_visualisation', $this->vrac);
             }
         }

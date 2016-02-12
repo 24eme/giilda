@@ -46,7 +46,7 @@ curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(cu
 php symfony import:configuration CONFIGURATION data/import/configuration/ivso
 php symfony cc > /dev/null
 
-cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan Bigorre/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne Condomois/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan Tarn et Garonne/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan Coteaux et Terrasses de Montauban/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan Pyrénées Atlantiques/' | sed 's/IGP Cantal/IGP Comté Tolosan Cantal/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' | sed 's/IGP Lot et Garonne/IGP/' > $DATA_DIR/produits_conversion.csv
+cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan/' | sed 's/IGP Cantal/IGP Comté Tolosan/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' | sed 's/IGP Lot et Garonne/IGP/' > $DATA_DIR/produits_conversion.csv
 cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
 
 echo "Construction du fichier d'import des Contacts"
@@ -74,11 +74,11 @@ famille=($15 ? "COURTIER" : famille ) ;
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
 nom=nom ; 
 if (famille == "AUTRE") next ;
-  
+region="REGION_CVO";  
 identifiant_societe=sprintf("%06d", $1);
 identifiant=identifiant_societe "01";
 
-print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";HORS_REGION;" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
@@ -303,7 +303,7 @@ ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
-    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true
 #    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --creation-depuis-precedente=true
 done
 

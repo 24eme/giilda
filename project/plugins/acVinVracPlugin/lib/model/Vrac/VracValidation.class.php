@@ -24,12 +24,14 @@ class VracValidation extends DocumentValidation {
         } else {
             $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
-            $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
+            $this->addControle('vigilance', 'contrats_similaires', null);
             $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
         }
         $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
         $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
         $this->addControle('erreur', 'viti_raisins_mouts_type_vins', "Le viticulteur ne peut pas faire de contrats de vins (il possède une exclusivité de raisins/moûts)");
+        $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
+        $this->addControle('vigilance', 'quantite_raisin_expected', "La quantité n'a pas été saisis");
     }
 
     public function controle() {
@@ -47,26 +49,37 @@ class VracValidation extends DocumentValidation {
             /*if ($this->document->isVin() && $this->document->volume_propose > $this->document->getStockCommercialisable()) {
                 $this->addPoint('vigilance', 'stock_commercialisable_negatif', 'modifier le volume', $this->generateUrl('vrac_marche', $this->document));
             }*/
-
-            $nbsimilaires = count(array_keys(VracClient::getInstance()->retrieveSimilaryContracts($this->document)));
-            if ($nbsimilaires) {
-                $this->addPoint('vigilance', 'contrats_similaires', 'Il y a ' . $nbsimilaires . ' contrat(s) similaire(s)');
+            $contrats_similaires = VracClient::getInstance()->retrieveSimilaryContracts($this->document);
+            if ($nbsimilaires = count(array_keys($contrats_similaires))) {
+                 $contrat_similaires_str = $nbsimilaires . ' contrat(s) similaire(s) possèdant les même soussignés, produit et volume (ou quantité) ';
+                 foreach ($contrats_similaires as $contrat_similaire){
+                     $vrac_sim = VracClient::getInstance()->find($contrat_similaire->id);
+                     $contrat_similaires_str.= "&nbsp;&nbsp;&nbsp;  <a href='".  $this->generateUrl('vrac_visualisation',$vrac_sim)."'>".substr($vrac_sim->getNumeroContrat(),0,4).' '.substr($vrac_sim->getNumeroContrat(),4)."</a>";
+                 }
+                $this->addPoint('vigilance', 'contrats_similaires',$contrat_similaires_str);
             }
 
             if ($this->document->hasPrixVariable() && !$this->document->hasPrixDefinitif()) {
-                $this->addPoint('vigilance', 'prix_definitif_expected', 'saisir le prix définitif', $this->generateUrl('vrac_marche', $this->document));
+                $this->addPoint('vigilance', 'prix_definitif_expected', 'Saisir le prix définitif', $this->generateUrl('vrac_marche', $this->document));
             }
         }
 
-        if (!$this->document->volume_propose) {
-            $this->addPoint('erreur', 'volume_expected', 'saisir un volume', $this->generateUrl('vrac_marche', $this->document));
+        if (!$this->document->volume_propose && $this->document->type_transaction != VracClient::TYPE_TRANSACTION_RAISINS) {
+            $this->addPoint('erreur', 'volume_expected', 'Saisir un volume', $this->generateUrl('vrac_marche', $this->document));
+        } elseif($this->document->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS && !$this->document->surface && !$this->document->raisin_quantite) {
+            $this->addPoint('erreur', 'quantite_raisin_surface_expected', "Saisir au moins l'une de ces informations", $this->generateUrl('vrac_marche', $this->document));
+        } elseif(!$this->document->volume_propose && $this->document->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
+            $this->addPoint('vigilance', 'quantite_raisin_expected', 'Saisir la quantité', $this->generateUrl('vrac_marche', $this->document));
         }
+
         if ($this->document->isVitiRaisinsMoutsTypeVins()) {
-            $this->addPoint('erreur', 'viti_raisins_mouts_type_vins', 'modifier vendeur', $this->generateUrl('etablissement_visualisation', EtablissementClient::getInstance()->find($this->document->vendeur_identifiant)));
+            $this->addPoint('erreur', 'viti_raisins_mouts_type_vins', 'Sodifier vendeur', $this->generateUrl('etablissement_visualisation', EtablissementClient::getInstance()->find($this->document->vendeur_identifiant)));
         }
         if (is_null($this->document->prix_initial_unitaire)) {
-            $this->addPoint('erreur', 'prix_initial_expected', 'saisir un prix', $this->generateUrl('vrac_marche', $this->document));
+            $this->addPoint('erreur', 'prix_initial_expected', 'Saisir un prix', $this->generateUrl('vrac_marche', $this->document));
         }
+
+        
     }
 
     private function checkSoussigneAbsenceMail() {
