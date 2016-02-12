@@ -24,7 +24,7 @@ class VracValidation extends DocumentValidation {
         } else {
             $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
-            $this->addControle('vigilance', 'contrats_similaires', 'Risque de doublons');
+            $this->addControle('vigilance', 'contrats_similaires', null);
             $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
         }
         $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
@@ -49,10 +49,14 @@ class VracValidation extends DocumentValidation {
             /*if ($this->document->isVin() && $this->document->volume_propose > $this->document->getStockCommercialisable()) {
                 $this->addPoint('vigilance', 'stock_commercialisable_negatif', 'modifier le volume', $this->generateUrl('vrac_marche', $this->document));
             }*/
-
-            $nbsimilaires = count(array_keys(VracClient::getInstance()->retrieveSimilaryContracts($this->document)));
-            if ($nbsimilaires) {
-                $this->addPoint('vigilance', 'contrats_similaires', 'Il y a ' . $nbsimilaires . ' contrat(s) similaire(s)');
+            $contrats_similaires = VracClient::getInstance()->retrieveSimilaryContracts($this->document);
+            if ($nbsimilaires = count(array_keys($contrats_similaires))) {
+                 $contrat_similaires_str = $nbsimilaires . ' contrat(s) similaire(s) possèdant les même soussignés, produit et volume (ou quantité) ';
+                 foreach ($contrats_similaires as $contrat_similaire){
+                     $vrac_sim = VracClient::getInstance()->find($contrat_similaire->id);
+                     $contrat_similaires_str.= "&nbsp;&nbsp;&nbsp;  <a href='".  $this->generateUrl('vrac_visualisation',$vrac_sim)."'>".substr($vrac_sim->getNumeroContrat(),0,4).' '.substr($vrac_sim->getNumeroContrat(),4)."</a>";
+                 }
+                $this->addPoint('vigilance', 'contrats_similaires',$contrat_similaires_str);
             }
 
             if ($this->document->hasPrixVariable() && !$this->document->hasPrixDefinitif()) {

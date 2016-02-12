@@ -24,7 +24,7 @@ use_helper('Prix');
                     <span class="col-xs-3">Document</span>
                     <span class="col-xs-3">Produits</span>
                     <span class="col-xs-2">Type</span>
-                    <span class="col-xs-2 text-right">Volume</span>
+                    <span class="col-xs-2 text-right">Quantité</span>
                     <span class="col-xs-2 text-right">Prix TTC</span>
                 </li>
                 <?php foreach ($mouvements as $mouvement): ?>
@@ -34,10 +34,10 @@ use_helper('Prix');
                                     $mouvement->nom_facture;
 
                             echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
-                            ?></span>
+                            ?></span>                        
                         <span class="col-xs-3"><?php echo $mouvement->produit_libelle ?></span>
                         <span class="col-xs-2"><?php echo  $mouvement->type_libelle; ?></span>
-                        <span class="col-xs-2 text-right"><?php echoFloat($mouvement->volume); ?> &nbsp;hl</span>
+                        <span class="col-xs-2 text-right"><?php echoFloat($mouvement->volume * -1) ; ?> <?php if($mouvement->type_libelle): ?>&nbsp;hl<?php else: ?>&nbsp;&nbsp;&nbsp;<?php endif;?></span>
                         <span class="col-xs-2 text-right"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</span>
                     </li>
                 <?php endforeach; ?>
