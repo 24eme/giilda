@@ -530,14 +530,14 @@ class vracActions extends sfActions {
                 $this->maj_etape(2);
                 $this->form->save();
 
-                if($request->getParameter('precedent')) {
-                    return $this->redirect('vrac_soussigne', $this->vrac);
+                if($request->getParameter('redirect')) {
+                    return $this->redirect($request->getParameter('redirect'));
                 }
 
                 return $this->redirect('vrac_condition', $this->vrac);
-            } elseif($request->getParameter('precedent')) {
+            } elseif($request->getParameter('redirect')) {
                 
-                return $this->redirect('vrac_soussigne', $this->vrac);
+                return $this->redirect($request->getParameter('redirect'));
             }
         }
     }
@@ -567,16 +567,14 @@ class vracActions extends sfActions {
                 $this->maj_etape(3);
                 $this->form->save();
 
-                if($request->getParameter('precedent')) {
-
-                    return $this->redirect('vrac_marche', $this->vrac);
+                if($request->getParameter('redirect')) {
+                    return $this->redirect($request->getParameter('redirect'));
                 }
 
                 $this->redirect('vrac_validation', $this->vrac);
-            } elseif($request->getParameter('precedent')) {
-
-                return $this->redirect('vrac_marche', $this->vrac);
-            }
+            } elseif($request->getParameter('redirect')) {
+                    return $this->redirect($request->getParameter('redirect'));
+                }
         }
     }
 
@@ -619,15 +617,8 @@ class vracActions extends sfActions {
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
 
-                if($request->getParameter('precedent')) {
-
-                    return $this->redirect('vrac_condition', $this->vrac);
-                }
-
+               
                 $this->redirect('vrac_visualisation', $this->vrac);
-            } elseif($request->getParameter('precedent')) {
-
-                return $this->redirect('vrac_condition', $this->vrac);
             }
         }
     }
