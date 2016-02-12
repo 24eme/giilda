@@ -282,7 +282,7 @@ endif;
             <?php if ($isTeledeclarationMode): ?>
                 <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a> 
             <?php else: ?>                        
-                <a tabindex="-1" href="<?php echo url_for('vrac'); ?>" class="btn btn-default">Suspendre la saisie</a> 
+                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a> 
             <?php endif; ?>
         </div>
         <div class="col-xs-4 text-center">
