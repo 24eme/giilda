@@ -12,7 +12,7 @@ use_helper('Date');
 
 <ol class="breadcrumb">
     <li><a href="<?php echo url_for('vrac') ?>" class="active">Contrats</a></li>
-    <li><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive ?></a></li>
+    <li><a href="" class="active">Visualisation du contrat n° <?php echo formatNumeroBordereau($vrac->numero_contrat); ?></a></li>
 </ol>
 
 <div class="row">      
