@@ -244,10 +244,10 @@
 
     };
 
-    var initFavoris = function () {
+       var initFavoris = function () {
         $('form#colonne_intitules').find('span.categorie_libelle').each(function () {
             $(this).parent().click(function () {
-                
+
                 var id_fav_input = $(this).find('.categorie_libelle').attr('id').replace('star_', 'drmFavoris_');
                 var value = $('#colonne_intitules input#' + id_fav_input).val();
                 if (value === "1") {

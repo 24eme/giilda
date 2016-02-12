@@ -14,18 +14,17 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
         $this->setWidget('identifiant', new bsWidgetFormChoice(array('choices' => $this->getIdentifiantChoices()), array('class' => 'autocomplete')));
         $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
 
-        if ($this->isTeledeclarationMode) {
-            $this->setWidget('numero_document', new bsWidgetFormInput());
-            $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
-        }
+        
+        $this->setWidget('numero_document', new bsWidgetFormInput());
+        $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
+       
 
         $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getIdentifiantChoices()))));
         $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
-        if ($this->isTeledeclarationMode) {
-            $this->setValidator('numero_document', new sfValidatorString(array('required' => false)));
-            $this->setValidator('type_document', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypeDocumentsChoices()))));
-        }
-
+       
+        $this->setValidator('numero_document', new sfValidatorString(array('required' => false)));
+        $this->setValidator('type_document', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypeDocumentsChoices()))));
+       
 
 
         $post_validator_class = $this->getPostValidatorClass();
@@ -64,6 +63,10 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
     public function getPostValidatorClass() {
 
         return 'DRMDetailItemValidator';
+    }
+    
+    public function isTypeDocShow() {
+        return true;
     }
 
 }
