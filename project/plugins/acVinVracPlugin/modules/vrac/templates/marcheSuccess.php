@@ -274,7 +274,7 @@
 
     <div class="row">
         <div class="col-xs-4 text-left">
-            <a tabindex="-1" href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+            <button type="submit" tabindex="-1" name="precedent" value="1" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>

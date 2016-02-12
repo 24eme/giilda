@@ -8,7 +8,9 @@
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
 
+<div class="row">
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'template_validation' => 1)); ?>
+</div>
 
 <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
 
@@ -31,7 +33,7 @@
 
 <div class="row">
     <div class="col-xs-4 text-left">
-        <a tabindex="-1" href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+        <button name="precedent" value="1" tabindex="-1" href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
     </div>
     <div class="col-xs-4 text-center">
         <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
