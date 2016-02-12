@@ -1,10 +1,9 @@
-
 <ol class="breadcrumb">
     <li>
-        <a href="/produits">Page d'accueil</a>
+        <a href="<?php echo url_for("produits") ?>">Produits</a>
     </li>
     <li class="active">
-        <strong><?php echo sprintf("Modification du noeud %s: %s (%s)", $form->getObject()->getTypeNoeud(), $form->getObject()->getLibelle(), $form->getObject()->getKey()) ?></strong>
+        <a href=""><?php echo sprintf("Modification du noeud %s : %s (%s)", $form->getObject()->getTypeNoeud(), $form->getObject()->getLibelle(), $form->getObject()->getKey()) ?></a>
     </li>
 </ol>
 
