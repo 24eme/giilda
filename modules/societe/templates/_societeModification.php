@@ -31,15 +31,19 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['cooperative']->renderError(); ?>
         </div>
     <?php endif; ?>
+    <?php if (isset($societeForm['type_numero_compte_fournisseur']) || isset($societeForm['type_numero_compte_client'])): ?>
     <div class="form_ligne">
-            <?php echo $societeForm['type_numero_compte_fournisseur']->renderLabel('',array('class' => 'label_liste')); ?>
+            <?php echo $societeForm['type_numero_compte_client']->renderLabel('',array('class' => 'label_liste')); ?>
             <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
                 <?php echo $societeForm['type_numero_compte_client']->render(); ?>
                 <?php echo $societeForm['type_numero_compte_client']->renderError(); ?>
             <?php endif; ?>
+            <?php if (isset($societeForm['type_numero_compte_fournisseur'])): ?>
             <?php echo $societeForm['type_numero_compte_fournisseur']->render(); ?>
             <?php echo $societeForm['type_numero_compte_fournisseur']->renderError(); ?>
-        </div>                 
+            <?php endif; ?>
+    </div>
+    <?php endif; ?>
          <div class="form_ligne">
             <?php echo $societeForm['type_fournisseur']->renderLabel(null,array('class' => 'label_liste')); ?>
             <?php echo $societeForm['type_fournisseur']->render(); ?>
