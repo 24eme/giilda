@@ -478,7 +478,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? floatval(str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE])) : 0;
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
         $code = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
         $libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
 
