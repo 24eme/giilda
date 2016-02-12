@@ -33,6 +33,7 @@
 
         if($('.firstFocus').length) {
             $('.firstFocus').eq(0).focus();
+            $('.firstFocus .select2-focusser').eq(0).focus();
         }
     });
     

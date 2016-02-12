@@ -23,6 +23,8 @@ var initSoussignes = function()
 	var isCourtierResponsable = parseInt(form.attr('data-iscourtierresponsable'));
 
     $('.select-ajax').on('change', function() {
+
+        var select = $(this);
         var dataBloc = $($(this).attr('data-bloc'));
         var dataHide = $($(this).attr('data-hide'));
 
@@ -30,12 +32,14 @@ var initSoussignes = function()
             dataBloc.addClass('hidden');
             dataHide.removeClass('hidden');
             $($(this).attr('data-bloc .container-ajax')).html("");
+            select.parent().find('.select2-focusser').focus();
             return;
         }
 
         dataBloc.find('.container-ajax').load($(this).attr('data-url'), {id: $(this).val()}, function() {
             dataBloc.removeClass('hidden');
             dataHide.addClass('hidden');
+            dataBloc.find('button').focus();
         });
     });
 
