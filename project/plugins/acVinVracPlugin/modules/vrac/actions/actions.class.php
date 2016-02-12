@@ -520,9 +520,15 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(2);
                 $this->form->save();
-                $this->redirect('vrac_condition', $this->vrac);
-            } else {
+
+                if($request->getParameter('precedent')) {
+                    return $this->redirect('vrac_soussigne', $this->vrac);
+                }
+
+                return $this->redirect('vrac_condition', $this->vrac);
+            } elseif($request->getParameter('precedent')) {
                 
+                return $this->redirect('vrac_soussigne', $this->vrac);
             }
         }
     }
@@ -551,7 +557,16 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(3);
                 $this->form->save();
+
+                if($request->getParameter('precedent')) {
+
+                    return $this->redirect('vrac_marche', $this->vrac);
+                }
+
                 $this->redirect('vrac_validation', $this->vrac);
+            } elseif($request->getParameter('precedent')) {
+
+                return $this->redirect('vrac_marche', $this->vrac);
             }
         }
     }
@@ -594,7 +609,16 @@ class vracActions extends sfActions {
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
+
+                if($request->getParameter('precedent')) {
+
+                    return $this->redirect('vrac_condition', $this->vrac);
+                }
+                
                 $this->redirect('vrac_visualisation', $this->vrac);
+            } elseif($request->getParameter('precedent')) {
+
+                return $this->redirect('vrac_condition', $this->vrac);
             }
         }
     }

@@ -478,7 +478,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
         $code = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
         $libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
 
@@ -515,7 +515,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? "" . $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : "0.0";
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? "" . str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : "0.0";
         $code = ConfigurationDroits::CODE_CVO;
         $libelle = ConfigurationDroits::LIBELLE_CVO;
         $currentDroit = null;
@@ -536,10 +536,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits->taux = $taux;
         $droits->code = $code;
         $droits->libelle = $libelle;
-    }
-
-    protected function castFloat($float) {
-        return floatval(str_replace(',', '.', $float));
     }
 
     public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $attributes = array()) {
