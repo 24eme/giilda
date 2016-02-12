@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('vrac') ?>" class="active">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('stocks') ?>" class="active">Stocks</a></li>
 </ol>
 
 <div class="row">

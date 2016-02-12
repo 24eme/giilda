@@ -19,7 +19,7 @@
      ));
 
       include_component('global', 'navItem', array(
-            'libelle' => 'Facture',
+            'libelle' => 'Factures',
             'prefix' => 'facture',
             'route' => 'facture',
             'route_etablissement' => 'facture_etablissement',
@@ -109,8 +109,9 @@
 
 ?></ul>
 <ul class="nav navbar-nav navbar-right">
+     <li><a tabindex="-1" href="<?php echo url_for('statistiques') ?>"><span class="glyphicon glyphicon-search"></span></a></li>
 <?php if ($sf_user->hasCredential('admin')) : ?>
-     <li><a tabindex="-1" class="admin" href="<?php echo url_for('produits') ?>">Produits</a></li>
+     <li><a tabindex="-1" class="admin" href="<?php echo url_for('produits') ?>"><span class="glyphicon glyphicon-cog"></span></a></li>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
      <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a></li>
@@ -119,7 +120,7 @@
 <?php if ($sf_user->isUsurpationCompte()): ?>
      <li><a tabindex="-1" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a></li>
 <?php else: ?>
-     <li><a tabindex="-1" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a></li>
+     <li><a tabindex="-1" href="<?php echo url_for('auth_logout') ?>"><span class="glyphicon glyphicon-log-out"></span></a></li>
 <?php endif; ?>
 <?php else: ?>
      <li><a tabindex="-1" href="<?php echo url_for('homepage') ?>">Connexion</a></li>

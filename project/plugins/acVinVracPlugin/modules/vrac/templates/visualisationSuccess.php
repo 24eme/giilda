@@ -9,6 +9,12 @@
 use_helper('Vrac');
 use_helper('Date');
 ?>
+
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('vrac') ?>" class="active">Contrats</a></li>
+    <li><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive ?></a></li>
+</ol>
+
 <div class="row">      
     <div class="col-xs-12">
         <h2 class="titre_page">
@@ -39,7 +45,7 @@ use_helper('Date');
         <div class="col-xs-4 text-center">	
             <p style="font-size: 24px;">
                 N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_campagne, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
-                <small class="text-muted"><?php echo preg_replace('/^(....)(.)/', '\1 \2 ', $vrac->numero_contrat); ?></small>
+                <small class="text-muted"><?php echo formatNumeroBordereau($vrac->numero_contrat); ?></small>
             </p>
         </div>
         <div class="col-xs-4 text-right">	
@@ -85,7 +91,7 @@ use_helper('Date');
     <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
 
 
-    <div class="ligne_btn">
+    <div class="col-xs-12">
         <?php if ($vrac->isVise()): ?>
             <div class="txt_centre text-center">
                 <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn btn-success">Télécharger le PDF</a>  

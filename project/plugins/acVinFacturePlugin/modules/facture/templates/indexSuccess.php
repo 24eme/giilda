@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('facture') ?>">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('facture') ?>">Factures</a></li>
 </ol>
 
 <div class="row">

@@ -4,14 +4,10 @@
 
 <?php if(count($vracs->rows) > 0): ?>
 <?php if(isset($hamza_style) && $hamza_style) : ?>
-<div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-        <h3>Filtrer</h3>
-        <div class="form-group">
-            <input type="hidden" data-placeholder="Saisissez un numéro de contrat, un soussigné ou un produit" data-hamzastyle-container="#table_contrats" class="hamzastyle form-control" />
-        </div>
+    <h3>Filtrer</h3>
+    <div class="form-group">
+        <input type="hidden" data-placeholder="Saisissez un numéro de contrat, un soussigné ou un produit" data-hamzastyle-container="#table_contrats" class="hamzastyle form-control" />
     </div>
-</div>
 <?php endif; ?>
 
 

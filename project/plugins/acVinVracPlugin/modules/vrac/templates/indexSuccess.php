@@ -1,7 +1,7 @@
 <?php use_helper('Vrac'); ?>
 
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('vrac') ?>" class="active">Page d'accueil</a></li>
+    <li><a href="<?php echo url_for('vrac') ?>" class="active">Contrats</a></li>
 </ol>
 
 <div class="row">

@@ -1,15 +1,16 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('vrac') ?>">Page d'accueil</a></li>
-    <li><a href="<?php echo url_for('vrac_recherche', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?></a></li>
+    <li><a href="<?php echo url_for('vrac') ?>">Contrats</a></li>
+    <li><a href="<?php echo url_for('vrac_recherche', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
+    <li><a href="" class="active">Campagne <?php echo $campagne ?></a></li>
 </ol>
 
 <div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-xs-12">
         <?php include_component('vrac', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
     </div>
-
+    <div class="col-xs-12">
     <?php include_partial('contrat_campagne', array('vracs' => $vracs, 'visualisation' => false, 'campagne' => $campagne, 'identifiant' => $identifiant)); ?>
-
+    </div>
     <div class="col-xs-12">
             <?php if (count($vracs->rows->getRawValue())): ?>
                 <?php include_partial('list', array('vracs' => $vracs, 'identifiant' => $identifiant, 'hamza_style' => true)); ?>

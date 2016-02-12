@@ -1,3 +1,4 @@
+<?php use_helper('Vrac'); ?>
 <?php
 
 $urlForm = null;
@@ -14,6 +15,8 @@ else :
     $urlForm = url_for('vrac_soussigne', $vrac);
 endif;
 ?>
+
+<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
 
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 

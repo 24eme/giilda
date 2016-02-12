@@ -1,8 +1,8 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('stocks') ?>">Page d'accueil</a></li>
-    <li><a href="<?php echo url_for('stocks_etablissement', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $etablissement->nom ?></a></li>
+    <li><a href="<?php echo url_for('stocks') ?>">Stocks</a></li>
+    <li><a href="<?php echo url_for('stocks_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
+    <li><a href="<?php echo url_for('stocks_etablissement', array('identifiant' => $etablissement->identifiant)) ?>" class="active"><?php echo $campagne ?></a></li>
 </ol>
-
 
 <div class="row">
     <div class="col-xs-12">

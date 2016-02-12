@@ -407,12 +407,6 @@
                 object.unActive();
 
                 object.colonnes.event_valider(object);
-                var select2Produit = $("#s2id_produit_declaration_hashref").data('select2');
-                setTimeout(function () {
-                    if (!select2Produit.opened()) {
-                        select2Produit.open();
-                    }
-                }, 0);
 
             }, 'json');
         }
@@ -442,6 +436,20 @@
             return this.groupes.totalDontRevendique();
         }
 
+        this.getNext = function() {
+            var find = false;
+            for (key in this.colonnes.colonnes) {
+                if(find) {
+                    return this.colonnes.colonnes[key];
+                }
+                if (this.colonnes.colonnes[key] instanceof ColonneProduit && this.colonnes.colonnes[key].getHash() == this.getHash()) {
+                    find = true;                    
+                }
+            }
+
+            return null;
+        }
+
         this.getHash = function () {
 
             return this.element.attr('data-hash');
@@ -468,8 +476,6 @@
 
         this._initClavier = function () {
             var object = this;
-            
-
 
             this.element.keydown(function (e)
             {
