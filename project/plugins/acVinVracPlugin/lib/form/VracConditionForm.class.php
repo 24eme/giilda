@@ -78,6 +78,9 @@ class VracConditionForm extends acCouchdbObjectForm {
         $this->setValidator('reference_contrat', new sfValidatorString(array('required' => false)));
         $this->setValidator('cahier_charge', new sfValidatorBoolean(array('required' => false)));
 
+        
+        $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
+        $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
         $this->useFields(VracConfiguration::getInstance()->getChamps('condition'));
 
 

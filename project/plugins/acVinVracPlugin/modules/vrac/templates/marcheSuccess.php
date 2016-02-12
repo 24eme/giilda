@@ -148,9 +148,17 @@
                     <div class="panel-heading">
                         <h3 class="panel-title"><label>Informations complémentaires</label></h3>
                     </div>
-                    <div class="panel-body">
-						<?php if(isset($form['lot'])): ?>
+                    <div class="panel-body">                        
+                        <div class="col-sm-12">	
+                            <div class="col-sm-6">	
                         <?php echo $form['lot']->renderError(); ?>
+                            </div>
+                                <div class="col-sm-6">	
+                        <?php echo $form['degre']->renderError(); ?>
+                                </div>
+                         </div>	
+                        <div class="col-sm-12">	
+                        <?php if(isset($form['lot'])): ?>
                         <div class="form-group col-xs-6 <?php if($form['lot']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['lot']->renderLabel("N° de lot :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-5">
@@ -160,7 +168,6 @@
                         <?php endif; ?>
 						
 						<?php if(isset($form['degre'])): ?>
-                        <?php echo $form['degre']->renderError(); ?>
                         <div class="form-group col-xs-6 <?php if($form['degre']->hasError()): ?>has-error<?php endif; ?>">
                             <?php echo $form['degre']->renderLabel("Degré :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-5">
@@ -171,7 +178,7 @@
                             </div>
                         </div>
                         <?php endif; ?>
-						
+                        </div>		
 						<?php if(isset($form['surface'])): ?>
                         <?php echo $form['surface']->renderError(); ?>
                         <div class="form-group col-xs-6 <?php if($form['surface']->hasError()): ?>has-error<?php endif; ?>">
@@ -217,8 +224,8 @@
 						contenances["<?php echo $l ?>"] = <?php echo $hl ?>;
 						<?php endforeach; ?>
 						</script>
-                        <?php echo $form['bouteilles_contenance_libelle']->renderError(); ?>
                         <div class="form-group col-xs-4 <?php if($form['bouteilles_contenance_libelle']->hasError()): ?>has-error<?php endif; ?>">
+                            <div class="col-xs-12"><?php echo $form['bouteilles_contenance_libelle']->renderError(); ?></div>
                             <?php echo $form['bouteilles_contenance_libelle']->renderLabel("Contenance :", array('class' => 'col-sm-5 control-label')); ?>
                             <div class="col-sm-7">
                                 <?php echo $form['bouteilles_contenance_libelle']->render(array('class' => 'form-control')); ?>
@@ -226,9 +233,9 @@
                         </div>
                         <?php endif; ?>
 						
-						<?php if(isset($form['jus_quantite'])): ?>
-                        <?php echo $form['jus_quantite']->renderError(); ?>
+			<?php if(isset($form['jus_quantite'])): ?>
                         <div class="form-group <?php if(isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if($form['jus_quantite']->hasError()): ?>has-error<?php endif; ?>">
+                            <div class="col-xs-12"><?php echo $form['jus_quantite']->renderError(); ?></div>
                             <?php echo $form['jus_quantite']->renderLabel("Volume :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-7">
                                 <div class="input-group">
@@ -242,8 +249,10 @@
                         </div>
                         <?php endif; ?>
                         <?php if(isset($form['raisin_quantite'])): ?>
-                        <?php echo $form['raisin_quantite']->renderError(); ?>
                         <div class="form-group <?php if(isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
+                 <div class="col-xs-12">             
+   <?php echo $form['raisin_quantite']->renderError(); ?>
+                 </div>     
                             <?php echo $form['raisin_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-7">
                                 <div class="input-group">
@@ -254,8 +263,10 @@
                         </div>
                         <?php endif; ?>
             			<?php if(isset($form['prix_initial_unitaire'])): ?>
-                        <?php echo $form['prix_initial_unitaire']->renderError(); ?>
                         <div class="form-group <?php if(isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if($form['prix_initial_unitaire']->hasError()): ?>has-error<?php endif; ?>">
+                 <div class="col-xs-12">                      
+   <?php echo $form['prix_initial_unitaire']->renderError(array('class'=>' col-xs-10 col-xs-offset-1')); ?>
+                 </div>
                             <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
                             <div class="col-sm-7">
                                 <div class="input-group">

@@ -86,8 +86,9 @@
                     <h3 class="panel-title"><label>Retiraison</label></h3>
                 </div>
                 <div class="panel-body">
+                    <div class="col-sm-6">
 		        	<?php if (isset($form['date_debut_retiraison'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['date_debut_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+		            <div class="form-group  <?php if($form['date_debut_retiraison']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['date_debut_retiraison']->renderError(); ?>
                         <?php echo $form['date_debut_retiraison']->renderLabel("Date début de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-7">
@@ -95,8 +96,19 @@
                         </div>
 		            </div>
 		            <?php endif; ?>
+		        	<?php if (isset($form['date_limite_retiraison'])): ?>
+		            <div class="form-group  <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
+                        <?php echo $form['date_limite_retiraison']->renderError(); ?>
+                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
+                        <div class="col-sm-7">
+                            <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
+                        </div>
+		            </div>
+		            <?php endif; ?>
+                    </div>
+                    <div class="col-sm-6">
 		            <?php if(isset($form['clause_reserve_propriete'])): ?>
-						<div class="form-group col-sm-6">
+						<div class="form-group">
 							<?php echo $form['clause_reserve_propriete']->renderError(); ?>
 							<div class="checkbox col-sm-7 col-sm-offset-5">
 								<label for="<?php echo $form['clause_reserve_propriete']->renderId(); ?>">
@@ -106,15 +118,7 @@
 							</div>
 						</div>
 					<?php endif; ?>
-		        	<?php if (isset($form['date_limite_retiraison'])): ?>
-		            <div class="form-group col-sm-6 <?php if($form['date_limite_retiraison']->hasError()): ?>has-error<?php endif; ?>">
-                        <?php echo $form['date_limite_retiraison']->renderError(); ?>
-                        <?php echo $form['date_limite_retiraison']->renderLabel("Date limite de retiraison :", array('class' => 'col-sm-5 control-label')); ?>
-                        <div class="col-sm-7">
-                            <?php echo $form['date_limite_retiraison']->render(array('placeholder' => 'jj/mm/aaaa')); ?>
-                        </div>
-		            </div>
-		            <?php endif; ?>
+                    </div>
                 </div>
             </div>
            <?php if (isset($form['preparation_vin']) || isset($form['embouteillage']) || isset($form['conditionnement_crd'])): ?>
