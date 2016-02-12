@@ -33,7 +33,7 @@
 
 <div class="row">
     <div class="col-xs-4 text-left">
-        <button name="precedent" value="1" tabindex="-1" href="<?php echo url_for('vrac_marche', $vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
+        <button name="precedent" value="1" tabindex="-1" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
     </div>
     <div class="col-xs-4 text-center">
         <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>

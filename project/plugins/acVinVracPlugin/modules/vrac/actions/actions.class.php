@@ -481,7 +481,16 @@ class vracActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->maj_etape(1);
                 $this->form->save();
+
+                if($request->getParameter('precedent')) {
+
+                    return $this->redirect('vrac');
+                }
+
                 $this->redirect('vrac_marche', $this->vrac);
+            } elseif($request->getParameter('precedent')) {
+                
+                return $this->redirect('vrac');
             }
         }
     }
@@ -614,7 +623,7 @@ class vracActions extends sfActions {
 
                     return $this->redirect('vrac_condition', $this->vrac);
                 }
-                
+
                 $this->redirect('vrac_visualisation', $this->vrac);
             } elseif($request->getParameter('precedent')) {
 
