@@ -36,8 +36,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-    	$originalArray = array('0' => 'Non', '1' => 'Oui');
-    	$type = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'Producteur', EtablissementFamilles::FAMILLE_NEGOCIANT => 'Négociant');
+        $originalArray = array('0' => 'Non', '1' => 'Oui');
+        $type = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'Producteur', EtablissementFamilles::FAMILLE_NEGOCIANT => 'Négociant');
         if ($this->fromAnnuaire && $this->getObject()->createur_identifiant) {
             $vendeurs = $this->getRecoltants();
             $acheteurs = $this->getNegociants();
@@ -50,6 +50,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
             $this->setValidator('vendeur_identifiant', new bsValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
             $this->setValidator('representant_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($representants))));
+            $this->validatorSchema['acheteur_identifiant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
             if ($this->isAcheteurResponsable) {
                 $acheteursChoiceValides[] = 'ETABLISSEMENT-' . $this->getObject()->createur_identifiant;
             } else {
@@ -58,8 +59,6 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
             $this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
             $this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
-            
-            
         } else {
             $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setWidget('acheteur_producteur', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
@@ -83,8 +82,8 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         $this->setWidget('logement', new bsWidgetFormInput());
         $this->setWidget('vendeur_tva', new bsWidgetFormInputCheckbox());
-        
-        
+
+
 
         $this->widgetSchema->setLabels(array(
             'type_transaction' => 'Type de transaction',
@@ -118,9 +117,9 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $this->validatorSchema['vendeur_identifiant']->setMessage('required', 'Le choix d\'un vendeur est obligatoire');
         $this->validatorSchema['acheteur_producteur']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
         $this->validatorSchema['acheteur_negociant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
-        
-        
-  		$this->validatorSchema->setPostValidator(new ValidatorVracSoussigne());
+
+
+        $this->validatorSchema->setPostValidator(new ValidatorVracSoussigne());
         $this->useFields(VracConfiguration::getInstance()->getChamps('soussigne'));
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
@@ -139,12 +138,12 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         }
         $defaults['acheteur_type'] = EtablissementFamilles::FAMILLE_NEGOCIANT;
         if ($this->getObject()->acheteur_identifiant) {
-        	if ($this->getObject()->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-            	$defaults['acheteur_producteur'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
-            	$defaults['acheteur_type'] = EtablissementFamilles::FAMILLE_PRODUCTEUR;
-        	} else {
-        		$defaults['acheteur_negociant'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
-        	}
+            if ($this->getObject()->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+                $defaults['acheteur_producteur'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
+                $defaults['acheteur_type'] = EtablissementFamilles::FAMILLE_PRODUCTEUR;
+            } else {
+                $defaults['acheteur_negociant'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
+            }
         }
         if ($this->getObject()->mandataire_identifiant) {
             $defaults['mandataire_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->mandataire_identifiant;
@@ -153,31 +152,31 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $defaults['commercial'] = $this->getObject()->interlocuteur_commercial->nom;
         }
         if ($this->getObject()->isNew()) {
-        	$defaults['mandataire_exist'] = false;
-        } 
+            $defaults['mandataire_exist'] = false;
+        }
         if (!$this->getObject()->isNew() && $this->getObject()->representant_identifiant && $this->getObject()->representant_identifiant != $this->getObject()->vendeur_identifiant) {
-        	$defaults['vendeur_intermediaire'] = true;
+            $defaults['vendeur_intermediaire'] = true;
         } else {
-        	$defaults['vendeur_intermediaire'] = false;
-        	$defaults['representant_identifiant'] = null;
+            $defaults['vendeur_intermediaire'] = false;
+            $defaults['representant_identifiant'] = null;
         }
         if (!$this->getObject()->isNew() && !$this->getObject()->mandataire_identifiant) {
-        	$defaults['mandataire_exist'] = false;
+            $defaults['mandataire_exist'] = false;
         }
-    	$defaults['logement_exist'] = false;
+        $defaults['logement_exist'] = false;
         if ($this->getObject()->logement) {
             $defaults['logement_exist'] = true;
         }
         if (!$this->getObject()->isNew() && $this->getObject()->type_contrat === VracClient::TYPE_CONTRAT_PLURIANNUEL) {
-        	$defaults['type_contrat'] = 1;
+            $defaults['type_contrat'] = 1;
         } else {
-        	$defaults['type_contrat'] = 0;
+            $defaults['type_contrat'] = 0;
         }
 
         if ($this->getObject()->vendeur_tva || is_null($this->getObject()->vendeur_tva)) {
-        	$defaults['vendeur_tva'] = true;
+            $defaults['vendeur_tva'] = true;
         } else {
-        	$defaults['vendeur_tva'] = false;
+            $defaults['vendeur_tva'] = false;
         }
 
         $this->setDefaults($defaults);
@@ -192,7 +191,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $values['representant_identifiant'] = null;
         }
         if (!$values['representant_identifiant']) {
-        	$values['representant_identifiant'] = $values['vendeur_identifiant'];
+            $values['representant_identifiant'] = $values['vendeur_identifiant'];
         }
         if (!isset($values['mandataire_identifiant']) || !$values['mandataire_identifiant']) {
             $values['mandatant'] = null;
@@ -201,7 +200,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         if (!isset($values['logement_exist']) || !$values['logement_exist']) {
             $values['logement'] = null;
         }
-        if (isset($values['commercial']) && $values['commercial'])   {
+        if (isset($values['commercial']) && $values['commercial']) {
             $this->getObject()->storeInterlocuteurCommercialInformations($values['commercial'], $this->getAnnuaire()->commerciaux->get($values['commercial']));
         } else {
             $this->getObject()->remove('interlocuteur_commercial');
@@ -209,21 +208,21 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         }
         parent::doUpdateObject($values);
         if ($values['acheteur_type'] == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-        	$this->getObject()->acheteur_identifiant = $values['acheteur_producteur'];
+            $this->getObject()->acheteur_identifiant = $values['acheteur_producteur'];
         } else {
-        	$this->getObject()->acheteur_identifiant = $values['acheteur_negociant'];
+            $this->getObject()->acheteur_identifiant = $values['acheteur_negociant'];
         }
-        if (isset($values['type_contrat']) && $values['type_contrat'])   {
+        if (isset($values['type_contrat']) && $values['type_contrat']) {
             $this->getObject()->type_contrat = VracClient::TYPE_CONTRAT_PLURIANNUEL;
         } else {
-        	$this->getObject()->type_contrat = null;
+            $this->getObject()->type_contrat = null;
         }
-    	if (!isset($values['vendeur_tva']) || !$values['vendeur_tva']) {
-        	$this->getObject()->vendeur_tva = 0;
-    	}
-    	if (isset($values['vendeur_tva']) && $values['vendeur_tva']) {
-        	$this->getObject()->vendeur_tva = 1;    		
-    	}
+        if (!isset($values['vendeur_tva']) || !$values['vendeur_tva']) {
+            $this->getObject()->vendeur_tva = 0;
+        }
+        if (isset($values['vendeur_tva']) && $values['vendeur_tva']) {
+            $this->getObject()->vendeur_tva = 1;
+        }
         $this->getObject()->setInformations();
     }
 
@@ -233,7 +232,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
     }
 
     public function getTypesTransaction() {
-        
+
         return VracConfiguration::getInstance()->getTransactions();
     }
 
@@ -266,7 +265,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         }
         return array_merge(array('' => ''), $result);
     }
-    
+
     public function getRepresentants() {
         $annuaire = $this->getAnnuaire();
         if (!$annuaire) {
@@ -279,7 +278,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
                 $result[$key] = $value->name . " (" . $num[1] . ")";
             }
         }
-        return array_merge(array('' => ''), $result);    	
+        return array_merge(array('' => ''), $result);
     }
 
     public function getCommerciaux() {
