@@ -33,7 +33,10 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
 
             //  $this->setWidget('type_societe', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes())));
-            $this->setWidget('type_numero_compte_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteFournisseur(), 'multiple' => true, 'expanded' => true)));
+            if (false) {
+	            $this->setWidget('type_numero_compte_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteFournisseur(), 'multiple' => true, 'expanded' => true)));
+                    $this->widgetSchema->setLabel('type_numero_compte_fournisseur', 'Numéros de compte');
+	    }
             if ($this->getObject()->isNegoOrViti()) {
                 $this->setWidget('type_numero_compte_client', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
 
@@ -54,7 +57,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('raison_sociale_abregee', 'Abrégé');
             $this->widgetSchema->setLabel('statut', 'Statut');
             // $this->widgetSchema->setLabel('type_societe', 'Type de société');
-            $this->widgetSchema->setLabel('type_numero_compte_fournisseur', 'Numéros de compte');
 
             if ($this->getObject()->isNegoOrViti()) {
                 $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
@@ -189,8 +191,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
     }
 
     public function getTypesFournisseur() {
-        return array(SocieteClient::FOURNISSEUR_TYPE_MDV => SocieteClient::FOURNISSEUR_TYPE_MDV,
-            SocieteClient::FOURNISSEUR_TYPE_PLV => SocieteClient::FOURNISSEUR_TYPE_PLV);
+        return array(); 
     }
 
     private function setSocieteTypes() {
