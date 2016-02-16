@@ -24,40 +24,42 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	}
 	
 	public function getCurrentDroit($date_cvo) {
-		if($this->currentDroits) {
+		if(array_key_exists($date_cvo, $this->currentDroits) && $this->currentDroits[$date_cvo]) {
 
-			//return $this->currentDroits;
+			return $this->currentDroits[$date_cvo];
 		}
 
-	  $currentDroit = null;
-	  foreach ($this as $configurationDroit) {
-	    $date = new DateTime($configurationDroit->date);
-	    if ($date_cvo >= $date->format('Y-m-d')) {
-	      if ($currentDroit) {
-		if ($date->format('Y-m-d') > $currentDroit->date) {
-		  $currentDroit = $configurationDroit;
-                }
-	      } else {
-		$currentDroit = $configurationDroit;
-	      }
-	    }
-	  }
+	  	$currentDroit = null;
+		  	foreach ($this as $configurationDroit) {
+		    $date = new DateTime($configurationDroit->date);
+		    if ($date_cvo >= $date->format('Y-m-d')) {
+		      	if ($currentDroit) {
+					if ($date->format('Y-m-d') > $currentDroit->date) {
+			  			$currentDroit = $configurationDroit;
+	                }
+	      		} else {
+					$currentDroit = $configurationDroit;
+		      	}
+		    }
+	  	}
 
-	  if ($currentDroit) {
-	  	$this->currentDroits = $currentDroit;
+	  	if ($currentDroit) {
+	  		$this->currentDroits[$date_cvo] = $currentDroit;
 
-	    return $this->currentDroits;
-	  }
+	    	return $this->currentDroits[$date_cvo];
+	  	}
 
-	  try {
-	    $parent = $this->getNoeud()->getParentNode();
-	    
-	    $this->currentDroits = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
-	    
-	    return $this->currentDroits;
-	  } catch (sfException $e) {
-	    throw new sfException('Aucun droit spécifié pour '.$this->getHash());
-	  }
+		try {
+			$parent = $this->getNoeud()->getParentNode();
+
+			$this->currentDroits[$date_cvo] = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
+
+			return $this->currentDroits[$date_cvo];
+			
+		} catch (sfException $e) {
+
+				throw new sfException('Aucun droit spécifié pour '.$this->getHash());
+		}
 	}
 
 	public function compressDroits() {

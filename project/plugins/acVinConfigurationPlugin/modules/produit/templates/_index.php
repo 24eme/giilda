@@ -12,7 +12,7 @@
         </thead>
         <tbody>
         <?php foreach($produits as $produit): ?>
-            <?php include_component('produit', 'item', array('produit' => $produit, 'supprimable' => false)) ?>
+            <?php include_component('produit', 'item', array('produit' => $produit, 'date' => $date, 'supprimable' => false)) ?>
         <?php endforeach; ?>
         </tbody>
     </table>
