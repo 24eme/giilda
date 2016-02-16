@@ -17,13 +17,15 @@ class produitActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    if($request->getParameter('id')) {
-        $config_json = ConfigurationClient::getInstance()->find($request->getParameter('id'));
-    } else {
-        $config_json = ConfigurationClient::getConfiguration();
-    }
-    $this->rev = $config_json->_rev;
-    $this->id = $config_json->_id;
+      if(!$request->getParameter('date')) {
+
+        return $this->redirect('produits', array('date' => date('Y-m-d')));
+      }
+
+      $this->date = $request->getParameter('date');
+      $config = ConfigurationClient::getConfiguration($this->date);
+      $this->rev = $config->_rev;
+      $this->id = $config->_id;
   }
 
   public function executeModification(sfWebRequest $request)
