@@ -134,16 +134,16 @@ class VracClient extends acCouchdbClient {
         return $id;
     }
 
-    public function buildNumeroContrat($annee, $teledeclare = 1, $bordereau = null) {
+    public function buildNumeroContrat($annee, $teledeclare = 1, $bordereau = null, $prefixe = null) {
         if ($teledeclare && $bordereau) {
             throw new sfException('options de generation d\'identifiant vrac non coherentes');
         }
         $numero = $annee;
         $numero .= $teledeclare;
         if ($bordereau) {
-            $numero .= sprintf("%06d", $bordereau);
+            $numero .= ($prefixe)? sprintf("%s%05d", $prefixe, $bordereau) : sprintf("%06d", $bordereau);
         } else {
-            $numero .= sprintf("%06d", $this->getNextNoContrat($annee));
+            $numero .= ($prefixe)? sprintf("%s%05d", $prefixe, $this->getNextNoContrat($annee)) : sprintf("%06d", $this->getNextNoContrat($annee));
         }
         return $numero;
     }
