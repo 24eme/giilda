@@ -23,9 +23,8 @@ class produitActions extends sfActions
       }
 
       $this->date = $request->getParameter('date');
-      $config = ConfigurationClient::getConfiguration($this->date);
-      $this->rev = $config->_rev;
-      $this->id = $config->_id;
+      $this->config = ConfigurationClient::getConfiguration($this->date);
+      $this->produits = $this->config->declaration->getProduits($this->date);
   }
 
   public function executeModification(sfWebRequest $request)

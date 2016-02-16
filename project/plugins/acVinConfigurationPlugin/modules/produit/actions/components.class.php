@@ -16,11 +16,4 @@ class produitComponents extends sfComponents {
         }
     }
 
-    public function executeIndex() {
-        $configuration = ConfigurationClient::getConfiguration($this->date);
-
-        
-        $this->produits = $configuration->declaration->getProduits($this->date);
-    }
-
 }
