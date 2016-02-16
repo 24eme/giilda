@@ -27,10 +27,4 @@ class produitComponents extends sfComponents {
             $this->douane = null;
         }
     }
-
-    public function executeIndex() {
-        $configuration = ConfigurationClient::getConfiguration($this->date);
-        $this->produits = $configuration->declaration->getProduits($this->date);
-    }
-
 }
