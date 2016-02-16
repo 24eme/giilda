@@ -56,10 +56,9 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 
 			return $this->currentDroits[$date_cvo];
 			
-			} catch (sfException $e) {
+		} catch (sfException $e) {
 
 				throw new sfException('Aucun droit spécifié pour '.$this->getHash());
-			}
 		}
 	}
 
