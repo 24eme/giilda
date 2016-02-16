@@ -26,7 +26,7 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	public function getCurrentDroit($date_cvo) {
 		if($this->currentDroits) {
 
-			return $this->currentDroits;
+			//return $this->currentDroits;
 		}
 
 	  $currentDroit = null;

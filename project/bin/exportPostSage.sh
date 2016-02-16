@@ -59,7 +59,6 @@ fi
 echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
 echo $(cut -d ';' -f 14 $TMP/factures.csv | sort | uniq | wc -l)" facture(s) importée(s) sans erreur " >> $TMP/$SAGE_EMAILFILE
 echo $(cut -d ';' -f 14 $TMP/societes.csv | sort | uniq | wc -l)" societe(s) mise(s) à jour sans erreur " >> $TMP/$SAGE_EMAILFILE
-sendEmail
 
 cd -
 mkdir -p $PDFDIR/csv
@@ -67,10 +66,12 @@ cp $TMP/factures.csv $PDFDIR/csv/$(date '+%Y%m%d')_factures.csv
 cp $TMP/societes.csv $PDFDIR/csv/$(date '+%Y%m%d')_societes.csv
 cp $TMP/societes.csv $PDFDIR/csv/societes.last.csv
 
-bash bin/exportFacturePDF.sh $PDFDIR/csv/$(date '+%Y%m%d')_factures.csv
+bash bin/exportFacturePDF.sh "$PDFDIR"/csv/"$(date '+%Y%m%d')"_factures.csv
 
 cat $TMP/factures.csv | awk -F ';' '{print $14}' | sort | uniq | while read FACTUREID; do
     php symfony facture:setexported $FACTUREID;
 done
+
+sendEmail
 
 smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGEEXP_SUBDIR ; rm factures.csv ; rm societes.csv"
