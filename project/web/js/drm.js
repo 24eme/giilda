@@ -51,14 +51,14 @@
 
             colonnes.event_focus = function (colonne) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('active');
-               
+
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"] span').attr('style', "position:absolute; right: 1px; top:12px; color:#fff;");
             }
 
             colonnes.event_unfocus = function (colonne) {
                 $('#list-produits a').removeClass('active');
                 $('#list-produits a span').attr('style', 'position:absolute; right: 1px; top:12px;');
-            
+
             }
 
             colonnes.event_disabled = function (colonne) {
@@ -110,7 +110,8 @@
         $('li.no_favoris a.raccourcis_ouvrir').each(function () {
             $(this).keypress(function (e) {
                 var idCol = $(this).data('groupe-id');
-                if (e.which == 13) {
+                if (e.keyCode === 0 || e.keyCode === 32) {
+                    e.preventDefault();
                     $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
                 }
             });
