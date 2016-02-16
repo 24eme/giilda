@@ -28,7 +28,7 @@ use_helper('Vrac'); ?>
                         <div class="form-group">
                                 <?php if (isset($form['produit'])): ?>
                                 <div class="col-xs-8 <?php if ($form['produit']->hasError()): ?>has-error<?php endif; ?>">
-                                <?php echo $form['produit']->render(array('class' => 'form-control firstFocus select2', 'placeholder' => 'Selectionner un produit', 'tabindex' => '0')); ?>
+                                <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex' => '0', 'autofocus' => 'autofocus')); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -90,7 +90,7 @@ use_helper('Vrac'); ?>
                         <div class="form-group">
                                 <?php if (isset($form['cepage'])): ?>
                                 <div class="col-xs-8 <?php if ($form['cepage']->hasError()): ?>has-error<?php endif; ?>">
-                                <?php echo $form['cepage']->render(array('class' => 'form-control firstFocus select2', 'placeholder' => 'Selectionner un cépage', 'tabindex' => '0')); ?>
+                                <?php echo $form['cepage']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un cépage', 'tabindex' => '0', 'autofocus' => 'autofocus')); ?>
                                 </div>
                             <?php endif; ?>
                                 <?php if (isset($form['cepage_85_15'])): ?>

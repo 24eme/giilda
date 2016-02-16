@@ -20,9 +20,9 @@
 		        	<?php if (isset($form['delai_paiement'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['delai_paiement']->hasError()): ?>has-error<?php endif; ?>">
 		                <?php echo $form['delai_paiement']->renderError(); ?>
-		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label firstFocus')); ?>
+		                <?php echo $form['delai_paiement']->renderLabel("Délai de paiement :", array('class' => 'col-sm-5 control-label')); ?>
 		                <div class="col-sm-7">
-		                    <?php echo $form['delai_paiement']->render(); ?>
+		                    <?php echo $form['delai_paiement']->render(array('autofocus' => 'autofocus')); ?>
 		                </div>
 		            </div>
 		            <?php endif; ?>

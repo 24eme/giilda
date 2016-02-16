@@ -62,7 +62,7 @@ endif;
                     <?php echo $form['type_transaction']->renderError(); ?>
                     <div class="form-group <?php if($form['type_transaction']->hasError()): ?>has-error<?php endif; ?>">
                         <div class="col-sm-12 text-center">
-                            <?php echo $form['type_transaction']->render(array('class' => 'firstFocus')); ?>
+                            <?php echo $form['type_transaction']->render(array('autofocus' => 'autofocus')); ?>
                         </div>
                     </div>
                 </div>
