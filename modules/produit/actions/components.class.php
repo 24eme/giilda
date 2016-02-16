@@ -15,11 +15,15 @@ class produitComponents extends sfComponents {
                 $this->taux_calc = ($this->cvo->taux[0] == "+") ? $this->taux_calc - floatval($this->cvo->taux[1]) : $this->taux_calc;
                 $this->taux_calc = ($this->cvo->taux[0] == "-") ? $this->taux_calc + floatval($this->cvo->taux[1]) : $this->taux_calc;
             }
-            $this->douane = $this->produit->getCepage()->getDroits(self::INTERPRO)->get(ConfigurationDroits::DROIT_DOUANE)->getCurrentDroit(date("Y-m-d"), false);
         } catch (Exception $e) {
             $this->cvo = null;
             $this->taux_str = null;
             $this->taux_calc = null;
+        }
+
+        try {
+            $this->douane = $this->produit->getCepage()->getDroitByType($this->date, 'INTERPRO-inter-loire', ConfigurationDroits::DROIT_DOUANE);
+        } catch (Exception $e) {
             $this->douane = null;
         }
     }
