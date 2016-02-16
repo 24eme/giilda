@@ -415,7 +415,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->generateDroitsDouanes();
         }
 
-        $this->archivage_document->archiver();
+        if(!isset($options['validation_step']) || !$options['validation_step']) {
+            $this->archivage_document->archiver();
+        }
 
         if (!isset($options['no_vracs']) || !$options['no_vracs']) {
             $this->updateVracs();
