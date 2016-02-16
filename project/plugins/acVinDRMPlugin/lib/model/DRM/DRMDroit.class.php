@@ -22,8 +22,8 @@ class DRMDroit extends BaseDRMDroit {
         }
     }
 
-    public function clearDroitDouane() {
-        $this->report = $this->cumul;
+    public function clearDroitDouane() {    
+        $this->report = round($this->cumul);
         $this->total = null;
         $this->volume_taxe = null;
         $this->volume_reintegre = null;

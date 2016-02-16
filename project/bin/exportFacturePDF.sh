@@ -19,7 +19,7 @@ do
 done
 
 if test $SAMBA_FACTURELOCALDIR; then
-    mount $SAMBA_FACTURELOCALDIR
+    sudo mount $SAMBA_FACTURELOCALDIR
     rsync -a $PDFDIR $SAMBA_FACTURELOCALDIR
-    umount $SAMBA_FACTURELOCALDIR
+    sudo umount $SAMBA_FACTURELOCALDIR
 fi

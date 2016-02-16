@@ -74,6 +74,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->exist('teledeclare') && $this->teledeclare;
     }
 
+    public function changedToTeledeclare() {
+	return $this->isTeledeclare() && $this->hasPrecedente() && !$this->getPrecedente()->isTeledeclare();
+    }
+
     public function setPeriode($periode) {
         $this->campagne = DRMClient::getInstance()->buildCampagne($periode);
 
