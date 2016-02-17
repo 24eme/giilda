@@ -22,6 +22,10 @@ class SV12Contrat extends BaseSV12Contrat {
         	$mouvement->cvo = 0;
         }
 
+        if($mouvement->cvo <= 0) {
+            $mouvement->facturable = 0;
+        }
+
         return $mouvement;
     }
 
@@ -50,6 +54,10 @@ class SV12Contrat extends BaseSV12Contrat {
 	} else {
 	  $mouvement->cvo = $this->getTauxCvo();	  
 	}
+
+        if($mouvement->cvo <= 0) {
+            $mouvement->facturable = 0;
+        }
 
         return $mouvement;
     }
