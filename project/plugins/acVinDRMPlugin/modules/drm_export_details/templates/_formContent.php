@@ -16,7 +16,7 @@
             <th class="col-xs-1"></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="drm_details_tableBody">
     <?php
     foreach ($form as $itemForm){
         if($itemForm instanceof sfFormFieldSchema) {
@@ -33,7 +33,7 @@
             <td class="lead text-right col-xs-3">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
-                    <input type="text" class="form-control input-float text-right" data-decimal="4" readonly="readonly" value="<?php echo sprintFloat($detail->sorties->export > 0 ? $detail->sorties->export : "0.00") ?>" />
+                    <input type="text" class="form-control input-float text-right drm_details_volume_total" data-decimal="4" readonly="readonly" value="<?php echo sprintFloat($detail->sorties->export > 0 ? $detail->sorties->export : "0.00") ?>" />
                     <div class="input-group-addon">hl</div>
                 </div>
             </td>
@@ -44,3 +44,7 @@
         </tr>
     </tfoot>
 </table>
+
+<script>
+     $('.drm_details_tableBody').on('keyup','td.volume', $.majSommeLabelBind);
+</script>

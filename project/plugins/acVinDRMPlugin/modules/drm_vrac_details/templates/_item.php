@@ -2,9 +2,9 @@
 <tr id="<?php echo $ligneId ?>">
     <td class="form-group <?php if ($form['identifiant']->hasError()): ?>has-error<?php endif; ?> col-xs-5">    
         <?php echo $form['identifiant']->renderError(); ?>
-        <?php echo $form['identifiant']->render(array("class" => "form-control select2")); ?>
+        <?php echo $form['identifiant']->render(array("class" => "form-control select2", "autofocus" => "autofocus")); ?>
     </td>
-    <td class="form-group <?php if ($form['volume']->hasError()): ?>has-error<?php endif; ?> col-xs-3">    
+    <td class="form-group <?php if ($form['volume']->hasError()): ?>has-error<?php endif; ?> col-xs-3 volume">    
         <?php echo $form['volume']->renderError(); ?>
         <div class="input-group" class="">
             <?php echo $form['volume']->render(array("class" => "form-control text-right")); ?>
