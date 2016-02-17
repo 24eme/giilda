@@ -62,7 +62,7 @@ endif;
                     <?php echo $form['type_transaction']->renderError(); ?>
                     <div class="form-group <?php if($form['type_transaction']->hasError()): ?>has-error<?php endif; ?>">
                         <div class="col-sm-12 text-center">
-                            <?php echo $form['type_transaction']->render(array('class' => 'firstFocus')); ?>
+                            <?php echo $form['type_transaction']->render(array('autofocus' => 'autofocus')); ?>
                         </div>
                     </div>
                 </div>
@@ -278,37 +278,21 @@ endif;
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-4 text-left">
-            <?php if ($isTeledeclarationMode): ?>
-                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a> 
-            <?php else: ?>                        
-                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a> 
-            <?php endif; ?>
+        <div class="col-xs-4 col-md-push-8 text-right">
+            <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($vrac->isBrouillon()) : ?>
                 <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
             <?php endif; ?>  
         </div>
-        <div class="col-xs-4 text-right">
-            <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
+        
+        <div class="col-xs-4 col-md-pull-8 text-left">
+            <?php if ($isTeledeclarationMode): ?>
+                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a> 
+            <?php else: ?>                        
+                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a> 
+            <?php endif; ?>
         </div>
     </div>
 </form>
-
-<?php
-if ($isTeledeclarationMode):
-    include_partial('colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
-else:
-    slot('colApplications');
-    /*
-     * Inclusion du panel de progression d'édition du contrat
-     */
-    if (!$contratNonSolde)
-        include_partial('contrat_progression', array('vrac' => $vrac));
-
-    /*
-     * Inclusion des Contacts
-     */
-    end_slot();
-endif;

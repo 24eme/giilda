@@ -28,7 +28,7 @@ use_helper('Vrac'); ?>
                         <div class="form-group">
                                 <?php if (isset($form['produit'])): ?>
                                 <div class="col-xs-8 <?php if ($form['produit']->hasError()): ?>has-error<?php endif; ?>">
-                                <?php echo $form['produit']->render(array('class' => 'form-control firstFocus select2', 'placeholder' => 'Selectionner un produit', 'tabindex' => '0')); ?>
+                                <?php echo $form['produit']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un produit', 'tabindex' => '0', 'autofocus' => 'autofocus')); ?>
                                 </div>
                             <?php endif; ?>
 
@@ -90,7 +90,7 @@ use_helper('Vrac'); ?>
                         <div class="form-group">
                                 <?php if (isset($form['cepage'])): ?>
                                 <div class="col-xs-8 <?php if ($form['cepage']->hasError()): ?>has-error<?php endif; ?>">
-                                <?php echo $form['cepage']->render(array('class' => 'form-control firstFocus select2', 'placeholder' => 'Selectionner un cépage', 'tabindex' => '0')); ?>
+                                <?php echo $form['cepage']->render(array('class' => 'form-control select2', 'placeholder' => 'Selectionner un cépage', 'tabindex' => '0', 'autofocus' => 'autofocus')); ?>
                                 </div>
                             <?php endif; ?>
                                 <?php if (isset($form['cepage_85_15'])): ?>
@@ -289,8 +289,8 @@ use_helper('Vrac'); ?>
     </div>
 
     <div class="row">
-        <div class="col-xs-4 text-left">
-            <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
+        <div class="col-xs-4 col-md-push-8 text-right">
+            <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
@@ -300,8 +300,8 @@ use_helper('Vrac'); ?>
                 <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</button>
             <?php endif; ?>  
         </div>
-        <div class="col-xs-4 text-right">
-            <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
+        <div class="col-xs-4 col-md-pull-8 text-left">
+            <button type="submit" formnovalidate="formnovalidate" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
         </div>
     </div>
 </form>
