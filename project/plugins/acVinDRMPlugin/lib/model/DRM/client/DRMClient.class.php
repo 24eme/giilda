@@ -349,7 +349,7 @@ class DRMClient extends acCouchdbClient {
         return $vracs;
     }
 
-    public function getContratsFromProduitAndATransaction($vendeur_identifiant, $produit, $type_transaction = null) {
+    public function getContratsFromProduitAndATransaction($vendeur_identifiant, $produit, $type_transaction = null) {        
         $startkey = array(VracClient::STATUS_CONTRAT_NONSOLDE, $vendeur_identifiant, $produit);
         if ($type_transaction) {
             array_push($startkey, $type_transaction);
@@ -367,7 +367,7 @@ class DRMClient extends acCouchdbClient {
             $volume = '[' . $row->value[self::CONTRATSPRODUITS_VOL_ENLEVE] . '/' . $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] . ']';
             $volume = ($row->value[self::CONTRATSPRODUITS_VOL_ENLEVE] == '') ? '[0/' . $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] . ']' : $volume;
             $vracs[VracClient::getInstance()->getId($row->id)] = $row->value[self::CONTRATSPRODUITS_ETS_NOM] .
-                    ' - ' . $row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT] . ' - ' .
+                    ' - ' . str_replace('VRAC-', '', $row->id).' ('. $row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT] . ') - ' .
                     $vol_restant . ' hl ' .
                     $volume;
         }
