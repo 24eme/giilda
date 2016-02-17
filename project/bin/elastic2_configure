@@ -22,43 +22,18 @@ fi
 curl -s -X PUT -d '@/tmp/filter.json' http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/app > /dev/null
 
 
-if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_drm" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
-    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_drm" > /dev/null
-fi
-if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_vrac" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
-    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_vrac" > /dev/null
-fi
-if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_compte" | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
-    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE"_compte" > /dev/null
-fi
-if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
-    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX > /dev/null
+if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE | grep -v "IndexMissingException" > /dev/null 2>&1 ; then
+    curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
 fi
 
-curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_drm/" -d '
+curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE -d '
 index :
-    number_of_shards : 3 
-    number_of_replicas : 0 
-'
-curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_vrac/" -d '
-index :
-    number_of_shards : 3
-    number_of_replicas : 0
-'
-curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_compte/" -d '
-index :
-    number_of_shards : 3
-    number_of_replicas : 0
-'
-curl -s -X PUT "http://$ELASTHOST:$ELASTPORT/$ELASTKIBANAINDEX/" -d '
-index :
-    number_of_shards : 3 
+    number_of_shards : 5 
     number_of_replicas : 0 
 '
 
-curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_drm/_mapping" -d '@data/elasticsearch/mapping_drm' > /dev/null
-curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_vrac/_mapping" -d '@data/elasticsearch/mapping_vrac' > /dev/null
-curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/"$ELASTBASE"_compte/_mapping" -d '@data/elasticsearch/mapping_compte' > /dev/null
+
+curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE/_mapping" -d '@data/elk/elasticsearch.mapping' > /dev/null
 
 
 cat data/logstash/logstash.conf | sed "s/ELASTHOST/$ELASTHOST/g" | sed "s/ELASTPORT/$ELASTPORT/g" | sed "s/ELASTBASE/$ELASTBASE/g" | sed "s/COUCHHOST/$COUCHHOST/g" | sed "s/COUCHPORT/$COUCHPORT/g" | sed "s/COUCHBASE/$COUCHBASE/g" > "/tmp/"$ELASTBASE".conf"
