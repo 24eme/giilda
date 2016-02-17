@@ -151,8 +151,8 @@ class DRMDetail extends BaseDRMDetail {
                 $this->sorties->cooperative+=$cooperative_detail->volume;
             }
         }
-        $this->total_entrees = $this->getTotalByKey('entrees','recolte');
-        $this->total_sorties = $this->getTotalByKey('sorties','recolte');
+        $this->total_entrees = $this->getTotalByKey('entrees', 'recolte');
+        $this->total_sorties = $this->getTotalByKey('sorties', 'recolte');
 
         $this->stocks_fin->final = $this->stocks_debut->initial + $this->total_entrees - $this->total_sorties;
 
@@ -162,7 +162,7 @@ class DRMDetail extends BaseDRMDetail {
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
-        
+
         $this->total_facturable = 0;
         $this->updateNoeud('entrees', -1);
         $this->updateNoeud('sorties', 1);
@@ -260,7 +260,7 @@ class DRMDetail extends BaseDRMDetail {
         parent::init($params);
 
         $keepStock = isset($params['keepStock']) ? $params['keepStock'] : true;
-        
+
         $this->stocks_debut->initial = ($keepStock) ? $this->total : null;
         $this->stocks_debut->revendique = $this->total_revendique;
         $this->total_entrees = null;
@@ -431,6 +431,17 @@ class DRMDetail extends BaseDRMDetail {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
+    }
+
+    public function hasTypeDoc($nodeName) {
+        $nodeNameComplete = $nodeName . '_details';
+        foreach ($this->sorties->$nodeNameComplete as $detailRow) {
+
+            if ($detailRow->type_document) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
