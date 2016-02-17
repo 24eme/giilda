@@ -106,7 +106,7 @@ class compteActions extends sfCredentialActions {
     }
 
     public function executeSearchcsv(sfWebRequest $request) {
-      $index = acElasticaManager::getType('compte');
+      $index = acElasticaManager::getType('COMPTE');
       
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
@@ -126,7 +126,7 @@ class compteActions extends sfCredentialActions {
     }
 
     private function addremovetag(sfWebRequest $request, $remove = false) {
-      $index = acElasticaManager::getType('compte');
+      $index = acElasticaManager::getType('COMPTE');
       $tag = Compte::transformTag($request->getParameter('tag'));
       $q = $this->initSearch($request, $tag, !$remove);
 
@@ -212,7 +212,7 @@ class compteActions extends sfCredentialActions {
 		$q->addFacet($elasticaFacet);
       }
 
-      $index = acElasticaManager::getType('compte');
+      $index = acElasticaManager::getType('COMPTE');
       
       $resset = $index->search($q);
 

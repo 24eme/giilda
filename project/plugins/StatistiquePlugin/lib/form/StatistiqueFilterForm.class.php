@@ -44,7 +44,7 @@ class StatistiqueFilterForm extends BaseForm
     		foreach ($values['advanced'] as $filter) {
     			if ($filter['fk'] && $filter['fv']) {
     				$this->collapseIn = true;
-    				$query = $query . ' ' . $filter['fk'] . ':' . $filter['fv'];
+    				$query = $query . ' ' . $filter['fk'] . ':' . $filter['fo'] . $filter['fv'];
     			}
     		}
     	}
