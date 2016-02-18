@@ -86,6 +86,10 @@ class SocieteCsvFile extends CsvFile
                     }
                 }
                 $c->code_postal = $line[self::CSV_CODE_POSTAL];
+
+                if(!$c->code_postal) {
+                     echo "WARNING: le code postal est vide ".$id_societe."\n";
+                }
                 $c->commune = $line[self::CSV_COMMUNE];
                 $c->pays = 'FR';
                 $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL]);

@@ -172,9 +172,9 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
         next;
     }
 
-    region="CVO";
+    region="REGION_CVO";
     if(code_postal !~ /^(24|33|46|47)/) {
-        region="HORS_CVO";
+        region="REGION_HORS_CVO";
     }
 
     print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";;;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire

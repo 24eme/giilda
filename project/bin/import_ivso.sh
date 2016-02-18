@@ -74,11 +74,15 @@ famille=($15 ? "COURTIER" : famille ) ;
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
 nom=nom ; 
 if (famille == "AUTRE") next ;
-region="REGION_CVO";  
+code_postal=$9
+region="REGION_CVO";
+if(!code_postal) {
+    region="REGION_HORS_CVO";
+}
 identifiant_societe=sprintf("%06d", $1);
 identifiant=identifiant_societe "01";
 
-print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
