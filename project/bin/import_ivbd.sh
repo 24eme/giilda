@@ -97,7 +97,7 @@ join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes.sorte
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | awk -F ";" '
 {
     identifiant=sprintf("%06d", $1);
-    nom=$11 " " $12 " " $13;
+    nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
     statut=($19) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
     adresse2=$39;
@@ -141,7 +141,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
 {
     identifiant_societe=sprintf("%06d", $1);
     identifiant=identifiant_societe "01";
-    nom=$11 " " $12 " " $13;
+    nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
     statut=($19) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
     adresse2=$39;
