@@ -88,11 +88,11 @@ class SocieteCsvFile extends CsvFile
                 $c->code_postal = trim($line[self::CSV_CODE_POSTAL]);
 
                 if(!$c->code_postal) {
-                     echo "WARNING: le code postal est vide pour la société ".$id_societe."\n";
+                     echo "WARNING: le code postal est vide pour la société ".$s->_id."\n";
                 }
 
-                if(!preg_match("/^[0-9]{5}$/", $c->code_postal)) {
-                     echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$id_societe."\n";
+                if($c->code_postal && !preg_match("/^[0-9]{5}$/", $c->code_postal)) {
+                     echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$s->_id."\n";
                 }
 
                 $c->commune = $line[self::CSV_COMMUNE];
