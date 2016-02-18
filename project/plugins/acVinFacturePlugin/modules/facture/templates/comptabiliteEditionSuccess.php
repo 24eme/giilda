@@ -53,13 +53,6 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-4">
-                        <div class="row">
-                            <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->renderError(); ?>  </div>
-                            <div class="col-xs-12"><span class="col-xs-10"><?php echo $form['identifiant_analytique_libelle_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?></span><span class="col-xs-2"> <button type="button" class="btn btn-danger btn-suppr-ligne"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></span></div>
-                        </div>
-
-                    </div>
                 </div>
         <?php endforeach; ?>
         <br/>

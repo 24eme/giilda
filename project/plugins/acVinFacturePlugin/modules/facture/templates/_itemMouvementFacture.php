@@ -15,12 +15,12 @@
                 <?php echo $mvtForm['libelle']->render(array('class' => 'form-control input-md text-right')); ?>  
             </div>
             <div class="col-xs-1">
-                <?php echo $mvtForm['quantite']->renderError(); ?> 
-                <?php echo $mvtForm['quantite']->render(array('class' => 'form-control input-md text-right')); ?>  
-            </div>
-            <div class="col-xs-1">
                 <?php echo $mvtForm['prix_unitaire']->renderError(); ?> 
                 <?php echo $mvtForm['prix_unitaire']->render(array('class' => 'form-control input-md text-right')); ?>  
+            </div>
+            <div class="col-xs-1">
+                <?php echo $mvtForm['quantite']->renderError(); ?> 
+                <?php echo $mvtForm['quantite']->render(array('class' => 'form-control input-md text-right')); ?>  
             </div>
             <div class="col-xs-1 row mouvements_facture_delete_row">
                 <a href="#" class="btn btn-default btn_supprimer_ligne_template" data-container="#mouvementfacture_list"><span class="glyphicon glyphicon-remove"></span></a>

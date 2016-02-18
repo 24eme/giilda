@@ -156,7 +156,6 @@ MouvementsFacture:
                     definition:
                       fields:                          
                         identifiant_analytique: {  }
-                        identifiant_analytique_libelle: {  }
                         identifiant_analytique_libelle_compta: {  }
                         identifiant: {  }
                         libelle: {  }
@@ -183,7 +182,6 @@ Comptabilite:
                 fields:       
                   identifiant_analytique_numero_compte: {  }
                   identifiant_analytique: {  }
-                  identifiant_analytique_libelle: {  }
                   identifiant_analytique_libelle_compta: {  }
                                         
 
