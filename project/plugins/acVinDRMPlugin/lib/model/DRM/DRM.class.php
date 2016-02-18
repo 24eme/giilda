@@ -317,6 +317,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return DRMClient::getInstance()->getHistorique($this->identifiant, $this->campagne);
     }
 
+    public function setPrecedente($id) {
+        $this->document_precedent = null;
+
+        return $this->_set('precedente', $id);
+    }
+
     public function getPrecedente() {
         if (is_null($this->document_precedent) && $this->exist('precedente') && $this->_get('precedente')) {
 
@@ -586,13 +592,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function hasPrecedente() {
 
         if (!$this->getPrecedente()) {
-
             return false;
         } elseif ($this->getPrecedente() && $this->getPrecedente()->isNew()) {
-
             return false;
         } elseif ($this->isDebutCampagne()) {
-
             return false;
         }
 

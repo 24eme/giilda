@@ -303,8 +303,7 @@ ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
-    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true
-#    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --creation-depuis-precedente=true
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true
 done
 
 echo "Contrôle de cohérence des DRM"
