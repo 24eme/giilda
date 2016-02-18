@@ -81,4 +81,9 @@ class VracConfiguration
 	{
 		return $this->configuration['pdf'];
 	}
+        
+        public function getSoldeSeuil()
+	{
+		return $this->configuration['solde_seuil'];
+	}
 }

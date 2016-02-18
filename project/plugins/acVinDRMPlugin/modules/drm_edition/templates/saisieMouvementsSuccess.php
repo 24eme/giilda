@@ -34,12 +34,13 @@
                     </div>
                     <ul id="list-produits" class="list-group drm_fil_edition_produit">
                         <?php foreach ($details as $produit) : ?>
-                            <?php if (!$produit->hasMovements()): continue;
+                            <?php
+                            if (!$produit->hasMovements()): continue;
                             endif;
                             ?> 
                             <a style="position: relative;" data-hash="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements()) ? 'style="display:none;"' : '' ?> class="list-group-item <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
-                                
-                                    <small><?php echo $produit->getLibelle("%format_libelle%"); ?></small>
+
+                                <small><?php echo $produit->getLibelle("%format_libelle%"); ?></small>
                                 <span style="position:absolute; right: 1px; top:12px;" class="btn btn-xs btn-link glyphicon glyphicon-eye-open "></span>
                             </a>
 <?php endforeach; ?>
@@ -55,9 +56,7 @@
                 <?php if (!$isTeledeclarationMode): ?>
                     <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn btn-default">Enregistrer en brouillon</a>
 <?php endif; ?>
-                <a class="btn btn-default" href="#drm_delete_popup">
-                    <span>Supprimer la DRM</span>
-                </a> 
+                <a class="btn btn-default" data-toggle="modal" data-target="#drm_delete_popup" >Supprimer la DRM</a> 
             </div>
             <div class="col-xs-4 text-right">
                 <form action="<?php echo url_for('drm_edition', $formValidation->getObject()) ?>" method="post">

@@ -1,112 +1,98 @@
-<div class="form_contenu">                  
+<div class="panel panel-default">
+     <div class="panel-heading"><h4 class="panel-title">Adresse</h4></div>
+<div class="panel-body">                  
     <?php
         echo $compteForm->renderHiddenFields();
         echo $compteForm->renderGlobalErrors();
     ?>
-
-    <fieldset>
-        <div class="form_ligne">
-            <legend>Adresse</legend>
-        </div>
-        <div class="form_ligne">
+        <div class="form-group">
             <?php echo $compteForm['adresse']->renderError(); ?>
-            <label for="adresse">
-                <?php echo $compteForm['adresse']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['adresse']->render(array('class' => 'champ_long')); ?>
+            <?php echo $compteForm['adresse']->renderLabel(null, array("class"=>"col-xs-4 control-label")); ?>
+            <div class="col-xs-8"><?php echo $compteForm['adresse']->render(array('class' => 'champ_long')); ?></div>
         </div>
-        <div class="form_ligne">
-            <label for="adresse_complementaire">
-                <?php echo $compteForm['adresse_complementaire']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['adresse_complementaire']->render(array('class' => 'champ_long')); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['adresse_complementaire']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['adresse_complementaire']->render(array('class' => 'champ_long')); ?></div>
             <?php echo $compteForm['adresse_complementaire']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="code_postal">
-                <?php echo $compteForm['code_postal']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['code_postal']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['code_postal']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['code_postal']->render(); ?></div>
             <?php echo $compteForm['code_postal']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="commune">
-                <?php echo $compteForm['commune']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['commune']->render(array('class' => 'champ_long')); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['commune']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['commune']->render(array('class' => 'champ_long')); ?></div>
             <?php echo $compteForm['commune']->renderError(); ?>
         </div>                
-        <div class="form_ligne">
-            <label for="cedex">
-                <?php echo $compteForm['cedex']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['cedex']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['cedex']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['cedex']->render(); ?></div>
             <?php echo $compteForm['cedex']->renderError(); ?>
         </div>                 
-        <div class="form_ligne">
-            <label for="pays">
-                <?php echo $compteForm['pays']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['pays']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['pays']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['pays']->render(); ?></div>
             <?php echo $compteForm['pays']->renderError(); ?>
         </div>
-    </fieldset>
-    <fieldset>
-        <div class="form_ligne">
-            <legend>E-mail / téléphone / fax</legend>
-        </div>
-        <div class="form_ligne">
-            <label for="email">
-                <?php echo $compteForm['email']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['email']->render(); ?>
+    </div>
+ </div>
+ <div class="panel panel-default">
+    <div class="panel-heading"><h4 class="panel-title">E-mail / téléphone / fax</h4></div>
+    <div class="panel-body">
+        <div class="form-group">
+            
+<?php echo $compteForm['email']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['email']->render(); ?></div>
             <?php echo $compteForm['email']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="telephone_perso">
-                <?php echo $compteForm['telephone_perso']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['telephone_perso']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['telephone_perso']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['telephone_perso']->render(); ?></div>
             <?php echo $compteForm['telephone_perso']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="telephone_bureau">
-                <?php echo $compteForm['telephone_bureau']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['telephone_bureau']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['telephone_bureau']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['telephone_bureau']->render(); ?></div>
             <?php echo $compteForm['telephone_bureau']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="telephone_mobile">
-                <?php echo $compteForm['telephone_mobile']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['telephone_mobile']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['telephone_mobile']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['telephone_mobile']->render(); ?></div>
             <?php echo $compteForm['telephone_mobile']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="fax">
-                <?php echo $compteForm['fax']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['fax']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['fax']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['fax']->render(); ?></div>
             <?php echo $compteForm['fax']->renderError(); ?>
         </div>
         <?php if(isset($compteSociete) && $compteSociete):  ?>
-        <div class="form_ligne">
-            <label for="site">
-                <?php echo $compteForm['site_internet']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['site_internet']->render(); ?>
+        <div class="form-group">
+            
+<?php echo $compteForm['site_internet']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
+            <div class="col-xs-8"><?php echo $compteForm['site_internet']->render(); ?></div>
             <?php echo $compteForm['site_internet']->renderError(); ?>
         </div>
         <?php endif; ?>
-    </fieldset>
-    <fieldset>
-        <div class="form_ligne">
-            <legend>Droits</legend>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+            <h4 class="panel-title">Droits</h4>
         </div>
-        <div class="form_ligne">
+    <div class="panel-body">
+        <div class="form-group">
             <?php echo $compteForm['droits']->renderError(); ?>
-            <?php echo $compteForm['droits']->render(); ?>
+            <div class="col-xs-8"><?php echo $compteForm['droits']->render(); ?></div>
         </div>
-    </fieldset>
+    </div>
 </div>

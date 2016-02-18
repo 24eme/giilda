@@ -2,6 +2,7 @@ ivso:
   configuration:
     vrac:
       pdf: "vrac/pdf_ivso"
+      solde_seuil: "10%"
       champs:
         condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "date_debut_retiraison", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
       delais_paiement:
@@ -15,6 +16,7 @@ ivbd:
   configuration:
     vrac:
       pdf: "vrac/pdf_ivbd"
+      solde_seuil: "9"
       champs:
         condition: ["acompte", "cahier_charge", "reference_contrat", "delai_paiement", "moyen_paiement", "date_limite_retiraison", "conditions_particulieres", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd", "taux_courtage", "taux_repartition"]
       unites:

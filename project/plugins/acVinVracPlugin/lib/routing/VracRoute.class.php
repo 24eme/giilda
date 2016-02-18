@@ -6,7 +6,7 @@ class VracRoute extends sfObjectRoute {
     
     protected function getObjectForParameters($parameters) {
         
-        if (preg_match('/^[0-9]+$/', $parameters['numero_contrat'])) {
+        if (preg_match('/^[0-9a-zA-Z]+$/', $parameters['numero_contrat'])) {
             $numero_contrat = $parameters['numero_contrat']; 
          } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'numero_contrat', $parameters['numero_contrat']));

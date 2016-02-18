@@ -3,12 +3,12 @@
  * Initialisation
  ******************************************/
 
-        
 
-        
+
+
 (function ($)
 {
-    
+
     var options = {
         selectors: {
             ajaxModal: '#ajax-modal'
@@ -32,7 +32,7 @@
         });
 
     });
-    
+
     $.fn.initAdvancedElements = function () {
 
         var element = $(this);
@@ -59,18 +59,17 @@
                         select2.val(defaultValueSplitted[0]);
                     }
                 },
-                
                 placeholder: 'Entrer un nom',
                 minimumInputLength: 3,
-                formatInputTooShort: function (input, min) { 
-                	var n = min - input.length; 
-                	return  min + " caractère" + (n == 1 ? "" : "s") + " min";
+                formatInputTooShort: function (input, min) {
+                    var n = min - input.length;
+                    return  min + " caractère" + (n == 1 ? "" : "s") + " min";
                 },
-                formatNoMatches: function () { 
-                	return "Aucun résultat"; 
+                formatNoMatches: function () {
+                    return "Aucun résultat";
                 },
-                formatSearching: function () { 
-                	return "Recherche…"; 
+                formatSearching: function () {
+                    return "Recherche…";
                 },
                 allowClear: true,
                 ajax: {
@@ -99,8 +98,8 @@
             });
         });
 
-        $(this).find(".select2SubmitOnChange").on("change", function(e) {
-            if(e.val) {
+        $(this).find(".select2SubmitOnChange").on("change", function (e) {
+            if (e.val) {
                 $(this).parents('form').submit();
             }
         });
@@ -128,45 +127,45 @@
                 lastValue = e.val;
             })
         }
-        
-        $(this).find('.hamzastyle').each(function() {
+
+        $(this).find('.hamzastyle').each(function () {
             var select2 = $(this);
             select2.select2({
                 multiple: true,
-                data: function() {
+                data: function () {
                     var data = [];
-                    element.find('.hamzastyle-item').each(function() {
+                    element.find('.hamzastyle-item').each(function () {
                         data = data.concat(JSON.parse($(this).attr('data-words')));
                     });
 
                     var data = unique(data.sort());
 
                     dataFinal = [];
-                    for(key in data) {
-                        if(data[key]+"") {
-                            dataFinal.push({ id: (data[key]+""), text: (data[key]+"") });
+                    for (key in data) {
+                        if (data[key] + "") {
+                            dataFinal.push({id: (data[key] + ""), text: (data[key] + "")});
                         }
                     }
 
-                    return { results: dataFinal };
+                    return {results: dataFinal};
                 }
             })
         });
 
-        $(this).find('.hamzastyle').on("change", function(e) {
+        $(this).find('.hamzastyle').on("change", function (e) {
             var select2Data = $(this).select2("data");
             var selectedWords = [];
-            for(key in select2Data) {
+            for (key in select2Data) {
                 selectedWords.push(select2Data[key].text);
             }
 
-            if(!selectedWords.length) {
+            if (!selectedWords.length) {
                 document.location.hash = "";
             } else {
                 document.location.hash = encodeURI("#filtre=" + JSON.stringify(selectedWords));
             }
         })
-        
+
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
             format: 'L',
@@ -229,53 +228,52 @@
                 $($(this).attr('data-add')).trigger('click');
             }
         });
-
-
     }
 
+
     $.initQueryHash = function () {
-        $(window).on('hashchange', function() {
-            if($(document).find('.hamzastyle').length) {
+        $(window).on('hashchange', function () {
+            if ($(document).find('.hamzastyle').length) {
                 var params = jQuery.parseParams(location.hash.replace("#", ""));
                 var filtres = [];
-                if(params.filtre && params.filtre.match(/\[/)) {
+                if (params.filtre && params.filtre.match(/\[/)) {
                     filtres = JSON.parse(params.filtre);
                 } else if (params.filtre) {
                     filtres.push(params.filtre);
                 }
 
                 var select2Data = [];
-                for(key in filtres) {
-                    select2Data.push({ id: filtres[key], text: filtres[key] });
+                for (key in filtres) {
+                    select2Data.push({id: filtres[key], text: filtres[key]});
                 }
 
                 $(document).find('.hamzastyle').select2("data", select2Data);
 
-                $(document).find('.hamzastyle-item').each(function() {
+                $(document).find('.hamzastyle-item').each(function () {
                     var words = $(this).attr('data-words');
                     var find = true;
-                    for(key in filtres) {
+                    for (key in filtres) {
                         var word = filtres[key];
                         if (words.indexOf(word) === -1) {
                             find = false;
                         }
                     }
-                    if (find) {     
-                        $(this).show();    
+                    if (find) {
+                        $(this).show();
                     } else {
-                        $(this).hide();    
+                        $(this).hide();
                     }
                 });
             }
-            if($(document).find('.nav.nav-tabs').length) {
+            if ($(document).find('.nav.nav-tabs').length) {
                 var params = jQuery.parseParams(location.hash.replace("#", ""));
-                if(params.tab) {
-                    $('.nav.nav-tabs a[aria-controls="'+params.tab+'"]').tab('show');
+                if (params.tab) {
+                    $('.nav.nav-tabs a[aria-controls="' + params.tab + '"]').tab('show');
                 }
             }
         });
 
-        if(location.hash) {
+        if (location.hash) {
             $(window).trigger('hashchange');
         }
     }

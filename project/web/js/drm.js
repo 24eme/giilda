@@ -440,69 +440,21 @@
             colActiveDefaut.majColActive();
         }
     };
-
-
-    $.fn.initDetailsPopup = function (colonne) {
-
-        var input = $(this);
-
-        //$('.autocomplete').combobox();
-        $('.champ_datepicker input').initDatepicker();
-        $.majSommeLabel();
-        $.bindAddTemplateLien();
-
-        $('.drm_details_form').bind('submit', function ()
-        {
-            $.post($(this).attr('action'),
-                    $(this).serialize(),
-                    function (data)
-                    {
-                        if (!data.success)
-                        {
-                            $('.drm_details_form_content').html(data.content);
-                            $('.autocomplete').combobox();
-                            $('.champ_datepicker input').initDatepicker();
-                            $.majSommeLabel();
-                            $.bindAddTemplateLien();
-                            $.fancybox.update();
-                        } else
-                        {
-                            input.val(data.volume);
-                            input.nettoyageChamps();
-                            input.attr('data-val-defaut', input.val());
-                            colonne.active();
-                            colonne.calculer();
-                            $.fancybox.close();
-                            $.fn.RevisionajaxSuccessCallBackData = colonne;
-                            $.fn.RevisionajaxSuccessCallBack = function () {
-                                $.fn.RevisionajaxSuccessCallBackData.valider();
-                            }
-                        }
-                    }, "json");
-
-            return false;
-        });
-    };
-
-    $.majSommeLabel = function ()
+  
+    $.majSommeLabelBind = function ()
     {
-        $.majSommeLabelBind = function ()
+        var vol = 0;
+        $('.drm_details_tableBody td.volume').each(function ()
         {
-            var vol = 0;
-            $('.drm_details_tableBody td.volume').each(function ()
-            {
-                var vol_val = $(this).children('input').val();
-                if (vol_val == '')
-                    vol_val = 0;
-                var vol_val_float = parseFloat(vol_val);
-                if (isNaN(vol_val_float))
-                    return true;
-                vol += vol_val_float;
-            });
-            $('.drm_details_volume_total').text(vol.toFixed(2));
-        }
-        $('.drm_details_tableBody td.volume').unbind();
-        $('.drm_details_tableBody td.volume').bind('keyup', $.majSommeLabelBind);
+            var vol_val = $(this).find('div input').val();
+            if (vol_val == '')
+                vol_val = 0;
+            var vol_val_float = parseFloat(vol_val);
+            if (isNaN(vol_val_float))
+                return true;
+            vol += vol_val_float;
+        });
+        $('.drm_details_volume_total').val(vol.toFixed(2));
     }
 
 
