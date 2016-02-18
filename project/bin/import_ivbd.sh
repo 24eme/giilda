@@ -537,7 +537,7 @@ do
 
         if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true --creation-depuis-precedente=true --env="ivbd"
         fi
 
         echo -n > $DATA_DIR/drm_lignes.csv
