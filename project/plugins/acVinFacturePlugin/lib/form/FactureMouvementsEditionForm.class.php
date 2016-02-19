@@ -80,7 +80,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
                     $mvtObj['libelle'] = $mvtValues['libelle'];
                     $mvtObj['quantite'] = -1 * floatval($mvtValues['quantite']);
                     $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
-                    $mvtObj->facture = 0;
+                    if(!$mvtObj->facture) { $mvtObj->facture = 0; }
                     $mvtObj->facturable = 1;
                     $mvtObj->region = $societe->getRegionViticole();
                     $mvtObj->date = date('Y-m-d');

@@ -21,10 +21,9 @@
         <div class="row row-margin">
             <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" >
                 <div class="row">
-                    <div class="col-xs-2 text-center lead text-muted">Numéro Compte Produit</div>
-                    <div class="col-xs-2 text-center lead text-muted">Code identifiant analytique</div>
-                    <div class="col-xs-4 text-center lead text-muted">Libellé compta</div>
-                    <div class="col-xs-4 text-center lead text-muted">Libellé sur factures</div>
+                    <div class="col-xs-3 text-center lead text-muted">Numéro Compte Produit</div>
+                    <div class="col-xs-3 text-center lead text-muted">Code identifiant analytique</div>
+                    <div class="col-xs-6 text-center lead text-muted">Libellé compta</div>
                 </div>
 
             </div>
@@ -32,13 +31,13 @@
         <?php foreach ($form->getObject()->getOrAdd('identifiants_analytiques') as $iakey => $identifiant_analytique) : ?>
            
                 <div class="row row-margin"  style="border-bottom: 1px dotted #d2d2d2; padding: 5px;">
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_numero_compte_' . $iakey]->renderError(); ?>  </div>
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_numero_compte_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
                         </div>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_' . $iakey]->renderError(); ?>  </div>
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>
@@ -46,7 +45,7 @@
 
 
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-6">
                         <div class="row">
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_compta_' . $iakey]->renderError(); ?>  </div>
                             <div class="col-xs-12"><?php echo $form['identifiant_analytique_libelle_compta_' . $iakey]->render(array('class' => 'form-control input-sm text-right')); ?>  </div>

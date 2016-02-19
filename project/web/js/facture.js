@@ -7,7 +7,8 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
         var bloc_html = $($(element).attr('data-template')).html().replace(regexp_replace, "nouveau_" + uuid);
 
         var inputsToGetValues = $(element).children('div').last().find('input');
-        var selectsToGetValues = $(element).children('div').last().find('select');
+        
+        var selectsToGetValues = $(element).children('div').last().find('select, input[type="hidden"]');
 
         var bloc = $(element).children('div').last().after(bloc_html);
 
@@ -22,7 +23,7 @@ var generateMouvementsFacture = function (element, regexp_replace, callback)
                     if ((inputName != undefined) && (inputName.contains(nameReduct))) {
                         if (nameReduct != "[identifiant]" && nameReduct != "[quantite]") {
                             value = $(this).val();
-                        }                       
+                        }
                     }
                 });
             }
@@ -121,6 +122,7 @@ var initMouvementsFacture = function () {
     initCollectionMouvementsFactureTemplate('#mouvementsfacture_list', /var---nbItem---/g, function (bloc) {
     });
     initCollectionDeleteMouvementsFactureTemplate();
+
 }
 
 
@@ -128,6 +130,7 @@ var initMouvementsFacture = function () {
 $(document).ready(function ()
 {
     initMouvementsFacture();
-    console.log('ready');
-    $('.btn-suppr-ligne').click(function() {console.log('click'); $(this).parents('.row').remove();});
+    $('.btn-suppr-ligne').click(function () {
+        $(this).parents('.row').remove();
+    });
 });
