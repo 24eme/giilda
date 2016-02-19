@@ -50,7 +50,7 @@ EOF;
         }
         
         if($options['creation-depuis-precedente']) {
-            DRMClient::getInstance()->createDocByPeriode($arguments['identifiant'], $arguments['periode']);
+            $drm = DRMClient::getInstance()->createDocByPeriode($arguments['identifiant'], $arguments['periode']);
         } else {
             $drm = new DRM();
             $drm->identifiant = $arguments['identifiant'];
@@ -58,7 +58,7 @@ EOF;
         }
 
         if($arguments['numero_archive']) {
-          $drm->numero_archive = $arguments['numero_archive'];
+            $drm->numero_archive = $arguments['numero_archive'];
         }
 
         try {

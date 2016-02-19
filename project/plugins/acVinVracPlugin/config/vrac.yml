@@ -115,3 +115,4 @@ all:
       conditionnements_crd:
         "NEGOCE_ACHEMINE": "CRD négoce"
         "ACHAT_TIRE_BOUCHE": "Achat en tiré bouché"
+      solde_seuil: "10%"
