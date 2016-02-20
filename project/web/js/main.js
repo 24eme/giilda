@@ -164,7 +164,7 @@
             } else {
                 document.location.hash = encodeURI("#filtre=" + JSON.stringify(selectedWords));
             }
-        })
+        });
 
         $(this).find('.input-group.date').datetimepicker({
             locale: 'fr_FR',
