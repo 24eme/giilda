@@ -33,7 +33,7 @@ all:
           "VIN_VRAC": []
           "VIN_BOUTEILLE": []
       transactions:
-        "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendange fraiche"
+        "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendanges fraiches"
         "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"
         "VIN_VRAC": "<span class=\"icon-vrac\" style=\"font-size: 32px;\"></span> Vin en vrac"
         "VIN_BOUTEILLE": "<span class=\"icon-bouteille\" style=\"font-size: 32px;\"></span> Vrac retiraison bouteille"
