@@ -60,15 +60,17 @@
                     <?php if($v && $v->isTeledeclare()): ?>
                     Télédeclaré
                     <?php endif; ?>
-                    <?php echo $v->getTeledeclarationStatutLabel() ?>
+                    <?php if($v->numero_archive): ?>
+                    <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($elt[VracHistoryView::VALUE_NUMERO]) ?></span>
+                    <?php endif; ?>
                     </td>
                     <td style="vertical-align: middle;">
                     <?php if($elt[VracHistoryView::VALUE_STATUT] && $elt[VracHistoryView::VALUE_DATE_SIGNATURE]): ?>
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de signature"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SIGNATURE], "dd/MM/yyyy", "fr_FR"); ?><br/>
+            <span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SIGNATURE], "dd/MM/yyyy", "fr_FR"); ?><br/>
                     <?php else: ?>
                     <?php endif; ?>
                     <?php if($elt[VracHistoryView::VALUE_DATE_SAISIE]): ?>
-                           <span class="text-muted"><span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de saisie (validation interpro)"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SAISIE], "dd/MM/yyyy", "fr_FR"); ?></span>
+                           <span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de saisie (validation interpro)"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SAISIE], "dd/MM/yyyy", "fr_FR"); ?></span>
                     <?php else: ?>
                     <?php endif; ?>
                     </td>
