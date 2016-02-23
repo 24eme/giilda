@@ -17,20 +17,19 @@ class Vrac extends BaseVrac {
         parent::__clone();
         $this->initDocuments();
     }
-    
-    public function renderLabels()
-    {
-    	$str = '';
-    	if (count($this->label) > 0) {
-    		foreach ($this->label as $label){ 
-    			if ($str) {
-    				$str .= ', ';
-    			}
+
+    public function renderLabels() {
+        $str = '';
+        if (count($this->label) > 0) {
+            foreach ($this->label as $label) {
+                if ($str) {
+                    $str .= ', ';
+                }
                 $str .= $label;
-    		}
-    		return $str;
-    	}
-    	return '';
+            }
+            return $str;
+        }
+        return '';
     }
 
     protected function initDocuments() {
@@ -72,8 +71,8 @@ class Vrac extends BaseVrac {
         if ($value != $this->_get('cepage')) {
             $this->_set('cepage', $value);
             if ($value) {
-            	$cepages = $this->getCepagesConfig();
-            	$this->cepage_libelle = $cepages[$value];
+                $cepages = $this->getCepagesConfig();
+                $this->cepage_libelle = $cepages[$value];
             }
         }
     }
@@ -86,7 +85,7 @@ class Vrac extends BaseVrac {
     }
 
     public function update($params = array()) {
-        
+
         $this->prix_initial_total = null;
         switch ($this->type_transaction) {
             case VracClient::TYPE_TRANSACTION_RAISINS : {
@@ -98,7 +97,8 @@ class Vrac extends BaseVrac {
                 }
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE : {
                     $this->prix_initial_total = round($this->jus_quantite * $this->prix_initial_unitaire, 2);
-                    $this->volume_propose = $this->jus_quantite;;
+                    $this->volume_propose = $this->jus_quantite;
+                    ;
                     break;
                 }
 
@@ -120,10 +120,10 @@ class Vrac extends BaseVrac {
             $this->setPrixUnitaire($this->prix_initial_unitaire);
         }
 
-        if ($this->isTeledeclare()) {            
+        if ($this->isTeledeclare()) {
             $this->cvo_nature = VracClient::CVO_NATURE_MARCHE_DEFINITIF;
         }
-        
+
         $this->cvo_repartition = $this->calculCvoRepartition();
     }
 
@@ -132,7 +132,7 @@ class Vrac extends BaseVrac {
         $this->date_signature = date('Y-m-d H:i:s');
         $this->update();
     }
-    
+
     public function setInformations() {
         $this->setAcheteurInformations();
         $this->setVendeurInformations();
@@ -234,7 +234,7 @@ class Vrac extends BaseVrac {
 
     public function getDate($attribut, $format) {
         $d = $this->_get($attribut);
-        if(!$d) {
+        if (!$d) {
             return null;
         }
         if (!$format)
@@ -246,7 +246,6 @@ class Vrac extends BaseVrac {
     public function getDateSignature($format = 'Y-m-d') {
         return $this->getDate('date_signature', $format);
     }
-
 
     public function getDateCampagne($format = 'Y-m-d') {
         return $this->getDate('date_campagne', $format);
@@ -271,7 +270,7 @@ class Vrac extends BaseVrac {
 
     public function setDelaiPaiement($value) {
         $this->_set('delai_paiement', $value);
-        
+
         $this->delai_paiement_libelle = VracConfiguration::getInstance()->getDelaisPaiement()[$value];
     }
 
@@ -360,13 +359,13 @@ class Vrac extends BaseVrac {
 //    }
 
     public function calculCvoRepartition() {
-        
+
         if (!$this->getAcheteurObject()->isInterpro()) {
 
-            return VracClient::CVO_REPARTITION_100_VITI; 
+            return VracClient::CVO_REPARTITION_100_VITI;
         }
-        if(in_array($this->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
-            
+        if (in_array($this->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
+
             return VracClient::CVO_REPARTITION_100_NEGO;
         }
 
@@ -405,24 +404,23 @@ class Vrac extends BaseVrac {
     }
 
     public function getRepartitionCVOCoef($identifiant) {
-        if(($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
+        if (($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
 
             return 0.5;
         }
 
-        if($this->acheteur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_NEGO) {
+        if ($this->acheteur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_NEGO) {
 
             return 1.0;
         }
 
-        if($this->vendeur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI) {
+        if ($this->vendeur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI) {
 
             return 1.0;
         }
 
         return 0.0;
     }
-
 
     public function getProduitObject() {
         return ConfigurationClient::getCurrent()->get($this->produit);
@@ -431,7 +429,7 @@ class Vrac extends BaseVrac {
     public function getVendeurObject() {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
     }
-    
+
     public function getRepresentantObject() {
         return EtablissementClient::getInstance()->find($this->representant_identifiant, acCouchdbClient::HYDRATE_DOCUMENT);
     }
@@ -466,17 +464,17 @@ class Vrac extends BaseVrac {
     }
 
     private function getDensite() {
-        
+
         return $this->getConfigProduit()->getDensite();
     }
 
     public function getDateConfig() {
 
-        return $this->getDateCampagne('Y-m-d');   
+        return $this->getDateCampagne('Y-m-d');
     }
 
     public function getConfig() {
-        
+
         return ConfigurationClient::getConfiguration($this->getDateConfig());
     }
 
@@ -511,11 +509,20 @@ class Vrac extends BaseVrac {
 
             throw new sfException(sprintf("Suite à un enlevement le volume enleve sur le contrat '%s' est négatif, ce n'est pas normal !", $this->get('_id')));
         }
-
-        if ($this->volume_propose * 0.9 <= $this->volume_enleve) {
-            $this->solder();
-        } else {
-            $this->desolder();
+        $seuil_contrat = VracConfiguration::getInstance()->getSoldeSeuil();
+        if (strpos($seuil_contrat, '%') !== FALSE) {
+            $seuil_contrat_pourcent = 1 - floatval(trim(str_replace('%', "", $seuil_contrat))) / 100;
+            if ($this->volume_propose * 0.9 <= $this->volume_enleve) {
+                $this->solder();
+            } else {
+                $this->desolder();
+            }
+        }else{
+            if (($this->volume_propose - $seuil_contrat) <= $this->volume_enleve) {
+                $this->solder();
+            } else {
+                $this->desolder();
+            }
         }
     }
 
@@ -661,9 +668,9 @@ class Vrac extends BaseVrac {
 
         return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
     }
-    
+
     public function getCepagesConfig() {
-    	return array('MER' => 'Merlot', 'SAU' => 'Sauvignon', 'SYR' => 'Syrah');
+        return array('MER' => 'Merlot', 'SAU' => 'Sauvignon', 'SYR' => 'Syrah');
     }
 
     public function getQuantite() {
@@ -729,12 +736,11 @@ class Vrac extends BaseVrac {
         }
         return $this->valide->statut;
     }
-    
-    
+
     public function getTeledeclarationStatutLabel() {
-        return (isset(VracClient::$statuts_labels_teledeclaration[$this->valide->statut]))? VracClient::$statuts_labels_teledeclaration[$this->valide->statut] : '';
+        return (isset(VracClient::$statuts_labels_teledeclaration[$this->valide->statut])) ? VracClient::$statuts_labels_teledeclaration[$this->valide->statut] : '';
     }
-    
+
     public function getStatutLabel() {
         return VracClient::$statuts_labels[$this->valide->statut];
     }
@@ -761,17 +767,15 @@ class Vrac extends BaseVrac {
         }
     }
 
-    public function signatureByEtb($etb) {        
+    public function signatureByEtb($etb) {
         switch ($etb->getFamilleType()) {
             case 'vendeur' :
-                if ($etb->identifiant == $this->vendeur_identifiant)
-                {
+                if ($etb->identifiant == $this->vendeur_identifiant) {
                     $this->valide->_add('date_signature_vendeur', date('Y-m-d H:i:s'));
                 }
                 break;
-             case 'acheteur' :
-                if ($etb->identifiant == $this->acheteur_identifiant)
-                {
+            case 'acheteur' :
+                if ($etb->identifiant == $this->acheteur_identifiant) {
                     $this->valide->_add('date_signature_acheteur', date('Y-m-d H:i:s'));
                 }
                 break;
@@ -781,10 +785,10 @@ class Vrac extends BaseVrac {
 
     private function updateStatutForSignatures() {
         $allSignatures = ($this->isSigneVendeur() && $this->isSigneAcheteur());
-        if($this->mandataire_exist){
-            $allSignatures = $allSignatures &&  $this->isSigneCourtier();
+        if ($this->mandataire_exist) {
+            $allSignatures = $allSignatures && $this->isSigneCourtier();
         }
-        if($allSignatures){
+        if ($allSignatures) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_VALIDE;
             if (!$this->date_signature) {
                 $this->date_signature = date('Y-m-d H:i:s');
@@ -792,7 +796,7 @@ class Vrac extends BaseVrac {
         }
         return $allSignatures;
     }
-    
+
     public function isTeledeclare() {
         return $this->exist('teledeclare') && $this->teledeclare;
     }
@@ -823,7 +827,7 @@ class Vrac extends BaseVrac {
     }
 
     public function isSocieteHasSigned($societe) {
-        if(!$this->isTeledeclare()){
+        if (!$this->isTeledeclare()) {
             return true;
         }
         $etbsArr = $societe->getEtablissementsObj();
@@ -841,7 +845,7 @@ class Vrac extends BaseVrac {
         }
         return false;
     }
-    
+
     public function getEtbConcerned($societe) {
         $etbs = $societe->getEtablissementsObj();
         foreach ($etbs as $etbId => $etbStruct) {
@@ -858,7 +862,7 @@ class Vrac extends BaseVrac {
         }
         return null;
     }
-    
+
     public function isBrouillon() {
         return ($this->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON) || ($this->valide->statut == null);
     }
@@ -866,34 +870,33 @@ class Vrac extends BaseVrac {
     public function isTeledeclarationAnnulable() {
         return !$this->isVise();
     }
-    
+
     public function isCreateurType($etb_type) {
 
-        if(!$this->exist('createur_identifiant')
-                || !$this->createur_identifiant 
-                || !$this->exist('teledeclare')
-                || !$this->teledeclare ){
+        if (!$this->exist('createur_identifiant') || !$this->createur_identifiant || !$this->exist('teledeclare') || !$this->teledeclare) {
             return false;
         }
         $etablissement = EtablissementClient::getInstance()->findByIdentifiant($this->createur_identifiant);
-        if(!$etablissement){
+        if (!$etablissement) {
             return false;
         }
         return $etablissement->famille === $etb_type;
     }
 
     /* Méthode introduire lors du changement de schéma (finetuning) == à virer pour la mise en prod */
+
     public function getCourtageTaux() {
         if (!$this->exist('courtage_taux')) {
             return $this->get('repartition_taux');
         }
         return $this->_get('courtage_taux');
     }
+
     public function getCourtageRepartition() {
         if (!$this->exist('courtage_repartition')) {
             return $this->get('taux_repartition');
         }
         return $this->_get('courtage_repartition');
     }
-    
+
 }

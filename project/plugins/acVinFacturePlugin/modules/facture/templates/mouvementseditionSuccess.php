@@ -6,7 +6,7 @@
     
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 
-        <?php echo $form->renderHiddenFields(); ?>
+       
         <?php echo $form->renderGlobalErrors(); ?>       
 
 
@@ -43,17 +43,18 @@
                     <div class="col-xs-3 text-center lead text-muted">Identité</div>
                     <div class="col-xs-4 text-center lead text-muted">Code comptable</div>
                     <div class="col-xs-2 text-center lead text-muted">Complément de libellé</div>
-                    <div class="col-xs-1 text-center lead text-muted">Quantité</div>
                     <div class="col-xs-1 text-center lead text-muted">Prix&nbsp;U.</div>
+                    <div class="col-xs-1 text-center lead text-muted">Quantité</div>
                     <div class="col-xs-1 text-center lead text-muted">&nbsp;</div>
                 </div>
                 <?php foreach ($form['mouvements'] as $key => $mvtForm): ?>
-                        <?php include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm)); ?>
+                        <?php
+                        include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm,'item' => $factureMouvements->mouvements->get(str_replace('_', '/', $key)))); ?>
                    
                 <?php endforeach; ?> 
                 <?php include_partial('templateMouvementFactureItem', array('mvtForm' => $form->getFormTemplate(), 'mvtKey' => $form->getNewMvtId())); ?>
             </div>
-
+             <?php echo $form->renderHiddenFields(); ?>
         </div>
         <br/>
         <div class="row row-margin">

@@ -4,6 +4,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     protected $interpro_id;
     protected $keyMvt = null;
+    protected $isreadonly = array();
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $options['interpro_id'];
@@ -12,12 +13,24 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     }
 
     public function configure() {
+       
+        if ($this->getObject() && ($this->getObject() instanceof FactureMouvement)
+                && $this->getObject()->exist('facture') && $this->getObject()->facture) {
+            $this->isreadonly = array('readonly' => 'readonly');
+        }
+        
+        $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id), $this->isreadonly));
+        $this->setWidget("libelle", new sfWidgetFormInput(array(), $this->isreadonly));
+        $this->setWidget("quantite", new sfWidgetFormInputFloat(array(), $this->isreadonly));
+        $this->setWidget("prix_unitaire", new sfWidgetFormInputFloat(array(), $this->isreadonly));
 
-        $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id)));
-        $this->setWidget("libelle", new sfWidgetFormInput());
-        $this->setWidget("quantite", new sfWidgetFormInputFloat());
-        $this->setWidget("prix_unitaire", new sfWidgetFormInputFloat());
-        $this->setWidget("identifiant_analytique", new sfWidgetFormChoice(array('choices' => $this->getIdentifiantsAnalytiques())));
+        if ($this->getObject() && ($this->getObject() instanceof FactureMouvement)
+                && $this->getObject()->exist('facture') && $this->getObject()->facture) {
+            $this->setWidget("identifiant_analytique", new sfWidgetFormInputHidden());
+        } else {
+            $this->setWidget("identifiant_analytique", new sfWidgetFormChoice(array('choices' => $this->getIdentifiantsAnalytiques())));
+        }
+
 
         $this->setValidator('identifiant', new ValidatorSociete(array('required' => false)));
         $this->setValidator("identifiant_analytique", new sfValidatorChoice(array('choices' => array_keys($this->getIdentifiantsAnalytiques()), 'required' => false)));
@@ -33,7 +46,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     public function setDefaults($defaults) {
         parent::setDefaults($defaults);
         if ($this->getObject() && $this->getObject() instanceof FactureMouvement) {
-      
+
             if ($this->getObject()->getIdentifiant()) {
 
                 $identifiantSociete = preg_replace('/([0-9]{6})([0-9]{2})/', '\1', $this->getObject()->getIdentifiant());
@@ -59,6 +72,10 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     public function getIdentifiantsAnalytiques() {
         return ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
+    }
+
+    public function isReadonly() {
+        return $this->isreadonly;
     }
 
 }

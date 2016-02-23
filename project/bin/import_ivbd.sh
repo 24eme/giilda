@@ -94,10 +94,16 @@ cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR
 
 join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv $DATA_DIR/ppm_famille.uniq.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | awk -F ";" '
+cat $DATA_DIR/base_communication.csv | tr "\n" "#" | sed -r 's/#([0-9]+;[A-Z]*;[0-9]+;)/|\1/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/base_communication.cleaned.csv
+
+cat $DATA_DIR/base_communication.cleaned.csv | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
+join -t ";" -a 1 -1 1 -2 3 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv $DATA_DIR/base_communication.cleaned.sorted.csv > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | awk -F ";" '
 {
     identifiant=sprintf("%06d", $1);
-    nom=$11 " " $12 " " $13;
+    nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
     statut=($19) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
     adresse2=$39;
@@ -112,12 +118,12 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | awk -F ";" '
         siret=siren;
     }
     pays=$41;
-    email="";
-    tel_bureau="";
+    email=$73;
+    tel_bureau=$70;
     tel_perso="";
-    mobile="";
-    fax="";
-    web="";
+    mobile=$72;
+    fax=$71;
+    web=$74;
     commentaire="";
     famille="AUTRE";
     if($61) {
@@ -125,7 +131,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | awk -F ";" '
     }
 
     print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
-}' | sort > $DATA_DIR/societes.csv
+}' | sort | uniq > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
 
@@ -133,15 +139,15 @@ cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv
 
 join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 23,23 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv
 
-join -a 1 -t ";" -1 1 -2 23 -o auto  $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv  $DATA_DIR/evv_numero_ppm.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv
+join -a 1 -t ";" -1 1 -2 23 -o auto  $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv  $DATA_DIR/evv_numero_ppm.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv | awk -F ";" '
 {
     identifiant_societe=sprintf("%06d", $1);
     identifiant=identifiant_societe "01";
-    nom=$11 " " $12 " " $13;
+    nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
     statut=($19) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
     adresse2=$39;
@@ -156,14 +162,14 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
         siret=siren;
     }
     pays=$41;
-    email="";
-    tel_bureau="";
+    email=$73;
+    tel_bureau=$70;
     tel_perso="";
-    mobile="";
-    fax="";
-    web="";
+    mobile=$72;
+    fax=$71;
+    web=$74;
     commentaire="";
-    cvi=$64;
+    cvi=$83;
     famille="AUTRE";
     if($61) {
         famille=$61;
@@ -171,14 +177,17 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_evv.csv | awk -F ";" '
     if(famille == "AUTRE") {
         next;
     }
+    if(famille == "VITICULTEUR") {
+        famille = "PRODUCTEUR";
+    }
 
-    region="CVO";
+    region="REGION_CVO";
     if(code_postal !~ /^(24|33|46|47)/) {
-        region="HORS_CVO";
+        region="REGION_HORS_CVO";
     }
 
     print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";;;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
-}' | sort > $DATA_DIR/etablissements.csv
+}' | sort | uniq > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
@@ -537,7 +546,7 @@ do
 
         if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
         then
-            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true
+            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true --creation-depuis-precedente=true --env="ivbd"
         fi
 
         echo -n > $DATA_DIR/drm_lignes.csv
