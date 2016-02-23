@@ -28,29 +28,29 @@ class SocieteModificationForm extends acCouchdbObjectForm {
 
     public function configure() {
         if (!$this->reduct_rights) {
-            $this->setWidget('raison_sociale', new sfWidgetFormInput());
-            $this->setWidget('raison_sociale_abregee', new sfWidgetFormInput());
-            $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
+            $this->setWidget('raison_sociale', new bsWidgetFormInput());
+            $this->setWidget('raison_sociale_abregee', new bsWidgetFormInput());
+            $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
 
             //  $this->setWidget('type_societe', new sfWidgetFormChoice(array('choices' => $this->getSocieteTypes())));
             if (false) {
-	            $this->setWidget('type_numero_compte_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteFournisseur(), 'multiple' => true, 'expanded' => true)));
+	            $this->setWidget('type_numero_compte_fournisseur', new bsWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteFournisseur(), 'multiple' => true, 'expanded' => true)));
                     $this->widgetSchema->setLabel('type_numero_compte_fournisseur', 'Numéros de compte');
 	    }
             if ($this->getObject()->isNegoOrViti()) {
-                $this->setWidget('type_numero_compte_client', new sfWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
+                $this->setWidget('type_numero_compte_client', new bsWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
 
-                $this->setWidget('cooperative', new sfWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
+                $this->setWidget('cooperative', new bsWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
             }
 
-            $this->setWidget('type_fournisseur', new sfWidgetFormChoice(array('choices' => $this->getTypesFournisseur(), 'multiple' => true, 'expanded' => true)));
+            $this->setWidget('type_fournisseur', new bsWidgetFormChoice(array('choices' => $this->getTypesFournisseur(), 'multiple' => true, 'expanded' => true)));
 
-            $this->setWidget('siret', new sfWidgetFormInput());
-            $this->setWidget('code_naf', new sfWidgetFormInput());
-            $this->setWidget('no_tva_intracommunautaire', new sfWidgetFormInput());
+            $this->setWidget('siret', new bsWidgetFormInput());
+            $this->setWidget('code_naf', new bsWidgetFormInput());
+            $this->setWidget('no_tva_intracommunautaire', new bsWidgetFormInput());
             $this->embedForm('enseignes', new EnseignesItemForm($this->getObject()->enseignes));
         }
-        $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
         if (!$this->reduct_rights) {
             $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société *');
