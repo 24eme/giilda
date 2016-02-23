@@ -402,7 +402,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
-        mouvement="manquant";
+        mouvement="consommationfamilialedegustation";
         commentaire="Autres exonérations";
     }
 
