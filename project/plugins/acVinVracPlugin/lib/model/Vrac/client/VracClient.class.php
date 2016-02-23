@@ -170,7 +170,7 @@ class VracClient extends acCouchdbClient {
     }
 
     public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-' . $date . '10000')->endkey('VRAC-' . $date . '19999')->execute($hydrate);
+        return $this->startkey('VRAC-' . $date . '00000')->endkey('VRAC-' . $date . '99999')->execute($hydrate);
     }
 
     public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
