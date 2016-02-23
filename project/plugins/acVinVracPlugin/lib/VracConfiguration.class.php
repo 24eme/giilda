@@ -4,6 +4,8 @@ class VracConfiguration
 	private static $_instance = null;
 	protected $configuration;
 	
+	const ALL_KEY = "_ALL";
+	
 	public static function getInstance()
 	{
 		if(is_null(self::$_instance)) {
@@ -57,9 +59,11 @@ class VracConfiguration
 		return $this->configuration['etapes'];
 	}
 	
-	public function getChamps($etape)
+	public function getChampsSupprimes($etape, $type_transaction)
 	{
-		return $this->configuration['champs'][$etape];
+		$all = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][self::ALL_KEY]))? $this->configuration['champs_supprimes'][$etape][self::ALL_KEY] : array();
+		$champs = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][$type_transaction]))? $this->configuration['champs_supprimes'][$etape][$type_transaction] : array();
+		return array_merge($all, $champs);
 	}
 	public function getUnites()
 	{
@@ -82,7 +86,7 @@ class VracConfiguration
 		return $this->configuration['pdf'];
 	}
         
-        public function getSoldeSeuil()
+    public function getSoldeSeuil()
 	{
 		return $this->configuration['solde_seuil'];
 	}

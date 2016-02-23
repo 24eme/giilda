@@ -52,12 +52,12 @@
             colonnes.event_focus = function (colonne) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('active');
 
-                $('#list-produits a[data-hash="' + colonne.getHash() + '"] span').attr('style', "position:absolute; right: 1px; top:12px; color:#fff;");
+                $('#list-produits a[data-hash="' + colonne.getHash() + '"] span').attr('style', "position:absolute; right: 1px; top:5px; color:#fff;");
             }
 
             colonnes.event_unfocus = function (colonne) {
                 $('#list-produits a').removeClass('active');
-                $('#list-produits a span').attr('style', 'position:absolute; right: 1px; top:12px;');
+                $('#list-produits a span').attr('style', 'position:absolute; right: 1px; top:5px;');
 
             }
 

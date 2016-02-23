@@ -9,7 +9,7 @@
  * Description of class VracSoussigneForm
  * @author mathurin
  */
-class VracMarcheForm extends acCouchdbObjectForm {
+class VracMarcheForm extends VracForm {
 
     protected $_choices_produits;
     protected $_choices_cepages;
@@ -105,39 +105,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         $this->validatorSchema['degre']->setMessage('min', '7° minimum');
         $this->validatorSchema['degre']->setMessage('max', '15° maximum');
 
-        $this->useFields(VracConfiguration::getInstance()->getChamps('marche'));
-
-        if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
-            unset($this['jus_quantite']);
-            if (isset($this['lot'])) {
-                unset($this['lot']);
-            }
-            if (isset($this['degre'])) {
-                unset($this['degre']);
-            }
-        } else {
-            unset($this['raisin_quantite']);
-            unset($this['surface']);
-            if (isset($this['surface'])) {
-                unset($this['surface']);
-            }
-        }
-        if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
-            unset($this['bouteilles_contenance_libelle']);
-        }
-        if ($this->getObject()->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
-            if (isset($this['lot'])) {
-                unset($this['lot']);
-            }
-            if (isset($this['degre'])) {
-                unset($this['degre']);
-            }
-        }
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('marche', $this->getObject()->type_transaction));
 
         if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
 
             $this->setWidget('millesime', new sfWidgetFormInputHidden());
-            unset($this['millesime_85_15']);
         }
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
@@ -231,15 +203,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
         if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite'])) {
             $unites->jus_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['jus_quantite']['libelle']);
-            //if (!$this->getObject()->hasVersion()) {
             $this->getObject()->volume_initial = $this->getObject()->jus_quantite;
-            //}
         }
         if (isset($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite'])) {
             $unites->raisin_quantite->add($configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['raisin_quantite']['libelle']);
-            //if (!$this->getObject()->hasVersion()) {
             $this->getObject()->volume_initial = $this->getObject()->raisin_quantite;
-            //}
         }
         $unites->prix_initial_unitaire->add($configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['prix_initial_unitaire']['libelle']);
         $unites->volume_initial->add($configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['cle'], $configuration->getUnites()[$this->getObject()->type_transaction]['volume_initial']['libelle']);
@@ -253,10 +221,8 @@ class VracMarcheForm extends acCouchdbObjectForm {
         }
     }
 
-    public function getDomaines() {
-
-        //$this->domaines = array("" => "", "Château de Neuilly" => "Château de Neuilly", "Mas des Sablons" => "Mas des Sablons");
-        //return;
+    public function getDomaines() 
+    {
         $domaines = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
         $this->domaines = array('' => '');
         foreach ($domaines->rows as $resultDomaine) {

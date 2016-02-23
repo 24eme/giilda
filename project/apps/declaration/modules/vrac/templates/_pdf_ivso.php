@@ -95,7 +95,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \def\CONTRATCOURTIERCARTEPRO{, n° carte professionnelle:~<?php echo $vrac->mandataire->carte_pro ?>}
 
 \def\CONTRATTYPE{Moûts}
-\def\CONTRATTYPEUNITE{hl}
+\def\CONTRATTYPEUNITE{<?php if ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS): ?>kg<?php else: ?>hl<?php endif; ?>}
 \def\CONTRATPRODUITNATURE{<?php if ($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>Moûts<?php else: ?><?php if (preg_match('/AOC/', $vrac->produit)): ?>AOP<?php elseif (preg_match('/IGP/', $vrac->produit)): ?>IGP<?php endif;?><?php endif;?>}
 \def\CONTRATPRODUITLIBELLE{<?php echo $vrac->produit_libelle ?>}
 \def\CONTRATPRODUITCEPAGE{<?php echo $vrac->cepage_libelle ?>}

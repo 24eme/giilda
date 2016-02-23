@@ -61,7 +61,7 @@
 <?php if (!$isTeledeclarationMode && $drm->commentaire): ?>
     <div class="row">
         <div class="col-xs-12">
-            <h4>Commentaire</h4>
+            <h4>Commentaire interne</h4>
         </div>
         <div class="col-xs-12">
             <div class="well">
