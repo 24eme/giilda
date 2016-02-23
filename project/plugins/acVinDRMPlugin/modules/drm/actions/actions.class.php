@@ -167,7 +167,7 @@ class drmActions extends drmGeneriqueActions {
         
         $this->drmCsvEdi = new DRMCsvEdi($this->drm);
         $this->drmCsvEdi->importCSV($this->csvFile);        
-         $this->redirect('drm_validation', $this->drm);
+        $this->redirect('drm_validation', $this->drm);
         
     }
 
@@ -242,9 +242,8 @@ class drmActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = false;
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
-
-        // if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
-        //     throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+        if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR && $this->etablissement->famille != SocieteClient::SUB_TYPE_VITICULTEUR)
+             throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
 
         $this->campagne = $request->getParameter('campagne');
         if (!$this->campagne) {

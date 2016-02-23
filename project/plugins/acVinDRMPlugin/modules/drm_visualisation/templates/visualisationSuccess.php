@@ -61,7 +61,7 @@
 <?php if (!$isTeledeclarationMode && $drm->commentaire): ?>
     <div class="row">
         <div class="col-xs-12">
-            <h4>Commentaire</h4>
+            <h4>Commentaire interne</h4>
         </div>
         <div class="col-xs-12">
             <div class="well">
@@ -77,7 +77,7 @@
 <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvos' => $recapCvos, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
 <div class="row">
     <div class="col-xs-4">
-        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace</a>
+        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace DRM</a>
     </div>
     <?php if ($isTeledeclarationMode) : ?>
         <div class="col-xs-4 text-center">

@@ -22,13 +22,13 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget('nom', new sfWidgetFormInput());
-        $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
-        $this->setWidget('region', new sfWidgetFormChoice(array('choices' => $this->getRegions())));
+        $this->setWidget('nom', new bsWidgetFormInput());
+        $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
+        $this->setWidget('region', new bsWidgetFormChoice(array('choices' => $this->getRegions())));
         $this->embedForm('liaisons_operateurs', new LiaisonsItemForm($this->getObject()->liaisons_operateurs));
-        $this->setWidget('no_accises', new sfWidgetFormInput());
-        $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
-        $this->setWidget('site_fiche', new sfWidgetFormInput());
+        $this->setWidget('no_accises', new bsWidgetFormInput());
+        $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setWidget('site_fiche', new bsWidgetFormInput());
 
 
         $this->widgetSchema->setLabel('nom', 'Nom du chai *');
@@ -50,9 +50,9 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
         if (!$this->etablissement->isCourtier()) {
             $recette_locale = $this->getRecettesLocales();
-            $this->setWidget('cvi', new sfWidgetFormInput());
-            $this->setWidget('relance_ds', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
-            $this->setWidget('recette_locale_choice', new sfWidgetFormChoice(array('choices' => $recette_locale)));
+            $this->setWidget('cvi', new bsWidgetFormInput());
+            $this->setWidget('relance_ds', new bsWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
+            $this->setWidget('recette_locale_choice', new bsWidgetFormChoice(array('choices' => $recette_locale)));
             $this->widgetSchema->setLabel('cvi', 'CVI');
             $this->widgetSchema->setLabel('relance_ds', 'Relance DS *');            
             $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
@@ -61,9 +61,9 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
             
             if (!$this->etablissement->isNegociant()) {
-                $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
-                $this->setWidget('exclusion_drm', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
-                $this->setWidget('type_dr', new sfWidgetFormChoice(array('choices' => $this->getTypeDR())));
+                $this->setWidget('raisins_mouts', new bsWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
+                $this->setWidget('exclusion_drm', new bsWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
+                $this->setWidget('type_dr', new bsWidgetFormChoice(array('choices' => $this->getTypeDR())));
                 $this->widgetSchema->setLabel('raisins_mouts', 'Raisins et Moûts *');
                 $this->widgetSchema->setLabel('exclusion_drm', 'Exclusion DRM *');
                 $this->widgetSchema->setLabel('type_dr', 'Type de DR *');
@@ -72,7 +72,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
                 $this->setValidator('type_dr', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeDR()))));
             }
         } else {
-            $this->setWidget('carte_pro', new sfWidgetFormInput());
+            $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
