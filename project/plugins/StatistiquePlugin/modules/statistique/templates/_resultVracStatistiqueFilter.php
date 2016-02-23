@@ -72,13 +72,13 @@
 					<?php
 				        if (isset($item['doc']['volume_propose'])) {
 				            echoFloat($item['doc']['volume_propose']);
-				            echo '&nbsp;hl<br/>';
+				            echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$item['doc']['type_transaction']]['volume_initial']['libelle'].'<br/>';
 				            echo '<span class="text-muted">';
 				            if ($item['doc']['volume_enleve']) {
 				                echoFloat($item['doc']['volume_enleve']);
-				                echo '&nbsp;hl';
+				                echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$item['doc']['type_transaction']]['volume_vigueur']['libelle'];
 				            }else{
-				                echo '0.00&nbsp;hl';
+				                echo '0.00&nbsp;'.VracConfiguration::getInstance()->getUnites()[$item['doc']['type_transaction']]['volume_vigueur']['libelle'];
 				            }
 				            echo '</span>';
 				        }

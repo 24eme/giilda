@@ -108,13 +108,13 @@
         <?php
         if (isset($elt[VracHistoryView::VALUE_VOLUME_PROPOSE])) {
             echoFloat($elt[VracHistoryView::VALUE_VOLUME_PROPOSE]);
-            echo '&nbsp;hl<br/>';
+            echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['volume_initial']['libelle'].'<br/>';
             echo '<span class="text-muted">';
             if ($elt[VracHistoryView::VALUE_VOLUME_ENLEVE]) {
                 echoFloat($elt[VracHistoryView::VALUE_VOLUME_ENLEVE]);
-                echo '&nbsp;hl';
+                echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['volume_vigueur']['libelle'];
             }else{
-                echo '0.00&nbsp;hl';
+                echo '0.00&nbsp;'.VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['volume_vigueur']['libelle'];
             }
             echo '</span>';
         }
