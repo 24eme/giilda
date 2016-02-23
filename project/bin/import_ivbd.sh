@@ -166,7 +166,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro
     identifiant_societe=sprintf("%06d", $1);
     identifiant=identifiant_societe "01";
     nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
-    statut=($19) ? "SUSPENDU" : "ACTIF";
+    statut=($19 || $21) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
     adresse2=$39;
     adresse3=$40;
@@ -189,7 +189,10 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro
     commentaire="";
     cvi=$83;
     naccises="";
-    cartepro=$99;
+    cartepro=$33;
+    if(!cartepro) {
+        cartepro=$99;
+    }
     famille="AUTRE";
     if($61) {
         famille=$61;
