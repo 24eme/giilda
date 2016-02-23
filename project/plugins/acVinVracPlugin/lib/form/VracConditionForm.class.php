@@ -158,6 +158,10 @@ class VracConditionForm extends VracForm {
         if (!$this->getObject()->tva) {
             $this->setDefault('tva', 'AVEC');
         }
+        if ($this->getObject()->categorie_vin != 'GENERIQUE') {
+            $this->setDefault('autorisation_nom_vin', true);
+            $this->setDefault('autorisation_nom_producteur', true);
+        }
     }
 
 }
