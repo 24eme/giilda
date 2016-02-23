@@ -4,17 +4,9 @@
 # default values
 all:
   statistiques:
-    compte:
-      title: ""
-      nb_resultat: 20
-      elasticsearch_host: "http://127.0.0.1:9200/"
-      elasticsearch_dbname: "comptes"
-      elasticsearch_type: "COMPTE"
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20
-      elasticsearch_host: "http://127.0.0.1:9200/"
-      elasticsearch_dbname: "drm"
       elasticsearch_type: "DRM"
       champs:
         id:
@@ -90,8 +82,6 @@ all:
     vrac:
       title: "Etat des lieux de saisie des contrats interprofessionnels"
       nb_resultat: 20
-      elasticsearch_host: "http://127.0.0.1:9200/"
-      elasticsearch_dbname: "giilda_ivso"
       elasticsearch_type: "VRAC"
       champs:
         id:

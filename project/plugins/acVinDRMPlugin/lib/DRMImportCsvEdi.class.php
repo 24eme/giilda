@@ -200,6 +200,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $volume = round(floatval($csvRow[self::CSV_CAVE_VOLUME]), 2);
                 $cat_key = $confDetailMvt->getParent()->getKey();
                 $type_key = $confDetailMvt->getKey();
+                if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
+                    continue;
+                }
                 if ($confDetailMvt->hasDetails()) {
                     $detailTotalVol += floatval($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 

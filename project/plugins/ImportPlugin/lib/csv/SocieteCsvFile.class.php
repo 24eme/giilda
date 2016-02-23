@@ -52,12 +52,12 @@ class SocieteCsvFile extends CsvFile
               	$s = new Societe();
                 $s->identifiant = $id;
                 $s->constructId();
-                $s->raison_sociale = $line[self::CSV_NOM];
-        	    $s->raison_sociale_abregee = $line[self::CSV_NOM_REDUIT];
+                $s->raison_sociale = trim($line[self::CSV_NOM]);
+        	    $s->raison_sociale_abregee = trim($line[self::CSV_NOM_REDUIT]);
               	$s->interpro = 'INTERPRO-declaration';
-                $s->siret = $line[self::CSV_SIRET];
-                $s->code_naf = $line[self::CSV_CODE_NAF];
-                $s->no_tva_intracommunautaire = $line[self::CSV_TVA_INTRACOMMUNAUTAIRE];
+                $s->siret = str_replace(" ", "", $line[self::CSV_SIRET]);
+                $s->code_naf = str_replace(" ", "", $line[self::CSV_CODE_NAF]);
+                $s->no_tva_intracommunautaire = str_replace(" ", "", $line[self::CSV_TVA_INTRACOMMUNAUTAIRE]);
                 $s->commentaire = $line[self::CSV_COMMENTAIRE];
                 /*if ($line[self::CSV_COOPGROUP] == 'C') {
               		$s->cooperative = 1;
@@ -78,14 +78,23 @@ class SocieteCsvFile extends CsvFile
               	$s->save();
 
                 $c = $s->getContact();
-                $c->adresse = preg_replace('/,/', '', $line[self::CSV_ADRESSE]);
+                $c->adresse = trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE]));
                 if(preg_match('/[a-z]/i', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1])) {
-                    $c->add('adresse_complementaire',preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1]));
+                    $c->add('adresse_complementaire',trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1])));
                     if(preg_match('/[a-z]/i', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2])) {
-                        $c->adresse_complementaire .= " ; ".preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2]);
+                        $c->adresse_complementaire .= " ; ".trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2]));
                     }
                 }
-                $c->code_postal = $line[self::CSV_CODE_POSTAL];
+                $c->code_postal = trim($line[self::CSV_CODE_POSTAL]);
+
+                if(!$c->code_postal) {
+                     echo "WARNING: le code postal est vide pour la société ".$s->_id."\n";
+                }
+
+                if($c->code_postal && !preg_match("/^[0-9]{5}$/", $c->code_postal)) {
+                     echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$s->_id."\n";
+                }
+
                 $c->commune = $line[self::CSV_COMMUNE];
                 $c->pays = 'FR';
                 $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL]);

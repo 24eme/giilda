@@ -19,13 +19,11 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
 
             $this->setWidget("identifiant_analytique_numero_compte_" . $iaKey, new sfWidgetFormInput());
             $this->setWidget("identifiant_analytique_" . $iaKey, new sfWidgetFormInput());
-            $this->setWidget("identifiant_analytique_libelle_" . $iaKey, new sfWidgetFormInput());
             $this->setWidget("identifiant_analytique_libelle_compta_" . $iaKey, new sfWidgetFormInput());
 
 
             $this->setValidator("identifiant_analytique_numero_compte_" . $iaKey, new sfValidatorNumber(array("required" => false)));
             $this->setValidator("identifiant_analytique_" . $iaKey, new sfValidatorNumber(array("required" => false)));
-            $this->setValidator("identifiant_analytique_libelle_" . $iaKey, new sfValidatorString(array('required' => false)));
             $this->setValidator("identifiant_analytique_libelle_compta_" . $iaKey, new sfValidatorString(array('required' => false)));
         }
         $this->widgetSchema->setNameFormat('comptabilite_edition[%s]');
@@ -70,7 +68,6 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
         foreach ($this->getObject()->getOrAdd('identifiants_analytiques') as $iaKey => $identifiant_analytique) {
             $this->setDefault("identifiant_analytique_numero_compte_" . $iaKey, $identifiant_analytique->identifiant_analytique_numero_compte);
             $this->setDefault("identifiant_analytique_" . $iaKey, $identifiant_analytique->identifiant_analytique);
-            $this->setDefault("identifiant_analytique_libelle_" . $iaKey, $identifiant_analytique->identifiant_analytique_libelle);
             $this->setDefault("identifiant_analytique_libelle_compta_" . $iaKey, $identifiant_analytique->identifiant_analytique_libelle_compta);
         }
     }

@@ -74,11 +74,15 @@ famille=($15 ? "COURTIER" : famille ) ;
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
 nom=nom ; 
 if (famille == "AUTRE") next ;
-region="REGION_CVO";  
+code_postal=$9
+region="REGION_CVO";
+if(!code_postal) {
+    region="REGION_HORS_CVO";
+}
 identifiant_societe=sprintf("%06d", $1);
 identifiant=identifiant_societe "01";
 
-print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
@@ -105,8 +109,9 @@ if(length($7) > 7){
    num_bordereau=substr($7,1,7);
 }
 id_vrac=sprintf("%4d%07d", $5 , num_bordereau);
-produit_id=$2; 
 libelle_produit=$41; 
+libelle_cepage=$42; 
+millesime=$17; 
 vin_bio=$19;
 vin_prepare=$20;
 caracteristiques_vins="";
@@ -162,7 +167,7 @@ if(annule=="O") {
 
 clauses=clause_reserve_propriete "," preparation_vin;
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";" produit_id ";" libelle_produit ";" $17 ";" $1 ";" $41 ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
@@ -303,8 +308,7 @@ ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
-    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true
-#    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --creation-depuis-precedente=true
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --env="ivso"
 done
 
 echo "Contrôle de cohérence des DRM"

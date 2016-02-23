@@ -50,7 +50,7 @@ class SocieteAllView extends acCouchdbView
       }
       $q = implode(' ', $query);
 
-      $index = acElasticaManager::getType('compte', 'SOCIETE');
+      $index = acElasticaManager::getType('SOCIETE');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($q);

@@ -13,7 +13,6 @@ class FactureMouvement extends BaseFactureMouvement {
             throw new sfException("L'identifiant analytique $identifiant_analytique n'existe pas dans le document de COMPTABILITE");
         }
         $this->setIdentifiantAnalytique($identifiant_analytique);
-        $this->setIdentifiantAnalytiqueLibelle($node_analytique->identifiant_analytique_libelle);
         $this->setIdentifiantAnalytiqueLibelleCompta($node_analytique->identifiant_analytique_libelle_compta);
     }
 

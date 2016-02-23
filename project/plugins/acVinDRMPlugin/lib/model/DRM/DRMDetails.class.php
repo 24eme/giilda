@@ -6,10 +6,10 @@
  */
 class DRMDetails extends BaseDRMDetails {
 
-    public function getConfigDetails() {        
+    public function getConfigDetails() {
         return $this->getDocument()->getConfig()->declaration->detail;
     }
-    
+
     public function getProduit($labels = array()) {
         $slug = $this->slugifyLabels($labels);
         if (!$this->exist($slug)) {
@@ -25,9 +25,9 @@ class DRMDetails extends BaseDRMDetails {
         $detail->labels = $labels;
         foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
             foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
-                $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
-                if($detailConfigNode->hasDetails()) {
-                    $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey."_details", null);
+                $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey, null);
+                if ($detailConfigNode->hasDetails()) {
+                    $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey . "_details", null);
                 }
             }
         }
@@ -48,10 +48,7 @@ class DRMDetails extends BaseDRMDetails {
         }
 
         return ($key) ? $key : DRM::DEFAULT_KEY;
-    }    
-    
-    public function hasTypeDoc(){
-        return true;
     }
+
 
 }
