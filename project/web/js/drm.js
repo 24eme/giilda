@@ -32,20 +32,34 @@
             colonnes = new $.Colonnes();
             colonnes.init();
 
-            colonnes.event_valider = function (colonne) {
+            colonnes.event_valider = function (colonne, nextfocus) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('list-group-item-success');
-                /*var select2Produit = $("#s2id_produit_declaration_hashref").data('select2');
-                 setTimeout(function () {
-                 if (!select2Produit.opened()) {
-                 select2Produit.open();
-                 }
-                 }, 0);*/
-                var next = colonne.getNext();
-                if (next) {
-                    next.focus();
-                    next.focusChampDefault();
+
+                if ((nextfocus == undefined) || (nextfocus == 'nextCol')) {
+                    var next = colonne.getNext();
+                    if (next) {
+                        next.focus();
+                        next.focusChampDefault();
+                    } else {
+                        $('form button.btn-success').focus();
+                    }
                 } else {
-                    $('form button.btn-success').focus();
+                    if (nextfocus == 'produits') {
+                        var select2Produit = $("#s2id_produit_declaration_hashref").data('select2');
+                        setTimeout(function () {
+                            if (!select2Produit.opened()) {
+                                select2Produit.open();
+                            }
+                        }, 0);
+                    }
+                    if (nextfocus == 'prevCol') {
+                        var prev = colonne.gePrevious();
+                        console.log(prev);
+                        if (prev) {
+                            prev.focus();
+                            prev.focusChampDefault();
+                        }
+                    }
                 }
             }
 
@@ -126,21 +140,35 @@
             var keyCode = event.keyCode || event.which;
             if (keyCode == 9 && event.shiftKey) {
                 var datapreviousfocus = $(this).data('previousfocus');
-                $('a[tabindex='+datapreviousfocus+']').focus();
+                $('a[tabindex=' + datapreviousfocus + ']').focus();
                 return false;
+            }
+        });
+        $('input.somme_detail').keydown(function (e) {
+            var event = window.event || e;
+            var keyCode = event.keyCode || event.which;
+            if (event.ctrlKey) {
+                if (keyCode == 38) {
+                    var col = colonnes.findByHash($('.col_focus').data('hash'));
+                    col.valider('produits');
+                    return false;
+                }
+                if (keyCode == 39) {
+                    var col = colonnes.findByHash($('.col_focus').data('hash'));
+                    col.valider('nextCol');
+                    return false;
+                }
+                if (keyCode == 37) {
+                    var col = colonnes.findByHash($('.col_focus').data('hash'));
+                    col.valider('prevCol');
+                    return false;
+                }
             }
         });
     }
 
     var initSignatureDrmPopup = function () {
 
-        /*$('a.signature_drm_popup').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         minWidth: 500
-         });*/
 
         $('#signature_drm_popup_content a#signature_drm_popup_close').click(function () {
             //$.fancybox.close();
