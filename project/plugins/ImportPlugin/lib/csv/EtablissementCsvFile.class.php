@@ -80,10 +80,15 @@ class EtablissementCsvFile extends CsvFile
 
           $e->famille=$line[self::CSV_TYPE];
 
+          if(!array_key_exists($e->famille, EtablissementFamilles::getFamilles())) {
+
+              throw new sfException(sprintf("La famille %s n'est pas connue", $e->famille));
+          }
+
         	$e->nom = trim($line[self::CSV_NOM]);
-          $e->cvi = (isset($line[self::CSV_CVI])) ? $line[self::CSV_CVI] : null;
-          $e->no_accises = (isset($line[self::CSV_NO_ACCISES])) ? $line[self::CSV_NO_ACCISES] : null;
-          $e->carte_pro = (isset($line[self::CSV_CARTE_PRO])) ? $line[self::CSV_CARTE_PRO] : null;
+          $e->cvi = (isset($line[self::CSV_CVI])) ? str_replace(" ", "", $line[self::CSV_CVI]) : null;
+          $e->no_accises = (isset($line[self::CSV_NO_ACCISES])) ? str_replace(" ", "", $line[self::CSV_NO_ACCISES]) : null;
+          $e->carte_pro = (isset($line[self::CSV_CARTE_PRO])) ? str_replace(" ", "", $line[self::CSV_CARTE_PRO]) : null;
           $e->interpro = 'INTERPRO-declaration';
           $e->statut = $line[self::CSV_STATUT];
           $e->region = (isset($line[self::CSV_REGION])) ? $line[self::CSV_REGION] : null;
@@ -100,38 +105,5 @@ class EtablissementCsvFile extends CsvFile
 
   public function getErrors() {
     return $this->errors;
-  }
-
-  public function convertTypeInFamille($type) {
-
-    $types_familles = array(
-      self::CSV_TYPE_PARTENAIRE_VITICULTEUR => EtablissementFamilles::FAMILLE_PRODUCTEUR,
-      self::CSV_TYPE_PARTENAIRE_NEGOCE => EtablissementFamilles::FAMILLE_NEGOCIANT,
-      self::CSV_TYPE_PARTENAIRE_COURTIER => EtablissementFamilles::FAMILLE_COURTIER,
-    );
-
-    if (array_key_exists($type, $types_familles)) {
-      
-      return $types_familles[$type];
-    }
-
-    return null;
-  }
-
-  public function getSousFamilleDefaut($famille) {
-    if($famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-
-        return EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-    }
-
-    if($famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
-        
-        return EtablissementFamilles::SOUS_FAMILLE_REGIONAL;
-    }
-
-    if($famille == EtablissementFamilles::FAMILLE_COURTIER) {
-        
-        return '';
-    }
   }
 }

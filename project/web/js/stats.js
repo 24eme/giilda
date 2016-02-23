@@ -28,8 +28,25 @@ var initCollectionAddTemplate = function(element, regexp_replace, callback)
         return false;
     });
 }
+var initStatistiques = function()
+{
+	var form = $("#statistiques-form");
+	var formAction = form.attr('action')
+	var csvLink = $("#statistiques-csv");
+
+	csvLink.on('click', function() {
+		var link = csvLink.attr('href');
+		form.attr('action', link);
+		form.submit();
+		form.attr('action', formAction);
+        return false;
+    });
+}
 $(document).ready(function ()
 {
-	initCollectionAddTemplate('.btn_ajouter_ligne_template', /var---nbItem---/g, null);
-	initCollectionDeleteTemplate();
+    if ($('#statistiques').length > 0) {
+    	initCollectionAddTemplate('.btn_ajouter_ligne_template', /var---nbItem---/g, null);
+    	initCollectionDeleteTemplate();
+        initStatistiques();
+    }
 });

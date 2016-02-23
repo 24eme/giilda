@@ -1,16 +1,16 @@
+<?php use_helper('Float'); ?>
+<?php use_helper('Vrac'); ?>
+<?php use_helper('Date'); ?>
 <table class="table table-striped">
 	<thead>
-		<tr>
+		<tr>			
+            <th>&nbsp;</th>
 			<th>Visa</th>
-			<th>Produit</th>
-			<th>Volume (hl)</th>
-			<th>Prix unitaire (€)</th>
-			<th>Date de saisie</th>
-			<th>Date de signature</th>
-			<th>Vendeur</th>
-			<th>Acheteur</th>
-			<th>Courtier</th>
-			<th>Statut</th>
+            <th style="width: 110px;">Date</th>
+            <th>Soussignés</th>   
+            <th>Produit (Millésime)</th>
+            <th>Vol.&nbsp;prop. (Vol.&nbsp;enl.)</th>
+            <th>Prix</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -19,39 +19,81 @@
 		$item = $hit->getData();
 		$etab = null; 
 		?>
-			<tr>
+			<tr class="<?php echo statusCssClass($item['doc']['valide']['statut']) ?>">
+				<td class="text-center"><span class="<?php echo typeToPictoCssClass($item['doc']['type_transaction']) ?>" style="font-size: 24px;"></span></td>
 				<td>
-					<a href="<?php echo ($item['doc']['numero_archive'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>"><?php echo $item['doc']['numero_archive'] ?></a>
-				</td>
-				<td><?php echo $item['doc']['produit_libelle'] ?></td>
-				<td><?php echo number_format($item['doc']['volume_propose'], 2, ',', ' ') ?></td>
-				<td><?php echo number_format($item['doc']['prix_unitaire'], 2, ',', ' ') ?></td>
-				<td><?php echo ($item['doc']['valide']['date_saisie'])? strftime('%d/%m/%Y', strtotime($item['doc']['valide']['date_saisie'])) : null; ?></td>
-				<td><?php echo ($item['doc']['date_signature'])? strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?></td>
-				<td>
-					<?php if ($item['doc']['vendeur_identifiant']): ?>
-						<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $item['doc']['vendeur_identifiant'])) ?>"><?php echo $item['doc']['vendeur']['nom'] ?></a>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
+					<a href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>"><?php if ($item['doc']['numero_archive']) echo $item['doc']['numero_archive']; elseif($item['doc']['valide']['statut']) echo "Non visé"; else "Brouillon";  ?></a>
+					
+                    <br />
+                    <?php if($item['doc']['teledeclare']): ?>
+                    Télédeclaré
+                    <?php endif; ?>
 				</td>
 				<td>
-					<?php if ($item['doc']['acheteur_identifiant']): ?>
-						<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $item['doc']['acheteur_identifiant'])) ?>"><?php echo $item['doc']['acheteur']['nom'] ?></a>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
+					<?php echo ($item['doc']['date_signature'])? '<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?>
+					<br />
+					<?php echo ($item['doc']['valide']['date_saisie'])? '<span class="text-muted"><span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de saisie (validation interpro)"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['valide']['date_saisie'])) : null; ?>
 				</td>
 				<td>
-					<?php if ($item['doc']['mandataire_identifiant']): ?>
-						<a href="<?php echo url_for('drm_etablissement', array('identifiant' => $item['doc']['mandataire_identifiant'])) ?>"><?php echo $item['doc']['mandataire']['nom'] ?></a>
-					<?php else: ?>
-						&nbsp;
-					<?php endif; ?>
+					
+			        <?php
+			        echo ($item['doc']['vendeur_identifiant']) ?
+			                'Vendeur : ' . link_to($item['doc']['vendeur']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['vendeur_identifiant'])) : '';
+			        ?>
+			        <br />
+			        <?php
+			        echo ($item['doc']['acheteur_identifiant']) ?
+			                'Acheteur : ' . link_to($item['doc']['acheteur']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['acheteur_identifiant'])) : '';
+			            ?>
+			        <?php
+			            $has_representant = ($item['doc']['representant_identifiant'] != $item['doc']['vendeur_identifiant']) ? $item['doc']['representant_identifiant'] : 0;
+			            if ($has_representant) echo '<br/>';
+			            echo ($has_representant) ?
+			                'Representant : ' . link_to($item['doc']['representant']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['representant_identifiant'])) : '';
+			            ?>
+			        <?php if($item['doc']['mandataire_identifiant']): ?>
+			            <br />
+			        <?php
+			        echo ($item['doc']['mandataire_identifiant']) ?
+			                'Courtier : ' . link_to($item['doc']['mandataire']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['mandataire_identifiant'])) : '';
+			        ?>
+			        <?php endif; ?>
+				
+				
 				</td>
-				<td><?php echo $item['doc']['valide']['statut'] ?></td>
+				<td>
+					<?php $produit = ($item['doc']['type_transaction'] == VracClient::TYPE_TRANSACTION_VIN_VRAC || $item['doc']['type_transaction'] == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $item['doc']['produit_libelle'] : $item['doc']['cepage_libelle'];
+		            $millesime = $item['doc']['millesime'] ? $item['doc']['millesime'] : 'nm'; 
+		            if ($produit)
+		                echo "<strong>$produit</strong> ($millesime)";?>
+				
+				</td>
+				<td class="text-right">
+					<?php
+				        if (isset($item['doc']['volume_propose'])) {
+				            echoFloat($item['doc']['volume_propose']);
+				            echo '&nbsp;hl<br/>';
+				            echo '<span class="text-muted">';
+				            if ($item['doc']['volume_enleve']) {
+				                echoFloat($item['doc']['volume_enleve']);
+				                echo '&nbsp;hl';
+				            }else{
+				                echo '0.00&nbsp;hl';
+				            }
+				            echo '</span>';
+				        }
+				        ?>
+				</td>
+				
+				<td class="text-right">
+					<?php
+			            if (isset($item['doc']['prix_initial_unitaire'])) {
+			                echoFloat($item['doc']['prix_initial_unitaire']);
+			                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$item['doc']['type_transaction']]['prix_initial_unitaire']['libelle'] ;
+			            }
+			        ?>
+				</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-</div>

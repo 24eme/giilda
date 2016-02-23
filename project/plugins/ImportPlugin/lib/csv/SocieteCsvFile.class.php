@@ -55,9 +55,9 @@ class SocieteCsvFile extends CsvFile
                 $s->raison_sociale = trim($line[self::CSV_NOM]);
         	    $s->raison_sociale_abregee = trim($line[self::CSV_NOM_REDUIT]);
               	$s->interpro = 'INTERPRO-declaration';
-                $s->siret = $line[self::CSV_SIRET];
-                $s->code_naf = $line[self::CSV_CODE_NAF];
-                $s->no_tva_intracommunautaire = $line[self::CSV_TVA_INTRACOMMUNAUTAIRE];
+                $s->siret = str_replace(" ", "", $line[self::CSV_SIRET]);
+                $s->code_naf = str_replace(" ", "", $line[self::CSV_CODE_NAF]);
+                $s->no_tva_intracommunautaire = str_replace(" ", "", $line[self::CSV_TVA_INTRACOMMUNAUTAIRE]);
                 $s->commentaire = $line[self::CSV_COMMENTAIRE];
                 /*if ($line[self::CSV_COOPGROUP] == 'C') {
               		$s->cooperative = 1;
