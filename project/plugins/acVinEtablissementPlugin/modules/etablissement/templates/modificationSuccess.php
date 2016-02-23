@@ -16,10 +16,9 @@
     
     <!-- #contenu_etape -->
     <section id="contacts">
-        <div id="nouveau_etablissement">
+        <div class="col-md-8 col-md-offset-2">
             <h2><?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : $etablissement->nom; ?></h2>
             <form class="form-horizontal" action="<?php echo ($etablissement->isNew()) ? url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)) : url_for('etablissement_modification', array('identifiant' => $etablissement->identifiant)); ?>" method="post">
-                <div class="col-md-8">
                 <div id="detail_societe" class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Détail de l'établissement</h3></div>
                     <?php include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm, 'etablissement' => $etablissement)); ?>

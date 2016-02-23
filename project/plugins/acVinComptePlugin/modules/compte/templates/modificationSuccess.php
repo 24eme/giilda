@@ -6,7 +6,7 @@
 
 	<!-- #contacts -->
 	<section id="contacts">
-		<div id="nouveau_contact" class="col-xs-8 col-xs-offset-2">
+		<div id="nouveau_contact" class="col-md-8 col-md-offset-2">
 			<h2><?php echo (!$compte->isNew())? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></h2>
 
 
