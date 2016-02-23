@@ -1,4 +1,4 @@
-<form id="form_ajout" action="<?php echo url_for('produit_modification', array('noeud' => $form->getObject()->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>" method="post">
+<form id="form_ajout" class="form-horizontal" action="<?php echo url_for('produit_modification', array('noeud' => $form->getObject()->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>" method="post">
     <?php echo $form->renderGlobalErrors() ?>
     <?php echo $form->renderHiddenFields() ?>
 
@@ -102,8 +102,7 @@
                                 <?php echo $form['produit_non_interpro']->renderError() ?>
                                 <div class="form-group <?php if ($form['produit_non_interpro']->hasError()): ?>has-error<?php endif; ?>" >
                                     <?php echo $form['produit_non_interpro']->renderLabel(); ?>
-                                    <?php echo $form['produit_non_interpro']->render(array('class' => 'form-control', 'placeholder' => 'Produit hors Interpro (non visible dans la télédeclaration des DRM)')); ?>
-
+                                    <?php echo $form['produit_non_interpro']->render(array('class' => 'form-control')); ?>
                                 </div>
                             </div>
                         </div>
