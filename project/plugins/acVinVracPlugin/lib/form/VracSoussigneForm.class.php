@@ -9,7 +9,7 @@
  * Description of class VracSoussigneForm
  * @author mathurin
  */
-class VracSoussigneForm extends acCouchdbObjectForm {
+class VracSoussigneForm extends VracForm {
 
     private $vendeurs = null;
     private $acheteurs = null;
@@ -120,7 +120,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
 
 
         $this->validatorSchema->setPostValidator(new ValidatorVracSoussigne());
-        $this->useFields(VracConfiguration::getInstance()->getChamps('soussigne'));
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('soussigne', $this->getObject()->type_transaction));
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
 

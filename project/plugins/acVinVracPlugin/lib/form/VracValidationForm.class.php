@@ -9,7 +9,7 @@
  * Description of class VracValidationForm
  * @author mathurin
  */
-class VracValidationForm extends acCouchdbObjectForm {
+class VracValidationForm extends VracForm {
 	
     protected $isTeledeclarationMode;
 
@@ -31,6 +31,9 @@ class VracValidationForm extends acCouchdbObjectForm {
         		'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
         		'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
         $this->setValidator('date_signature', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)));
+        
+
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('validation', $this->getObject()->type_transaction));
 
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }

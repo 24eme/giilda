@@ -29,12 +29,13 @@
                         endif;                    
                     ?>
                 </div>
-                <div class="form_btn">
+                <div class="col-xs-6">
                     <?php if($societe->isInCreation()): ?>
                     <a href="<?php echo url_for('societe_annulation', $societe); ?>" class="btn btn-default">Annuler</a>
                     <?php else: ?>
                     <a href="<?php echo url_for('societe_visualisation', $societe); ?>" class="btn btn-default">Annuler</a>
                     <?php endif; ?>
+                </div><div class="col-xs-6 text-right">
                     <button id="btn_valider" type="submit" class="btn btn-success">Valider</button>
                 </div>
                </div>
@@ -49,7 +50,7 @@ slot('colButtons');
     <h2>Action</h2>
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
+            <a href="<?php echo url_for('societe'); ?>" class="btn btn-default"><span>Retour à l'accueil</span></a>
         </div>
     </div>
 </div>

@@ -261,9 +261,6 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
 			<?php else: ?>
                 </ul>
             <?php endif; ?>
-            <div class="panel-body text-center text-muted">
-                <i>Pas d'enlèvement enregistré pour le moment sur ce contrat</i>
-            </div>
                 <?php if (count($enlevements)): ?>
                 <div class="panel-footer">
                     <div class="row">
@@ -275,6 +272,10 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </strong>
                     </div>
                 </div>
+                <?php else: ?>
+            <div class="panel-body text-center text-muted">
+                <i>Pas d'enlèvement enregistré pour le moment sur ce contrat</i>
+            </div>
                 <?php endif; ?>
             </div>
         </div>
