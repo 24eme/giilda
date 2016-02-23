@@ -144,10 +144,11 @@ class VracCsvFile extends CsvFile {
 
                 if ($line[self::CSV_LABELS]) {
                     $labels_contrat_array = explode(",", $line[self::CSV_LABELS]);
-                    foreach ($labels_contrat_array as $label_key => $label_libelle) {
-                        if (in_array($label_libelle, array_keys(self::$labels_array))) {
+                    foreach ($labels_contrat_array as $label_key) {
+                        $label_key = trim($label_key);
+                        if (array_key_exists($label_key, self::$labels_array)) {
 
-                            $v->getOrAdd('label')->add($label_key, $label_libelle);
+                            $v->getOrAdd('label')->add($label_key, self::$labels_array[$label_key]);
                         }
                     }
                 }
