@@ -9,7 +9,7 @@
  * Description of class VracSoussigneForm
  * @author mathurin
  */
-class VracConditionForm extends acCouchdbObjectForm {
+class VracConditionForm extends VracForm {
 
     protected $isTeledeclarationMode;
 
@@ -81,15 +81,9 @@ class VracConditionForm extends acCouchdbObjectForm {
         
         $this->validatorSchema['date_limite_retiraison']->setMessage('required', 'La date limite de retiraison doit être renseignée.');
         $this->validatorSchema['date_debut_retiraison']->setMessage('required', 'La date de début de retiraison doit être renseignée.');
-        $this->useFields(VracConfiguration::getInstance()->getChamps('condition'));
-
-
-        if (!in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
-            unset($this['autorisation_nom_vin'], $this['autorisation_nom_producteur']);
-        }
-        if ($this->getObject()->type_transaction != VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
-            unset($this['preparation_vin'], $this['embouteillage'], $this['conditionnement_crd']);
-        }
+        
+        $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('condition', $this->getObject()->type_transaction));
+        
         if (!$this->getObject()->mandataire_exist) {
             unset($this['courtage_taux'], $this['courtage_repartition']);
         }
