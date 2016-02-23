@@ -5,7 +5,7 @@ use_helper('Vrac');
 use_helper('Date');
 use_helper('DRM');
 
-$isValidation = (is_null($vrac->valide->statut));
+$isValidation = !(is_null($vrac->valide->statut));
 $isPrixVariable = (!$vrac->prix_total);
 $liClass = ($isValidation) ? '' : 'class="lightpadding"';
 $template_validation = (isset($template_validation)) ? $template_validation : false;
@@ -149,6 +149,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                     </li>
                                 <?php endif; ?>
 				<?php if ($isValidation) : ?>
+                               <li class="list-group-item">Date de saisie : <strong><?php echo format_date($vrac->valide->date_saisie, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
                                <li class="list-group-item">Date de signature : <strong><?php echo format_date($vrac->date_signature, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
 				<?php endif; ?>
                                <li class="list-group-item">Campagne viticole : <strong><?php echo $vrac->campagne; ?></strong></li>
