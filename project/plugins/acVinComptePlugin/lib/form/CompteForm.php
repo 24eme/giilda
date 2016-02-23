@@ -17,12 +17,12 @@ class CompteForm extends CompteCoordonneeSameSocieteForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget('statut', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
-        $this->setWidget('civilite', new sfWidgetFormChoice(array('choices' => $this->getCiviliteList())));
-        $this->setWidget('nom', new sfWidgetFormInput());
-        $this->setWidget('prenom', new sfWidgetFormInput());
-        $this->setWidget('fonction', new sfWidgetFormInput());
-        $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
+        $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => $this->getCiviliteList())));
+        $this->setWidget('nom', new bsWidgetFormInput());
+        $this->setWidget('prenom', new bsWidgetFormInput());
+        $this->setWidget('fonction', new bsWidgetFormInput());
+        $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         
 
         $this->widgetSchema->setLabel('statut', 'Statut *');

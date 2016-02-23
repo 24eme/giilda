@@ -6,86 +6,65 @@
 
 	<!-- #contacts -->
 	<section id="contacts">
-		<div id="nouveau_contact">
+		<div id="nouveau_contact" class="col-xs-8 col-xs-offset-2">
 			<h2><?php echo (!$compte->isNew())? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></h2>
 
 
-			<form action="<?php echo ($compte->isNew())? url_for('compte_ajout', array('identifiant' => $societe->identifiant)) : url_for('compte_modification', array('identifiant' => $compte->identifiant)); ?>" method="post">
-			<div class="form_btn">
-                <?php if($compte->isNew()): ?>
-				    <a href="<?php echo url_for('societe_visualisation', $societe);?>" class="btn_majeur btn_annuler">Annuler</a>
-                <?php else: ?>
-                    <a href="<?php echo url_for('compte_visualisation', $compte);?>" class="btn_majeur btn_annuler">Annuler</a>
-                <?php endif; ?>
-				<button class="btn_majeur btn_valider">
-                    <?php echo (!$compte->isSameCoordonneeThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
-                </button>
-			</div>
-				<div id="detail_contact" class="form_section ouvert">
-					<h3>Détail de l'interlocuteur</h3>
-					<div class="form_contenu">
+			<form action="<?php echo ($compte->isNew())? url_for('compte_ajout', array('identifiant' => $societe->identifiant)) : url_for('compte_modification', array('identifiant' => $compte->identifiant)); ?>" method="post" class="form-horizontal">
+				<div id="detail_contact" class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Détail de l'interlocuteur</h3></div>
+                    <div class="panel-body">
                         <?php
                         echo $compteForm->renderHiddenFields();
                         echo $compteForm->renderGlobalErrors();
                         ?>
-                                <div class="form_ligne">
+                        <div class="form-group">
                             <?php echo $compteForm['statut']->renderError(); ?>
-                            <label for="statut">
-                                <?php echo $compteForm['statut']->renderLabel(); ?>
-                            </label>
-                            <?php echo $compteForm['statut']->render(); ?>
+                            <?php echo $compteForm['statut']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+                            <div class="col-xs-8"><?php echo $compteForm['statut']->render(); ?></div>
                         </div>
                     
-                        <div class="form_ligne">
+                        <div class="form-group">
                             <?php echo $compteForm['civilite']->renderError(); ?>
-                            <label for="civilite">
-                                <?php echo $compteForm['civilite']->renderLabel(); ?>
-                            </label>
-                            <?php echo $compteForm['civilite']->render(); ?>
+                            <?php echo $compteForm['civilite']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+                            <div class="col-xs-8"><?php echo $compteForm['civilite']->render(); ?></div>
                         </div>
-                        <div class="form_ligne">
-                            <label for="prenom">
-                                <?php echo $compteForm['prenom']->renderLabel(); ?>
-                            </label>
-                            <?php echo $compteForm['prenom']->render(); ?>
+                        <div class="form-group">
                             <?php echo $compteForm['prenom']->renderError(); ?>
+                            <?php echo $compteForm['prenom']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+                            <div class="col-xs-8"><?php echo $compteForm['prenom']->render(); ?></div>
                         </div>
-                        <div class="form_ligne">
-                            <label for="nom">
-                                <?php echo $compteForm['nom']->renderLabel(); ?>
-                            </label>
-                            <?php echo $compteForm['nom']->render(); ?>
+                        <div class="form-group">
                             <?php echo $compteForm['nom']->renderError(); ?>
+                            <?php echo $compteForm['nom']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+                            <div class="col-xs-8"><?php echo $compteForm['nom']->render(); ?></div>
                         </div>
-                        <div class="form_ligne">
-                            <label for="fonction">
-                                <?php echo $compteForm['fonction']->renderLabel(); ?>
-                            </label>
-                            <?php echo $compteForm['fonction']->render(); ?>
+                        <div class="form-group">
                             <?php echo $compteForm['fonction']->renderError(); ?>
+                            <?php echo $compteForm['fonction']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+                            <div class="col-xs-8"><?php echo $compteForm['fonction']->render(); ?></div>
                         </div>                
-                        <div class="form_ligne">
-                            <label for="commentaire">
-                                <?php echo $compteForm['commentaire']->renderLabel(); ?>
-                            </label>
-                            <?php echo $compteForm['commentaire']->render(); ?>
+                        <div class="form-group">
                             <?php echo $compteForm['commentaire']->renderError(); ?>
+                            <?php echo $compteForm['commentaire']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+                            <div class="col-xs-8"><?php echo $compteForm['commentaire']->render(); ?></div>
                         </div> 
                     </div>
 				</div>
 
-                <div id="coordonnees_contact" class="form_section ouvert">
-                    <h3>Coordonnées de l'interlocuteur</h3>
+                <div id="coordonnees_contact" class="form_section ouvert panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'interlocuteur</h3></div>
                     <?php include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $compteForm)); ?>
                 </div> 
                             
-			<div class="form_btn">
+			<div class="col-xs-6">
 				<?php if($compte->isNew()): ?>
-                    <a href="<?php echo url_for('societe_visualisation', $societe);?>" class="btn_majeur btn_annuler">Annuler</a>
+                    <a href="<?php echo url_for('societe_visualisation', $societe);?>" class="btn btn-default">Annuler</a>
                 <?php else: ?>
-                    <a href="<?php echo url_for('compte_visualisation', $compte);?>" class="btn_majeur btn_annuler">Annuler</a>
+                    <a href="<?php echo url_for('compte_visualisation', $compte);?>" class="btn btn-default">Annuler</a>
                 <?php endif; ?>
-                <button class="btn_majeur btn_valider">
+            </div><div class="col-xs-6 text-right">
+                <button class="btn btn-success">
                     <?php echo (!$compte->isSameCoordonneeThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
                 </button>
 			</div>
@@ -102,18 +81,18 @@ slot('colButtons');
     <h2>Action</h2>
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Accueil des sociétés</span></a>
+            <a href="<?php echo url_for('societe'); ?>" class="btn btn-default"><span>Accueil des sociétés</span></a>
         </div>
     </div>
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Accueil de la société</span></a>
+            <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span>Accueil de la société</span></a>
         </div>
     </div>
     <?php if(!$compte->isNew()) : ?>
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $compte->identifiant)); ?>" class="btn_majeur btn_acces"><span>Retour à la visualisation</span></a>
+            <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $compte->identifiant)); ?>" class="btn btn-default"><span>Retour à la visualisation</span></a>
         </div>
     </div>
     <?php endif; ?>
