@@ -1,6 +1,6 @@
 <?php 
 
-class WidgetEtablissement extends sfWidgetFormInput
+class WidgetEtablissement extends bsWidgetFormInput
 {
     protected $identifiant = null;
 
