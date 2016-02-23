@@ -65,6 +65,9 @@ class VracCsvFile extends CsvFile {
                 $dateSaisie = new DateTime($v->valide->date_saisie);
                 $v->numero_contrat = $this->verifyAndFormatNumeroContrat($line);
                 $v->numero_archive = $this->verifyAndFormatNumeroArchive($line);
+                
+                $v->date_visa = $v->valide->date_saisie;
+                
                 $v->constructId();
 
                 if ($vracDoublon = VracClient::getInstance()->find($v->_id, acCouchdbClient::HYDRATE_JSON)) {
