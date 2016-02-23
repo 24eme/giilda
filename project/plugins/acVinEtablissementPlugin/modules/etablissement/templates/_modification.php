@@ -1,105 +1,58 @@
-<div class="form_contenu">
+<div class="panel-body">
     <?php
     echo $etablissementForm->renderHiddenFields();
     echo $etablissementForm->renderGlobalErrors();
     ?>
-    <div class="form_ligne">
-        <?php echo $etablissementForm['nom']->renderLabel(); ?>
-        <?php echo $etablissementForm['nom']->render(array('class' => 'champ_long')); ?>
+    <div class="form-group<?php if($etablissementForm['nom']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['nom']->renderError(); ?>
+        <?php echo $etablissementForm['nom']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['nom']->render(); ?></div>
     </div>
-    <div class="form_ligne">
-            <?php echo $etablissementForm['statut']->renderLabel('Statut *',array('class' => 'label_liste')); ?>
-            <?php echo $etablissementForm['statut']->render(); ?>
+    <div class="form-group<?php if($etablissementForm['statut']->hasError()): ?> has-error<?php endif; ?>">
             <?php echo $etablissementForm['statut']->renderError(); ?>
+            <?php echo $etablissementForm['statut']->renderLabel('Statut *', array("class" => "col-xs-4 control-label")); ?>
+            <div class="col-xs-8"><?php echo $etablissementForm['statut']->render(); ?></div>
     </div>
-    <?php if (!$etablissement->isNegociant() && !$etablissement->isCourtier()) : ?>
-        <div class="form_ligne">
-            <div class="form_colonne">
-                <?php echo $etablissementForm['raisins_mouts']->renderLabel(); ?>                
-                <?php echo $etablissementForm['raisins_mouts']->render(); ?>
-                <?php echo $etablissementForm['raisins_mouts']->renderError(); ?>
-            </div>
-            <div class="form_colonne">
-                <?php echo $etablissementForm['exclusion_drm']->renderLabel(); ?>
-                <?php echo $etablissementForm['exclusion_drm']->render(); ?>
-                <?php echo $etablissementForm['exclusion_drm']->renderError(); ?>
-            </div>
-        </div>
-    <?php
-    endif;
-    if (!$etablissement->isCourtier()) :
-        ?>
-            <div class="form_ligne">
-                <?php echo $etablissementForm['recette_locale_choice']->renderLabel(); ?>
-                <?php echo $etablissementForm['recette_locale_choice']->render(array('class' => 'champ_long')); ?>
-    <?php echo $etablissementForm['recette_locale_choice']->renderError(); ?>
-            </div> 
-    
-        <div class="form_ligne">
-            <div class="form_colonne">
-                <?php echo $etablissementForm['relance_ds']->renderLabel(); ?>
-                <?php echo $etablissementForm['relance_ds']->render(); ?>
-    <?php echo $etablissementForm['relance_ds']->renderError(); ?>
-            </div>
-            <div class="form_colonne">
-            </div>
-        </div>    
-<?php endif; ?>
-    <div class="form_ligne">
-        <div class="form_colonne">
-            <?php echo $etablissementForm['region']->renderLabel(); ?>
-            <?php echo $etablissementForm['region']->render(); ?>
-        <?php echo $etablissementForm['region']->renderError(); ?>
-        </div>
-            <?php if (!$etablissement->isNegociant() && !$etablissement->isCourtier()) : ?>
-            <div class="form_colonne">
-                <?php echo $etablissementForm['type_dr']->renderLabel(); ?>
-                <?php echo $etablissementForm['type_dr']->render(); ?>
-            <?php echo $etablissementForm['type_dr']->renderError(); ?>
-            </div>
-<?php endif; ?>
+    <div class="form-group<?php if($etablissementForm['region']->hasError()): ?> has-error<?php endif; ?>">
+            <?php echo $etablissementForm['region']->renderError(); ?>
+            <?php echo $etablissementForm['region']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+            <div class="col-xs-8"><?php echo $etablissementForm['region']->render(); ?></div>
     </div>
+<?php /*
              <div id="liaisons_list">
             <?php
             foreach ($etablissementForm['liaisons_operateurs'] as $liaisonForm) {
                 include_partial('itemLiaison', array('form' => $liaisonForm));
             }
-            ?>
-            <div class="form_ligne">
+            ?></div>
+            <div class="form-group">
                 <a class="btn_ajouter_ligne_template" data-container="#liaisons_list" data-template="#template_liaison" href="#">Ajouter une liaison</a>
             </div>
-        </div>
-<?php
+<?php */
     if (!$etablissement->isCourtier()):
         ?>
-        <div class="form_ligne">
-            <?php echo $etablissementForm['cvi']->renderLabel(); ?>
-        <?php echo $etablissementForm['cvi']->render(); ?>
-        <?php echo $etablissementForm['cvi']->renderError(); ?>
+        <div class="form-group<?php if($etablissementForm['cvi']->hasError()): ?> has-error<?php endif; ?>">
+            <?php echo $etablissementForm['cvi']->renderError(); ?>
+            <?php echo $etablissementForm['cvi']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+            <div class="col-xs-8"><?php echo $etablissementForm['cvi']->render(); ?></div>
         </div> 
         <?php endif; ?>
-    <div class="form_ligne">
-        <?php echo $etablissementForm['site_fiche']->renderLabel(); ?>
-<?php echo $etablissementForm['site_fiche']->render(); ?>
-        <?php echo $etablissementForm['site_fiche']->renderError(); ?>
-    </div>
      <?php if ($etablissement->isCourtier()): ?>
-    <div class="form_ligne">
-        <?php echo $etablissementForm['carte_pro']->renderLabel(); ?>
-<?php echo $etablissementForm['carte_pro']->render(); ?>
+    <div class="form-group<?php if($etablissementForm['carte_pro']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['carte_pro']->renderError(); ?>
+        <?php echo $etablissementForm['carte_pro']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['carte_pro']->render(); ?></div>
     </div>
     <?php endif; ?>
-    <div class="form_ligne">
-        <?php echo $etablissementForm['no_accises']->renderLabel(); ?>
-<?php echo $etablissementForm['no_accises']->render(); ?>
+    <div class="form-group<?php if($etablissementForm['no_accises']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $etablissementForm['no_accises']->renderError(); ?>
+        <?php echo $etablissementForm['no_accises']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['no_accises']->render(); ?></div>
     </div>
-    <div class="form_ligne">
-        <?php echo $etablissementForm['commentaire']->renderLabel(); ?>
-<?php echo $etablissementForm['commentaire']->render(); ?>
-<?php echo $etablissementForm['commentaire']->renderError(); ?>
+    <div class="form-group<?php if($etablissementForm['commentaire']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['commentaire']->renderError(); ?>
+        <?php echo $etablissementForm['commentaire']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['commentaire']->render(); ?></div>
     </div>
 
 </div>

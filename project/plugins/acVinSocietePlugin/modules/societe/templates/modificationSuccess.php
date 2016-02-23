@@ -4,12 +4,12 @@
     <!-- #contacts -->
     <section id="contacts">
         <div id="creation_societe">
+            <div class="col-md-8 col-md-offset-2">
             <h2><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></h2>
             <form class="form-horizontal" action="<?php echo url_for('societe_modification', array('identifiant' => $societeForm->getObject()->identifiant)); ?>" method="post">
                 <?php if(isset($validation)): ?>
                     <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
                 <?php endif; ?>
-                <div class="col-md-8">
                 <div id="detail_societe" class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Détail de la société</h3></div>
                     <?php if($reduct_rights) :
@@ -38,9 +38,9 @@
                     <button id="btn_valider" type="submit" class="btn btn-success">Valider</button>
                 </div>
                </div>
-            </form>
-        </div>
-    </section>
+            </div> 
+        </form>
+   </section>
 </section>
 <?php
 slot('colButtons');

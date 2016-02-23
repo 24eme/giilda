@@ -14,8 +14,8 @@ class LiaisonItemForm extends acCouchdbObjectForm {
 
     public function configure() {
 
-        $this->setWidget('type_liaison', new sfWidgetFormChoice(array('choices' => $this->getTypesLiaisons())));
-        $this->setWidget('id_etablissement', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire'), array('class' => 'autocomplete')));
+        $this->setWidget('type_liaison', new bsWidgetFormChoice(array('choices' => $this->getTypesLiaisons())));
+        $this->setWidget('id_etablissement', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration'), array('class' => 'select2autocomplete form-control')));
 
         $this->widgetSchema->setLabel('type_liaison', 'Type de liaison (externe)');
         $this->widgetSchema->setLabel('id_etablissement', 'Établissement');

@@ -119,55 +119,46 @@ curl -s -X PUT -d ' {
        "70610100_1002015": {
            "identifiant_analytique_numero_compte": 70610100,
            "identifiant_analytique": 1010116,
-           "identifiant_analytique_libelle": "VINISUD - Achat de Badge",
            "identifiant_analytique_libelle_compta": "FRA - VINISUD"
        },
        "70610080_1002015": {
            "identifiant_analytique_numero_compte": 70610080,
            "identifiant_analytique": 1010115,
-           "identifiant_analytique_libelle": "SALON PROWEIN - Transport echantillons",
            "identifiant_analytique_libelle_compta": "SALON PROWEIN"
        },
        "70610220_1124615": {
            "identifiant_analytique_numero_compte": 70610080,
            "identifiant_analytique": 1010115,
-           "identifiant_analytique_libelle": "SALON SISQA - Participation SISQA 2016 (animation)",
            "identifiant_analytique_libelle_compta": "SALON SISQA - Participation SISQA 2016 (animation)"
        },
        "70610220_1994615": {
            "identifiant_analytique_numero_compte": 70610080,
            "identifiant_analytique": 1994615,
-           "identifiant_analytique_libelle": "SALON SISQA - Participation SISQA 2016 (m²)",
            "identifiant_analytique_libelle_compta": "SALON SISQA - Participation SISQA 2016 (m²)"
        },
        "70610140_1990315": {
            "identifiant_analytique_numero_compte": 70610140,
            "identifiant_analytique": 1990315,
-           "identifiant_analytique_libelle": "Concours Sud-Ouest 2015",
            "identifiant_analytique_libelle_compta": "Concours SO 2015"
        },
        "70610145_1990315": {
            "identifiant_analytique_numero_compte": 70610145,
            "identifiant_analytique": 1990315,
-           "identifiant_analytique_libelle": "Medailles Concours Toulouse 2015",
            "identifiant_analytique_libelle_compta": "FRA - MEDAILLES CONCOURS VSO"
        },
        "70610320_1990515": {
            "identifiant_analytique_numero_compte": 70610320,
            "identifiant_analytique": 1990515,
-           "identifiant_analytique_libelle": "Inscription concours national IGP 2015",
            "identifiant_analytique_libelle_compta": "FRA - CONCOURS NATIONAL IGP Inscription"
        },
        "70610230_1990515": {
            "identifiant_analytique_numero_compte": 70610230,
            "identifiant_analytique": 1990515,
-           "identifiant_analytique_libelle": "Medailles concours vins IGP  2015",
            "identifiant_analytique_libelle_compta": "FRA - MEDAILLES CONCOURS IGP MEDAILLE"
        },
        "70620080_2094415": {
            "identifiant_analytique_numero_compte": 70620080,
            "identifiant_analytique": 2094415,
-           "identifiant_analytique_libelle": "Stand Semaine fédérale cyclotourisme 2015",
            "identifiant_analytique_libelle_compta": "SEMAINE FEDERALE"
        }
    }

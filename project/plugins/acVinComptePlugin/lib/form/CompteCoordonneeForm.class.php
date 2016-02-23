@@ -24,21 +24,21 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
     public function configure() {
         parent::configure();
         if (!$this->reduct_rights) {
-            $this->setWidget('adresse', new sfWidgetFormInput());
-            $this->setWidget('adresse_complementaire', new sfWidgetFormInput());
-            $this->setWidget('code_postal', new sfWidgetFormInput());
-            $this->setWidget('commune', new sfWidgetFormInput());
-            $this->setWidget('cedex', new sfWidgetFormInput());
-            $this->setWidget('pays', new sfWidgetFormChoice(array('choices' => $this->getCountryList()), array('class' => 'autocomplete')));
-            $this->setWidget('droits', new sfWidgetFormChoice(array('choices' => $this->getDroits(), 'multiple' => true, 'expanded' => true)));
+            $this->setWidget('adresse', new bsWidgetFormInput());
+            $this->setWidget('adresse_complementaire', new bsWidgetFormInput());
+            $this->setWidget('code_postal', new bsWidgetFormInput());
+            $this->setWidget('commune', new bsWidgetFormInput());
+            $this->setWidget('cedex', new bsWidgetFormInput());
+            $this->setWidget('pays', new bsWidgetFormChoice(array('choices' => $this->getCountryList()), array("class"=>"select2 form-control")));
+            $this->setWidget('droits', new bsWidgetFormChoice(array('choices' => $this->getDroits(), 'multiple' => true, 'expanded' => true)));
         }
 
-        $this->setWidget('email', new sfWidgetFormInput());
-        $this->setWidget('telephone_perso', new sfWidgetFormInput());
-        $this->setWidget('telephone_bureau', new sfWidgetFormInput());
-        $this->setWidget('telephone_mobile', new sfWidgetFormInput());
-        $this->setWidget('fax', new sfWidgetFormInput());
-        $this->setWidget('site_internet', new sfWidgetFormInput());
+        $this->setWidget('email', new bsWidgetFormInput());
+        $this->setWidget('telephone_perso', new bsWidgetFormInput());
+        $this->setWidget('telephone_bureau', new bsWidgetFormInput());
+        $this->setWidget('telephone_mobile', new bsWidgetFormInput());
+        $this->setWidget('fax', new bsWidgetFormInput());
+        $this->setWidget('site_internet', new bsWidgetFormInput());
         
         //   $this->setWidget('tags', new sfWidgetFormChoice(array('choices' => $this->getAllTags())));
         if (!$this->reduct_rights) {
@@ -89,7 +89,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
     }
    
     public function getCountryList() {
-        $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
+        $destinationChoicesWidget = new bsWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
         $destinationChoices['inconnu'] = 'Inconnu';
         return $destinationChoices;

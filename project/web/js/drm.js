@@ -115,6 +115,20 @@
                     $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
                 }
             });
+            $(this).click(function () {
+                var idCol = $(this).data('groupe-id');
+                $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
+            });
+        });
+
+        $('input.tabIndexOnPrevious').keydown(function (e) {
+            var event = window.event || e;
+            var keyCode = event.keyCode || event.which;
+            if (keyCode == 9 && event.shiftKey) {
+                var datapreviousfocus = $(this).data('previousfocus');
+                $('a[tabindex='+datapreviousfocus+']').focus();
+                return false;
+            }
         });
     }
 
@@ -440,7 +454,7 @@
             colActiveDefaut.majColActive();
         }
     };
-  
+
     $.majSommeLabelBind = function ()
     {
         var vol = 0;
