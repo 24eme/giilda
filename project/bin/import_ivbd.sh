@@ -143,12 +143,30 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | sort -t
 
 join -a 1 -t ";" -1 1 -2 23 -o auto  $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv  $DATA_DIR/evv_numero_ppm.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv | awk -F ";" '
+# Supprimer les retours chariots au milieu d'une lignes
+cat $DATA_DIR/contrats_contrat.csv | tr "\n" "#" | sed -r 's/;([,0-9-]*|VOLUME_SOLDAGE)#/;\1|/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/contrats_contrat.cleaned.csv
+
+cat $DATA_DIR/contrats_contrat.cleaned.csv | cut -d ";" -f 1,11 | grep -v ";0$" | grep -v ";$" | sort -t ";" -k 1,1 | sed 's/NUM_CONTRAT;/NUM_CONTRATS;/' | sed 's/CODE_IDENT_COURTIER/CODE_IDENT_SITE/' > $DATA_DIR/num_contrats_courtier.csv
+cat $DATA_DIR/contrats_courtier.csv | sort -t ";" -k 1,1 > $DATA_DIR/contrats_courtier.sorted.csv
+
+join -t ";" -1 1 -2 1 $DATA_DIR/num_contrats_courtier.csv $DATA_DIR/contrats_courtier.sorted.csv | cut -d ";" -f 2,3 | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/courtier_numero.csv
+
+echo "5069;1070" >> $DATA_DIR/courtier_numero.csv
+echo "5226;1047" >> $DATA_DIR/courtier_numero.csv
+echo "4063;1033" >> $DATA_DIR/courtier_numero.csv
+
+sort -t ";" -k 1,1 $DATA_DIR/courtier_numero.csv > $DATA_DIR/courtier_numero.sorted.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.sorted.csv
+
+join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.sorted.csv $DATA_DIR/courtier_numero.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro.csv | awk -F ";" '
 {
     identifiant_societe=sprintf("%06d", $1);
     identifiant=identifiant_societe "01";
     nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
-    statut=($19) ? "SUSPENDU" : "ACTIF";
+    statut=($19 || $21) ? "SUSPENDU" : "ACTIF";
     adresse1=$38;
     adresse2=$39;
     adresse3=$40;
@@ -170,6 +188,11 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv | awk
     web=$74;
     commentaire="";
     cvi=$83;
+    naccises="";
+    cartepro=$33;
+    if(!cartepro) {
+        cartepro=$99;
+    }
     famille="AUTRE";
     if($61) {
         famille=$61;
@@ -186,13 +209,10 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv | awk
         region="REGION_HORS_CVO";
     }
 
-    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";;;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" naccises ";" cartepro ";;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
 }' | sort | uniq > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
-
-# Supprimer les retours chariots au milieu d'une lignes
-cat $DATA_DIR/contrats_contrat.csv | tr "\n" "#" | sed -r 's/;([,0-9-]*|VOLUME_SOLDAGE)#/;\1|/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/contrats_contrat.cleaned.csv
 
 cat $DATA_DIR/contrats_contrat.cleaned.csv | sort -t ";" -k 14,14 | sed 's/;VIN;/;CODE_VIN;/' | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
 

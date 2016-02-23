@@ -7,5 +7,7 @@
     </li>
 </ol>
 
+<div class="col-md-8 col-md-offset-2">
 <h2>Noeuds</h2>
 <?php include_partial('produit/formNouveau', array('form' => $form)) ?>
+</div>
