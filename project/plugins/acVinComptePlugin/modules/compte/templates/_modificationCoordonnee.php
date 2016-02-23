@@ -8,12 +8,12 @@
         <div class="form-group">
             <?php echo $compteForm['adresse']->renderError(); ?>
             <?php echo $compteForm['adresse']->renderLabel(null, array("class"=>"col-xs-4 control-label")); ?>
-            <div class="col-xs-8"><?php echo $compteForm['adresse']->render(array('class' => 'champ_long')); ?></div>
+            <div class="col-xs-8"><?php echo $compteForm['adresse']->render(); ?></div>
         </div>
         <div class="form-group">
             
 <?php echo $compteForm['adresse_complementaire']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
-            <div class="col-xs-8"><?php echo $compteForm['adresse_complementaire']->render(array('class' => 'champ_long')); ?></div>
+            <div class="col-xs-8"><?php echo $compteForm['adresse_complementaire']->render(); ?></div>
             <?php echo $compteForm['adresse_complementaire']->renderError(); ?>
         </div>
         <div class="form-group">
@@ -25,7 +25,7 @@
         <div class="form-group">
             
 <?php echo $compteForm['commune']->renderLabel(null, array('class'=>'col-xs-4 control-label')); ?>
-            <div class="col-xs-8"><?php echo $compteForm['commune']->render(array('class' => 'champ_long')); ?></div>
+            <div class="col-xs-8"><?php echo $compteForm['commune']->render(); ?></div>
             <?php echo $compteForm['commune']->renderError(); ?>
         </div>                
         <div class="form-group">
