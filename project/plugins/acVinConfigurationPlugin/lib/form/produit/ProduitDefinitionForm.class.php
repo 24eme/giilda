@@ -4,9 +4,9 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'libelle' => new sfWidgetFormInputText(),
-            'format_libelle' => new sfWidgetFormInputText(),
-            'code' => new sfWidgetFormInputText(),
+            'libelle' => new bsWidgetFormInput(),
+            'format_libelle' => new bsWidgetFormInput(),
+            'code' => new bsWidgetFormInput(),
         ));
         $this->widgetSchema->setLabels(array(
             'libelle' => 'Libellé :',
@@ -22,9 +22,9 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $this->widgetSchema->setHelp('code', "Ce code est pour l'interpro (il en général identique à la clé sauf pour les couleurs)");
 
         if ($this->getObject()->hasCodes()) {
-            $this->setWidget('code_produit', new sfWidgetFormInputText());
-            $this->setWidget('code_douane', new sfWidgetFormInputText());
-            $this->setWidget('code_comptable', new sfWidgetFormInputText());
+            $this->setWidget('code_produit', new bsWidgetFormInput());
+            $this->setWidget('code_douane', new bsWidgetFormInput());
+            $this->setWidget('code_comptable', new bsWidgetFormInput());
 
             $this->getWidget('code_produit')->setLabel("Code produit :");
             $this->getWidget('code_douane')->setLabel("Code douane :");
@@ -36,7 +36,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         }
 
         if ($this->getObject()->exist('densite')) {
-            $this->setWidget('densite', new sfWidgetFormInputText());
+            $this->setWidget('densite', new bsWidgetFormInputText());
             $this->getWidget('densite')->setLabel("Densité :");
             $this->setValidator('densite', new sfValidatorString(array('required' => true), array('required' => 'Champ obligatoire')));
             $this->widgetSchema->setHelp('densite', "La densité par défaut est de 1.3, celle des crémant est de 1.5");
@@ -70,7 +70,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             );
         }
 
-        $this->setWidget('produit_non_interpro', new sfWidgetFormInputCheckbox());
+        $this->setWidget('produit_non_interpro', new bsWidgetFormInputCheckbox());
         $this->widgetSchema->setLabel('produit_non_interpro', 'Produit hors Interpro : ');
         $this->setValidator('produit_non_interpro', new sfValidatorString(array('required' => false)));
 

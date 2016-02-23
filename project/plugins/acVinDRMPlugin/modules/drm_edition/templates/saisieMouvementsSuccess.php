@@ -38,17 +38,19 @@
                             if (!$produit->hasMovements()): continue;
                             endif;
                             ?> 
-                            <a style="position: relative;" data-hash="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements()) ? 'style="display:none;"' : '' ?> class="list-group-item <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
+                            <a style="position: relative;  overflow:hidden;  
+  display: block; height: 30px; padding: 5px 15px;
+  margin-bottom: -1px;" data-hash="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements()) ? 'style="display:none;"' : '' ?> class="list-group-item <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
 
                                 <small><?php echo $produit->getLibelle("%format_libelle%"); ?></small>
-                                <span style="position:absolute; right: 1px; top:12px;" class="btn btn-xs btn-link glyphicon glyphicon-eye-open "></span>
+                                <span style="position:absolute; right: 1px; top:5px;" class="btn btn-xs btn-link glyphicon glyphicon-eye-open "></span>
                             </a>
 <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
         </div>
-        <div id="navigation_etapes" class="row">
+        <div id="navigation_etapes" class="row col-xs-10">
             <div class="col-xs-4 text-left">
                 <a tabindex="-1" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
             </div>
@@ -58,7 +60,7 @@
 <?php endif; ?>
                 <a class="btn btn-default" data-toggle="modal" data-target="#drm_delete_popup" >Supprimer la DRM</a> 
             </div>
-            <div class="col-xs-4 text-right">
+            <div class="col-xs-3 text-right">
                 <form action="<?php echo url_for('drm_edition', $formValidation->getObject()) ?>" method="post">
 <?php echo $formValidation->renderHiddenFields(); ?>
                     <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
