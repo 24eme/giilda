@@ -48,3 +48,5 @@ ivbd:
         "45_JOURS": "45 jours fin de mois"
         "60_JOURS": "60 jours fin de mois"
         "75_JOURS": "75 jours fin de mois"
+      transactions:
+        "VIN_VRAC": "<span class=\"icon-vrac\" style=\"font-size: 32px;\"></span> Vrac retiraison vrac"

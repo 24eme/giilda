@@ -25,14 +25,18 @@
 					<a href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>"><?php if ($item['doc']['numero_archive']) echo $item['doc']['numero_archive']; elseif($item['doc']['valide']['statut']) echo "Non visé"; else "Brouillon";  ?></a>
 					
                     <br />
+                    <?php if($item['doc']['numero_archive']): ?>
+                    <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($item['doc']['numero_contrat']) ?></span>
+                    <?php endif; ?>
+                    <br />
                     <?php if($item['doc']['teledeclare']): ?>
                     Télédeclaré
                     <?php endif; ?>
 				</td>
 				<td>
-					<?php echo ($item['doc']['date_signature'])? '<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?>
+					<?php echo ($item['doc']['date_signature'])? '<span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?>
 					<br />
-					<?php echo ($item['doc']['valide']['date_saisie'])? '<span class="text-muted"><span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de saisie (validation interpro)"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['valide']['date_saisie'])) : null; ?>
+					<?php echo ($item['doc']['valide']['date_saisie'])? '<span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de saisie (validation interpro)"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['valide']['date_saisie'])) : null; ?>
 				</td>
 				<td>
 					
