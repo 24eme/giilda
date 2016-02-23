@@ -225,7 +225,7 @@ class statistiqueActions extends sfActions {
         $result = $index->search($elasticaQuery);
         $hits = $result->getResults();
         $csv_file = '';
-        $csv_file .= "#Statut;Type transaction;Num. archive;Teledeclare;Date signature;Date saisie;Vendeur id;Vendeur nom;Acheteur id;Acheteur nom;Representant id;Representant nom;Courtier id;Courtier nom;Produit;Millesime;Volume propose;Volume enleve;Prix initial unitaire;";
+        $csv_file .= "#Statut;Type transaction;Num. archive;Num. contrat;Teledeclare;Date signature;Date saisie;Vendeur id;Vendeur nom;Acheteur id;Acheteur nom;Representant id;Representant nom;Courtier id;Courtier nom;Produit;Millesime;Volume propose;Volume enleve;Prix initial unitaire;";
         $csv_file .= "\n";
         foreach ($hits as $hit):
         	$item = $hit->getData();
@@ -234,6 +234,8 @@ class statistiqueActions extends sfActions {
         	$csv_file .= $item['doc']['type_transaction'];
         	$csv_file .= ";";
         	$csv_file .= $item['doc']['numero_archive'];
+        	$csv_file .= ";";
+        	$csv_file .= $item['doc']['numero_contrat'];
         	$csv_file .= ";";
         	$csv_file .= $item['doc']['teledeclare'];
         	$csv_file .= ";";
