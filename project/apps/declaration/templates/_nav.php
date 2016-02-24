@@ -1,5 +1,14 @@
+<?php include_component('global', 'navItem', array(
+            'libelle' => 'Declaration',
+            'prefix' => 'accueil',
+            'route' => 'accueil',
+            'route_etablissement' => 'accueil_etablissement',
+            'etablissement' => $etablissement,
+            'target' => '_self'
+     )); ?>
 <div id="navbar" class="navbar-collapse collapse">
-<ul class="nav navbar-nav"><?php if ($sf_user->hasCredential('transactions')) : 
+<ul class="nav navbar-nav">
+    <?php if ($sf_user->hasCredential('transactions')) : 
      include_component('global', 'navItem', array(
             'libelle' => 'DRM',
             'prefix' => 'drm',
@@ -91,8 +100,8 @@
             'libelle' => 'Contacts',
             'prefix' => 'societe',
             'route' => 'societe',
-            'route_etablissement' => 'societe_choose',
-            'etablissement' => null,
+            'route_etablissement' => 'etablissement_visualisation',
+            'etablissement' => $etablissement,
             'target' => '_self'
        ));
 	endif; 
