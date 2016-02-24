@@ -55,16 +55,19 @@ var initSoussignes = function()
     $('.responsable').on('click', function(e) {
     	e.preventDefault();
     	var active = $(this);
-    	if (active.hasClass('text-primary')) {
-    		active.removeClass('text-primary');
-    		active.addClass('text-muted');
+    	if (active.hasClass('text-success')) {
+    		console.log('declick');
+    		active.removeClass('text-success');
+    		active.addClass('text-info');
     		active.find('input').removeAttr('checked');
     	} else {
+    		console.log('click');
         	$('.responsable').each(function() {
-        		$(this).removeClass('text-primary');
-        		$(this).addClass('text-muted');
+        		$(this).removeClass('text-success');
+        		$(this).addClass('text-info');
         	});
-        	active.addClass('text-primary');
+        	active.removeClass('text-info');
+        	active.addClass('text-success');
     		active.find('input').attr('checked', 'checked');
     	}
     });

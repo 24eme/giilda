@@ -109,6 +109,7 @@
                     colonnes.findByHash($(this).data('hash')).calculer();
                 }
             });
+            initRaccourcis();
         }
 
         initCreationDrmPopup();
@@ -119,7 +120,6 @@
         initUpdateEtablissementValidation();
         initSignatureDrmPopup();
         initBoldSaisie();
-        initRaccourcis()
     });
 
     var initRaccourcis = function () {
