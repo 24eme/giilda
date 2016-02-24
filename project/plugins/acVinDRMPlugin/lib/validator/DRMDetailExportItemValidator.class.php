@@ -8,7 +8,7 @@ class DRMDetailExportItemValidator extends DrmDetailItemValidator {
             if (!(isset($values['identifiant']) || $values['identifiant'])) {
                 $values['identifiant'] = DRMClient::DETAIL_EXPORT_PAYS_DEFAULT;
             }
-        }        
+            }
         return parent::doClean($values);
     }
 
