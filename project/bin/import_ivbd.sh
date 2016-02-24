@@ -96,7 +96,7 @@ join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes.sorte
 
 cat $DATA_DIR/base_communication.csv | tr "\n" "#" | sed -r 's/#([0-9]+;[A-Z]*;[0-9]+;)/|\1/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/base_communication.cleaned.csv
 
-cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (($7+0) > 0) { next; } print $0 }' | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
+cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (($7+0) > 0) { next; } if ($8 != 1 ) { next; } print $0 }' | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
 join -t ";" -a 1 -1 1 -2 3 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv $DATA_DIR/base_communication.cleaned.sorted.csv > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv
 
@@ -217,7 +217,15 @@ cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (!$7) { next; } 
 
 join -t ";" -a 1 -1 1 -2 7 -o auto $DATA_DIR/base_contact.sorted.csv $DATA_DIR/base_communication_contact.sorted.csv | sort > $DATA_DIR/base_contact_communication.csv
 
-cat $DATA_DIR/base_contact_communication.csv | awk -F ';' '{
+cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if(!$3) { next; } if (($7+0) > 0) { next; } if ($8 < 2 ) { next; } print $0 }' | sort > $DATA_DIR/base_communication_flottant.csv
+
+cat $DATA_DIR/base_communication_flottant.csv | awk -F ';' '{
+    print ";CIR;" $3 ";;;1;;" $9 ";;;" $15 ";;;;;;;;;" $0;
+}' > $DATA_DIR/base_communication_flottant_contact.csv
+
+cat $DATA_DIR/base_contact_communication.csv $DATA_DIR/base_communication_flottant_contact.csv | sort > $DATA_DIR/base_contact_communication_avecflottant.csv
+
+cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
     id_societe=sprintf("%06d", $3);
     statut="ACTIF";
     civilite=$7;
@@ -237,7 +245,7 @@ cat $DATA_DIR/base_contact_communication.csv | awk -F ';' '{
     commentaire="";
 
     print ";" id_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
-}' > $DATA_DIR/interlocuteurs.csv
+}' | sort > $DATA_DIR/interlocuteurs.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
