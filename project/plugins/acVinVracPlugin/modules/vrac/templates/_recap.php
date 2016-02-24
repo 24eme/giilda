@@ -247,7 +247,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                             <strong><a href="<?php echo url_for('drm_redirect_to_visualisation', array('identifiant_drm' => $enlevement->drm_id)); ?>"> <?php echo "DRM " . getFrPeriodeElision($enlevement->periode); ?></a></strong>
                                         </span>
                                         <span class="col-xs-6 text-right">
-                                                <?php echoFloat($enlevement->volume) ; echo " hl"; ?>
+                                                <?php echoFloat($enlevement->volume, true) ; echo " hl"; ?>
                                         </span>
                                     </div>
                                 </li> 
