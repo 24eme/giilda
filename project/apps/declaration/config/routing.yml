@@ -6,7 +6,13 @@ homepage:
   url:   /
   param: { module: global, action: home}
 
+accueil:
+  url:   /accueil
+  param: { module: global, action: accueil} 
 
+accueil_etablissement:
+  url:   /accueil/:identifiant
+  param: { module: global, action: accueilEtablissement} 
 # TELEDECLARATION
 
 auth_login_no_cas:

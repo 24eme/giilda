@@ -16,7 +16,7 @@ class globalActions extends sfActions {
     public function executeHome(sfWebRequest $request) {
         
         if ($this->getUser()->hasCredential('transactions')) {
-            return $this->redirect('vrac');
+            return $this->redirect('accueil');
         }
         
         if ($this->getUser()->hasCredential('drm')) {
@@ -34,6 +34,15 @@ class globalActions extends sfActions {
 
 
         return $this->redirect('societe');
+    }
+    
+    public function executeAccueil(sfWebRequest $request) {
+        
+    }
+    
+    public function executeAccueilEtablissement(sfWebRequest $request) {
+        $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($request->getParameter('identifiant'));
+        return $this->setTemplate('accueil');
     }
 
 }
