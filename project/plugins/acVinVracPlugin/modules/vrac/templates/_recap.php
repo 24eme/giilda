@@ -130,7 +130,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong>Compléments</strong></div>
                             <ul class="list-group">
-                                <li class="list-group-item"><strong><?php echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; ?><?php if ($vrac->domaine): ?>&nbsp;:<?php echo $vrac->domaine; ?><?php endif; ?></strong></li>
+                                <li class="list-group-item">Mention : <strong><?php if ($vrac->domaine): echo $vrac->domaine; else: echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; endif; ?></strong></li>
                                 <?php if ($vrac->lot): ?>
                                     <li class="list-group-item">Lot : <strong><?php echo $vrac->lot ?></strong></li>
                                 <?php endif; ?>
