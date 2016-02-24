@@ -42,7 +42,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \def\tabularxcolumn#1{m{#1}}
 
 \def\IVBDCOORDONNEESTITRE{Interprofession des Vins de Bergerac et Duras}
-\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 01 01 01 01 01 - Fax: 02 02 02 02 02}
+\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 05 53 63 57 57 - Fax: 05 53 63 01 30}
 
 \def\CONTRATNUMARCHIVE{<?php echo $vrac->numero_archive ?>}
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
@@ -74,6 +74,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 
 \def\CONTRATVOLUME{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
+\def\CONTRATLABELSPRODUIT {<?php echo $vrac->renderLabels() ?>}
 \def\CONTRATCOULEURPRODUIT{??}
 \def\CONTRATMILLESIMEPRODUIT{<?php echo $vrac->millesime ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
@@ -170,7 +171,7 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
  ~ \\ ~ \\
 %PARTIE 2%
 
-\circled{2}~~\textbf{Désignation des produits :}\normalsize \textbf{\CONTRATAPPELLATIONPRODUIT} de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT} ( \textbf{Volume} : \textbf{\CONTRATVOLUME}~hl ) \\
+\circled{2}~~\textbf{Désignation du produit :}\normalsize \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT} ( \textbf{Volume} : \textbf{\CONTRATVOLUME}~hl ) \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
 \hspace*{0.5cm}
@@ -184,7 +185,7 @@ dont le vendeur certifie l'existence, conformément aux règlementations communa
 \hspace*{0.5cm}
 cadre du présent contrat. Pour toute utilisation du nom de l'exploitation (Château, Domaine...), l'étiquette devra obligatoirement mentionner le nom \\
 \hspace*{0.5cm}
-et l'adresse du négociant, ainsi que le nom viticulteur. En outre, l'acheteur s'engage à faire figurer sur l'étiquette principale par ses soins (en clair \\
+et l'adresse du négociant, ainsi que le nom du viticulteur. En outre, l'acheteur s'engage à faire figurer sur l'étiquette principale fournie par ses soins (en clair \\
 \hspace*{0.5cm}
 et en caractères de taille correspondant au minimum aux deux tiers de ceux identifiant le producteur) son nom, sa qualité et son adresse sous la forme : \\
 \hspace*{0.5cm}
@@ -242,7 +243,7 @@ Des sanction financières conséquentes sont prévues par l'article L 632-7 du C
   ~ \\   ~ \\ 
 %PARTIE 8-b%
 \normalsize
-\circled{8b}~~\textbf{Conditions de paiement particulières:}~Quelle que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard\\
+\circled{8b}~~\textbf{Conditions de paiement particulières:}~Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard\\
 \hspace*{0.5cm}
 60 jours (ou 150 jours dans le cadre d'un contrat pluriannuel) calendaires après la date de retiraison prévue au présent contrat.\\
 \hspace*{0.5cm}
