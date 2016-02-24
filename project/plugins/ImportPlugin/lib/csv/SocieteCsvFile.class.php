@@ -46,7 +46,7 @@ class SocieteCsvFile extends CsvFile
 
               	$s = SocieteClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
                 if ($s) {
-        	          echo "ERROR: Societe exists (".$id.")\n";
+        	          echo "ERROR: Societe existe ".$id."\n";
         	          continue;
                 }
 
