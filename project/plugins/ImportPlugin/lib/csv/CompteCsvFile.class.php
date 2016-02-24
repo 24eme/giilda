@@ -92,8 +92,9 @@ class CompteCsvFile extends CsvFile
                 $c->save();
 
                 echo "Compte " . $c->_id ." créé\n";
-        	} catch(Execption $e) {
-                $this->error[] = $e->getMessage();
+        	} catch(Exception $e) {
+                
+               echo $e->getMessage()."\n";
             }
         }
 
