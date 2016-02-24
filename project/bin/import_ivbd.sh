@@ -109,7 +109,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | awk -F 
     adresse2=$39;
     adresse3=$40;
     code_postal=$42;
-    insee=$1;
+    insee=$2;
     commune=$60;
     cedex=$44;
     siren=$26;
@@ -130,7 +130,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | awk -F 
         famille=$61;
     }
 
-    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
 }' | sort | uniq > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
@@ -171,7 +171,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro
     adresse2=$39;
     adresse3=$40;
     code_postal=$42;
-    insee=$1;
+    insee=$2;
     commune=$60;
     cedex=$44;
     siren=$26;
@@ -209,7 +209,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro
         region="REGION_HORS_CVO";
     }
 
-    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" naccises ";" cartepro ";;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" naccises ";" cartepro ";;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
 }' | sort | uniq > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"

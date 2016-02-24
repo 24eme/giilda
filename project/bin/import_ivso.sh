@@ -61,7 +61,9 @@ famille=($13 ? "VITICULTEUR" : famille ) ;
 famille=($14 ? "NEGOCIANT" : famille ) ; 
 famille=($15 ? "COURTIER" : famille ) ; 
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
-print sprintf("%06d", $1) ";" famille ";" trim($2 " " $3 " " $4) ";;" statut ";;" $34 ";;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+insee=$8;
+
+print sprintf("%06d", $1) ";" famille ";" trim($2 " " $3 " " $4) ";;" statut ";;" $34 ";;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
@@ -81,8 +83,9 @@ if(!code_postal) {
 }
 identifiant_societe=sprintf("%06d", $1);
 identifiant=identifiant_societe "01";
+insee=$8;
 
-print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
