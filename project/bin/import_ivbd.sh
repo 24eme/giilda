@@ -30,6 +30,10 @@ if test "$REMOTE_DATA"; then
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
+    cat $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv | sed "s/$/\r/" > $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv.tmp
+
+    cp $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv.tmp $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv 
+
     file -i $TMP/data_ivbd_origin/IVBD/* | grep "utf-16" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         #echo "$DATA_DIR/$ligne utf-16le" 
@@ -280,6 +284,9 @@ sort -t ";" -k 2,2 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_
 
 join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.sorted.csv $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv | sed 's/;TYPE_VIN_LIBELLE;$/;TYPE_VIN_LIBELLE;LIBELLE_MARQUE/' > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv
 
+
+cat $DATA_DIR/contrat_mention_correspondance_clean.csv | awk -F ';' '{ print "s|;MENTION;" $1 ";|;MENTION;" $2 ";|i" }' > $DATA_DIR/contrat_mention_correspondance_clean.sed
+
 #tail -n 1 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
 cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv | sed 's/;I-06-04715BGR;/;I-06-04715;/' | sed 's/;I-04-?????;/;;/' | sed 's/;I-01331;/;I-03-01331;/' | sed 's/;I-00923;/;I-04-00923;/' | sed 's/;I-00965;/;I-05-00965;/' | sed -r 's/;I-04\+02230;/;I-04-02230;/' | sed 's/;I-0401906;/;I-04-01906;/' | sed 's/;I-0600085;/;I-06-00085;/' | sed 's/;B-04--00463;/;B-04-00463;/' | sed 's/;I-0600090;/;I-06-00090;/' | sed 's/;I-06-AAAAA;/;;/' | sed 's/;I-06-BBBBB;/;;/' | sed 's/;I--06-01761;/;I-06-01761;/' | sed 's/;I-06;/;;/' | sed 's/;I-04672;/;;/' | sed 's/;I-04672;/;I-03-04672;/' | sed 's/;IV-1200847;/;IV-12-00847;/' | sed 's/;IV-12-\*01626;/;IV-12-01626;/' | sed 's/;IV-1201414;/;IV-12-01414;/' | sed 's/;I-0400625;/;I-04-00625;/' | sed 's/;I-04-003355;/;I-04-03355;/' | sed 's/;I-04-003355;/;I-04-03355;/' | sed 's/;I-04-019463;/;I-04-19463;/' | sed 's/;I-047-00456;/;I-04-00456;/' | sed 's/;IV-12-020411;/;IV-12-20411;/' | sed 's/;I-04-028183;/;I-04-28183;/' > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.cleaned.csv
@@ -313,16 +320,20 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     courtier_id=($14) ? $14 : "";
     bio=($52) ? "agriculture_biologique" : ""; 
     categorie_vin=$78;
-    if(categorie_vin == "AUTRES") {
-        categorie_vin="GENERIQUE";
-    }
     categorie_vin_info=$79;
-    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(chateau|château|Chateau|Château|CHATEAU|CHÂTEAU)/) {
-        categorie_vin="CHATEAU";
+
+    if(categorie_vin_info == "/") {
+        categorie_vin = "";
     }
-    if (categorie_vin == "GENERIQUE" && categorie_vin_info ~ /(domaine|Domaine|DOMAINE)/) {
-        categorie_vin="DOMAINE";
+
+    if(categorie_vin == "CHATEAU" && categorie_vin_info) {
+        categorie_vin_info = "Château " categorie_vin_info;
     }
+
+    if(categorie_vin == "DOMAINE" && categorie_vin_info) {
+        categorie_vin_info = "Domaine " categorie_vin_info;
+    }
+    
     if(categorie_vin_info) {
         categorie_vin="MENTION";
     } else {
@@ -366,7 +377,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     clauses=autorisation_nom_vin "," autorisation_nom_producteur "," clause_reserve_propriete "," crd_negoce "," tire_bouche "," preparation_vin "," embouteillage;
 
     print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" cle_delais_paiement ";" libelle_delais_paiement ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";;"
-}' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs.csv
+}' | sort -rt ";" -k 3,3 | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > $DATA_DIR/vracs.csv
 
 echo "Construction du fichier d'import des DRM"
 
