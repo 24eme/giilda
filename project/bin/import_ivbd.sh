@@ -253,9 +253,9 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     type_contrat=($25 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $37);
     if(bordereau_origin) {
-        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", 1, bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
+        numero_bordereau=gensub(/^.+-([0-9]+)-.+$/, "20\\1", 1, bordereau_origin) "" ((type_contrat == "VIN_VRAC") ? "1" : "2") "00" gensub(/^.+-.+-([0-9]+)$/, "0\\1", 1, bordereau_origin);
     } else {
-        numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%06d", num_bordereau_incr);
+        numero_bordereau="1990" ((type_contrat == "VIN_VRAC") ? "1" : "2") "" sprintf("%08d", num_bordereau_incr);
         num_bordereau_incr=num_bordereau_incr+1;
     }
     num=$1;
