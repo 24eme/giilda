@@ -108,7 +108,7 @@ num_bordereau=$7;
 if(length($7) > 7){
    num_bordereau=substr($7,1,7);
 }
-id_vrac=sprintf("%4d%07d", $5 , num_bordereau);
+id_vrac=sprintf("%4d%09d", $5 , num_bordereau);
 libelle_produit=$41; 
 libelle_cepage=$42; 
 millesime=$17; 
@@ -176,15 +176,15 @@ cat $DATA_DIR/vracs.csv.tmp | awk -F ';' 'BEGIN { id_vrac_prec=0; num_incr=1; nu
   num_bordereau=$3;
 if(id_vrac_prec==id_vrac) {
   if(num_bordereau=="0"){
-    num_bordereau=sprintf("9%06d",num_incr);
+    num_bordereau=sprintf("9%08d",num_incr);
     num_incr=num_incr+1;
   }else{
-    num_bordereau=sprintf("%1d%06d",num_incr_aux,substr($3,2,6));
+    num_bordereau=sprintf("%1d%08d",num_incr_aux,substr($3,2,6));
     num_incr_aux=num_incr_aux+1;
   }  
 }else{
   if(num_bordereau=="0"){
-    num_bordereau=sprintf("9%06d",num_incr);
+    num_bordereau=sprintf("9%08d",num_incr);
     num_incr=num_incr+1;
 
 if(length(num_bordereau) > 7){
@@ -193,7 +193,7 @@ print num_bordereau;
   }
   num_incr_aux=1;
 }
-id_vrac=substr($2,0,4) "" sprintf("%07d",num_bordereau);  
+id_vrac=substr($2,0,4) "" sprintf("%09d",num_bordereau);  
 print $1 ";" id_vrac ";" num_bordereau ";" $0
 id_vrac_prec=$2;
 }' | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);(.*)/\1;\2;\7/g' | sed 's/^Numéro Contrat;   00000000;Numéro ;//g' | sed 's/;   00000000//g' > $DATA_DIR/vracs.csv

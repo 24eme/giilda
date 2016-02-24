@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="col-xs-10">
 			<?php echo $form['q']->renderError() ?>
-			<?php echo $form['q']->render(array('class' => 'form-control input-lg', 'placeholder' => 'Rechercher')) ?>
+			<?php echo $form['q']->render(array('class' => 'form-control input-lg', 'placeholder' => 'Rechercher', 'autofocus' => 'autofocus')) ?>
 			<a class="pull-right" style="margin: 5px 0;" role="button" data-toggle="collapse" href="#advanced-query" aria-expanded="false">[+] Avancé</a>
 		</div>
 	</div>

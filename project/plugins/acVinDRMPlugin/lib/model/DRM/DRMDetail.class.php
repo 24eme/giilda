@@ -156,8 +156,8 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->stocks_fin->final = $this->stocks_debut->initial + $this->total_entrees - $this->total_sorties;
 
-        $total_entrees_revendique = $this->getTotalByKey('entrees', 'revendique');
-        $total_sorties_revendique = $this->getTotalByKey('sorties', 'revendique');
+        $this->total_entrees_revendique = $this->getTotalByKey('entrees', 'revendique');
+        $this->total_sorties_revendique = $this->getTotalByKey('sorties', 'revendique');
         $this->stocks_fin->dont_revendique = $this->stocks_debut->dont_revendique + $total_entrees_revendique - $total_sorties_revendique;
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;

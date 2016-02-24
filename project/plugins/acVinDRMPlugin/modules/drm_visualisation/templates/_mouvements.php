@@ -38,7 +38,7 @@ if (!isset($isTeledeclarationMode)) {
                 ?>
                 <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock début"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
-                    <td><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><?php echo $produit_libelle ?></a></td>
+                    <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
                     <td><strong>Stock début</strong></td>
                     <td><strong> <span class="pull-right"><?php echoFloat($produit->total_debut_mois) . ' hl'; ?></span></strong></td> 
                     <td><strong> <span class="pull-left">(<?php echo ($produit->details->DEFAUT->stocks_debut->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_debut->dont_revendique) : "0.00"; ?>)</span></strong></td>
@@ -67,7 +67,7 @@ if (!isset($isTeledeclarationMode)) {
 
                 <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock fin"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
 
-                    <td><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><?php echo $produit_libelle ?></a></td>
+                    <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
                     <td><strong>Stock fin</strong></td>
                     <td><strong><span class="pull-right"><?php echoFloat($produit->total) . ' hl'; ?></span></strong></td>
                     <td><strong><span class="pull-left">(<?php echo ($produit->details->DEFAUT->stocks_fin->dont_revendique) ? sprintFloat($produit->details->DEFAUT->stocks_fin->dont_revendique) : "0.00"; ?>)</span></strong></td>

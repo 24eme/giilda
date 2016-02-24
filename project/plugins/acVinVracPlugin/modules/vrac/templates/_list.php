@@ -14,8 +14,7 @@
 <table id="table_contrats" class="table">
     <thead>
         <tr>
-        <th style="width: 0;">&nbsp;</th>
-            <th style="width: 70px;">&nbsp;</th>
+        <th>&nbsp;</th>
             <th style="width: 110px;">Date</th>
             <th>Soussignés</th>   
             <th>Produit (Millésime)</th>
@@ -41,8 +40,6 @@
                                                        ), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracHistoryView::VALUE_STATUT]) ?> hamzastyle-item" >
                     <td style="vertical-align: middle;" class="text-center">
                     <span class="<?php echo typeToPictoCssClass($elt[VracHistoryView::VALUE_TYPE]) ?>" style="font-size: 24px;"></span>
-                    </td>
-                    <td style="vertical-align: middle;">
                     <?php if($elt[VracHistoryView::VALUE_STATUT]): ?>
                     <a href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">
                     <?php else: ?>
@@ -60,9 +57,7 @@
                     <?php if($v && $v->isTeledeclare()): ?>
                     Télédeclaré
                     <?php endif; ?>
-                    <?php if($v->numero_archive): ?>
                     <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($elt[VracHistoryView::VALUE_NUMERO]) ?></span>
-                    <?php endif; ?>
                     </td>
                     <td style="vertical-align: middle;">
                     <?php if($elt[VracHistoryView::VALUE_STATUT] && $elt[VracHistoryView::VALUE_DATE_SIGNATURE]): ?>

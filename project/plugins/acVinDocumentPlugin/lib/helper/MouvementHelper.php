@@ -22,6 +22,8 @@ function mouvement_get_word($mouvement) {
 }
 
 function mouvement_get_id($mouvement) {
-
+    if(is_string($mouvement)) {
+        return str_replace("/", '-', $mouvement);
+    }
     return str_replace("/", '-', $mouvement->id);
 }
