@@ -3,5 +3,5 @@
 
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('declaration', 'ivso', false);
+$configuration = ProjectConfiguration::getApplicationConfiguration('declaration', 'ivso', true);
 sfContext::createInstance($configuration)->dispatch();

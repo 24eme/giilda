@@ -50,11 +50,11 @@
                 </div>
             </div>
         </div>
-        <div id="navigation_etapes" class="row col-xs-10">
-            <div class="col-xs-4 text-left">
+        <div id="navigation_etapes" class="row col-sm-9">
+            <div class="col-xs-3 text-left">
                 <a tabindex="-1" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
             </div>
-            <div class="col-xs-4 text-center">
+            <div class="col-xs-6 text-center">
                 <?php if (!$isTeledeclarationMode): ?>
                     <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn btn-default">Enregistrer en brouillon</a>
 <?php endif; ?>

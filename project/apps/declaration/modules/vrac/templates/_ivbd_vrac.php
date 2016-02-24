@@ -72,6 +72,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 
 \def\CONTRATVOLUME{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
+\def\CONTRATLABELSPRODUIT {<?php echo $vrac->renderLabels() ?>}
 \def\CONTRATCOULEURPRODUIT{??}
 \def\CONTRATMILLESIMEPRODUIT{<?php echo $vrac->millesime ?>}
 \def\CONTRATLIEUPRODUIT{<?php echo ($vrac->logement)? $vrac->logement : $vrac->vendeur->commune ?>}
@@ -148,9 +149,17 @@ Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 \end{minipage}
 \hspace{2cm}
 \begin{minipage}[t]{0.3\textwidth}
+<?php if ($vrac->vendeur->cvi): ?>
 N° CVI : \textbf{\CONTRATVENDEURCVI} \\
+<?php else: ?>
+\\ ~ \\ 
+<?php endif; ?>
 Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ 
+<?php if ($vrac->acheteur->cvi): ?>
 N° CVI : \textbf{\CONTRATACHETEURCVI} \\
+<?php else: ?>
+\\ ~ \\ 
+<?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
@@ -159,12 +168,12 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \end{minipage}
  ~ \\ ~ \\
 %PARTIE 2%
-\circled{2}~~\textbf{Désignation des produits :} \\
+\circled{2}~~\textbf{Désignation du produit :} \\
 \normalsize
 \hspace*{0.5cm}
 Volume : \textbf{\CONTRATVOLUME} hl \\
 \hspace*{0.5cm}
-Produit : \textbf{\CONTRATAPPELLATIONPRODUIT} ~~ de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT}  \\
+Produit : \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} ~~ de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT}  \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
 \hspace*{0.5cm}
@@ -178,7 +187,7 @@ dont le vendeur certifie l'existence, conformément aux règlementations communa
 \hspace*{0.5cm}
 cadre du présent contrat. Pour toute utilisation du nom de l'exploitation (Château, Domaine...), l'étiquette devra obligatoirement mentionner le nom \\
 \hspace*{0.5cm}
-et l'adresse du négociant, ainsi que le nom viticulteur.
+et l'adresse du négociant, ainsi que le nom du viticulteur.
  ~ \\   ~ \\
 %PARTIE 4%
 \circled{4}~~\textbf{Nom du producteur:} \normalsize Pour le cas où aucun nom d'exploitation n'est précisé, le vendeur autorise l'utilisation par l'acheteur, dans le cadre du présent\\
@@ -215,7 +224,7 @@ Des sanction financières conséquentes sont prévues par l'article L 632-7 du C
   ~ \\   ~ \\
 %PARTIE 6-b%
 \normalsize
-\circled{6b}~~\textbf{Conditions de paiement particulières:}~Quelle que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard\\
+\circled{6b}~~\textbf{Conditions de paiement particulières:}~Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard\\
 \hspace*{0.5cm}
 60 jours (ou 150 jours dans le cadre d'un contrat pluriannuel) calendaires après la date de retiraison prévue au présent contrat.\\
 \hspace*{0.5cm}

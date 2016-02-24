@@ -30,7 +30,7 @@ class FloatHelper
         return $this->maxDecimalAuthorized;
     }
 
-    public function format($number, $defaultDecimalFormat = null, $maxDecimalAuthorized = null, $format = null) {
+    public function format($number, $defaultDecimalFormat = null, $maxDecimalAuthorized = null, $format = null, $milliSeparate = false) {
         if($number === "") {
             $number = null;
         }
@@ -60,13 +60,13 @@ class FloatHelper
         } else {
             $nbDecimal = $maxDecimalAuthorized;
         }
-
-        return sprintf(str_replace("%d", $nbDecimal, $format), $number);
+		$separate = ($milliSeparate)? ' ' : '';
+        return number_format($number, $nbDecimal, '.', $separate);
     }
 
-    public function formatFr($number, $defaultDecimalFormat = null, $maxDecimalAuthorized = null, $format = null) {
+    public function formatFr($number, $defaultDecimalFormat = null, $maxDecimalAuthorized = null, $format = null, $milliSeparate = false) {
 
-        return str_replace(".", ",", $this->format($number, $defaultDecimalFormat, $maxDecimalAuthorized, $format));
+        return str_replace(".", ",", $this->format($number, $defaultDecimalFormat, $maxDecimalAuthorized, $format, $milliSeparate));
     }
  
 }

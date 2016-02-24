@@ -42,7 +42,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \def\tabularxcolumn#1{m{#1}}
 
 \def\IVBDCOORDONNEESTITRE{Interprofession des Vins de Bergerac et Duras}
-\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 01 01 01 01 01 - Fax: 02 02 02 02 02}
+\def\IVBDCOORDONNEESADRESSE{1, rue des Récollets - BP 426 - 24104 BERGERAC Cedex - Tél. 05 53 63 57 57 - Fax: 05 53 63 01 30}
 
 \def\CONTRATNUMARCHIVE{<?php echo $vrac->numero_archive ?>}
 \def\CONTRATNUMENREGISTREMENT{<?php echo substr($vrac->numero_contrat, -6)?>}
@@ -71,6 +71,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 
 \def\CONTRATVOLUME{<?php echo ($vrac->jus_quantite)? $vrac->jus_quantite : $vrac->raisin_quantite ?>}
 \def\CONTRATAPPELLATIONPRODUIT{<?php echo $vrac->produit_libelle ?>}
+\def\CONTRATLABELSPRODUIT {<?php echo $vrac->renderLabels() ?>}
 \def\CONTRATCEPAGEPRODUIT{<?php echo $vrac->cepage_libelle ?>}
 \def\CONTRATCOULEURPRODUIT{??}
 \def\CONTRATMILLESIMEPRODUIT{<?php echo $vrac->millesime ?>}
@@ -150,14 +151,22 @@ Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 \end{minipage}
 \hspace{2cm}
 \begin{minipage}[t]{0.3\textwidth}
+<?php if ($vrac->vendeur->cvi): ?>
 N° CVI : \textbf{\CONTRATVENDEURCVI} \\
+<?php else: ?>
+\\ ~ \\ 
+<?php endif; ?>
 Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ 
 <?php if ($vrac->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR): ?>
 ~Récoltant~\squareChecked~Négociant~$\square$ \\
 <?php else: ?>
 ~Récoltant~$\square$~Négociant~\squareChecked \\
 <?php endif; ?>
+<?php if ($vrac->acheteur->cvi): ?>
 N° CVI : \textbf{\CONTRATACHETEURCVI} \\
+<?php else: ?>
+\\ ~ \\ 
+<?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
@@ -166,7 +175,7 @@ Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 \end{minipage}
  ~ \\ ~ \\
 %PARTIE 2%
-\circled{2}~~\textbf{Désignation des produits :} \\
+\circled{2}~~\textbf{Désignation du produit :} \\
 \normalsize
 \hspace*{0.5cm}
 La vendange concernée par ce contrat est issue du millésime \textbf{\CONTRATMILLESIMEPRODUIT} \\
@@ -175,7 +184,7 @@ Assiette foncière totale correspondant aux volumes commercialisés : \textbf{\S
 \hspace*{0.5cm}
 Volume prévisionnel : \textbf{\CONTRATVOLUME} ~ Kg de raisin du cépage \textbf{\CONTRATCEPAGEPRODUIT} \\
 \hspace*{0.5cm}
-pouvant prétandre à l'appellation : \textbf{\CONTRATAPPELLATIONPRODUIT} \\
+pouvant prétandre à l'appellation : \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} \\
 \hspace*{0.5cm}
 Le vendeur s'engage à livrer à l'acheteur les raisins désignés ci-dessus, issus de sa production et conformes à l'ensemble des prescriptions figurant dans \\
 \hspace*{0.5cm}

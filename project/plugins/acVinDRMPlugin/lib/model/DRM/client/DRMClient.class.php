@@ -27,6 +27,7 @@ class DRMClient extends acCouchdbClient {
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
+    const DETAIL_EXPORT_PAYS_DEFAULT = 'inconnu';
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
