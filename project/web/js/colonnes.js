@@ -401,6 +401,8 @@
 
         this.valider = function (nextfocus) {
             if (!this.isActive()) {
+                var object = this;
+                object.colonnes.event_valider(object, nextfocus);
                 return;
             }
 
