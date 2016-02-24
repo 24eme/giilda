@@ -65,7 +65,9 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         }
 
         foreach ($details as $key => $detail) {
-            $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
+            if(preg_match('/^(VRAC-)?([0-9]+|[A-Z]+|inconnu)$/', $detail->identifiant)) {
+                $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
+            }
         }
     }
 
