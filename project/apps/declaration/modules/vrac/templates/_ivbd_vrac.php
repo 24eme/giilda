@@ -148,9 +148,17 @@ Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 \end{minipage}
 \hspace{2cm}
 \begin{minipage}[t]{0.3\textwidth}
+<?php if ($vrac->vendeur->cvi): ?>
 N° CVI : \textbf{\CONTRATVENDEURCVI} \\
+<?php else: ?>
+\\ ~ \\ 
+<?php endif; ?>
 Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ 
+<?php if ($vrac->acheteur->cvi): ?>
 N° CVI : \textbf{\CONTRATACHETEURCVI} \\
+<?php else: ?>
+\\ ~ \\ 
+<?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
 N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\

@@ -146,7 +146,7 @@ class statistiqueActions extends sfActions {
         
         $elasticaQuery = new acElasticaQuery();
         $elasticaQuery->setQuery($this->query);
-        $elasticaQuery->setLimit(10000);
+        $elasticaQuery->setLimit(5000);
         $result = $index->search($elasticaQuery);
         $hits = $result->getResults();
         /**
@@ -221,7 +221,7 @@ class statistiqueActions extends sfActions {
         }
         $elasticaQuery = new acElasticaQuery();
         $elasticaQuery->setQuery($this->query);
-        $elasticaQuery->setLimit(10000);
+        $elasticaQuery->setLimit(5000);
         $result = $index->search($elasticaQuery);
         $hits = $result->getResults();
         $csv_file = '';

@@ -8,7 +8,7 @@
 			
     		<h2><?php echo $statistiquesConfig['title'] ?></h2>
     		
-    		<?php include_partial('formFilter', array('url' => url_for('statistiques_vrac'), 'collapseIn' => $collapseIn, 'form' => $form, 'urlCsv' => url_for('statistiques_vrac_csv'))) ?>
+    		<?php include_partial('formFilter', array('nb_results' => $nbHits, 'url' => url_for('statistiques_vrac'), 'collapseIn' => $collapseIn, 'form' => $form, 'urlCsv' => url_for('statistiques_vrac_csv'))) ?>
     		<hr />
     		<p><strong><?php echo number_format($nbHits, 0, ',', ' ') ?></strong> résultat<?php if ($nbHits > 1): ?>s<?php endif; ?></p>
     		

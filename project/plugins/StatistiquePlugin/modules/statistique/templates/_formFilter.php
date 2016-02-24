@@ -29,7 +29,7 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-10">
-    		<a id="statistiques-csv" href="<?php echo $urlCsv ?>" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-download"></span> CSV</a>
+    		<a id="statistiques-csv" href="<?php echo $urlCsv ?>" class="btn btn-default btn-lg"<?php if($nb_results > 5000): ?> disabled="disabled"<?php endif;?>><span class="glyphicon glyphicon-download"></span> CSV</a>
 			<button type="submit" class="btn btn-default btn-lg pull-right">Filtrer</button>
 		</div>
 	</div>

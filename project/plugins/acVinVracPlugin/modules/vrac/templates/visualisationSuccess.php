@@ -41,6 +41,7 @@ use_helper('Date');
             <span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
         </p>
     </div>
+    
     <?php if ($vrac->isVise()) : ?>
         <div class="col-xs-4 text-center">	
             <p style="font-size: 24px;">
