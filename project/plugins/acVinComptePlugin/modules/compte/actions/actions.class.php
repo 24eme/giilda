@@ -109,7 +109,7 @@ class compteActions extends sfCredentialActions {
       $index = acElasticaManager::getType('COMPTE');
       
       $q = $this->initSearch($request);
-      $q->setLimit(1000000);
+      $q->setLimit(5000);
       $resset = $index->search($q);
       $this->results = $resset->getResults();
       $this->setLayout(false);
