@@ -23,8 +23,7 @@ class Elastica_Exception_Response extends Elastica_Exception_Abstract
     public function __construct(Elastica_Response $response)
     {
         $this->_response = $response;
-//var_dump($response->getError());
-        parent::__construct($response->getError()['reason'].' ('.$response->getError()['index'].')');
+        parent::__construct($response->getError()['reason']);
     }
 
     /**
