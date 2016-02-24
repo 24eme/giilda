@@ -11,14 +11,7 @@ $liClass = ($isValidation) ? '' : 'class="lightpadding"';
 $template_validation = (isset($template_validation)) ? $template_validation : false;
 ?>
 
-    <div class="col-xs-12">
-
-        <?php if (!$vrac->isVise()) : ?>
-            <p>
-                <span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
-            </p>
-        <?php endif; ?>
-    </div>
+    <div class="col-xs-12"></div>
 
     <?php
     if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist) {
