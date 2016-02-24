@@ -5,7 +5,7 @@ use_helper('Vrac');
 use_helper('Date');
 use_helper('DRM');
 
-$isValidation = (is_null($vrac->valide->statut));
+$isValidation = !(is_null($vrac->valide->statut));
 $isPrixVariable = (!$vrac->prix_total);
 $liClass = ($isValidation) ? '' : 'class="lightpadding"';
 $template_validation = (isset($template_validation)) ? $template_validation : false;
@@ -36,9 +36,9 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
 				<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
                 <small class="text-muted"><?php echo $vrac->getVendeurObject()->identifiant ?></small>
 				<br/>
-                <?php echo $vrac->getVendeurObject()->siege->adresse; ?> - 
+                <small><?php echo $vrac->getVendeurObject()->siege->adresse; ?> - 
                 <?php echo $vrac->getVendeurObject()->siege->code_postal; ?>
-                <?php echo $vrac->getVendeurObject()->siege->commune; ?><br/>
+                <?php echo $vrac->getVendeurObject()->siege->commune; ?></small><br/>
     <small class="text-muted">CVI&nbsp;: <?php echo $vrac->getVendeurObject()->cvi; ?> / SIRET&nbsp;: <?php echo $vrac->getVendeurObject()->getSociete()->siret ?></small>
                 <br />
                 <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo $vrac->getRepresentantObject()->getNom(); ?></a><br /><?php endif; ?>
@@ -57,10 +57,10 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
 					<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
                 <small class="text-muted"><?php echo $vrac->getMandataireObject()->identifiant ?></small>
 					<br />
-                    <?php echo $vrac->getMandataireObject()->siege->adresse; ?> - 
+                    <small><?php echo $vrac->getMandataireObject()->siege->adresse; ?> - 
                     <?php echo $vrac->getMandataireObject()->siege->code_postal; ?>
-                    <?php echo $vrac->getMandataireObject()->siege->commune; ?><br/>
-    <small class="text-muted">SIRET&nbsp;: <?php echo $vrac->getMandataireObject()->getSociete()->siret ?></small>
+                    <?php echo $vrac->getMandataireObject()->siege->commune; ?></small><br/>
+                    <small class="text-muted">Carte&nbsp;pro&nbsp;: <?php echo $vrac->getMandataireObject()->carte_pro ?> / SIRET&nbsp;: <?php echo $vrac->getMandataireObject()->getSociete()->siret ?></small>
                     <br />
                     <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
                     <?php if ($vrac->logement): ?><br/><?php endif; ?>
@@ -78,10 +78,10 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
 					<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
                 <small class="text-muted"><?php echo $vrac->getAcheteurObject()->identifiant ?></small>
 					<br />
-                <?php echo $vrac->getAcheteurObject()->siege->adresse; ?> -
+                <small><?php echo $vrac->getAcheteurObject()->siege->adresse; ?> -
                 <?php echo $vrac->getAcheteurObject()->siege->code_postal; ?>
-                <?php echo $vrac->getAcheteurObject()->siege->commune; ?><br/>
-        <small class="text-muted">SIRET&nbsp;: <?php echo $vrac->getAcheteurObject()->getSociete()->siret ?></small>
+                <?php echo $vrac->getAcheteurObject()->siege->commune; ?></small><br/>
+                <small class="text-muted">SIRET&nbsp;: <?php echo $vrac->getAcheteurObject()->getSociete()->siret ?></small>
 
                 <br />
                 <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
@@ -149,6 +149,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                     </li>
                                 <?php endif; ?>
 				<?php if ($isValidation) : ?>
+                               <li class="list-group-item">Date de saisie : <strong><?php echo format_date($vrac->valide->date_saisie, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
                                <li class="list-group-item">Date de signature : <strong><?php echo format_date($vrac->date_signature, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
 				<?php endif; ?>
                                <li class="list-group-item">Campagne viticole : <strong><?php echo $vrac->campagne; ?></strong></li>

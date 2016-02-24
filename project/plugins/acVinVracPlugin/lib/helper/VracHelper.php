@@ -59,7 +59,7 @@ function statusCssClass($status) {
 
 function formatNumeroBordereau($numero) {
 
-    return preg_replace('/^(....)(.)/', '\1 \2', $numero);
+    return preg_replace('/^(....)(.)/', '\1&nbsp;\2', $numero);
 }
 
 function typeToPictoCssClass($type) {
