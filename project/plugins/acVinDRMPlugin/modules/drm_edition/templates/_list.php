@@ -15,7 +15,7 @@
         <div id="col_saisies" class="col-xs-8 well" style="overflow-x: auto; position: relative;">
             <script type="text/javascript">
                 /* Colonne avec le focus par défaut */
-                var colFocusDefaut = <?php echo getNumberOfFirstProduitWithMovements($produits); ?>;
+                var colFocusDefaut = <?php echo getNumberOfFirstProduitWithMovements($produits); if(is_null(getNumberOfFirstProduitWithMovements($produits))): echo '""'; endif; ?>;
 
             </script>
             <div style="float: left;" id="col_saisies_cont" class="section_label_maj">

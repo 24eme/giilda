@@ -1,0 +1,13 @@
+ivso:
+  configuration:
+    drm:
+      details:
+        export_detail:
+          required: []
+              
+ivbd:
+  configuration:
+    drm:
+      details:
+        export_detail:
+          required: ["identifiant"]
