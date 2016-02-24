@@ -44,7 +44,7 @@ use_helper('Date');
     <?php if ($vrac->isVise()) : ?>
         <div class="col-xs-4 text-center">	
             <p style="font-size: 24px;">
-                N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_campagne, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
+                N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_visa, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
                 <small class="text-muted"><?php echo formatNumeroBordereau($vrac->numero_contrat); ?></small>
             </p>
         </div>
