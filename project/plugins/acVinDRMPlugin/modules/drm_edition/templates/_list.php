@@ -22,14 +22,14 @@
             <?php $first = true;
             $cpt = 1;
             ?>
-            <?php foreach ($produits as $produit): ?>  
+            <?php foreach ($produits as $key => $produit): ?> 
                 <?php if(!$produit->hasMovements()): continue; endif; ?> 
                 <?php
                 include_component('drm_edition', 'itemForm', array(
                     'config' => $config,
                     'detail' => $produit,
                     'active' => ($detail && $detail->getHash() == $produit->getHash()),
-                    'numProduit' => $cpt*100,
+                    'numProduit' => $cpt,
                     'form' => $form,
                     'favoris' => $favoris,
                     'isTeledeclarationMode' => $isTeledeclarationMode));

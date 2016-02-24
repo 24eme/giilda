@@ -54,3 +54,8 @@ panel.disabled {
 .versionner {
     outline: 1px dotted #ff0000 !important;
 }
+
+#col_saisies .col_active .btn-success:focus{
+    background-color: #167216;
+    border-color: #98fa98;
+}
