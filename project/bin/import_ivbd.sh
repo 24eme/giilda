@@ -96,7 +96,7 @@ join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes.sorte
 
 cat $DATA_DIR/base_communication.csv | tr "\n" "#" | sed -r 's/#([0-9]+;[A-Z]*;[0-9]+;)/|\1/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/base_communication.cleaned.csv
 
-cat $DATA_DIR/base_communication.cleaned.csv | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
+cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (($7+0) > 0) { next; } print $0 }' | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
 join -t ";" -a 1 -1 1 -2 3 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv $DATA_DIR/base_communication.cleaned.sorted.csv > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv
 
@@ -221,6 +221,10 @@ cat $DATA_DIR/base_contact_communication.csv | awk -F ';' '{
     id_societe=sprintf("%06d", $3);
     statut="ACTIF";
     civilite=$7;
+    if(civilite  == "m") { civilite = "M"; }
+    if(civilite == "mlle" || civilite == "Mlle" || civilite == "MLLE") { civilite = "Mme"; }
+    if(civilite == "mme" || civilite == "MME") { civilite = "Mme"; }
+
     nom=$8;
     prenom=$9;
     fonction=$10;
@@ -232,7 +236,7 @@ cat $DATA_DIR/base_contact_communication.csv | awk -F ';' '{
     web=$33;
     commentaire="";
 
-    print ";" id_societe ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
+    print ";" id_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
 }' > $DATA_DIR/interlocuteurs.csv
 
 echo "Construction du fichier d'import des Contrats de vente"

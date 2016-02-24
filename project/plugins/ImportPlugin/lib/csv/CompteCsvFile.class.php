@@ -5,27 +5,27 @@ class CompteCsvFile extends CsvFile
 
     const CSV_ID = 0;
     const CSV_ID_SOCIETE = 1;
-    const CSV_STATUT = 3;
-    const CSV_CIVILTE = 4;
-    const CSV_NOM = 5;
-    const CSV_PRENOM = 6;
-    const CSV_FONCTION = 7;
-    const CSV_ADRESSE = 8;
-    const CSV_ADRESSE_COMPLEMENTAIRE_1 = 9;
-    const CSV_ADRESSE_COMPLEMENTAIRE_2 = 10;
-    const CSV_ADRESSE_COMPLEMENTAIRE_3 = 11;
-    const CSV_CODE_POSTAL = 12;
-    const CSV_COMMUNE = 13;
-    const CSV_INSEE = 14;
-    const CSV_CEDEX = 15;
-    const CSV_PAYS = 16;
-    const CSV_EMAIL = 17;
-    const CSV_TEL_BUREAU = 18;
-    const CSV_TEL_PERSO = 19;
-    const CSV_MOBILE = 20;
-    const CSV_FAX = 21;
-    const CSV_WEB = 22;
-    const CSV_COMMENTAIRE = 23;
+    const CSV_STATUT = 2;
+    const CSV_CIVILTE = 3;
+    const CSV_NOM = 4;
+    const CSV_PRENOM = 5;
+    const CSV_FONCTION = 6;
+    const CSV_ADRESSE = 7;
+    const CSV_ADRESSE_COMPLEMENTAIRE_1 = 8;
+    const CSV_ADRESSE_COMPLEMENTAIRE_2 = 9;
+    const CSV_ADRESSE_COMPLEMENTAIRE_3 = 10;
+    const CSV_CODE_POSTAL = 11;
+    const CSV_COMMUNE = 12;
+    const CSV_INSEE = 13;
+    const CSV_CEDEX = 14;
+    const CSV_PAYS = 15;
+    const CSV_EMAIL = 16;
+    const CSV_TEL_BUREAU = 17;
+    const CSV_TEL_PERSO = 18;
+    const CSV_MOBILE = 19;
+    const CSV_FAX = 20;
+    const CSV_WEB = 21;
+    const CSV_COMMENTAIRE = 22;
 
     public function importComptes() {
         $this->errors = array();
@@ -44,7 +44,7 @@ class CompteCsvFile extends CsvFile
 
                 }
 
-                $societe = SocieteClient::getInstance()->find(sprintf("SOCIETE-%06d", $line[self::CSV_ID_SOCIETE]), acCouchdbClient::HYDRATE_JSON);
+                $societe = SocieteClient::getInstance()->find(sprintf("SOCIETE-%06d", $line[self::CSV_ID_SOCIETE]));
                 
                 if(!$societe) {
 
@@ -54,6 +54,14 @@ class CompteCsvFile extends CsvFile
               	$c = CompteClient::getInstance()->createCompteFromSociete($societe);
 
                 $c->statut = ($line[self::CSV_STATUT] == SocieteClient::STATUT_SUSPENDU) ? $line[self::CSV_STATUT] : $societe->statut;
+
+                $c->civilite = $line[self::CSV_CIVILTE];
+                $c->nom = $line[self::CSV_NOM];
+                $c->prenom = $line[self::CSV_PRENOM];
+                $c->fonction = $line[self::CSV_FONCTION];
+
+                $c->adresse = null;
+                $c->adresse_complementaire = null;
         	   
                 $c->adresse = trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE]));
                 if(preg_match('/[a-z]/i', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1])) {
@@ -82,6 +90,8 @@ class CompteCsvFile extends CsvFile
                 }
 
                 $c->save();
+
+                echo "Compte " . $c->_id ." créé\n";
         	} catch(Execption $e) {
                 $this->error[] = $e->getMessage();
             }
@@ -94,5 +104,32 @@ class CompteCsvFile extends CsvFile
       
         return $this->errors;
     }
+
+    protected function formatAndVerifyPhone($phone) {
+
+        $phone = str_replace("+33", "0", trim($phone));
+        $phone = preg_replace("/[\._ -]/", "", $phone);
+
+        if($phone && strlen($phone) == 9) {
+            $phone = "0".$phone;
+        }
+
+        if($phone && !preg_match("/^[0-9]{10}$/", $phone)) {
+            echo sprintf("Le numéro de téléphone n'est pas correct %s\n", $phone);
+        }
+
+        return $phone;
+    }
+
+    protected function formatAndVerifyEmail($email) {
+        $email = trim($email);
+
+        if($email && !preg_match("/^[a-z0-9çéèàâê_\.-]+@[a-z0-9\.-]+$/i", $email)) {
+            echo sprintf("L'email n'est pas correct %s\n", $email);
+        }
+
+        return $email;
+    }
+
 
 }
