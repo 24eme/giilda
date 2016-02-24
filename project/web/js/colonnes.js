@@ -399,7 +399,7 @@
             this.unActive();
         }
 
-        this.valider = function () {
+        this.valider = function (nextfocus) {
             if (!this.isActive()) {
                 return;
             }
@@ -429,7 +429,7 @@
                 object.groupes.valider();
                 object.unActive();
 
-                object.colonnes.event_valider(object);
+                object.colonnes.event_valider(object, nextfocus);
 
             }, 'json');
         }
@@ -468,6 +468,23 @@
                 if ((this.colonnes.colonnes[key] instanceof ColonneProduit && this.colonnes.colonnes[key].getHash() == this.getHash())
                         && this.colonnes.colonnes[key].isShow()) {
                     find = true;
+                }
+            }
+
+            return null;
+        }
+
+        this.gePrevious = function () {
+            var last = false;
+
+            for (key in this.colonnes.colonnes) {
+
+                if ((this.colonnes.colonnes[key] instanceof ColonneProduit && this.colonnes.colonnes[key].getHash() == this.getHash())
+                        && this.colonnes.colonnes[key].isShow()) {
+                    return last;
+                }
+                if (this.colonnes.colonnes[key] instanceof ColonneProduit) {
+                    last = this.colonnes.colonnes[key];
                 }
             }
 

@@ -45,7 +45,7 @@
                                 <small><?php echo $produit->getLibelle("%format_libelle%"); ?></small>
                                 <span style="position:absolute; right: 1px; top:5px;" class="btn btn-xs btn-link glyphicon glyphicon-eye-open "></span>
                             </a>
-<?php endforeach; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
