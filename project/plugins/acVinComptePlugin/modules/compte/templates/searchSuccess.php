@@ -61,7 +61,7 @@
 			<div class="list-group-item">
                 <div class="row">
                 <div class="col-xs-8">
-                    <span class="lead"><span class="<?php echo comptePictoCssClass($data) ?>"></span></span>
+                    <span class="lead"><span class="<?php echo comptePictoCssClass($data['doc']) ?>"></span></span>
                     <a class="lead" href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['doc']['identifiant'])); ?>"><?php echo $data['doc']['nom_a_afficher']; ?></a>
                     <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
                     <?php endif; ?></span>
