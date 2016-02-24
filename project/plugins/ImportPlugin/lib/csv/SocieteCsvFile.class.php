@@ -29,7 +29,7 @@ class SocieteCsvFile extends CsvFile
     const CSV_COMMENTAIRE = 24; 
 
     private function verifyCsvLine($line) {
-        if (!preg_match('/[0-9]+/', $line[self::CSV_ID])) {
+        if (!preg_match('/[0-9]+/', $line[self::CSV_ID]) || ((int) $line[self::CSV_ID]) == 0) {
 
             throw new Exception(sprintf('ID invalide : %s', $line[self::CSV_ID]));
         }
@@ -46,7 +46,7 @@ class SocieteCsvFile extends CsvFile
 
               	$s = SocieteClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
                 if ($s) {
-        	          echo "ERROR: Societe exists (".$id.")\n";
+        	          echo "ERROR: Societe existe ".$id."\n";
         	          continue;
                 }
 

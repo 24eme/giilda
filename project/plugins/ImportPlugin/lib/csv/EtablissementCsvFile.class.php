@@ -56,7 +56,7 @@ class EtablissementCsvFile extends CsvFile
       	  $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
           
           if ($e) {
-	          echo "WARNING: Etablissement ".$id." existe\n";
+	          echo "ERROR: Etablissement ".$id." existe\n";
 	          continue;
           }
 
@@ -101,6 +101,7 @@ class EtablissementCsvFile extends CsvFile
         echo $e->getMessage()."\n";
       }
     }
+    
     return $etablissements;
   }
 

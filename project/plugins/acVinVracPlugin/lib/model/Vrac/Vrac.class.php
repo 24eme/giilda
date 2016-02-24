@@ -364,10 +364,6 @@ class Vrac extends BaseVrac {
 
             return VracClient::CVO_REPARTITION_100_VITI;
         }
-        if (in_array($this->type_transaction, array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS))) {
-
-            return VracClient::CVO_REPARTITION_100_NEGO;
-        }
 
         return VracClient::CVO_REPARTITION_50_50;
     }

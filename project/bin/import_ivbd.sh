@@ -61,7 +61,7 @@ echo "CODE_VIN;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE
 echo "CODE_VINS_PRODUITS;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
 cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel/' > $DATA_DIR/produits.csv
 
-echo "Construction du fichier d'import des Contacts"
+echo "Construction des fichiers d'import des Contacts"
 
 cat $DATA_DIR/extra_ppm_attribut.csv | sort -t ";" -k 3,3 > $DATA_DIR/extra_ppm_attribut.sorted.csv
 
@@ -96,7 +96,7 @@ join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes.sorte
 
 cat $DATA_DIR/base_communication.csv | tr "\n" "#" | sed -r 's/#([0-9]+;[A-Z]*;[0-9]+;)/|\1/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/base_communication.cleaned.csv
 
-cat $DATA_DIR/base_communication.cleaned.csv | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
+cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (($7+0) > 0) { next; } print $0 }' | sort -t ";" -k 3,3 > $DATA_DIR/base_communication.cleaned.sorted.csv
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
 join -t ";" -a 1 -1 1 -2 3 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv $DATA_DIR/base_communication.cleaned.sorted.csv > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv
 
@@ -211,6 +211,33 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro
 
     print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" naccises ";" cartepro ";;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
 }' | sort | uniq > $DATA_DIR/etablissements.csv
+
+cat $DATA_DIR/base_contact.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_contact.sorted.csv
+cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (!$7) { next; } print $0 }' | sort -t ";" -k 7,7 > $DATA_DIR/base_communication_contact.sorted.csv
+
+join -t ";" -a 1 -1 1 -2 7 -o auto $DATA_DIR/base_contact.sorted.csv $DATA_DIR/base_communication_contact.sorted.csv | sort > $DATA_DIR/base_contact_communication.csv
+
+cat $DATA_DIR/base_contact_communication.csv | awk -F ';' '{
+    id_societe=sprintf("%06d", $3);
+    statut="ACTIF";
+    civilite=$7;
+    if(civilite  == "m") { civilite = "M"; }
+    if(civilite == "mlle" || civilite == "Mlle" || civilite == "MLLE") { civilite = "Mme"; }
+    if(civilite == "mme" || civilite == "MME") { civilite = "Mme"; }
+
+    nom=$8;
+    prenom=$9;
+    fonction=$10;
+    email=$32;
+    tel_bureau=$29;
+    tel_perso="";
+    mobile=$31;
+    fax=$30;
+    web=$33;
+    commentaire="";
+
+    print ";" id_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
+}' > $DATA_DIR/interlocuteurs.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
@@ -550,6 +577,10 @@ php symfony import:societe $DATA_DIR/societes.csv
 echo "Import des établissements"
 
 php symfony import:etablissement $DATA_DIR/etablissements.csv
+
+echo "Import des interlocuteurs"
+
+php symfony import:compte $DATA_DIR/interlocuteurs.csv
 
 echo "Import des contrats"
 
