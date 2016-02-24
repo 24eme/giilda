@@ -19,15 +19,16 @@ class EtablissementCsvFile extends CsvFile
   const CSV_ADRESSE_COMPLEMENTAIRE_3 = 13;
   const CSV_CODE_POSTAL = 14;
   const CSV_COMMUNE = 15;
-  const CSV_CEDEX = 16;
-  const CSV_PAYS = 17;
-  const CSV_EMAIL = 18;
-  const CSV_TEL_BUREAU = 19;
-  const CSV_TEL_PERSO = 20;
-  const CSV_MOBILE = 21;
-  const CSV_FAX = 22;
-  const CSV_WEB = 23;
-  const CSV_COMMENTAIRE = 24;
+  const CSV_INSEE = 16;
+  const CSV_CEDEX = 17;
+  const CSV_PAYS = 18;
+  const CSV_EMAIL = 19;
+  const CSV_TEL_BUREAU = 20;
+  const CSV_TEL_PERSO = 21;
+  const CSV_MOBILE = 22;
+  const CSV_FAX = 23;
+  const CSV_WEB = 24;
+  const CSV_COMMENTAIRE = 25;
 
   private function verifyCsvLine($line) {
         if (!preg_match('/[0-9]+/', $line[self::CSV_ID])) {

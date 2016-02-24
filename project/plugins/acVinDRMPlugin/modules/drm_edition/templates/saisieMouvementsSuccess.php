@@ -32,7 +32,7 @@
                     <div class="panel-body">
                         <?php include_component('drm_edition', 'produitForm', array('drm' => $drm, 'config' => $config)) ?>
                     </div>
-                    <ul id="list-produits" class="list-group drm_fil_edition_produit">
+                    <ul id="list-produits" class="list-group drm_fil_edition_produit pointer">
                         <?php foreach ($details as $produit) : ?>
                             <?php
                             if (!$produit->hasMovements()): continue;

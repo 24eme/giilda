@@ -199,9 +199,9 @@ class VracCsvFile extends CsvFile {
     }
 
     private function verifyAndFormatNumeroContrat($line) {
-        if ($line[self::CSV_NUMERO_CONTRAT] && preg_match('/[0-9]+/', $line[self::CSV_NUMERO_CONTRAT]) && strlen(trim($line[self::CSV_NUMERO_CONTRAT])) <= 11) {
+        if ($line[self::CSV_NUMERO_CONTRAT] && preg_match('/[0-9]+/', $line[self::CSV_NUMERO_CONTRAT]) && strlen(trim($line[self::CSV_NUMERO_CONTRAT])) == 13) {
 
-            return sprintf("%11d", $line[self::CSV_NUMERO_CONTRAT]);
+            return sprintf("%13d", $line[self::CSV_NUMERO_CONTRAT]);
         }
 
 

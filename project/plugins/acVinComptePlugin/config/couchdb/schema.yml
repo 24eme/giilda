@@ -24,6 +24,7 @@ Compte:
       adresse_complementaire: { }
       code_postal: { }
       commune: { }
+      insee: { }
       compte_type: { }
       cedex: {  }
       pays: {  }

@@ -34,7 +34,6 @@
 
             colonnes.event_valider = function (colonne, nextfocus) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('list-group-item-success');
-
                 if ((nextfocus == undefined) || (nextfocus == 'nextCol')) {
                     var next = colonne.getNext();
                     if (next) {
@@ -54,11 +53,14 @@
                     }
                     if (nextfocus == 'prevCol') {
                         var prev = colonne.gePrevious();
-                        console.log(prev);
                         if (prev) {
                             prev.focus();
                             prev.focusChampDefault();
                         }
+                    }else{
+                        var colToFocus = colonnes.findByHash(nextfocus);
+                        colToFocus.focus();
+                        colToFocus.focusChampDefault();
                     }
                 }
             }
@@ -164,6 +166,10 @@
                     return false;
                 }
             }
+        });
+        $('div.panel-heading').click(function(){
+            var col = colonnes.findByHash($('.col_focus').data('hash'));     
+            col.valider($(this).parent().data('hash')); 
         });
     }
 

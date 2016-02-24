@@ -17,15 +17,16 @@ class SocieteCsvFile extends CsvFile
     const CSV_ADRESSE_COMPLEMENTAIRE_3 = 12;
     const CSV_CODE_POSTAL = 13;
     const CSV_COMMUNE = 14;
-    const CSV_CEDEX = 15;
-    const CSV_PAYS = 16;
-    const CSV_EMAIL = 17;
-    const CSV_TEL_BUREAU = 18;
-    const CSV_TEL_PERSO = 19;
-    const CSV_MOBILE = 20;
-    const CSV_FAX = 21;
-    const CSV_WEB = 22;
-    const CSV_COMMENTAIRE = 23; 
+    const CSV_INSEE = 15;
+    const CSV_CEDEX = 16;
+    const CSV_PAYS = 17;
+    const CSV_EMAIL = 18;
+    const CSV_TEL_BUREAU = 19;
+    const CSV_TEL_PERSO = 20;
+    const CSV_MOBILE = 21;
+    const CSV_FAX = 22;
+    const CSV_WEB = 23;
+    const CSV_COMMENTAIRE = 24; 
 
     private function verifyCsvLine($line) {
         if (!preg_match('/[0-9]+/', $line[self::CSV_ID])) {
@@ -96,6 +97,7 @@ class SocieteCsvFile extends CsvFile
                 }
 
                 $c->commune = $line[self::CSV_COMMUNE];
+                $c->insee = $line[self::CSV_INSEE];
                 $c->pays = 'FR';
                 $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL]);
                 $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX]);
