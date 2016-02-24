@@ -14,6 +14,7 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('erreur', 'declassement', "La somme des déclassements en entrée et en sortie n'est pas la même");
         $this->addControle('erreur', 'regime_crd', "Le régime CRD n'a pas été rempli");
         $this->addControle('erreur', 'transfert_appellation', "La somme des transferts d'appellation en entrée et en sortie n'est pas la même");
+        $this->addControle('erreur', 'revendique_sup_initial', "Le stock revendiqué ne peut pas être supérieur au stock récolté");
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
@@ -71,7 +72,9 @@ class DRMValidation extends DocumentValidation {
             
             $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
             $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
-            
+            if($detail->total_revendique  > $detail->total){
+                $this->addPoint('erreur', 'revendique_sup_initial', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
+            }
         }
 
         $volumes_restant = array();
