@@ -323,7 +323,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     categorie_vin_info=$79;
 
     if(categorie_vin_info == "/") {
-        categorie_vin = "";
+        categorie_vin_info = "";
     }
 
     if(categorie_vin == "CHATEAU" && categorie_vin_info) {
