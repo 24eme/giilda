@@ -128,8 +128,6 @@ class SocieteCsvFile extends CsvFile
                 }
                 $c->save();
 
-                echo $s->getCommentaire();
-                
             }catch(Exception $e) {
                 echo $e->getMessage()."\n";
                 $this->error[] = $e->getMessage();
