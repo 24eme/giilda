@@ -25,6 +25,17 @@ class Configuration extends BaseConfiguration {
         return $this->declaration->formatProduits($date, null, null, $format, $attributes);
     }
 
+    public function getCepagesAutorises($date = null, $attributes = array()) {
+    	$cepages = array();
+    	foreach($this->declaration->getProduits($date, "INTERPRO-declaration", null, $attributes) as $produit) {
+    		$cepages_autorises = $produit->cepages_autorises->toArray();
+    		foreach ($cepages_autorises as $ca) {
+    			$cepages[$ca] = $ca;
+    		}
+    	}
+    	return $cepages;
+    }
+
     public function identifyProductByLibelle($libelle) {
         if(array_key_exists($libelle, $this->identifyLibelleProduct)) {
 

@@ -62,9 +62,15 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->getCouleur()->setDonneesCsv($datas);
         $this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE] : null;
         $this->code = $this->formatCodeFromCsv($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]);
+        
+        $this->cepages_autorises = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGES_AUTORISES]) ? explode('|', $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGES_AUTORISES]) : array();
 
         $this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
         $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT); 
+    }
+    
+    public function isCepageAutorise($cepage) {
+    	return in_array($cepage, $this->cepages_autorises->toArray());
     }
 
     public function getCorrespondanceHash() {
