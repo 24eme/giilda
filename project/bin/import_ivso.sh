@@ -170,7 +170,7 @@ if(annule=="O") {
 
 clauses=clause_reserve_propriete "," preparation_vin;
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
