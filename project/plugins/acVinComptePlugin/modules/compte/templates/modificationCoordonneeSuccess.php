@@ -1,7 +1,16 @@
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a> &gt; Contacts &gt; <a href="<?php echo url_for('societe_visualisation',array('identifiant'=> $societe->identifiant));?>"> <?php echo $societe->raison_sociale; ?></a> &gt; <strong> <?php echo 'Modification établissement' ;?> </strong></p>
+     <ol class="breadcrumb">
+        <li><a href="<?php echo url_for('societe'); ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo $societe->raison_sociale; ?></a></li>
+        <li class="active">
+                <strong>
+                    <?php echo 'Modification établissement'; ?>
+                </strong>
+        </li>
 
+    </ol>
+    
     <!-- #contenu_etape -->
     <section id="contacts">
         <?php if($compte->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT): ?>
