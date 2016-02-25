@@ -59,11 +59,11 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getSocietesWithStatut($statut) {
-        return array_reverse(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', $statut));
+        return array_reverse(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', $statut));
     }
 
     public function getSocietesWithTypeAndRaisonSociale($type, $raison_sociale) {
-        return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', null, array($type), $raison_sociale);
+        return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', null, array($type), $raison_sociale);
     }
 
     public function createSociete($raison_sociale, $type) {
@@ -109,7 +109,7 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getNextCodeFournisseur() {
-        $societes = SocieteExportView::getInstance()->findByInterpro('INTERPRO-inter-loire');
+        $societes = SocieteExportView::getInstance()->findByInterpro('INTERPRO-declaration');
         $nextCF = 0;
         foreach ($societes as $societe) {
             if ($cf = $societe->value[SocieteExportView::VALUE_CODE_COMPTABLE_FOURNISSEUR]) {
