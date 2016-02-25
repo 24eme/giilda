@@ -1,17 +1,22 @@
 <!-- #principal -->
 <section id="principal">
-	<p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a>
-            &gt; <a href="<?php echo url_for('societe_visualisation',array('identifiant'=> $societe->identifiant));?>">
-            <?php echo $societe->raison_sociale; ?></a> &gt; <strong><?php echo (!$compte->isNew())? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></strong></p>
+    <ol class="breadcrumb">
+        <li><a href="<?php echo url_for('societe'); ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo $societe->raison_sociale; ?></a></li>
 
-	<!-- #contacts -->
-	<section id="contacts">
-		<div id="nouveau_contact" class="col-md-8 col-md-offset-2">
-			<h2><?php echo (!$compte->isNew())? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></h2>
+        <li class="active">
+            <strong><?php echo (!$compte->isNew()) ? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></strong>
+        </li>
+
+    </ol>
+    <!-- #contacts -->
+    <section id="contacts">
+        <div id="nouveau_contact" class="col-md-8 col-md-offset-2">
+            <h2><?php echo (!$compte->isNew()) ? $compte->nom_a_afficher : 'Nouvel interlocuteur'; ?></h2>
 
 
-			<form action="<?php echo ($compte->isNew())? url_for('compte_ajout', array('identifiant' => $societe->identifiant)) : url_for('compte_modification', array('identifiant' => $compte->identifiant)); ?>" method="post" class="form-horizontal">
-				<div id="detail_contact" class="panel panel-default">
+            <form action="<?php echo ($compte->isNew()) ? url_for('compte_ajout', array('identifiant' => $societe->identifiant)) : url_for('compte_modification', array('identifiant' => $compte->identifiant)); ?>" method="post" class="form-horizontal">
+                <div id="detail_contact" class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Détail de l'interlocuteur</h3></div>
                     <div class="panel-body">
                         <?php
@@ -23,7 +28,7 @@
                             <?php echo $compteForm['statut']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
                             <div class="col-xs-8"><?php echo $compteForm['statut']->render(); ?></div>
                         </div>
-                    
+
                         <div class="form-group">
                             <?php echo $compteForm['civilite']->renderError(); ?>
                             <?php echo $compteForm['civilite']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
@@ -50,29 +55,29 @@
                             <div class="col-xs-8"><?php echo $compteForm['commentaire']->render(); ?></div>
                         </div> 
                     </div>
-				</div>
+                </div>
 
                 <div id="coordonnees_contact" class="form_section ouvert panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'interlocuteur</h3></div>
                     <?php include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $compteForm)); ?>
                 </div> 
-                            
-			<div class="col-xs-6">
-				<?php if($compte->isNew()): ?>
-                    <a href="<?php echo url_for('societe_visualisation', $societe);?>" class="btn btn-default">Annuler</a>
-                <?php else: ?>
-                    <a href="<?php echo url_for('compte_visualisation', $compte);?>" class="btn btn-default">Annuler</a>
-                <?php endif; ?>
-            </div><div class="col-xs-6 text-right">
-                <button class="btn btn-success">
-                    <?php echo (!$compte->isSameCoordonneeThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
-                </button>
-			</div>
-                            
-			</form>
 
-		</div>
-	</section>
+                <div class="col-xs-6">
+                    <?php if ($compte->isNew()): ?>
+                        <a href="<?php echo url_for('societe_visualisation', $societe); ?>" class="btn btn-default">Annuler</a>
+                    <?php else: ?>
+                        <a href="<?php echo url_for('compte_visualisation', $compte); ?>" class="btn btn-default">Annuler</a>
+                    <?php endif; ?>
+                </div><div class="col-xs-6 text-right">
+                    <button class="btn btn-success">
+                        <?php echo (!$compte->isSameCoordonneeThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </section>
 </section>
 <?php
 slot('colButtons');
@@ -89,12 +94,12 @@ slot('colButtons');
             <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span>Accueil de la société</span></a>
         </div>
     </div>
-    <?php if(!$compte->isNew()) : ?>
-    <div class="contenu">
-        <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $compte->identifiant)); ?>" class="btn btn-default"><span>Retour à la visualisation</span></a>
+    <?php if (!$compte->isNew()) : ?>
+        <div class="contenu">
+            <div class="btnRetourAccueil">
+                <a href="<?php echo url_for('compte_visualisation', array('identifiant' => $compte->identifiant)); ?>" class="btn btn-default"><span>Retour à la visualisation</span></a>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 </div>
 <?php
