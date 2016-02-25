@@ -172,6 +172,7 @@ class Vrac extends BaseVrac {
         $this->mandataire->commune = $etablissement->siege->commune;
         $this->mandataire->code_postal = $etablissement->siege->code_postal;
         $this->mandataire->carte_pro = $etablissement->carte_pro;
+        $this->mandataire->siret = $etablissement->getSociete()->siret;
     }
 
     public function setVendeurInformations() {
@@ -216,7 +217,7 @@ class Vrac extends BaseVrac {
         $this->get($type)->nom = $etablissement->nom;
         $this->get($type)->raison_sociale = $etablissement->raison_sociale;
         $this->get($type)->cvi = $etablissement->cvi;
-        //$this->get($type)->siret = $etablissement->siret;
+        $this->get($type)->siret = $etablissement->getSociete()->siret;
         $this->get($type)->no_accises = $etablissement->no_accises;
         $this->get($type)->no_tva_intracomm = $etablissement->getNoTvaIntraCommunautaire();
         $this->get($type)->adresse = $etablissement->siege->adresse;

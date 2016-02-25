@@ -67,7 +67,7 @@ EOF;
 
     protected function getCompteWithoutDroits() {
 
-        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
+        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-declaration");
 
         $comptesWithoutDroits = array();
 

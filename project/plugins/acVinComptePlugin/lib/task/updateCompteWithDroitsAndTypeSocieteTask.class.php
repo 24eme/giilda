@@ -49,8 +49,8 @@ EOF;
     
     $this->debug = array_key_exists('debug', $arguments) && $arguments['debug'];
     
-    //$rows = CompteAllView::getInstance()->findByInterproAndStatutVIEW("INTERPRO-inter-loire",  CompteClient::STATUT_ACTIF);
-    $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
+    //$rows = CompteAllView::getInstance()->findByInterproAndStatutVIEW("INTERPRO-declaration",  CompteClient::STATUT_ACTIF);
+    $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-declaration");
 
     foreach($rows as $row) {
         $compte = CompteClient::getInstance()->find($row->id);

@@ -142,7 +142,7 @@ class Revendication extends BaseRevendication {
 
     public function setProduitsCodeDouaneHashes() {
         if (!$this->produitsCodeDouane){
-            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-inter-loire');
+            $this->produitsCodeDouane = ConfigurationClient::getCurrent()->declaration->getProduitsHashByCodeDouane($this->date,'INTERPRO-declaration');
         }
 
         return $this->produitsCodeDouane;
@@ -150,7 +150,7 @@ class Revendication extends BaseRevendication {
 
     private function setEtablissements() {
         if (!$this->etablissements)
-            $this->etablissements = EtablissementAllView::getInstance()->findByInterpro('INTERPRO-inter-loire');
+            $this->etablissements = EtablissementAllView::getInstance()->findByInterpro('INTERPRO-declaration');
         return $this->etablissements;
     }
 

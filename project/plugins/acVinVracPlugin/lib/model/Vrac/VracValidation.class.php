@@ -29,6 +29,8 @@ class VracValidation extends DocumentValidation {
         }
         $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
         $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
+        $this->addControle('erreur', 'dates_retiraison', 'La date limite de retiraison ne peut pas être inférieure à la date de début de retiraison');
+        $this->addControle('erreur', 'dates_retiraison_visa', 'La date de retiraison ne peut pas être inférieure à la date du contrat');
         $this->addControle('erreur', 'viti_raisins_mouts_type_vins', "Le viticulteur ne peut pas faire de contrats de vins (il possède une exclusivité de raisins/moûts)");
         $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
         $this->addControle('vigilance', 'quantite_raisin_expected', "La quantité n'a pas été saisis");
@@ -77,6 +79,14 @@ class VracValidation extends DocumentValidation {
         }
         if (is_null($this->document->prix_initial_unitaire)) {
             $this->addPoint('erreur', 'prix_initial_expected', 'Saisir un prix', $this->generateUrl('vrac_marche', $this->document));
+        }
+        if ($this->document->date_debut_retiraison && $this->document->date_limite_retiraison) {
+        	if ($this->document->date_limite_retiraison < $this->document->date_debut_retiraison) {
+        		$this->addPoint('erreur', 'dates_retiraison', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
+        	}
+        }
+        if ($this->document->date_debut_retiraison && $this->document->date_debut_retiraison < date('Y-m-d')) {
+        	$this->addPoint('erreur', 'dates_retiraison_visa', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
         }
 
         

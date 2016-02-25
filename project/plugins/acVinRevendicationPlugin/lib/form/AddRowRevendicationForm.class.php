@@ -20,7 +20,7 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget('etablissement', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_PRODUCTEUR))));
+        $this->setWidget('etablissement', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR, EtablissementFamilles::FAMILLE_PRODUCTEUR))));
         $this->setValidator('etablissement', new ValidatorEtablissement(array('required' => true)));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
         $this->widgetSchema->setNameFormat('revendication_creation_row[%s]');

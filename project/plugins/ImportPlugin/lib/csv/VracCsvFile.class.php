@@ -9,40 +9,41 @@ class VracCsvFile extends CsvFile {
     const CSV_TYPE_TRANSACTION = 4;
     const CSV_STATUT = 5;
     const CSV_VENDEUR_ID = 6;
-    const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 7;
-    const CSV_INTERMEDIAIRE_ID = 8;
-    const CSV_ACHETEUR_ID = 9;
-    const CSV_COURTIER_ID = 10;
-    const CSV_RESPONSABLE = 11;
-    const CSV_PRODUIT_ID = 12;
-    const CSV_PRODUIT_LIBELLE = 13;
-    const CSV_MILLESIME = 14;
-    const CSV_CEPAGE_ID = 15;
-    const CSV_CEPAGE_LIBELLE = 16;
-    const CSV_CATEGORIE_VIN = 17;
-    const CSV_CATEGORIE_VIN_INFO = 18;
-    const CSV_SURFACE = 19;
-    const CSV_LOT = 20;
-    const CSV_DEGRE = 21;
-    const CSV_RECIPIENT_CONTENANCE = 22;
-    const CSV_QUANTITE = 23;
-    const CSV_QUANTITE_UNITE = 24;
-    const CSV_VOLUME_PROPOSE = 25;
-    const CSV_VOLUME_ENLEVE = 26;
-    const CSV_PRIX_UNITAIRE = 27;
-    const CSV_PRIX_UNITAIRE_HL = 28;
-    const CSV_CLE_DELAI_PAIEMENT = 29;
-    const CSV_DELAI_PAIEMENT = 30;
-    const CSV_ACOMPTE_SIGNATURE = 31;
-    const CSV_MOYEN_PAIEMENT = 32;
-    const CSV_TAUX_COURTAGE = 33;
-    const CSV_REPARTITION_COURTAGE = 34;
-    const CSV_REPARTITION_CVO = 35;
-    const CSV_RETIRAISON_DATE_DEBUT = 36;
-    const CSV_RETIRAISON_DATE_FIN = 37;
-    const CSV_CLAUSES = 38;
-    const CSV_LABELS = 39;
-    const CSV_COMMENTAIRES = 40;
+    const CSV_VENDEUR_CVI = 7;
+    const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 8;
+    const CSV_INTERMEDIAIRE_ID = 9;
+    const CSV_ACHETEUR_ID = 10;
+    const CSV_COURTIER_ID = 11;
+    const CSV_RESPONSABLE = 12;
+    const CSV_PRODUIT_ID = 13;
+    const CSV_PRODUIT_LIBELLE = 14;
+    const CSV_MILLESIME = 15;
+    const CSV_CEPAGE_ID = 16;
+    const CSV_CEPAGE_LIBELLE = 17;
+    const CSV_CATEGORIE_VIN = 18;
+    const CSV_CATEGORIE_VIN_INFO = 19;
+    const CSV_SURFACE = 20;
+    const CSV_LOT = 21;
+    const CSV_DEGRE = 22;
+    const CSV_RECIPIENT_CONTENANCE = 23;
+    const CSV_QUANTITE = 24;
+    const CSV_QUANTITE_UNITE = 25;
+    const CSV_VOLUME_PROPOSE = 26;
+    const CSV_VOLUME_ENLEVE = 27;
+    const CSV_PRIX_UNITAIRE = 28;
+    const CSV_PRIX_UNITAIRE_HL = 29;
+    const CSV_CLE_DELAI_PAIEMENT = 30;
+    const CSV_DELAI_PAIEMENT = 31;
+    const CSV_ACOMPTE_SIGNATURE = 32;
+    const CSV_MOYEN_PAIEMENT = 33;
+    const CSV_TAUX_COURTAGE = 34;
+    const CSV_REPARTITION_COURTAGE = 35;
+    const CSV_REPARTITION_CVO = 36;
+    const CSV_RETIRAISON_DATE_DEBUT = 37;
+    const CSV_RETIRAISON_DATE_FIN = 38;
+    const CSV_CLAUSES = 39;
+    const CSV_LABELS = 40;
+    const CSV_COMMENTAIRES = 41;
 
     const LABEL_BIO = 'agriculture_biologique';
 
@@ -103,6 +104,10 @@ class VracCsvFile extends CsvFile {
                     $v->mandataire_identifiant = $courtier->_id;
                 }
                 $v->setInformations();
+
+                if($line[self::CSV_VENDEUR_CVI]) {
+                    $v->vendeur->cvi = $line[self::CSV_VENDEUR_CVI];
+                }
 
                 $v->responsable = $this->verifyAndFormatResponsable($line);
 

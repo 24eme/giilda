@@ -56,7 +56,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
 
         $this->logSection("campagne use", $campagne);
 
-        foreach(EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF,null) as $e) {
+        foreach(EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF,null) as $e) {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
             $tags = array('export' => array(), 'produit' => array());
             

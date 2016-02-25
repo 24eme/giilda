@@ -17,7 +17,7 @@ class AlerteGenerationVracSansSV12 extends AlerteGenerationSV12 {
     }
 
     public function creations() {
-        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_NEGOCIANT));
+        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_NEGOCIANT));
         $campagnes = $this->getCampagnes();
         foreach ($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);

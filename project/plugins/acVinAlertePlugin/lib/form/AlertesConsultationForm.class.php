@@ -14,7 +14,7 @@ class AlertesConsultationForm extends sfForm {
     
     public function configure()
     {   
-        $this->setWidget('identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR,  EtablissementFamilles::FAMILLE_NEGOCIANT))));  
+        $this->setWidget('identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR,  EtablissementFamilles::FAMILLE_NEGOCIANT))));  
         $this->setWidget('region',new sfWidgetFormChoice(array('choices' => $this->getRegions(),'expanded' => false)));  
         $this->setWidget('type_alerte', new sfWidgetFormChoice(array('choices' => $this->getTypes(),'expanded' => false)));      
         $this->setWidget('statut_courant',new sfWidgetFormChoice(array('choices' => $this->getStatuts(),'expanded' => false)));    

@@ -25,14 +25,14 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
             <div class="panel-heading"><strong>Vendeur</strong> <?php if ($vrac->responsable == 'vendeur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if ($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right" autofocus="autofocus">Modifier</a><?php endif; ?></div>
             <div class="text-center panel-body">
             	<?php if (!$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->vendeur_identifiant)) ?>"><?php endif; ?>
-                <strong><?php echo $vrac->getVendeurObject()->getNom(); ?></strong>
+                <strong><?php echo $vrac->vendeur->nom; ?></strong>
 				<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
-                <small class="text-muted"><?php echo $vrac->getVendeurObject()->identifiant ?></small>
+                <small class="text-muted"><?php echo $vrac->vendeur_identifiant ?></small>
 				<br/>
-                <small><?php echo $vrac->getVendeurObject()->siege->adresse; ?> - 
-                <?php echo $vrac->getVendeurObject()->siege->code_postal; ?>
-                <?php echo $vrac->getVendeurObject()->siege->commune; ?></small><br/>
-    <small class="text-muted">CVI&nbsp;: <?php echo $vrac->getVendeurObject()->cvi; ?> / SIRET&nbsp;: <?php echo $vrac->getVendeurObject()->getSociete()->siret ?></small>
+                <small><?php echo $vrac->vendeur->adresse; ?> - 
+                <?php echo $vrac->vendeur->code_postal; ?>
+                <?php echo $vrac->vendeur->commune; ?></small><br/>
+                <small class="text-muted">CVI&nbsp;: <?php echo $vrac->vendeur->cvi; ?> / SIRET&nbsp;: <?php echo $vrac->vendeur->siret ?></small>
                 <br />
                 <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo $vrac->getRepresentantObject()->getNom(); ?></a><br /><?php endif; ?>
                 <?php if ($vrac->logement): ?>Logement du vin : <?php echo $vrac->logement ?><br/><?php endif; ?>
@@ -46,14 +46,14 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <div class="panel-heading"><strong>Mandataire / Courtier</strong> <?php if ($vrac->responsable == 'mandataire'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if ($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
                 <div class="text-center panel-body">
                     <?php if (!$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->mandataire_identifiant)) ?>"><?php endif; ?>
-                	<strong><?php echo $vrac->getMandataireObject()->getNom(); ?></strong>
+                	<strong><?php echo $vrac->mandataire->nom; ?></strong>
 					<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
-                <small class="text-muted"><?php echo $vrac->getMandataireObject()->identifiant ?></small>
+                <small class="text-muted"><?php echo $vrac->mandataire_identifiant ?></small>
 					<br />
-                    <small><?php echo $vrac->getMandataireObject()->siege->adresse; ?> - 
-                    <?php echo $vrac->getMandataireObject()->siege->code_postal; ?>
-                    <?php echo $vrac->getMandataireObject()->siege->commune; ?></small><br/>
-                    <small class="text-muted">Carte&nbsp;pro&nbsp;: <?php echo $vrac->getMandataireObject()->carte_pro ?> / SIRET&nbsp;: <?php echo $vrac->getMandataireObject()->getSociete()->siret ?></small>
+                    <small><?php echo $vrac->mandataire->adresse; ?> - 
+                    <?php echo $vrac->mandataire->code_postal; ?>
+                    <?php echo $vrac->mandataire->commune; ?></small><br/>
+                    <small class="text-muted">Carte&nbsp;pro&nbsp;: <?php echo $vrac->mandataire->carte_pro ?> / SIRET&nbsp;: <?php echo $vrac->mandataire->siret ?></small>
                     <br />
                     <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
                     <?php if ($vrac->logement): ?><br/><?php endif; ?>
@@ -67,14 +67,14 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
             <div class="panel-heading"><strong>Acheteur</strong> <?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if ($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <div class="text-center panel-body">                
                     <?php if (!$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->acheteur_identifiant)) ?>"><?php endif; ?>
-                	<strong><?php echo $vrac->getAcheteurObject()->getNom(); ?></strong>
+                	<strong><?php echo $vrac->acheteur->nom; ?></strong>
 					<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
-                <small class="text-muted"><?php echo $vrac->getAcheteurObject()->identifiant ?></small>
+                <small class="text-muted"><?php echo $vrac->acheteur_identifiant ?></small>
 					<br />
-                <small><?php echo $vrac->getAcheteurObject()->siege->adresse; ?> -
-                <?php echo $vrac->getAcheteurObject()->siege->code_postal; ?>
-                <?php echo $vrac->getAcheteurObject()->siege->commune; ?></small><br/>
-                <small class="text-muted">SIRET&nbsp;: <?php echo $vrac->getAcheteurObject()->getSociete()->siret ?></small>
+                <small><?php echo $vrac->acheteur->adresse; ?> -
+                <?php echo $vrac->acheteur->code_postal; ?>
+                <?php echo $vrac->acheteur->commune; ?></small><br/>
+                <small class="text-muted">SIRET&nbsp;: <?php echo $vrac->acheteur->siret ?></small>
 
                 <br />
                 <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?><br /><?php endif; ?>
