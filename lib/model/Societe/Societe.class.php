@@ -371,4 +371,26 @@ class Societe extends BaseSociete {
         $this->add('teledeclaration_email', $email);
     }
 
+    public function getCommentaire() {
+        $c = $this->_get('commentaire');
+        $c1 = $this->getContact()->get('commentaire');
+        if ($c && $c1) {
+            return $c."\n".$c1;
+        }
+        if ($c) {
+            return $c;
+        }
+        if ($c1){
+            return $c1;
+        }
+    }
+    
+    public function addCommentaire($s) {
+        $c = $this->get('commentaire');
+        if ($c) {
+            return $this->_set('commentaire', $c."\n".$s);
+        }
+        return $this->_set('commentaire', $s);
+    }
+
 }
