@@ -32,7 +32,7 @@ class produitActions extends sfActions
   	$this->forward404Unless($request_noeud = $request->getParameter('noeud', null));
   	$this->forward404Unless($hash = str_replace('-', '/', $request->getParameter('hash', null)));
 
-  	$this->interpro = 'INTERPRO-inter-loire';
+  	$this->interpro = 'INTERPRO-declaration';
   	$this->produit = ConfigurationClient::getCurrent()->getOrAdd(str_replace('-', '/', $hash));
     $this->noeud = $this->produit->get($request_noeud);
 
@@ -52,7 +52,7 @@ class produitActions extends sfActions
   public function executeNouveau(sfWebRequest $request)
   {
     //throw new sfException("Edition de l'arbre produit désactivé pour le moment");
-  	$this->interpro = InterproClient::getInstance()->find('INTERPRO-inter-loire');
+  	$this->interpro = InterproClient::getInstance()->find('INTERPRO-declaration');
   	$configuration = ConfigurationClient::getCurrent();
   	$this->form = new ProduitNouveauForm($configuration, $this->interpro->_id);
   	if (!$request->isMethod(sfWebRequest::POST)) {
