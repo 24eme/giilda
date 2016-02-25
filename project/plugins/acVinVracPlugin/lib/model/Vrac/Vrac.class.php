@@ -66,6 +66,11 @@ class Vrac extends BaseVrac {
             $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
         }
     }
+    
+    public function isCepageAutorise()
+    {
+    	return $this->getProduitObject()->isCepageAutorise($this->cepage);
+    }
 
     public function setCepage($value) {
         if ($value != $this->_get('cepage')) {
@@ -667,7 +672,8 @@ class Vrac extends BaseVrac {
     }
 
     public function getCepagesConfig() {
-        return array('MER' => 'Merlot', 'SAU' => 'Sauvignon', 'SYR' => 'Syrah');
+        $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
+        return $this->getConfig()->getCepagesAutorises($date, array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
     }
 
     public function getQuantite() {

@@ -51,26 +51,11 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         if (!$this->etablissement->isCourtier()) {
             $recette_locale = $this->getRecettesLocales();
             $this->setWidget('cvi', new bsWidgetFormInput());
-            $this->setWidget('relance_ds', new bsWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
             $this->setWidget('recette_locale_choice', new bsWidgetFormChoice(array('choices' => $recette_locale)));
-            $this->widgetSchema->setLabel('cvi', 'CVI');
-            $this->widgetSchema->setLabel('relance_ds', 'Relance DS *');            
+            $this->widgetSchema->setLabel('cvi', 'CVI');           
             $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
-            $this->setValidator('cvi', new sfValidatorString(array('required' => false)));
-            $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));            
+            $this->setValidator('cvi', new sfValidatorString(array('required' => false)));           
             $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
-            
-            if (!$this->etablissement->isNegociant()) {
-                $this->setWidget('raisins_mouts', new bsWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
-                $this->setWidget('exclusion_drm', new bsWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
-                $this->setWidget('type_dr', new bsWidgetFormChoice(array('choices' => $this->getTypeDR())));
-                $this->widgetSchema->setLabel('raisins_mouts', 'Raisins et Moûts *');
-                $this->widgetSchema->setLabel('exclusion_drm', 'Exclusion DRM *');
-                $this->widgetSchema->setLabel('type_dr', 'Type de DR *');
-                $this->setValidator('raisins_mouts', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
-                $this->setValidator('exclusion_drm', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
-                $this->setValidator('type_dr', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeDR()))));
-            }
         } else {
             $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
@@ -95,10 +80,6 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         return EtablissementClient::getStatuts();
     }
 
-    public function getOuiNonChoices() {
-        
-        return array(EtablissementClient::OUI => 'Oui', EtablissementClient::NON => 'Non');
-    }
 
     public function getAdresseSociete() {
         

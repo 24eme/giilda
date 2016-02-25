@@ -2,7 +2,7 @@
 
 class drmComponents extends sfComponents {
 
-     public function executeFormEtablissementChoice() {
+    public function executeFormEtablissementChoice() {
         if (!$this->identifiant) {
             $this->identifiant = null;
         }
@@ -25,7 +25,7 @@ class drmComponents extends sfComponents {
     }
 
     public function executeMonEspaceDrm() {
-        if (!$this->calendrier) 
+        if (!$this->calendrier)
             $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
         $this->hasNoPopupCreation = (isset($this->accueil_drm) && $this->accueil_drm);
@@ -118,7 +118,7 @@ class drmComponents extends sfComponents {
     }
 
     public function executeCalendrier() {
-        if (!$this->calendrier) 
+        if (!$this->calendrier)
             $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         if ($this->isTeledeclarationMode) {
             $this->creationDrmsForms = $this->getCreationDrmsForms();
@@ -143,6 +143,8 @@ class drmComponents extends sfComponents {
                     $d->stocks_debut_dont_revendique = $produit->stocks_debut->dont_revendique;
                     $d->total_entrees = $produit->total_entrees;
                     $d->total_sorties = $produit->total_sorties;
+                    $d->total_entrees_revendique = $produit->total_entrees_revendique;
+                    $d->total_sorties_revendique = $produit->total_sorties_revendique;
                     $d->stocks_fin_final = $produit->stocks_fin->final;
                     $d->stocks_fin_dont_revendique = $produit->stocks_fin->dont_revendique;
                     $d->total_facturable = $produit->total_facturable;
@@ -186,15 +188,15 @@ class drmComponents extends sfComponents {
         }
 
         try {
-        $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, $this->etablissement->identifiant);
-        foreach ($revs as $rev) {
-            if (!isset($this->recaps[$rev->produit_hash])) {
-                $this->recaps[$rev->produit_hash] = $this->initLigneRecap($conf, $rev->produit_hash);
+            $revs = RevendicationStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, $this->etablissement->identifiant);
+            foreach ($revs as $rev) {
+                if (!isset($this->recaps[$rev->produit_hash])) {
+                    $this->recaps[$rev->produit_hash] = $this->initLigneRecap($conf, $rev->produit_hash);
+                }
+                $this->recaps[$rev->produit_hash]['volume_revendique_drev'] += $rev->volume;
             }
-            $this->recaps[$rev->produit_hash]['volume_revendique_drev'] += $rev->volume;
-        }
         } catch (Exception $e) {
-
+            
         }
 
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);
