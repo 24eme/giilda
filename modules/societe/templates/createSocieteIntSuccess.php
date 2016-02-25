@@ -2,8 +2,7 @@
 
     <!-- #principal -->
     <section id="principal">
-        <p id="fil_ariane"><a href="#">Page d'accueil</a> &gt; <a href="#">Contact</a> &gt; <strong>Création d'une société</strong></p>
-
+             
         <!-- #contacts -->
         <section id="contacts">
 		

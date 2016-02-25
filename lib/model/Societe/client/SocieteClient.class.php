@@ -3,17 +3,19 @@
 class SocieteClient extends acCouchdbClient {
 
     const TYPE_OPERATEUR = 'OPERATEUR';
+    const TYPE_COURTIER = 'COURTIER';
+    const TYPE_AUTRE = 'AUTRE';
+    
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
-    const SUB_TYPE_COURTIER = 'COURTIER';
-    const SUB_TYPE_REPRESENTANT = 'REPRESENTANT';
+    
+/*    const SUB_TYPE_REPRESENTANT = 'REPRESENTANT';
     const TYPE_PRESSE = 'PRESSE';
     const TYPE_PARTENAIRE = 'PARTENAIRE';
     const SUB_TYPE_DOUANE = 'DOUANE';
     const SUB_TYPE_INSTITUTION = 'INSTITUTION';
     const SUB_TYPE_HOTELRESTAURANT = 'HOTEL-RESTAURANT';
-    const SUB_TYPE_SYNDICAT = 'SYNDICAT';
-    const SUB_TYPE_AUTRE = 'AUTRE';
+    const SUB_TYPE_SYNDICAT = 'SYNDICAT'; */
     const STATUT_ACTIF = 'ACTIF';
     const STATUT_SUSPENDU = 'SUSPENDU';
     const STATUT_EN_CREATION = 'EN_CREATION';
@@ -147,14 +149,9 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public static function getSocieteTypes() {
-        return array(self::TYPE_OPERATEUR => array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,
-                self::SUB_TYPE_NEGOCIANT => self::SUB_TYPE_NEGOCIANT,
-                self::SUB_TYPE_COURTIER => self::SUB_TYPE_COURTIER),
-            self::TYPE_PRESSE => self::TYPE_PRESSE,
-            self::TYPE_PARTENAIRE => array(self::SUB_TYPE_INSTITUTION => self::SUB_TYPE_INSTITUTION,
-                self::SUB_TYPE_HOTELRESTAURANT => self::SUB_TYPE_HOTELRESTAURANT,
-                self::SUB_TYPE_SYNDICAT => self::SUB_TYPE_SYNDICAT,
-                self::SUB_TYPE_AUTRE => self::SUB_TYPE_AUTRE));
+        return array(self::TYPE_OPERATEUR => self::TYPE_OPERATEUR,
+            self::TYPE_COURTIER => self::TYPE_COURTIER,
+            self::TYPE_AUTRE => self::TYPE_AUTRE);
     }
 
     public static function getStatuts() {
@@ -166,9 +163,8 @@ class SocieteClient extends acCouchdbClient {
 //    }
 
     public static function getSocieteTypesWithChais() {
-        return array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,
-            self::SUB_TYPE_NEGOCIANT => self::SUB_TYPE_NEGOCIANT,
-            self::SUB_TYPE_COURTIER => self::SUB_TYPE_COURTIER);
+        return array(self::TYPE_OPERATEUR => self::TYPE_OPERATEUR,
+            self::TYPE_COURTIER => self::TYPE_COURTIER);
     }
 
     public function addTagRgtEnAttenteFromFile($path, $societesCodeClientView) {
