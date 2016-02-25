@@ -1,19 +1,23 @@
 <!-- #principal -->
 <section id="principal">
-    <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a>
-        &gt; <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>">
-            <?php echo $societe->raison_sociale; ?></a> 
-            &gt;
-            <?php if(!$etablissement->isNew()) : ?>
-            <a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>">
-                <?php echo $etablissement->nom; ?>
-            </a>
-            &gt;
-            <?php endif; ?>
-        <strong>
-            <?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : 'Modification établissement'; ?>
-        </strong></p>
-    
+    <ol class="breadcrumb">
+        <li><a href="<?php echo url_for('societe'); ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo $societe->raison_sociale; ?></a></li>
+        <?php if (!$etablissement->isNew()) : ?>
+            <li>
+                <a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="glyphicon glyphicon-home"></span>&nbsp;<?php echo $etablissement->nom; ?>
+                </a>
+            </li>
+        <?php endif; ?>
+            <li class="active">
+                <strong>
+                    <?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : 'Modification établissement'; ?>
+                </strong>
+            </li>
+
+    </ol>
+
+
     <!-- #contenu_etape -->
     <section id="contacts">
         <div class="col-md-8 col-md-offset-2">
@@ -29,15 +33,15 @@
                 </div>  
                 <div class="form_btn">
                     <div class="col-xs-6">
-                    <?php if($etablissement->isNew()): ?>
-                        <a href="<?php echo url_for('societe_visualisation', $societe); ?>" type="submit" class="btn btn-default">Annuler</a>
-                    <?php else: ?>
-                        <a href="<?php echo url_for('etablissement_visualisation', $etablissement); ?>" type="submit" class="btn btn-default">Annuler</a>
-                    <?php endif; ?>
+                        <?php if ($etablissement->isNew()): ?>
+                            <a href="<?php echo url_for('societe_visualisation', $societe); ?>" type="submit" class="btn btn-default">Annuler</a>
+                        <?php else: ?>
+                            <a href="<?php echo url_for('etablissement_visualisation', $etablissement); ?>" type="submit" class="btn btn-default">Annuler</a>
+                        <?php endif; ?>
                     </div><div class="col-xs-6 text-right">
-                    <button id="btn_valider" type="submit" class="btn btn-success">
-                        <?php echo ($etablissement->isSameContactThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
-                    </button>
+                        <button id="btn_valider" type="submit" class="btn btn-success">
+                            <?php echo ($etablissement->isSameContactThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
+                        </button>
                     </div>
                 </div>
             </form>	

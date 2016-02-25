@@ -77,8 +77,10 @@ DRM:
           fields:
             total_debut_mois: { type: float }
             total_entrees: { type: float }
+            total_entrees_revendique: { type: float }
             total_recolte:  { type: float }
             total_sorties: { type: float }
+            total_sorties_revendique: { type: float }
             total_facturable: { type: float }
             total_revendique: { type: float }
             total: { type: float }
@@ -95,8 +97,10 @@ DRM:
                       fields:
                         total_debut_mois: { type: float }
                         total_entrees: { type: float }
+                        total_entrees_revendique: { type: float }
                         total_recolte:  { type: float }
                         total_sorties: { type: float }
+                        total_sorties_revendique: { type: float }
                         total_facturable: { type: float }
                         total_revendique: { type: float }
                         total: { type: float }
@@ -112,9 +116,11 @@ DRM:
                                 definition:
                                   fields:
                                     total_debut_mois: { type: float }
-                                    total_entrees: { type: float }
+                                    total_entrees: { type: float }                                    
+                                    total_entrees_revendique: { type: float }
                                     total_recolte:  { type: float }
-                                    total_sorties: { type: float }
+                                    total_sorties: { type: float }                                    
+                                    total_sorties_revendique: { type: float }
                                     total_facturable: { type: float }
                                     total_revendique: { type: float }
                                     total: { type: float }
@@ -130,9 +136,11 @@ DRM:
                                             definition:
                                               fields:
                                                 total_debut_mois: { type: float }
-                                                total_entrees: { type: float }
+                                                total_entrees: { type: float }                                                
+                                                total_entrees_revendique: { type: float }
                                                 total_recolte:  { type: float }
-                                                total_sorties: { type: float }
+                                                total_sorties: { type: float }                                                
+                                                total_sorties_revendique: { type: float }
                                                 total_facturable: { type: float }
                                                 total_revendique: { type: float }
                                                 total: { type: float }
@@ -149,8 +157,10 @@ DRM:
                                                           fields:
                                                             total_debut_mois: { type: float }
                                                             total_entrees: { type: float }
+                                                            total_entrees_revendique: { type: float }
                                                             total_recolte:  { type: float }
-                                                            total_sorties: { type: float }
+                                                            total_sorties: { type: float }                                                            
+                                                            total_sorties_revendique: { type: float }
                                                             total_facturable: { type: float }
                                                             total_revendique: { type: float }
                                                             total: { type: float }
@@ -167,8 +177,10 @@ DRM:
                                                                       fields:
                                                                         total_debut_mois: { type: float }
                                                                         total_entrees: { type: float }
+                                                                        total_entrees_revendique: { type: float }
                                                                         total_recolte:  { type: float }
-                                                                        total_sorties: { type: float }
+                                                                        total_sorties: { type: float }                                                                        
+                                                                        total_sorties_revendique: { type: float }
                                                                         total_facturable: { type: float }
                                                                         total_revendique: { type: float }
                                                                         total: { type: float }
@@ -184,9 +196,11 @@ DRM:
                                                                                 definition:
                                                                                   fields:
                                                                                     total_debut_mois: { type: float }
-                                                                                    total_entrees: { type: float }
+                                                                                    total_entrees: { type: float }                                                                                    
+                                                                                    total_entrees_revendique: { type: float }
                                                                                     total_recolte:  { type: float }
-                                                                                    total_sorties: { type: float }
+                                                                                    total_sorties: { type: float }                                                                                    
+                                                                                    total_sorties_revendique: { type: float }
                                                                                     total_facturable: { type: float }
                                                                                     total_revendique: { type: float }
                                                                                     total: { type: float }
@@ -203,8 +217,10 @@ DRM:
                                                                                               fields:
                                                                                                 total_debut_mois: { type: float }
                                                                                                 total_entrees: { type: float }
+                                                                                                total_entrees_revendique: { type: float }
                                                                                                 total_recolte:  { type: float }
-                                                                                                total_sorties: { type: float }
+                                                                                                total_sorties: { type: float }                                                                                                
+                                                                                                total_sorties_revendique: { type: float }
                                                                                                 total_facturable: { type: float }
                                                                                                 total_revendique: { type: float }
                                                                                                 total: { type: float }
@@ -222,9 +238,11 @@ DRM:
                                                                                                           fields:
                                                                                                             pas_de_mouvement_check: { type: integer }
                                                                                                             total_debut_mois: { type: float }
-                                                                                                            total_entrees: { type: float }
+                                                                                                            total_entrees: { type: float }                                                                                                            
+                                                                                                            total_entrees_revendique: { type: float }
                                                                                                             total_recolte:  { type: float }
-                                                                                                            total_sorties: { type: float }
+                                                                                                            total_sorties: { type: float }                                                                                                            
+                                                                                                            total_sorties_revendique: { type: float }
                                                                                                             total_facturable: { type: float }
                                                                                                             total_revendique: { type: float }
                                                                                                             total: { type: float }

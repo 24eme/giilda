@@ -49,8 +49,10 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         parent::init($params);
         $this->total_debut_mois = null;
         $this->total_entrees = null;
+        $this->total_entrees_revendique = null;
         $this->total_recolte = null;
         $this->total_sorties = null;
+        $this->total_sorties_revendique = null;
         $this->total_facturable = null;
         $this->total_revendique = null;
         $this->total = null;
@@ -59,9 +61,11 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
 	protected function update($params = array()) {
         parent::update($params);
         $this->total_debut_mois = $this->getTotalByKey('total_debut_mois');
-        $this->total_entrees = $this->getTotalByKey('total_entrees');
         $this->total_recolte = $this->getTotalByKey('total_recolte');
-        $this->total_sorties = $this->getTotalByKey('total_sorties');
+        $this->total_entrees = $this->getTotalByKey('total_entrees');
+        $this->total_sorties = $this->getTotalByKey('total_sorties');        
+        $this->total_entrees_revendique = $this->getTotalByKey('total_entrees_revendique');
+        $this->total_sorties_revendique = $this->getTotalByKey('total_sorties_revendique');
         $this->total_facturable = $this->getTotalByKey('total_facturable');
         $this->total_revendique = $this->getTotalByKey('total_revendique');
         $this->total = $this->get('total_debut_mois') + $this->get('total_entrees') - $this->get('total_sorties');
