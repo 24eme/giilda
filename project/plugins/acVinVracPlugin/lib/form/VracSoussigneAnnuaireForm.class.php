@@ -33,8 +33,8 @@ class VracSoussigneAnnuaireForm extends VracSoussigneForm {
 
         	$this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
         } else {
-        	$this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
-            $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
+        	$this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
+            $this->setWidget('acheteur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration','familles' =>  EtablissementFamilles::FAMILLE_NEGOCIANT)));
             $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
         	$this->setValidator('acheteur_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
         }
@@ -46,7 +46,7 @@ class VracSoussigneAnnuaireForm extends VracSoussigneForm {
         
         $this->setWidget('mandatant', new sfWidgetFormChoice(array('expanded' => true, 'multiple'=> true , 'choices' => VracClient::getInstance()->getMandatants())));
                 
-        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' =>  EtablissementFamilles::FAMILLE_COURTIER)));
+        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' =>  EtablissementFamilles::FAMILLE_COURTIER)));
         
         $this->widgetSchema->setLabels(array(
             'vendeur_famille' => '',

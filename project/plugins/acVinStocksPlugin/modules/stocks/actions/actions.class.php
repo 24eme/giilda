@@ -1,7 +1,7 @@
 <?php
 class stocksActions extends sfActions {
     public function executeIndex(sfWebRequest $request) {    
-        $this->form = new StocksEtablissementChoiceForm('INTERPRO-inter-loire');
+        $this->form = new StocksEtablissementChoiceForm('INTERPRO-declaration');
         
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

@@ -33,7 +33,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     
-    $rows = CompteAllView::getInstance()->findByInterproVIEW('INTERPRO-inter-loire');
+    $rows = CompteAllView::getInstance()->findByInterproVIEW('INTERPRO-declaration');
 
     foreach($rows as $row) {
       $compte = CompteClient::getInstance()->find($row->id);

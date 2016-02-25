@@ -19,7 +19,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
       $this->setWidgets(array(
 			      'hashref' => new sfWidgetFormChoice(array('choices' => $this->getChoices())),
 			      'raisinetmout' => new sfWidgetFormChoice(array('choices' => array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins', VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts'), 'expanded'=>true)),
-			      'identifiant' => new  WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR))),
+			      'identifiant' => new  WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR))),
 			      'withviti' => new  sfWidgetFormInputCheckbox(array('value_attribute_value' => 'withviti'))
 			      ));
       

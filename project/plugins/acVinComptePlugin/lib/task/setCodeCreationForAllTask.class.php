@@ -87,7 +87,7 @@ EOF;
 
     protected function getCompteCodeCreation() {
 
-        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
+        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-declaration");
 
         $comptesCodeCreation = array();
 

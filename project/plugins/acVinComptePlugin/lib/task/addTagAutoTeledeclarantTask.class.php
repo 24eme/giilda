@@ -58,7 +58,7 @@ EOF;
 
     protected function getCompteTeledeclarants() {
 
-        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
+        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-declaration");
 
         $comptesTeledeclarants = array();
 

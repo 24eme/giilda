@@ -7,7 +7,7 @@ class DRMEtablissementCampagneForm extends BaseForm
   public function configure() {
     $list = $this->getChoiceCampagnes();
     $this->setWidgets(array(
-			    'campagne'   => new sfWidgetFormChoice(array('choices' => $list, 'default' => $this->default_campagne))
+			    'campagne'   => new bsWidgetFormChoice(array('choices' => $list, 'default' => $this->default_campagne))
 			    ));
     $this->setValidators(array(
 			       'campagne'   => new sfValidatorChoice(array('required' => true, 'choices' => $list))

@@ -2,7 +2,7 @@
 class relanceActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
-        $this->form = new RelanceEtablissementChoiceForm('INTERPRO-inter-loire');
+        $this->form = new RelanceEtablissementChoiceForm('INTERPRO-declaration');
         $this->generationForm = new RelanceGenerationMasseForm();
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(GenerationClient::TYPE_DOCUMENT_RELANCE,10);
          if ($request->isMethod(sfWebRequest::POST)) {
