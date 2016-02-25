@@ -47,7 +47,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
 
-
+        
         if (!$this->etablissement->isCourtier()) {
             $recette_locale = $this->getRecettesLocales();
             $this->setWidget('cvi', new bsWidgetFormInput());
