@@ -43,7 +43,7 @@ class revendicationActions extends sfActions {
     }
 
     public function executeChooseEtablissement(sfWebRequest $request) {
-        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-inter-loire');
+        $this->formEtablissement = new RevendicationEtablissementChoiceForm('INTERPRO-declaration');
         if ($request->isMethod(sfWebRequest::POST)) {
 	        $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
 	        if ($this->formEtablissement->isValid()) {

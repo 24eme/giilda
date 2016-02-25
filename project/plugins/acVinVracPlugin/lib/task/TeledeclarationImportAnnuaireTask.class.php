@@ -51,7 +51,7 @@ EOF;
 
     protected function getSoussignesContrat() {
 
-        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-inter-loire");
+        $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-declaration");
         $soussignes = array();
 
         echo "---------------------\nTrie des Etablissements annuaire\n";

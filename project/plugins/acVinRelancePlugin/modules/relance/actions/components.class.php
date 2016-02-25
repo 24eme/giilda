@@ -4,7 +4,7 @@ class relanceComponents extends sfComponents {
 
   public function executeChooseEtablissement() {
     if (!$this->form) {
-      $this->form = new RelanceEtablissementChoiceForm('INTERPRO-inter-loire',
+      $this->form = new RelanceEtablissementChoiceForm('INTERPRO-declaration',
               array('identifiant' => $this->identifiant));
     }
   }

@@ -30,7 +30,7 @@ class GenerationRelancePDF extends GenerationPDF {
         }
         $date_relance = $this->generation->arguments->date_relance;
         $types_relance = explode(',', $this->generation->arguments->types_relance);
-        $etablissementsViews = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR,EtablissementFamilles::FAMILLE_NEGOCIANT), null, -1);
+        $etablissementsViews = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR,EtablissementFamilles::FAMILLE_NEGOCIANT), null, -1);
 
         $cpt = count($this->generation->documents);
         foreach ($etablissementsViews as $etablissement) {

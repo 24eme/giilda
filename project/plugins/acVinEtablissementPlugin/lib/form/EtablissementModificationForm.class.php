@@ -190,7 +190,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
     }
 
     protected function getRecettesLocales() {        
-        $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE));
+        $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE));
 
         $douanesList = array();
         foreach ($douanes as $key => $douane) {

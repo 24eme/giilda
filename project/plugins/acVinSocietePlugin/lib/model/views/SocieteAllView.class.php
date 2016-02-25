@@ -101,7 +101,7 @@ class SocieteAllView extends acCouchdbView
     }
 
     public function findByTypeAndRaisonSociale($type,$raison_sociale) {
-        $interpro = 'INTERPRO-inter-loire';
+        $interpro = 'INTERPRO-declaration';
         return $this->client->startkey(array($interpro,  SocieteClient::STATUT_ACTIF, $type, 'SOCIETE-000000', $raison_sociale))
                             ->endkey(array($interpro, SocieteClient::STATUT_ACTIF, $type, 'SOCIETE-999999', $raison_sociale, array()))
                             ->getView($this->design, $this->view)->rows;
@@ -109,7 +109,7 @@ class SocieteAllView extends acCouchdbView
     }
 
     public function findByRaisonSocialeAndId($raison_sociale,$id) {
-        $interpro = 'INTERPRO-inter-loire';
+        $interpro = 'INTERPRO-declaration';
         return $this->client->startkey(array($interpro, $raison_sociale, $id))
                             ->endkey(array($interpro,  $raison_sociale, $id, array()))
                             ->getView($this->design, $this->view)->rows;

@@ -29,7 +29,7 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
     }
     
     protected function getEtablissementsByTypeDR($type_dr) {
-        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR), null, -1);
+        $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR), null, -1);
         $etablissements = array();
         foreach ($etablissement_rows as $etablissement_row) {
             $etablissement = EtablissementClient::getInstance()->find($etablissement_row->key[EtablissementAllView::KEY_ETABLISSEMENT_ID], acCouchdbClient::HYDRATE_JSON);

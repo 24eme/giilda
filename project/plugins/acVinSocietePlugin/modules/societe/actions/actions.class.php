@@ -30,7 +30,7 @@ class societeActions extends sfCredentialActions {
     public function executeIndex(sfWebRequest $request) {
 
         return $this->redirect('compte_search');
-        $this->contactsForm = new ContactsChoiceForm('INTERPRO-inter-loire');
+        $this->contactsForm = new ContactsChoiceForm('INTERPRO-declaration');
         $this->societes_creation = SocieteClient::getInstance()->getSocietesWithStatut(SocieteClient::STATUT_EN_CREATION);
         $this->formUploadCSVNoCVO = new UploadCSVNoCVOForm();
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -193,8 +193,8 @@ class societeActions extends sfCredentialActions {
                 $typeSocietes = array(SocieteClient::SUB_TYPE_VITICULTEUR => SocieteClient::SUB_TYPE_VITICULTEUR,
                     SocieteClient::SUB_TYPE_NEGOCIANT => SocieteClient::SUB_TYPE_NEGOCIANT);
 
-                $societesCodeClientViewActif = SocieteExportView::getInstance()->findByInterproAndStatut("INTERPRO-inter-loire", SocieteClient::STATUT_ACTIF, $typeSocietes);
-                $societesCodeClientViewSuspendu = SocieteExportView::getInstance()->findByInterproAndStatut("INTERPRO-inter-loire", SocieteClient::STATUT_SUSPENDU, $typeSocietes);
+                $societesCodeClientViewActif = SocieteExportView::getInstance()->findByInterproAndStatut("INTERPRO-declaration", SocieteClient::STATUT_ACTIF, $typeSocietes);
+                $societesCodeClientViewSuspendu = SocieteExportView::getInstance()->findByInterproAndStatut("INTERPRO-declaration", SocieteClient::STATUT_SUSPENDU, $typeSocietes);
                 $societesCodeClientView = array_merge($societesCodeClientViewActif, $societesCodeClientViewSuspendu);
                 $this->rapport = SocieteClient::getInstance()->addTagRgtEnAttenteFromFile($path, $societesCodeClientView);
             }
