@@ -88,7 +88,7 @@ class SocieteCsvFile extends CsvFile
                 }
 
                 if($line[self::CSV_CEDEX]) {
-                    $c->adresse_complementaire .= (echo ($c->adresse_complementaire) ?  " ; " : null).$line[self::CSV_CEDEX];
+                    $c->adresse_complementaire .= (($c->adresse_complementaire) ?  " ; " : null).$line[self::CSV_CEDEX];
                 }
 
                 $c->code_postal = trim($line[self::CSV_CODE_POSTAL]);
@@ -108,7 +108,19 @@ class SocieteCsvFile extends CsvFile
                     echo "WARNING: la commune (".$c->insee.") est vide pour la société ".$s->_id.":".implode(";", $line)."\n";
                 }
 
-                $c->pays = 'FR';
+                if(preg_match("/^FRANCE$/i", $line[self::CSV_PAYS])) {
+                    $c->pays = 'FR';
+                }
+
+                if(!$c->pays) {
+                    $pays = ConfigurationClient::getInstance()->findCountry($line[self::CSV_PAYS]);
+                    if($pays) {
+                        $c->pays = $pays;
+                    } else {
+                        echo "WARNING: la pays ".$line[self::CSV_PAYS]." n'a pas été trouvé pour la société ".$s->_id.":".implode(";", $line)."\n";
+                    }
+                }
+
                 $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL], $c);
                 $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX], $c);
                 $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO], $c);
@@ -128,8 +140,6 @@ class SocieteCsvFile extends CsvFile
                 }
                 $c->save();
 
-                echo $s->getCommentaire();
-                
             }catch(Exception $e) {
                 echo $e->getMessage()."\n";
                 $this->error[] = $e->getMessage();
