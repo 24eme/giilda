@@ -86,26 +86,57 @@ class SocieteCsvFile extends CsvFile
                         $c->adresse_complementaire .= " ; ".trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2]));
                     }
                 }
+
+                if($line[self::CSV_CEDEX]) {
+                    $c->adresse_complementaire .= (($c->adresse_complementaire) ?  " ; " : null).$line[self::CSV_CEDEX];
+                }
+
                 $c->code_postal = trim($line[self::CSV_CODE_POSTAL]);
 
                 if(!$c->code_postal) {
-                     echo "WARNING: le code postal est vide pour la société ".$s->_id."\n";
+                    echo "WARNING: le code postal est vide pour la société ".$s->_id."\n";
                 }
 
                 if($c->code_postal && !preg_match("/^[0-9]{5}$/", $c->code_postal)) {
-                     echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$s->_id."\n";
+                    echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$s->_id."\n";
                 }
 
                 $c->commune = $line[self::CSV_COMMUNE];
                 $c->insee = $line[self::CSV_INSEE];
-                $c->pays = 'FR';
-                $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL]);
-                $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX]);
-                $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO]);
-                $c->telephone_bureau = $this->formatAndVerifyPhone($line[self::CSV_TEL_BUREAU]);
-                $c->telephone_mobile = $this->formatAndVerifyPhone($line[self::CSV_MOBILE]);
+
+                if(!$c->commune) {
+                    echo "WARNING: la commune (".$c->insee.") est vide pour la société ".$s->_id.":".implode(";", $line)."\n";
+                }
+
+                if(preg_match("/^FRANCE$/i", $line[self::CSV_PAYS])) {
+                    $c->pays = 'FR';
+                }
+
+                if(!$c->pays) {
+                    $pays = ConfigurationClient::getInstance()->findCountry($line[self::CSV_PAYS]);
+                    if($pays) {
+                        $c->pays = $pays;
+                    } else {
+                        echo "WARNING: la pays ".$line[self::CSV_PAYS]." n'a pas été trouvé pour la société ".$s->_id.":".implode(";", $line)."\n";
+                    }
+                }
+
+                $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL], $c);
+                $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX], $c);
+                $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO], $c);
+                $c->telephone_bureau = $this->formatAndVerifyPhone($line[self::CSV_TEL_BUREAU], $c);
+                $c->telephone_mobile = $this->formatAndVerifyPhone($line[self::CSV_MOBILE], $c);
                 if($line[self::CSV_WEB]) {
-                    $c->add('site_internet', $line[self::CSV_WEB]);
+                    if (preg_match('/^http:\/\/[^ ]+$/', $line[self::CSV_WEB])) {
+                        $c->add('site_internet', $line[self::CSV_WEB]);
+                    }else{
+                        if (preg_match('/www.[^ ]+$/', $line[self::CSV_WEB])) {
+                            $c->add('site_internet', 'http://'.$line[self::CSV_WEB]);
+                        }else{
+                            echo("WARNING: ".$s->_id.": site non valide : \"".$line[self::CSV_WEB]."\"\n");
+                            $c->addCommentaire("Problème d'import, site non valide : \"".$line[self::CSV_WEB]."\"");
+                        }
+                    }
                 }
                 $c->save();
 
@@ -141,7 +172,7 @@ class SocieteCsvFile extends CsvFile
         return $country;
     }
 
-    protected function formatAndVerifyPhone($phone) {
+    protected function formatAndVerifyPhone($phone, $c) {
 
         $phone = str_replace("+33", "0", trim($phone));
         $phone = preg_replace("/[\._ -]/", "", $phone);
@@ -150,18 +181,22 @@ class SocieteCsvFile extends CsvFile
             $phone = "0".$phone;
         }
 
-        if($phone && !preg_match("/^[0-9]{10}$/", $phone)) {
-            echo sprintf("Le numéro de téléphone n'est pas correct %s\n", $phone);
+        if($phone && !preg_match("/^[0-9]{10}$/", $phone) && !preg_match("/^00/", $phone)) {
+            printf("WARNING: ".$c->_id.": Problème d'import : Le numéro de téléphone n'est pas correct %s\n", $phone);
+            $c->addCommentaire(sprintf("Problème d'import : Le numéro de téléphone n'est pas correct %s", $phone));
+            return null;
         }
 
         return $phone;
     }
 
-    protected function formatAndVerifyEmail($email) {
+    protected function formatAndVerifyEmail($email, $c) {
         $email = trim($email);
 
         if($email && !preg_match("/^[a-z0-9çéèàâê_\.-]+@[a-z0-9\.-]+$/i", $email)) {
-            echo sprintf("L'email n'est pas correct %s\n", $email);
+            printf("WARNING: ".$c->_id.": L'email n'est pas correct %s\n", $email);
+            $c->addCommentaire(sprintf("Problème d'import: L'email n'est pas correct %s", $email));
+            return null;
         }
 
         return $email;

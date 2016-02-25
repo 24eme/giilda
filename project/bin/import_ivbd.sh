@@ -61,9 +61,39 @@ curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(cu
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
 php symfony cc > /dev/null
 
+#Produit
 echo "CODE_VIN;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
 echo "CODE_VINS_PRODUITS;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
 cat $DATA_DIR/contrats_vin_correspondance.csv | cut -d ";" -f 1,5 | sort -t ";" -k 1,1 | sed 's/;Montravel sec$/;Montravel Blanc sec/' | sed 's/;Monbazillac Grain Noble$/;Monbazillac Sélection de Grains Nobles/' | sed 's/;Côtes de duras sec$/;Côtes de Duras Blanc sec/' | sed 's/;Côtes de duras$/;Côtes de Duras Rouge/' | sed 's/;Côtes bgrc rouge$/;Côtes de Bergerac Rouge/' | sed 's/;Bergerac sec$/;Bergerac Blanc sec/' | sed 's/;Vin de table blanc/;Vin sans IG Blanc/' | sed 's/;Vin de table rouge/;Vin sans IG Rouge/' | sed 's/;Vin de table rosé/;Vin sans IG Rosé/' | sed 's/;Vin de pays/;IGP/' | sed 's/;Côtes de montravel/;Côtes de Montravel/' > $DATA_DIR/produits.csv
+
+#Commune
+cat $DATA_DIR/base_commune_francaise.csv | awk -F ";" '{ insee=$10; commune=$17; prefix=gensub(/[()]+/, "", "g", $16); if (prefix && prefix != "L'"'"'") { prefix = prefix " "; } commune = prefix "" commune; print insee ";" commune }' | sed -r 's/[+]{1}(.{1})/\U\1/g' | sort -t ";" -k 1,1 > $DATA_DIR/communes.csv
+echo "11906;Carcassonne" >> $DATA_DIR/communes.csv
+echo "24250;Plaisance" >> $DATA_DIR/communes.csv
+echo "24342;Puyguilhem" >> $DATA_DIR/communes.csv
+echo "33904;Pont-de-la-Maye" >> $DATA_DIR/communes.csv
+echo "68906;Chassieu" >> $DATA_DIR/communes.csv
+echo "69381;Lyon" >> $DATA_DIR/communes.csv
+echo "71197;Mâcon" >> $DATA_DIR/communes.csv
+echo "75102;Paris" >> $DATA_DIR/communes.csv
+echo "75103;Paris" >> $DATA_DIR/communes.csv
+echo "75104;Paris" >> $DATA_DIR/communes.csv
+echo "75105;Paris" >> $DATA_DIR/communes.csv
+echo "75106;Paris" >> $DATA_DIR/communes.csv
+echo "75107;Paris" >> $DATA_DIR/communes.csv
+echo "75108;Paris" >> $DATA_DIR/communes.csv
+echo "75116;Paris" >> $DATA_DIR/communes.csv
+echo "75117;Paris" >> $DATA_DIR/communes.csv
+echo "75118;Paris" >> $DATA_DIR/communes.csv
+cat $DATA_DIR/communes.csv | sort -t ";" -k 1,1 > $DATA_DIR/communes.sorted.csv 
+
+# Pays
+sort -k 1,1 -t ";" $DATA_DIR/base_pays.csv | cut -d ";" -f 1,6 | sed 's/TCHEQUE (REPUBLIQUE)/République tchèque/' | sed 's/IRLANDE, ou EIRE/Irlande/' | sed 's/COREE (REPUBLIQUE DE)/Corée du Sud/' > $DATA_DIR/base_pays.sorted.csv
+echo "PAYS;NOM_PAYS" >> $DATA_DIR/base_pays.sorted.csv
+echo "xxxxx;FRANCE" >> $DATA_DIR/base_pays.sorted.csv
+echo ";FRANCE" >> $DATA_DIR/base_pays.sorted.csv
+cat $DATA_DIR/base_pays.sorted.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_pays.sorted.csv.tmp
+cp $DATA_DIR/base_pays.sorted.csv.tmp $DATA_DIR/base_pays.sorted.csv
 
 echo "Construction des fichiers d'import des Contacts"
 
@@ -73,7 +103,6 @@ cat $DATA_DIR/maitre_ppm_attribut_ref.csv | sort -t ";" -k 1,1 > $DATA_DIR/maitr
 
 join -t ";" -1 3 -2 1 $DATA_DIR/extra_ppm_attribut.sorted.csv $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv > $DATA_DIR/ppm_attributs.csv
 
-
 cat $DATA_DIR/base_ppm.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm.sorted.id.csv
 
 cat $DATA_DIR/base_coordonnees.csv | sort -t ";" -k 3,3 > $DATA_DIR/base_coordonnees.sorted.id.csv
@@ -82,9 +111,8 @@ join -t ";" -1 2 -2 3 $DATA_DIR/base_ppm.sorted.id.csv $DATA_DIR/base_coordonnee
 
 cat $DATA_DIR/base_ppm_coordonnees.csv | sort -t ";" -k 41,41 | sed 's/;COMMUNE;/;INSEE;/' > $DATA_DIR/base_ppm_coordonnees.sorted.communes.csv
 
-cat $DATA_DIR/base_commune_francaise.csv | awk -F ";" '{ insee=$10; commune=$17; prefix=gensub(/[()]+/, "", "g", $16); if (prefix && prefix != "L'"'"'") { prefix = prefix " "; } commune = prefix "" commune; print insee ";" commune }' | sed -r 's/[+]{1}(.{1})/\U\1/g' | sort -t ";" -k 1,1 > $DATA_DIR/communes.csv
 
-join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.communes.csv $DATA_DIR/communes.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes.csv
+join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.communes.csv $DATA_DIR/communes.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes.csv
 
 #Récupération des familles à partir des autres docs
 cat $DATA_DIR/contrats_drm.csv | cut -d ";" -f 7 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' > $DATA_DIR/ppm_famille.csv
@@ -104,24 +132,28 @@ cat $DATA_DIR/base_communication.cleaned.csv | awk -F ';' '{ if (($7+0) > 0) { n
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv
 join -t ";" -a 1 -1 1 -2 3 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles.sorted.csv $DATA_DIR/base_communication.cleaned.sorted.csv > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | awk -F ";" '
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | sort -t ";" -k 41,41 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv
+
+join -t ";" -1 41 -2 1 $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv $DATA_DIR/base_pays.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv
+
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | awk -F ";" '
 {
-    identifiant=sprintf("%06d", $1);
-    nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
+    identifiant=sprintf("%06d", $2);
+    nom=gensub(/[ ]+/, " ", "g", $12 " " $14 " " $13);
     statut=($19) ? "SUSPENDU" : "ACTIF";
-    adresse1=$38;
-    adresse2=$39;
-    adresse3=$40;
+    adresse1=$39;
+    adresse2=$40;
+    adresse3=$41;
     code_postal=$42;
-    insee=$2;
+    insee=$3;
     commune=$60;
     cedex=$44;
-    siren=$26;
-    siret=$27;
+    siren=$27;
+    siret=$28;
     if(!siret && siren) {
         siret=siren;
     }
-    pays=$41;
+    pays=$81;
     email=$73;
     tel_bureau=$70;
     tel_perso="";
@@ -143,9 +175,9 @@ cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv
 
 join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 23,23 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.sorted.csv
 
-join -a 1 -t ";" -1 1 -2 23 -o auto  $DATA_DIR/base_ppm_coordonnees_communes_familles_communication.sorted.csv  $DATA_DIR/evv_numero_ppm.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv
+join -a 1 -t ";" -1 2 -2 23 -o auto  $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.sorted.csv  $DATA_DIR/evv_numero_ppm.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays_evv.csv
 
 # Supprimer les retours chariots au milieu d'une lignes
 cat $DATA_DIR/contrats_contrat.csv | tr "\n" "#" | sed -r 's/;([,0-9-]*|VOLUME_SOLDAGE)#/;\1|/g' | tr -d "#" | tr "|" "\n" > $DATA_DIR/contrats_contrat.cleaned.csv
@@ -161,29 +193,29 @@ echo "4063;1033" >> $DATA_DIR/courtier_numero.csv
 
 sort -t ";" -k 1,1 $DATA_DIR/courtier_numero.csv > $DATA_DIR/courtier_numero.sorted.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.sorted.csv
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays_evv.csv | sort -t ";" -k 1,1 > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays_evv.sorted.csv
 
-join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv.sorted.csv $DATA_DIR/courtier_numero.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro.csv
+join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays_evv.sorted.csv $DATA_DIR/courtier_numero.sorted.csv | sort > $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays_evv_carte_pro.csv
 
-cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro.csv | awk -F ";" '
+cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays_evv_carte_pro.csv | awk -F ";" '
 {
     identifiant_societe=sprintf("%06d", $1);
     identifiant=identifiant_societe "01";
-    nom=gensub(/[ ]+/, " ", "g", $11 " " $13 " " $12);
-    statut=($19 || $21) ? "SUSPENDU" : "ACTIF";
-    adresse1=$38;
-    adresse2=$39;
-    adresse3=$40;
+    nom=gensub(/[ ]+/, " ", "g", $12 " " $14 " " $13);
+    statut=($20 || $22) ? "SUSPENDU" : "ACTIF";
+    adresse1=$39;
+    adresse2=$40;
+    adresse3=$41;
     code_postal=$42;
-    insee=$2;
+    insee=$3;
     commune=$60;
     cedex=$44;
-    siren=$26;
-    siret=$27;
+    siren=$27;
+    siret=$28;
     if(!siret && siren) {
         siret=siren;
     }
-    pays=$41;
+    pays=$81;
     email=$73;
     tel_bureau=$70;
     tel_perso="";
@@ -191,9 +223,9 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_evv_carte_pro
     fax=$71;
     web=$74;
     commentaire="";
-    cvi=$83;
+    cvi=$84;
     naccises="";
-    cartepro=$33;
+    cartepro=$34;
     if(!cartepro) {
         cartepro=$99;
     }
@@ -554,7 +586,6 @@ sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_export.csv > $DATA_DIR/contrats
 join -t ';' -1 3 -2 1 $DATA_DIR/contrats_drm_volume_export.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_volume_export_produit.csv
 
 sort -k 5,5 -t ';' $DATA_DIR/contrats_drm_volume_export_produit.csv  > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
-sort -k 1,1 -t ";" $DATA_DIR/base_pays.csv | cut -d ";" -f 1,6 | sed 's/TCHEQUE (REPUBLIQUE)/République tchèque/' | sed 's/IRLANDE, ou EIRE/Irlande/' | sed 's/COREE (REPUBLIQUE DE)/Corée du Sud/' > $DATA_DIR/base_pays.sorted.csv
 
 join -t ";" -1 5 -2 1 $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv $DATA_DIR/base_pays.sorted.csv > $DATA_DIR/contrats_drm_volume_export_produit_pays.csv
 

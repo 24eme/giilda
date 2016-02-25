@@ -33,7 +33,8 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'dates_retiraison_visa', 'La date de retiraison ne peut pas être inférieure à la date du contrat');
         $this->addControle('erreur', 'viti_raisins_mouts_type_vins', "Le viticulteur ne peut pas faire de contrats de vins (il possède une exclusivité de raisins/moûts)");
         $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
-        $this->addControle('vigilance', 'quantite_raisin_expected', "La quantité n'a pas été saisis");
+        $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
+        $this->addControle('erreur', 'cepage_autorise', "Cépage non autorisé pour le produit");
     }
 
     public function controle() {
@@ -87,6 +88,10 @@ class VracValidation extends DocumentValidation {
         }
         if ($this->document->date_debut_retiraison && $this->document->date_debut_retiraison < date('Y-m-d')) {
         	$this->addPoint('erreur', 'dates_retiraison_visa', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
+        }
+        
+        if (!$this->document->isCepageAutorise()) {
+        	$this->addPoint('erreur', 'cepage_autorise', 'Modifier le cépage', $this->generateUrl('vrac_marche', $this->document));
         }
 
         

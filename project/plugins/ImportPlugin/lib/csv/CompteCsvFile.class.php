@@ -80,11 +80,11 @@ class CompteCsvFile extends CsvFile
                 $c->commune = $line[self::CSV_COMMUNE];
                 $c->insee = $line[self::CSV_INSEE];
                 $c->pays = 'FR';
-                $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL]);
-                $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX]);
-                $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO]);
-                $c->telephone_bureau = $this->formatAndVerifyPhone($line[self::CSV_TEL_BUREAU]);
-                $c->telephone_mobile = $this->formatAndVerifyPhone($line[self::CSV_MOBILE]);
+                $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL],$c);
+                $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX],$c);
+                $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO],$c);
+                $c->telephone_bureau = $this->formatAndVerifyPhone($line[self::CSV_TEL_BUREAU],$c);
+                $c->telephone_mobile = $this->formatAndVerifyPhone($line[self::CSV_MOBILE], $c);
                 if($line[self::CSV_WEB]) {
                     $c->add('site_internet', $line[self::CSV_WEB]);
                 }
@@ -106,7 +106,7 @@ class CompteCsvFile extends CsvFile
         return $this->errors;
     }
 
-    protected function formatAndVerifyPhone($phone) {
+    protected function formatAndVerifyPhone($phone, $c) {
 
         $phone = str_replace("+33", "0", trim($phone));
         $phone = preg_replace("/[\._ -]/", "", $phone);
@@ -116,17 +116,21 @@ class CompteCsvFile extends CsvFile
         }
 
         if($phone && !preg_match("/^[0-9]{10}$/", $phone)) {
-            echo sprintf("Le numéro de téléphone n'est pas correct %s\n", $phone);
+            printf("WARNING: Problème d'import : Le numéro de téléphone n'est pas correct %s\n", $phone);
+            $c->addCommentaire(sprintf("Problème d'import : Le numéro de téléphone n'est pas correct %s", $phone));
+            return null;
         }
 
         return $phone;
     }
 
-    protected function formatAndVerifyEmail($email) {
+    protected function formatAndVerifyEmail($email, $c) {
         $email = trim($email);
 
         if($email && !preg_match("/^[a-z0-9çéèàâê_\.-]+@[a-z0-9\.-]+$/i", $email)) {
-            echo sprintf("L'email n'est pas correct %s\n", $email);
+            printf("WARNING: Problème d'import : L'email n'est pas correct %s\n", $email);
+            $c->addCommentaire(sprintf("Problème d'import : L'email n'est pas correct %s", $email));
+            return null;
         }
 
         return $email;

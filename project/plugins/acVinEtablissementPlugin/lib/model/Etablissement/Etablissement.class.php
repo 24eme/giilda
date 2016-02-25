@@ -408,4 +408,11 @@ class Etablissement extends BaseEtablissement {
         return EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
     }
 
+    public function addCommentaire($s) {
+        $c = $this->get('commentaire');
+        if ($c) {
+            return $this->_set('commentaire', $c."\n".$s);
+        }
+        return $this->_set('commentaire', $s);
+    }
 }
