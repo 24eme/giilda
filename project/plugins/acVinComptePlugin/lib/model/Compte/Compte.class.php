@@ -482,5 +482,57 @@ class Compte extends BaseCompte {
         }
         return $this->_set('commentaire', $s);
     }
+    
+    public function setAdresse($adresse) {
+        if(!$adresse){
+            $this->_set('adresse',$this->getSociete()->siege->adresse);
+            return $this;
+        }
+        $this->_set('adresse',$adresse);
+        return $this;
+    }
+    
+     public function setAdresseComplementaire($adresse_complementaire) {
+        if(!$adresse_complementaire){
+            $this->_set('adresse_complementaire',$this->getSociete()->getMasterCompte()->adresse_complementaire);
+            return $this;
+        }
+        $this->_set('adresse_complementaire',$adresse_complementaire);
+        return $this;
+    }
+    
+     public function setCodePostal($code_postal) {
+        if(!$code_postal){
+            $this->_set('code_postal',$this->getSociete()->siege->code_postal);
+            return $this;
+        }
+        $this->_set('code_postal',$code_postal);
+        return $this;
+    }
+    
+    public function setCommune($commune) {
+        if(!$commune){
+            $this->_set('commune',$this->getSociete()->siege->commune);
+            return $this;
+        }
+        $this->_set('commune',$commune);
+        return $this;
+    }
+    public function setPays($pays) {
+        if(!$pays){
+            $this->_set('pays',$this->getSociete()->getMasterCompte()->pays);
+            return $this;
+        }
+        $this->_set('pays',$pays);
+        return $this;
+    }
+    public function setCedex($cedex) {
+        if(!$cedex){
+            $this->_set('cedex',$this->getSociete()->getMasterCompte()->cedex);
+            return $this;
+        }
+        $this->_set('cedex',$cedex);
+        return $this;
+    }
 
 }
