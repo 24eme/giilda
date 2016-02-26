@@ -2,14 +2,30 @@
 	<?php echo $form->renderHiddenFields(); ?>
 	<?php echo $form->renderGlobalErrors(); ?>
 	<div class="row">
-		<div class="col-xs-10">
+		<div class="col-xs-9">
 			<?php echo $form['q']->renderError() ?>
-			<?php echo $form['q']->render(array('class' => 'form-control input-lg', 'placeholder' => 'Rechercher', 'autofocus' => 'autofocus')) ?>
+			<div class="input-group">
+				<?php echo $form['q']->render(array('class' => 'form-control input-lg', 'placeholder' => 'Rechercher', 'autofocus' => 'autofocus')) ?>
+				<span class="input-group-btn">
+					<button class="btn btn-lg btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+				</span>
+			</div>
 			<a class="pull-right" style="margin: 5px 0;" role="button" data-toggle="collapse" href="#advanced-query" aria-expanded="false">[+] Avancé</a>
+		</div>
+		<div class="col-xs-3">
+			<div class="col-xs-12">
+				<a id="statistiques-csv" href="<?php echo $urlCsv ?>" class="btn btn-default btn-block"<?php if($nb_results > 5000): ?> disabled="disabled"<?php endif;?>>
+					<span class="glyphicon glyphicon-export"></span> Exporter en CSV
+				</a>
+				<p style="margin-top: 10px;">
+					<strong><?php echo $nb_results ?></strong>
+					résultat(s) trouvé(s)
+				</p>
+			</div>
 		</div>
 	</div>
 	<div class="row collapse<?php if($collapseIn): ?> in<?php endif; ?>" id="advanced-query">
-		<div class="col-xs-12"><h4>Filtres</h4></div>
+		<div class="col-xs-12"><p>Filtres</p></div>
 		<div class="col-xs-12" id="advancedFilters">
 		<?php 
 			foreach ($form['advanced'] as $key => $advancedFilterForm) {
@@ -26,11 +42,10 @@
 		<script id="template_advancedFilterForm" type="text/x-jquery-tmpl">
 			<?php echo include_partial('advancedFilterForm', array('form' => $form->getFormTemplate())); ?>
 		</script>
-	</div>
-	<div class="row">
-		<div class="col-xs-10">
-    		<a id="statistiques-csv" href="<?php echo $urlCsv ?>" class="btn btn-default btn-lg"<?php if($nb_results > 5000): ?> disabled="disabled"<?php endif;?>><span class="glyphicon glyphicon-download"></span> CSV</a>
-			<button type="submit" class="btn btn-default btn-lg pull-right">Filtrer</button>
+		<div class="row">
+			<div class="col-xs-9">
+				<button type="submit" class="btn btn-default pull-right">Filtrer</button>
+			</div>
 		</div>
 	</div>
 </form>
