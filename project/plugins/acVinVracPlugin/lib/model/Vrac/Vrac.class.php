@@ -69,7 +69,7 @@ class Vrac extends BaseVrac {
     
     public function isCepageAutorise()
     {
-    	return $this->getProduitObject()->isCepageAutorise($this->cepage);
+    	return (!$this->cepage)? true : $this->getProduitObject()->isCepageAutorise($this->cepage);
     }
 
     public function setCepage($value) {

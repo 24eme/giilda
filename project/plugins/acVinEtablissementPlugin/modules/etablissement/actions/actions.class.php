@@ -30,12 +30,12 @@ class etablissementActions extends sfCredentialActions {
             $this->etablissementModificationForm->bind($request->getParameter($this->etablissementModificationForm->getName()));
             if ($this->etablissementModificationForm->isValid() ){
                 $this->etablissementModificationForm->save();
-                if($this->etablissementModificationForm->getValue('adresse_societe')){
+//                if($this->etablissementModificationForm->getValue('adresse_societe')){
                      $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
-                }
-                else{
-                    $this->redirect('compte_coordonnee_modification', $this->etablissement->getMasterCompte());
-                }
+//                }
+//                else{
+//                    $this->redirect('compte_coordonnee_modification', $this->etablissement->getMasterCompte());
+//                }
             }
         }
     }
