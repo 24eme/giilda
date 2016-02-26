@@ -13,59 +13,54 @@
 		margin: 0;
 	}
 
-	.navbar {
+	.navbar
+	{
+		border-top: 1px solid @navbar-default-border;
+		font-family: "arapeyregular", Arial sans-serif;
+		font-size: 19px;
 		margin: 0;
-	}
-}
 
-// Navbar
-// -------------------------
-.navbar
-{
-	border-top: 1px solid @navbar-default-border;
-	font-family: "arapeyregular", Arial sans-serif;
-	font-size: 19px;
-
-	.navbar-brand
-	{
-		font-size: inherit;
-		height: auto;
-		line-height: normal;
-
-		&:hover,
-		&:focus { color: @brand-primary; }
-	}
-
-	.navbar-nav
-	{
-		li >
+		.navbar-brand
 		{
-			> a 
-			{ 
-				padding-left: 20px;
-				padding-right: 20px;
-				position: relative;
-				line-height: normal;
+			font-size: inherit;
+			height: auto;
+			line-height: normal;
 
-				&:before
-				{
-					background: @brand-primary;
-					content: '';
-					position: absolute;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					height: 0;
-					transition: height .2s;
+			&:hover,
+			&:focus { color: @brand-primary; }
+		}
+
+		.navbar-nav
+		{
+			> li
+			{
+				> a 
+				{ 
+					padding-left: 20px;
+					padding-right: 20px;
+					position: relative;
+					line-height: normal;
+
+					&:before
+					{
+						background: @brand-primary;
+						content: '';
+						position: absolute;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						height: 0;
+						transition: height .2s;
+					}
+
+					&:hover:before,
+					&:focus:before { height: 6px; }
 				}
 
-				&:hover:before,
-				&:focus:before { height: 6px; }
-			}
-
-			&.active
-			{
-				> a:before { height: 6px; }
+				&.active
+				{
+					> a:before { height: 6px; }
+				}
 			}
 		}
 	}

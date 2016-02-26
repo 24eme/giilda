@@ -6759,29 +6759,27 @@ button.close {
   margin: 0;
 }
 #header .navbar {
-  margin: 0;
-}
-.navbar {
   border-top: 1px solid #dcd9d3;
   font-family: "arapeyregular", Arial sans-serif;
   font-size: 19px;
+  margin: 0;
 }
-.navbar .navbar-brand {
+#header .navbar .navbar-brand {
   font-size: inherit;
   height: auto;
   line-height: normal;
 }
-.navbar .navbar-brand:hover,
-.navbar .navbar-brand:focus {
+#header .navbar .navbar-brand:hover,
+#header .navbar .navbar-brand:focus {
   color: #aa4646;
 }
-.navbar .navbar-nav li > a {
+#header .navbar .navbar-nav > li > a {
   padding-left: 20px;
   padding-right: 20px;
   position: relative;
   line-height: normal;
 }
-.navbar .navbar-nav li > a:before {
+#header .navbar .navbar-nav > li > a:before {
   background: #aa4646;
   content: '';
   position: absolute;
@@ -6791,11 +6789,11 @@ button.close {
   height: 0;
   transition: height .2s;
 }
-.navbar .navbar-nav li > a:hover:before,
-.navbar .navbar-nav li > a:focus:before {
+#header .navbar .navbar-nav > li > a:hover:before,
+#header .navbar .navbar-nav > li > a:focus:before {
   height: 6px;
 }
-.navbar .navbar-nav li.active > a:before {
+#header .navbar .navbar-nav > li.active > a:before {
   height: 6px;
 }
 #content {
