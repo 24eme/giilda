@@ -10,14 +10,24 @@
     </div>
 
     <div class="col-xs-12">
-
-         <form method="post">
-                <?php echo $formCampagne->renderGlobalErrors() ?>
-                <?php echo $formCampagne->renderHiddenFields() ?>
-                <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
+        <div class="row">
+            <form method="post">
+                <div class="col-xs-3">
+                    <?php echo $formCampagne->renderGlobalErrors() ?>
+                    <?php echo $formCampagne->renderHiddenFields() ?>
+                    <?php echo $formCampagne; ?> 
+                </div>
+                <div class="col-xs-3">
+                    <br/>
+                    <input class="btn btn-default" type="submit" value="changer" style="margin-top: 5px;"/>
+                </div>
             </form>
-
-            <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
-            <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
+                <?php // include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
+            </div>
+        </div>
     </div>
 </div>

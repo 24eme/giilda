@@ -66,5 +66,5 @@ class stocksComponents extends sfComponents {
 
         return SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($this->etablissement->identifiant, $this->campagne);
     }
-
+    
 }

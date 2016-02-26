@@ -52,12 +52,12 @@ class EtablissementClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Etablissement");
     }
 
-    public function createEtablissementFromSociete($societe) {
+    public function createEtablissementFromSociete($societe,$famille) {
         $etablissement = new Etablissement();
         $etablissement->id_societe = $societe->_id;
         $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
         //$famillesSocieteTypes = self::getFamillesSocieteTypesArray();
-        //$etablissement->famille = $famillesSocieteTypes[$societe->type_societe];
+        $etablissement->famille = $famille;
         $etablissement->constructId();
         return $etablissement;
     }

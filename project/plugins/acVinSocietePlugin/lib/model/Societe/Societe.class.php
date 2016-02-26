@@ -217,6 +217,10 @@ class Societe extends BaseSociete {
         return false;
     }
 
+    public function isOperateur() {
+        return SocieteClient::TYPE_OPERATEUR == $this->type_societe;
+    }
+    
     public function isTransaction() {
         return $this->isNegoOrViti() || $this->isCourtier();
     }
@@ -226,15 +230,33 @@ class Societe extends BaseSociete {
     }
 
     public function isCourtier() {
-        return $this->type_societe == SocieteClient::SUB_TYPE_COURTIER;
+        return $this->type_societe == SocieteClient::TYPE_COURTIER;
     }
 
     public function isViticulteur() {
-        return $this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR;
+        if($this->type_societe != SocieteClient::TYPE_OPERATEUR){
+            return false;
+        }
+        
+       foreach ($this->getEtablissementsObj() as $id => $e) {
+            if($e->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function isNegociant() {
-        return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
+        if($this->type_societe != SocieteClient::TYPE_OPERATEUR){
+            return false;
+        }
+        
+       foreach ($this->getEtablissementsObj() as $id => $e) {
+            if($e->famille == EtablissementFamilles::FAMILLE_NEGOCIANT){
+                return true;
+            }
+        }
+        return false;
     }
 
     public function isActif() {

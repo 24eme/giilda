@@ -20,7 +20,7 @@ class acVinEtablissementRouting {
                         array('module' => 'etablissement_autocomplete',
                             'action' => 'byFamilles')));
 
-         $r->prependRoute('etablissement_ajout', new SocieteRoute('/etablissement/:identifiant/nouveau',
+         $r->prependRoute('etablissement_ajout', new SocieteRoute('/etablissement/:identifiant/nouveau/:famille',
                         array('module' => 'etablissement',
                             'action' => 'ajout'),
                         array('sf_method' => array('get', 'post')),

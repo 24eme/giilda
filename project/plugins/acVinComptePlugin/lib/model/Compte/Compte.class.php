@@ -450,20 +450,11 @@ class Compte extends BaseCompte {
            $type_societe = $this->getSociete()->getTypeSociete();
         }
         
-        if($type_societe != SocieteClient::SUB_TYPE_COURTIER){
-            $acces_teledeclaration = true;
-            $droits->add(Roles::OBSERVATOIRE,Roles::OBSERVATOIRE);
-        }
-        if(($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER)){
+        if($type_societe == SocieteClient::TYPE_OPERATEUR){
             $acces_teledeclaration = true;
             $droits->add(Roles::TELEDECLARATION_VRAC,Roles::TELEDECLARATION_VRAC);
-            $droits->add(Roles::TELEDECLARATION_VRAC_CREATION,Roles::TELEDECLARATION_VRAC_CREATION);
         }
         
-        if($type_societe == SocieteClient::SUB_TYPE_VITICULTEUR){     
-            $acces_teledeclaration = true;
-            $droits->add(Roles::TELEDECLARATION_VRAC,Roles::TELEDECLARATION_VRAC);
-        }
         
         if($acces_teledeclaration){
             $droits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);

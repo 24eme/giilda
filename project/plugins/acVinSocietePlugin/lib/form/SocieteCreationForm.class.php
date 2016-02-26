@@ -40,7 +40,7 @@ class SocieteCreationForm extends baseForm {
 
     public function getSocieteTypes() {
         $societeTypes = SocieteClient::getInstance()->getSocieteTypes();
-        if(!$this->societe_types){
+      /*  if(!$this->societe_types){
             return $societeTypes;
         }
         
@@ -61,8 +61,8 @@ class SocieteCreationForm extends baseForm {
                     }
                 }
             }
-        }
-        return $reel_societe_types;
+        }*/
+        return $societeTypes;
     }
 
     public function getSocieteTypesValid() {

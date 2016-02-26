@@ -74,7 +74,7 @@ class EtablissementCsvFile extends CsvFile
         	  continue;
           }*/
 
-          $e = EtablissementClient::getInstance()->createEtablissementFromSociete($s);
+          $e = EtablissementClient::getInstance()->createEtablissementFromSociete($s,$line[self::CSV_TYPE]);
 
           $e->identifiant = $id;
           $e->constructId();
