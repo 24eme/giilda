@@ -6802,6 +6802,7 @@ button.close {
 }
 #content > .container {
   background: #FFF;
+  padding-top: 15px;
   padding-bottom: 15px;
 }
 #principal > .navbar {
