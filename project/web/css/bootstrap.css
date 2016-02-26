@@ -4700,7 +4700,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 0 15px;
   margin-bottom: 20px;
   list-style: none;
-  background-color: #f1f1f1;
+  background-color: transparent;
   border-radius: 0;
 }
 .breadcrumb > li {
@@ -4712,7 +4712,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #ccc;
 }
 .breadcrumb > .active {
-  color: #777777;
+  color: #aa4646;
 }
 .pagination {
   display: inline-block;
@@ -6924,6 +6924,9 @@ h6,
 }
 .progress {
   height: 10px;
+}
+.breadcrumb a {
+  color: inherit;
 }
 .form-control:focus {
   box-shadow: none;
