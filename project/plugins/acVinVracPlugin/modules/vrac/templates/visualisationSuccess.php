@@ -11,8 +11,8 @@ use_helper('Date');
 ?>
 
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('vrac') ?>" class="active">Contrats</a></li>
-    <li><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive; ?> (<?php echo formatNumeroBordereau($vrac->numero_contrat); ?>)</a></li>
+    <li class="visited"><a href="<?php echo url_for('vrac') ?>" class="active">Contrats</a></li>
+    <li class="active"><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive; ?> (<?php echo formatNumeroBordereau($vrac->numero_contrat); ?>)</a></li>
 </ol>
 
 <div class="row">      
@@ -103,7 +103,6 @@ use_helper('Date');
         <?php endif; ?>
     </div>
 </div>
-<?php include_partial('popup_notices'); ?> 
 <?php if ($signatureDemande): ?>
     <a id="signature_popup_bas" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a>      
     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
