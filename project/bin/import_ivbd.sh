@@ -264,6 +264,7 @@ cat $DATA_DIR/base_contact_communication.csv $DATA_DIR/base_communication_flotta
 cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
     id_societe=sprintf("%06d", $3);
     statut="ACTIF";
+    if ($15 || $17 || $36 || $38) statut = "SUSPENDU" ;
     civilite=$7;
     if(civilite  == "m") { civilite = "M"; }
     if(civilite == "mlle" || civilite == "Mlle" || civilite == "MLLE") { civilite = "Mme"; }

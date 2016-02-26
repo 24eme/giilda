@@ -45,14 +45,14 @@ class DRMAppellation extends BaseDRMAppellation {
 
     public function getDroit($type) {
         
-        return $this->getConfig()->getDroits($this->getInterproKey())->get($type)->getCurrentDroit($this->getDocument()->getDate());
+        return $this->getConfig()->getDroitByType($this->getDocument()->getDate(), $type, $this->getInterproKey());
     }
 
     public function getDroits() {
         $conf = $this->getConfig();
         $droits = array();
         foreach ($conf->getDroits($this->getInterproKey()) as $key => $droit) {
-	        $droits[$key] = $droit->getCurrentDroit($this->getDocument()->getDate());
+	        $droits[$key] = $this->getConfig()->getDroitByType($this->getDocument()->getDate(), $key, $this->getInterproKey());
         }
 
         return $droits;

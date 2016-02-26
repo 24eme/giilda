@@ -6,8 +6,7 @@
 
 class DRMDetailDroit extends BaseDRMDetailDroit {
     protected function getConfig($interpro = 'INTERPRO-declaration') {
-       
-        return $this->getParent()->getCepage()->getConfig()->getDroits($interpro)->get($this->getKey())->getCurrentDroit($this->getDocument()->getDate());
+        return $this->getParent()->getCepage()->getConfig()->getDroitByType($this->getDocument()->getDate(), $this->getKey(), $interpro);
     }
 
     protected function init($params = array()) {

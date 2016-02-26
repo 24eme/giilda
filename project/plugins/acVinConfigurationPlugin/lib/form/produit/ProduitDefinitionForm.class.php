@@ -36,7 +36,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         }
 
         if ($this->getObject()->exist('densite')) {
-            $this->setWidget('densite', new bsWidgetFormInputText());
+            $this->setWidget('densite', new bsWidgetFormInput());
             $this->getWidget('densite')->setLabel("Densité :");
             $this->setValidator('densite', new sfValidatorString(array('required' => true), array('required' => 'Champ obligatoire')));
             $this->widgetSchema->setHelp('densite', "La densité par défaut est de 1.3, celle des crémant est de 1.5");
