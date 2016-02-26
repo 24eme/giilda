@@ -217,6 +217,10 @@ class Societe extends BaseSociete {
         return false;
     }
 
+    public function isOperateur() {
+        return SocieteClient::TYPE_OPERATEUR == $this->type_societe;
+    }
+    
     public function isTransaction() {
         return $this->isNegoOrViti() || $this->isCourtier();
     }
