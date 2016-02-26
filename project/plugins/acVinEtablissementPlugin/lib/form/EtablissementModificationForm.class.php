@@ -49,13 +49,9 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
         
         if (!$this->etablissement->isCourtier()) {
-       //     $recette_locale = $this->getRecettesLocales();
             $this->setWidget('cvi', new bsWidgetFormInput());
-      //      $this->setWidget('recette_locale_choice', new bsWidgetFormChoice(array('choices' => $recette_locale)));
             $this->widgetSchema->setLabel('cvi', 'CVI');           
-      //      $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
             $this->setValidator('cvi', new sfValidatorString(array('required' => false)));           
-       //     $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
         } else {
             $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
@@ -71,8 +67,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-
-    //    $this->setDefault('recette_locale_choice', $this->getObject()->recette_locale->id_douane);
+        
     }
 
     public function getStatuts() {
