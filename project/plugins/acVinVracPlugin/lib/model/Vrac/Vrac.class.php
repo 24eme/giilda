@@ -277,7 +277,7 @@ class Vrac extends BaseVrac {
     public function setDelaiPaiement($value) {
         $this->_set('delai_paiement', $value);
 
-        if(isset(VracConfiguration::getInstance()->getDelaisPaiement()[$value)) {
+        if(isset(VracConfiguration::getInstance()->getDelaisPaiement()[$value])) {
             $this->delai_paiement_libelle = VracConfiguration::getInstance()->getDelaisPaiement()[$value];
         }
     }
