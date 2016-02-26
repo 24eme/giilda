@@ -284,6 +284,10 @@ cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
     print ";" id_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
 }' | sort > $DATA_DIR/interlocuteurs.csv
 
+cat $DATA_DIR/base_profil.csv | awk -F ';' '{print $4";"$5}' | sort -t ';' -k 1,1 > $DATA_DIR/tmp_profil.csv
+cat $DATA_DIR/base_groupe.csv  | awk -F ';' '{print $1";"$5}' | sort -t ';' -k 1,1  > $DATA_DIR/tmp_groupes.csv
+join -t ';' $DATA_DIR/tmp_profil.csv $DATA_DIR/tmp_groupes.csv | sort -t ';' -k 2,2 > $DATA_DIR/tagmanuels.csv
+
 echo "Construction du fichier d'import des Contrats de vente"
 
 cat $DATA_DIR/contrats_contrat.cleaned.csv | sort -t ";" -k 14,14 | sed 's/;VIN;/;CODE_VIN;/' | sort -t ";" -k 14,14 > $DATA_DIR/contrats_contrat.csv.sorted.produits
@@ -675,6 +679,10 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 echo "Import des interlocuteurs"
 
 php symfony import:compte $DATA_DIR/interlocuteurs.csv
+
+echo "Import des tags"
+
+php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv
 
 echo "Import des contrats"
 

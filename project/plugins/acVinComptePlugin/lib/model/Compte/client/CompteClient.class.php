@@ -20,7 +20,7 @@ class CompteClient extends acCouchdbClient {
 
     public function getId($identifiant)
     {
-      return 'COMPTE-'.$identifiant;
+        return 'COMPTE-'.sprintf('%08d', $identifiant);
     }
 
     public function getNextIdentifiantForSociete($societe)
