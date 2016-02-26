@@ -109,6 +109,7 @@
 	    var id = $(this).attr('id');
 	    $(this).select2({
                 data: JSON.parse($(this).attr('data-choices')),
+                allowClear: true,
                 multiple: false,
                 createSearchChoice: function (term, data) {
                     if ($(data).filter(function () {
