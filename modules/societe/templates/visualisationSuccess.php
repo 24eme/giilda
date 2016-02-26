@@ -122,6 +122,8 @@
                                     </li>
                                     <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_NEGOCIANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement négociant</a>
                                     </li>
+                                     <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_REPRESENTANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement représentant</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
