@@ -9,7 +9,7 @@ $favoris_sorties = $favoris->sorties;
         <div class="head" style="margin-top: 37px;"></div>
         <div class="list-group" >
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
-                <h4 class="form-group form-group-xs">Stock début</h4>
+                <div class="form-group form-group-xs">Stock début</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>         
                         <?php if ($key != 'instance'): ?>
@@ -24,7 +24,7 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
-                <h4 style="height:22px;" class="form-group form-group-xs">Entrées</h4>
+                <div style="height:22px;" class="form-group form-group-xs">Entrées</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
                         <?php if ($favoris_entrees->exist($key)): ?>
@@ -58,7 +58,7 @@ $favoris_sorties = $favoris->sorties;
             </div>       
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="4">
-                <h4 style="height:22px;" class="form-group form-group-xs">Sorties</h4>
+                <div style="height:22px;" class="form-group form-group-xs">Sorties</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                         <?php if ($favoris_sorties->exist($key)): ?>
@@ -90,7 +90,7 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="6">
-                <h4 style="height:22px;" class="form-group form-group-xs">Stock théorique fin de mois</h4>
+                <div style="height:22px;" class="form-group form-group-xs">Stock théorique fin de mois</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
                         <?php if ($key != 'instance'): ?>
