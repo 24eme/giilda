@@ -51,9 +51,6 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 		try {
 			$parent = $this->getNoeud()->getParentNode();
             $droit = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_str);
-            if ($droit->isChapeau()) {
-                $droit = $parent->$this->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_str);
-            }
 			$this->currentDroits[$cache_key] = $droit;
 			return $this->currentDroits[$cache_key];
 		} catch (sfException $e) {
