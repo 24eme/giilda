@@ -21,7 +21,7 @@ class ProduitDroitForm extends BaseForm {
 			$date = new DateTime($droit->date);
 			$this->setDefaults(array(
 	    		'date' => $date->format('d/m/Y'),
-	    		'taux' => $droit->getStringTaux()
+	    		'taux' => $droit->getStringTaux(true)
 	    	));
 		}		
         $this->widgetSchema->setNameFormat('produit_droit[%s]');

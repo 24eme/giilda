@@ -11,27 +11,34 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         return $this->getParent()->getNoeud();
     }
 
-    public function getTaux() {
+    public function isChapeau() {
         $taux = $this->_get('taux');
         if (!is_string($taux)) {
-            return $taux;
+            return false;
         }
-        $matched = array();
-        preg_match('/^([-+]{1})([0-9.]+)$/', $taux, $matched);
-        if (count($matched)) {
-            $sign = $matched[1];
-            $addTaux = $matched[2];
-            return array($sign,$addTaux);
-        } 
-        return $taux;
+        return preg_match('/^[-+]/', $taux);
     }
     
-    public function getStringTaux() {
-        $taux = $this->getTaux();
-        if(is_array($taux)){
-            return $taux[0].$taux[1];
+    public function getTaux($printable = false, $brut = false) {
+        if ($brut) {
+            return $this->_get('taux');
         }
-        return $taux;
+        if (!$this->isChapeau()) {
+            return $this->_get('taux');
+        }
+        $masterTaux = $this->getMasterDroit()->getTaux(false);
+        if ($printable) {
+            return $masterTaux.' '.$this->_get('taux');
+        }
+        return $masterTaux + floatval($this->_get('taux'));
+    }
+
+    public function getMasterDroit() {
+        return $this->getNoeud()->getParentNode()->getDroitByType($this->date, $this->code);
+    }
+    
+    public function getStringTaux($brut = false) {
+        return $this->getTaux(true, $brut);
     }
 
 }

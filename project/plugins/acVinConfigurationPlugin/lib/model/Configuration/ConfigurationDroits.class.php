@@ -5,101 +5,81 @@
  *
  */
 class ConfigurationDroits extends BaseConfigurationDroits {
+	
+	const CODE_CVO = 'CVO';
+	const CODE_DOUANE = 'DOUANE';
+	const LIBELLE_CVO = 'Cvo';
 
-    const CODE_CVO = 'CVO';
-    const CODE_DOUANE = 'DOUANE';
-    const LIBELLE_CVO = 'Cvo';
-    const DROIT_CVO = 'cvo';
-    const DROIT_DOUANE = 'douane';
+	const DROIT_CVO = 'cvo';
+	const DROIT_DOUANE = 'douane';
 
-    protected $currentDroits = array();
-    protected $sumCurrentDroits = null;
+	protected $currentDroits = array();
+	
+	public function addDroit($date, $taux, $code, $libelle) {
+	  $value = $this->add();
+	  $value->date = $date;
+	  $value->taux = $taux;
+	  $value->code = $code;
+	  $value->libelle = $libelle;
+	}
+	
+	public function getCurrentDroit($date_str, $include_chapeau = true) {
+        $cache_key = ($include_chapeau) ? '1'.$date_str : '0'.$date_str;
+		if(array_key_exists($cache_key, $this->currentDroits) && $this->currentDroits[$cache_key]) {
+			return $this->currentDroits[$cache_key];
+		}
 
-    public function addDroit($date, $taux, $code, $libelle) {
-        $value = $this->add();
-        $value->date = $date;
-        $value->taux = $taux;
-        $value->code = $code;
-        $value->libelle = $libelle;
-    }
-
-    public function getCurrentDroit($date_cvo, $sumtree = true) {
-        if ($this->currentDroits) {
-            $sumCurrentDroits = clone $this->currentDroits;
-            $this->currentDroits = null;
-            if ($sumtree) {
-
-                $taux = $sumCurrentDroits->getTaux();
-                if (is_array($taux)) {
-                    $sign = $taux[0];
-                    $value = $taux[1];
-                    $parentCVO = $this->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, false);
-                    if (is_array($parentCVO->taux)) {
-                        $parentCVO = $parentCVO->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, false);
-                    }
-                    if ($sign == '+') {
-                        $sumCurrentDroits->taux = $parentCVO->taux + $value;
-                    } elseif ($sign == '-') {
-                        $sumCurrentDroits->taux = $parentCVO->taux - $value;
-                    }
-                }                
-            }
-            return $sumCurrentDroits;
-        }
-
-        $currentDroit = null;
+	  	$currentDroit = null;
         foreach ($this as $configurationDroit) {
-            $date = new DateTime($configurationDroit->date);
-            if ($date_cvo >= $date->format('Y-m-d')) {
-                if ($currentDroit) {
-                    if ($date->format('Y-m-d') > $currentDroit->date) {
-                        $currentDroit = $configurationDroit;
-                    }
-                } else {
-                    $currentDroit = $configurationDroit;
-                }
-            }
-        }
+		    $date = new DateTime($configurationDroit->date);
+		    if ($date_str >= $date->format('Y-m-d')) {
+		      	if ($currentDroit) {
+					if ($date->format('Y-m-d') > $currentDroit->date) {
+			  			$currentDroit = $configurationDroit;
+	                }
+	      		} else {
+					$currentDroit = $configurationDroit;
+		      	}
+		    }
+	  	}
 
-        if ($currentDroit) {
-            $this->currentDroits = $currentDroit;
+	  	if ($currentDroit) {
+	  		$this->currentDroits[$cache_key] = $currentDroit;
+	    	return $this->currentDroits[$cache_key];
+	  	}
 
-            return $this->currentDroits;
-        }
+		try {
+			$parent = $this->getNoeud()->getParentNode();
+            $droit = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_str);
+			$this->currentDroits[$cache_key] = $droit;
+			return $this->currentDroits[$cache_key];
+		} catch (sfException $e) {
+				throw new sfException('Aucun droit spécifié pour '.$this->getHash());
+		}
+	}
 
-        try {
-            $parent = $this->getNoeud()->getParentNode();
+	public function compressDroits() {
+		$droits_to_remove = array();
+		$moreRecent = null;
+		foreach($this as $droit) {
+			if(!$moreRecent || $droit->date > $moreRecent->date) {
+				$moreRecent = $droit;
+			}
+		}
 
-            $this->currentDroits = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo, false);
+		if($moreRecent) {
+			$this->clear();
+			$this->add(null, $droit);
+		}
+	}
+	
+	public function getInterpro() {
+		return $this->getParent()->getParent();
+	}
 
-            return $this->currentDroits;
-        } catch (sfException $e) {
-            throw new sfException('Aucun droit spécifié pour ' . $this->getHash());
-        }
-    }
+	public function getNoeud() {
 
-    public function compressDroits() {
-        $droits_to_remove = array();
-        $moreRecent = null;
-        foreach ($this as $droit) {
-            if (!$moreRecent || $droit->date > $moreRecent->date) {
-                $moreRecent = $droit;
-            }
-        }
-
-        if ($moreRecent) {
-            $this->clear();
-            $this->add(null, $droit);
-        }
-    }
-
-    public function getInterpro() {
-        return $this->getParent()->getParent();
-    }
-
-    public function getNoeud() {
-
-        return $this->getInterpro()->getParent()->getParent();
-    }
+		return $this->getInterpro()->getParent()->getParent();
+	}
 
 }
