@@ -49,13 +49,13 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
 
         
         if (!$this->etablissement->isCourtier()) {
-            $recette_locale = $this->getRecettesLocales();
+       //     $recette_locale = $this->getRecettesLocales();
             $this->setWidget('cvi', new bsWidgetFormInput());
-            $this->setWidget('recette_locale_choice', new bsWidgetFormChoice(array('choices' => $recette_locale)));
+      //      $this->setWidget('recette_locale_choice', new bsWidgetFormChoice(array('choices' => $recette_locale)));
             $this->widgetSchema->setLabel('cvi', 'CVI');           
-            $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
+      //      $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
             $this->setValidator('cvi', new sfValidatorString(array('required' => false)));           
-            $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
+       //     $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
         } else {
             $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
@@ -72,7 +72,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
 
-        $this->setDefault('recette_locale_choice', $this->getObject()->recette_locale->id_douane);
+    //    $this->setDefault('recette_locale_choice', $this->getObject()->recette_locale->id_douane);
     }
 
     public function getStatuts() {
@@ -109,9 +109,9 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
                 $this->etablissement->addLiaison($liaison['type_liaison'], EtablissementClient::getInstance()->find($liaison['id_etablissement']));
             }
         }
-        if($this->values['recette_locale_choice']){
-            $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
-        }
+//        if($this->values['recette_locale_choice']){
+//            $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
+//        }
         
         $old_compte = $this->etablissement->compte;
         $switch = false;
@@ -169,7 +169,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         unset($this->embeddedForms[$key]);
         $this->liaisons_operateurs->remove($key);
     }
-
+/*
     protected function getRecettesLocales() {        
         $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE));
 
@@ -180,7 +180,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         }
         return $douanesList;    
     }
-
+*/
 
 }
 

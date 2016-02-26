@@ -8,7 +8,8 @@ class etablissementActions extends sfCredentialActions {
         if(!$this->modification){
             $this->forward('acVinCompte','forbidden');
         }
-        $this->etablissement = EtablissementClient::getInstance()->createEtablissementFromSociete($this->societe);
+        $this->famille = $request->getParameter('famille');
+        $this->etablissement = EtablissementClient::getInstance()->createEtablissementFromSociete($this->societe, $this->famille);
         $this->processFormEtablissement($request);        
         $this->setTemplate('modification');    
     }    
