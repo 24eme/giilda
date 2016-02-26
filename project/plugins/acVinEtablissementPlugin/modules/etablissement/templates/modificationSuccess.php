@@ -12,12 +12,9 @@
             <li class="active">
                 <strong>
                     <?php echo ($etablissement->isNew()) ? 'Nouvel établissement' : 'Modification établissement'; ?>
-                    <?php var_dump($etablissement->famille); ?>
                 </strong>
             </li>
-
     </ol>
-
 
     <!-- #contenu_etape -->
     <section id="contacts">
@@ -29,7 +26,7 @@
                     <?php include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm, 'etablissement' => $etablissement)); ?>
                 </div>
                 <div id="coordonnees_etablissement" class="panel panel-default etablissement form_section ouvert">
-                    <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'établissement</h3></div>
+                    <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'établissement</h3></div>                    
                     <?php include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $etablissementModificationForm)); ?>
                 </div>  
                 <div class="form_btn">
