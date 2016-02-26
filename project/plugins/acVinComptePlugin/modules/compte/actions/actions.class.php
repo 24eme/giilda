@@ -38,12 +38,6 @@ class compteActions extends sfCredentialActions {
         }
         
         $this->compteForm->save();
-        var_dump($this->compte->isSameCoordonneeThanSociete());
-//        if (!$this->compte->isSameCoordonneeThanSociete()) {
-//                  
-//            return $this->redirect('compte_coordonnee_modification', $this->compte);
-//        }
-
         return $this->redirect('compte_visualisation', $this->compte);
     }
 

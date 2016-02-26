@@ -70,10 +70,10 @@ class CompteForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('site_internet', 'Site Internet');
 
         $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
-        $this->setValidator('civilite', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCiviliteList()))));
+        $this->setValidator('civilite', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getCiviliteList()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
         $this->setValidator('prenom', new sfValidatorString(array('required' => false)));
-        $this->setValidator('fonction', new sfValidatorString(array('required' => true)));
+        $this->setValidator('fonction', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('adresse', new sfValidatorString(array('required' => false)));
         $this->setValidator('adresse_complementaire', new sfValidatorString(array('required' => false)));
@@ -141,9 +141,6 @@ class CompteForm extends acCouchdbObjectForm {
 
     protected function doSave($con = null) {
         parent::dosave();
-//        if()
-//        var_dump($this->values['adresse_societe']); exit;
-        //$this->getObject()->doSameCoordonneeThanSocieteAndSave();
         $this->getObject()->getCouchdbDocument()->save();
     }
 

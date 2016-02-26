@@ -25,10 +25,12 @@
                     <div class="panel-heading"><h3 class="panel-title">Détail de l'établissement</h3></div>
                     <?php include_partial('etablissement/modification', array('etablissementForm' => $etablissementModificationForm, 'etablissement' => $etablissement)); ?>
                 </div>
-                <div id="coordonnees_etablissement" class="panel panel-default etablissement form_section ouvert">
-                    <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'établissement</h3></div>                    
-                    <?php include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $etablissementModificationForm)); ?>
-                </div>  
+<!--                <div id="coordonnees_etablissement" class="panel panel-default etablissement form_section ouvert">
+                    <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'établissement</h3></div>  -->
+                    <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $etablissementModificationForm, 'compteSociete' => $etablissement->getSociete()->getMasterCompte())) ?>
+
+                    <?php //include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $etablissementModificationForm)); ?>
+                <!--</div>-->  
                 <div class="form_btn">
                     <div class="col-xs-6">
                         <?php if ($etablissement->isNew()): ?>

@@ -9,15 +9,15 @@
  * Description of class SocieteModificationForm
  * @author mathurin
  */
-class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
+class EtablissementModificationForm extends CompteForm {
 
     private $etablissement;
     private $liaisons_operateurs = null;
 
     public function __construct(Etablissement $etablissement, $options = array(), $CSRFSecret = null) {
         $this->etablissement = $etablissement;
-        $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
-        parent::__construct($etablissement, $options, $CSRFSecret);
+   //     $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
+        parent::__construct($etablissement->getMasterCompte(), $options, $CSRFSecret);
     }
 
     public function configure() {
@@ -25,7 +25,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
         $this->setWidget('region', new bsWidgetFormChoice(array('choices' => $this->getRegions())));
-        $this->embedForm('liaisons_operateurs', new LiaisonsItemForm($this->getObject()->liaisons_operateurs));
+      //  $this->embedForm('liaisons_operateurs', new LiaisonsItemForm($this->getObject()->liaisons_operateurs));
         $this->setWidget('no_accises', new bsWidgetFormInput());
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new bsWidgetFormInput());
@@ -94,7 +94,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $con = $this->getConnection();
         }
         $this->updateObject();
-        
+        /*
         $this->etablissement->remove('liaisons_operateurs');
         $this->etablissement->add('liaisons_operateurs');
         
@@ -103,7 +103,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             foreach ($this->values[$key] as $liaison) {
                 $this->etablissement->addLiaison($liaison['type_liaison'], EtablissementClient::getInstance()->find($liaison['id_etablissement']));
             }
-        }
+        } */
 //        if($this->values['recette_locale_choice']){
 //            $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
 //        }

@@ -20,41 +20,26 @@ class Compte extends BaseCompte {
 
     public function getMasterCompte() {
         if($this->isSameCoordonneeThanSociete()) {
-
             return $this->getSociete()->getContact();
         }
 
         return null;
     }
-
+    
     public function isSameCoordonneeThanSociete() {
-
-        return $this->getSociete()->getContact()->hasOrigine($this->_id);
+        $comptesociete = $this->getSociete()->getContact();
+        return ($comptesociete->adresse === $this->adresse) &&
+        ($comptesociete->commune === $this->commune) &&
+        ($comptesociete->code_postal=== $this->code_postal) &&
+        ($comptesociete->cedex === $this->cedex) &&
+        ($comptesociete->pays=== $this->pays) &&
+        ($comptesociete->adresse_complementaire === $this->adresse_complementaire);
+    }
+    
+    public function hasCoordonneeInheritedFromSociete() {
+        return $this->isSameCoordonneeThanSociete();
     }
 
-    public function doSameCoordonneeThanSocieteAndSave($value)  {
-        if($value && $this->isSameCoordonneeThanSociete()) {
-
-            return ;
-        }
-
-        if(!$value && !$this->isSameCoordonneeThanSociete()) {
-
-            return ;
-        }
-
-        $compte = $this->getSociete()->getContact();
-
-        if($value) {
-            $compte->addOrigine($this->_id);
-        } else {
-            $compte->removeOrigine($this->_id);
-        }
-
-        $compte->save(false, false, true);
-
-        $this->synchroFromCompte();
-    }
 
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
