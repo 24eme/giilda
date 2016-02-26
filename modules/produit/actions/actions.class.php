@@ -43,9 +43,9 @@ class produitActions extends sfActions
       $this->form->bind($request->getParameter($this->form->getName()));
   		if ($this->form->isValid()) {
         $this->form->save();
-  			$this->getUser()->setFlash("notice", 'Le produit a été modifié avec success.');
+		$this->getUser()->setFlash("notice", 'Le produit a été modifié avec success.');
 
-        return $this->redirectModification($this->produit->getHash(), explode("|", $request->getParameter('noeud_to_edit', array())));
+        return $this->redirect('produits');
       }
     } 
   }

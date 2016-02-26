@@ -19,7 +19,10 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         return preg_match('/^[-+]/', $taux);
     }
     
-    public function getTaux($printable = false) {
+    public function getTaux($printable = false, $brut = false) {
+        if ($brut) {
+            return $this->_get('taux');
+        }
         if (!$this->isChapeau()) {
             return $this->_get('taux');
         }
@@ -34,8 +37,8 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         return $this->getNoeud()->getParentNode()->getDroitByType($this->date, $this->code);
     }
     
-    public function getStringTaux() {
-        return $this->getTaux(true);
+    public function getStringTaux($brut = false) {
+        return $this->getTaux(true, $brut);
     }
 
 }
