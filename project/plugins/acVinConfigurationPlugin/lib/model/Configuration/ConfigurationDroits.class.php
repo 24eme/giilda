@@ -23,16 +23,16 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	  $value->libelle = $libelle;
 	}
 	
-	public function getCurrentDroit($date_cvo) {
-		if(array_key_exists($date_cvo, $this->currentDroits) && $this->currentDroits[$date_cvo]) {
-
-			return $this->currentDroits[$date_cvo];
+	public function getCurrentDroit($date_str, $include_chapeau = true) {
+        $cache_key = ($include_chapeau) ? '1'.$date_str : '0'.$date_str;
+		if(array_key_exists($cache_key, $this->currentDroits) && $this->currentDroits[$cache_key]) {
+			return $this->currentDroits[$cache_key];
 		}
 
 	  	$currentDroit = null;
-		  	foreach ($this as $configurationDroit) {
+        foreach ($this as $configurationDroit) {
 		    $date = new DateTime($configurationDroit->date);
-		    if ($date_cvo >= $date->format('Y-m-d')) {
+		    if ($date_str >= $date->format('Y-m-d')) {
 		      	if ($currentDroit) {
 					if ($date->format('Y-m-d') > $currentDroit->date) {
 			  			$currentDroit = $configurationDroit;
@@ -44,20 +44,19 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	  	}
 
 	  	if ($currentDroit) {
-	  		$this->currentDroits[$date_cvo] = $currentDroit;
-
-	    	return $this->currentDroits[$date_cvo];
+	  		$this->currentDroits[$cache_key] = $currentDroit;
+	    	return $this->currentDroits[$cache_key];
 	  	}
 
 		try {
 			$parent = $this->getNoeud()->getParentNode();
-
-			$this->currentDroits[$date_cvo] = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
-
-			return $this->currentDroits[$date_cvo];
-			
+            $droit = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_str);
+            if ($droit->isChapeau()) {
+                $droit = $parent->$this->getNoeud()->getParentNode()->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_str);
+            }
+			$this->currentDroits[$cache_key] = $droit;
+			return $this->currentDroits[$cache_key];
 		} catch (sfException $e) {
-
 				throw new sfException('Aucun droit spécifié pour '.$this->getHash());
 		}
 	}
