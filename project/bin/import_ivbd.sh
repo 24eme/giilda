@@ -412,10 +412,15 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     embouteillage=($76 == "True") ? "EMBOUTEILLAGE_VENDEUR" : "EMBOUTEILLAGE_ACHETEUR";
 
     assujeti_tva=($80 == "True") ? "assujetti_tva" : "";
-    facturation_tva=($81 == "True") ? "facturation_tva": "";
+    facturation_tva =($81 == "True") ? "facturation_tva": "";
 
     reserve_propriete=$81;
     delai_paiement=$83;
+    frais_courtage=$86;
+    repartition_taux_courtage="";
+    if(frais_courtage) {
+        repartition_taux_courtage="ACHETEUR";
+    }
     mode_paiement=$84;
     mode_paiement_cle="AUTRE";
     mode_paiement_libelle="Autre / Non précisé";
@@ -450,10 +455,10 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
 
     clauses=autorisation_nom_vin "," autorisation_nom_producteur "," clause_reserve_propriete "," crd_negoce "," tire_bouche "," preparation_vin "," embouteillage "," assujetti_tva "," facturation_tva;
 
-    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" cle_delais_paiement ";" libelle_delais_paiement ";" mode_paiement_cle ";" mode_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";" commentaires;
+    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" cle_delais_paiement ";" libelle_delais_paiement ";" mode_paiement_cle ";" mode_paiement_libelle ";" acompte ";" frais_courtage ";" repartition_taux_courtage ";" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";" commentaires;
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs_without_mention_clean.csv
 
-cat $DATA_DIR/vracs_without_mention_clean.csv | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > /tmp/vracs.csv
+cat $DATA_DIR/vracs_without_mention_clean.csv | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > $DATA_DIR/vracs.csv
 
 echo "Construction du fichier d'import des DRM"
 
