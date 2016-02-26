@@ -277,13 +277,17 @@ class Vrac extends BaseVrac {
     public function setDelaiPaiement($value) {
         $this->_set('delai_paiement', $value);
 
-        $this->delai_paiement_libelle = VracConfiguration::getInstance()->getDelaisPaiement()[$value];
+        if(isset(VracConfiguration::getInstance()->getDelaisPaiement()[$value)) {
+            $this->delai_paiement_libelle = VracConfiguration::getInstance()->getDelaisPaiement()[$value];
+        }
     }
 
     public function setMoyenPaiement($value) {
         $this->_set('moyen_paiement', $value);
 
-        $this->moyen_paiement_libelle = VracConfiguration::getInstance()->getMoyensPaiement()[$value];
+        if(isset(VracConfiguration::getInstance()->getMoyensPaiement()[$value])) {
+            $this->moyen_paiement_libelle = VracConfiguration::getInstance()->getMoyensPaiement()[$value];
+        }
     }
 
     public function setDateLimiteRetiraison($d) {
