@@ -3,7 +3,7 @@
 <div class="list-group">
     <div class="list-group-item">
         <h2 style="margin-top: 5px; margin-bottom: 5px;"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
-            <span class="text-muted">(Chai)</span>
+        <small class="text-muted">(n° de chai : <?php echo $etablissement->identifiant; ?>)</small>
         <a href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn btn-default">Modifier</a></h2>
         <p class="lead" style="margin-bottom: 5px;">
             <span class="label label-primary"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?></span>
