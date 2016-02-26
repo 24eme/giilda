@@ -7,11 +7,11 @@
 <?php slot('global_css_class', 'no_right_col')?>
 
 <section id="principal"  class="produit" style="padding-right: 5px; padding-left: 5px;">
-    <a style="float:right" href="<?php echo url_for('produit_nouveau') ?>" class="btn_majeur btn_nouveau">Ajouter un produit</a>
+    <a style="float:right" href="<?php echo url_for('produit_nouveau') ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Ajouter un produit</a>
 
     <h2>Produits <span style="color: #878787;"> / <?php echo $config->_id ?><small style="font-size: 10px;">@<?php echo $config->_rev ?></small></span></h2>
 
-    <table class="table_recap table_compact">
+    <table class="table table-condensed table-striped table-bordered">
         <thead>
             <?php include_partial('produit/itemHeader') ?>
         </thead>
