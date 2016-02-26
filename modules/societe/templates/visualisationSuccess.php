@@ -17,7 +17,7 @@
         <div class="list-group">
             <div class="list-group-item">
                 <h2 style="margin-top: 5px; margin-bottom: 5px;"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
-                    <span class="text-muted">(Société)</span>
+                    <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
                     <?php if ($modification || $reduct_rights) : ?>
                         <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default">Modifier</a></h2>
                 <?php endif; ?>
