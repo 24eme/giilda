@@ -6806,8 +6806,8 @@ button.close {
   padding-bottom: 15px;
 }
 #principal > .navbar {
-  background: #aa4646;
   border: 0;
+  border-bottom: 1px solid #aa4646;
   counter-reset: steps;
   color: #c77676;
   font-family: "arapeyregular", Arial, sans-serif;
@@ -6817,8 +6817,17 @@ button.close {
   margin-right: -15px;
   padding: 0;
 }
+#principal > .navbar > ul > li {
+  background: #aa4646;
+  border-top: 1px solid #aa4646;
+  position: relative;
+  top: 1px;
+}
 #principal > .navbar > ul > li:before {
   display: none;
+}
+#principal > .navbar > ul > li:last-child {
+  border-right: 1px solid #aa4646;
 }
 #principal > .navbar > ul > li.visited {
   color: #FFF;

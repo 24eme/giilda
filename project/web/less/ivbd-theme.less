@@ -81,9 +81,10 @@
 
 #principal {
 
+	// Etapes DRM
 	> .navbar {
-		background: @brand-primary;
 		border: 0;
+		border-bottom: 1px solid @brand-primary;
 		counter-reset: steps;
 		color: lighten(@brand-primary, 15%);
 		font-family: "arapeyregular", Arial, sans-serif;
@@ -97,7 +98,16 @@
 
 			> li {
 
+				background: @brand-primary;
+				border-top: 1px solid @brand-primary;
+				position: relative;
+				top: 1px;
+
 				&:before { display: none; }
+
+				&:last-child {
+					border-right: 1px solid @brand-primary;
+				}
 
 				&.visited { color: #FFF; }
 
