@@ -6800,8 +6800,9 @@ button.close {
   background: #eadfcf;
   padding: 20px 0;
 }
-#content .container {
+#content > .container {
   background: #FFF;
+  padding-bottom: 15px;
 }
 h1,
 h2,
