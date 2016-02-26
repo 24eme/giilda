@@ -34,16 +34,18 @@ class VracCsvFile extends CsvFile {
     const CSV_PRIX_UNITAIRE_HL = 29;
     const CSV_CLE_DELAI_PAIEMENT = 30;
     const CSV_DELAI_PAIEMENT = 31;
-    const CSV_ACOMPTE_SIGNATURE = 32;
-    const CSV_MOYEN_PAIEMENT = 33;
-    const CSV_TAUX_COURTAGE = 34;
-    const CSV_REPARTITION_COURTAGE = 35;
-    const CSV_REPARTITION_CVO = 36;
-    const CSV_RETIRAISON_DATE_DEBUT = 37;
-    const CSV_RETIRAISON_DATE_FIN = 38;
-    const CSV_CLAUSES = 39;
-    const CSV_LABELS = 40;
-    const CSV_COMMENTAIRES = 41;
+    const CSV_CLE_MODE_PAIEMENT = 32;
+    const CSV_MODE_PAIEMENT = 33;
+    const CSV_ACOMPTE_SIGNATURE = 34;
+    const CSV_MOYEN_PAIEMENT = 35;
+    const CSV_TAUX_COURTAGE = 36;
+    const CSV_REPARTITION_COURTAGE = 37;
+    const CSV_REPARTITION_CVO = 38;
+    const CSV_RETIRAISON_DATE_DEBUT = 39;
+    const CSV_RETIRAISON_DATE_FIN = 40;
+    const CSV_CLAUSES = 41;
+    const CSV_LABELS = 42;
+    const CSV_COMMENTAIRES = 43;
 
     const LABEL_BIO = 'agriculture_biologique';
 
@@ -164,10 +166,23 @@ class VracCsvFile extends CsvFile {
                 if ($v->date_debut_retiraison && $v->date_limite_retiraison && $v->date_debut_retiraison > $v->date_limite_retiraison) {
                     throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
                 }
-                if ($line[self::CSV_CLE_DELAI_PAIEMENT]) {
-                    $v->delai_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];
+
+                $v->vendeur_tva = 0; 
+                if(preg_match("/assujetti_tva/", $line[self::CSV_CLAUSES])) {
+                    $v->vendeur_tva = 1; 
                 }
+
+                $v->tva = 0; 
+                if(preg_match("/facturation_tva/", $line[self::CSV_CLAUSES])) {
+                    $v->tva = 1; 
+                }
+                
+                $v->delai_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];
                 $v->delai_paiement_libelle = $line[self::CSV_DELAI_PAIEMENT];
+
+                $v->moyen_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];
+                $v->moyen_paiement_libelle = $line[self::CSV_MODE_PAIEMENT];
+
                 $v->acompte = $this->formatAndVerifyAcompte($line);
                 
                 if(preg_match("/clause_reserve_propriete/", $line[self::CSV_CLAUSES])) {
@@ -188,7 +203,8 @@ class VracCsvFile extends CsvFile {
 
                 $v->preparation_vin = $this->formatAndVerifyPreparationVin($line);
                 
-                $v->commentaire = $line[self::CSV_COMMENTAIRES];
+                $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRES]);
+                
                 $v->update();
                 //$v->enleverVolume($v->volume_enleve);
 

@@ -314,16 +314,20 @@ echo "NUM_CONTRAT;LIBELLE_MARQUE" >> $DATA_DIR/contrats_contrat_marques_libelle.
 
 sort -t ";" -k 2,2 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.csv > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.sorted.csv
 
-join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.sorted.csv $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv | sed 's/;TYPE_VIN_LIBELLE;$/;TYPE_VIN_LIBELLE;LIBELLE_MARQUE/' > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv
+join -t ";" -a 1 -1 2 -2 1 -o auto $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin.sorted.csv $DATA_DIR/contrats_contrat_marques_libelle.sorted.csv | sed 's/;TYPE_VIN_LIBELLE;$/;TYPE_VIN_LIBELLE;LIBELLE_MARQUE/' | sed -r 's/^.?NUM_CONTRAT;TYPE_VIN;/NUM_CONTRAT;TYPE_VIN;/' | sort -t ";" -k 1,1 > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.sorted.csv
 
+# Nettoyage des retour chariots et tri par numéro de contrat
+cat $DATA_DIR/contrats_paiement.csv | tr "\n" "#" | sed -r 's/#([0-9]+;(True|False))/|\1/g' | tr -d "#" | tr "|" "\n" | sort -t ";" -k 1,1 > $DATA_DIR/contrats_paiement.sorted.csv
+
+join -t ";" -a 1 -1 1 -2 1 -o auto $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.sorted.csv $DATA_DIR/contrats_paiement.sorted.csv | sort > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque_paiement.csv
 
 cat $DATA_DIR/contrat_mention_correspondance_clean.csv | awk -F ';' '{ print "s|;MENTION;" $1 ";|;MENTION;" $2 ";|i" }' > $DATA_DIR/contrat_mention_correspondance_clean.sed
 
-#tail -n 1 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
+#tail -n 1 $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque_paiement.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
-cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.csv | sed 's/;I-06-04715BGR;/;I-06-04715;/' | sed 's/;I-04-?????;/;;/' | sed 's/;I-01331;/;I-03-01331;/' | sed 's/;I-00923;/;I-04-00923;/' | sed 's/;I-00965;/;I-05-00965;/' | sed -r 's/;I-04\+02230;/;I-04-02230;/' | sed 's/;I-0401906;/;I-04-01906;/' | sed 's/;I-0600085;/;I-06-00085;/' | sed 's/;B-04--00463;/;B-04-00463;/' | sed 's/;I-0600090;/;I-06-00090;/' | sed 's/;I-06-AAAAA;/;;/' | sed 's/;I-06-BBBBB;/;;/' | sed 's/;I--06-01761;/;I-06-01761;/' | sed 's/;I-06;/;;/' | sed 's/;I-04672;/;;/' | sed 's/;I-04672;/;I-03-04672;/' | sed 's/;IV-1200847;/;IV-12-00847;/' | sed 's/;IV-12-\*01626;/;IV-12-01626;/' | sed 's/;IV-1201414;/;IV-12-01414;/' | sed 's/;I-0400625;/;I-04-00625;/' | sed 's/;I-04-003355;/;I-04-03355;/' | sed 's/;I-04-003355;/;I-04-03355;/' | sed 's/;I-04-019463;/;I-04-19463;/' | sed 's/;I-047-00456;/;I-04-00456;/' | sed 's/;IV-12-020411;/;IV-12-20411;/' | sed 's/;I-04-028183;/;I-04-28183;/' > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.cleaned.csv
+cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque_paiement.csv | sed 's/;I-06-04715BGR;/;I-06-04715;/' | sed 's/;I-04-?????;/;;/' | sed 's/;I-01331;/;I-03-01331;/' | sed 's/;I-00923;/;I-04-00923;/' | sed 's/;I-00965;/;I-05-00965;/' | sed -r 's/;I-04\+02230;/;I-04-02230;/' | sed 's/;I-0401906;/;I-04-01906;/' | sed 's/;I-0600085;/;I-06-00085;/' | sed 's/;B-04--00463;/;B-04-00463;/' | sed 's/;I-0600090;/;I-06-00090;/' | sed 's/;I-06-AAAAA;/;;/' | sed 's/;I-06-BBBBB;/;;/' | sed 's/;I--06-01761;/;I-06-01761;/' | sed 's/;I-06;/;;/' | sed 's/;I-04672;/;;/' | sed 's/;I-04672;/;I-03-04672;/' | sed 's/;IV-1200847;/;IV-12-00847;/' | sed 's/;IV-12-\*01626;/;IV-12-01626;/' | sed 's/;IV-1201414;/;IV-12-01414;/' | sed 's/;I-0400625;/;I-04-00625;/' | sed 's/;I-04-003355;/;I-04-03355;/' | sed 's/;I-04-003355;/;I-04-03355;/' | sed 's/;I-04-019463;/;I-04-19463;/' | sed 's/;I-047-00456;/;I-04-00456;/' | sed 's/;IV-12-020411;/;IV-12-20411;/' | sed 's/;I-04-028183;/;I-04-28183;/' > $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.cleaned.csv
 
-cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque.cleaned.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
+cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque_paiement.csv | awk -F ';' 'BEGIN { num_bordereau_incr=1 } {
     type_contrat=($25 == "True") ? "VIN_BOUTEILLE" : "VIN_VRAC";
     bordereau_origin=gensub(/ /, "", "g", $37);
     if(bordereau_origin) {
@@ -407,10 +411,49 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     preparation_vin=($75 == "True") ? "PREPARATION_VIN_VENDEUR" : "PREPARATION_VIN_ACHETEUR";
     embouteillage=($76 == "True") ? "EMBOUTEILLAGE_VENDEUR" : "EMBOUTEILLAGE_ACHETEUR";
 
-    clauses=autorisation_nom_vin "," autorisation_nom_producteur "," clause_reserve_propriete "," crd_negoce "," tire_bouche "," preparation_vin "," embouteillage;
+    assujeti_tva=($80 == "True") ? "assujetti_tva" : "";
+    facturation_tva=($81 == "True") ? "facturation_tva": "";
 
-    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" cle_delais_paiement ";" libelle_delais_paiement ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";;"
-}' | sort -rt ";" -k 3,3 | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > $DATA_DIR/vracs.csv
+    reserve_propriete=$81;
+    delai_paiement=$83;
+    mode_paiement=$84;
+    mode_paiement_cle="AUTRE";
+    mode_paiement_libelle="Autre / Non précisé";
+    if(mode_paiement == 1) { mode_paiement_cle=""; mode_paiement_libelle="Traite Acceptée"; }
+    if(mode_paiement == 2) { mode_paiement_cle="CHEQUE"; mode_paiement_libelle="Chèque"; }
+    if(mode_paiement == 3) { mode_paiement_cle="VIREMENT"; mode_paiement_libelle="Virement"; }
+    if(mode_paiement == 4) { mode_paiement_cle="VALEURS"; mode_paiement_libelle="Valeurs"; }
+    if(mode_paiement == 5) { mode_paiement_cle="ESPECES"; mode_paiement_libelle="Espèces"; }
+    if(mode_paiement == 6) { mode_paiement_cle="BILLET_ORDRE"; mode_paiement_libelle="Billet à ordre"; }
+
+    commenaire_paiement=$87;
+    commentaire_delai_paiement=$89;
+    commentaire_mode_paiement=$88;
+    
+    commentaires=$29;
+
+    if(commentaires) {
+        commentaires = commentaires "\\n";
+    }
+
+    if(commentaires_paiement) {
+        commentaires = commentaires "Paiement : " commenaire_paiement "\\n";
+    }
+
+    if(commentaire_delai_paiement) {
+        commentaires = commentaires "Délai de paiement : " commentaire_delai_paiement "\\n";
+    }
+
+    if(commentaire_mode_paiement) {
+        commentaires = commentaires "Mode de paiement : " commentaire_mode_paiement "\\n";
+    }
+
+    clauses=autorisation_nom_vin "," autorisation_nom_producteur "," clause_reserve_propriete "," crd_negoce "," tire_bouche "," preparation_vin "," embouteillage "," assujetti_tva "," facturation_tva;
+
+    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" cle_delais_paiement ";" libelle_delais_paiement ";" mode_paiement_cle ";" mode_paiement_libelle ";" acompte ";;;;" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";" commentaires;
+}' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs_without_mention_clean.csv
+
+cat $DATA_DIR/vracs_without_mention_clean.csv | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > /tmp/vracs.csv
 
 echo "Construction du fichier d'import des DRM"
 
