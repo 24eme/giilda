@@ -171,9 +171,9 @@ class VracCsvFile extends CsvFile {
                     $v->vendeur_tva = 1; 
                 }
 
-                $v->tva = 0; 
+                $v->tva = "SANS";
                 if(preg_match("/facturation_tva/", $line[self::CSV_CLAUSES])) {
-                    $v->tva = 1; 
+                    $v->tva = "AVEC";
                 }
                 
                 $v->delai_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];

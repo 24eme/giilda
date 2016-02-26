@@ -385,24 +385,6 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     statut="NONSOLDE";
     if($34=="True") { statut="ANNULE"; }
 
-    cle_delais_paiement="";
-    libelle_delais_paiement=$71;
-    if(libelle_delais_paiement=="A réception / Comptant"){
-      cle_delais_paiement="COMPTANT";
-    }else if(libelle_delais_paiement=="30 jours"){
-      cle_delais_paiement="30_JOURS";
-    }else if(libelle_delais_paiement=="45 jours"){
-      cle_delais_paiement="45_JOURS";
-    }else if(libelle_delais_paiement=="60 jours"){
-      cle_delais_paiement="60_JOURS";
-    }else if(libelle_delais_paiement=="75 jours"){
-      cle_delais_paiement="75_JOURS";
-    }
-
-    if(!libelle_delais_paiement) {
-        libelle_delais_paiement="Autre / Non précisé";
-    }
-
     clause_reserve_propriete=($54 == "True") ? "clause_reserve_propriete" : "";
     autorisation_nom_vin=($22 == "True") ? "autorisation_nom_vin" : "";
     autorisation_nom_producteur=($23 == "True") ? "autorisation_nom_producteur" : "";
@@ -421,10 +403,22 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     if(frais_courtage) {
         repartition_taux_courtage="ACHETEUR";
     }
+
+    delais_paiement=$83;
+    delais_paiement_cle="AUTRE";
+    delais_paiement_libelle="Autre / Non précisé";
+    if(delais_paiement == 1) { delais_paiement_cle="75_JOURS"; delais_paiement_libelle="75 jours"; }
+    if(delais_paiement == 2) { delais_paiement_cle="60_JOURS"; delais_paiement_libelle="60 jours"; }
+    if(delais_paiement == 3) { delais_paiement_cle="45_JOURS"; delais_paiement_libelle="45 jours"; }
+    if(delais_paiement == 4) { delais_paiement_cle="30_JOURS"; delais_paiement_libelle="30 jours"; }
+    if(delais_paiement == 5) { delais_paiement_cle="10_JOURS"; delais_paiement_libelle="10 jours"; }
+    if(delais_paiement == 6) { delais_paiement_cle="COMPTANT"; delais_paiement_libelle="A réception / Comptant"; }
+    if(delais_paiement == 7) { delais_paiement_cle="PLUS_75_JOURS"; delais_paiement_libelle="Au delà de 75 jours"; }
+
     mode_paiement=$84;
     mode_paiement_cle="AUTRE";
     mode_paiement_libelle="Autre / Non précisé";
-    if(mode_paiement == 1) { mode_paiement_cle=""; mode_paiement_libelle="Traite Acceptée"; }
+    if(mode_paiement == 1) { mode_paiement_cle="TRAITE"; mode_paiement_libelle="Traite Acceptée"; }
     if(mode_paiement == 2) { mode_paiement_cle="CHEQUE"; mode_paiement_libelle="Chèque"; }
     if(mode_paiement == 3) { mode_paiement_cle="VIREMENT"; mode_paiement_libelle="Virement"; }
     if(mode_paiement == 4) { mode_paiement_cle="VALEURS"; mode_paiement_libelle="Valeurs"; }
@@ -455,7 +449,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
 
     clauses=autorisation_nom_vin "," autorisation_nom_producteur "," clause_reserve_propriete "," crd_negoce "," tire_bouche "," preparation_vin "," embouteillage "," assujetti_tva "," facturation_tva;
 
-    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" cle_delais_paiement ";" libelle_delais_paiement ";" mode_paiement_cle ";" mode_paiement_libelle ";" acompte ";" frais_courtage ";" repartition_taux_courtage ";" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";" commentaires;
+    print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delais_paiement_cle ";" delais_paiement_libelle ";" mode_paiement_cle ";" mode_paiement_libelle ";" acompte ";" frais_courtage ";" repartition_taux_courtage ";" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";" commentaires;
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs_without_mention_clean.csv
 
 cat $DATA_DIR/vracs_without_mention_clean.csv | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > $DATA_DIR/vracs.csv
