@@ -506,7 +506,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits->libelle = $libelle;
     }
 
-    protected function setDroitCvoCsv($datas, $code_applicatif) {
+    public function setDroitCvoCsv($datas, $code_applicatif) {
 
         if (!isset($datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) {
 
