@@ -286,7 +286,7 @@ cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
 
 cat $DATA_DIR/base_profil.csv | awk -F ';' '{print $4";"$5}' | sort -t ';' -k 1,1 > $DATA_DIR/tmp_profil.csv
 cat $DATA_DIR/base_groupe.csv  | awk -F ';' '{print $1";"$5}' | sort -t ';' -k 1,1  > $DATA_DIR/tmp_groupes.csv
-join -t ';' $DATA_DIR/tmp_profil.csv $DATA_DIR/tmp_groupes.csv | sort -t ';' -k 2,2 > $DATA_DIR/tagmanuels.csv
+join -t ';' $DATA_DIR/tmp_profil.csv $DATA_DIR/tmp_groupes.csv | sort -t ';' -k 2,2 | sed 's/$/;/' > $DATA_DIR/tagmanuels.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
