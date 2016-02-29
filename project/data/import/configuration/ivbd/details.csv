@@ -17,8 +17,7 @@ declaration;detail;entrees;transfertsrecolte;1;1;0;1;1;0;0;0;SUSPENDU;entrees-pe
 declaration;detail;entrees;travailafacon;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/travail-a-facon;0
 declaration;detail;sorties;vracsanscontratsuspendu;1;1;0;-1;1;1;0;1;SUSPENDU;sorties-periode/sorties-avec-paiement-droits;1
 declaration;detail;sorties;vracsanscontratacquitte;1;1;0;-1;1;1;0;1;ACQUITTE;sorties-periode/sorties-sans-paiement-droits;0
-declaration;detail;sorties;ventefrancebouteillecrd;1;1;0;-1;1;1;0;1;MIXTE;sorties-periode/sorties-avec-paiement-droits;1
-declaration;detail;sorties;ventefrancebibcrd;1;1;0;-1;1;1;0;1;MIXTE;sorties-periode/sorties-avec-paiement-droits;1
+declaration;detail;sorties;ventefrancecrd;1;1;0;-1;1;1;0;1;MIXTE;sorties-periode/sorties-avec-paiement-droits;1
 declaration;detail;sorties;vrac;1;1;1;-1;1;1;1;1;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;detail;sorties;contrathorsinterpro;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;detail;sorties;cession;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0

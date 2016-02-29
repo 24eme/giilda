@@ -518,7 +518,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
-        mouvement="ventefrancebouteillecrd";
+        mouvement="ventefrancecrd";
     }
     if(mouvement_extravitis == "Total DCA sous contrats (droits suspendus)") {
         catmouvement="sorties"
