@@ -212,11 +212,3 @@ all:
     default_decimal_format: 2
     max_decimal_authorized: 4
 
-  statistiques:
-    drm:
-      elasticsearch_dbname: "giilda_drm"
-    vrac:
-      elasticsearch_dbname: "giilda_vrac"
-    compte:
-      elasticsearch_dbname: "giilda_compte"
-
