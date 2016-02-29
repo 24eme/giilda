@@ -281,6 +281,37 @@ cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
     web=$33;
     commentaire="";
 
+    if (nom == "ACH") nom = "ACHATS";
+    if (nom == "BUR") nom = "BUREAU";
+    if (nom == "cha") nom = "CHAI";
+    if (nom == "CHA") nom = "CHAI";
+    if (nom == "com") nom = "COMMERCIAL";
+    if (nom == "COM") nom = "COMMERCIAL";
+    if (nom == "CON") nom = "CONFIDENTIEL";
+    if (nom == "CPT") nom = "COMPTABILITE";
+    if (nom == "CON") nom = "CONFIDENTIEL";
+    if (nom == "dir") nom = "DIRECTION";
+    if (nom == "DIR") nom = "DIRECTION";
+    if (nom == "dom") nom = "DOMICILE";
+    if (nom == "DOM") nom = "DOMICILE";
+    if (nom == "FIL") nom = "FILS/FILLE";
+    if (nom == "FRE") nom = "FRERE";
+    if (nom == "fre") nom = "FRERE";
+    if (nom == "ld") nom = "LIGNE DIRECTE";
+    if (nom == "LD") nom = "LIGNE DIRECTE";
+    if (nom == "par") nom = "PARENTS";
+    if (nom == "PAR") nom = "PARENTS";
+    if (nom == "PR") nom = "PRINCIPAL";
+    if (nom == "QUA") nom = "QUATERNAIRE";
+    if (nom == "RS") nom = "RESIDENCE SECONDAIRE";
+    if (nom == "SE") nom = "SECONDAIRE";
+    if (nom == "se") nom = "SECONDAIRE";
+    if (nom == "sec") nom = "SECRETARIAT";
+    if (nom == "SEC") nom = "SECRETARIAT";
+    if (nom == "soe") nom = "SOEUR";
+    if (nom == "TER") nom = "TERTIAIRE";
+    if (nom == "ter") nom = "TERTIAIRE";
+
     print ";" id_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
 }' | sort > $DATA_DIR/interlocuteurs.csv
 
