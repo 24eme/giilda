@@ -40,13 +40,13 @@ if test "$REMOTE_DATA"; then
         iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    file -i $TMP/data_ivbd_origin/IVBD/* | grep -E "(iso-8859-1|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -E "(iso-8859-1|unknown-8bit|us-ascii)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         #echo "$DATA_DIR/$ligne iso-8859-1"
         iconv -f iso-8859-1 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16|unknown-8bit|us-ascii)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         #echo "$DATA_DIR/$ligne autres"
         cat $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
@@ -97,11 +97,15 @@ cp $DATA_DIR/base_pays.sorted.csv.tmp $DATA_DIR/base_pays.sorted.csv
 
 echo "Construction des fichiers d'import des Contacts"
 
-cat $DATA_DIR/extra_ppm_attribut.csv | sort -t ";" -k 3,3 > $DATA_DIR/extra_ppm_attribut.sorted.csv
+#cat $DATA_DIR/extra_ppm_attribut.csv | sort -t ";" -k 3,3 > $DATA_DIR/extra_ppm_attribut.sorted.csv
+#cat $DATA_DIR/maitre_ppm_attribut_ref.csv | sort -t ";" -k 1,1 > $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv
+#join -t ";" -1 3 -2 1 $DATA_DIR/extra_ppm_attribut.sorted.csv $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv > $DATA_DIR/ppm_attributs.csv
 
-cat $DATA_DIR/maitre_ppm_attribut_ref.csv | sort -t ";" -k 1,1 > $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv
+cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
 
-join -t ";" -1 3 -2 1 $DATA_DIR/extra_ppm_attribut.sorted.csv $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv > $DATA_DIR/ppm_attributs.csv
+cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv_mfv.sorted.csv
+
+join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 9,9 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
 
 cat $DATA_DIR/base_ppm.csv | sed -r 's/DS ([0-9]+); DRMS /DS \1. DRMS /' | sed -r 's/DRMS ([0-9]+); dernière/DRMS \1. dernière/' | sed -r 's/([0-9]+); 1ère DR/\1. 1ère DR/' | sed 's/33600 Pessac; Adresse/33600 Pessac. Adresse/' | sed -r 's/DRMS ([0-9]+); DS ([0-9]+)/DRMS \1. DS \2/' | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm.sorted.id.csv
 
@@ -120,6 +124,7 @@ cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 6 | grep -E "^[0-9]+$" | sort
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 9 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;NEGOCIANT/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;COURTIER/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 13 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;REPRESENTANT/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/evv_numero_ppm.sorted.csv | cut -d ";" -f 23 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
 
 cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv
@@ -188,12 +193,6 @@ echo "4063;1033" >> $DATA_DIR/courtier_numero.csv
 sort -t ";" -k 1,1 $DATA_DIR/courtier_numero.csv > $DATA_DIR/courtier_numero.sorted.csv
 # --- Fin récupération du numéro de courtier ---
 
-cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
-
-cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv_mfv.sorted.csv
-
-join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 9,9 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
-
 join -t ";" -a 1 -1 9 -2 1 -o auto $DATA_DIR/evv_numero_ppm.sorted.csv $DATA_DIR/communes.sorted.csv | sort -t ";" -k 9,9 > $DATA_DIR/evv_numero_ppm_communes.sorted.csv
 
 join -t ";" -a 1 -1 9 -2 1 -o auto $DATA_DIR/evv_numero_ppm_communes.sorted.csv $DATA_DIR/base_pays.sorted.csv | sort -t ";" -k 23,23 > $DATA_DIR/evv_numero_ppm_communes_pays.sorted.csv
@@ -208,7 +207,7 @@ join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/evv_numero_ppm_communes_pays_famill
 cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
 {
     identifiant_societe=sprintf("%06d", $1);
-    identifiant=identifiant_societe "01";
+    identifiant="";
     statut=($16 || $18) ? "SUSPENDU" : "ACTIF";
     nom=$7;
     email=""; tel_bureau=""; tel_perso=""; mobile=""; fax=""; web="";
@@ -218,6 +217,7 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
     commune=$34;
     cedex=$13;
     code_postal=$11; 
+    insee=$3;
     pays=$35;
 
     commentaire="";
@@ -681,10 +681,6 @@ echo "Import des interlocuteurs"
 
 php symfony import:compte $DATA_DIR/interlocuteurs.csv
 
-echo "Import des tags"
-
-php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv
-
 echo "Import des contrats"
 
 php symfony import:vracs $DATA_DIR/vracs.csv --env="ivbd"
@@ -717,3 +713,7 @@ cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne
 do
   php symfony drm:controle-coherence "$ligne"
 done
+
+echo "Import des tags"
+
+php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv
