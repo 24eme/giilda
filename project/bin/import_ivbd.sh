@@ -59,6 +59,7 @@ echo "Import de la configuration"
 
 curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
+php symfony import:CVO CONFIGURATION data/import/configuration/ivbd/cvo.csv
 php symfony cc > /dev/null
 
 #Produit

@@ -1,0 +1,15 @@
+#appellations;Dates;Taux
+certifications/AOP;1900-01-01;0;
+certifications/IGP;1900-01-01;0;
+certifications/AOP;2013-08-01;1.12;
+certifications/AOP;2014-08-01;1.18;
+certifications/IGP;2013-08-01;0.58;
+certifications/IGP;2014-08-01;0.61;
+certifications/AOP/genres/TRANQ/appellations/GLC;2013-08-01;1.96;
+certifications/AOP/genres/MOU/appellations/GLC;2013-08-01;1.96;
+certifications/AOP/genres/TRANQ/appellations/FRT;2013-08-01;1.5;
+certifications/AOP/genres/TRANQ/appellations/MDR;2013-08-01;3.66;
+certifications/AOP/genres/TRANQ/appellations/MDR;2014-08-01;3.6;
+certifications/AOP/genres/TRANQ/appellations/PVB;2013-08-01;3.66;
+certifications/AOP/genres/TRANQ/appellations/STM;2013-08-01;1.5;
+certifications/IGP/genres/TRANQ/appellations/CGD;2013-08-01;0.2;
