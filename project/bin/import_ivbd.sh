@@ -59,6 +59,7 @@ echo "Import de la configuration"
 
 curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
+php symfony import:CVO CONFIGURATION data/import/configuration/ivbd/cvo.csv
 php symfony cc > /dev/null
 
 #Produit
@@ -165,7 +166,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     mobile=$72;
     fax=$71;
     web=$74;
-    commentaire="";
+    commentaire=$16;
     famille="AUTRE";
     if($61 == "VITICULTEUR" || $61 == "NEGOCIANT" || $61 == "REPRESENTANT") {
         famille="OPERATEUR";
@@ -174,7 +175,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
         famille="COURTIER";
     }
 
-    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire ";"
 }' | sort | uniq > $DATA_DIR/societes.csv
 
 # --- Récupération du Numéro de courtier ---
@@ -285,7 +286,7 @@ cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
 
 cat $DATA_DIR/base_profil.csv | awk -F ';' '{print $4";"$5}' | sort -t ';' -k 1,1 > $DATA_DIR/tmp_profil.csv
 cat $DATA_DIR/base_groupe.csv  | awk -F ';' '{print $1";"$5}' | sort -t ';' -k 1,1  > $DATA_DIR/tmp_groupes.csv
-join -t ';' $DATA_DIR/tmp_profil.csv $DATA_DIR/tmp_groupes.csv | sort -t ';' -k 2,2 > $DATA_DIR/tagmanuels.csv
+join -t ';' $DATA_DIR/tmp_profil.csv $DATA_DIR/tmp_groupes.csv | sort -t ';' -k 2,2 | sed 's/$/;/' > $DATA_DIR/tagmanuels.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
@@ -517,7 +518,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
-        mouvement="ventefrancebouteillecrd";
+        mouvement="ventefrancecrd";
     }
     if(mouvement_extravitis == "Total DCA sous contrats (droits suspendus)") {
         catmouvement="sorties"
@@ -664,7 +665,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 }' > $DATA_DIR/drm_cave_export.csv
 
 #Génération finale
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv 
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux"  | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv 
 
 cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201208.csv
 
