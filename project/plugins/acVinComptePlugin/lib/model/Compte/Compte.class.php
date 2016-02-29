@@ -20,41 +20,26 @@ class Compte extends BaseCompte {
 
     public function getMasterCompte() {
         if($this->isSameCoordonneeThanSociete()) {
-
             return $this->getSociete()->getContact();
         }
 
         return null;
     }
-
+    
     public function isSameCoordonneeThanSociete() {
-
-        return $this->getSociete()->getContact()->hasOrigine($this->_id);
+        $comptesociete = $this->getSociete()->getContact();
+        return ($comptesociete->adresse === $this->adresse) &&
+        ($comptesociete->commune === $this->commune) &&
+        ($comptesociete->code_postal=== $this->code_postal) &&
+        ($comptesociete->cedex === $this->cedex) &&
+        ($comptesociete->pays=== $this->pays) &&
+        ($comptesociete->adresse_complementaire === $this->adresse_complementaire);
+    }
+    
+    public function hasCoordonneeInheritedFromSociete() {
+        return $this->isSameCoordonneeThanSociete();
     }
 
-    public function doSameCoordonneeThanSocieteAndSave($value)  {
-        if($value && $this->isSameCoordonneeThanSociete()) {
-
-            return ;
-        }
-
-        if(!$value && !$this->isSameCoordonneeThanSociete()) {
-
-            return ;
-        }
-
-        $compte = $this->getSociete()->getContact();
-
-        if($value) {
-            $compte->addOrigine($this->_id);
-        } else {
-            $compte->removeOrigine($this->_id);
-        }
-
-        $compte->save(false, false, true);
-
-        $this->synchroFromCompte();
-    }
 
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
@@ -481,6 +466,58 @@ class Compte extends BaseCompte {
             return $this->_set('commentaire', $c."\n".$s);
         }
         return $this->_set('commentaire', $s);
+    }
+    
+    public function setAdresse($adresse) {
+        if(!$adresse){
+            $this->_set('adresse',$this->getSociete()->siege->adresse);
+            return $this;
+        }
+        $this->_set('adresse',$adresse);
+        return $this;
+    }
+    
+     public function setAdresseComplementaire($adresse_complementaire) {
+        if(!$adresse_complementaire){
+            $this->_set('adresse_complementaire',$this->getSociete()->getMasterCompte()->adresse_complementaire);
+            return $this;
+        }
+        $this->_set('adresse_complementaire',$adresse_complementaire);
+        return $this;
+    }
+    
+     public function setCodePostal($code_postal) {
+        if(!$code_postal){
+            $this->_set('code_postal',$this->getSociete()->siege->code_postal);
+            return $this;
+        }
+        $this->_set('code_postal',$code_postal);
+        return $this;
+    }
+    
+    public function setCommune($commune) {
+        if(!$commune){
+            $this->_set('commune',$this->getSociete()->siege->commune);
+            return $this;
+        }
+        $this->_set('commune',$commune);
+        return $this;
+    }
+    public function setPays($pays) {
+        if(!$pays){
+            $this->_set('pays',$this->getSociete()->getMasterCompte()->pays);
+            return $this;
+        }
+        $this->_set('pays',$pays);
+        return $this;
+    }
+    public function setCedex($cedex) {
+        if(!$cedex){
+            $this->_set('cedex',$this->getSociete()->getMasterCompte()->cedex);
+            return $this;
+        }
+        $this->_set('cedex',$cedex);
+        return $this;
     }
 
 }

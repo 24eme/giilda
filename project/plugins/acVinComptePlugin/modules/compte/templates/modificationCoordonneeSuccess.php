@@ -1,41 +1,50 @@
 <!-- #principal -->
 <section id="principal">
-     <ol class="breadcrumb">
+    <ol class="breadcrumb">
         <li><a href="<?php echo url_for('societe'); ?>">Accueil des contacts</a></li>
         <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo $societe->raison_sociale; ?></a></li>
         <li class="active">
-                <strong>
-                    <?php echo 'Modification établissement'; ?>
-                </strong>
+            <strong>
+                <?php echo 'Modification établissement'; ?>
+            </strong>
         </li>
 
     </ol>
-    
+
     <!-- #contenu_etape -->
     <section id="contacts">
-        <?php if($compte->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT): ?>
-            <div id="nouveau_etablissement" class="etablissement">
-        <?php else: ?>
-            <div id="nouveau_contact">
-        <?php endif; ?>
+
+        <div id="<?php echo ($compte->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT) ? 'nouveau_etablissement' : 'nouveau_contact' ?>" class="<?php echo ($compte->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT) ? 'etablissement' : ''; ?> ">
             <h2><?php echo $compte->nom_a_afficher ?></h2>
-                <form action="<?php echo url_for('compte_coordonnee_modification', $compte); ?>" method="post">
-			<div class="form_btn">
-				<a href="<?php echo url_for('compte_visualisation', $compte);?>" class="btn_majeur btn_annuler">Annuler</a>
-				<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
-			</div>
-                <div id="coordonnees_contact" class="form_section ouvert">
-                    <?php if($compte->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT): ?>
-                    <h3>Coordonnées de l'etablissement</h3>
-                    <?php else: ?>
-                    <h3>Coordonnées de l'interlocuteur</h3>
-                    <?php endif; ?>
-				    <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $compteForm)) ?>
-                </div>  
-			<div class="form_btn">
-				<a href="<?php echo url_for('compte_visualisation', $compte);?>" class="btn_majeur btn_annuler">Annuler</a>
-				<button id="btn_valider" type="submit" class="btn_majeur btn_valider">Valider</button>
-			</div>
+            <form action="<?php echo url_for('compte_coordonnee_modification', $compte); ?>" method="post" class="form-horizontal">
+                <div class="form_btn">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="<?php echo url_for('compte_visualisation', $compte); ?>" class="btn btn-danger">Annuler</a>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <button id="btn_valider" type="submit" class="btn btn-default">Valider</button>
+                        </div>
+                    </div>
+                    <div id="coordonnees_contact" class="form_section ouvert">
+                        <?php if ($compte->compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT): ?>
+                            <h3>Coordonnées de l'etablissement</h3>
+                        <?php else: ?>
+                            <h3>Coordonnées de l'interlocuteur</h3>
+                        <?php endif; ?>
+                        <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $compteForm)) ?>
+                    </div>  
+                    <div class="form_btn">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="<?php echo url_for('compte_visualisation', $compte); ?>" class="btn btn-danger">Annuler</a>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                <button id="btn_valider" type="submit" class="btn btn-default">Valider</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>	
         </div>
     </section>

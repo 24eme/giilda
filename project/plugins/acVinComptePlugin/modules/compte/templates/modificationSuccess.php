@@ -57,10 +57,8 @@
                     </div>
                 </div>
 
-                <div id="coordonnees_contact" class="form_section ouvert panel panel-default">
-                    <div class="panel-heading"><h3 class="panel-title">Coordonnées de l'interlocuteur</h3></div>
-                    <?php include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $compteForm)); ?>
-                </div> 
+               
+                <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $compteForm, 'compteSociete' => $compte->getSociete()->getMasterCompte())) ?>
 
                 <div class="col-xs-6">
                     <?php if ($compte->isNew()): ?>
@@ -69,9 +67,7 @@
                         <a href="<?php echo url_for('compte_visualisation', $compte); ?>" class="btn btn-default">Annuler</a>
                     <?php endif; ?>
                 </div><div class="col-xs-6 text-right">
-                    <button class="btn btn-success">
-                        <?php echo (!$compte->isSameCoordonneeThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
-                    </button>
+                    <button class="btn btn-success">Valider</button>
                 </div>
 
             </form>

@@ -32,7 +32,7 @@ echo $societeForm->renderGlobalErrors();
     <?php if (isset($societeForm['type_numero_compte_fournisseur']) || isset($societeForm['type_numero_compte_client'])): ?>
     <div class="form-group<?php if($societeForm['type_numero_compte_client']->hasError()): ?> has-error<?php endif; ?>">
 <?php echo $societeForm['type_numero_compte_client']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-            <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
+            <?php if ($societeForm->getObject()->isOperateur()) : ?>
                 <?php echo $societeForm['type_numero_compte_client']->renderError(); ?>
                 <div class="col-xs-8"><?php echo $societeForm['type_numero_compte_client']->render(); ?></div>
             <?php endif; ?>
@@ -69,9 +69,9 @@ echo $societeForm->renderGlobalErrors();
                 include_partial('itemEnseigne', array('form' => $enseigneForm));
             }
             ?>
-            <div class="form-group">
+<!--            <div class="form-group">
                 <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_enseigne" href="#">Ajouter une enseigne</a>
-            </div>
+            </div>-->
         </div>
     <div class="form-group<?php if($societeForm['commentaire']->hasError()): ?> has-error<?php endif; ?>">
 <?php echo $societeForm['commentaire']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
@@ -79,64 +79,6 @@ echo $societeForm->renderGlobalErrors();
         <?php echo $societeForm['commentaire']->renderError(); ?>
     </div>
 </div>
-<?php include_partial('templateEnseigneItem', array('form' => $societeForm->getFormTemplate()));
+<?php // include_partial('templateEnseigneItem', array('form' => $societeForm->getFormTemplate()));
 ?>
 
-<script type="text/javascript">
-    
-    (function($)
-    {
-
-        $(document).ready(function()
-        {
-            initCollectionAddTemplate('.btn_ajouter_ligne_template', /var---nbItem---/g, callbackAddTemplate);
-            initCollectionDeleteTemplate();
-        });
-
-        var callbackAddTemplate = function(bloc)
-        {
-          
-        }
-
-       
-        var initCollectionAddTemplate = function(element, regexp_replace, callback)
-        {
-       
-            $(element).live('click', function()
-            {
-                var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
-
-                try {
-                    var params = jQuery.parseJSON($(this).attr('data-template-params'));
-                } catch (err) {
-
-                }
-
-                for(key in params) {
-                    bloc_html = bloc_html.replace(new RegExp(key, "g"), params[key]);
-                }
-
-                var bloc = $($(this).attr('data-container')).before(bloc_html);
-
-                if(callback) {
-                    callback(bloc);
-                }
-                return false;
-            });
-        }
-   
-        var initCollectionDeleteTemplate = function()
-        {
-            $('.btn_supprimer_ligne_template').live('click',function()
-            {
-                var element = $(this).attr('data-container');
-                $(this).parent(element).remove();
-   
-                return false;
-            });
-        }
-    })(jQuery);
-   
-    
-    
-</script>

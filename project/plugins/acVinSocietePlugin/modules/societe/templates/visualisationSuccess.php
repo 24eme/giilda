@@ -17,7 +17,7 @@
         <div class="list-group">
             <div class="list-group-item">
                 <h2 style="margin-top: 5px; margin-bottom: 5px;"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
-                    <span class="text-muted">(Société)</span>
+                    <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
                     <?php if ($modification || $reduct_rights) : ?>
                         <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default">Modifier</a></h2>
                 <?php endif; ?>
@@ -121,6 +121,8 @@
                                     <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_PRODUCTEUR)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement producteur</a>
                                     </li>
                                     <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_NEGOCIANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement négociant</a>
+                                    </li>
+                                     <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_REPRESENTANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement représentant</a>
                                     </li>
                                 </ul>
                             </div>
