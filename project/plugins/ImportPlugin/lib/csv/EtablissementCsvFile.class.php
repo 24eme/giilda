@@ -53,14 +53,13 @@ class EtablissementCsvFile extends CsvFile
           $id = $line[self::CSV_ID];
           $id_societe = $line[self::CSV_ID_SOCIETE];
 
-          /*
+          
       	  $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
           
           if ($e) {
 	          echo "ERROR: Etablissement ".$id." existe\n";
 	          continue;
           }
-          */
 
           $s = SocieteClient::getInstance()->find($id_societe);
 
@@ -68,13 +67,6 @@ class EtablissementCsvFile extends CsvFile
             echo "WARNING: Societe ".$id_societe." n'existe pas\n";
             continue;
           }
-
-          /*$id = sprintf("%06d", $line[self::CSVPAR_CODE_CLIENT]).sprintf("%02d", $chai);
-  	       $e = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
-          if ($e) {
-        	  echo "WARNING: Etablissement ".$id." existe\n";
-        	  continue;
-          }*/
 
           $e = EtablissementClient::getInstance()->createEtablissementFromSociete($s,$line[self::CSV_TYPE]);
 
@@ -100,7 +92,7 @@ class EtablissementCsvFile extends CsvFile
 
           //$this->compareAdresse($line, $s, $e);
         	
-          //$e->save();
+          $e->save();
       }catch(Exception $e) {
         echo $e->getMessage()."\n";
       }
