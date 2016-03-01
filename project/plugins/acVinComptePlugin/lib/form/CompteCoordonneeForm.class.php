@@ -17,7 +17,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
     public function __construct(Compte $compte, $reduct_rights = false, $options = array(), $CSRFSecret = null) {
         $this->compte = $compte;
         $this->reduct_rights = $reduct_rights;
-        parent::__construct($compte, $options, $CSRFSecret); 
+        parent::__construct($compte, $options, $CSRFSecret);         
         $this->defaults['pays'] = 'FR';   
     }
 

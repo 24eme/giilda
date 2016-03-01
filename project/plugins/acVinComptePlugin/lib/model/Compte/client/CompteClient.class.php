@@ -121,8 +121,8 @@ class CompteClient extends acCouchdbClient {
             $compte->adresse_complementaire = ($societe->siege->exist('adresse_complementaire'))? $societe->siege->adresse_complementaire : "";
       	    $compte->code_postal = $societe->siege->code_postal;
       	    $compte->commune = $societe->siege->commune;
-            $societe->siege->add('pays');
-            $compte->pays = $societe->siege->pays;
+            //$societe->siege->add('pays');
+            $compte->pays = $societe->getMasterCompte()->pays;
           }
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         $compte->constructId();

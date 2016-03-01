@@ -108,17 +108,25 @@ class CompteForm extends acCouchdbObjectForm {
         return CompteClient::getInstance()->getAllTags();
     }
 
+    protected function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+         if ($this->getObject()->isNew()) {
+            $this->getObject()->set('statut', $this->getObject()->getSociete()->statut);
+        }
+    }
+    
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
 
         if ($this->getObject()->isNew()) {
             $this->setDefault('statut', $this->getObject()->getSociete()->statut);
         }
-        if (!$this->compte->isSocieteContact()) {
+        
+        if ($this->compte->isSameAdresseThanSociete()) {
             if ($this->compte->adresse == $this->societeCompte->adresse) {
                 $this->setDefault('adresse', '');
             }
-//                var_dump($this->compte->adresse_complementaire,$this->societeCompte->adresse_complementaire); exit;
+            
             if ($this->compte->adresse_complementaire == $this->societeCompte->adresse_complementaire) {
                 $this->setDefault('adresse_complementaire', '');
             }
@@ -135,6 +143,27 @@ class CompteForm extends acCouchdbObjectForm {
             }
             if ($this->compte->pays == $this->societeCompte->pays) {
                 $this->setDefault('pays', '');
+            }
+        }
+        
+        if ($this->compte->isSameContactThanSociete()) {
+            if ($this->compte->telephone_bureau == $this->societeCompte->telephone_bureau) {
+                $this->setDefault('telephone_bureau', '');
+            }
+            
+            if ($this->compte->telephone_mobile == $this->societeCompte->telephone_mobile) {
+                $this->setDefault('telephone_mobile', '');
+            }
+            if ($this->compte->telephone_perso == $this->societeCompte->telephone_perso) {
+                $this->setDefault('telephone_perso', '');
+            }
+
+            if ($this->compte->email == $this->societeCompte->email) {
+                $this->setDefault('email', '');
+            }
+
+            if ($this->compte->fax == $this->societeCompte->fax) {
+                $this->setDefault('fax', '');
             }
         }
     }

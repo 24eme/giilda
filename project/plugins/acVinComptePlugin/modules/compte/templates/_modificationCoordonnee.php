@@ -1,19 +1,21 @@
 <?php
 $isCompteSociete = isset($isCompteSociete) && $isCompteSociete;
 $colClass = ($isCompteSociete) ? 'col-xs-8' : 'col-xs-4';
-$isSameCoordonneeThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameCoordonneeThanSociete();
+$isSameAdresseThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameAdresseThanSociete();
+$isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameContactThanSociete();
+
 ?>
 <div id="coordonnees_modification">
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 class="panel-title">Adresse <?php if ($isSameCoordonneeThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même adresse que la société</span><?php endif; ?></h4>
-            <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameCoordonneeThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
-                <span class="label-edit" ><?php echo ($isSameCoordonneeThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
-                <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameCoordonneeThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
+            <h4 class="panel-title">Adresse <?php if ($isSameAdresseThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même adresse que la société</span><?php endif; ?></h4>
+            <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameAdresseThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                <span class="label-edit" ><?php echo ($isSameAdresseThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameAdresseThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
             </span>
         </div>
-        <div class="panel-body  <?php echo ($isSameCoordonneeThanSociete) ? ' collapse ' : ''; ?>">                  
+        <div class="panel-body  <?php echo ($isSameAdresseThanSociete) ? ' collapse ' : ''; ?>">                  
             <?php
             echo $compteForm->renderHiddenFields();
             echo $compteForm->renderGlobalErrors();
@@ -62,13 +64,13 @@ $isSameCoordonneeThanSociete = !$isCompteSociete && $compteForm->getObject()->is
         </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="panel-title">E-mail / téléphone / fax <?php if ($isSameCoordonneeThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même contact que la société</span><?php endif; ?></h4>
-            <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameCoordonneeThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
-                <span class="label-edit" ><?php echo ($isSameCoordonneeThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
-                <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameCoordonneeThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
+        <div class="panel-heading"><h4 class="panel-title">E-mail / téléphone / fax <?php if ($isSameContactThanSociete) : ?>&nbsp;-&nbsp;<span class="text-muted">Même contact que la société</span><?php endif; ?></h4>
+            <span class="pull-right <?php echo ($isCompteSociete) ? '' : ' clickable pointer '; echo ($isSameContactThanSociete) ? ' panel-collapsed ' : ' '; ?>" style="margin-top: -20px; font-size: 15px;">
+                <span class="label-edit" ><?php echo ($isSameContactThanSociete) ? 'Editer' : 'Edition'; ?></span>&nbsp;
+                <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameContactThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
             </span>
         </div>
-        <div class="panel-body  <?php echo ($isSameCoordonneeThanSociete) ? ' collapse ' : ''; ?>">
+        <div class="panel-body  <?php echo ($isSameContactThanSociete) ? ' collapse ' : ''; ?>">
             <div class="form-group">
 
                 <?php echo $compteForm['email']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
