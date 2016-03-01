@@ -89,32 +89,6 @@ class Compte extends BaseCompte {
         return $this->synchroFromCompte();
     }
 
-    protected function updateFromSociete() {
-        $societe = $this->getSociete();
-
-        if (!$societe) {
-            return;
-        }
-
-        if (sfConfig::get('sf_logging_enabled')) {
-            sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de la societe %s", $this->_id, $societe->_id));
-        }
-
-        $this->nom = $societe->raison_sociale;
-    }
-
-    protected function updateFromEtablissement() {
-        $etablissement = $this->getEtablissement();
-        if (!$etablissement) {
-            return;
-        }
-
-        if (sfConfig::get('sf_logging_enabled')) {
-            sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de l'etablissement %s", $this->_id, $etablissement->_id));
-        }
-        $this->nom = ($etablissement->nom) ? $etablissement->nom : $etablissement->raison_sociale;
-    }
-
     public function updateNomAAfficher() {
         if (!$this->nom) {
             return;
@@ -183,16 +157,8 @@ class Compte extends BaseCompte {
         return false;
     }
 
-    protected function synchroAndSaveSociete() {
-        $soc = $this->getSociete();
-        if (!$soc) {
-            throw new sfException("Societe not found for " . $this->_id);
-        }
-        $soc->addCompte($this);
-        $soc->save(true);
-    }
+    public function save() { 
 
-    public function save() { //($fromsociete = false, $frometablissement = false, $from_compte = false, $from_task = false) {
         if ($this->isSocieteContact()) {
             $this->addTag('automatique', 'Societe');
         }
@@ -205,29 +171,7 @@ class Compte extends BaseCompte {
                 $this->addTag('automatique', 'teledeclaration_active');
             }
         }
-
-
-        /* if ($from_task) {
-          parent::save();
-          $this->autoUpdateLdap();
-          return;
-          }
-
-          if ($this->isEtablissementContact()) {
-          $this->addTag('automatique', 'Etablissement');
-          }
-          if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
-          $this->addTag('automatique', 'Interlocuteur');
-          }
-
-          $societe = $this->getSociete();
-          $this->addTag('automatique', $societe->type_societe);
-
-          if (is_null($this->adresse_societe)) {
-          $this->adresse_societe = (int) $fromsociete;
-          }
-         */
-
+        
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
         if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
             if ($this->isNew()) {
@@ -235,44 +179,7 @@ class Compte extends BaseCompte {
                 $societe->addCompte($this);
                 $societe->save();
             }
-           $this->synchroFromCompte();
         }
-        foreach ($this->origines as $origine) {
-            $doc = acCouchdbManager::getClient()->find($origine);
-            $doc->save();
-            $this->synchroFromSociete();
-        }
-        /*
-          if(!$frometablissement){
-          $this->synchro();
-          }
-          $this->updateNomAAfficher();
-
-
-          $this->autoUpdateLdap();
-
-          if (!$fromsociete) {
-          $this->synchroAndSaveSociete();
-          }
-
-          foreach ($this->origines as $origine) {
-          $doc = acCouchdbManager::getClient()->find($origine);
-          if ($doc->type == 'Etablissement' && !$frometablissement) {
-          $doc->synchroFromCompte();
-          $doc->save($fromsociete, false, $from_compte);
-          }
-
-          if ($doc->type == 'Societe' && !$fromsociete) {
-          $doc->synchroFromCompte();
-          $doc->save();
-          }
-
-          if ($doc->type == 'Compte' && !$from_compte) {
-          $doc->synchroFromCompte();
-          $doc->save();
-          }
-          } */
-
         parent::save();
     }
 
@@ -383,14 +290,6 @@ class Compte extends BaseCompte {
 
     public function getCompteType() {
         return CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-    }
-
-    public function updateAndSaveCoordoneesFromEtablissement($etablissement) {
-        $this->adresse = $etablissement->siege->adresse;
-        $this->adresse_complementaire = ($etablissement->siege->exist('adresse_complementaire')) ? $etablissement->siege->adresse_complementaire : "";
-        $this->code_postal = $etablissement->siege->code_postal;
-        $this->commune = $etablissement->siege->commune;
-        $this->save(true, true);
     }
 
     public function getStatutTeledeclarant() {

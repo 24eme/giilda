@@ -23,7 +23,7 @@ class CompteForm extends acCouchdbObjectForm {
         parent::__construct($compte, $options, $CSRFSecret);
         if ($this->compte->isSocieteContact() && !$this->isEtablissement) {
             $this->defaults['pays'] = 'FR';
-        }
+        }        
     }
 
     public function configure() {
@@ -73,7 +73,7 @@ class CompteForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('site_internet', 'Site Internet');
 
         $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
-        $this->setValidator('civilite', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getCiviliteList()))));
+        $this->setValidator('civilite', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getCiviliteList()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
         $this->setValidator('prenom', new sfValidatorString(array('required' => false)));
         $this->setValidator('fonction', new sfValidatorString(array('required' => false)));
@@ -83,7 +83,7 @@ class CompteForm extends acCouchdbObjectForm {
         $this->setValidator('code_postal', new sfValidatorString(array('required' => false)));
         $this->setValidator('commune', new sfValidatorString(array('required' => false)));
         $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
-        $this->setValidator('pays', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getCountryList()))));
+        $this->setValidator('pays', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getCountryList()))));
         $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getDroits()))));
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_perso', new sfValidatorString(array('required' => false)));
@@ -100,7 +100,7 @@ class CompteForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
 
-    public function getCountryList() {
+    public static function getCountryList() {
         $destinationChoicesWidget = new bsWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
         $destinationChoices['inconnu'] = 'Inconnu';
@@ -171,20 +171,15 @@ class CompteForm extends acCouchdbObjectForm {
         }
     }
 
-    protected function doSave($con = null) {
-        parent::dosave();
-        $this->getObject()->getCouchdbDocument()->save();
-    }
-
-    public function getCiviliteList() {
+    public static function getCiviliteList() {
         return array('Mme' => 'Mme', 'M' => 'M');
     }
 
-    public function getStatuts() {
+    public static function getStatuts() {
         return EtablissementClient::getStatuts();
     }
 
-    public function getDroits() {
+    public static function getDroits() {
 
         return array(Roles::CONTRAT => "Contrat");
     }

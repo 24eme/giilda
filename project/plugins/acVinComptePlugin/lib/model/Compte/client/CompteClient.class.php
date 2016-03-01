@@ -54,7 +54,7 @@ class CompteClient extends acCouchdbClient {
         if (!$from_societe) {
             $societe = $compte->getSociete();
             $societe->removeContact($idCompte);
-            $societe->save(true);
+            $societe->save();
         }
 
         if (!$from_etablissement) {

@@ -10,8 +10,8 @@
             <span class="label label-success"><?php echo $etablissement->statut; ?></span>
         </p>
     </div>
-    <div class="list-group-item <?php if($etablissement->isSameCoordonneeThanSociete()): ?>text-center text-muted disabled<?php endif; ?>">
-        <?php if($etablissement->isSameCoordonneeThanSociete()): ?>
+    <div class="list-group-item <?php if($etablissement->isSameAdresseThanSociete()): ?>text-center text-muted disabled<?php endif; ?>">
+        <?php if($etablissement->isSameAdresseThanSociete()): ?>
             <em>Même coordonnées que la société</em>
         <?php else : ?>
             <?php include_partial('compte/coordonneesVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
