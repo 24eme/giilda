@@ -181,8 +181,10 @@ class Compte extends BaseCompte {
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
     	
+        $societe = $this->getSociete();
         if ($this->isSocieteContact()) {
-    	  $this->addTag('automatique', 'Societe');
+            $this->addTag('automatique', 'Societe');
+            $this->addTag('automatique', $societe->type_societe);
               if($this->getFournisseurs()){
                   $this->removeFournisseursTag();
                   foreach ($this->getFournisseurs() as $type_fournisseur) {
@@ -199,13 +201,11 @@ class Compte extends BaseCompte {
         
     	if ($this->isEtablissementContact()) {
     	  $this->addTag('automatique', 'Etablissement');
+          $this->addTag('automatique', $this->getEtablissement()->famille);
     	}
     	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
     	  $this->addTag('automatique', 'Interlocuteur');
     	}
-
-        $societe = $this->getSociete();
-        $this->addTag('automatique', $societe->type_societe);
 
         if (is_null($this->adresse_societe)) {
             $this->adresse_societe = (int) $fromsociete;
