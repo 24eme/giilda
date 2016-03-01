@@ -7,6 +7,7 @@ class CompteClient extends acCouchdbClient {
     const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
     
     const STATUT_ACTIF = "ACTIF";
+    const STATUT_SUSPENDU = "SUSPENDU";
 
     const STATUT_TELEDECLARANT_NOUVEAU = "NOUVEAU";
     const STATUT_TELEDECLARANT_INSCRIT = "INSCRIT";
