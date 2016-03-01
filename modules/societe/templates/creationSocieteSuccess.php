@@ -2,7 +2,7 @@
 <!-- #principal -->
 <section id="principal">
     <ol class="breadcrumb">
-        <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
         <li class="active"><strong>Création d'une société</strong></li>
 
     </ol>

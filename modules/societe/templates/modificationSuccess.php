@@ -1,7 +1,7 @@
 <!-- #principal -->
 <section id="principal">
      <ol class="breadcrumb">
-        <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
         <li class="active"><strong><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></strong></li>
 
     </ol>
