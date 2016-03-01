@@ -93,6 +93,8 @@ EOF;
                 $drm->facturerMouvements();
             }
 
+            $drm->type_creation = "IMPORT";
+
             $drm->save();
         
         } catch(Exception $e) {

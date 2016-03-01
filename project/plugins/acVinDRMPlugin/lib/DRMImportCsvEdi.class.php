@@ -235,7 +235,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 if(isset($csvRow[self::CSV_CAVE_COMMENTAIRE]) && $csvRow[self::CSV_CAVE_COMMENTAIRE] && trim($csvRow[self::CSV_CAVE_COMMENTAIRE])) {
-                    $this->drm->commentaire .= sprintf("%s hl de %s\n", $detailTotalVol, trim($csvRow[self::CSV_CAVE_COMMENTAIRE]));
+                    $this->drm->commentaire .= str_replace('\n', "\n", trim($csvRow[self::CSV_CAVE_COMMENTAIRE]));
+                    if(!preg_match("/\n$/", $this->drm->commentaire)) {
+                        $this->drm->commentaire .= "\n";
+                    }
                 }
 
             } else {

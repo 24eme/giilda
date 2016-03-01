@@ -7,7 +7,9 @@
         <a href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn btn-default">Modifier</a></h2>
         <p class="lead" style="margin-bottom: 5px;">
             <span class="label label-primary"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?></span>
-            <span class="label label-success"><?php echo $etablissement->statut; ?></span>
+             <?php if($etablissement->statut == EtablissementClient::STATUT_SUSPENDU): ?>
+                <span class="label label-danger"><?php echo $etablissement->statut; ?></span>
+            <?php endif; ?>
         </p>
     </div>
     <div class="list-group-item <?php if($etablissement->isSameCoordonneeThanSociete()): ?>text-center text-muted disabled<?php endif; ?>">

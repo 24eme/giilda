@@ -67,7 +67,7 @@ class vracActions extends sfActions {
     public function executeRecherche(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
         $this->recherche = $this->getVracsFromRecherche($request, true);
-        $this->form = new VracRechercheForm();
+        //$this->form = new VracRechercheForm();
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->campagne = $request->getParameter('campagne', ConfigurationClient::getInstance()->getCurrentCampagne());

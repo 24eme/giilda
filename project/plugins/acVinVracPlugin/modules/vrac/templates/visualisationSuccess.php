@@ -103,7 +103,6 @@ use_helper('Date');
         <?php endif; ?>
     </div>
 </div>
-<?php include_partial('popup_notices'); ?> 
 <?php if ($signatureDemande): ?>
     <a id="signature_popup_bas" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a>      
     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
