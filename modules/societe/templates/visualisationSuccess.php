@@ -23,7 +23,9 @@
                 <?php endif; ?>
                 <p class="lead" style="margin-bottom: 5px;">
                     <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
-                    <span class="label label-success"><?php echo $societe->statut; ?></span>
+                    <?php if($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
+                    <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                    <?php endif; ?>
                     <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span><?php endif; ?>
                         <?php if ($societe->date_modification) : ?><span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span><?php endif; ?></small>
                 </p>
