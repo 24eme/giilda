@@ -27,7 +27,6 @@ class Compte extends BaseCompte {
 
     public function isSameAdresseThanSociete() {
         $comptesociete = $this->getSociete()->getContact();
-        
         return ($comptesociete->adresse === $this->adresse) &&
                 ($comptesociete->commune === $this->commune) &&
                 ($comptesociete->code_postal === $this->code_postal) &&
@@ -80,12 +79,10 @@ class Compte extends BaseCompte {
 
     public function synchro() {
         if ($this->isSocieteContact()) {
-
             return $this->updateFromSociete();
         }
 
         if ($this->isEtablissementContact()) {
-
             return $this->updateFromEtablissement();
         }
 
@@ -108,7 +105,6 @@ class Compte extends BaseCompte {
 
     protected function updateFromEtablissement() {
         $etablissement = $this->getEtablissement();
-
         if (!$etablissement) {
             return;
         }
@@ -116,7 +112,6 @@ class Compte extends BaseCompte {
         if (sfConfig::get('sf_logging_enabled')) {
             sfContext::getInstance()->getLogger()->log(sprintf("{Contact} synchro du compte %s à partir de l'etablissement %s", $this->_id, $etablissement->_id));
         }
-
         $this->nom = ($etablissement->nom) ? $etablissement->nom : $etablissement->raison_sociale;
     }
 
@@ -197,25 +192,13 @@ class Compte extends BaseCompte {
         $soc->save(true);
     }
 
-    public function save($fromsociete = false, $frometablissement = false, $from_compte = false, $from_task = false) {
-
-        if ($from_task) {
-            parent::save();
-            $this->autoUpdateLdap();
-            return;
-        }
-        $this->tags->remove('automatique');
-        $this->tags->add('automatique');
-
+    public function save() { //($fromsociete = false, $frometablissement = false, $from_compte = false, $from_task = false) {
         if ($this->isSocieteContact()) {
             $this->addTag('automatique', 'Societe');
-            if ($this->getFournisseurs()) {
-                $this->removeFournisseursTag();
-                foreach ($this->getFournisseurs() as $type_fournisseur) {
-                    $this->addTag('automatique', $type_fournisseur);
-                }
-            }
         }
+
+        $this->tags->remove('automatique');
+        $this->tags->add('automatique');
 
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
             if ($this->hasDroit(Roles::TELEDECLARATION_VRAC)) {
@@ -223,48 +206,74 @@ class Compte extends BaseCompte {
             }
         }
 
-        if ($this->isEtablissementContact()) {
-            $this->addTag('automatique', 'Etablissement');
-        }
-        if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
-            $this->addTag('automatique', 'Interlocuteur');
-        }
 
-        $societe = $this->getSociete();
-        $this->addTag('automatique', $societe->type_societe);
+        /* if ($from_task) {
+          parent::save();
+          $this->autoUpdateLdap();
+          return;
+          }
 
-        if (is_null($this->adresse_societe)) {
-            $this->adresse_societe = (int) $fromsociete;
-        }
+          if ($this->isEtablissementContact()) {
+          $this->addTag('automatique', 'Etablissement');
+          }
+          if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
+          $this->addTag('automatique', 'Interlocuteur');
+          }
+
+          $societe = $this->getSociete();
+          $this->addTag('automatique', $societe->type_societe);
+
+          if (is_null($this->adresse_societe)) {
+          $this->adresse_societe = (int) $fromsociete;
+          }
+         */
+
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-
-        $this->synchro();
-        $this->updateNomAAfficher();
-
-        parent::save();
-        $this->autoUpdateLdap();
-
-        if (!$fromsociete) {
-            $this->synchroAndSaveSociete();
+        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+            if ($this->isNew()) {
+                $societe = $this->getSociete();
+                $societe->addCompte($this);
+                $societe->save();
+            }
+           $this->synchroFromCompte();
         }
-
         foreach ($this->origines as $origine) {
             $doc = acCouchdbManager::getClient()->find($origine);
-            if ($doc->type == 'Etablissement' && !$frometablissement) {
-                $doc->synchroFromCompte();
-                $doc->save($fromsociete, false, $from_compte);
-            }
-
-            if ($doc->type == 'Societe' && !$fromsociete) {
-                $doc->synchroFromCompte();
-                $doc->save();
-            }
-
-            if ($doc->type == 'Compte' && !$from_compte) {
-                $doc->synchroFromCompte();
-                $doc->save();
-            }
+            $doc->save();
+            $this->synchroFromSociete();
         }
+        /*
+          if(!$frometablissement){
+          $this->synchro();
+          }
+          $this->updateNomAAfficher();
+
+
+          $this->autoUpdateLdap();
+
+          if (!$fromsociete) {
+          $this->synchroAndSaveSociete();
+          }
+
+          foreach ($this->origines as $origine) {
+          $doc = acCouchdbManager::getClient()->find($origine);
+          if ($doc->type == 'Etablissement' && !$frometablissement) {
+          $doc->synchroFromCompte();
+          $doc->save($fromsociete, false, $from_compte);
+          }
+
+          if ($doc->type == 'Societe' && !$fromsociete) {
+          $doc->synchroFromCompte();
+          $doc->save();
+          }
+
+          if ($doc->type == 'Compte' && !$from_compte) {
+          $doc->synchroFromCompte();
+          $doc->save();
+          }
+          } */
+
+        parent::save();
     }
 
     public function synchroFromSociete($societe = null) {
@@ -481,103 +490,4 @@ class Compte extends BaseCompte {
         return $this->_set('commentaire', $s);
     }
 
-    /*
-
-      public function setAdresse($adresse) {
-      if(!$adresse){
-      $this->_set('adresse',$this->getSociete()->siege->adresse);
-      return $this;
-      }
-      $this->_set('adresse',$adresse);
-      return $this;
-      }
-
-      public function setAdresseComplementaire($adresse_complementaire) {
-      if(!$adresse_complementaire){
-      $this->_set('adresse_complementaire',$this->getSociete()->getMasterCompte()->adresse_complementaire);
-      return $this;
-      }
-      $this->_set('adresse_complementaire',$adresse_complementaire);
-      return $this;
-      }
-
-      public function setCodePostal($code_postal) {
-      if(!$code_postal){
-      $this->_set('code_postal',$this->getSociete()->siege->code_postal);
-      return $this;
-      }
-      $this->_set('code_postal',$code_postal);
-      return $this;
-      }
-
-      public function setCommune($commune) {
-      if(!$commune){
-      $this->_set('commune',$this->getSociete()->siege->commune);
-      return $this;
-      }
-      $this->_set('commune',$commune);
-      return $this;
-      }
-      public function setPays($pays) {
-      if(!$pays){
-      $this->_set('pays',$this->getSociete()->getMasterCompte()->pays);
-      return $this;
-      }
-      $this->_set('pays',$pays);
-      return $this;
-      }
-
-      public function setCedex($cedex) {
-      if(!$cedex){
-      $this->_set('cedex',$this->getSociete()->getMasterCompte()->cedex);
-      return $this;
-      }
-      $this->_set('cedex',$cedex);
-      return $this;
-      }
-
-      public function setTelephoneBureau($tel) {
-      if(!$tel){
-      $this->_set('telephone_bureau',$this->getSociete()->getMasterCompte()->telephone_bureau);
-      return $this;
-      }
-      $this->_set('telephone_bureau',$tel);
-      return $this;
-      }
-
-      public function setTelephoneMobile($tel) {
-      if(!$tel){
-      $this->_set('telephone_mobile',$this->getSociete()->getMasterCompte()->telephone_mobile);
-      return $this;
-      }
-      $this->_set('telephone_mobile',$tel);
-      return $this;
-      }
-
-      public function setTelephonePerso($tel) {
-      if(!$tel){
-      $this->_set('telephone_perso',$this->getSociete()->getMasterCompte()->telephone_perso);
-      return $this;
-      }
-      $this->_set('telephone_perso',$tel);
-      return $this;
-      }
-
-      public function setFax($fax) {
-      if(!$fax){
-      $this->_set('fax',$this->getSociete()->getMasterCompte()->fax);
-      return $this;
-      }
-      $this->_set('fax',$fax);
-      return $this;
-      }
-
-      public function setEmail($email) {
-      if(!$email){
-      $this->_set('email',$this->getSociete()->getMasterCompte()->email);
-      return $this;
-      }
-      return $this->_set('email', $email);
-      }
-     */
 }

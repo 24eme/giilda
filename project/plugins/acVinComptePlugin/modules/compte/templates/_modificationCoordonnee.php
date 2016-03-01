@@ -3,7 +3,6 @@ $isCompteSociete = isset($isCompteSociete) && $isCompteSociete;
 $colClass = ($isCompteSociete) ? 'col-xs-8' : 'col-xs-4';
 $isSameAdresseThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameAdresseThanSociete();
 $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSameContactThanSociete();
-
 ?>
 <div id="coordonnees_modification">
 

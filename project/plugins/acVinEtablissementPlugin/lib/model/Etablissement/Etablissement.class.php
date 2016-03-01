@@ -190,15 +190,15 @@ class Etablissement extends BaseEtablissement {
         return ($this->region != EtablissementClient::REGION_HORS_CVO);
     }
 
-    protected function synchroRecetteLocale() {
-        if ($this->recette_locale->id_douane) {
-            $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
-            if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
-                $this->recette_locale->nom = $soc->raison_sociale;
-                $this->recette_locale->ville = $soc->siege->commune;
-            }
-        }
-    }
+//    protected function synchroRecetteLocale() {
+//        if ($this->recette_locale->id_douane) {
+//            $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
+//            if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
+//                $this->recette_locale->nom = $soc->raison_sociale;
+//                $this->recette_locale->ville = $soc->siege->commune;
+//            }
+//        }
+//    }
 
     protected function initFamille() {
         if (!$this->famille) {
@@ -256,8 +256,10 @@ class Etablissement extends BaseEtablissement {
         $compte->save(false, true);
     }
 
-    public function save($fromsociete = false, $fromclient = false, $fromcompte = false) {
-        $this->constructId();
+    public function save(){ //($fromsociete = false, $fromclient = false, $fromcompte = false) {
+        
+        
+      /*$this->constructId();
         $this->synchroRecetteLocale();
         $this->initFamille();
         $this->synchroFromSociete();
@@ -265,6 +267,7 @@ class Etablissement extends BaseEtablissement {
         if (!$fromclient) {
             if (!$this->compte) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
+            
                 $compte->constructId();
                 $compte->statut = $this->statut;
                 $this->compte = $compte->_id;
@@ -272,10 +275,10 @@ class Etablissement extends BaseEtablissement {
                 $compte->save(true, true);
             }
         }
-
-        if ($this->isViticulteur() && $this->type_dr == EtablissementClient::TYPE_DR_DRA) {
-            $this->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
-        }
+//
+//        if ($this->isViticulteur() && $this->type_dr == EtablissementClient::TYPE_DR_DRA) {
+//            $this->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
+//        }
 
         parent::save();
 
@@ -284,7 +287,7 @@ class Etablissement extends BaseEtablissement {
             if (!$fromcompte) {
                 $this->synchroAndSaveCompte();
             }
-        }
+        }*/
     }
 
     public function isActif() {

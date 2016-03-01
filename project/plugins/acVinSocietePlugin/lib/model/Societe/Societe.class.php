@@ -100,8 +100,8 @@ class Societe extends BaseSociete {
         $etablissements = array();
         foreach ($this->etablissements as $id => $obj) {
             $etb = EtablissementClient::getInstance()->find($id);
-            if(!$withSuspendu){
-                if(!$etb->isActif()){
+            if (!$withSuspendu) {
+                if (!$etb->isActif()) {
                     continue;
                 }
             }
@@ -196,7 +196,6 @@ class Societe extends BaseSociete {
     }
 
     public function getMasterCompte() {
-
         return CompteClient::getInstance()->find($this->compte_societe);
     }
 
@@ -220,7 +219,7 @@ class Societe extends BaseSociete {
     public function isOperateur() {
         return SocieteClient::TYPE_OPERATEUR == $this->type_societe;
     }
-    
+
     public function isTransaction() {
         return $this->isNegoOrViti() || $this->isCourtier();
     }
@@ -234,12 +233,12 @@ class Societe extends BaseSociete {
     }
 
     public function isViticulteur() {
-        if($this->type_societe != SocieteClient::TYPE_OPERATEUR){
+        if ($this->type_societe != SocieteClient::TYPE_OPERATEUR) {
             return false;
         }
-        
-       foreach ($this->getEtablissementsObj() as $id => $e) {
-            if($e->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR){
+
+        foreach ($this->getEtablissementsObj() as $id => $e) {
+            if ($e->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                 return true;
             }
         }
@@ -247,12 +246,12 @@ class Societe extends BaseSociete {
     }
 
     public function isNegociant() {
-        if($this->type_societe != SocieteClient::TYPE_OPERATEUR){
+        if ($this->type_societe != SocieteClient::TYPE_OPERATEUR) {
             return false;
         }
-        
-       foreach ($this->getEtablissementsObj() as $id => $e) {
-            if($e->famille == EtablissementFamilles::FAMILLE_NEGOCIANT){
+
+        foreach ($this->getEtablissementsObj() as $id => $e) {
+            if ($e->famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
                 return true;
             }
         }
@@ -279,12 +278,11 @@ class Societe extends BaseSociete {
         $compte = $this->getMasterCompte();
 
         if (!$compte) {
-
-            throw new sfException("Pas de compte societe. Bizarre !");
+            return;
         }
 
-        $this->siege->adresse = $compte->adresse;
         if ($compte->exist("adresse_complementaire")) {
+            $this->siege->adresse = $compte->adresse;
             $this->siege->add("adresse_complementaire", $compte->adresse_complementaire);
         }
         $this->siege->code_postal = $compte->code_postal;
@@ -306,7 +304,7 @@ class Societe extends BaseSociete {
         $compte->nom = $this->raison_sociale;
         $compte->updateNomAAfficher();
         $compte->statut = $this->statut;
-        $compte->mot_de_passe = "{TEXT}".sprintf("%04d", rand(0, 9999));
+        $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(0, 9999));
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
         return $compte;
@@ -342,22 +340,30 @@ class Societe extends BaseSociete {
         return $this->_get('date_modification');
     }
 
-    public function save($fromCompte = false) {
+    public function save() { //$fromCompte = false) {
         $this->add('date_modification', date('Y-m-d'));
-        if ($fromCompte) {
-            return parent::save();
-        }
+
+        /*
+          if ($fromCompte) {
+          return parent::save();
+          }
+
+
+
+
+          $this->changedCooperative = false;
+          $this->changedStatut = false; */
+
+//        $this->synchroAndSaveEtablissement();
+        //$this->synchroAndSaveCompte();
 
         if (!$this->compte_societe) {
             $compte = $this->createCompteSociete();
             parent::save();
-            $compte->save(true);
+            $compte->save();
         }
+        $this->synchroFromCompte();
 
-        $this->synchroAndSaveEtablissement();
-        $this->synchroAndSaveCompte();
-        $this->changedCooperative = false;
-        $this->changedStatut = false;              
         return parent::save();
     }
 
@@ -381,9 +387,7 @@ class Societe extends BaseSociete {
             return $this->email;
         }
         $compteSociete = $this->getMasterCompte();
-        if ($compteSociete->exist('societe_information')
-                && $compteSociete->societe_information->exist('email')
-                &&  $compteSociete->societe_information->email) {
+        if ($compteSociete->exist('societe_information') && $compteSociete->societe_information->exist('email') && $compteSociete->societe_information->email) {
             return $compteSociete->societe_information->email;
         }
         return $compteSociete->email;
@@ -397,20 +401,20 @@ class Societe extends BaseSociete {
         $c = $this->_get('commentaire');
         $c1 = $this->getContact()->get('commentaire');
         if ($c && $c1) {
-            return $c."\n".$c1;
+            return $c . "\n" . $c1;
         }
         if ($c) {
             return $c;
         }
-        if ($c1){
+        if ($c1) {
             return $c1;
         }
     }
-    
+
     public function addCommentaire($s) {
         $c = $this->get('commentaire');
         if ($c) {
-            return $this->_set('commentaire', $c."\n".$s);
+            return $this->_set('commentaire', $c . "\n" . $s);
         }
         return $this->_set('commentaire', $s);
     }

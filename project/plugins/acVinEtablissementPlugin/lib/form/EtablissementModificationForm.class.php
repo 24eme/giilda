@@ -16,8 +16,7 @@ class EtablissementModificationForm extends CompteForm {
 
     public function __construct(Etablissement $etablissement, $options = array(), $CSRFSecret = null) {
         $this->etablissement = $etablissement;
-   //     $this->liaisons_operateurs = $etablissement->liaisons_operateurs;
-        parent::__construct($etablissement->getMasterCompte(), $options, $CSRFSecret);
+        parent::__construct($etablissement->getMasterCompte(), array('etablissement' => true), $CSRFSecret);
     }
 
     public function configure() {
@@ -25,7 +24,6 @@ class EtablissementModificationForm extends CompteForm {
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
         $this->setWidget('region', new bsWidgetFormChoice(array('choices' => $this->getRegions())));
-      //  $this->embedForm('liaisons_operateurs', new LiaisonsItemForm($this->getObject()->liaisons_operateurs));
         $this->setWidget('no_accises', new bsWidgetFormInput());
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new bsWidgetFormInput());
@@ -89,11 +87,29 @@ class EtablissementModificationForm extends CompteForm {
         return EtablissementClient::getTypeDR();
     }
 
-    protected function doSave($con = null) {
-        if (null === $con) {
-            $con = $this->getConnection();
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $this->etablissement->setNom($values['nom']);        
+        $this->etablissement->setStatut($values['statut']);        
+        $this->etablissement->setRegion($values['region']);        
+        $this->etablissement->setSiteFiche($values['site_fiche']);       
+        $this->etablissement->setNoAccises($values['no_accises']);        
+        $this->etablissement->setCommentaire($values['commentaire']);
+        
+         if (!$this->etablissement->isCourtier()) {
+            $this->etablissement->setCvi($values['cvi']);        
+        } else {
+            $this->etablissement->setCartePro($values['carte_pro']);
         }
-        $this->updateObject();
+        $this->etablissement->save();
+    }
+    
+    
+//    protected function doSave($con = null) {
+//        if (null === $con) {
+//            $con = $this->getConnection();
+//        }
+//        $this->updateObject();
         /*
         $this->etablissement->remove('liaisons_operateurs');
         $this->etablissement->add('liaisons_operateurs');
@@ -107,27 +123,28 @@ class EtablissementModificationForm extends CompteForm {
 //        if($this->values['recette_locale_choice']){
 //            $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
 //        }
+       
+//        $old_compte = $this->etablissement->compte;
+//        $switch = false;
+//         if($this->values['adresse_societe'] && !is_null($this->values['statut']) && !$this->etablissement->getSociete()->isManyEtbPrincipalActif()
+//            && ($this->values['statut'] != ($socStatut = $this->etablissement->getSociete()->statut))){
+//                throw new sfException("Il s'agit de l'établissement pricipal de la société, il ne peut être suspendu. Pour le suspendre, vous devez suspendre la société.");
+//        }
+//        if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){           
+//           $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
+//           $switch = true;
+//        } elseif(!$this->values['adresse_societe'] && $this->etablissement->isSameContactThanSociete()) {
+//           $this->etablissement->compte = null;
+//           $switch = true;
+//        }
+//        var_dump($this->getObject()->cvi); exit;
+//        $this->etablissement->save();
         
-        $old_compte = $this->etablissement->compte;
-        $switch = false;
-         if($this->values['adresse_societe'] && !is_null($this->values['statut']) && !$this->etablissement->getSociete()->isManyEtbPrincipalActif()
-            && ($this->values['statut'] != ($socStatut = $this->etablissement->getSociete()->statut))){
-                throw new sfException("Il s'agit de l'établissement pricipal de la société, il ne peut être suspendu. Pour le suspendre, vous devez suspendre la société.");
-        }
-        if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){           
-           $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
-           $switch = true;
-        } elseif(!$this->values['adresse_societe'] && $this->etablissement->isSameContactThanSociete()) {
-           $this->etablissement->compte = null;
-           $switch = true;
-        }
-        $this->etablissement->save();
-        
-        if($switch) {
-            $this->etablissement->switchOrigineAndSaveCompte($old_compte);
-            $this->etablissement->save();
-        }
-    }
+//        if($switch) {
+//            $this->etablissement->switchOrigineAndSaveCompte($old_compte);
+//            $this->etablissement->save();
+//        }         
+//    }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {

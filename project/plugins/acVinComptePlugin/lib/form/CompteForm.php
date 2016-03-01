@@ -13,12 +13,15 @@ class CompteForm extends acCouchdbObjectForm {
 
     private $compte;
     private $societeCompte;
+    private $isEtablissement = false;
 
     public function __construct(Compte $compte, $options = array(), $CSRFSecret = null) {
         $this->compte = $compte;
         $this->societeCompte = $this->compte->getSociete()->getMasterCompte();
+        $this->isEtablissement = array_key_exists('etablissement',$options) && $options['etablissement'];
+               
         parent::__construct($compte, $options, $CSRFSecret);
-        if ($this->compte->isSocieteContact()) {
+        if ($this->compte->isSocieteContact() && !$this->isEtablissement) {
             $this->defaults['pays'] = 'FR';
         }
     }
