@@ -245,6 +245,14 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
         famille = "PRODUCTEUR";
     }
 
+    if(famille != "PRODUCTEUR") {
+        cvi="";
+    }
+
+    if(famille != "COURTIER") {
+        cartepro="";
+    }
+
     region="REGION_CVO";
 
     print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" naccises ";" cartepro ";;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
