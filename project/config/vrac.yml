@@ -17,6 +17,11 @@ ivso:
         "COMPTANT": "Comptant"
         "ACCORD_INTERPROFESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
         "45_JOURS": "45 jours à compter du mois d'émission de la facture"
+      moyens_paiement:
+        "VIREMENT": "Virement bancaire"
+        "CB": "Carte bancaire"
+        "CHEQUE": "Chèque"
+        "ESPECES": "Espèces"
 ivbd:
   configuration:
     vrac:
@@ -42,11 +47,23 @@ ivbd:
           "prix_initial_unitaire":
             "cle": "EURO_TONNEAU"
             "libelle": "€/T"
+      moyens_paiement:
+        "TRAITE": "Traite"
+        "CHEQUE": "Chèque"
+        "VIREMENT": "Virement"
+        "CB": "Carte bancaire"
+        "VALEURS": "Valeurs"
+        "ESPECES": "Espèces"
+        "BILLET_ORDRE": "Billet à ordre"
+        "AUTRE": "Autre / non précisé"
       delais_paiement:
-        "COMPTANT": "Comptant"
-        "30_JOURS": "30 jours fin de mois"
-        "45_JOURS": "45 jours fin de mois"
-        "60_JOURS": "60 jours fin de mois"
-        "75_JOURS": "75 jours fin de mois"
+        "60_JOURS": "60 jours"
+        "75_JOURS": "75 jours"
+        "45_JOURS": "45 jours"
+        "30_JOURS": "30 jours"
+        "10_JOURS": "10 jours"
+        "PLUS_75_JOURS": "Au-delà de 75 jours"
+        "COMPTANT": "A réception de facture / comptant"
+        "AUTRE": "Autre / non précisé"
       transactions:
         "VIN_VRAC": "<span class=\"icon-vrac\" style=\"font-size: 32px;\"></span> Vrac retiraison vrac"
