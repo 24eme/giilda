@@ -31,7 +31,7 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_VOLUME = 13;
     const CSV_CAVE_EXPORTPAYS = 14;
     const CSV_CAVE_CONTRATID = 15;
-    const CSV_CAVE_COMMENTAIRE = 17;
+    const CSV_CAVE_COMMENTAIRE = 16;
     const CSV_CRD_GENRE = 4;
     const CSV_CRD_COULEUR = 5;
     const CSV_CRD_CENTILITRAGE = 6;

@@ -523,8 +523,9 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     modificatrice=(corrective == "True" || regularisatrice == "True");
 
+
     if(modificatrice) {
-        commentaire=commentaire " - Mouvement correctif de " mouvement_extravitis;
+        commentaire=commentaire "Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if(!mouvement_extravitis) {
@@ -580,13 +581,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
         mouvement="consommationfamilialedegustation";
-        commentaire="Autres exonérations";
+        commentaire="Autres exonérations de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
         catmouvement="entrees"
         mouvement="regularisation";
-        commentaire="Autres entrées du mois";
+        commentaire="Autres entrées du mois de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
@@ -607,14 +608,14 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         catmouvement = "entrees";
         mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
-        commentaire= commentaire " - Sortie négative " mouvement_extravitis;
+        commentaire= commentaire "Sortie négative " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if((volume * 1) < 0 && catmouvement == "entrees" && !modificatrice) {
         catmouvement = "sorties";
         mouvement = "destructionperte";
         volume = volume * -1;
-        commentaire= commentaire " - Entrée négative " mouvement_extravitis;
+        commentaire= commentaire "Entrée négative " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if(mouvement == "initial" && catmouvement =="stocks_debut" && modificatrice) {
@@ -653,7 +654,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        commentaire = commentaire " - Mouvement correctif de vrac";
+        commentaire = commentaire "Mouvement correctif vrac de " volume " hl\\n";
     }
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";" commentaire;
@@ -689,14 +690,14 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        commentaire = commentaire " - Mouvement correctif export";
+        commentaire = commentaire "Mouvement correctif export de " volume " hl\\n";
     }
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;" commentaire;
 }' > $DATA_DIR/drm_cave_export.csv
 
 #Génération finale
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux"  | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv 
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | grep -v ";St émilion" | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201208.csv
 
