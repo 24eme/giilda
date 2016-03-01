@@ -145,6 +145,8 @@ join -t ";" -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles_
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | awk -F ";" '
 {
     identifiant=sprintf("%06d", $2);
+    code_comptable_client=$2;
+    code_comptable_fournisseur="";
     nom=gensub(/[ ]+/, " ", "g", $12 " " $14 " " $13);
     statut=($20 || $22) ? "SUSPENDU" : "ACTIF";
     adresse1=$39;
@@ -175,7 +177,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
         famille="COURTIER";
     }
 
-    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire ";"
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire ";"
 }' | sort | uniq > $DATA_DIR/societes.csv
 
 # --- Récupération du Numéro de courtier ---

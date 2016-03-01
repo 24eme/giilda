@@ -7,26 +7,27 @@ class SocieteCsvFile extends CompteCsvFile
     const CSV_NOM = 2;
     const CSV_NOM_REDUIT = 3;
     const CSV_STATUT = 4;
-    const CSV_TYPE_FOURNISSEUR = 5;
-    const CSV_SIRET = 6;
-    const CSV_CODE_NAF = 7;
-    const CSV_TVA_INTRACOMMUNAUTAIRE = 8;
-    const CSV_ADRESSE = 9;
-    const CSV_ADRESSE_COMPLEMENTAIRE_1 = 10;
-    const CSV_ADRESSE_COMPLEMENTAIRE_2 = 11;
-    const CSV_ADRESSE_COMPLEMENTAIRE_3 = 12;
-    const CSV_CODE_POSTAL = 13;
-    const CSV_COMMUNE = 14;
-    const CSV_INSEE = 15;
-    const CSV_CEDEX = 16;
-    const CSV_PAYS = 17;
-    const CSV_EMAIL = 18;
-    const CSV_TEL_BUREAU = 19;
-    const CSV_TEL_PERSO = 20;
-    const CSV_MOBILE = 21;
-    const CSV_FAX = 22;
-    const CSV_WEB = 23;
-    const CSV_COMMENTAIRE = 24; 
+    const CSV_CODE_COMPTABLE_CLIENT = 5;
+    const CSV_CODE_COMPTABLE_FOURNISSEUR = 6;
+    const CSV_SIRET = 7;
+    const CSV_CODE_NAF = 8;
+    const CSV_TVA_INTRACOMMUNAUTAIRE = 9;
+    const CSV_ADRESSE = 10;
+    const CSV_ADRESSE_COMPLEMENTAIRE_1 = 11;
+    const CSV_ADRESSE_COMPLEMENTAIRE_2 = 12;
+    const CSV_ADRESSE_COMPLEMENTAIRE_3 = 13;
+    const CSV_CODE_POSTAL = 14;
+    const CSV_COMMUNE = 15;
+    const CSV_INSEE = 16;
+    const CSV_CEDEX = 17;
+    const CSV_PAYS = 18;
+    const CSV_EMAIL = 19;
+    const CSV_TEL_BUREAU = 20;
+    const CSV_TEL_PERSO = 21;
+    const CSV_MOBILE = 22;
+    const CSV_FAX = 23;
+    const CSV_WEB = 24;
+    const CSV_COMMENTAIRE = 25; 
 
     private function verifyCsvLine($line) {
         if (!preg_match('/[0-9]+/', $line[self::CSV_ID]) || ((int) $line[self::CSV_ID]) == 0) {
@@ -60,6 +61,17 @@ class SocieteCsvFile extends CompteCsvFile
                 $s->code_naf = str_replace(" ", "", $line[self::CSV_CODE_NAF]);
                 $s->no_tva_intracommunautaire = str_replace(" ", "", $line[self::CSV_TVA_INTRACOMMUNAUTAIRE]);
                 $s->commentaire = $line[self::CSV_COMMENTAIRE];
+
+                $s->code_comptable_client = $line[self::CSV_CODE_COMPTABLE_CLIENT];
+                $s->code_comptable_fournisseur = null;
+                if($line[self::CSV_CODE_COMPTABLE_FOURNISSEUR]) {
+                    $s->code_comptable_fournisseur = $line[self::CSV_CODE_COMPTABLE_FOURNISSEUR];
+                }
+
+                if(!$s->code_comptable_client) {
+                    printf("Warning : le code comptable client n'existe pas #%s\n", implode(";", $line));
+                }
+
                 /*if ($line[self::CSV_COOPGROUP] == 'C') {
               		$s->cooperative = 1;
                 }*/
