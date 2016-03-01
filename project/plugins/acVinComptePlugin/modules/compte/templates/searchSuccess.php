@@ -1,7 +1,7 @@
 <?php use_helper('Compte') ?>
 
 <ol class="breadcrumb">
-    <li class="active"><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+    <li class="active"><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
 </ol>
 
 <script type="text/javascript">
@@ -125,48 +125,31 @@
         <p style="margin-top: 10px;"><strong><?php echo $nb_results; ?></strong> résultat(s) trouvé(s)</p>
     </div>
 
-	<?php if (count($selected_typetags)) :  ?>
-		<div class="col-xs-12">
-			<h4>Tags sélectionnés</h4>
-					<?php foreach($selected_typetags as $type => $selected_tags) : ?>
-                        <h6><?php echo ucfirst($type); ?></h6>
-						<div class="list-group">
-							<?php foreach($selected_tags as $t) {
-								$targs = $args_copy->getRawValue();
-								$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
-								echo '<a class="list-group-item list-group-item-xs" href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>';
-								$targs = $args_copy->getRawValue();
-								$targs['tag'] = $t;
-								if ($type == 'manuel') {
-								  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'">X</a>)';
-								}
-								echo '';
-								} ?>
-						</div>
-					<?php endforeach ?>
-		</div>
-	<?php endif; ?>
-
 	<div class="col-xs-12">
-		<h4>Tags disponibles</h4>
-            <?php foreach($facets as $type => $ftype): ?>
+            <?php $tagsManuels = array(); foreach($facets as $type => $ftype): ?>
                 <?php if (count($ftype['buckets'])): ?>
-                <h6><?php echo ucfirst($type) ?></h6>
+                <h4>Tags <?php echo $type ?></h4>
 		           <div class="list-group">
                     <?php foreach($ftype['buckets'] as $f): ?>
                         <?php if (preg_match('/^(export|produit)_/', $f['key'])) { continue; } ?>
 
     					<?php $targs = $args_copy->getRawValue(); ?>
-    					<?php $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key']))); ?>
-    					  <a class="list-group-item list-group-item-xs" href="<?php echo url_for('compte_search', $targs) ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge"><?php echo $f['doc_count'] ?></span></a>
+    					<?php 
+    						$targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key']))); 
+    						$sargs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$f['key'])));
+    						$active = (isset($selected_typetags->getRawValue()[$type]) && in_array($f['key'], $selected_typetags->getRawValue()[$type]))? 'active' : '';
+    						if ($type == 'manuel') {
+    							$tagsManuels[] = $f['key'];
+    						}
+    					?>
+    					  <a class="list-group-item list-group-item-xs <?php echo $active ?>" href="<?php echo ($active)? url_for('compte_search', $sargs) : url_for('compte_search', $targs); ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge"><?php echo $f['doc_count'] ?></span></a>
 					<?php endforeach; ?>
 					</div>
 			    <?php endif; ?>
 			<?php endforeach; ?>
-		</ul>
 	</div>
 
-            <?php if(isset($args_copy)): ?>
+    <?php if(isset($args_copy)): ?>
 	<div class="col-xs-12">
 		<h4>Créer un tag</h4>
 		<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
@@ -181,6 +164,27 @@
 		<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
 		</form>
 	</div>
+	<?php if ($tagsManuels): ?>
+	<div class="col-xs-12">
+		<h4>Supprimer un tag</h4>
+		<form class="form_ajout_tag" action="<?php echo url_for('compte_removetag', $args_copy->getRawValue()); ?>" method="GET">
+        <div class="input-group">
+            <select id="suppr_tag" name="tag" class="form-control">
+            	<option value=""></option>
+            	<?php foreach ($tagsManuels as $tm): ?>
+            	<option value="<?php echo $tm ?>"><?php echo $tm ?></option>
+            	<?php endforeach; ?>
+            </select>
+			<span class="input-group-btn">
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-remove"></span></button>
+            </span>
+        </div>
+
+		<input type="hidden" name="q" value="<?php echo $q;?>"/>
+		<input type="hidden" name="tags" value="<?php echo implode(',', $selected_rawtags->getRawValue()); ?>"/>
+		</form>
+	</div>
+	<?php endif; ?>
     <?php endif; ?>
 </section>
 </div>

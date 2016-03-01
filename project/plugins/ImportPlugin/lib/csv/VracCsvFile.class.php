@@ -186,7 +186,7 @@ class VracCsvFile extends CsvFile {
 
                 $v->taux_courtage = null;
                 if($line[self::CSV_TAUX_COURTAGE]) {
-                    $v->taux_courtage = $this->verifyAndFormatTauxCourtage();
+                    $v->taux_courtage = $this->verifyAndFormatTauxCourtage($line);
                 }
                 $v->courtage_repartition = null;
                 if($line[self::CSV_REPARTITION_COURTAGE]) {

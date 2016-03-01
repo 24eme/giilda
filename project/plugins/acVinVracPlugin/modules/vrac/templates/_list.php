@@ -27,111 +27,108 @@
         <?php
         foreach ($vracs->rows as $value) {
             $elt = $value->getRawValue()->value;
-                $vracid = preg_replace('/VRAC-/', '', $elt[VracHistoryView::VALUE_NUMERO]);
-                $v = VracClient::getInstance()->findByNumContrat($vracid);
+                $v = VracClient::getInstance()->find($value->id, acCouchdbClient::HYDRATE_JSON);
                 ?>
-                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($elt[VracHistoryView::VALUE_ACHETEUR_NOM]), 
-                                                                         strtolower($elt[VracHistoryView::VALUE_VENDEUR_NOM]), 
-                                                                         strtolower($elt[VracHistoryView::VALUE_MANDATAIRE_NOM]), 
-                                                                         strtolower($elt[VracHistoryView::VALUE_PRODUITLIBELLE]), 
-                                                                         strtolower($elt[VracClient::VRAC_VIEW_NUMARCHIVE]), 
-                                                                         strtolower($elt[VracHistoryView::VALUE_MILLESIME]), 
-                                                                         strtolower(VracClient::$types_transaction[$elt[VracHistoryView::VALUE_TYPE]]))
-                                                       ), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo vrac_get_id($value) ?>" class="<?php echo statusCssClass($elt[VracHistoryView::VALUE_STATUT]) ?> hamzastyle-item" >
-                    <td style="vertical-align: middle;" class="text-center">
-                    <span class="<?php echo typeToPictoCssClass($elt[VracHistoryView::VALUE_TYPE]) ?>" style="font-size: 24px;"></span>
-                    <?php if($elt[VracHistoryView::VALUE_STATUT]): ?>
-                    <a href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">
-                    <?php else: ?>
-                    <a href="<?php echo url_for('@vrac_redirect_saisie?numero_contrat='.$vracid) ?>">
-                    <?php endif; ?>
-                    <?php if($v->numero_archive): ?>
-                    <?php echo $v->numero_archive ?>
-                    <?php elseif(!$elt[VracHistoryView::VALUE_STATUT]): ?>
-                        Brouillon
-                    <?php else: ?>
-                        Non visé
-                    <?php endif; ?>
-                    </a>
-                    <br />
-                    <?php if($v && $v->isTeledeclare()): ?>
-                    Télédeclaré
-                    <?php endif; ?>
-                    <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($elt[VracHistoryView::VALUE_NUMERO]) ?></span>
+                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($v->acheteur->nom), 
+                                                                         strtolower($v->vendeur->nom), 
+                                                                         strtolower($v->mandataire->nom), 
+                                                                         strtolower($v->produit_libelle), 
+                                                                         strtolower($v->numero_archive), 
+                                                                         strtolower($v->millesime), 
+                                                                         strtolower(VracClient::$types_transaction[$v->type_transaction]))
+                                                       ), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo vrac_get_id($value) ?>" 
+                    class="<?php echo statusCssClass($v->valide->statut) ?> hamzastyle-item vertical-center">
+
+                    <td class="text-center">
+                        <span class="<?php echo typeToPictoCssClass($v->type_transaction) ?>" style="font-size: 24px;"></span>
+                        <?php if($v->valide->statut): ?>
+                        <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $v->numero_contrat)) ?>">
+                        <?php else: ?>
+                        <a href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $v->numero_contrat)) ?>">
+                        <?php endif; ?>
+                        <?php if($v->numero_archive): ?><?php echo $v->numero_archive ?><?php elseif(!$v->valide->statut): ?>Brouillon<?php else: ?>Non visé<?php endif; ?>
+                        </a>
+                        <br />
+                        <?php if($v && isset($v->teledeclare) && $v->teledeclare): ?>
+                        Télédeclaré
+                        <?php endif; ?>
+                        <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($v->numero_contrat) ?></span>
                     </td>
-                    <td style="vertical-align: middle;">
-                    <?php if($elt[VracHistoryView::VALUE_STATUT] && $elt[VracHistoryView::VALUE_DATE_SIGNATURE]): ?>
-            <span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SIGNATURE], "dd/MM/yyyy", "fr_FR"); ?><br/>
-                    <?php else: ?>
-                    <?php endif; ?>
-                    <?php if($elt[VracHistoryView::VALUE_DATE_SAISIE]): ?>
-                           <span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de saisie (validation interpro)"></span> <?php echo format_date($elt[VracHistoryView::VALUE_DATE_SAISIE], "dd/MM/yyyy", "fr_FR"); ?></span>
-                    <?php else: ?>
-                    <?php endif; ?>
+
+                    <td>
+                        <?php if($v->valide->statut && $v->date_signature): ?>
+                            <span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> <?php echo format_date($v->date_signature, "dd/MM/yyyy", "fr_FR"); ?><br/>
+                        <?php else: ?>
+                        <?php endif; ?>
+                        <?php if($v->valide->date_saisie): ?>
+                               <span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de saisie (validation interpro)"></span> <?php echo format_date($v->valide->date_saisie, "dd/MM/yyyy", "fr_FR"); ?></span>
+                        <?php else: ?>
+                        <?php endif; ?>
                     </td>
-                    <td style="vertical-align: middle;">
+
+                    <td>
         <?php
-        echo ($elt[VracHistoryView::VALUE_VENDEUR_ID]) ?
-                'Vendeur : ' . link_to($elt[VracHistoryView::VALUE_VENDEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_VENDEUR_ID])) : '';
+        echo ($v->vendeur_identifiant) ?
+                'Vendeur : ' . link_to($v->vendeur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->vendeur_identifiant)) : '';
         ?>
         <br />
         <?php
-        echo ($elt[VracHistoryView::VALUE_ACHETEUR_ID]) ?
-                'Acheteur : ' . link_to($elt[VracHistoryView::VALUE_ACHETEUR_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_ACHETEUR_ID])) : '';
+        echo ($v->acheteur_identifiant) ?
+                'Acheteur : ' . link_to($v->acheteur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->acheteur_identifiant)) : '';
             ?>
         <?php
-            $has_representant = ($elt[VracHistoryView::VALUE_REPRESENTANT_ID] != $elt[VracHistoryView::VALUE_VENDEUR_ID]) ? $elt[VracHistoryView::VALUE_REPRESENTANT_ID] : 0;
+            $has_representant = ($v->representant_identifiant != $v->vendeur_identifiant) ? $v->representant_identifiant : 0;
             if ($has_representant) echo '<br/>';
             echo ($has_representant) ?
-                'Representant : ' . link_to($elt[VracHistoryView::VALUE_REPRESENTANT_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_REPRESENTANT_ID])) : '';
+                'Representant : ' . link_to($v->representant->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->representant_identifiant)) : '';
             ?>
-        <?php if($elt[VracHistoryView::VALUE_MANDATAIRE_ID]): ?>
+        <?php if($v->mandataire_identifiant): ?>
             <br />
         <?php
-        echo ($elt[VracHistoryView::VALUE_MANDATAIRE_ID]) ?
-                'Courtier : ' . link_to($elt[VracHistoryView::VALUE_MANDATAIRE_NOM], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $elt[VracHistoryView::VALUE_MANDATAIRE_ID])) : '';
+        echo ($v->mandataire_identifiant) ?
+                'Courtier : ' . link_to($v->mandataire->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->mandataire_identifiant)) : '';
         ?>
                             </li>
         <?php endif; ?>
                         </ul>
-                    </td>              
-                    <td style="vertical-align: middle;"><?php
+                    </td>
 
-            $produit = ($elt[VracHistoryView::VALUE_TYPE] == VracClient::TYPE_TRANSACTION_VIN_VRAC || $elt[VracHistoryView::VALUE_TYPE] == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $elt[VracHistoryView::VALUE_PRODUITLIBELLE] : $elt[VracHistoryView::VALUE_CEPAGELIBELLE];
-            $millesime = $elt[VracHistoryView::VALUE_MILLESIME] ? $elt[VracHistoryView::VALUE_MILLESIME] : 'nm';
+                    <td><?php
+
+            $produit = ($v->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC || $v->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $v->produit_libelle : $v->cepage_libelle;
+            $millesime = $v->millesime ? $v->millesime : 'nm';
             if ($produit)
                 echo "<b>$produit</b> ($millesime)";?></td>
-                     <td style="vertical-align: middle;" class="text-right">           
+                     <td class="text-right">           
         <?php
-        if (isset($elt[VracHistoryView::VALUE_VOLUME_PROPOSE])) {
-            echoFloat($elt[VracHistoryView::VALUE_VOLUME_PROPOSE]);
-            echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['volume_initial']['libelle'].'<br/>';
+        if (isset($v->volume_propose)) {
+            echoFloat($v->volume_propose);
+            echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_initial']['libelle'].'<br/>';
             echo '<span class="text-muted">';
-            if ($elt[VracHistoryView::VALUE_VOLUME_ENLEVE]) {
-                echoFloat($elt[VracHistoryView::VALUE_VOLUME_ENLEVE]);
-                echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['volume_vigueur']['libelle'];
+            if ($v->volume_enleve) {
+                echoFloat($v->volume_enleve);
+                echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_vigueur']['libelle'];
             }else{
-                echo '0.00&nbsp;'.VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['volume_vigueur']['libelle'];
+                echo '0.00&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_vigueur']['libelle'];
             }
             echo '</span>';
         }
         ?>
                     </td>
-                    <td style="vertical-align: middle;" class="text-right">
+                    <td class="text-right">
                          
-        <?php
-            if (isset($elt[VracHistoryView::VALUE_PRIX_UNITAIRE_INITIAL])) {
-                echoFloat($elt[VracHistoryView::VALUE_PRIX_UNITAIRE_INITIAL]);
-                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$elt[VracHistoryView::VALUE_TYPE]]['prix_initial_unitaire']['libelle'] ;
+        <?php if (isset($v->prix_initial_unitaire_hl)) {
+                echoFloat($v->prix_initial_unitaire_hl);
+                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['prix_initial_unitaire']['libelle'] ;
             }
         ?>
                     </td>
-                    <td style="vertical-align: middle;" class="text-center">
-                    <?php if($elt[VracHistoryView::VALUE_STATUT]): ?>
-                    <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_visualisation?numero_contrat='.$vracid) ?>">Visualiser</a>
-                    <?php else: ?>
-                    <a class="btn btn-sm btn-default" href="<?php echo url_for('@vrac_redirect_saisie?numero_contrat='.$vracid) ?>">Continuer</a>
-                    <?php endif; ?>
+                    <td class="text-center">
+                        <?php if($v->valide->statut): ?>
+                            <a class="btn btn-sm btn-default" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $v->numero_contrat)) ?>">Visualiser</a>
+                        <?php else: ?>
+                            <a class="btn btn-sm btn-default" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $v->numero_contrat)) ?>">Continuer</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php

@@ -165,7 +165,6 @@ class Compte extends BaseCompte {
 
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
-
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
             if ($this->hasDroit(Roles::TELEDECLARATION_VRAC)) {
                 $this->addTag('automatique', 'teledeclaration_active');
@@ -180,7 +179,43 @@ class Compte extends BaseCompte {
                 $societe->save();
             }
         }
+        
+        $societe = $this->getSociete();
+        if ($this->isSocieteContact()) {
+            $this->addTag('automatique', 'Societe');
+            $this->addTag('automatique', $societe->type_societe);
+              if($this->getFournisseurs()){
+                  $this->removeFournisseursTag();
+                  foreach ($this->getFournisseurs() as $type_fournisseur) {
+                      $this->addTag('automatique', $type_fournisseur);
+                  }
+              }
+    	}
+        
+        if($this->exist('teledeclaration_active') && $this->teledeclaration_active){
+            if($this->hasDroit(Roles::TELEDECLARATION_VRAC)){
+                $this->addTag('automatique', 'teledeclaration_active');                
+            }
+        }
+        
+    	if ($this->isEtablissementContact()) {
+    	  $this->addTag('automatique', 'Etablissement');
+          $this->addTag('automatique', $this->getEtablissement()->famille);
+    	}
+    	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
+    	  $this->addTag('automatique', 'Interlocuteur');
+    	}
+
+        if (is_null($this->adresse_societe)) {
+            $this->adresse_societe = (int) $fromsociete;
+        }
+	   $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+        
+        $this->updateNomAAfficher();
+
         parent::save();
+	$this->autoUpdateLdap();
+
     }
 
     public function synchroFromSociete($societe = null) {

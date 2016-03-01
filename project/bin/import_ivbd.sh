@@ -40,13 +40,13 @@ if test "$REMOTE_DATA"; then
         iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    file -i $TMP/data_ivbd_origin/IVBD/* | grep -E "(iso-8859-1|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -E "(iso-8859-1|unknown-8bit|us-ascii)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         #echo "$DATA_DIR/$ligne iso-8859-1"
         iconv -f iso-8859-1 -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
-    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16|unknown-8bit)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
+    file -i $TMP/data_ivbd_origin/IVBD/* | grep -Ev "(iso-8859-1|utf-16|unknown-8bit|us-ascii)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
         #echo "$DATA_DIR/$ligne autres"
         cat $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
@@ -59,6 +59,7 @@ echo "Import de la configuration"
 
 curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
 php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
+php symfony import:CVO CONFIGURATION data/import/configuration/ivbd/cvo.csv
 php symfony cc > /dev/null
 
 #Produit
@@ -97,11 +98,15 @@ cp $DATA_DIR/base_pays.sorted.csv.tmp $DATA_DIR/base_pays.sorted.csv
 
 echo "Construction des fichiers d'import des Contacts"
 
-cat $DATA_DIR/extra_ppm_attribut.csv | sort -t ";" -k 3,3 > $DATA_DIR/extra_ppm_attribut.sorted.csv
+#cat $DATA_DIR/extra_ppm_attribut.csv | sort -t ";" -k 3,3 > $DATA_DIR/extra_ppm_attribut.sorted.csv
+#cat $DATA_DIR/maitre_ppm_attribut_ref.csv | sort -t ";" -k 1,1 > $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv
+#join -t ";" -1 3 -2 1 $DATA_DIR/extra_ppm_attribut.sorted.csv $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv > $DATA_DIR/ppm_attributs.csv
 
-cat $DATA_DIR/maitre_ppm_attribut_ref.csv | sort -t ";" -k 1,1 > $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv
+cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
 
-join -t ";" -1 3 -2 1 $DATA_DIR/extra_ppm_attribut.sorted.csv $DATA_DIR/maitre_ppm_attribut_ref.sorted.csv > $DATA_DIR/ppm_attributs.csv
+cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv_mfv.sorted.csv
+
+join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 9,9 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
 
 cat $DATA_DIR/base_ppm.csv | sed -r 's/DS ([0-9]+); DRMS /DS \1. DRMS /' | sed -r 's/DRMS ([0-9]+); dernière/DRMS \1. dernière/' | sed -r 's/([0-9]+); 1ère DR/\1. 1ère DR/' | sed 's/33600 Pessac; Adresse/33600 Pessac. Adresse/' | sed -r 's/DRMS ([0-9]+); DS ([0-9]+)/DRMS \1. DS \2/' | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm.sorted.id.csv
 
@@ -118,8 +123,9 @@ join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.commun
 cat $DATA_DIR/contrats_drm.csv | cut -d ";" -f 7 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' > $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 6 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 9 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;NEGOCIANT/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;COURTIER/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;INTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 13 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;REPRESENTANT/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/evv_numero_ppm.sorted.csv | cut -d ";" -f 23 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
 
 cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv
@@ -139,6 +145,8 @@ join -t ";" -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees_communes_familles_
 cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | awk -F ";" '
 {
     identifiant=sprintf("%06d", $2);
+    code_comptable_client=$2;
+    code_comptable_fournisseur="";
     nom=gensub(/[ ]+/, " ", "g", $12 " " $14 " " $13);
     statut=($20 || $22) ? "SUSPENDU" : "ACTIF";
     adresse1=$39;
@@ -160,16 +168,16 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     mobile=$72;
     fax=$71;
     web=$74;
-    commentaire="";
+    commentaire=$16;
     famille="AUTRE";
     if($61 == "VITICULTEUR" || $61 == "NEGOCIANT" || $61 == "REPRESENTANT") {
         famille="OPERATEUR";
     }
-    if($61 == "COURTIER") {
-        famille="COURTIER";
+    if($61 == "INTERMEDIAIRE") {
+        famille="INTERMEDIAIRE";
     }
 
-    print identifiant ";" famille ";" nom ";;" statut ";;" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire ";"
 }' | sort | uniq > $DATA_DIR/societes.csv
 
 # --- Récupération du Numéro de courtier ---
@@ -188,12 +196,6 @@ echo "4063;1033" >> $DATA_DIR/courtier_numero.csv
 sort -t ";" -k 1,1 $DATA_DIR/courtier_numero.csv > $DATA_DIR/courtier_numero.sorted.csv
 # --- Fin récupération du numéro de courtier ---
 
-cat $DATA_DIR/base_evv.csv | grep -v "___VIRTUAL_EVV___" | sort -t ";" -k 1,1 > $DATA_DIR/base_evv.sorted.csv
-
-cat $DATA_DIR/base_ppm_evv_mfv.csv | sort -t ";" -k 4,4 > $DATA_DIR/base_ppm_evv_mfv.sorted.csv
-
-join -t ";" -1 1 -2 4 $DATA_DIR/base_evv.sorted.csv $DATA_DIR/base_ppm_evv_mfv.sorted.csv | sort -t ";" -k 9,9 | sed 's/CODE_IDENT_SITE_EXPLT/CODE_IDENT_SITE/' > $DATA_DIR/evv_numero_ppm.sorted.csv
-
 join -t ";" -a 1 -1 9 -2 1 -o auto $DATA_DIR/evv_numero_ppm.sorted.csv $DATA_DIR/communes.sorted.csv | sort -t ";" -k 9,9 > $DATA_DIR/evv_numero_ppm_communes.sorted.csv
 
 join -t ";" -a 1 -1 9 -2 1 -o auto $DATA_DIR/evv_numero_ppm_communes.sorted.csv $DATA_DIR/base_pays.sorted.csv | sort -t ";" -k 23,23 > $DATA_DIR/evv_numero_ppm_communes_pays.sorted.csv
@@ -208,7 +210,7 @@ join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/evv_numero_ppm_communes_pays_famill
 cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
 {
     identifiant_societe=sprintf("%06d", $1);
-    identifiant=identifiant_societe "01";
+    identifiant="";
     statut=($16 || $18) ? "SUSPENDU" : "ACTIF";
     nom=$7;
     email=""; tel_bureau=""; tel_perso=""; mobile=""; fax=""; web="";
@@ -218,6 +220,7 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
     commune=$34;
     cedex=$13;
     code_postal=$11; 
+    insee=$3;
     pays=$35;
 
     commentaire="";
@@ -233,13 +236,26 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
         famille=$36;
     }
     if(famille == "AUTRE" && cvi) {
-        famille="VITICULTEUR";
+        famille="PRODUCTEUR";
     }
     if(famille == "AUTRE") {
         next;
     }
+    
     if(famille == "VITICULTEUR") {
         famille = "PRODUCTEUR";
+    }
+
+    if(famille == "INTERMEDIAIRE") {
+        famille = "COURTIER";
+    }
+
+    if(famille != "PRODUCTEUR") {
+        cvi="";
+    }
+
+    if(famille != "COURTIER") {
+        cartepro="";
     }
 
     region="REGION_CVO";
@@ -279,6 +295,37 @@ cat $DATA_DIR/base_contact_communication_avecflottant.csv| awk -F ';' '{
     fax=$30;
     web=$33;
     commentaire="";
+
+    if (nom == "ACH") nom = "ACHATS";
+    if (nom == "BUR") nom = "BUREAU";
+    if (nom == "cha") nom = "CHAI";
+    if (nom == "CHA") nom = "CHAI";
+    if (nom == "com") nom = "COMMERCIAL";
+    if (nom == "COM") nom = "COMMERCIAL";
+    if (nom == "CON") nom = "CONFIDENTIEL";
+    if (nom == "CPT") nom = "COMPTABILITE";
+    if (nom == "CON") nom = "CONFIDENTIEL";
+    if (nom == "dir") nom = "DIRECTION";
+    if (nom == "DIR") nom = "DIRECTION";
+    if (nom == "dom") nom = "DOMICILE";
+    if (nom == "DOM") nom = "DOMICILE";
+    if (nom == "FIL") nom = "FILS/FILLE";
+    if (nom == "FRE") nom = "FRERE";
+    if (nom == "fre") nom = "FRERE";
+    if (nom == "ld") nom = "LIGNE DIRECTE";
+    if (nom == "LD") nom = "LIGNE DIRECTE";
+    if (nom == "par") nom = "PARENTS";
+    if (nom == "PAR") nom = "PARENTS";
+    if (nom == "PR") nom = "PRINCIPAL";
+    if (nom == "QUA") nom = "QUATERNAIRE";
+    if (nom == "RS") nom = "RESIDENCE SECONDAIRE";
+    if (nom == "SE") nom = "SECONDAIRE";
+    if (nom == "se") nom = "SECONDAIRE";
+    if (nom == "sec") nom = "SECRETARIAT";
+    if (nom == "SEC") nom = "SECRETARIAT";
+    if (nom == "soe") nom = "SOEUR";
+    if (nom == "TER") nom = "TERTIAIRE";
+    if (nom == "ter") nom = "TERTIAIRE";
 
     print ";" id_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";;;;;;;;;;" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
 }' | sort > $DATA_DIR/interlocuteurs.csv
@@ -491,8 +538,9 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     modificatrice=(corrective == "True" || regularisatrice == "True");
 
+
     if(modificatrice) {
-        commentaire=commentaire " - Mouvement correctif de " mouvement_extravitis;
+        commentaire=commentaire "Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if(!mouvement_extravitis) {
@@ -517,7 +565,7 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(mouvement_extravitis == "Total CRD national") {
         catmouvement="sorties"
-        mouvement="ventefrancebouteillecrd";
+        mouvement="ventefrancecrd";
     }
     if(mouvement_extravitis == "Total DCA sous contrats (droits suspendus)") {
         catmouvement="sorties"
@@ -548,13 +596,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
         mouvement="consommationfamilialedegustation";
-        commentaire="Autres exonérations";
+        commentaire="Autres exonérations de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
         catmouvement="entrees"
         mouvement="regularisation";
-        commentaire="Autres entrées du mois";
+        commentaire="Autres entrées du mois de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
@@ -575,14 +623,14 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         catmouvement = "entrees";
         mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
-        commentaire= commentaire " - Sortie négative " mouvement_extravitis;
+        commentaire= commentaire "Sortie négative " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if((volume * 1) < 0 && catmouvement == "entrees" && !modificatrice) {
         catmouvement = "sorties";
         mouvement = "destructionperte";
         volume = volume * -1;
-        commentaire= commentaire " - Entrée négative " mouvement_extravitis;
+        commentaire= commentaire "Entrée négative " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if(mouvement == "initial" && catmouvement =="stocks_debut" && modificatrice) {
@@ -621,7 +669,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        commentaire = commentaire " - Mouvement correctif de vrac";
+        commentaire = commentaire "Mouvement correctif vrac de " volume " hl\\n";
     }
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;" num_contrat ";" commentaire;
@@ -657,14 +705,14 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 
     if(corrective == "True" || regularisatrice == "True") {
 
-        commentaire = commentaire " - Mouvement correctif export";
+        commentaire = commentaire "Mouvement correctif export de " volume " hl\\n";
     }
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";" pays ";;" commentaire;
 }' > $DATA_DIR/drm_cave_export.csv
 
 #Génération finale
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv 
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | grep -v ";St émilion" | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
 cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201208.csv
 
@@ -680,10 +728,6 @@ php symfony import:etablissement $DATA_DIR/etablissements.csv
 echo "Import des interlocuteurs"
 
 php symfony import:compte $DATA_DIR/interlocuteurs.csv
-
-echo "Import des tags"
-
-php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv
 
 echo "Import des contrats"
 
@@ -717,3 +761,7 @@ cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne
 do
   php symfony drm:controle-coherence "$ligne"
 done
+
+echo "Import des tags"
+
+php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv
