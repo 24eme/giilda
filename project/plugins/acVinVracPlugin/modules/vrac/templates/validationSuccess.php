@@ -40,7 +40,7 @@
                     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
                 <?php endif; ?>
             <?php else: ?>
-                <button class="btn btn-success" type="button" data-toggle="modal" data-target="#confirm">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
+                <button class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
             <?php endif; ?>
         <?php endif; ?>
     </div>
