@@ -67,8 +67,6 @@ class vracActions extends sfActions {
 
     public function executeRecherche(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
-        $this->recherche = $this->getVracsFromRecherche($request, true);
-        //$this->form = new VracRechercheForm();
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->campagne = $request->getParameter('campagne', ConfigurationClient::getInstance()->getCurrentCampagne());
@@ -97,119 +95,6 @@ class vracActions extends sfActions {
         $this->redirect('homepage');
     }
 
-    public function executeExportHistoriqueCsv(sfWebRequest $request) {
-        $this->setLayout(false);
-
-        $file = $this->getCsvFromHistory($request, false);
-        $filename = $this->createCsvFromHistoryFilename($request);
-
-        $this->redirect403IfIsNotTeledeclarationAndNotMe();
-//        $this->forward404Unless($this->vracs);
-
-        $attachement = "attachment; filename=" . $filename . ".csv";
-
-        $this->response->setContentType('text/csv');
-        $this->response->setHttpHeader('Content-Disposition', $attachement);
-    }
-
-    private function getCsvFromHistory($request, $limited = true) {
-
-        $this->identifiant = $request['identifiant'];
-
-        $this->initSocieteAndEtablissementPrincipal();
-
-        $this->campagne = $request['campagne'];
-        if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
-            throw new sfException("wrong campagne format ($this->campagne)");
-        }
-
-        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
-
-        $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
-        $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
-
-
-        $this->vracs = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($this->societe, $this->campagne, $this->etablissement, $this->statut);
-
-        return true;
-    }
-
-    private function createCsvFromHistoryFilename($request) {
-        $filename = str_replace(' ', '_', $this->societe->raison_sociale);
-
-        $filename .= '_' . $request['campagne'];
-        if ($this->etablissement != 'tous') {
-            if (!$this->isOnlyOneEtb && ($this->etablissement != $this->etablissementPrincipal->identifiant)) {
-                $filename .= '_' . EtablissementClient::getInstance()->retrieveById($this->etablissement)->nom;
-            }
-        }
-        if ($this->statut != "tous") {
-            if ($this->statut == "SOLDENONSLODE") {
-                $filename .= '_VALIDE';
-            } else {
-                $filename .= '_' . $this->statut;
-            }
-        }
-        return $filename;
-    }
-
-    private function getVracsFromRecherche($request, $limited = true) {
-        $this->isType = isset($request['type']);
-        $this->isStatut = isset($request['statut']);
-        $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
-        $soussigneObj = EtablissementClient::getInstance()->find($this->identifiant);
-        $this->etablissement = $soussigneObj;
-        $soussigneId = 'ETABLISSEMENT-' . $this->identifiant;
-        $this->type = null;
-        $this->statut = null;
-        $this->multiCritereType = null;
-        $this->multiCritereStatut = null;
-        $this->actifs = array();
-        $this->actifs['type'] = '';
-        $this->actifs['statut'] = '';
-
-        $this->campagne = $request->getParameter('campagne', ConfigurationClient::getInstance()->getCurrentCampagne());
-        if ($this->isType && $this->isStatut) {
-            $this->statut = $request['statut'];
-            $this->type = $request['type'];
-            $this->vracs = ($limited) ?
-                    VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId, $this->campagne, $this->statut, $this->type) : VracClient::getInstance()->retrieveBySoussigneStatutAndType($soussigneId, $this->campagne, $this->statut, $this->type, false);
-            $this->actifs['statut'] = $request['statut'];
-            $this->actifs['type'] = $request['type'];
-            $this->multiCritereStatut = true;
-            $this->multiCritereType = true;
-        } elseif ($this->isStatut) {
-            $this->statut = $request['statut'];
-            $this->vracs = ($limited) ?
-                    VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId, $this->campagne, $request['statut']) : VracClient::getInstance()->retrieveBySoussigneAndStatut($soussigneId, $this->campagne, $request['statut'], false);
-            $this->actifs['statut'] = $request['statut'];
-            $this->multiCritereType = true;
-        } elseif ($this->isType) {
-            $this->type = $request['type'];
-            $this->vracs = ($limited) ?
-                    VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId, $this->campagne, $request['type']) : VracClient::getInstance()->retrieveBySoussigneAndType($soussigneId, $this->campagne, $request['type'], false);
-            $this->actifs['type'] = $request['type'];
-            $this->multiCritereStatut = true;
-        } else {
-            $this->vracs = ($limited) ?
-                    VracClient::getInstance()->retrieveBySoussigne($soussigneId, $this->campagne) : VracClient::getInstance()->retrieveBySoussigne($soussigneId, $this->campagne, false);
-        }
-
-        usort($this->vracs->rows, array("vracActions", "rechercheTriListOnID"));
-
-        $this->etablissements = array('' => '');
-        $soussignelabel = array($soussigneObj->nom, $soussigneObj->cvi, $soussigneObj->siege->commune);
-        $this->etablissements[$this->identifiant] = trim(implode(',', array_filter($soussignelabel)));
-
-        $datas = EtablissementClient::getInstance()->findAll()->rows;
-
-        foreach ($datas as $data) {
-            $labels = array($data->key[4], $data->key[3], $data->key[1]);
-            $this->etablissements[$data->id] = trim(implode(',', array_filter($labels)));
-        }
-        return true;
-    }
-
     static function rechercheTriListOnID($etb0, $etb1) {
         if ($etb0->id == $etb1->id) {
 
@@ -219,7 +104,7 @@ class vracActions extends sfActions {
     }
 
     public function executeNouveau(sfWebRequest $request) {
-
+        exit;
         $this->redirect403IfICanNotCreate();
         $isMethodPost = $request->isMethod(sfWebRequest::POST);
 
@@ -747,7 +632,8 @@ class vracActions extends sfActions {
         $this->setLayout(false);
         $filename = $this->createCsvFilename($request);
 
-        $file = $this->getVracsFromRecherche($request, false);
+
+        $this->vracs = VracClient::getInstance()->getBySoussigne($this->campagne, $this->etablissement->identifiant);
 
         $this->forward404Unless($this->vracs);
 

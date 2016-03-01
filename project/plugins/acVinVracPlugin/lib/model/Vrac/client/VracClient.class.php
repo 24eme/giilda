@@ -223,6 +223,27 @@ class VracClient extends acCouchdbClient {
                         ->getView('vrac', 'history');
     }
 
+    public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit = self::RESULTAT_LIMIT) {
+
+        if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
+            throw new sfException("wrong campagne format ($campagne)");
+
+        $allEtablissements = $societe->getEtablissementsObj();
+        $bySoussigne = array();
+        foreach ($allEtablissements as $etablissementObj) {
+            $etbId = $etablissementObj->etablissement->identifiant;
+            $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut, array()))
+                            ->endkey(array('SOCIETE', $campagne, $etbId, $statut))->descending(true);
+            if ($limit) {
+                $bySoussigneQuery = $bySoussigneQuery->limit($limit);
+            }
+            $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
+            $bySoussigne = array_merge($bySoussigne, $local_result->rows);
+        }
+        return $bySoussigne;
+    }
+
+
     public function retrieveBySocieteWithInfosLimit($societe, $etbId, $limit = self::RESULTAT_LIMIT) {
 
         $result = new stdClass();
