@@ -2,7 +2,7 @@
 <?php use_helper('Date'); ?>
 
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+    <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
     <li class="<?php echo (!isset($etablissement) && !isset($interlocuteur)) ? "active" : "" ?>"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
     <?php if (isset($etablissement)): ?>
         <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>

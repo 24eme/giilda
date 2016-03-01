@@ -1,7 +1,7 @@
 <?php use_helper('Compte') ?>
 
 <ol class="breadcrumb">
-    <li class="active"><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+    <li class="active"><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
 </ol>
 
 <script type="text/javascript">

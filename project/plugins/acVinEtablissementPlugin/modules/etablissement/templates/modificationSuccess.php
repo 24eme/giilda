@@ -1,7 +1,7 @@
 <!-- #principal -->
 <section id="principal">
     <ol class="breadcrumb">
-        <li><a href="<?php echo url_for('societe'); ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe'); ?>">Contacts</a></li>
         <li><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="glyphicon glyphicon-calendar"></span>&nbsp;<?php echo $societe->raison_sociale; ?></a></li>
         <?php if (!$etablissement->isNew()) : ?>
             <li>
