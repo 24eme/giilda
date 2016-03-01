@@ -2,7 +2,7 @@
 <?php use_helper('Date'); ?>
 
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+    <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
     <li class="<?php echo (!isset($etablissement) && !isset($interlocuteur)) ? "active" : "" ?>"><a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?></a></li>
     <?php if (isset($etablissement)): ?>
         <li class="active"><a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?></a></li>
@@ -23,7 +23,9 @@
                 <?php endif; ?>
                 <p class="lead" style="margin-bottom: 5px;">
                     <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
-                    <span class="label label-success"><?php echo $societe->statut; ?></span>
+                    <?php if($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
+                    <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                    <?php endif; ?>
                     <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span><?php endif; ?>
                         <?php if ($societe->date_modification) : ?><span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span><?php endif; ?></small>
                 </p>
