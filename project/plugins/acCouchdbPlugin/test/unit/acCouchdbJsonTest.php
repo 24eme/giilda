@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../../../../test/bootstrap/unit.php';
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('vinsdeloire', 'test', true);
+$configuration = ProjectConfiguration::getApplicationConfiguration('declaration', 'test', true);
 $databaseManager = new sfDatabaseManager($configuration);
 $context = sfContext::createInstance($configuration);
 
