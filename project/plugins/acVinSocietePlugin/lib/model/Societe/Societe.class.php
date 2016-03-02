@@ -158,9 +158,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             }
             $this->etablissements->add($e->_id)->ordre = $ordre;
         }
-        if ($e->compte) {
-            $this->addCompte($e->getMasterCompte(), $ordre);
-        }
     }
 
     public function setCooperative($c) {

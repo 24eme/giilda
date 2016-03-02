@@ -40,34 +40,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
        return CompteGenerique::isSameContactComptes($this, $this->getSociete()->getContact());
     }
 
-    public function isAdresseCompteEmpty() {
-        return (!$this->adresse) &&
-                (!$this->commune) &&
-                (!$this->code_postal) &&
-                (!$this->pays) &&
-                (!$this->adresse_complementaire);
-    }
-
-    public function isContactCompteEmpty() {
-        return (!$this->telephone_bureau) &&
-                (!$this->telephone_mobile) &&
-                (!$this->telephone_perso) &&
-                (!$this->email) &&
-                (!$this->fax);
-    }
-
-    public function setIdSociete($id) {
-        $soc = SocieteClient::getInstance()->find($id);
-        if (!$soc) {
-            $identifiant = str_replace('SOCIETE-', '', $id);
-            if (empty($identifiant))
-                throw new sfException("Pas de société trouvée pour $id");
-            return $this->_set('id_societe', $id);
-        }
-        $soc->addCompte($this);
-        return $this->_set('id_societe', $soc->_id);
-    }
-    
     public function updateNomAAfficher() {
         if (!$this->nom) {
             return;
@@ -182,63 +154,26 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->updateNomAAfficher();
 
-        $new = $this->isNew();
-
-        parent::save();
-
-        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $new) {
-            $societe = $this->getSociete();
-            $societe->addCompte($this);
-            $societe->save();
-        }
-
-        $this->autoUpdateLdap();
-    }
-
-    public function synchroFromSociete($societe = null) {
-        if (!$societe) {
-            $societe = $this->getSociete();
-        }
-
-        if (!$societe) {
-
-            return;
-        }
-
-        $this->remove('raison_sociale_societe');
-        $this->remove('type_societe');
         $this->societe_informations->type = $societe->type_societe;
         $this->societe_informations->raison_sociale = $societe->raison_sociale;
         $this->societe_informations->adresse = $societe->siege->adresse;
-        $this->societe_informations->adresse_complementaire = "";
-        if ($societe->siege->exist("adresse_complementaire")) {
-            $this->societe_informations->adresse_complementaire = $societe->siege->adresse_complementaire;
-        }
+        $this->societe_informations->adresse_complementaire = $societe->siege->adresse_complementaire;
         $this->societe_informations->code_postal = $societe->siege->code_postal;
         $this->societe_informations->commune = $societe->siege->commune;
         $this->societe_informations->email = $societe->email;
         $this->societe_informations->telephone = $societe->telephone;
         $this->societe_informations->fax = $societe->fax;
-    }
 
-    public function synchroFromCompte() {
-        if ($this->isAdresseCompteEmpty()) {
-            $this->_set('adresse', $this->getSociete()->siege->adresse);
-            $this->_set('adresse_complementaire', $this->getSociete()->getMasterCompte()->adresse_complementaire);
-            $this->_set('code_postal', $this->getSociete()->siege->code_postal);
-            $this->_set('commune', $this->getSociete()->siege->commune);
-            $this->_set('pays', $this->getSociete()->getMasterCompte()->pays);
+        $new = $this->isNew();
+
+        parent::save();
+
+        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $new) {
+            $societe->addCompte($this);
+            $societe->save();
         }
 
-        if ($this->isContactCompteEmpty()) {
-            $this->_set('telephone_bureau', $this->getSociete()->getMasterCompte()->telephone_bureau);
-            $this->_set('telephone_mobile', $this->getSociete()->getMasterCompte()->telephone_mobile);
-            $this->_set('telephone_perso', $this->getSociete()->getMasterCompte()->telephone_perso);
-            $this->_set('fax', $this->getSociete()->getMasterCompte()->fax);
-            $this->_set('email', $this->getSociete()->getMasterCompte()->email);
-        }
-
-        return $this;
+        $this->autoUpdateLdap();
     }
 
     public function isSocieteContact() {
@@ -335,12 +270,13 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isActif() {
-        return $this->statut && ($this->statut == CompteClient::STATUT_ACTIF);
+        return ($this->statut == CompteClient::STATUT_ACTIF);
     }
-    
+
     public function isSuspendu() {
+        
         return $this->statut && ($this->statut == CompteClient::STATUT_SUSPENDU);
-    }
+     }
 
     public function autoUpdateLdap($verbose = 0) {
         if (sfConfig::get('app_ldap_autoupdate', false)) {
