@@ -60,7 +60,8 @@ class EtablissementModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         }
 
-                $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
+        
+        $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
         $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => CompteForm::getCiviliteList())));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('prenom', new bsWidgetFormInput());

@@ -26,7 +26,7 @@ class compteActions extends sfCredentialActions {
     }
     
     protected function processFormCompte(sfWebRequest $request) {
-        $this->compteForm = new CompteForm($this->compte);
+        $this->compteForm = new InterlocuteurForm($this->compte);
         if (!$request->isMethod(sfWebRequest::POST)) {
           return;
         }
