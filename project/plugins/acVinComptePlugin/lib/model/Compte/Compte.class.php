@@ -206,15 +206,12 @@ class Compte extends BaseCompte {
     	  $this->addTag('automatique', 'Interlocuteur');
     	}
 
-        if (is_null($this->adresse_societe)) {
-            $this->adresse_societe = (int) $fromsociete;
-        }
-	   $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+        $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
         
         $this->updateNomAAfficher();
 
         parent::save();
-	$this->autoUpdateLdap();
+        $this->autoUpdateLdap();
 
     }
 
