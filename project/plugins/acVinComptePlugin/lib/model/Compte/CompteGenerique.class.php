@@ -136,7 +136,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return $phone;
     }
 
-    public function pushToCompte($compte) {
+    public function pushContactAndAdresseToCompte($compte) {
         $compte->adresse = $this->getAdresse();
         $compte->adresse_complementaire = $this->getAdresseComplementaire();
         $compte->commune= $this->getCommune();

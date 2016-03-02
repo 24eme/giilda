@@ -210,7 +210,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
                 $compte = $this->getMasterCompte();
             }
             
-            $this->pushToCompte($compte);
+            $this->pushContactAndAdresseToCompte($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
 
