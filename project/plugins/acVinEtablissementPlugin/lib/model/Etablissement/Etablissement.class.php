@@ -282,8 +282,10 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function save() {
+        if(!$this->getCompte()){
+            $this->setCompte($this->getSociete()->getMasterCompte()->_id);
+        }
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
-            //créer
             if ($this->isSameCompteThanSociete()) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
                 $compte->addOrigine($this->_id);
