@@ -4,7 +4,7 @@
  * Model for Compte
  *
  */
-class Compte extends BaseCompte {
+class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function constructId() {
         $this->set('_id', 'COMPTE-' . $this->identifiant);
@@ -27,7 +27,7 @@ class Compte extends BaseCompte {
 
     public function isSameAdresseThanSociete() {
         $comptesociete = $this->getSociete()->getContact();
-        
+
         return ($comptesociete->adresse === $this->adresse) &&
                 ($comptesociete->commune === $this->commune) &&
                 ($comptesociete->code_postal === $this->code_postal) &&
@@ -156,7 +156,7 @@ class Compte extends BaseCompte {
         return false;
     }
 
-    public function save() { 
+    public function save() {
 
         if ($this->isSocieteContact()) {
             $this->addTag('automatique', 'Societe');
@@ -169,7 +169,7 @@ class Compte extends BaseCompte {
                 $this->addTag('automatique', 'teledeclaration_active');
             }
         }
-        
+
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
         if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
             if ($this->isNew()) {
@@ -178,40 +178,39 @@ class Compte extends BaseCompte {
                 $societe->save();
             }
         }
-        
+
         $societe = $this->getSociete();
         if ($this->isSocieteContact()) {
             $this->addTag('automatique', 'Societe');
             $this->addTag('automatique', $societe->type_societe);
-              if($this->getFournisseurs()){
-                  $this->removeFournisseursTag();
-                  foreach ($this->getFournisseurs() as $type_fournisseur) {
-                      $this->addTag('automatique', $type_fournisseur);
-                  }
-              }
-    	}
-        
-        if($this->exist('teledeclaration_active') && $this->teledeclaration_active){
-            if($this->hasDroit(Roles::TELEDECLARATION_VRAC)){
-                $this->addTag('automatique', 'teledeclaration_active');                
+            if ($this->getFournisseurs()) {
+                $this->removeFournisseursTag();
+                foreach ($this->getFournisseurs() as $type_fournisseur) {
+                    $this->addTag('automatique', $type_fournisseur);
+                }
             }
         }
-        
-    	if ($this->isEtablissementContact()) {
-    	  $this->addTag('automatique', 'Etablissement');
-          $this->addTag('automatique', $this->getEtablissement()->famille);
-    	}
-    	if (!$this->isEtablissementContact() && ! $this->isSocieteContact()) {
-    	  $this->addTag('automatique', 'Interlocuteur');
-    	}
+
+        if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
+            if ($this->hasDroit(Roles::TELEDECLARATION_VRAC)) {
+                $this->addTag('automatique', 'teledeclaration_active');
+            }
+        }
+
+        if ($this->isEtablissementContact()) {
+            $this->addTag('automatique', 'Etablissement');
+            $this->addTag('automatique', $this->getEtablissement()->famille);
+        }
+        if (!$this->isEtablissementContact() && !$this->isSocieteContact()) {
+            $this->addTag('automatique', 'Interlocuteur');
+        }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-        
+
         $this->updateNomAAfficher();
 
         parent::save();
         $this->autoUpdateLdap();
-
     }
 
     public function synchroFromSociete($societe = null) {
@@ -418,6 +417,118 @@ class Compte extends BaseCompte {
             return $this->_set('commentaire', $c . "\n" . $s);
         }
         return $this->_set('commentaire', $s);
+    }
+
+    public function setAdresse($a) {
+        $this->_set('adresse', $a);
+        return $this;
+    }
+
+    public function setAdresseComplementaire($ac) {
+        $this->_set('adresse_complementaire', $ac);
+        return $this;
+    }
+
+    public function setCommune($c) {
+        $this->_set('commune', $c);
+        return $this;
+    }
+
+    public function setCodePostal($c) {
+        $this->_set('code_postal', $c);
+        return $this;
+    }
+
+    public function setPays($p) {
+        $this->_set('pays', $p);
+        return $this;
+    }
+
+    public function setSiteInternet($s) {
+        $this->_set('site_internet', $s);
+        return $this;
+    }
+
+    public function setTelephone($phone) {
+        $this->_set('telephone_bureau', $phone);
+        return $this;
+    }
+
+    public function setTelephonePerso($phone) {
+        $this->_set('telephone_perso', $phone);
+        return $this;
+    }
+
+    public function setTelephoneMobile($phone) {
+
+        $this->_set('telephone_mobile', $phone);
+        return $this;
+    }
+
+    public function setTelephoneBureau($phone) {
+
+        $this->_set('telephone_bureau', $phone);
+        return $this;
+    }
+
+    public function setFax($fax) {
+
+        $this->_set('fax', $fax);
+        return $this;
+    }
+
+    public function setEmail($email) {
+
+        $this->_set('email', $email);
+        return $this;
+    }
+
+    public function getSiteInternet() {
+        return $this->_get('site_internet');
+    }
+
+    public function getTelephone() {
+        return $this->_get('telephone_bureau');
+    }
+
+    public function getAdresse() {
+        return $this->_get('adresse');
+    }
+
+    public function getAdresseComplementaire() {
+        return $this->_get('adresse_complementaire');
+    }
+
+    public function getCommune() {
+        return $this->_get('commune');
+    }
+
+    public function getCodePostal() {
+        return $this->_get('code_postal');
+    }
+
+    public function getPays() {
+        return $this->_get('pays');
+    }
+
+    public function getEmail() {
+        return $this->_get('email');
+    }
+
+    public function getTelephoneBureau() {
+        return $this->_get('telephone_bureau');
+    }
+
+    public function getTelephonePerso() {
+        return $this->_get('telephone_perso');
+    }
+
+    public function getTelephoneMobile() {
+        return $this->_get('telephone_mobile');
+    }
+
+    public function getFax() {
+        return $this->_get('fax');
     }
 
 }

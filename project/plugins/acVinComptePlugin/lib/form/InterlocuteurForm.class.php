@@ -63,7 +63,7 @@ class InterlocuteurForm extends CompteGeneriqueForm {
     }
   
 
-    protected function doUpdateObject($values) {
+    public function doUpdateObject($values) {
         parent::doUpdateObject($values);
          if ($this->getObject()->isNew()) {
             $this->getObject()->set('statut', $this->getObject()->getSociete()->statut);
