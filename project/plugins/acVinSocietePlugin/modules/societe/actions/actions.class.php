@@ -77,6 +77,7 @@ class societeActions extends sfCredentialActions {
         $this->raison_sociale = $request->getParameter('raison_sociale', false);
         $this->type = $request->getParameter('type', false);
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale);
+        
         if (!count($this->societesDoublons)) {
             $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $this->raison_sociale));
         }
