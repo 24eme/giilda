@@ -64,7 +64,7 @@ $tabindex = $numProduit * 100 ;
                         endforeach;
                         ?> 
                         <li class="form-group form-group-xs groupe no_favoris" style="height: 21px;">
-                            <a class="btn btn-default form-control raccourcis_ouvrir" style="border-color: #fff;" tabindex="<?php echo $tabindex ?>" data-groupe-id="3" ></a>
+                            <a class="btn btn-default form-control raccourcis_ouvrir click-on-space-key" style="border-color: #fff;" tabindex="<?php echo $tabindex ?>" data-groupe-id="3" ></a>
                         </li>                        
                     </ul>
 
@@ -121,16 +121,16 @@ $tabindex = $numProduit * 100 ;
                                     <?php if ($key == "vrac"): ?>
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <a id="lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button"><span class="glyphicon glyphicon-list-alt"  tabindex="<?php echo $tabindex; ?>" ></span></a>
+                                                <a id="lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
                                             </span>
-                                            <input type="text" id="input_sortie_vrac_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" data-title="Details des contrats" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" tabindex="100000" />
+                                            <input type="text" id="input_sortie_vrac_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" data-title="Details des contrats" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" tabindex="-1" />
                                         </div>
                                     <?php elseif ($key == "export"): ?>
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <a id="lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs btn_details" type="button"><span class="glyphicon glyphicon-list-alt"  tabindex="<?php echo $tabindex; ?>"></span></a>
+                                                <a id="lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs btn_details click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
                                             </span>
-                                            <input type="text" id="input_sortie_export_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" class="pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" tabindex="100000" />
+                                            <input type="text" id="input_sortie_export_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" class="pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" tabindex="-1" />
                                         </div>
                                     <?php else: ?>
                                         <?php
@@ -149,7 +149,7 @@ $tabindex = $numProduit * 100 ;
                             <?php endif; ?>
                         <?php endforeach; ?>
                         <li class="form-group form-group-xs groupe no_favoris" style="height: 21px;">
-                            <a class="btn btn-default form-control raccourcis_ouvrir" style="border-color: #fff" tabindex="<?php echo $tabindex ?>" data-groupe-id="5" ></a>
+                            <a class="btn btn-default form-control raccourcis_ouvrir click-on-space-key" style="border-color: #fff" tabindex="<?php echo $tabindex ?>" data-groupe-id="5" ></a>
                         </li>
 
                     </ul>
@@ -168,16 +168,16 @@ $tabindex = $numProduit * 100 ;
                                         <?php if ($key == "vrac"): ?>
                                             <div class="input-group">
                                                 <span class="input-group-btn">
-                                                    <a id="lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button" tabindex="<?php echo $tabindex; ?>" ><span class="glyphicon glyphicon-list-alt"></span></a>
+                                                    <a id="lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
                                                 </span>
-                                                <input id="input_sortie_vrac_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" type="text" data-pointer="#lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" />
+                                                <input id="input_sortie_vrac_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" type="text" data-pointer="#lien_sorties_vrac_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" tabindex="-1" />
                                             </div>
                                         <?php elseif ($key == "export"): ?>
                                             <div class="input-group">
                                                 <span class="input-group-btn">
-                                                    <a id="lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs" type="button" tabindex="<?php echo $tabindex; ?>"  ><span class="glyphicon glyphicon-list-alt"></span></a>
+                                                    <a id="lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
                                                 </span>
-                                                <input type="text" id="input_sortie_export_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" class="pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                                <input type="text" id="input_sortie_export_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_export_details_<?php echo $detail->getHashForKey() ?>" class="pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" tabindex="-1" />
                                             </div>
                                         <?php
                                         else:
