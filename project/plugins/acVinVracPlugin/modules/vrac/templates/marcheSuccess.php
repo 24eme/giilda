@@ -4,6 +4,8 @@ use_helper('Vrac'); ?>
 
 <?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
 
+<section id="principal" class="vrac">
+
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form action="" method="post" class="form-horizontal" id="contrat_marche" >
@@ -305,4 +307,5 @@ use_helper('Vrac'); ?>
         </div>
     </div>
 </form>
+</section>
 
