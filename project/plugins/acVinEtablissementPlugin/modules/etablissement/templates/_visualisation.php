@@ -20,7 +20,7 @@
                 </p>
             </div>
             <div class="col-xs-3 text-right">
-                <a href="<?php echo url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>" <?php echo ($etablissement->getSociete()->isSuspendu()) ? 'disabled="disabled"' : '' ?>  class="btn <?php echo ($etablissement->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($etablissement->isActif()) ? 'Suspendre' : 'Activer' ?></a>
+                <a href="<?php echo url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>" <?php echo ($etablissement->getSociete()->isSuspendu()) ? 'disabled="disabled"' : '' ?>  class="btn btn-xs <?php echo ($etablissement->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($etablissement->isActif()) ? 'Suspendre' : 'Activer' ?></a>
             </div>
         </div>            
     </div>
