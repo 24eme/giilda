@@ -171,7 +171,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     commentaire=$16;
     famille="AUTRE";
     if($61 == "VITICULTEUR" || $61 == "NEGOCIANT" || $61 == "REPRESENTANT") {
-        famille="OPERATEUR";
+        famille="RESSORTISSANT";
     }
     if($61 == "INTERMEDIAIRE") {
         famille="INTERMEDIAIRE";

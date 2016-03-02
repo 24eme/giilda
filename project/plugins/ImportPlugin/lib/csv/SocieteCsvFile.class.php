@@ -77,11 +77,12 @@ class SocieteCsvFile extends CompteCsvFile
                 }*/
                 $s->statut = $line[self::CSV_STATUT];
                 $s->type_societe = $line[self::CSV_TYPE];
-              	$s->save();
 
-                $c = $s->getContact();
-                $this->storeCompteInfos($c, $line);
-                $c->save();
+                $s->save();
+
+                $this->storeCompteInfos($s, $line);
+                
+              	$s->save();
 
             }catch(Exception $e) {
                 echo $e->getMessage()."\n";

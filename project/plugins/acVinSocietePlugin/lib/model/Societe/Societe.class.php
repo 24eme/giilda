@@ -295,26 +295,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return $a;
     }
 
-    public function synchroFromCompte() {
-        $compte = $this->getMasterCompte();
-
-        if (!$compte) {
-            return;
-        }
-
-        if ($compte->exist("adresse_complementaire")) {
-            $this->siege->add("adresse_complementaire", $compte->adresse_complementaire);
-        }
-        $this->siege->adresse = $compte->adresse;
-        $this->siege->code_postal = $compte->code_postal;
-        $this->siege->commune = $compte->commune;
-        $this->email = $compte->email;
-        $this->fax = $compte->fax;
-        $this->telephone = ($compte->telephone_bureau) ? $compte->telephone_bureau : $compte->telephone_mobile;
-
-        return $this;
-    }
-
     protected function createCompteSociete() {
         if ($this->compte_societe) {
             return;
@@ -329,16 +309,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
         return $compte;
-    }
-
-    protected function synchroAndSaveEtablissement() {
-        if (($this->changedCooperative) || ($this->changedStatut)) {
-            foreach ($this->getEtablissementsObj() as $id => $e) {
-                $e->etablissement->cooperative = $this->cooperative;
-                $e->etablissement->statut = $this->statut;
-                $e->etablissement->save(true);
-            }
-        }
     }
 
     public function getDateCreation() {
@@ -371,19 +341,22 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
 
         foreach($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
-            $needSave = false;
-            if(CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
-                $this->pushAdresseTo($compteOrEtablissement);
-                $needSave = true;
-            }
-            if(CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
-                $this->pushContactTo($compteOrEtablissement);
-                $needSave = true;
-            }
+            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement);
+        }
+    }
 
-            if($needSave) {
-                $compteOrEtablissement->save();
-            }
+    public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement) {
+        $needSave = false;
+        if(CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
+            $this->pushAdresseTo($compteOrEtablissement);
+            $needSave = true;
+        }
+        if(CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
+            $this->pushContactTo($compteOrEtablissement);
+            $needSave = true;
+        }
+        if($needSave) {
+            $compteOrEtablissement->save();
         }
     }
 
@@ -419,7 +392,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
     public function getCommentaire() {
         $c = $this->_get('commentaire');
-        $c1 = $this->getContact()->get('commentaire');
+        $c1 = $this->getMasterCompte()->get('commentaire');
         if ($c && $c1) {
             return $c . "\n" . $c1;
         }

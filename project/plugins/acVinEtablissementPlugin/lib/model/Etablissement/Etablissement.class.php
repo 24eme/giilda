@@ -186,9 +186,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
-        if (!$this->sous_famille) {
-            $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }
     }
 
     public function save() {

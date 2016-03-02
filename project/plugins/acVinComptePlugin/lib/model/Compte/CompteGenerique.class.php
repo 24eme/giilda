@@ -5,6 +5,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     protected $telephone_mobile = null;
     protected $telephone_perso = null;
     protected $site_internet = null;
+    protected $insee = null;
 
     public function getAdresse() {
 
@@ -49,6 +50,19 @@ abstract class CompteGenerique extends acCouchdbDocument {
     public function getAdresseComplementaire() {
 
         return $this->siege->adresse_complementaire;
+    }
+
+    public function getInsee() {
+        if (is_null($this->insee)) {
+            $this->insee = $this->getMasterCompte()->insee;
+        }
+        
+        return $this->insee;
+    }
+
+    public function setInsee($s) {
+        
+        return ($this->insee = $s);
     }
 
     public function setAdresseComplementaire($s) {
