@@ -20,8 +20,8 @@ class VracConditionForm extends VracForm {
 
     public function configure() {
         $anneesContrat = array(1 => "Année 1", 2 => "Année 2", 3 => "Année 3");
-        $this->setWidget('delai_paiement', new bsWidgetFormChoice(array('choices' => $this->getDelaiPaiement())));
-        $this->setWidget('moyen_paiement', new bsWidgetFormChoice(array('choices' => $this->getMoyenPaiement())));
+        $this->setWidget('delai_paiement', new bsWidgetFormChoice(array('choices' => $this->getDelaiPaiement()), array('class' => 'select2')));
+        $this->setWidget('moyen_paiement', new bsWidgetFormChoice(array('choices' => $this->getMoyenPaiement()), array('class' => 'select2')));
         $this->setWidget('date_limite_retiraison', new bsWidgetFormInputDate());
         $this->setWidget('date_debut_retiraison', new bsWidgetFormInputDate());
         $this->setWidget('conditions_particulieres', new bsWidgetFormTextarea());
@@ -32,7 +32,7 @@ class VracConditionForm extends VracForm {
         $this->setWidget('autorisation_nom_vin', new bsWidgetFormInputCheckbox());
         $this->setWidget('autorisation_nom_producteur', new bsWidgetFormInputCheckbox());
         $this->setWidget('courtage_taux', new bsWidgetFormInputFloat());
-        $this->setWidget('courtage_repartition', new bsWidgetFormChoice(array('choices' => $this->getCourtageRepartition())));
+        $this->setWidget('courtage_repartition', new bsWidgetFormChoice(array('choices' => $this->getCourtageRepartition()), array('class' => 'select2')));
         
         $this->setWidget('preparation_vin', new bsWidgetFormChoice(array('choices' => $this->getActeursPreparationVin(), 'expanded' => true)));
         $this->setWidget('embouteillage', new bsWidgetFormChoice(array('choices' => $this->getActeursEmbouteillage(), 'expanded' => true)));
