@@ -26,7 +26,7 @@ Compte:
       commune: { }
       insee: { }
       compte_type: { }
-      cedex: {  }
+      cedex: { require: false } #A supprimer
       pays: {  }
       email: {  }
       telephone_perso: {  }

@@ -63,7 +63,7 @@ Etablissement:
            definition:
              fields:
                adresse: {  }
-               adresse_complementaire: { required: false }
+               adresse_complementaire: {  }
                code_postal: {  }
                commune: {  }
                pays: {}

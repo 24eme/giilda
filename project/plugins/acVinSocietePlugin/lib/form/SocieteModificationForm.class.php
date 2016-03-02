@@ -107,7 +107,6 @@ class SocieteModificationForm extends CompteGeneriqueForm {
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
 
-
         if ($this->getObject()->isInCreation()) {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }

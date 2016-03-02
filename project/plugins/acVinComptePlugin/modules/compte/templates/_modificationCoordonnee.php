@@ -46,14 +46,7 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
 
                 <div class="col-xs-8"><?php echo $compteForm['commune']->render(); ?></div>
                 <?php echo $compteForm['commune']->renderError(); ?>
-            </div>                
-            <div class="form-group">
-
-                <?php echo $compteForm['cedex']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
-
-                <div class="col-xs-8"><?php echo $compteForm['cedex']->render(); ?></div>
-                <?php echo $compteForm['cedex']->renderError(); ?>
-            </div>                 
+            </div>                               
             <div class="form-group">
 
                 <?php echo $compteForm['pays']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>

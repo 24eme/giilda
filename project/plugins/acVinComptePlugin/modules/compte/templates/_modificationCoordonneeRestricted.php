@@ -35,13 +35,7 @@
                 <label for="compte_modification_commune">Ville *</label>         
             </label>
             <input type="text" id="compte_modification_commune" class="champ_long" value="<?php echo $compte->commune ; ?>" disabled="disabled" >  
-        </div>                
-        <div class="form_ligne">
-            <label for="cedex">
-                <label for="compte_modification_cedex">Cedex</label>           
-            </label>
-            <input type="text" id="compte_modification_cedex" value="<?php echo $compte->cedex ; ?>" disabled="disabled" >     
-        </div>                 
+        </div>                               
         <div class="form_ligne">
             <label for="pays">
                 <label for="compte_modification_pays">Pays *</label>            

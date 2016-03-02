@@ -2,6 +2,31 @@
 
 abstract class CompteGenerique extends acCouchdbDocument {
 
+    protected $adresse_complementaire = null;
+    protected $telephone_mobile = null;
+    protected $telephone_perso = null;
+    protected $site_internet = null;
+
+    public function setAdresse($s) {
+        return ($this->siege->adresse = $s);
+    }
+
+    public function setCommune($s) {
+        return ($this->siege->commune = $s);
+    }
+
+    public function setCodePostal($s) {
+        return ($this->siege->code_postal= $s);
+    }
+
+    public function setPays($s) {
+        return ($this->siege->pays = $s);
+    }
+
+    public function setAdresseComplementaire($s) {
+        return ($this->siege->adresse_complementaire = $s);
+    }
+
     public function setEmail($email) {
         
         return $this->_set('email', $email);
