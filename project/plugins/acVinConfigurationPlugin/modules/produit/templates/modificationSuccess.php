@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li>
+    <li class="visited">
         <a href="<?php echo url_for("produits") ?>">Produits</a>
     </li>
     <li class="active">

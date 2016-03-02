@@ -6,11 +6,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-    <?php if ($route_etablissement && $etablissement && !$actif): ?>
+    		<?php if ($route_etablissement && $etablissement && !$actif): ?>
             <a tabindex="-1" class="navbar-brand <?php echo $actif ? "active" : null ?>" href="<?php echo url_for($route_etablissement, array('identifiant' => $etablissement->identifiant)); ?>"><?php echo $libelle; ?></a>
-    <?php else: ?>
+    		<?php else: ?>
             <a tabindex="-1" class="navbar-brand <?php echo $actif ? "active" : null ?>" href="<?php echo url_for($route) ?>"><?php echo $libelle; ?></a>
-    <?php endif; ?>
+    		<?php endif; ?>
         </div>
 <?php else: ?>
     <?php if ($route_etablissement && $etablissement && !$actif): ?>

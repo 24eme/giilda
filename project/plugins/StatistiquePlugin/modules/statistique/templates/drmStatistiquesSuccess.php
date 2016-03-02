@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('statistiques') ?>">Statistique</a></li>
-    <li><a href="<?php echo url_for('statistiques_drm') ?>" class="active">DRM</a></li>
+    <li class="visited"><a href="<?php echo url_for('statistiques') ?>">Statistique</a></li>
+    <li class="active"><a href="<?php echo url_for('statistiques_drm') ?>" class="active">DRM</a></li>
 </ol>
 
 <div class="row" id="statistiques">

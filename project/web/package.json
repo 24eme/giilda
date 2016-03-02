@@ -1,0 +1,48 @@
+{
+  "name": "giilda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/24eme/giilda.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/24eme/giilda/issues"
+  },
+  "homepage": "https://github.com/24eme/giilda#readme",
+  "devDependencies": {
+    "browser-sync": "^2.11.1",
+    "caniuse-db": "^1.0.30000411",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-bower": "0.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-consolidate": "^0.1.2",
+    "gulp-iconfont": "^6.0.0",
+    "gulp-ignore": "^2.0.1",
+    "gulp-imagemin": "^2.4.0",
+    "gulp-less": "^3.0.5",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-notify": "^2.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rimraf": "^0.2.0",
+    "gulp-svg2png": "^1.0.0",
+    "gulp-template": "^3.1.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-zip": "^3.2.0",
+    "lodash": "^4.5.1",
+    "require-clean": "^0.1.3",
+    "run-sequence": "^1.1.5"
+  }
+}

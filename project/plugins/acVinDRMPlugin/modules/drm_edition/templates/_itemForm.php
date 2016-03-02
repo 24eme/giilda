@@ -13,15 +13,15 @@ $tabindex = $numProduit * 100 ;
             <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
                 <?php echo $form->renderHiddenFields(); ?>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="1">
-                    <h4 class="form-group form-group-xs" style="height: 17px;">
+                    <div class="form-group form-group-xs" style="height: 17px;">
                         <span>&nbsp;</span>
-                    </h4>
+                    </div>
                     <?php foreach ($form['stocks_debut'] as $key => $subform): ?>
                         <?php
                         if ($key != 'instance'):
                             $class = ($key == 'dont_revendique') ? ' somme_stock_debut_dont_revendique ' : ' somme_stock_debut ';
                             ?>
-                            <h4 class="form-group form-group-xs <?php // echo isVersionnerCssClass($subform->getObject(), $key)                   ?>">
+                            <div class="form-group form-group-xs <?php // echo isVersionnerCssClass($subform->getObject(), $key)                   ?>">
                                 <?php
                                 $allAttributes = array('data-val-defaut' => $form['stocks_debut'][$key]->getValue(), 'class' => $form['stocks_debut'][$key]->getWidget()->getAttribute('class') . $class . ' somme_detail ');
                                 if (!$subform->getWidget()->getAttribute('readonly')) {
@@ -30,17 +30,17 @@ $tabindex = $numProduit * 100 ;
                                 }
                                 echo $form['stocks_debut'][$key]->render($allAttributes);
                                 ?>
-                            </h4> 
+                            </div> 
                         <?php endif; ?>
                     <?php endforeach; ?>
 
                 </div>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="2">
-                    <h4 class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
+                    <div class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
                         <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="input-float somme_entrees_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
                         <input type="text" value="0" class="input-float  somme_entrees_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly" style="display: none;" />
 
-                    </h4>
+                    </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
                             <?php
@@ -104,11 +104,11 @@ $tabindex = $numProduit * 100 ;
                 </div>
 
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="4">
-                    <h4 class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
+                    <div class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
                         <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="input-float somme_sorties_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
                         <input type="text" value="0" class="input-float somme_sorties_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly"  style="display: none;" />
 
-                    </h4>
+                    </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
                             <?php
@@ -208,9 +208,9 @@ $tabindex = $numProduit * 100 ;
                 </div>
 
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="6">
-                    <h4 class="form-group form-group-xs " style="height: 17px;">
+                    <div class="form-group form-group-xs " style="height: 17px;">
                         <span>&nbsp;</span>
-                    </h4>
+                    </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['stocks_fin'] as $key => $subform): ?>
                             <?php
