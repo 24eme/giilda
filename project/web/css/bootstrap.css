@@ -6985,6 +6985,9 @@ h6,
 .panel-secondary > .panel-body {
   border: 1px solid #c7c9c8;
 }
+#col_saisies .list-group-item {
+  background-color: #fff;
+}
 .btn {
   border-radius: 0;
   transition: background .3s;
