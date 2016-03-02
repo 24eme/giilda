@@ -1,5 +1,5 @@
 <?php include_component('global', 'navItem', array(
-            'libelle' => 'Declaration',
+            'libelle' => 'Déclaration',
             'prefix' => 'accueil',
             'route' => 'accueil',
             'route_etablissement' => 'accueil_etablissement',

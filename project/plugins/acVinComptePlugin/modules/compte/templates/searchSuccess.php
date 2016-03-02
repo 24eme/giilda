@@ -169,7 +169,7 @@
 		<h4>Supprimer un tag</h4>
 		<form class="form_ajout_tag" action="<?php echo url_for('compte_removetag', $args_copy->getRawValue()); ?>" method="GET">
         <div class="input-group">
-            <select id="suppr_tag" name="tag" class="form-control">
+            <select id="suppr_tag" name="tag" class="form-control select2">
             	<option value=""></option>
             	<?php foreach ($tagsManuels as $tm): ?>
             	<option value="<?php echo $tm ?>"><?php echo $tm ?></option>

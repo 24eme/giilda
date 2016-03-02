@@ -210,18 +210,25 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $compte->save();          
             $this->setCompte($compte->_id);
         } else if(!$this->isSameCompteThanSociete()){
-            $compteEtablissement = $this->getCompte();
+            $compteEtablissement = $this->getMasterCompte();
             $compteSociete = $this->getSociete()->getMasterCompte();
 
             $this->setCompte($compteSociete->_id);
 
             CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
 
-            $this->pullContactAndAdresseFrom($compte);
+            $this->pullContactAndAdresseFrom($compteSociete);
         }
         
         $this->initFamille();
+        $new = $this->isNew();
         parent::save();
+
+        if($new) {
+            $societe = $this->getSociete();
+            $societe->addEtablissement($this);
+            $societe->save();
+        }
     }
 
     public function isActif() {

@@ -171,13 +171,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
-            if ($this->isNew()) {
-                $societe = $this->getSociete();
-                $societe->addCompte($this);
-                $societe->save();
-            }
-        }
 
         $societe = $this->getSociete();
         if ($this->isSocieteContact()) {
@@ -209,7 +202,16 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->updateNomAAfficher();
 
+        $new = $this->isNew();
+
         parent::save();
+
+        if ($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR && $new) {
+            $societe = $this->getSociete();
+            $societe->addCompte($this);
+            $societe->save();
+        }
+
         $this->autoUpdateLdap();
     }
 

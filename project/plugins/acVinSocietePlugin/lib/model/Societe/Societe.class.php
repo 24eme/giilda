@@ -127,13 +127,25 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return $etbObj->etablissement;
     }
 
-    public function getComptesObj() {
-        $comptes = array();
+    public function getContactsObj() {
+        $contacts = array();
         foreach ($this->contacts as $id => $obj) {
-            $comptes[$id] = new stdClass();
-            $comptes[$id]->compte = CompteClient::getInstance()->find($id);
+            $contacts[$id] = CompteClient::getInstance()->find($id);
         }
-        return $comptes;
+        return $contacts;
+    }
+
+    public function getComptesAndEtablissements() {
+        $contacts = array();
+
+        foreach ($this->contacts as $id => $obj) {
+            $contacts[$id] = CompteClient::getInstance()->find($id);
+        }
+        foreach ($this->etablissements as $id => $obj) {
+             $contacts[$id] = EtablissementClient::getInstance()->find($id);
+        }
+
+        return $contacts;
     }
 
     public function addEtablissement($e, $ordre = null) {
@@ -329,16 +341,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
     }
 
-    public function synchroAndSaveCompte() {
-        foreach ($this->getComptesObj() as $id => $c) {
-            if ($this->changedStatut) {
-                $c->compte->statut = $this->statut;
-            }
-            $c->compte->synchroFromSociete($this);
-            $c->compte->save(true, true, true);
-        }
-    }
-
     public function getDateCreation() {
         $this->add('date_creation');
         return $this->_get('date_creation');
@@ -355,11 +357,24 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $compteMaster = $this->getMasterCompte();
         if(!$this->getMasterCompte()) {
             $compteMaster = $this->createCompteSociete();
+            $compteMaster->save();
         }
 
-        $this->pushContactAndAdresseTo($compteMaster);
+        foreach($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
+            $needSave = false;
+            if(CompteGenerique::isSameAdresseComptes($compteMaster, $compteOrEtablissement)) {
+                $this->pushAdresseTo($compteOrEtablissement);
+                $needSave = true;
+            }
+            if(CompteGenerique::isSameContactComptes($compteMaster, $compteOrEtablissement)) {
+                $this->pushContactTo($compteOrEtablissement);
+                $needSave = true;
+            }
 
-        $compteMaster->save();
+            if($needSave) {
+                $compteOrEtablissement->save();
+            }
+        }
 
         if($this->isInCreation()){
             $this->setStatut(SocieteClient::STATUT_ACTIF);
