@@ -86,24 +86,17 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSameAdresseThanSociete() {
-        $comptesociete = $this->getSociete()->getContact();
-        return (($comptesociete->adresse == $this->siege->adresse)  || ! $this->siege->adresse )&&
-                (($comptesociete->commune == $this->siege->commune) || ! $this->siege->commune) &&
-                (($comptesociete->code_postal == $this->siege->code_postal) ||  !$this->siege->code_postal) &&
-                (($comptesociete->adresse_complementaire == $this->adresse_complementaire) || !$this->adresse_complementaire)&&
-                (($comptesociete->pays == $this->siege->pays) || !$this->siege->pays);
+        
+        return $this->isSameAdresseThan($this->getSociete()->getContact());
     }
 
     public function isSameContactThanSociete() {
-        $comptesociete = $this->getSociete()->getContact();
-        return (($comptesociete->telephone_bureau === $this->telephone) || !$this->telephone) &&
-            (($comptesociete->telephone_mobile === $this->telephone_mobile) || !$this->telephone_mobile ) &&
-            (($comptesociete->telephone_perso === $this->telephone_perso) || !$this->telephone_perso) &&
-            (($comptesociete->email === $this->email) || !$this->email) &&
-            (($comptesociete->fax === $this->fax) || !$this->fax) ;
+
+        return $thiq->isSameContactThan($this->getSociete()->getContact());
     }
 
     public function isSameCompteThanSociete() {
+
         return ($this->compte == $this->getSociete()->compte_societe);
     }
 
