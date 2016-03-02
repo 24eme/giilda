@@ -121,6 +121,7 @@ class CompteCsvFile extends CsvFile
         $c->telephone_perso = $this->formatAndVerifyPhone($this->getField($line, 'CSV_TEL_PERSO'), $c);
         $c->telephone_bureau = $this->formatAndVerifyPhone($this->getField($line, 'CSV_TEL_BUREAU'), $c);
         $c->telephone_mobile = $this->formatAndVerifyPhone($this->getField($line, 'CSV_MOBILE'), $c);
+        $c->site_internet = null;
         if($this->getField($line, 'CSV_WEB')) {
             if (preg_match('/^http:\/\/[^ ]+$/', $this->getField($line, 'CSV_WEB'))) {
                 $c->site_internet = $this->getField($line, 'CSV_WEB');

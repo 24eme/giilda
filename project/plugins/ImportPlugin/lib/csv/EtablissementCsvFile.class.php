@@ -84,20 +84,21 @@ class EtablissementCsvFile extends CompteCsvFile
             $e->region = (isset($line[self::CSV_REGION])) ? $line[self::CSV_REGION] : null;
 
             if($this->isSameAdresseThanSociete($line, $s, $e)) {
-              $line[self::CSV_ADRESSE] = $s->adresse;
-              $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1] = $s->adresse_complementaire;
+              $line[self::CSV_ADRESSE] = "";
+              $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1] = "";
               $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2] = "";
               $line[self::CSV_ADRESSE_COMPLEMENTAIRE_3] = "";
-              $line[self::CSV_CODE_POSTAL] = $s->code_postal;
-              $line[self::CSV_COMMUNE] = $s->commune;
-              $line[self::CSV_INSEE] = $s->insee;
-              $line[self::CSV_PAYS] = $s->pays;
-              $line[self::CSV_EMAIL] = $s->email;
-              $line[self::CSV_TEL_BUREAU] = $s->telephone_bureau;
-              $line[self::CSV_TEL_PERSO] = $s->telephone_perso;
-              $line[self::CSV_MOBILE] = $s->telephone_mobile;
-              $line[self::CSV_FAX] = $s->fax;
-              $line[self::CSV_WEB] = $s->site_internet;
+              $line[self::CSV_CODE_POSTAL] = "";
+              $line[self::CSV_COMMUNE] = "";
+              $line[self::CSV_INSEE] = "";
+              $line[self::CSV_CEDEX] = "";
+              $line[self::CSV_PAYS] = "";
+              $line[self::CSV_EMAIL] = "";
+              $line[self::CSV_TEL_BUREAU] = "";
+              $line[self::CSV_TEL_PERSO] = "";
+              $line[self::CSV_MOBILE] = "";
+              $line[self::CSV_FAX] = "";
+              $line[self::CSV_WEB] = "";
             } 
 
             $e->save();
@@ -105,6 +106,8 @@ class EtablissementCsvFile extends CompteCsvFile
             $this->storeCompteInfos($e, $line);
 
             $e->save();
+
+            $s->pushToCompteOrEtablissementAndSave($s->getMasterCompte(), $e);
 
             echo $e->_id."\n";
         }catch(Exception $e) {

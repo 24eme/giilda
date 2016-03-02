@@ -123,10 +123,10 @@ join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.commun
 cat $DATA_DIR/contrats_drm.csv | cut -d ";" -f 7 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' > $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 6 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 9 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;NEGOCIANT/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;INTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;XXXINTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 13 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;REPRESENTANT/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/evv_numero_ppm.sorted.csv | cut -d ";" -f 23 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
+cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,2 | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
 
 cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv
 
@@ -173,7 +173,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     if($61 == "VITICULTEUR" || $61 == "NEGOCIANT" || $61 == "REPRESENTANT") {
         famille="RESSORTISSANT";
     }
-    if($61 == "INTERMEDIAIRE") {
+    if($61 == "XXXINTERMEDIAIRE") {
         famille="INTERMEDIAIRE";
     }
 
@@ -246,7 +246,7 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
         famille = "PRODUCTEUR";
     }
 
-    if(famille == "INTERMEDIAIRE") {
+    if(famille == "XXXINTERMEDIAIRE") {
         famille = "COURTIER";
     }
 
