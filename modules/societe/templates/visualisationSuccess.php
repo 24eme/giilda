@@ -146,7 +146,7 @@
                         </div>
         <?php elseif ($societe->isCourtier()): ?>
                         <div class="col-xs-6 text-right">
-                            <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement Opérateur</a>
+                            <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php //echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement Opérateur</a>
                         </div>
                     <?php endif; ?>
     <?php endif; ?>
