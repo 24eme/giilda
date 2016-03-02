@@ -40,7 +40,7 @@
                         <?php endif; ?>
                     </div><div class="col-xs-6 text-right">
                         <button id="btn_valider" type="submit" class="btn btn-success">
-                            <?php echo ($etablissement->isSameContactThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
+                            <?php echo ($etablissement->isSameCompteThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
                         </button>
                     </div>
                 </div>

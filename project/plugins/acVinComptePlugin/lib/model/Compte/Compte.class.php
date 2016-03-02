@@ -27,6 +27,7 @@ class Compte extends BaseCompte {
 
     public function isSameAdresseThanSociete() {
         $comptesociete = $this->getSociete()->getContact();
+        
         return ($comptesociete->adresse === $this->adresse) &&
                 ($comptesociete->commune === $this->commune) &&
                 ($comptesociete->code_postal === $this->code_postal) &&
@@ -206,15 +207,12 @@ class Compte extends BaseCompte {
     	  $this->addTag('automatique', 'Interlocuteur');
     	}
 
-        if (is_null($this->adresse_societe)) {
-            $this->adresse_societe = (int) $fromsociete;
-        }
-	   $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
+        $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
         
         $this->updateNomAAfficher();
 
         parent::save();
-	$this->autoUpdateLdap();
+        $this->autoUpdateLdap();
 
     }
 

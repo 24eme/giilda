@@ -7,6 +7,8 @@ class Etablissement extends BaseEtablissement {
     
     protected $cedex = null;
     protected $adresse_complementaire = null;
+    protected $telephone_mobile = null;
+    protected $telephone_perso = null;
 
     /**
      * @return _Compte
@@ -104,6 +106,15 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function isSameContactThanSociete() {
+        $comptesociete = $this->getSociete()->getContact();
+        return (($comptesociete->telephone_bureau === $this->telephone) || !$this->telephone) &&
+            (($comptesociete->telephone_mobile === $this->telephone_mobile) || !$this->telephone_mobile ) &&
+            (($comptesociete->telephone_perso === $this->telephone_perso) || !$this->telephone_perso) &&
+            (($comptesociete->email === $this->email) || !$this->email) &&
+            (($comptesociete->fax === $this->fax) || !$this->fax) ;
+    }
+
+    public function isSameCompteThanSociete() {
         return ($this->compte == $this->getSociete()->compte_societe);
     }
 
@@ -163,7 +174,31 @@ class Etablissement extends BaseEtablissement {
         }
         return $this->adresse_complementaire;
     }
+
+    public function setTelephonePerso($s) {
+        $this->telephone_perso = $s;
+        return true;
+    }
     
+    public function setTelephoneMobile($s) {
+        $this->telephone_mobile = $s;
+        return true;
+    }
+
+    public function getTelephonePerso() {
+        if (!$this->telephone_perso) {
+            $this->telephone_perso = $this->getMasterCompte()->telephone_perso;
+        }
+        return $this->telephone_perso;
+    }
+
+    public function getTelephoneMobile() {
+        if (!$this->telephone_mobile) {
+            $this->telephone_mobile = $this->getMasterCompte()->telephone_mobile;
+        }
+        return $this->telephone_mobile;
+    }
+
     public function setFax($fax) {
         if ($fax)
             $this->_set('fax', $this->cleanPhone($fax));
@@ -237,16 +272,6 @@ class Etablissement extends BaseEtablissement {
         return ($this->region != EtablissementClient::REGION_HORS_CVO);
     }
 
-//    protected function synchroRecetteLocale() {
-//        if ($this->recette_locale->id_douane) {
-//            $soc = SocieteClient::getInstance()->find($this->recette_locale->id_douane);
-//            if ($soc && $this->recette_locale->nom != $soc->raison_sociale) {
-//                $this->recette_locale->nom = $soc->raison_sociale;
-//                $this->recette_locale->ville = $soc->siege->commune;
-//            }
-//        }
-//    }
-
     protected function initFamille() {
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
@@ -256,10 +281,10 @@ class Etablissement extends BaseEtablissement {
         }
     }
 
-    public function save() { //($fromsociete = false, $fromclient = false, $fromcompte = false) {   
-        if(!$this->isSameAdresseThanSociete()){
-            //créer 
-            if ($this->isSameContactThanSociete()) {
+    public function save() {
+        if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
+            //créer
+            if ($this->isSameCompteThanSociete()) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
                 $compte->addOrigine($this->_id);
             }else{
@@ -270,58 +295,29 @@ class Etablissement extends BaseEtablissement {
             $compte->code_postal = $this->siege->code_postal;
             $compte->pays = $this->siege->pays;
             $compte->cedex = $this->cedex;
-            $compte->adresse_complementaire = $this->adresse_complementaire;
+            $compte->telephone_bureau= $this->telephone;
+            $compte->email = $this->email;
+            $compte->fax = $this->fax;
+            $compte->telephone_perso = $this->telephone_perso;
+            $compte->telephone_mobile = $this->telephone_mobile;
             $compte->id_societe = $this->getSociete()->_id;
             $compte->save();          
             $this->setCompte($compte->_id);
-        }else if(!$this->isSameContactThanSociete() && $this->isSameAdresseThanSociete()){
-             $compte = $this->getCompte();
+        }else if(!$this->isSameCompteThanSociete()){
+             $compteid = $this->getCompte();
              $mcompte = $this->getSociete()->getMasterCompte();
              $this->setCompte($mcompte->_id);
-             CompteClient::getInstance()->find($compte)->delete();
+             CompteClient::getInstance()->find($compteid)->delete();
              $this->siege->adresse = $mcompte->adresse;
              $this->siege->commune = $mcompte->commune;
              $this->siege->code_postal = $mcompte->code_postal;
              $this->siege->pays = $mcompte->pays;
-         }
-        /* $this->constructId();
-          $this->synchroRecetteLocale();
-          $this->initFamille();
-          $this->synchroFromSociete();
-
-          if (!$fromclient) {
-          if (!$this->compte) {
-          $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
-
-          $compte->constructId();
-          $compte->statut = $this->statut;
-          $this->compte = $compte->_id;
-          parent::save();
-          $compte->save(true, true);
-          }
-          }
-
-          if (!$fromsociete) {
-          $this->synchroAndSaveSociete();
-          if (!$fromcompte) {
-          $this->synchroAndSaveCompte();
-          }
-          } */
-        
-//        if($this->etablissement->isSameContactThanSociete() && $this->getObject()->){           
-//           $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
-//           $switch = true;
-//        } elseif($this->etablissement->isSameContactThanSociete()) {
-//           $this->etablissement->compte = null;
-//           $switch = true;
-//        }
-//       // var_dump($this->getObject()->cvi); exit;
-//        $this->etablissement->save();
-//        if($switch) {
-//            $this->etablissement->switchOrigineAndSaveCompte($old_compte);
-//            $this->etablissement->save();
-//        }         
-        
+             $this->telephone = $mcompte->telephone_bureau;
+             $this->email = $mcompte->email;
+             $this->fax = $mcompte->fax;
+             $this->telephone_perso = $mcompte->telephone_perso;
+             $this->telephone_mobile = $mcompte->telephone_mobile;
+        }
         
         $this->initFamille();
         parent::save();

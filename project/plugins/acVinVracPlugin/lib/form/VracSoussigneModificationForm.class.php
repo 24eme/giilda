@@ -68,14 +68,6 @@ class VracSoussigneModificationForm extends acCouchdbObjectForm {
             $societe->no_tva_intracommunautaire = $this->getValue('no_tva_intracommunautaire');
             $societe->save();
         }
-        
-        if(!$this->getObject()->isSameContactThanSociete()){
-            $this->getObject()->getMasterCompte()->updateAndSaveCoordoneesFromEtablissement($this->getObject());
-        }
-        else
-        {
-            throw new sfException("Les modifications ne peuvent être effectuées car cet etablissement à le même compte que la société.");
-        }
     } 
 
 }

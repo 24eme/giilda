@@ -175,6 +175,7 @@ class Societe extends BaseSociete {
         if (!$c->_id) {
             return;
         }
+
         if (!$ordre) {
             $ordre = 0;
         }
@@ -207,7 +208,7 @@ class Societe extends BaseSociete {
     public function isManyEtbPrincipalActif() {
         $cptActif = 0;
         foreach ($this->getEtablissementsObj() as $etb) {
-            if ($etb->etablissement->isSameContactThanSociete() && $etb->etablissement->isActif()) {
+            if ($etb->etablissement->isSameCompteThanSociete() && $etb->etablissement->isActif()) {
                 $cptActif++;
             }
             if ($cptActif > 1)
@@ -282,9 +283,9 @@ class Societe extends BaseSociete {
         }
 
         if ($compte->exist("adresse_complementaire")) {
-            $this->siege->adresse = $compte->adresse;
             $this->siege->add("adresse_complementaire", $compte->adresse_complementaire);
         }
+        $this->siege->adresse = $compte->adresse;
         $this->siege->code_postal = $compte->code_postal;
         $this->siege->commune = $compte->commune;
         $this->email = $compte->email;
@@ -360,7 +361,7 @@ class Societe extends BaseSociete {
         if (!$this->compte_societe) {
             $compte = $this->createCompteSociete();
             parent::save();
-            $compte->save();
+            $compte->save();           
         }
         $this->synchroFromCompte();
 
