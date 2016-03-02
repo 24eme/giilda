@@ -349,7 +349,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             $compte = $this->createCompteSociete();
         }
 
-        $this->pushContactAndAdresseToCompte($compte);
+        $this->pushContactAndAdresseTo($compte);
 
         $compte->save();
 

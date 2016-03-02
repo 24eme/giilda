@@ -136,8 +136,8 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return $phone;
     }
 
-    public function pushContactAndAdresseToCompte($compte) {
-        $compte->adresse = $this->getAdresse();
+    public function pushContactAndAdresseTo(InterfaceCompteGenerique $object) {
+        $compte->setAdresse = $this->getAdresse();
         $compte->adresse_complementaire = $this->getAdresseComplementaire();
         $compte->commune= $this->getCommune();
         $compte->code_postal = $this->getCodePostal();
@@ -148,6 +148,18 @@ abstract class CompteGenerique extends acCouchdbDocument {
         $compte->telephone_perso = $this->getTelephonePerso();
         $compte->telephone_mobile = $this->getTelephoneMobile();
         $compte->site_internet = $this->getSiteInternet();
+    }
+
+    public function pullContactAndAdresseFrom(InterfaceCompteGenerique $compte) {
+        $this->setAdresse($compte->adresse);
+        $this->setCommune($compte->commune);
+        $this->setCodePostal($compte->code_postal);
+        $this->setPays($compte->pays);
+        $this->setTelephoneBureau($compte->telephone_bureau);
+        $this->setEmail($compte->email);
+        $this->setFax($compte->fax);
+        $this->setTelephonePerso($compte->telephone_perso);
+        $this->setTelephoneMobile($compte->telephone_mobile);
     }
 
 }
