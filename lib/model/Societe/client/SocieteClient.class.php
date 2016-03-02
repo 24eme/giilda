@@ -65,7 +65,8 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getSocietesWithTypeAndRaisonSociale($type, $raison_sociale) {
-        return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', null, array($type), $raison_sociale);
+        return array_merge(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_ACTIF, array($type), $raison_sociale),
+                SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_SUSPENDU, array($type), $raison_sociale));
     }
 
     public function createSociete($raison_sociale, $type) {
