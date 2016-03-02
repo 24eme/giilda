@@ -29,7 +29,7 @@
                     if($reduct_rights) :
                             include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm, 'isCompteSociete' => true));
                             else :
-                            include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm, 'isCompteSociete' => true));
+                            include_partial('compte/modificationCoordonnee', array('compteForm' => $societeForm, 'isCompteSociete' => true));
                         endif;                    
                     ?>
                 </div>
