@@ -158,6 +158,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             }
             $this->etablissements->add($e->_id)->ordre = $ordre;
         }
+        if ($e->compte) {
+            $this->addCompte($e->getMasterCompte(), $ordre);
+        }
     }
 
     public function setCooperative($c) {
@@ -352,11 +355,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $this->add('date_modification', date('Y-m-d'));
 
         $compteMaster = $this->getMasterCompte();
-        if(!$this->getMasterCompte()) {
-            $compteMaster = $this->createCompteSociete();
-            $compteMaster->save();
-        }
-
+        
         foreach($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
             $needSave = false;
             if(CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
@@ -369,7 +368,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             }
 
             if($needSave) {
-                echo $compteOrEtablissement->_id."\n";
                 $compteOrEtablissement->save();
             }
         }
@@ -377,8 +375,18 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         if($this->isInCreation()){
             $this->setStatut(SocieteClient::STATUT_ACTIF);
         }
-        
-        return parent::save();
+            
+        if(!$this->getMasterCompte()) {
+            $compteMaster = $this->createCompteSociete();
+        }
+
+        parent::save();
+
+        if($compteMaster->isNew()) {
+            $compteMaster->save();
+            $this->pushContactAndAdresseTo($compteMaster);
+            $compteMaster->save();
+        }
     }
 
     public function isPresse() {
