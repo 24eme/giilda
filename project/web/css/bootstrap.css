@@ -4749,7 +4749,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #cccccc;
 }
 .breadcrumb > .active {
-  color: #777777;
+  color: #7f0048;
 }
 .pagination {
   display: inline-block;
@@ -6847,7 +6847,7 @@ button.close {
 }
 #header .navbar {
   border-top: 1px solid #dcd9d3;
-  font-family: "arapeyregular", Arial sans-serif;
+  font-family: "overlockblack", Arial sans-serif;
   font-size: 19px;
   margin: 0;
 }
