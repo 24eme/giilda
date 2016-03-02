@@ -344,14 +344,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     public function save() { //$fromCompte = false) {
         $this->add('date_modification', date('Y-m-d'));
 
-        $compte = $this->getMasterCompte();
+        $compteMaster = $this->getMasterCompte();
         if(!$this->getMasterCompte()) {
-            $compte = $this->createCompteSociete();
+            $compteMaster = $this->createCompteSociete();
         }
 
-        $this->pushContactAndAdresseTo($compte);
+        $this->pushContactAndAdresseTo($compteMaster);
 
-        $compte->save();
+        $compteMaster->save();
 
         return parent::save();
     }
