@@ -1,6 +1,6 @@
 <?php
 $liClass = '';
-if($vrac->etape == $num_etape+1) $liClass = 'active';
+if($actif == $num_etape+1) $liClass = 'active';
   else
   {
       if(($vrac->etape > $num_etape)) $liClass = 'passe';
