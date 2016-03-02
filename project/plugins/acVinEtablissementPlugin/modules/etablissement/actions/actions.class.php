@@ -43,5 +43,25 @@ class etablissementActions extends sfCredentialActions {
 
         $this->redirect($this->generateUrl('societe_visualisation', array('sf_subject' => $this->etablissement->getSociete(), 'etablissement' => $this->etablissement->_id)) . '#' . $this->etablissement->_id);
     }
+    
+     public function executeSwitchStatus(sfWebRequest $request) {
+        $this->etablisssement = $this->getRoute()->getEtablissement();
+        $newStatus = "";
+        if($this->etablisssement->isActif()){
+           $newStatus = SocieteClient::STATUT_SUSPENDU; 
+        }
+        if($this->etablisssement->isSuspendu()){
+           $newStatus = SocieteClient::STATUT_ACTIF; 
+        }
+        $compte = $this->etablissement->getMasterCompte();
+        var_dump($this->etablisssement); exit;
+        if($compte && !$this->etablissement->isSameCompteThanSociete()){
+            $compte->setStatut($newStatus);
+            $compte->save();
+        }      
+        $this->etablisssement->setStatut($newStatus);
+        $this->etablisssement->save();
+        return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablisssement->identifiant));
+    }
 
 }

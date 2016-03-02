@@ -234,8 +234,13 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isActif() {
-        return ($this->statut == EtablissementClient::STATUT_ACTIF);
+        return $this->statut && ($this->statut == EtablissementClient::STATUT_ACTIF);
     }
+    
+     public function isSuspendu() {
+        return $this->statut && ($this->statut == SocieteClient::STATUT_SUSPENDU);
+    }
+    
 
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
