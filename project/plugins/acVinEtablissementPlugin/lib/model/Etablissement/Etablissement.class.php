@@ -210,26 +210,21 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
                 $compte = $this->getMasterCompte();
             }
             
-            $this->pushContactAndAdresseToCompte($compte);
+            $this->pushContactAndAdresseTo($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
 
             $compte->save();          
             $this->setCompte($compte->_id);
-        }else if(!$this->isSameCompteThanSociete()){
-             $compteid = $this->getCompte();
-             $mcompte = $this->getSociete()->getMasterCompte();
-             $this->setCompte($mcompte->_id);
-             CompteClient::getInstance()->find($compteid)->delete();
-             $this->siege->adresse = $mcompte->adresse;
-             $this->siege->commune = $mcompte->commune;
-             $this->siege->code_postal = $mcompte->code_postal;
-             $this->siege->pays = $mcompte->pays;
-             $this->telephone = $mcompte->telephone_bureau;
-             $this->email = $mcompte->email;
-             $this->fax = $mcompte->fax;
-             $this->telephone_perso = $mcompte->telephone_perso;
-             $this->telephone_mobile = $mcompte->telephone_mobile;
+        } else if(!$this->isSameCompteThanSociete()){
+            $compteEtablissement = $this->getCompte();
+            $compteSociete = $this->getSociete()->getMasterCompte();
+
+            $this->setCompte($compteSociete->_id);
+
+            CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
+
+            $this->pullContactAndAdresseFrom($compte);
         }
         
         $this->initFamille();
