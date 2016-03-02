@@ -221,7 +221,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
             $this->pullContactAndAdresseFrom($compteSociete);
         }
-        
+
         $this->initFamille();
         $new = $this->isNew();
         parent::save();

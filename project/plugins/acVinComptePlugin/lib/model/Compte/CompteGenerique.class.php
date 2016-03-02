@@ -148,7 +148,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
     public static function isSameContactComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
 
-        if ($compte1->getTelephoneBureau() === $compte2->getTelephoneBureau() && $compte1->getTelephoneMobile() === $compte2->getTelephoneMobile() && $compte1->getTelephonePerso() === $compte2->getTelephonePerso() && $compte1->getEmail() === $compte2->getEmail() && $compte1->getFax() === $compte2->getFax() && $compte1->getSiteInternet() === $compte2->getSiteInternet()) {
+        if ($compte1->getTelephoneBureau() == $compte2->getTelephoneBureau() && $compte1->getTelephoneMobile() == $compte2->getTelephoneMobile() && $compte1->getTelephonePerso() == $compte2->getTelephonePerso() && $compte1->getEmail() == $compte2->getEmail() && $compte1->getFax() == $compte2->getFax() && $compte1->getSiteInternet() == $compte2->getSiteInternet()) {
 
             return true;
         }

@@ -355,7 +355,21 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $this->add('date_modification', date('Y-m-d'));
 
         $compteMaster = $this->getMasterCompte();
-        
+
+        if(!$compteMaster) {
+            $compteMaster = $this->createCompteSociete();
+        }
+
+        if($this->isInCreation()){
+            $this->setStatut(SocieteClient::STATUT_ACTIF);
+        }
+
+        parent::save();
+
+        if($compteMaster->isNew()) {
+            $compteMaster->save();
+        }
+
         foreach($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
             $needSave = false;
             if(CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
@@ -370,22 +384,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             if($needSave) {
                 $compteOrEtablissement->save();
             }
-        }
-
-        if($this->isInCreation()){
-            $this->setStatut(SocieteClient::STATUT_ACTIF);
-        }
-            
-        if(!$this->getMasterCompte()) {
-            $compteMaster = $this->createCompteSociete();
-        }
-
-        parent::save();
-
-        if($compteMaster->isNew()) {
-            $compteMaster->save();
-            $this->pushContactAndAdresseTo($compteMaster);
-            $compteMaster->save();
         }
     }
 
