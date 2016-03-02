@@ -22,14 +22,12 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     public function configure() {
         parent::configure();
         $this->setWidget('nom', new bsWidgetFormInput());
-        $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => self::getStatuts(), 'multiple' => false, 'expanded' => true)));
-        $this->setWidget('region', new bsWidgetFormChoice(array('choices' => self::getRegions())));
+       $this->setWidget('region', new bsWidgetFormChoice(array('choices' => self::getRegions())));
         $this->setWidget('no_accises', new bsWidgetFormInput());
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));        $this->setWidget('site_fiche', new bsWidgetFormInput());
 
 
         $this->widgetSchema->setLabel('nom', 'Nom du chai *');
-        $this->widgetSchema->setLabel('statut', 'Statut *');
         $this->widgetSchema->setLabel('region', 'Région viticole *');
         $this->widgetSchema->setLabel('no_accises', "N° d'Accise");
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
@@ -37,7 +35,6 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
 
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
-        $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getStatuts()))));
         $this->setValidator('region', new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::getRegions()))));
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
@@ -52,11 +49,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
             $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
-        }
-
-        if ($this->etablissement->isNew()) {
-            $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
-        }     
+        }    
      
         $this->widgetSchema->setNameFormat('etablissement_modification[%s]');
     }
