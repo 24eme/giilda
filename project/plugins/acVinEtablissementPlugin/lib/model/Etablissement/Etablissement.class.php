@@ -1,14 +1,9 @@
 <?php
 
-class Etablissement extends BaseEtablissement {
+class Etablissement extends BaseEtablissement { #BaseEtablissement hérite de CompteGenerique
 
     protected $_interpro = null;
     protected $droit = null;
-    
-    protected $cedex = null;
-    protected $adresse_complementaire = null;
-    protected $telephone_mobile = null;
-    protected $telephone_perso = null;
 
     /**
      * @return _Compte
@@ -74,11 +69,6 @@ class Etablissement extends BaseEtablissement {
                         ->getView("drm", "all");
     }
 
-    private function cleanPhone($phone) {
-
-        return $phone;
-    }
-
     public function getMasterCompte() {
         if ($this->compte) {
             return CompteClient::getInstance()->find($this->compte);
@@ -100,7 +90,6 @@ class Etablissement extends BaseEtablissement {
         return (($comptesociete->adresse == $this->siege->adresse)  || ! $this->siege->adresse )&&
                 (($comptesociete->commune == $this->siege->commune) || ! $this->siege->commune) &&
                 (($comptesociete->code_postal == $this->siege->code_postal) ||  !$this->siege->code_postal) &&
-                (($comptesociete->cedex == $this->cedex) || !$this->cedex) &&
                 (($comptesociete->adresse_complementaire == $this->adresse_complementaire) || !$this->adresse_complementaire)&&
                 (($comptesociete->pays == $this->siege->pays) || !$this->siege->pays);
     }
@@ -135,78 +124,6 @@ class Etablissement extends BaseEtablissement {
         }
 
         return $societe->no_tva_intracommunautaire;
-    }
-
-    public function setAdresse($s) {
-        return ($this->siege->adresse = $s);
-    }
-
-    public function setCommune($s) {
-        return ($this->siege->commune = $s);
-    }
-
-    public function setCodePostal($s) {
-        return ($this->siege->code_postal= $s);
-    }
-
-    public function setPays($s) {
-        return ($this->siege->pays = $s);
-    }
-
-    public function setCedex($s) {
-        $this->cedex = $s;
-        return true;
-    }
-    public function setAdresseComplementaire($s) {
-        $this->adresse_complementaire = $s;
-        return true;
-    }
-
-    public function getCedex() {
-        if (!$this->cedex) {
-            $this->cedex = $this->getMasterCompte()->cedex;
-        }
-        return $this->cedex;
-    }
-    public function getAdresseComplementaire() {
-        if (!$this->adresse_complementaire) {
-            $this->adresse_complementaire = $this->getMasterCompte()->adresse_complementaire;
-        }
-        return $this->adresse_complementaire;
-    }
-
-    public function setTelephonePerso($s) {
-        $this->telephone_perso = $s;
-        return true;
-    }
-    
-    public function setTelephoneMobile($s) {
-        $this->telephone_mobile = $s;
-        return true;
-    }
-
-    public function getTelephonePerso() {
-        if (!$this->telephone_perso) {
-            $this->telephone_perso = $this->getMasterCompte()->telephone_perso;
-        }
-        return $this->telephone_perso;
-    }
-
-    public function getTelephoneMobile() {
-        if (!$this->telephone_mobile) {
-            $this->telephone_mobile = $this->getMasterCompte()->telephone_mobile;
-        }
-        return $this->telephone_mobile;
-    }
-
-    public function setFax($fax) {
-        if ($fax)
-            $this->_set('fax', $this->cleanPhone($fax));
-    }
-
-    public function setTelephone($phone, $idcompte = null) {
-        if ($phone)
-            $this->_set('telephone', $this->cleanPhone($phone));
     }
 
     public function getDenomination() {
@@ -296,7 +213,6 @@ class Etablissement extends BaseEtablissement {
             $compte->commune= $this->siege->commune;
             $compte->code_postal = $this->siege->code_postal;
             $compte->pays = $this->siege->pays;
-            $compte->cedex = $this->cedex;
             $compte->telephone_bureau= $this->telephone;
             $compte->email = $this->email;
             $compte->fax = $this->fax;

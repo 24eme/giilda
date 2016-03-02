@@ -110,7 +110,7 @@
  
  */
  
-abstract class BaseEtablissement extends acCouchdbDocument {
+abstract class BaseEtablissement extends CompteGenerique {
 
     public function getDocumentDefinitionModel() {
         return 'Etablissement';

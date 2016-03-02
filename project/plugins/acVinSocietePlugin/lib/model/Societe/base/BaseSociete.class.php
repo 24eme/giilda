@@ -77,7 +77,7 @@
  
  */
  
-abstract class BaseSociete extends acCouchdbDocument {
+abstract class BaseSociete extends CompteGenerique {
 
     public function getDocumentDefinitionModel() {
         return 'Societe';

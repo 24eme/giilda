@@ -27,7 +27,6 @@ abstract class CompteCoordonneeSameSocieteForm extends acCouchdbObjectForm {
             'adresse_complementaire' => 'adresse complementaire',
             'code_postal' => 'code postal',
             'commune' => 'commune',
-            'cedex' => 'cedex',
             'pays' => 'pays',
             'droits' => 'droits',
             'email' => 'email',

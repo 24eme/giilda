@@ -9,7 +9,7 @@
  * Description of class SocieteModificationForm
  * @author mathurin
  */
-class SocieteModificationForm extends acCouchdbObjectForm {
+class SocieteModificationForm extends CompteGeneriqueForm {
 
     private $types_societe = null;
     private $statuts = null;
@@ -107,7 +107,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
 
-
         if ($this->getObject()->isInCreation()) {
             $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
         }
@@ -159,12 +158,12 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         return array('Non', 'Oui');
     }
 
-    public function getStatuts() {
+    /*public function getStatuts() {
         if (!$this->statuts) {
             $this->setStatuts();
         }
         return $this->statuts;
-    }
+    }*/
 
     public function getSocieteTypes() {
         if (!$this->types_societe) {
