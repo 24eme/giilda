@@ -2,7 +2,6 @@
 
 abstract class CompteGenerique extends acCouchdbDocument {
 
-    protected $adresse_complementaire = null;
     protected $telephone_mobile = null;
     protected $telephone_perso = null;
     protected $site_internet = null;
@@ -34,7 +33,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
     public function setCodePostal($s) {
        
-        return ($this->siege->code_postal= $s);
+        return ($this->siege->code_postal = $s);
     }
 
     public function getPays() {
@@ -62,13 +61,13 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setTelephonePerso($s) {
-        $this->telephone_perso = $s;
-        return true;
+
+        return ($this->telephone_perso = $s);
     }
     
     public function setTelephoneMobile($s) {
-        $this->telephone_mobile = $s;
-        return true;
+        
+        return ($this->telephone_mobile = $s);
     }
 
     public function setTelephoneBureau($tel) {
@@ -77,13 +76,13 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setSiteInternet($s) {
-        $this->site_internet = $s;
-        return true;
+        
+        return ($this->site_internet = $s);
     }
 
     public function setFax($fax) {
-        if ($fax)
-            $this->_set('fax', $this->cleanPhone($fax));
+        
+        return $this->_set('fax', $fax);
     }
 
     public function getEmail() {
@@ -97,8 +96,8 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setTelephone($phone) {
-        if ($phone)
-            $this->_set('telephone', $this->cleanPhone($phone));
+        
+        return $this->_set('telephone', $phone);
     }
 
     public function getTelephoneBureau() {
@@ -107,21 +106,21 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function getTelephonePerso() {
-        if (!$this->telephone_perso) {
+        if (is_null($this->telephone_perso)) {
             $this->telephone_perso = $this->getMasterCompte()->telephone_perso;
         }
         return $this->telephone_perso;
     }
 
     public function getTelephoneMobile() {
-        if (!$this->telephone_mobile) {
+        if (is_null($this->telephone_mobile)) {
             $this->telephone_mobile = $this->getMasterCompte()->telephone_mobile;
         }
         return $this->telephone_mobile;
     }
 
     public function getSiteInternet() {
-        if (!$this->site_internet) {
+        if (is_null($this->site_internet)) {
             $this->site_internet = $this->getMasterCompte()->site_internet;
         }
         return $this->site_internet;
@@ -132,28 +131,34 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return $this->_get('fax');
     }
 
-    protected function cleanPhone($phone) {
-
-        return $phone;
-    }
-
     public static function isSameAdresseComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
         
-        return (($compte1->getAdresse() == $compte2->getAdresse()) || ! $compte1->getAdresse()) &&
-        (($compte1->getCommune() == $compte2->getCommune()) || ! $compte1->getCommune()) &&
-        (($compte1->getCodePostal() == $compte2->getCodePostal()) || !$compte1->getCodePostal()) &&
-        (($compte1->getAdresseComplementaire() == $compte2->getAdresseComplementaire()) || !$compte1->getAdresseComplementaire())&&
-        (($compte1->getPays() == $compte2->getPays()) || !$compte1->getPays());
+        if($compte1->getAdresse() == $compte2->getAdresse() && $compte1->getCommune() == $compte2->getCommune() && $compte1->getCodePostal() == $compte2->getCodePostal() && $compte1->getAdresseComplementaire() == $compte2->getAdresseComplementaire() && $compte1->getPays() == $compte2->getPays()) {
+
+            return true;
+        }
+
+        if(!$compte1->getAdresse() && !$compte1->getCommune() && !$compte1->getCodePostal() && !$compte1->getAdresseComplementaire() && !$compte1->getPays()) {
+
+            return true;
+        }
+
+        return false;
     }
 
     public static function isSameContactComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
 
-        return (($compte1->getTelephoneBureau() === $compte2->getTelephoneBureau()) || !$compte1->getTelephoneBureau()) &&
-            (($compte1->getTelephoneMobile() === $compte2->getTelephoneMobile()) || !$compte1->getTelephoneMobile() ) &&
-            (($compte1->getTelephonePerso() === $compte2->getTelephonePerso()) || !$compte1->getTelephonePerso()) &&
-            (($compte1->getEmail() === $compte2->getEmail()) || !$compte1->getEmail()) &&
-            (($compte1->getFax() === $compte2->getFax()) || !$compte1->getFax()) &&
-            (($compte1->getSiteInternet() === $compte2->getSiteInternet()) || !$compte1->getSiteInternet());
+        if ($compte1->getTelephoneBureau() === $compte2->getTelephoneBureau() && $compte1->getTelephoneMobile() === $compte2->getTelephoneMobile() && $compte1->getTelephonePerso() === $compte2->getTelephonePerso() && $compte1->getEmail() === $compte2->getEmail() && $compte1->getFax() === $compte2->getFax() && $compte1->getSiteInternet() === $compte2->getSiteInternet()) {
+
+            return true;
+        }
+
+        if(!$compte1->getTelephoneBureau() && !$compte1->getTelephoneMobile() && !$compte1->getTelephonePerso() && !$compte1->getFax() && !$compte1->getEmail() && !$compte1->getSiteInternet()) {
+
+            return true;
+        }
+
+        return false;
     }
 
 
