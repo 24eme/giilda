@@ -54,7 +54,7 @@
     </div>
 	<?php $cpt = 0; ?>
 
-    <div class="list-group">
+    <div class="list-group" id="list-item">
 		<?php foreach($results as $res): ?>
 			<?php $data = $res->getData(); ?>
             <?php $societe_informations = $data['doc']['societe_informations']; ?>
