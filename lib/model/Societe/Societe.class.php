@@ -283,9 +283,9 @@ class Societe extends BaseSociete {
         }
 
         if ($compte->exist("adresse_complementaire")) {
-            $this->siege->adresse = $compte->adresse;
             $this->siege->add("adresse_complementaire", $compte->adresse_complementaire);
         }
+        $this->siege->adresse = $compte->adresse;
         $this->siege->code_postal = $compte->code_postal;
         $this->siege->commune = $compte->commune;
         $this->email = $compte->email;
@@ -361,7 +361,7 @@ class Societe extends BaseSociete {
         if (!$this->compte_societe) {
             $compte = $this->createCompteSociete();
             parent::save();
-            $compte->save();
+            $compte->save();           
         }
         $this->synchroFromCompte();
 
