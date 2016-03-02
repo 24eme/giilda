@@ -14,3 +14,4 @@ data/upload/*
 web/*.log
 web/generation/*.pdf
 node_modules
+package.json
