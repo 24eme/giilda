@@ -19,29 +19,37 @@ use_helper('Prix');
 <?php else : ?>
     <div class="row row-margin">
         <div class="col-xs-12">
-            <div class="list-group">
-                <li class="list-group-item col-xs-12 text-muted">
-                    <span class="col-xs-3">Document</span>
-                    <span class="col-xs-3">Produits</span>
-                    <span class="col-xs-2">Type</span>
-                    <span class="col-xs-2 text-right">Quantité</span>
-                    <span class="col-xs-2 text-right">Prix TTC</span>
-                </li>
-                <?php foreach ($mouvements as $mouvement): ?>
-                    <li class="list-group-item col-xs-12">
-                        <span class="col-xs-3"><?php
+        	
+    
+	    	<table class="table table-striped">
+			    <thead>
+			        <tr>
+			            <th>Document</th>
+			            <th>Produits</th>   
+			            <th>Type</th>
+			            <th style="width: 90px;">Quantité</th>
+			            <th style="width: 90px;">Prix TTC</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+                	<?php foreach ($mouvements as $mouvement): ?>
+			    	<tr class="vertical-center">
+			    		<td class="text-left">
+			    			<?php
                             $numeroFormatted = (strstr($mouvement->numero, 'DRM') !== false) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
                                     $mouvement->nom_facture;
 
                             echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
-                            ?></span>                        
-                        <span class="col-xs-3"><?php echo $mouvement->produit_libelle ?></span>
-                        <span class="col-xs-2"><?php echo  $mouvement->type_libelle; ?></span>
-                        <span class="col-xs-2 text-right"><?php echoFloat($mouvement->volume * -1) ; ?> <?php if($mouvement->type_libelle): ?>&nbsp;hl<?php else: ?>&nbsp;&nbsp;&nbsp;<?php endif;?></span>
-                        <span class="col-xs-2 text-right"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</span>
-                    </li>
-                <?php endforeach; ?>
-            </div>
+                            ?>
+			    		</td>
+			    		<td class="text-left"><?php echo $mouvement->produit_libelle ?></td>
+			    		<td class="text-left"><?php echo $mouvement->type_libelle ?></td>
+			    		<td class="text-right"><?php echoFloat($mouvement->volume * -1) ; ?> <?php if($mouvement->type_libelle): ?>&nbsp;hl<?php else: ?>&nbsp;&nbsp;&nbsp;<?php endif;?></td>
+			    		<td class="text-right"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</td>
+			    	</tr>
+                	<?php endforeach; ?>
+			    </tbody>
+			</table>
         </div>
     </div>
 <?php endif; ?>

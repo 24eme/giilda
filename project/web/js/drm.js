@@ -24,7 +24,6 @@
 
         //$('.autocomplete').combobox();
 
-
         $(".stickyHeader").sticky({topSpacing: 0});
 
         if (colonnesDR.length)
@@ -123,18 +122,17 @@
     });
 
     var initRaccourcis = function () {
-        $('li.no_favoris a.raccourcis_ouvrir').each(function () {
-            $(this).keypress(function (e) {
+        $('a.click-on-space-key').keypress(function (e) {
                 var idCol = $(this).data('groupe-id');
-                if (e.keyCode === 0 || e.keyCode === 32) {
+                if (e.key == " ") {
                     e.preventDefault();
-                    $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
+                    $(this).click();
                 }
             });
-            $(this).click(function () {
-                var idCol = $(this).data('groupe-id');
-                $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
-            });
+
+        $('li.no_favoris a.raccourcis_ouvrir').click(function () {
+            var idCol = $(this).data('groupe-id');
+            $('div.no_favoris[data-groupe-id="' + idCol + '"] > p').trigger('click');
         });
 
         $('input.tabIndexOnPrevious').keydown(function (e) {

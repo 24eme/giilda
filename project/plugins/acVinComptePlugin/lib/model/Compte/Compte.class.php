@@ -27,6 +27,7 @@ class Compte extends BaseCompte {
 
     public function isSameAdresseThanSociete() {
         $comptesociete = $this->getSociete()->getContact();
+        
         return ($comptesociete->adresse === $this->adresse) &&
                 ($comptesociete->commune === $this->commune) &&
                 ($comptesociete->code_postal === $this->code_postal) &&
