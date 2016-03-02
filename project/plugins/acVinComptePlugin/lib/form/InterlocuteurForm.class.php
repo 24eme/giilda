@@ -11,7 +11,7 @@
  *
  * @author mathurin
  */
-class InterlocuteurForm extends acCouchdbObjectForm {
+class InterlocuteurForm extends CompteGeneriqueForm {
 
     private $compte;
     private $societeCompte;
@@ -53,8 +53,7 @@ class InterlocuteurForm extends acCouchdbObjectForm {
         $this->setValidator('fonction', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         
-        CompteGeneriqueForm::configure();
-
+       
         if ($this->compte->isNew()) {
             $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         }
@@ -77,7 +76,7 @@ class InterlocuteurForm extends acCouchdbObjectForm {
         if ($this->getObject()->isNew()) {
             $this->setDefault('statut', $this->getObject()->getSociete()->statut);
         }
-        
+       /* 
         if ($this->compte->isSameAdresseThanSociete()) {
             if ($this->compte->adresse == $this->societeCompte->adresse) {
                 $this->setDefault('adresse', '');
@@ -121,7 +120,7 @@ class InterlocuteurForm extends acCouchdbObjectForm {
             if ($this->compte->fax == $this->societeCompte->fax) {
                 $this->setDefault('fax', '');
             }
-        }
+        }*/
     }
   
 }
