@@ -23,6 +23,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setCommune($s) {
+
         return ($this->siege->commune = $s);
     }
 
@@ -139,7 +140,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     public function isSameAdresseThan(InterfaceCompteGenerique $compte) {
         
         return (($compte->getAdresse() == $this->getAdresse()) || ! $this->getAdresse()) &&
-        (($compte->getCommune() == $this->getCommune()) || ! $this->getCommune) &&
+        (($compte->getCommune() == $this->getCommune()) || ! $this->getCommune()) &&
         (($compte->getCodePostal() == $this->getCodePostal()) || !$this->getCodePostal()) &&
         (($compte->getAdresseComplementaire() == $this->getAdresseComplementaire()) || !$this->getAdresseComplementaire())&&
         (($compte->getPays() == $this->getPays()) || !$this->getPays());
@@ -147,12 +148,12 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
     public function isSameContactThan(InterfaceCompteGenerique $compte) {
 
-        return (($comptesociete->getTelephoneBureau() === $this->getTelephoneBureau()) || !$this->getTelephoneBureau()) &&
-            (($comptesociete->getTelephoneMobile() === $this->getTelephoneMobile()) || !$this->getTelephoneMobile() ) &&
-            (($comptesociete->getTelephonePerso() === $this->getTelephonePerso()) || !$this->getTelephonePerso()) &&
-            (($comptesociete->getEmail() === $this->getEmail()) || !$this->getEmail()) &&
-            (($comptesociete->getFax() === $this->getFax()) || !$this->getFax()) &&
-            (($comptesociete->getSiteInternet() === $this->getSiteInternet()) || !$this->getSiteInternet());
+        return (($compte->getTelephoneBureau() === $this->getTelephoneBureau()) || !$this->getTelephoneBureau()) &&
+            (($compte->getTelephoneMobile() === $this->getTelephoneMobile()) || !$this->getTelephoneMobile() ) &&
+            (($compte->getTelephonePerso() === $this->getTelephonePerso()) || !$this->getTelephonePerso()) &&
+            (($compte->getEmail() === $this->getEmail()) || !$this->getEmail()) &&
+            (($compte->getFax() === $this->getFax()) || !$this->getFax()) &&
+            (($compte->getSiteInternet() === $this->getSiteInternet()) || !$this->getSiteInternet());
     }
 
     public function pushContactAndAdresseTo(InterfaceCompteGenerique $compte) {
@@ -163,7 +164,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     public function pushAdresseTo(InterfaceCompteGenerique $compte) {
         $compte->adresse = $this->getAdresse();
         $compte->adresse_complementaire = $this->getAdresseComplementaire();
-        $compte->commune= $this->getCommune();
+        $compte->commune = $this->getCommune();
         $compte->code_postal = $this->getCodePostal();
         $compte->pays = $this->getPays();
     }
@@ -180,7 +181,6 @@ abstract class CompteGenerique extends acCouchdbDocument {
     public function pullContactAndAdresseFrom(InterfaceCompteGenerique $compte) {
         $this->pullAdresseFrom($compte);
         $this->pullContactFrom($compte);
-        
     }
 
     public function pullAdresseFrom(InterfaceCompteGenerique $compte) {

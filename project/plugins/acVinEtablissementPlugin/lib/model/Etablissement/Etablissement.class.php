@@ -92,7 +92,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function isSameContactThanSociete() {
 
-        return $thiq->isSameContactThan($this->getSociete()->getContact());
+        return $this->isSameContactThan($this->getSociete()->getContact());
     }
 
     public function isSameCompteThanSociete() {
