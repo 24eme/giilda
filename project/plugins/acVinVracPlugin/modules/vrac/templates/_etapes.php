@@ -7,7 +7,6 @@
             foreach ($etapes as $etapeCle => $etapeLibelle) {
                 include_partial('etapeItem',array('num_etape' => $counter,
                                                  'vrac' => $vrac,
-                                                 'actif' => $actif,
                                                  'label' => $etapeLibelle,
                                                  'url_etape' => 'vrac_'.$etapeCle,
                                                  'urlsoussigne' => $urlsoussigne
