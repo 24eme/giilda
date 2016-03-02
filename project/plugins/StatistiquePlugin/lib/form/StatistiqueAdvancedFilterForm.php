@@ -20,7 +20,7 @@ class StatistiqueAdvancedFilterForm extends BaseForm
 	public function configure() 
 	{
 		$this->setWidgets(array(
-				'fk' => new sfWidgetFormChoice(array('choices' => array_merge(array('' => ''), $this->filters))),
+				'fk' => new sfWidgetFormChoice(array('choices' => array_merge(array('' => ''), $this->filters)), array('class' => 'select2')),
 				'fo' => new sfWidgetFormChoice(array('choices' => $this->operators)),
 				'fv' => new sfWidgetFormInputText(),
 		));
