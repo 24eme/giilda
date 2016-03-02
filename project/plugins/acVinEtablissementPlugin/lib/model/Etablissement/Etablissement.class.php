@@ -307,8 +307,6 @@ class Etablissement extends BaseEtablissement {
              $compteid = $this->getCompte();
              $mcompte = $this->getSociete()->getMasterCompte();
              $this->setCompte($mcompte->_id);
-             $this->getSociete()->removeContact($compteid);
-             $this->getSociete()->save();
              CompteClient::getInstance()->find($compteid)->delete();
              $this->siege->adresse = $mcompte->adresse;
              $this->siege->commune = $mcompte->commune;
