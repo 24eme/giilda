@@ -12,7 +12,7 @@
     <?php endif; ?>
 </ol>
 
-<section class="row">
+<section id="principal" class="societe row">
     <div class="col-xs-12" style="<?php if (isset($etablissement) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
         <div class="list-group">
             <div class="list-group-item">
