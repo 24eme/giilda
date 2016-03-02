@@ -75,11 +75,6 @@ class Etablissement extends BaseEtablissement {
                         ->getView("drm", "all");
     }
 
-    private function cleanPhone($phone) {
-
-        return $phone;
-    }
-
     public function getMasterCompte() {
         if ($this->compte) {
             return CompteClient::getInstance()->find($this->compte);
@@ -174,62 +169,6 @@ class Etablissement extends BaseEtablissement {
             $this->adresse_complementaire = $this->getMasterCompte()->adresse_complementaire;
         }
         return $this->adresse_complementaire;
-    }
-
-    public function setSiteInternet($s) {
-        $this->site_internet = $s;
-        return true;
-    }
-  
-    public function setTelephonePerso($s) {
-        $this->telephone_perso = $s;
-        return true;
-    }
-    
-    public function setTelephoneMobile($s) {
-        $this->telephone_mobile = $s;
-        return true;
-    }
-
-    public function setTelephoneBureau($tel) {
-        
-        return $this->setTelephone($tel);
-    }
-
-    public function getTelephoneBureau() {
-        
-        return $this->getTelephone();
-    }
-
-    public function getTelephonePerso() {
-        if (!$this->telephone_perso) {
-            $this->telephone_perso = $this->getMasterCompte()->telephone_perso;
-        }
-        return $this->telephone_perso;
-    }
-
-    public function getTelephoneMobile() {
-        if (!$this->telephone_mobile) {
-            $this->telephone_mobile = $this->getMasterCompte()->telephone_mobile;
-        }
-        return $this->telephone_mobile;
-    }
-
-    public function getSiteInternet() {
-        if (!$this->site_internet) {
-            $this->site_internet = $this->getMasterCompte()->site_internet;
-        }
-        return $this->site_internet;
-    }
-
-    public function setFax($fax) {
-        if ($fax)
-            $this->_set('fax', $this->cleanPhone($fax));
-    }
-
-    public function setTelephone($phone, $idcompte = null) {
-        if ($phone)
-            $this->_set('telephone', $this->cleanPhone($phone));
     }
 
     public function getDenomination() {

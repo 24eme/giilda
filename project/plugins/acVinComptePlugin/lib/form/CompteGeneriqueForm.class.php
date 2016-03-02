@@ -61,7 +61,6 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->setValidator('site_internet', new sfValidatorString(array('required' => false)));
-        
     }
 
     protected function updateDefaultsFromObject() {
