@@ -4737,7 +4737,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 0 15px;
   margin-bottom: 20px;
   list-style: none;
-  background-color: #f1f1f1;
+  background-color: transparent;
   border-radius: 0;
 }
 .breadcrumb > li {
@@ -6885,7 +6885,7 @@ button.close {
 }
 #content {
   background: #eadfcf;
-  padding: 0 0 20px 0;
+  padding: 20px 0;
 }
 #content > .container {
   background: #FFF;
