@@ -4,7 +4,7 @@
  * Model for Societe
  *
  */
-class Societe extends BaseSociete {
+class Societe extends BaseSociete { #BaseSociete hérite de CompteGenerique
 
     private $changedCooperative = null;
     private $changedStatut = null;
