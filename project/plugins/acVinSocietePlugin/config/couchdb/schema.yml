@@ -34,10 +34,10 @@ Societe:
         definition:
           fields:
             adresse: {  }
-            adresse_complementaire: { required: false }
+            adresse_complementaire: { }
             code_postal: {  }
             commune: {  }
-            pays: { required: false }
+            pays: {  }
       cooperative: { }
       enseignes:
         type: array_collection

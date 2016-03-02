@@ -63,13 +63,6 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        
-        $this->setDefault('adresse', $this->etablissement->siege->adresse);
-        $this->setDefault('code_postal', $this->etablissement->siege->code_postal);
-        $this->setDefault('commune', $this->etablissement->siege->commune);
-        $this->setDefault('pays', $this->etablissement->siege->pays);
-        $this->setDefault('adresse_complementaire', $this->etablissement->adresse_complementaire);
-        $this->setDefault('cedex', $this->etablissement->cedex);
     }
 
    
@@ -83,13 +76,6 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-
-        $this->etablissement->setAdresse($values['adresse']);
-        $this->etablissement->setCommune($values['commune']);
-        $this->etablissement->setPays($values['pays']);
-        $this->etablissement->setCedex($values['cedex']);
-        $this->etablissement->setAdresseComplementaire($values['adresse_complementaire']);
-        $this->etablissement->setCodePostal($values['code_postal']);
         
         if (!$this->etablissement->isCourtier()) {
             $this->etablissement->setCvi($values['cvi']);

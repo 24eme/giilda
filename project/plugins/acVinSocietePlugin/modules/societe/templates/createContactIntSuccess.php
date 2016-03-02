@@ -97,10 +97,6 @@
 									<input type="text" id="coordonnees_contact_ville" class="champ_long" />
 								</div>
 								<div class="form_ligne">
-									<label for="coordonnees_contact_cedex">Cedex</label>
-									<input type="text" id="coordonnees_contact_cedex" />
-								</div>
-								<div class="form_ligne">
 									<label for="coordonnees_contact_pays">Pays</label>
 									<select id="coordonnees_contact_pays">
 										<option>France</option>

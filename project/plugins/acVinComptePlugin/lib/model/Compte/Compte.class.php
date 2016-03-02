@@ -31,7 +31,6 @@ class Compte extends BaseCompte {
         return ($comptesociete->adresse === $this->adresse) &&
                 ($comptesociete->commune === $this->commune) &&
                 ($comptesociete->code_postal === $this->code_postal) &&
-                ($comptesociete->cedex === $this->cedex) &&
                 ($comptesociete->pays === $this->pays) &&
                 ($comptesociete->adresse_complementaire === $this->adresse_complementaire);
     }
@@ -53,7 +52,6 @@ class Compte extends BaseCompte {
         return (!$this->adresse) &&
                 (!$this->commune) &&
                 (!$this->code_postal) &&
-                (!$this->cedex) &&
                 (!$this->pays) &&
                 (!$this->adresse_complementaire);
     }

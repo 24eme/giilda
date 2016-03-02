@@ -22,7 +22,6 @@
  * @property string $code_postal
  * @property string $commune
  * @property string $compte_type
- * @property string $cedex
  * @property string $pays
  * @property string $email
  * @property string $telephone_perso

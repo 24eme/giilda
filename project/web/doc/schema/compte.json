@@ -56,9 +56,6 @@
     "compte_type": {
         "type": "string"
     },
-    "cedex": {
-        "type": "string"
-    },
     "pays": {
         "type": "string"
     },

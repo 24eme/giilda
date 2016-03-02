@@ -26,14 +26,14 @@ Compte:
       commune: { }
       insee: { }
       compte_type: { }
-      cedex: {  }
+      cedex: { require: false } #A supprimer
       pays: {  }
       email: {  }
       telephone_perso: {  }
       telephone_bureau: {  }
       telephone_mobile: {  }
       fax: {  }
-      site_internet: { required: false }
+      site_internet: { }
       nom_a_afficher: {  }
       raison_sociale_societe: { required: false }
       type_societe: { required: false }

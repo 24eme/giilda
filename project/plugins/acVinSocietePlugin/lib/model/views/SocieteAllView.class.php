@@ -26,7 +26,7 @@ class SocieteAllView extends acCouchdbView
       try {
 	return $this->findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit);
       }catch(Exception $e) {
-	return $this->findByInterproAndStatutVIEW($interpro, $statut, $typesocietes);
+	return $this->findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes,$q);
       }
     }
 
@@ -80,6 +80,22 @@ class SocieteAllView extends acCouchdbView
       return $res; 
     }
 
+    private function findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes = array(), $raison_sociale = "") {
+          $societesViews = array();
+      foreach($typesocietes as $ts) {
+	$societesViews = array_merge($societesViews, $this->client->startkey(array($interpro, $statut, $ts))
+				->endkey(array($interpro, $statut, $ts, array()))
+				->getView($this->design, $this->view)->rows);
+      }
+      $societes = array();
+      foreach ($societesViews as $sView) {
+          if($sView->key[self::KEY_RAISON_SOCIALE] == $raison_sociale){
+              $societes[] = $sView;
+          }
+      }
+      return $societes;
+    }
+    
     private function findByInterproAndStatutVIEW($interpro, $statut, $typesocietes = array()) {
       if (!count($typesocietes)) {
 	if ($statut) {

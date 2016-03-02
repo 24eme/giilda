@@ -28,7 +28,6 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setWidget('adresse_complementaire', new bsWidgetFormInput());
             $this->setWidget('code_postal', new bsWidgetFormInput());
             $this->setWidget('commune', new bsWidgetFormInput());
-            $this->setWidget('cedex', new bsWidgetFormInput());
             $this->setWidget('pays', new bsWidgetFormChoice(array('choices' => $this->getCountryList()), array("class"=>"select2 form-control")));
             $this->setWidget('droits', new bsWidgetFormChoice(array('choices' => $this->getDroits(), 'multiple' => true, 'expanded' => true)));
         }
@@ -46,7 +45,6 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('adresse_complementaire', 'Adresse complémentaire');
             $this->widgetSchema->setLabel('code_postal', 'CP *');
             $this->widgetSchema->setLabel('commune', 'Ville *');
-            $this->widgetSchema->setLabel('cedex', 'Cedex');
             $this->widgetSchema->setLabel('pays', 'Pays *');
             $this->widgetSchema->setLabel('droits', 'Droits *');
         }
@@ -64,7 +62,6 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setValidator('adresse_complementaire', new sfValidatorString(array('required' => false)));
             $this->setValidator('code_postal', new sfValidatorString(array('required' => true)));
             $this->setValidator('commune', new sfValidatorString(array('required' => true)));
-            $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
             $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
             $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getDroits()))));
         }

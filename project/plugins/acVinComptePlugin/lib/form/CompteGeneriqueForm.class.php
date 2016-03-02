@@ -22,7 +22,6 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setWidget('adresse_complementaire', new bsWidgetFormInput());
         $this->setWidget('code_postal', new bsWidgetFormInput());
         $this->setWidget('commune', new bsWidgetFormInput());
-        $this->setWidget('cedex', new bsWidgetFormInput());
         $this->setWidget('pays', new bsWidgetFormChoice(array('choices' => self::getCountryList()), array("class" => "select2 form-control")));
         $this->setWidget('droits', new bsWidgetFormChoice(array('choices' => self::getDroits(), 'multiple' => true, 'expanded' => true)));
 
@@ -37,7 +36,6 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('adresse_complementaire', 'Adresse complémentaire');
         $this->widgetSchema->setLabel('code_postal', 'CP *');
         $this->widgetSchema->setLabel('commune', 'Ville *');
-        $this->widgetSchema->setLabel('cedex', 'Cedex');
         $this->widgetSchema->setLabel('pays', 'Pays *');
         $this->widgetSchema->setLabel('droits', 'Droits *');
 
@@ -52,7 +50,6 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setValidator('adresse_complementaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('code_postal', new sfValidatorString(array('required' => false)));
         $this->setValidator('commune', new sfValidatorString(array('required' => false)));
-        $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
         $this->setValidator('pays', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getCountryList()))));
         $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getDroits()))));
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
@@ -61,8 +58,42 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->setValidator('site_internet', new sfValidatorString(array('required' => false)));
-        
     }
+
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        
+        $this->setDefault('adresse', $this->getObject()->siege->adresse);
+        $this->setDefault('code_postal', $this->getObject()->siege->code_postal);
+        $this->setDefault('commune', $this->getObject()->siege->commune);
+        $this->setDefault('pays', $this->getObject()->siege->pays);
+        $this->setDefault('adresse_complementaire', $this->getObject()->siege->adresse_complementaire);
+
+        $this->setDefault('email', $this->getObject()->getEmail());
+        $this->setDefault('telephone_perso', $this->getObject()->getTelephonePerso());
+        $this->setDefault('telephone_bureau', $this->getObject()->getTelephoneBureau());
+        $this->setDefault('telephone_mobile', $this->getObject()->getTelephoneMobile());
+        $this->setDefault('fax', $this->getObject()->getFax());
+        $this->setDefault('site_internet', $this->getObject()->getSiteInternet());
+    }
+
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+
+        $this->getObject()->setAdresse($values['adresse']);
+        $this->getObject()->setCommune($values['commune']);
+        $this->getObject()->setPays($values['pays']);
+        $this->getObject()->setAdresseComplementaire($values['adresse_complementaire']);
+        $this->getObject()->setCodePostal($values['code_postal']);
+
+        $this->getObject()->setEmail($values['email']);
+        $this->getObject()->setTelephonePerso($values['telephone_perso']);
+        $this->getObject()->setTelephoneBureau($values['telephone_bureau']);
+        $this->getObject()->setTelephoneMobile($values['telephone_mobile']);
+        $this->getObject()->setFax($values['fax']);
+        $this->getObject()->setSiteInternet($values['site_internet']);
+    }
+
 
     public static function getCountryList() {
         $destinationChoicesWidget = new bsWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
