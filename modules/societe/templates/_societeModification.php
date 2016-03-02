@@ -63,12 +63,7 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['no_tva_intracommunautaire']->renderError(); ?>
         </div> 
     
-        <div id="enseignes_list">
-            <?php
-            foreach ($societeForm['enseignes'] as $enseigneForm) {
-                include_partial('itemEnseigne', array('form' => $enseigneForm));
-            }
-            ?>
+        <div id="enseignes_list">           
 <!--            <div class="form-group">
                 <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_enseigne" href="#">Ajouter une enseigne</a>
             </div>-->
