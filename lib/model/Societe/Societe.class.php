@@ -33,7 +33,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             if (is_null($interlocuteur->ordre))
                 $interlocuteur->ordre = 2;
         }
-        // $interlocuteursTries = usort($this->contacts->toArray(), array("Societe" ,"cmpOrdreContacts"));
         return $this->contacts;
     }
 
@@ -279,6 +278,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     public function isActif() {
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_ACTIF;
     }
+    
+     public function isSuspendu() {
+        return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_SUSPENDU;
+    }
 
     public function hasNumeroCompte() {
         return ($this->code_comptable_client || $this->code_comptable_fournisseur);
@@ -348,7 +351,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return $this->_get('date_modification');
     }
 
-    public function save() { //$fromCompte = false) {
+    public function save() { 
         $this->add('date_modification', date('Y-m-d'));
 
         $compteMaster = $this->getMasterCompte();
@@ -373,6 +376,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             }
         }
 
+        if($this->isInCreation()){
+            $this->setStatut(SocieteClient::STATUT_ACTIF);
+        }
+        
         return parent::save();
     }
 
