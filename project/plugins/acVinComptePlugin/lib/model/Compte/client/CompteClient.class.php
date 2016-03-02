@@ -111,7 +111,9 @@ class CompteClient extends acCouchdbClient {
     public function createCompteFromSociete($societe) {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
+        if(!$societe->isNew()) {
         $societe->pushContactAndAdresseTo($compte);
+        }
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         $compte->constructId();
         $compte->interpro = 'INTERPRO-declaration';
