@@ -714,7 +714,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 #Génération finale
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | grep -v ";St émilion" | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201208.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
 
 echo "Import des sociétés"
@@ -737,7 +737,7 @@ echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
-cat $DATA_DIR/drm_201208.csv | while read ligne  
+cat $DATA_DIR/drm_201408.csv | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
