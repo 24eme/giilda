@@ -45,7 +45,7 @@ class VracMarcheForm extends VracForm {
         $this->setWidget('raisin_quantite', new bsWidgetFormInputFloat());
         $this->setWidget('lot', new bsWidgetFormInput());
         $this->setWidget('jus_quantite', new bsWidgetFormInputFloat());
-        $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenances)));
+        $this->setWidget('bouteilles_contenance_libelle', new sfWidgetFormChoice(array('choices' => $contenances), array('class' => 'select2')));
         $this->setWidget('prix_initial_unitaire', new bsWidgetFormInputFloat());
         $this->setWidget('degre', new bsWidgetFormInputFloat());
         $this->setWidget('surface', new bsWidgetFormInputFloat());
