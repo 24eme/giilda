@@ -18,6 +18,8 @@ endif;
 
 <?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
 
+<section id="principal" class="vrac">
+
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form 
@@ -296,3 +298,4 @@ endif;
         </div>
     </div>
 </form>
+</section>

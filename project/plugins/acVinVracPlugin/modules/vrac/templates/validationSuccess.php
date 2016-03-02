@@ -2,6 +2,8 @@
 
 <?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
 
+<section id="principal" class="vrac">
+
 <?php include_component('vrac', 'etapes', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form action="" method="post" class="form-horizontal" id="contrat_validation" >
@@ -93,4 +95,5 @@
 </div>
 
 </form>
+</section>
 
