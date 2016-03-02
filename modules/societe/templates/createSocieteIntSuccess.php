@@ -117,10 +117,6 @@
 									<input type="text" id="coordonnees_societe_ville" class="champ_long" />
 								</div>
 								<div class="form_ligne">
-									<label for="coordonnees_societe_cedex">Cedex</label>
-									<input type="text" id="coordonnees_societe_cedex" />
-								</div>
-								<div class="form_ligne">
 									<label for="coordonnees_societe_pays">Pays</label>
 									<select id="coordonnees_societe_pays">
 										<option>France</option>
@@ -295,10 +291,6 @@
 								<div class="form_ligne">
 									<label for="detail_etablissement_ville">Ville</label>
 									<input type="text" id="detail_etablissement_ville" class="champ_long" />
-								</div>
-								<div class="form_ligne">
-									<label for="detail_etablissement_cedex">Cedex</label>
-									<input type="text" id="detail_etablissement_cedex" />
 								</div>
 								<div class="form_ligne">
 									<label for="detail_etablissement_pays">Pays</label>
