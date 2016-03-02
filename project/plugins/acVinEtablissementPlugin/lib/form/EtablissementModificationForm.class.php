@@ -81,8 +81,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
             $this->etablissement->setCvi($values['cvi']);
         } else {
             $this->etablissement->setCartePro($values['carte_pro']);
-        }
-        
+        }     
     }
 
     public function updateEmbedForm($name, $form) {

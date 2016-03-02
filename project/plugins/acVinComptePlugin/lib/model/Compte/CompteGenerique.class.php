@@ -137,23 +137,34 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return $phone;
     }
 
+    public static function isSameAdresseComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
+        
+        return (($compte1->getAdresse() == $compte2->getAdresse()) || ! $compte1->getAdresse()) &&
+        (($compte1->getCommune() == $compte2->getCommune()) || ! $compte1->getCommune()) &&
+        (($compte1->getCodePostal() == $compte2->getCodePostal()) || !$compte1->getCodePostal()) &&
+        (($compte1->getAdresseComplementaire() == $compte2->getAdresseComplementaire()) || !$compte1->getAdresseComplementaire())&&
+        (($compte1->getPays() == $compte2->getPays()) || !$compte1->getPays());
+    }
+
+    public static function isSameContactComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
+
+        return (($compte1->getTelephoneBureau() === $compte2->getTelephoneBureau()) || !$compte1->getTelephoneBureau()) &&
+            (($compte1->getTelephoneMobile() === $compte2->getTelephoneMobile()) || !$compte1->getTelephoneMobile() ) &&
+            (($compte1->getTelephonePerso() === $compte2->getTelephonePerso()) || !$compte1->getTelephonePerso()) &&
+            (($compte1->getEmail() === $compte2->getEmail()) || !$compte1->getEmail()) &&
+            (($compte1->getFax() === $compte2->getFax()) || !$compte1->getFax()) &&
+            (($compte1->getSiteInternet() === $compte2->getSiteInternet()) || !$compte1->getSiteInternet());
+    }
+
+
     public function isSameAdresseThan(InterfaceCompteGenerique $compte) {
         
-        return (($compte->getAdresse() == $this->getAdresse()) || ! $this->getAdresse()) &&
-        (($compte->getCommune() == $this->getCommune()) || ! $this->getCommune()) &&
-        (($compte->getCodePostal() == $this->getCodePostal()) || !$this->getCodePostal()) &&
-        (($compte->getAdresseComplementaire() == $this->getAdresseComplementaire()) || !$this->getAdresseComplementaire())&&
-        (($compte->getPays() == $this->getPays()) || !$this->getPays());
+        return self::isSameAdresseComptes($this, $compte);
     }
 
     public function isSameContactThan(InterfaceCompteGenerique $compte) {
 
-        return (($compte->getTelephoneBureau() === $this->getTelephoneBureau()) || !$this->getTelephoneBureau()) &&
-            (($compte->getTelephoneMobile() === $this->getTelephoneMobile()) || !$this->getTelephoneMobile() ) &&
-            (($compte->getTelephonePerso() === $this->getTelephonePerso()) || !$this->getTelephonePerso()) &&
-            (($compte->getEmail() === $this->getEmail()) || !$this->getEmail()) &&
-            (($compte->getFax() === $this->getFax()) || !$this->getFax()) &&
-            (($compte->getSiteInternet() === $this->getSiteInternet()) || !$this->getSiteInternet());
+        return self::isSameContactComptes($this, $compte);
     }
 
     public function pushContactAndAdresseTo(InterfaceCompteGenerique $compte) {
