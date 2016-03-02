@@ -30,56 +30,54 @@
 			} 
 		}
 	}
-}
-
-// Navbar
-// -------------------------
-.navbar
-{
-	border-top: 1px solid @navbar-default-border;
-	font-family: "overlockblack", Arial sans-serif;
-	font-size: 19px;
-
-	.navbar-brand
+	.navbar
 	{
-		font-size: inherit;
-		height: auto;
-		line-height: normal;
+		border-top: 1px solid @navbar-default-border;
+		font-family: "arapeyregular", Arial sans-serif;
+		font-size: 19px;
+		margin: 0;
 
-		&:hover,
-		&:focus { color: @brand-primary; }
-	}
-
-	.navbar-nav
-	{
-		> li
+		.navbar-brand
 		{
-			> a 
-			{ 
-				padding-left: 20px;
-				padding-right: 20px;
-				position: relative;
-				line-height: normal;
+			font-size: inherit;
+			height: auto;
+			line-height: normal;
 
-				&:before
-				{
-					background: @brand-primary;
-					content: '';
-					position: absolute;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					height: 0;
-					transition: height .2s;
+			&:hover,
+			&:focus { color: @brand-primary; }
+		}
+
+		.navbar-nav
+		{
+			> li
+			{
+				> a 
+				{ 
+					padding-left: 20px;
+					padding-right: 20px;
+					position: relative;
+					line-height: normal;
+
+					&:before
+					{
+						background: @brand-primary;
+						content: '';
+						position: absolute;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						height: 0;
+						transition: height .2s;
+					}
+
+					&:hover:before,
+					&:focus:before { height: 6px; }
 				}
 
-				&:hover:before,
-				&:focus:before { height: 6px; }
-			}
-
-			&.active
-			{
-				> a:before { height: 6px; }
+				&.active
+				{
+					> a:before { height: 6px; }
+				}
 			}
 		}
 	}
@@ -89,7 +87,7 @@
 // -------------------------
 #content {
 	background: #eadfcf;
-	padding: 20px 0;
+	padding: 0 0 20px 0;
 
 	> .container { 
 		background: #FFF;
@@ -301,45 +299,7 @@ h1, h2, h3, h4, h5, h6,
 // Breadcumb
 // -------------------------
 .breadcrumb {	
-	background: @brand-primary;
-	border-radius: 0;
-	counter-reset: steps;
-	color: lighten(@brand-primary, 15%);
-	font-family: "overlockblack", Arial, sans-serif;
-	font-size: 16px;
-	padding: 0;
-
-	> li
-	{
-		&:before { display: none; }
-
-		&.visited { color: #FFF; }
-
-		&.active { background: #FFF; }
-
-		> a
-		{
-			color: inherit;
-			display: block;
-			padding: 10px 25px;
-			text-decoration: none;
-
-			&:before 
-			{ 
-				display: inline-block;
-				border: 3px solid;
-				box-sizing: content-box;
-				border-radius: 50%;
-				counter-increment: steps;
-				content: counter(steps);
-				margin-right: 10px;
-				line-height: 20px;
-				height: 20px;
-				width: 20px;
-				text-align: center;
-			}
-		}
-	}
+	a { color: inherit; }
 }
 
 // Forms
@@ -352,6 +312,15 @@ h1, h2, h3, h4, h5, h6,
 
 .input-group-addon {
 	color: #FFF;
+}
+
+.form-group-xs .form-control, 
+.input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
 }
 
 #footer {

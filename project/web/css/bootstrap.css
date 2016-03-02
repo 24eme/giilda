@@ -6845,27 +6845,28 @@ button.close {
 #header .logos img + img {
   margin-left: 35px;
 }
-.navbar {
+#header .navbar {
   border-top: 1px solid #dcd9d3;
-  font-family: "overlockblack", Arial sans-serif;
+  font-family: "arapeyregular", Arial sans-serif;
   font-size: 19px;
+  margin: 0;
 }
-.navbar .navbar-brand {
+#header .navbar .navbar-brand {
   font-size: inherit;
   height: auto;
   line-height: normal;
 }
-.navbar .navbar-brand:hover,
-.navbar .navbar-brand:focus {
+#header .navbar .navbar-brand:hover,
+#header .navbar .navbar-brand:focus {
   color: #7f0048;
 }
-.navbar .navbar-nav > li > a {
+#header .navbar .navbar-nav > li > a {
   padding-left: 20px;
   padding-right: 20px;
   position: relative;
   line-height: normal;
 }
-.navbar .navbar-nav > li > a:before {
+#header .navbar .navbar-nav > li > a:before {
   background: #7f0048;
   content: '';
   position: absolute;
@@ -6875,16 +6876,16 @@ button.close {
   height: 0;
   transition: height .2s;
 }
-.navbar .navbar-nav > li > a:hover:before,
-.navbar .navbar-nav > li > a:focus:before {
+#header .navbar .navbar-nav > li > a:hover:before,
+#header .navbar .navbar-nav > li > a:focus:before {
   height: 6px;
 }
-.navbar .navbar-nav > li.active > a:before {
+#header .navbar .navbar-nav > li.active > a:before {
   height: 6px;
 }
 #content {
   background: #eadfcf;
-  padding: 20px 0;
+  padding: 0 0 20px 0;
 }
 #content > .container {
   background: #FFF;
@@ -7036,48 +7037,22 @@ h6,
 .progress {
   height: 10px;
 }
-.breadcrumb {
-  background: #7f0048;
-  border-radius: 0;
-  counter-reset: steps;
-  color: #cc0073;
-  font-family: "overlockblack", Arial, sans-serif;
-  font-size: 16px;
-  padding: 0;
-}
-.breadcrumb > li:before {
-  display: none;
-}
-.breadcrumb > li.visited {
-  color: #FFF;
-}
-.breadcrumb > li.active {
-  background: #FFF;
-}
-.breadcrumb > li > a {
+.breadcrumb a {
   color: inherit;
-  display: block;
-  padding: 10px 25px;
-  text-decoration: none;
-}
-.breadcrumb > li > a:before {
-  display: inline-block;
-  border: 3px solid;
-  box-sizing: content-box;
-  border-radius: 50%;
-  counter-increment: steps;
-  content: counter(steps);
-  margin-right: 10px;
-  line-height: 20px;
-  height: 20px;
-  width: 20px;
-  text-align: center;
 }
 .form-control:focus {
   box-shadow: none;
 }
 .input-group-addon {
   color: #FFF;
+}
+.form-group-xs .form-control,
+.input-xs {
+  height: 22px;
+  padding: 2px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
 }
 #footer {
   background: #e9dec7;
