@@ -45,23 +45,22 @@ class etablissementActions extends sfCredentialActions {
     }
     
      public function executeSwitchStatus(sfWebRequest $request) {
-        $this->etablisssement = $this->getRoute()->getEtablissement();
+        $this->etablissement = $this->getRoute()->getEtablissement();
         $newStatus = "";
-        if($this->etablisssement->isActif()){
+        if($this->etablissement->isActif()){
            $newStatus = SocieteClient::STATUT_SUSPENDU; 
         }
-        if($this->etablisssement->isSuspendu()){
+        if($this->etablissement->isSuspendu()){
            $newStatus = SocieteClient::STATUT_ACTIF; 
         }
         $compte = $this->etablissement->getMasterCompte();
-        var_dump($this->etablisssement); exit;
         if($compte && !$this->etablissement->isSameCompteThanSociete()){
             $compte->setStatut($newStatus);
             $compte->save();
         }      
-        $this->etablisssement->setStatut($newStatus);
-        $this->etablisssement->save();
-        return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablisssement->identifiant));
+        $this->etablissement->setStatut($newStatus);
+        $this->etablissement->save();
+        return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
     }
 
 }

@@ -16,24 +16,35 @@
     <div class="col-xs-12" style="<?php if (isset($etablissement) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
         <div class="list-group">
             <div class="list-group-item">
-                <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
-                    <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
-                    <?php if ($modification || $reduct_rights) : ?>    
-                        <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default" <?php if ($societe->isSuspendu()): echo 'disabled="disabled"'; endif; ?> >Modifier</a>
-                    <?php endif; ?>
-                </h2>
-                <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-2 text-right">
-                    <a href="<?php echo url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>" class="btn <?php echo ($societe->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($societe->isActif()) ? 'Suspendre' : 'Activer' ?></a>
-                </h2>
-                <p class="lead" style="margin-bottom: 5px;">
-                    <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
-                    <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
-                        <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                <div class="row">
+                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
+                        <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
+                        <?php if ($modification || $reduct_rights) : ?>    
+
                         <?php endif; ?>
-                    <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
+                    </h2>
+                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-2 text-right">
+                        <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default" <?php if ($societe->isSuspendu()): echo 'disabled="disabled"';
+                        endif;
+                        ?> >Modifier</a>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <p class="lead" style="margin-bottom: 5px;">
+                            <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
+                            <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
+                                <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                                <?php endif; ?>
+                            <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
 <?php if ($societe->date_modification) : ?>
-                        <span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
-                </p>
+                                    <span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
+                        </p>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        <a href="<?php echo url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>" class="btn <?php echo ($societe->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($societe->isActif()) ? 'Suspendre' : 'Activer' ?></a>
+                    </div>
+                </div>
             </div>
 
 <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
@@ -145,7 +156,7 @@
                     <a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un interlocuteur</a>
                 </div>
             <?php endif; ?> 
-<?php //include_component('societe', 'getInterlocuteursWithSuspendus');   ?>
+<?php //include_component('societe', 'getInterlocuteursWithSuspendus');     ?>
         </div>
     </div>
 </section>

@@ -355,7 +355,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isActif() {
-        return ($this->statut == CompteClient::STATUT_ACTIF);
+        return $this->statut && ($this->statut == CompteClient::STATUT_ACTIF);
+    }
+    
+    public function isSuspendu() {
+        return $this->statut && ($this->statut == CompteClient::STATUT_SUSPENDU);
     }
 
     public function autoUpdateLdap($verbose = 0) {
