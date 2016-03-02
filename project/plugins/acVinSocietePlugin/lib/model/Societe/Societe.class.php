@@ -197,6 +197,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     }
 
     public function getMasterCompte() {
+        if(!$this->compte_societe) {
+
+            return null;
+        }
+
         return CompteClient::getInstance()->find($this->compte_societe);
     }
 
