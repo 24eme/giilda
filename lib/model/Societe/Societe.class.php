@@ -175,6 +175,7 @@ class Societe extends BaseSociete {
         if (!$c->_id) {
             return;
         }
+
         if (!$ordre) {
             $ordre = 0;
         }
@@ -207,7 +208,7 @@ class Societe extends BaseSociete {
     public function isManyEtbPrincipalActif() {
         $cptActif = 0;
         foreach ($this->getEtablissementsObj() as $etb) {
-            if ($etb->etablissement->isSameContactThanSociete() && $etb->etablissement->isActif()) {
+            if ($etb->etablissement->isSameCompteThanSociete() && $etb->etablissement->isActif()) {
                 $cptActif++;
             }
             if ($cptActif > 1)
