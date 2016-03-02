@@ -13,6 +13,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setAdresse($s) {
+
         return ($this->siege->adresse = $s);
     }
 
@@ -133,6 +134,20 @@ abstract class CompteGenerique extends acCouchdbDocument {
     protected function cleanPhone($phone) {
 
         return $phone;
+    }
+
+    public function pushToCompte($compte) {
+        $compte->adresse = $this->getAdresse();
+        $compte->adresse_complementaire = $this->getAdresseComplementaire();
+        $compte->commune= $this->getCommune();
+        $compte->code_postal = $this->getCodePostal();
+        $compte->pays = $this->getPays();
+        $compte->telephone_bureau= $this->getTelephoneBureau();
+        $compte->email = $this->getEmail();
+        $compte->fax = $this->getFax();
+        $compte->telephone_perso = $this->getTelephonePerso();
+        $compte->telephone_mobile = $this->getTelephoneMobile();
+        $compte->site_internet = $this->getSiteInternet();
     }
 
 }

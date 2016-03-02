@@ -214,7 +214,11 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         }
     }
 
-    protected function doSave($con = null) {
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+    }
+
+    /*protected function doSave($con = null) {
         if (null === $con) {
             $con = $this->getConnection();
         }
@@ -224,7 +228,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
             $this->getObject()->setStatut(SocieteClient::STATUT_ACTIF);
         }
         $this->object->getCouchdbDocument()->save();
-    }
+    }*/
 
 }
 
