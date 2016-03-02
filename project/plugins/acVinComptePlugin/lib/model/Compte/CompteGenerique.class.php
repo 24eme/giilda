@@ -136,7 +136,15 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return $phone;
     }
 
-    public function pushContactAndAdresseTo(InterfaceCompteGenerique $object) {
+    public function isSameAdresseThan(InterfaceCompteGenerique $compte) {
+
+    }
+
+    public function isSameContactThan(InterfaceCompteGenerique $compte) {
+
+    }
+
+    public function pushContactAndAdresseTo(InterfaceCompteGenerique $compte) {
         $compte->setAdresse = $this->getAdresse();
         $compte->adresse_complementaire = $this->getAdresseComplementaire();
         $compte->commune= $this->getCommune();

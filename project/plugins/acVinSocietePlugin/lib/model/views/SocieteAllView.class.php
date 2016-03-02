@@ -72,8 +72,8 @@ class SocieteAllView extends acCouchdbView
       foreach ($results->getResults() as $er) {
 	$r = $er->getData();
 	$e = new stdClass();
-	$e->id = $r['_id'];
-	$e->key = array($r['interpro'], $r['statut'], $r['type_societe'], $r['_id'], $r['raison_sociale'], $r['identifiant'], $r['siret'], $r['siege']['commune'], $r['siege']['code_postal']);
+	$e->id = $er->getId();
+	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['type_societe'], $er->getId(), $r['doc']['raison_sociale'], $r['doc']['identifiant'], $r['doc']['siret'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
 	$e->value = null;
 	$res[] = $e;
       }
