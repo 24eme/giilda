@@ -1,6 +1,6 @@
 <?php
 
-class Etablissement extends BaseEtablissement {
+class Etablissement extends BaseEtablissement { #BaseEtablissement hérite de CompteGenerique
 
     protected $_interpro = null;
     protected $droit = null;
