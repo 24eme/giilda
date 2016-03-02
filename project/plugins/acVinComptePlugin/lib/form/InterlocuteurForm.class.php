@@ -31,14 +31,12 @@ class InterlocuteurForm extends CompteGeneriqueForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => CompteGeneriqueForm::getStatuts(), 'multiple' => false, 'expanded' => true)));
         $this->setWidget('civilite', new bsWidgetFormChoice(array('choices' => CompteGeneriqueForm::getCiviliteList())));
         $this->setWidget('nom', new bsWidgetFormInput());
         $this->setWidget('prenom', new bsWidgetFormInput());
         $this->setWidget('fonction', new bsWidgetFormInput());
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
-        $this->widgetSchema->setLabel('statut', 'Statut *');
         $this->widgetSchema->setLabel('civilite', 'Civilite *');
         $this->widgetSchema->setLabel('nom', 'Nom *');
         $this->widgetSchema->setLabel('prenom', 'Prenom');
@@ -46,36 +44,25 @@ class InterlocuteurForm extends CompteGeneriqueForm {
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         
 
-        $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(CompteGeneriqueForm::getStatuts()))));
         $this->setValidator('civilite', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(CompteGeneriqueForm::getCiviliteList()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
         $this->setValidator('prenom', new sfValidatorString(array('required' => false)));
         $this->setValidator('fonction', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
-        
-       
-        if ($this->compte->isNew()) {
-            $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
-        }
-
-
+           
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
   
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-         if ($this->getObject()->isNew()) {
-            $this->getObject()->set('statut', $this->getObject()->getSociete()->statut);
-        }
+         
     }
     
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
 
-        if ($this->getObject()->isNew()) {
-            $this->setDefault('statut', $this->getObject()->getSociete()->statut);
-        }
+       
        /* 
         if ($this->compte->isSameAdresseThanSociete()) {
             if ($this->compte->adresse == $this->societeCompte->adresse) {

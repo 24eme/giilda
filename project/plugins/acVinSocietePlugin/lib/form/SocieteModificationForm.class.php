@@ -19,7 +19,6 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         parent::__construct($societe, $options, $CSRFSecret);
         $this->isOperateur = $societe->canHaveChais();
         $this->setSocieteTypes();
-        $this->setStatuts();
     }
 
     public function configure() {
@@ -28,7 +27,6 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
         $this->setWidget('raison_sociale', new bsWidgetFormInput());
         $this->setWidget('raison_sociale_abregee', new bsWidgetFormInput());
-        $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'multiple' => false, 'expanded' => true)));
         if (false) {
             $this->setWidget('type_numero_compte_fournisseur', new bsWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteFournisseur(), 'multiple' => true, 'expanded' => true)));
             $this->widgetSchema->setLabel('type_numero_compte_fournisseur', 'Numéros de compte');
@@ -50,8 +48,6 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
         $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société *');
         $this->widgetSchema->setLabel('raison_sociale_abregee', 'Abrégé');
-        $this->widgetSchema->setLabel('statut', 'Statut');
-        // $this->widgetSchema->setLabel('type_societe', 'Type de société');
 
         if ($this->getObject()->isNegoOrViti()) {
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
@@ -69,8 +65,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
         $this->setValidator('raison_sociale_abregee', new sfValidatorString(array('required' => false)));
-        $this->setValidator('statut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getStatuts()))));
-    
+       
         $this->setValidator('type_numero_compte_fournisseur', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompteFournisseur()), 'multiple' => true)));
 
         if ($this->getObject()->isNegoOrViti()) {
@@ -92,11 +87,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
             $this->widgetSchema['type_numero_compte_fournisseur']->setAttribute('disabled', 'disabled');
         } else {
             $this->widgetSchema['type_fournisseur']->setAttribute('disabled', 'disabled');
-        }
-
-        if ($this->getObject()->isInCreation()) {
-            $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
-        }
+        }      
 
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
 
@@ -105,11 +96,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
     }
 
     protected function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
-
-        if ($this->getObject()->isInCreation()) {
-            $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
-        }
+        parent::updateDefaultsFromObject();      
 
         $this->setDefault('type_fournisseur', $this->getDefaultTypesFournisseur());
   
@@ -157,13 +144,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
     public function getCooperative() {
         return array('Non', 'Oui');
     }
-
-    /*public function getStatuts() {
-        if (!$this->statuts) {
-            $this->setStatuts();
-        }
-        return $this->statuts;
-    }*/
+   
 
     public function getSocieteTypes() {
         if (!$this->types_societe) {
@@ -188,10 +169,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->types_societe = SocieteClient::getSocieteTypes();
     }
 
-    private function setStatuts() {
-        $this->statuts = SocieteClient::getStatuts();
-    }
-
+   
     public function update() {      
         if (($this->getObject()->code_comptable_client) || ($this->getObject()->isNegoOrViti() && $this->values['type_numero_compte_client'])) {
 
@@ -217,18 +195,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
     }
-
-    /*protected function doSave($con = null) {
-        if (null === $con) {
-            $con = $this->getConnection();
-        }
-
-        $this->updateObject();
-        if (!$this->getObject()->siege->commune) {
-            $this->getObject()->setStatut(SocieteClient::STATUT_ACTIF);
-        }
-        $this->object->getCouchdbDocument()->save();
-    }*/
+    
 
 }
 
