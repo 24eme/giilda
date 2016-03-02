@@ -64,6 +64,43 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         
     }
 
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        
+        $this->setDefault('adresse', $this->getObject()->siege->adresse);
+        $this->setDefault('code_postal', $this->getObject()->siege->code_postal);
+        $this->setDefault('commune', $this->getObject()->siege->commune);
+        $this->setDefault('pays', $this->getObject()->siege->pays);
+        $this->setDefault('adresse_complementaire', $this->getObject()->adresse_complementaire);
+        $this->setDefault('cedex', $this->getObject()->cedex);
+
+        $this->setDefault('email', $this->getObject()->getEmail());
+        $this->setDefault('telephone_perso', $this->getObject()->getTelephonePerso());
+        $this->setDefault('telephone_bureau', $this->getObject()->getTelephoneBureau());
+        $this->setDefault('telephone_mobile', $this->getObject()->getTelephoneMobile());
+        $this->setDefault('fax', $this->getObject()->getFax());
+        $this->setDefault('site_internet', $this->getObject()->getSiteInternet());
+    }
+
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+
+        $this->getObject()->setAdresse($values['adresse']);
+        $this->getObject()->setCommune($values['commune']);
+        $this->getObject()->setPays($values['pays']);
+        $this->getObject()->setCedex($values['cedex']);
+        $this->getObject()->setAdresseComplementaire($values['adresse_complementaire']);
+        $this->getObject()->setCodePostal($values['code_postal']);
+
+        $this->getObject()->setEmail($values['email']);
+        $this->getObject()->setTelephonePerso($values['telephone_perso']);
+        $this->getObject()->setTelephoneBureau($values['telephone_bureau']);
+        $this->getObject()->setTelephoneMobile($values['telephone_mobile']);
+        $this->getObject()->setFax($values['fax']);
+        $this->getObject()->setSiteInternet($values['site_internet']);
+    }
+
+
     public static function getCountryList() {
         $destinationChoicesWidget = new bsWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();

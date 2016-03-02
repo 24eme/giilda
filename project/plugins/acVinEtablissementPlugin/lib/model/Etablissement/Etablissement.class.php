@@ -9,6 +9,7 @@ class Etablissement extends BaseEtablissement {
     protected $adresse_complementaire = null;
     protected $telephone_mobile = null;
     protected $telephone_perso = null;
+    protected $site_internet = null;
 
     /**
      * @return _Compte
@@ -175,6 +176,11 @@ class Etablissement extends BaseEtablissement {
         return $this->adresse_complementaire;
     }
 
+    public function setSiteInternet($s) {
+        $this->site_internet = $s;
+        return true;
+    }
+  
     public function setTelephonePerso($s) {
         $this->telephone_perso = $s;
         return true;
@@ -183,6 +189,16 @@ class Etablissement extends BaseEtablissement {
     public function setTelephoneMobile($s) {
         $this->telephone_mobile = $s;
         return true;
+    }
+
+    public function setTelephoneBureau($tel) {
+        
+        return $this->setTelephone($tel);
+    }
+
+    public function getTelephoneBureau() {
+        
+        return $this->getTelephone();
     }
 
     public function getTelephonePerso() {
@@ -197,6 +213,13 @@ class Etablissement extends BaseEtablissement {
             $this->telephone_mobile = $this->getMasterCompte()->telephone_mobile;
         }
         return $this->telephone_mobile;
+    }
+
+    public function getSiteInternet() {
+        if (!$this->site_internet) {
+            $this->site_internet = $this->getMasterCompte()->site_internet;
+        }
+        return $this->site_internet;
     }
 
     public function setFax($fax) {
