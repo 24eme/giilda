@@ -63,11 +63,11 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         
-        $this->setDefault('adresse', $this->getObject()->siege->adresse);
-        $this->setDefault('code_postal', $this->getObject()->siege->code_postal);
-        $this->setDefault('commune', $this->getObject()->siege->commune);
-        $this->setDefault('pays', $this->getObject()->siege->pays);
-        $this->setDefault('adresse_complementaire', $this->getObject()->siege->adresse_complementaire);
+        $this->setDefault('adresse', $this->getObject()->getAdresse());
+        $this->setDefault('code_postal', $this->getObject()->getCodePostal());
+        $this->setDefault('commune', $this->getObject()->getCommune());
+        $this->setDefault('pays', $this->getObject()->getPays());
+        $this->setDefault('adresse_complementaire', $this->getObject()->getAdresseComplementaire());
 
         $this->setDefault('email', $this->getObject()->getEmail());
         $this->setDefault('telephone_perso', $this->getObject()->getTelephonePerso());
