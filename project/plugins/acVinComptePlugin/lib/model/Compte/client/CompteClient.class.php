@@ -117,6 +117,7 @@ class CompteClient extends acCouchdbClient {
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         $compte->constructId();
         $compte->interpro = 'INTERPRO-declaration';
+        $compte->setStatut(CompteClient::STATUT_ACTIF);
 
         return $compte;
     }
