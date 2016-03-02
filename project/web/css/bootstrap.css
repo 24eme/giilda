@@ -6985,6 +6985,13 @@ h6,
 .panel-secondary > .panel-body {
   border: 1px solid #c7c9c8;
 }
+.societe .list-group-item {
+  background-color: #fff;
+  border: none;
+}
+.societe .list-group {
+  border: 2px solid #eadfcf;
+}
 #col_saisies .list-group-item {
   background-color: #fff;
   border-bottom: 2px solid #eadfcf;
