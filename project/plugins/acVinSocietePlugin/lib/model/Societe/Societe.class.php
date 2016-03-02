@@ -4,7 +4,7 @@
  * Model for Societe
  *
  */
-class Societe extends BaseSociete { #BaseSociete hérite de CompteGenerique
+class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
     private $changedCooperative = null;
     private $changedStatut = null;

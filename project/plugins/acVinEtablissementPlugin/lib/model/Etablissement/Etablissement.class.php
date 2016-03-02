@@ -1,6 +1,6 @@
 <?php
 
-class Etablissement extends BaseEtablissement { #BaseEtablissement hérite de CompteGenerique
+class Etablissement extends BaseEtablissement implements InterfaceCompteGenerique {
 
     protected $_interpro = null;
     protected $droit = null;
