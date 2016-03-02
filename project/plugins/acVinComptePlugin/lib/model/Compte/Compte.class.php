@@ -26,26 +26,18 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isSameAdresseThanSociete() {
-        $comptesociete = $this->getSociete()->getContact();
 
-        return ($comptesociete->adresse === $this->adresse) &&
-                ($comptesociete->commune === $this->commune) &&
-                ($comptesociete->code_postal === $this->code_postal) &&
-                ($comptesociete->pays === $this->pays) &&
-                ($comptesociete->adresse_complementaire === $this->adresse_complementaire);
+        return CompteGenerique::isSameAdresseComptes($this, $this->getSociete()->getContact());
     }
 
     public function hasCoordonneeInheritedFromSociete() {
+        
         return $this->isSameAdresseThanSociete();
     }
 
     public function isSameContactThanSociete() {
-        $comptesociete = $this->getSociete()->getContact();
-        return ($comptesociete->telephone_bureau === $this->telephone_bureau) &&
-                ($comptesociete->telephone_mobile === $this->telephone_mobile) &&
-                ($comptesociete->telephone_perso === $this->telephone_perso) &&
-                ($comptesociete->email === $this->email) &&
-                ($comptesociete->fax === $this->fax);
+       
+       return CompteGenerique::isSameContactComptes($this, $this->getSociete()->getContact());
     }
 
     public function isAdresseCompteEmpty() {
@@ -75,19 +67,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $soc->addCompte($this);
         return $this->_set('id_societe', $soc->_id);
     }
-
-    public function synchro() {
-        if ($this->isSocieteContact()) {
-            return $this->updateFromSociete();
-        }
-
-        if ($this->isEtablissementContact()) {
-            return $this->updateFromEtablissement();
-        }
-
-        return $this->synchroFromCompte();
-    }
-
+    
     public function updateNomAAfficher() {
         if (!$this->nom) {
             return;
