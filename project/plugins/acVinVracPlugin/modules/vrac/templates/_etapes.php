@@ -8,6 +8,7 @@
                 include_partial('etapeItem',array('num_etape' => $counter,
                                                  'vrac' => $vrac,
                                                  'label' => $etapeLibelle,
+                                                 'actif' => $actif,
                                                  'url_etape' => 'vrac_'.$etapeCle,
                                                  'urlsoussigne' => $urlsoussigne
                                                 )); 
