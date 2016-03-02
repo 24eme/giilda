@@ -23,12 +23,7 @@
                         echo $compteForm->renderHiddenFields();
                         echo $compteForm->renderGlobalErrors();
                         ?>
-                        <div class="form-group">
-                            <?php echo $compteForm['statut']->renderError(); ?>
-                            <?php echo $compteForm['statut']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-                            <div class="col-xs-8"><?php echo $compteForm['statut']->render(); ?></div>
-                        </div>
-
+                       
                         <div class="form-group">
                             <?php echo $compteForm['civilite']->renderError(); ?>
                             <?php echo $compteForm['civilite']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>

@@ -75,8 +75,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         
         //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
 
-        if($this->compte->isNew())
-                $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
+       
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
 
