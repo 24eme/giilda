@@ -6987,6 +6987,11 @@ h6,
 }
 #col_saisies .list-group-item {
   background-color: #fff;
+  border-bottom: 1px solid #eadfcf;
+}
+#list-item .list-group-item {
+  background-color: #fff;
+  border: 1px solid #eadfcf;
 }
 .btn {
   border-radius: 0;
