@@ -30,9 +30,10 @@
                         <?php if ($societe->date_modification) : ?><span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span><?php endif; ?></small>
                 </p>
             </div>
-            <div class="list-group-item">
-                <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
-            </div>
+           
+            <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
+        
+            
             <?php if ($societe->getMasterCompte()->exist('droits')): ?>
                 <div class="list-group-item">
                     <?php if ($societe->getMasterCompte()->exist('droits') && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
@@ -66,7 +67,7 @@
                             <?php endforeach; ?>
                         <?php endif; ?></p>
                 </div>
-            <?php endif; ?>
+            <?php endif; ?>            
             <div class="list-group-item">
                 <ul class="list-inline">
                     <li><attr>N° SIRET :</attr> <?php echo $societe->siret; ?></li>
