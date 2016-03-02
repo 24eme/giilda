@@ -53,6 +53,7 @@
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
     <script src="/js/drm.js"></script>
+    <script src="/js/contacts.js"></script>
     <script src="/js/facture.js"></script>
     <script src="/js/stats.js"></script>
     <script src="/js/lib/jquery.sticky.js"></script>

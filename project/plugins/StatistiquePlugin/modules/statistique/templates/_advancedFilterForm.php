@@ -12,6 +12,6 @@
 		<?php echo $form['fv']->render(array('class' => 'form-control input-xs')); ?>
 	</div>
 	<div class="col-xs-1">
-		<a href="javascript:initCollectionDeleteTemplate();" class="btn btn-danger btn-xs btn_rm_ligne_template" data-container="div.advancedFilter"><span class="glyphicon glyphicon-remove"></span></a>
+		<a href="javascript:void(0)" class="btn btn-danger btn-xs btn_rm_ligne_template" data-container="div.advancedFilter"><span class="glyphicon glyphicon-remove"></span></a>
 	</div>
 </div>

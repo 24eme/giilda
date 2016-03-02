@@ -26,7 +26,7 @@ class compteActions extends sfCredentialActions {
     }
     
     protected function processFormCompte(sfWebRequest $request) {
-        $this->compteForm = new CompteForm($this->compte);
+        $this->compteForm = new InterlocuteurForm($this->compte);
         if (!$request->isMethod(sfWebRequest::POST)) {
           return;
         }
@@ -38,12 +38,6 @@ class compteActions extends sfCredentialActions {
         }
         
         $this->compteForm->save();
-                
-        if (!$this->compte->isSameCoordonneeThanSociete()) {
-                  
-            return $this->redirect('compte_coordonnee_modification', $this->compte);
-        }
-
         return $this->redirect('compte_visualisation', $this->compte);
     }
 
@@ -219,7 +213,8 @@ class compteActions extends sfCredentialActions {
       $this->results = $resset->getResults();
       $this->nb_results = $resset->getTotalHits();
       $this->facets = $resset->getFacets();
-      //var_dump($this->facets);exit;
+      
+      ksort($this->facets);
 
       $this->last_page = ceil($this->nb_results / $res_by_page); 
       $this->current_page = $page;

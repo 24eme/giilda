@@ -37,15 +37,6 @@ all:
         "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"
         "VIN_VRAC": "<span class=\"icon-vrac\" style=\"font-size: 32px;\"></span> Vin en vrac"
         "VIN_BOUTEILLE": "<span class=\"icon-bouteille\" style=\"font-size: 32px;\"></span> Vrac retiraison bouteille"
-      delais_paiement:
-        "30_JOURS": "30 jours fin de mois"
-        "60_JOURS": "60 jours fin de mois"
-        "90_JOURS": "90 jours fin de mois"
-      moyens_paiement:
-        "VIREMENT": "Virement bancaire"
-        "CB": "Carte bancaire"
-        "CHEQUE": "Chèque"
-        "ESPECES": "Espèces"
       repartition_courtage:
         "50_50": "50/50 pour l'acheteur et le vendeur"
         "ACHETEUR": "100% pour l'acheteur"

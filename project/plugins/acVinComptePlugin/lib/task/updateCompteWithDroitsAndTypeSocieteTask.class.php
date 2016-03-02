@@ -23,7 +23,7 @@ class updateCompteWithDroitsAndTypeSocieteTask extends sfBaseTask
      ));
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'vinsdeloire'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'declaration'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       // add your own options here

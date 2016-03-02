@@ -417,7 +417,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->generateDroitsDouanes();
         }
 
-        $this->archivage_document->archiver();
+        if(!isset($options['validation_step']) || !$options['validation_step']) {
+            $this->archivage_document->archiver();
+        }
 
         if (!isset($options['no_vracs']) || !$options['no_vracs']) {
             $this->updateVracs();
@@ -506,7 +508,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     private function setDroit($type, $appellation) {
-        $configurationDroits = $appellation->getConfig()->interpro->get($this->getInterpro()->get('_id'))->droits->get($type)->getCurrentDroit($this->getDate());
+        $configurationDroits = $appellation->getConfig()->getDroitByType($this->getDocument()->getDate(), $type, $this->getInterpro()->get('_id'));
         $droit = $appellation->droits->get($type);
         $droit->ratio = $configurationDroits->ratio;
         $droit->code = $configurationDroits->code;

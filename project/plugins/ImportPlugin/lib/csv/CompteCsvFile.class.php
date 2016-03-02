@@ -40,9 +40,6 @@ class CompteCsvFile extends CsvFile
                       }
                 }
 
-                if(!$line[self::CSV_ID]) {
-
-                }
 
                 $societe = SocieteClient::getInstance()->find(sprintf("SOCIETE-%06d", $line[self::CSV_ID_SOCIETE]));
                 
@@ -60,40 +57,12 @@ class CompteCsvFile extends CsvFile
                 $c->prenom = $line[self::CSV_PRENOM];
                 $c->fonction = $line[self::CSV_FONCTION];
 
-                $c->adresse = null;
-                $c->adresse_complementaire = null;
-        	   
-                $c->adresse = trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE]));
-                if(preg_match('/[a-z]/i', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1])) {
-                    $c->add('adresse_complementaire',trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1])));
-                    if(preg_match('/[a-z]/i', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2])) {
-                        $c->adresse_complementaire .= " ; ".trim(preg_replace('/,/', '', $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2]));
-                    }
-                }
-                
-                $c->code_postal = trim($line[self::CSV_CODE_POSTAL]);
-
-                if($c->code_postal && !preg_match("/^[0-9]{5}$/", $c->code_postal)) {
-                     echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour le compte ".$c->_id."\n";
-                }
-
-                $c->commune = $line[self::CSV_COMMUNE];
-                $c->insee = $line[self::CSV_INSEE];
-                $c->pays = 'FR';
-                $c->email = $this->formatAndVerifyEmail($line[self::CSV_EMAIL],$c);
-                $c->fax = $this->formatAndVerifyPhone($line[self::CSV_FAX],$c);
-                $c->telephone_perso = $this->formatAndVerifyPhone($line[self::CSV_TEL_PERSO],$c);
-                $c->telephone_bureau = $this->formatAndVerifyPhone($line[self::CSV_TEL_BUREAU],$c);
-                $c->telephone_mobile = $this->formatAndVerifyPhone($line[self::CSV_MOBILE], $c);
-                if($line[self::CSV_WEB]) {
-                    $c->add('site_internet', $line[self::CSV_WEB]);
-                }
+                $this->storeCompteInfos($c, $line);
 
                 $c->save();
 
                 echo "Compte " . $c->_id ." créé\n";
         	} catch(Exception $e) {
-                
                echo $e->getMessage()."\n";
             }
         }
@@ -101,9 +70,74 @@ class CompteCsvFile extends CsvFile
         return $societes;
     }
 
-    public function getErrors() {
-      
-        return $this->errors;
+    protected function storeCompteInfos($c, $line) {
+        $c->adresse_complementaire = null;
+        $c->adresse = trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE')));
+        if(preg_match('/[a-z]/i', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))) {
+            $c->add('adresse_complementaire',trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))));
+            if(preg_match('/[a-z]/i', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2'))) {
+                $c->adresse_complementaire .= " ; ".trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2')));
+            }
+        }
+
+        if($this->getField($line, 'CSV_CEDEX')) {
+            $c->adresse_complementaire .= (($c->adresse_complementaire) ?  " ; " : null).$this->getField($line, 'CSV_CEDEX');
+        }
+
+        $c->code_postal = trim($this->getField($line, 'CSV_CODE_POSTAL'));
+
+        if(!$c->code_postal) {
+            echo "WARNING: le code postal est vide pour la société ".$c->id_societe."\n";
+        }
+
+        if($c->code_postal && !preg_match("/^[0-9]{5}$/", $c->code_postal)) {
+            echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$c->id_societe."\n";
+        }
+
+        $c->commune = $this->getField($line, 'CSV_COMMUNE');
+        $c->insee = $this->getField($line, 'CSV_INSEE');
+
+        if(!$c->commune) {
+            echo "WARNING: la commune est vide pour la société ".$c->id_societe.":".implode(";", $line)."\n";
+        }
+
+        if(preg_match("/^FRANCE$/i", $this->getField($line, 'CSV_PAYS'))) {
+            $c->pays = 'FR';
+        }
+
+        if(!$c->pays) {
+            $pays = ConfigurationClient::getInstance()->findCountry($this->getField($line, 'CSV_PAYS'));
+            if($pays) {
+                $c->pays = $pays;
+            } else {
+                echo "WARNING: la pays ".$this->getField($line, 'CSV_PAYS')." n'a pas été trouvé pour la société ".$c->id_societe.":".implode(";", $line)."\n";
+            }
+        }
+
+        $c->email = $this->formatAndVerifyEmail($this->getField($line, 'CSV_EMAIL'), $c);
+        $c->fax = $this->formatAndVerifyPhone($this->getField($line, 'CSV_FAX'), $c);
+        $c->telephone_perso = $this->formatAndVerifyPhone($this->getField($line, 'CSV_TEL_PERSO'), $c);
+        $c->telephone_bureau = $this->formatAndVerifyPhone($this->getField($line, 'CSV_TEL_BUREAU'), $c);
+        $c->telephone_mobile = $this->formatAndVerifyPhone($this->getField($line, 'CSV_MOBILE'), $c);
+        if($this->getField($line, 'CSV_WEB')) {
+            if (preg_match('/^http:\/\/[^ ]+$/', $this->getField($line, 'CSV_WEB'))) {
+                $c->add('site_internet', $this->getField($line, 'CSV_WEB'));
+            }else{
+                if (preg_match('/www.[^ ]+$/', $this->getField($line, 'CSV_WEB'))) {
+                    $c->add('site_internet', 'http://'.$this->getField($line, 'CSV_WEB'));
+                }else{
+                    echo("WARNING: ".$c->id_societe.": site non valide : \"".$this->getField($line, 'CSV_WEB')."\"\n");
+                    $c->addCommentaire("Problème d'import, site non valide : \"".$this->getField($line, 'CSV_WEB')."\"");
+                }
+            }
+        }
+    }
+
+    protected function getField($line, $strConstant) {
+
+        eval("\$constante = self::".$strConstant.";" );
+
+        return $line[$constante];
     }
 
     protected function formatAndVerifyPhone($phone, $c) {
@@ -115,8 +149,8 @@ class CompteCsvFile extends CsvFile
             $phone = "0".$phone;
         }
 
-        if($phone && !preg_match("/^[0-9]{10}$/", $phone)) {
-            printf("WARNING: Problème d'import : Le numéro de téléphone n'est pas correct %s\n", $phone);
+        if($phone && !preg_match("/^[0-9]{10}$/", $phone) && !preg_match("/^00/", $phone)) {
+            printf("WARNING: ".$c->_id.": Problème d'import : Le numéro de téléphone n'est pas correct %s\n", $phone);
             $c->addCommentaire(sprintf("Problème d'import : Le numéro de téléphone n'est pas correct %s", $phone));
             return null;
         }
@@ -128,13 +162,12 @@ class CompteCsvFile extends CsvFile
         $email = trim($email);
 
         if($email && !preg_match("/^[a-z0-9çéèàâê_\.-]+@[a-z0-9\.-]+$/i", $email)) {
-            printf("WARNING: Problème d'import : L'email n'est pas correct %s\n", $email);
-            $c->addCommentaire(sprintf("Problème d'import : L'email n'est pas correct %s", $email));
+            printf("WARNING: ".$c->_id.": L'email n'est pas correct %s\n", $email);
+            $c->addCommentaire(sprintf("Problème d'import: L'email n'est pas correct %s", $email));
             return null;
         }
 
         return $email;
     }
-
 
 }

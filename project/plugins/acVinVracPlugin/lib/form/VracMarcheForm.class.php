@@ -174,6 +174,9 @@ class VracMarcheForm extends VracForm {
         parent::doUpdateObject($values);
         $this->getObject()->update();
         $this->getObject()->domaine = strtoupper(KeyInflector::unaccent($values['domaine']));
+        if ($this->getObject()->categorie_vin == 'GENERIQUE') {
+        	$this->getObject()->domaine = null;
+        }
         if ($values['millesime'] === 0) {
             $this->getObject()->millesime = null;
         }

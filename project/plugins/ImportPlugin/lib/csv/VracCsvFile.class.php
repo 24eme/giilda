@@ -37,15 +37,14 @@ class VracCsvFile extends CsvFile {
     const CSV_CLE_MODE_PAIEMENT = 32;
     const CSV_MODE_PAIEMENT = 33;
     const CSV_ACOMPTE_SIGNATURE = 34;
-    const CSV_MOYEN_PAIEMENT = 35;
-    const CSV_TAUX_COURTAGE = 36;
-    const CSV_REPARTITION_COURTAGE = 37;
-    const CSV_REPARTITION_CVO = 38;
-    const CSV_RETIRAISON_DATE_DEBUT = 39;
-    const CSV_RETIRAISON_DATE_FIN = 40;
-    const CSV_CLAUSES = 41;
-    const CSV_LABELS = 42;
-    const CSV_COMMENTAIRES = 43;
+    const CSV_TAUX_COURTAGE = 35;
+    const CSV_REPARTITION_COURTAGE = 36;
+    const CSV_REPARTITION_CVO = 37;
+    const CSV_RETIRAISON_DATE_DEBUT = 38;
+    const CSV_RETIRAISON_DATE_FIN = 39;
+    const CSV_CLAUSES = 40;
+    const CSV_LABELS = 41;
+    const CSV_COMMENTAIRES = 42;
 
     const LABEL_BIO = 'agriculture_biologique';
 
@@ -172,9 +171,9 @@ class VracCsvFile extends CsvFile {
                     $v->vendeur_tva = 1; 
                 }
 
-                $v->tva = 0; 
+                $v->tva = "SANS";
                 if(preg_match("/facturation_tva/", $line[self::CSV_CLAUSES])) {
-                    $v->tva = 1; 
+                    $v->tva = "AVEC";
                 }
                 
                 $v->delai_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];
@@ -184,6 +183,27 @@ class VracCsvFile extends CsvFile {
                 $v->moyen_paiement_libelle = $line[self::CSV_MODE_PAIEMENT];
 
                 $v->acompte = $this->formatAndVerifyAcompte($line);
+
+                $v->taux_courtage = null;
+                if($line[self::CSV_TAUX_COURTAGE]) {
+                    $v->taux_courtage = $this->verifyAndFormatTauxCourtage($line);
+                }
+                $v->courtage_repartition = null;
+                if($line[self::CSV_REPARTITION_COURTAGE]) {
+                    $v->courtage_repartition = $line[self::CSV_REPARTITION_COURTAGE];
+                }
+
+                if($v->mandataire_identifiant && (!$v->taux_courtage || !$v->courtage_repartition)) {
+                    echo sprintf("Le contrat n'a pas de taux de courtage ou de repartition alors qu'il y a un courtier %s\n", $this->yellow($v->_id));
+                }
+
+                if(!$v->mandataire_identifiant && ($v->taux_courtage || $v->courtage_repartition)) {
+                    echo sprintf("Le contrat a du taux de courtage ou de la repartition alors qu'il n'y a pas de courtier %s\n", $this->yellow($v->_id));
+                }
+
+                if(($v->taux_courtage && !$v->courtage_repartition) || (!$v->taux_courtage && $v->courtage_repartition)) {
+                    echo sprintf("Le coupe taux de courtage / repartition n'est pas complétement rempli %s\n", $this->yellow($v->_id));
+                }
                 
                 if(preg_match("/clause_reserve_propriete/", $line[self::CSV_CLAUSES])) {
                     $v->clause_reserve_propriete = true; 
@@ -204,7 +224,7 @@ class VracCsvFile extends CsvFile {
                 $v->preparation_vin = $this->formatAndVerifyPreparationVin($line);
                 
                 $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRES]);
-                
+
                 $v->update();
                 //$v->enleverVolume($v->volume_enleve);
 
@@ -340,6 +360,13 @@ class VracCsvFile extends CsvFile {
 
             throw new Exception(sprintf("Le volume proposé est requis"));
         }
+
+        return $number;
+    }
+
+    private function verifyAndFormatTauxCourtage($line) {
+
+        $number = $this->formatAndVerifyFloat($line[self::CSV_TAUX_COURTAGE]);
 
         return $number;
     }

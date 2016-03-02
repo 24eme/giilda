@@ -275,7 +275,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
     }
 
-    public function getDroitByType($date, $interpro = "INTERPRO-declaration", $type) {
+    public function getDroitByType($date, $type, $interpro = "INTERPRO-declaration") {
         $date = $this->findDroitsDate($date, $interpro);
         if (array_key_exists($date, $this->droits_type) && array_key_exists($type, $this->droits_type[$date])) {
 
@@ -293,12 +293,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public function getDroitCVO($date, $interpro = "INTERPRO-declaration") {
 
-        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_CVO);
+        return $this->getDroitByType($date, ConfigurationDroits::DROIT_CVO, $interpro);
     }
 
     public function getDroitDouane($date, $interpro = "INTERPRO-declaration") {
 
-        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_DOUANE);
+        return $this->getDroitByType($date, ConfigurationDroits::DROIT_DOUANE, $interpro);
     }
 
     public function isCVOActif($date) {
@@ -506,7 +506,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits->libelle = $libelle;
     }
 
-    protected function setDroitCvoCsv($datas, $code_applicatif) {
+    public function setDroitCvoCsv($datas, $code_applicatif) {
 
         if (!isset($datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) {
 

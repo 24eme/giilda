@@ -154,21 +154,13 @@ class statistiqueActions extends sfActions {
          */
         
         $csv_file = '';
-        $csv_file .= "#Statut;Id;Periode;Teledeclare;Date signature;Date saisie;Declarant id;Declarant nom;Total debut mois;Total entrees;Total recolte;Total sorties;Total facturable;Total;";
+        $csv_file .= "#Periode;Date saisie;Declarant id;Declarant nom;Total debut mois;Total entrees;Total recolte;Total sorties;Total facturable;Total;";
         $csv_file .= "\n";
         foreach ($hits as $hit):
 	        $item = $hit->getData();
-	        $csv_file .= $item['doc']['valide']['statut'];
-	        $csv_file .= ";";
-	        $csv_file .= $hit->getId();
-	        $csv_file .= ";";
 	        $csv_file .= $item['doc']['periode'];
 	        $csv_file .= ";";
-	        $csv_file .= $item['doc']['teledeclare'];
-	        $csv_file .= ";";
 	        $csv_file .= $item['doc']['valide']['date_saisie'];
-	        $csv_file .= ";";
-	        $csv_file .= $item['doc']['valide']['date_signee'];
 	        $csv_file .= ";";
 	        $csv_file .= $item['doc']['identifiant'];
 	        $csv_file .= ";";

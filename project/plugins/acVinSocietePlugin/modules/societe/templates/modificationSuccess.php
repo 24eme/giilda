@@ -1,7 +1,7 @@
 <!-- #principal -->
 <section id="principal">
      <ol class="breadcrumb">
-        <li><a href="<?php echo url_for('societe') ?>">Accueil des contacts</a></li>
+        <li><a href="<?php echo url_for('societe') ?>">Contacts</a></li>
         <li class="active"><strong><?php echo ($societe->isInCreation()) ? "Création d'une nouvelle société" : $societe->raison_sociale; ?></strong></li>
 
     </ol>
@@ -27,9 +27,9 @@
                     <h3>Coordonnées de la société</h3>
                <?php      
                     if($reduct_rights) :
-                            include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm, 'compteSociete' => true));
+                            include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm, 'isCompteSociete' => true));
                             else :
-                            include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm, 'compteSociete' => true));
+                            include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm, 'isCompteSociete' => true));
                         endif;                    
                     ?>
                 </div>
