@@ -4,7 +4,7 @@
  * Model for Societe
  *
  */
-class Societe extends BaseSociete { #BaseSociete hérite de CompteGenerique
+class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
     private $changedCooperative = null;
     private $changedStatut = null;
@@ -344,26 +344,14 @@ class Societe extends BaseSociete { #BaseSociete hérite de CompteGenerique
     public function save() { //$fromCompte = false) {
         $this->add('date_modification', date('Y-m-d'));
 
-        /*
-          if ($fromCompte) {
-          return parent::save();
-          }
-
-
-
-
-          $this->changedCooperative = false;
-          $this->changedStatut = false; */
-
-//        $this->synchroAndSaveEtablissement();
-        //$this->synchroAndSaveCompte();
-
-        if (!$this->compte_societe) {
+        $compte = $this->getMasterCompte();
+        if(!$this->getMasterCompte()) {
             $compte = $this->createCompteSociete();
-            parent::save();
-            $compte->save();           
         }
-        $this->synchroFromCompte();
+
+        $this->pushContactAndAdresseToCompte($compte);
+
+        $compte->save();
 
         return parent::save();
     }

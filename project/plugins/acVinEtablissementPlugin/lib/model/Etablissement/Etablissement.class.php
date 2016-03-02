@@ -1,6 +1,6 @@
 <?php
 
-class Etablissement extends BaseEtablissement { #BaseEtablissement hérite de CompteGenerique
+class Etablissement extends BaseEtablissement implements InterfaceCompteGenerique {
 
     protected $_interpro = null;
     protected $droit = null;
@@ -209,16 +209,11 @@ class Etablissement extends BaseEtablissement { #BaseEtablissement hérite de Co
             }else{
                 $compte = $this->getMasterCompte();
             }
-            $compte->adresse = $this->siege->adresse;
-            $compte->commune= $this->siege->commune;
-            $compte->code_postal = $this->siege->code_postal;
-            $compte->pays = $this->siege->pays;
-            $compte->telephone_bureau= $this->telephone;
-            $compte->email = $this->email;
-            $compte->fax = $this->fax;
-            $compte->telephone_perso = $this->telephone_perso;
-            $compte->telephone_mobile = $this->telephone_mobile;
+            
+            $this->pushContactAndAdresseToCompte($compte);
+
             $compte->id_societe = $this->getSociete()->_id;
+
             $compte->save();          
             $this->setCompte($compte->_id);
         }else if(!$this->isSameCompteThanSociete()){

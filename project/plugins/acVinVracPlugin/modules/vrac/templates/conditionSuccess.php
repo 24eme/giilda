@@ -2,6 +2,8 @@
 
 <?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
 
+<section id="principal" class="vrac">
+
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 3, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <form action="" method="post" class="form-horizontal">
@@ -293,5 +295,6 @@
         </div>
     </div>
 </form>
+</section>
 
 

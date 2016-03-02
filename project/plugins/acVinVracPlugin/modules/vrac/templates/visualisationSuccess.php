@@ -14,7 +14,7 @@ use_helper('Date');
     <li class="visited"><a href="<?php echo url_for('vrac') ?>" class="active">Contrats</a></li>
     <li class="active"><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive; ?> (<?php echo formatNumeroBordereau($vrac->numero_contrat); ?>)</a></li>
 </ol>
-
+<section id="principal" class="vrac">
 <div class="row">      
     <div class="col-xs-12">
         <h2 class="titre_page">
@@ -107,5 +107,5 @@ use_helper('Date');
     <a id="signature_popup_bas" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a>      
     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 <?php endif; ?>
-</div>
+</section>
 
