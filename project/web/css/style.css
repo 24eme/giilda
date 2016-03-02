@@ -59,3 +59,6 @@ panel.disabled {
     background-color: #167216;
     border-color: #98fa98;
 }
+.select2-container {
+	width: 100%;	
+}
