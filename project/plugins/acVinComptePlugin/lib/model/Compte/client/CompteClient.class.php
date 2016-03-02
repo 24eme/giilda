@@ -111,43 +111,18 @@ class CompteClient extends acCouchdbClient {
     public function createCompteFromSociete($societe) {
         $compte = new Compte();
         $compte->id_societe = $societe->_id;
-        if ($societe->siege->adresse) {
-            $compte->adresse = $societe->siege->adresse;
-            $compte->adresse_complementaire = ($societe->siege->exist('adresse_complementaire')) ? $societe->siege->adresse_complementaire : "";
-            $compte->code_postal = $societe->siege->code_postal;
-            $compte->commune = $societe->siege->commune;
-            $compte->pays = $societe->getMasterCompte()->pays;
-            $compte->telephone_bureau = $societe->getMasterCompte()->telephone_bureau;
-            $compte->telephone_mobile = $societe->getMasterCompte()->telephone_mobile;
-            $compte->telephone_perso = $societe->getMasterCompte()->telephone_perso;
-            $compte->email = $societe->getMasterCompte()->email;
-            $compte->fax = $societe->getMasterCompte()->fax;
-        }
+        $societe->pushContactAndAdresseTo($compte);
         $compte->identifiant = $this->getNextIdentifiantForSociete($societe);
         $compte->constructId();
         $compte->interpro = 'INTERPRO-declaration';
-        $compte->synchroFromSociete();
 
         return $compte;
     }
 
-    public function createCompteFromEtablissement($e) {
-        $compte = $this->createCompteFromSociete($e->getSociete());
-
-        $compte->nom = $e->nom;
-        $compte->email = $e->email;
-        $compte->fax = $e->fax;
-        $compte->telephone_bureau = $e->telephone;
-        $compte->statut = $e->statut;
-        if ($e->siege->adresse) {
-            $compte->adresse = $e->siege->adresse;
-            $compte->adresse_complementaire = ($e->siege->exist('adresse_complementaire')) ? $e->siege->adresse_complementaire : "";
-            $compte->code_postal = $e->siege->code_postal;
-            $compte->commune = $e->siege->commune;
-        }
-
-        $compte->addOrigine($e->_id);
-        $compte->synchroFromSociete();
+    public function createCompteFromEtablissement($etablissement) {
+        $compte = $this->createCompteFromSociete($etablissement->getSociete());
+        $compte->addOrigine($etablissement->_id);
+        $etablissement->pushContactAndAdresseTo($compte);
 
         return $compte;
     }
