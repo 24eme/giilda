@@ -63,12 +63,21 @@ class Vrac extends BaseVrac {
     public function setProduit($value) {
         if ($value != $this->_get('produit')) {
             $this->_set('produit', $value);
-            $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
+            if($value) {
+                $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
+            } else {
+                $this->produit_libelle = "";
+            }
         }
     }
     
     public function isCepageAutorise()
     {
+        if(!$this->produit) {
+
+            return true;
+        }
+
     	return (!$this->cepage)? true : $this->getProduitObject()->isCepageAutorise($this->cepage);
     }
 

@@ -178,7 +178,7 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     }
 
     print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire ";"
-}' | sort | uniq > $DATA_DIR/societes.csv
+}' | sed -r 's/;SUSPENDU;(1011|2877|5433|5436);/;ACTIF;\1;/' | sort | uniq > $DATA_DIR/societes.csv
 
 # --- Récupération du Numéro de courtier ---
 # Supprimer les retours chariots au milieu d'une lignes
