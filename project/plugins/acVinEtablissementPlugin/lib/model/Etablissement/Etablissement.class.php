@@ -218,8 +218,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->setCompte($compteSociete->_id);
 
             CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
+        }
 
-            $this->pullContactAndAdresseFrom($compteSociete);
+        if($this->isSameCompteThanSociete()) {
+            $this->pullContactAndAdresseFrom($this->getSociete()->getMasterCompte());
         }
 
         $this->initFamille();
