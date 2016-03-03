@@ -205,6 +205,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->pushContactAndAdresseTo($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
+            $compte->nom_a_afficher = $this->nom;
 
             $compte->save();          
             $this->setCompte($compte->_id);
