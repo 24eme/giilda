@@ -195,6 +195,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         $societe = $this->getSociete();
 
+        $needSaveSociete = false;
+
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
@@ -218,8 +220,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->setCompte($compteSociete->_id);
 
             CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
+        }
 
-            $this->pullContactAndAdresseFrom($compteSociete);
+        if($this->isSameCompteThanSociete()) {
+            $this->pullContactAndAdresseFrom($this->getSociete()->getMasterCompte());
         }
 
         $this->initFamille();
