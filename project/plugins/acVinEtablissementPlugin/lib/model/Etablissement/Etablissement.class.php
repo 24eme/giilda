@@ -195,6 +195,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         $societe = $this->getSociete();
 
+        $needSaveSociete = false;
+
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
