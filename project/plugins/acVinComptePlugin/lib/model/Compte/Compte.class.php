@@ -198,10 +198,22 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
     public function isEtablissementContact() {
 
-        return $this->getEtablissementOrigine() != null;
+        return $this->getEtablissement() != null;
     }
 
     public function getEtablissement() {
+        if($this->isSocieteContact()) {
+            $societe = $this->getSociete();
+
+            foreach($societe->getEtablissementsObj() as $etablissement) {
+                if($etablissement->etablissement->isSameCompteThanSociete()) {
+
+                    return $etablissement->etablissement;
+                }
+            }
+
+            return null;
+        }
 
         if (!$this->getEtablissementOrigine()) {
 

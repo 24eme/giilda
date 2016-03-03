@@ -193,6 +193,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->setCompte($this->getSociete()->getMasterCompte()->_id);
         }
 
+        $societe = $this->getSociete();
 
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
@@ -205,8 +206,10 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->pushContactAndAdresseTo($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
+            $compte->nom_a_afficher = $this->nom;
 
-            $compte->save();          
+            $compte->save();   
+                   
             $this->setCompte($compte->_id);
         } else if(!$this->isSameCompteThanSociete()){
             $compteEtablissement = $this->getMasterCompte();
@@ -220,14 +223,19 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
 
         $this->initFamille();
-        $new = $this->isNew();
+
+        if($this->isNew()) {
+            $societe->addEtablissement($this); 
+            $needSaveSociete = true; 
+        }
+
         parent::save();
 
-        if($new) {
-            $societe = $this->getSociete();
-            $societe->addEtablissement($this);
+        if($needSaveSociete) {
             $societe->save();
         }
+
+        $societe->getMasterCompte()->save();
     }
 
     public function isActif() {
