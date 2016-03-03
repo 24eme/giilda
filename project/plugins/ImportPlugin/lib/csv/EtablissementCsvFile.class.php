@@ -84,22 +84,32 @@ class EtablissementCsvFile extends CompteCsvFile
             $e->region = (isset($line[self::CSV_REGION])) ? $line[self::CSV_REGION] : null;
 
             if($this->isSameAdresseThanSociete($line, $s, $e)) {
-              $e->compte = $s->compte_societe;
-              $e->synchroFromCompte();
-
+              $line[self::CSV_ADRESSE] = "";
+              $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1] = "";
+              $line[self::CSV_ADRESSE_COMPLEMENTAIRE_2] = "";
+              $line[self::CSV_ADRESSE_COMPLEMENTAIRE_3] = "";
+              $line[self::CSV_CODE_POSTAL] = "";
+              $line[self::CSV_COMMUNE] = "";
+              $line[self::CSV_INSEE] = "";
+              $line[self::CSV_CEDEX] = "";
+              $line[self::CSV_PAYS] = "";
+              $line[self::CSV_EMAIL] = "";
+              $line[self::CSV_TEL_BUREAU] = "";
+              $line[self::CSV_TEL_PERSO] = "";
+              $line[self::CSV_MOBILE] = "";
+              $line[self::CSV_FAX] = "";
+              $line[self::CSV_WEB] = "";
             } 
 
             $e->save();
 
+            $this->storeCompteInfos($e, $line);
+
+            $e->save();
+
+            $s->pushToCompteOrEtablissementAndSave($s->getMasterCompte(), $e);
+
             echo $e->_id."\n";
-
-            if($e->compte == $s->compte_societe) {
-                continue;
-            }
-
-            $c = $e->getContact();
-            $this->storeCompteInfos($c, $line);
-            $c->save();
         }catch(Exception $e) {
           echo $e->getMessage()."\n";
         }

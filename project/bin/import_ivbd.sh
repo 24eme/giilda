@@ -123,10 +123,10 @@ join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.commun
 cat $DATA_DIR/contrats_drm.csv | cut -d ";" -f 7 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' > $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 6 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 9 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;NEGOCIANT/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;INTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;XXXINTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 13 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;REPRESENTANT/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/evv_numero_ppm.sorted.csv | cut -d ";" -f 23 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
+cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,2 | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
 
 cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv
 
@@ -171,9 +171,9 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     commentaire=$16;
     famille="AUTRE";
     if($61 == "VITICULTEUR" || $61 == "NEGOCIANT" || $61 == "REPRESENTANT") {
-        famille="OPERATEUR";
+        famille="RESSORTISSANT";
     }
-    if($61 == "INTERMEDIAIRE") {
+    if($61 == "XXXINTERMEDIAIRE") {
         famille="INTERMEDIAIRE";
     }
 
@@ -246,7 +246,7 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
         famille = "PRODUCTEUR";
     }
 
-    if(famille == "INTERMEDIAIRE") {
+    if(famille == "XXXINTERMEDIAIRE") {
         famille = "COURTIER";
     }
 
@@ -714,7 +714,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 #Génération finale
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | grep -v ";St émilion" | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201208.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
 
 echo "Import des sociétés"
@@ -737,7 +737,7 @@ echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
-cat $DATA_DIR/drm_201208.csv | while read ligne  
+cat $DATA_DIR/drm_201408.csv | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then

@@ -2,20 +2,13 @@
 
 class SocieteClient extends acCouchdbClient {
 
-    const TYPE_OPERATEUR = 'OPERATEUR';
+    const TYPE_OPERATEUR = 'RESSORTISSANT';
     const TYPE_COURTIER = 'INTERMEDIAIRE';
     const TYPE_AUTRE = 'AUTRE';
     
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
     
-/*    const SUB_TYPE_REPRESENTANT = 'REPRESENTANT';
-    const TYPE_PRESSE = 'PRESSE';
-    const TYPE_PARTENAIRE = 'PARTENAIRE';
-    const SUB_TYPE_DOUANE = 'DOUANE';
-    const SUB_TYPE_INSTITUTION = 'INSTITUTION';
-    const SUB_TYPE_HOTELRESTAURANT = 'HOTEL-RESTAURANT';
-    const SUB_TYPE_SYNDICAT = 'SYNDICAT'; */
     const STATUT_ACTIF = 'ACTIF';
     const STATUT_SUSPENDU = 'SUSPENDU';
     const STATUT_EN_CREATION = 'EN_CREATION';
@@ -65,7 +58,8 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getSocietesWithTypeAndRaisonSociale($type, $raison_sociale) {
-        return SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', null, array($type), $raison_sociale);
+        return array_merge(SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_ACTIF, array($type), $raison_sociale),
+                SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-declaration', CompteClient::STATUT_SUSPENDU, array($type), $raison_sociale));
     }
 
     public function createSociete($raison_sociale, $type) {

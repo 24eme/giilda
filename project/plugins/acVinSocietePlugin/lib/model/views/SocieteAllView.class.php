@@ -26,7 +26,7 @@ class SocieteAllView extends acCouchdbView
       try {
 	return $this->findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit);
       }catch(Exception $e) {
-	return $this->findByInterproAndStatutVIEW($interpro, $statut, $typesocietes);
+	return $this->findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes,$q);
       }
     }
 
@@ -72,14 +72,30 @@ class SocieteAllView extends acCouchdbView
       foreach ($results->getResults() as $er) {
 	$r = $er->getData();
 	$e = new stdClass();
-	$e->id = $r['_id'];
-	$e->key = array($r['interpro'], $r['statut'], $r['type_societe'], $r['_id'], $r['raison_sociale'], $r['identifiant'], $r['siret'], $r['siege']['commune'], $r['siege']['code_postal']);
+	$e->id = $er->getId();
+	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['type_societe'], $er->getId(), $r['doc']['raison_sociale'], $r['doc']['identifiant'], $r['doc']['siret'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
 	$e->value = null;
 	$res[] = $e;
       }
       return $res; 
     }
 
+    private function findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes = array(), $raison_sociale = "") {
+          $societesViews = array();
+      foreach($typesocietes as $ts) {
+	$societesViews = array_merge($societesViews, $this->client->startkey(array($interpro, $statut, $ts))
+				->endkey(array($interpro, $statut, $ts, array()))
+				->getView($this->design, $this->view)->rows);
+      }
+      $societes = array();
+      foreach ($societesViews as $sView) {
+          if($sView->key[self::KEY_RAISON_SOCIALE] == $raison_sociale){
+              $societes[] = $sView;
+          }
+      }
+      return $societes;
+    }
+    
     private function findByInterproAndStatutVIEW($interpro, $statut, $typesocietes = array()) {
       if (!count($typesocietes)) {
 	if ($statut) {

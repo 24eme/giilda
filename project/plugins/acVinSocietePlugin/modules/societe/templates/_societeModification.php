@@ -17,11 +17,6 @@ echo $societeForm->renderGlobalErrors();
 			<div class="col-xs-8"><?php echo $societeForm['raison_sociale_abregee']->render(); ?></div>
 			<?php echo $societeForm['raison_sociale_abregee']->renderError(); ?>
     </div>
-    <div class="form-group<?php if($societeForm['statut']->hasError()): ?> has-error<?php endif; ?>">
-			<?php echo $societeForm['statut']->renderError(); ?>
-            <?php echo $societeForm['statut']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-			<div class="col-xs-8"><?php echo $societeForm['statut']->render(); ?></div>
-    </div>
     <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
         <div class="form-group<?php if($societeForm['cooperative']->hasError()): ?> has-error<?php endif; ?>">
             <?php echo $societeForm['cooperative']->renderError(); ?>
@@ -42,11 +37,7 @@ echo $societeForm->renderGlobalErrors();
             <?php endif; ?>
     </div>
     <?php endif; ?>
-         <div class="form-group<?php if($societeForm['type_fournisseur']->hasError()): ?> has-error<?php endif; ?>">
-            <?php echo $societeForm['type_fournisseur']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-            <div class="col-xs-8"><?php echo $societeForm['type_fournisseur']->render(); ?></div>
-            <?php echo $societeForm['type_fournisseur']->renderError(); ?>
-             </div>          
+              
         <div class="form-group<?php if($societeForm['siret']->hasError()): ?> has-error<?php endif; ?>">
 <?php echo $societeForm['siret']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
 				<div class="col-xs-8"><?php echo $societeForm['siret']->render(); ?></div>
