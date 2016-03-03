@@ -142,7 +142,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             $contacts[$id] = CompteClient::getInstance()->find($id);
         }
         foreach ($this->etablissements as $id => $obj) {
-             $contacts[$id] = EtablissementClient::getInstance()->find($id);
+            $contacts[$id] = EtablissementClient::getInstance()->find($id);
         }
 
         return $contacts;
@@ -208,7 +208,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     }
 
     public function getMasterCompte() {
-        if(!$this->compte_societe) {
+        if (!$this->compte_societe) {
 
             return null;
         }
@@ -278,8 +278,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     public function isActif() {
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_ACTIF;
     }
-    
-     public function isSuspendu() {
+
+    public function isSuspendu() {
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_SUSPENDU;
     }
 
@@ -302,8 +302,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
         $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
         $this->compte_societe = $compte->_id;
-        $compte->nom = $this->raison_sociale;
-        $compte->updateNomAAfficher();
         $compte->statut = $this->statut;
         $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(0, 9999));
         $compte->addOrigine($this->_id);
@@ -321,41 +319,47 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return $this->_get('date_modification');
     }
 
-    public function save() { 
+    public function save() {
         $this->add('date_modification', date('Y-m-d'));
 
         $compteMaster = $this->getMasterCompte();
 
-        if(!$compteMaster) {
+        if (!$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
 
-        if($this->isInCreation()){
+        if ($this->isInCreation()) {
             $this->setStatut(SocieteClient::STATUT_ACTIF);
         }
-
         parent::save();
 
-        if($compteMaster->isNew()) {
+        if ($compteMaster->isNew()) {
             $compteMaster->save();
         }
 
-        foreach($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
+        foreach ($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
             $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement);
         }
     }
 
     public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement) {
         $needSave = false;
-        if(CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
+
+        if ($compteMaster->_id == $compteOrEtablissement->_id) {
+            $compteOrEtablissement->nom = $this->raison_sociale;
+            $needSave = true;
+        }
+
+        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
             $this->pushAdresseTo($compteOrEtablissement);
             $needSave = true;
         }
-        if(CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
+        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
             $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }
-        if($needSave) {
+        
+        if ($needSave) {
             $compteOrEtablissement->save();
         }
     }
