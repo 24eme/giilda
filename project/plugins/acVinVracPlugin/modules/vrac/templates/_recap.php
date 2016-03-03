@@ -162,9 +162,8 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->courtage_taux || $vrac->tva): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
-                            <?php if ($vrac->delai_paiement_libelle): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><?php endif; ?>
-                            <?php if ($vrac->moyen_paiement_libelle): ?>(<strong><?php echo $vrac->moyen_paiement_libelle; ?></strong>)<?php endif; ?>
-                            <br />
+                            <?php if ($vrac->delai_paiement_libelle): ?>Paiement : <strong><?php echo $vrac->delai_paiement_libelle; ?></strong><br/><?php endif; ?>
+                            <?php if ($vrac->moyen_paiement_libelle): ?>Moyen de paiement : <strong><?php echo $vrac->moyen_paiement_libelle; ?></strong><br/><?php endif; ?>
                             <?php if ($vrac->tva): ?>Facturation <strong><?php echo VracConfiguration::getInstance()->getTva()[$vrac->tva] ?></strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">

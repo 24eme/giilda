@@ -57,12 +57,10 @@
 
                     <td>
                         <?php if($v->valide->statut && $v->date_signature): ?>
-                            <span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> <?php echo format_date($v->date_signature, "dd/MM/yyyy", "fr_FR"); ?><br/>
-                        <?php else: ?>
+                               <span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de signature"></span> <?php echo format_date($v->date_signature, "dd/MM/yyyy", "fr_FR"); ?></span>
                         <?php endif; ?>
-                        <?php if($v->valide->date_saisie): ?>
-                               <span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de saisie (validation interpro)"></span> <?php echo format_date($v->valide->date_saisie, "dd/MM/yyyy", "fr_FR"); ?></span>
-                        <?php else: ?>
+                        <?php if($v->valide->statut && $v->date_visa): ?>
+                            <span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de visa"></span> <?php echo format_date($v->date_visa, "dd/MM/yyyy", "fr_FR"); ?><br/>
                         <?php endif; ?>
                     </td>
 
