@@ -79,7 +79,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-
+        
         $this->getObject()->setAdresse($values['adresse']);
         $this->getObject()->setCommune($values['commune']);
         $this->getObject()->setPays($values['pays']);

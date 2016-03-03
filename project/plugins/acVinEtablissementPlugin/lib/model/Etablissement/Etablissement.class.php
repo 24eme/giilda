@@ -186,15 +186,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
-        if (!$this->sous_famille) {
-            $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }
     }
 
     public function save() {
         if(!$this->getCompte()){
             $this->setCompte($this->getSociete()->getMasterCompte()->_id);
         }
+
+
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
@@ -210,23 +209,35 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $compte->save();          
             $this->setCompte($compte->_id);
         } else if(!$this->isSameCompteThanSociete()){
-            $compteEtablissement = $this->getCompte();
+            $compteEtablissement = $this->getMasterCompte();
             $compteSociete = $this->getSociete()->getMasterCompte();
 
             $this->setCompte($compteSociete->_id);
 
             CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
 
-            $this->pullContactAndAdresseFrom($compte);
+            $this->pullContactAndAdresseFrom($compteSociete);
         }
-        
+
         $this->initFamille();
+        $new = $this->isNew();
         parent::save();
+
+        if($new) {
+            $societe = $this->getSociete();
+            $societe->addEtablissement($this);
+            $societe->save();
+        }
     }
 
     public function isActif() {
-        return ($this->statut == EtablissementClient::STATUT_ACTIF);
+        return $this->statut && ($this->statut == EtablissementClient::STATUT_ACTIF);
     }
+    
+     public function isSuspendu() {
+        return $this->statut && ($this->statut == SocieteClient::STATUT_SUSPENDU);
+    }
+    
 
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
