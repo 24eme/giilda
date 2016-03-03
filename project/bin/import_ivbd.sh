@@ -536,11 +536,18 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     volume=gensub(",", ".", 1, $33);
     commentaire="";
 
+    if(substr(volume,0,1) == "."){
+    volume="0"volume;
+    }
+    if(substr(volume,0,2) == "-."){
+    volume="-0."substr(volume,2);
+    }
+   
     modificatrice=(corrective == "True" || regularisatrice == "True");
 
 
     if(modificatrice) {
-        commentaire=commentaire "Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
+        commentaire=commentaire "IMPORT " produit_libelle " : Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if(!mouvement_extravitis) {
@@ -596,13 +603,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
         mouvement="consommationfamilialedegustation";
-        commentaire="Autres exonérations de " volume " hl\\n";
+        commentaire="IMPORT " produit_libelle " : Autres exonérations vers " mouvement " de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
         catmouvement="entrees"
         mouvement="regularisation";
-        commentaire="Autres entrées du mois de " volume " hl\\n";
+        commentaire="IMPORT " produit_libelle " : Autres entrées du mois vers " mouvement " de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
@@ -623,14 +630,14 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         catmouvement = "entrees";
         mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
-        commentaire= commentaire "Sortie négative " mouvement_extravitis " de " volume " hl\\n";
+        commentaire= commentaire "IMPORT " produit_libelle " : Sortie négative " mouvement_extravitis " vers " mouvement " de " volume " hl\\n";
     }
 
     if((volume * 1) < 0 && catmouvement == "entrees" && !modificatrice) {
         catmouvement = "sorties";
         mouvement = "destructionperte";
         volume = volume * -1;
-        commentaire= commentaire "Entrée négative " mouvement_extravitis " de " volume " hl\\n";
+        commentaire= commentaire "IMPORT " produit_libelle " : Entrée négative " mouvement_extravitis " vers " mouvement " de " volume " hl\\n";
     }
 
     if(mouvement == "initial" && catmouvement =="stocks_debut" && modificatrice) {
@@ -737,7 +744,7 @@ echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
-cat $DATA_DIR/drm_201408.csv | while read ligne  
+cat $DATA_DIR/drm_201408.csv | sed 's|\\|\\\\|' | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
@@ -752,7 +759,7 @@ do
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
     IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo $ligne >> $DATA_DIR/drm_lignes.csv
+    echo "$ligne" >> $DATA_DIR/drm_lignes.csv
 done
 
 echo "Contrôle de cohérence des DRM"
