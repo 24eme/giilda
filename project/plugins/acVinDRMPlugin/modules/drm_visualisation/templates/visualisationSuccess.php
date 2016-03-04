@@ -65,7 +65,7 @@
         </div>
         <div class="col-xs-12">
             <div class="well">
-                <?php echo $drm->commentaire; ?>
+                <?php echo nl2br($drm->commentaire); ?>
             </div>
         </div>
     </div>
