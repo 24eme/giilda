@@ -1,0 +1,26 @@
+. $(echo $0 | sed 's/[^\/]*$//')config.inc
+
+if test -e $TMP/$PROJET".updateviews.pid"; then
+exit 2;
+fi
+
+echo $$ > $TMP/$PROJET".updateviews.pid"
+
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/archivage/_view/all > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/compte/_view/all > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits_admin > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits_douane > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/all > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/history > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/all > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/facture/_view/etablissement > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/generation/_view/history > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvementfacture/_view/facturation > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/revendication/_view/etablissement > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/all > /dev/null
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history > /dev/null
+
+rm $TMP/$PROJET".updateviews.pid"
+

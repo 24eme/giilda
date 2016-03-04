@@ -1,6 +1,6 @@
 <?php
 
-class acCouchdbDocumentGetTask extends sfBaseTask
+class acCouchdbDocumentSaveTask extends sfBaseTask
 {
   protected function configure()
   {
