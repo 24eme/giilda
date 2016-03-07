@@ -32,7 +32,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
             $this->widgetSchema->setLabel('type_numero_compte_fournisseur', 'Numéros de compte');
         }
         if ($this->getObject()->isNegoOrViti()) {
-            $this->setWidget('type_numero_compte_client', new bsWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
+            //$this->setWidget('type_numero_compte_client', new bsWidgetFormChoice(array('choices' => $this->getTypesNumeroCompteClient(), 'multiple' => true, 'expanded' => true)));
 
             $this->setWidget('cooperative', new bsWidgetFormChoice(array('choices' => $this->getCooperative(), 'multiple' => false, 'expanded' => true)));
         }
@@ -70,7 +70,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
         if ($this->getObject()->isNegoOrViti()) {
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
-            $this->setValidator('type_numero_compte_client', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompteClient()), 'multiple' => true)));
+            //$this->setValidator('type_numero_compte_client', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesNumeroCompteClient()), 'multiple' => true)));
         }
 
         $this->setValidator('type_fournisseur', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesFournisseur()), 'multiple' => true)));
@@ -80,7 +80,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
         if ($this->getObject()->code_comptable_client) {
-            $this->widgetSchema['type_numero_compte_client']->setAttribute('disabled', 'disabled');
+            //$this->widgetSchema['type_numero_compte_client']->setAttribute('disabled', 'disabled');
         }
 
         if ($this->getObject()->code_comptable_fournisseur) {

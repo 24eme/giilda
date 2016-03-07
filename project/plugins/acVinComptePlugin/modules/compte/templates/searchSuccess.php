@@ -57,15 +57,15 @@
     <div class="list-group" id="list-item">
 		<?php foreach($results as $res): ?>
 			<?php $data = $res->getData(); ?>
-            <?php $societe_informations = $data['doc']['societe_informations']; ?>
+            <?php $societe_informations = (isset($data['doc']['societe_informations'])) ? $data['doc']['societe_informations'] : null; ?>
 			<div class="list-group-item">
                 <div class="row">
                 <div class="col-xs-8">
                     <span class="lead"><span class="<?php echo comptePictoCssClass($data['doc']) ?>"></span></span>
                     <a class="lead" href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['doc']['identifiant'])); ?>"><?php echo $data['doc']['nom_a_afficher']; ?></a> <span class="text-muted"><?php echo $data['doc']['identifiant']; ?></span>
-                    <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><br/><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php echo $societe_informations['raison_sociale'] ?></small>
+                    <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><br/><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php if(isset($societe_informations['raison_sociale'])): echo $societe_informations['raison_sociale']; endif; ?></small>
                     <?php endif; ?></span>
-<?php if($societe_informations['type']): ?><small class="text-muted label label-primary"><?php echo $societe_informations['type'] ?></small><?php endif; ?>
+<?php if(isset($societe_informations['type']) && $societe_informations['type']): ?><small class="text-muted label label-primary"><?php echo $societe_informations['type'] ?></small><?php endif; ?>
                     <br />
                     <?php echo $data['doc']['adresse']; ?> <?php if ($data['doc']['adresse_complementaire']): ?><small>(<?php echo $data['doc']['adresse_complementaire']; ?>)</small><?php endif; ?><br />
                     <?php echo $data['doc']['code_postal']; ?> <?php echo $data['doc']['commune']; ?><br />

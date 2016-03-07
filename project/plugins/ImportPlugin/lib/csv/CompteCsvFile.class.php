@@ -59,7 +59,7 @@ class CompteCsvFile extends CsvFile
 
                 $this->storeCompteInfos($c, $line);
 
-                $c->save();
+                $societe->pushToCompteOrEtablissementAndSave($societe->getMasterCompte(), $c);
 
                 echo "Compte " . $c->_id ." créé\n";
         	} catch(Exception $e) {
@@ -70,13 +70,13 @@ class CompteCsvFile extends CsvFile
         return $societes;
     }
 
-    protected function storeCompteInfos($c, $line) {
-        $c->adresse_complementaire = null;
+    protected function storeCompteInfos(InterfaceCompteGenerique $c, $line) {
+        $c->setAdresseComplementaire(null);
         $c->adresse = trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE')));
         if(preg_match('/[a-z]/i', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))) {
-            $c->add('adresse_complementaire',trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))));
+           $c->setAdresseComplementaire(trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))));
             if(preg_match('/[a-z]/i', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2'))) {
-                $c->adresse_complementaire .= " ; ".trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2')));
+                $c->setAdresseComplementaire($c->getAdresseComplementaire(). " ; ".trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2'))));
             }
         }
 
@@ -87,19 +87,21 @@ class CompteCsvFile extends CsvFile
         $c->code_postal = trim($this->getField($line, 'CSV_CODE_POSTAL'));
 
         if(!$c->code_postal) {
-            echo "WARNING: le code postal est vide pour la société ".$c->id_societe."\n";
+            echo "WARNING: le code postal est vide pour la société ".$c->identifiant."\n";
         }
 
         if($c->code_postal && !preg_match("/^[0-9]{5}$/", $c->code_postal)) {
-            echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$c->id_societe."\n";
+            echo "WARNING: le code postal ne semple pas correct : ".$c->code_postal." pour la société ".$c->identifiant."\n";
         }
 
         $c->commune = $this->getField($line, 'CSV_COMMUNE');
         $c->insee = $this->getField($line, 'CSV_INSEE');
 
         if(!$c->commune) {
-            echo "WARNING: la commune est vide pour la société ".$c->id_societe.":".implode(";", $line)."\n";
+            echo "WARNING: la commune est vide pour la société ".$c->identifiant.":".implode(";", $line)."\n";
         }
+
+        $c->pays = "";
 
         if(preg_match("/^FRANCE$/i", $this->getField($line, 'CSV_PAYS'))) {
             $c->pays = 'FR';
@@ -110,7 +112,7 @@ class CompteCsvFile extends CsvFile
             if($pays) {
                 $c->pays = $pays;
             } else {
-                echo "WARNING: la pays ".$this->getField($line, 'CSV_PAYS')." n'a pas été trouvé pour la société ".$c->id_societe.":".implode(";", $line)."\n";
+                echo "WARNING: la pays ".$this->getField($line, 'CSV_PAYS')." n'a pas été trouvé pour la société ".$c->identifiant.":".implode(";", $line)."\n";
             }
         }
 
@@ -119,14 +121,15 @@ class CompteCsvFile extends CsvFile
         $c->telephone_perso = $this->formatAndVerifyPhone($this->getField($line, 'CSV_TEL_PERSO'), $c);
         $c->telephone_bureau = $this->formatAndVerifyPhone($this->getField($line, 'CSV_TEL_BUREAU'), $c);
         $c->telephone_mobile = $this->formatAndVerifyPhone($this->getField($line, 'CSV_MOBILE'), $c);
+        $c->site_internet = null;
         if($this->getField($line, 'CSV_WEB')) {
             if (preg_match('/^http:\/\/[^ ]+$/', $this->getField($line, 'CSV_WEB'))) {
-                $c->add('site_internet', $this->getField($line, 'CSV_WEB'));
+                $c->site_internet = $this->getField($line, 'CSV_WEB');
             }else{
                 if (preg_match('/www.[^ ]+$/', $this->getField($line, 'CSV_WEB'))) {
-                    $c->add('site_internet', 'http://'.$this->getField($line, 'CSV_WEB'));
+                    $c->site_internet = 'http://'.$this->getField($line, 'CSV_WEB');
                 }else{
-                    echo("WARNING: ".$c->id_societe.": site non valide : \"".$this->getField($line, 'CSV_WEB')."\"\n");
+                    echo("WARNING: ".$c->identifiant.": site non valide : \"".$this->getField($line, 'CSV_WEB')."\"\n");
                     $c->addCommentaire("Problème d'import, site non valide : \"".$this->getField($line, 'CSV_WEB')."\"");
                 }
             }

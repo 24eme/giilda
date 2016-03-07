@@ -67,7 +67,22 @@ class compteActions extends sfCredentialActions {
             $this->redirect('etablissement_visualisation',array('identifiant' => preg_replace ('/^ETABLISSEMENT-/', '', $this->compte->getEtablissementOrigine())));
 
         $this->redirect($this->generateUrl('societe_visualisation', array('identifiant' => $this->societe->identifiant, 'interlocuteur' => $this->compte->_id)).'#'.$this->compte->_id);  
-    }    
+    }   
+    
+    public function executeSwitchStatus(sfWebRequest $request) {
+        $this->compte = $this->getRoute()->getCompte();
+        $newStatus = "";
+        if($this->compte->isActif()){
+           $newStatus = CompteClient::STATUT_SUSPENDU; 
+        }
+        if($this->compte->isSuspendu()){
+           $newStatus = CompteClient::STATUT_ACTIF; 
+        }
+            
+        $this->compte->setStatut($newStatus);
+        $this->compte->save();
+        return $this->redirect('compte_visualisation', array('identifiant' => $this->compte->identifiant));
+    }
 
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
       $query = $request->getParameter('q', '*');
