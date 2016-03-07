@@ -57,14 +57,28 @@ echo "Construction du fichier d'import des Contacts"
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
-famille="AUTRE" ; 
-famille=($13 ? "VITICULTEUR" : famille ) ; 
-famille=($14 ? "NEGOCIANT" : famille ) ; 
-famille=($15 ? "COURTIER" : famille ) ; 
+identifiant=sprintf("%06d", $1);
+famille="AUTRE" ;
+if($15) {
+  famille="INTERMEDIAIRE";
+}
+if($13 || $14) {
+  famille="RESSORTISSANT";
+}
 statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
 insee=$8;
+code_comptable_client=identifiant;
+code_comptable_fournisseur="";
+nom=trim($2 " " $3 " " $4);
+siret=$34;
+code_naf="";
+tvaintra="";
+codepostal=$9;
+commune=$10;
+#cedex=$12;
+cedex="";
 
-print sprintf("%06d", $1) ";" famille ";" trim($2 " " $3 " " $4) ";;" statut ";;" $34 ";;;" $5 ";" $6 ";" $7 ";;" $9 ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
@@ -85,8 +99,12 @@ if(!code_postal) {
 identifiant_societe=sprintf("%06d", $1);
 identifiant=identifiant_societe "01";
 insee=$8;
+cvi=$26;
+noaccises="";
+carte_pro="";
+recettelocale="";
 
-print identifiant ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" $27 ";;;;" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
@@ -171,7 +189,7 @@ if(annule=="O") {
 
 clauses=clause_reserve_propriete "," preparation_vin;
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";" acompte ";;;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";;;" acompte ";;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
@@ -192,7 +210,6 @@ if(id_vrac_prec==id_vrac) {
     num_incr=num_incr+1;
 
 if(length(num_bordereau) > 7){
-print num_bordereau;
 }
   }
   num_incr_aux=1;
@@ -299,8 +316,8 @@ awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm.csv
 
 echo "Import des contacts"
 
-php symfony import:societe $DATA_DIR/societes.csv
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+php symfony import:societe $DATA_DIR/societes.csv --env="ivso"
+php symfony import:etablissement $DATA_DIR/etablissements.csv --env="ivso"
 
 echo "Import des contrats"
 
