@@ -44,8 +44,9 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         if (!$this->etablissement->isCourtier()) {
             $this->setWidget('cvi', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('cvi', 'CVI');
-            $this->setValidator('cvi', new sfValidatorString(array('required' => false)));
-        } else {
+            $cviMsg = 'Le CVI doit impérativement être constitué de 10 chiffres';
+            $this->setValidator('cvi', new sfValidatorString(array('required' => false, 'min_length' => 10, 'max_length' => 10),array('min_length' => $cviMsg, 'max_length' => $cviMsg)));
+         } else {
             $this->setWidget('carte_pro', new bsWidgetFormInput());
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
