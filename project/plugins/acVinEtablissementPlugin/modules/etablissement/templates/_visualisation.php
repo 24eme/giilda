@@ -50,8 +50,14 @@
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item">     
-        <?php include_partial('compte/tagsVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
+    <div class="list-group-item <?php echo ($etablissement->isSameCompteThanSociete())? ' text-center text-muted disabled ' : ''; ?>"> 
+        <?php if ($etablissement->isSameCompteThanSociete()): ?>
+        <div class="row">
+                <em>Même tags que la société</em>
+            </div>
+        <?php else: ?>
+            <?php include_partial('compte/tagsVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
+        <?php endif; ?>
     </div>
     <div class="list-group-item">
         <ul class="list-inline">

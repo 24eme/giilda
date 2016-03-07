@@ -174,8 +174,8 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
         return false;
     }
-
-
+    
+    
     public function isSameAdresseThan(InterfaceCompteGenerique $compte) {
         
         return self::isSameAdresseComptes($this, $compte);

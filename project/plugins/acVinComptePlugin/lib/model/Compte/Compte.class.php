@@ -134,6 +134,11 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                     $this->addTag('automatique', $type_fournisseur);
                 }
             }
+            if($societe->isOperateur()){
+                foreach ($societe->getEtablissementsObj() as $etablissement) {
+                    $this->addTag('automatique', $etablissement->etablissement->famille);
+                }
+            }
         }
 
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
