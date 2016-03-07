@@ -18,11 +18,14 @@ class stocksComponents extends sfComponents {
 
         $this->recaps = array();
 
-        $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
+        $date = ConfigurationClient::getInstance()->getCampagneVinicole()->getDateDebutByCampagne($this->campagne);
+        $conf = ConfigurationClient::getConfiguration($date);
 
         foreach($mouvements as $mouvement) {
-            if (!$conf->get($mouvement->produit_hash)->getCepage()->getCVOActif())
+            if (!$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($date)) {
                 continue;
+            }
+            
             if (!array_key_exists($mouvement->produit_hash, $this->recaps)) {
                 $this->recaps[$mouvement->produit_hash] = $this->initLigneRecapNegociant();
                 $this->recaps[$mouvement->produit_hash]['produit'] = $mouvement->produit_libelle;
