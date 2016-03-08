@@ -8,7 +8,7 @@
     <div class="row" style="margin-top: 20px;">
     <?php foreach ($calendrier->getPeriodes() as $periode): ?>
         <div class="col-sm-3">
-        <?php include_partial('drm/calendrierItem', array('calendrier' => $calendrier, 'periode' => $periode, 'etablissement' => $etablissement, 'isTeledeclarationMode' => $isTeledeclarationMode, 'multiEtablissement' => $multiEtablissement)); ?>
+        <?php include_partial('drm/calendrierItem', array('calendrier' => $calendrier, 'periode' => $periode, 'etablissement' => $etablissement, 'isTeledeclarationMode' => $isTeledeclarationMode, 'multiEtablissement' => $multiEtablissement,'lastDrmToCompleteAndToStart' => $lastDrmToCompleteAndToStart[$etablissement->identifiant])); ?>
         </div>
     <?php endforeach; ?>
     </div>
