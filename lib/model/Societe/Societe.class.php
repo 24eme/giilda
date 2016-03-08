@@ -242,7 +242,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     }
 
     public function isNegoOrViti() {
-        return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
+        return ($this->type_societe == SocieteClient::TYPE_OPERATEUR);
     }
 
     public function isCourtier() {
