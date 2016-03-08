@@ -6,7 +6,7 @@
 <?php if (!$isTeledeclarationMode): ?>
 <div class="row" style="opacity: 0.7">
     <div class="col-xs-12">
-         <?php include_component('drm', 'formEtablissementChoice', array('identifiant' => $drm->etablissement->_id)) ?>
+         <?php include_component('drm', 'formEtablissementChoice', array('identifiant' => $drm->etablissement->_id, 'autofocus' => true)) ?>
     </div>
 </div>
 <?php endif; ?>
