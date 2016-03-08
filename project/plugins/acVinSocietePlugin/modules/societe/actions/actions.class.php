@@ -22,7 +22,7 @@ class societeActions extends sfCredentialActions {
         $interpro = $request->getParameter('interpro_id');
         $q = $request->getParameter('q');
         $limit = $request->getParameter('limit', 100);
-        $societes = SocieteAllView::getInstance()->findByInterproAndStatut($interpro, SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT), $q, $limit);
+        $societes = SocieteAllView::getInstance()->findByInterproAndStatut($interpro, SocieteClient::STATUT_ACTIF, array(SocieteClient::TYPE_OPERATEUR), $q, $limit);
         $json = $this->matchSociete($societes, $q, $limit);
         return $this->renderText(json_encode($json));
     }
@@ -207,8 +207,7 @@ class societeActions extends sfCredentialActions {
 
                 $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
 
-                $typeSocietes = array(SocieteClient::SUB_TYPE_VITICULTEUR => SocieteClient::SUB_TYPE_VITICULTEUR,
-                    SocieteClient::SUB_TYPE_NEGOCIANT => SocieteClient::SUB_TYPE_NEGOCIANT);
+                $typeSocietes = array(SocieteClient::TYPE_OPERATEUR => SocieteClient::TYPE_OPERATEUR);
 
                 $societesCodeClientViewActif = SocieteExportView::getInstance()->findByInterproAndStatut("INTERPRO-declaration", SocieteClient::STATUT_ACTIF, $typeSocietes);
                 $societesCodeClientViewSuspendu = SocieteExportView::getInstance()->findByInterproAndStatut("INTERPRO-declaration", SocieteClient::STATUT_SUSPENDU, $typeSocietes);

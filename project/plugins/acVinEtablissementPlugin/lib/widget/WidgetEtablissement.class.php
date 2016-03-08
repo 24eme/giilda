@@ -16,6 +16,7 @@ class WidgetEtablissement extends bsWidgetFormInput
         parent::configure($options, $attributes);
 
         $this->addOption('familles', array());
+        $this->addOption('autofocus', array());
         $this->addRequiredOption('interpro_id', null);
     }
 
@@ -24,6 +25,10 @@ class WidgetEtablissement extends bsWidgetFormInput
 
         if($name == 'familles') {
             $this->setAttribute('data-ajax', $this->getUrlAutocomplete());
+        }
+        
+        if($name == 'autofocus') {
+            $this->setAttribute('autofocus','autofocus');
         }
 
         return $this;

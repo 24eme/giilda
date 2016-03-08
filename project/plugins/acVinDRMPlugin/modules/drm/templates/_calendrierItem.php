@@ -24,7 +24,7 @@
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
                 <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?></span>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
                <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?> 
-                                <a href="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="btn btn-default btn-block <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): echo 'drm_nouvelle_teledeclaration';
+                                <a href="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="btn btn-default btn-block <?php echo ($lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>  <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): echo 'drm_nouvelle_teledeclaration';
                            endif; ?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
                 <?php endif; ?>                  
             </div>

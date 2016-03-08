@@ -167,7 +167,7 @@ class factureActions extends sfActions {
         $this->societe = $this->getRoute()->getSociete();
         $this->values = array();
 
-        $this->form = new FactureGenerationForm($default);
+        $this->form = new FactureGenerationForm();
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             return sfView::SUCCESS;
