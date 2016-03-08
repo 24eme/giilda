@@ -104,7 +104,7 @@
             }
         });
 
-        $(this).find("a#to_autofocus").focus();
+        $(this).find("a.to_autofocus").focus();
 
         $(this).find('.select2permissifNoAjax').each(function() {
 	    var element = $(this);
