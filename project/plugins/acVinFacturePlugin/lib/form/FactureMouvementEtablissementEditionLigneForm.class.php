@@ -39,7 +39,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
         $this->setValidator("prix_unitaire", new sfValidatorNumber(array('required' => false)));
 
 
-        $this->configureTypeSociete(array(SocieteClient::SUB_TYPE_VITICULTEUR, SocieteClient::SUB_TYPE_NEGOCIANT));
+        $this->configureTypeSociete(array(SocieteClient::TYPE_OPERATEUR));
         $this->widgetSchema->setNameFormat('facture_mouvement_etablissement_edition_ligne[%s]');
     }
 

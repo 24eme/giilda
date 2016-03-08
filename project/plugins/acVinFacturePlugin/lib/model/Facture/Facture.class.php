@@ -310,7 +310,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
         if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
 
-            if ($famille == SocieteClient::SUB_TYPE_VITICULTEUR) {
+            if ($famille == SocieteClient::TYPE_OPERATEUR) {
                 $origine_libelle = 'Contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
             } else {
                 $origine_libelle = 'Contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
