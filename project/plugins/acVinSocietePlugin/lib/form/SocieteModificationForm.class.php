@@ -172,7 +172,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
    
     public function update() {      
         if (($this->getObject()->code_comptable_client) || ($this->getObject()->isNegoOrViti() && $this->values['type_numero_compte_client'])) {
-            $this->getObject()->code_comptable_client = preg_replace(/'^0*/', '', $this->getObject()->identifiant);
+            $this->getObject()->code_comptable_client = preg_replace('/^0*/', '', $this->getObject()->identifiant);
         } else
             $this->getObject()->code_comptable_client = null;
 
