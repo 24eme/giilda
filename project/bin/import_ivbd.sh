@@ -123,10 +123,10 @@ join -t ";" -a 1 -1 41 -2 1 -o auto $DATA_DIR/base_ppm_coordonnees.sorted.commun
 cat $DATA_DIR/contrats_drm.csv | cut -d ";" -f 7 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' > $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 6 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 9 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;NEGOCIANT/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;INTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
+cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 11 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;XXXINTERMEDIAIRE/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/contrats_contrat.csv | cut -d ";" -f 13 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;REPRESENTANT/' >> $DATA_DIR/ppm_famille.csv
 cat $DATA_DIR/evv_numero_ppm.sorted.csv | cut -d ";" -f 23 | grep -E "^[0-9]+$" | sort | uniq | sed 's/$/;VITICULTEUR/' >> $DATA_DIR/ppm_famille.csv
-cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
+cat $DATA_DIR/ppm_famille.csv | sort | uniq | sort -t ";" -k 1,2 | sort -t ";" -k 1,1 > $DATA_DIR/ppm_famille.uniq.sorted.csv
 
 cat $DATA_DIR/base_ppm_coordonnees_communes.csv | sort -t ";" -k 2,2 > $DATA_DIR/base_ppm_coordonnees_communes.sorted.csv
 
@@ -171,14 +171,14 @@ cat $DATA_DIR/base_ppm_coordonnees_communes_familles_communication_pays.csv | aw
     commentaire=$16;
     famille="AUTRE";
     if($61 == "VITICULTEUR" || $61 == "NEGOCIANT" || $61 == "REPRESENTANT") {
-        famille="OPERATEUR";
+        famille="RESSORTISSANT";
     }
-    if($61 == "INTERMEDIAIRE") {
+    if($61 == "XXXINTERMEDIAIRE") {
         famille="INTERMEDIAIRE";
     }
 
     print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";;;" adresse1 ";" adresse2 ";" adresse3 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire ";"
-}' | sort | uniq > $DATA_DIR/societes.csv
+}' | sed -r 's/;SUSPENDU;(1011|2877|5433|5436);/;ACTIF;\1;/' | sort | uniq > $DATA_DIR/societes.csv
 
 # --- Récupération du Numéro de courtier ---
 # Supprimer les retours chariots au milieu d'une lignes
@@ -246,7 +246,7 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
         famille = "PRODUCTEUR";
     }
 
-    if(famille == "INTERMEDIAIRE") {
+    if(famille == "XXXINTERMEDIAIRE") {
         famille = "COURTIER";
     }
 
@@ -536,11 +536,18 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     volume=gensub(",", ".", 1, $33);
     commentaire="";
 
+    if(substr(volume,0,1) == "."){
+    volume="0"volume;
+    }
+    if(substr(volume,0,2) == "-."){
+    volume="-0."substr(volume,2);
+    }
+   
     modificatrice=(corrective == "True" || regularisatrice == "True");
 
 
     if(modificatrice) {
-        commentaire=commentaire "Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
+        commentaire=commentaire "IMPORT " produit_libelle " : Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
     }
 
     if(!mouvement_extravitis) {
@@ -596,13 +603,13 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(mouvement_extravitis == "Autres exonérations") {
         catmouvement="sorties"
         mouvement="consommationfamilialedegustation";
-        commentaire="Autres exonérations de " volume " hl\\n";
+        commentaire="IMPORT " produit_libelle " : Autres exonérations vers " mouvement " de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois != "08") {
         catmouvement="entrees"
         mouvement="regularisation";
-        commentaire="Autres entrées du mois de " volume " hl\\n";
+        commentaire="IMPORT " produit_libelle " : Autres entrées du mois vers " mouvement " de " volume " hl\\n";
     }
 
     if(mouvement_extravitis == "Autres entrées du mois" && mois == "08") {
@@ -623,14 +630,14 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
         catmouvement = "entrees";
         mouvement = "retourmarchandisetaxees";
         volume = volume * -1;
-        commentaire= commentaire "Sortie négative " mouvement_extravitis " de " volume " hl\\n";
+        commentaire= commentaire "IMPORT " produit_libelle " : Sortie négative " mouvement_extravitis " vers " mouvement " de " volume " hl\\n";
     }
 
     if((volume * 1) < 0 && catmouvement == "entrees" && !modificatrice) {
         catmouvement = "sorties";
         mouvement = "destructionperte";
         volume = volume * -1;
-        commentaire= commentaire "Entrée négative " mouvement_extravitis " de " volume " hl\\n";
+        commentaire= commentaire "IMPORT " produit_libelle " : Entrée négative " mouvement_extravitis " vers " mouvement " de " volume " hl\\n";
     }
 
     if(mouvement == "initial" && catmouvement =="stocks_debut" && modificatrice) {
@@ -714,7 +721,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 #Génération finale
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | grep -v ";St émilion" | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201208.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
 
 echo "Import des sociétés"
@@ -737,7 +744,7 @@ echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
-cat $DATA_DIR/drm_201208.csv | while read ligne  
+cat $DATA_DIR/drm_201408.csv | sed 's|\\|\\\\|' | while read ligne  
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
@@ -752,7 +759,7 @@ do
     fi
     PERIODE=$(echo $ligne | cut -d ";" -f 2)
     IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo $ligne >> $DATA_DIR/drm_lignes.csv
+    echo "$ligne" >> $DATA_DIR/drm_lignes.csv
 done
 
 echo "Contrôle de cohérence des DRM"

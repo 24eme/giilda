@@ -186,15 +186,17 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if (!$this->famille) {
             $this->famille = EtablissementFamilles::FAMILLE_PRODUCTEUR;
         }
-        if (!$this->sous_famille) {
-            $this->sous_famille = EtablissementFamilles::SOUS_FAMILLE_CAVE_PARTICULIERE;
-        }
     }
 
     public function save() {
         if(!$this->getCompte()){
             $this->setCompte($this->getSociete()->getMasterCompte()->_id);
         }
+
+        $societe = $this->getSociete();
+
+        $needSaveSociete = false;
+
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
                 $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
@@ -206,27 +208,52 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->pushContactAndAdresseTo($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
+            $compte->nom_a_afficher = $this->nom;
 
-            $compte->save();          
+            $compte->save();   
+                   
             $this->setCompte($compte->_id);
         } else if(!$this->isSameCompteThanSociete()){
-            $compteEtablissement = $this->getCompte();
+            $compteEtablissement = $this->getMasterCompte();
             $compteSociete = $this->getSociete()->getMasterCompte();
 
             $this->setCompte($compteSociete->_id);
 
             CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
-
-            $this->pullContactAndAdresseFrom($compte);
         }
-        
+
+        if($this->isSameAdresseThanSociete()) {
+            $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
+        }
+
+        if($this->isSameContactThanSociete()) {
+            $this->pullContactFrom($this->getSociete()->getMasterCompte());
+        }
+
         $this->initFamille();
+
+        if($this->isNew()) {
+            $societe->addEtablissement($this); 
+            $needSaveSociete = true; 
+        }
+
         parent::save();
+
+        if($needSaveSociete) {
+            $societe->save();
+        }
+
+        $societe->getMasterCompte()->save();
     }
 
     public function isActif() {
-        return ($this->statut == EtablissementClient::STATUT_ACTIF);
+        return $this->statut && ($this->statut == EtablissementClient::STATUT_ACTIF);
     }
+    
+     public function isSuspendu() {
+        return $this->statut && ($this->statut == SocieteClient::STATUT_SUSPENDU);
+    }
+    
 
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);

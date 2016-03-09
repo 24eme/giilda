@@ -100,14 +100,14 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
                 <div class="col-xs-8"><?php echo $compteForm['fax']->render(); ?></div>
                 <?php echo $compteForm['fax']->renderError(); ?>
             </div>
-            <?php if ($isCompteSociete): ?>
+           
                 <div class="form-group">
 
                     <?php echo $compteForm['site_internet']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
                     <div class="col-xs-8"><?php echo $compteForm['site_internet']->render(); ?></div>
                     <?php echo $compteForm['site_internet']->renderError(); ?>
                 </div>
-            <?php endif; ?>
+            
         </div>
     </div>
 

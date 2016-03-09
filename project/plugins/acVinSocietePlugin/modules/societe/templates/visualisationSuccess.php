@@ -16,23 +16,33 @@
     <div class="col-xs-12" style="<?php if (isset($etablissement) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
         <div class="list-group">
             <div class="list-group-item">
-                <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
-                    <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
-                    <?php if ($modification || $reduct_rights) : ?>    
-                        <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default" <?php if ($societe->isSuspendu()): echo 'disabled="disabled"'; endif; ?> >Modifier</a>
-                    <?php endif; ?>
-                </h2>
-                <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-2 text-right">
-                    <a href="<?php echo url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>" class="btn <?php echo ($societe->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($societe->isActif()) ? 'Suspendre' : 'Activer' ?></a>
-                </h2>
-                <p class="lead" style="margin-bottom: 5px;">
-                    <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
-                    <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
-                        <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                <div class="row">
+                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
+                        <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
+                        <?php if ($modification || $reduct_rights) : ?>    
+
                         <?php endif; ?>
-                    <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
-<?php if ($societe->date_modification) : ?><span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
-                </p>
+                    </h2>
+                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-2 text-right">
+                        <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default" <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> >Modifier</a>
+                    </h2>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <p class="lead" style="margin-bottom: 5px;">
+                            <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
+                            <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
+                                <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                                <?php endif; ?>
+                            <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
+<?php if ($societe->date_modification) : ?>
+                                    <span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
+                        </p>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        <a href="<?php echo url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-xs <?php echo ($societe->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($societe->isActif()) ? 'Suspendre' : 'Activer' ?></a>
+                    </div>
+                </div>
             </div>
 
 <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
@@ -121,30 +131,29 @@
         <?php if ($societe->isOperateur()): ?>
                         <div class="col-xs-6 text-right">
                             <div class="dropup">
-                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu_etablissement_ajout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <button <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu_etablissement_ajout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     Créer un établissement&nbsp;&nbsp;<span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu_etablissement_ajout" style="right: 0; left: auto;">
-                                    <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_PRODUCTEUR)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement producteur</a>
+                                    <li><a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_PRODUCTEUR)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement producteur</a>
                                     </li>
-                                    <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_NEGOCIANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement négociant</a>
+                                    <li><a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_NEGOCIANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement négociant</a>
                                     </li>
-                                    <li><a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_REPRESENTANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement représentant</a>
+                                    <li><a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_REPRESENTANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement représentant</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
         <?php elseif ($societe->isCourtier()): ?>
                         <div class="col-xs-6 text-right">
-                            <a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement Opérateur</a>
+                            <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php //echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement Opérateur</a>
                         </div>
                     <?php endif; ?>
     <?php endif; ?>
                 <div class="col-xs-6 text-left">
-                    <a href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un interlocuteur</a>
+                    <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un interlocuteur</a>
                 </div>
             <?php endif; ?> 
-<?php //include_component('societe', 'getInterlocuteursWithSuspendus');   ?>
         </div>
     </div>
 </section>

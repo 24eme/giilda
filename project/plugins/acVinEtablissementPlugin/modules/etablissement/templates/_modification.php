@@ -8,11 +8,7 @@
         <?php echo $etablissementForm['nom']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
         <div class="col-xs-8"><?php echo $etablissementForm['nom']->render(); ?></div>
     </div>
-    <div class="form-group<?php if($etablissementForm['statut']->hasError()): ?> has-error<?php endif; ?>">
-            <?php echo $etablissementForm['statut']->renderError(); ?>
-            <?php echo $etablissementForm['statut']->renderLabel('Statut *', array("class" => "col-xs-4 control-label")); ?>
-            <div class="col-xs-8"><?php echo $etablissementForm['statut']->render(); ?></div>
-    </div>
+  
     <div class="form-group<?php if($etablissementForm['region']->hasError()): ?> has-error<?php endif; ?>">
             <?php echo $etablissementForm['region']->renderError(); ?>
             <?php echo $etablissementForm['region']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
