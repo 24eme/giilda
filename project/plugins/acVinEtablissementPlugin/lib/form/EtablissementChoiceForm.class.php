@@ -31,6 +31,11 @@ class EtablissementChoiceForm extends baseForm {
         $this->getWidget('identifiant')->setOption('familles', $familles);
         $this->getValidator('identifiant')->setOption('familles', $familles);
     }
+    
+    public function configureAutfocus() {
+        $this->getWidget('identifiant')->setOption('autofocus','autofocus');
+    }
+    
 
     public function getEtablissement() {
 

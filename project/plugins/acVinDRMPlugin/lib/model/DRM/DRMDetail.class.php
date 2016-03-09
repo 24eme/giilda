@@ -191,7 +191,7 @@ class DRMDetail extends BaseDRMDetail {
         foreach ($this->get($key, true) as $n => $k) {
             if (!is_object($k)) {
                 if ($onlyCaracteristique) {
-                    if ($this->getConfig()->$key->$n->$onlyCaracteristique) {
+                    if ($k && $this->getConfig()->$key->$n->$onlyCaracteristique) {
                         $sum += $k;
                     }
                 } else {

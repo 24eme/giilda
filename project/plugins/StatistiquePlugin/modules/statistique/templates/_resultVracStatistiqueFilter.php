@@ -34,9 +34,9 @@
                     <?php endif; ?>
 				</td>
 				<td>
-					<?php echo ($item['doc']['date_signature'])? '<span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?>
+					<?php echo ($item['doc']['date_visa'])? '<span class="glyphicon glyphicon-check" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_visa'])) : null; ?>
 					<br />
-					<?php echo ($item['doc']['valide']['date_saisie'])? '<span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de saisie (validation interpro)"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['valide']['date_saisie'])) : null; ?>
+					<?php echo ($item['doc']['date_signature'])? '<span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?>
 				</td>
 				<td>
 					

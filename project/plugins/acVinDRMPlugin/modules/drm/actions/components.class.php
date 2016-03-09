@@ -6,9 +6,13 @@ class drmComponents extends sfComponents {
         if (!$this->identifiant) {
             $this->identifiant = null;
         }
+        $autofocus = array();
+        if ($this->autofocus) {
+            $autofocus = array('autofocus' => 'autofocus');
+        }
 
         if (!$this->form) {
-            $this->form = new DRMEtablissementChoiceForm('INTERPRO-declaration', array('identifiant' => $this->identifiant));
+            $this->form = new DRMEtablissementChoiceForm('INTERPRO-declaration', array('identifiant' => $this->identifiant), $autofocus);
         }
     }
 
@@ -120,6 +124,7 @@ class drmComponents extends sfComponents {
     public function executeCalendrier() {
         if (!$this->calendrier)
             $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
+            $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
         if ($this->isTeledeclarationMode) {
             $this->creationDrmsForms = $this->getCreationDrmsForms();
         }

@@ -6,7 +6,7 @@
 <?php
 $libelle = "Merci d'indiquer votre e-mail, votre mot de passe";
 $libelle .= ($form->getTypeCompte() == SocieteClient::SUB_TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
-$libelle .= (($form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR) || ($form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT))?
+$libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR)?
             " et votre numéro de SIRET" : "";
 $libelle .= " :";
 ?>
@@ -41,7 +41,7 @@ $libelle .= " :";
                         <?php echo $form['carte_pro']->render() ?>
                     </div>
                 <?php endif; ?>
-                <?php if (($form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR) || ($form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT)): ?>
+                <?php if ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR)): ?>
                     <div class="ligne_form ">
                         <?php echo $form['siret']->renderError() ?>
                         <?php echo $form['siret']->renderLabel() ?>
