@@ -83,28 +83,51 @@ print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" 
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
-nom=trim($2 " " $3 " " $4) ; 
-famille="AUTRE" ; 
-famille=($13 ? "PRODUCTEUR" : famille ) ; 
-famille=($14 ? "NEGOCIANT" : famille ) ; 
-famille=($15 ? "COURTIER" : famille ) ; 
-statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
-nom=nom ; 
-if (famille == "AUTRE") next ;
-code_postal=$9
-region="REGION_CVO";
-if(!code_postal) {
-    region="REGION_HORS_CVO";
-}
-identifiant_societe=sprintf("%06d", $1);
-identifiant=identifiant_societe "01";
-insee=$8;
-cvi=$26;
-noaccises="";
-carte_pro="";
-recettelocale="";
+  nom=trim($2 " " $3 " " $4) ; 
+  famille="AUTRE" ; 
+  producteur=($13 != ""); 
+  negociant=($14 != ""); 
+  courtier=($15 != "");
 
-print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+  delete familles;
+
+  if(producteur) {
+    familles["PRODUCTEUR"] = "PRODUCTEUR";
+  }
+
+  if(negociant) {
+    familles["NEGOCIANT"] = "NEGOCIANT";
+  }
+
+  if(courtier) {
+    familles["COURTIER"] = "COURTIER";
+  }
+
+  statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
+  nom=nom ; 
+  code_postal=$9
+  region="REGION_CVO";
+  if(!code_postal) {
+      region="REGION_HORS_CVO";
+  }
+  identifiant_societe=sprintf("%06d", $1);
+  identifiant=identifiant_societe "01";
+  insee=$8;
+  cvi=$27;
+  noaccises="";
+  carte_pro="";
+  recettelocale="";
+  cedex=$12;
+  commune=$10;
+
+  if(cedex == "#N/A") {
+    cedex = "";
+  }
+
+  for (famille in familles)  
+  {
+    print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+  }
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
