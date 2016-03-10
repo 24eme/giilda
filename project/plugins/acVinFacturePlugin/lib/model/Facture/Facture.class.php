@@ -253,17 +253,18 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
-                        if (!$present_detail->origine_type) {
+                        if (!$present_detail->origine_type && ($produit_libelle == $detail->libelle)) {
                             $detail = $present_detail;
                         }
                     }
                     if (!$detail) {
                         $detail = $ligne->getOrAdd('details')->add();
+                        $detail->quantite = 0;
+                        $detail->libelle = $produit_libelle;
+                        $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                        $detail->taux_tva = 0.2;
                     }
-                    $detail->libelle = $produit_libelle;
-                    $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                     $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
-                    $detail->taux_tva = 0.2;
                 }
             } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];

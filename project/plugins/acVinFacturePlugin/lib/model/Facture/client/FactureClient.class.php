@@ -141,7 +141,7 @@ class FactureClient extends acCouchdbClient {
     }
 
     private function getReduceLevelForFacturation() {
-        return MouvementfactureFacturationView::KEYS_MVT_TYPE;
+        return MouvementfactureFacturationView::KEYS_VRAC_DEST + 1;
     }
 
     public function getFacturationForSociete($societe) {
