@@ -10,7 +10,7 @@
  * @author mathurin
  */
 class FactureLigne extends BaseFactureLigne {
-    
+
     public function getMouvements() {
         $mouvements = array();
         foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
@@ -20,24 +20,24 @@ class FactureLigne extends BaseFactureLigne {
         }
         return $mouvements;
     }
-   
-    public function facturerMouvements() {       
+
+    public function facturerMouvements() {
         foreach ($this->getMouvements() as $mouv) {
             $mouv->facturer();
         }
     }
-   
-    public function setProduitHash($ph) {
-      $ret = $this->_set('produit_hash', $ph);
 
-      $this->_set('produit_identifiant_analytique', null);
-      $this->getProduitIdentifiantAnalytique();
-      return $ret;
+    public function setProduitHash($ph) {
+        $ret = $this->_set('produit_hash', $ph);
+
+        $this->_set('produit_identifiant_analytique', null);
+        $this->getProduitIdentifiantAnalytique();
+        return $ret;
     }
 
     public function getTauxTva() {
-        foreach($this->details as $detail) {
-            if($detail->taux_tva) {
+        foreach ($this->details as $detail) {
+            if ($detail->taux_tva) {
 
                 return $detail->taux_tva;
             }
@@ -49,7 +49,7 @@ class FactureLigne extends BaseFactureLigne {
     public function updateTotaux() {
         $this->montant_ht = 0;
         $this->montant_tva = 0;
-        foreach($this->details as $detail) {
+        foreach ($this->details as $detail) {
             $detail->montant_ht = round($detail->quantite * $detail->prix_unitaire, 2);
             $detail->montant_tva = round($detail->taux_tva * $detail->montant_ht, 2);
 
@@ -60,30 +60,29 @@ class FactureLigne extends BaseFactureLigne {
         $this->montant_ht = round($this->montant_ht, 2);
         $this->montant_tva = round($this->montant_tva, 2);
     }
-    
 
-    /*public function getProduitIdentifiantAnalytique() {
+    /* public function getProduitIdentifiantAnalytique() {
       $id = $this->_get('produit_identifiant_analytique');
       if ($id) {
-	return $id;
+      return $id;
       }
       $code = $this->getConfProduit()->getCodeComptable();
       $this->_set('produit_identifiant_analytique', $code);
       return $code;
-    }*/
+      } */
 
     public function getOrigineIdentifiant() {
-        foreach($this->origine_mouvements as $docId => $origines) {
-              
-              return $docId;
+        foreach ($this->origine_mouvements as $docId => $origines) {
+
+            return $docId;
         }
 
         return null;
     }
 
     public function getOrigineType() {
-      foreach($this->origine_mouvements as $origines) {
-            foreach($origines as $templateId) {
+        foreach ($this->origine_mouvements as $origines) {
+            foreach ($origines as $templateId) {
 
                 return $templateId;
             }
@@ -93,24 +92,24 @@ class FactureLigne extends BaseFactureLigne {
     }
 
     public function getConfProduit() {
-      return ConfigurationClient::getCurrent()->get($this->produit_hash);
+        return ConfigurationClient::getCurrent()->get($this->produit_hash);
     }
 
     public function defacturerMouvements() {
         foreach ($this->getMouvements() as $mouv) {
-               $mouv->defacturer();
+            $mouv->defacturer();
         }
     }
 
     public function cleanDetails() {
         $detailsToRemove = array();
-        foreach($this->details as $detail) {
-            if(!$detail->prix_unitaire && !$detail->libelle && !$detail->quantite) {
+        foreach ($this->details as $detail) {
+            if (!$detail->prix_unitaire && !$detail->libelle && !$detail->quantite) {
                 $detailsToRemove[$detail->getKey()] = true;
             }
         }
 
-        foreach($detailsToRemove as $key => $void) {
+        foreach ($detailsToRemove as $key => $void) {
             $this->details->remove($key);
         }
     }
@@ -121,11 +120,11 @@ class FactureLigne extends BaseFactureLigne {
     }
 
     public function getLibelleSecondaire() {
-        if(!preg_match("/\(.*\)/", $this->libelle)) {
+        if (!preg_match("/\(.*\)/", $this->libelle)) {
 
             return null;
         }
         return trim(preg_replace("/.*(\(.*\)).*/", '\1', $this->libelle));
     }
-    
+
 }
