@@ -52,12 +52,11 @@ EOF;
                     continue;
                 }
 
+
                 $drmProduitPrevious = $stocks_fin[$drmProduit->produit_hash];
                 $periodeSuivante = ConfigurationClient::getInstance()->getPeriodeSuivante($drmProduitPrevious->periode);
-
-                if($drmProduit->periode != $periodeSuivante) {
-                    echo sprintf("Le produit n'existe pas pour cette période : #%s;%s;%s\n", $drmProduit->etablissement_identifiant, $periodeSuivante, $drmProduit->produit_libelle);
-                    $stocks_fin[$drmProduit->produit_hash] = $drmProduit;
+                
+                if($drmProduitPrevious->campagne != $drmProduit->campagne) {
                     continue;
                 }
 
