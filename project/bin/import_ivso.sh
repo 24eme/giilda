@@ -297,7 +297,7 @@ numero_contrat=gensub(/-/, "0000", 1, $10);
 print base "sorties;vrac;" $21 ";;" numero_contrat ; 
 }' > $DATA_DIR/drm_cave_contrats.csv
 
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
