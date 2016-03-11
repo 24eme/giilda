@@ -8,7 +8,7 @@ declaration;detail;entrees;repli;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvem
 declaration;detail;entrees;declassement;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;transfertsrecolte;1;1;0;1;1;0;0;0;SUSPENDU;entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;entrees;retourembouteillage;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/relogement;0
-declaration;detail;entrees;transfertcomptamatierecession;1;1;0;1;1;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;
+declaration;detail;entrees;transfertcomptamatierecession;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/replacement-suspension;
 declaration;detail;entrees;travailafacon;1;1;0;1;1;1;0;0;SUSPENDU;entrees-periode/mouvements-temporaires/travail-a-facon;0
 declaration;detail;entrees;retourmarchandisenontaxees;1;1;0;1;1;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;0
 declaration;detail;entrees;retourmarchandisetaxees;1;1;0;1;1;1;0;1;SUSPENDU;entrees-periode/replacement-suspension;1
@@ -26,7 +26,7 @@ declaration;detail;sorties;repli;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorti
 declaration;detail;sorties;declassement;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;sorties;transfertsrecolte;1;1;0;-1;1;0;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;sorties;embouteillage;1;1;0;-1;1;0;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/embouteillage;0
-declaration;detail;sorties;transfertcomptamatiere;1;1;0;-1;1;1;0;1;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/replis-declassement-transfert-changement-appellation;0
+declaration;detail;sorties;transfertcomptamatiere;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/replis-declassement-transfert-changement-appellation;0
 declaration;detail;sorties;travailafacon;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-temporaires/travail-a-facon;0
 declaration;detail;sorties;consommationfamilialedegustation;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/consomation-familiale-degustation;0
 declaration;detail;sorties;distillationusageindustriel;1;1;0;-1;1;1;0;0;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/mouvements-internes/autres-sorties;0
