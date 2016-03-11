@@ -56,55 +56,78 @@ echo "Construction du fichier d'import des Contacts"
 #head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
-function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
-identifiant=sprintf("%06d", $1);
-famille="AUTRE" ;
-if($15) {
-  famille="INTERMEDIAIRE";
-}
-if($13 || $14) {
-  famille="RESSORTISSANT";
-}
-statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
-insee=$8;
-code_comptable_client=identifiant;
-code_comptable_fournisseur="";
-nom=trim($2 " " $3 " " $4);
-siret=$34;
-code_naf="";
-tvaintra="";
-codepostal=$9;
-commune=$10;
-#cedex=$12;
-cedex="";
+      function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
+    identifiant=sprintf("%06d", $1);
+    famille="AUTRE" ;
+    if($15) {
+      famille="INTERMEDIAIRE";
+    }
+    if($13 || $14) {
+      famille="RESSORTISSANT";
+    }
+    statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
+    insee=$8;
+    code_comptable_client=identifiant;
+    code_comptable_fournisseur="";
+    nom=trim($2 " " $3 " " $4);
+    siret=$34;
+    code_naf="";
+    tvaintra="";
+    codepostal=$9;
+    commune=$10;
+    #cedex=$12;
+    cedex="";
 
-print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
-nom=trim($2 " " $3 " " $4) ; 
-famille="AUTRE" ; 
-famille=($13 ? "PRODUCTEUR" : famille ) ; 
-famille=($14 ? "NEGOCIANT" : famille ) ; 
-famille=($15 ? "COURTIER" : famille ) ; 
-statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
-nom=nom ; 
-if (famille == "AUTRE") next ;
-code_postal=$9
-region="REGION_CVO";
-if(!code_postal) {
-    region="REGION_HORS_CVO";
-}
-identifiant_societe=sprintf("%06d", $1);
-identifiant=identifiant_societe "01";
-insee=$8;
-cvi=$26;
-noaccises="";
-carte_pro="";
-recettelocale="";
+    nom=trim($2 " " $3 " " $4) ; 
+    famille="AUTRE" ; 
+    producteur=($13 != ""); 
+    negociant=($14 != ""); 
+    courtier=($15 != "");
 
-print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" $10 ";" insee ";" $12 ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+    delete familles;
+
+    if(producteur) {
+      familles["PRODUCTEUR"] = "PRODUCTEUR";
+    }
+
+    if(negociant) {
+      familles["NEGOCIANT"] = "NEGOCIANT";
+    }
+
+    if(courtier) {
+      familles["COURTIER"] = "COURTIER";
+    }
+
+    statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
+    nom=nom ; 
+    code_postal=$9
+    region="REGION_CVO";
+    if(!code_postal) {
+        region="REGION_HORS_CVO";
+    }
+    identifiant_societe=sprintf("%06d", $1);
+    identifiant=identifiant_societe "01";
+    insee=$8;
+    cvi=$27;
+    noaccises="";
+    carte_pro="";
+    recettelocale="";
+    cedex=$12;
+    commune=$10;
+
+    if(cedex == "#N/A") {
+      cedex = "";
+    }
+
+    for (famille in familles)  
+    {
+        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+    }
 }' > $DATA_DIR/etablissements.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
@@ -123,7 +146,7 @@ cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;1022
 # Début génération des Id couchDB
 #tail -n 1 $DATA_DIR/contrats_produits_cepages.clean.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
-cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{ 
+cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{ 
 date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $9); 
 date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $11); 
 num_bordereau=$7;
@@ -131,6 +154,7 @@ if(length($7) > 7){
    num_bordereau=substr($7,1,7);
 }
 id_vrac=sprintf("%4d%09d", $5 , num_bordereau);
+
 libelle_produit=$41; 
 libelle_cepage=$42; 
 millesime=$17; 
@@ -239,7 +263,7 @@ if($13 < 0) { print base "sorties;entree_negative;" $13*-1 ";;;;entrée négativ
 if($14 > 0) { print base "sorties;destructionperte;" $14 ; } #perte
 if($15 > 0) { print base "sorties;distillationusageindustriel;" $15 ; } #lie_et_mouts
 if($16 > 0) { print base "sorties;distillationusageindustriel;" $16 ; } #usages_industriels
-if($17 > 0) { print base "sorties;ventefrancebouteillecrd;" $17 ; } #collective_ou_individuelle
+if($17 > 0) { print base "sorties;ventefrancecrd;" $17 ; } #collective_ou_individuelle
 if($17 < 0) { print base "entrees;sortie_negative;" $17*-1 ";;;;sortie négative de collective_ou_individuelle" ; }
 if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18 ; } #dsa_dsac
 if($18 < 0) { print base "entrees;sortie_negative;" $18*-1 ";;;;sortie négative de dsa dsac" ; } #dsa_dsac
@@ -269,50 +293,16 @@ cat $DATA_DIR/drm_factures_produits.csv | awk -F ';' '{
 if (!$10 || $10 == "INCONNU") { next }
 identifiant=sprintf("%06d01", $17);
 base="CAVE;" $5 ";" identifiant ";;" $45 ";;;;;;;" ; 
-numero_contrat=gensub(/-/, "00", 1, $10);
+numero_contrat=gensub(/-/, "0000", 1, $10);
 print base "sorties;vrac;" $21 ";;" numero_contrat ; 
 }' > $DATA_DIR/drm_cave_contrats.csv
 
-cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3  | grep -E "^[A-Z]+;(2012(08|09|10|11|12)|2013[0-1]{1}[0-9]{1}|2014[0-1]{1}[0-9]{1}|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm.csv
-
-# ls $DATA_DIR/drms | while read ligne
-# do
-#     cat $DATA_DIR/drms/$ligne | awk -F ';' '
-#       BEGIN { somme_transfert_appellation=0; somme_declassement=0; somme_recolte=0 } 
-#       {  
-#           if($13 == "transfertsrecolte") {
-#               if($12 == "entrees") { somme_transfert_appellation = somme_transfert_appellation + $14; } 
-#               if($12 == "sorties") { somme_transfert_appellation = somme_transfert_appellation - $14; } 
-#           }
-          
-#           if($13 == "declassement") {
-#               if($12 == "entrees") { somme_declassement = somme_declassement + $14; } 
-#               if($12 == "sorties") { somme_declassement = somme_declassement - $14; } 
-#           }
-
-#           if($13 == "recolte") {
-#               if($12 == "entrees") { somme_recolte = somme_recolte + $14; } 
-#               if($12 == "sorties") { somme_recolte = somme_recolte - $14; } 
-#           }
-          
-#       } 
-#       END {
-
-#           if(!somme_declassement && !somme_recolte && somme_transfert_appellation) {
-#               somme_transfert_appellation = 0;
-#           }
-
-#           if((somme_declassement + somme_transfert_appellation) != 0 && (somme_declassement + somme_transfert_appellation + somme_recolte) != 0 ) {  
-#               print "'$DATA_DIR/drms/$ligne';transfert: " somme_transfert_appellation
-#               print "'$DATA_DIR/drms/$ligne';declassement: " somme_declassement
-#               print "'$DATA_DIR/drms/$ligne';recolte: " somme_recolte
-#           }
-#       }'
-# done
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201408.csv
 
 echo "Import des contacts"
 
