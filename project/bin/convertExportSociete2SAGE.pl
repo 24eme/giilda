@@ -80,7 +80,7 @@ while(<STDIN>) {
 	print "plafond assurance crédit : " if ($verbose);
 	print "0.00\n";
 	print "numéro compte tiers payeur : " if ($verbose);
-	print "$compte\n";
+	print $field[0]."\n";
 	print "code risque : " if ($verbose);
 	print "1\n";
 	print "catégorie tarifaire : " if ($verbose);
@@ -118,7 +118,7 @@ while(<STDIN>) {
 	print "option lettrage (oui/non) : " if ($verbose);
 	print "1\n";
 	print "validation des dates d´échéance (oui/non) : " if ($verbose);
-	print "1\n";
+	print "0\n";
 	print "mise en sommeil (VINSI) : " if ($verbose);
 	if ($field[12] eq "ACTIF") {
 	    print "0\n";
@@ -131,10 +131,10 @@ while(<STDIN>) {
 	$field[13] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	$field[13] = '010112' if (!$field[13]);
 	print $field[13]."\n";
-	print "hors rappel/relevé (EXPORT SAGE) : " if ($verbose);
-	print $field[20]."\n";
+	print "hors rappel/relevé : " if ($verbose);
+	print "0\n";
 	print "numéro analytique : " if ($verbose);
-	print "\n";
+	print "1\n";
 	print "numéro section analytique : " if ($verbose);
 	print "\n";
 	print "téléphone (VINSI) : " if ($verbose);
@@ -204,17 +204,7 @@ while(<STDIN>) {
 	print "numéro tiers centrale d'achat : " if ($verbose);
 	print "\n";
 	print "collaborateur nom (VINSI : ".$field[18].") : " if ($verbose);
-	if ($field[18] eq 'NANTES') {
-	    print "CL3\n";
-	}elsif ($field[18] eq 'ANGERS') {
-	    print "CL2\n";
-	}elsif ($field[18] eq 'TOURS') {
-	    print "CL1\n";
-	}elsif ($field[18] eq 'HORS_INTERLOIRE') {
-	    print "CL1\n";
-	}else {
-	    print "\n";
-	}
+	print "\n";
 	print "collaborateur prénom : " if ($verbose);
 	print "\n";
 	print "date fermeture début : " if ($verbose);
