@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+use Encode;
+
 use constant code_journal => 0;
 use constant date => 1;
 use constant date_de_saisie => 2;
@@ -301,16 +303,31 @@ sub printCHRE {
     print "\n";
 }
 
-print "#VER 19\n",
+sub printCIVA {
+    $nom = $numero = $field[origine_type];
+    $nom =~ s/.* \(([^\)]*)\).*/$1/;
+    $numero =~ s/.*Contrat n° *(\d+) .*/$1/;
+    print "#CIVA\n";
+    print "Nom tiers contrat;" if ($verbose);
+    print $nom."\n";
+    print "Numéro de contrat;" if ($verbose);
+    print $numero."\n";
+    print "Date;" if ($verbose);
+    print $field[date_de_saisie]."\n";
+}
+
+print "#VER 19\n";
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
 	next if ($field[code_journal] ne 'VEN');
 	next if (!$field[montant]); #si montant à 0, l'ignorer
 	$field[date] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	$field[date_de_saisie] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	printCHEN if ($old ne $field[numero_de_facture]) ;
 	$old = $field[numero_de_facture];
 	printCHLI if ($field[sens] eq 'CREDIT');
+	printCIVA if ($field[sens] eq 'CREDIT' && $field[origine_type]);
 	printCHRE if ($field[sens] eq 'DEBIT');
 }
 print "#FIN\n";
