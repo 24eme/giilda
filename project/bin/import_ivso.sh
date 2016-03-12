@@ -277,7 +277,7 @@ if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedi
 if($22 < 0) { print base "entrees;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
 if($23 < 0) { print base "entrees;sortie_negative;" $23*-1 ";;;;sortie négative de expedition hors ue" ; } #expedition_hors_ue
-if($24 > 0) { print base "sorties;relogement;" $24 ; } #relogement
+if($24 > 0) { print base "sorties;transfertcomptamatiere;" $24 ; } #relogement
 if($24 < 0) { print base "entrees;sortie_negative;" $24*-1 ";;;;sortie négative de relogement" ; } #relogement
 print base "stocks_fin;final;" $25 ;
 print base "stocks_fin;dont_revendique;" $25 ;
