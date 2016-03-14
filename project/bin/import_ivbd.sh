@@ -536,6 +536,21 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     volume=gensub(",", ".", 1, $33);
     commentaire="";
 
+    manquante=$10;
+    zero=$11;
+
+    /*if(manquante == "True" || zero == "True") {
+        catmouvement="stocks_debut";
+        mouvement="initial";
+        volume="";
+        if(manquante) {
+            commentaire=commentaire "IMPORT DRM manquante\\n";
+        }
+        if(zero) {
+            commentaire=commentaire "IMPORT DRM néant\\n";
+        }
+    }*/
+
     if(substr(volume,0,1) == "."){
     volume="0"volume;
     }

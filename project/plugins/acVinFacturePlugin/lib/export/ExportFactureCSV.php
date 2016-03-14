@@ -6,8 +6,8 @@ class ExportFactureCSV {
     const TYPE_LIGNE_ECHEANCE = 'ECHEANCE';
     const TYPE_LIGNE_TVA = 'TVA';
 
-    public function __construct() {
-        
+    public function __construct($ht = false) {
+    	$this->ht = $ht;
     }
 
     public static function printHeaderAnneeComptable() {
@@ -54,12 +54,14 @@ class ExportFactureCSV {
                 echo "\n";
             }
         }
-        echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture n°' . $facture->numero_piece_comptable . ' (TVA);' . $this->getSageCompteGeneral($facture) . ';;;;CREDIT;' . $facture->taxe . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
-        if ($export_annee_comptable) {
-            echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-        }
+	if (!$this->ht) {
+	        echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture n°' . $facture->numero_piece_comptable . ' (TVA);' . $this->getSageCompteGeneral($facture) . ';;;;CREDIT;' . $facture->taxe . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+	        if ($export_annee_comptable) {
+        	    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
+	        }
+	        echo "\n";
+	}
 
-        echo "\n";
         $nbecheance = count($facture->echeances);
         if ($nbecheance) {
             $i = 0;
