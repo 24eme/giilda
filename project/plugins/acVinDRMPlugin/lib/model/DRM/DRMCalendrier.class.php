@@ -1,4 +1,4 @@
-<?php
+r<?php
 
 class DRMCalendrier {
 
@@ -33,6 +33,11 @@ class DRMCalendrier {
         $this->periodes = $this->buildPeriodes();
         $this->etablissements = array();
         foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
+            if($e->famille != EtablissementFamilles::PRODUCTEUR) {
+                
+                continue;
+            }
+
             $this->etablissements[] = $e->etablissement;
         }
 
