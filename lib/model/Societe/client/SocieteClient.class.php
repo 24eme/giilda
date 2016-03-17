@@ -5,10 +5,10 @@ class SocieteClient extends acCouchdbClient {
     const TYPE_OPERATEUR = 'RESSORTISSANT';
     const TYPE_COURTIER = 'INTERMEDIAIRE';
     const TYPE_AUTRE = 'AUTRE';
-    
+
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
-    
+
     const STATUT_ACTIF = 'ACTIF';
     const STATUT_SUSPENDU = 'SUSPENDU';
     const STATUT_EN_CREATION = 'EN_CREATION';
@@ -88,10 +88,9 @@ class SocieteClient extends acCouchdbClient {
     public function getNextIdentifiantSociete() {
         $id = '';
         $societes = $this->getSocietesIdentifiants(acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-
         $last_num = 0;
         foreach ($societes as $id) {
-            if (!preg_match('/SOCIETE-8([0-9]{5})/', $id, $matches)) {
+            if (!preg_match('/^SOCIETE-([0-9]{6})$/', $id, $matches)) {
                 continue;
             }
 
@@ -101,7 +100,7 @@ class SocieteClient extends acCouchdbClient {
             }
         }
 
-        return sprintf("8%05d", $last_num + 1);
+        return sprintf("%06d", $last_num + 1);
     }
 
     public function getNextCodeFournisseur() {
@@ -118,7 +117,7 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function getSocietesIdentifiants($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('SOCIETE-800000')->endkey('SOCIETE-999999')->execute($hydrate);
+        return $this->startkey('SOCIETE-000000')->endkey('SOCIETE-999999')->execute($hydrate);
     }
 
     public function findByIdentifiantSociete($identifiant) {
