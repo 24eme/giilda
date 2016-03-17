@@ -1,6 +1,6 @@
 <?php use_helper('DRM'); ?>
 
-<div class="panel panel-default <?php echo getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>">
+<div class="panel panel-default <?php echo getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode,$etablissement); ?>">
     <div class="panel-heading text-center"><?php echo $calendrier->getPeriodeLibelle($periode) ?></div>
     <div class="panel-body text-center">
         <?php if ($isTeledeclarationMode && $multiEtablissement): ?>

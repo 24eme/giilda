@@ -58,8 +58,5 @@ project/web/components/vins/vins-preview.html: project/web/components/vins/fontc
 .views/generation.json: project/config/databases.yml project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.reduce.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.reduce.view.js
 	perl bin/generate_views.pl project/config/databases.yml project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.history.reduce.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.map.view.js project/plugins/acVinGenerationPlugin/lib/model/views/generation.creation.reduce.view.js > $@ || rm >@
 
-.views/elasticsearch:
-	cd project ; bash bin/elastic_configure_old && touch ../.views/elasticsearch ; cd ..
-
 clean:
 	rm -f .views/*
