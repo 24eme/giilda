@@ -13,7 +13,7 @@ all:
       champs:
         soussigne: ["vendeur_identifiant", "acheteur_identifiant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
         marche: ["label", "produit", "cepage", "selection", "millesime", "categorie_vin", "domaine", "raisin_quantite", "jus_quantite", "bouteilles_contenance_libelle", "prix_initial_unitaire", "volume_initial", "volume_vigueur", "degre", "surface"]
-        condition: ["delai_paiement", "moyen_paiement", "date_limite_retiraison", "cvo_repartition", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur"]
+        condition: ["delai_paiement", "moyen_paiement", "date_limite_retiraison", "courtage_repartition", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur"]
       transactions:
         "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendange fraiche"
         "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"
@@ -28,7 +28,7 @@ all:
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
         "ESPECES": "Espèces"
-      repartition_cvo:
+      repartition_courtage:
         "50_50": "50/50"
         "ACHETEUR": "100% acheteur"
         "VENDEUR": "100% vendeur"
@@ -116,13 +116,12 @@ all:
     facture:
       sans_categories : true  
       emetteur: 
-        HORS_REGION:
-          adresse: 'adresse IVSO'
-          code_postal: 'cp IVSO'
-          ville: 'IVSO'
-          service_facturation: 'nom prenom IVSO'
-          telephone: 'tel IVSO - fax IVSO'
-          email: 'IVSO@IVSO.fr'
+        adresse: 'adresse IVSO'
+        code_postal: 'cp IVSO'
+        ville: 'IVSO'
+        service_facturation: 'nom prenom IVSO'
+        telephone: 'tel IVSO - fax IVSO'
+        email: 'IVSO@IVSO.fr'
   cas:
     domain: login.cas
     port: 443
