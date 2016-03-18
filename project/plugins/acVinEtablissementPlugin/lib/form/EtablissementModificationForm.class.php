@@ -62,7 +62,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
     public function getFamilles()
     {
-        return EtablissementFamilles::getFamilles($this->getObject()->getSociete()->getTypeSociete());
+        return EtablissementFamilles::getFamillesByTypeSociete($this->getObject()->getSociete()->getTypeSociete());
     }
 
     public static function getRegions() {
