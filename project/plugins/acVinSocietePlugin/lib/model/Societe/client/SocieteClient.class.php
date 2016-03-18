@@ -157,7 +157,7 @@ class SocieteClient extends acCouchdbClient {
 
     public static function getSocieteTypesWithChais() {
         return array(self::TYPE_OPERATEUR => self::TYPE_OPERATEUR,
-            self::TYPE_COURTIER => self::TYPE_COURTIER);
+                     self::TYPE_COURTIER => self::TYPE_COURTIER);
     }
 
     public function addTagRgtEnAttenteFromFile($path, $societesCodeClientView) {
