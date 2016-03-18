@@ -21,16 +21,16 @@
     </tbody>
 </table>
 
-<table class="table table-condensed table-striped table-bordered">
-    <thead>
-
-    </thead>
+<a name="mouvements"></a>
+<h2>Configuration des mouvements</h2>
+<table class="table table-condensed table-striped table-bordered table-hover">
     <tbody>
         <?php foreach ($config->declaration->detail as $details): ?>
             <?php foreach($config->declaration->detail->getDetailsSorted($details) as $detail): ?>
             <tr>
                 <td><span class="<?php if($detail->mouvement_coefficient == -1): ?>text-danger<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>text-success<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
                 <td><?php echo $detail->getLibelle() ?> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
+                <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
                 <td><?php if($detail->facturable): ?>CVO<?php endif; ?></td>
                 <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
                 <td><?php if($detail->recolte): ?>RECOLTE<?php endif; ?></td>

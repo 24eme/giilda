@@ -42,8 +42,13 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     }
 
     private function getLibelleDetail() {
-        
+
         return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
+    }
+
+    public function isFavoris() {
+
+        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getKey()."_".$this->getKey());
     }
 
     public function isWritableForEtablissement($etb) {
