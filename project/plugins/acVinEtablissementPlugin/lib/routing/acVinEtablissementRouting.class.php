@@ -18,7 +18,7 @@ class acVinEtablissementRouting {
         $r->prependRoute('etablissement_autocomplete_byfamilles', new sfRoute('/etablissement/autocomplete/:interpro_id/familles/:familles', array('module' => 'etablissement_autocomplete',
             'action' => 'byFamilles')));
 
-        $r->prependRoute('etablissement_ajout', new SocieteRoute('/etablissement/:identifiant/nouveau/:famille', array('module' => 'etablissement',
+        $r->prependRoute('etablissement_ajout', new SocieteRoute('/etablissement/:identifiant/nouveau', array('module' => 'etablissement',
             'action' => 'ajout'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
             'type' => 'object')));
 

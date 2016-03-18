@@ -2,198 +2,198 @@
 // -------------------------
 #header {
 
-	.header-top {
-		padding: 10px 0;
-		text-align: center;
+    .header-top {
+        padding: 10px 0;
+        text-align: center;
 
-		.container { position: relative; }
-	}
+        .container { position: relative; }
+    }
 
-	.logo-site {
-		margin: 0;
-	}
+    .logo-site {
+        margin: 0;
+    }
 
-	.navbar
-	{
-		border-top: 1px solid @navbar-default-border;
-		font-size: 19px;
-		margin: 0;
+    .navbar
+    {
+        border-top: 1px solid @navbar-default-border;
+        font-size: 19px;
+        margin: 0;
 
-		.navbar-brand
-		{
-			font-size: inherit;
-			height: auto;
-			line-height: normal;
+        .navbar-brand
+        {
+            font-size: inherit;
+            height: auto;
+            line-height: normal;
 
-			&:hover,
-			&:focus { color: @brand-primary; }
-		}
+            &:hover,
+                &:focus { color: @brand-primary; }
+        }
 
-		.navbar-nav
-		{
-			> li
-			{
-				> a 
-				{ 
-					padding-left: 20px;
-					padding-right: 20px;
-					position: relative;
-					line-height: normal;
+        .navbar-nav
+        {
+            > li
+            {
+                > a 
+                { 
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    position: relative;
+                    line-height: normal;
 
-					&:before
-					{
-						background: @brand-primary;
-						content: '';
-						position: absolute;
-						left: 0;
-						right: 0;
-						bottom: 0;
-						height: 0;
-						transition: height .2s;
-					}
+                    &:before
+                        {
+                        background: @brand-primary;
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        height: 0;
+                        transition: height .2s;
+                    }
 
-					&:hover:before,
-					&:focus:before { height: 6px; }
-				}
+                    &:hover:before,
+                        &:focus:before { height: 6px; }
+                }
 
-				&.active
-				{
-					> a:before { height: 6px; }
-				}
-			}
-		}
-	}
+                &.active
+                {
+                    > a:before { height: 6px; }
+                }
+            }
+        }
+    }
 }
 
 // Content
 // -------------------------
 #content {
-	background: #eadfcf;
-	padding: 20px 0;
+    background: #eadfcf;
+    padding: 20px 0;
 
-	> .container { 
-		background: #FFF;
-		padding-top: 15px;
-		padding-bottom: 15px;
-	}
+    > .container { 
+        background: #FFF;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
 }
 
 #principal {
 
-	// Etapes DRM
-	> .navbar {
-		border: 0;
-		border-bottom: 1px solid @brand-primary;
-		counter-reset: steps;
-		color: lighten(@brand-primary, 15%);
-		font-size: 16px;
-		min-height: auto;
-		margin-left: -15px;
-		margin-right: -15px;
-		padding: 0;
+    // Etapes DRM
+    > .navbar {
+        border: 0;
+        border-bottom: 1px solid @brand-primary;
+        counter-reset: steps;
+        color: lighten(@brand-primary, 15%);
+        font-size: 16px;
+        min-height: auto;
+        margin-left: -15px;
+        margin-right: -15px;
+        padding: 0;
 
-		> ul {
+        > ul {
 
-			> li {
+            > li {
 
-				background: @brand-primary;
-				border-top: 1px solid @brand-primary;
-				position: relative;
-				top: 1px;
+                background: @brand-primary;
+                border-top: 1px solid @brand-primary;
+                position: relative;
+                top: 1px;
 
-				&:before { display: none; }
+                &:before { display: none; }
 
-				&:last-child {
-					border-right: 1px solid @brand-primary;
-				}
+                &:last-child {
+                    border-right: 1px solid @brand-primary;
+                }
 
-				&.visited { color: #FFF; }
+                &.visited { color: #FFF; }
 
-				&.active { 
-					background: #FFF;
-					color: #6b453c;
-				}
+                &.active { 
+                    background: #FFF;
+                    color: #6b453c;
+                }
 
-				> a {
-					color: inherit;
-					display: block;
-					padding: 10px 25px;
-					text-decoration: none;
+                > a {
+                    color: inherit;
+                    display: block;
+                    padding: 10px 25px;
+                    text-decoration: none;
 
-					&:before { 
-						display: inline-block;
-						border: 3px solid;
-						box-sizing: content-box;
-						border-radius: 50%;
-						counter-increment: steps;
-						content: counter(steps);
-						margin-right: 10px;
-						line-height: 20px;
-						height: 20px;
-						width: 20px;
-						text-align: center;
-					}
-				}
-			}
-		}
-	}
+                    &:before { 
+                        display: inline-block;
+                        border: 3px solid;
+                        box-sizing: content-box;
+                        border-radius: 50%;
+                        counter-increment: steps;
+                        content: counter(steps);
+                        margin-right: 10px;
+                        line-height: 20px;
+                        height: 20px;
+                        width: 20px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
 }
 
 // Titles
 // -------------------------
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 { 
-	text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 .page-header {
-	background: @brand-primary;
-	display: inline-block;
-	color: #fff;
-	font-size: 20px;
-	margin: 0;
-	padding: 3px 10px;
+    background: @brand-primary;
+    display: inline-block;
+    color: #fff;
+    font-size: 20px;
+    margin: 0;
+    padding: 3px 10px;
 }
 
 // Pills
 // -------------------------
 .nav-pills {
-  > li {
-	+ li { margin-left: 3px; }
+    > li {
+        + li { margin-left: 3px; }
 
-    > a {
-    	background-color: @nav-link-bg;
-    	color: @nav-link-color;
-    	padding-top: 5px;
-    	padding-bottom: 5px;
+        > a {
+            background-color: @nav-link-bg;
+            color: @nav-link-color;
+            padding-top: 5px;
+            padding-bottom: 5px;
 
-      	&:hover,
-		&:focus { background-color: @nav-link-bg; }
+            &:hover,
+                &:focus { background-color: @nav-link-bg; }
+        }
     }
-  }
 }
 
 // Tables
 // -------------------------
 .table {
-	> thead {
-		> tr {
-			> th {
-				background-color: @table-bg-heading-cells;
-				font-weight: normal;
-				border-bottom: 0;
-				color: @table-color-heading-cells;
-			}
-		}
-	}
+    > thead {
+        > tr {
+            > th {
+                background-color: @table-bg-heading-cells;
+                font-weight: normal;
+                border-bottom: 0;
+                color: @table-color-heading-cells;
+            }
+        }
+    }
 }
 
 .table-horizontal-striped {
-	&:extend(.table-striped all);
+    &:extend(.table-striped all);
 }
 
 .table-vertical-striped {
-	> tbody > tr > td:nth-of-type(even) { background-color: @table-bg-accent; }
+    > tbody > tr > td:nth-of-type(even) { background-color: @table-bg-accent; }
 }
 
 
@@ -201,97 +201,107 @@ h1, h2, h3, h4, h5, h6,
 // -------------------------
 .panel
 {
-	border-width: 3px;
-	box-shadow: none;
+    border-width: 3px;
+    box-shadow: none;
 
-	.panel-heading
-	{
-		font-size: 16px;
-	}
+    .panel-heading
+    {
+        font-size: 16px;
+    }
 }
 
 .panel-secondary {
-	border: 0;
+    border: 0;
 
-	& > .panel-heading {
-		border-bottom: 0;
-		display: inline-block;
-		color: #848c03;
-	}
+    & > .panel-heading {
+        border-bottom: 0;
+        display: inline-block;
+        color: #848c03;
+    }
 
-	& > .panel-body {
-		border: 1px solid @panel-secondary-border;
-	}
+    & > .panel-body {
+        border: 1px solid @panel-secondary-border;
+    }
 }
 .societe {
-	.list-group-item {
-  		background-color: #fff;
-  		border: none;
-	}
-	.list-group {
-  		border: 2px solid @list-group-bg;
-	}
+    .list-group-item {
+        background-color: #fff;
+        border: none;
+    }
+    .list-group {
+        border: 2px solid @list-group-bg;
+    }
 }
 #col_saisies {
-	.list-group-item {
-  		background-color: #fff;
-  		border-bottom: 2px solid @list-group-bg;
-	}
+    .list-group-item {
+        background-color: #fff;
+        border-bottom: 2px solid @list-group-bg;
+    }
+    .form-group {
+        margin-bottom: 8px;
+    }
 }
+
+#colonne_intitules{
+     .form-group {
+        margin-bottom: 8px;
+    }
+}
+
 #list-item {
-	.list-group-item {
-  		background-color: #fff;
-  		border: 1px solid @list-group-bg;
-	}
+    .list-group-item {
+        background-color: #fff;
+        border: 1px solid @list-group-bg;
+    }
 }
 // Buttons
 // -------------------------
 .btn
 {
-	border-radius: 0;
-	transition: background .3s;
+    border-radius: 0;
+    transition: background .3s;
 }
 
 // Select2
 // -------------------------
 .select2-container {
-	.select2-results {
-		.select2-results__option--highlighted[aria-selected] {
-			background-color: @brand-primary;
-		}
-	}
+    .select2-results {
+        .select2-results__option--highlighted[aria-selected] {
+            background-color: @brand-primary;
+        }
+    }
 
-	.selection { 
-		.select2-selection--single {
-			border-radius: 0;
-			border-color: @input-border;
-		}
-	}
+    .selection { 
+        .select2-selection--single {
+            border-radius: 0;
+            border-color: @input-border;
+        }
+    }
 }
 
 // Progress bars
 // -------------------------
 .progress {
-	height: 10px;
+    height: 10px;
 }
 
 // Breadcumb
 // -------------------------
 .breadcrumb {	
-	a { color: inherit; }
+    a { color: inherit; }
 }
 
 // Forms
 // -------------------------
 .form-control {
 
-	&:focus {
-		box-shadow: none;
-	}
+    &:focus {
+        box-shadow: none;
+    }
 }
 
 .input-group-addon {
-	color: #FFF;
+    color: #FFF;
 }
 
 .form-group-xs .form-control, 
@@ -311,17 +321,17 @@ h1, h2, h3, h4, h5, h6,
 // Footer
 // -------------------------
 #footer {
-	background: #48453f;
-	padding: 70px 0 60px;
-	text-align: center;
+    background: #48453f;
+    padding: 70px 0 60px;
+    text-align: center;
 
-	li {
-		display: inline-block;
+    li {
+        display: inline-block;
 
-		+ li {
-			margin-left: 40px;
-		}
-	}
+        + li {
+            margin-left: 40px;
+        }
+    }
 
-	a { color: #FFF; }
+    a { color: #FFF; }
 }

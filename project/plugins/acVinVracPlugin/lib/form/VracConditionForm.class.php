@@ -128,7 +128,7 @@ class VracConditionForm extends VracForm {
         }
         if (isset($values['cahier_charge']) && $values['cahier_charge']) {
             $this->getObject()->cahier_charge = 1;
-        }
+        }        
     }
 
     protected function updateDefaultsFromObject() {
@@ -139,7 +139,7 @@ class VracConditionForm extends VracForm {
             $this->setDefault('clause_reserve_propriete', true);
         }
         if (!$this->getObject()->preparation_vin) {
-            $this->setDefault('preparation_vin', 'VENDEUR');
+            $this->setDefault('preparation_vin', 'ACHETEUR');
         }
         if (!$this->getObject()->embouteillage) {
             $this->setDefault('embouteillage', 'ACHETEUR');
@@ -161,6 +161,13 @@ class VracConditionForm extends VracForm {
         if ($this->getObject()->categorie_vin != 'GENERIQUE') {
             $this->setDefault('autorisation_nom_vin', true);
             $this->setDefault('autorisation_nom_producteur', true);
+        }
+        if (is_null($this->getObject()->courtage_taux)) {
+            $this->setDefault('courtage_taux', 2);
+        }
+        if(is_null($this->getObject()->courtage_repartition)){
+             $this->setDefault('courtage_repartition','ACHETEUR' );
+            
         }
     }
 

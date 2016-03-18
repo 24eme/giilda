@@ -203,7 +203,7 @@ class drmActions extends drmGeneriqueActions {
         if ($isTeledeclarationMode) {
             $this->redirect('drm_choix_produit', $drm);
         } else {
-            $this->redirect('drm_edition', $drm);
+            $this->redirect($this->generateUrl('drm_edition', $drm).'#col_saisies_cont');
         }
     }
 
