@@ -10,7 +10,7 @@ DATA_DIR=$TMP/data_ivso_csv
 if test "$REMOTE_DATA"; then
     echo "Récupération de l'archive"
     scp $REMOTE_DATA $TMP/data_ivso.zip
-    
+
     echo "Désarchivage"
     rm -rf $TMP/data_ivso_origin
     mkdir $TMP/data_ivso_origin
@@ -26,11 +26,11 @@ if test "$REMOTE_DATA"; then
     cd $SYMFODIR
 
     echo "Conversion des fichiers en csv"
-    
+
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
-    ls $TMP/data_ivso_origin | while read ligne  
+    ls $TMP/data_ivso_origin | while read ligne
     do
         CSVFILENAME=$(echo $ligne | sed 's/\.xlsx/\.csv/')
         echo $DATA_DIR/$CSVFILENAME
@@ -56,7 +56,7 @@ echo "Construction du fichier d'import des Contacts"
 #head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
-      function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
+      function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     identifiant=sprintf("%06d", $1);
     famille="AUTRE" ;
     if($15) {
@@ -65,7 +65,7 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     if($13 || $14) {
       famille="RESSORTISSANT";
     }
-    statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
+    statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ;
     insee=$8;
     code_comptable_client=identifiant;
     code_comptable_fournisseur="";
@@ -78,15 +78,15 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     #cedex=$12;
     cedex="";
 
-    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
-function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } { 
-    nom=trim($2 " " $3 " " $4) ; 
-    famille="AUTRE" ; 
-    producteur=($13 != ""); 
-    negociant=($14 != ""); 
+function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
+    nom=trim($2 " " $3 " " $4) ;
+    famille="AUTRE" ;
+    producteur=($13 != "");
+    negociant=($14 != "");
     courtier=($15 != "");
 
     delete familles;
@@ -103,8 +103,8 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
       familles["COURTIER"] = "COURTIER";
     }
 
-    statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ; 
-    nom=nom ; 
+    statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ;
+    nom=nom ;
     code_postal=$9
     region="REGION_CVO";
     if(!code_postal) {
@@ -124,9 +124,9 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
       cedex = "";
     }
 
-    for (famille in familles)  
+    for (famille in familles)
     {
-        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";" 
+        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
     }
 }' > $DATA_DIR/etablissements.csv
 
@@ -146,18 +146,18 @@ cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;1022
 # Début génération des Id couchDB
 #tail -n 1 $DATA_DIR/contrats_produits_cepages.clean.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
-cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{ 
-date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $9); 
-date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $11); 
+cat $DATA_DIR/contrats_produits_cepages.clean.csv | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]{2});(.*)/\1;\2;\3;\4;20\5;\6/g' | awk -F ';' '{
+date_signature=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $9);
+date_saisie=gensub(/^([0-9]+)-([0-9]+)-([0-9]+)$/,"\\3-\\1-\\2", 1, $11);
 num_bordereau=$7;
 if(length($7) > 7){
    num_bordereau=substr($7,1,7);
 }
 id_vrac=sprintf("%4d%09d", $5 , num_bordereau);
 
-libelle_produit=$41; 
-libelle_cepage=$42; 
-millesime=$17; 
+libelle_produit=$41;
+libelle_cepage=$42;
+millesime=$17;
 vin_bio=$19;
 vin_prepare=$20;
 caracteristiques_vins="";
@@ -227,7 +227,7 @@ if(id_vrac_prec==id_vrac) {
   }else{
     num_bordereau=sprintf("%1d%08d",num_incr_aux,substr($3,2,6));
     num_incr_aux=num_incr_aux+1;
-  }  
+  }
 }else{
   if(num_bordereau=="0"){
     num_bordereau=sprintf("9%08d",num_incr);
@@ -238,7 +238,7 @@ if(length(num_bordereau) > 7){
   }
   num_incr_aux=1;
 }
-id_vrac=substr($2,0,4) "" sprintf("%09d",num_bordereau);  
+id_vrac=substr($2,0,4) "" sprintf("%09d",num_bordereau);
 print $1 ";" id_vrac ";" num_bordereau ";" $0
 id_vrac_prec=$2;
 }' | sed -r 's/^([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);([0-9]*);(.*)/\1;\2;\7/g' | sed 's/^Numéro Contrat;   00000000;Numéro ;//g' | sed 's/;   00000000//g' > $DATA_DIR/vracs.csv
@@ -251,9 +251,9 @@ join -a 1 -t ";" -1 6 -2 1  $DATA_DIR/drm.csv.produits.sorted $DATA_DIR/produits
 
 cat $DATA_DIR/drm_produits.csv | awk -F ';' '{
 identifiant=sprintf("%06d01", $4);
-base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ; 
-print base "stocks_debut;initial;" $10 ; 
-print base "stocks_debut;dont_revendique;" $10 ; 
+base="CAVE;" $5 ";" identifiant ";;" $37 ";;;;;;;" ;
+print base "stocks_debut;initial;" $10 ;
+print base "stocks_debut;dont_revendique;" $10 ;
 if($11 > 0) { print base "entrees;recolte;" $11 } #récolte
 if($11 < 0) { print base "sorties;entree_recolte_negative;" $11*-1 ";;;;entrée négative de récolte" ; } #récolte
 if($12 > 0) { print base "entrees;revendication;" $12 ; } #volume agréé
@@ -272,7 +272,7 @@ if($19 < 0) { print base "entrees;sortie_negative;" $19*-1 ";;;;sortie négative
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
 if($20 < 0) { print base "entrees;sortie_negative;" $20*-1 ";;;;sortie négative de france sans contrat" ; } #france_sans_contrat
 # if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
-if($21 < 0) { print base "entrees;sortie_negative;" $21*-1 ";;;;sortie négative de france sous contrat" ; }
+# if($21 < 0) { print base "entrees;sortie_negative;" $21*-1 ";;;;sortie négative de france sous contrat" ; }
 if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedition_ue
 if($22 < 0) { print base "entrees;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
@@ -290,11 +290,19 @@ cat $DATA_DIR/DRM_Factures.csv | tr -d "\r" | sort -t ";" -k 5,5 > $DATA_DIR/drm
 join -a 1 -t ";" -1 5 -2 1  $DATA_DIR/drm_factures.csv.produits.sorted $DATA_DIR/produits_conversion.csv > $DATA_DIR/drm_factures_produits.csv
 
 cat $DATA_DIR/drm_factures_produits.csv | awk -F ';' '{
-if (!$10 || $10 == "INCONNU") { next }
 identifiant=sprintf("%06d01", $17);
-base="CAVE;" $5 ";" identifiant ";;" $45 ";;;;;;;" ; 
+base="CAVE;" $5 ";" identifiant ";;" $45 ";;;;;;;" ;
 numero_contrat=gensub(/-/, "0000", 1, $10);
-print base "sorties;vrac;" $21 ";;" numero_contrat ; 
+mouvement="vrac"
+if(!numero_contrat || numero_contrat == "INCONNU") {
+    mouvement="vracsanscontratsuspendu";
+    numero_contrat="";
+}
+volume = $19 + $20 + $21;
+if(!volume) {
+    next;
+}
+print base "sorties;" mouvement ";" volume ";;" numero_contrat ;
 }' > $DATA_DIR/drm_cave_contrats.csv
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
@@ -324,7 +332,7 @@ done
 
 echo "Contrôle de cohérence des DRM"
 
-cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
+cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne
 do
     php symfony drm:controle-coherence "$ligne"
 done
