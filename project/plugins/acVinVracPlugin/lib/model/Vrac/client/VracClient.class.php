@@ -222,6 +222,12 @@ class VracClient extends acCouchdbClient {
                         ->endkey(array(1))
                         ->getView('vrac', 'history');
     }
+    
+    public function retrieveAllVracs() {
+
+        return $this->descending(true)
+                        ->getView('vrac', 'history');
+    }
 
     public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit = self::RESULTAT_LIMIT) {
 
