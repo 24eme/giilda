@@ -17,9 +17,9 @@
         <div class="list-group">
             <div class="list-group-item">
                 <div class="row">
-                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?> 
+                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?>
                         <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
-                        <?php if ($modification || $reduct_rights) : ?>    
+                        <?php if ($modification || $reduct_rights) : ?>
 
                         <?php endif; ?>
                     </h2>
@@ -81,7 +81,7 @@
                             <?php endforeach; ?>
                 <?php endif; ?></p>
                 </div>
-<?php endif; ?>            
+<?php endif; ?>
             <div class="list-group-item">
                 <ul class="list-inline">
                     <li><attr>N° SIRET :</attr> <?php echo $societe->siret; ?></li>
@@ -102,10 +102,10 @@
 <?php endif; ?>
                 </ul>
 
-                <?php if ($societe->commentaire) : ?>  
+                <?php if ($societe->commentaire) : ?>
                     <strong>Commentaires :</strong> <?php echo $societe->commentaire; ?>
 <?php endif; ?>
-            </div> 
+            </div>
 
         </div>
     </div>
@@ -128,32 +128,14 @@
         <div class="row">
             <?php if ($modification || $reduct_rights) : ?>
                 <?php if (!$reduct_rights && $societe->canHaveChais()) : ?>
-        <?php if ($societe->isOperateur()): ?>
-                        <div class="col-xs-6 text-right">
-                            <div class="dropup">
-                                <button <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu_etablissement_ajout" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Créer un établissement&nbsp;&nbsp;<span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu_etablissement_ajout" style="right: 0; left: auto;">
-                                    <li><a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_PRODUCTEUR)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement producteur</a>
-                                    </li>
-                                    <li><a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_NEGOCIANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement négociant</a>
-                                    </li>
-                                    <li><a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant, 'famille' => EtablissementFamilles::FAMILLE_REPRESENTANT)); ?>" ><span class="glyphicon glyphicon-plus"></span> Créer un établissement représentant</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-        <?php elseif ($societe->isCourtier()): ?>
-                        <div class="col-xs-6 text-right">
-                            <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php //echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement Opérateur</a>
-                        </div>
-                    <?php endif; ?>
-    <?php endif; ?>
+                    <div class="col-xs-6 text-right">
+                        <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un établissement</a>
+                    </div>
+                <?php endif; ?>
                 <div class="col-xs-6 text-left">
                     <a <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> href="<?php echo url_for('compte_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span> Créer un interlocuteur</a>
                 </div>
-            <?php endif; ?> 
+            <?php endif; ?>
         </div>
     </div>
 </section>
