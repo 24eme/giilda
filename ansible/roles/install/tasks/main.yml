@@ -1,0 +1,124 @@
+---
+- name: "elastisearch key"
+  become: true
+  apt_key: id=D27D666CD88E42B4 url=https://packages.elastic.co/GPG-KEY-elasticsearch state=present
+
+- name: "elasticsearch repo"
+  become: true
+  apt_repository: repo="{{item}}" state=present
+  with_items:
+  - "deb http://packages.elastic.co/elasticsearch/2.x/debian stable main"
+  - "deb http://packages.elastic.co/logstash/2.2/debian stable main"
+  - "deb http://packages.elastic.co/kibana/4.1/debian stable main"
+
+- name: "modules debian installés"
+  apt: name={{item}} state=latest
+  become: yes
+  with_items:
+  - apache2
+  - libapache2-mod-php5
+  - php5-curl
+  - php5-json
+  - php5-ldap
+  - php5-readline
+  - xinetd
+  - tinc
+  - git-core
+  - node-less
+
+- name: "user actualys exist"
+  user: name=actualys state=present
+  become: yes
+
+- name: "bonne version git"
+  become_user: actualys
+  git: repo=https://github.com/24eme/giilda.git
+    dest=/home/actualys/{{giilda_branch}}_{{giilda_instance}}
+    update=yes clone=yes version={{giilda_branch}} remote={{giilda_branch}}
+
+- name: "cache and log created"
+  become: yes
+  file: path=/home/actualys/{{giilda_branch}}_{{giilda_instance}}/project/{{item}}
+    state=directory mode=2775 owner=www-data group=actualys
+  with_items:
+  - cache
+  - log
+
+- name: "Prepare Virtual document root"
+  become: yes
+  file: path=/home/www state=directory owner=actualys
+
+- name: "Configuration apache"
+  become: yes
+  copy: src=files/apache.conf dest=/etc/apache2/sites-available/000-default.conf
+
+- name: "Apache modules"
+  become: yes
+  apache2_module: state=present name={{item}}
+  with_items:
+  - rewrite
+  - vhost_alias
+  notify: reload apache
+
+- name: "Create virtualhost"
+  become: yes
+  file: path=/home/www/{{giilda_hostname}} state=link src=/home/actualys/{{giilda_branch}}_{{giilda_instance}}/project/web
+
+- name: "Has couchdb package"
+  become: yes
+  get_url: url=http://ftp.debian.org/debian/pool/main/c/couchdb/couchdb_1.4.0-3+b1_amd64.deb dest=/var/cache/apt/archives/
+  register: couchdb
+
+- name: "Couchdb started"
+  become: yes
+  apt: deb=/var/cache/apt/archives/couchdb_1.4.0-3+b1_amd64.deb state=present
+  when: couchdb|changed
+
+- name: "Elasticsearch present et started"
+  become: yes
+  apt: name={{item}} state=present
+  with_items:
+  - openjdk-7-jre
+  - elasticsearch
+
+- name: "Plugin head present"
+  become: yes
+  shell: /usr/share/elasticsearch/bin/plugin install mobz/elasticsearch-head
+  args:
+    creates: /usr/share/elasticsearch/plugins/head
+
+- name: "Logstash and kibana"
+  apt: name={{item}} state=present
+  with_items:
+  - logstash
+  - kibana
+
+- name: "ELK started"
+  service: name={{item}} state=started
+  become: yes
+  with_items:
+  - elasticsearch
+  - logstash
+  - kibana
+
+- name: "GIILDA Configuration"
+  template: src={{item.src}} dest=/home/actualys/{{giilda_branch}}_{{giilda_instance}}/project/{{item.dest}}
+  with_items:
+  - {src: symfony/declaration_dev.php.j2, dest: web/declaration_dev.php}
+  - {src: symfony/databases.yml.j2, dest: config/databases.yml}
+  - {src: symfony/app.yml.j2, dest: config/app.yml}
+  - {src: config.inc.j2, dest: bin/config.inc}
+
+
+- name: "GIILDA xinetd"
+  become: true
+  template: src=xinetd.d/{{item}}.j2 dest=/etc/xinetd.d/{{item}}
+  with_items:
+  - elasticsearch
+  - couchdb
+  notify: reload xinetd
+
+- name: "Make viewes"
+  shell: make
+  args:
+    chdir: /home/actualys/{{giilda_branch}}_{{giilda_instance}}/project

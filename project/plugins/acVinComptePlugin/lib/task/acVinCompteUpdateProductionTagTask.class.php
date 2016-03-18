@@ -23,10 +23,12 @@
  * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
  * @version    0.1
  */
-class acVinCompteUpdateProductionTagTask extends sfBaseTask
-{
-    protected function configure()
-    {
+class acVinCompteUpdateProductionTagTask extends sfBaseTask {
+
+    protected $debug = false;
+    protected static $accent_matching = array('accent' => array('Ô','ô', 'Â','â','ê','è','é','É', 'È','Ê','û','Û','î','Î'), 'to_replace' => array('o','o', 'A','a','e','e','e','e','e','e','u','u','i','i'));
+
+    protected function configure() {
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
@@ -34,21 +36,25 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
             new sfCommandOption('campagne', null, sfCommandOption::PARAMETER_OPTIONAL, 'Campagne', null),
             new sfCommandOption('reinitialisation_tags_produit', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
             new sfCommandOption('reinitialisation_tags_export', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
+            new sfCommandOption('reinitialisation_tags_domaines', null, sfCommandOption::PARAMETER_REQUIRED, 'Reset tags', false),
+            new sfCommandOption('debug', null, sfCommandOption::PARAMETER_OPTIONAL, 'use only one code creation', '0'),
         ));
 
-        $this->namespace        = 'compte';
-        $this->name             = 'updateProductionTag';
+        $this->namespace = 'compte';
+        $this->name = 'updateProductionTag';
         $this->briefDescription = '';
         $this->detailedDescription = '';
     }
 
-    protected function execute($arguments = array(), $options = array())
-    {
+    protected function execute($arguments = array(), $options = array()) {
         $databaseManager = new sfDatabaseManager($this->configuration);
         $context = sfContext::createInstance($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        if(!isset($options['campagne']) || !$options['campagne']) {
+        $this->debug = array_key_exists('debug', $options) && $options['debug'];
+
+
+        if (!isset($options['campagne']) || !$options['campagne']) {
             $campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         } else {
             $campagne = $options['campagne'];
@@ -56,52 +62,80 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
 
         $this->logSection("campagne use", $campagne);
 
-        foreach(EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF,null) as $e) {
+        foreach (EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, null) as $e) {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
-            $tags = array('export' => array(), 'produit' => array());
-            
+            $tags = array('export' => array(), 'produit' => array(), 'domaines' => array());
+
             $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
-            foreach($mvts as $m) {
+            foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
-      	        $tags['produit'][$produit_libelle] = 1;
+                $tags['produit'][$produit_libelle] = 1;
             }
             $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
-            foreach($mvts as $m) {
+            foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
-              	$tags['produit'][$produit_libelle] = 1;
-              	if ($m->detail_libelle && $m->type_libelle == 'Export') {
-              	  $tags['export'][$m->detail_libelle] = 1;
-              	}
-            }   
-            $etablissement = EtablissementClient::getInstance()->findByIdentifiant(str_replace('ETABLISSEMENT-', '' ,$id));
+                $tags['produit'][$produit_libelle] = 1;
+                if ($m->detail_libelle && $m->type_libelle == 'Export') {
+                    $tags['export'][$m->detail_libelle] = 1;
+                }
+            }
+            $contratDomaines = VracDomainesView::getInstance()->findDomainesByVendeur(str_replace('ETABLISSEMENT-', '', $id));
+            foreach ($contratDomaines->rows as $domaineView) {
+                $domaine = $this->replaceAccents($domaineView->key[VracDomainesView::KEY_DOMAINE]);
+                $tags['domaines'][$domaine] = 1;
+            }
+
+            $etablissement = EtablissementClient::getInstance()->findByIdentifiant(str_replace('ETABLISSEMENT-', '', $id));
             if (!$etablissement) {
-      	        throw new sfException("etablissement $id non trouvé");
+                throw new sfException("etablissement $id non trouvé");
             }
             $compte = $etablissement->getContact();
-            if($options['reinitialisation_tags_export']) {
+            if ($options['reinitialisation_tags_export']) {
                 $compte->tags->remove('export');
                 $this->logSection("reset tags export", $compte->identifiant);
             }
-            if($options['reinitialisation_tags_produit']) {
+            if ($options['reinitialisation_tags_produit']) {
                 $compte->tags->remove('produit');
                 $this->logSection("reset tags produit", $compte->identifiant);
             }
+            if ($options['reinitialisation_tags_domaines']) {
+                $compte->tags->remove('domaines');
+                $this->logSection("reset tags produit", $compte->identifiant);
+            }
             if (!count($tags)) {
-      	        continue;
+                continue;
             }
             foreach ($tags as $type => $ttags) {
-              	foreach ($ttags as $t => $null) {
-              	  $compte->addTag($type, $t);
-              	}
+                foreach ($ttags as $t => $null) {
+                    $compte->addTag($type, $t);
+                }
             }
-            $compte->save();
+            
+            if(!$compte){
+               echo ("compte de l'établissement $etablissement->_id non trouvé\n");
+               continue;
+            }
+            
+            try {
+
+                $compte->save();    
+            } catch (Exception $exc) {
+                var_dump($compte->_id, $compte->tags->toJson());
+                exit;
+            }
+
             $this->logSection("done", $compte->identifiant);
         }
     }
 
     public function getProduitLibelle($hash) {
-        $configuration =  ConfigurationClient::getInstance()->getCurrent();
+        $configuration = ConfigurationClient::getInstance()->getCurrent();
 
-        return $configuration->get($hash)->getLibelleFormat(array(), "%format_libelle%");
+        return $this->replaceAccents($configuration->get($hash)->getLibelleFormat(array(), "%format_libelle%"));
     }
+
+    protected function replaceAccents($s) {
+        return str_replace(self::$accent_matching['accent'], self::$accent_matching['to_replace'], $s);
+    }
+
 }

@@ -28,7 +28,7 @@
                 <?php if (!$isTeledeclarationMode): ?>
                     <?php echo $form['commentaire']->renderLabel(); ?>
                     <?php echo $form['commentaire']->renderError(); ?>
-                    <?php echo $form['commentaire']->render(); ?>
+                    <?php echo $form['commentaire']->render(array('tabindex'=>"30")); ?>
                 <?php endif; ?>
             </div>
         </div>
@@ -55,7 +55,7 @@
                         <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?> type="submit" id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn btn-success"><span>Valider</span></button>
                         <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
                 <?php else: ?>
-                        <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?>class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
+                        <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?>class="btn btn-success" type="submit" tabindex="40" >Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
                 <?php endif; ?>
             
         </div>

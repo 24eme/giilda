@@ -1,0 +1,9 @@
+---
+- name: reload apache
+  become: yes
+  service: name=apache2 state=reloaded
+
+- name: reload xinetd
+  become: yes
+  service: name=xinetd state=reloaded
+
