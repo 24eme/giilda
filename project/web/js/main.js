@@ -105,6 +105,19 @@
         });
 
         $(this).find("a.to_autofocus").focus();
+        
+        $(this).find("input[type='radio'][autofocus='autofocus']").each(function(){
+            var name = $(this).attr("name");
+            $(document).find("input[name='"+name+"']").each(function(){
+                if(!$(this).is(":checked") && $(this).is(':focus')){
+                    $(this).blur();
+                }
+                if($(this).is(":checked") && !$(this).is(':focus')){
+                     $(this).focus();
+                }
+            });
+            
+        });
 
         $(this).find('.select2permissifNoAjax').each(function() {
 	    var element = $(this);

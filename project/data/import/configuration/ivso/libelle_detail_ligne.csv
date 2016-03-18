@@ -32,7 +32,7 @@ sorties;destructionperte;14. Destruction/perte;Destruction et pertes;Destruction
 sorties;manquant;15. Manquant;Manquant;Manquant;
 sorties;cession;16. Cession d'exploitation;Cession d'activité;Cession d'activité;
 sorties;apportgroupement;17. Apport à groupement;Apport à un groupement;Apport à un groupement;
-sorties;entree_recolte_negative;18. Entrée négative de récolte;Entrée négative de récolte;Entrée négative de récolte;
+sorties;entree_recolte_negative;18. Entrée négative récolte;Entrée négative de récolte;Entrée négative de récolte;
 sorties;entree_negative;19. Entrée négative;Entrée négative;Entrée négative;
 stocks_fin;final;Final récolté;Final récolté;Stock final récolté;Stock final récolté
 stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication;

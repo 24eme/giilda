@@ -203,14 +203,14 @@ use_helper('Vrac'); ?>
                             <div class="form-group col-sm-12">
                                 <?php if (isset($form['categorie_vin'])): ?>
                                         <?php echo $form['categorie_vin']->renderLabel("Type :&nbsp;", array('class' => 'col-sm-2 control-label')); ?>
-                                    <div class="bloc_condition col-sm-5 <?php if ($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>" data-condition-cible="#bloc_domaine">
+                                    <div class="bloc_condition col-sm-3 <?php if ($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>" data-condition-cible="#bloc_domaine">
                                     <?php echo $form['categorie_vin']->render(); ?>	                                
                                     </div>
                                 <?php endif; ?>
 <?php if (isset($form['domaine'])): ?>
-                                    <div id="bloc_domaine" data-condition-value="MENTION" class="col-sm-4 <?php if ($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
+                                    <div id="bloc_domaine" data-condition-value="MENTION" class="col-sm-5 <?php if ($form['domaine']->hasError()): ?>has-error<?php endif; ?>">
 
-    <?php echo $form['domaine']->render(array('class' => 'form-control select2permissifNoAjax', 'placeholder' => 'Déclarer une mention', "data-choices" => json_encode($form->getDomainesForAutocomplete()))); ?>
+    <?php echo $form['domaine']->render(array('class' => 'form-control select2permissifNoAjax', 'placeholder' => 'Déclarer une mention (Chateau, Domaine…)', "data-choices" => json_encode($form->getDomainesForAutocomplete()))); ?>
 
                                     </div>
 <?php endif; ?>

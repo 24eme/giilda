@@ -265,9 +265,9 @@ if($15 > 0) { print base "sorties;distillationusageindustriel;" $15 ; } #lie_et_
 if($16 > 0) { print base "sorties;distillationusageindustriel;" $16 ; } #usages_industriels
 if($17 > 0) { print base "sorties;ventefrancecrd;" $17 ; } #collective_ou_individuelle
 if($17 < 0) { print base "entrees;sortie_negative;" $17*-1 ";;;;sortie négative de collective_ou_individuelle" ; }
-if($18 > 0) { print base "sorties;vracsanscontratsuspendu;" $18 ; } #dsa_dsac
+if($18 > 0) { print base "sorties;vracsanscontratacquitte;" $18 ; } #dsa_dsac
 if($18 < 0) { print base "entrees;sortie_negative;" $18*-1 ";;;;sortie négative de dsa dsac" ; } #dsa_dsac
-if($19 > 0) { print base "sorties;vracsanscontratsuspendu;" $19 ; } #facture_etc
+if($19 > 0) { print base "sorties;vracsanscontratacquitte;" $19 ; } #facture_etc
 if($19 < 0) { print base "entrees;sortie_negative;" $19*-1 ";;;;sortie négative de facture etc" } #facture_etc
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
 if($20 < 0) { print base "entrees;sortie_negative;" $20*-1 ";;;;sortie négative de france sans contrat" ; } #france_sans_contrat
@@ -277,7 +277,7 @@ if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedi
 if($22 < 0) { print base "entrees;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
 if($23 < 0) { print base "entrees;sortie_negative;" $23*-1 ";;;;sortie négative de expedition hors ue" ; } #expedition_hors_ue
-if($24 > 0) { print base "sorties;travailafacon;" $24 ; } #relogement
+if($24 > 0) { print base "sorties;transfertcomptamatiere;" $24 ; } #relogement
 if($24 < 0) { print base "entrees;sortie_negative;" $24*-1 ";;;;sortie négative de relogement" ; } #relogement
 print base "stocks_fin;final;" $25 ;
 print base "stocks_fin;dont_revendique;" $25 ;

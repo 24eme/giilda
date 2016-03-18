@@ -150,7 +150,7 @@
 		        	<?php if (isset($form['conditionnement_crd'])): ?>
 		            <div class="form-group col-sm-6 <?php if($form['conditionnement_crd']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['conditionnement_crd']->renderError(); ?>
-                        <?php echo $form['conditionnement_crd']->renderLabel("Conditionnement CRD :", array('class' => 'col-sm-5 control-label')); ?>
+                        <?php echo $form['conditionnement_crd']->renderLabel("Conditionnement CRD négoce apportées:", array('class' => 'col-sm-5 control-label')); ?>
                         <div class="col-sm-7">
                             <?php echo $form['conditionnement_crd']->render(); ?>
                         </div>
