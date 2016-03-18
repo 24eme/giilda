@@ -28,24 +28,24 @@ class ExportContratsFATask extends sfBaseTask {
     const CSV_FA_SIRET_ACHETEUR = 12;
     const CSV_FA_CVI_VENDEUR = 13;
     const CSV_FA_NATURE_VENDEUR = 14;
-    const CSV_FA_SIRET_VENDEUR = 14;
-    const CSV_FA_COURTIER = 15; // (O/N)
-    const CSV_FA_DELAI_RETIRAISON = 16;
-    const CSV_FA_POURCENTAGE_ACCOMPTE = 17;
-    const CSV_FA_DELAI_PAIEMENT = 18;
-    const CSV_FA_CODE_TYPE_PRODUIT = 19;
-    const CSV_FA_CODE_DENOMINATION_VIN_IGP = 20;
-    const CSV_FA_PRIMEUR = 21;
-    const CSV_FA_BIO = 22;
-    const CSV_FA_COULEUR = 23;
-    const CSV_FA_ANNEE_RECOLTE = 24;
-    const CSV_FA_CODE_ELABORATION = 25; // (O/N)
-    const CSV_FA_VOLUME = 26;
-    const CSV_FA_DEGRE = 27; //(Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût))
-    const CSV_FA_PRIX = 28;
-    const CSV_FA_UNITE_PRIX = 29; // H pour Hl
-    const CSV_FA_CODE_CEPAGE = 30;
-    const CSV_FA_CODE_DEST = 31; // Z
+    const CSV_FA_SIRET_VENDEUR = 15;
+    const CSV_FA_COURTIER = 16; // (O/N)
+    const CSV_FA_DELAI_RETIRAISON = 17;
+    const CSV_FA_POURCENTAGE_ACCOMPTE = 18;
+    const CSV_FA_DELAI_PAIEMENT = 19;
+    const CSV_FA_CODE_TYPE_PRODUIT = 20;
+    const CSV_FA_CODE_DENOMINATION_VIN_IGP = 21;
+    const CSV_FA_PRIMEUR = 22;
+    const CSV_FA_BIO = 23;
+    const CSV_FA_COULEUR = 24;
+    const CSV_FA_ANNEE_RECOLTE = 25;
+    const CSV_FA_CODE_ELABORATION = 26; // (O/N)
+    const CSV_FA_VOLUME = 27;
+    const CSV_FA_DEGRE = 28; //(Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût))
+    const CSV_FA_PRIX = 29;
+    const CSV_FA_UNITE_PRIX = 30; // H pour Hl
+    const CSV_FA_CODE_CEPAGE = 31;
+    const CSV_FA_CODE_DEST = 32; // Z
 
     protected $produitsConfiguration = null;
 
