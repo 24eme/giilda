@@ -118,7 +118,7 @@
         initNonApurement();
         initUpdateEtablissementValidation();
         initSignatureDrmPopup();
-        initBoldSaisie();
+        initBoldSaisie();        
     });
 
     var initRaccourcis = function () {

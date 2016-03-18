@@ -49,6 +49,22 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return count($this->etablissements);
     }
 
+    public function setIdentifiant($identifiant) {
+        $r = $this->_set('identifiant', $identifiant);
+
+        $this->code_comptable_client = $this->getCodeComtableClient();
+
+        return $r;
+    }
+
+    public function getCodeComtableClient() {
+        if(!$this->_get('code_comptable_client')) {
+            return ((int)$this->identifiant)."";
+        }
+
+        return $this->_get('code_comptable_client');
+    }
+
     public function canHaveChais() {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }
@@ -358,7 +374,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             $this->pushContactTo($compteOrEtablissement);
             $needSave = true;
         }
-        
+
         if ($needSave) {
             $compteOrEtablissement->save();
         }

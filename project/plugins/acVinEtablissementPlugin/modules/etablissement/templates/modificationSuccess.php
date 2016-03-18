@@ -30,7 +30,7 @@
                     <?php include_partial('compte/modificationCoordonnee', array('compteForm' => $etablissementModificationForm, 'compteSociete' => $etablissement->getSociete()->getMasterCompte())) ?>
 
                     <?php //include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $etablissementModificationForm)); ?>
-                <!--</div>-->  
+                <!--</div>-->
                 <div class="form_btn">
                     <div class="col-xs-6">
                         <?php if ($etablissement->isNew()): ?>
@@ -44,24 +44,7 @@
                         </button>
                     </div>
                 </div>
-            </form>	
+            </form>
         </div>
     </section>
 </section>
-<?php
-slot('colButtons');
-?>
-<div id="action" class="bloc_col">
-    <h2>Action</h2>
-    <div class="contenu">
-        <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe'); ?>" class="btn btn-default"><span>Accueil des sociétés</span></a>
-        </div>
-        <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default"><span>Accueil de la société</span></a>
-        </div>
-    </div>
-</div>
-<?php
-end_slot();
-?> 

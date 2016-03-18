@@ -29,7 +29,7 @@ class EtablissementClient extends acCouchdbClient {
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
     const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
-    
+
     const CAUTION_DISPENSE = 'DISPENSE';
     const CAUTION_CAUTION = 'CAUTION';
 
@@ -44,7 +44,7 @@ class EtablissementClient extends acCouchdbClient {
     public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
-    
+
     public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
         self::CAUTION_CAUTION => 'Caution');
 
@@ -52,13 +52,14 @@ class EtablissementClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Etablissement");
     }
 
-    public function createEtablissementFromSociete($societe, $famille) {
+    public function createEtablissementFromSociete($societe, $famille = null) {
         $etablissement = new Etablissement();
         $etablissement->id_societe = $societe->_id;
         $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
-        //$famillesSocieteTypes = self::getFamillesSocieteTypesArray();
-        $etablissement->famille = $famille;
-        $etablissement->constructId(); 
+        if($famille) {
+            $etablissement->famille = $famille;
+        }
+        $etablissement->constructId();
         $societe->pushContactAndAdresseTo($etablissement);
         return $etablissement;
     }
@@ -105,7 +106,7 @@ class EtablissementClient extends acCouchdbClient {
      *
      * @param string $login
      * @param integer $hydrate
-     * @return Etablissement 
+     * @return Etablissement
      * @deprecated find()
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
@@ -143,7 +144,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     /**
-     * 
+     *
      * @deprecated find()
      */
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
@@ -238,10 +239,10 @@ class EtablissementClient extends acCouchdbClient {
         $result = new stdClass();
         $region = $etb->region;
         $contacts = sfConfig::get('app_teledeclaration_contact_contrat');
-        
+
         if ($etb->famille == SocieteClient::SUB_TYPE_COURTIER) {
             $region = self::REGION_HORS_CVO;
-            
+
             $result->nom = $contacts[$region]['nom'];
             $result->email = $contacts[$region]['email'];
             $result->telephone = $contacts[$region]['telephone'];
