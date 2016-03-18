@@ -77,6 +77,10 @@ class EtablissementCsvFile extends CompteCsvFile
 
           	$e->nom = $this->getNom($line, $s, $e);
             $e->cvi = (isset($line[self::CSV_CVI])) ? str_replace(" ", "", $line[self::CSV_CVI]) : null;
+            if($e->cvi && !preg_match("/^[0-9]+$/", $e->cvi)) {
+              $e->addCommentaire("CVI provenant de l'import : ".$e->cvi);
+              $e->cvi = null;
+            }
             $e->no_accises = (isset($line[self::CSV_NO_ACCISES])) ? str_replace(" ", "", $line[self::CSV_NO_ACCISES]) : null;
             $e->carte_pro = (isset($line[self::CSV_CARTE_PRO])) ? str_replace(" ", "", $line[self::CSV_CARTE_PRO]) : null;
             $e->interpro = 'INTERPRO-declaration';

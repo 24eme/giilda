@@ -9,6 +9,7 @@ class exportFactureTask extends sfBaseTask
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('horstaxe', null, sfCommandOption::PARAMETER_REQUIRED, 'Facturation HT (par defaut False)', false),
             // add your own options here
         ));
 
@@ -29,7 +30,7 @@ EOF;
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        $export = new ExportFactureCSV();
+        $export = new ExportFactureCSV($options['horstaxe']);
         $export->printHeader();
 
         foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
