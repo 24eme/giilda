@@ -1,0 +1,13 @@
+---
+- hosts: giildaservers
+  roles:
+  - { role: install }
+  vars:
+    giilda_branch: branch
+    giilda_instance: preprod
+    giilda_hostname: example.org
+    giilda_couchdb_dsn: http://127.0.0.1:5984/
+    giilda_dbname: mydatabase
+    giilda_elastica_dsn: http://127.0.0.1:9200/
+    giilda_tinc_ip: 10.0.0.1
+
