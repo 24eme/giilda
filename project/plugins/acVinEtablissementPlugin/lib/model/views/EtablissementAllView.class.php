@@ -128,7 +128,7 @@ class EtablissementAllView extends acCouchdbView
 	$e = new stdClass();
 	$e->id = $er->getId();
 	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['famille'], $r['doc']['id_societe'], $er->getId(), $r['doc']['nom'], $r['doc']['identifiant'], $r['doc']['cvi'], $r['doc']['region']);
-	$e->value = array($r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
+	$e->value = array($r['doc']['nom'],$r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
 	$res[] = $e;
       }
       return $res;
@@ -176,7 +176,7 @@ class EtablissementAllView extends acCouchdbView
 
     	if (isset($row->key[self::KEY_FAMILLE]))
     	  	$libelle .= $row->key[self::KEY_FAMILLE];
-
+        
     	if (isset($row->value[self::VALUE_COMMUNE]))
     	  	$libelle .= ' '.$row->value[self::VALUE_COMMUNE];
 
