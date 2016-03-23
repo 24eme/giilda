@@ -532,7 +532,7 @@ class vracActions extends sfActions {
         $this->isTeledeclare = $this->vrac->isTeledeclare();
         $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
         if ($request->isMethod(sfWebRequest::POST)) {
-            $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
+            $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);            
             $this->vrac->save();
         }
     }
@@ -749,6 +749,9 @@ class vracActions extends sfActions {
     private function majStatut($statut) {
         $previous_statut = $this->vrac->valide->statut;
         $this->vrac->valide->statut = $statut;
+         if ($this->vrac->exist('versement_fa') && $this->vrac->versement_fa == VracClient::VERSEMENT_FA_TRANSMIS) {
+            $this->versement_fa = VracClient::VERSEMENT_FA_ANNULATION;
+        }
         if ($this->vrac->isTeledeclare() && $statut == VracClient::STATUS_CONTRAT_ANNULE && $previous_statut != VracClient::STATUS_CONTRAT_BROUILLON) {
             $mailManager = new VracEmailManager($this->getMailer());
             $mailManager->setVrac($this->vrac);

@@ -228,8 +228,8 @@ class VracCsvFile extends CsvFile {
                 $v->update();
                 //$v->enleverVolume($v->volume_enleve);
 
+                $v->versement_fa = VracClient::VERSEMENT_FA_NOUVEAU; // A changer en VracClient::VERSEMENT_FA_TRANSMIS
                 $v->valide->statut = $this->verifyAndFormatStatut($line);
-
                 $v->save();
                 echo sprintf("Le contrat %s a bien été importé\n", $this->green($v->_id));
             } catch (Exception $e) {

@@ -63,22 +63,21 @@ class Vrac extends BaseVrac {
     public function setProduit($value) {
         if ($value != $this->_get('produit')) {
             $this->_set('produit', $value);
-            if($value) {
+            if ($value) {
                 $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
             } else {
                 $this->produit_libelle = "";
             }
         }
     }
-    
-    public function isCepageAutorise()
-    {
-        if(!$this->produit) {
+
+    public function isCepageAutorise() {
+        if (!$this->produit) {
 
             return true;
         }
 
-    	return (!$this->cepage)? true : $this->getProduitObject()->isCepageAutorise($this->cepage);
+        return (!$this->cepage) ? true : $this->getProduitObject()->isCepageAutorise($this->cepage);
     }
 
     public function setCepage($value) {
@@ -286,7 +285,7 @@ class Vrac extends BaseVrac {
     public function setDelaiPaiement($value) {
         $this->_set('delai_paiement', $value);
         $a = VracConfiguration::getInstance()->getDelaisPaiement();
-        if(isset($a[$value])) {
+        if (isset($a[$value])) {
             $this->delai_paiement_libelle = $a[$value];
         }
     }
@@ -294,7 +293,7 @@ class Vrac extends BaseVrac {
     public function setMoyenPaiement($value) {
         $this->_set('moyen_paiement', $value);
         $a = VracConfiguration::getInstance()->getMoyensPaiement();
-        if(isset($a[$value])) {
+        if (isset($a[$value])) {
             $this->moyen_paiement_libelle = $a[$value];
         }
     }
@@ -405,6 +404,12 @@ class Vrac extends BaseVrac {
         }
 
         $this->update();
+        if (!$this->exist('versement_fa') || !$this->versement_fa) {
+            $this->versement_fa = VracClient::VERSEMENT_FA_NOUVEAU;
+        }
+        if ($this->exist('versement_fa') && $this->versement_fa == VracClient::VERSEMENT_FA_TRANSMIS) {
+            $this->versement_fa = VracClient::VERSEMENT_FA_MODIFICATION;
+        }
     }
 
     public function getPeriode() {
@@ -532,7 +537,7 @@ class Vrac extends BaseVrac {
             } else {
                 $this->desolder();
             }
-        }else{
+        } else {
             if (($this->volume_propose - $seuil_contrat) <= $this->volume_enleve) {
                 $this->solder();
             } else {
@@ -918,5 +923,5 @@ class Vrac extends BaseVrac {
     public function isBio() {
         return $this->exist('label') && $this->label->exist('agriculture_biologique') && $this->label->agriculture_biologique;
     }
-    
+
 }

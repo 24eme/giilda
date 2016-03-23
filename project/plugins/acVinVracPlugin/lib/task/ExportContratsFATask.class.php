@@ -46,9 +46,6 @@ class ExportContratsFATask extends sfBaseTask {
     const CSV_FA_UNITE_PRIX = 30; // H pour Hl
     const CSV_FA_CODE_CEPAGE = 31;
     const CSV_FA_CODE_DEST = 32; // Z
-    const CODE_ACTION_NOUVEAU_CONTRAT = "NC";
-    const CODE_ACTION_MODIFICATION_CONTRAT = "MC";
-    const CODE_ACTION_SUPPRESSION_CONTRAT = "SC";
 
     protected $produitsConfiguration = null;
 
@@ -102,18 +99,23 @@ EOF;
             if (!preg_match('/\/[a-z]+\/[a-z]+\/IGP(.*)/', $contratView->value[VracHistoryView::VALUE_PRODUIT])) {
                 continue;
             }
+            $contrat = VracClient::getInstance()->find($contratView->id);
+
+            if (!$this->isContratATransmettre($contrat)) {
+                continue;
+            }
+
             $cpt++;
             $ligne = array();
-            $contrat = VracClient::getInstance()->find($contratView->id);
 
             $produit = $this->produitsConfiguration[$contratView->value[VracHistoryView::VALUE_PRODUIT]];
 
             $acheteur = $contrat->getAcheteurObject();
-            $acheteurCompte = $acheteur->getCompte();
+            $acheteurCompte = $acheteur->getMasterCompte();
             $acheteurSociete = $acheteur->getSociete();
 
             $vendeur = $contrat->getVendeurObject();
-            $vendeurCompte = $acheteur->getCompte();
+            $vendeurCompte = $acheteur->getMasterCompte();
             $vendeurSociete = $acheteur->getSociete();
 
             $ligne[self::CSV_FA_NUM_LIGNE] = "01"; // ? ou $cpt;
@@ -128,10 +130,11 @@ EOF;
             $ligne[self::CSV_FA_CAMPAGNE] = substr($contrat->campagne, 0, 4);
             $ligne[self::CSV_FA_NUM_ARCHIVAGE] = $contrat->numero_archive; // Est-ce notre numéro d'archivage?
             $ligne[self::CSV_FA_CODE_LIEU_VISA] = "083"; //IVSO
-            $ligne[self::CSV_FA_CODE_ACTION] = self::CODE_ACTION_NOUVEAU_CONTRAT; // NC = Nouveau Contrat, 
+            $ligne[self::CSV_FA_CODE_ACTION] = $contrat->versement_fa; // NC = Nouveau Contrat, SC = Supprimé Contrat, MC = Modifié Contrat
             $ligne[self::CSV_FA_DATE_CONTRAT] = Date::francizeDate($contrat->date_signature);
             $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_visa);
-            $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $contrat->vendeur->code_postal; // COD_CNE_PRODUC (code de lieu de vinification : INSEE? Cp?)
+
+            $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $vendeurCompte->insee; // Code Insee Acheteur
             $ligne[self::CSV_FA_INDICATION_DOUBLE_FIN] = 'N'; // Quelle signification?
             /**
              * ACHETEUR
@@ -155,7 +158,7 @@ EOF;
             $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = sprintf("%0.1f", $contrat->acompte);
             $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
-            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; //Pour le moment Mystère La colonne est toujours PA pour vin de pays?
+            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; //Pour le moment Mystère La colonne est toujours PA pour vin de pays? 
             $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($contrat, $produit); // ASSIGNER LES CODE PRODUITS IGP
             $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
             $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
@@ -169,7 +172,7 @@ EOF;
             $ligne[self::CSV_FA_CODE_CEPAGE] = $produit->getCodeProduit(); // Aucun code produit ajourd'hui           
             $ligne[self::CSV_FA_CODE_DEST] = "Z";
             /*
-            Comment connaitre?
+              Comment connaitre?
               Z  = Consommation
               M = Vin destiné à l'élaboration de mousseux
               V  = Vinaigre
@@ -185,9 +188,11 @@ EOF;
              */
 
             foreach ($ligne as $champ) {
-                   echo '"' . $champ . '";';
+                echo '"' . $champ . '";';
             }
             echo "\n";
+            $contrat->set('versement_fa', VracClient::VERSEMENT_FA_TRANSMIS);
+            $contrat->save();
         }
     }
 
@@ -269,6 +274,16 @@ EOF;
                 break;
         }
         return $couleur;
+    }
+
+    public function isContratATransmettre($contrat) {
+        if (!$contrat->exist('versement_fa')) {
+            return false;
+        }
+        if (($contrat->versement_fa == VracClient::VERSEMENT_FA_ANNULATION) || ($contrat->versement_fa == VracClient::VERSEMENT_FA_MODIFICATION) || ($contrat->versement_fa == VracClient::VERSEMENT_FA_NOUVEAU)) {
+            return true;
+        }
+        return false;
     }
 
 }
