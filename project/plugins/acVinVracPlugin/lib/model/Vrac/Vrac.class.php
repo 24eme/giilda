@@ -915,4 +915,8 @@ class Vrac extends BaseVrac {
         return $this->_get('courtage_repartition');
     }
 
+    public function isBio() {
+        return $this->exist('label') && $this->label->exist('agriculture_biologique') && $this->label->agriculture_biologique;
+    }
+    
 }

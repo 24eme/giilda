@@ -46,6 +46,9 @@ class ExportContratsFATask extends sfBaseTask {
     const CSV_FA_UNITE_PRIX = 30; // H pour Hl
     const CSV_FA_CODE_CEPAGE = 31;
     const CSV_FA_CODE_DEST = 32; // Z
+    const CODE_ACTION_NOUVEAU_CONTRAT = "NC";
+    const CODE_ACTION_MODIFICATION_CONTRAT = "MC";
+    const CODE_ACTION_SUPPRESSION_CONTRAT = "SC";
 
     protected $produitsConfiguration = null;
 
@@ -69,7 +72,6 @@ Call it with:
 
   [php symfony export:contrats-france-agrimer|INFO]
 EOF;
-        
     }
 
     protected function execute($arguments = array(), $options = array()) {
@@ -114,57 +116,159 @@ EOF;
             $vendeurCompte = $acheteur->getCompte();
             $vendeurSociete = $acheteur->getSociete();
 
-            $ligne[self::CSV_FA_NUM_LIGNE] = $cpt;
+            $ligne[self::CSV_FA_NUM_LIGNE] = "01"; // ? ou $cpt;
             $type_contrat = "";
             if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC) {
                 $type_contrat = "V";
             }
-            $ligne[self::CSV_FA_TYPE_CONTRAT] = $type_contrat;
+            if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
+                $type_contrat = "M";
+            }
+            $ligne[self::CSV_FA_TYPE_CONTRAT] = $type_contrat; // V pour vrac, M pour Mout
             $ligne[self::CSV_FA_CAMPAGNE] = substr($contrat->campagne, 0, 4);
-            $ligne[self::CSV_FA_NUM_ARCHIVAGE] = $contrat->numero_archive;
-            $ligne[self::CSV_FA_CODE_LIEU_VISA] = "083?";
-            $ligne[self::CSV_FA_CODE_ACTION] = 'N/C';
-            $ligne[self::CSV_FA_DATE_CONTRAT] = $contrat->date_signature;
-            $ligne[self::CSV_FA_DATE_VISA] = $contrat->date_visa;
-            $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $contrat->vendeur->code_postal . '?';
-            $ligne[self::CSV_FA_INDICATION_DOUBLE_FIN] = 'N?';
-            $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteurCompte->insee;
-            $ligne[self::CSV_FA_NATURE_ACHETEUR] = '?';
+            $ligne[self::CSV_FA_NUM_ARCHIVAGE] = $contrat->numero_archive; // Est-ce notre numéro d'archivage?
+            $ligne[self::CSV_FA_CODE_LIEU_VISA] = "083"; //IVSO
+            $ligne[self::CSV_FA_CODE_ACTION] = self::CODE_ACTION_NOUVEAU_CONTRAT; // NC = Nouveau Contrat, 
+            $ligne[self::CSV_FA_DATE_CONTRAT] = Date::francizeDate($contrat->date_signature);
+            $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_visa);
+            $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $contrat->vendeur->code_postal; // COD_CNE_PRODUC (code de lieu de vinification : INSEE? Cp?)
+            $ligne[self::CSV_FA_INDICATION_DOUBLE_FIN] = 'N'; // Quelle signification?
+            /**
+             * ACHETEUR
+             */
+            $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteurCompte->insee; // Code Insee Acheteur
+            $ligne[self::CSV_FA_NATURE_ACHETEUR] = '?'; // A DETERMINER 
             $ligne[self::CSV_FA_SIRET_ACHETEUR] = $acheteurSociete->siret;
-
+            /**
+             * VENDEUR
+             */
             $ligne[self::CSV_FA_CVI_VENDEUR] = $vendeur->cvi;
-            $ligne[self::CSV_FA_NATURE_VENDEUR] = '?';
+            $ligne[self::CSV_FA_NATURE_VENDEUR] = '?'; // A DETERMINER 
             $ligne[self::CSV_FA_SIRET_VENDEUR] = $vendeurSociete->siret;
+            /**
+             * COURTIER
+             */
             $ligne[self::CSV_FA_COURTIER] = ($contrat->mandataire_exist) ? 'O' : 'N';
+
             $delai_retiraison = $this->diffDate($contrat->date_limite_retiraison, $contrat->date_debut_retiraison, 'i');
-            $ligne[self::CSV_FA_DELAI_RETIRAISON] = $delai_retiraison;
-            $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = $contrat->acompte;
-            $ligne[self::CSV_FA_DELAI_PAIEMENT] = ($contrat->delai_paiement == 'COMPTANT') ? '1' : '0'; //??
-            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = $produit->getCodeProduit(); //??
-            $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = "PA?"; //??
-            $ligne[self::CSV_FA_PRIMEUR] = "N"; //??
-            $ligne[self::CSV_FA_BIO] = "N"; //??
-            $ligne[self::CSV_FA_COULEUR] = $produit->getCouleur()->getKey(); //??
-            $ligne[self::CSV_FA_ANNEE_RECOLTE] = substr($contrat->campagne, 0, 4); //??
-            $ligne[self::CSV_FA_CODE_ELABORATION] = 'N ou P';
+            $ligne[self::CSV_FA_DELAI_RETIRAISON] = sprintf("%0.1f", $delai_retiraison); // Faut-il les tranche demi mois 
+            $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = sprintf("%0.1f", $contrat->acompte);
+            $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
+
+            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; //Pour le moment Mystère La colonne est toujours PA pour vin de pays?
+            $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($contrat, $produit); // ASSIGNER LES CODE PRODUITS IGP
+            $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
+            $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
+            $ligne[self::CSV_FA_COULEUR] = $this->getCouleurIGP($contrat, $produit);
+            $ligne[self::CSV_FA_ANNEE_RECOLTE] = substr($contrat->millesime, 0, 4); //??
+            $ligne[self::CSV_FA_CODE_ELABORATION] = ($contrat->conditionnement_crd == 'NEGOCE_ACHEMINE') ? "P" : "N";
             $ligne[self::CSV_FA_VOLUME] = $contrat->volume_propose;
-            $ligne[self::CSV_FA_DEGRE] = $contrat->degre;
-            $ligne[self::CSV_FA_PRIX] = $contrat->prix_initial_unitaire_hl; 
-            $ligne[self::CSV_FA_UNITE_PRIX] = 'H'; //??
-            $ligne[self::CSV_FA_CODE_CEPAGE] = $produit->getCodeProduit(); //??
-            $ligne[self::CSV_FA_CODE_DEST] = "Z"; //??
-            
+            $ligne[self::CSV_FA_DEGRE] = sprintf("%0.1f", $contrat->degre);
+            $ligne[self::CSV_FA_PRIX] = sprintf("%0.2f", $contrat->prix_initial_unitaire_hl);
+            $ligne[self::CSV_FA_UNITE_PRIX] = 'H';
+            $ligne[self::CSV_FA_CODE_CEPAGE] = $produit->getCodeProduit(); // Aucun code produit ajourd'hui           
+            $ligne[self::CSV_FA_CODE_DEST] = "Z";
+            /*
+            Comment connaitre?
+              Z  = Consommation
+              M = Vin destiné à l'élaboration de mousseux
+              V  = Vinaigre
+              O  = Apéritif à base de vin ou vermouth
+              Pour les moûts :
+              P = Vinification pour agrément en VDP (obsolète)
+              T = Vinification pour agrément en VDT (obsolète)
+              R = Enrichissement, édulcoration
+              E = Elaboration de jus de raisin
+              C = concentration
+              A = Autres destinations
+              X = Imprécis
+             */
+
             foreach ($ligne as $champ) {
-                echo '"' . $champ . '";';
+                   echo '"' . $champ . '";';
             }
             echo "\n";
         }
     }
-    public function diffDate($date1, $date2, $retour) {
-        $date1 = new DateTime($date1);
-        $date2 = new DateTime($date2);
-	    $diff = $date1->diff($date2);
-	    return $diff->{$retour};
-  	}
+
+    public function diffDate($date1, $date2) {
+        $datetime1 = new DateTime($date1);
+        $datetime2 = new DateTime($date2);
+        $diffMois = $datetime1->diff($datetime2)->m;
+        return $diffMois;
+    }
+
+    protected function getDelaiPaiement($contrat) {
+
+        switch ($contrat->delai_paiement) {
+            case "60_JOURS": {
+                    return 2.0;
+                    break;
+                }
+            case "30_JOURS": {
+                    return 1.0;
+                    break;
+                }
+            case "90_JOURS": {
+                    return 3.0;
+                    break;
+                }
+            case "COMPTANT": {
+                    return 0.0;
+                    break;
+                }
+            case "ACCORD_INTERPROFESSIONNEL": {
+                    return 2.5;
+                    break;
+                }
+            case "45_JOURS": {
+                    return 1.5;
+                    break;
+                }
+        }
+    }
+
+    protected function getCodeDenomVinIGP($contrat, $produit) {
+        if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
+            return "";
+        }
+        return $produit->getCode();
+    }
+
+    protected function getCouleurIGP($contrat, $produit) {
+        $couleur = $produit->getCouleur()->getKey();
+        if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
+            switch ($couleur) {
+                case "blanc_sec":
+                case "blanc_doux":
+                case "blanc":
+                    return "BL";
+
+                    break;
+
+                default:
+                    return "CO";
+                    break;
+            }
+        }
+        switch ($couleur) {
+            case "blanc_sec":
+            case "blanc":
+            case "blanc_doux":
+                return "BL";
+
+                break;
+
+            case "rouge":
+                return "RG";
+
+                break;
+            case "rose":
+                return "RS";
+
+                break;
+        }
+        return $couleur;
+    }
 
 }
