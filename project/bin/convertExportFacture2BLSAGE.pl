@@ -316,7 +316,10 @@ sub printCIVA {
     print $field[date_de_saisie]."\n";
 }
 
+
+print "#FLG 000\n";
 print "#VER 19\n";
+print "";
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
