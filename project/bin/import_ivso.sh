@@ -47,7 +47,7 @@ php symfony import:configuration CONFIGURATION data/import/configuration/ivso
 php symfony import:CVO CONFIGURATION data/import/configuration/ivso/cvo.csv
 php symfony cc > /dev/null
 
-cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan/' | sed 's/IGP Cantal/IGP Comté Tolosan/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' | sed 's/IGP Lot et Garonne/IGP/' > $DATA_DIR/produits_conversion.csv
+cat $DATA_DIR/produits.csv | tr -d '\r' | awk -F ";" '{ print $5 ";" $4 }' | sort -t ";" -k 1,1 | sed 's/IGP Lot Blanc/IGP Côte du Lot Blanc/' | sed 's/IGP Lot Rouge/IGP Côte du Lot Rouge/' | sed 's/IGP Lot Rosé/IGP Côte du Lot Rosé/' | sed 's/IGP Tarn/IGP Côtes du Tarn/' | sed 's/AOP Pacherenc du Vic Bilh Moelleux/AOP Pacherenc du Vic Bilh Blanc Moelleux/' | sed 's/Côtes du Brulhois/Brulhois/' | sed 's/AOP Gaillac  Blanc sec - Premières cotes/AOP Gaillac Premières côtes Blanc sec/' | sed 's/AOP Gaillac Blanc Effervescent/AOP Gaillac Mousseux/' | sed 's/AOP Gaillac Doux - Vendanges tardives/AOP Gaillac Blanc doux Vendanges tardives/' | sed 's/AOP Entraygues et Fel/AOP Entraygues - Le Fel/' | sed 's/IGP Terroir Landais/IGP Landes/' | sed 's/AOP Lavilledieu/IGP Lavilledieu/' | sed 's/IGP Bigorre/IGP Comté Tolosan/' | sed 's/IGP Côtes du Condomois/IGP Côtes de Gascogne/' | sed 's/IGP Côtes du Tarn et Garonne/IGP Comté Tolosan/' | sed 's/IGP Ctx et Terrasse de Montauban/IGP Comté Tolosan/' | sed 's/IGP Pyrénées Atlantiques/IGP Comté Tolosan/' | sed 's/IGP Cantal/IGP Comté Tolosan/' | sed 's/IGP Coteaux de Glanes Blanc Sec/IGP Coteaux de Glanes Blanc/' | sed 's/IGP Autres Vins de Pays/IGP/' | sed 's/IGP Lot et Garonne/IGP/' | sed 's/VdT /Vin sans IG /' > $DATA_DIR/produits_conversion.csv
 cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/cepages.csv.sorted
 
 echo "Construction du fichier d'import des Contacts"
@@ -129,6 +129,42 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
         print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
     }
 }' > $DATA_DIR/etablissements.csv
+
+cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '{
+    identifiant_societe=sprintf("%06d", $1);
+    statut = "ACTIF";
+
+    contacts[38] = 38;
+    contacts[50] = 50;
+    i = 64;
+    while(i < 171) {
+        contacts[i] = i;
+        i = i + 6;
+    }
+
+    for (num in contacts)
+    {
+        civilite="";
+        nom = $(num);
+        prenom = "";
+        fonction = "";
+        adresse = ";;;;;;;;"
+        tel_bureau = $(num + 1);
+        tel_perso = $(num + 1);
+        fax = $(num + 2);
+        email = $(num + 3);
+        mobile = $(num + 4);
+        web = $(num + 5);
+        commentaire = "";
+
+        if(!libelle && !tel && !fax && !mail && !mobile && !web) {
+            next;
+        }
+
+        print ";" identifiant_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";" adresse ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
+    }
+
+}' | sort > $DATA_DIR/interlocuteurs.csv
 
 echo "Construction du fichier d'import des Contrats de vente"
 
@@ -316,6 +352,7 @@ echo "Import des contacts"
 
 php symfony import:societe $DATA_DIR/societes.csv --env="ivso"
 php symfony import:etablissement $DATA_DIR/etablissements.csv --env="ivso"
+php symfony import:compte $DATA_DIR/interlocuteurs.csv --env="ivso"
 
 echo "Import des contrats"
 
@@ -323,7 +360,7 @@ php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
 
 echo "Import des DRM"
 
-ls $DATA_DIR/drms | while read ligne
+ls $DATA_DIR/drms | grep "86101" | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
