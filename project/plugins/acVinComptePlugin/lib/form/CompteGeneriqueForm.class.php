@@ -14,14 +14,15 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
     public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         parent::__construct($object, $options, $CSRFSecret);
     }
-            
+
     public function configure() {
-        parent::configure();       
+        parent::configure();
 
         $this->setWidget('adresse', new bsWidgetFormInput());
         $this->setWidget('adresse_complementaire', new bsWidgetFormInput());
         $this->setWidget('code_postal', new bsWidgetFormInput());
         $this->setWidget('commune', new bsWidgetFormInput());
+        $this->setWidget('insee', new bsWidgetFormInput());
         $this->setWidget('pays', new bsWidgetFormChoice(array('choices' => self::getCountryList()), array("class" => "select2 form-control")));
         $this->setWidget('droits', new bsWidgetFormChoice(array('choices' => self::getDroits(), 'multiple' => true, 'expanded' => true)));
 
@@ -35,6 +36,7 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('adresse', 'N° et nom de rue *');
         $this->widgetSchema->setLabel('adresse_complementaire', 'Adresse complémentaire');
         $this->widgetSchema->setLabel('code_postal', 'CP *');
+        $this->widgetSchema->setLabel('insee', 'INSEE');
         $this->widgetSchema->setLabel('commune', 'Ville *');
         $this->widgetSchema->setLabel('pays', 'Pays *');
         $this->widgetSchema->setLabel('droits', 'Droits *');
@@ -45,10 +47,11 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
         $this->widgetSchema->setLabel('fax', 'Fax');
         $this->widgetSchema->setLabel('site_internet', 'Site Internet');
-        
+
         $this->setValidator('adresse', new sfValidatorString(array('required' => false)));
         $this->setValidator('adresse_complementaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('code_postal', new sfValidatorString(array('required' => false)));
+        $this->setValidator('insee', new sfValidatorString(array('required' => false)));
         $this->setValidator('commune', new sfValidatorString(array('required' => false)));
         $this->setValidator('pays', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getCountryList()))));
         $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getDroits()))));
@@ -62,10 +65,11 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
 
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        
+
         $this->setDefault('adresse', $this->getObject()->getAdresse());
         $this->setDefault('code_postal', $this->getObject()->getCodePostal());
         $this->setDefault('commune', $this->getObject()->getCommune());
+        $this->setDefault('insee', $this->getObject()->getInsee());
         $this->setDefault('pays', $this->getObject()->getPays());
         $this->setDefault('adresse_complementaire', $this->getObject()->getAdresseComplementaire());
 
@@ -79,9 +83,10 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        
+
         $this->getObject()->setAdresse($values['adresse']);
         $this->getObject()->setCommune($values['commune']);
+        $this->getObject()->setInsee($values['insee']);
         $this->getObject()->setPays($values['pays']);
         $this->getObject()->setAdresseComplementaire($values['adresse_complementaire']);
         $this->getObject()->setCodePostal($values['code_postal']);
@@ -101,8 +106,8 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $destinationChoices['inconnu'] = 'Inconnu';
         return $destinationChoices;
     }
-   
-    
+
+
     public static function getCiviliteList() {
         return array('Mme' => 'Mme', 'M' => 'M');
     }

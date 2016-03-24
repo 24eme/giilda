@@ -75,10 +75,19 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     tvaintra="";
     codepostal=$9;
     commune=$10;
-    #cedex=$12;
-    cedex="";
+    cedex=$12;
+    if(cedex == "#N/A") {
+      cedex = "";
+    }
 
-    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
+    email=$19;
+    tel_bureau=$16;
+    tel_perso="";
+    mobile=$18;
+    tel_fax=$17;
+    web=$20;
+
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
@@ -117,16 +126,22 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     noaccises="";
     carte_pro="";
     recettelocale="";
-    cedex=$12;
     commune=$10;
-
+    cedex=$12;
     if(cedex == "#N/A") {
       cedex = "";
     }
 
+    email="";
+    tel_bureau="";
+    tel_perso="";
+    mobile="";
+    tel_fax="";
+    web="";
+
     for (famille in familles)
     {
-        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
+        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
     }
 }' > $DATA_DIR/etablissements.csv
 
@@ -134,8 +149,11 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '{
     identifiant_societe=sprintf("%06d", $1);
     statut = "ACTIF";
 
+    contacts[20] = 20;
     contacts[38] = 38;
     contacts[50] = 50;
+    contacts[55] = 55;
+
     i = 64;
     while(i < 171) {
         contacts[i] = i;
@@ -145,23 +163,24 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '{
     for (num in contacts)
     {
         civilite="";
-        nom = $(num);
+        nom = "";
+        if(num != 20 && num !=55) {
+            nom = $(num);
+        }
         prenom = "";
         fonction = "";
         adresse = ";;;;;;;;"
         tel_bureau = $(num + 1);
-        tel_perso = $(num + 1);
+        tel_perso = "";
         fax = $(num + 2);
         email = $(num + 3);
         mobile = $(num + 4);
         web = $(num + 5);
         commentaire = "";
 
-        if(!libelle && !tel && !fax && !mail && !mobile && !web) {
-            next;
+        if(nom || tel_bureau || tel_perso || fax || email || mobile || web) {
+            print ";" identifiant_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";" adresse ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
         }
-
-        print ";" identifiant_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";" adresse ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
     }
 
 }' | sort > $DATA_DIR/interlocuteurs.csv

@@ -15,7 +15,7 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
                 <?php if (!$isCompteSociete): ?><i class="glyphicon <?php echo ($isSameAdresseThanSociete) ? ' glyphicon-chevron-down ' : 'glyphicon-chevron-up'; ?>"></i><?php endif; ?>
             </span>
         </div>
-        <div class="panel-body  <?php echo ($isSameAdresseThanSociete) ? ' collapse ' : ''; ?>">                  
+        <div class="panel-body  <?php echo ($isSameAdresseThanSociete) ? ' collapse ' : ''; ?>">
             <?php
             echo $compteForm->renderHiddenFields();
             echo $compteForm->renderGlobalErrors();
@@ -34,11 +34,13 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
                 <?php echo $compteForm['adresse_complementaire']->renderError(); ?>
             </div>
             <div class="form-group">
-
                 <?php echo $compteForm['code_postal']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
+                <div class="col-xs-3"><?php echo $compteForm['code_postal']->render(); ?></div>
+                <?php echo $compteForm['insee']->renderLabel(null, array('class' => 'col-xs-2 control-label')); ?>
+                <div class="col-xs-3"><?php echo $compteForm['insee']->render(); ?></div>
 
-                <div class="col-xs-8"><?php echo $compteForm['code_postal']->render(); ?></div>
                 <?php echo $compteForm['code_postal']->renderError(); ?>
+                <?php echo $compteForm['insee']->renderError(); ?>
             </div>
             <div class="form-group">
 
@@ -46,7 +48,7 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
 
                 <div class="col-xs-8"><?php echo $compteForm['commune']->render(); ?></div>
                 <?php echo $compteForm['commune']->renderError(); ?>
-            </div>                               
+            </div>
             <div class="form-group">
 
                 <?php echo $compteForm['pays']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
@@ -100,14 +102,14 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
                 <div class="col-xs-8"><?php echo $compteForm['fax']->render(); ?></div>
                 <?php echo $compteForm['fax']->renderError(); ?>
             </div>
-           
+
                 <div class="form-group">
 
                     <?php echo $compteForm['site_internet']->renderLabel(null, array('class' => 'col-xs-4 control-label')); ?>
                     <div class="col-xs-8"><?php echo $compteForm['site_internet']->render(); ?></div>
                     <?php echo $compteForm['site_internet']->renderError(); ?>
                 </div>
-            
+
         </div>
     </div>
 
@@ -127,4 +129,3 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
         </div>
     <?php endif; ?>
 </div>
-
