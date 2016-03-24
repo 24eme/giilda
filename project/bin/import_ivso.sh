@@ -30,12 +30,14 @@ if test "$REMOTE_DATA"; then
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
-    ls $TMP/data_ivso_origin | while read ligne
+    ls $TMP/data_ivso_origin | grep ".xlsx" | while read ligne
     do
         CSVFILENAME=$(echo $ligne | sed 's/\.xlsx/\.csv/')
         echo $DATA_DIR/$CSVFILENAME
         xlsx2csv -d ";" $TMP/data_ivso_origin/$ligne > $DATA_DIR/$CSVFILENAME
     done
+
+    cp $TMP/data_ivso_origin/IVSO_AntSys_identiteextra.csv $DATA_DIR/IVSO_AntSys_identiteextra.csv
 
     rm -rf $TMP/data_ivso_origin
 fi
