@@ -18,10 +18,8 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     public function configure() {
 
         $this->setWidget("libelle", new sfWidgetFormInput());
-        $this->setWidget('date', new bsWidgetFormInputDate());
 
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
-        $this->setValidator('date', new sfValidatorString(array('required' => false)));
 
         $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
 
@@ -42,7 +40,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         return $this->mvtId;
     }
 
-    public function bind(array $taintedValues = null, array $taintedFiles = null) {
+    public function bind(array $taintedValues = null, array $taintedFiles = null) {    
         foreach ($this->embeddedForms as $key => $form) {
             if ($form instanceof FactureMouvementEditionLignesForm) {
                 if (isset($taintedValues[$key])) {
@@ -62,28 +60,34 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     protected function doUpdateObject($values) {
 
         $this->getObject()->set('libelle', $values['libelle']);
-        $date = Date::getIsoDateFromFrenchDate($values["date"]);
-        $this->getObject()->set('date', $date);
-        $this->getObject()->getOrAdd('valide')->set('date_saisie', $date);
-        $this->getObject()->remove('mouvements');
+        if (!$this->getObject()->getDate()) {
+            $date = date('Y-m-d');
+            $this->getObject()->set('date', $date);
+            $this->getObject()->getOrAdd('valide')->set('date_saisie', $date);
+        }
+        // $this->getObject()->remove('mouvements');
         foreach ($this->getEmbeddedForms() as $mouvementsKey => $mouvementsForm) {
             foreach ($mouvementsForm->getEmbeddedForms() as $keyMvt => $mvt) {
                 $mvtValues = $values[$mouvementsKey][$keyMvt];
-                if ($mvtValues['identifiant']) {
+                if ($mvtValues['identifiant'] && $mvtValues['quantite']) {
                     $societe = SocieteClient::getInstance()->find($mvtValues['identifiant']);
                     $societeIdentifiant = str_replace('SOCIETE-', '', $mvtValues['identifiant']);
                     $keys = explode('_', $keyMvt);
                     $idEtb = ($keys[0] == 'nouveau') ? $societeIdentifiant . '01' : $keys[0];
                     $mvtObj = $this->getObject()->getOrAdd('mouvements')->getOrAdd($idEtb)->getOrAdd($keys[1]);
+           
                     $mvtObj['identifiant'] = $idEtb;
                     $mvtObj->updateIdentifiantAnalytique($mvtValues['identifiant_analytique']);
                     $mvtObj['libelle'] = $mvtValues['libelle'];
                     $mvtObj['quantite'] = -1 * floatval($mvtValues['quantite']);
                     $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
-                    if(!$mvtObj->facture) { $mvtObj->facture = 0; }
+
+                    if (!$mvtObj->facture) {
+                        $mvtObj->facture = 0;
+                    }
                     $mvtObj->facturable = 1;
                     $mvtObj->region = $societe->getRegionViticole();
-                    $mvtObj->date = date('Y-m-d');
+                    $mvtObj->date = $this->getObject()->getDate();
                 }
             }
         }

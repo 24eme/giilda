@@ -62,13 +62,12 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication) {
-       $facture = new Facture();
+        $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeEmetteur();
         $facture->storeDeclarant($societe);
-
-        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);
+        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille, $modele);
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();

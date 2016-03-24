@@ -182,7 +182,6 @@ class factureActions extends sfActions {
 
         $filters_parameters = $this->constuctFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-        
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);           
       
         if ($mouvementsBySocFiltered) {
