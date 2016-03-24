@@ -32,11 +32,12 @@ sub printCHEN {
     print "Domaine;" if ($verbose);
     print "1\n";
     print "Type;" if ($verbose);
-    print "3\n";
+    print "4\n";
     print "Provenance;" if ($verbose);
     print "1\n";
     print "Souche;" if ($verbose);
     print "1\n";
+
     print "n° de pièce;" if ($verbose);
     print $field[numero_de_facture]."\n";
     print "Date;" if ($verbose);
@@ -44,25 +45,25 @@ sub printCHEN {
     print "Référence;" if ($verbose);
     print $field[numero_de_facture]."\n";
     print "Livraison réalisée;" if ($verbose);
-    print "\n";
+    print $field[date]."\n";
     print "livraison;" if ($verbose);
     print $field[date]."\n";
     print "Date expérdition /!\;" if ($verbose);
     print "\n";
-    print "Tiers;" if ($verbose);
-    print $field[nom_client]."\n";
+    print "Tiers;" if ($verbose); 
+    print $field[code_comptable_client]."\n";
     print "Dépot de stockage;" if ($verbose);
     print "CIVRB\n";
     print "Dépot de livraison;" if ($verbose);
-    print "\n";
+    print $field[nom_client]."\n";
     print "Périodicité;" if ($verbose);
     print "1\n";
     print "devise;" if ($verbose);
     print "0\n";
     print "cours;" if ($verbose);
-    print "0\n";
-    print "payer;" if ($verbose);
-    print "2\n";
+    print "0,000000\n";
+    print "payeur;" if ($verbose);
+    print $field[code_comptable_client]."\n";
     print "expédition;" if ($verbose);
     print "1\n";
     print "condition;" if ($verbose);
@@ -98,15 +99,15 @@ sub printCHEN {
     print "bl/facture;" if ($verbose);
     print "0\n";
     print "tx escompte;" if ($verbose);
-    print "0\n";
+    print "0,000000\n";
     print "ecart valorisation;" if ($verbose);
-    print "0\n";
+    print "0,000000\n";
     print "categorie comptable;" if ($verbose);
     print "1\n";
     print "frais;" if ($verbose);
     print "0\n";
     print "statut;" if ($verbose);
-    print "1\n";
+    print "2\n";
     print "compte général;" if ($verbose);
     print $field[compte_general]."\n";
     print "heure;" if ($verbose);
@@ -126,29 +127,29 @@ sub printCHEN {
     print "type valeur calcul frais expédition;" if ($verbose);
     print "0\n";
     print "valeur frais expérdition;" if ($verbose);
-    print "0\n";
+    print "0,00\n";
     print "type valeur frais expédition;" if ($verbose);
     print "0\n";
     print "type valeur calcul franco de port;" if ($verbose);
-    print "0\n";
+    print "0,00\n";
     print "valeur franco de port;" if ($verbose);
     print "0\n";
     print "type valeur franco de port;" if ($verbose);
     print "0\n";
     print "taux taux 1;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "type taux taxe 1;" if ($verbose);
     print "0\n";
     print "type de taxe 1;" if ($verbose);
     print "0\n";
     print "taux taux 2;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "type taux taxe 2;" if ($verbose);
     print "0\n";
     print "type de taxe 2;" if ($verbose);
     print "0\n";
     print "taux taux 3;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "type taux taxe 3;" if ($verbose);
     print "0\n";
     print "type de taxe 3;" if ($verbose);
@@ -167,6 +168,12 @@ sub printCHEN {
     print "0\n";
     print "FA origine;" if ($verbose);
     print "\n";
+    print "inconnu 1;" if ($verbose);
+    print "\n";
+    print "inconnu 2;" if ($verbose);
+    print "\n";
+    print "inconnu 3;" if ($verbose);
+    print "\n";
 }
 
 sub printCHLI {
@@ -174,7 +181,7 @@ sub printCHLI {
     print "Référence entete;" if ($verbose);
     print $field[numero_de_facture]."\n";
     print "Référence article;" if ($verbose);
-    print "\n";
+    print $field[compte_analytique]."\n";
     print "Désignation;" if ($verbose);
     print encode_utf8(substr(decode_utf8($field[libelle]), 0, 69))."\n";
     print "Texte complémentaire;" if ($verbose);
@@ -196,17 +203,17 @@ sub printCHLI {
     print "prix unitaire;" if ($verbose);
     print $field[cvo]."\n";
     print "prix unitaire en devise;" if ($verbose);
-    print "0\n";
+    print "0,00\n";
     print "quantité;" if ($verbose);
     print $field[volume]."\n";
-    print "quantité cotisée;" if ($verbose);
-    print "0\n";
+    print "quantité cotisée;" if ($verbose); 
+    print $field[volume]."\n";
     print "Conditionnement;" if ($verbose);
-    print "0\n";
+    print "\n";
     print "poids net global;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "poids brut global;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "remise;" if ($verbose);
     print "\n";
     print "type de ligne;" if ($verbose);
@@ -214,13 +221,13 @@ sub printCHLI {
     print "prix de revient unitaire;" if ($verbose);
     print $field[cvo]."\n";
     print "frais;" if ($verbose);
-    print "0\n";
+    print "0,00\n";
     print "CMUP;" if ($verbose);
     print $field[montant]."\n";
     print "provenance facture;" if ($verbose);
     print "0\n";
     print "Nom représenant;" if ($verbose);
-    print "CIVRB\n";
+    print "\n";
     print "prénom représentant;" if ($verbose);
     print "\n";
     print "date de livraison;" if ($verbose);
@@ -232,33 +239,33 @@ sub printCHLI {
     print "valorisation;" if ($verbose);
     print "1\n";
     print "référence composé;" if ($verbose);
-    print "0\n";
+    print "\n";
     print "artice non livré;" if ($verbose);
     print "0\n";
     print "taux taxe 1;" if ($verbose);
-    print "20\n";
+    print "20,0000\n";
     print "type taux taxe 1;" if ($verbose);
     print "0\n";
     print "type taxe 1;" if ($verbose);
     print "0\n";
     print "taux taxe 2;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "type taux taxe 2;" if ($verbose);
     print "0\n";
     print "type taxe 2;" if ($verbose);
     print "0\n";
     print "taux taxe 3;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "type taux taxe 3;" if ($verbose);
     print "0\n";
     print "type taxe 3;" if ($verbose);
     print "0\n";
     print "Numéro tiers;" if ($verbose);
-    print $field[compte_tiers]."\n";
+    print $field[code_comptable_client]."\n";
     print "Référence fournisseur ;" if ($verbose);
     print "\n";
     print "ref client nan;" if ($verbose);
-    print $field[compte_tiers]."\n";
+    print $field[code_comptable_client]."\n";
     print "facturation sur poids net;" if ($verbose);
     print "0\n";
     print "hors escompte ;" if ($verbose);
@@ -278,8 +285,12 @@ sub printCHLI {
     print "date;" if ($verbose);
     print $field[date]."\n";
     print "code emplacement;" if ($verbose);
-    print "\n";
+    print "C20\n";
     print "qtt emplacement;" if ($verbose);
+    print "\n";
+    print "inconnu 1;" if ($verbose);
+    print "\n";
+    print "inconnu 2;" if ($verbose);
     print "\n";
 }
 
@@ -317,8 +328,8 @@ sub printCIVA {
 }
 
 
-print "#FLG 000\n";
-print "#VER 19\n";
+print "#FLG 001\n";
+print "#VER 18\n";
 print "";
 while(<STDIN>) {
 	chomp;
@@ -327,6 +338,10 @@ while(<STDIN>) {
 	next if (!$field[montant]); #si montant à 0, l'ignorer
 	$field[date] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	$field[date_de_saisie] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	$field[volume] =~ s/\./,/;
+	$field[montant] =~ s/\./,/;
+	$field[cvo] =~ s/\./,/;
+	$field[code_comptable_client] =~ s/^0*//;
 	printCHEN if ($old ne $field[numero_de_facture]) ;
 	$old = $field[numero_de_facture];
 	printCHLI if ($field[sens] eq 'CREDIT');
