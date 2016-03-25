@@ -86,7 +86,8 @@ class VracValidation extends DocumentValidation {
         		$this->addPoint('erreur', 'dates_retiraison', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
         	}
         }
-        if ($this->document->date_debut_retiraison && $this->document->date_debut_retiraison < date('Y-m-d')) {
+        
+        if ($this->document->date_debut_retiraison && $this->document->date_debut_retiraison < $this->document->date_campagne) {
         	$this->addPoint('erreur', 'dates_retiraison_visa', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
         }
         
