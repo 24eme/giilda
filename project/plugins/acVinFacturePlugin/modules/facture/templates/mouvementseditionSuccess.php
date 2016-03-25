@@ -2,8 +2,14 @@
 <?php use_helper('Date'); ?>
 <?php use_javascript('facture.js'); ?>
 
+<ol class="breadcrumb">
+    <li class="visited"><a href="<?php echo url_for('facture') ?>">Factures</a></li>
+    <li class="visited"><a href="<?php echo url_for('facture_mouvements') ?>">Facturation libre</a></li>
+    <li class="active"><a href="<?php echo url_for('facture_mouvements_edition', array('id' => $form->getObject()->_id)) ?>" class="active">Facture libre n°&nbsp;<?php echo $form->getObject()->identifiant; ?></a></li>
+</ol>
+
 <div class="col-xs-12">
-    <h2>Edition de factures libres</h2>
+    <h2>Edition de la facture libre n°&nbsp;<?php echo $form->getObject()->identifiant; ?></h2>
 
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 

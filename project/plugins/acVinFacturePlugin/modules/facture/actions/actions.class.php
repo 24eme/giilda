@@ -42,6 +42,15 @@ class factureActions extends sfActions {
             $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
         }
     }
+    
+    public function executeMouvementssupprimer(sfWebRequest $request) {
+         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
+         if($this->factureMouvements->getNbMvtsAFacture()){
+             $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+         }
+         $this->factureMouvements->delete();
+         $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+    }
 
     public function executeEdition(sfWebRequest $request) {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));

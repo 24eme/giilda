@@ -50,7 +50,7 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
                 $identifiant = false;
                 foreach ($values as $keyValue => $value) {
                     if ($keyValue == 'identifiant') {
-                        if ($value && SocieteClient::getInstance()->find($value)) {                        
+                        if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {                        
                             $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . '01';
                         }
                     }
