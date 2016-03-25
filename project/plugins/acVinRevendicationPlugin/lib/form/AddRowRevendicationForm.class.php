@@ -27,14 +27,12 @@ class AddRowRevendicationForm extends EditionRevendicationForm {
     }
 
     public function doUpdate() {
-        
-        return RevendicationClient::getInstance()->addVolumeSaisiByStdClass($this->revendication, 
-                                                                            $this->values['etablissement'], 
-                                                                            $this->values['produit_hash'], 
+
+        return RevendicationClient::getInstance()->addVolumeSaisiByStdClass($this->revendication,
+                                                                            $this->values['etablissement'],
+                                                                            $this->values['produit_hash'],
                                                                             $this->values['volume'],
                                                                             date('Y-m-d'));
     }
 
 }
-
-?>
