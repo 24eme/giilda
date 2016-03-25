@@ -1,4 +1,3 @@
-
 <?php
 
 class FactureClient extends acCouchdbClient {

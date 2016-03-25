@@ -103,5 +103,3 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
     }
 
 }
-
-?>

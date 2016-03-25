@@ -25,13 +25,13 @@ class DRMHistorique {
     }
 
     public function hasInProcess() {
-        
+
         return $this->drm_process;
     }
 
     public function getLast() {
         foreach($this->drms as $drm) {
-            
+
             return DRMClient::getInstance()->find($drm->_id);
         }
     }
@@ -75,13 +75,13 @@ class DRMHistorique {
 
         $drms = DRMClient::getInstance()->viewByIdentifiantAndCampagne($this->identifiant, $this->campagne);
 
-        $this->has_drm_process = false;
+        $this->drm_process = false;
 
         foreach($drms as $drm) {
             $key = $drm[self::VIEW_PERIODE].$drm[self::VIEW_VERSION];
 
             if (array_key_exists($key, $this->drms)) {
-                
+
                 continue;
             }
 
@@ -126,4 +126,3 @@ class DRMHistorique {
     }
 
 }
-

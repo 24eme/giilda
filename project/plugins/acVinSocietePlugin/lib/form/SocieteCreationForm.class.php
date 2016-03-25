@@ -59,5 +59,3 @@ class SocieteCreationForm extends baseForm {
         return $result;
     }
 }
-
-?>
