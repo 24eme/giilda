@@ -90,13 +90,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
-        $prefix = "";
-        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
-            $prefix = "L";
-        }
-        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
-            $prefix = "C";
-        }
+        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);  
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
