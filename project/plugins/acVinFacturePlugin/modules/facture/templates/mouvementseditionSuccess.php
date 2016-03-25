@@ -64,7 +64,7 @@
                 <a class="btn btn-danger btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" class="btn btn-success btn-lg btn-upper">Valider</button>
+                <input type="button" class="btn btn-success btn-lg btn-upper" value="Valider" onclick="this.form.submit();" />
             </div>
         </div>
 

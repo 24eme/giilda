@@ -136,7 +136,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getLignesArray() {
         $l = $this->_get('lignes')->toArray();
-        usort($l, 'Facture::triOrigineDate');
+            usort($l, 'Facture::triOrigineDate');      
         return $l;
     }
 

@@ -40,7 +40,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         return $this->mvtId;
     }
 
-    public function bind(array $taintedValues = null, array $taintedFiles = null) {    
+    public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {
             if ($form instanceof FactureMouvementEditionLignesForm) {
                 if (isset($taintedValues[$key])) {
@@ -65,17 +65,19 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             $this->getObject()->set('date', $date);
             $this->getObject()->getOrAdd('valide')->set('date_saisie', $date);
         }
-        // $this->getObject()->remove('mouvements');
+
+        $embeddedArrayKeys = array();
         foreach ($this->getEmbeddedForms() as $mouvementsKey => $mouvementsForm) {
             foreach ($mouvementsForm->getEmbeddedForms() as $keyMvt => $mvt) {
                 $mvtValues = $values[$mouvementsKey][$keyMvt];
+                $embeddedArrayKeys[] = $keyMvt;
                 if ($mvtValues['identifiant'] && $mvtValues['quantite']) {
                     $societe = SocieteClient::getInstance()->find($mvtValues['identifiant']);
                     $societeIdentifiant = str_replace('SOCIETE-', '', $mvtValues['identifiant']);
                     $keys = explode('_', $keyMvt);
                     $idEtb = ($keys[0] == 'nouveau') ? $societeIdentifiant . '01' : $keys[0];
                     $mvtObj = $this->getObject()->getOrAdd('mouvements')->getOrAdd($idEtb)->getOrAdd($keys[1]);
-           
+
                     $mvtObj['identifiant'] = $idEtb;
                     $mvtObj->updateIdentifiantAnalytique($mvtValues['identifiant_analytique']);
                     $mvtObj['libelle'] = $mvtValues['libelle'];
@@ -88,6 +90,30 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
                     $mvtObj->facturable = 1;
                     $mvtObj->region = $societe->getRegionViticole();
                     $mvtObj->date = $this->getObject()->getDate();
+                }
+            }
+        }
+        $mvtsToRemove = array();
+        foreach ($this->getObject()->getOrAdd('mouvements') as $etbId => $mvtsEtb) {
+            foreach ($mvtsEtb as $keyMvt => $mvt) {
+                if ($etbId &&
+                        !$mvt->facture &&
+                        !in_array($etbId . '_' . $keyMvt, $embeddedArrayKeys) &&
+                        !in_array('nouveau_' . $keyMvt, $embeddedArrayKeys)) {
+                    $mvtsToRemove[] = $etbId . '_' . $keyMvt;
+                }
+            }
+        }
+        foreach ($mvtsToRemove as $keyToRemove) {
+            $keys = explode('_', $keyToRemove);
+            $this->getObject()->getOrAdd('mouvements')->getOrAdd($keys[0])->remove($keys[1]);
+        }
+        foreach ($this->getObject()->getOrAdd('mouvements') as $etbId => $mvtsEtb) {
+            $cpt = 0;
+            foreach ($mvtsEtb as $keyMvt => $mvt) {
+                if ($etbId) {
+                    $mvt->vrac_numero = 'MOUVEMENTLIBRE_ORDRE_' . sprintf("%03d", $cpt);
+                    $cpt++;
                 }
             }
         }
