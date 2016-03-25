@@ -55,9 +55,17 @@ cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/c
 echo "Construction du fichier d'import des Contacts"
 
 #Affichage des entêtes en ligne
-#head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
-cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
+cat $DATA_DIR/contacts_extravitis.csv | sort -t ";" -k 1,1 > $DATA_DIR/contacts_extravitis.sorted.csv
+echo "clé identité;code_comptable;num accises" > $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv
+cat $DATA_DIR/IVSO_AntSys_identiteextra.csv >> $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv
+cat $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv | sort -t ";" -k 1,1 > $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv
+
+join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis.sorted.csv $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv | sort > $DATA_DIR/contacts_extravitis_extra.csv
+
+head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis_extra.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
+
+cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
       function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     identifiant=sprintf("%06d", $1);
     famille="AUTRE" ;
@@ -69,7 +77,7 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     }
     statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ;
     insee=$8;
-    code_comptable_client=identifiant;
+    code_comptable_client=$173;
     code_comptable_fournisseur="";
     nom=trim($2 " " $3 " " $4);
     siret=$34;
@@ -92,7 +100,7 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
-cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
+cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     nom=trim($2 " " $3 " " $4) ;
     famille="AUTRE" ;
@@ -125,7 +133,7 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     identifiant=identifiant_societe "01";
     insee=$8;
     cvi=$27;
-    noaccises="";
+    noaccises=$174;
     carte_pro="";
     recettelocale="";
     commune=$10;
