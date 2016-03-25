@@ -24,28 +24,52 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return $nb_mvt;
     }
 
+    public function getNbMvtsAFacture() {
+        $nb_mvt = 0;
+        foreach ($this->mouvements as $etbKey => $mvtsEtb) {
+            foreach ($mvtsEtb as $mvtKey => $mvt) {
+            if ($mvt->facturable && !$mvt->facture) {
+                    $nb_mvt ++;
+                }
+            }
+        }
+        return $nb_mvt;
+    }
+
     public function getNbSocietes() {
         return count($this->mouvements);
+    }
+
+    public function getTotalHt() {
+        $montant = 0;
+        foreach ($this->mouvements as $etbKey => $mvtsEtb) {
+            foreach ($mvtsEtb as $mvtKey => $mvt) {
+                if ($mvt->facturable) {
+                    $montant += -1 * $mvt->quantite * $mvt->prix_unitaire;
+                }
+            }
+        }
+        return $montant;
     }
 
     public function getTotalHtAFacture() {
         $montant = 0;
         foreach ($this->mouvements as $etbKey => $mvtsEtb) {
             foreach ($mvtsEtb as $mvtKey => $mvt) {
-                if($mvt->facturable && !$mvt->facture){
-                    $montant += -1* $mvt->quantite *  $mvt->prix_unitaire;
-                } 
+                if ($mvt->facturable && !$mvt->facture) {
+                    $montant += -1 * $mvt->quantite * $mvt->prix_unitaire;
+                }
             }
         }
         return $montant;
     }
-    
+
     public function getLibelleFromId() {
-        return "Facturation libre : ".$this->getLibelle()." (".Date::francizeDate($this->getDate()).")";
+        return "Facturation libre : " . $this->getLibelle() . " (" . Date::francizeDate($this->getDate()) . ")";
     }
-    public function findMouvement($mvtId,$soc) {
-        return $this->mouvements->get($soc.'01')->get($mvtId);
+
+    public function findMouvement($mvtId, $soc) {
+        return $this->mouvements->get($soc . '01')->get($mvtId);
     }
-    
 
 }

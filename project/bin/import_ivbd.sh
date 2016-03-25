@@ -539,17 +539,17 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     manquante=$10;
     zero=$11;
 
-    /*if(manquante == "True" || zero == "True") {
-        catmouvement="stocks_debut";
-        mouvement="initial";
-        volume="";
-        if(manquante) {
-            commentaire=commentaire "IMPORT DRM manquante\\n";
-        }
-        if(zero) {
-            commentaire=commentaire "IMPORT DRM néant\\n";
-        }
-    }*/
+    # if(manquante == "True" || zero == "True") {
+    #     catmouvement="stocks_debut";
+    #     mouvement="initial";
+    #     volume="";
+    #     if(manquante) {
+    #         commentaire=commentaire "IMPORT DRM manquante\\n";
+    #     }
+    #     if(zero) {
+    #         commentaire=commentaire "IMPORT DRM néant\\n";
+    #     }
+    # }
 
     if(substr(volume,0,1) == "."){
     volume="0"volume;
@@ -557,9 +557,9 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(substr(volume,0,2) == "-."){
     volume="-0."substr(volume,2);
     }
+    volume = gensub(/\.\./, ".", 1, volume);
 
     modificatrice=(corrective == "True" || regularisatrice == "True");
-
 
     if(modificatrice) {
         commentaire=commentaire "IMPORT " produit_libelle " : Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
@@ -686,6 +686,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $36);
+    volume = gensub(/\.\./, ".", 1, volume);
     num_contrat=$35;
     commentaire="";
 
@@ -722,6 +723,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $34);
+    volume = gensub(/\.\./, ".", 1, volume);
     pays=$36;
     commentaire="";
 

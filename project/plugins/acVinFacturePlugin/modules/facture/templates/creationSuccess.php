@@ -22,6 +22,6 @@ use_helper('Float');
             <div class="alert alert-danger" role="alert"><?php echo $sf_user->getFlash('error') ?></div>
         <?php endif; ?>
         
-        <?php include_partial('facture/generationMasse', array('generationForm' => $form,'massive' => false)); ?>
+        <?php include_partial('facture/generationMasse', array('generationForm' => $form,'massive' => false,'identifiant' => $societe->identifiant)); ?>
     </div>
 </div>

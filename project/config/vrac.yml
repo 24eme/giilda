@@ -13,7 +13,6 @@ ivso:
       delais_paiement:
         "60_JOURS": "60 jours fin de mois"
         "30_JOURS": "30 jours fin de mois"
-        "90_JOURS": "90 jours fin de mois"
         "COMPTANT": "Comptant"
         "ACCORD_INTERPROFESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
         "45_JOURS": "45 jours à compter du mois d'émission de la facture"
@@ -56,7 +55,7 @@ ivbd:
         "ESPECES": "Espèces"
         "BILLET_ORDRE": "Billet à ordre"
         "AUTRE": "Autre / non précisé"
-      delais_paiement:
+      delais_paiement:          
         "60_JOURS": "60 jours"
         "75_JOURS": "75 jours"
         "45_JOURS": "45 jours"
