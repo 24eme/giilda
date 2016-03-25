@@ -90,6 +90,11 @@ cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
       cedex = "";
     }
 
+    pays = "FR";
+    if(!cedex) {
+        pays="";
+    }
+
     email=$19;
     tel_bureau=$16;
     tel_perso="";
@@ -97,7 +102,7 @@ cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
     tel_fax=$17;
     web=$20;
 
-    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
 cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
@@ -142,6 +147,11 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
       cedex = "";
     }
 
+    pays = "FR";
+    if(!cedex) {
+        pays="";
+    }
+
     email="";
     tel_bureau="";
     tel_perso="";
@@ -151,7 +161,7 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
 
     for (famille in familles)
     {
-        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
+        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
     }
 }' > $DATA_DIR/etablissements.csv
 
@@ -371,11 +381,11 @@ print base "sorties;" mouvement ";" volume ";;" numero_contrat ;
 }' > $DATA_DIR/drm_cave_contrats.csv
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_201308.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201408.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201308.csv
 
 echo "Import des contacts"
 
@@ -389,7 +399,7 @@ php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
 
 echo "Import des DRM"
 
-ls $DATA_DIR/drms | grep "86101" | while read ligne
+ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
