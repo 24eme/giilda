@@ -15,7 +15,7 @@
             </div>
             <div class="col-xs-2">
                 <?php echo $mvtForm['libelle']->renderError(); ?> 
-                <?php echo $mvtForm['libelle']->render(array('class' => 'form-control input-md text-right')); ?>  
+                <?php echo $mvtForm['libelle']->render(array('class' => 'form-control input-md text-right select2-libelle')); ?>  
             </div>
             <div class="col-xs-1">
                 <?php echo $mvtForm['prix_unitaire']->renderError(); ?> 
