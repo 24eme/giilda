@@ -29,6 +29,5 @@
     <div class="col-xs-12">
         <h2>Facturation libre</h3>
         <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
-         <a href="<?php echo url_for('comptabilite_edition'); ?>" class="btn btn-md btn-default">Gérer les identifiants analytiques</a>
     </div>
 </div>

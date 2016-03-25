@@ -1,12 +1,19 @@
 <?php use_helper('Float'); ?>
+<?php use_helper('Date'); ?>
 <?php use_javascript('facture.js'); ?>
 
+<ol class="breadcrumb">
+    <li class="visited"><a href="<?php echo url_for('facture') ?>">Factures</a></li>
+    <li class="visited"><a href="<?php echo url_for('facture_mouvements') ?>">Facturation libre</a></li>
+    <li class="active"><a href="<?php echo url_for('facture_mouvements_edition', array('id' => $form->getObject()->_id)) ?>" class="active">Facture libre n°&nbsp;<?php echo $form->getObject()->identifiant; ?></a></li>
+</ol>
+
 <div class="col-xs-12">
-    <h2>Edition de factures libres</h2>
-    
+    <h2>Edition de la facture libre n°&nbsp;<?php echo $form->getObject()->identifiant; ?></h2>
+
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 
-       
+
         <?php echo $form->renderGlobalErrors(); ?>       
 
 
@@ -28,9 +35,11 @@
             </div>
             <div class="col-xs-6">
                 <div class="row">
-                    <div class="col-xs-12"><?php echo $form['date']->renderError(); ?>  </div>
-                    <div class="col-xs-12"><?php echo $form['date']->renderLabel(); ?>  </div>
-                    <div class="col-xs-12"><?php echo $form['date']->render(array('class' => 'form-control input-lg text-right')); ?>  </div>
+                    <div class="col-xs-12 text-right">
+                        <?php if ($form->getObject()->getDate()): ?>
+                            <span >Facture Libre du <?php echo format_date($form->getObject()->getDate(), "dd/MM/yyyy", "fr_FR") ?></span>
+                        <?php endif; ?>
+                    </div>
                 </div>
 
             </div>
@@ -48,13 +57,12 @@
                     <div class="col-xs-1 text-center lead text-muted">&nbsp;</div>
                 </div>
                 <?php foreach ($form['mouvements'] as $key => $mvtForm): ?>
-                        <?php
-                        include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm,'item' => $factureMouvements->mouvements->get(str_replace('_', '/', $key)))); ?>
-                   
+                    <?php include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm, 'item' => $factureMouvements->mouvements->get(str_replace('_', '/', $key)))); ?>
+
                 <?php endforeach; ?> 
                 <?php include_partial('templateMouvementFactureItem', array('mvtForm' => $form->getFormTemplate(), 'mvtKey' => $form->getNewMvtId())); ?>
             </div>
-             <?php echo $form->renderHiddenFields(); ?>
+            <?php echo $form->renderHiddenFields(); ?>
         </div>
         <br/>
         <div class="row row-margin">
@@ -62,7 +70,7 @@
                 <a class="btn btn-danger btn-lg btn-upper" href="<?php echo url_for('facture_mouvements') ?>">Annuler</a>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" class="btn btn-success btn-lg btn-upper">Valider</button>
+                <input type="button" class="btn btn-success btn-lg btn-upper" value="Valider" onclick="this.form.submit();" />
             </div>
         </div>
 

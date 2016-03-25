@@ -26,7 +26,7 @@
                 <?php echo $mvtForm['quantite']->render(array('class' => 'form-control input-md text-right')); ?>  
             </div>
             <div class="col-xs-1 row mouvements_facture_delete_row">
-                <a href="#" class="btn btn-default btn_supprimer_ligne_template" data-container="#mouvementfacture_list"><span class="glyphicon glyphicon-remove"></span></a>
+                <a href="#" class="btn btn-default btn_supprimer_ligne_template" data-container="#mouvementfacture_list" <?php if(isset($item) && $item && $item->facture): ?> disabled="disabled"  <?php endif;?>><span class="glyphicon glyphicon-remove"></span></a>
             </div>
         </div>
     </div>
