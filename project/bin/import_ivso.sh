@@ -91,7 +91,7 @@ cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
     }
 
     pays = "FR";
-    if(!cedex) {
+    if(cedex) {
         pays="";
     }
 
@@ -148,7 +148,7 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     }
 
     pays = "FR";
-    if(!cedex) {
+    if(cedex) {
         pays="";
     }
 
