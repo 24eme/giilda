@@ -166,6 +166,7 @@ MouvementsFacture:
                         facturable: { type: integer }
                         region : { }
                         date : { }
+                        vrac_numero : { } #Utilisé pour l'ordre
                         
 Comptabilite:
   definition:

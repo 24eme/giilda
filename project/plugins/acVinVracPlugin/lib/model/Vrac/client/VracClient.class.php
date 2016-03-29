@@ -70,6 +70,11 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
     const STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI = "ATTENTE_SIGNATURE_MOI";
     const STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES = "ATTENTE_SIGNATURE_AUTRES";
+    
+    const VERSEMENT_FA_NOUVEAU = 'NC';
+    const VERSEMENT_FA_MODIFICATION = 'MC';
+    const VERSEMENT_FA_ANNULATION = 'SC';
+    const VERSEMENT_FA_TRANSMIS = 'TRANSMIS';
 
     public static $types_transaction = array('' => '', VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',

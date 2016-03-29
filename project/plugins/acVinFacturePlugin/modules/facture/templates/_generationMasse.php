@@ -27,8 +27,18 @@
             </div>
         </div>                
         <div class="form-group text-right">
-            <div class="col-xs-6 col-xs-offset-6">
-                <button class="btn btn-success" type="submit">Générer les factures</button>
+            <?php if(isset($massive) && !$massive): ?>
+            <div class="col-xs-6">
+                <a href="<?php echo url_for("facture_etablissement",array('identifiant' => $identifiant.'01')); ?>" class="btn btn-default  pull-left">Retour à la facturation</a>
+
             </div>
+            <div class="col-xs-6">
+                <button class="btn btn-success pull-right" type="submit">Générer les factures</button>
+            </div>
+            <?php else: ?>
+             <div class="col-xs-12">
+                <button class="btn btn-success pull-right" type="submit">Générer les factures</button>
+            </div>
+            <?php endif; ?>
         </div>
 </form> 

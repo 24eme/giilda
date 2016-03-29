@@ -62,6 +62,9 @@ class FactureRouting {
 
         $r->prependRoute('facture_mouvements_edition', new sfRoute('/facture_mouvements/:id', array('module' => 'facture',
             'action' => 'mouvements-edition')));
+        
+        $r->prependRoute('facture_mouvements_supprimer', new sfRoute('/facture_mouvements_supprimer/:id', array('module' => 'facture',
+            'action' => 'mouvements-supprimer')));
 
         $r->prependRoute('facture_pdf', new sfRoute('/facture/pdf/:id', array('module' => 'facture',
             'action' => 'latex'), array('sf_method' => array('get')), array('model' => 'Facture',

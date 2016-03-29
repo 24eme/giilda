@@ -48,7 +48,7 @@ EOF;
             echo "L'établissement n'existe pas;".$arguments['identifiant']."\n";
             return;
         }
-        
+
         if($options['creation-depuis-precedente']) {
             $drm = DRMClient::getInstance()->createDocByPeriode($arguments['identifiant'], $arguments['periode']);
         } else {
@@ -72,7 +72,7 @@ EOF;
                 }
                 return;
             }
-        
+
             $drmCsvEdi->importCSV();
 
             if($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
@@ -96,12 +96,14 @@ EOF;
             $drm->type_creation = "IMPORT";
 
             $drm->save();
-        
+
+            DRMClient::getInstance()->generateVersionCascade($drm);
+
         } catch(Exception $e) {
             echo $e->getMessage().";#".$arguments['periode'].";".$arguments['identifiant']."\n";
             return;
         }
-        
+
         echo "Création : ".$drm->_id."\n";
     }
 
