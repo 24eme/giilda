@@ -37,7 +37,6 @@ sub printCHEN {
     print "1\n";
     print "Souche;" if ($verbose);
     print "1\n";
-
     print "n° de pièce;" if ($verbose);
     print $field[numero_de_facture]."\n";
     print "Date;" if ($verbose);
@@ -53,7 +52,7 @@ sub printCHEN {
     print "Tiers;" if ($verbose); 
     print $field[code_comptable_client]."\n";
     print "Dépot de stockage;" if ($verbose);
-    print "CIVRB\n";
+    print "IVBD\n";
     print "Dépot de livraison;" if ($verbose);
     print $field[nom_client]."\n";
     print "Périodicité;" if ($verbose);
@@ -99,9 +98,9 @@ sub printCHEN {
     print "bl/facture;" if ($verbose);
     print "0\n";
     print "tx escompte;" if ($verbose);
-    print "0,000000\n";
+    print "0,0000\n";
     print "ecart valorisation;" if ($verbose);
-    print "0,000000\n";
+    print "0,0000\n";
     print "categorie comptable;" if ($verbose);
     print "1\n";
     print "frais;" if ($verbose);
@@ -109,7 +108,7 @@ sub printCHEN {
     print "statut;" if ($verbose);
     print "2\n";
     print "compte général;" if ($verbose);
-    print $field[compte_general]."\n";
+    print "41110000\n";
     print "heure;" if ($verbose);
     print "08:00:00\n";
     print "caisse;" if ($verbose);
@@ -131,9 +130,9 @@ sub printCHEN {
     print "type valeur frais expédition;" if ($verbose);
     print "0\n";
     print "type valeur calcul franco de port;" if ($verbose);
-    print "0,00\n";
-    print "valeur franco de port;" if ($verbose);
     print "0\n";
+    print "valeur franco de port;" if ($verbose);
+    print "0,00\n";
     print "type valeur franco de port;" if ($verbose);
     print "0\n";
     print "taux taux 1;" if ($verbose);
@@ -297,7 +296,7 @@ sub printCHLI {
 sub printCHRE {
     print "#CHRE\n";
     print "Type;" if ($verbose);
-    print "1\n";
+    print "2\n";
     print "Date;" if ($verbose);
     print $field[date]."\n";
     print "libellé;" if ($verbose);
@@ -305,9 +304,9 @@ sub printCHRE {
     print "montant;" if ($verbose);
     print "0\n";
     print "montant en devise;" if ($verbose);
-    print "0\n";
+    print "0,0000\n";
     print "mode règlement;" if ($verbose);
-    print "4\n";
+    print "2\n";
     print "cloturé;" if ($verbose);
     print "0\n";
     print "numéro de pièce;" if ($verbose);
