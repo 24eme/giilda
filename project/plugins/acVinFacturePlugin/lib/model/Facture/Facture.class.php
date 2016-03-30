@@ -214,7 +214,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
         if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
-            $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($keyLigne);
+            $ligne->libelle = "DRMS ".preg_replace('/DRM-[^-]*-20(....).*/', '\1', $docId);
             if (count($etablissements) > 1) {
                 $idEtb = $ligneByType->key[MouvementfactureFacturationView::KEYS_ETB_ID];
                 $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
