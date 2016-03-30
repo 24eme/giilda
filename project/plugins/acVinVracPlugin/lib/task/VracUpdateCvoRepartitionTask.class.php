@@ -54,7 +54,7 @@ EOF;
     $vrac->cvo_repartition = $vrac->calculCvoRepartition();
 
     if($cvo_repartition_origin != $vrac->cvo_repartition) {
-        echo sprintf("Contrat %s CVO passé de %s à %s (code postal de l'acheteur %s)\n", $vrac->_id, $cvo_repartition_origin, $vrac->cvo_repartition, $vrac->acheteur->code_postal);
+        echo sprintf("Contrat %s CVO passé de %s à %s (code postal de l'acheteur (%s) %s)\n", $vrac->_id, $cvo_repartition_origin, $vrac->cvo_repartition, $vrac->acheteur_identifiant, $vrac->acheteur->code_postal);
         $vrac->save();
     }
   }
