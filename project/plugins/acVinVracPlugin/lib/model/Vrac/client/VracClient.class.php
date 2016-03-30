@@ -746,4 +746,12 @@ class VracClient extends acCouchdbClient {
         return $enlevements;
     }
 
+    public function calculCvoRepartition($vrac) {
+        if(!preg_match("/^(24|33|46|47)/", $vrac->acheteur->code_postal)) {
+
+            return self::CVO_REPARTITION_100_VITI;
+        }
+        return self::CVO_REPARTITION_100_NEGO;
+    }
+
 }

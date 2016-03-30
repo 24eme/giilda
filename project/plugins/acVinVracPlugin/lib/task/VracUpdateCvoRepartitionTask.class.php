@@ -42,7 +42,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $vrac = VracClient::getInstance()->find($arguments['doc_id']);
+    $vrac = VracClient::getInstance()->find($arguments['doc_id'], acCouchdbClient::HYDRATE_JSON);
 
     if(!$vrac) {
 
@@ -50,11 +50,11 @@ EOF;
     }
 
     $cvo_repartition_origin = $vrac->cvo_repartition;
-    $vrac->cvo_repartition = $vrac->calculCvoRepartition();
+    $vrac->cvo_repartition = VracClient::getInstance()->calculCvoRepartition($vrac);
 
     if($cvo_repartition_origin != $vrac->cvo_repartition) {
         echo sprintf("Contrat %s CVO passé de %s à %s (code postal de l'acheteur %s)\n", $vrac->_id, $cvo_repartition_origin, $vrac->cvo_repartition, $vrac->acheteur->code_postal);
-        $vrac->save();
+        VracClient::getInstance()->storeDoc($vrac);
     }
   }
 }
