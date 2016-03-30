@@ -45,18 +45,22 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
                 continue;
             }
+            
             if (preg_match('/^nouveau_/', $key)) {
+                $identifiant = false;
                 foreach ($values as $keyValue => $value) {
-                    if (($keyValue == 'identifiant') && $value && ($soc = SocieteClient::getInstance()->find($value))) {
-                        $hasIdentifiant = true;
+                    if ($keyValue == 'identifiant') {
+                        if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {                        
+                            $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . '01';
+                        }
                     }
                 }
-                $identifiant = str_replace("SOCIETE-", "", $value);
-                $keyMvt = str_replace("nouveau_", "", $key);
-                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
-
-                $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
-            }
+                
+                    $keyMvt = str_replace("nouveau_", "", $key);
+                    $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
+                    $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
+                }
+            
         }
     }
 

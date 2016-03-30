@@ -104,5 +104,3 @@ class SocieteModificationForm extends CompteGeneriqueForm {
     }
 
 }
-
-?>

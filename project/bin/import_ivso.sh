@@ -30,12 +30,14 @@ if test "$REMOTE_DATA"; then
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
-    ls $TMP/data_ivso_origin | while read ligne
+    ls $TMP/data_ivso_origin | grep ".xlsx" | while read ligne
     do
         CSVFILENAME=$(echo $ligne | sed 's/\.xlsx/\.csv/')
         echo $DATA_DIR/$CSVFILENAME
         xlsx2csv -d ";" $TMP/data_ivso_origin/$ligne > $DATA_DIR/$CSVFILENAME
     done
+
+    cp $TMP/data_ivso_origin/IVSO_AntSys_identiteextra.csv $DATA_DIR/IVSO_AntSys_identiteextra.csv
 
     rm -rf $TMP/data_ivso_origin
 fi
@@ -53,9 +55,17 @@ cat $DATA_DIR/cepages.csv | cut -d ";" -f 2,3 | sort -t ";" -k 1,1 > $DATA_DIR/c
 echo "Construction du fichier d'import des Contacts"
 
 #Affichage des entêtes en ligne
-#head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
 
-cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
+cat $DATA_DIR/contacts_extravitis.csv | sort -t ";" -k 1,1 > $DATA_DIR/contacts_extravitis.sorted.csv
+echo "clé identité;code_comptable;num accises" > $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv
+cat $DATA_DIR/IVSO_AntSys_identiteextra.csv >> $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv
+cat $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv | sort -t ";" -k 1,1 > $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv
+
+join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis.sorted.csv $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv | sort > $DATA_DIR/contacts_extravitis_extra.csv
+
+#head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis_extra.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
+
+cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
       function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     identifiant=sprintf("%06d", $1);
     famille="AUTRE" ;
@@ -67,7 +77,7 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     }
     statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ;
     insee=$8;
-    code_comptable_client=identifiant;
+    code_comptable_client=$173;
     code_comptable_fournisseur="";
     nom=trim($2 " " $3 " " $4);
     siret=$34;
@@ -75,13 +85,27 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
     tvaintra="";
     codepostal=$9;
     commune=$10;
-    #cedex=$12;
-    cedex="";
+    cedex=$12;
+    if(cedex == "#N/A") {
+      cedex = "";
+    }
 
-    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
+    pays = "FR";
+    if(cedex) {
+        pays="";
+    }
+
+    email=$19;
+    tel_bureau=$16;
+    tel_perso="";
+    mobile=$18;
+    tel_fax=$17;
+    web=$20;
+
+    print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
-cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '
+cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     nom=trim($2 " " $3 " " $4) ;
     famille="AUTRE" ;
@@ -114,19 +138,30 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     identifiant=identifiant_societe "01";
     insee=$8;
     cvi=$27;
-    noaccises="";
+    noaccises=$174;
     carte_pro="";
     recettelocale="";
-    cedex=$12;
     commune=$10;
-
+    cedex=$12;
     if(cedex == "#N/A") {
       cedex = "";
     }
 
+    pays = "FR";
+    if(cedex) {
+        pays="";
+    }
+
+    email="";
+    tel_bureau="";
+    tel_perso="";
+    mobile="";
+    tel_fax="";
+    web="";
+
     for (famille in familles)
     {
-        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";FR;" $19 ";" $16 ";;" $18 ";" $17 ";" $20 ";"
+        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
     }
 }' > $DATA_DIR/etablissements.csv
 
@@ -134,8 +169,11 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '{
     identifiant_societe=sprintf("%06d", $1);
     statut = "ACTIF";
 
+    contacts[20] = 20;
     contacts[38] = 38;
     contacts[50] = 50;
+    contacts[55] = 55;
+
     i = 64;
     while(i < 171) {
         contacts[i] = i;
@@ -145,23 +183,24 @@ cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '{
     for (num in contacts)
     {
         civilite="";
-        nom = $(num);
+        nom = "";
+        if(num != 20 && num !=55) {
+            nom = $(num);
+        }
         prenom = "";
         fonction = "";
         adresse = ";;;;;;;;"
         tel_bureau = $(num + 1);
-        tel_perso = $(num + 1);
+        tel_perso = "";
         fax = $(num + 2);
         email = $(num + 3);
         mobile = $(num + 4);
         web = $(num + 5);
         commentaire = "";
 
-        if(!libelle && !tel && !fax && !mail && !mobile && !web) {
-            next;
+        if(nom || tel_bureau || tel_perso || fax || email || mobile || web) {
+            print ";" identifiant_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";" adresse ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
         }
-
-        print ";" identifiant_societe ";" statut ";" civilite ";" nom ";" prenom ";" fonction ";" adresse ";" email ";" tel_bureau ";" tel_perso ";" mobile ";" fax ";" web ";" commentaire;
     }
 
 }' | sort > $DATA_DIR/interlocuteurs.csv
@@ -342,11 +381,11 @@ print base "sorties;" mouvement ";" volume ";;" numero_contrat ;
 }' > $DATA_DIR/drm_cave_contrats.csv
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_201308.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201408.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201308.csv
 
 echo "Import des contacts"
 
@@ -360,7 +399,7 @@ php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
 
 echo "Import des DRM"
 
-ls $DATA_DIR/drms | grep "86101" | while read ligne
+ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
