@@ -106,7 +106,7 @@ sub printCHEN {
     print "frais;" if ($verbose);
     print "0\n";
     print "statut;" if ($verbose);
-    print "2\n";
+    print "1\n";
     print "compte général;" if ($verbose);
     print "41110000\n";
     print "heure;" if ($verbose);
@@ -296,7 +296,7 @@ sub printCHLI {
 sub printCHRE {
     print "#CHRE\n";
     print "Type;" if ($verbose);
-    print "1\n";
+    print "2\n";
     print "Date;" if ($verbose);
     print $field[date]."\n";
     print "libellé;" if ($verbose);
@@ -306,7 +306,7 @@ sub printCHRE {
     print "montant en devise;" if ($verbose);
     print "0,0000\n";
     print "mode règlement;" if ($verbose);
-    print "2\n";
+    print "1\n";
     print "cloturé;" if ($verbose);
     print "0\n";
     print "numéro de pièce;" if ($verbose);
