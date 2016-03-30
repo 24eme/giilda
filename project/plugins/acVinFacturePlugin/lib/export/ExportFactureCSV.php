@@ -68,7 +68,7 @@ class ExportFactureCSV {
             $i = 0;
             foreach ($facture->echeances as $e) {
                 $i++;
-                echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');41100000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';DEBIT;' . $e->montant_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+                echo 'VEN;' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');41110000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';DEBIT;' . $e->montant_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
                 }
@@ -76,7 +76,7 @@ class ExportFactureCSV {
                 echo "\n";
             }
         } else {
-            echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance unique);41100000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $facture->date_facturation . ';DEBIT;' . $facture->total_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+            echo 'VEN;' . $facture->date_echeance . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance unique);41110000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $facture->date_facturation . ';DEBIT;' . $facture->total_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
             if ($export_annee_comptable) {
                 echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
             }
