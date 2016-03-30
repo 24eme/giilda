@@ -47,7 +47,7 @@ class Vrac extends BaseVrac {
         }
 
         if (!$this->valide->date_saisie) {
-            $this->valide->date_saisie = date('Y-m-d H:i:s');
+            $this->valide->date_saisie = date('c');
         }
     }
 
@@ -63,22 +63,21 @@ class Vrac extends BaseVrac {
     public function setProduit($value) {
         if ($value != $this->_get('produit')) {
             $this->_set('produit', $value);
-            if($value) {
+            if ($value) {
                 $this->produit_libelle = $this->getProduitObject()->getLibelleFormat(array(), "%format_libelle%");
             } else {
                 $this->produit_libelle = "";
             }
         }
     }
-    
-    public function isCepageAutorise()
-    {
-        if(!$this->produit) {
+
+    public function isCepageAutorise() {
+        if (!$this->produit) {
 
             return true;
         }
 
-    	return (!$this->cepage)? true : $this->getProduitObject()->isCepageAutorise($this->cepage);
+        return (!$this->cepage) ? true : $this->getProduitObject()->isCepageAutorise($this->cepage);
     }
 
     public function setCepage($value) {
@@ -143,7 +142,7 @@ class Vrac extends BaseVrac {
 
     public function createVisa() {
         $this->valide->statut = VracClient::STATUS_CONTRAT_VISE;
-        $this->date_signature = date('Y-m-d H:i:s');
+        $this->date_signature = date('c');
         $this->update();
     }
 
@@ -286,7 +285,7 @@ class Vrac extends BaseVrac {
     public function setDelaiPaiement($value) {
         $this->_set('delai_paiement', $value);
         $a = VracConfiguration::getInstance()->getDelaisPaiement();
-        if(isset($a[$value])) {
+        if (isset($a[$value])) {
             $this->delai_paiement_libelle = $a[$value];
         }
     }
@@ -294,7 +293,7 @@ class Vrac extends BaseVrac {
     public function setMoyenPaiement($value) {
         $this->_set('moyen_paiement', $value);
         $a = VracConfiguration::getInstance()->getMoyensPaiement();
-        if(isset($a[$value])) {
+        if (isset($a[$value])) {
             $this->moyen_paiement_libelle = $a[$value];
         }
     }
@@ -379,22 +378,17 @@ class Vrac extends BaseVrac {
 
     public function calculCvoRepartition() {
 
-        if (!$this->getAcheteurObject()->isInterpro()) {
-
-            return VracClient::CVO_REPARTITION_100_VITI;
-        }
-
-        return VracClient::CVO_REPARTITION_50_50;
+        return VracClient::getInstance()->calculCvoRepartition($this);
     }
 
     public function validate($options = array()) {
         if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
             if ($this->acheteur_identifiant == $this->createur_identifiant) {
-                $this->valide->add('date_signature_acheteur', date('Y-m-d H:i:s'));
+                $this->valide->add('date_signature_acheteur', date('c'));
             }
             if ($this->mandataire_identifiant == $this->createur_identifiant) {
-                $this->valide->add('date_signature_courtier', date('Y-m-d H:i:s'));
+                $this->valide->add('date_signature_courtier', date('c'));
             }
         } else {
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
@@ -405,6 +399,12 @@ class Vrac extends BaseVrac {
         }
 
         $this->update();
+        if (!$this->exist('versement_fa') || !$this->versement_fa) {
+            $this->versement_fa = VracClient::VERSEMENT_FA_NOUVEAU;
+        }
+        if ($this->exist('versement_fa') && $this->versement_fa == VracClient::VERSEMENT_FA_TRANSMIS) {
+            $this->versement_fa = VracClient::VERSEMENT_FA_MODIFICATION;
+        }
     }
 
     public function getPeriode() {
@@ -532,7 +532,7 @@ class Vrac extends BaseVrac {
             } else {
                 $this->desolder();
             }
-        }else{
+        } else {
             if (($this->volume_propose - $seuil_contrat) <= $this->volume_enleve) {
                 $this->solder();
             } else {
@@ -787,12 +787,12 @@ class Vrac extends BaseVrac {
         switch ($etb->getFamilleType()) {
             case 'vendeur' :
                 if ($etb->identifiant == $this->vendeur_identifiant) {
-                    $this->valide->_add('date_signature_vendeur', date('Y-m-d H:i:s'));
+                    $this->valide->_add('date_signature_vendeur', date('c'));
                 }
                 break;
             case 'acheteur' :
                 if ($etb->identifiant == $this->acheteur_identifiant) {
-                    $this->valide->_add('date_signature_acheteur', date('Y-m-d H:i:s'));
+                    $this->valide->_add('date_signature_acheteur', date('c'));
                 }
                 break;
         }
@@ -807,7 +807,7 @@ class Vrac extends BaseVrac {
         if ($allSignatures) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_VALIDE;
             if (!$this->date_signature) {
-                $this->date_signature = date('Y-m-d H:i:s');
+                $this->date_signature = date('c');
             }
         }
         return $allSignatures;
@@ -913,6 +913,10 @@ class Vrac extends BaseVrac {
             return $this->get('taux_repartition');
         }
         return $this->_get('courtage_repartition');
+    }
+
+    public function isBio() {
+        return $this->exist('label') && $this->label->exist('agriculture_biologique') && $this->label->agriculture_biologique;
     }
 
 }

@@ -94,7 +94,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }*/
 
         $this->drm->update();
-        
+
         /*foreach($this->drm->getProduitsDetails() as $detail) {
             if(!array_key_exists($detail->getHash(), $stocks) || is_null($stocks[$detail->getHash()])) {
                 continue;
@@ -231,7 +231,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                 } else {
                     $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-                    $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
+                    if($cat_key == "stocks_debut" && !is_null($oldVolume) && $oldVolume != "") {
+                        $this->drm->commentaire .= sprintf("IMPORT de %s le stock_debut %s de %s hl n'a pas été pris en compte\n", $drmDetails->getLibelle(), $type_key, $detailTotalVol);
+                    } else {
+                        $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
+                    }
                 }
 
                 if(isset($csvRow[self::CSV_CAVE_COMMENTAIRE]) && $csvRow[self::CSV_CAVE_COMMENTAIRE] && trim($csvRow[self::CSV_CAVE_COMMENTAIRE])) {
@@ -276,7 +280,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     private function importCrdsFromCSV($just_check = false) {
         $num_ligne = 1;
         $etablissementObj = $this->drm->getEtablissementObject();
-        
+
         $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
         $all_contenances = sfConfig::get('app_vrac_contenances');
         foreach ($this->getDocRows() as $csvRow) {

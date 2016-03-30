@@ -10,12 +10,17 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     protected $declarant_document = null;
     protected $archivage_document = null;
     protected $etablissements = array();
+    protected $config_sortie_array = array();
 
     const MESSAGE_DEFAULT = "";
 
     public function __construct() {
         parent::__construct();
         $this->initDocuments();
+        $config_detail_list = ConfigurationClient::getCurrent()->declaration->getDetailConfiguration();
+        foreach ($config_detail_list->sorties as $keyDetail => $detail) {
+            $this->config_sortie_array[$keyDetail] = $detail->getLibelle();
+        }
     }
 
     public function __clone() {
@@ -85,13 +90,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
-        $prefix = "";
-        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
-            $prefix = "L";
-        }
-        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
-            $prefix = "C";
-        }
+        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);  
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
@@ -131,7 +130,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getLignesArray() {
         $l = $this->_get('lignes')->toArray();
-        usort($l, 'Facture::triOrigineDate');
+            usort($l, 'Facture::triOrigineDate');      
         return $l;
     }
 
@@ -187,65 +186,95 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
-    public function storeLignesFromMouvements($mvts, $famille) {
+    public function storeLignesFromMouvements($mvts, $famille, $modele) {
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != 'Contrat') {
-                $this->storeLigneFromMouvements($ligneByType, $famille);
+            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
+                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
             }
         }
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == 'Contrat') {
-                $this->storeLigneFromMouvements($ligneByType, $famille);
+            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
+                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
             }
         }
     }
 
-    public function storeLigneFromMouvements($ligneByType, $famille) {
+    public function storeLigneFromMouvements($ligneByType, $famille, $modele) {
 
         $etablissements = $this->getEtablissements();
 
         $keysOrigin = array();
-        foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
-            $keysOrigin = explode(':', $origine);
-        }
-
-        $keyLigne = $keysOrigin[0];
-        $ligne = $this->lignes->add($keyLigne);
-
-        $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
-        if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
-            $ligne->libelle = "DRMS ".preg_replace('/DRM-[^-]*-20(....).*/', '\1', $docId);
-            if (count($etablissements) > 1) {
-                $idEtb = $ligneByType->key[MouvementfactureFacturationView::KEYS_ETB_ID];
-                $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
-                $ligne->libelle .= ' ('.$etb->etablissement->nom.')';
+        if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+            foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
+                $keyOrigin = explode(':', $origine);
+                $keyOriginWithoutModificatrice = preg_replace('/(.*)-M[0-9]+$/', '$1', $keyOrigin[0]);
+                if (!array_key_exists($keyOriginWithoutModificatrice, $keysOrigin)) {
+                    $keysOrigin[$keyOriginWithoutModificatrice] = array();
+                }
+                $keysOrigin[$keyOriginWithoutModificatrice][$origine] = $keyOrigin;
             }
-        } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
-            $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE];
-            $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
-        }
-
-        $detail = $ligne->getOrAdd('details')->add();
-
-        $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-        $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
-        $detail->taux_tva = 0.2;
-        $produit_libelle = "";
-        if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
-            $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-        } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
-            $produit_libelle =  $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-            if($ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST]){
-               $produit_libelle.=" (". $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST].")";
+        } elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+            foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
+                $keyOrigin = explode(':', $origine);
+                $keysOrigin[$keyOrigin[0]][$keyOrigin[1]] = $keyOrigin;
             }
-            
         }
-        $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-        if ($transacteur) {
-            $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
+
+        $ligne = null;
+        foreach ($keysOrigin as $docId => $originesArr) {
+            $ligne = $this->lignes->add($docId);
+
+            foreach ($originesArr as $origineKey => $mvtKeyArray) {
+                $ligne->origine_mouvements->getOrAdd($mvtKeyArray[0])->add(null, $mvtKeyArray[1]);
+            }
+            $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
+            if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+                $ligne->libelle = "DRMS ".preg_replace('/DRM-[^-]*-20(....).*/', '\1', $docId);
+                if (count($etablissements) > 1) {
+                    $idEtb = $ligneByType->key[MouvementfactureFacturationView::KEYS_ETB_ID];
+                    $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
+                    $ligne->libelle .= ' (' . $etb->etablissement->nom . ')';
+                }
+            } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+                $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE];
+                $ligne->produit_identifiant_analytique = $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID];
+            }
+
+            if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+                $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+                $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
+
+                $detail = null;
+                if ($transacteur) {
+                    $detail = $ligne->getOrAdd('details')->add();
+                    $detail->libelle = $produit_libelle;
+                    $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                    $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
+                    $detail->taux_tva = 0.2;
+                    $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
+                } else {
+                    foreach ($ligne->get('details') as $present_detail) {
+                        if (!$present_detail->origine_type && ($produit_libelle == $detail->libelle)) {
+                            $detail = $present_detail;
+                        }
+                    }
+                    if (!$detail) {
+                        $detail = $ligne->getOrAdd('details')->add();
+                        $detail->quantite = 0;
+                        $detail->libelle = $produit_libelle;
+                        $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                        $detail->taux_tva = 0.2;
+                    }
+                    $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
+                }
+            } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+                $detail = $ligne->getOrAdd('details')->add();
+                $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME];
+                $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
+                $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                $detail->taux_tva = 0.2;
+            }
         }
-        $detail->libelle = $produit_libelle;
-        $ligne->origine_mouvements->getOrAdd($keysOrigin[0])->add(null, $keysOrigin[1]);
     }
 
     protected function verifLigneAndVolumeOrigines($ligne) {
@@ -368,7 +397,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $d1 = date('Y') . '0331'; // 31/03/N
         $d2 = date('Y') . '0630'; // 30/06/N
         $d3 = date('Y') . '0930'; // 30/09/N
-        //if( date < 31/03/N) { 33% 31/03/N 33% 30/06/N et 33% 30/09/N }
+//if( date < 31/03/N) { 33% 31/03/N 33% 30/06/N et 33% 30/09/N }
         if ($date < $d1) {
             $this->updateEcheance('C', date('Y') . '-03-31', $ligne->montant_ht * (1 / 3));
             $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * (1 / 3));
@@ -376,20 +405,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return;
         }
 
-        //if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}              
+//if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}              
         if ($date < $d2) {
             $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht * 0.5);
             return;
         }
 
-        //if(30/06/N < date < 30/09/N) { 100% 30/09/N } 
+//if(30/06/N < date < 30/09/N) { 100% 30/09/N } 
         if ($date < $d3) {
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht);
             return;
         }
 
-        //Dépassement de délais -> 100% comptant
+//Dépassement de délais -> 100% comptant
         $this->createOrUpdateEcheanceE($ligne);
     }
 
@@ -399,19 +428,19 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         $d1 = date('Y') . '0331'; // 31/03/N
         $d2 = date('Y') . '0630'; // 30/06/N  
-        //if( date < 31/03/N) { 50% 31/03/N 50% 30/06/N}
+//if( date < 31/03/N) { 50% 31/03/N 50% 30/06/N}
         if ($date < $d1) {
             $this->updateEcheance('B', date('Y') . '-03-31', $ligne->montant_ht * 0.5);
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             return;
         }
-        //if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }              
+//if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }              
         if ($date < $d2) {
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht);
             return;
         }
 
-        //Dépassement de délais -> 100% comptant
+//Dépassement de délais -> 100% comptant
         $this->createOrUpdateEcheanceE($ligne);
     }
 
@@ -428,7 +457,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             $this->updateEcheance('D', $dateEcheance, $ligne->montant_ht);
             return;
         }
-        //Dépassement de délais -> 100% comptant
+//Dépassement de délais -> 100% comptant
         $this->createOrUpdateEcheanceE($ligne);
     }
 
@@ -438,7 +467,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function updateEcheance($echeance_code, $date, $montant_ht) {
-        //Vérifie qu'il n'y a pas d'échéance à la même date avant de ajouter une nouvelle
+//Vérifie qu'il n'y a pas d'échéance à la même date avant de ajouter une nouvelle
         foreach ($this->echeances as $echeance) {
             if ($echeance->echeance_date == $date) {
                 $echeance->montant_ttc += $this->ttc($montant_ht);
@@ -447,7 +476,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 return;
             }
         }
-        //Ici on est sur qu'il n'y a pas d'échéance à cette date, alors on l'ajoute
+//Ici on est sur qu'il n'y a pas d'échéance à cette date, alors on l'ajoute
         $echeance = new stdClass();
         $echeance->echeance_code = $echeance_code;
         $echeance->montant_ttc = $this->ttc($montant_ht);
@@ -576,7 +605,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->numero_adherent = $doc->identifiant;
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
-        //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
+//$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
         $declarant->adresse = $doc->siege->adresse;
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;

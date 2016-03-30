@@ -1,4 +1,3 @@
-
 <?php
 
 class FactureClient extends acCouchdbClient {
@@ -67,8 +66,7 @@ class FactureClient extends acCouchdbClient {
         $facture->constructIds($societe);
         $facture->storeEmetteur();
         $facture->storeDeclarant($societe);
-        
-        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille);
+        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille, $modele);
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
@@ -225,7 +223,6 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsBySoc;
     }
 
-    
     // INUTILE => On veut les Mouvements
     public function getComptesIdFilterWithParameters($arguments) {
         $comptes = CompteClient::getInstance()->getComptes($arguments['requete']);
@@ -304,7 +301,7 @@ class FactureClient extends acCouchdbClient {
 
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-           
+
             $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication);
 
             $f->save();
@@ -368,7 +365,6 @@ class FactureClient extends acCouchdbClient {
         return '';
     }
 
-    
     //INUTILE
     public function createAvoir(Facture $f) {
         if (!$f->isRedressable()) {
@@ -415,8 +411,6 @@ class FactureClient extends acCouchdbClient {
         return $avoir;
     }
 
-    
-    
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
         if (!$f->isRedressable()) {
             return;
@@ -446,7 +440,7 @@ class FactureClient extends acCouchdbClient {
         $avoir->add('taux_tva', round($f->getTauxTva(), 2));
         $avoir->updateTotaux();
         $avoir->save();
-        
+
         $f->defacturer();
         $f->save();
         return $avoir;

@@ -1,12 +1,12 @@
 <?php
-class EtablissementFamilles 
+class EtablissementFamilles
 {
 
     const FAMILLE_PRODUCTEUR = "PRODUCTEUR";
     const FAMILLE_NEGOCIANT = "NEGOCIANT";
     const FAMILLE_COURTIER = "COURTIER";
     const FAMILLE_REPRESENTANT = "REPRESENTANT";
-    
+
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
     const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
 
@@ -18,25 +18,32 @@ class EtablissementFamilles
     const SOUS_FAMILLE_UNION = "UNION";
     const SOUS_FAMILLE_VINIFICATEUR = "VINIFICATEUR";
 
-    protected static $familles = array (
+    protected static $familles = array(
     	self::FAMILLE_PRODUCTEUR => "Producteur",
     	self::FAMILLE_NEGOCIANT => "Négociant",
     	self::FAMILLE_COURTIER => "Courtier",
 		self::FAMILLE_REPRESENTANT => "Representant"
     );
-    protected static $sous_familles = array (
-    	self::FAMILLE_PRODUCTEUR => array(self::SOUS_FAMILLE_CAVE_PARTICULIERE => "Cave particulière", 
+
+    protected static $type_societe_famille = array(
+        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_REPRESENTANT),
+        SocieteClient::TYPE_COURTIER => array(self::FAMILLE_COURTIER),
+        SocieteClient::TYPE_AUTRE => array(),
+    );
+
+    protected static $sous_familles = array(
+    	self::FAMILLE_PRODUCTEUR => array(self::SOUS_FAMILLE_CAVE_PARTICULIERE => "Cave particulière",
                                           self::SOUS_FAMILLE_CAVE_COOPERATIVE => "Cave coopérative"),
-    	self::FAMILLE_NEGOCIANT => array(self::SOUS_FAMILLE_REGIONAL => "Régional", 
-                                         self::SOUS_FAMILLE_EXTERIEUR => "Extérieur", 
-                                         self::SOUS_FAMILLE_ETRANGER => "Etranger", 
-                                         self::SOUS_FAMILLE_UNION => "Union", 
+    	self::FAMILLE_NEGOCIANT => array(self::SOUS_FAMILLE_REGIONAL => "Régional",
+                                         self::SOUS_FAMILLE_EXTERIEUR => "Extérieur",
+                                         self::SOUS_FAMILLE_ETRANGER => "Etranger",
+                                         self::SOUS_FAMILLE_UNION => "Union",
                                          self::SOUS_FAMILLE_VINIFICATEUR => "Vinificateur"),
     	self::FAMILLE_COURTIER => array(),
     	self::FAMILLE_REPRESENTANT => array()
     );
-    
-    protected static $droits = array (
+
+    protected static $droits = array(
     	"PRODUCTEUR_CAVE_PARTICULIERE" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
     	"PRODUCTEUR_CAVE_COOPERATIVE" => array(EtablissementDroit::DROIT_DRM_DTI, EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
     	"NEGOCIANT_REGIONAL" => array(EtablissementDroit::DROIT_DRM_PAPIER, EtablissementDroit::DROIT_VRAC),
@@ -48,12 +55,12 @@ class EtablissementFamilles
     	"REPRESENTANT" => array(EtablissementDroit::DROIT_VRAC)
     );
 
-    public static function getFamilles() 
+    public static function getFamilles()
     {
     	return self::$familles;
     }
 
-    public static function getFamillesForJs() 
+    public static function getFamillesForJs()
     {
     	$sousFamilles =  self::getSousFamilles();
     	$result = array();
@@ -63,12 +70,23 @@ class EtablissementFamilles
     	return $result;
     }
 
-    public static function getSousFamilles() 
+    public static function getFamillesByTypeSociete($typeSociete) {
+        $famillesKey = (isset(self::$type_societe_famille[$typeSociete])) ? self::$type_societe_famille[$typeSociete] : array();
+        $familles = array();
+
+        foreach ($famillesKey as $familleKey) {
+            $familles[$familleKey] = self::$familles[$familleKey];
+        }
+
+        return $familles;
+    }
+
+    public static function getSousFamilles()
     {
     	return self::$sous_familles;
     }
 
-    public static function getSousFamillesByFamille($famille) 
+    public static function getSousFamillesByFamille($famille)
     {
     	$famille = self::getKey($famille);
     	if (!in_array($famille, array_keys(self::getFamilles()))) {
@@ -78,12 +96,12 @@ class EtablissementFamilles
     	return $sousFamilles[$famille];
     }
 
-    public static function getDroits() 
+    public static function getDroits()
     {
     	return self::$droits;
     }
 
-    public static function getDroitsByFamilleAndSousFamille($famille, $sousFamille = null) 
+    public static function getDroitsByFamilleAndSousFamille($famille, $sousFamille = null)
     {
     	$famille = self::getKey($famille);
     	$sousFamille = self::getKey($sousFamille);
@@ -103,7 +121,7 @@ class EtablissementFamilles
     	}
     	return $droits[$index];
     }
-    
+
     public static function getFamilleLibelle($famille = null)
     {
     	$famille = self::getKey($famille);
@@ -114,7 +132,7 @@ class EtablissementFamilles
     	return $familles[$famille];
     }
 
-    
+
     public static function getSousFamilleLibelle($famille = null, $sousFamille = null)
     {
     	$famille = self::getKey($famille);
@@ -125,7 +143,7 @@ class EtablissementFamilles
     	}
     	return $sousFamilles[$sousFamille];
     }
-    
+
     public static function getKey($libelle)
     {
     	return str_replace('-', '_', strtoupper(KeyInflector::slugify($libelle)));

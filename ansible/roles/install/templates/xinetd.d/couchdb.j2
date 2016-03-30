@@ -1,0 +1,12 @@
+service couchdb_forward
+{
+    disable         = no
+    type            = UNLISTED
+    socket_type     = stream
+    protocol        = tcp
+    user            = nobody
+    wait            = no
+    redirect        = 127.0.0.1 5984
+    port            = 5984
+    bind            = {{giilda_tinc_ip}}
+}

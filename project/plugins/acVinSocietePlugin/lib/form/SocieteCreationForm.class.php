@@ -12,7 +12,7 @@
 class SocieteCreationForm extends baseForm {
 
     private $societe_types;
-    
+
     public function __construct($societe_types = null, $defaults = array(), $options = array(), $CSRFSecret = null) {
         if($societe_types){
             $this->societe_types = $societe_types;
@@ -40,28 +40,7 @@ class SocieteCreationForm extends baseForm {
 
     public function getSocieteTypes() {
         $societeTypes = SocieteClient::getInstance()->getSocieteTypes();
-      /*  if(!$this->societe_types){
-            return $societeTypes;
-        }
-        
-        $reel_societe_types = array();
-        foreach ($societeTypes as $key_types => $types) {
-            if (!is_array($types)){
-                if(in_array($key_types, $this->societe_types)){
-                    $reel_societe_types[$key_types] = $types;                
-                }
-            }
-            else {
-                foreach ($types as $sub_type_key => $entree) {
-                    if(in_array($entree, $this->societe_types)){
-                        if(!array_key_exists($key_types, $reel_societe_types)){
-                            $reel_societe_types[$key_types] = array();
-                        }
-                           $reel_societe_types[$key_types][$sub_type_key] = $entree;                            
-                    }
-                }
-            }
-        }*/
+
         return $societeTypes;
     }
 
@@ -79,7 +58,4 @@ class SocieteCreationForm extends baseForm {
         }
         return $result;
     }
-
 }
-
-?>

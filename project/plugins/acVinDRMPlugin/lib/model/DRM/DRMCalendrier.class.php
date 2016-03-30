@@ -33,6 +33,11 @@ class DRMCalendrier {
         $this->periodes = $this->buildPeriodes();
         $this->etablissements = array();
         foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
+            if($e->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+
+                continue;
+            }
+
             $this->etablissements[] = $e->etablissement;
         }
 
@@ -54,7 +59,7 @@ class DRMCalendrier {
         $periodes = array();
         $current = date('Ym');
         foreach (DRMClient::getInstance()->getPeriodes($this->campagne) as $p) {
-            if ($current >= $p) 
+            if ($current >= $p)
                 $periodes[] = $p;
         }
         return $periodes;
@@ -110,12 +115,12 @@ class DRMCalendrier {
 
         if (!isset($this->drms[$etablissement->identifiant]))
             return false;
-        
+
         if (!isset($this->drms[$etablissement->identifiant][$periode]))
             return false;
 
         return ($this->drms[$etablissement->identifiant][$periode]);
-        
+
     }
 
     public function getId($periode) {
@@ -175,10 +180,10 @@ class DRMCalendrier {
             }
             if ($this->isTeledeclarationMode && $this->computeStatut($periode, $etablissement) === self::STATUT_NOUVELLE && $periode == date('Ym')) {
                 $this->statuts[$etbIdentifiant][$periode] = self::STATUT_NOUVELLE;
-                
+
             }
         }
-        
+
     }
 
     private function computeStatut($periode, $etablissement) {
@@ -225,7 +230,7 @@ class DRMCalendrier {
             return self::STATUT_NOUVELLE;
         if ($validee)
             return self::STATUT_VALIDEE;
-        
+
         return self::STATUT_VALIDEE_NON_TELEDECLARE;
     }
 
@@ -241,8 +246,8 @@ class DRMCalendrier {
             $etablissement = $this->etablissement;
         }
         if (!$this->hasDRM($periode, $etablissement)) {
-            return;     
-        }   
+            return;
+        }
         $drm = $this->drms[$etablissement->identifiant][$periode];
         return $drm[self::VIEW_NUMERO_ARCHIVAGE];
     }

@@ -67,26 +67,26 @@ class VracCsvFile extends CsvFile {
                 $dateSaisie = new DateTime($v->valide->date_saisie);
                 $v->numero_contrat = $this->verifyAndFormatNumeroContrat($line);
                 $v->numero_archive = $this->verifyAndFormatNumeroArchive($line);
-                
+
                 $v->date_visa = $v->valide->date_saisie;
-                
+
                 $v->constructId();
 
                 if ($vracDoublon = VracClient::getInstance()->find($v->_id, acCouchdbClient::HYDRATE_JSON)) {
                     throw new sfException(sprintf($this->red("Existe $v->_id archivage : $vracDoublon->numero_archive ")));
                 }
 
-                $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID]);
-                $acheteur = $this->verifyEtablissement($line[self::CSV_ACHETEUR_ID]);
+                $vendeur = $this->verifyEtablissement($line[self::CSV_VENDEUR_ID], EtablissementFamilles::FAMILLE_PRODUCTEUR);
+                $acheteur = $this->verifyEtablissement($line[self::CSV_ACHETEUR_ID], EtablissementFamilles::FAMILLE_NEGOCIANT);
 
                 $representant = null;
                 if ($line[self::CSV_INTERMEDIAIRE_ID]) {
-                    $representant = $this->verifyEtablissement($line[self::CSV_INTERMEDIAIRE_ID]);
+                    $representant = $this->verifyEtablissement($line[self::CSV_INTERMEDIAIRE_ID], EtablissementFamilles::FAMILLE_REPRESENTANT);
                 }
 
                 $courtier = null;
                 if ($line[self::CSV_COURTIER_ID]) {
-                    $courtier = $this->verifyEtablissement($line[self::CSV_COURTIER_ID]);
+                    $courtier = $this->verifyEtablissement($line[self::CSV_COURTIER_ID], EtablissementFamilles::FAMILLE_COURTIER);
                 }
 
                 $v->vendeur_identifiant = $vendeur->_id;
@@ -166,16 +166,16 @@ class VracCsvFile extends CsvFile {
                     throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
                 }
 
-                $v->vendeur_tva = 0; 
+                $v->vendeur_tva = 0;
                 if(preg_match("/assujetti_tva/", $line[self::CSV_CLAUSES])) {
-                    $v->vendeur_tva = 1; 
+                    $v->vendeur_tva = 1;
                 }
 
                 $v->tva = "SANS";
                 if(preg_match("/facturation_tva/", $line[self::CSV_CLAUSES])) {
                     $v->tva = "AVEC";
                 }
-                
+
                 $v->delai_paiement = $line[self::CSV_CLE_DELAI_PAIEMENT];
                 $v->delai_paiement_libelle = $line[self::CSV_DELAI_PAIEMENT];
 
@@ -204,17 +204,17 @@ class VracCsvFile extends CsvFile {
                 if(($v->taux_courtage && !$v->courtage_repartition) || (!$v->taux_courtage && $v->courtage_repartition)) {
                     echo sprintf("Le coupe taux de courtage / repartition n'est pas complétement rempli %s\n", $this->yellow($v->_id));
                 }
-                
+
                 if(preg_match("/clause_reserve_propriete/", $line[self::CSV_CLAUSES])) {
-                    $v->clause_reserve_propriete = true; 
+                    $v->clause_reserve_propriete = true;
                 }
 
                 if(preg_match("/autorisation_nom_vin/", $line[self::CSV_CLAUSES])) {
-                    $v->autorisation_nom_vin = true; 
+                    $v->autorisation_nom_vin = true;
                 }
 
                 if(preg_match("/autorisation_nom_producteur/", $line[self::CSV_CLAUSES])) {
-                    $v->autorisation_nom_producteur = true; 
+                    $v->autorisation_nom_producteur = true;
                 }
 
                 $v->conditionnement_crd = $this->formatAndVerifyConditionnementCrd($line);
@@ -222,14 +222,14 @@ class VracCsvFile extends CsvFile {
                 $v->embouteillage = $this->formatAndVerifyEmbouteillage($line);
 
                 $v->preparation_vin = $this->formatAndVerifyPreparationVin($line);
-                
+
                 $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRES]);
 
                 $v->update();
                 //$v->enleverVolume($v->volume_enleve);
 
+                $v->versement_fa = VracClient::VERSEMENT_FA_NOUVEAU; // A changer en VracClient::VERSEMENT_FA_TRANSMIS
                 $v->valide->statut = $this->verifyAndFormatStatut($line);
-
                 $v->save();
                 echo sprintf("Le contrat %s a bien été importé\n", $this->green($v->_id));
             } catch (Exception $e) {
@@ -289,10 +289,10 @@ class VracCsvFile extends CsvFile {
         return $statut;
     }
 
-    private function verifyEtablissement($id) {
-        if (strlen($id) < 6) {
-
-            $id = sprintf("%06d01", $id);
+    private function verifyEtablissement($id, $famille = null) {
+        if (strlen($id) <= 6) {
+            $id = sprintf("%06d", $id);
+            $id = $this->searchEtablissementIdByFamille($id, $famille);
         }
 
         $etablissement = EtablissementClient::getInstance()->find($id, acCouchdbClient::HYDRATE_JSON);
@@ -304,8 +304,28 @@ class VracCsvFile extends CsvFile {
         return $etablissement;
     }
 
+    private function searchEtablissementIdByFamille($idSociete, $famille) {
+        if(!$famille) {
+
+            return $idSociete."01";
+        }
+
+        $num = 1;
+        while($etablissement = EtablissementClient::getInstance()->find($idSociete.sprintf("%02d", $num), acCouchdbClient::HYDRATE_JSON)) {
+
+            if($etablissement->famille == $famille) {
+
+                return $etablissement->identifiant;
+            }
+
+            $num++;
+        }
+
+        return $idSociete."01";
+    }
+
     private function verifyTypeTransaction($line) {
-        
+
     }
 
     private function verifyAndFormatResponsable($line) {
@@ -393,7 +413,7 @@ class VracCsvFile extends CsvFile {
         $contenances = VracConfiguration::getInstance()->getContenances();
 
         if(!in_array($contenance, $contenances)) {
-            
+
             throw new Exception(sprintf("La contenance %s n'existe pas en configuration", $contenance));
         }
 
@@ -410,7 +430,7 @@ class VracCsvFile extends CsvFile {
         $contenances = VracConfiguration::getInstance()->getContenances();
 
         if(!in_array($vrac->bouteilles_contenance_volume, $contenances)) {
-            
+
             throw new Exception(sprintf("La contenance %s n'existe pas en configuration", $vrac->bouteilles_contenance_volume));
         }
 

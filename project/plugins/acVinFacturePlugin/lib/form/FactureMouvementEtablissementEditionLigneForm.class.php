@@ -46,7 +46,6 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     public function setDefaults($defaults) {
         parent::setDefaults($defaults);
         if ($this->getObject() && $this->getObject() instanceof FactureMouvement) {
-
             if ($this->getObject()->getIdentifiant()) {
 
                 $identifiantSociete = preg_replace('/([0-9]{6})([0-9]{2})/', '\1', $this->getObject()->getIdentifiant());

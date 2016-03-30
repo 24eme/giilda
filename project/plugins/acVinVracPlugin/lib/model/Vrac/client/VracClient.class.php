@@ -57,7 +57,7 @@ class VracClient extends acCouchdbClient {
     const CATEGORIE_VIN_AGE = 'AGE';
     const CATEGORIE_VIN_MARQUE = 'MARQUE';
     const CVO_REPARTITION_50_50 = '50';
-    const CVO_REPARTITION_100_VITI = '100';
+    const CVO_REPARTITION_100_VITI = '100_VENDEUR';
     const CVO_REPARTITION_100_NEGO = '100_ACHETEUR';
     const CVO_REPARTITION_0_VINAIGRERIE = '0';
     const RESULTAT_LIMIT = 700;
@@ -70,6 +70,11 @@ class VracClient extends acCouchdbClient {
     const STATUS_CONTRAT_NONSOLDE = 'NONSOLDE';
     const STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI = "ATTENTE_SIGNATURE_MOI";
     const STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES = "ATTENTE_SIGNATURE_AUTRES";
+
+    const VERSEMENT_FA_NOUVEAU = 'NC';
+    const VERSEMENT_FA_MODIFICATION = 'MC';
+    const VERSEMENT_FA_ANNULATION = 'SC';
+    const VERSEMENT_FA_TRANSMIS = 'TRANSMIS';
 
     public static $types_transaction = array('' => '', VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
@@ -193,7 +198,7 @@ class VracClient extends acCouchdbClient {
 
             return null;
         }
-    
+
         return $this->findDocIdByNumArchive(ConfigurationClient::getInstance()->getPreviousCampagne($campagne), $num_contrat, $recursive);
     }
 
@@ -220,6 +225,12 @@ class VracClient extends acCouchdbClient {
         return $this->descending(true)
                         ->startkey(array(1, array()))
                         ->endkey(array(1))
+                        ->getView('vrac', 'history');
+    }
+
+    public function retrieveAllVracs() {
+
+        return $this->descending(true)
                         ->getView('vrac', 'history');
     }
 
@@ -656,7 +667,7 @@ class VracClient extends acCouchdbClient {
      *
      * @param string $id
      * @param integer $hydrate
-     * @return Vrac 
+     * @return Vrac
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
 
@@ -723,16 +734,24 @@ class VracClient extends acCouchdbClient {
         foreach ($all_mouvements_vendeur->rows as $rowView) {
             $vrac_view_id = $rowView->key[DRMMouvementsConsultationView::KEY_DETAIL_IDENTIFIANT];
             if ($vrac_view_id && $vrac_view_id == $vrac->_id) {
-                
+
                 $index = $rowView->value[DRMMouvementsConsultationView::VALUE_MOUVEMENT_ID];
                 $enlevements[$index] = new stdClass();
                 $enlevements[$index]->drm_id = $rowView->id;
                 $enlevements[$index]->periode = $rowView->key[DRMMouvementsConsultationView::KEY_PERIODE];
                 $enlevements[$index]->volume = $rowView->value[DRMMouvementsConsultationView::VALUE_VOLUME] * -1;
-               
+
             }
         }
         return $enlevements;
+    }
+
+    public function calculCvoRepartition($vrac) {
+        if(!preg_match("/^(24|33|46|47)/", $vrac->acheteur->code_postal)) {
+
+            return self::CVO_REPARTITION_100_VITI;
+        }
+        return self::CVO_REPARTITION_100_NEGO;
     }
 
 }

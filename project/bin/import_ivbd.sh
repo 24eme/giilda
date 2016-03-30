@@ -10,7 +10,7 @@ DATA_DIR=$TMP/data_ivbd_csv
 if test "$REMOTE_DATA"; then
     echo "Récupération de l'archive"
     scp $REMOTE_DATA $TMP/data_ivbd.tgz
-    
+
     echo "Désarchivage"
     rm -rf $TMP/data_ivbd_origin
     mkdir $TMP/data_ivbd_origin
@@ -26,17 +26,17 @@ if test "$REMOTE_DATA"; then
     cd $SYMFODIR
 
     echo "Conversion des fichiers en utf8"
-    
+
     rm -rf $DATA_DIR
     mkdir -p $DATA_DIR
 
     cat $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv | sed "s/$/\r/" > $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv.tmp
 
-    cp $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv.tmp $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv 
+    cp $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv.tmp $TMP/data_ivbd_origin/IVBD/contrat_mention_correspondance_clean.csv
 
     file -i $TMP/data_ivbd_origin/IVBD/* | grep "utf-16" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        #echo "$DATA_DIR/$ligne utf-16le" 
+        #echo "$DATA_DIR/$ligne utf-16le"
         iconv -f utf-16le -t utf-8 $TMP/data_ivbd_origin/IVBD/$ligne | tr -d "\n" | tr "\r" "\n"  > $DATA_DIR/$ligne
     done
 
@@ -86,7 +86,7 @@ echo "75108;Paris" >> $DATA_DIR/communes.csv
 echo "75116;Paris" >> $DATA_DIR/communes.csv
 echo "75117;Paris" >> $DATA_DIR/communes.csv
 echo "75118;Paris" >> $DATA_DIR/communes.csv
-cat $DATA_DIR/communes.csv | sort -t ";" -k 1,1 > $DATA_DIR/communes.sorted.csv 
+cat $DATA_DIR/communes.csv | sort -t ";" -k 1,1 > $DATA_DIR/communes.sorted.csv
 
 # Pays
 sort -k 1,1 -t ";" $DATA_DIR/base_pays.csv | cut -d ";" -f 1,6 | sed 's/TCHEQUE (REPUBLIQUE)/République tchèque/' | sed 's/IRLANDE, ou EIRE/Irlande/' | sed 's/COREE (REPUBLIQUE DE)/Corée du Sud/' > $DATA_DIR/base_pays.sorted.csv
@@ -214,12 +214,12 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
     statut=($16 || $18) ? "SUSPENDU" : "ACTIF";
     nom=$7;
     email=""; tel_bureau=""; tel_perso=""; mobile=""; fax=""; web="";
-    adresse1=$8; 
-    adresse2=$9; 
-    adresse3=$10; 
+    adresse1=$8;
+    adresse2=$9;
+    adresse3=$10;
     commune=$34;
     cedex=$13;
-    code_postal=$11; 
+    code_postal=$11;
     insee=$3;
     pays=$35;
 
@@ -241,7 +241,7 @@ cat $DATA_DIR/evv_numero_ppm_communes_pays_famille_carte_pro.csv | awk -F ";" '
     if(famille == "AUTRE") {
         next;
     }
-    
+
     if(famille == "VITICULTEUR") {
         famille = "PRODUCTEUR";
     }
@@ -406,7 +406,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     intermediaire_id=($16) ? $16 : "";
     acheteur_id=($12) ? $12 : "";
     courtier_id=($14) ? $14 : "";
-    bio=($52) ? "agriculture_biologique" : ""; 
+    bio=($52) ? "agriculture_biologique" : "";
     categorie_vin=$78;
     categorie_vin_info=$79;
 
@@ -421,7 +421,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     if(categorie_vin == "DOMAINE" && categorie_vin_info) {
         categorie_vin_info = "Domaine " categorie_vin_info;
     }
-    
+
     if(categorie_vin_info) {
         categorie_vin="MENTION";
     } else {
@@ -479,7 +479,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     commenaire_paiement=$87;
     commentaire_delai_paiement=$89;
     commentaire_mode_paiement=$88;
-    
+
     commentaires=$29;
 
     if(commentaires) {
@@ -503,7 +503,7 @@ cat $DATA_DIR/contrats_contrat_produit_delai_paiement_retiraison_type_vin_marque
     print num ";" numero_bordereau ";" date_signature ";" date_saisie ";" type_contrat ";" statut ";" vendeur_id ";" vendeur_cvi ";;" intermediaire_id ";" acheteur_id ";" courtier_id ";" proprietaire ";" produit_id ";" produit ";" millesime ";" cepage ";" cepage ";" categorie_vin ";" categorie_vin_info ";;;" degre ";" bouteille_contenance ";" volume_propose ";hl;" volume_propose ";" volume_propose ";" prix_unitaire ";" prix_unitaire ";" delais_paiement_cle ";" delais_paiement_libelle ";" mode_paiement_cle ";" mode_paiement_libelle ";" acompte ";" frais_courtage ";" repartition_taux_courtage ";" "50" ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" bio ";" commentaires;
 }' | sort -rt ";" -k 3,3 > $DATA_DIR/vracs_without_mention_clean.csv
 
-cat $DATA_DIR/vracs_without_mention_clean.csv | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($19); print $0 }' > $DATA_DIR/vracs.csv
+cat $DATA_DIR/vracs_without_mention_clean.csv | sed -f $DATA_DIR/contrat_mention_correspondance_clean.sed | awk -F ';' 'BEGIN { OFS=";" } { $19=toupper($20); print $0 }' > $DATA_DIR/vracs.csv
 
 echo "Construction du fichier d'import des DRM"
 
@@ -519,7 +519,7 @@ cat $DATA_DIR/contrats_drm.csv | sed 's/^/#/' | sed -r 's/^#([0-9]+;[0-9]+;)/|\1
 sort -k 3,3 -t ';' $DATA_DIR/contrats_drm_volume_ligne_produits.csv > $DATA_DIR/contrats_drm_volume_ligne_produits.sorted.csv
 join -t ';' -1 1 -2 3 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_ligne_produits.sorted.csv > $DATA_DIR/contrats_drm_drm_volume.csv
 
-cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{ 
+cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     type="CAVE";
     mois=sprintf("%02d", $4);
     annee=$5;
@@ -536,15 +536,30 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     volume=gensub(",", ".", 1, $33);
     commentaire="";
 
+    manquante=$10;
+    zero=$11;
+
+    # if(manquante == "True" || zero == "True") {
+    #     catmouvement="stocks_debut";
+    #     mouvement="initial";
+    #     volume="";
+    #     if(manquante) {
+    #         commentaire=commentaire "IMPORT DRM manquante\\n";
+    #     }
+    #     if(zero) {
+    #         commentaire=commentaire "IMPORT DRM néant\\n";
+    #     }
+    # }
+
     if(substr(volume,0,1) == "."){
     volume="0"volume;
     }
     if(substr(volume,0,2) == "-."){
     volume="-0."substr(volume,2);
     }
-   
-    modificatrice=(corrective == "True" || regularisatrice == "True");
+    volume = gensub(/\.\./, ".", 1, volume);
 
+    modificatrice=(corrective == "True" || regularisatrice == "True");
 
     if(modificatrice) {
         commentaire=commentaire "IMPORT " produit_libelle " : Mouvement correctif " mouvement_extravitis " de " volume " hl\\n";
@@ -553,12 +568,12 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     if(!mouvement_extravitis) {
         mouvement=$31;
     }
-    
+
     if(mouvement_extravitis == "Solde précédent" && volume*1 != 0) {
         catmouvement="stocks_debut"
         mouvement="initial";
     }
-    
+
     if(mouvement_extravitis == "Total DCA hors contrats(droits suspendus) - Autres") {
         catmouvement="sorties"
         mouvement="vracsanscontratsuspendu";
@@ -646,18 +661,18 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
 
     if(catmouvement == "stocks_debut" && mouvement == "initial") {
         print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";dont_revendique;" volume ";;;" commentaire;
-    } 
+    }
 
     print type ";" periode ";" identifiant ";" num_archive ";" produit_libelle ";;;;;;;" catmouvement ";" mouvement ";" volume ";;;" commentaire;
 }' > $DATA_DIR/drm_cave.csv
 
 #Les contrats
 sort -k 5,5 -t ';' $DATA_DIR/contrats_drm_dca.csv > $DATA_DIR/contrats_drm_dca.sorted.csv
-join -t ';' -1 5 -2 1 $DATA_DIR/contrats_drm_dca.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_dca_produit.csv 
-sort -t ';' -k 4,4 $DATA_DIR/contrats_drm_dca_produit.csv  > $DATA_DIR/contrats_drm_dca_produit.sorted.csv 
+join -t ';' -1 5 -2 1 $DATA_DIR/contrats_drm_dca.sorted.csv $DATA_DIR/produits.csv > $DATA_DIR/contrats_drm_dca_produit.csv
+sort -t ';' -k 4,4 $DATA_DIR/contrats_drm_dca_produit.csv  > $DATA_DIR/contrats_drm_dca_produit.sorted.csv
 join -t ';' -1 1 -2 4 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_dca_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_dca.csv
 
-cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{ 
+cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     type="CAVE";
     mois=sprintf("%02d", $4);
     annee=$5;
@@ -671,6 +686,7 @@ cat $DATA_DIR/contrats_drm_drm_dca.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $36);
+    volume = gensub(/\.\./, ".", 1, volume);
     num_contrat=$35;
     commentaire="";
 
@@ -693,7 +709,7 @@ join -t ";" -1 5 -2 1 $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv $D
 sort -k 4,4 -t ';' $DATA_DIR/contrats_drm_volume_export_produit_pays.csv > $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv
 join -t ';' -1 1 -2 4 $DATA_DIR/contrats_drm.sorted.csv $DATA_DIR/contrats_drm_volume_export_produit.sorted.csv > $DATA_DIR/contrats_drm_drm_export.csv
 
-cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{ 
+cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     type="CAVE";
     mois=sprintf("%02d", $4);
     annee=$5;
@@ -707,6 +723,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
     corrective=$23;
     regularisatrice=$24;
     volume=gensub(",", ".", 1, $34);
+    volume = gensub(/\.\./, ".", 1, volume);
     pays=$36;
     commentaire="";
 
@@ -721,7 +738,7 @@ cat $DATA_DIR/contrats_drm_drm_export.csv | awk -F ';' '{
 #Génération finale
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export.csv | grep -v ";Bordeaux" | grep -v ";St émilion" | awk -F ';' 'BEGIN { OFS=";" } {if ($13 == "revendication") { print $0 ; $13 = "recolte"; } print $0}' | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
 
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
 
 echo "Import des sociétés"
@@ -744,7 +761,7 @@ echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
-cat $DATA_DIR/drm_201408.csv | sed 's|\\|\\\\|' | while read ligne  
+cat $DATA_DIR/drm_201408.csv | sed 's|\\|\\\\|' | while read ligne
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
@@ -764,7 +781,7 @@ done
 
 echo "Contrôle de cohérence des DRM"
 
-cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne  
+cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne
 do
   php symfony drm:controle-coherence "$ligne"
 done

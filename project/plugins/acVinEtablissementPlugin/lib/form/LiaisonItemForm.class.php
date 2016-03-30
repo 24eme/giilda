@@ -32,5 +32,3 @@ class LiaisonItemForm extends acCouchdbObjectForm {
         return EtablissementClient::getTypesLiaisons();
     }
 }
-
-?>

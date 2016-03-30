@@ -42,6 +42,15 @@ class factureActions extends sfActions {
             $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
         }
     }
+    
+    public function executeMouvementssupprimer(sfWebRequest $request) {
+         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
+         if($this->factureMouvements->getNbMvtsAFacture()){
+             $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+         }
+         $this->factureMouvements->delete();
+         $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+    }
 
     public function executeEdition(sfWebRequest $request) {
         $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
@@ -182,9 +191,8 @@ class factureActions extends sfActions {
 
         $filters_parameters = $this->constuctFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-        
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);           
-        
+      
         if ($mouvementsBySocFiltered) {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
             $generation->save();
@@ -199,27 +207,6 @@ class factureActions extends sfActions {
         }
         $this->redirect('facture_societe', array('identifiant' => $this->facture->identifiant));
     }
-
-//    public function executeGenerer(sfWebRequest $request) {
-//        $parameters = $request->getParameter('facture_generation');
-//        $date_facturation = (!isset($parameters['date_facturation'])) ? null : DATE::getIsoDateFromFrenchDate($parameters['date_facturation']);
-//        $message_communication = (!isset($parameters['message_communication'])) ? null : $parameters['message_communication'];
-//        $parameters['date_mouvement'] = (isset($parameters['date_mouvement']) && $parameters['date_mouvement'] != '') ? $parameters['date_mouvement'] : $date_facturation;
-//        if (!isset($parameters['type_document']) || !$parameters['type_document'] || $parameters['type_document'] == FactureGenerationMasseForm::TYPE_DOCUMENT_TOUS) {
-//            unset($parameters['type_document']);
-//        }
-//        
-//        $this->societe = $this->getRoute()->getSociete();
-//
-//        $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-//        // $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $parameters);
-//
-//        if ($mouvementsBySoc) {
-//            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
-//            $generation->save();
-//        }
-//        $this->redirect('facture_societe', $this->societe);
-//    }
 
     public function executeRedirect(sfWebRequest $request) {
         $iddoc = $request->getParameter('iddocument');
