@@ -23,6 +23,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
     }
 
+    public function getConfiguration() {
+        return ConfigurationClient::getConfiguration($this->date_facturation);
+    }
+    
     public function __clone() {
         parent::__clone();
         $this->initDocuments();
@@ -252,6 +256,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                     $detail->taux_tva = 0.2;
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
+                    $detail->add('identifiant_analytique', $this->getConfiguration()->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->code_comptable);
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
                         if (!$present_detail->origine_type && ($produit_libelle == $detail->libelle)) {
@@ -264,6 +269,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->libelle = $produit_libelle;
                         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                         $detail->taux_tva = 0.2;
+                        $detail->add('identifiant_analytique', $this->getConfiguration()->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->code_comptable);
                     }
                     $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                 }
