@@ -377,11 +377,8 @@ class Vrac extends BaseVrac {
 //    }
 
     public function calculCvoRepartition() {
-        if(!preg_match("/^(24|33|46|47)/", $this->acheteur->code_postal)) {
 
-            return VracClient::CVO_REPARTITION_100_VITI;
-        }
-        return VracClient::CVO_REPARTITION_100_NEGO;
+        return VracClient::getInstance()->calculCvoRepartition($this);
     }
 
     public function validate($options = array()) {
