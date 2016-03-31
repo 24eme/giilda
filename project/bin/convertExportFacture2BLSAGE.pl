@@ -316,10 +316,12 @@ sub printCHRE {
 sub printCIVA {
     $nom = $numero = $field[origine_type];
     $nom =~ s/.* \(([^\)]*)\).*/$1/;
+    $nom =~ s/^(MLE\.S]*|EARL|SCEA|SARL|GAEC|SA|ETS|STE|SAS|SCA|EURL|VIGNOBLES) //;
+    $nom =~ s/ [\(-].*//;
     $numero =~ s/.*Contrat n° *(\d+) .*/$1/;
     print "#CIVA\n";
     print "Nom tiers contrat;" if ($verbose);
-    print $nom."\n";
+    print encode_utf8(substr(decode_utf8($nom), 0, 23))."\n";
     print "Numéro de contrat;" if ($verbose);
     print $numero."\n";
     print "Date;" if ($verbose);
