@@ -318,7 +318,10 @@ sub printCIVA {
     $nom =~ s/.* \(([^\)]*)\).*/$1/;
     $nom =~ s/^(MLE\.S]*|EARL|SCEA|SARL|GAEC|SA|ETS|STE|SAS|SCA|EURL|VIGNOBLES) //;
     $nom =~ s/ [\(-].*//;
-    $numero =~ s/.*Contrat n° *(\d+) .*/$1/;
+    unless (s/.*Contrat n° *(\d+) .*/$1/) {
+	return ;
+    }
+    $numero = $1;
     print "#CIVA\n";
     print "Nom tiers contrat;" if ($verbose);
     print encode_utf8(substr(decode_utf8($nom), 0, 23))."\n";
