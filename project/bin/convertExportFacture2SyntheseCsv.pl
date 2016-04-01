@@ -19,15 +19,21 @@ while(<STDIN>) {
 	$sumerize{$tiers.';'.$field[$nom].';'.$campagne} += $field[$montant];
 }
 
+print "code tiers;nom;campagne;montant HT;\n";
 foreach $k (keys %sumerize) {
-    print $k.';'.$sumerize{$k}.";\n";
+    $s = $sumerize{$k};
+    $s =~ s/\./,/;
+    print $k.';'.$s.";\n";
     $c = $k;
     $c =~ s/.*;//;
     $sum{$c} += $sumerize{$k};
 }
 $sum = 0;
 foreach $k (keys %sum) {
-    print "TOTAL Campagne;Total Campagne;".$k.';'.$sum{$k}.";\n";
+    $s = $sum{$k};
+    $s =~ s/\./,/;
+    print "TOTAL Campagne;Total Campagne;".$k.';'.$s.";\n";
     $sum += $sum{$k};
 }
+$sum =~ s/\./,/;
 print "TOTAL;TOTAL;TOTAL;$sum;\n";
