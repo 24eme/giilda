@@ -41,12 +41,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeEmetteur() {
         $configs = sfConfig::get('app_configuration_facture');
         $emetteur = new stdClass();
-
         if (!$configs && !isset($configs['emetteur'])) {
             throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
         }
-
-        $this->emetteur = $configs['emetteur'];
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
+            $this->emetteur = $configs['emetteur_libre'];
+        }
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+            $this->emetteur = $configs['emetteur_cvo'];
+        }
     }
 
     public function getCoordonneesBancaire() {
@@ -90,7 +93,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
-        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);  
+        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
@@ -130,7 +133,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getLignesArray() {
         $l = $this->_get('lignes')->toArray();
-            usort($l, 'Facture::triOrigineDate');      
+        usort($l, 'Facture::triOrigineDate');
         return $l;
     }
 
