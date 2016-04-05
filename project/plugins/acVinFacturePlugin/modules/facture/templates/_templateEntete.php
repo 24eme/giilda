@@ -52,7 +52,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \def\TVA{19.60} 
 \def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
-\def\InterloireFacturation{\\Votre contact : <?php echo $facture->emetteur->service_facturation.' - '. $facture->emetteur->telephone;?>
+\def\InterloireFacturation{\\<?php echo $facture->emetteur->telephone;?>
                                              <?php if($facture->emetteur->exist('email')): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?> 
                                               <?php endif;?>} 
