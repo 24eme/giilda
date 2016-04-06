@@ -53,13 +53,35 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function getCoordonneesBancaire() {
+        $configs = sfConfig::get('app_configuration_facture');
+        if (!$configs && !isset($configs['coordonnees_bancaire'])) {
+            throw new sfException(sprintf('Config "configuration/facture/coordonnees_bancaire" not found in app.yml'));
+        }
+        $appCoordonneesBancaire = $configs['coordonnees_bancaire'];
+        
         $coordonneesBancaires = new stdClass();
 
-        $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
-        $coordonneesBancaires->bic = ' ABRVFQQQ999';
-        $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
+        $coordonneesBancaires->banque = $appCoordonneesBancaire['banque'];
+        $coordonneesBancaires->bic = $appCoordonneesBancaire['bic'];
+        $coordonneesBancaires->iban = $appCoordonneesBancaire['iban'];
 
         return $coordonneesBancaires;
+    }
+    
+    public function getInformationsInterpro() {
+        $configs = sfConfig::get('app_configuration_facture');
+        if (!$configs && !isset($configs['infos_interpro'])) {
+            throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
+        }
+        $appInfosInterpro = $configs['infos_interpro'];
+        
+        $infosInterpro = new stdClass();
+
+        $infosInterpro->siret = $appInfosInterpro['siret'];
+        $infosInterpro->ape = $appInfosInterpro['ape'];
+        $infosInterpro->tva_intracom = $appInfosInterpro['tva_intracom'];
+
+        return $infosInterpro;
     }
 
     public function storeDatesCampagne($date_facturation = null) {
