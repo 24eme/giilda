@@ -14,6 +14,12 @@
         <?php echo $etablissementForm['nom']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
         <div class="col-xs-8"><?php echo $etablissementForm['nom']->render(); ?></div>
     </div>
+    
+    <div class="form-group<?php if($etablissementForm['nature_inao']->hasError()): ?> has-error<?php endif; ?>">
+        <?php echo $etablissementForm['nature_inao']->renderError(); ?>
+        <?php echo $etablissementForm['nature_inao']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+        <div class="col-xs-8"><?php echo $etablissementForm['nature_inao']->render(); ?></div>
+    </div>
 
     <div class="form-group<?php if($etablissementForm['region']->hasError()): ?> has-error<?php endif; ?>">
             <?php echo $etablissementForm['region']->renderError(); ?>

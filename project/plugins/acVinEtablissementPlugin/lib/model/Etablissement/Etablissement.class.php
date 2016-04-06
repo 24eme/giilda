@@ -360,5 +360,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         return $this->_set('commentaire', $s);
     }
+    
+    public function getNatureLibelle() {
+        if(!$this->exist('nature_inao') || !$this->nature_inao){
+            return null;
+        }
+        return EtablissementClient::getInstance()->getNatureInaoLibelle($this->nature_inao);
+    }
 
 }

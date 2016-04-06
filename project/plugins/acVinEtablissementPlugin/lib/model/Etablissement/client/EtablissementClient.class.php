@@ -25,26 +25,37 @@ class EtablissementClient extends acCouchdbClient {
     const RAISINS_MOUTS_NON = self::NON;
     const EXCLUSION_DRM_OUI = self::OUI;
     const EXCLUSION_DRM_NON = self::NON;
-
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
     const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
-
     const CAUTION_DISPENSE = 'DISPENSE';
     const CAUTION_CAUTION = 'CAUTION';
+    const NATURE_INAO_PRODUCTEUR_INDIVIDUEL = 'producteur individuel';
+    const NATURE_INAO_COOPERATIVE = 'coopérative';
+    const NATURE_INAO_UNION_DE_COOPERATIVES = 'union de coopératives';
+    const NATURE_SOCIETE_CIVILE = 'société civile (GFA, GAEC….)';
+    const NATURE_INAO_SICA = 'SICA';
+    const NATURE_INAO_SOCIETE_COMMERCIALE = 'société commerciale (négociant)';
+    const NATURE_INAO_AUTRE = 'autre';
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
     public static $regimes_crds_libelles_longs = array(self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'collectif acquitté (C-DA)',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (C-DS)');
-     public static $regimes_crds_libelles = array(self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+    public static $regimes_crds_libelles = array(self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Collectif acquitté',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu');
     public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
-
+    public static $natures_inao_libelles = array("01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
+        "04" => self::NATURE_INAO_COOPERATIVE,
+        "05" => self::NATURE_INAO_UNION_DE_COOPERATIVES,
+        "06" => self::NATURE_SOCIETE_CIVILE,
+        "07" => self::NATURE_INAO_SICA,
+        "08" => self::NATURE_INAO_SOCIETE_COMMERCIALE,
+        "09" => self::NATURE_INAO_AUTRE);
     public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
         self::CAUTION_CAUTION => 'Caution');
 
@@ -56,7 +67,7 @@ class EtablissementClient extends acCouchdbClient {
         $etablissement = new Etablissement();
         $etablissement->id_societe = $societe->_id;
         $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
-        if($famille) {
+        if ($famille) {
             $etablissement->famille = $famille;
         }
         $etablissement->constructId();
@@ -212,6 +223,18 @@ class EtablissementClient extends acCouchdbClient {
 
     public static function getRegions() {
         return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORS_CVO => self::REGION_HORS_CVO));
+    }
+
+    public static function getNaturesInao() {
+        return array_merge(array('' => ''), self::$natures_inao_libelles);
+    }
+
+    public function getNatureInaoLibelle($nature) {
+        if (!$nature) {
+            return "";
+        }
+        $naturesLibelles = self::getNaturesInao();
+        return $naturesLibelles[$nature];
     }
 
     public static function getTypeDR() {

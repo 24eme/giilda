@@ -192,7 +192,7 @@ EOF;
             }
             echo "\n";
             $contrat->set('versement_fa', VracClient::VERSEMENT_FA_TRANSMIS);
-         //   $contrat->save();
+            $contrat->save();
         }
     }
 
