@@ -49,7 +49,8 @@ class EtablissementClient extends acCouchdbClient {
     public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
-    public static $natures_inao_libelles = array("01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
+    public static $natures_inao_libelles = array(
+        "01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
         "04" => self::NATURE_INAO_COOPERATIVE,
         "05" => self::NATURE_INAO_UNION_DE_COOPERATIVES,
         "06" => self::NATURE_SOCIETE_CIVILE,
