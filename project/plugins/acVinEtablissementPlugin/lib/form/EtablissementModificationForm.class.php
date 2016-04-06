@@ -39,7 +39,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
 
         $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
-        $this->setValidator('nature_inao', new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::getNaturesInao()))));
+        $this->setValidator('nature_inao', new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getNaturesInao()))));
         $this->setValidator('region', new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::getRegions()))));
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));

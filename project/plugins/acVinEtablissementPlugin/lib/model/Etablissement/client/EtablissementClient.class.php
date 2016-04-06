@@ -30,13 +30,13 @@ class EtablissementClient extends acCouchdbClient {
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
     const CAUTION_DISPENSE = 'DISPENSE';
     const CAUTION_CAUTION = 'CAUTION';
-    const NATURE_INAO_PRODUCTEUR_INDIVIDUEL = 'producteur individuel';
-    const NATURE_INAO_COOPERATIVE = 'coopérative';
-    const NATURE_INAO_UNION_DE_COOPERATIVES = 'union de coopératives';
-    const NATURE_SOCIETE_CIVILE = 'société civile (GFA, GAEC….)';
+    const NATURE_INAO_PRODUCTEUR_INDIVIDUEL = 'Producteur individuel';
+    const NATURE_INAO_COOPERATIVE = 'Coopérative';
+    const NATURE_INAO_UNION_DE_COOPERATIVES = 'Union de coopératives';
+    const NATURE_SOCIETE_CIVILE = 'Société civile (GFA, GAEC….)';
     const NATURE_INAO_SICA = 'SICA';
-    const NATURE_INAO_SOCIETE_COMMERCIALE = 'société commerciale (négociant)';
-    const NATURE_INAO_AUTRE = 'autre';
+    const NATURE_INAO_SOCIETE_COMMERCIALE = 'Société commerciale (négociant)';
+    const NATURE_INAO_AUTRE = 'Autre';
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
