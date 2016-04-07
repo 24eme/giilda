@@ -279,7 +279,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
-                        if (!$present_detail->origine_type && ($produit_libelle == $detail->libelle)) {
+                        if (!$present_detail->origine_type && !is_null($detail) && ($produit_libelle == $detail->libelle)) {
                             $detail = $present_detail;
                         }
                     }
@@ -366,9 +366,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
 
             if ($famille == SocieteClient::TYPE_OPERATEUR) {
-                $origine_libelle = 'Contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
-            } else {
-                $origine_libelle = 'Contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+                $idContrat = $view->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID];
+                $origine_libelle = 'Contrat n° ' . "".intval(substr($idContrat,-6));
             }
             $origine_libelle .= ' (' . $transacteur . ') ';
 
