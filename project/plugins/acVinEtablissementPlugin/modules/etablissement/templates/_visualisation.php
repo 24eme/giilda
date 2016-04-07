@@ -14,6 +14,9 @@
             <div class="col-xs-9">
                 <p class="lead" style="margin-bottom: 5px;">
                     <span class="label label-primary"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?></span>
+                    <?php if ($etablissement->getNatureLibelle()): ?>
+                        <span class="label label-default"><?php echo $etablissement->getNatureLibelle(); ?></span>
+                    <?php endif; ?>
                     <?php if ($etablissement->isSuspendu()): ?>
                         <span class="label label-danger"><?php echo $etablissement->statut; ?></span>
                     <?php endif; ?>
@@ -50,9 +53,9 @@
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item <?php echo ($etablissement->isSameCompteThanSociete())? ' text-center text-muted disabled ' : ''; ?>"> 
+    <div class="list-group-item <?php echo ($etablissement->isSameCompteThanSociete()) ? ' text-center text-muted disabled ' : ''; ?>"> 
         <?php if ($etablissement->isSameCompteThanSociete()): ?>
-        <div class="row">
+            <div class="row">
                 <em>Même tags que la société</em>
             </div>
         <?php else: ?>
