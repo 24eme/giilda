@@ -48,6 +48,7 @@ class ProduitCsvFile extends CsvFile {
     const CSV_PRODUIT_ALIAS_PRODUIT = 36;
     const CSV_PRODUIT_FORMAT_LIBELLE = 37;
     const CSV_PRODUIT_FORMAT_LIBELLE_NOEUD = 38;
+    const CSV_PRODUIT_CEPAGES_AUTORISES = 39;
 
     protected $config;
     protected $errors;
@@ -81,19 +82,6 @@ class ProduitCsvFile extends CsvFile {
                 '/cepages/' . $this->getKeyProduit($line[self::CSV_PRODUIT_CEPAGE_CODE], false, true);
     }
 
-    private function couleurKeyProduitToCode($key, $new = true) {
-        $keyProduit = split('/', $key);
-        if (count($keyProduit) != 2) {
-            return $this->couleurKeyToCode($keyProduit[0]);
-        } else {
-            if ($new) {
-                return $this->couleurKeyToCode($keyProduit[0]);
-            } else {
-                return $this->couleurKeyToCode($keyProduit[1]);
-            }
-        }
-    }
-
     private function couleurKeyToCode($key) {
         $correspondances = array(1 => "rouge",
             2 => "rose",
@@ -101,7 +89,7 @@ class ProduitCsvFile extends CsvFile {
 
         if (!isset($correspondances[$key])) {
 
-            return Configuration::DEFAULT_KEY;
+            return $key;
         }
 
         return $correspondances[$key];
@@ -134,7 +122,9 @@ class ProduitCsvFile extends CsvFile {
         $this->errors = array();
         $csv = $this->getCsv();
 
-        //$this->oldconfig = clone $this->config;
+        if(!$this->config->isNew()) {
+            $this->oldconfig = clone $this->config;
+        }
 
         $this->config->declaration->remove('certifications');
         $this->config->declaration->add('certifications');
@@ -161,8 +151,13 @@ class ProduitCsvFile extends CsvFile {
                 $produit = $this->getProduit($newHash);
                 $produit->setDonneesCsv($line);
 
+<<<<<<< HEAD
                 /*if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {
                   echo "ADDED;".$newHash." \n";
+=======
+                if(!isset($this->oldconfig) || (!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash)) {
+                  //echo "ADDED;".$newHash." \n";
+>>>>>>> master
                 } else {
                   echo "UPDATED;".$newHash." \n";
                   if($this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d')) != $produit->getTauxCvo(date('Y-m-d'))) {
@@ -171,6 +166,7 @@ class ProduitCsvFile extends CsvFile {
                 }*/               
             }
 
+<<<<<<< HEAD
             /*foreach($this->oldconfig->getProduits() as $produit) {
                 try {
                 $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
@@ -183,6 +179,22 @@ class ProduitCsvFile extends CsvFile {
                 }
                 if(!$this->config->exist($hash)) {
                     echo "DELETED;".$hash." \n";
+=======
+            if(isset($this->oldconfig)) {
+                foreach($this->oldconfig->getProduits() as $produit) {
+                    try {
+                    $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
+                    } catch(Exception $e) {
+                        $correspondance = null;
+                    }
+                    $hash = $produit->getHash();
+                    if($correspondance) {
+                        $hash = $correspondance->getHash();
+                    }
+                    if(!$this->config->exist($hash)) {
+                        echo "DELETED;".$hash." \n";
+                    }
+>>>>>>> master
                 }
             }*/
         } catch (Execption $e) {

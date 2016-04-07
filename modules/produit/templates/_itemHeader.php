@@ -8,9 +8,8 @@
 	<th><strong>Couleur</strong></th>
 	<th><strong>Cépage</strong></th>
    	<!--<th style="width:10px;" class="center"><strong>Télédecl. DRM seulement</strong></th>-->
-	<th style="width:10px;" class="center"><strong>CVO</strong></th>
-	<th style="width:10px;" class="center"><strong>Douane</strong></th>
-	<th style="width:15px;" class="center"><strong>Code produit</strong></th>   
+	<th style="width:80px;" class="center"><strong>CVO</strong></th>
+	<th style="width:10px;" class="center"><strong>Douane</strong></th> 
 	<th style="width:15px;" class="center"><strong>Code douane</strong></th>   
-	<th style="width:15px;" class="center"><strong>Code comptable</strong></th>
+	<th style="width:15px;" class="center"><strong>Code analytics</strong></th>
 </tr>

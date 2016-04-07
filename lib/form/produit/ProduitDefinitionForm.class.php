@@ -4,9 +4,9 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'libelle' => new sfWidgetFormInputText(),
-            'format_libelle' => new sfWidgetFormInputText(),
-            'code' => new sfWidgetFormInputText(),
+            'libelle' => new bsWidgetFormInput(),
+            'format_libelle' => new bsWidgetFormInput(),
+            'code' => new bsWidgetFormInput(),
         ));
         $this->widgetSchema->setLabels(array(
             'libelle' => 'Libellé :',
@@ -19,12 +19,12 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             'code' => new sfValidatorString(array('required' => false), array('required' => 'Champ obligatoire')),
         ));
 
-        $this->widgetSchema->setHelp('code', "Ce code est pour inter-loire (il en général identique à la clé sauf pour les couleurs)");
+        $this->widgetSchema->setHelp('code', "Ce code est pour l'interpro (il en général identique à la clé sauf pour les couleurs)");
 
         if ($this->getObject()->hasCodes()) {
-            $this->setWidget('code_produit', new sfWidgetFormInputText());
-            $this->setWidget('code_douane', new sfWidgetFormInputText());
-            $this->setWidget('code_comptable', new sfWidgetFormInputText());
+            $this->setWidget('code_produit', new bsWidgetFormInput());
+            $this->setWidget('code_douane', new bsWidgetFormInput());
+            $this->setWidget('code_comptable', new bsWidgetFormInput());
 
             $this->getWidget('code_produit')->setLabel("Code produit :");
             $this->getWidget('code_douane')->setLabel("Code douane :");
@@ -36,7 +36,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         }
 
         if ($this->getObject()->exist('densite')) {
-            $this->setWidget('densite', new sfWidgetFormInputText());
+            $this->setWidget('densite', new bsWidgetFormInput());
             $this->getWidget('densite')->setLabel("Densité :");
             $this->setValidator('densite', new sfValidatorString(array('required' => true), array('required' => 'Champ obligatoire')));
             $this->widgetSchema->setHelp('densite', "La densité par défaut est de 1.3, celle des crémant est de 1.5");
@@ -70,12 +70,9 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             );
         }
 
-        $this->setWidget('produit_non_interpro', new sfWidgetFormInputCheckbox());
+        $this->setWidget('produit_non_interpro', new bsWidgetFormInputCheckbox());
         $this->widgetSchema->setLabel('produit_non_interpro', 'Produit hors Interpro : ');
         $this->setValidator('produit_non_interpro', new sfValidatorString(array('required' => false)));
-
-        $this->embedForm('dates_circulation', new ProduitDatesCirculationCollectionForm(null, array('dates_circulation' => $this->getDatesCirculation()))
-        );
 
         $this->widgetSchema->setNameFormat('produit_definition[%s]');
         $this->mergePostValidator(new ProduitDefinitionValidatorSchema($this->getObject()));
@@ -165,29 +162,20 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         if ($object->hasDroit(ConfigurationDroits::DROIT_DOUANE)) {
             $this->getNoeudInterpro($object)->droits->remove('douane');
             foreach ($values['droit_douane'] as $value) {
-                //if ($value['taux'] > 0) {
+
                 $this->setDroit('DOUANE', 'Douane');
-                $date = $value['date'];
-                if ($date) {
-                    $date = explode('/', $date);
-                    $date = new DateTime($date[2] . '-' . $date[1] . '-' . $date[0]);
-                }
+                $date = new DateTime($value['date']);
+
                 $this->setNodeDroit($this->getNoeudDroit('douane', $object)->add(), $date->format('c'), $value['taux'], 'DOUANE', 'Douane');
-                //}
             }
         }
         if ($object->hasDroit(ConfigurationDroits::DROIT_CVO)) {
             $this->getNoeudInterpro()->droits->remove('cvo');
             foreach ($values['droit_cvo'] as $value) {
-                //if ($value['taux'] > 0) {
+
                 $this->setDroit('CVO', 'Cvo');
-                $date = $value['date'];
-                if ($date) {
-                    $date = explode('/', $date);
-                    $date = new DateTime($date[2] . '-' . $date[1] . '-' . $date[0]);
-                }
+                $date = new DateTime($value['date']);
                 $this->setNodeDroit($this->getNoeudDroit('cvo', $object)->add(), $date->format('c'), $value['taux'], 'CVO', 'Cvo');
-                //}
             }
         }
         if (array_key_exists('dates_circulation', $values)) {
@@ -219,7 +207,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $object->getDocument()->save();
         return $object;
     }
-    
+
     public function initDefault($param) {
         
     }

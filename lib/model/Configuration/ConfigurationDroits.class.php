@@ -1,9 +1,9 @@
 <?php
+
 /**
  * Model for ConfigurationDroits
  *
  */
-
 class ConfigurationDroits extends BaseConfigurationDroits {
 	
 	const CODE_CVO = 'CVO';
@@ -23,41 +23,39 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	  $value->libelle = $libelle;
 	}
 	
-	public function getCurrentDroit($date_cvo) {
-		if($this->currentDroits) {
-
-			return $this->currentDroits;
+	public function getCurrentDroit($date_str, $include_chapeau = true) {
+        $cache_key = ($include_chapeau) ? '1'.$date_str : '0'.$date_str;
+		if(array_key_exists($cache_key, $this->currentDroits) && $this->currentDroits[$cache_key]) {
+			return $this->currentDroits[$cache_key];
 		}
 
-	  $currentDroit = null;
-	  foreach ($this as $configurationDroit) {
-	    $date = new DateTime($configurationDroit->date);
-	    if ($date_cvo >= $date->format('Y-m-d')) {
-	      if ($currentDroit) {
-		if ($date->format('Y-m-d') > $currentDroit->date) {
-		  $currentDroit = $configurationDroit;
-                }
-	      } else {
-		$currentDroit = $configurationDroit;
-	      }
-	    }
-	  }
+	  	$currentDroit = null;
+        foreach ($this as $configurationDroit) {
+		    $date = new DateTime($configurationDroit->date);
+		    if ($date_str >= $date->format('Y-m-d')) {
+		      	if ($currentDroit) {
+					if ($date->format('Y-m-d') > $currentDroit->date) {
+			  			$currentDroit = $configurationDroit;
+	                }
+	      		} else {
+					$currentDroit = $configurationDroit;
+		      	}
+		    }
+	  	}
 
-	  if ($currentDroit) {
-	  	$this->currentDroits = $currentDroit;
+	  	if ($currentDroit) {
+	  		$this->currentDroits[$cache_key] = $currentDroit;
+	    	return $this->currentDroits[$cache_key];
+	  	}
 
-	    return $this->currentDroits;
-	  }
-
-	  try {
-	    $parent = $this->getNoeud()->getParentNode();
-	    
-	    $this->currentDroits = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
-	    
-	    return $this->currentDroits;
-	  } catch (sfException $e) {
-	    throw new sfException('Aucun droit spécifié pour '.$this->getHash());
-	  }
+		try {
+			$parent = $this->getNoeud()->getParentNode();
+            $droit = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_str);
+			$this->currentDroits[$cache_key] = $droit;
+			return $this->currentDroits[$cache_key];
+		} catch (sfException $e) {
+				throw new sfException('Aucun droit spécifié pour '.$this->getHash());
+		}
 	}
 
 	public function compressDroits() {

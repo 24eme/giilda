@@ -44,7 +44,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
     public function getDatesDroits($interpro = "INTERPRO-declaration") {
-        if(is_null($this->dates_droits)) {
+        if (is_null($this->dates_droits)) {
             $this->dates_droits = $this->getDocument()->declaration->getDatesDroits($interpro);
         }
 
@@ -55,9 +55,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $dates_droits = array();
 
         $noeudDroits = $this->getDroits($interpro);
-        if($noeudDroits) {
-            foreach($noeudDroits as $droits) {
-                foreach($droits as $droit) {
+        if ($noeudDroits) {
+            foreach ($noeudDroits as $droits) {
+                foreach ($droits as $droit) {
                     $dateObj = new DateTime($droit->date);
                     $dates_droits[$dateObj->format('Y-m-d')] = true;
                 }
@@ -66,12 +66,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         krsort($dates_droits);
 
-        if(!$this->getChildrenNode()) {
+        if (!$this->getChildrenNode()) {
 
             return $dates_droits;
         }
 
-        foreach($this->getChildrenNode() as $child) {
+        foreach ($this->getChildrenNode() as $child) {
             $dates_droits = array_merge($dates_droits, $child->loadDatesDroits($interpro));
         }
 
@@ -94,8 +94,8 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     public function findDroitsDate($date, $interpro) {
         $datesDroits = $this->getDatesDroits($interpro);
 
-        foreach($datesDroits as $dateDroits => $null) {
-            if($date >= $dateDroits) {
+        foreach ($datesDroits as $dateDroits => $null) {
+            if ($date >= $dateDroits) {
 
                 return $dateDroits;
             }
@@ -103,7 +103,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         throw new sfException(sprintf("Aucune date défini pour le droit (interpro: %s, hash: %s)", $interpro, $this->getHash()));
     }
-
 
     public function getKeyAttributes($attributes) {
         sort($attributes);
@@ -114,13 +113,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     public function loadProduitsByDates($interpro = "INTERPRO-declaration") {
         $datesDroits = $this->getDatesDroits($interpro);
         $attributesCombinaison = array(
-                                       array(),
-                                       array(self::ATTRIBUTE_CVO_FACTURABLE),
-                                       array(self::ATTRIBUTE_CVO_ACTIF), 
-                                       array(self::ATTRIBUTE_CVO_ACTIF, self::ATTRIBUTE_DOUANE_ACTIF)
-                                       );
-        foreach($datesDroits as $dateDroit => $null) {
-            foreach($attributesCombinaison as $attributes) {
+            array(),
+            array(self::ATTRIBUTE_CVO_FACTURABLE),
+            array(self::ATTRIBUTE_CVO_ACTIF),
+            array(self::ATTRIBUTE_CVO_ACTIF, self::ATTRIBUTE_DOUANE_ACTIF)
+        );
+        foreach ($datesDroits as $dateDroit => $null) {
+            foreach ($attributesCombinaison as $attributes) {
                 $this->getProduits($dateDroit, $interpro, null, $attributes);
             }
         }
@@ -134,7 +133,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $date = $this->findDroitsDate($date, $interpro);
         $attributesKey = $this->getKeyAttributes($attributes);
 
-        if(array_key_exists($date, $this->produits) && array_key_exists($attributesKey, $this->produits[$date])) {
+        if (array_key_exists($date, $this->produits) && array_key_exists($attributesKey, $this->produits[$date])) {
 
             return $this->produits[$date][$attributesKey];
         }
@@ -142,15 +141,15 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $produits = array();
 
         foreach ($this->getProduitsAll($interpro, $departement) as $hash => $item) {
-            if(!$item->hasProduitAttributes($date, $attributes)) {
-                
+            if (!$item->hasProduitAttributes($date, $attributes)) {
+
                 continue;
             }
 
             $produits[$hash] = $item;
         }
 
-        if(!array_key_exists($date, $this->produits)) {
+        if (!array_key_exists($date, $this->produits)) {
 
             $this->produits[$date] = array();
         }
@@ -276,31 +275,30 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return ConfigurationClient::getInstance()->formatCodes($this->getCodes(), $format);
     }
 
-    public function getDroitByType($date, $interpro = "INTERPRO-declaration", $type) {
+    public function getDroitByType($date, $type, $interpro = "INTERPRO-declaration") {
         $date = $this->findDroitsDate($date, $interpro);
-
-        if(array_key_exists($date, $this->droits_type) && array_key_exists($type, $this->droits_type[$date])) {
+        if (array_key_exists($date, $this->droits_type) && array_key_exists($type, $this->droits_type[$date])) {
 
             return $this->droits_type[$date][$type];
         }
 
-        if(!array_key_exists($date, $this->droits_type)) {
+        if (!array_key_exists($date, $this->droits_type)) {
             $this->droits_type[$date] = array();
         }
 
-        $this->droits_type[$date][$type] = $this->getDroits($interpro)->get($type)->getCurrentDroit($date);
+        $this->droits_type[$date][$type] = $this->getDroits($interpro)->get($type)->getCurrentDroit($date,false);
 
         return $this->droits_type[$date][$type];
     }
 
     public function getDroitCVO($date, $interpro = "INTERPRO-declaration") {
 
-        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_CVO);
+        return $this->getDroitByType($date, ConfigurationDroits::DROIT_CVO, $interpro);
     }
 
     public function getDroitDouane($date, $interpro = "INTERPRO-declaration") {
 
-        return $this->getDroitByType($date, $interpro, ConfigurationDroits::DROIT_DOUANE);
+        return $this->getDroitByType($date, ConfigurationDroits::DROIT_DOUANE, $interpro);
     }
 
     public function isCVOActif($date) {
@@ -321,8 +319,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     public function getTauxCVO($date) {
         try {
             $droit_produit = $this->getDroitCVO($date);
-            $cvo_produit = $droit_produit->getTaux();
-        } catch (Exception $ex) { 
+            $cvo_produit =null;
+            if (is_object($droit_produit)) {
+                $cvo_produit = $droit_produit->getTaux();
+            } else {
+                $cvo_produit = $droit_produit;
+            }
+        } catch (Exception $ex) {
             $cvo_produit = -1;
         }
 
@@ -335,7 +338,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
     public function isDouaneFacturable($date) {
-        
+
         return $this->getTauxDouane($date) > 0;
     }
 
@@ -352,22 +355,22 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public function hasProduitAttribute($date, $attribute) {
 
-        if($attribute == self::ATTRIBUTE_CVO_ACTIF) {
+        if ($attribute == self::ATTRIBUTE_CVO_ACTIF) {
 
             return $this->isCVOActif($date);
         }
 
-        if($attribute == self::ATTRIBUTE_DOUANE_ACTIF) {
+        if ($attribute == self::ATTRIBUTE_DOUANE_ACTIF) {
 
             return $this->isDouaneActif($date);
         }
 
-        if($attribute == self::ATTRIBUTE_CVO_FACTURABLE) {
+        if ($attribute == self::ATTRIBUTE_CVO_FACTURABLE) {
 
             return $this->isCVOFacturable($date);
         }
 
-        if($attribute == self::ATTRIBUTE_DOUANE_FACTURABLE) {
+        if ($attribute == self::ATTRIBUTE_DOUANE_FACTURABLE) {
 
             return $this->isDouaneFacturable($date);
         }
@@ -376,13 +379,13 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
     public function hasProduitAttributes($date, $attributes) {
-        if(!count($attributes)) {
+        if (!count($attributes)) {
 
             return true;
         }
 
-        foreach($attributes as $attribute) {
-            if($this->hasProduitAttribute($date, $attribute)) {
+        foreach ($attributes as $attribute) {
+            if ($this->hasProduitAttribute($date, $attribute)) {
 
                 return true;
             }
@@ -392,7 +395,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
     public function getDroits($interpro) {
-        if(!is_null($this->noeud_droits)) {
+        if (!is_null($this->noeud_droits)) {
 
             return $this->noeud_droits;
         }
@@ -408,17 +411,17 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
     public function compressDroits() {
-        foreach($this->getChildrenNode() as $child) {
+        foreach ($this->getChildrenNode() as $child) {
             $child->compressDroits();
         }
-        
+
         $this->compressDroitsSelf();
-    }   
+    }
 
     protected function compressDroitsSelf() {
-        foreach($this->interpro as $interpro => $object) {
+        foreach ($this->interpro as $interpro => $object) {
             $droits = $this->getDroits($interpro);
-            foreach($droits as $droit) {
+            foreach ($droits as $droit) {
                 $droit->compressDroits();
             }
         }
@@ -475,25 +478,25 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
         $code = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
         $libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
 
         $currentDroit = null;
         foreach ($droits->douane as $droit) {
-            if($code != $droit->code) {
+            if ($code != $droit->code) {
                 continue;
             }
 
-            if($currentDroit && $droit->date < $currentDroit->date) {
+            if ($currentDroit && $droit->date < $currentDroit->date) {
                 continue;
             }
 
             $currentDroit = $droit;
         }
 
-        if($currentDroit && $currentDroit->taux == $taux) {
-           return;
+        if ($currentDroit && $currentDroit->taux == $taux) {
+            return;
         }
 
         $droits = $droits->douane->add();
@@ -503,7 +506,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits->libelle = $libelle;
     }
 
-    protected function setDroitCvoCsv($datas, $code_applicatif) {
+    public function setDroitCvoCsv($datas, $code_applicatif) {
 
         if (!isset($datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_CVO_NOEUD]) {
 
@@ -512,19 +515,19 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CVO_DATE] : '1900-01-01';
-        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? $this->castFloat($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : 0;
+        $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) ? "" . str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_CVO_TAXE]) : "0.0";
         $code = ConfigurationDroits::CODE_CVO;
         $libelle = ConfigurationDroits::LIBELLE_CVO;
         $currentDroit = null;
         foreach ($droits->cvo as $droit) {
-            if($currentDroit && $droit->date < $currentDroit->date) {
+            if ($currentDroit && $droit->date < $currentDroit->date) {
                 continue;
             }
 
             $currentDroit = $droit;
         }
 
-        if($currentDroit && $currentDroit->taux == $taux) {
+        if ($currentDroit && $currentDroit->taux == $taux) {
             return;
         }
 
@@ -533,10 +536,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits->taux = $taux;
         $droits->code = $code;
         $droits->libelle = $libelle;
-    }
-
-    protected function castFloat($float) {
-        return floatval(str_replace(',', '.', $float));
     }
 
     public function formatProduits($date = null, $interpro = null, $departement = null, $format = "%format_libelle% (%code_produit%)", $attributes = array()) {
@@ -570,7 +569,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $this->code_douane = ($datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CODE_DOUANE] : null;
         }
 
-        if ($datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE_NOEUD] == $this->getTypeNoeud()) {
+        if (isset($datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE_NOEUD]) && $datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE_NOEUD] == $this->getTypeNoeud()) {
             $this->format_libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_FORMAT_LIBELLE] : null;
         }
     }
@@ -578,7 +577,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     public function formatCodeFromCsv($code) {
         $code = preg_replace("|/.+$|", "", $code);
 
-        if(!$code) {
+        if (!$code) {
 
             return null;
         }

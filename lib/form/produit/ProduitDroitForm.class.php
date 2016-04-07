@@ -1,10 +1,10 @@
 <?php
-class ProduitDroitForm extends sfForm {
+class ProduitDroitForm extends BaseForm {
 
     public function configure() {
     	$this->setWidgets(array(
-			'date' => new sfWidgetFormInputText( array('default' => ''), array('class' => 'hasDatepicker') ),
-			'taux' => new sfWidgetFormInputFloat()  		
+			'date' => new bsWidgetFormInputDate(),
+			'taux' => new bsWidgetFormInput()  		
     	));
 		$this->widgetSchema->setLabels(array(
 			'date' => 'Date: ',
@@ -13,16 +13,19 @@ class ProduitDroitForm extends sfForm {
                 
                
 		$this->setValidators(array(
-			'date' => new sfValidatorString(array('required' => false)),
-			'taux' => new sfValidatorNumber(array('required' => false))
+			'date' => new sfValidatorDate(array('required' => false)),
+			'taux' => new sfValidatorString(array('required' => false))
 		));
 		if ($droit = $this->getOption('droit')) {
+  
 			$date = new DateTime($droit->date);
 			$this->setDefaults(array(
 	    		'date' => $date->format('d/m/Y'),
-	    		'taux' => $droit->taux
+	    		'taux' => $droit->getStringTaux(true)
 	    	));
 		}		
         $this->widgetSchema->setNameFormat('produit_droit[%s]');
     }
+    
+   
 }

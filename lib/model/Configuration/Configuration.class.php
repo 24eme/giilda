@@ -9,6 +9,8 @@ class Configuration extends BaseConfiguration {
     const DEFAULT_KEY = 'DEFAUT';
     const DEFAULT_DENSITE = "1.3";
 
+    protected $identifyLibelleProduct = array();
+
     public function constructId() {
         $this->set('_id', "CONFIGURATION");
     }
@@ -21,6 +23,38 @@ class Configuration extends BaseConfiguration {
     public function formatProduits($date = null, $format = "%format_libelle% (%code_produit%)", $attributes = array()) {
 
         return $this->declaration->formatProduits($date, null, null, $format, $attributes);
+    }
+
+    public function getCepagesAutorises($date = null, $attributes = array()) {
+    	$cepages = array();
+    	foreach($this->declaration->getProduits($date, "INTERPRO-declaration", null, $attributes) as $produit) {
+    		$cepages_autorises = $produit->cepages_autorises->toArray();
+    		foreach ($cepages_autorises as $ca) {
+    			$cepages[$ca] = $ca;
+    		}
+    	}
+    	return $cepages;
+    }
+
+    public function identifyProductByLibelle($libelle) {
+        if(array_key_exists($libelle, $this->identifyLibelleProduct)) {
+
+            return $this->identifyLibelleProduct[$libelle];
+        }
+
+        $libelleSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($libelle)));
+
+        foreach($this->getProduits() as $produit) {
+            $libelleProduitSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($produit->getLibelleFormat())));
+            //echo $libelleSlugify."/".$libelleProduitSlugify."\n";
+            if($libelleSlugify == $libelleProduitSlugify) {
+                $this->identifyLibelleProduct[$libelle] = $produit;
+                
+                return $produit;
+            }
+        }
+
+        return false;
     }
 
     public function getTemplatesFactures() {

@@ -34,7 +34,7 @@ Configuration:
         type: collection
         definition:
           fields:
-            '*': {  }      
+            '*': {  }
       droits:
         type: collection
         definition:
@@ -62,9 +62,9 @@ Configuration:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
+                        libelle: {  }
+                        libelle_long: {  }
+                        description: {  }
             entrees:
               type: collection
               definition:
@@ -73,9 +73,9 @@ Configuration:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
+                        libelle: {  }
+                        libelle_long: {  }
+                        description: {  }
             sorties:
               type: collection
               definition:
@@ -84,9 +84,9 @@ Configuration:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
+                        libelle: {  }
+                        libelle_long: {  }
+                        description: {  }
             stocks_fin:
               type: collection
               definition:
@@ -95,9 +95,9 @@ Configuration:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
+                        libelle: {  }
+                        libelle_long: {  }
+                        description: {  }
       alias:
         type: collection
         definition:
@@ -106,7 +106,7 @@ Configuration:
               type: array_collection
               definition:
                 fields:
-                  '*': {  }                  
+                  '*': {  }
       declaration:
         type: collection
         class: ConfigurationDeclaration
@@ -132,6 +132,8 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -151,6 +153,8 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -170,6 +174,8 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -189,6 +195,8 @@ Configuration:
                               readable: {  }
                               writable: {  }
                               details: {  }
+                              revendique: { type: integer }
+                              recolte: { type: integer }
                               mouvement_coefficient: {  }
                               vrac: { type: integer }
                               facturable: {  }
@@ -243,7 +251,7 @@ Configuration:
                                               fields:
                                                 campagne: {  }
                                                 date_debut: {  }
-                                                date_fin: {  }     
+                                                date_fin: {  }
                                     droits:
                                       type: collection
                                       definition:
@@ -259,7 +267,7 @@ Configuration:
                                                   definition:
                                                     fields:
                                                       date: {  }
-                                                      taux: { type: float }
+                                                      taux: {  }
                                                       code: {  }
                                                       libelle: {  }
                                           cvo:
@@ -273,7 +281,7 @@ Configuration:
                                                   definition:
                                                     fields:
                                                       date: {  }
-                                                      taux: { type: float }
+                                                      taux: {  }
                                                       code: {  }
                                                       libelle: {  }
                         genres:
@@ -389,7 +397,7 @@ Configuration:
                                                             fields:
                                                               campagne: {  }
                                                               date_debut: {  }
-                                                              date_fin: {  }     
+                                                              date_fin: {  }
                                                 droits:
                                                   type: collection
                                                   definition:
@@ -405,7 +413,7 @@ Configuration:
                                                               definition:
                                                                 fields:
                                                                   date: {  }
-                                                                  taux: { type: float }
+                                                                  taux: {  }
                                                                   code: {  }
                                                                   libelle: {  }
                                                       cvo:
@@ -419,7 +427,7 @@ Configuration:
                                                               definition:
                                                                 fields:
                                                                   date: {  }
-                                                                  taux: { type: float }
+                                                                  taux: {  }
                                                                   code: {  }
                                                                   libelle: {  }
                                     departements:
@@ -557,7 +565,7 @@ Configuration:
                                                                           definition:
                                                                             fields:
                                                                               date: {  }
-                                                                              taux: { type: float }
+                                                                              taux: {  }
                                                                               code: {  }
                                                                               libelle: {  }
                                                                   cvo:
@@ -571,7 +579,7 @@ Configuration:
                                                                           definition:
                                                                             fields:
                                                                               date: {  }
-                                                                              taux: { type: float }
+                                                                              taux: {  }
                                                                               code: {  }
                                                                               libelle: {  }
                                                 departements:
@@ -638,7 +646,7 @@ Configuration:
                                                                                       definition:
                                                                                         fields:
                                                                                           date: {  }
-                                                                                          taux: { type: float }
+                                                                                          taux: {  }
                                                                                           code: {  }
                                                                                           libelle: {  }
                                                                               cvo:
@@ -652,9 +660,9 @@ Configuration:
                                                                                       definition:
                                                                                         fields:
                                                                                           date: {  }
-                                                                                          taux: { type: float }
+                                                                                          taux: {  }
                                                                                           code: {  }
-                                                                                          libelle: {  }            
+                                                                                          libelle: {  }
                                                             departements:
                                                               type: array_collection
                                                               definition:
@@ -788,7 +796,7 @@ Configuration:
                                                                                                   definition:
                                                                                                     fields:
                                                                                                       date: {  }
-                                                                                                      taux: { type: float }
+                                                                                                      taux: {  }
                                                                                                       code: {  }
                                                                                                       libelle: {  }
                                                                                           cvo:
@@ -802,9 +810,9 @@ Configuration:
                                                                                                   definition:
                                                                                                     fields:
                                                                                                       date: {  }
-                                                                                                      taux: { type: float }
+                                                                                                      taux: {  }
                                                                                                       code: {  }
-                                                                                                      libelle: {  }            
+                                                                                                      libelle: {  }
                                                                         departements:
                                                                           type: array_collection
                                                                           definition:
@@ -923,7 +931,7 @@ Configuration:
                                                                                                             fields:
                                                                                                               campagne: {  }
                                                                                                               date_debut: {  }
-                                                                                                              date_fin: {  }     
+                                                                                                              date_fin: {  }
                                                                                                 droits:
                                                                                                   type: collection
                                                                                                   definition:
@@ -939,7 +947,7 @@ Configuration:
                                                                                                               definition:
                                                                                                                 fields:
                                                                                                                   date: {  }
-                                                                                                                  taux: { type: float }
+                                                                                                                  taux: {  }
                                                                                                                   code: {  }
                                                                                                                   libelle: {  }
                                                                                                       cvo:
@@ -953,9 +961,9 @@ Configuration:
                                                                                                               definition:
                                                                                                                 fields:
                                                                                                                   date: {  }
-                                                                                                                  taux: { type: float }
+                                                                                                                  taux: {  }
                                                                                                                   code: {  }
-                                                                                                                  libelle: {  }            
+                                                                                                                  libelle: {  }
                                                                                     departements:
                                                                                       type: array_collection
                                                                                       definition:
@@ -1048,6 +1056,11 @@ Configuration:
                                                                                                 code_produit: {  }
                                                                                                 code_comptable: {  }
                                                                                                 code_douane: {  }
+                                                                                                cepages_autorises:
+                                                                                                  type: array_collection
+                                                                                                  definition:
+                                                                                                    fields:
+                                                                                                      '*': {  }
                                                                                                 interpro:
                                                                                                   type: collection
                                                                                                   definition:
@@ -1085,7 +1098,7 @@ Configuration:
                                                                                                                           definition:
                                                                                                                             fields:
                                                                                                                               date: {  }
-                                                                                                                              taux: { type: float }
+                                                                                                                              taux: {  }
                                                                                                                               code: {  }
                                                                                                                               libelle: {  }
                                                                                                                   cvo:
@@ -1099,7 +1112,7 @@ Configuration:
                                                                                                                           definition:
                                                                                                                             fields:
                                                                                                                               date: {  }
-                                                                                                                              taux: { type: float }
+                                                                                                                              taux: {  }
                                                                                                                               code: {  }
                                                                                                                               libelle: {  }
                         detail:

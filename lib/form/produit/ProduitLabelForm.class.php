@@ -1,5 +1,5 @@
 <?php
-class ProduitLabelForm extends sfForm {
+class ProduitLabelForm extends BaseForm {
 	
 	private $labels = null;
 

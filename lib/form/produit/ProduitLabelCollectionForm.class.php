@@ -1,5 +1,5 @@
 <?php
-class ProduitLabelCollectionForm extends sfForm
+class ProduitLabelCollectionForm extends BaseForm
 {
   public function configure()
   {

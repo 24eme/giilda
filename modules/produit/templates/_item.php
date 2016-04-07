@@ -26,16 +26,20 @@
 		<?php include_partial('itemNoeud', array('produit' => $produit, 'noeud' => $produit->getCepage(), 'cvo' => $cvo)) ?>
 	</td>
    	<td class="center">
-		<strong title="<?php echo $cvo->date ?>"><?php echo (!is_null($cvo)) ? $cvo->taux : null ?></strong>
+     <?php if ($cvo) : ?>
+     <strong title="<?php echo $cvo->date ?>"><?php echo $cvo->getStringTaux(); ?></strong>
+     <?php else: ?>
+     pas de CVO
+     <?php endif; ?>
 	</td>
 	<td class="center">
 		<strong><?php echo (!is_null($douane)) ? $douane->taux : null ?></strong>
 	</td>
-	<td class="center">
-		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">
-			<?php echo ($produit->getCodeProduit()) ? sprintf("%04d", $produit->getCodeProduit()) : "(Aucun)" ?>
+<!--	<td class="center">
+		<a href="<?php // echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">
+			<?php // echo ($produit->getCodeProduit()) ? sprintf("%04d", $produit->getCodeProduit()) : "(Aucun)" ?>
 		</a>
-	</td>
+	</td>-->
 
 	<td class="center">
 		<a href="<?php echo url_for('produit_modification', array('noeud' => $produit->getTypeNoeud(), 'hash' => $produit->getHashForKey())) ?>">

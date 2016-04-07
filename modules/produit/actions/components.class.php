@@ -2,23 +2,19 @@
 
 class produitComponents extends sfComponents {
 
+    const INTERPRO = "INTERPRO-declaration";
+
     public function executeItem() {
-        $droit_cvo = $this->produit->getCepage()->getDroits('INTERPRO-inter-loire')->get(ConfigurationDroits::DROIT_CVO);
-        $droit_douane = $this->produit->getCepage()->getDroits('INTERPRO-inter-loire')->get(ConfigurationDroits::DROIT_DOUANE);
-        
         try {
-            $this->cvo = $this->produit->getCepage()->getDroits('INTERPRO-inter-loire')->get(ConfigurationDroits::DROIT_CVO)->getCurrentDroit(date("Y-m-d"));
-            $this->douane = $this->produit->getCepage()->getDroits('INTERPRO-inter-loire')->get(ConfigurationDroits::DROIT_DOUANE)->getCurrentDroit(date("Y-m-d"));
+            $this->cvo = $this->produit->getCepage()->getDroitByType($this->date, ConfigurationDroits::DROIT_CVO, self::INTERPRO);
         } catch (Exception $e) {
             $this->cvo = null;
+        }
+
+        try {
+            $this->douane = $this->produit->getCepage()->getDroitByType($this->date, ConfigurationDroits::DROIT_DOUANE, self::INTERPRO);
+        } catch (Exception $e) {
             $this->douane = null;
         }
     }
-
-    public function executeIndex() {
-        $configuration = ConfigurationClient::getInstance()->find($this->id);
-        
-        $this->produits = $configuration->declaration->getProduitsAll();
-    }
-
 }

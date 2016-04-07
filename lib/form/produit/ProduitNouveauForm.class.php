@@ -1,5 +1,5 @@
 <?php
-class ProduitNouveauForm extends sfForm {
+class ProduitNouveauForm extends BaseForm {
 	
     protected $produit;
 	protected $configuration;
@@ -53,14 +53,24 @@ class ProduitNouveauForm extends sfForm {
         return ConfigurationClient::getCurrent()->declaration->getKeys($noeud);
     }
 
+    public static function getLibelles4Permissif($noeud) {
+        $choices = array();
+        foreach(self::getLibelles($noeud) as $k => $v) {
+            $choices[] = array('id' => $k, 'text' => $v);
+        }
+        return json_encode($choices);
+    }
+    
     public static function getWidgetKey($noeud) {
         
-        $widget = new sfWidgetFormChoice(array('choices' => self::getLibelles($noeud)));
-
         if(in_array($noeud, self::$noeudPermissif)) {
-            $widget->setAttribute('class', 'autocomplete permissif');
+            $widget = new bsWidgetFormInput();
+            $widget->setAttribute('class', 'form-control select2permissifNoAjax');
+            $widget->setAttribute('data-choices', self::getLibelles4Permissif($noeud));
+            return $widget;
         }
 
+        $widget = new bsWidgetFormChoice(array('choices' => self::getLibelles($noeud)));
         return $widget;
     }
 

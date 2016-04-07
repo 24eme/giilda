@@ -17,22 +17,23 @@ class produitActions extends sfActions
   */
   public function executeIndex(sfWebRequest $request)
   {
-    if($request->getParameter('id')) {
-        $config_json = ConfigurationClient::getInstance()->find($request->getParameter('id'));
-    } else {
-        $config_json = ConfigurationClient::getConfiguration();
-    }
-    $this->rev = $config_json->_rev;
-    $this->id = $config_json->_id;
+      if(!$request->getParameter('date')) {
+
+        return $this->redirect('produits', array('date' => date('Y-m-d')));
+      }
+
+      $this->date = $request->getParameter('date');
+      $this->config = ConfigurationClient::getConfiguration($this->date);
+      $this->produits = $this->config->declaration->getProduits($this->date);
   }
 
   public function executeModification(sfWebRequest $request)
   {
-    throw new sfException("Edition de l'arbre produit désactivé pour le moment");
+    //throw new sfException("Edition de l'arbre produit désactivé pour le moment");
   	$this->forward404Unless($request_noeud = $request->getParameter('noeud', null));
   	$this->forward404Unless($hash = str_replace('-', '/', $request->getParameter('hash', null)));
 
-  	$this->interpro = 'INTERPRO-inter-loire';
+  	$this->interpro = 'INTERPRO-declaration';
   	$this->produit = ConfigurationClient::getCurrent()->getOrAdd(str_replace('-', '/', $hash));
     $this->noeud = $this->produit->get($request_noeud);
 
@@ -42,17 +43,17 @@ class produitActions extends sfActions
       $this->form->bind($request->getParameter($this->form->getName()));
   		if ($this->form->isValid()) {
         $this->form->save();
-  			$this->getUser()->setFlash("notice", 'Le produit a été modifié avec success.');
+		$this->getUser()->setFlash("notice", 'Le produit a été modifié avec success.');
 
-        return $this->redirectModification($this->produit->getHash(), explode("|", $request->getParameter('noeud_to_edit', array())));
+        return $this->redirect('produits');
       }
     } 
   }
 
   public function executeNouveau(sfWebRequest $request)
   {
-    throw new sfException("Edition de l'arbre produit désactivé pour le moment");
-  	$this->interpro = InterproClient::getInstance()->find('INTERPRO-inter-loire');
+    //throw new sfException("Edition de l'arbre produit désactivé pour le moment");
+  	$this->interpro = InterproClient::getInstance()->find('INTERPRO-declaration');
   	$configuration = ConfigurationClient::getCurrent();
   	$this->form = new ProduitNouveauForm($configuration, $this->interpro->_id);
   	if (!$request->isMethod(sfWebRequest::POST)) {
