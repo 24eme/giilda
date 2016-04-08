@@ -140,13 +140,13 @@ EOF;
              * ACHETEUR
              */
             $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteurCompte->insee; // Code Insee Acheteur
-            $ligne[self::CSV_FA_NATURE_ACHETEUR] = '?'; // A DETERMINER 
+            $ligne[self::CSV_FA_NATURE_ACHETEUR] = ($acheteur->exist('nature_inao'))? $acheteur->nature_inao : ''; 
             $ligne[self::CSV_FA_SIRET_ACHETEUR] = $acheteurSociete->siret;
             /**
              * VENDEUR
              */
             $ligne[self::CSV_FA_CVI_VENDEUR] = $vendeur->cvi;
-            $ligne[self::CSV_FA_NATURE_VENDEUR] = '?'; // A DETERMINER 
+            $ligne[self::CSV_FA_NATURE_VENDEUR] = ($vendeur->exist('nature_inao'))? $vendeur->nature_inao : '';
             $ligne[self::CSV_FA_SIRET_VENDEUR] = $vendeurSociete->siret;
             /**
              * COURTIER
