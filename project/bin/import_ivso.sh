@@ -225,7 +225,7 @@ cat $DATA_DIR/contrats_produits.csv | sort -t ";" -k 24,24 > $DATA_DIR/contrats_
 
 join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR/cepages.csv.sorted > $DATA_DIR/contrats_produits_cepages.csv
 
-# /!\ Transformation arbitraire de la ligne ou l'année est 211 => 2011, 22012 => 2012, 201 => 2015, 20112 => 2012
+# /!\ Correction manuelle des lignes avec un problème d'année est 211 => 2011, 22012 => 2012, 201 => 2015, 20112 => 2012
 cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;10222;10222;2011;/g' | sed 's/;3;10194;10194;22012;/;3;10194;10194;2012;/g' | sed 's/;2;10849;10849;201;12;91236;/;2;10849;10849;2015;12;91236;/g' | sed 's/;88;7922;7922;20112;/;88;7922;7922;2012;/g' > $DATA_DIR/contrats_produits_cepages.clean.csv
 
 # Début génération des Id couchDB
