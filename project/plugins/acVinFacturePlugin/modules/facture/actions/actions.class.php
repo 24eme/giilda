@@ -6,6 +6,7 @@ class factureActions extends sfActions {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
         $this->generationForm = new FactureGenerationForm();
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(GenerationClient::TYPE_DOCUMENT_FACTURES, 10);
+        sfContext::getInstance()->getResponse()->setTitle('FACTURE');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -16,19 +17,20 @@ class factureActions extends sfActions {
 
     public function executeNouveauMouvements(sfWebRequest $request) {
 
+        sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES - (nouveau)');
         $this->factureMouvements = MouvementsFactureClient::getInstance()->createMouvementsFacture();
         $this->factureMouvements->save();
         $this->redirect('facture_mouvements_edition', array('id' => $this->factureMouvements->identifiant));
     }
 
     public function executeMouvementsList(sfWebRequest $request) {
-
+        sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES');
         $this->factureMouvementsAll = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
     }
 
     public function executeMouvementsedition(sfWebRequest $request) {
-
         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
+        sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES - '.$this->factureMouvements->identifiant);
         $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
         if (!$request->isMethod(sfWebRequest::POST)) {
 

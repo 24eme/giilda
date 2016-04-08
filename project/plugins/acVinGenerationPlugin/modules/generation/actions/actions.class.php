@@ -6,6 +6,8 @@ class generationActions extends sfActions {
       $this->nom = ($this->identifiant)? EtablissementClient::getInstance()->retrieveById($this->identifiant)->nom : null;
       $this->date_emission = $request['date_emission'];
       $this->generation = GenerationClient::getInstance()->find(GenerationClient::getInstance()->getId($this->type, $this->date_emission));
+      $title = ($this->generation)? 'GENERATION - '.$this->generation->identifiant : 'GENERATION';
+      sfContext::getInstance()->getResponse()->setTitle($title);
       $this->forward404Unless($this->generation);
 
       return $this->generation;
