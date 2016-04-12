@@ -10,6 +10,44 @@ class ConfigurationDetail extends BaseConfigurationDetail {
         return $this->getParent()->getParent()->getCVO($periode, $interpro);
     }
 
+    public static function getTypeDRMByKey($key) {
+        if($key == DRM::DETAILS_KEY_SUSPENDU) {
+
+            return DRMClient::TYPE_DRM_SUSPENDU;
+        }
+
+        if($key == DRM::DETAILS_KEY_ACQUITTE) {
+
+            return DRMClient::TYPE_DRM_ACQUITTE;
+        }
+
+        return null;
+    }
+
+    public function getTypeDRM() {
+
+        return self::getTypeDRMByKey($this->getKey());
+    }
+
+    public static function getTypeDRMLibelleByKey($key) {
+        if($key == DRM::DETAILS_KEY_SUSPENDU) {
+
+            return "Suspendu";
+        }
+
+        if($key == DRM::DETAILS_KEY_ACQUITTE) {
+
+            return "Acquitté";
+        }
+
+        return null;
+    }
+
+    public function getTypeDRMLibelle() {
+
+        return self::getTypeDRMLibelleByKey($this->getKey());
+    }
+
     public function getAllDetails() {
         $detailskeys = array('stocks_debut' => array(), 'entrees' => array(),'sorties' => array(),'stocks_fin' => array());
         foreach ($this->getDetailsSorted($this->getStocksDebut()) as $key_detail => $detail) {
