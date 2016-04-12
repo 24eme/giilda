@@ -151,35 +151,16 @@ class ProduitCsvFile extends CsvFile {
                 $produit = $this->getProduit($newHash);
                 $produit->setDonneesCsv($line);
 
-<<<<<<< HEAD
-                /*if(!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash) {
-                  echo "ADDED;".$newHash." \n";
-=======
                 if(!isset($this->oldconfig) || (!$this->oldconfig->declaration->exist($oldHash) && $oldHash == $newHash)) {
                   //echo "ADDED;".$newHash." \n";
->>>>>>> master
                 } else {
                   echo "UPDATED;".$newHash." \n";
                   if($this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d')) != $produit->getTauxCvo(date('Y-m-d'))) {
                         echo "/!\ CVO;".$newHash." ".$this->oldconfig->declaration->get($oldHash)->getTauxCvo(date('Y-m-d'))." => ".$produit->getTauxCvo(date('Y-m-d'))." \n";
                   }
-                }*/               
+                }
             }
 
-<<<<<<< HEAD
-            /*foreach($this->oldconfig->getProduits() as $produit) {
-                try {
-                $correspondance = @$this->config->getProduitWithCorrespondanceInverse($produit->getHash());
-                } catch(Exception $e) {
-                    $correspondance = null;
-                }
-                $hash = $produit->getHash();
-                if($correspondance) {
-                    $hash = $correspondance->getHash();
-                }
-                if(!$this->config->exist($hash)) {
-                    echo "DELETED;".$hash." \n";
-=======
             if(isset($this->oldconfig)) {
                 foreach($this->oldconfig->getProduits() as $produit) {
                     try {
@@ -194,9 +175,8 @@ class ProduitCsvFile extends CsvFile {
                     if(!$this->config->exist($hash)) {
                         echo "DELETED;".$hash." \n";
                     }
->>>>>>> master
                 }
-            }*/
+            }
         } catch (Execption $e) {
             $this->errors[] = $e->getMessage();
         }

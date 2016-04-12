@@ -21,29 +21,29 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
         return ($this->vrac > 0);
     }
 
-    public function hasDetails() {
+    public function hasDetails($detail = 'details') {
 
-        return ($this->details > 0);
+        return ($this->exist($detail) && $this->get($details) > 0);
     }
 
-    public function getLibelle() {
+    public function getLibelle($detail = 'details') {
 
-        return $this->getLibelleDetail()->libelle;
+        return $this->getLibelleDetail($detail)->libelle;
     }
 
-    public function getLibelleLong() {
+    public function getLibelleLong($detail = 'details') {
 
-        return $this->getLibelleDetail()->libelle_long;
+        return $this->getLibelleDetail($detail)->libelle_long;
     }
 
-    public function getDescription() {
+    public function getDescription($detail = 'details') {
 
-        return $this->getLibelleDetail()->description;
+        return $this->getLibelleDetail($detail)->description;
     }
 
-    private function getLibelleDetail() {
+    private function getLibelleDetail($detail = 'details') {
 
-        return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
+        return $this->getDocument()->libelle_detail_ligne->get($detail)->get($this->getParent()->getKey())->get($this->getKey());
     }
 
     public function isFavoris() {
