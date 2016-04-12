@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-class EtablissementCsvFile extends CompteCsvFile 
+class EtablissementCsvFile extends CompteCsvFile
 {
 
     const CSV_ID = 0;
@@ -13,22 +13,23 @@ class EtablissementCsvFile extends CompteCsvFile
     const CSV_NO_ACCISES = 7;
     const CSV_CARTE_PRO = 8;
     const CSV_RECETTE_LOCALE = 9;
-    const CSV_ADRESSE = 10;
-    const CSV_ADRESSE_COMPLEMENTAIRE_1 = 11;
-    const CSV_ADRESSE_COMPLEMENTAIRE_2 = 12;
-    const CSV_ADRESSE_COMPLEMENTAIRE_3 = 13;
-    const CSV_CODE_POSTAL = 14;
-    const CSV_COMMUNE = 15;
-    const CSV_INSEE = 16;
-    const CSV_CEDEX = 17;
-    const CSV_PAYS = 18;
-    const CSV_EMAIL = 19;
-    const CSV_TEL_BUREAU = 20;
-    const CSV_TEL_PERSO = 21;
-    const CSV_MOBILE = 22;
-    const CSV_FAX = 23;
-    const CSV_WEB = 24;
-    const CSV_COMMENTAIRE = 25;
+    const CSV_NATURE_INAO = 10;
+    const CSV_ADRESSE = 11;
+    const CSV_ADRESSE_COMPLEMENTAIRE_1 = 12;
+    const CSV_ADRESSE_COMPLEMENTAIRE_2 = 13;
+    const CSV_ADRESSE_COMPLEMENTAIRE_3 = 14;
+    const CSV_CODE_POSTAL = 15;
+    const CSV_COMMUNE = 16;
+    const CSV_INSEE = 17;
+    const CSV_CEDEX = 18;
+    const CSV_PAYS = 19;
+    const CSV_EMAIL = 20;
+    const CSV_TEL_BUREAU = 21;
+    const CSV_TEL_PERSO = 22;
+    const CSV_MOBILE = 23;
+    const CSV_FAX = 24;
+    const CSV_WEB = 25;
+    const CSV_COMMENTAIRE = 26;
 
     private function verifyCsvLine($line) {
           if (!preg_match('/[0-9]+/', $line[self::CSV_ID_SOCIETE])) {
@@ -87,6 +88,14 @@ class EtablissementCsvFile extends CompteCsvFile
             $e->statut = ($s->statut == SocieteClient::STATUT_SUSPENDU) ? $s->statut : $line[self::CSV_STATUT];
             $e->region = (isset($line[self::CSV_REGION])) ? $line[self::CSV_REGION] : null;
 
+            $e->nature_inao = null;
+            $natures_inao = array_flip(EtablissementClient::$natures_inao_libelles);
+            if($line[self::CSV_NATURE_INAO] && !array_key_exists($line[self::CSV_NATURE_INAO], $natures_inao)) {
+                printf("Warning : la nature inao \"%s\" n'a pas été trouvé dans la liste #%s\n", $line[self::CSV_NATURE_INAO], implode(";", $line));
+            } elseif($line[self::CSV_NATURE_INAO]){
+                $e->nature_inao = $natures_inao[$line[self::CSV_NATURE_INAO]];
+            }
+
             if($this->isSameAdresseThanSociete($line, $s, $e)) {
               $line[self::CSV_ADRESSE] = "";
               $line[self::CSV_ADRESSE_COMPLEMENTAIRE_1] = "";
@@ -103,7 +112,7 @@ class EtablissementCsvFile extends CompteCsvFile
               $line[self::CSV_MOBILE] = "";
               $line[self::CSV_FAX] = "";
               $line[self::CSV_WEB] = "";
-            } 
+            }
 
             $e->save();
 
@@ -118,7 +127,7 @@ class EtablissementCsvFile extends CompteCsvFile
           echo $e->getMessage()."\n";
         }
       }
-      
+
       return $etablissements;
     }
 

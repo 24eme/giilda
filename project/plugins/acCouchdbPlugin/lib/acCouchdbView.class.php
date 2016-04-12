@@ -14,7 +14,17 @@ class acCouchdbView
 
 	public function getClient() {
 
-		return $client;
+		return $this->client;
+	}
+        
+        public function getDesign() {
+
+		return $this->design;
+	}
+        
+        public function getView() {
+
+		return $this->view;
 	}
 
 }

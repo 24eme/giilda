@@ -63,9 +63,18 @@ cat $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv | sort -t ";" -k 1,1 > $DATA
 
 join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis.sorted.csv $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv | sort > $DATA_DIR/contacts_extravitis_extra.csv
 
-#head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis_extra.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
+cat $DATA_DIR/producteurs.csv | awk -F ";" '{ print $2 ";" $18 }' > $DATA_DIR/contacts_nature_inao.csv
+cat $DATA_DIR/producteurs_produits.csv | awk -F ";" '{ print $2 ";" $19 }' >> $DATA_DIR/contacts_nature_inao.csv
+cat $DATA_DIR/negociant.csv | awk -F ";" '{ print $2 ";" $18 }' >> $DATA_DIR/contacts_nature_inao.csv
+cat $DATA_DIR/contacts_nature_inao.csv | tr -d "\r" | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/contacts_nature_inao.uniq.sorted.csv
 
-cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
+cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d "\r" | sort -t ";" -k 1,1 > $DATA_DIR/contacts_extravitis_extra.sorted.csv
+
+join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis_extra.sorted.csv $DATA_DIR/contacts_nature_inao.uniq.sorted.csv | sort > $DATA_DIR/contacts_extravitis_extra_nature_inao.csv
+
+#head -n 1 /tmp/giilda/data_ivso_csv/contacts_extravitis_extra_nature_inao.csv | tr ";" "\n" | awk -F ";" 'BEGIN { nb=0 } { nb = nb + 1; print nb ";" $0 }'
+
+cat $DATA_DIR/contacts_extravitis_extra_nature_inao.csv | tr -d '\r' | awk -F ';' '
       function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     identifiant=sprintf("%06d", $1);
     famille="AUTRE" ;
@@ -105,7 +114,7 @@ cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
     print identifiant ";" famille ";" nom ";;" statut ";" code_comptable_client ";" code_comptable_fournisseur ";" siret ";" code_naf ";" tvaintra ";" $5 ";" $6 ";" $7 ";;" codepostal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
 }' | sed 's/;";/;;/g' > $DATA_DIR/societes.csv
 
-cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d '\r' | awk -F ';' '
+cat $DATA_DIR/contacts_extravitis_extra_nature_inao.csv | tr -d '\r' | awk -F ';' '
 function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s } function trim(s)  { return rtrim(ltrim(s)); } {
     nom=trim($2 " " $3 " " $4) ;
     famille="AUTRE" ;
@@ -141,6 +150,7 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     noaccises=$174;
     carte_pro="";
     recettelocale="";
+    nature_inao=$176;
     commune=$10;
     cedex=$12;
     if(cedex == "#N/A") {
@@ -161,11 +171,11 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
 
     for (famille in familles)
     {
-        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
+        print ";" identifiant_societe ";" famille ";" nom ";" statut ";" region ";" cvi ";" noaccises ";" carte_pro ";" recettelocale ";" nature_inao ";" $5 ";" $6 ";" $7 ";;" code_postal ";" commune ";" insee ";" cedex ";" pays ";" email ";" tel_bureau ";;" mobile ";" tel_fax ";" web ";"
     }
 }' > $DATA_DIR/etablissements.csv
 
-cat $DATA_DIR/contacts_extravitis.csv | tr -d '\r' | awk -F ';' '{
+cat $DATA_DIR/contacts_extravitis_extra_nature_inao.csv | tr -d '\r' | awk -F ';' '{
     identifiant_societe=sprintf("%06d", $1);
     statut = "ACTIF";
 
@@ -215,7 +225,7 @@ cat $DATA_DIR/contrats_produits.csv | sort -t ";" -k 24,24 > $DATA_DIR/contrats_
 
 join -a 1 -t ";" -1 24 -2 1 $DATA_DIR/contrats_produits.sorted.cepages $DATA_DIR/cepages.csv.sorted > $DATA_DIR/contrats_produits_cepages.csv
 
-# /!\ Transformation arbitraire de la ligne ou l'année est 211 => 2011, 22012 => 2012, 201 => 2015, 20112 => 2012
+# /!\ Correction manuelle des lignes avec un problème d'année est 211 => 2011, 22012 => 2012, 201 => 2015, 20112 => 2012
 cat $DATA_DIR/contrats_produits_cepages.csv | sed 's/;4;10222;10222;211;/;4;10222;10222;2011;/g' | sed 's/;3;10194;10194;22012;/;3;10194;10194;2012;/g' | sed 's/;2;10849;10849;201;12;91236;/;2;10849;10849;2015;12;91236;/g' | sed 's/;88;7922;7922;20112;/;88;7922;7922;2012;/g' > $DATA_DIR/contrats_produits_cepages.clean.csv
 
 # Début génération des Id couchDB

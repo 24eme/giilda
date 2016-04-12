@@ -8,7 +8,7 @@ class FactureRoute extends sfObjectRoute {
         if (!$this->facture) {
 
             throw new sfError404Exception(sprintf('No Facture found with the id "%s".', $parameters['id']));
-        }
+        }        
         return $this->facture;
     }
 

@@ -41,22 +41,47 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeEmetteur() {
         $configs = sfConfig::get('app_configuration_facture');
         $emetteur = new stdClass();
-
-        if (!$configs && !isset($configs['emetteur'])) {
+        if (!$configs && !isset($configs['emetteur_libre']) && !isset($configs['emetteur_cvo'])) {
             throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
         }
-
-        $this->emetteur = $configs['emetteur'];
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
+            $this->emetteur = $configs['emetteur_libre'];
+        }
+        if ($this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+            $this->emetteur = $configs['emetteur_cvo'];
+        }
     }
 
     public function getCoordonneesBancaire() {
+        $configs = sfConfig::get('app_configuration_facture');
+        if (!$configs && !isset($configs['coordonnees_bancaire'])) {
+            throw new sfException(sprintf('Config "configuration/facture/coordonnees_bancaire" not found in app.yml'));
+        }
+        $appCoordonneesBancaire = $configs['coordonnees_bancaire'];
+        
         $coordonneesBancaires = new stdClass();
 
-        $coordonneesBancaires->banque = 'Crédit Agricole IVSO';
-        $coordonneesBancaires->bic = ' ABRVFQQQ999';
-        $coordonneesBancaires->iban = ' FR76~1111~2222~3333~4444~5555~100';
+        $coordonneesBancaires->banque = $appCoordonneesBancaire['banque'];
+        $coordonneesBancaires->bic = $appCoordonneesBancaire['bic'];
+        $coordonneesBancaires->iban = $appCoordonneesBancaire['iban'];
 
         return $coordonneesBancaires;
+    }
+    
+    public function getInformationsInterpro() {
+        $configs = sfConfig::get('app_configuration_facture');
+        if (!$configs && !isset($configs['infos_interpro'])) {
+            throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
+        }
+        $appInfosInterpro = $configs['infos_interpro'];
+        
+        $infosInterpro = new stdClass();
+
+        $infosInterpro->siret = $appInfosInterpro['siret'];
+        $infosInterpro->ape = $appInfosInterpro['ape'];
+        $infosInterpro->tva_intracom = $appInfosInterpro['tva_intracom'];
+
+        return $infosInterpro;
     }
 
     public function storeDatesCampagne($date_facturation = null) {
@@ -90,7 +115,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             return $this->_get('numero_piece_comptable');
         }
-        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);  
+        $prefix = FactureConfiguration::getInstance()->getPrefixId($this);
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
@@ -130,7 +155,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getLignesArray() {
         $l = $this->_get('lignes')->toArray();
-            usort($l, 'Facture::triOrigineDate');      
+        usort($l, 'Facture::triOrigineDate');
         return $l;
     }
 
@@ -254,7 +279,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
-                        if (!$present_detail->origine_type && ($produit_libelle == $detail->libelle)) {
+                        if (!$present_detail->origine_type && !is_null($detail) && ($produit_libelle == $detail->libelle)) {
                             $detail = $present_detail;
                         }
                     }
@@ -267,9 +292,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     }
                     $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                 }
-            } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+            }
+            elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();
-                $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME];
+                $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                 $detail->taux_tva = 0.2;
@@ -340,9 +366,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
 
             if ($famille == SocieteClient::TYPE_OPERATEUR) {
-                $origine_libelle = 'Contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
-            } else {
-                $origine_libelle = 'Contrat n° ' . $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE] . ' enlèv. au ' . format_date($view->value[MouvementfactureFacturationView::VALUE_DATE], 'dd/MM/yyyy') . ' ';
+                $idContrat = $view->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID];
+                $origine_libelle = 'Contrat n° ' . "".intval(substr($idContrat,-6));
             }
             $origine_libelle .= ' (' . $transacteur . ') ';
 

@@ -1,7 +1,6 @@
 <?php
 use_helper('Float');
 use_helper('Date');
-use_helper('Prix');
 ?>
 <div class="row row-margin">
     <div class="col-xs-8">
@@ -25,10 +24,10 @@ use_helper('Prix');
                 <thead>
                     <tr>
                         <th>Document</th>
-                        <th>Produits</th>   
+                        <th>Produits</th>
                         <th>Type</th>
                         <th style="width: 90px;">Quantité</th>
-                        <th style="width: 90px;">Prix TTC</th>
+                        <th class="text-right" style="width: 90px;">Prix HT</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,7 +48,7 @@ use_helper('Prix');
                                 <div class="row">
                                     <div class="col-xs-6" style="padding: 0;">
                                         <span class="text-right">
-                                            <?php echoFloat($mouvement->volume * -1); ?> 
+                                            <?php echoFloat($mouvement->volume * -1); ?>
                                         </span>
                                     </div>
                                     <div class="col-xs-6 text-left" style="padding: 0;">
@@ -59,7 +58,7 @@ use_helper('Prix');
                                     </div>
                                 </div>
                             </td>
-                            <td class="text-right"><?php echoTtc($mouvement->prix_ht); ?>&nbsp;&euro;</td>
+                            <td class="text-right"><?php echoFloat($mouvement->prix_ht); ?>&nbsp;&euro;</td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -67,4 +66,3 @@ use_helper('Prix');
         </div>
     </div>
 <?php endif; ?>
-   

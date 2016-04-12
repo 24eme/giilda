@@ -156,7 +156,8 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
-
+        $this->interpro = "INTERPRO-declaration";
+        
         $this->updateNomAAfficher();
 
         $this->societe_informations->type = $societe->type_societe;

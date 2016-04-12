@@ -378,12 +378,7 @@ class Vrac extends BaseVrac {
 
     public function calculCvoRepartition() {
 
-        if (!$this->getAcheteurObject()->isInterpro()) {
-
-            return VracClient::CVO_REPARTITION_100_VITI;
-        }
-
-        return VracClient::CVO_REPARTITION_50_50;
+        return VracClient::getInstance()->calculCvoRepartition($this);
     }
 
     public function validate($options = array()) {

@@ -231,7 +231,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
 
         $this->initFamille();
-
+        $this->raison_sociale = $societe->raison_sociale;
+        $this->interpro = "INTERPRO-declaration";
         if($this->isNew()) {
             $societe->addEtablissement($this); 
             $needSaveSociete = true; 
@@ -358,6 +359,13 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             return $this->_set('commentaire', $c . "\n" . $s);
         }
         return $this->_set('commentaire', $s);
+    }
+    
+    public function getNatureLibelle() {
+        if(!$this->exist('nature_inao') || !$this->nature_inao){
+            return null;
+        }
+        return EtablissementClient::getInstance()->getNatureInaoLibelle($this->nature_inao);
     }
 
 }

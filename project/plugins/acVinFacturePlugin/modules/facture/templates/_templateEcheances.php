@@ -21,7 +21,7 @@ use_helper('Date');
     \multicolumn{1}{c}{\small{Montant TTC}} \\
                         
                 \centering \small{~} & 
-                \centering \fontsize{7}{8}\selectfont Par virement bancaire : \InterloireBANQUE \\  \textbf{BIC~:}~\InterloireBIC~\textbf{IBAN~:}~\InterloireIBAN &
+                \centering \fontsize{7}{8}\selectfont Par virement bancaire : \InterproBANQUE \\  \textbf{BIC~:}~\InterproBIC~\textbf{IBAN~:}~\InterproIBAN &
       
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefCodeComptableClient~/~\FactureNum} &               
