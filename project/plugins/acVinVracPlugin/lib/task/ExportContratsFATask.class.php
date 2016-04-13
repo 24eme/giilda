@@ -79,7 +79,7 @@ EOF;
         $this->produitsConfiguration = ConfigurationClient::getCurrent()->getProduits();
 
 
-        echo "#num_ligne;type_contrat;campagne;num_archive;code_lieu_visa;code_action;date_contrat;date_visa;code_commune_lieu_vinification;indicateur_double_fin;code_insee_dept_commune_acheteur;nature_acheteur;siret_acheteur;cvi_vendeur;nature_vendeur;siret_vendeur;courtier (O/N);delai_retiraison;pourcentage_accompte;delai_paiement;code_type_produit;code_denomination_vin_IGP;primeur;bio;couleur;annee_recolte;code_elaboration (O/N);volume;degre (Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût));prix;unité_prix (H);code_cepage;code_dest (Z)\n";
+        //echo "#num_ligne;type_contrat;campagne;num_archive;code_lieu_visa;code_action;date_contrat;date_visa;code_commune_lieu_vinification;indicateur_double_fin;code_insee_dept_commune_acheteur;nature_acheteur;siret_acheteur;cvi_vendeur;nature_vendeur;siret_vendeur;courtier (O/N);delai_retiraison;pourcentage_accompte;delai_paiement;code_type_produit;code_denomination_vin_IGP;primeur;bio;couleur;annee_recolte;code_elaboration (O/N);volume;degre (Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût));prix;unité_prix (H);code_cepage;code_dest (Z)\n";
 
         $contrats = $this->getContrats();
         $this->printCSV($contrats->rows);
@@ -140,13 +140,13 @@ EOF;
              * ACHETEUR
              */
             $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteurCompte->insee; // Code Insee Acheteur
-            $ligne[self::CSV_FA_NATURE_ACHETEUR] = '?'; // A DETERMINER 
+            $ligne[self::CSV_FA_NATURE_ACHETEUR] = ($acheteur->exist('nature_inao'))? $acheteur->nature_inao : ''; 
             $ligne[self::CSV_FA_SIRET_ACHETEUR] = $acheteurSociete->siret;
             /**
              * VENDEUR
              */
             $ligne[self::CSV_FA_CVI_VENDEUR] = $vendeur->cvi;
-            $ligne[self::CSV_FA_NATURE_VENDEUR] = '?'; // A DETERMINER 
+            $ligne[self::CSV_FA_NATURE_VENDEUR] = ($vendeur->exist('nature_inao'))? $vendeur->nature_inao : '';
             $ligne[self::CSV_FA_SIRET_VENDEUR] = $vendeurSociete->siret;
             /**
              * COURTIER
@@ -154,12 +154,12 @@ EOF;
             $ligne[self::CSV_FA_COURTIER] = ($contrat->mandataire_exist) ? 'O' : 'N';
 
             $delai_retiraison = $this->diffDate($contrat->date_limite_retiraison, $contrat->date_debut_retiraison, 'i');
-            $ligne[self::CSV_FA_DELAI_RETIRAISON] = sprintf("%0.1f", $delai_retiraison); // Faut-il les tranche demi mois 
+            $ligne[self::CSV_FA_DELAI_RETIRAISON] = sprintf("%0.1f", $delai_retiraison); 
             $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = sprintf("%0.1f", $contrat->acompte);
             $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
-            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; //Pour le moment Mystère La colonne est toujours PA pour vin de pays? 
-            $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($contrat, $produit); // ASSIGNER LES CODE PRODUITS IGP
+            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; 
+            $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($produit); // ASSIGNER LES CODE PRODUITS IGP
             $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
             $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
             $ligne[self::CSV_FA_COULEUR] = $this->getCouleurIGP($contrat, $produit);
@@ -169,7 +169,7 @@ EOF;
             $ligne[self::CSV_FA_DEGRE] = sprintf("%0.1f", $contrat->degre);
             $ligne[self::CSV_FA_PRIX] = sprintf("%0.2f", $contrat->prix_initial_unitaire_hl);
             $ligne[self::CSV_FA_UNITE_PRIX] = 'H';
-            $ligne[self::CSV_FA_CODE_CEPAGE] = $produit->getCodeProduit(); // Aucun code produit ajourd'hui           
+            $ligne[self::CSV_FA_CODE_CEPAGE] = $contrat->cepage; // Aucun code produit ajourd'hui           
             $ligne[self::CSV_FA_CODE_DEST] = "Z";
             /*
               Comment connaitre?
@@ -233,11 +233,8 @@ EOF;
         }
     }
 
-    protected function getCodeDenomVinIGP($contrat, $produit) {
-        if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
-            return "";
-        }
-        return $produit->getCode();
+    protected function getCodeDenomVinIGP($produit) {  
+        return sprintf('%03d',$produit->getCodeProduit());
     }
 
     protected function getCouleurIGP($contrat, $produit) {

@@ -64,7 +64,6 @@ class FactureClient extends acCouchdbClient {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
-        $facture->storeEmetteur();
         $facture->storeDeclarant($societe);
         $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille, $modele);
         $facture->updateTotalHT();
@@ -79,6 +78,7 @@ class FactureClient extends acCouchdbClient {
         if (trim($message_communication)) {
             $facture->addOneMessageCommunication($message_communication);
         }
+        $facture->storeEmetteur();
         return $facture;
     }
 

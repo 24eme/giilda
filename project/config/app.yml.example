@@ -115,13 +115,18 @@ all:
         "BIB 20l": 0.2
     facture:
       sans_categories : true  
-      emetteur: 
-        adresse: 'adresse IVSO'
-        code_postal: 'cp IVSO'
-        ville: 'IVSO'
-        service_facturation: 'nom prenom IVSO'
-        telephone: 'tel IVSO - fax IVSO'
-        email: 'IVSO@IVSO.fr'
+      emetteur_cvo: 
+        adresse: 'adresse IVSO CVO'
+        code_postal: 'cp IVSO CVO'
+        ville: 'IVSO CVO'
+        telephone: 'tel IVSO - fax IVSO CVO'
+        email: 'IVSO@IVSO.fr CVO'
+      emetteur_libre: 
+        adresse: 'adresse IVSO LIBRE'
+        code_postal: 'cp IVSO LIBRE'
+        ville: 'IVSO LIBRE'
+        telephone: 'tel IVSO - fax IVSO LIBRE'
+        email: 'IVSO@IVSO.fr LIBRE'
   cas:
     domain: login.cas
     port: 443

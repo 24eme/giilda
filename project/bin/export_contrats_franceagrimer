@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. bin/config.inc
+. bin/import_functions.inc
+
+mkdir -p $TMP/exports_franceagrimer > /dev/null
+DATE=$(date +%Y%m%d);
+FILENAME="CA_IVSO_"$DATE".txt";
+
+PATHFILEFA=$(echo $TMP/exports_franceagrimer/$FILENAME);
+
+echo 'CONSTRUCTION DU FICHIER '$PATHFILEFA;
+
+php symfony export:contrats-france-agrimer > $PATHFILEFA".tmp"
+
+cat data/export/match_cepages.csv | cut -d ';' -f 1,2 | sed -r 's|"([0-9]+)";"(.*)"|s\/;"\2";\/;"\1";\/g|g' | grep -v '"COD_CEP";"LIB_CEP"' > $TMP/exports_franceagrimer/sedCepages
+
+cat $PATHFILEFA".tmp" | sed -f $TMP/exports_franceagrimer/sedCepages > $PATHFILEFA

@@ -2,6 +2,7 @@
 use_helper('Date');
 use_helper('Display');
 $coordonneesBancaires = $facture->getCoordonneesBancaire();
+$infosInterpro = $facture->getInformationsInterpro(); 
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -50,18 +51,20 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \addtolength{\textheight}{29.9cm} 
 
 \def\TVA{19.60} 
-\def\InterloireAdresse{<?php echo $facture->emetteur->adresse; ?> \\
+\def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
-\def\InterloireFacturation{\\Votre contact : <?php echo $facture->emetteur->service_facturation.' - '. $facture->emetteur->telephone;?>
+\def\InterproFacturation{\\<?php echo $facture->emetteur->telephone;?>
                                              <?php if($facture->emetteur->exist('email')): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?> 
                                               <?php endif;?>} 
-\def\InterloireSIRET{429 164 072 00077}
-\def\InterloireAPE{APE 9499 Z} 
-\def\InterloireTVAIntracomm{FR 73 429164072}
-\def\InterloireBANQUE{<?php echo str_replace(" ", "~", $coordonneesBancaires->banque); ?>}
-\def\InterloireBIC{<?php echo $coordonneesBancaires->bic; ?>}
-\def\InterloireIBAN{<?php echo $coordonneesBancaires->iban; ?>}
+                                              
+\def\InterproSIRET{<?php echo $infosInterpro->siret; ?>}
+\def\InterproAPE{APE <?php echo $infosInterpro->ape; ?>} 
+\def\InterproTVAIntracomm{<?php echo $infosInterpro->tva_intracom; ?>}
+
+\def\InterproBANQUE{<?php echo str_replace(" ", "~", $coordonneesBancaires->banque); ?>}
+\def\InterproBIC{<?php echo $coordonneesBancaires->bic; ?>}
+\def\InterproIBAN{<?php echo $coordonneesBancaires->iban; ?>}
 
 \def\FactureNum{<?php echo $facture->numero_piece_comptable; ?>}
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
@@ -82,13 +85,13 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 
 \lhead{
  \textbf{IVSO} \\  
- \InterloireAdresse \\
- \begin{small} \textbf{\begin{footnotesize}\InterloireFacturation\end{footnotesize}}\\ \end{small}
+ \InterproAdresse \\
+ \begin{small} \textbf{\begin{footnotesize}\InterproFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
-         RIB~:~\InterloireBANQUE~(BIC:~\InterloireBIC~IBAN:~\InterloireIBAN) 
+         RIB~:~\InterproBANQUE~(BIC:~\InterproBIC~IBAN:~\InterproIBAN) 
  \end{tiny} \\
  \begin{tiny}
-         SIRET~\InterloireSIRET ~-~\InterloireAPE ~- TVA~Intracommunutaire~\InterloireTVAIntracomm
+         SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
 \end{tiny}
  }
 \rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_ivso.png"; ?>}}
