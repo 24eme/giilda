@@ -1,5 +1,7 @@
 # GIILDE : Groupement IVSO IVBD de Logiciel de Déclarations Éléctroniques
 
+Projet de dématérialisation informatique des activités de l'Association des Viticulteurs d'Alsace
+
 # Installation
 
 Dépendances :
