@@ -115,8 +115,8 @@ EOF;
             $acheteurSociete = $acheteur->getSociete();
 
             $vendeur = $contrat->getVendeurObject();
-            $vendeurCompte = $acheteur->getMasterCompte();
-            $vendeurSociete = $acheteur->getSociete();
+            $vendeurCompte = $vendeur->getMasterCompte();
+            $vendeurSociete = $vendeur->getSociete();
 
             $ligne[self::CSV_FA_NUM_LIGNE] = "01"; // ? ou $cpt;
             $type_contrat = "";
