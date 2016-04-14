@@ -75,8 +75,8 @@ done
 # Récupération d'une correspondance libellés
 cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' > $TMP/sed_produit_libelle.tmp
 cat $TMP/sed_produit_libelle.tmp > $TMP/sed_produit_libelle
-echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUSSM\/mentions\/DEFAUT\/lieux\/LEPALLET\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"Muscadet Sèvre et Maine Le Pallet"/' >> $TMP/sed_produit_libelle
-echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/CDL\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Anjou Coteaux de la Loire Blanc Chenin"/' >> $TMP/sed_produit_libelle
+echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUSSM\/mentions\/DEFAUT\/lieux\/LEPALLET\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"Muscadet Sèvre et Maine Le Pallet"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/CDL\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Anjou Coteaux de la Loire Blanc Chenin"/' >> $TMP/sed_produit_libelle.tmp
 
 cat $TMP/sed_produit_libelle.tmp | sed 's|\\\/AOC\\\/|\\\/AOC_INTERLOIRE\\\/|g' >> $TMP/sed_produit_libelle
 #cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' | sed 's/\/AOC/\/AOC_INTERLOIRE/g' >> $TMP/sed_produit_libelle
