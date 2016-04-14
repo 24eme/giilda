@@ -202,13 +202,6 @@ class EtablissementClient extends acCouchdbClient {
         throw new sfException('Sous Famille "' . $sf . '" inconnue');
     }
 
-    public static function getFamillesSocieteTypesArray() {
-        return array(SocieteClient::SUB_TYPE_VITICULTEUR => EtablissementFamilles::FAMILLE_PRODUCTEUR,
-            SocieteClient::SUB_TYPE_NEGOCIANT => EtablissementFamilles::FAMILLE_NEGOCIANT,
-            SocieteClient::SUB_TYPE_COURTIER => EtablissementFamilles::FAMILLE_COURTIER,
-            SocieteClient::SUB_TYPE_REPRESENTANT => EtablissementFamilles::FAMILLE_REPRESENTANT,);
-    }
-
     public static function getStatuts() {
         return array(self::STATUT_ACTIF => self::STATUT_ACTIF,
             self::STATUT_SUSPENDU => self::STATUT_SUSPENDU);
@@ -264,7 +257,7 @@ class EtablissementClient extends acCouchdbClient {
         $region = $etb->region;
         $contacts = sfConfig::get('app_teledeclaration_contact_contrat');
 
-        if ($etb->famille == SocieteClient::SUB_TYPE_COURTIER) {
+        if ($etb->famille == EtablissementFamilles::FAMILLE_COURTIER) {
             $region = self::REGION_HORS_CVO;
 
             $result->nom = $contacts[$region]['nom'];

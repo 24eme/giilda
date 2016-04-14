@@ -3,6 +3,10 @@
 default:
   metas:
     title:        "Contrat"
+
+rechercheSuccess:
+  metas:
+    title:        "Contrat Recherche - %d"
     
 soussigneSuccess:
   metas:

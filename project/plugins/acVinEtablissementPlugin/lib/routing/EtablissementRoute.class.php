@@ -11,7 +11,8 @@ class EtablissementRoute extends sfObjectRoute implements InterfaceEtablissement
                 $myUser->getCompte()->identifiant != $this->getEtablissement()->getSociete()->getMasterCompte()->identifiant) {
             throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette page");
         }
-
+        $module = sfContext::getInstance()->getRequest()->getParameterHolder()->get('module');
+        sfContext::getInstance()->getResponse()->setTitle(strtoupper($module).' - '.$this->etablissement->nom);
         return $this->etablissement;
     }
 
