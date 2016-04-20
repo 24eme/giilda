@@ -16,7 +16,7 @@ Ce logiciel est mis à disposition en licence AGPL
 
 [Déployer via ansible](https://github.com/24eme/giilda/tree/master/ansible)
 
-## Manuel
+## Manuelle
 
 Dépendances :
 
