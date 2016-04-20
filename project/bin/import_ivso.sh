@@ -150,7 +150,7 @@ cat $DATA_DIR/contacts_extravitis_extra_nature_inao.csv | tr -d '\r' | awk -F ';
     }
 
     pays = "FR";
-    if(cedex) {
+    if(cedex || code_postal ~ /^99/) {
         pays="";
     }
 
@@ -189,10 +189,7 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     statut=($37 == "Oui" ? "SUSPENDU" : "ACTIF") ;
     nom=nom ;
     code_postal=$9
-    region="REGION_CVO";
-    if(!code_postal) {
-        region="REGION_HORS_CVO";
-    }
+
     identifiant_societe=sprintf("%06d", $1);
     identifiant=identifiant_societe "01";
     insee=$8;
@@ -208,8 +205,17 @@ function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s } function rtrim(s) { su
     }
 
     pays = "FR";
-    if(cedex) {
+    if(cedex || code_postal ~ /^99/) {
         pays="";
+    }
+
+    region="REGION_CVO";
+    if(pays != "FR") {
+        region="REGION_HORS_CVO";
+    }
+
+    if (famille == "COURTIER") {
+        region="REGION_HORS_CVO";
     }
 
     email="";
@@ -345,10 +351,11 @@ if(annule=="O") {
   statut="ANNULE";
 }
 
+repartition_cvo="50";
 
 clauses=clause_reserve_propriete "," preparation_vin;
 
-print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";;;" acompte ";;;100_ACHETEUR;" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
+print $4 ";" id_vrac ";" num_bordereau ";"  date_signature ";" date_saisie ";VIN_VRAC;" statut ";" $12 ";;;;" $13 ";" $14 ";" proprietaire ";;" libelle_produit ";" millesime ";;" libelle_cepage ";;;;;" degre ";" recipient_contenance ";"  volume_propose ";hl;" volume_propose ";" volume_enleve ";" prix_unitaire_hl ";" prix_unitaire_hl ";" cle_delais_paiement ";" delais_paiement_libelle ";;;" acompte ";;;" repartition_cvo ";" date_debut_retiraison ";" date_fin_retiraison ";" clauses ";" caracteristiques_vins ";" commentaires
 }' | sort > $DATA_DIR/vracs.csv.tmp
 
 
