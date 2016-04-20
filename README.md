@@ -12,6 +12,12 @@ Ce logiciel est mis à disposition en licence AGPL
 
 # Installation
 
+## Via ansible
+
+[Déployer via ansible](https://github.com/24eme/giilda/tree/master/ansible)
+
+## Manuelle
+
 Dépendances :
 
 > sudo aptitude install couchdb libapache2-mod-php5 php5-cli php5-curl curl texlive-lang-french texlive-latex-extra libjson-perl
