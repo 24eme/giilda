@@ -57,61 +57,12 @@ echo "Construction du fichier d'import des Contacts"
 #Affichage des entêtes en ligne
 
 cat $DATA_DIR/contacts_extravitis.csv | sort -t ";" -k 1,1 > $DATA_DIR/contacts_extravitis.sorted.csv
+
 echo "clé identité;code_comptable;num accises" > $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv
 cat $DATA_DIR/IVSO_AntSys_identiteextra.csv >> $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv
 cat $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv | sort -t ";" -k 1,1 > $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv
 
-cat $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv | sort -t ";" -n -k 1,1 | sort -t ";" -n -k 2,2 | awk -F ';' '
-BEGIN {
-compteur["41112"]=1;
-compteur["41122"]=1;
-compteur["41132"]=1;
-compteur["41142"]=1;
-compteur["41162"]=1;
-compteur["41172"]=1;
-OFS=";"
-}
-{
-    ancien_numero=$2
-    nouveau_numero=ancien_numero;
-
-    if(ancien_numero ~ /^(41110000|41110002|41110003|41110005|41110006|41110007|41110008|41110770|41111077|41111780|41111800|41111810|41111820|41111830 |41111840|41111850|41111860|41111870|41111880)$/){
-        nouveau_numero= "41112" sprintf("%03d", compteur["41112"])
-        compteur["41112"] += 1;
-    }
-
-    if(ancien_numero ~ /^(41120000|41120001|41120002)$/) {
-        nouveau_numero= "41122" sprintf("%03d", compteur["41122"])
-        compteur["41122"] += 1;
-    }
-
-    if(ancien_numero ~ /^(41131000|41131010)$/) {
-        nouveau_numero= "41132" sprintf("%03d", compteur["41132"])
-        compteur["41132"] += 1;
-    }
-
-    if(ancien_numero ~ /^(41140000|41140001|41141000|41141010)$/) {
-        nouveau_numero= "41142" sprintf("%03d", compteur["41142"])
-        compteur["41142"] += 1;
-    }
-
-    if(ancien_numero ~ /^(41160001|41110004)$/) {
-        nouveau_numero= "41162" sprintf("%03d", compteur["41162"])
-        compteur["41162"] += 1;
-    }
-
-    if(ancien_numero ~ /^(41170020)$/) {
-        nouveau_numero= "41172" sprintf("%03d", compteur["41172"])
-        compteur["41172"] += 1;
-    }
-
-    $2=nouveau_numero;
-
-    print $0;
-
-}' | sort -t ";" -k 1,1 > $DATA_DIR/IVSO_AntSys_identiteextra.sorted.replace.csv
-
-join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis.sorted.csv $DATA_DIR/IVSO_AntSys_identiteextra.sorted.replace.csv | sort > $DATA_DIR/contacts_extravitis_extra.csv
+join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis.sorted.csv $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv | sort > $DATA_DIR/contacts_extravitis_extra.csv
 
 cat $DATA_DIR/producteurs.csv | awk -F ";" '{ print $2 ";" $18 }' > $DATA_DIR/contacts_nature_inao.csv
 cat $DATA_DIR/producteurs_produits.csv | awk -F ";" '{ print $2 ";" $19 }' >> $DATA_DIR/contacts_nature_inao.csv
