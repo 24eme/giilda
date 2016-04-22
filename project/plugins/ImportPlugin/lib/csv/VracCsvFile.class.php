@@ -228,11 +228,11 @@ class VracCsvFile extends CsvFile {
                 $v->update();
 
                 if($line[self::CSV_REPARTITION_CVO]) {
-                    $v->repartition_cvo = $line[self::CSV_REPARTITION_CVO];
+                    $v->cvo_repartition = $line[self::CSV_REPARTITION_CVO];
                 }
 
                 if($acheteur->region != EtablissementClient::REGION_CVO) {
-                    $v->repartition_cvo = VracClient::CVO_REPARTITION_100_VITI;
+                    $v->cvo_repartition = VracClient::CVO_REPARTITION_100_VITI;
                 }
 
                 //$v->enleverVolume($v->volume_enleve);
@@ -531,6 +531,7 @@ class VracCsvFile extends CsvFile {
     }
 
     private function formatAndVerifyDate($date) {
+        $date = str_replace("/ ", "/", $date);
         $date = preg_replace("|^([0-9]+)/([0-9]+)/([0-9]+)$|", '\3-\2-\1', $date);
         $date = preg_replace("|^([0-9]{4})([0-9]{2})([0-9]{2})$|", '\1-\2-\3', $date);
         $date = preg_replace("|^([0-9]{2})([0-9]{2})([0-9]{4})$|", '\3-\2-\1', $date);
