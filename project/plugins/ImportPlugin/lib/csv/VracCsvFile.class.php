@@ -226,9 +226,18 @@ class VracCsvFile extends CsvFile {
                 $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRES]);
 
                 $v->update();
+
+                if($line[self::CSV_REPARTITION_CVO]) {
+                    $v->repartition_cvo = $line[self::CSV_REPARTITION_CVO];
+                }
+
+                if($acheteur->region != EtablissementClient::REGION_CVO) {
+                    $v->repartition_cvo = VracClient::CVO_REPARTITION_100_VITI;
+                }
+
                 //$v->enleverVolume($v->volume_enleve);
 
-                $v->versement_fa = VracClient::VERSEMENT_FA_NOUVEAU; // A changer en VracClient::VERSEMENT_FA_TRANSMIS
+                $v->versement_fa = VracClient::VERSEMENT_FA_TRANSMIS; // A changer en VracClient::VERSEMENT_FA_TRANSMIS
                 $v->valide->statut = $this->verifyAndFormatStatut($line);
                 $v->save();
                 echo sprintf("Le contrat %s a bien été importé\n", $this->green($v->_id));
