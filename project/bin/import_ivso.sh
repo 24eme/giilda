@@ -64,9 +64,9 @@ cat $DATA_DIR/IVSO_AntSys_identiteextra_entetes.csv | sort -t ";" -k 1,1 > $DATA
 
 join -a 1 -t ";" -1 1 -2 1 -o auto $DATA_DIR/contacts_extravitis.sorted.csv $DATA_DIR/IVSO_AntSys_identiteextra.sorted.csv | sort > $DATA_DIR/contacts_extravitis_extra.csv
 
-cat $DATA_DIR/producteurs.csv | awk -F ";" '{ print $2 ";" $18 }' > $DATA_DIR/contacts_nature_inao.csv
-cat $DATA_DIR/producteurs_produits.csv | awk -F ";" '{ print $2 ";" $19 }' >> $DATA_DIR/contacts_nature_inao.csv
-cat $DATA_DIR/negociant.csv | awk -F ";" '{ print $2 ";" $18 }' >> $DATA_DIR/contacts_nature_inao.csv
+#cat $DATA_DIR/producteurs.csv | awk -F ";" '{ print $2 ";" $18 }' > $DATA_DIR/contacts_nature_inao.csv
+cat $DATA_DIR/producteurs_produits.csv | awk -F ";" '{ print $2 ";" $17 }' > $DATA_DIR/contacts_nature_inao.csv
+cat $DATA_DIR/negociant.csv | awk -F ";" '{ print $2 ";" $17 }' >> $DATA_DIR/contacts_nature_inao.csv
 cat $DATA_DIR/contacts_nature_inao.csv | tr -d "\r" | sort | uniq | sort -t ";" -k 1,1 > $DATA_DIR/contacts_nature_inao.uniq.sorted.csv
 
 cat $DATA_DIR/contacts_extravitis_extra.csv | tr -d "\r" | sort -t ";" -k 1,1 > $DATA_DIR/contacts_extravitis_extra.sorted.csv
