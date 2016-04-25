@@ -424,7 +424,7 @@ echo "Import des contacts"
 
 echo "Import des contrats"
 
-php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
+#php symfony import:vracs $DATA_DIR/vracs.csv --env="ivso"
 
 echo "Import des DRM"
 
@@ -432,12 +432,12 @@ ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
-    #php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --env="ivso"
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --env="ivso"
 done
 
 echo "Contrôle de cohérence des DRM"
 
 cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne
 do
-    #php symfony drm:controle-coherence "$ligne"
+    php symfony drm:controle-coherence "$ligne"
 done
