@@ -163,7 +163,7 @@ class VracCsvFile extends CsvFile {
                 }
 
                 if ($v->date_debut_retiraison && $v->date_limite_retiraison && $v->date_debut_retiraison > $v->date_limite_retiraison) {
-                    throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
+                    echo $this->yellow("La date de début de retiraison est supérieur à celle du début")."\n";
                 }
 
                 $v->vendeur_tva = 0;
@@ -470,6 +470,7 @@ class VracCsvFile extends CsvFile {
         if (!$date) {
 
             echo sprintf("%s : #%s\n", $this->yellow("La date de fin de retiraison est vide"), implode(";", $line));
+            return null;
         }
 
         return $this->formatAndVerifyDate($date);
