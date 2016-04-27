@@ -375,8 +375,7 @@ if($19 > 0) { print base "sorties;vracsanscontratacquitte;" $19 ; } #facture_etc
 if($19 < 0) { print base "entrees;sortie_negative;" $19*-1 ";;;;sortie négative de facture etc" } #facture_etc
 if($20 > 0) { print base "sorties;vracsanscontratsuspendu;" $20 ; } #france_sans_contrat
 if($20 < 0) { print base "entrees;sortie_negative;" $20*-1 ";;;;sortie négative de france sans contrat" ; } #france_sans_contrat
-# if($21 > 0) { print base "sorties;vrac;" $21 ; } #france_sous_contrat
-# if($21 < 0) { print base "entrees;sortie_negative;" $21*-1 ";;;;sortie négative de france sous contrat" ; }
+if($21 != 0 && identifiant == "00225701") { print base "sorties;vracsanscontratsuspendu;" $21 ; } #france_sous_contrat
 if($22 > 0) { print base "sorties;export;" $22 ";Union Européenne" ; }  #expedition_ue
 if($22 < 0) { print base "entrees;sortie_negative;" $22*-1 ";;;;sortie négative de expedition ue" ; }  #expedition_ue
 if($23 > 0) { print base "sorties;export;" $23 ";Hors Union Européenne" ; } #expedition_hors_ue
@@ -398,6 +397,11 @@ identifiant=sprintf("%06d01", $17);
 base="CAVE;" $5 ";" identifiant ";;" $45 ";;;;;;;" ;
 numero_contrat=gensub(/-/, "0000", 1, $10);
 mouvement="vrac"
+
+if(identifiant == "00225701") {
+    next;
+}
+
 if(!numero_contrat || numero_contrat == "INCONNU") {
     mouvement="vracsanscontratsuspendu";
     numero_contrat="";
