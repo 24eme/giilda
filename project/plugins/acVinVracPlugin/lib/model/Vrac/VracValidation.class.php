@@ -88,7 +88,7 @@ class VracValidation extends DocumentValidation {
             }
         }
 
-        if ($this->document->exist('versement_fa') && ($this->versement_fa == VracClient::VERSEMENT_FA_NOUVEAU) && $this->document->date_debut_retiraison && $this->document->date_debut_retiraison < $this->document->date_campagne) {
+        if ($this->document->exist('versement_fa') && ($this->document->versement_fa == VracClient::VERSEMENT_FA_NOUVEAU) && $this->document->date_debut_retiraison && $this->document->date_debut_retiraison < $this->document->date_campagne) {
             $this->addPoint('vigilance', 'dates_retiraison_visa', 'Modifier la date', $this->generateUrl('vrac_condition', $this->document));
         }
 

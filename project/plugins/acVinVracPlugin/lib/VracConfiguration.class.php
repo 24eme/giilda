@@ -3,9 +3,9 @@ class VracConfiguration
 {
 	private static $_instance = null;
 	protected $configuration;
-	
+
 	const ALL_KEY = "_ALL";
-	
+
 	public static function getInstance()
 	{
 		if(is_null(self::$_instance)) {
@@ -13,52 +13,52 @@ class VracConfiguration
 		}
 		return self::$_instance;
 	}
-	
-	public function __construct() 
+
+	public function __construct()
 	{
 		$this->configuration = sfConfig::get('vrac_configuration_vrac', array());
 	}
-	
+
 	public function getTransactions()
 	{
 		return $this->configuration['transactions'];
 	}
-	
+
 	public function getContenances()
 	{
 		return $this->configuration['contenances'];
 	}
-	
+
 	public function getDelaisPaiement()
 	{
 		return $this->configuration['delais_paiement'];
 	}
-	
+
 	public function getMoyensPaiement()
 	{
 		return $this->configuration['moyens_paiement'];
 	}
-	
+
 	public function getRepartitionCourtage()
 	{
 		return $this->configuration['repartition_courtage'];
 	}
-	
+
 	public function getTva()
 	{
 		return $this->configuration['tva'];
 	}
-	
+
 	public function getCategories()
 	{
 		return $this->configuration['categories'];
 	}
-	
+
 	public function getEtapes()
 	{
 		return $this->configuration['etapes'];
 	}
-	
+
 	public function getChampsSupprimes($etape, $type_transaction)
 	{
 		$all = (isset($this->configuration['champs_supprimes'][$etape]) && isset($this->configuration['champs_supprimes'][$etape][self::ALL_KEY]))? $this->configuration['champs_supprimes'][$etape][self::ALL_KEY] : array();
@@ -85,9 +85,14 @@ class VracConfiguration
 	{
 		return $this->configuration['pdf'];
 	}
-        
+
     public function getSoldeSeuil()
 	{
 		return $this->configuration['solde_seuil'];
+	}
+
+	public function getRepartitionCvo()
+	{
+		return $this->configuration['repartition_cvo'];
 	}
 }

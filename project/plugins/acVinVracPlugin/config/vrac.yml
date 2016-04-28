@@ -8,26 +8,26 @@ all:
         "condition": "Conditions"
         "validation": "Validation"
       champs_supprimes:
-        soussigne: 
-          "_ALL": ["type_contrat"] 
+        soussigne:
+          "_ALL": ["type_contrat"]
           "RAISINS": []
           "MOUTS": []
           "VIN_VRAC": []
           "VIN_BOUTEILLE": []
-        marche: 
-          "_ALL": [] 
+        marche:
+          "_ALL": []
           "RAISINS": ["jus_quantite", "bouteilles_contenance_libelle", "millesime_85_15", "lot", "degre"]
           "MOUTS": ["raisin_quantite", "surface", "bouteilles_contenance_libelle", "lot", "degre", "millesime_85_15"]
           "VIN_VRAC": ["raisin_quantite", "surface", "bouteilles_contenance_libelle"]
           "VIN_BOUTEILLE": ["raisin_quantite", "surface"]
-        condition: 
-          "_ALL": [] 
+        condition:
+          "_ALL": []
           "RAISINS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "MOUTS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd"]
           "VIN_BOUTEILLE": []
-        validation: 
-          "_ALL": [] 
+        validation:
+          "_ALL": []
           "RAISINS": []
           "MOUTS": []
           "VIN_VRAC": []
@@ -128,3 +128,4 @@ all:
         "NEGOCE_ACHEMINE": "CRD négoce"
         "ACHAT_TIRE_BOUCHE": "Achat en tiré bouché"
       solde_seuil: "10%"
+      repartition_cvo: "100_ACHETEUR"
