@@ -137,7 +137,6 @@ class GenerationPDF extends GenerationAbstract {
       $this->generation->remove('pregeneration_needed');
       $this->generation->save();
     }
-    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     foreach ($this->generation->documents as $docid) {
       $pdf = $this->generatePDFForADocumentID($docid);
       if (!isset($pdfs[$pdf->getNbPages()]))
