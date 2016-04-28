@@ -13,10 +13,10 @@ echo $societeForm->renderGlobalErrors();
         <?php echo $societeForm['raison_sociale']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
         <div class="col-xs-8"><?php echo $societeForm['raison_sociale']->render(); ?></div>
     </div>
-    <div class="form-group<?php if($societeForm['raison_sociale_abregee']->hasError()): ?> has-error<?php endif; ?>">
-            <?php echo $societeForm['raison_sociale_abregee']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-			<div class="col-xs-8"><?php echo $societeForm['raison_sociale_abregee']->render(); ?></div>
-			<?php echo $societeForm['raison_sociale_abregee']->renderError(); ?>
+    <div class="form-group<?php if($societeForm['code_comptable_client']->hasError()): ?> has-error<?php endif; ?>">
+            <?php echo $societeForm['code_comptable_client']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
+			<div class="col-xs-8"><?php echo $societeForm['code_comptable_client']->render(array('placeholder' => "Automatique")); ?></div>
+			<?php echo $societeForm['code_comptable_client']->renderError(); ?>
     </div>
     <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
         <div class="form-group<?php if($societeForm['cooperative']->hasError()): ?> has-error<?php endif; ?>">

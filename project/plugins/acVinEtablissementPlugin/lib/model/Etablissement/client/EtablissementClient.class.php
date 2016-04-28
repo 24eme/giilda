@@ -271,4 +271,18 @@ class EtablissementClient extends acCouchdbClient {
         return $result;
     }
 
+    public function calculRegion($etablissement) {
+        if($etablissement->getPays() != 'FR') {
+
+            return self::REGION_HORS_CVO;
+        }
+
+        if(!preg_match("/".VracConfiguration::getInstance()->getRegionDepartement()."/", $etablissement->getCodePostal())) {
+
+            return self::REGION_HORS_CVO;
+        }
+
+        return self::REGION_CVO;
+    }
+
 }
