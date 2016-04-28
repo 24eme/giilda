@@ -163,7 +163,7 @@ class VracCsvFile extends CsvFile {
                 }
 
                 if ($v->date_debut_retiraison && $v->date_limite_retiraison && $v->date_debut_retiraison > $v->date_limite_retiraison) {
-                    throw new sfException($this->red("La date de début de retiraison est supérieur à celle du début"));
+                    echo $this->yellow("La date de début de retiraison est supérieur à celle du début")."\n";
                 }
 
                 $v->vendeur_tva = 0;
@@ -226,9 +226,18 @@ class VracCsvFile extends CsvFile {
                 $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRES]);
 
                 $v->update();
+
+                if($line[self::CSV_REPARTITION_CVO]) {
+                    $v->cvo_repartition = $line[self::CSV_REPARTITION_CVO];
+                }
+
+                if($acheteur->region != EtablissementClient::REGION_CVO) {
+                    $v->cvo_repartition = VracClient::CVO_REPARTITION_100_VITI;
+                }
+
                 //$v->enleverVolume($v->volume_enleve);
 
-                $v->versement_fa = VracClient::VERSEMENT_FA_NOUVEAU; // A changer en VracClient::VERSEMENT_FA_TRANSMIS
+                $v->versement_fa = VracClient::VERSEMENT_FA_TRANSMIS; // A changer en VracClient::VERSEMENT_FA_TRANSMIS
                 $v->valide->statut = $this->verifyAndFormatStatut($line);
                 $v->save();
                 echo sprintf("Le contrat %s a bien été importé\n", $this->green($v->_id));
@@ -461,6 +470,7 @@ class VracCsvFile extends CsvFile {
         if (!$date) {
 
             echo sprintf("%s : #%s\n", $this->yellow("La date de fin de retiraison est vide"), implode(";", $line));
+            return null;
         }
 
         return $this->formatAndVerifyDate($date);
@@ -522,6 +532,7 @@ class VracCsvFile extends CsvFile {
     }
 
     private function formatAndVerifyDate($date) {
+        $date = str_replace("/ ", "/", $date);
         $date = preg_replace("|^([0-9]+)/([0-9]+)/([0-9]+)$|", '\3-\2-\1', $date);
         $date = preg_replace("|^([0-9]{4})([0-9]{2})([0-9]{2})$|", '\1-\2-\3', $date);
         $date = preg_replace("|^([0-9]{2})([0-9]{2})([0-9]{4})$|", '\3-\2-\1', $date);
