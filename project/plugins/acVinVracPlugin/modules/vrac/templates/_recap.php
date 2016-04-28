@@ -29,7 +29,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
 				<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
                 <small class="text-muted"><?php echo $vrac->vendeur_identifiant ?></small>
 				<br/>
-                <small><?php echo $vrac->vendeur->adresse; ?> - 
+                <small><?php echo $vrac->vendeur->adresse; ?> -
                 <?php echo $vrac->vendeur->code_postal; ?>
                 <?php echo $vrac->vendeur->commune; ?></small><br/>
                 <small class="text-muted">CVI&nbsp;: <?php echo $vrac->vendeur->cvi; ?> / SIRET&nbsp;: <?php echo $vrac->vendeur->siret ?></small>
@@ -50,7 +50,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
 					<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
                 <small class="text-muted"><?php echo $vrac->mandataire_identifiant ?></small>
 					<br />
-                    <small><?php echo $vrac->mandataire->adresse; ?> - 
+                    <small><?php echo $vrac->mandataire->adresse; ?> -
                     <?php echo $vrac->mandataire->code_postal; ?>
                     <?php echo $vrac->mandataire->commune; ?></small><br/>
                     <small class="text-muted">Carte&nbsp;pro&nbsp;: <?php echo $vrac->mandataire->carte_pro ?> / SIRET&nbsp;: <?php echo $vrac->mandataire->siret ?></small>
@@ -65,7 +65,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
     <div class="col-xs-<?php echo $colsize; ?>">
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Acheteur</strong> <?php if ($vrac->responsable == 'acheteur'): ?><span class="glyphicon glyphicon-user text-primary" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>&nbsp;<?php endif; ?><?php if ($template_validation): ?><a href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
-            <div class="text-center panel-body">                
+            <div class="text-center panel-body">
                     <?php if (!$isTeledeclarationMode): ?><a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->acheteur_identifiant)) ?>"><?php endif; ?>
                 	<strong><?php echo $vrac->acheteur->nom; ?></strong>
 					<?php if (!$isTeledeclarationMode): ?></a><?php endif; ?>
@@ -170,7 +170,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                             <?php if ($vrac->courtage_taux): ?>Taux de courtage : <strong><?php echo $vrac->courtage_taux ?></strong>% (<?php if ($vrac->courtage_repartition): ?><strong><?php echo VracConfiguration::getInstance()->getRepartitionCourtage()[$vrac->courtage_repartition] ?></strong><?php endif; ?>)<?php endif; ?>
                             <br />
                             <?php if ($vrac->acompte): ?>Acompte : <strong><?php echo $vrac->acompte ?></strong>€<?php endif; ?>
-                        </span>         
+                        </span>
                     </li>
                 <?php endif; ?>
                 <?php if ($vrac->date_limite_retiraison || $vrac->date_debut_retiraison || $vrac->clause_reserve_propriete): ?>
@@ -203,7 +203,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
                             <?php if ($vrac->autorisation_nom_vin): ?><strong>Autorisation d'utilisation du nom du vin</strong><?php endif; ?><br />
-                            <?php if ($vrac->cahier_charge): ?><strong>Présence d'un cachier des charges entre le vendeur et l'acheteur</strong>><?php endif; ?>
+                            <?php if ($vrac->cahier_charge): ?><strong>Présence d'un cachier des charges entre le vendeur et l'acheteur</strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">
                             <?php if ($vrac->autorisation_nom_producteur): ?><strong>Autorisation d'utilisation du nom du producteur</strong><?php endif; ?>
@@ -235,11 +235,11 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
     <?php if (!$template_validation): ?>
         <div class="col-xs-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><strong>Enlèvements depuis les DRM</strong> </div>
+                <div class="panel-heading"><strong>Enlèvements depuis les DRM</strong> <small>(Répartition de la CVO : <?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?>)</small></div>
                     <?php if (count($enlevements)): ?>
-                <ul class="list-group">               
+                <ul class="list-group">
                         <?php foreach ($enlevements as $mvt_id => $enlevement): ?>
-                          
+
                                 <li class="list-group-item clearfix">
                                     <div class="row">
                                         <span class="col-xs-6">
@@ -249,8 +249,8 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                                 <?php echoFloat($enlevement->volume, true) ; echo " hl"; ?>
                                         </span>
                                     </div>
-                                </li> 
-                        <?php endforeach; ?> 
+                                </li>
+                        <?php endforeach; ?>
 			<?php else: ?>
                 </ul>
             <?php endif; ?>
