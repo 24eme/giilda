@@ -35,7 +35,7 @@ class GenerationFacturePDF extends GenerationPDF {
                 throw new sfException($societeID . " unknown :(");
             $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $arguments['modele'], $arguments['date_facturation'], $message_communication);
             $facture->save();
-            $this->generation->somme += $facture->total_ttc;
+            $this->generation->somme += $facture->total_ht;
             $this->generation->documents->add($cpt, $facture->_id);
             $cpt++;
         }
@@ -51,6 +51,17 @@ class GenerationFacturePDF extends GenerationPDF {
 
     protected function getDocumentName() {
       return "Factures";
+    }
+
+    function postGeneratePDF() {
+        if (!file_exists(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh'))
+            return false;
+        exec(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh', $generatedFiles);
+        foreach($generatedFiles as $file) {
+            $names = split('|', $file);
+            $this->generation->add('fichiers')->add($this->publishPDFFile($names[0], $this->generation->date_emission.'-'$names[1]), $names[2]);
+        }
+        return true;
     }
 
 }
