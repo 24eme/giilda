@@ -15,9 +15,11 @@ class Generation extends BaseGeneration {
 
   public function save() {
     $this->nb_documents = count($this->documents);
+/*
     if (count($this->fichiers) && $this->statut != GenerationClient::GENERATION_STATUT_ENERREUR) {
       $this->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     } 
+*/
     $this->setDateMaj(date('YmdHis'));
     return parent::save();
   }
