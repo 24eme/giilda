@@ -91,6 +91,10 @@ class VracConfiguration
 		return $this->configuration['solde_seuil'];
 	}
 
+	public function getRegionDepartement() {
+		return $this->configuration['region_departement'];
+	}
+
 	public function getRepartitionCvo()
 	{
 		return $this->configuration['repartition_cvo'];

@@ -129,3 +129,4 @@ all:
         "ACHAT_TIRE_BOUCHE": "Achat en tiré bouché"
       solde_seuil: "10%"
       repartition_cvo: "100_ACHETEUR"
+      region_departement: ".*"
