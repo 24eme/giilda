@@ -86,7 +86,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function isSameAdresseThanSociete() {
-        
+
         return $this->isSameAdresseThan($this->getSociete()->getContact());
     }
 
@@ -199,19 +199,19 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
-                $compte = CompteClient::getInstance()->createCompteFromEtablissement($this); 
+                $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
                 $compte->addOrigine($this->_id);
             }else{
                 $compte = $this->getMasterCompte();
             }
-            
+
             $this->pushContactAndAdresseTo($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
             $compte->nom_a_afficher = $this->nom;
 
-            $compte->save();   
-                   
+            $compte->save();
+
             $this->setCompte($compte->_id);
         } else if(!$this->isSameCompteThanSociete()){
             $compteEtablissement = $this->getMasterCompte();
@@ -233,9 +233,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $this->initFamille();
         $this->raison_sociale = $societe->raison_sociale;
         $this->interpro = "INTERPRO-declaration";
+        $this->region = EtablissementClient::getInstance()->calculRegion($this); 
+
         if($this->isNew()) {
-            $societe->addEtablissement($this); 
-            $needSaveSociete = true; 
+            $societe->addEtablissement($this);
+            $needSaveSociete = true;
         }
 
         parent::save();
@@ -250,11 +252,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     public function isActif() {
         return $this->statut && ($this->statut == EtablissementClient::STATUT_ACTIF);
     }
-    
+
      public function isSuspendu() {
         return $this->statut && ($this->statut == SocieteClient::STATUT_SUSPENDU);
     }
-    
+
 
     public function setIdSociete($id) {
         $soc = SocieteClient::getInstance()->find($id);
@@ -360,7 +362,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         return $this->_set('commentaire', $s);
     }
-    
+
     public function getNatureLibelle() {
         if(!$this->exist('nature_inao') || !$this->nature_inao){
             return null;

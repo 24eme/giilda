@@ -1,6 +1,22 @@
-# GIILDE : Groupement IVSO IVBD de Logiciel de Déclarations Éléctroniques
+# GIILDA : Groupement IVSO IVBD de Logiciels dediés aux Déclarations Administratives
+
+Projet de dématérialisation informatique des activités des interprofessions des Vins du Sud Ouest (IVSO) et de Bergerac (IVBD)
+
+# Aperçu de l'application
+
+![Écran de saisie de la DRM](doc/captures/drm.jpg)
+
+# License utilisée
+
+Ce logiciel est mis à disposition en licence AGPL
 
 # Installation
+
+## Via ansible
+
+[Déployer via ansible](https://github.com/24eme/giilda/tree/master/ansible)
+
+## Manuelle
 
 Dépendances :
 

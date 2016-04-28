@@ -3,9 +3,11 @@ ivso:
     vrac:
       pdf: "vrac/pdf_ivso"
       solde_seuil: "10%"
+      repartition_cvo: "50"
+      region_departement: ".*"
       champs_supprimes:
-        condition: 
-          "_ALL": ["tva", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "courtage_taux", "courtage_repartition"] 
+        condition:
+          "_ALL": ["tva", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "courtage_taux", "courtage_repartition"]
           "RAISINS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "MOUTS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd"]
@@ -26,9 +28,11 @@ ivbd:
     vrac:
       pdf: "vrac/pdf_ivbd"
       solde_seuil: "9"
+      repartition_cvo: "100_ACHETEUR"
+      region_departement: "^(24|33|46|47)"
       champs_supprimes:
-        condition: 
-          "_ALL": ["date_debut_retiraison", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "acompte"] 
+        condition:
+          "_ALL": ["date_debut_retiraison", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "acompte"]
           "RAISINS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "MOUTS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
           "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd", "cahier_charge"]
@@ -55,7 +59,7 @@ ivbd:
         "ESPECES": "Espèces"
         "BILLET_ORDRE": "Billet à ordre"
         "AUTRE": "Autre / non précisé"
-      delais_paiement:          
+      delais_paiement:
         "60_JOURS": "60 jours"
         "75_JOURS": "75 jours"
         "45_JOURS": "45 jours"
