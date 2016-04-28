@@ -77,8 +77,8 @@ class GenerationPDF extends GenerationAbstract {
   }
   
 
-  protected function publishPDFFile($originpdf, $filename) {
-    $publishname = "/generation/$filename.pdf";
+  protected function publishFile($originpdf, $filename, $extension = 'pdf') {
+    $publishname = "/generation/$filename.$extension";
     $publishrealdirname =  "web".$publishname;
     if (!file_exists($originpdf)) 
       throw new sfException("Origin $originpdf doesn't exist");
@@ -150,12 +150,12 @@ class GenerationPDF extends GenerationAbstract {
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
 	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage, $page);
 	if ($origin)
-	  $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
+	  $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
       }else{
         $origin = $this->generatePDFAndConcatenateThem($pdfspage);
         if ($origin)
-            $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
+            $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s)');
       }
     }
