@@ -17,7 +17,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         parent::configure();
 
         $this->setWidget('raison_sociale', new bsWidgetFormInput());
-        $this->setWidget('raison_sociale_abregee', new bsWidgetFormInput());
+        $this->setWidget('code_comptable_client', new bsWidgetFormInput());
 
         $this->setWidget('type_societe', new bsWidgetFormChoice(array('choices' => $this->getSocieteTypes(), 'expanded' => false)));
         $this->setValidator('type_societe', new sfValidatorChoice(array('required' => true, 'choices' => $this->getSocieteTypesValid())));
@@ -34,7 +34,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
         $this->setWidget('commentaire', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
         $this->widgetSchema->setLabel('raison_sociale', 'Nom de la société *');
-        $this->widgetSchema->setLabel('raison_sociale_abregee', 'Abrégé');
+        $this->widgetSchema->setLabel('code_comptable_client', 'Code comptable');
 
         if ($this->getObject()->isNegoOrViti()) {
             $this->widgetSchema->setLabel('cooperative', 'Cave coopérative *');
@@ -48,7 +48,7 @@ class SocieteModificationForm extends CompteGeneriqueForm {
 
 
         $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
-        $this->setValidator('raison_sociale_abregee', new sfValidatorString(array('required' => false)));
+        $this->setValidator('code_comptable_client', new sfValidatorString(array('required' => false)));
 
         if ($this->getObject()->isNegoOrViti()) {
             $this->setValidator('cooperative', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCooperative()))));
@@ -79,6 +79,9 @@ class SocieteModificationForm extends CompteGeneriqueForm {
     }
 
     public function doUpdateObject($values) {
+        if($values['code_comptable_client'] === "" || is_null($values['code_comptable_client'])) {
+            $values['code_comptable_client'] = ($this->getObject()->getIdentifiant()*1)."";
+        }
         parent::doUpdateObject($values);
     }
 
