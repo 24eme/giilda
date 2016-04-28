@@ -77,8 +77,8 @@ class GenerationPDF extends GenerationAbstract {
   }
   
 
-  protected function publishFile($originpdf, $filename, $extension = 'pdf') {
-    $publishname = "/generation/$filename.$extension";
+  protected function publishFile($originpdf, $filename, $extension = '.pdf') {
+    $publishname = "/generation/$filename".$extension;
     $publishrealdirname =  "web".$publishname;
     if (!file_exists($originpdf)) 
       throw new sfException("Origin $originpdf doesn't exist");

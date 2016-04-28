@@ -59,7 +59,7 @@ class GenerationFacturePDF extends GenerationPDF {
         exec(sfConfig::get('sf_root_dir').'/bin/postGenerationFacturePDF.sh', $generatedFiles);
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
-            $this->generation->add('fichiers')->add($this->publishFile($names[0], $this->generation->date_emission.'-'.$names[1], $name[3]), $names[2]);
+            $this->generation->add('fichiers')->add($this->publishFile($names[0], $this->generation->date_emission.'-'.$names[1], ''), $names[2]);
         }
         return true;
     }
