@@ -1,9 +1,9 @@
 <?php
 
-class VracCreationForm extends BaseForm 
+class VracCreationForm extends BaseForm
 {
 
-    public function configure() 
+    public function configure()
     {
         $this->setWidget('annee', new bsWidgetFormInput());
         $this->setWidget('bordereau', new bsWidgetFormInput());
@@ -11,12 +11,12 @@ class VracCreationForm extends BaseForm
         $dateRegexpErrors = array('required' => 'Champ obligatoire', 'invalid' => 'Année invalide (le format doit être aaaa(+x))');
         $this->setValidators(array(
         	'annee' => new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors),
-            'bordereau' => new sfValidatorString(array('required' => false))
+            'bordereau' => new sfValidatorString(array('required' => false, 'max_length' => 4)),
         ));
         $this->validatorSchema->setPostValidator(new ValidatorVracCreation());
         $this->widgetSchema->setNameFormat('vrac_creation[%s]');
     }
-    
+
     public function getIdVrac()
     {
     	if ($values = $this->getValues()) {
