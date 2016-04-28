@@ -77,7 +77,7 @@ class GenerationPDF extends GenerationAbstract {
   }
   
 
-  private function publishPDFFile($originpdf, $filename) {
+  protected function publishPDFFile($originpdf, $filename) {
     $publishname = "/generation/$filename.pdf";
     $publishrealdirname =  "web".$publishname;
     if (!file_exists($originpdf)) 
@@ -162,9 +162,9 @@ class GenerationPDF extends GenerationAbstract {
     }
     $this->cleanFiles($pages);
     $this->generation->save();
-    if ($this->postGeneratePDF()) {
-        $this->generation->save();
-    }
+    $this->postGeneratePDF();
+    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
+    $this->generation->save();
   }
 
   public function generate() {
