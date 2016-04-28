@@ -127,6 +127,14 @@ all:
         ville: 'IVSO LIBRE'
         telephone: 'tel IVSO - fax IVSO LIBRE'
         email: 'IVSO@IVSO.fr LIBRE'
+      coordonnees_bancaire:
+        banque: 'Banque nom'
+        bic: ' BICXXXXX'
+        iban: ' FR00~0000~1111~2222~3333~4444~000'
+      infos_interpro:
+        siret: '000 111 000 22222'
+        ape: ' 1111 X'
+        tva_intracom: 'FR 00 00000000'
   cas:
     domain: login.cas
     port: 443
