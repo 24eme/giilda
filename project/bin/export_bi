@@ -58,6 +58,12 @@ cat data/export/constantes.csv > $TMP/export_bi_constantes.csv
 
 cd $TMP
 recode UTF8..ISO88591-1 export_bi_mouvements.csv export_bi_contrats.csv export_bi_dss.csv export_bi_revendiques.csv export_bi_etablissements.csv export_bi_societes.csv MDV_Fournisseurs.csv PLV_Fournisseurs.csv PLV_Clients.csv export_bi_drm.csv
+
+sed -i 's/T[0-9:+GMT]*;/;/g' export_bi_contrats.csv
+
+#Fichier GIILDA
+#export_bi_mouvements.csv export_bi_contrats.csv export_bi_etablissements.csv export_bi_drm.csv
+
 if test "$SAMBA_XLSOFT_IP" && test "$SAMBA_XLSOFT_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_XLSOFT_DIR" ; then
     smbclient //$SAMBA_XLSOFT_IP/$SAMBA_XLSOFT_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_XLSOFT_DIR ; put export_bi_mouvements.csv ; put export_bi_contrats.csv; put export_bi_dss.csv ; put export_bi_revendiques.csv ; put export_bi_etablissements.csv ; put export_bi_societes.csv ; put MDV_Fournisseurs.csv ; put PLV_Fournisseurs.csv ; put PLV_Clients.csv ; put export_bi_drm.csv"
 fi
