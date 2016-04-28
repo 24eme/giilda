@@ -14,3 +14,13 @@ php symfony export:facture --horstaxe=true > $TMP/factures.csv
 cat $TMP/factures.csv | perl bin/convertExportFacture2BLSAGE.pl | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.sage
 sed -i 's/\./,/g' $TMP/factures.csv
 
+bash bin/convertExportFacture2SyntheseCsv.pl $TMP/factures.csv > $TMP/factures_synthese.csv
+
+bash bin/exportPostSageBL.sh $TMP/factures.csv
+
+echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
+echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
+echo "$TMP/factures.sage|factures.sage|Export SAGE des factures"
+echo "$TMP/factures.csv|factures.cvs|Export CSV des factures"
+echo "$TMP/factures_synthese.csv|factures_synthese.csv|Synthèse des factures"
+
