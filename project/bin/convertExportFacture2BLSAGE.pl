@@ -182,6 +182,8 @@ sub printCHLI {
     print "Référence article;" if ($verbose);
     print $field[compte_analytique]."\n";
     print "Désignation;" if ($verbose);
+    $field[libelle] =~ s/\(.*\)//;
+    $field[libelle] =~ s/  +/ /g;
     print encode_utf8(substr(decode_utf8($field[libelle]), 0, 69))."\n";
     print "Texte complémentaire;" if ($verbose);
     print "\n";
