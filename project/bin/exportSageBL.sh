@@ -12,11 +12,12 @@ cat $TMP/societesWithSageData.csv | perl bin/convertExportSociete2SAGEv9.pl | ic
 
 php symfony export:facture --horstaxe=true > $TMP/factures.csv
 cat $TMP/factures.csv | perl bin/convertExportFacture2BLSAGE.pl | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.sage
-sed -i 's/\./,/g' $TMP/factures.csv
 
 perl bin/convertExportFacture2SyntheseCsv.pl < $TMP/factures.csv > $TMP/factures_synthese.csv
 
 bash bin/exportPostSageBL.sh $TMP/factures.csv
+
+sed -i 's/\./,/g' $TMP/factures.csv $TMP/factures_synthese.csv
 
 echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
 echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
