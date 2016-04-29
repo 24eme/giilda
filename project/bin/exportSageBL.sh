@@ -17,7 +17,7 @@ perl bin/convertExportFacture2SyntheseCsv.pl < $TMP/factures.csv > $TMP/factures
 
 bash bin/exportPostSageBL.sh $TMP/factures.csv
 
-sed -i 's/\./,/g' $TMP/factures.csv $TMP/factures_synthese.csv
+sed -i 's/\./,/g' $TMP/factures.csv
 
 echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
 echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
