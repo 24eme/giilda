@@ -22,6 +22,6 @@ sed -i 's/\./,/g' $TMP/factures.csv
 echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
 echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
 echo "$TMP/factures.sage|factures.sage|Export SAGE des factures"
-echo "$TMP/factures.csv|factures.cvs|Export CSV des factures"
+echo "$TMP/factures.csv|factures.csv|Export CSV des factures"
 echo "$TMP/factures_synthese.csv|factures_synthese.csv|Synthèse des factures"
 
