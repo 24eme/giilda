@@ -32,7 +32,7 @@
                         </span>
                         <span class="col-xs-2 text-right"><?php
                             echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);
-                            ?>&nbsp;€ TTC</span>
+                            ?>&nbsp;€ HT</span>
                         <span class="col-xs-1 text-right">
                             <?php
                             echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC];
