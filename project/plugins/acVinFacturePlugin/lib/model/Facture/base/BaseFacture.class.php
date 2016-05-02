@@ -10,7 +10,8 @@
  * @property string $identifiant
  * @property string $code_comptable_client
  * @property string $numero_facture
- * @property string $numero_ava
+ * @property string $numero_piece_comptable
+ * @property string $numero_piece_comptable_origine
  * @property string $numero_adherent
  * @property string $date_emission
  * @property string $date_facturation
@@ -50,8 +51,10 @@
  * @method string setCodeComptableClient()
  * @method string getNumeroFacture()
  * @method string setNumeroFacture()
- * @method string getNumeroAva()
- * @method string setNumeroAva()
+ * @method string getNumeroPieceComptable()
+ * @method string setNumeroPieceComptable()
+ * @method string getNumeroPieceComptableOrigine()
+ * @method string setNumeroPieceComptableOrigine()
  * @method string getNumeroAdherent()
  * @method string setNumeroAdherent()
  * @method string getDateEmission()

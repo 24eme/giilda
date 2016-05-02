@@ -155,13 +155,16 @@ class GenerationPDF extends GenerationAbstract {
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
       }else{
         $origin = $this->generatePDFAndConcatenateThem($pdfspage);
-	if ($origin)
-	  $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
+        if ($origin)
+            $this->generation->add('fichiers')->add($this->publishPDFFile($origin, $this->generation->date_emission.'-'.$page), 
 						$this->getDocumentName().' de '.$page.' page(s)');
       }
     }
     $this->cleanFiles($pages);
     $this->generation->save();
+    if ($this->postGeneratePDF()) {
+        $this->generation->save();
+    }
   }
 
   public function generate() {
@@ -177,6 +180,8 @@ class GenerationPDF extends GenerationAbstract {
   }
 
   function preGeneratePDF() { }
+  
+  function postGeneratePDF() { return false; }
 
   function preRegeneratePDF() { }
 
