@@ -12,7 +12,7 @@ while(<STDIN>) {
 	print "numéro de compte (VINSI) :" if ($verbose);
 	print $field[0]."\n";
 	print "intitulé (VINSI) : " if ($verbose);
-	print substr($field[1], 0, 35)."\n";	
+	print encode_utf8(substr(decode_utf8($field[1]), 0, 35))."\n";	
 	if ($field[2] eq "CLIENT") {
 	    print "type (client/fournisseur) (VINSI) : " if ($verbose);
 	    print "0\n";
@@ -41,7 +41,7 @@ while(<STDIN>) {
 	print "région : " if ($verbose);
 	print "\n";
 	print "pays (VINSI) : " if ($verbose);
-	print substr(encode_utf8(decode_utf8($field[8])), 0, 35)."\n";
+	print encode_utf8(substr(decode_utf8($field[8]), 0, 35))."\n";
 	print "raccourci : " if ($verbose);
 	print "\n";
 	print "numéro devise : " if ($verbose);
