@@ -18,7 +18,7 @@ use_helper('Date');
                         <span class="col-xs-1"><?php if ($f->isAvoir()): ?>AVOIR<?php else: ?>FACTURE<?php endif; ?></span>
                         <span class="col-xs-2">N° <?php echo $f->numero_piece_comptable ?></span>
                         <span class="col-xs-4"><?php echo $date; ?> <?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></span>
-                        <span class="col-xs-2 text-right"><?php echo echoFloat($f->total_ttc); ?> € TTC</span>
+                        <span class="col-xs-2 text-right"><?php echo echoFloat($f->total_ht); ?> € HT</span>
                         <span class="col-xs-3 text-right">
                             <div class="btn-group text-left">
                                 <?php if ($f->isRedressable()): ?>

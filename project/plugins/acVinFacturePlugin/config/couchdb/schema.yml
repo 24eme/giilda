@@ -65,7 +65,7 @@ Facture:
               definition:
                 fields:
                   libelle: {  }
-                  produit_identifiant_analytique: {  }
+                  produit_identifiant_analytique: {required: false  }
                   montant_tva: {type: float}
                   montant_ht: {type: float}
                   origine_mouvements:
@@ -83,6 +83,7 @@ Facture:
                       fields:
                         '*':
                           type: collection
+                          class: FactureDetail
                           definition:
                             fields:
                               libelle: {}
