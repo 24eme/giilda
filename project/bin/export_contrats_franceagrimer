@@ -16,3 +16,5 @@ php symfony export:contrats-france-agrimer > $PATHFILEFA".tmp"
 cat data/export/match_cepages.csv | cut -d ';' -f 1,2 | sed -r 's|"([0-9]+)";"(.*)"|s\/;"\2";\/;"\1";\/g|g' | grep -v '"COD_CEP";"LIB_CEP"' > $TMP/exports_franceagrimer/sedCepages
 
 cat $PATHFILEFA".tmp" | sed -f $TMP/exports_franceagrimer/sedCepages > $PATHFILEFA
+
+cp $PATHFILEFA /home/franceagrimer/$FILENAME
