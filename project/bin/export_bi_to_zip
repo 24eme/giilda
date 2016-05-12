@@ -8,7 +8,12 @@ mkdir -p $TMP/export_bi
 
 bash bin/export_bi > $TMP/export_bi/export_bi.csv
 
-zip $TMP/export_bi.zip $TMP/export_bi/export_bi_contrats.csv  $TMP/export_bi/export_bi_drm.csv  $TMP/export_bi/export_bi_etablissements.csv  $TMP/export_bi/export_bi_mouvements.csv
+cd $TMP
+zip export_bi.zip export_bi_contrats.csv  export_bi_drm.csv  export_bi_etablissements.csv  export_bi_mouvements.csv
+cd -
 
 mv $TMP/export_bi.zip $EXPORTDIR"/export_bi.zip.new"
 mv  $EXPORTDIR"/export_bi.zip.new" $EXPORTDIR"/export_bi.zip"
+rm -rf $EXPORTDIR"/bi" 2> /dev/null
+mkdir -p $EXPORTDIR"/bi"
+unzip $EXPORTDIR"/export_bi.zip" -d $EXPORTDIR"/bi"
