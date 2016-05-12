@@ -24,5 +24,5 @@ ELASTKIBANAINDEX=.kibana #ne pas changer
 #SAMBA_XLSOFT_DIR=
 #DEV_EMAILS="test@example.org test2@example.org"
 #REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
-
+EXPORTDIR=MYDIR
 mkdir -p $TMP > /dev/null
