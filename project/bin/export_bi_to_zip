@@ -15,3 +15,6 @@ grep "SOCIETE;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_societe.
 zip /tmp/export_bi.zip /tmp/export_bi/export_bi*
 
 echo "Zip created : /tmp/export_bi.zip"
+
+mv /tmp/export_bi.zip $EXPORTDIR"/export_bi.zip.new"
+mv  $EXPORTDIR"/export_bi.zip.new" $EXPORTDIR"/export_bi.zip"
