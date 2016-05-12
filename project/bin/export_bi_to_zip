@@ -2,21 +2,21 @@
 
 . bin/config.inc 
 
-rm -rf /tmp/export_bi
-rm /tmp/export_bi.zip
-mkdir /tmp/export_bi
+rm -rf $TMP/export_bi
+rm $TMP/export_bi.zip
+mkdir -p $TMP/export_bi
 
-bash bin/export_bi > /tmp/export_bi/export_bi.csv
+bash bin/export_bi > $TMP/export_bi/export_bi.csv
 
-grep "MOUVEMENT;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_mouvements.csv
-grep "CONTRAT;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_contrats.csv
-grep "DS;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_dss.csv
-grep "ETABLISSEMENT;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_etablissement.csv
-grep "SOCIETE;" /tmp/export_bi/export_bi.csv > /tmp/export_bi/export_bi_societe.csv
+grep "MOUVEMENT;" $TMP/export_bi/export_bi.csv > $TMP/export_bi/export_bi_mouvements.csv
+grep "CONTRAT;" $TMP/export_bi/export_bi.csv > $TMP/export_bi/export_bi_contrats.csv
+grep "DS;" $TMP/export_bi/export_bi.csv > $TMP/export_bi/export_bi_dss.csv
+grep "ETABLISSEMENT;" $TMP/export_bi/export_bi.csv > $TMP/export_bi/export_bi_etablissement.csv
+grep "SOCIETE;" $TMP/export_bi/export_bi.csv > $TMP/export_bi/export_bi_societe.csv
 
-zip /tmp/export_bi.zip /tmp/export_bi/export_bi*
+zip $TMP/export_bi.zip $TMP/export_bi/export_bi*
 
-echo "Zip created : /tmp/export_bi.zip"
+echo "Zip created : $TMP/export_bi.zip"
 
-mv /tmp/export_bi.zip $EXPORTDIR"/export_bi.zip.new"
+mv $TMP/export_bi.zip $EXPORTDIR"/export_bi.zip.new"
 mv  $EXPORTDIR"/export_bi.zip.new" $EXPORTDIR"/export_bi.zip"
