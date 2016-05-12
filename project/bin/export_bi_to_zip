@@ -10,7 +10,5 @@ bash bin/export_bi > $TMP/export_bi/export_bi.csv
 
 zip $TMP/export_bi.zip $TMP/export_bi/export_bi_contrats.csv  $TMP/export_bi/export_bi_drm.csv  $TMP/export_bi/export_bi_etablissements.csv  $TMP/export_bi/export_bi_mouvements.csv
 
-echo "Zip created : $TMP/export_bi.zip"
-
 mv $TMP/export_bi.zip $EXPORTDIR"/export_bi.zip.new"
 mv  $EXPORTDIR"/export_bi.zip.new" $EXPORTDIR"/export_bi.zip"
