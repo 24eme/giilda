@@ -2,7 +2,7 @@
 
 . bin/config.inc 
 
-rm -rf $TMP/export_bi
+rm -rf $TMP/export_bi 2> /dev/null
 rm $TMP/export_bi.zip
 mkdir -p $TMP/export_bi
 
