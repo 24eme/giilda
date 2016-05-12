@@ -1,11 +1,13 @@
 #!/usr/bin/perl
 
+use Encode;
+
 $verbose = shift;
 
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
-	next if ($field[0] ne 'VEN');
+	next if ($field[0] ne 'VEN' && $field[0] ne '20');
 	next if (!$field[10]); #si montant à 0, l'ignorer
 	print "Ecriture générale;" if ($verbose);
 	print "#MECG\n";
@@ -33,7 +35,7 @@ while(<STDIN>) {
         print "numero compte tiers contre partie;" if ($verbose);
         print "\n";
         print "intitule;" if ($verbose);
-        print substr($field[4], 0, 35)."\n";
+        print encode_utf8(substr(decode_utf8($field[4]), 0, 35))."\n";
         print "numero reglement;" if ($verbose);
         print "\n";
         print "date echeance;" if ($verbose);
@@ -68,7 +70,11 @@ while(<STDIN>) {
         print "montant devise;" if ($verbose);
         print "\n";
         print "code taxe;" if ($verbose);
-        print "\n";
+        if ($field[4] =~ /TVA/) {
+		print "C03\n";
+	}else{
+	        print "\n";
+	}
         print "norme;" if ($verbose);
         print "0\n";
         print "provenance;" if ($verbose);
@@ -79,6 +85,7 @@ while(<STDIN>) {
         print "\n";
         print "date de rapprochement;" if ($verbose);
         print "\n";
+        print "????;" if ($verbose);
 	print "\n"; # ??????????
         print "reference;" if ($verbose);
         print $field[12]."\n";
