@@ -63,7 +63,7 @@ cat data/import/configuration/produits.csv | sed -r 's/^/#PRODUIT;/' | sed -r 's
 cat data/export/constantes.csv > $TMP/export_bi_constantes.csv
 
 cd $TMP
-recode UTF8..ISO88591-1 export_bi_mouvements.csv export_bi_contrats.csv export_bi_dss.csv export_bi_revendiques.csv export_bi_etablissements.csv export_bi_societes.csv MDV_Fournisseurs.csv PLV_Fournisseurs.csv PLV_Clients.csv export_bi_drm.csv
+
 if test "$SAMBA_XLSOFT_IP" && test "$SAMBA_XLSOFT_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_XLSOFT_DIR" ; then
     smbclient //$SAMBA_XLSOFT_IP/$SAMBA_XLSOFT_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_XLSOFT_DIR ; put MDV_Fournisseurs.csv ; put PLV_Fournisseurs.csv ; put PLV_Clients.csv "
 fi
