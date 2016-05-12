@@ -114,18 +114,19 @@ Les lignes de CAVE se constituents des champs suivants :
  
  **Pour le type de mouvement :**
  
- 12. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
- 13. le nom du mouvement (renvendiqué, achat, ...)
+ 12. Le type de la DRM (suspendu ou acquitte)
+ 13. La catégorie du mouvement (stock_debut, entrée, sortie, stock _fin)
+ 14. Le nom du mouvement (renvendiqué, achat, ...)
  
  **Pour la quantité :**
  
- 14. volume en hl
+ 15. volume en hl
  
  **Pour les compléments :**
  
- 15. le pays de l'export (Code ISO 3166 https://fr.wikipedia.org/wiki/ISO_3166) (si le mouvement est un export, sinon vide)
- 16. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
- 17. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
+ 16. le pays de l'export (Code ISO 3166 https://fr.wikipedia.org/wiki/ISO_3166) (si le mouvement est un export, sinon vide)
+ 17. le numéro du contrat (si le mouvement est une sortie vrac sous contrat, sinon vide)
+ 18. le numéro de document d'accompagnement (si le mouvement fait l'objet d'un document d'accompagnement douanier)
 
 Le CVS peut contenir plusieurs mouvements de même type. Dans ce cas ils seront additionnés.
 

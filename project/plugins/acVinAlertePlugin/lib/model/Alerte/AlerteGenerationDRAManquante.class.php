@@ -134,7 +134,9 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
     public function isDraInCampagneArray($identifiant, $periodes_by_campagne) {
         foreach ($periodes_by_campagne as $periodes) {
             foreach ($periodes as $periode) {
-                $drm = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode), acCouchdbClient::HYDRATE_JSON);
+                $idDrm = DRMClient::getInstance()->buildId($identifiant, $periode);
+               echo $idDrm." traitement dra \n";
+                $drm = DRMClient::getInstance()->find($idDrm, acCouchdbClient::HYDRATE_JSON);
                 if ($drm) {
                     return true;
                 }
