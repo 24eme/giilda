@@ -138,6 +138,8 @@ class Vrac extends BaseVrac {
         }
 
         $this->cvo_repartition = $this->calculCvoRepartition();
+
+        $this->setInformations();
     }
 
     public function createVisa() {
