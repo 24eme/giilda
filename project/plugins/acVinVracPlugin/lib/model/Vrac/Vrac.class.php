@@ -137,9 +137,9 @@ class Vrac extends BaseVrac {
             $this->cvo_nature = VracClient::CVO_NATURE_MARCHE_DEFINITIF;
         }
 
-        $this->cvo_repartition = $this->calculCvoRepartition();
-
         $this->setInformations();
+
+        $this->cvo_repartition = $this->calculCvoRepartition();
     }
 
     public function createVisa() {
