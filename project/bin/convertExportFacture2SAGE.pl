@@ -7,8 +7,10 @@ $verbose = shift;
 while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
-	next if ($field[0] ne 'VEN' && $field[0] ne '20');
+	next if ($field[0] ne 'VEN' && $field[0] ne '02');
 	next if (!$field[10]); #si montant à 0, l'ignorer
+        $field[10] = sprintf("%.2f", $field[10]);
+	$field[10] =~ s/\./,/;
 	print "Ecriture générale;" if ($verbose);
 	print "#MECG\n";
 	print "code journal;" if ($verbose);
@@ -42,11 +44,11 @@ while(<STDIN>) {
 	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
         print $field[8]."\n";
         print "partie;" if ($verbose);
-        print "\n";
+        print "0,000000\n";
         print "quantite;" if ($verbose);
         print "\n";
         print "numero devis;" if ($verbose);
-        print "\n";
+        print "0\n";
         print "sens (credit = 1 / debit = 0);" if ($verbose);
         if ($field[9] eq 'CREDIT') {
 		print "1\n"; 
@@ -62,7 +64,7 @@ while(<STDIN>) {
         print "numero pointage;" if ($verbose);
         print "\n";
         print "numero rappel;" if ($verbose);
-        print "\n";
+        print "0\n";
         print "type niveau;" if ($verbose);
         print "0\n";
         print "type revision;" if ($verbose);
@@ -70,7 +72,7 @@ while(<STDIN>) {
         print "montant devise;" if ($verbose);
         print "\n";
         print "code taxe;" if ($verbose);
-        if ($field[4] =~ /TVA/) {
+        if ($field[9] eq 'CREDIT') {
 		print "C03\n";
 	}else{
 	        print "\n";
@@ -90,13 +92,17 @@ while(<STDIN>) {
         print "reference;" if ($verbose);
         print $field[12]."\n";
         print "status reglement;" if ($verbose);
-        print "\n";
+        print "0\n";
         print "montant refle;" if ($verbose);
-        print "\n";
+        print "0,00\n";
         print "date dernier reglement;" if ($verbose);
         print "\n";
         print "date operation;" if ($verbose);
         print "\n";
+	print "?;" if ($verbose);
+	print "0\n";
+        print "?;" if ($verbose);
+	print "\n";
 	if ($field[7]) {
 	        print "Ecriture Analytique;" if ($verbose);
 	        print "#MECA\n";
@@ -107,6 +113,14 @@ while(<STDIN>) {
 	        print "montant;" if ($verbose);
 	        print $field[10]."\n";
 	        print "quantite;" if ($verbose);
-	        print "0.00\n";
+	        print "0,00\n";
+	}
+	if ($field[4] !~ /TVA/) {
+		print "MIVA;" if ($verbose);
+	        print "#MIVA\n";
+		print "empty;" if ($verbose);
+	        print "\n";
+		print "tiers;" if ($verbose);
+		print $field[15]."\n";
 	}
 }
