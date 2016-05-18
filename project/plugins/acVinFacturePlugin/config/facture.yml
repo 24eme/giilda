@@ -5,6 +5,7 @@ ivso:
         identifiant_prefix: "C"
       type_libre:
         identifiant_prefix: "L"
+      idcontrat: "ID"
               
 ivbd:
   configuration:
@@ -13,3 +14,4 @@ ivbd:
         identifiant_prefix: "1"
       type_libre:
         identifiant_prefix: "1"
+      idcontrat: "ARCHIVE"
