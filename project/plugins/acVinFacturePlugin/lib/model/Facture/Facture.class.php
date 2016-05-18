@@ -372,8 +372,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
 
             if ($famille == SocieteClient::TYPE_OPERATEUR) {
-                $idContrat = $view->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID];
-                $origine_libelle = 'Contrat n° ' . "".intval(substr($idContrat,-6));
+                if ( sfConfig::get('app_configuration_facture_idcontrat') == 'ID' ) {
+                    $idContrat = intval(substr($view->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID], -6));
+                }else{
+                    $idContrat = $view->value[MouvementfactureFacturationView::VALUE_DETAIL_LIBELLE];
+                }
+                $origine_libelle = 'Contrat n° ' . $idContrat;
             }
             $origine_libelle .= ' (' . $transacteur . ') ';
 
