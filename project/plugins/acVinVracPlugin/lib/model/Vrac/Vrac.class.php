@@ -137,6 +137,8 @@ class Vrac extends BaseVrac {
             $this->cvo_nature = VracClient::CVO_NATURE_MARCHE_DEFINITIF;
         }
 
+        $this->setInformations();
+
         $this->cvo_repartition = $this->calculCvoRepartition();
     }
 
@@ -429,7 +431,7 @@ class Vrac extends BaseVrac {
             return 1.0;
         }
 
-        if ($this->vendeur_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI) {
+        if ($this->representant_identifiant == $identifiant && $this->cvo_repartition == VracClient::CVO_REPARTITION_100_VITI) {
 
             return 1.0;
         }

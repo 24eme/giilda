@@ -108,11 +108,15 @@ class DRMESDetails extends BaseDRMESDetails {
         }
         $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
 
-        $mouvement_vrac_destinataire = $this->createMouvementVracDestinataire(clone $mouvement, $detail);
-        if (!$mouvement_vrac_destinataire) {
-            return;
+        if ($mouvement_vrac_destinataire = $this->createMouvementVracDestinataire(clone $mouvement, $detail)) {
+            $mouvements[$detail->getVrac()->acheteur_identifiant][$mouvement->getMD5Key()] = $mouvement_vrac_destinataire;
         }
-        $mouvements[$detail->getVrac()->acheteur_identifiant][$mouvement->getMD5Key()] = $mouvement_vrac_destinataire;
+
+        if ($mouvement_vrac_intermediaire = $this->createMouvementVracIntermediaire(clone $mouvement, $detail)) {
+            $mouvements[$detail->getVrac()->representant_identifiant][$mouvement->getMD5Key()] = $mouvement_vrac_intermediaire;
+        }
+
+
     }
 
     public function createMouvement($mouvement, $detail) {
@@ -164,5 +168,26 @@ class DRMESDetails extends BaseDRMESDetails {
         }
         return $mouvement;
     }
+
+    public function createMouvementVracIntermediaire($mouvement, $detail) {
+        $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey() . '/' . $this->getTotalHash());
+
+        if (!$config->isVrac()) {
+            return null;
+        }
+
+        if ($detail->getVrac()->representant_identifiant == $detail->getVrac()->vendeur_identifiant) {
+            return null;
+        }
+
+        $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
+        $mouvement->region = $detail->getVrac()->representant->region;
+        $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->representant_identifiant, $detail->getDocument()->getDate());
+        if ($mouvement->cvo > 0 && $mouvement->volume) {
+            $mouvement->facturable = 1;
+        }
+        return $mouvement;
+    }
+
 
 }

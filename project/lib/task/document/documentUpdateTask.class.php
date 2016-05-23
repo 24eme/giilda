@@ -35,11 +35,16 @@ EOF;
 
     $doc_id = $arguments['doc_id'];
 
+    $doc = acCouchdbManager::getClient()->find($doc_id);
     if(preg_match("/^DRM-/", $doc_id)) {
       $doc = acCouchdbManager::getClient()->find($doc_id);
       $doc->declaration->cleanNoeuds();
       $doc->update();
       $doc->save();
+    }
+    $doc->update();
+    if ($doc->save()) {
+	echo "$doc_id saved\n";
     }
 
     /*if(preg_match("/^SV12-/", $doc_id)) {
