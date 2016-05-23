@@ -25,7 +25,6 @@ class WidgetSociete extends sfWidgetFormInput
     protected function configure($options = array(), $attributes = array())
     {
         parent::configure($options, $attributes);
-
 //        $this->setOption('choices', array());
         $this->addOption('type_societe', array());
         $this->addRequiredOption('interpro_id', null);
@@ -40,7 +39,11 @@ class WidgetSociete extends sfWidgetFormInput
 
     public function getUrlAutocomplete() {
         $interpro_id = $this->getOption('interpro_id');
-        return sfContext::getInstance()->getRouting()->generate('societe_autocomplete_all', array('interpro_id' => $interpro_id));
+        $type_societe = $this->getOption('type_societe');
+        if(!$type_societe){
+            $type_societe = array(SocieteClient::TYPE_OPERATEUR);
+        }
+        return sfContext::getInstance()->getRouting()->generate('societe_autocomplete_all', array('interpro_id' => $interpro_id,'type' => implode(",",$type_societe)));
     }
 
     public function getChoices() {
