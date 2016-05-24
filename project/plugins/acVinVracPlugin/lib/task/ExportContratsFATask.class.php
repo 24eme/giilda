@@ -194,7 +194,7 @@ EOF;
 
             if($dryrun) {
 
-                return;
+                continue;
             }
 
             $contrat->save();
