@@ -30,7 +30,7 @@ class factureActions extends sfActions {
 
     public function executeMouvementsedition(sfWebRequest $request) {
         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
-        sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES - '.$this->factureMouvements->identifiant);
+        sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES - ' . $this->factureMouvements->identifiant);
         $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
         if (!$request->isMethod(sfWebRequest::POST)) {
 
@@ -38,20 +38,20 @@ class factureActions extends sfActions {
         }
 
         $this->form->bind($request->getParameter($this->form->getName()));
-
+        
         if ($this->form->isValid()) {
             $this->form->save();
             $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
         }
     }
-    
+
     public function executeMouvementssupprimer(sfWebRequest $request) {
-         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
-         if($this->factureMouvements->getNbMvtsAFacture()){
-             $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
-         }
-         $this->factureMouvements->delete();
-         $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+        $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
+        if ($this->factureMouvements->getNbMvtsAFacture()) {
+            $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+        }
+        $this->factureMouvements->delete();
+        $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
     }
 
     public function executeEdition(sfWebRequest $request) {
@@ -96,14 +96,14 @@ class factureActions extends sfActions {
     }
 
     public function executeGeneration(sfWebRequest $request) {
-        $this->form = new FactureGenerationForm();        
+        $this->form = new FactureGenerationForm();
         $filters_parameters = array();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $filters_parameters = $this->constuctFactureFiltersParameters();
                 $generation = new Generation();
-              
+
                 $generation->arguments->add('regions', implode(',', array_values($filters_parameters['regions'])));
                 if ($values['modele'] != FactureGenerationForm::TYPE_DOCUMENT_TOUS) {
                     $generation->arguments->add('modele', $filters_parameters['modele']);
@@ -111,7 +111,7 @@ class factureActions extends sfActions {
                 $generation->arguments->add('date_facturation', $filters_parameters['date_mouvement']);
                 $generation->arguments->add('date_mouvement', $filters_parameters['date_mouvement']);
                 if ($filters_parameters['message_communication']) {
-                    $generation->arguments->add('message_communication', $filters_parameters['message_communication'] );
+                    $generation->arguments->add('message_communication', $filters_parameters['message_communication']);
                 }
                 $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
                 $generation->save();
@@ -193,8 +193,8 @@ class factureActions extends sfActions {
 
         $filters_parameters = $this->constuctFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-        $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);           
-      
+        $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
+
         if ($mouvementsBySocFiltered) {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
             $generation->save();
