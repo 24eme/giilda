@@ -51,6 +51,13 @@ EOF;
 
     protected function rebuildMouvements($drmId) {
         $drm = DRMClient::getInstance()->find($drmId);
+        foreach ($drm->mouvements as $id => $list) {
+           foreach ($list as $mid => $mvt) {
+		if ($mvt->facture) {
+			throw new sfException("$drmId : Impossible de rebuild des mouvements facturés");
+                }
+           }
+        }
         $drm->clearMouvements();
         $isTeleclare = $drm->isTeledeclare();
         

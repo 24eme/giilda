@@ -33,7 +33,7 @@ class EtablissementClient extends acCouchdbClient {
     const NATURE_INAO_PRODUCTEUR_INDIVIDUEL = 'Producteur individuel';
     const NATURE_INAO_COOPERATIVE = 'Coopérative';
     const NATURE_INAO_UNION_DE_COOPERATIVES = 'Union de coopératives';
-    const NATURE_SOCIETE_CIVILE = 'Société civile (GFA, GAEC….)';
+    const NATURE_SOCIETE_CIVILE = 'Société civile (GFA, GAEC, ...)';
     const NATURE_INAO_SICA = 'SICA';
     const NATURE_INAO_SOCIETE_COMMERCIALE = 'Société commerciale (négociant)';
     const NATURE_INAO_AUTRE = 'Autre';

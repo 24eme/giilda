@@ -20,9 +20,10 @@ class societeActions extends sfCredentialActions {
 
     public function executeAutocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
+        $type_societe = explode(",",$request->getParameter('type'));
         $q = $request->getParameter('q');
         $limit = $request->getParameter('limit', 100);
-        $societes = SocieteAllView::getInstance()->findByInterproAndStatut($interpro, SocieteClient::STATUT_ACTIF, array(SocieteClient::TYPE_OPERATEUR), $q, $limit);
+        $societes = SocieteAllView::getInstance()->findByInterproAndStatut($interpro, SocieteClient::STATUT_ACTIF, $type_societe, $q, $limit);
         $json = $this->matchSociete($societes, $q, $limit);
         return $this->renderText(json_encode($json));
     }
