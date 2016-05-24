@@ -155,7 +155,7 @@ EOF;
 
             $delai_retiraison = $this->diffDate($contrat->date_limite_retiraison, $contrat->date_debut_retiraison, 'i');
             $ligne[self::CSV_FA_DELAI_RETIRAISON] = sprintf("%0.1f", $delai_retiraison); 
-            $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = sprintf("%0.1f", $contrat->acompte);
+            $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = sprintf("%d", $contrat->acompte);
             $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
             $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; 
@@ -163,7 +163,7 @@ EOF;
             $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
             $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
             $ligne[self::CSV_FA_COULEUR] = $this->getCouleurIGP($contrat, $produit);
-            $ligne[self::CSV_FA_ANNEE_RECOLTE] = substr($contrat->millesime, 0, 4); //??
+            $ligne[self::CSV_FA_ANNEE_RECOLTE] = (substr($contrat->millesime, 0, 4))? substr($contrat->millesime, 0, 4) : "".(date('Y') - 1); //??
             $ligne[self::CSV_FA_CODE_ELABORATION] = ($contrat->conditionnement_crd == 'NEGOCE_ACHEMINE') ? "P" : "N";
             $ligne[self::CSV_FA_VOLUME] = $contrat->volume_propose;
             $ligne[self::CSV_FA_DEGRE] = sprintf("%0.1f", $contrat->degre);
