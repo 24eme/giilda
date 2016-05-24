@@ -1,5 +1,6 @@
 PROJET=giilda
 TMP=/tmp/giilda
+SYMFONYENV=dev
 #WORKINGDIRWORKINGDIR=/home/giilda
 COUCHHOST=localhost
 COUCHPORT=5984

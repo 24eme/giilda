@@ -51,12 +51,11 @@ class ExportContratsFATask extends sfBaseTask {
 
     protected function configure() {
 
-
-
         $this->addOptions(array(
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('dryrun', null, sfCommandOption::PARAMETER_REQUIRED, 'Mode de test ne sauvgarde pas en base', false),
                 // add your own options here
         ));
 
@@ -82,7 +81,7 @@ EOF;
         //echo "#num_ligne;type_contrat;campagne;num_archive;code_lieu_visa;code_action;date_contrat;date_visa;code_commune_lieu_vinification;indicateur_double_fin;code_insee_dept_commune_acheteur;nature_acheteur;siret_acheteur;cvi_vendeur;nature_vendeur;siret_vendeur;courtier (O/N);delai_retiraison;pourcentage_accompte;delai_paiement;code_type_produit;code_denomination_vin_IGP;primeur;bio;couleur;annee_recolte;code_elaboration (O/N);volume;degre (Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût));prix;unité_prix (H);code_cepage;code_dest (Z)\n";
 
         $contrats = $this->getContrats();
-        $this->printCSV($contrats->rows);
+        $this->printCSV($contrats->rows, $options['dryrun']);
     }
 
     protected function getContrats() {
@@ -90,7 +89,7 @@ EOF;
         return VracClient::getInstance()->retrieveAllVracs();
     }
 
-    protected function printCSV($contratsView) {
+    protected function printCSV($contratsView, $dryrun = false) {
         if (!count($contratsView)) {
             echo "Aucun contrats\n";
         }
@@ -140,7 +139,7 @@ EOF;
              * ACHETEUR
              */
             $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteurCompte->insee; // Code Insee Acheteur
-            $ligne[self::CSV_FA_NATURE_ACHETEUR] = ($acheteur->exist('nature_inao'))? $acheteur->nature_inao : ''; 
+            $ligne[self::CSV_FA_NATURE_ACHETEUR] = ($acheteur->exist('nature_inao'))? $acheteur->nature_inao : '';
             $ligne[self::CSV_FA_SIRET_ACHETEUR] = $acheteurSociete->siret;
             /**
              * VENDEUR
@@ -154,11 +153,13 @@ EOF;
             $ligne[self::CSV_FA_COURTIER] = ($contrat->mandataire_exist) ? 'O' : 'N';
 
             $delai_retiraison = $this->diffDate($contrat->date_limite_retiraison, $contrat->date_debut_retiraison, 'i');
+
             $ligne[self::CSV_FA_DELAI_RETIRAISON] = sprintf("%0.1f", $delai_retiraison); 
             $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = sprintf("%d", $contrat->acompte);
+
             $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
-            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA"; 
+            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA";
             $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($produit); // ASSIGNER LES CODE PRODUITS IGP
             $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
             $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
@@ -169,7 +170,7 @@ EOF;
             $ligne[self::CSV_FA_DEGRE] = sprintf("%0.1f", $contrat->degre);
             $ligne[self::CSV_FA_PRIX] = sprintf("%0.2f", $contrat->prix_initial_unitaire_hl);
             $ligne[self::CSV_FA_UNITE_PRIX] = 'H';
-            $ligne[self::CSV_FA_CODE_CEPAGE] = $contrat->cepage; // Aucun code produit ajourd'hui           
+            $ligne[self::CSV_FA_CODE_CEPAGE] = $contrat->cepage; // Aucun code produit ajourd'hui
             $ligne[self::CSV_FA_CODE_DEST] = "Z";
             /*
               Comment connaitre?
@@ -192,6 +193,12 @@ EOF;
             }
             echo "\n";
             $contrat->set('versement_fa', VracClient::VERSEMENT_FA_TRANSMIS);
+
+            if($dryrun) {
+
+                continue;
+            }
+
             $contrat->save();
         }
     }
@@ -233,7 +240,7 @@ EOF;
         }
     }
 
-    protected function getCodeDenomVinIGP($produit) {  
+    protected function getCodeDenomVinIGP($produit) {
         return sprintf('%03d',$produit->getCodeProduit());
     }
 
