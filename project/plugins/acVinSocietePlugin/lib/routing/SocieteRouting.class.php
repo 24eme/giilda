@@ -21,7 +21,7 @@ class SocieteRouting {
         $r->prependRoute('soc_etb_com_autocomplete_actif', new sfRoute('/societe-etablissement-compte/autocomplete/:interpro_id/actif', array('module' => 'societe',
             'action' => 'actifautocomplete')));
 
-        $r->prependRoute('societe_autocomplete_all', new sfRoute('/societe/autocomplete/:interpro_id/tous', array('module' => 'societe',
+        $r->prependRoute('societe_autocomplete_all', new sfRoute('/societe/autocomplete/:interpro_id/:type', array('module' => 'societe',
             'action' => 'autocomplete')));
 
         $r->prependRoute('societe_contact_chosen', new sfRoute('/societe-etablissement-compte/:identifiant/choisi', array('module' => 'societe',
