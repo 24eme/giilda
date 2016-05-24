@@ -19,7 +19,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
             $this->isreadonly = array('readonly' => 'readonly');
         }
         
-        $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id), $this->isreadonly));
+        $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id, 'type_societe' => array(SocieteClient::TYPE_OPERATEUR,SocieteClient::TYPE_AUTRE)), $this->isreadonly));
         $this->setWidget("libelle", new sfWidgetFormInput(array(), $this->isreadonly));
         $this->setWidget("quantite", new sfWidgetFormInputFloat(array(), $this->isreadonly));
         $this->setWidget("prix_unitaire", new sfWidgetFormInputFloat(array(), $this->isreadonly));
