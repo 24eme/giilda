@@ -446,6 +446,10 @@ class FactureClient extends acCouchdbClient {
         return $avoir;
     }
 
+    public function findAll() {
+        return FactureEtablissementView::getInstance()->getAllFacturesForCompta();
+    }
+    
     public function getFacturesByCompte($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $ids = $this->startkey(sprintf("FACTURE-%s-%s", $identifiant, "0000000000"))
                         ->endkey(sprintf("FACTURE-%s-%s", $identifiant, "9999999999"))

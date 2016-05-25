@@ -298,6 +298,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                if(!preg_match('/^([0-9]+)_([0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
+                    throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format!",$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]));
+                }
+                $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
+                $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
+                $detail->add('code_compte',$identifiants_compte_analytique[0]);                
                 $detail->taux_tva = 0.2;
             }
         }

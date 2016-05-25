@@ -44,9 +44,12 @@ class ExportFactureCSV {
             }
             
             foreach ($lignes->details as $detail) {
+                $code_compte_tiers = ($detail->exist('code_compte') && $detail->code_compte)? $detail->code_compte : '';
+                $identifiant_analytique = ($detail->exist('identifiant_analytique') && $detail->identifiant_analytique)? $detail->identifiant_analytique : $detail->identifiant_analytique; 
+                
 		$libelle = $lignes->libelle.' - '.$detail->libelle;
                 echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
-                . ';70610000;;' . $detail->identifiant_analytique . ';;CREDIT;' . $detail->montant_ht . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
+                . ';70610000;'.$code_compte_tiers.';' . $identifiant_analytique . ';;CREDIT;' . $detail->montant_ht . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
                 . ";";
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
