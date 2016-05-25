@@ -3,6 +3,7 @@
 . bin/config.inc
 
 php symfony export:societe --env=$SYMFONYENV > $TMP/societes.csv
+
 sort -t ';' -k 1,1 $TMP/societes.csv > $TMP/societes.sorted.csv
 touch $TMP/$SAMBA_SAGEFILE
 sort -t ';' -k 1,1 $TMP/$SAMBA_SAGEFILE | iconv -f ISO88591 -t UTF8 | sed 's/\([^;a-z0-9éèçàïëê]*\)$/;\1/i' > $TMP/InfosClientsSage.sorted.txt
