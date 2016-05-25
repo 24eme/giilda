@@ -15,7 +15,7 @@ class FactureDetail extends BaseFactureDetail {
 	if ($this->exist('identifiant_analytique')) {
 		return $this->_get('identifiant_analytique');
         }
-	return $this->getParent()->getParent()->getProduitIdentifiantAnalytique();
+	return ($this->getParent()->getParent()->exist('identifiant_analytique'))? $this->getParent()->getParent()->get('identifiant_analytique') : null;
    }
 
 }

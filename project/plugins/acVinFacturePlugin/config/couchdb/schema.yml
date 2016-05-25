@@ -88,6 +88,7 @@ Facture:
                             fields:
                               libelle: {}
                               identifiant_analytique: { required: false }
+                              code_compte: { required: false }
                               quantite: {type: float}
                               taux_tva: {type: float}
                               prix_unitaire: {type: float}
