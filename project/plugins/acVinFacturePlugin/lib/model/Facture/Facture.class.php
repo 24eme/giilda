@@ -119,6 +119,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
+    
+    public function getPrefixSage(){
+        return FactureConfiguration::getInstance()->getPrefixSage();
+    }
 
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
@@ -515,7 +519,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $echeance = new stdClass();
         $echeance->echeance_code = $echeance_code;
         $echeance->montant_ttc = $this->ttc($montant_ht);
-        $echeance->echeance_date = $date;
+        $echeance->echeance_date = $this->date_echeance;
         $this->add("echeances")->add(count($this->echeances), $echeance);
     }
 
