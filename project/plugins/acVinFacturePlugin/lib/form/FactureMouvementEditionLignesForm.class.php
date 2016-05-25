@@ -40,6 +40,7 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
         foreach ($this->embeddedForms as $key => $form) {
             if (!array_key_exists($key, $taintedValues)) {
                 $this->unEmbedForm($key);
+                unset($taintedValues[$key]);
             }
         }
         foreach ($taintedValues as $key => $values) {
@@ -102,6 +103,12 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
         return parent::bind($taintedValues, $taintedFiles);
     }
 
+    public function unEmbedForm($key) {
+        unset($this->widgetSchema[$key]);
+        unset($this->validatorSchema[$key]);
+        unset($this->embeddedForms[$key]);
+    }
+    
     public function unEmbedFormAndRemoveNode($socId, $uniqkey, &$taintedValues) {
         $this->getObject()->getOrAdd($socId)->remove($uniqkey);
         if (!count($this->getObject()->getOrAdd($socId))) {
