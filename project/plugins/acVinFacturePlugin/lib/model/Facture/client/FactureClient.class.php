@@ -65,7 +65,10 @@ class FactureClient extends acCouchdbClient {
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);
-        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille, $modele);
+        
+        $famille = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR)? SocieteClient::TYPE_AUTRE : $societe->famille;
+        
+        $facture->storeLignesFromMouvements($mouvementsSoc, $famille, $modele);
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
