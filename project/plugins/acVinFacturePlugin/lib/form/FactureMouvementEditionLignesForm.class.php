@@ -60,7 +60,7 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
                 }
 
                 $keyMvt = str_replace("nouveau_", "", $key);
-                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
+                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);                
                 $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
             }
         }
