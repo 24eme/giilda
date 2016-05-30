@@ -119,6 +119,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
+    
+    public function getPrefixSage(){
+        return FactureConfiguration::getInstance()->getPrefixSage();
+    }
 
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
@@ -298,6 +302,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                if(!preg_match('/^([0-9]+)_([0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
+                    throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format!",$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]));
+                }
+                $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
+                $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
+                $detail->add('code_compte',$identifiants_compte_analytique[0]);                
                 $detail->taux_tva = 0.2;
             }
         }
@@ -509,7 +519,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $echeance = new stdClass();
         $echeance->echeance_code = $echeance_code;
         $echeance->montant_ttc = $this->ttc($montant_ht);
-        $echeance->echeance_date = $date;
+        $echeance->echeance_date = $this->date_echeance;
         $this->add("echeances")->add(count($this->echeances), $echeance);
     }
 

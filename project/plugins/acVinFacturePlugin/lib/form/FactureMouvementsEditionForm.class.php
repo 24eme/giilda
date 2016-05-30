@@ -13,6 +13,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $options['interpro_id'];
         parent::__construct($object, $options, $CSRFSecret);
+        
     }
 
     public function configure() {
@@ -88,7 +89,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
                         $mvtObj->facture = 0;
                     }
                     $mvtObj->facturable = 1;
-                    $mvtObj->region = $societe->getRegionViticole();
+                    $mvtObj->region = ($societe->getRegionViticole())? $societe->getRegionViticole() : $societe->type_societe;
                     $mvtObj->date = $this->getObject()->getDate();
                 }
             }

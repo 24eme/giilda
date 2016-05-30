@@ -27,5 +27,9 @@ class FactureConfiguration {
         }
         
     }
+    
+    public function getPrefixSage() {
+            return $this->configuration['prefix_sage'];
+    }
 
 }

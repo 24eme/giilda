@@ -28,16 +28,19 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             }
         }
         $this->widgetSchema->setNameFormat('facture_mouvement_edition_ligne[%s]');
+        $this->validatorSchema->setOption('allow_extra_fields', true);
     }
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
+       
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {
             if (!array_key_exists($key, $taintedValues)) {
                 $this->unEmbedForm($key);
+                unset($taintedValues[$key]);
             }
         }
         foreach ($taintedValues as $key => $values) {
@@ -45,30 +48,77 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
                 continue;
             }
-            
+
             if (preg_match('/^nouveau_/', $key)) {
                 $identifiant = false;
                 foreach ($values as $keyValue => $value) {
                     if ($keyValue == 'identifiant') {
-                        if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {                        
+                        if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {
                             $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . '01';
                         }
                     }
                 }
-                
-                    $keyMvt = str_replace("nouveau_", "", $key);
-                    $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
-                    $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
-                }
-            
+
+                $keyMvt = str_replace("nouveau_", "", $key);
+                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);                
+                $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
+            }
         }
+        $nodes_to_remove = array();
+        foreach ($taintedValues as $key => $values) {
+            if (array_key_exists($key, $this->embeddedForms)) {
+                foreach ($values as $keyValue => $value) {
+                    if ($keyValue == 'identifiant') {
+                        $keyEmbedded = explode('_', $key);
+                        if (($keyEmbedded[0] != str_replace('SOCIETE-', '', $value) . '01') && $keyEmbedded[0] != "nouveau") {
+
+                            if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {
+                                $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . '01';
+
+                                $keyMvt = $keyEmbedded[1];
+                                $newKey = $identifiant . '_' . $keyMvt;
+
+                                $mouvementCloned = clone $this->getObject()->getOrAdd($keyEmbedded[0])->get($keyEmbedded[1]);
+                                $mouvementCloned->identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . '01';
+
+                                $mouvement = $this->getObject()->getOrAdd($mouvementCloned->identifiant)->add($keyMvt, $mouvementCloned);
+
+                                $this->embedForm($newKey, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $newKey)));
+                                $taintedValues[$newKey] = $taintedValues[$key];
+                                $this->validatorSchema[$newKey] = $this->validatorSchema[$key];
+                                $this->widgetSchema[$newKey] = $this->widgetSchema[$key];
+
+                                $nodes_to_remove[] = $key;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach ($nodes_to_remove as $nodeToRemoveKey) {
+            $keyEmbedded = explode('_', $nodeToRemoveKey);
+            $this->unEmbedFormAndRemoveNode($keyEmbedded[0], $keyEmbedded[1], $taintedValues);
+        }
+        return parent::bind($taintedValues, $taintedFiles);
     }
 
     public function unEmbedForm($key) {
         unset($this->widgetSchema[$key]);
         unset($this->validatorSchema[$key]);
         unset($this->embeddedForms[$key]);
-        $this->getObject()->remove($key);
+    }
+    
+    public function unEmbedFormAndRemoveNode($socId, $uniqkey, &$taintedValues) {
+        $this->getObject()->getOrAdd($socId)->remove($uniqkey);
+        if (!count($this->getObject()->getOrAdd($socId))) {
+            $this->getObject()->remove($socId);
+        }
+        $key = $socId . '_' . $uniqkey;
+        unset($this->widgetSchema[$key]);
+        unset($this->validatorSchema[$key]);
+        unset($this->embeddedForms[$key]);
+        unset($taintedValues[$key]);
     }
 
 }
