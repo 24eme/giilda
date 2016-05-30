@@ -13,16 +13,24 @@
 
     <form id="form_mouvement_edition_facture" action="" method="post" class="form-horizontal">
 
-
-        <?php echo $form->renderGlobalErrors(); ?>       
-
-
-
-        <?php if ($form->hasErrors()): ?>
-            <div class="alert alert-danger" role="alert">
-                Veuillez compléter ou corriger les erreurs
-            </div>
+        <?php if ($form instanceof sfForm && ($form->hasErrors() || $form->hasGlobalErrors())): ?>
+            <ul class="error_list">
+                <?php foreach ($form->getGlobalErrors() as $item): ?>
+                    <li><?php echo $item->getMessage(); ?></li>
+                <?php endforeach; ?>
+                <?php include_partial('drm/errorMessagesFromFormFieldSchema', array('form_field_schema' => $form->getFormFieldSchema())) ?>
+            </ul>
         <?php endif; ?>
+
+        <?php foreach ($form->getErrorSchema() as $item): ?>
+
+            <div class="alert alert-danger" role="alert">
+                <?php echo $item->getMessage(); ?>
+            </div>
+            <?php
+        endforeach;
+        ?>
+
         <div class="row row-margin"  style="border-bottom: 1px dotted #d2d2d2; padding-bottom: 20px;">
             <div class="col-xs-6">
                 <div class="row">
@@ -56,10 +64,20 @@
                     <div class="col-xs-1 text-center lead text-muted">Quantité</div>
                     <div class="col-xs-1 text-center lead text-muted">&nbsp;</div>
                 </div>
-                <?php foreach ($form['mouvements'] as $key => $mvtForm): ?>
-                    <?php include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm, 'item' => $factureMouvements->mouvements->get(str_replace('_', '/', $key)))); ?>
+                <?php
+                foreach ($form['mouvements'] as $key => $mvtForm):
+                    $itemKeys = split('_', $key);
+                    $item = ($factureMouvements->mouvements->exist($itemKeys[0]) && $factureMouvements->mouvements->get($itemKeys[0])->exist($itemKeys[1])) ?
+                            $factureMouvements->mouvements->get($itemKeys[0])->get($itemKeys[1]) : null;
+                    if (!preg_match('/^nouveau/', $key) || !$factureMouvements->mouvements->exist(str_replace('_', '/', $key))):
+                        ?>
 
-                <?php endforeach; ?> 
+                        <?php include_partial('itemMouvementFacture', array('mvtForm' => $mvtForm, 'item' => $item)); ?>
+
+                        <?php
+                    endif;
+                endforeach;
+                ?> 
                 <?php include_partial('templateMouvementFactureItem', array('mvtForm' => $form->getFormTemplate(), 'mvtKey' => $form->getNewMvtId())); ?>
             </div>
             <?php echo $form->renderHiddenFields(); ?>
