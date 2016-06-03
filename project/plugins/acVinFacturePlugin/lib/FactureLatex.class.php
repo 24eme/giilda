@@ -4,7 +4,7 @@ class FactureLatex extends GenericLatex {
 
   private $facture = null;
 
-  const MAX_LIGNES_PERPAGE = 50;
+  const MAX_LIGNES_PERPAGE = 48;
   const NB_LIGNES_PAPILLONS_FIXE = 2;
   const NB_LIGNES_PAPILLONS_PAR_ECHEANCE = 3;
   const NB_LIGNES_ENTETE = 10;
@@ -23,11 +23,11 @@ class FactureLatex extends GenericLatex {
       $nbLignes += self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $nb_echeances;
     return $nbLignes;
   }
-  
+
   public function getNbPages() {
     return floor(($this->getNbLignes()/ self::MAX_LIGNES_PERPAGE) + 1);
   }
-  
+
   private function getFileNameWithoutExtention() {
     return  'facture_'.$this->facture->identifiant.'_'.str_replace('/', '-', $this->facture->numero_interloire).'_'.$this->facture->numero_facture.'_'.$this->facture->_rev;
   }
