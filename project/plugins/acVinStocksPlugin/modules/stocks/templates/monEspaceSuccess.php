@@ -1,7 +1,7 @@
    <!-- #principal -->
     <section id="principal"  class="sv12">
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
-        
+
         <!-- #contenu_etape -->
         <section id="contenu_etape">
             <?php include_component('stocks', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
@@ -13,12 +13,12 @@
             </form>
 
             <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
-            <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?> 
+            <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
         </section>
         <!-- fin #contenu_etape -->
     </section>
     <!-- fin #principal -->
- 
+
 <?php
 slot('colButtons');
 ?>

@@ -27,7 +27,7 @@ class drmComponents extends sfComponents {
     }
 
     public function executeMonEspaceDrm() {
-        if (!$this->calendrier) 
+        if (!$this->calendrier)
             $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
         $this->hasNoPopupCreation = (isset($this->accueil_drm) && $this->accueil_drm);
@@ -120,7 +120,7 @@ class drmComponents extends sfComponents {
     }
 
     public function executeCalendrier() {
-        if (!$this->calendrier) 
+        if (!$this->calendrier)
             $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         if ($this->isTeledeclarationMode) {
             $this->creationDrmsForms = $this->getCreationDrmsForms();
@@ -162,6 +162,7 @@ class drmComponents extends sfComponents {
         $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
         $campgne = '999999';
         foreach ($drms as $drm) {
+
             if (!$conf->get($drm->produit_hash)->getCepage()->isCVOActif($drm->periode))
                 continue;
             if (!isset($this->recaps[$drm->produit_hash])) {
@@ -179,7 +180,6 @@ class drmComponents extends sfComponents {
             $this->recaps[$drm->produit_hash]['volume_stock_fin'] = $drm->volume_stock_fin_mois;
             $this->recaps[$drm->produit_hash]['volume_stock_commercialisable'] = $this->recaps[$drm->produit_hash]['volume_stock_fin'];
         }
-
         $this->periode_fin = '';
         if (isset($drm)) {
             $this->periode_fin = ConfigurationClient::getInstance()->getPeriodeLibelle($drm->periode);
@@ -220,7 +220,7 @@ class drmComponents extends sfComponents {
 
     protected function initLigneRecap($conf, $produit_hash) {
         $ligne = array();
-        $ligne['produit'] = $conf->get($produit_hash)->getLibelleFormat();
+        $ligne['produit'] = ($conf->exist($produit_hash))? $conf->get($produit_hash)->getLibelleFormat() : $conf->getProduitWithCorrespondanceInverse($produit_hash)->getLibelleFormat();
         $ligne['volume_stock_debut'] = 0;
         $ligne['volume_stock_debut_ds'] = null;
         $ligne['volume_recolte'] = 0;
