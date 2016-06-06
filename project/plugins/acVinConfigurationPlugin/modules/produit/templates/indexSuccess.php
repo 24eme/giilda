@@ -25,20 +25,22 @@
 <h2>Configuration des mouvements</h2>
 <table class="table table-condensed table-striped table-bordered table-hover">
     <tbody>
-        <?php foreach ($config->declaration->detail as $details): ?>
-            <?php foreach($config->declaration->detail->getDetailsSorted($details) as $detail): ?>
-            <tr>
-                <td><span class="<?php if($detail->mouvement_coefficient == -1): ?>text-danger<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>text-success<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
-                <td><?php echo $detail->getLibelle() ?> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
-                <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
-                <td><?php if($detail->facturable): ?>CVO<?php endif; ?></td>
-                <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
-                <td><?php if($detail->recolte): ?>RECOLTE<?php endif; ?></td>
-                <td><?php if($detail->revendique): ?>REVEND.<?php endif; ?></td>
-                <td><?php if($detail->details): ?>DETAILS<?php endif; ?></td>
-                <td><?php if($detail->vrac): ?>VRAC<?php endif; ?></td>
-                <td><?php if($detail->readable): ?>R<?php endif; ?><?php if($detail->writable): ?>W<?php endif; ?></td>
-            </tr>
+        <?php foreach ($config->declaration->filter('details') as $configDetails): ?>
+            <?php foreach ($configDetails as $details): ?>
+                <?php foreach($config->declaration->details->getDetailsSorted($details) as $detail): ?>
+                <tr>
+                    <td><?php echo $configDetails->getTypeDRMLibelle() ?></td>
+                    <td><span class="<?php if($detail->mouvement_coefficient == -1): ?>text-danger<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>text-success<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
+                    <td><?php echo $detail->getLibelle() ?> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
+                    <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
+                    <td><?php if($detail->facturable): ?>CVO<?php endif; ?></td>
+                    <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
+                    <td><?php if($detail->recolte): ?>RECOLTE<?php endif; ?></td>
+                    <td><?php if($detail->revendique): ?>REVEND.<?php endif; ?></td>
+                    <td><?php if($detail->details): ?><?php echo $detail->details ?><?php endif; ?></td>
+                    <td><?php if($detail->readable): ?>R<?php endif; ?><?php if($detail->writable): ?>W<?php endif; ?></td>
+                </tr>
+                <?php endforeach; ?>
             <?php endforeach; ?>
         <?php endforeach; ?>
     </tbody>

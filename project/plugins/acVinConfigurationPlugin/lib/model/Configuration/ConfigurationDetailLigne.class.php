@@ -6,6 +6,10 @@
  */
 class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
+    const DETAILS_VRAC = 'VRAC';
+    const DETAILS_EXPORT = 'EXPORT';
+    const DETAILS_COOPERATIVE = 'COOPERATIVE';
+
     public function isReadable() {
 
         return ($this->readable);
@@ -18,37 +22,38 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function isVrac() {
 
-        return ($this->vrac > 0);
+        return ($this->exist($detail) && $this->get($detail) == self::DETAILS_VRAC);
     }
 
     public function hasDetails() {
 
-        return ($this->details > 0);
+        return ($this->exist('details') && $this->get('details'));
     }
 
     public function getLibelle() {
-
-        return $this->getLibelleDetail()->libelle;
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getLibelleDetail($detail)->libelle;
     }
 
     public function getLibelleLong() {
-
-        return $this->getLibelleDetail()->libelle_long;
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getLibelleDetail($detail)->libelle_long;
     }
 
-    public function getDescription() {
-
-        return $this->getLibelleDetail()->description;
+    public function getDescription()
+    {
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getLibelleDetail($detail)->description;
     }
 
     private function getLibelleDetail() {
-
-        return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getDocument()->libelle_detail_ligne->get($detail)->get($this->getParent()->getKey())->get($this->getKey());
     }
 
     public function isFavoris() {
 
-        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getKey()."_".$this->getKey());
+        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getParent()->getKey()."_".$this->getParent()->getKey()."_".$this->getKey());
     }
 
     public function isWritableForEtablissement($etb) {

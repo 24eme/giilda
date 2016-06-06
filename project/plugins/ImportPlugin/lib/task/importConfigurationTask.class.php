@@ -32,7 +32,7 @@ EOF;
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
         $import_dir = $arguments['csv_dir'];
-        
+
         $configuration = ConfigurationClient::getInstance()->find($arguments['configuration_id']);
 
         if(!$configuration) {
@@ -40,7 +40,7 @@ EOF;
             $configuration->_id = $arguments['configuration_id'];
         }
 
-        $csv = new ProduitCsvFile($configuration, $import_dir."/produits.csv");   
+        $csv = new ProduitCsvFile($configuration, $import_dir."/produits.csv");
         $csv->importProduits();
 
         foreach (file($import_dir . '/details.csv') as $line) {
@@ -52,13 +52,12 @@ EOF;
             $detail->writable = (int) $datas[5];
             $detail->recolte = (int) $datas[8];
             $detail->revendique = (int) $datas[9];
-            $detail->details = (int) $datas[6];
+            $detail->details = $datas[6];
             $detail->mouvement_coefficient = (int) $datas[7];
-            $detail->vrac = (int) $datas[10];
-            $detail->facturable = (int) $datas[11];
-            $detail->douane_type = $datas[12];
-            $detail->douane_cat = $datas[13];
-            $detail->taxable_douane = (int) $datas[14];
+            $detail->facturable = (int) $datas[10];
+            $detail->douane_type = $datas[11];
+            $detail->douane_cat = $datas[12];
+            $detail->taxable_douane = (int) $datas[13];
         }
 
         foreach (file($import_dir . '/libelle_detail_ligne.csv') as $line) {
