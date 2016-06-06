@@ -37,8 +37,7 @@
                     <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
                     <td><?php if($detail->recolte): ?>RECOLTE<?php endif; ?></td>
                     <td><?php if($detail->revendique): ?>REVEND.<?php endif; ?></td>
-                    <td><?php if($detail->details): ?>DETAILS<?php endif; ?></td>
-                    <td><?php if($detail->vrac): ?>VRAC<?php endif; ?></td>
+                    <td><?php if($detail->details): ?><?php echo $detail->details ?><?php endif; ?></td>
                     <td><?php if($detail->readable): ?>R<?php endif; ?><?php if($detail->writable): ?>W<?php endif; ?></td>
                 </tr>
                 <?php endforeach; ?>

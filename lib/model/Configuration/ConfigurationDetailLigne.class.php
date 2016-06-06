@@ -6,6 +6,10 @@
  */
 class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
+    const DETAILS_VRAC = 'VRAC';
+    const DETAILS_EXPORT = 'EXPORT';
+    const DETAILS_COOPERATIVE = 'COOPERATIVE';
+
     public function isReadable() {
 
         return ($this->readable);
@@ -18,12 +22,12 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function isVrac() {
 
-        return ($this->vrac > 0);
+        return ($this->exist($detail) && $this->get($detail) == self::DETAILS_VRAC);
     }
 
-    public function hasDetails($detail = 'details') {
+    public function hasDetails() {
 
-        return ($this->exist($detail) && $this->get($detail) > 0);
+        return ($this->exist('details') && $this->get('details'));
     }
 
     public function getLibelle() {

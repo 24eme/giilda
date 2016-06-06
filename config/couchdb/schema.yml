@@ -54,7 +54,7 @@ Configuration:
         type: collection
         definition:
           fields:
-            '*':	
+            '*':
               type: collection
               definition:
                 fields:
@@ -116,7 +116,7 @@ Configuration:
         class: ConfigurationDeclaration
         inheritance: _ConfigurationDeclaration
         definition:
-          fields: 
+          fields:
             *:
               required: false
               class: ConfigurationDetail
@@ -135,11 +135,11 @@ Configuration:
                             fields:
                               readable: { type: integer }
                               writable: { type: integer }
-                              details: { type: integer }
+                              details: { }
                               revendique: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
-                              vrac: { type: integer }
+                              vrac: { type: integer, required: false }
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
@@ -156,11 +156,11 @@ Configuration:
                             fields:
                               readable: { type: integer }
                               writable: { type: integer }
-                              details: { type: integer }
+                              details: { }
                               revendique: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
-                              vrac: { type: integer }
+                              vrac: { type: integer, required: false }
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
@@ -177,11 +177,11 @@ Configuration:
                             fields:
                               readable: { type: integer }
                               writable: { type: integer }
-                              details: { type: integer }
+                              details: { }
                               revendique: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
-                              vrac: { type: integer }
+                              vrac: { type: integer, required: false }
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
@@ -202,7 +202,7 @@ Configuration:
                               revendique: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: {  }
-                              vrac: { type: integer }
+                              vrac: { type: integer, required: false }
                               facturable: {  }
                               douane_type: { }
                               douane_cat: { }
@@ -323,9 +323,9 @@ Configuration:
                                                     fields:
                                                       readable: { type: integer }
                                                       writable: { type: integer }
-                                                      details: { type: integer }
+                                                      details: { }
                                                       mouvement_coefficient: { type: integer }
-                                                      vrac: { type: integer }
+                                                      vrac: { type: integer, required: false }
                                                       facturable: { type: integer }
                                           entrees:
                                             required: false
@@ -339,9 +339,9 @@ Configuration:
                                                     fields:
                                                       readable: { type: integer }
                                                       writable: { type: integer }
-                                                      details: { type: integer }
+                                                      details: { }
                                                       mouvement_coefficient: { type: integer }
-                                                      vrac: { type: integer }
+                                                      vrac: { type: integer, required: false }
                                                       facturable: { type: integer }
                                           sorties:
                                             required: false
@@ -355,9 +355,9 @@ Configuration:
                                                     fields:
                                                       readable: { type: integer }
                                                       writable: { type: integer }
-                                                      details: { type: integer }
+                                                      details: { }
                                                       mouvement_coefficient: { type: integer }
-                                                      vrac: { type: integer }
+                                                      vrac: { type: integer, required: false }
                                                       facturable: { type: integer }
                                           stocks_fin:
                                             required: false
@@ -371,9 +371,9 @@ Configuration:
                                                     fields:
                                                       readable: { type: integer }
                                                       writable: { type: integer }
-                                                      details: { type: integer }
+                                                      details: { }
                                                       mouvement_coefficient: { type: integer }
-                                                      vrac: { type: integer }
+                                                      vrac: { type: integer, required: false }
                                                       facturable: { type: integer }
                                     interpro:
                                       type: collection
@@ -393,7 +393,7 @@ Configuration:
                                                     type: collection
                                                     required: false
                                                     definition:
-                                                      fields:                                                        
+                                                      fields:
                                                         '*':
                                                           class: ConfigurationDateCirculation
                                                           type: collection
@@ -475,9 +475,9 @@ Configuration:
                                                                 fields:
                                                                   readable: { type: integer }
                                                                   writable: { type: integer }
-                                                                  details: { type: integer }
+                                                                  details: { }
                                                                   mouvement_coefficient: { type: integer }
-                                                                  vrac: { type: integer }
+                                                                  vrac: { type: integer, required: false }
                                                                   facturable: { type: integer }
                                                       entrees:
                                                         required: false
@@ -491,9 +491,9 @@ Configuration:
                                                                 fields:
                                                                   readable: { type: integer }
                                                                   writable: { type: integer }
-                                                                  details: { type: integer }
+                                                                  details: { }
                                                                   mouvement_coefficient: { type: integer }
-                                                                  vrac: { type: integer }
+                                                                  vrac: { type: integer, required: false }
                                                                   facturable: { type: integer }
                                                       sorties:
                                                         required: false
@@ -507,9 +507,9 @@ Configuration:
                                                                 fields:
                                                                   readable: { type: integer }
                                                                   writable: { type: integer }
-                                                                  details: { type: integer }
+                                                                  details: { }
                                                                   mouvement_coefficient: { type: integer }
-                                                                  vrac: { type: integer }
+                                                                  vrac: { type: integer, required: false }
                                                                   facturable: { type: integer }
                                                       stocks_fin:
                                                         required: false
@@ -523,9 +523,9 @@ Configuration:
                                                                 fields:
                                                                   readable: { type: integer }
                                                                   writable: { type: integer }
-                                                                  details: { type: integer }
+                                                                  details: { }
                                                                   mouvement_coefficient: { type: integer }
-                                                                  vrac: { type: integer }
+                                                                  vrac: { type: integer, required: false }
                                                                   facturable: { type: integer }
                                                 interpro:
                                                   type: collection
@@ -690,9 +690,9 @@ Configuration:
                                                                             fields:
                                                                               readable: { type: integer }
                                                                               writable: { type: integer }
-                                                                              details: { type: integer }
+                                                                              details: { }
                                                                               mouvement_coefficient: { type: integer }
-                                                                              vrac: { type: integer }
+                                                                              vrac: { type: integer, required: false }
                                                                               facturable: { type: integer }
                                                                   entrees:
                                                                     required: false
@@ -706,9 +706,9 @@ Configuration:
                                                                             fields:
                                                                               readable: { type: integer }
                                                                               writable: { type: integer }
-                                                                              details: { type: integer }
+                                                                              details: { }
                                                                               mouvement_coefficient: { type: integer }
-                                                                              vrac: { type: integer }
+                                                                              vrac: { type: integer, required: false }
                                                                               facturable: { type: integer }
                                                                   sorties:
                                                                     required: false
@@ -722,9 +722,9 @@ Configuration:
                                                                             fields:
                                                                               readable: { type: integer }
                                                                               writable: { type: integer }
-                                                                              details: { type: integer }
+                                                                              details: { }
                                                                               mouvement_coefficient: { type: integer }
-                                                                              vrac: { type: integer }
+                                                                              vrac: { type: integer, required: false }
                                                                               facturable: { type: integer }
                                                                   stocks_fin:
                                                                     required: false
@@ -738,9 +738,9 @@ Configuration:
                                                                             fields:
                                                                               readable: { type: integer }
                                                                               writable: { type: integer }
-                                                                              details: { type: integer }
+                                                                              details: { }
                                                                               mouvement_coefficient: { type: integer }
-                                                                              vrac: { type: integer }
+                                                                              vrac: { type: integer, required: false }
                                                                               facturable: { type: integer }
                                                             lieux:
                                                               type: collection
@@ -776,7 +776,7 @@ Configuration:
                                                                                         type: collection
                                                                                         required: false
                                                                                         definition:
-                                                                                          fields:                                                                                            
+                                                                                          fields:
                                                                                             '*':
                                                                                               class: ConfigurationDateCirculation
                                                                                               type: collection
@@ -840,9 +840,9 @@ Configuration:
                                                                                         fields:
                                                                                           readable: { type: integer }
                                                                                           writable: { type: integer }
-                                                                                          details: { type: integer }
+                                                                                          details: { }
                                                                                           mouvement_coefficient: { type: integer }
-                                                                                          vrac: { type: integer }
+                                                                                          vrac: { type: integer, required: false }
                                                                                           facturable: { type: integer }
                                                                               entrees:
                                                                                 required: false
@@ -856,9 +856,9 @@ Configuration:
                                                                                         fields:
                                                                                           readable: { type: integer }
                                                                                           writable: { type: integer }
-                                                                                          details: { type: integer }
+                                                                                          details: { }
                                                                                           mouvement_coefficient: { type: integer }
-                                                                                          vrac: { type: integer }
+                                                                                          vrac: { type: integer, required: false }
                                                                                           facturable: { type: integer }
                                                                               sorties:
                                                                                 required: false
@@ -872,9 +872,9 @@ Configuration:
                                                                                         fields:
                                                                                           readable: { type: integer }
                                                                                           writable: { type: integer }
-                                                                                          details: { type: integer }
+                                                                                          details: { }
                                                                                           mouvement_coefficient: { type: integer }
-                                                                                          vrac: { type: integer }
+                                                                                          vrac: { type: integer, required: false }
                                                                                           facturable: { type: integer }
                                                                               stocks_fin:
                                                                                 required: false
@@ -888,11 +888,11 @@ Configuration:
                                                                                         fields:
                                                                                           readable: { type: integer }
                                                                                           writable: { type: integer }
-                                                                                          details: { type: integer }
+                                                                                          details: { }
                                                                                           mouvement_coefficient: { type: integer }
-                                                                                          vrac: { type: integer }
+                                                                                          vrac: { type: integer, required: false }
                                                                                           facturable: { type: integer }
-                                                                        couleurs: 
+                                                                        couleurs:
                                                                           type: collection
                                                                           definition:
                                                                             fields:
@@ -991,9 +991,9 @@ Configuration:
                                                                                                     fields:
                                                                                                       readable: { type: integer }
                                                                                                       writable: { type: integer }
-                                                                                                      details: { type: integer }
+                                                                                                      details: { }
                                                                                                       mouvement_coefficient: { type: integer }
-                                                                                                      vrac: { type: integer }
+                                                                                                      vrac: { type: integer, required: false }
                                                                                                       facturable: { type: integer }
                                                                                           entrees:
                                                                                             required: false
@@ -1007,9 +1007,9 @@ Configuration:
                                                                                                     fields:
                                                                                                       readable: { type: integer }
                                                                                                       writable: { type: integer }
-                                                                                                      details: { type: integer }
+                                                                                                      details: { }
                                                                                                       mouvement_coefficient: { type: integer }
-                                                                                                      vrac: { type: integer }
+                                                                                                      vrac: { type: integer, required: false }
                                                                                                       facturable: { type: integer }
                                                                                           sorties:
                                                                                             required: false
@@ -1023,9 +1023,9 @@ Configuration:
                                                                                                     fields:
                                                                                                       readable: { type: integer }
                                                                                                       writable: { type: integer }
-                                                                                                      details: { type: integer }
+                                                                                                      details: { }
                                                                                                       mouvement_coefficient: { type: integer }
-                                                                                                      vrac: { type: integer }
+                                                                                                      vrac: { type: integer, required: false }
                                                                                                       facturable: { type: integer }
                                                                                           stocks_fin:
                                                                                             required: false
@@ -1039,11 +1039,11 @@ Configuration:
                                                                                                     fields:
                                                                                                       readable: { type: integer }
                                                                                                       writable: { type: integer }
-                                                                                                      details: { type: integer }
+                                                                                                      details: { }
                                                                                                       mouvement_coefficient: { type: integer }
-                                                                                                      vrac: { type: integer }
+                                                                                                      vrac: { type: integer, required: false }
                                                                                                       facturable: { type: integer }
-                                                                                    cepages: 
+                                                                                    cepages:
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
@@ -1078,7 +1078,7 @@ Configuration:
                                                                                                               type: collection
                                                                                                               required: false
                                                                                                               definition:
-                                                                                                                fields:                                                                                            
+                                                                                                                fields:
                                                                                                                   '*':
                                                                                                                     class: ConfigurationDateCirculation
                                                                                                                     type: collection
@@ -1137,9 +1137,9 @@ Configuration:
                                         fields:
                                           readable: { type: integer }
                                           writable: { type: integer }
-                                          details: { type: integer }
+                                          details: { }
                                           mouvement_coefficient: { type: integer }
-                                          vrac: { type: integer }
+                                          vrac: { type: integer, required: false }
                                           facturable: { type: integer }
                               entrees:
                                 required: false
@@ -1153,9 +1153,9 @@ Configuration:
                                         fields:
                                           readable: { type: integer }
                                           writable: { type: integer }
-                                          details: { type: integer }
+                                          details: { }
                                           mouvement_coefficient: { type: integer }
-                                          vrac: { type: integer }
+                                          vrac: { type: integer, required: false }
                                           facturable: { type: integer }
                               sorties:
                                 required: false
@@ -1169,9 +1169,9 @@ Configuration:
                                         fields:
                                           readable: { type: integer }
                                           writable: { type: integer }
-                                          details: { type: integer }
+                                          details: { }
                                           mouvement_coefficient: { type: integer }
-                                          vrac: { type: integer }
+                                          vrac: { type: integer, required: false }
                                           facturable: { type: integer }
                               stocks_fin:
                                 required: false
@@ -1185,7 +1185,7 @@ Configuration:
                                         fields:
                                           readable: { type: integer }
                                           writable: { type: integer }
-                                          details: { type: integer }
+                                          details: { }
                                           mouvement_coefficient: { type: integer }
-                                          vrac: { type: integer }
+                                          vrac: { type: integer, required: false }
                                           facturable: { type: integer }
