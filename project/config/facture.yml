@@ -1,7 +1,7 @@
 ivso:
   configuration:
     facture:
-      prefix_sage: "20"  
+      prefix_sage: "02"
       type_cvo:
         identifiant_prefix: "C"
       type_libre:
