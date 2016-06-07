@@ -189,7 +189,7 @@ while(<STDIN>) {
 	if ($field[27]) {
 	    print $field[27]."\n";
 	}else{
-	    print "Cheque a 0 Jours Net\n";
+	    print "\n";
 	}
 	print "non soumis à pénalités de retard (EXPORT SAGE) : " if ($verbose);
 	print $field[22]."\n";
