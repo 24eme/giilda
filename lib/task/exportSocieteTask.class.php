@@ -50,8 +50,9 @@ EOF;
     print $societe->date_modification.";";
     print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
-    print $societe->email.";"; 
-    print "http://10.0.2.195/societe/".$societe->identifiant."/visualisation;";
+    print $societe->email.";";
+    print $this->routing->generate('societe_visualisation', $societe, true).';';
+#    print "http://10.0.2.195/societe/".$societe->identifiant."/visualisation;";
     try {
       if ($isclient == self::ISCLIENT) {
 	print $societe->getRegionViticole(false);
@@ -67,6 +68,8 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+
+    $this->routing = clone ProjectConfiguration::getAppRouting();
 
     echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;\n";
 
