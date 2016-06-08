@@ -587,15 +587,15 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public abstract function getTypeNoeud();
 
-    public function getDetailConfiguration() {
+    public function getDetailConfiguration($key) {
         try {
             $parent_node = $this->getParentNode();
         } catch (Exception $e) {
-            return $this->getDetail();
+            return $this->get($key)->getDetail();
             ;
         }
 
-        $details = $this->getParentNode()->getDetailConfiguration();
+        $details = $this->getParentNode()->getDetailConfiguration($key);
         if ($this->exist('detail')) {
             foreach ($this->detail as $type => $detail) {
                 foreach ($detail as $noeud => $droits) {
