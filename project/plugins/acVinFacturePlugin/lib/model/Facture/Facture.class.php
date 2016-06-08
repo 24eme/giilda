@@ -120,10 +120,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
     
-    public function getPrefixSage(){
-        return FactureConfiguration::getInstance()->getPrefixSage();
-    }
-
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
     }

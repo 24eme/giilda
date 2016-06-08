@@ -2,6 +2,7 @@ ivso:
   configuration:
     facture:
       prefix_sage: "02"
+      tva_compte: "44571502"
       type_cvo:
         identifiant_prefix: "C"
       type_libre:
@@ -12,6 +13,7 @@ ivbd:
   configuration:
     facture:
       prefix_sage: "VEN"
+      tva_compte: "44570100"
       type_cvo:
         identifiant_prefix: "1"
       type_libre:
