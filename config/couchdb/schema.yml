@@ -137,6 +137,7 @@ Configuration:
                               writable: { type: integer }
                               details: { }
                               revendique: { type: integer }
+                              restriction_lies: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer, required: false }
@@ -158,6 +159,7 @@ Configuration:
                               writable: { type: integer }
                               details: { }
                               revendique: { type: integer }
+                              restriction_lies: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer, required: false }
@@ -179,6 +181,7 @@ Configuration:
                               writable: { type: integer }
                               details: { }
                               revendique: { type: integer }
+                              restriction_lies: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer, required: false }
@@ -200,6 +203,7 @@ Configuration:
                               writable: {  }
                               details: {  }
                               revendique: { type: integer }
+                              restriction_lies: { type: integer }
                               recolte: { type: integer }
                               mouvement_coefficient: {  }
                               vrac: { type: integer, required: false }
