@@ -50,7 +50,9 @@
             <?php /*if ($isTeledeclarationMode) : ?>
                 <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('drm_etablissement', $vrac); ?>">Supprimer le brouillon</a>
             <?php endif;*/ ?>
+
                 <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
+
         </div>
         <div class="col-xs-4 text-right">
                 <?php if ($isTeledeclarationMode): ?>

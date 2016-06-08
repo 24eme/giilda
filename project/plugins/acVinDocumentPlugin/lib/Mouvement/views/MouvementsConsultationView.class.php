@@ -90,7 +90,7 @@ class MouvementsConsultationView extends acCouchdbView
         $mouvement->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $mouvement->type_drm = $row->value[self::KEY_TYPE_DRM];
         $mouvement->type_drm_libelle = $row->value[self::VALUE_TYPE_DRM_LIBELLE];
-        $mouvement->type_drm = $row->value[self::KEY_TYPE_DRM];
+        $mouvement->type_drm = $row->key[self::KEY_TYPE_DRM];
         $mouvement->type_libelle = $row->value[self::VALUE_TYPE_LIBELLE];
         $mouvement->volume = $row->value[self::VALUE_VOLUME];
         $mouvement->detail_identifiant = $row->key[self::KEY_DETAIL_IDENTIFIANT];
