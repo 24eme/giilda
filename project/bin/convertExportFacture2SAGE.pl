@@ -8,7 +8,6 @@ while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
         next if ($field[0] ne 'VEN' && $field[0] !~ /^[02]+$/);
-
 	next if (!$field[10]); #si montant à 0, l'ignorer
         $field[10] = sprintf("%.2f", $field[10]);
 	$field[10] =~ s/\./,/;
