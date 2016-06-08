@@ -29,7 +29,7 @@ class ExportFactureCSV {
         } else {
             $facture = FactureClient::getInstance()->find($doc_or_id);
         }
-        $prefix_sage = $facture->getPrefixSage();
+        $prefix_sage = FactureConfiguration::getInstance()->getPrefixSage();
         if (!$facture) {
             echo sprintf("WARNING;Le document n'existe pas %s\n", $doc_or_id);
             return;
@@ -91,7 +91,7 @@ class ExportFactureCSV {
 
     protected function getSageCompteGeneral($facture) {
         if ($facture->getTauxTva() == 20.0) {
-            return "44570100";
+            return FactureConfiguration::getInstance()->getTVACompte();
         }
 
         return "44570000";
