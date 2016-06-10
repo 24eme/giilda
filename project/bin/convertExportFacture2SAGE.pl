@@ -121,6 +121,6 @@ while(<STDIN>) {
 		print "empty;" if ($verbose);
 	        print "\n";
 		print "tiers;" if ($verbose);
-		print $field[15]."\n";
+		print encode_utf8(substr(decode_utf8($field[15]), 0, 30))."\n";
 	}
 }
