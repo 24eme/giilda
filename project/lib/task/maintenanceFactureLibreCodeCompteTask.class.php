@@ -44,28 +44,28 @@ EOF;
         foreach ($KeyNodeToRemove as $oldKey) {
           $comptaDoc->getOrAdd('identifiants_analytiques')->remove($oldKey);
         }
-           $comptaDoc->save();
+          $comptaDoc->save();
 
-            echo "TRAITEMENT DU DOC DE FACTURE LIBRE\n";
-            $mouvementsfactureLibreDocs = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
-
-
-            foreach ($mouvementsfactureLibreDocs as $mouvementfacture) {
-              foreach ($mouvementfacture->mouvements as $socId => $mvtSoc) {
-                foreach ($mvtSoc as $uniqId => $mvt) {
-                  echo "TRANSFORME ".$mvt->identifiant_analytique." => ".$correspondanceKeys[$mvt->identifiant_analytique]." \n";
-                  $mvt->identifiant_analytique = $correspondanceKeys[$mvt->identifiant_analytique];
-                }
-              }
-              $mouvementfacture->save();
-            }
+            // echo "TRAITEMENT DU DOC DE FACTURE LIBRE\n";
+            // $mouvementsfactureLibreDocs = MouvementsFactureClient::getInstance()->startkey('MOUVEMENTSFACTURE-0000000000')->endkey('MOUVEMENTSFACTURE-9999999999')->execute();
+            //
+            //
+            // foreach ($mouvementsfactureLibreDocs as $mouvementfacture) {
+            //   foreach ($mouvementfacture->mouvements as $socId => $mvtSoc) {
+            //     foreach ($mvtSoc as $uniqId => $mvt) {
+            //       echo "TRANSFORME ".$mvt->identifiant_analytique." => ".$correspondanceKeys[$mvt->identifiant_analytique]." \n";
+            //       $mvt->identifiant_analytique = $correspondanceKeys[$mvt->identifiant_analytique];
+            //     }
+            //   }
+            //   $mouvementfacture->save();
+            // }
         $factures = FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta();
         foreach ($factures as $factureObj) {
             $facture = FactureClient::getInstance()->find($factureObj->id);
             if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
                 echo "\nModification des ligne de la facture " . $factureObj->id;
                 foreach ($facture->lignes as $lignes) {
-                  $lignes->produit_identifiant_analytique = $correspondanceKeys[$lignes->produit_identifiant_analytique];
+                    $lignes->produit_identifiant_analytique = (isset($correspondanceKeys[$lignes->produit_identifiant_analytique]))? $correspondanceKeys[$lignes->produit_identifiant_analytique] : $lignes->produit_identifiant_analytique;
                     echo " (" . $lignes->produit_identifiant_analytique . ")";
                     if (!preg_match('/^([0-9]+)_([0-9]+)$/', $lignes->produit_identifiant_analytique)) {
                         throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format!", $lignes->produit_identifiant_analytique));
