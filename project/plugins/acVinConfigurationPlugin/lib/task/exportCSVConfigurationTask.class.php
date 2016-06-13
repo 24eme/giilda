@@ -38,12 +38,21 @@ EOF;
     echo sprintf("hash;libelle;code douane;code produit;code comptable;cvo\n");
 
     foreach($produits as $hash => $produit) {
+        $master_comptable = null;
+        $master_cvo = null;
         try {
-            $droit_cvo = $produit->getDroitCVO(date('Y-m-d'))->taux;
+            $ctaux = $produit->getDroitCVO(date('Y-m-d'));
+            $droit_cvo = $ctaux->taux;
+            if ($ctaux->isChapeau()) {
+               $master_comptable = $ctaux->getMasterProduit()->getCodeComptable();
+               $master_cvo = $ctaux->getMasterProduit()->getDroitCVO(date('Y-m-d'))->taux;
+	    }
         } catch(Exception $e) {
             $droit_cvo = null;
+            $master_comptable = null;
+            $master_cvo = null;
         }
-        echo sprintf("%s;%s;%s;%s;%s;%s\n", $hash, $produit->getLibelleFormat(), $produit->getCodeDouane(), $produit->getCodeProduit(), $produit->getCodeComptable(),$droit_cvo);
+        echo sprintf("%s;%s;%s;%s;%s;%s;%s;%s\n", $hash, $produit->getLibelleFormat(), $produit->getCodeDouane(), $produit->getCodeProduit(), $produit->getCodeComptable(),$droit_cvo, $master_comptable, $master_cvo);
     }
   }
 }
