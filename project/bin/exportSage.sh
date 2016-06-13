@@ -24,7 +24,7 @@ echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 
 echo -n > $TMP/factures.sage
 echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/factures.sage
-echo "#VER 14" | sed 's/$/\r/' >> $TMP/factures.sage
+echo "#VER 18" | sed 's/$/\r/' >> $TMP/factures.sage
 echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/factures.sage
 cat $TMP/factures.txt >> $TMP/factures.sage
 echo "#FIN" | sed 's/$/\r/' >> $TMP/factures.sage
