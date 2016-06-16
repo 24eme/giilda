@@ -71,7 +71,7 @@ endif;
             <?php endif; ?>
             <div class="row">
         		<?php if(isset($form['vendeur_identifiant'])): ?>
-                <div class="col-xs-6">
+                <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><label>Vendeur</label>

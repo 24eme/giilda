@@ -18,11 +18,11 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
                 if($request->hasParameter('add_produit')) {
                     $this->redirect($this->redirect('drm_choix_produit', array('sf_subject' => $this->drm, 'add_produit' => $request->getParameter('add_produit'))));
                 }
-                
-                return $this->redirect('drm_edition', $this->form->getObject(),'#col_saisies_cont');
+
+                return $this->redirect('drm_edition', $this->form->getObject());
             }
 
-            return $this->redirect('drm_edition', $this->form->getObject(),'#col_saisies_cont');
+            return $this->redirect('drm_edition', $this->form->getObject());
         }
 
         if($request->hasParameter('add_produit')) {

@@ -22,7 +22,7 @@ class VracSoussigneForm extends VracForm {
     private $types_responsable = array('vendeur' => 'Vendeur', 'acheteur' => 'Acheteur', 'mandataire' => 'Mandataire / Courtier');
 
     public function __construct(Vrac $object, $fromAnnuaire = false, $isAcheteurResponsable = false, $isCourtierResponsable = false, $ajaxSearch = false, $options = array(), $CSRFSecret = null) {
-        $this->fromAnnuaire = $fromAnnuaire;
+        $this->fromAnnuaire = false;
         $this->isAcheteurResponsable = $isAcheteurResponsable;
         $this->isCourtierResponsable = $isCourtierResponsable;
         $this->ajaxSearch = $ajaxSearch;
