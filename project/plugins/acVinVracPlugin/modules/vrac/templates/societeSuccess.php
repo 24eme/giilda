@@ -2,23 +2,23 @@
 use_helper('Vrac');
 use_helper('Float');
 ?>
-<section id="principal" class="contrat_teledeclaration_societe">
+<section id="principal" class="vrac">
 
     <h2 class="titre_societe titre_societe_teledeclaration">
         Espace de <?php echo $societe->raison_sociale; ?>
     </h2>
-    <div class="clearfix">
-        <ul class="stats_contrats">
+        <div class="row">
             <?php
-            $action_size_class = ' actions_3 ';
+            $panel_size = ' col-xs-4 ';
             if ($societe->isViticulteur() || $societe->isCourtier()):
-                $action_size_class = ' actions_2 ';
-            endif;
+                $panel_size = ' col-xs-6 ';
+              endif;
             if (!$societe->isViticulteur()):
                 ?>
-                <li class="stats_contrats_brouillon <?php echo $action_size_class; ?>"> 
-                    <div class="action <?php echo ($contratsSocietesWithInfos->infos->brouillon) ? "actif" : ""; ?>">
-                        <h2>  Brouillon </h2>
+                <div class="<?php echo $panel_size; ?>" >
+                <div class="panel panel-default">
+                    <div class="panel-heading <?php echo ($contratsSocietesWithInfos->infos->brouillon) ? "actif" : ""; ?>">Brouillon</div>
+                        <div class="panel-body">
                         <?php if ($contratsSocietesWithInfos->infos->brouillon): ?>
                             <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_CONTRAT_BROUILLON))) ?>">
                             <?php endif; ?>
@@ -27,14 +27,16 @@ use_helper('Float');
                             </a>
                         <?php endif; ?>
                     </div>
-                </li>
+                </div>
+                </div>
             <?php endif; ?>
             <?php
             if (!$societe->isCourtier()):
                 ?>
-                <li class="stats_contrats_a_signer <?php echo $action_size_class; ?>">
-                    <div class="action <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">
-                        <h2>  A Signer </h2>
+                  <div class="<?php echo $panel_size; ?>" >
+                <div class="panel panel-default">
+                    <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">A Signer</div>
+                        <div class="panel-body">
                         <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
                             <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI))) ?>">
                             <?php endif; ?>
@@ -43,11 +45,13 @@ use_helper('Float');
                             </a>
                         <?php endif; ?>
                     </div>
-                </li>
+                </div>
+                </div>
             <?php endif; ?>
-            <li class="stats_contrats_en_attente <?php echo $action_size_class; ?>">
-                <div class="action <?php echo ($contratsSocietesWithInfos->infos->en_attente) ? "actif" : ""; ?>">
-                    <h2>  En Attente </h2>
+            <div class="<?php echo $panel_size; ?>" >
+            <div class="panel panel-default">
+                <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->en_attente) ? "actif" : ""; ?>">En Attente</div>
+                    <div class="panel-body">
                     <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>
                         <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES))) ?>">
                         <?php endif; ?>
@@ -56,24 +60,26 @@ use_helper('Float');
                         </a>
                     <?php endif; ?>
                 </div>
-            </li>
-        </ul>
-    </div>
-    <div class="btn_block">
-        <a class="btn_majeur lien_history" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous')); ?>">
+                  </div>
+            </div>
+        </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <a class="btn btn-default" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous')); ?>">
             Voir tout l'historique
         </a>
-        <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>      
-            <a class="btn_orange btn_majeur lien_nouveau" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
+        <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
+            <a class="btn btn-warning" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
                 Saisir Un Nouveau contrat
             </a>
         <?php endif; ?>
     </div>
-
+</div>
     <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'limit' => 10)); ?>
 
 
-    <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?>
 
 </section>
 

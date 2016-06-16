@@ -1,20 +1,20 @@
-<?php 
+<?php
 $maxlimit = (isset($limit) && $limit)? $limit : null;
 $cpt = 0;
-?>    
-
+?>
+<div class="row">
+  <div class="col-xs-12">
 <?php if (count($contrats)): ?>
-        <table id="table_contrats" class="table_recap">    
-            <thead>
-                <tr>
-                    <th class="type">Type</th>
-                    <th>N° - Date</th>
-                    <th>Produit</th>
-                    <th>Soussignés</th>   
-                    <th>Statut/Actions</th>
-                </tr>
-            </thead>
-            <tbody>
+        <ul class="list-group">
+          <li class="list-group-item">
+                <div class="row">
+                    <div class="col-xs-2">Type</div>
+                    <div class="col-xs-2">N° - Date</div>
+                    <div class="col-xs-3">Produit</div>
+                    <div class="col-xs-3">Soussignés</div>
+                    <div class="col-xs-2">Statut/Actions</div>
+                </div>
+            </li>
                 <?php
                 foreach ($contrats as $contrat):
                     if(!is_null($maxlimit) && ($cpt >= $maxlimit)){
@@ -22,46 +22,54 @@ $cpt = 0;
                     }
                     $statut = $contrat->value[VracClient::VRAC_VIEW_STATUT];
                     if (!is_null($statut)):
-                        $statusColor = statusColor($contrat->value[VracClient::VRAC_VIEW_STATUT]);
+                        $statusColor = 'default';
+                        if($contrat->value[VracClient::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){
+                          $statusColor = 'warning';
+                        }elseif($contrat->value[VracClient::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_VISE){
+                          $statusColor = 'success';
+                        }elseif($contrat->value[VracClient::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_ANNULE){
+                          $statusColor = 'danger';
+                        }
                         $vracid = $contrat->value[VracClient::VRAC_VIEW_NUMCONTRAT];
-                        
+
                         $typeProduit = $contrat->value[VracClient::VRAC_VIEW_TYPEPRODUIT];
                         $numero_archive = $contrat->value[VracClient::VRAC_VIEW_NUMARCHIVE];
                         $produit_libelle = $contrat->value[VracClient::VRAC_VIEW_PRODUIT_LIBELLE];
-                        
+
                         $vendeur_identifiant = $contrat->value[VracClient::VRAC_VIEW_VENDEUR_ID];
                         $vendeur_nom = $contrat->value[VracClient::VRAC_VIEW_VENDEUR_NOM];
-                        
+
                         $acheteur_identifiant = $contrat->value[VracClient::VRAC_VIEW_ACHETEUR_ID];
                         $acheteur_nom = $contrat->value[VracClient::VRAC_VIEW_ACHETEUR_NOM];
-                        
+
                         $mandataire_identifiant = $contrat->value[VracClient::VRAC_VIEW_MANDATAIRE_ID];
                         $mandataire_nom = $contrat->value[VracClient::VRAC_VIEW_MANDATAIRE_NOM];
-                        
+
                         $signature_vendeur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
                         $signature_acheteur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
                         $signature_courtier = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
                         $createur_identifiant = $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT];
-                        
+
                         $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
                         $cpt++;
                         ?>
-                        <tr id="<?php echo 'vrac_'.$vracid; ?>" class="<?php echo $statusColor; ?>" >
-                            <td class="type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : '-'; ?></span></td>
-                            <td class="num_contrat">
+                          <li id="<?php echo 'vrac_'.$vracid; ?>" class="list-group-item list-group-item-<?php echo $statusColor; ?>">
+                            <div class="row" >
+                            <div class="col-xs-2 type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : '-'; ?></span></div>
+                            <div class="col-xs-2 num_contrat">
                                 <a href="<?php echo url_for('@vrac_visualisation?numero_contrat=' . $vracid); ?>">
                                     <span style="font-weight: bold;"><?php echo $numero_archive; ?></span><br> <?php echo dateFirstSignatureFromView($signature_vendeur,$signature_acheteur,$signature_courtier,$contrat); ?>
                                 </a>
-                            </td>
+                            </div>
 
-                            <td class="produit"><?php echo ($produit_libelle)? $produit_libelle : '-'; ?></td>
-                            <td class="soussigne">
-                                <ul>  
+                            <div class="col-xs-3 produit"><?php echo ($produit_libelle)? $produit_libelle : '-'; ?></div>
+                            <div class="col-xs-3 soussigne">
+                                <ul class="list-unstyled">
                                     <?php if ($vendeur_identifiant): ?>
                                     <li class="<?php echo getPictoSignature($societe, $contrat, 'Vendeur'); ?>">
                                             <span style="font-weight: bold;">
                                                 Vendeur :
-                                            </span>                                                    
+                                            </span>
                                             <?php echo $vendeur_nom; ?>
                                         </li>
                                     <?php endif; ?>
@@ -74,7 +82,7 @@ $cpt = 0;
                                         </li>
                                     <?php endif; ?>
                                     <?php if ($mandataire_identifiant): ?>
-                                        <li class="<?php echo getPictoSignature($societe, $contrat, 'Courtier'); ?>">                                                    
+                                        <li class="<?php echo getPictoSignature($societe, $contrat, 'Courtier'); ?>">
                                             <span style="font-weight: bold;">
                                                 Courtier :
                                             </span>
@@ -82,11 +90,11 @@ $cpt = 0;
                                         </li>
                                     <?php endif; ?>
                                 </ul>
-                            </td>              
-                            <td class="statut">           
+                            </div>
+                            <div class="col-xs-2 statut ">
                                 <p>
                                     <?php echo VracClient::$statuts_labels_teledeclaration[$statut]; ?>
-                                </p> 
+                                </p>
 
                                 <?php if (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>
                                     <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
@@ -100,19 +108,22 @@ $cpt = 0;
                                         Visualiser
                                         <?php  endif; ?>
                                     </a>
-                                <?php elseif ($statut == VracClient::STATUS_CONTRAT_BROUILLON && ($societe->identifiant == substr($createur_identifiant, 0,6))): ?> 
+                                <?php elseif ($statut == VracClient::STATUS_CONTRAT_BROUILLON && ($societe->identifiant == substr($createur_identifiant, 0,6))): ?>
                                      <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $vracid)) ?>">
                                          Continuer Brouillon
                                     </a>
                                 <?php endif; ?>
-                            </td>
-                        </tr>
+                            </div>
+                            </div>
+                        </li>
                         <?php
                     endif;
                 endforeach;
                 ?>
-            </tbody>
-        </table>
+            </ul>
+
     <?php else: ?>
-        <p> Pas de contrats </p>
+           Pas de contrats
     <?php endif; ?>
+</div>
+</div>

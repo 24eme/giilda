@@ -2,7 +2,7 @@
 use_helper('Vrac'); ?>
 <?php $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut != VracClient::STATUS_CONTRAT_SOLDE)); ?>
 
-<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
+<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
 <section id="principal" class="vrac">
 
@@ -38,7 +38,7 @@ use_helper('Vrac'); ?>
                                 <div class="form-group">
                                     <div class="col-xs-2 <?php if ($form['millesime']->hasError()): ?>has-error<?php endif; ?>">
                                     <?php echo $form['millesime']->render(array('class' => 'form-control select2')); ?>
-                                    </div>                	
+                                    </div>
                                         <?php if (isset($form['millesime_85_15'])): ?>
                                         <div class="col-xs-2 <?php if ($form['millesime_85_15']->hasError()): ?>has-error<?php endif; ?>">
             <?php echo $form['millesime_85_15']->renderError(); ?>
@@ -151,20 +151,20 @@ use_helper('Vrac'); ?>
                         <div class="panel-heading">
                             <h3 class="panel-title"><label>Informations complémentaires</label></h3>
                         </div>
-                        <div class="panel-body">                        
-                            <div class="col-sm-12">	
+                        <div class="panel-body">
+                            <div class="col-sm-12">
 <?php if (isset($form['lot'])): ?>
-                                <div class="col-sm-6">	
+                                <div class="col-sm-6">
 <?php echo $form['lot']->renderError(); ?>
                                 </div>
 <?php endif; ?>
 <?php if (isset($form['degre'])): ?>
-                                <div class="col-sm-6">	
+                                <div class="col-sm-6">
 <?php echo $form['degre']->renderError(); ?>
                                 </div>
 <?php endif; ?>
-                            </div>	
-                            <div class="col-sm-12">	
+                            </div>
+                            <div class="col-sm-12">
                                     <?php if (isset($form['lot'])): ?>
                                     <div class="form-group col-xs-6 <?php if ($form['lot']->hasError()): ?>has-error<?php endif; ?>">
                                             <?php echo $form['lot']->renderLabel("N° de lot :", array('class' => 'col-sm-4 control-label')); ?>
@@ -185,7 +185,7 @@ use_helper('Vrac'); ?>
                                         </div>
                                     </div>
                             <?php endif; ?>
-                            </div>		
+                            </div>
                             <?php if (isset($form['surface'])): ?>
                                     <?php echo $form['surface']->renderError(); ?>
                                 <div class="form-group col-xs-6 <?php if ($form['surface']->hasError()): ?>has-error<?php endif; ?>">
@@ -204,7 +204,7 @@ use_helper('Vrac'); ?>
                                 <?php if (isset($form['categorie_vin'])): ?>
                                         <?php echo $form['categorie_vin']->renderLabel("Type :&nbsp;", array('class' => 'col-sm-2 control-label')); ?>
                                     <div class="bloc_condition col-sm-3 <?php if ($form['categorie_vin']->hasError()): ?>has-error<?php endif; ?>" data-condition-cible="#bloc_domaine">
-                                    <?php echo $form['categorie_vin']->render(); ?>	                                
+                                    <?php echo $form['categorie_vin']->render(); ?>
                                     </div>
                                 <?php endif; ?>
 <?php if (isset($form['domaine'])): ?>
@@ -257,9 +257,9 @@ use_helper('Vrac'); ?>
                             <?php endif; ?>
 <?php if (isset($form['raisin_quantite'])): ?>
                                 <div class="form-group <?php if (isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if ($form['raisin_quantite']->hasError()): ?>has-error<?php endif; ?>">
-                                    <div class="col-xs-12">             
+                                    <div class="col-xs-12">
                                     <?php echo $form['raisin_quantite']->renderError(); ?>
-                                    </div>     
+                                    </div>
     <?php echo $form['raisin_quantite']->renderLabel("Quantité :", array('class' => 'col-sm-4 control-label')); ?>
                                     <div class="col-sm-7">
                                         <div class="input-group">
@@ -271,7 +271,7 @@ use_helper('Vrac'); ?>
                             <?php endif; ?>
 <?php if (isset($form['prix_initial_unitaire'])): ?>
                                 <div class="form-group <?php if (isset($form['bouteilles_contenance_libelle'])): ?>col-xs-4<?php else: ?>col-xs-6<?php endif; ?> <?php if ($form['prix_initial_unitaire']->hasError()): ?>has-error<?php endif; ?>">
-                                    <div class="col-xs-12">                      
+                                    <div class="col-xs-12">
                                     <?php echo $form['prix_initial_unitaire']->renderError(array('class' => ' col-xs-10 col-xs-offset-1')); ?>
                                     </div>
     <?php echo $form['prix_initial_unitaire']->renderLabel("Prix :", array('class' => 'col-sm-4 control-label')); ?>
@@ -297,10 +297,10 @@ use_helper('Vrac'); ?>
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
                 <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
-            <?php endif; ?>  
+            <?php endif; ?>
             <?php if (!$isTeledeclarationMode) : ?>
                 <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</button>
-            <?php endif; ?>  
+            <?php endif; ?>
         </div>
         <div class="col-xs-4 col-md-pull-8 text-left">
             <button type="submit" formnovalidate="formnovalidate" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
@@ -308,4 +308,3 @@ use_helper('Vrac'); ?>
     </div>
 </form>
 </section>
-

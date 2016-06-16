@@ -3,7 +3,7 @@
  * Description : Fichier php correspondant à la vue de vrac/XXXXXXXXXXX/recapitulatif
  * Affichage des dernières information de la saisie : numero de contrat
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
+ * Version : 1.0.0
  * Derniere date de modification : 29-05-12
  */
 use_helper('Vrac');
@@ -11,11 +11,15 @@ use_helper('Date');
 ?>
 
 <ol class="breadcrumb">
+  <?php if ($isTeledeclarationMode): ?>
+    <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrats</a></li>
+  <?php else: ?>
     <li><a href="<?php echo url_for('vrac') ?>">Contrats</a></li>
+  <?php endif; ?>
     <li><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive; ?> (<?php echo formatNumeroBordereau($vrac->numero_contrat); ?>)</a></li>
 </ol>
 <section id="principal" class="vrac">
-<div class="row">      
+<div class="row">
     <div class="col-xs-12">
         <h2 class="titre_page">
             <?php if ($isTeledeclarationMode): ?>
@@ -31,7 +35,7 @@ use_helper('Date');
                     }
                     ?>
                     <span class="<?php echo $classStatut; ?>"><?php echo "Contrat de " . showType($vrac) . '&nbsp;-&nbsp;' . $vrac->getTeledeclarationStatutLabel(); ?></span>
-                <?php endif; ?>                           
+                <?php endif; ?>
             </div>
         </h2>
     </div>
@@ -41,16 +45,16 @@ use_helper('Date');
             <span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
         </p>
     </div>
-    
+
     <?php if ($vrac->isVise()) : ?>
-        <div class="col-xs-4 text-center">	
+        <div class="col-xs-4 text-center">
             <p style="font-size: 24px;">
                 N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_visa, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
                 <small class="text-muted"><?php echo formatNumeroBordereau($vrac->numero_contrat); ?></small>
             </p>
         </div>
-        <div class="col-xs-4 text-right">	
-            <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>"> 
+        <div class="col-xs-4 text-right">
+            <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>">
                 <div class="btn-group">
                     <span style="background-color: #e6e6e6; border-color: #adadad; color: #333; cursor: default; font-weight: bold;" class="btn btn-default btn-disabled  statut  <?php echo getClassStatutPicto($vrac, $isTeledeclarationMode); ?>"><?php echo $vrac->getStatutLabel(); ?></span>
                     <?php if (!$isTeledeclarationMode): ?>
@@ -71,22 +75,23 @@ use_helper('Date');
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-warning">Modifier</a>
                         <?php endif; ?>
                         <?php if ($isTeledeclarationMode && $isTeledeclare && $isProprietaire && !$vrac->isVise() && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE): ?>
-                            <button id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>  
-                        <?php endif; ?>    
+                            <button id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>
+                        <?php endif; ?>
                         <?php if (!$isTeledeclarationMode): ?>
-                            <button id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>  
-                        <?php endif; ?>        
-                    <?php endif; ?>       
+                            <button id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
 
             </form>
         </div>
     <?php endif; ?>
-
     <?php if ($signatureDemande): ?>
-        <a id="signature_popup_haut" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a> 
-
+      <div class="col-xs-8 text-right">
+        <a id="signature_popup_haut" data-target="#signature_popup_content" class="signature_popup btn btn-success pull-right">Signer le contrat</a>
+      </div>
     <?php endif; ?>
+
 
 
     <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
@@ -95,17 +100,20 @@ use_helper('Date');
     <div class="col-xs-12">
         <?php if ($vrac->isVise()): ?>
             <div class="txt_centre text-center">
-                <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn btn-success">Télécharger le PDF</a>  
+                <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn btn-success">Télécharger le PDF</a>
             </div>
         <?php endif; ?>
         <?php if ($isTeledeclarationMode && !$vrac->isVise()): ?>
-            <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_orange btn_majeur" style="float: left;">Retourner à l'espace contrats</a>
+            <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn btn-default" style="float: left;">Retourner à l'espace contrats</a>
+        <?php endif; ?>
+        <?php if ($signatureDemande): ?>
+
+            <a data-toggle="modal" data-target="#signature_popup_content" class="signature_popup btn btn-success pull-right">Signer le contrat</a>
+
         <?php endif; ?>
     </div>
 </div>
-<?php if ($signatureDemande): ?>
-    <a id="signature_popup_bas" href="#signature_popup_content" class="signature_popup btn_majeur btn_vert f_right">Signer le contrat</a>      
+  <?php if ($signatureDemande): ?>
     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 <?php endif; ?>
 </section>
-

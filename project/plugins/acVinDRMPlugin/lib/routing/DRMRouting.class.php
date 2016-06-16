@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * DRMRouting configuration.
- * 
+ *
  * @package    DRMRouting
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -37,8 +37,8 @@ class DRMRouting {
         $r->prependRoute('drm', new sfRoute('/drm', array('module' => 'drm',
             'action' => 'index')));
 
-        $r->prependRoute('drm_etablissement_selection',  new sfRoute('/drm/etablissement-selection', 
-                                                                    array('module' => 'drm', 
+        $r->prependRoute('drm_etablissement_selection',  new sfRoute('/drm/etablissement-selection',
+                                                                    array('module' => 'drm',
                                                                     'action' => 'etablissementSelection'),
                                                                     array('sf_method' => array('post'))
                                                         ));
@@ -169,15 +169,16 @@ class DRMRouting {
 
         //ROUTING TELEDECLARATION
 
-        $r->prependRoute('drm_societe', new sfRoute('/drm/societe/:identifiant', array('module' => 'drm',
-            'action' => 'societe')));
+        $r->prependRoute('drm_societe', new EtablissementRoute('/drm/societe/:identifiant', array('module' => 'drm',
+            'action' => 'societe'), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
+               'type' => 'object')));
 
         $r->prependRoute('drm_choix_creation', new sfRoute('/drm/:identifiant/choix-creation/:periode', array('module' => 'drm',
             'action' => 'choixCreation')));
 
         $r->prependRoute('drm_verification_fichier_edi', new sfRoute('/drm/:identifiant/verification-edi/:periode/:md5', array('module' => 'drm',
             'action' => 'verificationEdi')));
-        
+
         $r->prependRoute('drm_creation_fichier_edi', new sfRoute('/drm/:identifiant/creation-edi/:periode/:md5', array('module' => 'drm',
             'action' => 'creationEdi')));
 

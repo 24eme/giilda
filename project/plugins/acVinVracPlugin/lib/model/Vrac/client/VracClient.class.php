@@ -240,11 +240,13 @@ class VracClient extends acCouchdbClient {
             throw new sfException("wrong campagne format ($campagne)");
 
         $allEtablissements = $societe->getEtablissementsObj();
+
         $bySoussigne = array();
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
-            $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut, array()))
-                            ->endkey(array('SOCIETE', $campagne, $etbId, $statut))->descending(true);
+
+            $bySoussigneQuery = $this->startkey(array($etbId,$campagne, array()))
+                            ->endkey(array($etbId,$campagne))->descending(true);
             if ($limit) {
                 $bySoussigneQuery = $bySoussigneQuery->limit($limit);
             }
@@ -264,10 +266,11 @@ class VracClient extends acCouchdbClient {
 
         $campagnes['current'] = ConfigurationClient::getInstance()->getCurrentCampagne();
         $campagnes['previous'] = ConfigurationClient::getInstance()->getPreviousCampagne($campagnes['current']);
-
         $statuts = self::$statuts_teledeclaration_sorted;
 
+
         $cpt = 0;
+
         foreach ($statuts as $statut) {
             foreach ($campagnes as $campagne) {
                 if ($cpt > $limit) {
