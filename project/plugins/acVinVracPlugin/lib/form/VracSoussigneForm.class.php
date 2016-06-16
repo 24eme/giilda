@@ -40,38 +40,47 @@ class VracSoussigneForm extends VracForm {
         $type = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'Producteur', EtablissementFamilles::FAMILLE_NEGOCIANT => 'Négociant');
         if ($this->fromAnnuaire && $this->getObject()->createur_identifiant) {
             $vendeurs = $this->getRecoltants();
-            $acheteurs = $this->getNegociants();
+            if(!$this->isAcheteurResponsable){
+              $acheteurs = $this->getNegociants();
+            }
             $commerciaux = $this->getCommerciaux();
             $representants = $this->getRepresentants();
             $this->setWidget('vendeur_identifiant', new bsWidgetFormChoice(array('choices' => $vendeurs), array('class' => 'autocomplete')));
             $this->setWidget('representant_identifiant', new bsWidgetFormChoice(array('choices' => $representants), array('class' => 'autocomplete')));
-            $this->setWidget('acheteur_identifiant', new bsWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
+            if(!$this->isAcheteurResponsable){
+              $this->setWidget('acheteur_identifiant', new bsWidgetFormChoice(array('choices' => $acheteurs), array('class' => 'autocomplete')));
+            }
             $this->setWidget('commercial', new bsWidgetFormChoice(array('choices' => $commerciaux), array('class' => 'autocomplete')));
 
-            $this->setValidator('vendeur_identifiant', new bsValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
+            $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
             $this->setValidator('representant_identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($representants))));
-            $this->validatorSchema['acheteur_identifiant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
+
             if ($this->isAcheteurResponsable) {
                 $acheteursChoiceValides[] = 'ETABLISSEMENT-' . $this->getObject()->createur_identifiant;
             } else {
                 $acheteursChoiceValides = array_keys($acheteurs);
+                $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
+                $this->validatorSchema['acheteur_identifiant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
             }
-            $this->setValidator('acheteur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => $acheteursChoiceValides)));
+
             $this->setValidator('commercial', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($commerciaux))));
             $this->widgetSchema->setLabel('commercial', 'Sélectionner un interlocuteur commercial :');
         } else {
             $this->setWidget('vendeur_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
+  if(!$this->isAcheteurResponsable){
             $this->setWidget('acheteur_producteur', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setWidget('acheteur_negociant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
-            $this->setWidget('representant_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_REPRESENTANT)));
-            $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setValidator('acheteur_producteur', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setValidator('acheteur_negociant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
+}
+            $this->setWidget('representant_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_REPRESENTANT)));
+            $this->setValidator('vendeur_identifiant', new ValidatorEtablissement(array('required' => true, 'familles' => EtablissementFamilles::FAMILLE_PRODUCTEUR)));
             $this->setValidator('representant_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_REPRESENTANT)));
-            
-        }
 
+        }
+  if(!$this->isAcheteurResponsable){
         $this->setWidget('acheteur_type', new bsWidgetFormChoice(array('choices' => $type, 'expanded' => true)));
+      }
         $this->setWidget('type_contrat', new bsWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true)));
         $this->setWidget('responsable', new bsWidgetFormChoice(array('choices' => $this->getTypesResponsable(), 'expanded' => true)));
         $this->setWidget('type_transaction', new bsWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true)));
@@ -102,7 +111,9 @@ class VracSoussigneForm extends VracForm {
             'logement' => 'Ville : ',
             'type_contrat' => 'Contrat pluriannuel',
         ));
+        if(!$this->isAcheteurResponsable){
         $this->setValidator('acheteur_type', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($type))));
+      }
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('responsable', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesResponsable()))));
         $this->setValidator('interne', new sfValidatorBoolean(array('required' => false)));
@@ -115,11 +126,11 @@ class VracSoussigneForm extends VracForm {
         $this->setValidator('vendeur_tva', new sfValidatorBoolean(array('required' => false)));
 
         $this->validatorSchema['vendeur_identifiant']->setMessage('required', 'Le choix d\'un vendeur est obligatoire');
-        $this->validatorSchema['acheteur_producteur']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
-        $this->validatorSchema['acheteur_negociant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
+      //  $this->validatorSchema['acheteur_producteur']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
+      //  $this->validatorSchema['acheteur_negociant']->setMessage('required', 'Le choix d\'un acheteur est obligatoire');
 
 
-        $this->validatorSchema->setPostValidator(new ValidatorVracSoussigne());
+    //    $this->validatorSchema->setPostValidator(new ValidatorVracSoussigne());
         $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('soussigne', $this->getObject()->type_transaction));
         $this->widgetSchema->setNameFormat('vrac[%s]');
     }
@@ -137,6 +148,7 @@ class VracSoussigneForm extends VracForm {
             $defaults['representant_identifiant'] = 'ETABLISSEMENT-' . $this->getObject()->representant_identifiant;
         }
         $defaults['acheteur_type'] = EtablissementFamilles::FAMILLE_NEGOCIANT;
+
         if ($this->getObject()->acheteur_identifiant) {
             if ($this->getObject()->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                 $defaults['acheteur_producteur'] = 'ETABLISSEMENT-' . $this->getObject()->acheteur_identifiant;
@@ -207,10 +219,12 @@ class VracSoussigneForm extends VracForm {
             $this->getObject()->add('interlocuteur_commercial');
         }
         parent::doUpdateObject($values);
-        if ($values['acheteur_type'] == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
-            $this->getObject()->acheteur_identifiant = $values['acheteur_producteur'];
-        } else {
-            $this->getObject()->acheteur_identifiant = $values['acheteur_negociant'];
+        if (!$this->getObject()->acheteur_identifiant){
+          if($values['acheteur_type'] == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+              $this->getObject()->acheteur_identifiant = $values['acheteur_producteur'];
+          } else {
+              $this->getObject()->acheteur_identifiant = $values['acheteur_negociant'];
+          }
         }
         if (isset($values['type_contrat']) && $values['type_contrat']) {
             $this->getObject()->type_contrat = VracClient::TYPE_CONTRAT_PLURIANNUEL;

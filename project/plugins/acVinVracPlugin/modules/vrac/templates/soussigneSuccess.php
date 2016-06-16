@@ -2,7 +2,6 @@
 <?php
 
 $urlForm = null;
-
 if (($form->getObject()->isNew() && !isset($isTeledeclarationMode)) || ($form->getObject()->isNew() && !$isTeledeclarationMode)) :
     $urlForm = url_for('vrac_nouveau');
 elseif ($form->getObject()->isNew() && isset($isTeledeclarationMode) && $isTeledeclarationMode) :
@@ -16,20 +15,20 @@ else :
 endif;
 ?>
 
-<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
+<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
 <section id="principal" class="vrac">
 
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
-<form 
-	id="contrat_soussignes" 
-	data-numcontrat="<?php echo ($nouveau)? null : $form->getObject()->numero_contrat ;?>" 
-	data-isteledeclare="<?php echo ($isTeledeclarationMode)? 1 : 0 ;?>" 
-	data-etablissementprincipal="<?php if (isset($etablissementPrincipal) && $etablissementPrincipal) echo $etablissementPrincipal->_id ?>" 
+<form
+	id="contrat_soussignes"
+	data-numcontrat="<?php echo ($nouveau)? null : $form->getObject()->numero_contrat ;?>"
+	data-isteledeclare="<?php echo ($isTeledeclarationMode)? 1 : 0 ;?>"
+	data-etablissementprincipal="<?php if (isset($etablissementPrincipal) && $etablissementPrincipal) echo $etablissementPrincipal->_id ?>"
 	data-iscourtierresponsable="<?php echo (isset($isCourtierResponsable) && $isCourtierResponsable)? 1 : 0 ?>"
-	action="<?php echo $urlForm; ?>" 
-	method="post" 
+	action="<?php echo $urlForm; ?>"
+	method="post"
 	class="form-horizontal"
 >
     <?php echo $form->renderHiddenFields() ?>
@@ -69,7 +68,7 @@ endif;
                     </div>
                 </div>
             </div>
-            <?php endif; ?>            
+            <?php endif; ?>
             <div class="row">
         		<?php if(isset($form['vendeur_identifiant'])): ?>
                 <div class="col-xs-6">
@@ -195,7 +194,7 @@ endif;
 	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
 	                                        <div class="col-sm-12" id="acheteur_producteur_choice">
 	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2autocomplete select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection, #bloc_acheteur_type')); ?>
-	                                        </div> 
+	                                        </div>
 	                                    </div>
 	                                </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_producteur_informations">
@@ -213,7 +212,7 @@ endif;
 	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
 	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
 	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2autocomplete select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection, #bloc_acheteur_type')); ?>
-	                                        </div> 
+	                                        </div>
 	                                    </div>
 	                                </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_negociant_informations">
@@ -286,14 +285,14 @@ endif;
         <div class="col-xs-4 text-center">
             <?php if ($vrac->isBrouillon()) : ?>
                 <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
-            <?php endif; ?>  
+            <?php endif; ?>
         </div>
-        
+
         <div class="col-xs-4 col-md-pull-8 text-left">
             <?php if ($isTeledeclarationMode): ?>
-                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a> 
-            <?php else: ?>                        
-                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a> 
+                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a>
+            <?php else: ?>
+                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a>
             <?php endif; ?>
         </div>
     </div>

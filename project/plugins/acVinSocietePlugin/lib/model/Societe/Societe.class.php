@@ -271,7 +271,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
 
         foreach ($this->getEtablissementsObj() as $id => $e) {
-            if ($e->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+            if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                 return true;
             }
         }
@@ -284,7 +284,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
 
         foreach ($this->getEtablissementsObj() as $id => $e) {
-            if ($e->famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
+            if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
                 return true;
             }
         }

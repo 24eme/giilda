@@ -104,12 +104,15 @@ class vracActions extends sfActions {
     }
 
     public function executeNouveau(sfWebRequest $request) {
-        exit;
+
         $this->redirect403IfICanNotCreate();
         $isMethodPost = $request->isMethod(sfWebRequest::POST);
 
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
+        if($this->getUser()->getCompte()->getEtablissement()->isNegociant()){
+          $this->vrac->acheteur_identifiant = $this->getUser()->getCompte()->getEtablissement()->identifiant;
+        }
         $this->vrac = $this->populateVracTiers($this->vrac);
         $this->compte = null;
         $this->etablissementPrincipal = null;
@@ -134,7 +137,6 @@ class vracActions extends sfActions {
                 return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
             }
         }
-
         $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable);
 
         $this->init_soussigne($request, $this->form);
@@ -182,6 +184,7 @@ class vracActions extends sfActions {
     }
 
     public function executeSociete(sfWebRequest $request) {
+
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->identifiant = $request['identifiant'];
@@ -644,7 +647,7 @@ class vracActions extends sfActions {
 
         $this->response->setContentType('text/csv');
         $this->response->setHttpHeader('Content-Disposition', $attachement);
-        //  $this->response->setHttpHeader('Content-Length', filesize($file));    
+        //  $this->response->setHttpHeader('Content-Length', filesize($file));
     }
 
     public function executeExportEtiquette(sfWebRequest $request) {
@@ -785,7 +788,7 @@ class vracActions extends sfActions {
 
     /*
      * Fonctions pour la population de l'annuaire
-     * 
+     *
      */
 
     protected function populateVracTiers($vrac) {
@@ -795,7 +798,7 @@ class vracActions extends sfActions {
 
     /*
      * Fonctions de service liées aux droits Users
-     * 
+     *
      */
 
     private function isTeledeclarationVrac() {
@@ -824,6 +827,7 @@ class vracActions extends sfActions {
             new sfException("Le compte $compte n'existe pas");
         }
         $this->societe = $this->compte->getSociete();
+
         $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
     }
 
@@ -923,7 +927,7 @@ class vracActions extends sfActions {
 
     /*
      * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
-     * 
+     *
      */
 
     protected function renderPdf($path, $filename) {
