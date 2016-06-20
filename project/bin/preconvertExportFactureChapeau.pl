@@ -5,6 +5,8 @@ use Encode;
 $productfile = shift;
 $analytiqfile = shift;
 
+my %mois = ("janvier"=>"01", "février"=>"02", "mars"=>"03", "avril"=>"04", "mai"=>"05", "juin"=>"06", "juillet"=>"07", "août"=>"08", "septembre"=>"09", "octobre"=>"10", "novembre"=>"11", "décembre"=>"12");
+
 my %comptachapeau;
 if (open(FH, $productfile)) {
    while (<FH>) {
@@ -34,6 +36,9 @@ while(<STDIN>) {
         @field = split/;/ ;
         if (!$field[7] && $analytiq{$field[5]}) {
                 $field[7] = $analytiq{$field[5]};
+        }
+        if ($field[4] =~ /(.*DRM )(de |d')([^ ]+) 20(.*)/) {
+		$field[4] = $1.$mois{$3}.'/'.$4;
         }
         if ( $comptachapeau{$field[5]} ) {
            $montant = $field[10];
