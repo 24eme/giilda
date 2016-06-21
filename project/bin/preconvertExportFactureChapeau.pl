@@ -11,6 +11,7 @@ my %comptachapeau;
 if (open(FH, $productfile)) {
    while (<FH>) {
        chomp;
+       @prod = ();
        @prod = split(/;/);
        if ($prod[6]) {
            $comptachapeau{$prod[4]}{'master_compta'} = $prod[6];
@@ -43,7 +44,8 @@ while(<STDIN>) {
         if ( $comptachapeau{$field[5]} ) {
            $montant = $field[10];
            $code = $field[5];
-           $field[10] = sprintf('%.02f', $montant * (1 - $comptachapeau{$code}{'master_cvo'} / $comptachapeau{$code}{'global_cvo'}));
+           $volume = $montant / $comptachapeau{$code}{'global_cvo'};
+           $field[10] = sprintf('%.02f', $volume * ($comptachapeau{$code}{'global_cvo'} - $comptachapeau{$code}{'master_cvo'}));
            print join(';', @field)."\n";
            $field[7] = '';
            $field[10] = $montant - $field[10];
