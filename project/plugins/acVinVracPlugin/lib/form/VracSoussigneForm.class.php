@@ -22,7 +22,7 @@ class VracSoussigneForm extends VracForm {
     private $types_responsable = array('vendeur' => 'Vendeur', 'acheteur' => 'Acheteur', 'mandataire' => 'Mandataire / Courtier');
 
     public function __construct(Vrac $object, $fromAnnuaire = false, $isAcheteurResponsable = false, $isCourtierResponsable = false, $ajaxSearch = false, $options = array(), $CSRFSecret = null) {
-        $this->fromAnnuaire = false;
+        $this->fromAnnuaire = $fromAnnuaire;
         $this->isAcheteurResponsable = $isAcheteurResponsable;
         $this->isCourtierResponsable = $isCourtierResponsable;
         $this->ajaxSearch = $ajaxSearch;
@@ -262,7 +262,7 @@ class VracSoussigneForm extends VracForm {
                 $result[$key] = $value->name . " (" . $num[1] . ")";
             }
         }
-        return array_merge(array('' => ''), $result);
+        return array_merge(array('' => ''),array('AJOUT' => 'Ajouter un récoltant'), $result);
     }
 
     public function getNegociants() {
@@ -277,7 +277,7 @@ class VracSoussigneForm extends VracForm {
                 $result[$key] = $value->name . " (" . $num[1] . ")";
             }
         }
-        return array_merge(array('' => ''), $result);
+        return array_merge(array('AJOUT' => 'Ajouter un négociant'), $result);
     }
 
     public function getRepresentants() {

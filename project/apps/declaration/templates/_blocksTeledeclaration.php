@@ -1,4 +1,4 @@
-<div class="col-xs-6">
+<div class="<?php if($teledeclaration_drm): ?> col-xs-4<?php else: ?>col-xs-6<?php endif; ?>">
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Contrat</h4></div>
         <div class="panel-body">
@@ -22,7 +22,7 @@
     </div>
 </div>
 <?php if($teledeclaration_drm): ?>
-<div class="col-xs-6">
+<div class="col-xs-4">
     <div class="panel panel-default">
         <div class="panel-heading"><h4>DRM</h4></div>
         <div class="panel-body">
@@ -45,3 +45,26 @@
     </div>
 </div>
 <?php endif; ?>
+<div class="<?php if($teledeclaration_drm): ?> col-xs-4<?php else: ?>col-xs-6<?php endif; ?>">
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Blog</h4></div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-xs-12" style="height: 150px;">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+
+
+                <a class="btn btn-default" href="#" >
+                    <?php echo 'Accéder au blog' ?>
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>

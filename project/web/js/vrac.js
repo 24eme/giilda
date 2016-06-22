@@ -27,7 +27,9 @@ var initSoussignes = function()
         var select = $(this);
         var dataBloc = $($(this).attr('data-bloc'));
         var dataHide = $($(this).attr('data-hide'));
-
+        if($(this).val() == "AJOUT"){
+          window.location.href = $(this).attr('data-annuaire-link');
+        }
         if(!$(this).val()) {
             dataBloc.addClass('hidden');
             dataHide.removeClass('hidden');
@@ -106,10 +108,10 @@ var initConditions = function()
 }
 
 
-var ajaxifySoussigne = function(url, params, eltToReplace, famille) 
+var ajaxifySoussigne = function(url, params, eltToReplace, famille)
 {
-    if(typeof(params)=="string") { 
-        $(params + ' select').on("change", function() {         
+    if(typeof(params)=="string") {
+        $(params + ' select').on("change", function() {
             $.get(url, {id : $(this).val(), famille : famille}, function(data) {
                 $(eltToReplace).html(data);
             });
@@ -119,16 +121,16 @@ var ajaxifySoussigne = function(url, params, eltToReplace, famille)
             if(i == "autocomplete") {
                 var autocompleteEltName = params[i];
                 delete params.autocomplete;
-                $(autocompleteEltName + ' select').on("change", function() {   
+                $(autocompleteEltName + ' select').on("change", function() {
                     $.extend(params, {id : $(this).val(), famille : famille});
                     $.get(url, params, function(data) {
                         $(eltToReplace).html(data);
                     });
-                });   
+                });
                break;
             }
         }
-    }               
+    }
 }
 
 var init_ajax_nouveau = function()
@@ -151,7 +153,3 @@ var formatNumber = function (number)
     }
     return x1 + x2;
 }
-
-
-
-
