@@ -38,6 +38,26 @@ class ExportFactureCSV {
         if ($export_annee_comptable) {
             $societe = SocieteClient::getInstance()->find($facture->identifiant);
         }
+        $nbecheance = count($facture->echeances);
+        if ($nbecheance) {
+            $i = 0;
+            foreach ($facture->echeances as $e) {
+                $i++;
+                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');41110000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';DEBIT;' . $e->montant_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+                if ($export_annee_comptable) {
+                    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
+                }
+
+                echo "\n";
+            }
+        } else {
+            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';41110000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $facture->date_echeance . ';DEBIT;' . $facture->total_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+            if ($export_annee_comptable) {
+                echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
+            }
+
+            echo "\n";
+        }
         foreach ($facture->lignes as $t => $lignes) {
             $origine_mvt = "";
             foreach ($lignes->origine_mouvements as $keyDoc => $mvt) {
@@ -67,26 +87,6 @@ class ExportFactureCSV {
 	        echo "\n";
 	}
 
-        $nbecheance = count($facture->echeances);
-        if ($nbecheance) {
-            $i = 0;
-            foreach ($facture->echeances as $e) {
-                $i++;
-                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');41110000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';DEBIT;' . $e->montant_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
-                if ($export_annee_comptable) {
-                    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-                }
-
-                echo "\n";
-            }
-        } else {
-            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';41110000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $facture->date_echeance . ';DEBIT;' . $facture->total_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
-            if ($export_annee_comptable) {
-                echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-            }
-
-            echo "\n";
-        }
     }
 
     protected function getSageCompteGeneral($facture) {
