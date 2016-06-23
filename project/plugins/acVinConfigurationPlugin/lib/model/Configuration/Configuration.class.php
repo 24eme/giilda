@@ -174,21 +174,21 @@ class Configuration extends BaseConfiguration {
 
         return $this->correspondances->get($key);
     }
-    
+
     private function getCorrespondancesInverse() {
-        if (!$this->exist('correspondances') || is_null($this->correspondances)) {  
+        if (!$this->exist('correspondances') || is_null($this->correspondances)) {
             return array();
-        }       
-        $arrayCorrespondances = $this->correspondances->toArray(0, 1);         
+        }
+        $arrayCorrespondances = $this->correspondances->toArray(0, 1);
         return array_flip($arrayCorrespondances);
     }
-    
+
     public function getProduitWithCorrespondanceInverse($hash) {
        if($this->exist($hash)){
            return $this->get($hash);
        }
        $correspondanceInverse = $this->getCorrespondancesInverse();
-      
+
        $newHash = str_replace('-', '/', $correspondanceInverse[$hash]);
        return $this->get($newHash);
     }

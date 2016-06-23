@@ -1,6 +1,6 @@
 <?php
 class revendicationActions extends sfActions {
-  
+
     public function executeIndex(sfWebRequest $request) {
         if(!isset($this->formEtablissement)) {
             $this->formEtablissement = null;
@@ -20,10 +20,10 @@ class revendicationActions extends sfActions {
 
         $this->setTemplate('index');
     }
-    
+
     public function executeMonEspace(sfWebRequest $request) {
         $this->revendication_etablissement = null;
-    	
+
         $this->etablissement = $this->getRoute()->getEtablissement();
     	if(!$this->etablissement) {
     	  throw new sfException("Cet établissement n'a pas de volume renvendiqué");
@@ -36,7 +36,7 @@ class revendicationActions extends sfActions {
         if(!$this->odg) {
             $this->odg = $this->etablissement->region;
         }
-        
+
         $this->revendication = RevendicationClient::getInstance()->findByOdgAndCampagne($this->odg, $this->campagne, acCouchdbClient::HYDRATE_JSON);
 
         $this->revendications = RevendicationEtablissementView::getInstance()->findByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
@@ -47,7 +47,7 @@ class revendicationActions extends sfActions {
         if ($request->isMethod(sfWebRequest::POST)) {
 	        $this->formEtablissement->bind($request->getParameter($this->formEtablissement->getName()));
 	        if ($this->formEtablissement->isValid()) {
-	           
+
                return $this->redirect('revendication_etablissement', $this->formEtablissement->getEtablissement());
 	        }
        }
@@ -68,22 +68,22 @@ class revendicationActions extends sfActions {
                 $file = $this->form->getValue('file');
                 $this->md5 = $file->getMd5();
 
-                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;           
+                $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
                 RevendicationCsvFile::convertTxtToCSV($path);
                 $this->csv = new RevendicationCsvFile($path);
                 $this->revendication->updateCSV($path);
                 if(!$this->csv->check())
                 {
-                    $this->errors = $this->csv->getErrors(); 
+                    $this->errors = $this->csv->getErrors();
                     $this->revendication->etape = 1;
                     $this->form = new UploadCSVRevendicationForm($this->revendication);
                     return sfView::SUCCESS;
                 }
-                    
+
                 $this->revendication->save();
                 return $this->redirect('revendication_update', $this->revendication);
            }else{
-               $this->not_valid_file = true; 
+               $this->not_valid_file = true;
            }
         }
     }
@@ -95,7 +95,7 @@ class revendicationActions extends sfActions {
 	$this->csv = $revendication->getAttachmentUri('revendication.csv');
         $this->setLayout(false);
     }
-    
+
     public function executeDownloadImportedRowsCSV(sfWebRequest $request) {
         $this->setLayout(false);
         $this->revendication = $this->getRoute()->getRevendication();
@@ -127,22 +127,22 @@ class revendicationActions extends sfActions {
         $this->revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG($this->revendication->campagne, $this->revendication->odg);
         //$this->form = new EditionRevendicationForm($this->revendication);
     }
-    
+
     public function executeEditionRow(sfWebRequest $request) {
         ini_set('memory_limit','2048M');
         set_time_limit(0);
         $this->odg = $request->getParameter('odg');
-        $this->campagne = $request->getParameter('campagne');        
+        $this->campagne = $request->getParameter('campagne');
         $this->revendication = RevendicationClient::getInstance()->find(RevendicationClient::getInstance()->getId($this->odg, $this->campagne), acCouchdbClient::HYDRATE_JSON);
         $this->identifiant = $request->getParameter('identifiant');
         $this->produit = $request->getParameter('produit');
         $this->row = $request->getParameter('row');
         $this->rev = $this->revendication->datas->{$this->identifiant};
         $this->retour = $request->getParameter('retour');
-        
+
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->form = new EditionRevendicationForm($this->revendication, $this->identifiant, $this->produit, $this->row);
-        if ($request->isMethod(sfWebRequest::POST)) { 
+        if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->revendication = $this->form->doUpdate();
@@ -154,13 +154,13 @@ class revendicationActions extends sfActions {
             }
         }
     }
-    
+
     public function executeDeleteRow(sfWebRequest $request) {
         $this->odg = $request->getParameter('odg');
-        $this->campagne = $request->getParameter('campagne');        
+        $this->campagne = $request->getParameter('campagne');
         $this->revendication = RevendicationClient::getInstance()->find(RevendicationClient::getInstance()->getId($this->odg, $this->campagne), acCouchdbClient::HYDRATE_JSON);
         RevendicationClient::getInstance()->deleteRow($this->revendication,$request->getParameter('identifiant'),$request->getParameter('produit'),$request->getParameter('row'));
-        
+
         return $this->redirect('revendication_edition', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
     }
 
@@ -179,9 +179,9 @@ class revendicationActions extends sfActions {
                 return $this->redirect('revendication_update', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
                }
         }
-        
+
     }
-    
+
     public function executeAddAliasToBailleur(sfWebRequest $request) {
         $this->revendication = $this->getRoute()->getRevendication();
         $this->etablissement = EtablissementClient::getInstance()->find($request->getParameter('identifiant'));
@@ -195,23 +195,23 @@ class revendicationActions extends sfActions {
             }
         }
     }
-    
-    
+
+
     public function executeDeleteLine(sfWebRequest $request) {
         $num_ligne = $request->getParameter('num_ligne');
         $num_ca = $request->getParameter('num_ca');
-        $this->revendication = $this->getRoute()->getRevendication();        
+        $this->revendication = $this->getRoute()->getRevendication();
 	$this->revendication->addIgnoredLine($num_ligne, $num_ca);
         $this->revendication->save();
-        return $this->redirect('revendication_update', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));            
+        return $this->redirect('revendication_update', array('odg' => $this->revendication->odg, 'campagne' => $this->revendication->campagne));
     }
-    
+
     public function executeAddRows(sfWebRequest $request) {
         $this->odg = $request->getParameter('odg');
-        $this->campagne = $request->getParameter('campagne');        
+        $this->campagne = $request->getParameter('campagne');
         $this->revendication = RevendicationClient::getInstance()->find(RevendicationClient::getInstance()->getId($this->odg, $this->campagne), acCouchdbClient::HYDRATE_JSON);
         $this->form = new AddRowRevendicationForm($this->revendication);
-        if ($request->isMethod(sfWebRequest::POST)) { 
+        if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->revendication = $this->form->doUpdate();
@@ -220,7 +220,7 @@ class revendicationActions extends sfActions {
             }
         }
     }
-    
+
     public function executeDelete(sfWebRequest $request) {
         $this->revendication = $this->getRoute()->getRevendication();
         RevendicationClient::getInstance()->deleteRevendication($this->revendication);
@@ -229,15 +229,15 @@ class revendicationActions extends sfActions {
 
     protected function formCampagne(sfWebRequest $request, $route) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-      
+
         $this->campagne = $request->getParameter('campagne');
         if (!$this->campagne) {
             $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
         }
 
         $this->formCampagne = new RevendicationEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
-        
-        
+
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
@@ -246,7 +246,7 @@ class revendicationActions extends sfActions {
             }
         }
     }
-        
-    
+
+
 
 }

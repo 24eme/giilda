@@ -22,7 +22,7 @@ class Revendication extends BaseRevendication {
     }
 
     public function storeDatas() {
-        $this->setCSV();        
+        $this->setCSV();
 
         $this->remove('erreurs');
 	    $this->add('erreurs');
@@ -33,7 +33,7 @@ class Revendication extends BaseRevendication {
     }
 
     public function addVolumeSaisi($etablissement_id_or_identifiant, $produit_hash, $volume, $date) {
-        
+
         return $this->addEtablissement($etablissement_id_or_identifiant)->addProduit($produit_hash)->addVolumeSaisi($volume, $date);
     }
 
@@ -57,21 +57,21 @@ class Revendication extends BaseRevendication {
 	return true;
       }
     }
-    
+
     public function isRowGoodCampagne($row) {
       $date = $row[RevendicationCsvFile::CSV_COL_DATE];
-      $campagne = RevendicationClient::getInstance()->getCampagneFromRowDate($date);      
+      $campagne = RevendicationClient::getInstance()->getCampagneFromRowDate($date);
       if($campagne !=  $this->campagne){
           throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_DATE_CAMPAGNE);
       }
     }
-    
+
     public function setDate() {
         if(!$this->date){
             $this->date = ConfigurationClient::getInstance()->getDateDebutCampagne($this->campagne);
         }
     }
-    
+
     public function getDate() {
         if(!$this->date){
             $this->setDate();
@@ -83,7 +83,7 @@ class Revendication extends BaseRevendication {
 
         return ConfigurationClient::getConfiguration($this->getDate());
     }
-        
+
     public function insertRow($num_ligne, $row) {
       if ($this->lineToBeIgnored($num_ligne, $row)) {
 	return ;
@@ -91,10 +91,10 @@ class Revendication extends BaseRevendication {
         try {
             $this->isRowGoodCampagne($row);
             $this->setDate();
-            
+
             $this->setProduits();
             $this->setProduitsCodeDouaneHashes();
-            
+
             $bailleur = null;
             $etb = $this->matchEtablissement($row);
             $hashLibelle = $this->matchProduit($row);
@@ -202,6 +202,7 @@ class Revendication extends BaseRevendication {
         }
 
         $libelle_prod = $row[RevendicationCsvFile::CSV_COL_LIBELLE_PRODUIT];
+
         foreach ($this->getProduitsAlias() as $hashKey => $produitAliases) {
             foreach ($produitAliases as $alias) {
                 if (Search::matchTermLight($libelle_prod, $alias)) {
@@ -220,8 +221,8 @@ class Revendication extends BaseRevendication {
 
     private function matchBailleur($row, $etb) {
         if(!count($etb->getBailleurs()))
-            throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS,array('identifiant' => $etb->identifiant));        
-        $nom = str_replace('/', ' ', $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);        
+            throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_NO_BAILLEURS,array('identifiant' => $etb->identifiant));
+        $nom = str_replace('/', ' ', $row[RevendicationCsvFile::CSV_COL_BAILLEUR]);
         $bailleur = $etb->findBailleurByNom($nom);
         if(!$bailleur){
             throw new RevendicationErrorException(RevendicationErrorException::ERREUR_TYPE_BAILLEUR_NOT_EXISTS,array('identifiant' => $etb->identifiant));
@@ -240,7 +241,7 @@ class Revendication extends BaseRevendication {
 	      throw $exception;
 	    }
 	}
-        // Les doublons ne comprennent pas la ligne doublonnée de base (qui fait partie des datas)! 
+        // Les doublons ne comprennent pas la ligne doublonnée de base (qui fait partie des datas)!
         if ($this->datas->exist($etbId)
                 && $this->datas->{$etbId}->produits->exist($code_produit)
                 && $this->datas->{$etbId}->commune == $row[RevendicationCsvFile::CSV_COL_VILLE]) {
@@ -284,7 +285,7 @@ class Revendication extends BaseRevendication {
             if(!count($this->erreurs->$type_error)) $this->erreurs->$type_error->delete();
         }
     }
-    
+
     public function deteteDoublon($num_ligne,$doublon){
         $doublon_type = RevendicationErrorException::ERREUR_TYPE_DOUBLON;
         $errorsDoublons = $this->erreurs->$doublon_type->$num_ligne;
@@ -303,7 +304,7 @@ class Revendication extends BaseRevendication {
     public function deleteRow($cvi, $row) {
         $this->getProduitNode($cvi, $row)->supprProduit();
     }
-    
+
     public function getNbErreurs() {
         $nb_erreur = 0;
         foreach ($this->erreurs as $erreurType) {
