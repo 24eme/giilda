@@ -2,6 +2,10 @@
 use_helper('Vrac');
 use_helper('Float');
 ?>
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrats</a></li>
+</ol>
+
 <section id="principal" class="vrac">
 
     <h2 class="titre_societe titre_societe_teledeclaration">
@@ -70,12 +74,13 @@ use_helper('Float');
             Voir tout l'historique
         </a>
         <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
-            <a class="btn btn-warning" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
+            <a class="btn btn-warning pull-right" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
                 Saisir Un Nouveau contrat
             </a>
         <?php endif; ?>
     </div>
 </div>
+<br/>
     <?php include_partial('contratsTable', array('contrats' => $contratsSocietesWithInfos->contrats, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'limit' => 10)); ?>
 
 

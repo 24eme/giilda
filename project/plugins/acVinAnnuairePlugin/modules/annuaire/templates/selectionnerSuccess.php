@@ -1,50 +1,62 @@
-<div id="principal" class="clearfix">
-	<div class="ajout_annuaire">
-		<form id="principal" class="ui-tabs" method="post" action="<?php echo url_for('annuaire_selectionner', array('identifiant' => $identifiant)); ?><?php if (isset($redirect)): ?>?redirect=<?php echo $redirect ?><?php endif; ?>">
-			<h2 class="titre_principal">Ajouter un contact</h2>
-	
-			<div class="fond">
+<section id="principal">
+  <ol class="breadcrumb">
+      <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a></li>
+      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a></li>
+  </ol>
+		<h2 class="titre_principal">Ajouter un contact</h2>
+		<form id="principal" method="post" action="<?php echo url_for('annuaire_selectionner', array('identifiant' => $identifiant)); ?><?php if (isset($redirect)): ?>?redirect=<?php echo $redirect ?><?php endif; ?>">
 				<?php echo $form->renderHiddenFields() ?>
 				<?php echo $form->renderGlobalErrors() ?>
-				<p>Saisissez ici le type et l'identifiant du tiers que vous souhaitez ajouter à votre annuaire.</p><br />
-				<table class="table_recap" id="table_annuaire_selection">
-						<thead>
-							<tr>
-								<th>Type</th>
-								<th><span>Identifiant</span></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>
-                                                            <?php if($isCourtierResponsable && (isset($form['type']))): ?>
-									<span><?php echo $form['type']->renderError() ?></span>
-									<?php echo $form['type']->render() ?>
-                                                            <?php else: ?>
-                                                                            Viticulteur
-                                                                        <?php endif; ?>
-								</td>
-								<td>
-									<span><?php echo $form['tiers']->renderError() ?></span>
-									<?php echo $form['tiers']->render() ?>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-			</div>
-			<div class="btn_block">
-	            <a class="btn_orange btn_majeur" href="<?php echo url_for('annuaire_retour', array('identifiant' => $identifiant)) ?>">Retour</a>
-		    	<button type="submit" name="valider" class="btn_vert btn_majeur" >
-		    		Valider
-		    	</button>
-			</div>
-		</form>
-	</div>
-    <?php include_partial('vrac/popup_notices'); ?> 
+				<div class="row">
+							<div class="col-xs-12">
+				<div class="panel panel-default">
+						<div class="panel-heading"><stong>Saisissez ici le type et l'identifiant du tiers que vous souhaitez ajouter à votre annuaire</strong></div>
+							<div class="panel-panel">
+					<div class="row">
+							<div class="col-xs-12">
+						          <ul class="list-group" style="margin-bottom:0px;">
+											<li class="list-group-item" >
+														  <div class="row">
+
+						<div class="col-xs-4">Type</div>
+						<div class="col-xs-8">Identifiant</div>
+						</div>
+					</li>
+					<li class="list-group-item" >
+					<div class="row">
+						<div class="col-xs-4"><?php if($isCourtierResponsable && (isset($form['type']))): ?>
+							<span><?php echo $form['type']->renderError() ?></span>
+								<?php echo $form['type']->render() ?>
+							<?php else: ?>
+								Viticulteur
+							<?php endif; ?>
+						</div>
+						<div class="col-xs-8">
+							<span><?php echo $form['tiers']->renderError() ?></span>
+							<?php echo $form['tiers']->render() ?>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		</div>
 </div>
+</div>
+</div>
+</div>
+					<div class="row">
+						<div class="col-xs-12">
+		            <a class="btn btn-default" href="<?php echo url_for('annuaire_retour', array('identifiant' => $identifiant)) ?>">Retour</a>
+			    			<button type="submit" name="valider" class="btn btn-success pull-right" >Valider</button>
+						</div>
+				</div>
+
+		</form>
+    <!-- <?php include_partial('vrac/popup_notices'); ?> -->
+</section>
 
 <?php
 
-include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
+// include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
 
 ?>
