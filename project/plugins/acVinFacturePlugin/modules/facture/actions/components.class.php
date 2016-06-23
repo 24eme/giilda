@@ -10,7 +10,7 @@ class factureComponents extends sfComponents {
 
     public function executeGenerationMasse() {
         if (!$this->generationForm) {
-            $this->generationForm = new FactureGenerationForm();
+            $this->generationForm = new FactureGenerationForm(null, array('export'=> true));
             $this->massive = true;
         }
     }

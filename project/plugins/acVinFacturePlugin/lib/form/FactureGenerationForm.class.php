@@ -3,15 +3,18 @@
 class FactureGenerationForm extends BaseForm {
 
     const TYPE_DOCUMENT_TOUS = "TOUS";
-
+    const TYPE_GENERATION_SAGE = "SAGE";
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
+        $this->withExport = false;
+        if (isset($options['export']) && $options['export']) {
+		$this->withExport = true;
+	}
         parent::__construct($defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
-
         $this->setWidget('modele', new bsWidgetFormChoice(array('choices' => $this->getChoices(), 'expanded' => true)));
         $this->setWidget('date_mouvement', new bsWidgetFormInputDate());
         $this->setWidget('date_facturation', new bsWidgetFormInputDate());
@@ -33,7 +36,9 @@ class FactureGenerationForm extends BaseForm {
 
     public function getChoices() {
         $choices = array_merge(FactureClient::$type_facture_mouvement);
-
+        if ($this->withExport) {
+		$choices = array_merge($choices, array(self::TYPE_GENERATION_SAGE => 'Export SAGE'));
+        }
         return $choices;
     }
 
