@@ -34,10 +34,8 @@ use_helper('Float');
                 </div>
                 </div>
             <?php endif; ?>
-            <?php
-            if (!$societe->isCourtier()):
-                ?>
-                  <div class="<?php echo $panel_size; ?>" >
+            <?php if (!$societe->isCourtier()): ?>
+            <div class="<?php echo $panel_size; ?>" >
                 <div class="panel panel-default">
                     <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">A Signer</div>
                         <div class="panel-body">
@@ -50,7 +48,7 @@ use_helper('Float');
                         <?php endif; ?>
                     </div>
                 </div>
-                </div>
+            </div>
             <?php endif; ?>
             <div class="<?php echo $panel_size; ?>" >
             <div class="panel panel-default">

@@ -31,10 +31,10 @@ $cpt = 0;
                           $statusColor = 'danger';
                         }
                         $vracid = $contrat->value[VracClient::VRAC_VIEW_NUMCONTRAT];
-
-                        $typeProduit = $contrat->value[VracClient::VRAC_VIEW_TYPEPRODUIT];
+                      
+                        $typeProduit = $contrat->value[VracClient::VRAC_VIEW_PRODUIT_LIBELLE];
                         $numero_archive = $contrat->value[VracClient::VRAC_VIEW_NUMARCHIVE];
-                        $produit_libelle = $contrat->value[VracClient::VRAC_VIEW_PRODUIT_LIBELLE];
+                        $produit_libelle = $contrat->value[VracClient::VRAC_VIEW_VOLENLEVE];
 
                         $vendeur_identifiant = $contrat->value[VracClient::VRAC_VIEW_VENDEUR_ID];
                         $vendeur_nom = $contrat->value[VracClient::VRAC_VIEW_VENDEUR_NOM];
@@ -55,7 +55,9 @@ $cpt = 0;
                         ?>
                           <li id="<?php echo 'vrac_'.$vracid; ?>" class="list-group-item list-group-item-<?php echo $statusColor; ?>">
                             <div class="row" >
-                            <div class="col-xs-2 type"><span class="type_<?php echo strtolower($typeProduit); ?>"><?php echo ($typeProduit) ? typeProduit($typeProduit) : '-'; ?></span></div>
+                            <div class="col-xs-2 type">
+                              <span class="<?php echo typeProduitIcon($typeProduit) ; ?>" style="font-size: 32px;"></span>
+                            </div>
                             <div class="col-xs-2 num_contrat">
                                 <a href="<?php echo url_for('@vrac_visualisation?numero_contrat=' . $vracid); ?>">
                                     <span style="font-weight: bold;"><?php echo $numero_archive; ?></span><br> <?php echo dateFirstSignatureFromView($signature_vendeur,$signature_acheteur,$signature_courtier,$contrat); ?>

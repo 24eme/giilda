@@ -194,6 +194,20 @@ function typeProduit($type) {
     return '';
 }
 
+function typeProduitIcon($type) {
+    switch ($type) {
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
+            return 'icon-bouteille';
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC :
+            return 'icon-vrac';
+        case VracClient::TYPE_TRANSACTION_MOUTS :
+            return 'icon-mouts';
+        case VracClient::TYPE_TRANSACTION_RAISINS :
+            return 'icon-raisins';
+    }
+    return '';
+}
+
 function echoF($f) {
     return sprintf("%01.02f", round($f, 2));
 }
