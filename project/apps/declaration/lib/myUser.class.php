@@ -10,9 +10,7 @@ class myUser extends sfBasicSecurityUser {
     const CREDENTIAL_ADMIN = "admin";
 
     public function signInOrigin($login_or_compte) {
-      //TODO : a retirer
-        $login_or_compte = "002041";
-        $login_or_compte = "000477";
+
         $compte = $this->registerCompteByNamespace($login_or_compte, self::NAMESPACE_COMPTE_ORIGIN);
 
         $this->setAuthenticated(true);
@@ -20,9 +18,6 @@ class myUser extends sfBasicSecurityUser {
     }
 
     public function signIn($login_or_compte) {
-        //TODO : a retirer
-        $login_or_compte = "002041";
-    //    $login_or_compte = "000477";
         $compte = $this->registerCompteByNamespace($login_or_compte, self::NAMESPACE_COMPTE);
 
         if ($compte) {

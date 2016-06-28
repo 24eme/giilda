@@ -2,6 +2,8 @@
 
 class VracClient extends acCouchdbClient {
 
+    const VRAC_VIEW_KEY_TELEDECLARE = 4;
+
     const VRAC_VIEW_CAMPAGNE = 0;
     const VRAC_VIEW_STATUT = 1;
     const VRAC_VIEW_ID = 2;
@@ -234,28 +236,46 @@ class VracClient extends acCouchdbClient {
                         ->getView('vrac', 'history');
     }
 
-    public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit = self::RESULTAT_LIMIT) {
-
+    public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $teledeclare = null, $limit = self::RESULTAT_LIMIT) {
         if (!preg_match('/[0-9]*-[0-9]*/', $campagne)){
           throw new sfException("wrong campagne format ($campagne)");
+        }
+        if(!$societe){
+          return array();
         }
         $allEtablissements = $societe->getEtablissementsObj();
         $bySoussigne = array();
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
-            $bySoussigneQuery = $this->startkey(array($etbId,$campagne, array()))
+            $bySoussigneQuery = $this->startkey(array($etbId,$campagne,  array()))
                             ->endkey(array($etbId,$campagne))->descending(true);
-            if ($limit) {
-                $bySoussigneQuery = $bySoussigneQuery->limit($limit);
-            }
+            // if ($limit) {
+            //   var_dump($limit); exit;
+            //     $bySoussigneQuery = $bySoussigneQuery->limit($limit);
+            // }
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
-        return $bySoussigne;
+        $cpt = 0;
+        $results = array();
+        foreach ($bySoussigne as $soussigne) {
+          if($teledeclare){
+            if($soussigne->key[4] && $cpt < $limit){
+              $results[$soussigne->id] = $soussigne;
+              $cpt++;
+            }
+          }else{
+            if($cpt < $limit){
+            $results[$soussigne->id] = $soussigne;
+            $cpt++;
+            }
+          }
+        }
+        return $results;
     }
 
 
-    public function retrieveBySocieteWithInfosLimit($societe, $etbId, $limit = self::RESULTAT_LIMIT) {
+    public function retrieveBySocieteWithInfosLimit($societe, $etbId, $teledeclare_only = false, $limit = self::RESULTAT_LIMIT) {
 
         $result = new stdClass();
         $result->contrats = array();
@@ -266,7 +286,6 @@ class VracClient extends acCouchdbClient {
         $campagnes['previous'] = ConfigurationClient::getInstance()->getPreviousCampagne($campagnes['current']);
         $statuts = self::$statuts_teledeclaration_sorted;
 
-
         $cpt = 0;
 
         foreach ($statuts as $statut) {
@@ -274,9 +293,13 @@ class VracClient extends acCouchdbClient {
                 if ($cpt > $limit) {
                     break;
                 }
-                $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit);
+                $local_result = array();
+                if($teledeclare_only){
+                  $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, true, $limit);
+                }else{
+                  $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut);
+                }
                 if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
-
                     $result->contrats = array_merge($result->contrats, $local_result);
                     $cpt+= count($local_result);
                 } else {
@@ -330,8 +353,8 @@ class VracClient extends acCouchdbClient {
 
     private function countBrouillons($societe, $viewResult) {
         $nb_brouillon = 0;
-        foreach ($viewResult as $brouillon_contrat) {
-            if ($societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_CREATEURIDENTIFANT], 0, 6)) {
+        foreach ($viewResult as $brouillon_contrat) {        
+            if ($brouillon_contrat->key[self::VRAC_VIEW_KEY_TELEDECLARE] && $societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_ACHETEUR_ID], 0, 6)) {
                 $nb_brouillon++;
             }
         }
@@ -409,8 +432,8 @@ class VracClient extends acCouchdbClient {
         if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
             throw new sfException("wrong campagne format ($campagne)");
         $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-        $bySoussigneTypeQuery = $this->startkey(array('STATUT', $soussigneId, $campagne, $statut, $type))
-                ->endkey(array('STATUT', $soussigneId, $campagne, $statut, $type, array()));
+        $bySoussigneTypeQuery = $this->startkey(array('STATUT', $soussigneId, $campagne, $statut, $type, true))
+                ->endkey(array('STATUT', $soussigneId, $campagne, $statut, $type, true, array()));
 
         if ($limit) {
             $bySoussigneTypeQuery = $bySoussigneTypeQuery->limit($limit);
