@@ -42,7 +42,7 @@
 
         $(this).find("select.select2").select2({
             allowClear: true
-        });
+        });        
 
         $(this).find(".select2autocomplete").each(function () {
             var urlAjax = $(this).data('ajax');

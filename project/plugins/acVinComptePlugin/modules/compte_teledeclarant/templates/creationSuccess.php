@@ -15,7 +15,7 @@ $libelle .= " :";
         <p class="titre_section"><?php echo $libelle; ?></p>
         <br/>
         <div id="creation_compte_teledeclaration" class="fond" >
-            <div class="bloc_form bloc_form_condensed">               
+            <div class="bloc_form bloc_form_condensed">
 
                 <?php echo $form->renderHiddenFields(); ?>
                 <?php echo $form->renderGlobalErrors(); ?>
@@ -27,7 +27,7 @@ $libelle .= " :";
                 <div class="ligne_form">
                     <?php echo $form['mdp1']->renderError() ?>
                     <?php echo $form['mdp1']->renderLabel() ?>
-                    <?php echo $form['mdp1']->render() ?>
+                    <?php echo $form['mdp1']->render(array('class' => "form-control")) ?>
                 </div>
                 <div class="ligne_form ligne_form_alt">
                     <?php echo $form['mdp2']->renderError() ?>
@@ -52,11 +52,11 @@ $libelle .= " :";
                         <?php echo $form['num_accises']->renderLabel() ?>
                         <?php echo $form['num_accises']->render() ?>
                     </div>
-                <?php endif; ?>             
+                <?php endif; ?>
             </div>
-        </div> 
+        </div>
         <div style="margin: 10px 0; clear: both; float: right;">
-            <button class="btn_vert btn_majeur " type="submit">Valider</button> 
+            <button class="btn_vert btn_majeur " type="submit">Valider</button>
         </div>
     </form>
-</div>   
+</div>

@@ -80,15 +80,15 @@ class VracSoussigneForm extends VracForm {
         }
   if(!$this->isAcheteurResponsable){
         $this->setWidget('acheteur_type', new bsWidgetFormChoice(array('choices' => $type, 'expanded' => true)));
+        $this->setWidget('mandataire_exist', new bsWidgetFormInputCheckbox());
+        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
       }
         $this->setWidget('type_contrat', new bsWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true)));
         $this->setWidget('responsable', new bsWidgetFormChoice(array('choices' => $this->getTypesResponsable(), 'expanded' => true)));
         $this->setWidget('type_transaction', new bsWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true)));
         $this->setWidget('interne', new bsWidgetFormInputCheckbox());
-        $this->setWidget('mandataire_exist', new bsWidgetFormInputCheckbox());
         $this->setWidget('vendeur_intermediaire', new bsWidgetFormInputCheckbox());
         $this->setWidget('logement_exist', new bsWidgetFormInputCheckbox());
-        $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         $this->setWidget('logement', new bsWidgetFormInput());
         $this->setWidget('vendeur_tva', new bsWidgetFormInputCheckbox());
 
@@ -113,12 +113,12 @@ class VracSoussigneForm extends VracForm {
         ));
         if(!$this->isAcheteurResponsable){
         $this->setValidator('acheteur_type', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($type))));
+        $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
+        $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
       }
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('responsable', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesResponsable()))));
         $this->setValidator('interne', new sfValidatorBoolean(array('required' => false)));
-        $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
-        $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('logement_exist', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('vendeur_intermediaire', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('logement', new sfValidatorString(array('required' => false)));

@@ -1,4 +1,13 @@
-<h1 class="page-header">Connexion à un compte</h1>
+
+
+
+<div class="col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title" >Connexion à un compte</h2>
+        </div>
+        <div class="panel-body">
+
 <form action="<?php echo url_for('auth_login_no_cas') ?>" method="post" class="form-horizontal">
 <?php echo $form->renderHiddenFields(); ?>
 <?php echo $form->renderGlobalErrors(array("class" => "bg-danger")); ?>
@@ -15,9 +24,13 @@
      </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
+    <div class="col-sm-offset-2 col-sm-10 text-right">
       <button type="submit" class="btn btn-primary">Valider</button>
     </div>
   </div>
 </form>
+</div>
 
+</div>
+
+</div>

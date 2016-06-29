@@ -14,6 +14,10 @@ $(document).ready(function()
 
 });
 
+var selectAjout = function(term){
+    return $(this).val('AJOUT').change();
+}
+
 var initSoussignes = function()
 {
 	var form = $("#contrat_soussignes");
@@ -22,8 +26,20 @@ var initSoussignes = function()
 	var etablissementPrincipal = form.attr('data-etablissementprincipal');
 	var isCourtierResponsable = parseInt(form.attr('data-iscourtierresponsable'));
 
+  $("select.select2-soussigne-teledeclaration").select2({
+      allowClear: true,
+
+        });
+        console.log($("select.select2-soussigne-teledeclaration").select2().parent().find('.select2-with-searchbox').find('.select2-results'));
+        $("select.select2-soussigne-teledeclaration").select2().parent().find('.select2-with-searchbox').find('.select2-results')
+      .append('<li class="select2-results-dept-0 select2-result select2-result-selectable" role="presentation"><div class="select2-result-label" id="select2-result-label-11" role="option"><span class="select2-match"></span>Ajout récoltant</div></li>')
+      .on('click', '.createLink', function() {
+        alert('Add clicked');
+      });
+
     $('.select-ajax').on('change', function() {
 
+        console.log();
         var select = $(this);
         var dataBloc = $($(this).attr('data-bloc'));
         var dataHide = $($(this).attr('data-hide'));
@@ -63,7 +79,6 @@ var initSoussignes = function()
     		active.addClass('text-info');
     		active.find('input').removeAttr('checked');
     	} else {
-    		console.log('click');
         	$('.responsable').each(function() {
         		$(this).removeClass('text-success');
         		$(this).addClass('text-info');

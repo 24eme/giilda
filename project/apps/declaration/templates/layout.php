@@ -22,7 +22,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-<?php 
+<?php
     $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
     ?><body id="<?php echo $idBody; ?>">
 
@@ -46,6 +46,7 @@
     <script src="/js/form.js"></script>
     <script src="/js/colonnes.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/teledeclaration.js"></script>
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
     <script src="/js/drm.js"></script>

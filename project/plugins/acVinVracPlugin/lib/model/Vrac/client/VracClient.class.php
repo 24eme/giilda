@@ -256,17 +256,19 @@ class VracClient extends acCouchdbClient {
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
+
+
         $cpt = 0;
         $results = array();
         foreach ($bySoussigne as $soussigne) {
           if($teledeclare){
             if($soussigne->key[4] && $cpt < $limit){
-              $results[$soussigne->id] = $soussigne;
+              $results[] = $soussigne;
               $cpt++;
             }
           }else{
             if($cpt < $limit){
-            $results[$soussigne->id] = $soussigne;
+            $results[] = $soussigne;
             $cpt++;
             }
           }
@@ -293,12 +295,7 @@ class VracClient extends acCouchdbClient {
                 if ($cpt > $limit) {
                     break;
                 }
-                $local_result = array();
-                if($teledeclare_only){
-                  $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, true, $limit);
-                }else{
-                  $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut);
-                }
+                $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $teledeclare_only, $limit);
                 if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
                     $result->contrats = array_merge($result->contrats, $local_result);
                     $cpt+= count($local_result);
@@ -317,15 +314,15 @@ class VracClient extends acCouchdbClient {
         }
 
 
-        $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
-        $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
+        $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
+        $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
 
         $nb_my_brouillons_current = $this->countBrouillons($societe, $brouillon_contrats_current);
         $nb_my_brouillons_previous = $this->countBrouillons($societe, $brouillon_contrats_previous);
         $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
 
-        $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
-        $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
+        $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
+        $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
 
         foreach ($en_attente_contrats_current as $contrats_current_obj) {
             $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
@@ -353,7 +350,7 @@ class VracClient extends acCouchdbClient {
 
     private function countBrouillons($societe, $viewResult) {
         $nb_brouillon = 0;
-        foreach ($viewResult as $brouillon_contrat) {        
+        foreach ($viewResult as $brouillon_contrat) {
             if ($brouillon_contrat->key[self::VRAC_VIEW_KEY_TELEDECLARE] && $societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_ACHETEUR_ID], 0, 6)) {
                 $nb_brouillon++;
             }
