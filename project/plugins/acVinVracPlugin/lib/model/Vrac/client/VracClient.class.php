@@ -276,7 +276,7 @@ class VracClient extends acCouchdbClient {
     public function retrieveBySocieteWithInfosLimit($societe, $etbId, $teledeclare_only = false, $limit = self::RESULTAT_LIMIT) {
 
         $result = new stdClass();
-        $result->contrats = array();
+        $result->rows = array();
         $this->buildInfosObj($result);
         $campagnes = array();
 
@@ -303,13 +303,13 @@ class VracClient extends acCouchdbClient {
             }
             foreach ($local_result as $idContrat => $contrat) {
               if ($contrat->key[self::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON) {
-                $result->contrats[] = $contrat;
+                $result->rows[] = $contrat;
               }
             }
 
             foreach ($local_result as $idContrat => $contrat) {
               if ($contrat->key[self::VRAC_VIEW_STATUT] != VracClient::STATUS_CONTRAT_BROUILLON) {
-                    $result->contrats[] = $contrat;
+                    $result->rows[] = $contrat;
                 }
               }
 
@@ -324,6 +324,7 @@ class VracClient extends acCouchdbClient {
         $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
 
         foreach ($en_attente_contrats_current as $contrats_current_obj) {
+
             $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
                     $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
             $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR])) ?

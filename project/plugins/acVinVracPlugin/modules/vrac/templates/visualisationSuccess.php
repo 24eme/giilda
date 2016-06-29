@@ -86,14 +86,6 @@ use_helper('Date');
             </form>
         </div>
     <?php endif; ?>
-    <?php if ($signatureDemande): ?>
-      <div class="col-xs-8 text-right">
-        <a id="signature_popup_haut" data-target="#signature_popup_content" class="signature_popup btn btn-success pull-right">Signer le contrat</a>
-      </div>
-    <?php endif; ?>
-
-
-
     <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
 
 

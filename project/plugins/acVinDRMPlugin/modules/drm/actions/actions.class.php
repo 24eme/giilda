@@ -89,7 +89,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeChoixCreation(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
@@ -130,7 +130,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeVerificationEdi(sfWebRequest $request) {
 
@@ -138,20 +138,20 @@ class drmActions extends drmGeneriqueActions {
         $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
-        
+
         $drm = new DRM();
         $drm->identifiant = $this->identifiant;
         $drm->periode = $this->periode;
         $drm->teledeclare = true;
-        
+
         $this->drmCsvEdi = new DRMCsvEdi($drm);
-        $this->drmCsvEdi->checkCSV($this->csvFile);        
-        
+        $this->drmCsvEdi->checkCSV($this->csvFile);
+
     }
-    
+
         /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeCreationEdi(sfWebRequest $request) {
 
@@ -159,21 +159,21 @@ class drmActions extends drmGeneriqueActions {
         $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
-        
+
         $this->drm = new DRM();
         $this->drm->identifiant = $this->identifiant;
         $this->drm->periode = $this->periode;
         $this->drm->teledeclare = true;
-        
+
         $this->drmCsvEdi = new DRMCsvEdi($this->drm);
-        $this->drmCsvEdi->importCSV($this->csvFile);        
+        $this->drmCsvEdi->importCSV($this->csvFile);
         $this->redirect('drm_validation', $this->drm);
-        
+
     }
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeExportEdi(sfWebRequest $request) {
         $this->setLayout(false);
@@ -187,12 +187,12 @@ class drmActions extends drmGeneriqueActions {
 
         $this->response->setContentType('text/csv');
         $this->response->setHttpHeader('Content-Disposition', $attachement);
-       
+
     }
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeNouvelle(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
@@ -209,7 +209,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeInProcess(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
@@ -222,7 +222,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeDelete(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();

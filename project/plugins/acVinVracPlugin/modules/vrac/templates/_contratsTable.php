@@ -114,8 +114,7 @@ $cpt = 0;
                                      <a class="btn btn-default" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $vracid)) ?>">
                                          <span class="glyphicon glyphicon-pencil"></span>&nbsp;Continuer
                                     </a>
-                                <?php endif;
-                                 ?>
+                                <?php endif;  ?>
                             </div>
                             </div>
                         </li>
