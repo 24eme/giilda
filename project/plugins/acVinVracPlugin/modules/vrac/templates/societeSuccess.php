@@ -9,8 +9,9 @@ use_helper('Float');
 <section id="principal" class="vrac">
 
     <h2 class="titre_societe titre_societe_teledeclaration">
-        Espace de <?php echo $societe->raison_sociale; ?>
+        Espace contrats de <?php echo $societe->raison_sociale; ?>
     </h2>
+    <br/>
         <div class="row">
             <?php
             $panel_size = ' col-xs-4 ';

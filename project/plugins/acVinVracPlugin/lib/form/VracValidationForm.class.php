@@ -10,15 +10,15 @@
  * @author mathurin
  */
 class VracValidationForm extends VracForm {
-	
+
     protected $isTeledeclarationMode;
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         parent::__construct($vrac, $options, $CSRFSecret);
     }
-    
-     
+
+
     public function configure()
     {
         $this->setWidget('date_signature', new bsWidgetFormInputDate());
@@ -30,8 +30,9 @@ class VracValidationForm extends VracForm {
         		'invalid' => 'Date invalide (le format doit être jj/mm/aaaa)',
         		'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
         		'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
-        $this->setValidator('date_signature', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)));
-        
+
+        $this->setValidator('date_signature', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => !$this->isTeledeclarationMode)));
+
 
         $this->unsetFields(VracConfiguration::getInstance()->getChampsSupprimes('validation', $this->getObject()->type_transaction));
 
@@ -44,11 +45,10 @@ class VracValidationForm extends VracForm {
             $this->setDefault('date_signature', $this->getObject()->getDateSignature('d/m/Y'));
         }
     }
-    
-    public function doUpdateObject($values) 
+
+    public function doUpdateObject($values)
     {
         parent::doUpdateObject($values);
     }
-    
-}
 
+}

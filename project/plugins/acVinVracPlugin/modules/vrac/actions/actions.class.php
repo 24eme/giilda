@@ -110,8 +110,8 @@ class vracActions extends sfActions {
 
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
-        if($this->getUser()->getCompte()->getEtablissement()->isNegociant()){
-          $this->vrac->acheteur_identifiant = $this->getUser()->getCompte()->getEtablissement()->identifiant;
+        if($this->getUser()->getCompte()->getSociete()->isNegociant()){
+          $this->vrac->acheteur_identifiant = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant;
         }
         $this->vrac = $this->populateVracTiers($this->vrac);
         $this->compte = null;
@@ -146,7 +146,7 @@ class vracActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->maj_etape(1);
-                $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
+                $this->vrac->numero_contrat =  VracClient::getInstance()->buildNumeroContrat(date('Y'), date('md'), 1, null);
                 $this->vrac->constructId();
                 $this->form->save();
                 return $this->redirect('vrac_marche', $this->vrac);

@@ -2,8 +2,6 @@
 
 class VracClient extends acCouchdbClient {
 
-    const VRAC_VIEW_KEY_TELEDECLARE = 4;
-
     const VRAC_VIEW_CAMPAGNE = 0;
     const VRAC_VIEW_STATUT = 1;
     const VRAC_VIEW_ID = 2;
@@ -32,6 +30,7 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_DATE_CAMPAGNE = 25;
     const VRAC_VIEW_DATE_SAISIE = 26;
     const VRAC_VIEW_MILLESIME = 27;
+
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;
@@ -249,10 +248,7 @@ class VracClient extends acCouchdbClient {
             $etbId = $etablissementObj->etablissement->identifiant;
             $bySoussigneQuery = $this->startkey(array($etbId,$campagne,  array()))
                             ->endkey(array($etbId,$campagne))->descending(true);
-            // if ($limit) {
-            //   var_dump($limit); exit;
-            //     $bySoussigneQuery = $bySoussigneQuery->limit($limit);
-            // }
+
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
@@ -289,30 +285,33 @@ class VracClient extends acCouchdbClient {
         $statuts = self::$statuts_teledeclaration_sorted;
 
         $cpt = 0;
+        $local_result_view = array();
+        $local_result = array();
 
         foreach ($statuts as $statut) {
             foreach ($campagnes as $campagne) {
-                if ($cpt > $limit) {
-                    break;
-                }
-                $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $teledeclare_only, $limit);
-                if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
-                    $result->contrats = array_merge($result->contrats, $local_result);
-                    $cpt+= count($local_result);
-                } else {
-                    foreach ($local_result as $brouillon_contrat) {
-                        if ($societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_CREATEURIDENTIFANT], 0, 6)) {
-                            $result->contrats[] = $brouillon_contrat;
-                            $cpt++;
-                        }
-                    }
-                }
+                $local_result_view = array_merge($this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $teledeclare_only, $limit), $local_result_view);
+              }
             }
-            if ($cpt > $limit) {
-                break;
-            }
-        }
 
+            foreach ($local_result_view as $local_r) {
+              $local_result[$local_r->id] = $local_r;
+              if ($cpt > $limit) {
+                  break;
+              }
+              $cpt++;
+            }
+            foreach ($local_result as $idContrat => $contrat) {
+              if ($contrat->key[self::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON) {
+                $result->contrats[] = $contrat;
+              }
+            }
+
+            foreach ($local_result as $idContrat => $contrat) {
+              if ($contrat->key[self::VRAC_VIEW_STATUT] != VracClient::STATUS_CONTRAT_BROUILLON) {
+                    $result->contrats[] = $contrat;
+                }
+              }
 
         $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
         $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
@@ -351,7 +350,7 @@ class VracClient extends acCouchdbClient {
     private function countBrouillons($societe, $viewResult) {
         $nb_brouillon = 0;
         foreach ($viewResult as $brouillon_contrat) {
-            if ($brouillon_contrat->key[self::VRAC_VIEW_KEY_TELEDECLARE] && $societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_ACHETEUR_ID], 0, 6)) {
+            if ($brouillon_contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $societe->identifiant == substr($brouillon_contrat->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_ACHETEUR_IDENTIFIANT], 0, 6)) {
                 $nb_brouillon++;
             }
         }

@@ -31,7 +31,7 @@ $cpt = 0;
                           $statusColor = 'danger';
                         }
                         $vracid = $contrat->value[VracClient::VRAC_VIEW_NUMCONTRAT];
-                      
+
                         $typeProduit = $contrat->value[VracClient::VRAC_VIEW_PRODUIT_LIBELLE];
                         $numero_archive = $contrat->value[VracClient::VRAC_VIEW_NUMARCHIVE];
                         $produit_libelle = $contrat->value[VracClient::VRAC_VIEW_VOLENLEVE];
@@ -48,7 +48,7 @@ $cpt = 0;
                         $signature_vendeur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
                         $signature_acheteur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
                         $signature_courtier = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
-                        $createur_identifiant = $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT];
+                        $createur_identifiant = $contrat->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_CREATEUR_IDENTIFIANT];
 
                         $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
                         $cpt++;
@@ -99,22 +99,23 @@ $cpt = 0;
                                 </p>
 
                                 <?php if (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>
-                                    <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
-                                        Visualiser
+                                    <a class="btn btn-default" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
+                                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;Visualiser
                                     </a>
                                  <?php  elseif ($statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE): ?>
-                                    <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
+                                    <a class="btn btn-default" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $vracid)) ?>">
                                        <?php  if ($toBeSigned) : ?>
                                         Visualiser pour signer
                                         <?php  else : ?>
-                                        Visualiser
+                                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;Visualiser
                                         <?php  endif; ?>
                                     </a>
                                 <?php elseif ($statut == VracClient::STATUS_CONTRAT_BROUILLON && ($societe->identifiant == substr($createur_identifiant, 0,6))): ?>
-                                     <a class="liens_contrat_teledeclaration" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $vracid)) ?>">
-                                         Continuer Brouillon
+                                     <a class="btn btn-default" href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $vracid)) ?>">
+                                         <span class="glyphicon glyphicon-pencil"></span>&nbsp;Continuer
                                     </a>
-                                <?php endif; ?>
+                                <?php endif;
+                                 ?>
                             </div>
                             </div>
                         </li>
