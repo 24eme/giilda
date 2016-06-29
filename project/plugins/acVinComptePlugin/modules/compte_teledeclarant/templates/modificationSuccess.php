@@ -19,7 +19,7 @@ if($compte->getSociete()->isTransaction()){
     <br/>
 
         <div id="modification_compte" class="col-xs-12">
-            <div class="presentation row"<?php if ($form->hasErrors()) echo ' style="display:none;"'; ?> >
+            <div class="presentation row" <?php if ($form->hasErrors()) echo ' style="display:none;"'; ?> >
               <div class="col-xs-12">
                 <h4>Vos identifiants de connexion : </h4>
               </div>
