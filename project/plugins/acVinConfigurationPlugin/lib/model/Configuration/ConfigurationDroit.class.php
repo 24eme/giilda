@@ -33,8 +33,12 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         return $masterTaux + floatval($this->_get('taux'));
     }
 
+    public function getMasterProduit() {
+       return $this->getNoeud()->getParentNode();
+    }
+
     public function getMasterDroit() {
-        return $this->getNoeud()->getParentNode()->getDroitByType($this->date, $this->code);
+        return $this->getMasterProduit()->getDroitByType($this->date, $this->code);
     }
     
     public function getStringTaux($brut = false) {

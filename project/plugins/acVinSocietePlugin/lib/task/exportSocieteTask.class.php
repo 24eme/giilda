@@ -9,6 +9,7 @@ class exportSocieteTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+      new sfCommandOption('all', null, sfCommandOption::PARAMETER_OPTIONAL, 'Display all societé (suspendu included)', ''),
       // add your own options here
     ));
 
@@ -27,6 +28,9 @@ EOF;
   const ISFOURNISSEUR = 2;
 
   private function printSociete($societe, $compte, $isclient = 1) {
+    if (!$this->includeSuspendu && !$societe->isActif()) {
+	return ;
+    }
     print $compte.";";
     print $societe->raison_sociale.";";
     if ($isclient == self::ISCLIENT) {
@@ -50,16 +54,17 @@ EOF;
     print $societe->date_modification.";";
     print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
-    print $societe->email.";"; 
-    print "http://10.0.2.195/societe/".$societe->identifiant."/visualisation;";
+    print $societe->email.";";
+    print $this->routing->generate('societe_visualisation', $societe, true).';';
     try {
       if ($isclient == self::ISCLIENT) {
-	print $societe->getRegionViticole(false);
+	print $societe->getRegionViticole(false).';';
       }
     }catch(sfException $e) {
-      print "INCONNUE";
+      print "INCONNUE;";
     }
-    print ";\n";
+    print $societe->isActif().';';
+    print "\n";
   }
 
   protected function execute($arguments = array(), $options = array())
@@ -68,7 +73,14 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;\n";
+    $this->includeSuspendu = false;
+    if (isset($options['all']) && $options['all']) {
+	$this->includeSuspendu = true;
+    }
+
+    $this->routing = clone ProjectConfiguration::getAppRouting();
+
+    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;\n";
 
     foreach(SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration') as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
