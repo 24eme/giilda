@@ -9,6 +9,7 @@ class DRMClient extends acCouchdbClient {
     const ETAPE_CHOIX_PRODUITS = 'CHOIX_PRODUITS';
     const ETAPE_SAISIE = 'SAISIE';
     const ETAPE_CRD = 'CRD';
+    const ETAPE_ADMINISTRATION = 'ADMINISTRATION';
     const ETAPE_VALIDATION = 'VALIDATION';
     const VALIDE_STATUS_EN_COURS = '';
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
@@ -17,12 +18,24 @@ class DRMClient extends acCouchdbClient {
     const DRM_VERT = 'VERT';
     const DRM_BLEU = 'BLEU';
     const DRM_LIEDEVIN = 'LIEDEVIN';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAADAC = 'DAADAC';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC = 'DSADSAC';
+    const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
+    const DRM_TYPE_MVT_ENTREES = 'entrees';
+    const DRM_TYPE_MVT_SORTIES = 'sorties';
+    const DRM_CREATION_EDI = 'CREATION_EDI';
+    const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
+    const DRM_CREATION_NEANT = 'CREATION_NEANT';
 
-    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_VALIDATION);
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
-    public static $drm_default_favoris = array("entrees/achat", "entrees/recolte","sorties/export", "sorties/vrac", "sorties/vracsanscontrat", "sorties/bouteille","sorties/consommation");
+    public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
+    public static $drm_documents_daccompagnement = array(
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
+    public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant", self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
     protected $drm_historiques = array();
-    
 
     /**
      *
@@ -55,13 +68,25 @@ class DRMClient extends acCouchdbClient {
 
     public function getPeriodes($campagne) {
         $periodes = array();
-        $periode = $this->getPeriodeDebut($campagne);
-        while ($periode != $this->getPeriodeFin($campagne)) {
+        $periode = $this->getPeriodeFin($campagne);
+        while ($periode != $this->getPeriodeDebut($campagne)) {
             $periodes[] = $periode;
-            $periode = $this->getPeriodeSuivante($periode);
+            $periode = $this->getPeriodePrecedente($periode);
         }
 
         $periodes[] = $periode;
+
+        return $periodes;
+    }
+
+    public function getLastMonthPeriodes($nbMonth) {
+        $periodes = array();
+        $periode = $this->buildPeriode(date('Y'), date('m'));
+        for ($cpt = 0; $cpt < $nbMonth; $cpt++) {
+
+            $periodes[] = $periode;
+            $periode = $this->getPeriodePrecedente($periode);
+        }
 
         return $periodes;
     }
@@ -117,6 +142,11 @@ class DRMClient extends acCouchdbClient {
     public function getPeriodeSuivante($periode) {
 
         return ConfigurationClient::getInstance()->getPeriodeSuivante($periode);
+    }
+
+    public function getPeriodePrecedente($periode) {
+
+        return ConfigurationClient::getInstance()->getPeriodePrecedente($periode);
     }
 
     public function findLastByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
@@ -241,6 +271,27 @@ class DRMClient extends acCouchdbClient {
         return $drms;
     }
 
+    public function viewMasterByIdentifiantPeriode($identifiant, $periode) {
+        $campagne = $this->buildCampagne($periode);
+
+        $rows = acCouchdbManager::getClient()
+                        ->startkey(array($identifiant, $campagne, $periode))
+                        ->endkey(array($identifiant, $campagne, $periode, array()))
+                        ->reduce(false)
+                        ->getView("drm", "all")
+                ->rows;
+
+        $drms = array();
+
+        foreach ($rows as $row) {
+            $drms[$row->id] = $row->key;
+        }
+
+        krsort($drms);
+        
+        return array_shift($drms);
+    }
+
     protected function viewByIdentifiantPeriode($identifiant, $periode) {
         $campagne = $this->buildCampagne($periode);
 
@@ -359,8 +410,9 @@ class DRMClient extends acCouchdbClient {
                 $periode = $this->getPeriodeSuivante($last_drm->periode);
             }
         }
-
-        return $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
+        $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
+        $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
+        return $drm;
     }
 
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
@@ -377,27 +429,52 @@ class DRMClient extends acCouchdbClient {
         $drm = new DRM();
         $drm->identifiant = $identifiant;
         $drm->periode = $periode;
+        $drm->teledeclare = $isTeledeclarationMode;
         $drm->etape = self::ETAPE_SAISIE;
         $drm->buildFavoris();
+        $drm->storeDeclarant();
+        $drm->initSociete();
+        $drm->initCrds();
+        $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
-        $drm->crds = null;
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
+
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
-
             return $drm;
         }
 
         $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
         if ($dsLast) {
-            $drm->generateByDRM($drmLast);
-
+            $drm->generateByDS($dsLast);
             return $drm;
         }
 
         return $drm;
+    }
+
+    public function createDocFromEdi($identifiant, $periode, $csvFile) {
+               
+        
+       
+        $drmCsvEdi->preImportMouvementsFromCSV($csvFile,$erreurs);
+        $drmCsvEdi->preImportCrdsFromCSV($csvFile,$erreurs);
+        $drmCsvEdi->preImportAnnexesFromCSV($csvFile,$erreurs);
+        
+        if(count($result->erreurs)){
+            $result->statut = DRMCsvEdi::STATUT_WARNING;
+            return $result;
+        }
+        
+        $drmCsvEdi->buildMouvementsFromCSV($csvFile);
+        $drmCsvEdi->buildCrdsFromCSV($csvFile);
+        $drmCsvEdi->buildAnnexesFromCSV($csvFile);
+        
+        $drm->etape = self::ETAPE_CHOIX_PRODUITS;
+        
+        return $result;
     }
 
     public function generateVersionCascade($drm) {
@@ -433,20 +510,17 @@ class DRMClient extends acCouchdbClient {
         return elision($origineLibelle, $df);
     }
 
-    public static function drmDefaultFavoris() {
-        $configuration = ConfigurationClient::getCurrent();
-        $configurationFields = array();
-        foreach ($configuration->libelle_detail_ligne as $type => $libelles) {
-            foreach ($libelles as $libelleHash => $libelle) {
-                $configurationFields[$type . '/' . $libelleHash] = $libelle;
-            }
-        } 
-        foreach ($configurationFields as $key => $value) {
-            if(!in_array($key, self::$drm_default_favoris)){
-                unset($configurationFields[$key]);
-            }
+    public static function determineTypeDocument($numero_document) {
+        if (preg_match('/^\d{3}$/', $numero_document)) {
+            return self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
         }
-        return $configurationFields;
+        if (preg_match('/^[0-9]{2}[A-Z]{3}[0-9]{16}$/', $numero_document)) {
+            return self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
+        }
+        if (preg_match('/^[0-9]{5,8}$/', $numero_document)) {
+            return self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
+        }
+        return null;
     }
 
 }

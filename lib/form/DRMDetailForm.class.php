@@ -40,7 +40,7 @@ class DRMDetailForm extends acCouchdbObjectForm {
     {
         if (is_null($this->_label_choices)) {
             $this->_label_choices = array();
-            foreach (ConfigurationClient::getCurrent()->label as $key => $label) {
+            foreach ($this->getObject()->getDocument()->getConfig()->label as $key => $label) {
             	$this->_label_choices[$key] = $label;
             }
         }

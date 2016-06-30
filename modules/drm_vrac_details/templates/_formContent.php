@@ -7,21 +7,24 @@ echo $form->renderGlobalErrors();
         <tr>
             <th>Produit</th>
             <th>Numéro contrat</th>
-            <th>Volumes</th>
-            <th>Dates</th>
+            <th>Volumes</th>            
+            <?php if ($isTeledeclarationMode): ?>
+                <th>Type de document</th>
+                <th>Numéro de document</th> 
+            <?php endif; ?>
             <th></th>
         </tr>
     </thead>
     <tbody id="drm_vrac_details_tableBody" class="drm_details_tableBody">
-    <?php
-    foreach ($form as $itemForm){
-        if($itemForm instanceof sfFormFieldSchema) {
-            include_partial('item',array('form' => $itemForm, 'detail' => $detail));
-        } else {
-            $itemForm->renderRow();
+        <?php
+        foreach ($form as $itemForm) {
+            if ($itemForm instanceof sfFormFieldSchema) {
+                include_partial('item', array('form' => $itemForm, 'detail' => $detail, 'isTeledeclarationMode' => $isTeledeclarationMode));
+            } else {
+                $itemForm->renderRow();
+            }
         }
-    }
-    ?>
+        ?>
         <tr id="drm_details_lastRow">
             <td class="vrac_detail_produit"></td>
             <td class="vrac_detail_numero_contrat">
@@ -35,8 +38,11 @@ echo $form->renderGlobalErrors();
                         <span class="drm_details_volume_unite unite">hl</span>
                     </strong>
                 </div>      
-            </td>
-            <td class="vrac_detail_date_enlevement"></td>   
+            </td>            
+            <?php if ($isTeledeclarationMode): ?>
+                <td class="vrac_detail_type_document"></td>  
+                <td class="vrac_detail_numero_document"></td>  
+            <?php endif; ?>
             <td class="vrac_detail_remove"></td>
         </tr>
     </tbody>

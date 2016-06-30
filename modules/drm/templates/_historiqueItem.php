@@ -12,7 +12,7 @@
         <td><?php echo $drm->mode_de_saisie ?></td>
     <?php endif; ?>
     <td>
-		<a href="<?php echo url_for('drm_init', array('identifiant' => $etablissement_identifiant , 'periode_version' => $periode_version)); ?>">Accéder à la déclaration en cours</a><br />
+		<a href="<?php echo url_for('drm_redirect_etape', array('identifiant' => $etablissement_identifiant , 'periode_version' => $periode_version)); ?>">Accéder à la déclaration en cours</a><br />
 	   </td>
 	   <td style="border: 0px; padding-left: 0px;background-color: #ffffff;">
 	       <a href="<?php echo url_for('drm_delete', array('identifiant' => $etablissement_identifiant, 'periode_version' => $periode_version)); ?>" class="btn_annuler btn_majeur">Supprimer</a>

@@ -1,20 +1,20 @@
 <?php
+
 /**
  * Model for DRMESDetails
  *
  */
-
 class DRMESDetails extends BaseDRMESDetails {
 
-  public function update($params = array()) {
-    parent::update($params);
-    /*if (count($this) == 1 && !$this[0]->identifiant) {
-      $p = $this->getParent();
-      $k = $this->getKey();
-      $this->delete();
-      $p->add($k);
-    }*/
-  }
+    public function update($params = array()) {
+        parent::update($params);
+        /* if (count($this) == 1 && !$this[0]->identifiant) {
+          $p = $this->getParent();
+          $k = $this->getKey();
+          $this->delete();
+          $p->add($k);
+          } */
+    }
 
     public function getNoeud() {
 
@@ -22,7 +22,6 @@ class DRMESDetails extends BaseDRMESDetails {
     }
 
     public function getTotalHash() {
-
         return str_replace('_details', '', $this->getKey());
     }
 
@@ -38,19 +37,42 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
-    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null) {
+    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
         $detail = $this->add($identifiant);
 
         $detail->identifiant = $identifiant;
-        
+
         if ($volume && is_null($detail->volume)) {
-           $detail->volume = $volume; 
-        } elseif($volume) {
-          $detail->volume += $volume; 
+            $detail->volume = $volume;
+        } elseif ($volume) {
+            $detail->volume += $volume;
         }
 
-        if($date_enlevement) {
+        if ($date_enlevement) {
             $detail->date_enlevement = $date_enlevement;
+        }
+
+        if ($numero_document) {
+            $detail->numero_document = $numero_document;
+            $detail->type_document = $type_document;
+            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');            
+            if ($type_document) {
+                if (($detail instanceof DRMESDetailExport) || ($detail instanceof DRMESDetailVrac)) {
+                    if (!$documents_annexes->exist($type_document)) {
+                        $docNode = $documents_annexes->add($type_document);
+                        $docNode->debut = $numero_document;
+                        $docNode->fin = $numero_document;
+                    } else {
+                        $docNode = $documents_annexes->getOrAdd($type_document);
+                        if (strcmp($numero_document, $docNode->debut) < 0) {
+                            $docNode->debut = $numero_document;
+                        }
+                        if (strcmp($numero_document, $docNode->fin) > 0) {
+                            $docNode->fin = $numero_document;
+                        }
+                    }
+                }
+            }
         }
 
         return $detail;
@@ -60,10 +82,10 @@ class DRMESDetails extends BaseDRMESDetails {
         $mouvements = array();
 
         // Check les éventuels suppressions
-        if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash())) {
+        if ($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($this->getHash())) {
             $mother_this = $this->getDocument()->motherGet($this->getHash());
-            foreach($mother_this as $key => $mother_detail) {
-                if(!$this->exist($key)) {
+            foreach ($mother_this as $key => $mother_detail) {
+                if (!$this->exist($key)) {
                     $detail = $this->add($key, $mother_detail);
                     $detail->volume = 0;
                     $this->pushMouvement($mouvements, $template_mouvement, $detail);
@@ -72,8 +94,8 @@ class DRMESDetails extends BaseDRMESDetails {
             }
         }
 
-        foreach($this as $detail) {
-	        $this->pushMouvement($mouvements, $template_mouvement, $detail);
+        foreach ($this as $detail) {
+            $this->pushMouvement($mouvements, $template_mouvement, $detail);
         }
 
         return $mouvements;
@@ -81,7 +103,7 @@ class DRMESDetails extends BaseDRMESDetails {
 
     public function pushMouvement(&$mouvements, $template_mouvement, $detail) {
         $mouvement = $this->createMouvement(clone $template_mouvement, $detail);
-        if(!$mouvement){
+        if (!$mouvement) {
             return;
         }
         $mouvements[$this->getDocument()->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
@@ -96,25 +118,25 @@ class DRMESDetails extends BaseDRMESDetails {
     public function createMouvement($mouvement, $detail) {
         $volume = $detail->volume;
 
-        if($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($detail->getHash())) {
-          $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
+        if ($this->getDocument()->hasVersion() && $this->getDocument()->motherExist($detail->getHash())) {
+            $volume = $volume - $this->getDocument()->motherGet($detail->getHash())->volume;
         }
 
-	    $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+        $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey() . '/' . $this->getTotalHash());
         $volume = $config->mouvement_coefficient * $volume;
 
-        if($volume == 0) {
+        if ($volume == 0) {
 
-          return null;
+            return null;
         }
 
         $mouvement->detail_identifiant = $detail->identifiant;
         $mouvement->detail_libelle = $detail->getIdentifiantLibelle();
-	    $mouvement->type_libelle = $config->getLibelle();
+        $mouvement->type_libelle = $config->getLibelle();
         $mouvement->type_hash .= $this->getKey();
         $mouvement->volume = $volume;
 
-        if($config->isVrac()) {
+        if ($config->isVrac()) {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
             $mouvement->vrac_numero = $detail->getVrac()->numero_contrat;
             $mouvement->vrac_destinataire = $detail->getVrac()->acheteur->nom;
@@ -127,7 +149,7 @@ class DRMESDetails extends BaseDRMESDetails {
     }
 
     public function createMouvementVracDestinataire($mouvement, $detail) {
-        $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey().'/'.$this->getTotalHash());
+        $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey() . '/' . $this->getTotalHash());
 
         if (!$config->isVrac()) {
 
@@ -135,13 +157,12 @@ class DRMESDetails extends BaseDRMESDetails {
         }
 
         $mouvement->vrac_destinataire = $detail->getVrac()->vendeur->nom;
-	    $mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
+        $mouvement->region = $detail->getVrac()->getAcheteurObject()->region;
         $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->acheteur_identifiant);
-        if($mouvement->cvo && $mouvement->volume) {
+        if ($mouvement->cvo && $mouvement->volume) {
             $mouvement->facturable = 1;
         }
         return $mouvement;
     }
 
 }
-

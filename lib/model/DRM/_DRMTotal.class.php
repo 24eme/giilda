@@ -8,7 +8,26 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
     
     public function getConfig() {
 
-        return ConfigurationClient::getCurrent()->get($this->getHash());
+        return $this->getDocument()->getConfig()->get($this->getHash());
+    }
+
+    public function getConfigProduitsAttributes($teledeclarationMode = false) {
+        $attributes = array(_ConfigurationDeclaration::ATTRIBUTE_CVO_ACTIF);
+
+        if($teledeclarationMode && $this->getDocument()->isTeledeclare()) {
+            $attributes[] = _ConfigurationDeclaration::ATTRIBUTE_DOUANE_ACTIF;
+        }
+        
+        return $attributes; 
+    }
+
+    public function getConfigProduits($teledeclarationMode = false) {
+
+        return $this->getConfig()->formatProduits($this->getDocument()->getFirstDayOfPeriode(),
+                                                  $this->getDocument()->getInterpro()->get('_id'), 
+                                                  $this->getDocument()->getDepartement(),
+                                                  "%format_libelle% (%code_produit%)", 
+                                                  $this->getConfigProduitsAttributes($teledeclarationMode));
     }
 
     public function getParentNode() {
@@ -184,6 +203,19 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         }
 
         return $produits;
+    }
+
+    public function getProduitsDetailsSorted($teledeclarationMode = false) {
+        $produits = $this->getProduitsDetails($teledeclarationMode);
+        
+        uasort($produits, "_DRMTotal::sortProduitByLibelle");
+
+        return $produits;
+    }
+
+    public static function sortProduitByLibelle($p1, $p2) {
+
+        return $p1->getLibelle("%format_libelle%") > $p2->getLibelle("%format_libelle%");
     }
 
     public function getProduitsLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {

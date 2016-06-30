@@ -12,6 +12,13 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
             throw new sfError404Exception(sprintf("La DRM n'a pas été trouvée"));
         }
 
+	$myUser = sfContext::getInstance()->getUser();
+
+        if ($myUser->hasCredential('teledeclaration_drm') && 
+	    $myUser->getCompte()->getSociete()->identifiant != $this->drm->getEtablissement()->getSociete()->identifiant) {
+		throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette DRM");
+	}
+
         $control = isset($this->options['control']) ? $this->options['control'] : array();
 
 		if (in_array('valid', $control) && !$this->drm->isValidee()) {
@@ -33,7 +40,8 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
     }
     
     public function getDRMConfiguration() {
-        return ConfigurationClient::getCurrent();
+        
+        return $this->getDRM()->getConfig();
     }
 
     public function getDRM() {

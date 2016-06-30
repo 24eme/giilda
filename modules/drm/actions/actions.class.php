@@ -9,6 +9,16 @@
  */
 class drmActions extends drmGeneriqueActions {
 
+    public function executeConnexion(sfWebRequest $request) {
+
+        //  $this->redirect403IfIsTeledeclaration();
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $societe = $this->etablissement->getSociete();
+
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+        $this->redirect('drm_societe', array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
+    }
+
     public function executeRedirect(sfWebRequest $request) {
         $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
         $this->forward404Unless($drm);
@@ -16,6 +26,9 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeChooseEtablissement(sfWebRequest $request) {
+
+        $this->redirect403IfIsTeledeclaration();
+
         $this->form = new DRMEtablissementChoiceForm('INTERPRO-inter-loire');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -23,6 +36,154 @@ class drmActions extends drmGeneriqueActions {
                 return $this->redirect('drm_etablissement', $this->form->getEtablissement());
             }
         }
+    }
+
+    public function executeRedirectEtape(sfWebRequest $request) {
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $drm = $this->getRoute()->getDRM();
+
+        switch ($drm->etape) {
+            case DRMClient::ETAPE_CHOIX_PRODUITS:
+                if ($isTeledeclarationMode) {
+                    return $this->redirect('drm_choix_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                } else {
+                    return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                }
+                break;
+
+            case DRMClient::ETAPE_SAISIE:
+                return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                break;
+
+            case DRMClient::ETAPE_CRD:
+                if ($isTeledeclarationMode) {
+                    return $this->redirect('drm_crd', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                } else {
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                }
+                break;
+
+            case DRMClient::ETAPE_ADMINISTRATION:
+                if ($isTeledeclarationMode) {
+                    return $this->redirect('drm_annexes', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                } else {
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                }
+                break;
+
+            case DRMClient::ETAPE_VALIDATION:
+                return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                break;
+        }
+
+        if ((!$drm->etape) && !$drm->isValidee()) {
+            return $this->redirect('drm_edition', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+        }
+
+        return $this->redirect('drm_visualisation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeChoixCreation(sfWebRequest $request) {
+        $isTeledeclarationMode = $this->isTeledeclarationDrm();
+        if ($request->isMethod(sfWebRequest::POST)) {
+            if (!$request->getParameter('drmChoixCreation')) {
+                new sfException("Le formulaire n'est pas valide");
+            }
+            $drmChoixCreation = $request->getParameter('drmChoixCreation');
+            $choixCreation = $drmChoixCreation['type_creation'];
+            $identifiant = $request->getParameter('identifiant');
+            $periode = $request->getParameter('periode');
+            $this->creationDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $identifiant, 'periode' => $periode));
+            $this->creationDrmForm->bind($request->getParameter($this->creationDrmForm->getName()), $request->getFiles($this->creationDrmForm->getName()));
+
+            switch ($choixCreation) {
+                case DRMClient::DRM_CREATION_EDI :
+                    if ($this->creationDrmForm->isValid()) {
+                        $md5 = $this->creationDrmForm->getValue('file')->getMd5();
+                        return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
+                    }
+                    return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+
+                    break;
+                case DRMClient::DRM_CREATION_VIERGE :
+                    return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
+                    break;
+                case DRMClient::DRM_CREATION_NEANT :
+                    $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
+                    $drm->etape = DRMClient::ETAPE_VALIDATION;
+                    $drm->type_creation = DRMClient::DRM_CREATION_NEANT;
+                    $drm->save();
+                    return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+                    break;
+            }
+        }
+        return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeVerificationEdi(sfWebRequest $request) {
+
+        $this->md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = $request->getParameter('periode');
+        
+        $drm = new DRM();
+        $drm->identifiant = $this->identifiant;
+        $drm->periode = $this->periode;
+        $drm->teledeclare = true;
+        
+        $this->drmCsvEdi = new DRMCsvEdi($drm);
+        $this->drmCsvEdi->checkCSV($this->csvFile);        
+        
+    }
+    
+        /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeCreationEdi(sfWebRequest $request) {
+
+        $this->md5 = $request->getParameter('md5');
+        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = $request->getParameter('periode');
+        
+        $this->drm = new DRM();
+        $this->drm->identifiant = $this->identifiant;
+        $this->drm->periode = $this->periode;
+        $this->drm->teledeclare = true;
+        
+        $this->drmCsvEdi = new DRMCsvEdi($this->drm);
+        $this->drmCsvEdi->importCSV($this->csvFile);        
+         $this->redirect('drm_validation', $this->drm);
+        
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request 
+     */
+    public function executeExportEdi(sfWebRequest $request) {
+        $this->setLayout(false);
+        $drm = $this->getRoute()->getDRM();
+        $this->drmCsvEdi = new DRMCsvEdi($drm);
+
+        $filename = 'export_edi_' . $drm->identifiant . '_' . $drm->periode;
+
+
+        $attachement = "attachment; filename=" . $filename . ".csv";
+
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', $attachement);
+       
     }
 
     /**
@@ -35,7 +196,7 @@ class drmActions extends drmGeneriqueActions {
         $periode = $request->getParameter('periode');
         $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
         $drm->save();
-        if($isTeledeclarationMode) {
+        if ($isTeledeclarationMode) {
             $this->redirect('drm_choix_produit', $drm);
         } else {
             $this->redirect('drm_edition', $drm);
@@ -46,11 +207,6 @@ class drmActions extends drmGeneriqueActions {
      *
      * @param sfWebRequest $request 
      */
-    public function executeInit(sfWebRequest $request) {
-        $drm = $this->getRoute()->getDRM();
-        $this->redirect('drm_edition', $drm);
-    }
-
     public function executeInProcess(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->campagne = $request->getParameter('campagne');
@@ -65,28 +221,31 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request 
      */
     public function executeDelete(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->drm = $this->getRoute()->getDRM();
+        $this->initDeleteForm();
         if ($request->isMethod(sfRequest::POST)) {
-            if ($request->getParameter('confirm')) {
+            $this->deleteForm->bind($request->getParameter($this->deleteForm->getName()));
+            if ($this->deleteForm->isValid()) {
                 $this->drm->delete();
+                $this->redirect('drm_etablissement', $this->drm);
             }
-
-            $this->redirect('drm_etablissement', $this->drm);
         }
     }
 
     private function formCampagne(sfWebRequest $request, $route) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
-
+        $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
             throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
 
         $this->campagne = $request->getParameter('campagne');
         if (!$this->campagne) {
-            $this->campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+            $this->campagne = -1;
         }
 
-        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
+        $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne, $this->isTeledeclarationMode);
         if ($request->isMethod(sfWebRequest::POST)) {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
@@ -102,8 +261,9 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        return $this->formCampagne($request, 'drm_etablissement');
+        $view = $this->formCampagne($request, 'drm_etablissement');
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
+        return $view;
     }
 
     public function executeStocks(sfWebRequest $request) {
@@ -186,49 +346,6 @@ class drmActions extends drmGeneriqueActions {
         return $this->renderText($this->getPartial('popupFrequence', array('drm' => $drm)));
     }
 
-    public function executeValidation(sfWebRequest $request) {
-        set_time_limit(180);
-        $this->drm = $this->getRoute()->getDRM();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->initSocieteAndEtablissementPrincipal();
-        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant, $this->isTeledeclarationMode);
-
-        $this->no_link = false;
-        if ($this->getUser()->hasOnlyCredentialDRM()) {
-            $this->no_link = true;
-        }
-
-        $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
-
-        $this->form = new DRMCommentaireForm($this->drm);
-
-        if (!$request->isMethod(sfWebRequest::POST)) {
-
-            return sfView::SUCCESS;
-        }
-
-        $this->form->bind($request->getParameter($this->form->getName()));
-        if ($request->getParameter('brouillon')) {
-            $this->form->save();
-            return $this->redirect('drm_etablissement', $this->drm->getEtablissement());
-        }
-
-        if (!$this->validation->isValide()) {
-            return sfView::SUCCESS;
-        }
-
-        $this->form->save();
-
-        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
-        $this->drm->save();
-
-        DRMClient::getInstance()->generateVersionCascade($this->drm);
-
-        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-            'periode_version' => $this->drm->getPeriodeAndVersion(),
-            'hide_rectificative' => 1));
-    }
-
     public function executeShowError(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
         $drmValidation = new DRMValidation($drm);
@@ -239,25 +356,13 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect($controle->getLien());
     }
 
-    public function executeVisualisation(sfWebRequest $request) {
-        $this->drm = $this->getRoute()->getDRM();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->no_link = false;
-        if ($this->getUser()->hasOnlyCredentialDRM()) {
-            $this->no_link = true;
-        }
-        $this->hide_rectificative = $request->getParameter('hide_rectificative');
-        $this->drm_suivante = $this->drm->getSuivante();
-        $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-    }
-
     public function executeRectificative(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
 
         $drm_rectificative = $drm->generateRectificative();
         $drm_rectificative->save();
 
-        return $this->redirect('drm_init', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
     }
 
     public function executeModificative(sfWebRequest $request) {
@@ -266,7 +371,7 @@ class drmActions extends drmGeneriqueActions {
         $drm_rectificative = $drm->generateModificative();
         $drm_rectificative->save();
 
-        return $this->redirect('drm_init', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm_rectificative->identifiant, 'periode_version' => $drm_rectificative->getPeriodeAndVersion()));
     }
 
     /**
@@ -292,6 +397,6 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
-    }    
+    }
 
 }

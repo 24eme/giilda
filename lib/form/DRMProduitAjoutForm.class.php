@@ -56,10 +56,8 @@ class DRMProduitAjoutForm extends acCouchdbForm
     
     public function getProduits() {
         if (is_null($this->_choices_produits)) {
-            $date = $this->_drm->getFirstDayOfPeriode();
             $this->_choices_produits = array_merge(array("" => ""),
-	    $this->_config->formatProduits($date,$this->_interpro->get('_id'), 
-            $this->_drm->getDepartement()));
+	        $this->_drm->getConfigProduits(true));
         }
 
         return $this->_choices_produits;

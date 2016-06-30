@@ -4,9 +4,18 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
 
     public function configure() {
     	$configurationDetail = $this->getObject()->getParent()->getConfig();
-    	foreach ($configurationDetail->getSorties() as $key => $value) {
+        $certif = $this->getObject()->getParent()->getCertification()->getKey();
+        $drm = $this->getObject()->getDocument();
+    	foreach ($configurationDetail->getSortiesSorted() as $key => $value) {
+            $disabled = (!preg_match('/AOC|IGP/', $certif) && ($key == 'repli'));
+            if ($key == 'contrathorsinterpro' && preg_match('/_INTERLOIRE/', $certif)) {
+                $disabled = true;
+            }
+            if ($key == 'contrat' && !preg_match('/_INTERLOIRE/', $certif)) {
+                $disabled = true;
+            }
     		if ($value->readable) {
-	    		if (!$value->writable) {
+	    		if (!$value->writable || $disabled) {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
 	    		} else {
 	    			$this->setWidget($key, new sfWidgetFormInputFloat());

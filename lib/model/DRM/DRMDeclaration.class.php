@@ -15,10 +15,9 @@ class DRMDeclaration extends BaseDRMDeclaration {
         $produits = $this->getProduitsDetails();
         $mouvements = array();
         foreach ($produits as $produit) {
-            if (!$isTeledeclaration && !$produit->getParent()->isProduitNonInterpro()) {
-                $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
-            }
+            $mouvements = array_replace_recursive($mouvements, $produit->getMouvements());
         }
+
         return $mouvements;
     }
 
@@ -48,22 +47,33 @@ class DRMDeclaration extends BaseDRMDeclaration {
         }
         return false;
     }
-    
-    public function getProduitsDetailsByCertifications() {
-        $certifications = $this->getConfig()->getChildrenNode(); 
-        $produitsDetailsByCertifications = array();
-        foreach ($certifications as $certification) {
-            if(!array_key_exists($certification->getHash(), $produitsDetailsByCertifications)){
-                $produitsDetailsByCertifications[$certification->getHash()] = new stdClass();
-                $produitsDetailsByCertifications[$certification->getHash()]->certification = $certification;
-                $produitsDetailsByCertifications[$certification->getHash()]->produits = array();
+
+    public function getProduitsDetailsSorted($teledeclarationMode = false) {
+        $produits = array();
+
+        foreach ($this->certifications as $certification) {
+
+            $produits = array_merge($produits, $certification->getProduitsDetailsSorted($teledeclarationMode));
+        }
+
+        return $produits;
+    }
+
+    public function getProduitsDetailsByCertifications($isTeledeclarationMode = false) {
+        foreach ($this->getConfig()->getCertifications() as $certification) {
+            if (!isset($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()])) {
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()] = new stdClass();
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_libelle = $certification->getLibelle();
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits = array();
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_keys = $certification->getKey();
+            } else {
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_keys .= ','.$certification->getKey();
+            }
+           if ($this->getDocument()->exist($certification->getHash())) {
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits = array_merge($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits, $this->getDocument()->get($certification->getHash())->getProduitsDetailsSorted($isTeledeclarationMode));
             }
         }
-        $produitsDetails = $this->getProduitsDetails();
-        foreach ($produitsDetails as $produitDetails) {
-            $produitsDetailsByCertifications[$produitDetails->getCertification()->getHash()]->produits[$produitDetails->getHash()] = $produitDetails;
-        }
-        
+
         return $produitsDetailsByCertifications;
     }
 

@@ -19,7 +19,7 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->_drm = $object;
-        $this->_produits = $this->_drm->declaration->getProduitsDetails();
+        $this->_produits = $this->_drm->declaration->getProduitsDetails(true);
         parent::__construct($this->_drm, $options, $CSRFSecret);
     }
 

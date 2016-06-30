@@ -9,9 +9,11 @@
 class DRMMouvementsValidationForm extends acCouchdbObjectForm {
 
     private $_drm = null;
+    private $isTeledeclarationMode = false;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->_drm = $object;
+        $this->isTeledeclarationMode = $options['isTeledeclarationMode'];
         parent::__construct($this->_drm, $options, $CSRFSecret);
     }
 
@@ -20,8 +22,8 @@ class DRMMouvementsValidationForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('drmMouvementsValidation[%s]');
     }
 
-    protected function doUpdateObject($values) {
-        $this->_drm->etape = DRMClient::ETAPE_CRD;
+    protected function doUpdateObject($values) {   
+        $this->_drm->etape = ($this->isTeledeclarationMode)? DRMClient::ETAPE_CRD : DRMClient::ETAPE_VALIDATION ;
         $this->_drm->save();
     }
 }

@@ -24,6 +24,6 @@ class DRMProduitLabelForm extends acCouchdbObjectForm
     }
 
     public function getConfig() {
-    	return ConfigurationClient::getCurrent();
+    	return $this->getObject()->getDocument()->getConfig();
     }
 }

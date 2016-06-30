@@ -1,13 +1,13 @@
 <?php
 
-class drm_cooperative_detailsActions extends sfActions
+class drm_cooperative_detailsActions extends drmGeneriqueActions
 {
     
     public function executeProduit(sfWebRequest $request) {
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
-        
-        $this->form = new DRMDetailCooperativeForm($this->detail->sorties->cooperative_details);
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();      
+        $this->form = new DRMDetailCooperativeForm($this->detail->sorties->cooperative_details, array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         
        // $this->invalide = false;
         
