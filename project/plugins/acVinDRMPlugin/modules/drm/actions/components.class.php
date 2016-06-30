@@ -2,6 +2,12 @@
 
 class drmComponents extends sfComponents {
 
+  public function executeLegalSignature() {
+      if (!$this->etablissement)
+          throw new sfException('need an identifiant of etablissement ('.$this->etablissement.' provided)');
+      $this->legalSignatureForm = new DRMLegalSignatureForm($this->etablissement);
+    }
+
     public function executeFormEtablissementChoice() {
         if (!$this->identifiant) {
             $this->identifiant = null;
@@ -36,6 +42,7 @@ class drmComponents extends sfComponents {
         if (!$this->hasNoPopupCreation) {
             $this->creationDrmsForms = $this->getCreationDrmsForms();
         }
+
     }
 
     public function executeEtapes() {
@@ -201,7 +208,7 @@ class drmComponents extends sfComponents {
                 $this->recaps[$rev->produit_hash]['volume_revendique_drev'] += $rev->volume;
             }
         } catch (Exception $e) {
-            
+
         }
 
         $dss = DSStocksView::getInstance()->findByCampagneAndEtablissement($this->campagne, null, $this->etablissement->identifiant);

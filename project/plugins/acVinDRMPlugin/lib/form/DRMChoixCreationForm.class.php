@@ -1,6 +1,6 @@
 <?php
 
-class DRMChoixCreationForm extends sfForm {
+class DRMChoixCreationForm extends BaseForm {
 
     private $periode = null;
     private $identifiant = null;

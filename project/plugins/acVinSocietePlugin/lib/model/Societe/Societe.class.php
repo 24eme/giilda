@@ -432,4 +432,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return $this->_set('commentaire', $s);
     }
 
+    public function hasLegalSignature() {
+        if ($this->exist('legal_signature'))
+            return ($this->add('legal_signature')->add('v1'));
+        return false;
+    }
+
 }

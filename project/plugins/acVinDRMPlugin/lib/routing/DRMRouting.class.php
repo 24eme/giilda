@@ -169,6 +169,10 @@ class DRMRouting {
 
         //ROUTING TELEDECLARATION
 
+        $r->prependRoute('drm_legal_signature', new sfRoute('/drm/:identifiant/terms', array('module' => 'drm',
+            'action' => 'legalSignature')));
+
+
         $r->prependRoute('drm_societe', new EtablissementRoute('/drm/societe/:identifiant', array('module' => 'drm',
             'action' => 'societe'), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
                'type' => 'object')));

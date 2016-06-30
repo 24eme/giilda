@@ -34,7 +34,8 @@
                                         <?php
                                         $lienNouvelle = url_for('drm_nouvelle', array('identifiant' => $etb, 'periode' => $drmsByEtb->periode));
                                         if ($isTeledeclarationMode) {
-                                            $lienNouvelle = url_for('drm_etablissement', array('identifiant' => $etb)) . '#drm_nouvelle_' . $drmsByEtb->periode . '_' . $etb;
+                                          //  $lienNouvelle = url_for('drm_etablissement', array('identifiant' => $etb)) .
+                                               $lienNouvelle = '#drm_nouvelle_' . $drmsByEtb->periode . '_' . $etb;
                                             if (!$hasNoPopupCreation) {
                                                 include_partial('drm/creationDrmPopup', array('periode' => $drmsByEtb->periode, 'identifiant' => $etb, 'drmCreationForm' => $drmsToCreateForms[$etb . '_' . $drmsByEtb->periode]));
                                             }
@@ -48,7 +49,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-12">
-                                              <a href="<?php echo $lienNouvelle; ?>" class="<?php echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '' ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
+                                              <a data-toggle="modal" data-target="<?php echo $lienNouvelle; ?>" class="<?php echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '' ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
                                             </div>
                                             </div>
                                         </li>

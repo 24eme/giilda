@@ -239,7 +239,7 @@ class drmActions extends drmGeneriqueActions {
 
     private function formCampagne(sfWebRequest $request, $route) {
         //$this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->isTeledeclarationMode = false;
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
@@ -266,6 +266,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfRequest $request A request object
      */
     public function executeMonEspace(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $view = $this->formCampagne($request, 'drm_etablissement');
         $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         return $view;
