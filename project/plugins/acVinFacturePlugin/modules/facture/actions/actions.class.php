@@ -96,7 +96,7 @@ class factureActions extends sfActions {
     }
 
     public function executeGeneration(sfWebRequest $request) {
-        $this->form = new FactureGenerationForm();
+	$this->form = new FactureGenerationForm();
         $filters_parameters = array();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

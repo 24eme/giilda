@@ -7,13 +7,17 @@
 
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" > $TMP/sed_produit_code
 
-echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);is_vendeur" > $TMP/export_bi_mouvements.csv
+echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);is_facture;is_vendeur" > $TMP/export_bi_mouvements.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | sed 's/"//g' | awk -F ';' 'BEGIN{OFS=";"}{EXTRA = "1" ; if ( $6 ~ $3 ) EXTRA = "0" ; print $0 EXTRA}' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_mouvements.csv
 
 echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archive;identifiant acheteur;nom acheteur;identifiant vendeur; nom vendeur;identifiant courtier;nom courtier;identifiant intermediaire ou vendeur;nom intermediaire ou vendeur;type de vente (VIN_VRAC, VIN_BOUTEILLE, RAISIN, MOUT);certification;genre;appellation;mention;lieu;couleur;cepage;code produit;libelle produit;volume propose (en hl);volume enleve (en hl);prix unitaire (en hl);prix unitaire definitif (en hl);prix variable (OUI, NON);contrat interne (OUI, NON);original (OUI, NON);type de contrat(SPOT, PLURIANNUEL);date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE);domaine;part variable;repartition cvo;nature de la cvo (MARCHE_DEFINITIF, COMPENSATION, NON_FINANCIERE, VINAIGRERIE);code cepage;libelle cepage" > $TMP/export_bi_contrats.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history  | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE|ANNULE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_contrats.csv
 
 . bin/export_bi_stocks
+
+echo "ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom" > $TMP/export_bi_drm_stock.csv
+cat $TMP/export_bi_drm_stock_last_modificatrices.csv | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_drm_stock.csv
+
 
 echo "#REVENDIQUE;campagne;identifiant declarant;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;region;document id;volume;nom declarant;libelle produit" > $TMP/export_bi_revendiques.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/revendication/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/REVENDIQUE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^REVENDIQUE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_revendiques.csv
@@ -57,7 +61,7 @@ cat data/import/configuration/produits.csv | sed -r 's/^/#PRODUIT;/' | sed -r 's
 cat data/export/constantes.csv > $TMP/export_bi_constantes.csv
 
 cd $TMP
-recode UTF8..ISO88591-1 export_bi_mouvements.csv export_bi_contrats.csv export_bi_dss.csv export_bi_revendiques.csv export_bi_etablissements.csv export_bi_societes.csv MDV_Fournisseurs.csv PLV_Fournisseurs.csv PLV_Clients.csv export_bi_drm.csv
+recode UTF8..ISO88591-1 export_bi_mouvements.csv export_bi_contrats.csv export_bi_dss.csv export_bi_revendiques.csv export_bi_etablissements.csv export_bi_societes.csv MDV_Fournisseurs.csv PLV_Fournisseurs.csv PLV_Clients.csv export_bi_drm.csv export_bi_drm_stock.csv
 
 sed -i 's/T[0-9]+[0-9:+GMT]+;/;/g' export_bi_contrats.csv
 
