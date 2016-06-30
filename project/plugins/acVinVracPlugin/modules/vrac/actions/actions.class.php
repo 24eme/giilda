@@ -194,7 +194,7 @@ class vracActions extends sfActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal, true, 10);
-        
+
         //var_dump($this->contratsSocietesWithInfos->contrats); exit;
     }
 
@@ -218,8 +218,10 @@ class vracActions extends sfActions {
         $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
 
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
-
-        $this->contratsByCampagneEtablissementAndStatut = VracClient::getInstance()->retrieveByCampagneSocieteAndStatut($this->campagne,$this->societe,  $this->etablissement, $this->statut);
+$this->contratsByCampagneEtablissementAndStatut = new stdClass();
+$this->contratsByCampagneEtablissementAndStatut->rows = array();
+        $this->contratsByCampagneEtablissementAndStatut->rows = VracClient::getInstance()->retrieveByCampagneSocieteAndStatut($this->campagne,$this->societe,  $this->etablissement, $this->statut,true);
+        //var_dump($this->contratsByCampagneEtablissementAndStatut->rows); exit;
     }
 
     public function executeSignature(sfWebRequest $request) {

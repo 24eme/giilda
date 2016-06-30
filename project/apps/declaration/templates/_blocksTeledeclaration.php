@@ -1,9 +1,10 @@
 <div class="<?php if($teledeclaration_drm): ?> col-xs-4<?php else: ?>col-xs-6<?php endif; ?>">
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Contrat</h4></div>
+        <div class="panel-heading"><h4>Espace contrat</h4></div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12" style="height: 150px;">
+                <div class="col-xs-12" >
+                  <?php include_partial('vrac/bloc_statuts_contrats', array('societe' => $societe, 'contratsSocietesWithInfos' => $contratsSocietesWithInfos, 'etablissementPrincipal' => $etablissement,'accueil' => true)) ?>
 
                 </div>
             </div>
@@ -24,10 +25,11 @@
 <?php if($teledeclaration_drm): ?>
 <div class="col-xs-4">
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>DRM</h4></div>
+        <div class="panel-heading"><h4>Espace DRM</h4></div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-xs-12" style="height: 150px;">
+                <div class="col-xs-12" >
+                  <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => true, 'btnAccess' => true, 'accueil_drm' => false)); ?>
 
                 </div>
             </div>
@@ -47,7 +49,7 @@
 <?php endif; ?>
 <div class="<?php if($teledeclaration_drm): ?> col-xs-4<?php else: ?>col-xs-6<?php endif; ?>">
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Blog</h4></div>
+    <div class="panel-heading"><h4>Espace Blog</h4></div>
     <div class="panel-body">
         <div class="row">
             <div class="col-xs-12" style="height: 150px;">

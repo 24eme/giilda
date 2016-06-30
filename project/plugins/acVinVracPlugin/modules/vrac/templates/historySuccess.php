@@ -62,7 +62,6 @@ use_helper('Float');
 </div>
 </div>
 <br/>
-   <?php
-      include_partial('contratsTable', array('contrats' => $contratsByCampagneEtablissementAndStatut, 'societe' => $societe)); ?>
-       <!-- <?php include_partial('popup_notices'); ?> -->
+       <?php include_partial('vrac/list', array('vracs' => $contratsByCampagneEtablissementAndStatut, 'teledeclaration' => true,'societe' => $societe)); ?>
+
 </section>

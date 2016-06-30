@@ -18,7 +18,7 @@
             <th style="width: 110px;">Date</th>
             <th>Soussignés</th>
             <th>Produit (Millésime)</th>
-            <th style="width: 50px;">Vol.&nbsp;prop. (Vol.&nbsp;enl.)</th>
+            <th style="width: 50px;">Vol.&nbsp;prop. <?php echo (!isset($teledeclaration) || !$teledeclaration)? "(Vol.&nbsp;enl.)" : "" ?></th>
             <th style="width: 50px;">Prix</th>
             <th style="width: 90px;"></th>
         </tr>
@@ -103,6 +103,7 @@
             echoFloat($v->volume_propose);
             echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_initial']['libelle'].'<br/>';
             echo '<span class="text-muted">';
+            if(!isset($teledeclaration) || !$teledeclaration){
             if ($v->volume_enleve) {
                 echoFloat($v->volume_enleve);
                 echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_vigueur']['libelle'];
@@ -110,6 +111,7 @@
                 echo '0.00&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_vigueur']['libelle'];
             }
             echo '</span>';
+          }
         }
         ?>
                     </td>
@@ -126,10 +128,6 @@
                       $toBeSigned = VracClient::getInstance()->toBeSignedBySociete($statut, $societe, $v->valide->date_signature_vendeur, $v->valide->date_signature_acheteur, $v->valide->date_signature_courtier);
                        ?>
                       <td class="text-center">
-                      <!-- <p>
-                          <?php //echo VracClient::$statuts_labels_teledeclaration[$statut];
-                          ?>
-                      </p> -->
 
                       <?php if (($statut == VracClient::STATUS_CONTRAT_NONSOLDE) || ($statut == VracClient::STATUS_CONTRAT_SOLDE)): ?>
                           <a class="btn btn-default" href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $v->numero_contrat)) ?>">

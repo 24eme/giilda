@@ -28,15 +28,26 @@ class globalComponents extends sfComponents {
       $this->teledeclaration_vrac = false;
       $this->teledeclaration_drm = false;
       $this->etablissementPrincipal = null;
+      $this->contratsSocietesWithInfos = null;
       if($this->getUser()->hasCredential('teledeclaration')){
         $this->teledeclaration = true;
         $this->etablissementPrincipal = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal();
+          $this->compte = $this->getUser()->getCompte();
+          if (!$this->compte) {
+              new sfException("Le compte $compte n'existe pas");
+          }
+          $this->societe = $this->compte->getSociete();
+          $this->etablissement = $this->societe->getEtablissementPrincipal();
       }
+
+
       if($this->getUser()->hasCredential('teledeclaration_vrac')){
         $this->teledeclaration_vrac = true;
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissement, 10);
       }
       if($this->getUser()->hasCredential('teledeclaration_drm')){
         $this->teledeclaration_drm = true;
+        $this->campagne = -1;
       }
         $this->etablissementPrincipal = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal();
 

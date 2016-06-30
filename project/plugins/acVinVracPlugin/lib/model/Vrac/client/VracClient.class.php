@@ -252,13 +252,14 @@ class VracClient extends acCouchdbClient {
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
+    //    var_dump($bySoussigne); exit;
 
 
         $cpt = 0;
         $results = array();
         foreach ($bySoussigne as $soussigne) {
           if($teledeclare){
-            if($soussigne->key[4] && $cpt < $limit){
+            if($soussigne->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $cpt < $limit){
               $results[] = $soussigne;
               $cpt++;
             }
@@ -302,48 +303,56 @@ class VracClient extends acCouchdbClient {
               $cpt++;
             }
             foreach ($local_result as $idContrat => $contrat) {
-              if ($contrat->key[self::VRAC_VIEW_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON) {
+              if ($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON) {
                 $result->rows[] = $contrat;
+                $result->infos->brouillon++;
               }
             }
 
             foreach ($local_result as $idContrat => $contrat) {
-              if ($contrat->key[self::VRAC_VIEW_STATUT] != VracClient::STATUS_CONTRAT_BROUILLON) {
+              if ($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] != VracClient::STATUS_CONTRAT_BROUILLON) {
                     $result->rows[] = $contrat;
+                    $v = VracClient::getInstance()->find($contrat->id);//, acCouchdbClient::HYDRATE_JSON);
+                    if($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){
+                      $signature_vendeur =
+                      $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $v->valide->date_signature_vendeur, $v->valide->date_signature_acheteur, $v->valide->date_signature_courtier);
+                      $result->infos->a_signer += (int) $tobeSignedByMe;
+                      $result->infos->en_attente += (int) !$tobeSignedByMe;
+                    }
                 }
               }
 
-        $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
-        $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
-
-        $nb_my_brouillons_current = $this->countBrouillons($societe, $brouillon_contrats_current);
-        $nb_my_brouillons_previous = $this->countBrouillons($societe, $brouillon_contrats_previous);
-        $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
-
-        $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
-        $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
-
-        foreach ($en_attente_contrats_current as $contrats_current_obj) {
-
-            $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
-                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
-            $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR])) ?
-                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
-            $signature_courtier = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER])) ?
-                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
-            $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-            $result->infos->a_signer += (int) $tobeSignedByMe;
-            $result->infos->en_attente += (int) !$tobeSignedByMe;
-        }
-
-        foreach ($en_attente_contrats_previous as $contrats_previous_obj) {
-            $signature_vendeur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
-            $signature_acheteur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
-            $signature_courtier = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
-            $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-            $result->infos->a_signer += (int) $tobeSignedByMe;
-            $result->infos->en_attente += (int) !$tobeSignedByMe;
-        }
+        // $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
+        // $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
+        //
+        // $nb_my_brouillons_current = $this->countBrouillons($societe, $brouillon_contrats_current);
+        // $nb_my_brouillons_previous = $this->countBrouillons($societe, $brouillon_contrats_previous);
+        // $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
+        //
+        // $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
+        // $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
+        //
+        // foreach ($en_attente_contrats_current as $contrats_current_obj) {
+        //
+        //     $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
+        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
+        //     $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR])) ?
+        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
+        //     $signature_courtier = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER])) ?
+        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
+        //     $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+        //     $result->infos->a_signer += (int) $tobeSignedByMe;
+        //     $result->infos->en_attente += (int) !$tobeSignedByMe;
+        // }
+        //
+        // foreach ($en_attente_contrats_previous as $contrats_previous_obj) {
+        //     $signature_vendeur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
+        //     $signature_acheteur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
+        //     $signature_courtier = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
+        //     $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+        //     $result->infos->a_signer += (int) $tobeSignedByMe;
+        //     $result->infos->en_attente += (int) !$tobeSignedByMe;
+        // }
 
         return $result;
     }
