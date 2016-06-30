@@ -1,17 +1,9 @@
-ivso:
+all:
   configuration:
     facture:
+      prefix_sage: "VEN"  
       type_cvo:
-        identifiant_prefix: "C"
+        identifiant_prefix: "1"
       type_libre:
-        identifiant_prefix: "L"
+        identifiant_prefix: "1"  
       idcontrat: "ID"
-              
-ivbd:
-  configuration:
-    facture:
-      type_cvo:
-        identifiant_prefix: "1"
-      type_libre:
-        identifiant_prefix: "1"
-      idcontrat: "ARCHIVE"

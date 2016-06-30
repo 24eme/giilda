@@ -103,7 +103,7 @@ class DRMValidation extends DocumentValidation {
         foreach ($volumes_restant as $is => $restant) {
             if ($restant['volume'] < 0) {
                 $vrac = $restant['vrac'];
-                $this->addPoint('vigilance', 'vrac_detail_negatif', sprintf("%s, Contrat %s (%01.02f hl enlevé / %01.02f hl proposé)", $volumes_restant[$id_volume_restant]['vrac']->produit_libelle, $vrac->__toString(), $vrac->volume_propose - $restant['volume'], $vrac->volume_propose), $this->generateUrl('drm_edition', $this->document));
+                $this->addPoint('vigilance', 'vrac_detail_negatif', sprintf("%s, Contrat %s (%01.02f hl enlevé / %01.02f hl proposé)", $vrac->produit_libelle, $vrac->__toString(), $vrac->volume_propose - $restant['volume'], $vrac->volume_propose), $this->generateUrl('drm_edition', $this->document));
             }
         }
         if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {

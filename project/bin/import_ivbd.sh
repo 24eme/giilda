@@ -57,10 +57,10 @@ fi
 
 echo "Import de la configuration"
 
-curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
-php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
-php symfony import:CVO CONFIGURATION data/import/configuration/ivbd/cvo.csv
-php symfony cc > /dev/null
+#curl -sX DELETE "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION"?rev=$(curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/CONFIGURATION" | grep -Eo '"_rev":"[a-z0-9-]+"' | sed 's/"//g' | sed 's/_rev://')
+#php symfony import:configuration CONFIGURATION data/import/configuration/ivbd
+#php symfony import:CVO CONFIGURATION data/import/configuration/ivbd/cvo.csv
+#php symfony cc > /dev/null
 
 #Produit
 echo "CODE_VIN;CODE_SYNDICAT_VIN;CODE_COMPTA_VIN;CODE_COMPTA_VIN_FAMILLE;LIBELLE_VIN;AOC;CODE_AOC;LIBELLE_AOC;COULEUR_VIN" >> $DATA_DIR/contrats_vin_correspondance.csv
@@ -540,18 +540,6 @@ cat $DATA_DIR/contrats_drm_drm_volume.csv | awk -F ';' '{
     manquante=$10;
     zero=$11;
 
-    # if(manquante == "True" || zero == "True") {
-    #     catmouvement="stocks_debut";
-    #     mouvement="initial";
-    #     volume="";
-    #     if(manquante) {
-    #         commentaire=commentaire "IMPORT DRM manquante\\n";
-    #     }
-    #     if(zero) {
-    #         commentaire=commentaire "IMPORT DRM néant\\n";
-    #     }
-    # }
-
     if(substr(volume,0,1) == "."){
     volume="0"volume;
     }
@@ -741,28 +729,29 @@ cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_vrac.csv $DATA_DIR/drm_cave_export
 
 cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]{1}|2016[0-1]{1}[0-9]{1});" > $DATA_DIR/drm_201408.csv
 
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2010(08|09|10|11|12)|2011[0-1]{1}[0-9]{1}|2012[0-1]{1}[0-9]{1}|2013[0-1]{1}[0-9]{1}|20140[1-7]{1});" | grep -Ev ";(Ste foy de bordeaux|Côtes de castillon);" > $DATA_DIR/drm_201008_201407.csv
 
 echo "Import des sociétés"
 
-php symfony import:societe $DATA_DIR/societes.csv
+#php symfony import:societe $DATA_DIR/societes.csv
 
 echo "Import des établissements"
 
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+#php symfony import:etablissement $DATA_DIR/etablissements.csv
 
 echo "Import des interlocuteurs"
 
-php symfony import:compte $DATA_DIR/interlocuteurs.csv
+#php symfony import:compte $DATA_DIR/interlocuteurs.csv
 
 echo "Import des contrats"
 
-php symfony import:vracs $DATA_DIR/vracs.csv --env="ivbd"
+#php symfony import:vracs $DATA_DIR/vracs.csv --env="ivbd"
 
 echo "Import des DRM"
 
 echo -n > $DATA_DIR/drm_lignes.csv
 
-cat $DATA_DIR/drm_201408.csv | sed 's|\\|\\\\|' | while read ligne
+cat $DATA_DIR/drm_201008_201407.csv | sed 's|\\|\\\\|' | while read ligne
 do
     if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
     then
@@ -780,13 +769,18 @@ do
     echo "$ligne" >> $DATA_DIR/drm_lignes.csv
 done
 
+if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
+then
+    php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true --creation-depuis-precedente=true --env="ivbd"
+fi
+
 echo "Contrôle de cohérence des DRM"
 
 cat $DATA_DIR/drm.csv | cut -d ";" -f 3 | sort | uniq | while read ligne
 do
-  php symfony drm:controle-coherence "$ligne"
+  #php symfony drm:controle-coherence "$ligne"
 done
 
 echo "Import des tags"
 
-php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv
+#php symfony tag:addManuel --file=$DATA_DIR/tagmanuels.csv

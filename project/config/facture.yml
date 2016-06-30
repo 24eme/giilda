@@ -1,0 +1,19 @@
+ivso:
+  configuration:
+    facture:
+      prefix_sage: "20"  
+      type_cvo:
+        identifiant_prefix: "C"
+      type_libre:
+        identifiant_prefix: "L"        
+      idcontrat: "ID"
+              
+ivbd:
+  configuration:
+    facture:
+      prefix_sage: "VEN"
+      type_cvo:
+        identifiant_prefix: "1"
+      type_libre:
+        identifiant_prefix: "1"
+      idcontrat: "ARCHIVE"

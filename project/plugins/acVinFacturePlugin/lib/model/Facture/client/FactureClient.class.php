@@ -65,7 +65,10 @@ class FactureClient extends acCouchdbClient {
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);
-        $facture->storeLignesFromMouvements($mouvementsSoc, $societe->famille, $modele);
+        
+        $famille = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR)? SocieteClient::TYPE_AUTRE : $societe->famille;
+        
+        $facture->storeLignesFromMouvements($mouvementsSoc, $famille, $modele);
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
@@ -446,6 +449,10 @@ class FactureClient extends acCouchdbClient {
         return $avoir;
     }
 
+    public function findAll() {
+        return FactureEtablissementView::getInstance()->getAllFacturesForCompta();
+    }
+    
     public function getFacturesByCompte($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $ids = $this->startkey(sprintf("FACTURE-%s-%s", $identifiant, "0000000000"))
                         ->endkey(sprintf("FACTURE-%s-%s", $identifiant, "9999999999"))
