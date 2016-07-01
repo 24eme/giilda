@@ -22,7 +22,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function isVrac() {
 
-        return ($this->exist($detail) && $this->get($detail) == self::DETAILS_VRAC);
+        return ($this->hasDetails() && $this->getDetails() == self::DETAILS_VRAC);
     }
 
     public function hasDetails() {
