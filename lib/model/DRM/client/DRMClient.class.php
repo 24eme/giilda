@@ -8,6 +8,8 @@ class DRMClient extends acCouchdbClient {
     const CONTRATSPRODUITS_VOL_ENLEVE = 3;
     const ETAPE_CHOIX_PRODUITS = 'CHOIX_PRODUITS';
     const ETAPE_SAISIE = 'SAISIE';
+    const ETAPE_SAISIE_SUSPENDU = 'SAISIE_details';
+    const ETAPE_SAISIE_ACQUITTE = 'SAISIE_detailsACQUITTE';
     const ETAPE_CRD = 'CRD';
     const ETAPE_ADMINISTRATION = 'ADMINISTRATION';
     const ETAPE_VALIDATION = 'VALIDATION';
@@ -19,6 +21,7 @@ class DRMClient extends acCouchdbClient {
     const DRM_BLEU = 'BLEU';
     const DRM_LIEDEVIN = 'LIEDEVIN';
     const DRM_DOCUMENTACCOMPAGNEMENT_DAADAC = 'DAADAC';
+    const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
     const DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC = 'DSADSAC';
     const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
@@ -26,13 +29,18 @@ class DRMClient extends acCouchdbClient {
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
+    const DETAIL_EXPORT_PAYS_DEFAULT = 'inconnu';
+    const TYPE_DRM_SUSPENDU = 'SUSPENDU';
+    const TYPE_DRM_ACQUITTE = 'ACQUITTE';
 
-    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
+    public static $types_libelles = array(DRM::DETAILS_KEY_SUSPENDU => 'Suspendu', DRM::DETAILS_KEY_ACQUITTE => 'Acquitté');
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE_SUSPENDU, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
     public static $drm_documents_daccompagnement = array(
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
         self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
     public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant", self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
     protected $drm_historiques = array();
@@ -288,7 +296,7 @@ class DRMClient extends acCouchdbClient {
         }
 
         krsort($drms);
-        
+
         return array_shift($drms);
     }
 
@@ -365,7 +373,7 @@ class DRMClient extends acCouchdbClient {
             $volume = '[' . $row->value[self::CONTRATSPRODUITS_VOL_ENLEVE] . '/' . $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] . ']';
             $volume = ($row->value[self::CONTRATSPRODUITS_VOL_ENLEVE] == '') ? '[0/' . $row->value[self::CONTRATSPRODUITS_VOL_TOTAL] . ']' : $volume;
             $vracs[VracClient::getInstance()->getId($row->id)] = $row->value[self::CONTRATSPRODUITS_ETS_NOM] .
-                    ' - ' . $row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT] . ' - ' .
+                    ' - ' . str_replace('VRAC-', '', $row->id).' ('. $row->value[self::CONTRATSPRODUITS_NUMERO_CONTRAT] . ') - ' .
                     $vol_restant . ' hl ' .
                     $volume;
         }
@@ -435,6 +443,7 @@ class DRMClient extends acCouchdbClient {
         $drm->storeDeclarant();
         $drm->initSociete();
         $drm->initCrds();
+        $drm->initLies();
         $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
@@ -445,36 +454,14 @@ class DRMClient extends acCouchdbClient {
             $drm->generateByDRM($drmLast);
             return $drm;
         }
-
-        $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
-        if ($dsLast) {
-            $drm->generateByDS($dsLast);
-            return $drm;
+        if (!$drm->getEtablissement()->isNegociant()) {
+            $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+            if ($dsLast) {
+                $drm->generateByDS($dsLast);
+                return $drm;
+            }
         }
-
         return $drm;
-    }
-
-    public function createDocFromEdi($identifiant, $periode, $csvFile) {
-               
-        
-       
-        $drmCsvEdi->preImportMouvementsFromCSV($csvFile,$erreurs);
-        $drmCsvEdi->preImportCrdsFromCSV($csvFile,$erreurs);
-        $drmCsvEdi->preImportAnnexesFromCSV($csvFile,$erreurs);
-        
-        if(count($result->erreurs)){
-            $result->statut = DRMCsvEdi::STATUT_WARNING;
-            return $result;
-        }
-        
-        $drmCsvEdi->buildMouvementsFromCSV($csvFile);
-        $drmCsvEdi->buildCrdsFromCSV($csvFile);
-        $drmCsvEdi->buildAnnexesFromCSV($csvFile);
-        
-        $drm->etape = self::ETAPE_CHOIX_PRODUITS;
-        
-        return $result;
     }
 
     public function generateVersionCascade($drm) {

@@ -16,9 +16,11 @@ class DRMFavorisForm extends acCouchdbObjectForm {
     private $drm = null;
     private $favoris = null;
     private $types_mvt = null;
+    private $detail_option = null;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
+        $this->detail_option = $options['details'];
         $this->favoris = $this->getFavoris();
         $this->types_mvt = $this->drm->getConfig()->libelle_detail_ligne;
         parent::__construct($this->drm, $options, $CSRFSecret);
@@ -26,7 +28,12 @@ class DRMFavorisForm extends acCouchdbObjectForm {
 
     public function configure() {
         $favoris = $this->getFavoris();
-        foreach ($this->types_mvt as $keyTypeMvts => $typeMvts) {
+        foreach ($this->types_mvt as $detail_key => $detailMvts){
+          if($detail_key != $this->detail_option){
+            continue;
+          }
+
+      foreach ($detailMvts as  $keyTypeMvts => $typeMvts) {
             foreach ($typeMvts as $keyMvt => $mvtLibelle) {
                 if (($keyTypeMvts != DRMClient::DRM_TYPE_MVT_ENTREES) && ($keyTypeMvts != DRMClient::DRM_TYPE_MVT_SORTIES)) {
                     continue;
@@ -36,7 +43,7 @@ class DRMFavorisForm extends acCouchdbObjectForm {
                 if (!isset($favoris[$keyTypeMvts])) {
                     $favoris->add($keyTypeMvts);
                 }
-                if ((count($favoris[$keyTypeMvts]) < DRMClient::$drm_max_favoris_by_types_mvt[$keyTypeMvts]) 
+                if ((count($favoris[$keyTypeMvts]) < DRMClient::$drm_max_favoris_by_types_mvt[$keyTypeMvts])
                 || ($favoris->exist($keyTypeMvts) && $favoris->$keyTypeMvts->exist($keyMvt))) {
                     $this->setWidget($keyField, new sfWidgetFormInputHidden(array('default' => false)));
                     $this->widgetSchema->setLabel($keyField, $mvtLibelle);
@@ -44,19 +51,20 @@ class DRMFavorisForm extends acCouchdbObjectForm {
                 }
             }
         }
+      }
         $this->widgetSchema->setNameFormat('drmFavoris[%s]');
     }
 
     protected function doUpdateObject($values) {
-        $this->drm->remove('favoris');
+        $this->drm->getOrAdd('favoris')->remove($this->detail_option);
         foreach ($values as $key => $value) {
             $matches = array();
             if (preg_match('/^favoris_(.*)_(.*)/', $key, $matches)) {
                 $type_mvt = $matches[1];
                 $mvt = $matches[2];
-                $this->drm->getOrAdd('favoris');
+                $detailFavorisNode = $this->drm->getOrAdd('favoris')->getOrAdd($this->detail_option);
                 if ((!is_null($value)) && ($value) && ($value == 1)) {
-                    $this->drm->getOrAdd('favoris')->getOrAdd($type_mvt)->add($mvt, $this->types_mvt->$type_mvt->$mvt->libelle);
+                    $detailFavorisNode->getOrAdd($type_mvt)->add($mvt, $this->types_mvt->getOrAdd($this->detail_option)->$type_mvt->$mvt->libelle);
                 }
             }
         }
@@ -78,7 +86,7 @@ class DRMFavorisForm extends acCouchdbObjectForm {
 
     private function getFavoris() {
         if (!$this->favoris) {
-            $this->favoris = $this->drm->getAllFavoris();
+            $this->favoris = $this->drm->getAllFavoris()->get($this->detail_option);
         }
         return $this->favoris;
     }

@@ -1,16 +1,27 @@
-<div style="display:none">
-    <div id="add_produit_popup" class="add_produit_popup_certification_content">
-        <h2>Choix d'un produit</h2>
-        <br>
-        <form action="<?php echo url_for('drm_choix_produit_add_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion(), 'add_produit' => $form->getProduitFilter())) ?>" method="post">
-            <?php echo $form->renderHiddenFields(); ?>
-            <?php echo $form->renderGlobalErrors(); ?>
-            <?php echo $form['produit']->render(array('class' => 'autocomplete')); ?>
-            <br/>
-            <div class="ligne_btn">
-                <a id="popup_close_popup" class="btn_rouge btn_majeur annuler popup_close" style="float: left;" href="#" >Annuler</a>           
-                <button id="popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Ajouter le produit</span></button>  
+<div class="modal modal-autoshow">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-center">Ajouter un produit</h4>
             </div>
-        </form>
+            <form class="form-horizontal" action="<?php echo url_for('drm_choix_produit_add_produit', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion(), 'add_produit' => $form->getProduitFilter())) ?>" method="post">
+            <div class="modal-body">
+                <?php echo $form->renderHiddenFields(); ?>
+                <?php echo $form->renderGlobalErrors(); ?>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                    <?php echo $form->renderHiddenFields(); ?>
+                    <?php echo $form->renderGlobalErrors(); ?>
+                    <?php echo $form['produit']->render(array('class' => 'select2 form-control')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Abandonner</button>
+                <button type="submit" class="btn btn-success">Ajouter le produit</button>
+            </div>
+            </form>
+        </div>
     </div>
 </div>

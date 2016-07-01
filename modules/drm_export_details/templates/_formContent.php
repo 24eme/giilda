@@ -1,53 +1,66 @@
-<?php    
+<?php use_helper('Float'); ?>
+
+<?php
     echo $form->renderHiddenFields();
     echo $form->renderGlobalErrors();
+   $docShow = $detail->hasTypeDoc('export');
 ?>
-<table id="drm_export_details_table" class="drm_details_table">
-    <colgroup>
-        <col id="col_produit">
-        <col>
-        <col>
-        <col>
-        <col>
-    </colgroup>
+<table id="drm_export_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th>Produit</th>
-            <th>Pays</th>
-            <th>Volumes</th>
-            <?php if($isTeledeclarationMode): ?>
-            <th>Type de document</th>
-            <th>Numéro de document</th>  
-            <?php endif; ?>
-            <th></th>
+            <th class="col-xs-5">Pays</th>
+            <th class="col-xs-3">Volumes</th>
+             <th class="col-xs-2 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Type de doc</th>
+            <th class="col-xs-1 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Numéro&nbsp;de&nbsp;document</th>
+            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow)? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;type document</a></th>
+            <th class="col-xs-1"></th>
         </tr>
     </thead>
-    <tbody id="drm_export_details_tableBody" class="drm_details_tableBody">
+    <tbody class="drm_details_tableBody">
     <?php
     foreach ($form as $itemForm){
         if($itemForm instanceof sfFormFieldSchema) {
-            include_partial('item',array('form' => $itemForm,'detail' => $detail,'isTeledeclarationMode' => $isTeledeclarationMode));
-        } else {
+                include_partial('item', array('form' => $itemForm, 'detail' => $detail, 'isTeledeclarationMode' => $isTeledeclarationMode,'docShow' => $docShow));
+         } else {
             $itemForm->renderRow();
         }
     }
     ?>
-        <tr id="drm_details_lastRow">
-            <td class="export_detail_produit"></td>
-            <td class="export_detail_destination">
-                <a href="#" id="drm_export_details_addTemplate" class="btn_majeur btn_modifier drm_details_addTemplate">Ajouter un export</a>
-            </td>
-            <td class="export_detail_volume">
-                <div id="drm_details_export_volume_total">
-                    <strong>
-                        <span class="drm_details_volume_somme">&Sigma;</span>
-                        <span class="drm_details_volume_total"><?php echo $detail->sorties->export > 0 ? $detail->sorties->export : "0.00" ?></span>
-                        <span class="drm_details_volume_unite unite">hl</span>
-                    </strong>
-                </div>      
-            </td>
-            <td class="export_detail_numero_document"></td>   
-            <td class="export_detail_remove"></td>
-        </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td class="col-xs-5" ></td>
+            <td class="lead text-right col-xs-3">
+                <div class="input-group">
+                    <div class="input-group-addon">&Sigma;</div>
+                    <input type="text" class="form-control input-float text-right drm_details_volume_total" data-decimal="4" readonly="readonly" value="<?php echo sprintFloat($detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00") ?>" />
+                    <div class="input-group-addon">hl</div>
+                </div>
+            </td>
+            <td class="col-xs-2 text-center typedoc_unshow"  <?php echo (!$docShow)? '' : 'style="display: none;"' ?>  ></td>
+            <td class="col-xs-2 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
+            <td class="col-xs-1 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
+            <td class="text-right col-xs-1"><button type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a></td>
+        </tr>
+    </tfoot>
 </table>
+
+<script>
+     $('.drm_details_tableBody').on('keyup','td.volume', $.majSommeLabelBind);
+
+      $("table#drm_export_details_table a#type_documents_show").click(function () {
+        $("table#drm_export_details_table").find(".typedoc_show").each(function () {
+            $(this).show();
+            var content = $('#template_export').html().replace(/style="display: none;"/g,'').replace(/typedoc_unshow\" /g,'typedoc_unshow" style="display: none;"');
+        console.log(content);
+        $('.modal-body').remove($('script#template_export'))
+        $('.modal-body').append('<script id="template_export" class="template_details" type="text/x-jquery-tmpl">'+content+'<//script>');
+
+        });
+        $("table#drm_export_details_table").find(".typedoc_unshow").each(function () {
+            $(this).hide();
+        });
+
+    });
+
+</script>

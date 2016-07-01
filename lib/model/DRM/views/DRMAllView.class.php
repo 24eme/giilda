@@ -10,6 +10,7 @@ class DRMAllView extends acCouchdbView
     const KEY_DOUANE_ENVOI = 6; #Non utilisé
     const KEY_DOUANE_ACCUSE = 7; #Non utilisé
     const KEY_NUMERO_ARCHIVE = 8;
+    const KEY_TELEDECLARE = 9;
 
     public static function getInstance() {
 

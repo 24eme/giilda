@@ -1,48 +1,34 @@
-<!-- #principal -->
-<section id="principal" class="drm">
-    <?php if (!$isTeledeclarationMode): ?>
-        <p id="fil_ariane"><a href="<?php echo url_for('drm') ?>">Page d'accueil</a> &gt; <strong><?php echo $etablissement->nom ?></strong></p>
-    <?php else: if ($campagne == -1) : ?>
-        <h2 class="titre_societe">Espace drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
-    <?php else: ?>
-        <h2 class="titre_societe">Historique des drm de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h2>
-    <?php endif; ?>
-    <?php endif; ?>
+<ol class="breadcrumb">
+    <li><a href="<?php echo url_for('drm') ?>">DRM</a></li>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>">Calendrier</a></li>
+    <li><a href="" class="active"><?php echo ($campagne == -1) ? "Les derniers mois" : $campagne ?></a></li>
+</ol>
 
-    <!-- #contenu_etape -->
-    <section id="contenu_etape">
+<div class="row">
+    <?php if (!$isTeledeclarationMode): ?>
+    <div class="col-xs-12">
+        <?php include_component('drm', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
+    </div>
+  <?php endif; ?>
+    <div class="col-xs-12">
+        <?php if ($campagne == -1) : ?>
+            <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
+        <?php else: ?>
+            <h3>Historique des DRM</h3>
+        <?php endif; ?>
+        <?php if (!$etablissement->hasLegalSignature()) { include_component('drm', 'legalSignature', array('etablissement' => $etablissement)); } ?>
         <?php if ($isTeledeclarationMode) : if ($campagne == -1) : ?>
             <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => $isTeledeclarationMode,'accueil_drm' => true, 'calendrier' => $calendrier)); ?>
-        <?php endif; else: ?>
-            <?php include_component('drm', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
+        <?php endif; endif; ?>
+
+        <?php if (!$isTeledeclarationMode): ?>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="">Vue calendaire</a></li>
+                <li><a href="<?php echo url_for('drm_etablissement_stocks', array('identifiant' => $etablissement->getIdentifiant(), 'campagne' => $campagne)); ?>">Vue stock</a></li>
+            </ul>
         <?php endif; ?>
-        <fieldset id="historique_drm"> 
-            <?php if (!$isTeledeclarationMode): ?>
-                <legend>Historique des DRMs de l'opérateur</legend>
-                <?php if ($etablissement->type_dr) : ?>
-                    <div class="error_list">
-                        Cet opérateur effectue des <?php echo $etablissement->type_dr; ?>
-                    </div>
-                <?php endif; ?>
-            <?php endif; ?>
-            <?php if (!$isTeledeclarationMode): ?>
-                <nav>
-                    <ul>
-                        <li class="actif"><span>Vue calendaire</span></li>
-                        <li><a href="<?php echo url_for('drm_etablissement_stocks', array('identifiant' => $etablissement->getIdentifiant(), 'campagne' => $campagne)); ?>">Vue stock</a></li>
-                    </ul>
-                </nav>
-            <?php endif; ?>
-<?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne, 'isTeledeclarationMode' => $isTeledeclarationMode, 'calendrier' => $calendrier)); ?>
-        </fieldset>
-    </section>
-    <!-- fin #contenu_etape -->
 
-</section>
-
-<?php
-include_partial('drm/colonne_droite', array('societe' => $etablissement->getSociete(),
-    'etablissementPrincipal' => $etablissement,
-    'isTeledeclarationMode' => $isTeledeclarationMode, 'isMonEspace' => true));
-?>
-<!-- fin #principal -->
+        <?php include_component('drm', 'calendrier', array('etablissement' => $etablissement, 'campagne' => $campagne, 'formCampagne' => $formCampagne, 'isTeledeclarationMode' => $isTeledeclarationMode, 'calendrier' => $calendrier)); ?>
+    </div>
+</div>

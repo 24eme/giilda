@@ -30,7 +30,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'produit' => new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits()))
+            'produit' => new bsWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits()))
         ));
         $this->widgetSchema->setLabels(array(
             'produit' => 'Produit : '
@@ -80,7 +80,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) { 
         parent::doUpdateObject($values);     
         
-        $this->_drm->addProduit($values['produit']);
+        $this->_drm->addProduit($values['produit'], DRM::DETAILS_KEY_SUSPENDU);
         $this->_drm->save();
     }    
 

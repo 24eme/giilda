@@ -19,7 +19,7 @@ class DRMProduitAjoutForm extends acCouchdbForm
     public function configure() 
     {
         $this->setWidgets(array(
-            'hashref' => new sfWidgetFormChoice(array('choices' => $this->getProduits())),
+            'hashref' => new bsWidgetFormChoice(array('choices' => $this->getProduits())),
             'label' => new sfWidgetFormChoice(array('expanded' => true, 'multiple' => true,'choices' => $this->getLabels())),
             'label_supplementaire' => new sfWidgetFormInputText(),
             'disponible' => new sfWidgetFormInputFloat(),

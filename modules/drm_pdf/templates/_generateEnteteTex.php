@@ -1,4 +1,7 @@
 <?php
+use_helper('Date');
+use_helper('DRM');
+use_helper('Orthographe');
 use_helper('DRMPdf');
 use_helper('Display');
 $caution = 'Non défini';
@@ -12,7 +15,7 @@ if($drm->declarant->caution){
 ?>
 
 \def\InterloireAdresse{<?php echo getAdresseInterloire(); ?>} 
-\def\InterloireContact{<?php echo getDrmContact($drm); ?>} 
+\def\InterloireContact{<?php //echo getDrmContact($drm); ?>} 
 
 \def\DRMSocieteRaisonSociale{<?php echo $drm->societe->raison_sociale; ?>}
 \def\DRMSocieteAdresse{<?php echo getDrmSocieteAdresse($drm); ?>}   
@@ -34,7 +37,7 @@ if($drm->declarant->caution){
 \lhead{
 Raison sociale : \textbf{\DRMSocieteRaisonSociale} \\
 Adresse du siège de l’Entrepôt : \textbf{\DRMAdresseChai} \\
-Numéro Interloire : \textbf{\DRMIdentifiantIL}~~~CVI : \textbf{\DRMCvi}~~~Siret : \textbf{\DRMSiret} \\
+Code client : \textbf{\DRMIdentifiantIL}~~~CVI : \textbf{\DRMCvi}~~~Siret : \textbf{\DRMSiret} \\
 Numéro d'Accise : \textbf{\DRMNumAccise} \\
 Adresse compta matière : \textbf{\DRMAdresseComptaMatiere} \\
 Caution : \textbf{<?php echo $caution; ?>} \\
@@ -43,12 +46,13 @@ Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
 <?php endif; ?>
  }
  
-\rhead{\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}  \\
+\rhead{ \\
 \vspace{-2cm}
 \InterloireAdresse
  \begin{small} \InterloireContact \\ 
  \end{small} 
  \begin{large}
+\textbf{DRM <?php echo getFrPeriodeElision($drm->periode); ?>} \\
 \textbf{Signé électroniquement le <?php echo $drm->getEuValideDate(); ?>}
 \end{large}
  }

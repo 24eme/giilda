@@ -1,87 +1,28 @@
-<?php if (count($drm->documents_annexes) + count($drm->documents_annexes)): ?>
-    <h2>Documents d'accompagnement</h2>
-<?php endif; ?> 
-<?php if (count($drm->documents_annexes)): ?>
-    <table id="table_drm_adminitration" class="table_recap">
-        <thead >
-            <tr>   
-                <th>Type de document</th>
-                <th>Numéro de début</th>
-                <th>Numéro de fin</th>
-            </tr>
-        </thead>
-        <tbody class="drm_adminitration">
-            <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
-                <tr> 
-                    <td class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>                       
-                    <td class="drm_annexes_doc_debut"><?php echo $numsDoc->debut; ?></td>
-                    <td class="drm_annexes_doc_fin"><?php echo $numsDoc->fin; ?></td>
-                </tr>
-            <?php endforeach; ?>  
-        </tbody>
-    </table>
-    <br/>
-    <br>
-<?php endif; ?> 
-<?php if ($drm->exist('releve_non_apurement') && count($drm->releve_non_apurement)): ?>
-    <h2>Relevé de non apurement</h2>
-    <table id="table_drm_non_apurement" class="table_recap">
-        <thead >
-            <tr>                        
-                <th>Numéro de document</th>
-                <th class="drm_non_apurement_date_emission">Date d'expédition</th>
-                <th>Numéro d'accises</th>
+<?php if (count($drm->documents_annexes) || ($drm->exist('releve_non_apurement') && count($drm->releve_non_apurement)) || $drm->quantite_sucre || $drm->observations): ?>
+    <div class="row">
+        <div class="col-xs-12">
 
-            </tr>
-        </thead>
-        <tbody class="drm_non_apurement" id="nonapurement_list">
-            <?php foreach ($drm->releve_non_apurement as $num_non_apurement => $non_apurement): ?>
-                <tr> 
-                    <td class="drm_non_apurement_numero_document"><?php echo $non_apurement->numero_document; ?></td>                       
-                    <td class="drm_non_apurement_date_emission"><?php echo $non_apurement->date_emission; ?></td>
-                    <td class="drm_non_apurement_numero_accise"><?php echo $non_apurement->numero_accise; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-<?php endif; ?> 
-<?php if ($drm->quantite_sucre || $drm->observations): ?>
-    <h2>Compléments d'information</h2>
-<?php endif; ?>      
-<?php if ($drm->quantite_sucre): ?>
-    <table id="table_drm_complement_informations" class="table_recap">   
-        <thead >
-            <tr>
-                <th colspan="2">Information sur le sucre</th>
-            </tr>
-        </thead>
-        <tbody class="drm_non_apurement" id="nonapurement_list">
-            <tr> 
-                <td class="drm_quantite_sucre_label">Quantité de sucre</td>
-                <td class="drm_quantite_sucre_volume">
-                    <?php echo $drm->quantite_sucre ?> quintals
-                </td>
-            </tr>
-        </tbody>
-    </table>    
-    <?php if ($drm->observations): ?> 
-        <br/>
-    <?php endif; ?>     
-<?php endif; ?> 
-<?php if ($drm->observations): ?>     
-    <table id="table_drm_complement_informations_observation" class="table_recap">
-        <thead >
-            <tr>
-                <th>Observations générales</th>
-            </tr>
-        </thead>
-        <tbody class="drm_non_apurement" id="nonapurement_list">
-            <tr>
-                <td class="drm_observation">
-                    <?php echo $drm->observations; ?>
-                </td>
-            </tr>
-        </tbody>
-
-    </table>
-<?php endif; ?> 
+            <h3>Annexes</h3>
+            <ul class="list-group">
+                <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
+                    <li class="list-group-item"><strong>Documents d'accompagnements :</strong> <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?> du n°<?php echo $numsDoc->debut; ?> au <?php echo $numsDoc->fin; ?></li>
+                <?php endforeach; ?> 
+                <?php
+                if ($drm->exist('releve_non_apurement')):
+                    foreach ($drm->releve_non_apurement as $num_non_apurement => $non_apurement):
+                        ?>
+                        <li class="list-group-item"><strong>Relevé de non apurement :</strong> n°<?php echo $non_apurement->numero_document; ?> epédié le <?php echo $non_apurement->date_emission; ?> pour le n° d'accises <?php echo $non_apurement->numero_accise; ?></li>
+                    <?php
+                    endforeach;
+                endif;
+                ?>
+                <?php if ($drm->quantite_sucre): ?>
+                    <li class="list-group-item"><strong>Quantité de sucres :</strong> <?php echo $drm->quantite_sucre ?> quintals</li>
+                    <?php endif; ?>
+                    <?php if ($drm->observations): ?>
+                    <li class="list-group-item"><strong>Observations sur les mouvements :</strong> <?php echo $drm->observations; ?></li>
+    <?php endif; ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>

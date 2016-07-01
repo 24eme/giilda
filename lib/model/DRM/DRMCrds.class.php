@@ -22,7 +22,7 @@ class DRMCrds extends BaseDRMCrds {
             $crd->stock_debut = $stock_debut;
         }
         $contenances = sfConfig::get('app_vrac_contenances');
-        $crd->detail_libelle = array_search($crd->centilitrage, $contenances);
+        $crd->detail_libelle = ($contenances)? array_search($crd->centilitrage, $contenances) : '';
         $this->constructKey($genre, $couleur, $litrage);
     }
 

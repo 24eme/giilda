@@ -1,85 +1,92 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
-<!-- #principal -->
-<section id="principal" class="drm">
-    <?php if (!$isTeledeclarationMode): ?>
-        <?php include_partial('drm/header', array('drm' => $drm)); ?> 
-        <ul id="recap_infos_header">
-            <li>
-                <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?>
-            </li>
-            <li>
-                <strong><label><?php echo ($drm->isTeledeclare()) ? 'Télédéclarée' : 'Saisie sur Vinsi'; ?></label>
-                    <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
-                        <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
-                    <?php endif; ?>
-                    <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
-            </li>         
-        </ul>
-    <?php else: ?>
-        <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small></h2>
-        <?php if ($drm->isTeledeclare()): ?>  
-            <div id="btn_etape_dr" style="text-align: center;">
-                <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-            </div>  
-        <?php endif; ?>
-    <?php endif; ?>
 
-    <div id="drm_validation_coordonnees">
-        <div class="drm_validation_societe">    
-            <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+
+<?php if (!$isTeledeclarationMode): ?>
+<div class="row" style="opacity: 0.7">
+    <div class="col-xs-12">
+         <?php include_component('drm', 'formEtablissementChoice', array('identifiant' => $drm->etablissement->_id, 'autofocus' => true)) ?>
+    </div>
+</div>
+<?php endif; ?>
+
+<div class="row">
+    <div class="col-xs-12">
+        <?php if ($isTeledeclarationMode): ?>
+            <?php if ($drm->isTeledeclare()): ?>
+                <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success pull-right"><span>Télécharger le PDF</span></a>
+                <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 1)); ?>" class="btn btn-success pull-right"><span>Télécharger le PDF (appellation)</span></a>
+              <?php endif; ?>
+        <?php endif; ?>
+
+        <h3 style="margin-bottom: 30px">DRM <?php echo getFrPeriodeElision($drm->periode); ?> <?php if ($drm->isTeledeclare()): ?><small>(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small><?php endif; ?>
+             <?php if (!$isTeledeclarationMode && $drm->isModifiable()): ?>
+        <div class="pull-right">
+            <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
         </div>
-        <div class="drm_validation_etablissement">
-            <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+        <?php endif; ?>
+        </h3>
+
+
+        <!--<div id="drm_validation_coordonnees">
+            <div class="drm_validation_societe">
+                <?php //include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+            </div>
+            <div class="drm_validation_etablissement">
+                <?php //include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
+            </div>
+        </div>-->
+
+        <?php if (!$isTeledeclarationMode): ?>
+            <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()):
+                ?>
+                <div class="vigilance_list">
+                    <ul>
+                        <li><?php echo MessagesClient::getInstance()->getMessage('msg_rectificatif_suivante') ?></li>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!$drm->isMaster()): ?>
+                <div class="alert alert-warning">
+                    Ce n'est pas la <a href="<?php echo url_for('drm_visualisation', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif des stocks n'est donc pas à jour.
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+
+        <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)) ?>
+        <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)) ?>
+    </div>
+</div>
+
+<?php if (!$isTeledeclarationMode && $drm->commentaire): ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>Commentaire interne</h4>
+        </div>
+        <div class="col-xs-12">
+            <div class="well">
+                <?php echo nl2br($drm->commentaire); ?>
+            </div>
         </div>
     </div>
-
-    <?php if (!$isTeledeclarationMode): ?>
-        <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()):
-            ?>
-            <div class="vigilance_list">
-                <ul>
-                    <li><?php echo MessagesClient::getInstance()->getMessage('msg_rectificatif_suivante') ?></li>
-                </ul>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($drm->isModifiable()): ?>
-            <div style="text-align: right;">
-                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
-            </div>
-        <?php endif; ?>
-
-        <?php if (!$drm->isMaster()): ?>
-            <div id="points_vigilance">
-                <ul>
-                    <li class="warning">Ce n'est pas la <a href="<?php echo url_for('drm_visualisation', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif n'est donc pas à jour.</a></li>
-                </ul>
-            </div>
-        <?php endif; ?>
-    <?php endif; ?>
-
-    <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvements' => $mouvements, 'visualisation' => true)) ?>
-
-    <?php if (!$isTeledeclarationMode): ?>
-        <br/>
-        <table class="table_recap">
-            <tr><th>Commentaire</th></tr>
-            <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
-        </table>
-    <?php else: ?> 
-        <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>  
-        <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>  
-    <?php endif; ?>   
-    <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
-    <br />
-    <div id="btn_etape_dr">
-        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
-        <?php if ($isTeledeclarationMode) : ?>
-            <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-        <?php endif; ?>
+    <br/>
+<?php else: ?>
+    <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>
+    <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>
+<?php endif; ?>
+<?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvos' => $recapCvos, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
+<div class="row">
+    <div class="col-xs-4">
+        <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace DRM</a>
     </div>
-</section>
+    <?php //if ($isTeledeclarationMode) : ?>
+        <div class="col-xs-4 text-center">
+            <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 1)); ?>" class="btn btn-success">Télécharger le PDF</a>
+        </div>
+    <?php //endif; ?>
+</div>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 ?>

@@ -12,6 +12,9 @@ class DRMValidation extends DocumentValidation {
     public function configure($isTeledeclarationDrm = false) {
         $this->addControle('erreur', 'repli', "La somme des replis en entrée et en sortie n'est pas la même");
         $this->addControle('erreur', 'declassement', "La somme des déclassements en entrée et en sortie n'est pas la même");
+        $this->addControle('erreur', 'regime_crd', "Le régime CRD n'a pas été rempli");
+        $this->addControle('erreur', 'transfert_appellation', "La somme des transferts d'appellation en entrée et en sortie n'est pas la même");
+        $this->addControle('vigilance', 'revendique_sup_initial', "Le stock revendiqué ne peut pas être supérieur au stock récolté");
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
@@ -23,6 +26,10 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'siret_absent', "Le numéro de siret n'a pas été renseigné");
         $this->addControle('vigilance', 'no_accises_absent', "Le numéro d'accise n'a pas été renseigné");
         $this->addControle('vigilance', 'caution_absent', "Le type de caution n'a pas été renseigné");
+        $this->addControle('vigilance', 'moyen_paiement_absent', "Le moyen de paiement aux douanes n'a pas été renseigné");
+        $this->addControle('vigilance', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");
+
+        $this->addControle('vigilance', 'observations', "Les observations n'ont pas été renseignées");
     }
 
     public function controle() {
@@ -30,18 +37,43 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_replis = 0;
         $total_entrees_declassement = 0;
         $total_sorties_declassement = 0;
+        $total_entrees_transfert_appellation = 0;
+        $total_sorties_transfert_appellation = 0;
+        $total_entrees_excedents = 0;
+        $total_entrees_manipulation = 0;
+        $total_sorties_destructionperte = 0;
+
+        $total_mouvement_absolu = 0;
 
         foreach ($this->document->getProduitsDetails() as $detail) {
-            if(!$detail->getConfig()->entrees->exist('declassement')){
+
+            $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
+
+            if (!$detail->getConfig()->entrees->exist('declassement')) {
                 break;
             }
             $total_entrees_replis += $detail->entrees->repli;
             $total_sorties_replis += $detail->sorties->repli;
+
             $total_entrees_declassement += $detail->entrees->declassement;
             $total_sorties_declassement += $detail->sorties->declassement;
 
+            $total_entrees_excedents += ($detail->entrees->exist('excedents')) ? $detail->entrees->excedents : 0;
+            $total_entrees_manipulation += ($detail->entrees->exist('manipulation')) ? $detail->entrees->manipulation : 0;
+
+            $total_sorties_destructionperte += ($detail->sorties->exist('destructionperte')) ? $detail->sorties->destructionperte : 0;
+
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
+            }
+            if (!$detail->getConfig()->entrees->exist('transfertsrecolte')) {
+                break;
+            }
+
+            $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
+            $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
+            if($detail->total_revendique  > $detail->total){
+                $this->addPoint('vigilance', 'revendique_sup_initial', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
             }
         }
 
@@ -71,37 +103,60 @@ class DRMValidation extends DocumentValidation {
         foreach ($volumes_restant as $is => $restant) {
             if ($restant['volume'] < 0) {
                 $vrac = $restant['vrac'];
-                $this->addPoint('vigilance', 'vrac_detail_negatif', sprintf("%s, Contrat %s (%01.02f hl enlevé / %01.02f hl proposé)", $volumes_restant[$id_volume_restant]['vrac']->produit_libelle, $vrac->__toString(), $vrac->volume_propose - $restant['volume'], $vrac->volume_propose), $this->generateUrl('drm_edition', $this->document));
+                $this->addPoint('vigilance', 'vrac_detail_negatif', sprintf("%s, Contrat %s (%01.02f hl enlevé / %01.02f hl proposé)", $vrac->produit_libelle, $vrac->__toString(), $vrac->volume_propose - $restant['volume'], $vrac->volume_propose), $this->generateUrl('drm_edition', $this->document));
             }
         }
         if (round($total_entrees_replis, 2) != round($total_sorties_replis, 2)) {
             $this->addPoint('erreur', 'repli', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements', round($total_entrees_replis, 2), round($total_sorties_replis, 2)), $this->generateUrl('drm_edition', $this->document));
         }
-        if (round($total_entrees_declassement, 2) != round($total_sorties_declassement, 2)) {
-            $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements' , round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
+        if (round($total_entrees_transfert_appellation, 2) != round($total_sorties_transfert_appellation, 2)) {
+            $this->addPoint('erreur', 'transfert_appellation', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements', round($total_entrees_transfert_appellation, 2), round($total_sorties_transfert_appellation, 2)), $this->generateUrl('drm_edition', $this->document));
         }
-
         if ($this->isTeledeclarationDrm) {
+            if (round($total_entrees_declassement, 2) != round($total_sorties_declassement, 2)) {
+                $this->addPoint('erreur', 'declassement', sprintf("%s  (+%.2fhl / -%.2fhl)", 'revenir aux mouvements', round($total_entrees_declassement, 2), round($total_sorties_declassement, 2)), $this->generateUrl('drm_edition', $this->document));
+            }
+        }
+        if ($this->isTeledeclarationDrm) {
+
+            if ($total_mouvement_absolu && (!$this->document->getEtablissement()->exist('crd_regime') || !$this->document->getEtablissement()->get('crd_regime'))) {
+                $this->addPoint('erreur', 'regime_crd', "vous pouvez l'indiquer dans l'écran CRD", $this->generateUrl('drm_crd', $this->document));
+            }
 
             foreach ($this->document->getAllCrdsByRegimeAndByGenre() as $regime => $crdByRegime) {
                 foreach ($crdByRegime as $genre => $crds) {
                     foreach ($crds as $type_crd => $crd) {
                         if (!is_null($crd->stock_fin) && $crd->stock_fin < 0) {
-                             $genreLibelle = ($genre == 'TRANQ')? 'TRANQUILLE' : $genre;
-                            $this->addPoint('vigilance', 'crd_negatif', $crd->getLibelle().' ('.$genreLibelle.')',$this->generateUrl('drm_crd', $this->document));
+                            $genreLibelle = ($genre == 'TRANQ') ? 'TRANQUILLE' : $genre;
+                            $this->addPoint('vigilance', 'crd_negatif', $crd->getLibelle() . ' (' . $genreLibelle . ')', $this->generateUrl('drm_crd', $this->document));
                         }
                     }
                 }
             }
-            
-            if(!$this->document->societe->siret){
-                 $this->addPoint('vigilance', 'siret_absent', 'Veuillez enregistrer votre siret',$this->generateUrl('drm_validation_update_societe', $this->document));
+
+            if (!$this->document->societe->siret) {
+                $this->addPoint('vigilance', 'siret_absent', 'Veuillez enregistrer votre siret', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
-            if(!$this->document->declarant->no_accises){
-                 $this->addPoint('vigilance', 'no_accises_absent', 'Veuillez enregistrer votre numéro d\'accise',$this->generateUrl('drm_validation_update_etablissement', $this->document));
+            if (!$this->document->declarant->no_accises) {
+                $this->addPoint('vigilance', 'no_accises_absent', 'Veuillez enregistrer votre numéro d\'accise', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
-            if(!$this->document->declarant->caution){
-                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution',$this->generateUrl('drm_validation_update_etablissement', $this->document));
+
+            $societe = $this->document->getEtablissement()->getSociete();
+            if (!$societe->exist('paiement_douane_moyen')) {
+                $this->addPoint('vigilance', 'moyen_paiement_absent', 'Veuillez enregistrer votre moyen de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
+            }
+
+            if (!$societe->exist('paiement_douane_frequence')) {
+                $this->addPoint('vigilance', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
+            }
+
+            if (!$this->document->declarant->caution) {
+                $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));
+            }
+
+            if (!$this->document->observations &&
+                    (($total_entrees_excedents > 0) || ($total_entrees_manipulation > 0) || ($total_sorties_destructionperte > 0))) {
+                $this->addPoint('vigilance', 'observations', "Entrée excédents (" . $total_entrees_excedents . " hl), manipulation (" . $total_entrees_manipulation . " hl), sortie manquant (" . $total_sorties_destructionperte . ")", $this->generateUrl('drm_annexes', $this->document));
             }
         }
 
@@ -114,7 +169,7 @@ class DRMValidation extends DocumentValidation {
                     }
                 }
             }
-            if (count($detail->sorties->vrac_details)) {
+            if ($detail->sorties->exist('vrac_details') && count($detail->sorties->vrac_details)) {
                 foreach ($detail->sorties->vrac_details as $num_vrac => $vrac) {
                     if ($vrac->numero_document) {
                         $sortiesDocAnnexes[$vrac->type_document] = $vrac->numero_document;

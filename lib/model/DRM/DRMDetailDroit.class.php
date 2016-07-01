@@ -5,9 +5,8 @@
  */
 
 class DRMDetailDroit extends BaseDRMDetailDroit {
-    protected function getConfig($interpro = 'INTERPRO-inter-loire') {
-
-        return $this->getParent()->getCepage()->getConfig()->getDroits($interpro)->get($this->getKey())->getCurrentDroit($this->getDocument()->getDate());
+    protected function getConfig($interpro = 'INTERPRO-declaration') {
+        return $this->getParent()->getCepage()->getConfig()->getDroitByType($this->getDocument()->getDate(), $this->getKey(), $interpro);
     }
 
     protected function init($params = array()) {
@@ -18,7 +17,7 @@ class DRMDetailDroit extends BaseDRMDetailDroit {
 
     public function calcul() {
         if (is_null($this->taux)) {
-            $this->taux = $this->getConfig()->taux;
+                $this->taux = floatval($this->getConfig()->taux);
+            }
         }
     }
-}

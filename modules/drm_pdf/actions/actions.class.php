@@ -24,9 +24,9 @@ class drm_pdfActions extends drmGeneriqueActions {
         $this->forward404Unless($this->drm);
 
 
-        $latex = new DRMLatex($this->drm);
-       // $latex->getLatexFileContents();
-       $latex->echoWithHTTPHeader($request->getParameter('type'));
+        $latex = new DRMLatex($this->drm,array('aggregateAppellation' => $request->getParameter('appellation',false)));
+      // $latex->getLatexFileContents();
+        $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
 
