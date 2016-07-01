@@ -1,6 +1,9 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
 <?php $allCrdsByRegimeAndByGenre = $drm->getAllCrdsByRegimeAndByGenre(); ?>
+
+<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+
 <!-- #principal -->
 <section id="principal" class="drm">
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => true, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
@@ -56,12 +59,14 @@
                 <?php endforeach; ?>
                 <div class="row">
                     <div class="col-xs-4 text-left">
-                        <a tabindex="-1" href="<?php echo url_for('drm_edition', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+                        <?php if($drm->isDouaneType(DRMClient::TYPE_DRM_ACQUITTE)): ?>
+                            <a tabindex="-1" href="<?php echo url_for('drm_edition', array('sf_subject' => $drm, 'details' =>  DRM::DETAILS_KEY_ACQUITTE)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+                        <?php else: ?>
+                            <a tabindex="-1" href="<?php echo url_for('drm_edition', array('sf_subject' => $drm, 'details' =>  DRM::DETAILS_KEY_SUSPENDU)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+                        <?php endif; ?>
                     </div>
                     <div class="col-xs-4 text-center">
-                        <a class="btn btn-default" href="#drm_delete_popup">
-                            <span>Supprimer la DRM</span>
-                        </a> 
+                        <a class="btn btn-default" data-toggle="modal" data-target="#drm_delete_popup" >Supprimer la DRM</a>
                     </div>
                     <div class="col-xs-4 text-right">
                         <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>

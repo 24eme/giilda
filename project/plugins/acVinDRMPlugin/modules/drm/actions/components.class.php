@@ -132,9 +132,9 @@ class drmComponents extends sfComponents {
         if (!$this->calendrier)
             $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
             $this->lastDrmToCompleteAndToStart = $this->calendrier->getLastDrmToCompleteAndToStart();
-        if ($this->isTeledeclarationMode) {
+        //if ($this->isTeledeclarationMode) {
             $this->creationDrmsForms = $this->getCreationDrmsForms();
-        }
+        //}
     }
 
     public function executeStocks() {
@@ -152,13 +152,17 @@ class drmComponents extends sfComponents {
                     $d->produit_hash = $produit->getHash();
                     $d->produit_libelle = $produit->getLibelle();
                     $d->stocks_debut_initial = $produit->stocks_debut->initial;
-                    $d->stocks_debut_dont_revendique = $produit->stocks_debut->dont_revendique;
+                    if($drm->getConfig()->getDocument()->hasDontRevendique()){
+                      $d->stocks_debut_dont_revendique = $produit->stocks_debut->dont_revendique;
+                    }
                     $d->total_entrees = $produit->total_entrees;
                     $d->total_sorties = $produit->total_sorties;
                     $d->total_entrees_revendique = $produit->total_entrees_revendique;
                     $d->total_sorties_revendique = $produit->total_sorties_revendique;
                     $d->stocks_fin_final = $produit->stocks_fin->final;
-                    $d->stocks_fin_dont_revendique = $produit->stocks_fin->dont_revendique;
+                    if($drm->getConfig()->getDocument()->hasDontRevendique()){
+                      $d->stocks_fin_dont_revendique = $produit->stocks_fin->dont_revendique;
+                    }
                     $d->total_facturable = $produit->total_facturable;
                     $this->produits[] = $d;
                 }

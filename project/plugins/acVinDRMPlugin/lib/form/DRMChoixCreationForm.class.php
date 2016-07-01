@@ -13,7 +13,7 @@ class DRMChoixCreationForm extends BaseForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'type_creation' => new sfWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getTypesCreation())),
+            'type_creation' => new bsWidgetFormChoice(array('expanded' => true, 'inline' => false, 'choices' => $this->getTypesCreation())),
             'file' => new sfWidgetFormInputFile()
         ));
         $this->widgetSchema->setLabels(array(

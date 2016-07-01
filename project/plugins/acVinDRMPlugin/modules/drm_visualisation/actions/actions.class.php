@@ -21,7 +21,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
             $this->no_link = true;
         }
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
-        $this->drm_suivante = $this->drm->getSuivante();     
+        $this->drm_suivante = $this->drm->getSuivante();
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
         $this->createMouvementsByProduits($this->mouvements);
 
@@ -64,7 +64,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
         if(count($recapCvos) <= 2) {
 
             return array("TOTAL" => $recapCvos["TOTAL"]);
-        } 
+        }
 
         return $recapCvos;
     }

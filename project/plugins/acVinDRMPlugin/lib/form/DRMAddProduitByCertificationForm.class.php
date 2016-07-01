@@ -80,7 +80,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) { 
         parent::doUpdateObject($values);     
         
-        $this->_drm->addProduit($values['produit']);
+        $this->_drm->addProduit($values['produit'], DRM::DETAILS_KEY_SUSPENDU);
         $this->_drm->save();
     }    
 

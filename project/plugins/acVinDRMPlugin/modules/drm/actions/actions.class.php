@@ -106,10 +106,12 @@ class drmActions extends drmGeneriqueActions {
 
             switch ($choixCreation) {
                 case DRMClient::DRM_CREATION_EDI :
-                    if ($this->creationDrmForm->isValid()) {
+                    //if ($this->creationDrmForm->isValid()) {
                         $md5 = $this->creationDrmForm->getValue('file')->getMd5();
+
                         return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
-                    }
+                    //}
+
                     return $this->redirect('drm_societe', array('identifiant' => $identifiant));
 
                     break;
@@ -135,17 +137,16 @@ class drmActions extends drmGeneriqueActions {
     public function executeVerificationEdi(sfWebRequest $request) {
 
         $this->md5 = $request->getParameter('md5');
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
-        $drm = new DRM();
-        $drm->identifiant = $this->identifiant;
-        $drm->periode = $this->periode;
-        $drm->teledeclare = true;
+        $this->drm = new DRM();
+        $this->drm->identifiant = $this->identifiant;
+        $this->drm->periode = $this->periode;
+        $this->drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMCsvEdi($drm);
-        $this->drmCsvEdi->checkCSV($this->csvFile);
+        $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5, $this->drm);
+        $this->drmCsvEdi->checkCSV();
 
     }
 
@@ -156,7 +157,6 @@ class drmActions extends drmGeneriqueActions {
     public function executeCreationEdi(sfWebRequest $request) {
 
         $this->md5 = $request->getParameter('md5');
-        $this->csvFile = new CsvFile(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5);
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
@@ -165,8 +165,9 @@ class drmActions extends drmGeneriqueActions {
         $this->drm->periode = $this->periode;
         $this->drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMCsvEdi($this->drm);
-        $this->drmCsvEdi->importCSV($this->csvFile);
+        $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5, $this->drm);
+        $this->drmCsvEdi->importCSV();
+
         $this->redirect('drm_validation', $this->drm);
 
     }
@@ -199,6 +200,7 @@ class drmActions extends drmGeneriqueActions {
         $identifiant = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
         $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
+        //$drm->loadAllProduits();
         $drm->save();
         if ($isTeledeclarationMode) {
             $this->redirect('drm_choix_produit', $drm);
