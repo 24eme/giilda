@@ -18,7 +18,7 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         }
         return preg_match('/^[-+]/', $taux);
     }
-    
+
     public function getTaux($printable = false, $brut = false) {
         if ($brut) {
             return $this->_get('taux');
@@ -40,7 +40,7 @@ class ConfigurationDroit extends BaseConfigurationDroit {
     public function getMasterDroit() {
         return $this->getMasterProduit()->getDroitByType($this->date, $this->code);
     }
-    
+
     public function getStringTaux($brut = false) {
         return $this->getTaux(true, $brut);
     }
