@@ -22,25 +22,14 @@ class drm_visualisationActions extends drmGeneriqueActions {
         }
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
         $this->drm_suivante = $this->drm->getSuivante();
-        $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-        $this->recapCvo = $this->recapCvo();        
-    }
+        $this->mouvements = array();
+	foreach( DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode) as $m) {
+                if (preg_match('/'.$this->drm->identifiant.'/', $m->doc_id)) {
+			$this->mouvements[] = $m;
+		}
+	}
 
-    public function recapCvo() {
-        $recapCvo = new stdClass();
-        $recapCvo->totalVolumeDroitsCvo = 0;
-        $recapCvo->totalVolumeReintegration = 0;
-        $recapCvo->totalPrixDroitCvo = 0;
-        foreach ($this->mouvements as $mouvement) {
-            if ($mouvement->facturable) {
-                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo ;
-                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
-            }
-            if ($mouvement->type_hash == 'entrees/reintegration') {
-                $recapCvo->totalVolumeReintegration += $mouvement->volume;
-            }
-        }
-        return $recapCvo;
+        $this->recapCvo = DRMClient::recapCvo($this->mouvements);
     }
 
 }

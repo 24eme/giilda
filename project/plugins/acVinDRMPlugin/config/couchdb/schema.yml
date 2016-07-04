@@ -25,6 +25,7 @@ DRM:
       email_transmission: {  }
       periode: {  }
       teledeclare: { }
+      famille: { required: false }
       precedente: {  }
       version: {  }
       numero_archive: {  }

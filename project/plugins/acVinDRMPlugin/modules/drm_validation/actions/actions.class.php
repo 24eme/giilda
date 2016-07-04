@@ -23,7 +23,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->drm->cleanDeclaration();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'validation_step' => true, 'no_vracs' => true));
         $this->initDeleteForm();
-        $this->recapCvo = $this->recapCvo();
+        $this->recapCvo = DRMClient::recapCvo($this->mouvements);
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
@@ -119,22 +119,4 @@ class drm_validationActions extends drmGeneriqueActions {
             }
         }
     }
-
-    public function recapCvo() {
-        $recapCvo = new stdClass();
-        $recapCvo->totalVolumeDroitsCvo = 0;
-        $recapCvo->totalVolumeReintegration = 0;
-        $recapCvo->totalPrixDroitCvo = 0;
-        foreach ($this->mouvements as $mouvement) {
-            if ($mouvement->facturable) {
-                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
-                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
-            }
-            if ($mouvement->type_hash == 'entrees/reintegration') {
-                $recapCvo->totalVolumeReintegration += $mouvement->volume;
-            }
-        }
-        return $recapCvo;
-    }
-
 }
