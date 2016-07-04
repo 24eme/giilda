@@ -976,6 +976,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->getEtablissement();
     }
 
+    public function isDRMNegociant() {
+	return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
+    }
+
+    public function getFamille() {
+	if (!$this->exist('famille') ) {
+		$this->add('famille', $this->getEtablissement()->getFamille());
+	}
+	return $this->_get('famille');
+    }
+
     /*     * * ARCHIVAGE ** */
 
     public function getNumeroArchive() {

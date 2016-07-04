@@ -5,6 +5,8 @@ class FactureClient extends acCouchdbClient {
     const FACTURE_LIGNE_ORIGINE_TYPE_SV12 = "SV12";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE = "propriete";
     const FACTURE_LIGNE_MOUVEMENT_TYPE_CONTRAT = "contrat";
+    const FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT = "négociant";
+
     const FACTURE_LIGNE_PRODUIT_TYPE_VINS = "contrat_vins";
     const FACTURE_LIGNE_PRODUIT_TYPE_MOUTS = "contrat_mouts";
     const FACTURE_LIGNE_PRODUIT_TYPE_RAISINS = "contrat_raisins";

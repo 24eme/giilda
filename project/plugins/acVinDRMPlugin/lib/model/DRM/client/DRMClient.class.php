@@ -503,4 +503,21 @@ class DRMClient extends acCouchdbClient {
         return null;
     }
 
+    public static function recapCvo($mouvements) {
+        $recapCvo = new stdClass();
+        $recapCvo->totalVolumeDroitsCvo = 0;
+        $recapCvo->totalVolumeReintegration = 0;
+        $recapCvo->totalPrixDroitCvo = 0;
+        foreach ($mouvements as $mouvement) {
+            if ($mouvement->facturable) {
+                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
+            }
+            if ($mouvement->type_hash == 'entrees/reintegration') {
+                $recapCvo->totalVolumeReintegration += $mouvement->volume;
+            }
+        }
+        return $recapCvo;
+    }
+
 }
