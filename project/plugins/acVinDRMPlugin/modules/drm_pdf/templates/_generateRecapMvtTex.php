@@ -4,11 +4,9 @@ use_helper('DRM');
 use_helper('Orthographe');
 use_helper('DRMPdf');
 use_helper('Display');
-$mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf();
-$mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
+$mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf($detailsNodes);
+$mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
 ?>
-
-
 
 <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true) as $certification => $produitsDetailsByCertifications) : ?>
     <?php
@@ -61,7 +59,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
          * Entête des Produits
          */
         ?>
-        \cline{3-<?php echo $maxCol; ?>} 			 
+        \cline{3-<?php echo $maxCol; ?>}
         &
         \begin{large}
         \textbf{Produits <?php echo $libelleCertif; ?>}
@@ -71,8 +69,8 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
             ?>
             \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo preg_replace('/[a-zéà]*$/i', ' ', $produit->getLibelle("%format_libelle%")); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-        <?php endforeach; ?>  
-        \\	
+        <?php endforeach; ?>
+        \\
         \hline
 
         <?php
@@ -83,10 +81,10 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \rowcolor{gray}
         \multicolumn{2}{|c|}{ \small{\color{white}{\textbf{STOCK DÉBUT DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->total_debut_mois); ?>}}}} 
+            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->total_debut_mois); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-        <?php endforeach; ?>  
-        \\	
+        <?php endforeach; ?>
+        \\
         \hline
 
         <?php
@@ -106,12 +104,12 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
             <?php foreach ($produits_for_page as $counter => $produit): ?>
                 \multicolumn{1}{r|}{  \small{<?php echoFloatWithHl($produit->entrees->$entreeKey); ?>}}
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-            <?php endforeach; ?>  
+            <?php endforeach; ?>
             \\
             <?php if ((count($mvtsEnteesForPdf) - 1) != $cpt_entree): ?>
-                \cline{2-<?php echo $maxCol; ?>} 	
-            <?php endif; ?>     
-        <?php endforeach; ?>       
+                \cline{2-<?php echo $maxCol; ?>}
+            <?php endif; ?>
+        <?php endforeach; ?>
         \hline
 
         <?php
@@ -124,7 +122,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($produit->total_entrees); ?>}} }
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-        <?php endforeach; ?>  
+        <?php endforeach; ?>
         \\
         \hline
 
@@ -133,7 +131,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
          * LES SORTIES
          */
         ?>
-        <?php foreach ($mvtsSortiesForPdf as $cpt_sortie => $sortie): ?>          
+        <?php foreach ($mvtsSortiesForPdf as $cpt_sortie => $sortie): ?>
             <?php $sortieKey = $sortie->key; ?>
             <?php if (!$cpt_sortie): ?>
                 \multicolumn{1}{|c}{\multirow{<?php echo count($mvtsSortiesForPdf); ?>}{20mm}{\small{\textbf{SORTIES DU MOIS}}}} &
@@ -143,14 +141,14 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
 
             \multicolumn{1}{|l|}{  \small{<?php echo $sortie->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
-                \multicolumn{1}{r|}{  \small{\color{black}{<?php echoFloatWithHl($produit->sorties->$sortieKey); ?>}}} 
+                \multicolumn{1}{r|}{  \small{\color{black}{<?php echoFloatWithHl($produit->sorties->$sortieKey); ?>}}}
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-            <?php endforeach; ?>  
+            <?php endforeach; ?>
             \\
             <?php if ((count($mvtsSortiesForPdf) - 1) != $cpt_entree): ?>
-                \cline{2-<?php echo $maxCol; ?>} 	
-            <?php endif; ?>    
-        <?php endforeach; ?>       
+                \cline{2-<?php echo $maxCol; ?>}
+            <?php endif; ?>
+        <?php endforeach; ?>
         \hline
 
         <?php
@@ -163,7 +161,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($produit->total_sorties); ?>}} }
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-        <?php endforeach; ?>  
+        <?php endforeach; ?>
         \\
         \hline
 
@@ -175,14 +173,15 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
         \rowcolor{gray}
         \multicolumn{2}{|c|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->stocks_fin->final); ?>}}}} 
+            \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->stocks_fin->final); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
-        <?php endforeach; ?>  
-        \\	
-        \hline        
+        <?php endforeach; ?>
+        \\
+        \hline
         \end{tabular}
         <?php if (($nb_pages > 1) && (($nb_pages - 1) == $index_page)) : ?>
             \newpage
         <?php endif; ?>
     <?php endfor; ?>
-<?php endforeach; ?> 
+<?php endforeach; ?>
+\newpage

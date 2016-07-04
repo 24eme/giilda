@@ -57,6 +57,7 @@ class drmGeneriqueActions extends sfActions {
     protected function createMouvementsByProduits($mouvements) {
         $this->mouvementsByProduit = array();
         foreach ($mouvements as $mouvement) {
+          var_dump(isset($mouvement->type_drm),type_drm); exit;
         	if (!isset($this->mouvementsByProduit[$mouvement->type_drm])) {
         		$this->mouvementsByProduit[$mouvement->type_drm] = array();
         	}

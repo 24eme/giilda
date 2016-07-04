@@ -341,7 +341,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 $droits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
             }
         }
-
+        if ($type_societe == SocieteClient::TYPE_OPERATEUR && $this->getSociete()->isViticulteur()){
+            $acces_teledeclaration = true;
+            $droits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+        }
 
         if ($acces_teledeclaration) {
             $droits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);

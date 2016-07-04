@@ -126,7 +126,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
 
         $this->declaration->reorderByConf();
-        
+
         return $this->getProduit($hash, $detailsKey, $labels);
     }
 
@@ -236,8 +236,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
         $keepStock = ($periode > $this->periode);
-
         $drm_suivante = clone $this;
+        //var_dump($this->_id); exit;
         $drm_suivante->teledeclare = $isTeledeclarationMode;
         $drm_suivante->init(array('keepStock' => $keepStock));
 
