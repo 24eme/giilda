@@ -14,8 +14,7 @@
     <link href="/components/select2/select2.css" rel="stylesheet">
     <link href="/components/select2/select2-bootstrap.min.css" rel="stylesheet">
     <link href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link href="/components/vins/vins.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -28,13 +27,15 @@
 
     <?php include_partial('global/header'); ?>
 
-    <div id="main" class="container">
+
+	<div id="content" style="min-height: 945px;">
+		<div class="container">
         <?php echo $sf_content ?>
     </div>
 
     <div id="ajax-modal" class="modal"></div>
-
     <?php include_partial('global/footer'); ?>
+  </div>
     <script src="/components/jquery/jquery.js"></script>
     <script src="/components/bootstrap/bootstrap.js"></script>
     <script src="/components/select2/select2.min.js"></script>

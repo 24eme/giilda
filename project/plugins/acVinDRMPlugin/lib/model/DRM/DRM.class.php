@@ -229,6 +229,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
+
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
             throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
@@ -237,7 +238,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
         $keepStock = ($periode > $this->periode);
         $drm_suivante = clone $this;
-        //var_dump($this->_id); exit;
         $drm_suivante->teledeclare = $isTeledeclarationMode;
         $drm_suivante->init(array('keepStock' => $keepStock));
 

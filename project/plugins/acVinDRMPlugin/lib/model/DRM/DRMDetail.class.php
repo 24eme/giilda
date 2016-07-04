@@ -138,12 +138,14 @@ class DRMDetail extends BaseDRMDetail {
 
     protected function update($params = array()) {
         parent::update($params);
-
         $this->total_debut_mois = $this->stocks_debut->initial;
-
         foreach($this->sorties as $key => $item) {
+
             if($item instanceof acCouchdbJson) {
-                continue;
+              continue;
+            }
+            if(!$this->sorties->getConfig()->exist($key)){
+              continue;
             }
             if($this->sorties->getConfig()->get($key)->hasDetails()) {
                 $this->sorties->set($key, 0);
