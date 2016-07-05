@@ -8,10 +8,10 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
         $drm = $this->getObject()->getDocument();
         foreach ($configurationDetail->getSortiesSorted() as $key => $value) {
             $disabled = (!preg_match('/AOC|IGP/', $certif) && ($key == 'repli'));
-            if ($key == 'contrathorsinterpro' && preg_match('/_INTERLOIRE/', $certif)) {
+            if ($key == 'contrathorsinterpro' && preg_match('/(_INTERLOIRE|_VALDELOIRE)/', $certif)) {
                 $disabled = true;
             }
-            if ($key == 'contrat' && !preg_match('/_INTERLOIRE/', $certif)) {
+            if ($key == 'vrac' && !preg_match('/_INTERLOIRE/', $certif) && !preg_match('/_VALDELOIRE/', $certif)){
                 $disabled = true;
             }
             if (preg_match('/VINSSIG/', $certif) && ($key == 'declassement')) {

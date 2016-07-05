@@ -33,7 +33,7 @@
 }
 
 \AddToShipoutPicture{%
-\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2015\end{minipage}}\fi}
+\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering <?php if($vrac->isProduitIGP()): ?>AOÛT 2016<?php else: ?>AOÛT 2015<?php endif; ?>\end{minipage}}\fi}
 }
 \makeatother
 
