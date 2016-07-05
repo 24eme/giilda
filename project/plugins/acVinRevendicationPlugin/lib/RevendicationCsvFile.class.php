@@ -1,6 +1,6 @@
 <?php
 
-class RevendicationCsvFile extends CsvFile 
+class RevendicationCsvFile extends CsvFile
 {
 
   const CSV_COL_TYPE = 0;
@@ -26,7 +26,7 @@ class RevendicationCsvFile extends CsvFile
         if (!isset($line[self::CSV_COL_CVI])) {
 		$this->errors[] = array('message' => 'La colonne "CVI" est introuvable. Veuillez verifier la cohérence de la ligne', 'num_ligne' => $this->current_line);
 		return false;
-	}      
+	}
 	if (!preg_match('/^[0-9]{9}.$/', $line[self::CSV_COL_CVI])) {
 		$this->errors[] = array('message' => 'La colonne "CVI" devrait être constituée de nombre', 'num_ligne' => $this->current_line);
 		return false;
@@ -86,15 +86,15 @@ class RevendicationCsvFile extends CsvFile
                 $this->errors[] = array('message' => 'Le millesime semble erroné', 'num_ligne' => $this->current_line);
                 return false;
         }
-        
+
 	return true;
   }
 
-  public static function convertTxtToCSV($file) {   
+  public static function convertTxtToCSV($file) {
 	$r = fopen($file, 'r');
 	$w = fopen("$file.tmp", 'w');
 	$firstline = 1;
-        fwrite($w, "\xef\xbb\xbf"); //UTF8 BOM (pour windows)
+        fwrite($w, "\xef\xbb\xbf"); //UTF8 BOM (pour windows)  
 	while($s = fgets($r)) {
 		if ($firstline && preg_match('/ *;/',substr($s, 10, 5))) {
 			return;
@@ -110,19 +110,19 @@ class RevendicationCsvFile extends CsvFile
                         utf8_encode(substr(utf8_decode($s), 68, 30)).';'; //CSV_COL_VILLE
 		$s = substr($s, 97);
 		$s = preg_replace('/^[^12]*/', '', $s);
-		$line .=  
+		$line .=
 			utf8_encode(substr(utf8_decode($s), 0, 1)).';'. //CSV_COL_PROPRIO_METAYER
                         utf8_encode(substr(utf8_decode($s), 1, 30)).';'. //CSV_COL_BAILLEUR
                         utf8_encode(substr(utf8_decode($s), 31, 90)).';'; //CSV_COL_ADRESSE
 		$s = preg_replace('/^.* ([0-9]{5}[^0-9])/', '\1', $s);
-		$line .= 
+		$line .=
                         substr($s, 0, 5).';'. //CSV_COL_CODE_POSTAL
                         utf8_encode(substr(utf8_decode($s), 5, 30)).';'.//CSV_COL_COMMUNE
                         substr($s, 35, 8).';'.//CSV_COL_CODE_PRODUIT
                         str_replace('/','',str_replace('.','',substr($s, 43, 66))).';';//CSV_COL_LIBELLE_PRODUIT
 		$s = substr($s, 99);
 		$s = preg_replace('/^[^0-9]*/', '', $s);
-		$line .= 
+		$line .=
                         substr($s, 0, 4).';'. //CSV_COL_CAMPAGNE
 			(preg_replace('/^0*/', '', preg_replace('/ /', '', substr($s, 4, 7)))/100).';'. //CSV_COL_VOLUME
                         preg_replace('/ /', '', substr($s, 11, 9)).';'.//CSV_COL_NUMERO_CA
@@ -144,7 +144,7 @@ class RevendicationCsvFile extends CsvFile
 		 $this->checkLine($line);
 	}
 	return !(count($this->errors));
-  } 
+  }
 
   public static function createFromArray($array) {
     $csv = new RevendicationCsvFile();
