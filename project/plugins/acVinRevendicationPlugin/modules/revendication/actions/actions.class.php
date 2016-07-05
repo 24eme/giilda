@@ -115,6 +115,7 @@ class revendicationActions extends sfActions {
         set_time_limit(0);
         $this->revendication = $this->getRoute()->getRevendication();
         $this->revendication->storeDatas();
+        print_r(utf8_encode($this->revendication->toJson()));
         $this->revendication->save();
         return $this->redirect('revendication_view_erreurs', $this->revendication);
     }
