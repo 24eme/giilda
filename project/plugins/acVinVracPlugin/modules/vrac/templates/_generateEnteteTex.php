@@ -14,6 +14,13 @@ use_helper('Display');
 \def\INTERLOIRECOORDONNEESFAX{<?php echo "Fax : 02 47 60 55 09"; ?>}
 \def\INTERLOIRECOORDONNEESEMAIL{<?php echo "Email : contact@vinsvaldeloire.fr"; ?>}
 
+\def\VINIGPCOORDONNEESTITRE{<?php echo "Vin IGP"; ?>}
+\def\VINIGPCOORDONNEESADRESSE{<?php echo "Vin IGP - 62, rue Blaise Pascal - CS 61921"; ?>}
+\def\VINIGPCOORDONNEESCPVILLE{<?php echo "10000 IGP FRANCE"; ?>}
+\def\VINIGPCOORDONNEESTELEPHONENANTES{<?php echo "Tél. 02 47 60 55 15"; ?>}
+\def\VINIGPCOORDONNEESFAX{<?php echo "Fax : pas de fax"; ?>}
+\def\VINIGPCOORDONNEESEMAIL{<?php echo "Email : contact@vinigp.fr"; ?>}
+
 \def\CONTRATNUMENREGISTREMENT{<?php echo $vrac->getNumeroArchive(); ?>}
 \def\CONTRATVISA{<?php echo $vrac->getVisa(); ?>}
 \def\CONTRATDATEENTETE{<?php echo getDateEntete($vrac); ?>}
