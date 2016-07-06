@@ -14,12 +14,12 @@ use_helper('Display');
 \def\INTERLOIRECOORDONNEESFAX{<?php echo "Fax : 02 47 60 55 09"; ?>}
 \def\INTERLOIRECOORDONNEESEMAIL{<?php echo "Email : contact@vinsvaldeloire.fr"; ?>}
 
-\def\VINIGPCOORDONNEESTITRE{<?php echo "Vin IGP"; ?>}
-\def\VINIGPCOORDONNEESADRESSE{<?php echo "Vin IGP - 62, rue Blaise Pascal - CS 61921"; ?>}
-\def\VINIGPCOORDONNEESCPVILLE{<?php echo "10000 IGP FRANCE"; ?>}
-\def\VINIGPCOORDONNEESTELEPHONENANTES{<?php echo "Tél. 02 47 60 55 15"; ?>}
-\def\VINIGPCOORDONNEESFAX{<?php echo "Fax : pas de fax"; ?>}
-\def\VINIGPCOORDONNEESEMAIL{<?php echo "Email : contact@vinigp.fr"; ?>}
+\def\VINIGPCOORDONNEESTITRE{<?php echo "C.I.V.D.L"; ?>}
+\def\VINIGPCOORDONNEESADRESSE{<?php echo "37 avenue Jean Joxé"; ?>}
+\def\VINIGPCOORDONNEESCPVILLE{<?php echo "49100 Angers"; ?>}
+\def\VINIGPCOORDONNEESTELEPHONENANTES{<?php echo "tél: 02.41.87.25.81"; ?>}
+\def\VINIGPCOORDONNEESFAX{<?php echo "~ "; ?>}
+\def\VINIGPCOORDONNEESEMAIL{<?php echo "~"; ?>}
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo $vrac->getNumeroArchive(); ?>}
 \def\CONTRATVISA{<?php echo $vrac->getVisa(); ?>}
