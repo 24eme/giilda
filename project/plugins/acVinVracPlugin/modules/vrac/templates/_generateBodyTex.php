@@ -4,7 +4,7 @@ $isIGP = $vrac->isProduitIGP(); ?>
 	\hline
 	~ & ~ & ~ & ~ \\
 <?php if($isIGP): ?>\textbf{\VINIGPCOORDONNEESTITRE} <?php else: ?>\textbf{\INTERLOIRECOORDONNEESTITRE} <?php endif; ?>& \multirow{7}{*}{
-<?php if($isIGP): ?>~~~~~~~~~~~~~~ \includegraphics[scale=0.315]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/vinIGP_logo.jpg"; ?>}<?php else: ?>\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>}<?php endif; ?>} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
+<?php if($isIGP): ?>~~~~~~~~~~~~~~ \includegraphics[scale=1.0]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/vinIGP_logo.jpg"; ?>}<?php else: ?>\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>}<?php endif; ?>} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
 <?php if($isIGP): ?>\VINIGPCOORDONNEESADRESSE <?php else: ?> \INTERLOIRECOORDONNEESADRESSE <?php endif; ?> & ~ & ~ & ~ \\
 <?php if($isIGP): ?>\VINIGPCOORDONNEESCPVILLE <?php else: ?> \INTERLOIRECOORDONNEESCPVILLE <?php endif; ?>  & ~  & \multicolumn{2}{c|}{\textbf{\LARGE{\CONTRATNUMENREGISTREMENT}}} \\
     <?php if($isIGP): ?>\small{\VINIGPCOORDONNEESTELEPHONE} <?php else: ?>\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} <?php endif; ?>& ~ & ~ & ~ \\
