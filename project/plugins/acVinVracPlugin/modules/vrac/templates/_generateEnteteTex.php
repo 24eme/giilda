@@ -17,8 +17,8 @@ use_helper('Display');
 \def\VINIGPCOORDONNEESTITRE{<?php echo "C.I.V.D.L"; ?>}
 \def\VINIGPCOORDONNEESADRESSE{<?php echo "37 avenue Jean Joxé"; ?>}
 \def\VINIGPCOORDONNEESCPVILLE{<?php echo "49100 Angers"; ?>}
-\def\VINIGPCOORDONNEESTELEPHONENANTES{<?php echo "tél: 02.41.87.25.81"; ?>}
-\def\VINIGPCOORDONNEESFAX{<?php echo "~ "; ?>}
+\def\VINIGPCOORDONNEESTELEPHONENANTES{<?php echo "~"; ?>}
+\def\VINIGPCOORDONNEESFAX{<?php echo "Tél: 02.41.87.25.81"; ?>}
 \def\VINIGPCOORDONNEESEMAIL{<?php echo "~"; ?>}
 
 \def\CONTRATNUMENREGISTREMENT{<?php echo $vrac->getNumeroArchive(); ?>}
