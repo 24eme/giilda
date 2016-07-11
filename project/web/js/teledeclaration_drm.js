@@ -304,6 +304,25 @@ var initAnnexes = function () {
         }
     });
 
+    $(".drm_annexes_toggle").click(function(){
+        if($('.drm_annexes_toggle').find('.extendable').hasClass('ouvert')){
+          $(this).find('.extendable').removeClass('ouvert');
+          $('.drm_annexes_content_togglable').hide();
+        }else{
+          $(this).find('.extendable').addClass('ouvert');
+          $('.drm_annexes_content_togglable').show();
+        }
+    });
+    $(".drm_apurement_toggle").click(function(){
+        if($('.drm_apurement_toggle').find('.extendable').hasClass('ouvert')){
+          $(this).find('.extendable').removeClass('ouvert');
+          $('.drm_apurement_content_togglable').hide();
+        }else{
+          $(this).find('.extendable').addClass('ouvert');
+          $('.drm_apurement_content_togglable').show();      
+      }
+    });
+
 }
 
 var initBoldSaisie = function () {

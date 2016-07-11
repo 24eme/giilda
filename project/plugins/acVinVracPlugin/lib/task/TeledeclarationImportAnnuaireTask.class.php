@@ -43,7 +43,7 @@ EOF;
         $context = sfContext::createInstance($this->configuration);
 
         $soussignesContrat = $this->getSoussignesContrat();
-        
+
         foreach ($soussignesContrat as $etbId) {
             $this->fillSoussignesAnnuaire($etbId);
         }
@@ -121,7 +121,7 @@ EOF;
 
         $annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($etbId);
         echo "Ajout dans annuaire de " . $societe->identifiant . " (" . $societe->type_societe . ")\n ------ \n";
-
+        
         foreach ($contrats->contrats as $contrat) {
 
             $vendeur_typeKey = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;

@@ -4,13 +4,17 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
 <div id="contenu_etape">
     <div id="contenu_onglet">
         <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_annexes_texte1'); ?></p>
-        <h2>Déclaration des documents d'accompagnement</h2>        
-        <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
         <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" method="post" class="hasBrouillon">
-
-            <?php echo $annexesForm->renderGlobalErrors(); ?>
-            <?php echo $annexesForm->renderHiddenFields(); ?>
-            <table id="table_drm_adminitration" class="table_recap table_drm_annexes">
+          <?php echo $annexesForm->renderGlobalErrors(); ?>
+          <?php echo $annexesForm->renderHiddenFields(); ?>
+          <div class="table-condensable">
+        <div class="drm_annexes_toggle" style="cursor:pointer;">
+          <p class="extendable <?php echo ($drm->hasAnnexes())? 'ouvert' : '' ?>"></p>
+          <h2>Déclaration des documents d'accompagnement</h2>
+        </div>
+        <div <?php echo ($drm->hasAnnexes())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_annexes_content_togglable" >
+        <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
+            <table id="table_drm_adminitration" class="table_recap table_drm_annexes" >
                 <thead >
                     <tr>
                         <th style="width: 200px;">Type de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide1'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
@@ -28,14 +32,21 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+        </div>
             <br/>
-            <br>
-            <h2>Relevé de non apurement</h2>
+            <div class="table-condensable ">
+            <div class="drm_apurement_toggle" style="cursor:pointer;">
+              <p class="extendable <?php echo ($drm->hasReleveNonApurement())? 'ouvert' : '' ?>"></p>
+              <h2>Relevé de non apurement</h2>
+            </div>
+            <div <?php echo ($drm->hasReleveNonApurement())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_apurement_content_togglable" >
+
             <div><?php echo getHelpMsgText('drm_annexes_texte3'); ?></div><br/>
             <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
-                        <th>Numéro de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide2'); ?>"  style="float: right; padding: 0 10px 0 0;"></a></th>
+                        <th>&nbsp;Numéro de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide2'); ?>"  style="float: right; padding: 0 10px 0 0;"></a></th>
                         <th class="drm_non_apurement_date_emission">Date d'expédition&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide3'); ?>"  style="float: right; padding: 0 10px 0 0;"></a></th>
                         <th>Numéro d'accise&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide4'); ?>"  style="float: right; padding: 0 10px 0 0;"></a></th>
                         <th></th>
@@ -52,21 +63,24 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                 </tbody>
 
             </table>
-            <br /><br /> 
+
+            <br /><br />
             <div class="form_ligne ajouter_non_apurement">
                 <a class="btn_ajouter_ligne_template btn_majeur" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#">Ajouter un non apurement</a>
             </div>
+  </div>
+          </div>
             <br/>
             <br/>
             <h2>Compléments d'information</h2>
-            <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">   
+            <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
                         <th colspan="2">Information sur le sucre</th>
                     </tr>
                 </thead>
                 <tbody class="drm_non_apurement" id="nonapurement_list">
-                    <tr> 
+                    <tr>
                         <td class="drm_quantite_sucre_label">
                             <?php echo $annexesForm['quantite_sucre']->renderLabel(); ?>
                         </td>
@@ -75,9 +89,9 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </td>
                     </tr>
                 </tbody>
-            </table> 
+            </table>
             <br/>
-            <br/>         
+            <br/>
             <table id="table_drm_complement_informations_observation" class="table_recap">
                 <thead >
                     <tr>
@@ -93,16 +107,16 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                 </tbody>
 
             </table>
-            <br /><br /> 
+            <br /><br />
 
-            <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">   
+            <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
                         <th colspan="2">Condition de paiement des douanes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide6'); ?>"  style="padding: 0 0 0 10px;"></a></th>
                     </tr>
                 </thead>
                 <tbody class="drm_non_apurement" id="nonapurement_list">
-                    <tr> 
+                    <tr>
                         <td class="drm_quantite_sucre_label" style="width: 255px;">
                             <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
                         </td>
@@ -112,8 +126,8 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </td>
 
                     </tr>
-                    <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  > 
-                        <td>    
+                    <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
+                        <td>
                             Cumul des droits douaniers (en €)
                         </td>
                         <td>
@@ -123,8 +137,8 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                 <li style="padding: 10px;">
                                         <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
                                         <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
-                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>   
-                                    </li>  
+                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
+                                    </li>
 
                                 <?php endforeach; ?>
                             </ul>

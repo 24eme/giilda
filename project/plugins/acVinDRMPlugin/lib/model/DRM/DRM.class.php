@@ -658,20 +658,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 foreach ($detail->entrees as $keyEntree => $valueEntree) {
                     if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
                         $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
-                          
+
                     }
                 }
                 foreach ($detail->sorties as $keySortie => $valueSortie) {
                     if ($valueSortie instanceof DRMESDetails) {
                         continue;
                     }
-                    if ($valueSortie && !in_array($keySortie, $listSorties)) {                        
+                    if ($valueSortie && !in_array($keySortie, $listSorties)) {
                        $key_to_remove[] = $produit_hash.'/sorties/'.$keySortie;
                     }
                 }
             }
         }
-        
+
         foreach ($key_to_remove as $key) {
            $this->remove($key);
         }
@@ -1192,6 +1192,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function hasReleveNonApurement() {
+      return $this->exist('releve_non_apurement') && count($this->get('releve_non_apurement'));      
+    }
+
     public function hasAnnexes() {
         $nodeAnnexe = $this->exist('documents_annexes') && count($this->documents_annexes);
         if (!$nodeAnnexe)
@@ -1299,7 +1303,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $droitDouane->clearDroitDouane();
             }
         } catch (Exception $e) {
-            
+
         }
     }
 
