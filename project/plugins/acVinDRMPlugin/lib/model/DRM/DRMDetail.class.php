@@ -426,4 +426,8 @@ class DRMDetail extends BaseDRMDetail {
         }
     }
 
+    public function getCodeDouane() {
+	return $this->getCepage()->getConfig()->code_douane;
+    }
+
 }
