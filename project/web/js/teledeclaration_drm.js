@@ -319,7 +319,17 @@ var initAnnexes = function () {
           $('.drm_apurement_content_togglable').hide();
         }else{
           $(this).find('.extendable').addClass('ouvert');
-          $('.drm_apurement_content_togglable').show();      
+          $('.drm_apurement_content_togglable').show();
+      }
+    });
+
+    $(".drm_statistiques_europeenne_toggle").click(function(){
+        if($('.drm_statistiques_europeenne_toggle').find('.extendable').hasClass('ouvert')){
+          $(this).find('.extendable').removeClass('ouvert');
+          $('.drm_statistiques_europeenne_content_togglable').hide();
+        }else{
+          $(this).find('.extendable').addClass('ouvert');
+          $('.drm_statistiques_europeenne_content_togglable').show();
       }
     });
 

@@ -288,6 +288,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->commentaire = null;
 
         $this->archivage_document->reset();
+        if ($this->declaratif->exist('statistiques')) {
+                $this->declaratif->remove('statistiques');
+                $this->declaratif->add('statistiques');
+        }
 
         $this->devalide();
     }
@@ -1193,7 +1197,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasReleveNonApurement() {
-      return $this->exist('releve_non_apurement') && count($this->get('releve_non_apurement'));      
+      if(!$this->exist('releve_non_apurement')){
+        return false;
+      }
+      if(!count($this->get('releve_non_apurement'))){
+        return false;
+      }
+      foreach ($this->get('releve_non_apurement') as $nonApurement) {
+        if($nonApurement->get("numero_document") && $nonApurement->get("date_emission") && $nonApurement->get("numero_accise")){
+          return true;
+        }
+      }
+      return false;
     }
 
     public function hasAnnexes() {
@@ -1325,5 +1340,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         return $libelles_detail_ligne;
     }
+
+    public function getExportableStatistiquesEuropeennes() {
+  		$result = array();
+  		if ($this->declaratif->exist('statistiques')) {
+  			foreach ($this->declaratif->statistiques as $key => $val) {
+  				if ($val) {
+  					$result[$key] = $val;
+  				}
+  			}
+  		}
+  		return $result;
+  	}
 
 }

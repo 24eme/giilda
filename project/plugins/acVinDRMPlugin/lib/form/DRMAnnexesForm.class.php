@@ -50,6 +50,18 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'a été choisie")));
         $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement');
 
+        $this->setWidget('statistiques_jus', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
+        $this->setWidget('statistiques_mcr', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
+        $this->setWidget('statistiques_vinaigre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
+        $this->widgetSchema->setLabel('statistiques_jus', 'Quantités de moûts de raisin transformées en jus de raisin');
+        $this->widgetSchema->setLabel('statistiques_mcr', 'Quantités de moûts de raisin transformées en MCR');
+        $this->widgetSchema->setLabel('statistiques_vinaigre', 'Quantités de moûts de raisin transformées en vinaigre');
+
+
+        $this->setValidator('statistiques_jus', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('statistiques_mcr', new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('statistiques_vinaigre', new sfValidatorNumber(array('required' => false)));
+
         foreach ($this->drm->getProduits() as $produit) {
             $genre = $produit->getConfig()->getGenre();
             $droit = $genre->getDroitDouane($this->drm->getFirstDayOfPeriode());
@@ -82,12 +94,17 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
                 $genre = $produit->getConfig()->getGenre();
                 $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
                 $localCumul = $values['cumul_' . $genreKey];
-                
+
                 if ($localCumul && $localCumul > 0) {
                     $this->drm->getOrAdd('droits')->getOrAdd('douane')->getOrAdd($genreKey)->set('report', $localCumul);
                 }
             }
         }
+
+        $this->drm->declaratif->statistiques->jus = $values['statistiques_jus'];
+        $this->drm->declaratif->statistiques->mcr = $values['statistiques_mcr'];
+        $this->drm->declaratif->statistiques->vinaigre = $values['statistiques_vinaigre'];
+
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
         $this->drm->save();
 
@@ -109,6 +126,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
                 }
             }
         }
+        $this->setDefault('statistiques_jus' , $this->drm->declaratif->statistiques->jus);
+        $this->setDefault('statistiques_mcr' , $this->drm->declaratif->statistiques->mcr);
+        $this->setDefault('statistiques_vinaigre' , $this->drm->declaratif->statistiques->vinaigre);
         $societe = $this->drm->getEtablissement()->getSociete();
         if ($societe->exist('paiement_douane_frequence') && $societe->paiement_douane_frequence) {
             $this->setDefault('paiement_douane_frequence', $societe->paiement_douane_frequence);
