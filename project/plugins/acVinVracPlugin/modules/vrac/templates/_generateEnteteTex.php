@@ -69,7 +69,7 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATDATEMAXENLEVEMENT{<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()), 50); ?>}
 \def\CONTRATFRAISDEGARDE{ <?php echo ($vrac->exist('enlevement_frais_garde') && $vrac->enlevement_frais_garde) ?
-        formatPrixFr($vrac->getFraisDeGarde()) : '~~';
+        formatPrixFr($vrac->getFraisDeGarde()) . '~' : '~~~~~~~~';
 ?>}
 
 \def\CONTRATLIEUCREATION{<?php echo cut_latex_string($vrac->getResponsableLieu(), 70); ?>}
