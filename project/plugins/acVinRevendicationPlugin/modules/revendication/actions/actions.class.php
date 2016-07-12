@@ -66,9 +66,13 @@ class revendicationActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
                 $file = $this->form->getValue('file');
-                $this->md5 = $file->getMd5();
 
+                $data = file_get_contents($file);
+                $data = iconv(mb_detect_encoding($file), 'UTF-8//IGNORE', $data);
+                $this->md5 = $file->getMd5();
                 $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
+                file_put_contents($path, $data);
+
                 RevendicationCsvFile::convertTxtToCSV($path);
                 $this->csv = new RevendicationCsvFile($path);
                 $this->revendication->updateCSV($path);
@@ -111,6 +115,7 @@ class revendicationActions extends sfActions {
         set_time_limit(0);
         $this->revendication = $this->getRoute()->getRevendication();
         $this->revendication->storeDatas();
+        print_r(utf8_encode($this->revendication->toJson()));
         $this->revendication->save();
         return $this->redirect('revendication_view_erreurs', $this->revendication);
     }

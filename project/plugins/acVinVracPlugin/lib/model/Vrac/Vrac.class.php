@@ -584,9 +584,13 @@ class Vrac extends BaseVrac {
 
     public function getProduitsConfig() {
         $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
-
-        return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
+        return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_ACTIF));
     }
+    
+    public function isProduitIGP() {
+        return preg_match("/IGP_VALDELOIRE/", $this->produit);
+    }
+    
 
     public function getQuantite() {
         switch ($this->type_transaction) {

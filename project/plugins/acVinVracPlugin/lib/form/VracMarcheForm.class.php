@@ -16,7 +16,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
     protected $next_campagne;
     protected $isTeledeclarationMode;
     protected $defaultDomaine;
-    
+
     const NONMILLESIMELABEL = "Non millésimé";
 
     public function __construct(Vrac $vrac, $isTeledeclarationMode = false, $defaultDomaine = null, $options = array(), $CSRFSecret = null) {
@@ -164,7 +164,7 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
             $this->domaines[$d] = $d;
         }
-        if($this->defaultDomaine){
+        if ($this->defaultDomaine) {
             $this->domaines[$this->defaultDomaine] = $this->defaultDomaine;
         }
     }
