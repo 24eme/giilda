@@ -76,12 +76,12 @@
     	</droits-acquittes>
 <?php endif; ?>
 <?php endif; ?>
-<?php if ($drm->exist('crds') && $drm->crds): foreach(drm2CrdCiel($drm) as $gcrds): ?>
+<?php if ($drm->exist('crds') && $drm->crds): foreach(drm2CrdCiel($drm) as $gcrds): $fkey = key($gcrds);?>
     	<compte-crd>
-      		<categorie-fiscale-capsules><?php echo crdGenre2CategorieFiscale($gcrds[0]->genre) ?></categorie-fiscale-capsules>
-      		<type-capsule><?php echo crdType2TypeCapsule($gcrds[0]->type) ?></type-capsule>
+      		<categorie-fiscale-capsules><?php echo crdGenre2CategorieFiscale($gcrds[$fkey]->genre) ?></categorie-fiscale-capsules>
+      		<type-capsule><?php echo crdType2TypeCapsule($gcrds[$fkey]->type) ?></type-capsule>
 <?php foreach($gcrds as $crd) : ?>
-      		<centilisation volume="<?php echo $crd->centilitrage ?>">
+      		<centilisation volume="<?php echo centilisation2douane($crd->centilitrage) ?>">
         		<stock-debut-periode><?php echo $crd->stock_debut ?></stock-debut-periode>
 <?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours): ?>
         		<entrees-capsules>
@@ -124,10 +124,10 @@
 <?php endforeach; ?>
     	</document-accompagnement>
 <?php endif; ?>
-<?php foreach($drm->releve_non_apurement as $k => $releve): ?>
+<?php if (false) foreach($drm->releve_non_apurement as $k => $releve): ?>
     	<releve-non-apurement>
       		<numero-daa-dac-dae><?php echo $releve->numero_document; ?></numero-daa-dac-dae>
-      		<date-expedition><?php echo $releve->date_emission; ?></date-expedition>
+      		<date-expedition><?php echo formatDateDouane($releve->date_emission); ?></date-expedition>
       		<numero-accise-destinataire><?php echo $releve->numero_accise; ?></numero-accise-destinataire>
     	</releve-non-apurement>
 <?php endforeach; ?>
