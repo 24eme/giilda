@@ -31,7 +31,7 @@ class CielService
     		$file = $this->getTokenCacheFilename();
     		$token = file_get_contents($file);
     		if ($token === false) {
-    			throw new sfException('CielService Error : cannot read '.$this->getTokenCacheFilename();
+    			throw new sfException('CielService Error : cannot read '.$this->getTokenCacheFilename());
     		}
     	}
     	return $token;
