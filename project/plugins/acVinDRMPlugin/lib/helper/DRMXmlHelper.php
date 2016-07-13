@@ -20,7 +20,7 @@ function noeudXml($produit, $noeud, &$xml, $exceptions = array()) {
 function storeMultiArray(&$node, $keys, $value) {
 	$k = array_shift($keys);
 	if (!$k) {
-		if (is_int($node)) {
+		if (!is_array($node)) {
 			return $value + $node;
 		}else{
 			return $value;
