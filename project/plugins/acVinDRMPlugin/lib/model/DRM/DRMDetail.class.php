@@ -252,6 +252,9 @@ class DRMDetail extends BaseDRMDetail {
         $this->total_entrees = null;
         $this->total_sorties = null;
         $this->total = null;
+        if($this->exist('observations')){
+          $this->observations = null;
+        }
     }
 
     public function sommeLignes($lines) {
@@ -382,7 +385,7 @@ class DRMDetail extends BaseDRMDetail {
     public function isEdited() {
         return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
     }
-    
+
     public function hasMovements() {
         if ($this->hasMouvement()) {
 
@@ -416,14 +419,18 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
             $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
-            
+
             $sortieDrm = $this->get('sorties/' . $sortieKey);
-            
- 
+
+
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
+    }
+
+    public function setImportableObservations($observations) {
+    	$this->add('observations', $observations);
     }
 
 }
