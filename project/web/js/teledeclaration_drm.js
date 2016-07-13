@@ -304,35 +304,25 @@ var initAnnexes = function () {
         }
     });
 
-    $(".drm_annexes_toggle").click(function(){
-        if($('.drm_annexes_toggle').find('.extendable').hasClass('ouvert')){
-          $(this).find('.extendable').removeClass('ouvert');
-          $('.drm_annexes_content_togglable').hide();
-        }else{
-          $(this).find('.extendable').addClass('ouvert');
-          $('.drm_annexes_content_togglable').show();
-        }
-    });
-    $(".drm_apurement_toggle").click(function(){
-        if($('.drm_apurement_toggle').find('.extendable').hasClass('ouvert')){
-          $(this).find('.extendable').removeClass('ouvert');
-          $('.drm_apurement_content_togglable').hide();
-        }else{
-          $(this).find('.extendable').addClass('ouvert');
-          $('.drm_apurement_content_togglable').show();
-      }
-    });
+    genericTogglableSection("annexes");
+    genericTogglableSection("apurement");
+    genericTogglableSection("statistiques");
+    genericTogglableSection("observations");
+    genericTogglableSection("informations");
+}
 
-    $(".drm_statistiques_europeenne_toggle").click(function(){
-        if($('.drm_statistiques_europeenne_toggle').find('.extendable').hasClass('ouvert')){
-          $(this).find('.extendable').removeClass('ouvert');
-          $('.drm_statistiques_europeenne_content_togglable').hide();
-        }else{
-          $(this).find('.extendable').addClass('ouvert');
-          $('.drm_statistiques_europeenne_content_togglable').show();
-      }
-    });
-
+var genericTogglableSection = function(sectionName){
+  var toggleClass = ".drm_"+sectionName+"_toggle";
+  var contentClass = ".drm_"+sectionName+"_content_togglable";
+  $(toggleClass).click(function(){
+      if($(toggleClass).find('.extendable').hasClass('ouvert')){
+        $(this).find('.extendable').removeClass('ouvert');
+        $(contentClass).hide();
+      }else{
+        $(this).find('.extendable').addClass('ouvert');
+        $(contentClass).show();
+    }
+  });
 }
 
 var initBoldSaisie = function () {

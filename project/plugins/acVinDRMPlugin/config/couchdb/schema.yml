@@ -221,7 +221,7 @@ DRM:
                                                                                                             total: { type: float }
                                                                                                             produit_libelle: {  }
                                                                                                             cvo: {type: float}
-                                                                                                            observations: { required: false }                                                                                                            observations: {  }                                                                                                            observations: {  }
+                                                                                                            observations: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection
                                                                                                               definition:
