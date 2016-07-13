@@ -124,7 +124,7 @@
 <?php endforeach; ?>
     	</document-accompagnement>
 <?php endif; ?>
-<?php if (false) foreach($drm->releve_non_apurement as $k => $releve): ?>
+<?php foreach($drm->releve_non_apurement as $k => $releve): ?>
     	<releve-non-apurement>
       		<numero-daa-dac-dae><?php echo $releve->numero_document; ?></numero-daa-dac-dae>
       		<date-expedition><?php echo formatDateDouane($releve->date_emission); ?></date-expedition>
