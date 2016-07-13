@@ -42,7 +42,7 @@ function multiArray2XML($preXML) {
 			$xml .= "</$k>";
 		}else{
 			$xml .= "<$k>";
-                        $xml .= $v;
+                        $xml .= sprintf('%.04f', $v);
                         $xml .= "</$k>";
 		}
 	}
