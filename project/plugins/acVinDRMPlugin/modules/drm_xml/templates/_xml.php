@@ -2,7 +2,7 @@
 <?php echo '<?xml version="1.0" encoding="utf-8" ?>' ?>
 
 <message-interprofession xmlns="http://douane.finances.gouv.fr/app/ciel/interprofession/echanges/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://douane.finances.gouv.fr/app/ciel/interprofession/echanges/1.0 echanges-interprofession-1.7.xsd">
-	<siren-interprofession><?php echo ""; ?></siren-interprofession>
+	<siren-interprofession><?php echo sfConfig::get('app_ciel_siren', false); ?></siren-interprofession>
 	<declaration-recapitulative>
 		<identification-declarant>
 			<numero-agrement><?php echo $drm->declarant->no_accises ?></numero-agrement>

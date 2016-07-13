@@ -133,3 +133,14 @@ all:
     url: "interloire_domainname"
   pdf:
     reader_link: "http://lien.fr"
+  ciel:
+    siren: 999999999
+    oauth:
+      url: "https://douane.finances.gouv.fr/oauth2/v1/auth"
+      service: "https://douane.finances.gouv.fr/ciel/interprofession/v1"
+      host: "1.1.1.1"
+      iss: "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+      keypath: "data/ciel/interpro.key"
+      urltoken: "http://1.1.1.1/authtokenqualif/oauth2/v1/token"
+      urlapp: "http://1.1.1.1/cielqualifinterpro/ws/1.0/declarations"
+
