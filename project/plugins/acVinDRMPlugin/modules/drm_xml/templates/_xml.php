@@ -116,12 +116,12 @@
 <?php endforeach; endif; ?>
 <?php if (count($drm->documents_annexes)): ?>
     	<document-accompagnement>
-<?php foreach($drm->documents_annexes as $k => $v): ?>
+<?php foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE') : ?>
 	        <<?php echo documentAnnexeKey2XMLTag($k); ?>>
         		<debut-periode><?php echo $v->debut ?></debut-periode>
         		<fin-periode><?php echo $v->fin ?></fin-periode>
                 </<?php echo documentAnnexeKey2XMLTag($k); ?>>
-<?php endforeach; ?>
+<?php endif; endforeach; ?>
     	</document-accompagnement>
 <?php endif; ?>
 <?php foreach($drm->releve_non_apurement as $k => $releve): ?>
