@@ -96,3 +96,10 @@ function documentAnnexeKey2XMLTag($d) {
 	$documentAnnexeKey2XMLTagArray = array('DAE' => 'daa-dca', 'DAA/DAC' => 'daa-dca', 'DSA/DSAC' => 'dsa-dsac', 'Empreinte'=>'numero-empreintes');
 	return $documentAnnexeKey2XMLTagArray[$d];
 }
+
+function formatCodeINAO($s) {
+	if (strlen($s) == 5) {
+		return "$s ";
+	}
+	return $s;
+}

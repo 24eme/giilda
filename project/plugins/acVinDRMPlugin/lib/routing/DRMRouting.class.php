@@ -248,8 +248,9 @@ class DRMRouting {
             'type' => 'object')
         ));
 
-        $r->prependRoute('drm_xml', new DRMRoute('/drm/:identifiant/xml/:periode_version', array('module' => 'drm_xml', 'action' => 'print'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')
-        ));
+        $r->prependRoute('drm_ciel', new DRMRoute('/drm/:identifiant/ciel/:periode_version', array('module' => 'drm_xml', 'action' => 'transfert'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
+
+        $r->prependRoute('drm_xml', new DRMRoute('/drm/:identifiant/xml/:periode_version', array('module' => 'drm_xml', 'action' => 'print'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
 
     }
 
