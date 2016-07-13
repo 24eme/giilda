@@ -11,9 +11,10 @@ class DRMObservationForm extends BaseForm
 	}
 
     public function getDefaultValues() {
-    	$defaults = array(
-    			'observations' => $this->_detail->observations
-    	);
+			$defaults = array();
+			if($this->_detail->exist('observations')){
+    		$defaults = array('observations' => $this->_detail->observations);
+			}
     	return  $defaults;
     }
 

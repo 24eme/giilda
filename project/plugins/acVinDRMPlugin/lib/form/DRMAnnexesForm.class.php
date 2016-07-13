@@ -86,7 +86,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
             $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->fin = $values[$docType . '_fin'];
         }
         foreach ($this->getEmbeddedForms() as $key => $releveNonApurementForm) {
+          if($key!="observationsProduits"){
             $releveNonApurementForm->updateObject($values[$key]);
+            }
         }
 
         $paiement_douane_frequence = $values['paiement_douane_frequence'];
@@ -110,7 +112,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
 
         if ($observations = $values['observationsProduits']) {
           foreach ($observations as $hash => $observation) {
-            $this->_drm->addObservationProduit($hash, $observation['observations']);
+            $this->drm->addObservationProduit($hash, $observation['observations']);
           }
         }
 

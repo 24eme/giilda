@@ -147,6 +147,16 @@ class DRMDetail extends BaseDRMDetail {
                 $this->sorties->cooperative+=$cooperative_detail->volume;
             }
         }
+        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
+          || ($this->entrees->exist('manipulation') && $this->entrees->manipulation)
+          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
+          $this->add('observations',null);
+        }else{
+          $this->remove('observations');
+        }
+
+
+
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
 
@@ -253,7 +263,7 @@ class DRMDetail extends BaseDRMDetail {
         $this->total_sorties = null;
         $this->total = null;
         if($this->exist('observations')){
-          $this->observations = null;
+          $this->remove("observations");
         }
     }
 
