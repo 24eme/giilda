@@ -60,6 +60,7 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         $this->form->bind($request->getParameter($this->form->getName()));
+        var_dump($request->getParameter($this->form->getName())); exit;
         if ($request->getParameter('brouillon')) {
             $this->form->save();
             return $this->redirect('drm_etablissement', $this->drm->getEtablissement());

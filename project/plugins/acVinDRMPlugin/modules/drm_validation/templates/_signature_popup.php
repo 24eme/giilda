@@ -8,11 +8,16 @@
     	    <p>
     		Avant de la transmettre à la Douane, par courrier postal, ou par mail, la DRM doit être signée manuellement pour être valable.
     	    </p>
+          <p>
+
+            <?php echo $validationForm['transmission_ciel']->renderLabel(); ?>
+            <?php echo $validationForm['transmission_ciel']->render(); ?>
+          </p>
             <div class="ligne_btn">
                 <a id="signature_drm_popup_close" class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
 
-                <a id="signature_drm_popup_confirm" class="btn_validation" ><span>Valider la DRM</span></a>     
+                <a id="signature_drm_popup_confirm" class="btn_validation" ><span>Valider la DRM</span></a>
 
             </div>
-        </div>    
+        </div>
 </div>

@@ -46,9 +46,10 @@
                     </a>
                     <?php if (!$isTeledeclarationMode): ?>
                         <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn_brouillon btn_majeur">Enregistrer en brouillon</a>
-                    <?php endif; ?>                   
-                    <?php if ($isTeledeclarationMode): ?> 
+                    <?php endif; ?>
+                    <?php if ($isTeledeclarationMode): ?>
                         <?php echo $form['email_transmission']->render(); ?>
+                        <?php echo $form['transmission_ciel']->render(); ?>
                         <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn_validation signature_drm<?php if ($validation->isValide()) echo '_popup'; ?>"><span>Valider</span></a>
                         <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
 
