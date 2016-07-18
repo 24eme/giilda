@@ -121,7 +121,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($p = $this->getProduit($hash, $detailsKey, $labels)) {
             return $p;
         }
-
         $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($labels);
         $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
 
@@ -219,7 +218,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $this->addProduit($produitConfig->getHash());
+            $this->addProduit($produitConfig->getHash(), DRM::DETAILS_KEY_SUSPENDU);
         }
     }
 
