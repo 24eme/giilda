@@ -71,7 +71,7 @@ A été conclu le marché suivant: \\
 \begin{tabularx}{\textwidth}{|X|p{12mm}|p{24mm}|p{24mm}|p{24mm}|}
 \hline
 ~ & ~ & ~ & ~ & ~ \\
-\textbf{<?php if($isIGP): ?>IGP / couleur / type<?php else : ?>Appellation / couleur / type<?php endif; ?>} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Transaction}} & \multicolumn{1}{c|}{\textbf{Quantité Proposée}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
+\textbf{<?php if($isIGP): ?>IGP / couleur / cépage<?php else : ?>Appellation / couleur / type<?php endif; ?>} & \multicolumn{1}{c|}{\textbf{<?php echo $vrac->getMillesimeLabel(); ?>}} & \multicolumn{1}{c|}{\textbf{Type de Transaction}} & \multicolumn{1}{c|}{\textbf{Quantité Proposée}} & \multicolumn{1}{c|}{\textbf{Prix}} \\
 ~ & ~ & ~ & ~ & ~ \\
 \hline
 ~ & ~ & ~ & ~ & ~
@@ -94,7 +94,7 @@ A été conclu le marché suivant: \\
 \\
 <?php if($isIGP): ?>
 \\
-\\
+\textbf{\normalsize{\underline{Délais de paiement} :} conformes aux dispositions de l'Accord Interprofessionnel rappelées au verso.} \\
 \\
 \\
 \\
@@ -120,7 +120,7 @@ Tout incident se produisant au paiement de l'une des échéances prévues rend i
 \framebox[1.05\width]{\normalsize{Au plus tard le~\textbf{\CONTRATDATEMAXENLEVEMENT}}}
 \end{flushright}
 \end{multicols}
-A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à \framebox[1.05\width]{\CONTRATFRAISDEGARDE}~ par mois. L'émission de la facture ne peut  en aucun cas être postérieure à la date stipulée pour l'enlèvement.
+A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à \framebox[1.05\width]{\CONTRATFRAISDEGARDE} par mois. L'émission de la facture ne peut  en aucun cas être postérieure à la date stipulée pour l'enlèvement.
 \\
 <?php if($isIGP): ?>
 \\

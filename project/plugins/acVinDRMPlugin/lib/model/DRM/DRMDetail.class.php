@@ -437,10 +437,13 @@ class DRMDetail extends BaseDRMDetail {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
-    }
-
+      }
     public function setImportableObservations($observations) {
     	$this->add('observations', $observations);
     }
+
+    public function getCodeDouane() {
+	     return $this->getCepage()->getConfig()->code_douane;
+     }
 
 }

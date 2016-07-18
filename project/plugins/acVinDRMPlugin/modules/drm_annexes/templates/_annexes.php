@@ -136,10 +136,10 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
 
 <div class="table-condensable ">
 <div class="drm_informations_toggle" style="cursor:pointer;">
-    <p class="extendable ouvert"></p>
+    <p class="extendable <?php echo ($drm->hasPaiementDouane())? 'ouvert' : '' ?>"></p>
     <h2>Sucre / Paiement Douane</h2>
 </div>
-            <div style="padding: 0px 10px 10px 10px;" class="drm_informations_content_togglable" >
+            <div <?php echo ($drm->hasPaiementDouane())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_informations_content_togglable" >
             <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>

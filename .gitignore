@@ -4,3 +4,6 @@
 nbproject/
 *~
 .~*
+*.swp
+*.key
+*.pem

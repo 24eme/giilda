@@ -1376,4 +1376,30 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return false;
     }
 
+    public function hasPaiementDouane(){
+      if(!$this->declaratif){
+
+        return false;
+      }
+      if(!$this->societe->exist('paiement_douane_frequence') && !$this->societe->exist('paiement_douane_moyen')){
+        return false;
+      }
+      if(!$this->societe->get('paiement_douane_frequence') && !$this->societe->get  ('paiement_douane_moyen')){
+        return false;
+      }
+      if($this->societe->get('paiement_douane_frequence') == DRMPaiement::FREQUENCE_ANNUELLE){
+        $flag = true;
+        foreach ($this->droits->douane as $key => $node) {
+          if(!$node->cumul){
+            $flag = false;
+            break;
+          }
+        }
+        if(!$flag){
+          return false;
+        }
+      }
+      return true;
+    }
+
 }
