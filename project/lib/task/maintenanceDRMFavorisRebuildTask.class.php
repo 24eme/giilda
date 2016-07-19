@@ -81,8 +81,16 @@ EOF;
               $detailsACQUITTE->getOrAdd($catKey)->add($key,$value);
               }
             }
-          echo "FIN reconstruction Favoris ".$drmView->id."\n";
-          $drm->save();
+            $good = false;
+            try{
+              $drm->save();
+              $good = true;
+            }catch(Exception $e){
+              echo "UN gros problème est survenue avec la DRM ".$drmView->id." on aimerai supprimer les raccourcis \n";
+            }
+            if($good){
+              echo "FIN reconstruction Favoris ".$drmView->id."\n";
+            }
         }
     }
 

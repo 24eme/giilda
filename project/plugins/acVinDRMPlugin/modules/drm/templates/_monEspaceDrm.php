@@ -49,7 +49,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-12">
-                                              <a data-toggle="modal" data-target="<?php echo $lienNouvelle; ?>" class="<?php echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '' ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
+                                              <a style="cursor:pointer;" data-toggle="modal" data-target="<?php echo $lienNouvelle; ?>" class="<?php echo ($isTeledeclarationMode) ? 'drm_nouvelle_teledeclaration' : '' ?>"><span>Créer la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
 
                                             </div>
                                             </div>

@@ -28,6 +28,9 @@ class authActions extends sfActions {
         $idSociete = $this->form->process()->getSociete()->getIdentifiant();
         $this->getUser()->signInOrigin($this->form->getValue("login"));
 
+        if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
+          $this->redirect('accueil');
+        }
         $this->redirect('vrac_societe', array('identifiant' => $idCompte));
     }
 
@@ -43,7 +46,7 @@ class authActions extends sfActions {
     }
 
     public function executeForbidden(sfWebRequest $request) {
-        
+
     }
 
 }

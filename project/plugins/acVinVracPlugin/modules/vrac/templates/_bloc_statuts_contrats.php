@@ -23,10 +23,10 @@
         if (!$societe->isCourtier()):
             ?>
             <li class="list-group-item ">
-               <div class="row" >
-              <h4><img src="/images/pictos/pi_stylo_a_signer.png" width="40" height="40"/><span>A Signer</span></h4>
+               <div class="row text-center" >
+              <h4 ><img src="/images/pictos/pi_stylo_a_signer.png" width="40" height="40"/><span>A Signer</span></h4>
   </div>
-                <div class="row" >
+                <div class="row text-center" >
                 <div class="col-xs-12" <?php echo (!$contratsSocietesWithInfos->infos->a_signer) ? "style='opacity:0.5'" : ""; ?>>
                     <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
                         <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI))) ?>">
@@ -40,10 +40,10 @@
             </li>
         <?php endif; ?>
         <li class="list-group-item ">
-          <div class="row" >
+          <div class="row text-center" >
           <h4><img src="/images/pictos/pi_contrat_en_attente.png" width="40" height="40"/><span>En Attente</span></h4>
         </div>
-        <div class="row" >
+        <div class="row text-center" >
             <div class="col-xs-12" <?php echo (!$contratsSocietesWithInfos->infos->en_attente) ? "style='opacity:0.5'" : ""; ?>>
                 <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>
                     <a  href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES))) ?>">

@@ -1,4 +1,8 @@
-<div class="<?php if($teledeclaration_drm): ?> col-xs-4<?php else: ?>col-xs-6<?php endif; ?>">
+<?php
+$hasBlog = false;
+?>
+
+<div class="<?php if($teledeclaration_drm && $hasBlog): ?> col-xs-4<?php elseif($teledeclaration_drm || $hasBlog): ?>col-xs-6 <?php else: ?>col-xs-12 <?php endif; ?>">
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Espace contrat</h4></div>
         <div class="panel-body" style="height: 250px;">
@@ -25,11 +29,11 @@
     </div>
 </div>
 <?php if($teledeclaration_drm): ?>
-<div class="col-xs-4">
+<div class="<?php if($hasBlog): ?> col-xs-4<?php else: ?> col-xs-6<?php endif; ?>">
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Espace DRM</h4></div>
         <div class="panel-body" style="height: 250px;">
-            <div class="row">
+            <div class="row text-center">
                 <div class="col-xs-12" >
                   <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => true, 'btnAccess' => true, 'accueil_drm' => false)); ?>
 
@@ -51,6 +55,7 @@
     </div>
 </div>
 <?php endif; ?>
+<?php if($hasBlog): ?>
 <div class="<?php if($teledeclaration_drm): ?> col-xs-4<?php else: ?>col-xs-6<?php endif; ?>">
 <div class="panel panel-default">
     <div class="panel-heading"><h4>Espace Blog</h4></div>
@@ -76,3 +81,4 @@
     </div>
 </div>
 </div>
+<?php endif; ?>

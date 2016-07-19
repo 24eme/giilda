@@ -6,6 +6,7 @@
     <form action="<?php echo url_for('drm_choix_creation', array('identifiant' => $identifiant, 'periode' => $periode)); ?>" method="post" enctype="multipart/form-data">
  <div class="modal-content">
       <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h2>Création de la DRM <?php echo getFrPeriodeElision($periode); ?></h2>
       </div>
        <div class="modal-body">
@@ -29,7 +30,7 @@
         </div>
 
        <div class="modal-footer">
-                <a id="drm_nouvelle_popup_close" class="btn btn-danger pull-left popup_close" style="float: left;" href="#" >Annuler</a>
+                <a id="drm_nouvelle_popup_close" class="btn btn-danger pull-left popup_close" data-dismiss="modal" style="float: left;" href="#" >Annuler</a>
                 <button id="drm_nouvelle_popup_confirm" type="submit" class="btn btn-success pull-right" style="float: right;" ><span>Commencer la DRM</span></button>
             </div>
 
