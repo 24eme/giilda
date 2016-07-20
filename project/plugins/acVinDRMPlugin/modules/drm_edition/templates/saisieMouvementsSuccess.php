@@ -40,7 +40,7 @@
                             if (!$produit->hasMovements()): continue;
                             endif;
                             ?>
-                            <a style="position: relative;  overflow:hidden;
+                            <a style="position: relative;  overflow:hidden; cursor:pointer;
   display: block; height: 30px; padding: 5px 15px;
   margin-bottom: -1px;" data-hash="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements()) ? 'style="display:none;"' : '' ?> class="list-group-item <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
 
