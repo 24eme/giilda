@@ -34,20 +34,20 @@ class VracEmailManager {
         $responsableNom = $createurObject->nom;
 
         $mess = $this->enteteMessageVrac();
-        $mess .= "  
- 
+        $mess .= "
+
 
 Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
- 
-Pour être valable, le contrat doit être signé par toutes les parties et enregistré par InterLoire. Un fichier en format PDF avec le numéro d’enregistrement d’InterLoire vous sera alors envoyé par courriel.
- 
+
+Pour être valable, le contrat doit être signé par toutes les parties et enregistré par votre interprofession. Un fichier en format PDF avec le numéro d’enregistrement de votre interprofession vous sera alors envoyé par courriel.
+
 Attention : si le contrat n’est pas signé par toutes les parties dans les 5 jours à compter de sa date de création, il sera automatiquement supprimé.
 
 Pour toutes questions, veuillez contacter " . $responsableNom . ", l'initiateur du contrat.
 
 ——
 
-L’application de télédéclaration des contrats d’InterLoire
+L’application de télédéclaration des contrats de votre interprofession.
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -60,7 +60,7 @@ Rappel de votre identifiant : IDENTIFIANT";
             $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->getEmailTeledeclaration(), $subject, $message_replaced);
             try {
                 $this->getMailer()->send($message);
-                
+
             } catch (Exception $e) {
                 $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
                 return null;
@@ -79,19 +79,19 @@ Rappel de votre identifiant : IDENTIFIANT";
         $responsableNom = $createur->nom;
 
         $mess = $this->enteteMessageVrac();
-        $mess .= "  
+        $mess .= "
 
-Ce contrat a été signé électroniquement par l’ensemble des soussignés et enregistré par InterLoire.
+Ce contrat a été signé électroniquement par l’ensemble des soussignés et enregistré par votre interprofession.
 
 Vous pouvez le visualiser à tout moment en cliquant sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
 Il est également joint à ce mail en format PDF accompagné de la réglementation générale des transactions.
 
 Pour toutes questions, veuillez contacter " . $responsableNom . ", l’initiateur du contrat.
-    
+
 --
 
-L’application de télédéclaration des contrats d’InterLoire
+L’application de télédéclaration des contrats de votre interprofession.
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -135,8 +135,8 @@ Rappel de votre identifiant : IDENTIFIANT";
         $resultEmailArr = array();
 
         $mess = $this->enteteMessageVrac();
-        $mess .= "  
- 
+        $mess .= "
+
 
 ";
         if ($automatique) {
@@ -151,13 +151,13 @@ Rappel de votre identifiant : IDENTIFIANT";
 
         $mess.= "
 
-Il ne sera plus visible ni accessible sur le portail déclaratif d'Interloire.
+Il ne sera plus visible ni accessible sur le portail déclaratif de votre interprofession.
 
 Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable du contrat.
 
 ——
 
-L’application de télédéclaration des contrats d’InterLoire
+L’application de télédéclaration de votre interprofession.
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -182,7 +182,7 @@ Rappel de votre identifiant : IDENTIFIANT";
         $soussignesArr = $this->vrac->getNonCreateursArray();
         $createur = $this->vrac->getCreateurObject();
         $responsableNom = $createur->nom;
-        
+
         $emailsArr = array();
         foreach ($soussignesArr as $identifiant => $soussigne) {
             if (($identifiant == $this->vrac->vendeur_identifiant) && !$this->vrac->isSigneVendeur()) {
@@ -194,14 +194,14 @@ Rappel de votre identifiant : IDENTIFIANT";
         }
 
         $mess = $this->enteteMessageVrac();
-        $mess .= "  
- 
+        $mess .= "
+
 
 ";
                 $mess.= "Ce contrat est en attente de signature sur le portail de télédeclaration depuis maintenant plus de 3 jours.";
-        
+
         $mess.= "
-Il vous reste 2 jours pour lui apporter votre signature. A défaut, il sera automatiquement annulé.           
+Il vous reste 2 jours pour lui apporter votre signature. A défaut, il sera automatiquement annulé.
 
 Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
@@ -209,7 +209,7 @@ Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable d
 
 ——
 
-L’application de télédéclaration des contrats d’InterLoire
+L’application de télédéclaration des contrats de votre interprofession.
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -241,8 +241,8 @@ Rappel de votre identifiant : IDENTIFIANT";
         $mess = 'Contrat ' . showTypeFromLabel($this->vrac->type_transaction, '', $this->vrac) . ' du ' . $this->getDateSaisieContratFormatted();
         $mess .= ($this->vrac->isVise()) ? ' (Numéro d’enregistrement : ' . $this->vrac->numero_archive . ')' : '';
         $mess .= '
-    
-        
+
+
 Vendeur : ' . $this->vrac->vendeur->nom . '
 Acheteur : ' . $this->vrac->acheteur->nom;
         if ($this->vrac->mandataire_exist) {
