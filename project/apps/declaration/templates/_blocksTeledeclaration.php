@@ -5,7 +5,16 @@ $hasBlog = false;
 <div class="<?php if($teledeclaration_drm && $hasBlog): ?> col-xs-4<?php elseif($teledeclaration_drm || $hasBlog): ?>col-xs-6 <?php else: ?>col-xs-12 <?php endif; ?>">
 
     <div class="panel panel-default">
-        <div class="panel-heading"><span class="icon-contrat" style="font-size: 32px;"></span><h4>Espace contrat</h4></div>
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-2 text-right">
+              <span class="icon-contrat" style="font-size: 38px;"></span>
+            </div>
+            <div class="col-xs-10 text-left">
+              <h4>Espace contrat</h4>
+            </div>
+          </div>
+        </div>
         <div class="panel-body" style="height: 250px;">
             <div class="row">
                 <div class="col-xs-12" >
@@ -32,7 +41,16 @@ $hasBlog = false;
 <?php if($teledeclaration_drm): ?>
 <div class="<?php if($hasBlog): ?> col-xs-4<?php else: ?> col-xs-6<?php endif; ?>">
     <div class="panel panel-default">
-        <div class="panel-heading"><span class="icon-drm" style="font-size: 32px;"></span><h4>Espace DRM</h4></div>
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-2 text-right">
+              <span class="icon-drm" style="font-size: 38px;"></span>
+            </div>
+            <div class="col-xs-10 text-left">
+                <h4>Espace DRM</h4>
+            </div>
+          </div>
+          </div>
         <div class="panel-body" style="height: 250px;">
             <div class="row text-center">
                 <div class="col-xs-12" >

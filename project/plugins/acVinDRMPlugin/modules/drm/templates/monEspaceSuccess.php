@@ -13,7 +13,14 @@
   <?php endif; ?>
     <div class="col-xs-12">
         <?php if ($campagne == -1) : ?>
+          <div class="row">
+            <div class="col-xs-1 text-right" style="padding-left:10px;">
+              <span class="icon-drm" style="font-size: 50px;"></span>
+            </div>
+            <div class="col-xs-11">
             <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
+          </div>
+          </div>
         <?php else: ?>
             <h3>Historique des DRM</h3>
         <?php endif; ?>

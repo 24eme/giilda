@@ -7,10 +7,16 @@ use_helper('Float');
 </ol>
 
 <section id="principal" class="vrac">
-
+  <div class="row">
+    <div class="col-xs-1 text-right" style="padding-left:10px;">
+      <span class="icon-contrat" style="font-size: 70px;"></span>
+    </div>
+    <div class="col-xs-11">
     <h2 class="titre_societe titre_societe_teledeclaration">
         Espace contrats de <?php echo $societe->raison_sociale; ?>
     </h2>
+  </div>
+</div>
     <br/>
         <div class="row">
             <?php
