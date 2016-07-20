@@ -85,8 +85,6 @@ Ce contrat a été signé électroniquement par l’ensemble des soussignés et 
 
 Vous pouvez le visualiser à tout moment en cliquant sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
-Il est également joint à ce mail en format PDF accompagné de la réglementation générale des transactions.
-
 Pour toutes questions, veuillez contacter " . $responsableNom . ", l’initiateur du contrat.
 
 --
@@ -111,8 +109,7 @@ Rappel de votre identifiant : IDENTIFIANT";
             $attachment = new Swift_Attachment($pdfContent, $pdfName, 'application/pdf');
             $message->attach($attachment);
 
-            $attachment = new Swift_Attachment(file_get_contents(dirname(__FILE__) . '/../../../../../web/data/reglementation_generale_des_transactions.pdf'), 'reglementation_generale_des_transactions.pdf', 'application/pdf');
-            $message->attach($attachment);
+
 
 
 
