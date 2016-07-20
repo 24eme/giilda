@@ -96,28 +96,28 @@ class factureActions extends sfActions {
     }
 
     public function executeGeneration(sfWebRequest $request) {
-	$this->form = new FactureGenerationForm();
+        $this->form = new FactureGenerationForm();
         $filters_parameters = array();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $filters_parameters = $this->constuctFactureFiltersParameters();
+                $filters_parameters = $this->constructFactureFiltersParameters();
                 $generation = new Generation();
 
-                $generation->arguments->add('regions', implode(',', array_values($filters_parameters['regions'])));
-                if ($values['modele'] != FactureGenerationForm::TYPE_DOCUMENT_TOUS) {
-                    $generation->arguments->add('modele', $filters_parameters['modele']);
-                }
                 $generation->arguments->add('date_facturation', $filters_parameters['date_mouvement']);
                 $generation->arguments->add('date_mouvement', $filters_parameters['date_mouvement']);
                 if ($filters_parameters['message_communication']) {
                     $generation->arguments->add('message_communication', $filters_parameters['message_communication']);
                 }
-                $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
+                if ($filters_parameters['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
+                    $generation->type_document = GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL;
+                }else{
+                    $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
+                }
                 $generation->save();
             }
+	        return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
         }
-        return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
     }
 
     public function executeEtablissement(sfWebRequest $request) {
@@ -191,7 +191,7 @@ class factureActions extends sfActions {
             return sfView::SUCCESS;
         }
 
-        $filters_parameters = $this->constuctFactureFiltersParameters();
+        $filters_parameters = $this->constructFactureFiltersParameters();
         $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
 
@@ -253,7 +253,7 @@ class factureActions extends sfActions {
         }
     }
 
-    private function constuctFactureFiltersParameters() {
+    private function constructFactureFiltersParameters() {
         $values = $this->form->getValues();
         $filters_parameters = array();
         $filters_parameters['date_mouvement'] = date('Y-m-d');
@@ -270,8 +270,8 @@ class factureActions extends sfActions {
         if (isset($values['modele']) && $values['modele']) {
             if ($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS) {
                 $filters_parameters['modele'] = 'MouvementsFacture';
-            } elseif ($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DRM) {
-                $filters_parameters['modele'] = 'DRM';
+            } elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
+                $filters_parameters['modele'] = 'EXPORT';
             }
         }
         return $filters_parameters;
