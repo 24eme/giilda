@@ -433,6 +433,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         !$dateCirculationAble->interpro->getOrAdd($interpro)->exist('dates_circulation') ||
         !count($dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation) ||
         !$dateCirculationAble->interpro->getOrAdd($interpro)->dates_circulation->exist($campagne)) {
+            if($dateCirculationAble instanceOf ConfigurationDeclaration){
+                               return null;
+            }
             $dateCirculationAble = $dateCirculationAble->getParent()->getParent();
         }
         if (!$dateCirculationAble->exist('interpro') ||
