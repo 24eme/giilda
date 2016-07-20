@@ -17,7 +17,7 @@
 		<droits-suspendus>
 <?php foreach ($drm->getProduitsDetails() as $produit): ?>
 			<produit>
-<?php if ($produit->getLibelle()): ?>
+<?php if (false && $produit->getLibelle()): ?>
 				<libelle-fiscal><?php echo $produit->getLibelle('%format_libelle% %la%') ?></libelle-fiscal>
 <?php endif; ?>
 <?php if ($produit->getCodeDouane()): ?>
@@ -113,10 +113,14 @@
       		</centilisation>
 <?php endforeach; ?>
     	</compte-crd>
-<?php endforeach; endif; ?>
-<?php if (count($drm->documents_annexes)): ?>
+<?php endforeach; endif;
+$documents_annexes = array();
+foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE') : 
+	$documents_annexes[$k] = $v;
+endif; endforeach;
+if (count($documents_annexes)): ?>
     	<document-accompagnement>
-<?php foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE') : ?>
+<?php foreach($documents_annexes as $k => $v): if ($k != 'DAE') : ?>
 	        <<?php echo documentAnnexeKey2XMLTag($k); ?>>
         		<debut-periode><?php echo $v->debut ?></debut-periode>
         		<fin-periode><?php echo $v->fin ?></fin-periode>
