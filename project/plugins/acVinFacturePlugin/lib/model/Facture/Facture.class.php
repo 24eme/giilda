@@ -11,13 +11,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     protected $archivage_document = null;
     protected $etablissements = array();
     protected $config_sortie_array = array();
+    private $configuration = null;
 
     const MESSAGE_DEFAULT = "";
 
     public function __construct() {
         parent::__construct();
         $this->initDocuments();
-        $config_detail_list = ConfigurationClient::getCurrent()->declaration->getDetailConfiguration();
+        $this->configuration = ConfigurationClient::getCurrent();
+        $config_detail_list = $this->configuration->declaration->getDetailConfiguration();
         foreach ($config_detail_list->sorties as $keyDetail => $detail) {
             $this->config_sortie_array[$keyDetail] = $detail->getLibelle();
         }
@@ -267,6 +269,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
+                $code_compte = $this->configuration->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->getCodeComptable();
                 $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
 
                 $detail = null;
@@ -277,6 +280,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                     $detail->taux_tva = 0.2;
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
+                    if ($code_compte) {
+	                    $detail->add('code_compte', $code_compte);
+                    }
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
                         if (!$present_detail->origine_type && !is_null($detail) && ($produit_libelle == $detail->libelle)) {
@@ -289,6 +295,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->libelle = $produit_libelle;
                         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                         $detail->taux_tva = 0.2;
+                    }
+                    if ($code_compte) {
+                            $detail->add('code_compte', $code_compte);
                     }
                     $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                 }
