@@ -4,7 +4,7 @@ class GenerationPDF extends GenerationAbstract {
 
     protected $generation = null;
   protected $config = null;
-  
+
   function __construct(Generation $g, $config = null, $options = null) {
     $this->generation = $g;
     $this->config = $config;
@@ -45,7 +45,7 @@ class GenerationPDF extends GenerationAbstract {
     if (!file_exists($fileres) || !filesize($fileres)) {
       throw new sfException("wrong result file $fileres extracting page # $pageid from $pdf");
     }
-    return $fileres;    
+    return $fileres;
   }
 
   function concatenatePDFsForAPageId($pdfs, $pageid) {
@@ -76,17 +76,6 @@ class GenerationPDF extends GenerationAbstract {
     return $files;
   }
   
-
-  protected function publishFile($originpdf, $filename, $extension = '.pdf') {
-    $publishname = "/generation/$filename".$extension;
-    $publishrealdirname =  "web".$publishname;
-    if (!file_exists($originpdf)) 
-      throw new sfException("Origin $originpdf doesn't exist");
-    if (!rename($originpdf, $publishrealdirname))
-      throw new sfException("cannot write $publishrealdirname [rename($originpdf, $publishrealdirname)]");
-    return urlencode($publishname);
-  }
-
   function generatePDFAndConcatenateThem($pdfs) {
     return $this->concatenatePDFs($this->generatePDFFiles($pdfs));
   }
@@ -113,7 +102,7 @@ class GenerationPDF extends GenerationAbstract {
   }
 
   public function generatePDF() {
-    if (!$this->generation) 
+    if (!$this->generation)
       throw new sfException('Object generation should not be null');
 
     $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
@@ -124,7 +113,7 @@ class GenerationPDF extends GenerationAbstract {
     if($this->generation->exist('documents_regenerate') && count($this->generation->documents_regenerate)) {
       $this->preRegeneratePDF();
       if(count($this->generation->documents_regenerate) != count($this->generation->documents)) {
-          
+
           throw new sfException("La regénération ne c'est pas bien passé");
       }
       $this->generation->remove('documents_regenerate');
@@ -150,12 +139,12 @@ class GenerationPDF extends GenerationAbstract {
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
 	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage, $page);
 	if ($origin)
-	  $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page), 
+	  $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page),
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
       }else{
         $origin = $this->generatePDFAndConcatenateThem($pdfspage);
         if ($origin)
-            $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page), 
+            $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page),
 						$this->getDocumentName().' de '.$page.' page(s)');
       }
     }
@@ -179,7 +168,7 @@ class GenerationPDF extends GenerationAbstract {
   }
 
   function preGeneratePDF() { }
-  
+
   function postGeneratePDF() { return false; }
 
   function preRegeneratePDF() { }
