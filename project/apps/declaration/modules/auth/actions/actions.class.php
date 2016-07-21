@@ -28,10 +28,7 @@ class authActions extends sfActions {
         $idSociete = $this->form->process()->getSociete()->getIdentifiant();
         $this->getUser()->signInOrigin($this->form->getValue("login"));
 
-        if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
-          $this->redirect('accueil');
-        }
-        $this->redirect('vrac_societe', array('identifiant' => $idCompte));
+        return $this->redirectWithCredentials($idCompte);
     }
 
     public function executeLogout(sfWebRequest $request) {
@@ -42,11 +39,24 @@ class authActions extends sfActions {
             acCas::processLogout($urlBack);
         }
 
-        return $this->redirect('homepage');
+          return $this->redirect('homepage');
     }
 
     public function executeForbidden(sfWebRequest $request) {
 
+    }
+
+    protected function redirectWithCredentials($idCompte){
+            if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
+            return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+            }
+            if($this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
+                 return $this->redirect('vrac_societe', array('identifiant' => $idCompte));
+            }
+            if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM)){
+                   return $this->redirect('drm_societe', array('identifiant' => $idCompte));
+            }
+           return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
     }
 
 }
