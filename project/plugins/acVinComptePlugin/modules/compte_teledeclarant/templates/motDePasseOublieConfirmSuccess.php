@@ -1,19 +1,26 @@
-<div id="principal" class="clearfix">
-    <h2 class="titre_principal">Mon compte - Mot de passe oublié</h2>
-    
-    <br/>
-    
-        <div id="modification_compte" class="fond" >
-            <div class="presentation clearfix">
-                <br/>
-                <div class="bloc_form bloc_form_condensed" >        
-                    <div class="ligne_form ligne_form_alt">
-                        Un email vient de vous etre envoyé. Veuillez cliquer sur le lien contenu dans cet email afin de redéfinir votre mot de passe.
-                    </div>
-                </div>
+<div id="principal" >
+  <div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="titre_principal">Mon compte - Mot de passe oublié</h4>
             </div>
-            <div class="ligne_btn">
-                    <a href="<?php echo url_for('homepage'); ?>" class=" btn_majeur btn_modifier modifier" alt="Retour" style="cursor: pointer; float: right;">Retour</a>
+      <div class="panel panel-body">
+
+        <div id="modification_compte" class="row" >
+            <div class="col-xs-12">
+
+                    <p>
+                        Un email vient de vous etre envoyé. Veuillez cliquer sur le lien contenu dans cet email afin de redéfinir votre mot de passe.
+                    </p>
+
+            </div>
+            <div class="col-xs-12 text-left">
+                    <a href="<?php echo url_for('homepage'); ?>" class=" btn btn-default" alt="Retour">Retour</a>
                 </div>
         </div>
+      </div>
+</div>
+</div>
+</div>
 </div>
