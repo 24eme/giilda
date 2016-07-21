@@ -288,6 +288,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->commentaire = null;
 
         $this->archivage_document->reset();
+        if ($this->declaratif->exist('statistiques')) {
+                $this->declaratif->remove('statistiques');
+                $this->declaratif->add('statistiques');
+        }
 
         $this->devalide();
     }
@@ -1193,7 +1197,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasReleveNonApurement() {
-      return $this->exist('releve_non_apurement') && count($this->get('releve_non_apurement'));      
+      if(!$this->exist('releve_non_apurement')){
+        return false;
+      }
+      if(!count($this->get('releve_non_apurement'))){
+        return false;
+      }
+      foreach ($this->get('releve_non_apurement') as $nonApurement) {
+        if($nonApurement->get("numero_document") && $nonApurement->get("date_emission") && $nonApurement->get("numero_accise")){
+          return true;
+        }
+      }
+      return false;
     }
 
     public function hasAnnexes() {
@@ -1324,6 +1339,67 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $libelles_detail_ligne->remove($removeNode);
         }
         return $libelles_detail_ligne;
+    }
+
+    public function getExportableStatistiquesEuropeennes() {
+  		$result = array();
+  		if ($this->declaratif->exist('statistiques')) {
+  			foreach ($this->declaratif->statistiques as $key => $val) {
+  				if ($val) {
+  					$result[$key] = $val;
+  				}
+  			}
+  		}
+  		return $result;
+  	}
+
+    /*
+    * Observations
+    */
+    public function addObservationProduit($hash, $observation)
+    {
+    	if ($this->exist($hash)) {
+    		$produit = $this->get($hash);
+    		$produit->observations = $observation;
+    	}
+    }
+    public function getExportableObservations() {
+      return 'observations';
+    }
+
+    public function hasObservations(){
+      foreach ($this->getProduitsDetails() as $hash => $detail) {
+        if($detail->exist('observations')){
+          return true;
+        }
+			}
+        return false;
+    }
+
+    public function hasPaiementDouane(){
+      if(!$this->declaratif){
+
+        return false;
+      }
+      if(!$this->societe->exist('paiement_douane_frequence') && !$this->societe->exist('paiement_douane_moyen')){
+        return false;
+      }
+      if(!$this->societe->get('paiement_douane_frequence') && !$this->societe->get  ('paiement_douane_moyen')){
+        return false;
+      }
+      if($this->societe->get('paiement_douane_frequence') == DRMPaiement::FREQUENCE_ANNUELLE){
+        $flag = true;
+        foreach ($this->droits->douane as $key => $node) {
+          if(!$node->cumul){
+            $flag = false;
+            break;
+          }
+        }
+        if(!$flag){
+          return false;
+        }
+      }
+      return true;
     }
 
 }

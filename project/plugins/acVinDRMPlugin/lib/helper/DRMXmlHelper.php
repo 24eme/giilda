@@ -107,7 +107,7 @@ function crdType2TypeCapsule($t) {
 	return $crdType2TypeCapsuleArray[$t];
 }
 function documentAnnexeKey2XMLTag($d) {
-	$documentAnnexeKey2XMLTagArray = array('DAE' => 'daa-dca', 'DAA/DAC' => 'daa-dca', 'DSA/DSAC' => 'dsa-dsac', 'Empreinte'=>'numero-empreintes');
+	$documentAnnexeKey2XMLTagArray = array('DAE' => 'daa-dca', 'DAA/DAC' => 'daa-dca', 'DAADAC' => 'daa-dca', 'DSA/DSAC' => 'dsa-dsac', 'DSADSAC' => 'dsa-dsac', 'EMPREINTE'=>'numero-empreintes');
 	return $documentAnnexeKey2XMLTagArray[$d];
 }
 
@@ -138,7 +138,7 @@ function centilisation2Douane($c) {
 '0.017500' => 'CL_175',
 '0.020000' => 'CL_200',
 '0.022500' => 'BIB_225',
-'0.030000' => 'BIB_300', 
+'0.030000' => 'BIB_300',
 '0.040000' => 'BIB_400',
 '0.050000' => 'BIB_500',
 '0.080000' => 'BIB_800',

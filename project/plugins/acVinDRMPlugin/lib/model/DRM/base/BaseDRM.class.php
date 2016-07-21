@@ -1,7 +1,7 @@
 <?php
 /**
  * BaseDRM
- * 
+ *
  * Base model for DRM
  *
  * @property string $_id
@@ -107,13 +107,13 @@
  * @method string setObservations()
  * @method string getQuantiteSucre()
  * @method string setQuantiteSucre()
- 
+ *
  */
- 
+
 abstract class BaseDRM extends acCouchdbDocument {
 
     public function getDocumentDefinitionModel() {
         return 'DRM';
     }
-    
+
 }

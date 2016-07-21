@@ -26,8 +26,8 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'caution_absent', "Le type de caution n'a pas été renseigné");
         $this->addControle('vigilance', 'moyen_paiement_absent', "Le moyen de paiement aux douanes n'a pas été renseigné");
         $this->addControle('vigilance', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");
-        
-        $this->addControle('vigilance', 'observations', "Les observations n'ont pas été renseignées");
+
+        $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");
     }
 
     public function controle() {
@@ -35,9 +35,6 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_replis = 0;
         $total_entrees_declassement = 0;
         $total_sorties_declassement = 0;
-        $total_entrees_excedents = 0;
-         $total_entrees_manipulation = 0;
-         $total_sorties_destructionperte = 0;
 
         $total_mouvement_absolu = 0;
 
@@ -54,10 +51,14 @@ class DRMValidation extends DocumentValidation {
             $total_entrees_declassement += $detail->entrees->declassement;
             $total_sorties_declassement += $detail->sorties->declassement;
 
-            $total_entrees_excedents += ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0;
-            $total_entrees_manipulation += ($detail->entrees->exist('manipulation'))? $detail->entrees->manipulation : 0;
-            
-            $total_sorties_destructionperte += ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0;
+            $entrees_excedents = ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0.0;
+            $entrees_manipulation = ($detail->entrees->exist('manipulation'))? $detail->entrees->manipulation : 0.0;
+            $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
+            $total_observations_obligatoires = $entrees_excedents + $entrees_manipulation + $sorties_destructionperte;
+            if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
+            {
+              $this->addPoint('vigilance', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl), manipulation (".sprintf("%.2f",$entrees_manipulation)." hl), sortie manquant (".sprintf("%.2f",$sorties_destructionperte).") pour le produit ".$detail->getLibelle(), $this->generateUrl('drm_annexes', $this->document));
+            }
 
             if ($detail->total < 0) {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
@@ -124,26 +125,20 @@ class DRMValidation extends DocumentValidation {
             if (!$this->document->declarant->no_accises) {
                 $this->addPoint('vigilance', 'no_accises_absent', 'Veuillez enregistrer votre numéro d\'accise', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
-            
+
             $societe = $this->document->getEtablissement()->getSociete();
             if (!$societe->exist('paiement_douane_moyen')) {
                 $this->addPoint('vigilance', 'moyen_paiement_absent', 'Veuillez enregistrer votre moyen de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
-            
+
             if (!$societe->exist('paiement_douane_frequence')) {
                 $this->addPoint('vigilance', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
-            
+
             if (!$this->document->declarant->caution) {
                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
 
-            if (!$this->document->observations && 
-                    (($total_entrees_excedents > 0)
-                    || ($total_entrees_manipulation > 0)
-                    || ($total_sorties_destructionperte > 0))) {
-                $this->addPoint('vigilance', 'observations', "Entrée excédents (".$total_entrees_excedents." hl), manipulation (".$total_entrees_manipulation." hl), sortie manquant (".$total_sorties_destructionperte.")", $this->generateUrl('drm_annexes', $this->document));
-            }
         }
 
         $sortiesDocAnnexes = array();

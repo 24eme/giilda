@@ -70,9 +70,76 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
             </div>
   </div>
           </div>
+          <br/>
+          <div class="table-condensable ">
+          <div class="drm_statistiques_toggle" style="cursor:pointer;">
+              <p class="extendable ouvert"></p>
+            <h2>Statistiques européennes</h2>
+          </div>
+<div style="padding: 0px 10px 10px 10px;" class="drm_statistiques_content_togglable" >
+    <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
+        <thead>
+                    <tr>
+                      <th style=" width: auto;"></th>
+                      <th>Volume</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_jus']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_jus']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_jus']->renderError() ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_mcr']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_mcr']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_mcr']->renderError() ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_vinaigre']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_vinaigre']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_vinaigre']->renderError() ?></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+</div>
             <br/>
-            <br/>
-            <h2>Compléments d'information</h2>
+<?php if($drm->hasObservations()): ?>
+            <div class="table-condensable ">
+            <div class="drm_observations_toggle" style="cursor:pointer;">
+                <p class="extendable ouvert"></p>
+                <h2>Observations<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide5'); ?>"  style="padding: 0 0 0 10px;"></a></h2>
+            </div>
+<div style="padding: 0px 10px 10px 10px;" class="drm_observations_content_togglable" >
+                <table id="table_drm_observations" class="table_recap table_drm_observations">
+                  <thead>
+                              <tr>
+                                <th style=" width: auto;">Produits</th>
+                                <th>Observations</th>
+                              </tr>
+                            </thead>
+                <?php foreach ($annexesForm['observationsProduits'] as $formObservations): ?>
+                  <?php if(isset($formObservations['observations'])): ?>
+                  <tr>
+                    <td style="width: 332px;"><?php echo $formObservations['observations']->renderLabel() ?></td>
+                    <td>
+                          <?php echo $formObservations['observations']->renderError() ?>
+                          <?php echo $formObservations['observations']->render(array("maxlength" => "250", "style" => "width: 95%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset; border-radius: 3px; border: 0px none; padding: 5px;", "rows" => "2")) ?>
+                        </td>
+                    </tr>
+                  <?php endif; ?>
+                  <?php endforeach; ?>
+                  </table>
+                  250 caractères max.
+                </div>
+            </div>
+  <br/>
+<?php endif; ?>
+
+<div class="table-condensable ">
+<div class="drm_informations_toggle" style="cursor:pointer;">
+    <p class="extendable <?php echo ($drm->hasPaiementDouane())? 'ouvert' : '' ?>"></p>
+    <h2>Sucre / Paiement Douane</h2>
+</div>
+            <div <?php echo ($drm->hasPaiementDouane())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_informations_content_togglable" >
             <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
@@ -91,24 +158,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                 </tbody>
             </table>
             <br/>
-            <br/>
-            <table id="table_drm_complement_informations_observation" class="table_recap">
-                <thead >
-                    <tr>
-                        <th><?php echo $annexesForm['observations']->renderLabel(); ?>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide5'); ?>"  style="padding: 0 0 0 10px;"></a></th>
-                    </tr>
-                </thead>
-                <tbody class="drm_non_apurement" id="nonapurement_list">
-                    <tr>
-                        <td class="drm_observation">
-                            <?php echo $annexesForm['observations']->render(); ?>
-                        </td>
-                    </tr>
-                </tbody>
-
-            </table>
-            <br /><br />
-
             <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
@@ -147,7 +196,9 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                 </tbody>
             </table>
             <br/>
-            <br/>
+          </div>
+    </div>
+    <br/>
             <div class = "btn_etape">
                 <a class = "btn_etape_prec" href = "<?php echo url_for('drm_crd', $drm); ?>">
                     <span>Précédent</span>
