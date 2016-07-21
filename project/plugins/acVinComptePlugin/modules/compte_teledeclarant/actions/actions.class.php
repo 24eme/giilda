@@ -165,6 +165,7 @@ class compte_teledeclarantActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $compte = $this->form->save();
+                var_dump($compte); exit;
                 $societe = $compte->getSociete();
                 $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
                 $emailCible = null;
@@ -176,7 +177,7 @@ class compte_teledeclarantActions extends sfActions {
                 }
 
                 try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
+                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $compte, 'lien' => $lien)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
