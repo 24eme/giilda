@@ -5,7 +5,7 @@
 
 <?php
 $libelle = "Merci d'indiquer votre e-mail, votre mot de passe";
-$libelle .= ($form->getTypeCompte() == SocieteClient::SUB_TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
+$libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER)? " et votre numéro de carte professionnelle" : "";
 $libelle .= ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR)?
             " et votre numéro de SIRET" : "";
 $libelle .= " :";
@@ -34,14 +34,14 @@ $libelle .= " :";
                     <?php echo $form['mdp2']->renderLabel() ?>
                     <?php echo $form['mdp2']->render() ?>
                 </div>
-                <?php if ($form->getTypeCompte() == SocieteClient::SUB_TYPE_COURTIER): ?>
+                <?php if ($form->getTypeCompte() == SocieteClient::TYPE_COURTIER): ?>
                     <div class="ligne_form ">
                         <?php echo $form['carte_pro']->renderError() ?>
                         <?php echo $form['carte_pro']->renderLabel() ?>
                         <?php echo $form['carte_pro']->render() ?>
                     </div>
                 <?php endif; ?>
-                <?php if ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR)): ?>
+                <?php if ($form->getTypeCompte() == SocieteClient::TYPE_OPERATEUR): ?>
                     <div class="ligne_form ">
                         <?php echo $form['siret']->renderError() ?>
                         <?php echo $form['siret']->renderLabel() ?>
