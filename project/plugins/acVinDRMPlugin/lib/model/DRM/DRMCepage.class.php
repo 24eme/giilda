@@ -30,6 +30,15 @@ class DRMCepage extends BaseDRMCepage {
         return $details;
     }
 
+    public function getInao() {
+	$inao = $this->_get('inao');
+        if ($inao != $this->getConfig()->getInao()) {
+		$inao = $this->getConfig()->getInao();
+		$this->setInao($inao);
+	}
+	return $inao;
+    }
+	
     public function hasProduitDetailsWithStockNegatif() {
         foreach ($this->getProduitsDetails() as $detail) {
             if ($detail->total < 0) {

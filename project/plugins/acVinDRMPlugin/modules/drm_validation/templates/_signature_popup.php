@@ -5,13 +5,14 @@
             <p>
                 Vous êtes sur le point de valider votre DRM. Une fois validée, vous recevrez votre DRM par mail et vous ne pourrez plus la modifier.<br /><br />
             </p>
-    	    <p>
-    		Avant de la transmettre à la Douane, par courrier postal, ou par mail, la DRM doit être signée manuellement pour être valable.
-    	    </p>
+    	    <p>Si vous le souhaitez, en cliquant sur l'option ci-dessous, vous pouvez transmettre cette DRM directement sur le portail de la douane, qui apparaitra en mode brouille sur le portail pro.douane.gouv.fr. Il vous restera alors à la valider en ligne sur le site web douanier.</p>
+
+	    <p>Si vous décidez de transmettre le document par courrier postal ou par mail, n'oubliez pas que la DRM doit être signée manuellement pour être valable.</p>
+
           <p>
             <div class="ligne_form">
                 <span>
-                    <?php echo $validationForm['transmission_ciel']->renderLabel(); ?>
+                    <?php echo $validationForm['transmission_ciel']->renderLabel(null, array('id' => 'transmissionciellabel')); ?>
                     <?php echo $validationForm['transmission_ciel']->renderError(); ?>
                     <input id="drm_transmission_ciel_visible" type="checkbox"  value="1" checked="checked" />
                 </span>

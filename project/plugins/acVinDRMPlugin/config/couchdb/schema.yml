@@ -569,7 +569,15 @@ DRM:
                   'numero_accise': { }
       observations: { }
       quantite_sucre: { }
-
+      transmission_douane:
+        type: collection
+        required: false
+        definition:
+          fields:
+            'xml': string
+            'success': boolean
+            'horodatage': string
+            'id_declaration': string
 CSV:
   definition:
     fields:

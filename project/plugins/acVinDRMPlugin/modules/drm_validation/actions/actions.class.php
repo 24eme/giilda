@@ -79,9 +79,14 @@ class drm_validationActions extends drmGeneriqueActions {
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
 
-        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-            'periode_version' => $this->drm->getPeriodeAndVersion(),
-            'hide_rectificative' => 1));
+        if ($this->form->getValue('transmission_ciel')) {
+		$this->redirect('drm_transmmission', array('identifiant' => $this->drm->identifiant,
+                    'periode_version' => $this->drm->getPeriodeAndVersion()));
+	}else{
+	        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
+	            'periode_version' => $this->drm->getPeriodeAndVersion(),
+	            'hide_rectificative' => 1));
+	}
     }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {

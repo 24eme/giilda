@@ -115,26 +115,26 @@
     	</compte-crd>
 <?php endforeach; endif;
 $documents_annexes = array();
-foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE') : 
+foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && is_int($v->debut) && is_int($v->fin))  : 
 	$documents_annexes[$k] = $v;
 endif; endforeach;
 if (count($documents_annexes)): ?>
     	<document-accompagnement>
-<?php foreach($documents_annexes as $k => $v): if ($k != 'DAE') : ?>
+<?php foreach($documents_annexes as $k => $v): ?>
 	        <<?php echo documentAnnexeKey2XMLTag($k); ?>>
         		<debut-periode><?php echo $v->debut ?></debut-periode>
         		<fin-periode><?php echo $v->fin ?></fin-periode>
                 </<?php echo documentAnnexeKey2XMLTag($k); ?>>
-<?php endif; endforeach; ?>
+<?php endforeach; ?>
     	</document-accompagnement>
 <?php endif; ?>
-<?php foreach($drm->releve_non_apurement as $k => $releve): ?>
+<?php if ($drm->exist('releve_non_apurement')) foreach($drm->releve_non_apurement as $k => $releve) if ($releve->numero_document && $releve->date_emission && $releve->numero_accise): ?>
     	<releve-non-apurement>
       		<numero-daa-dac-dae><?php echo $releve->numero_document; ?></numero-daa-dac-dae>
       		<date-expedition><?php echo formatDateDouane($releve->date_emission); ?></date-expedition>
       		<numero-accise-destinataire><?php echo $releve->numero_accise; ?></numero-accise-destinataire>
     	</releve-non-apurement>
-<?php endforeach; ?>
+<?php endif; ?>
 <?php if ($drm->declaratif->exist('statistiques') && ($drm->declaratif->statistiques->jus || $drm->declaratif->statistiques->mcr || $drm->declaratif->statistiques->vinaigre)): ?>
     	<statistiques>
 <?php if ($drm->declaratif->statistiques->jus): ?>
