@@ -215,7 +215,7 @@ class Vrac extends BaseVrac {
         if ($etb->isCourtier()) {
             $this->mandataire_exist = true;
             $this->setMandataireIdentifiant($etbId);
-            $this->setMandataireInformations();
+            $this->setMandataireInformations();            
         }
 
         if ($etb->isNegociant()) {

@@ -92,6 +92,9 @@ class VracSoussigneForm extends VracForm {
         }
         if(!$this->isAcheteurResponsable){
           $this->setWidget('acheteur_type', new bsWidgetFormChoice(array('choices' => $type, 'expanded' => true)));
+        }
+        if(!$this->isCourtierResponsable){
+
           $this->setWidget('mandataire_exist', new bsWidgetFormInputCheckbox());
           $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         }
@@ -125,9 +128,11 @@ class VracSoussigneForm extends VracForm {
         ));
         if(!$this->isAcheteurResponsable){
           $this->setValidator('acheteur_type', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($type))));
-          $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
-          $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
         }
+          if(!$this->isCourtierResponsable){
+        $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
+        $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
+      }
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
         $this->setValidator('responsable', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesResponsable()))));
         $this->setValidator('interne', new sfValidatorBoolean(array('required' => false)));
@@ -212,19 +217,22 @@ class VracSoussigneForm extends VracForm {
     }
 
     public function doUpdateObject($values) {
-        if (!isset($values['mandataire_exist']) || !$values['mandataire_exist']) {
-            $values['mandataire_identifiant'] = null;
-            $values['mandatant'] = null;
-        }
+
         if (!isset($values['vendeur_intermediaire']) || !$values['vendeur_intermediaire']) {
             $values['representant_identifiant'] = null;
         }
         if (!$values['representant_identifiant']) {
             $values['representant_identifiant'] = $values['vendeur_identifiant'];
         }
-        if (!isset($values['mandataire_identifiant']) || !$values['mandataire_identifiant']) {
-            $values['mandatant'] = null;
-            $values['mandataire_exist'] = false;
+        if(!$this->isCourtierResponsable){
+          if (!isset($values['mandataire_exist']) || !$values['mandataire_exist']) {
+              $values['mandataire_identifiant'] = null;
+              $values['mandatant'] = null;
+          }
+          if (!isset($values['mandataire_identifiant']) || !$values['mandataire_identifiant']) {
+              $values['mandatant'] = null;
+              $values['mandataire_exist'] = false;
+          }
         }
         if (!isset($values['logement_exist']) || !$values['logement_exist']) {
             $values['logement'] = null;
