@@ -209,7 +209,7 @@ class Vrac extends BaseVrac {
         if (!$etb) {
             throw new sfException("L'etablissement d'id $etbId n'existe pas en base");
         }
-        if (!$etb->isCourtier() && !$etb->isNegociant()) {
+        if (!$etb->isCourtier() && !$etb->isNegociant() && !$etb->isRepresentant()) {
             throw new sfException("La création d'un contrat ne peut pas se faire l'etablissement $etbId n'est ni courtier ni négociant");
         }
         if ($etb->isCourtier()) {
@@ -221,6 +221,11 @@ class Vrac extends BaseVrac {
         if ($etb->isNegociant()) {
             $this->setAcheteurIdentifiant($etbId);
             $this->setAcheteurInformations();
+        }
+
+        if ($etb->isRepresentant()) {
+            $this->setRepresentantIdentifiant($etbId);
+            $this->setRepresentantInformations();
         }
         $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
         $this->setDateCampagne(date('Y-m-d'));

@@ -123,6 +123,7 @@ class vracActions extends sfActions {
         if ($this->isTeledeclarationMode) {
             $this->isAcheteurResponsable = $this->isAcheteurResponsable();
             $this->isCourtierResponsable = $this->isCourtierResponsable();
+            $this->isRepresentantResponsable = $this->isRepresentantResponsable();
             if ($this->etablissement = $request->getParameter("etablissement")) {
                 $this->vrac->initCreateur($this->etablissement);
                 $this->initSocieteAndEtablissementPrincipal();
@@ -137,7 +138,7 @@ class vracActions extends sfActions {
                 return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
             }
         }
-        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable);
+        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable, $this->isRepresentantResponsable);
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = true;
@@ -353,6 +354,7 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         if ($this->isTeledeclarationMode) {
             $this->isAcheteurResponsable = $this->isAcheteurResponsable();
             $this->isCourtierResponsable = $this->isCourtierResponsable();
+            $this->isRepresentantResponsable =  $this->isRepresentantResponsable();
             $this->initSocieteAndEtablissementPrincipal();
 
             $this->compteVendeurActif = (!$this->vrac->getVendeurObject()) || $this->vrac->getVendeurObject()->hasCompteTeledeclarationActivate();
@@ -361,7 +363,7 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
 
         $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
 
-        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable);
+        $this->form = new VracSoussigneForm($this->vrac, $this->isTeledeclarationMode, $this->isAcheteurResponsable, $this->isCourtierResponsable,$this->isRepresentantResponsable);
 
         $this->init_soussigne($request, $this->form);
         $this->nouveau = false;
@@ -823,6 +825,10 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
 
     private function isCourtierResponsable() {
         return $this->getUser()->getCompte()->getSociete()->isCourtier();
+    }
+
+    private function isRepresentantResponsable() {
+        return $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->isRepresentant();
     }
 
     private function initSocieteAndEtablissementPrincipal() {

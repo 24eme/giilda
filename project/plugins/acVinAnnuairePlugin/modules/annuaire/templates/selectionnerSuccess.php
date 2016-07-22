@@ -1,3 +1,4 @@
+
 <section id="principal">
   <ol class="breadcrumb">
       <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a></li>
@@ -24,7 +25,7 @@
 					</li>
 					<li class="list-group-item" >
 					<div class="row">
-						<div class="col-xs-4"><?php if($isCourtierResponsable && (isset($form['type']))): ?>
+						<div class="col-xs-4"><?php if(($isCourtierResponsable || $isRepresentantResponsable) && (isset($form['type']))): ?>
 							<span><?php echo $form['type']->renderError() ?></span>
 								<?php echo $form['type']->render() ?>
 							<?php else: ?>
@@ -52,11 +53,4 @@
 				</div>
 
 		</form>
-    <!-- <?php include_partial('vrac/popup_notices'); ?> -->
 </section>
-
-<?php
-
-// include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
-
-?>

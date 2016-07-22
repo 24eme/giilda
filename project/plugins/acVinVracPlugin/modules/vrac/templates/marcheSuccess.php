@@ -2,7 +2,9 @@
 use_helper('Vrac'); ?>
 <?php $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut != VracClient::STATUS_CONTRAT_SOLDE)); ?>
 
-<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
+<?php
+$etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrincipal : null;
+ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
 <section id="principal" class="vrac">
 
@@ -13,8 +15,6 @@ use_helper('Vrac'); ?>
 <?php echo $form->renderGlobalErrors() ?>
     <div class="row">
         <div class="col-sm-12">
-
-
             <p>
                 <span class="<?php echo typeToPictoCssClass($vrac->type_transaction) ?>" style="font-size: 24px;"><?php echo "&nbsp;Contrat de " . showType($vrac); ?></span>
             </p>

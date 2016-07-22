@@ -78,7 +78,7 @@ use_helper('Float');
         <a class="btn btn-default" href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous')); ?>">
             Voir tout l'historique
         </a>
-        <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
+        <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant() || $etablissementPrincipal->isRepresentant()): ?>
             <a class="btn btn-warning pull-right" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
                 Saisir Un Nouveau contrat
             </a>

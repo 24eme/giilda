@@ -1,6 +1,8 @@
 <?php use_helper('Float'); use_helper('Vrac'); ?>
 
-<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
+<?php
+$etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrincipal : null;
+include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
 <section id="principal" class="vrac">
 

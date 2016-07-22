@@ -15,9 +15,7 @@
                     <a href="<?php echo url_for('annuaire_selectionner', array('type' => 'recoltants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn btn-default">Ajouter un viticulteur</a>
                 </div>
               </div>
-            </div>
-              <br/>
-              <div class="row">
+              <br/><br/><br/>
               <div class="col-xs-12">
               <div class="panel panel-default">
                   <div class="panel-heading">
@@ -43,17 +41,16 @@
                       </ul>
                 </div>
             </div>
-            </div>
           </div>
-            <?php if ($isCourtierResponsable): ?>
+            </div>
+            <?php if ($isCourtierResponsable || $isRepresentantResponsable): ?>
               <div class="row">
                 <div class="col-xs-12">
                   <div class="text-right" >
                       <a href="<?php echo url_for('annuaire_selectionner', array('type' => 'negociants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn btn-default">Ajouter un négociant</a>
                   </div>
                 </div>
-                <br/>
-                <div class="row">
+                <br/><br/><br/>
                 <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -88,8 +85,7 @@
                       <a href="<?php echo url_for('annuaire_commercial_ajouter', array('identifiant' => $etablissement->identifiant)) ?>" class="btn btn-default">Ajouter un commercial</a>
                   </div>
                 </div>
-                <br/>
-                <div class="row">
+                <br/><br/><br/>
                 <div class="col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -122,9 +118,5 @@
     </div>
 
     <a class="btn btn-default" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissement->identifiant)) ?>">Retourner à l'espace contrats</a>
-    <!-- <?php include_partial('vrac/popup_notices'); ?> -->
+  
 </section>
-
-<?php
-// include_partial('vrac/colonne_droite', array('societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal));
-?>

@@ -145,6 +145,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     public function isCourtier() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
+    public function isRepresentant() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_REPRESENTANT);
+    }
+
+
 
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',

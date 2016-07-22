@@ -15,7 +15,10 @@ else :
 endif;
 ?>
 
-<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
+<?php
+$etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrincipal : null;
+include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal));
+?>
 
 <section id="principal" class="vrac">
 
@@ -90,7 +93,7 @@ endif;
 
                                           <?php if($isTeledeclarationMode): ?>
                                               <div class="col-sm-12" id="vendeur_choice">
-                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Séléctionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)), 'data-bloc' => '#vendeur_informations', 'data-hide' => '#vendeur_selection')); ?>
+                                            <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Séléctionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'recoltants')), 'data-bloc' => '#vendeur_informations', 'data-hide' => '#vendeur_selection')); ?>
                                           </div>
                                           <?php else : ?>
                                               <div class="col-sm-12" id="vendeur_choice">
@@ -183,7 +186,7 @@ endif;
                 </div>
                 <?php endif; ?>
         		<?php if(isset($form['acheteur_producteur']) || isset($form['acheteur_negociant'])): ?>
-                <div class="col-xs-6">
+                <div class="col-xs-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><label>Acheteur</label>
@@ -208,9 +211,15 @@ endif;
 	                                <div id="acheteur_producteur_selection" class="col-sm-12 <?php if($form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>">
 	                                    <?php echo $form['acheteur_producteur']->renderError(); ?>
 	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
+                                        <?php if($isTeledeclarationMode): ?>
+                                          <div class="col-sm-12" id="acheteur_producteur_choice">
+                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'negociants')), 'data-bloc' => '#acheteur_informations', 'data-hide' => '#acheteur_selection')); ?>
+                                          </div>
+                                        <?php else: ?>
 	                                        <div class="col-sm-12" id="acheteur_producteur_choice">
 	                                            <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2autocomplete select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection, #bloc_acheteur_type')); ?>
 	                                        </div>
+                                        <?php endif; ?>
 	                                    </div>
 	                                </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_producteur_informations">
@@ -226,9 +235,15 @@ endif;
 	                                <div id="acheteur_negociant_selection" class="col-sm-12 <?php if($form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>">
 	                                    <?php echo $form['acheteur_negociant']->renderError(); ?>
 	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
+                                        <?php if($isTeledeclarationMode): ?>
+	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
+                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'negociants')), 'data-bloc' => '#acheteur_informations', 'data-hide' => '#acheteur_selection')); ?>
+                                          </div>
+                                        <?php else: ?>
 	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
 	                                            <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2autocomplete select-ajax', 'placeholder' => 'Séléctionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection, #bloc_acheteur_type')); ?>
 	                                        </div>
+                                        <?php endif; ?>
 	                                    </div>
 	                                </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_negociant_informations">
@@ -266,7 +281,7 @@ endif;
                             <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                               <?php if($isTeledeclarationMode): ?>
                                 <div class="col-sm-12" id="mandataire_choice">
-                                  <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un mandataire', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)), 'data-bloc' => '#mandataire_informations', 'data-hide' => '#mandataire_selection')); ?>
+                                  <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Séléctionner un mandataire', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'courtier')), 'data-bloc' => '#mandataire_informations', 'data-hide' => '#mandataire_selection')); ?>
                                 </div>
                             <?php else: ?>
                                 <div class="col-sm-12" id="mandataire_choice">
