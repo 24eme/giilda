@@ -68,7 +68,7 @@ class revendicationActions extends sfActions {
                 $file = $this->form->getValue('file');
 
                 $data = file_get_contents($file);
-                $data = mb_convert_encoding($data, 'UTF-8', mb_detect_encoding($file));
+                $data = iconv(mb_detect_encoding($file), 'UTF-8//IGNORE', $data);
                 $this->md5 = $file->getMd5();
                 $path = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
                 file_put_contents($path, $data);

@@ -44,7 +44,7 @@ $etablissement = $drm->getEtablissement();
                 <ul>
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
 
-                        <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?> 
+                        <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?>
                             <?php if ($favoris_entrees->exist($key)): ?>
                                 <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
                                     <?php
@@ -63,7 +63,7 @@ $etablissement = $drm->getEtablissement();
                     </p>
                     <ul>
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
-                            <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?> 
+                            <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?>
                                 <?php if (!$favoris_entrees->exist($key)): ?>
                                     <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
                                         <?php
@@ -84,11 +84,11 @@ $etablissement = $drm->getEtablissement();
                 </p>
                 <ul>
                     <?php foreach ($form['sorties'] as $key => $subform): ?>
-                        <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?> 
+                        <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
                             <?php if ($favoris_sorties->exist($key)): ?>
                                 <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                     <?php if ($key == "vrac"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo (!$detail->getCVOTaux()) ? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo (!$detail->getCVOTaux()) ? 'disabled="disabled"' : '' ?> />
+                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo (($detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) ? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo (( $detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) ? 'disabled="disabled"' : '' ?> />
                                     <?php elseif ($key == "export"): ?>
                                         <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
                                     <?php elseif ($key == "cooperative"): ?>
@@ -108,7 +108,7 @@ $etablissement = $drm->getEtablissement();
                     </p>
                     <ul>
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
-                            <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?> 
+                            <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
                                 <?php if (!$favoris_sorties->exist($key)): ?>
                                     <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                         <?php if ($key == "vrac"): ?>
@@ -120,7 +120,7 @@ $etablissement = $drm->getEtablissement();
                                         <?php else: ?>
                                             <?php echo $form['sorties'][$key]->render(array('data-val-defaut' => $form['sorties'][$key]->getValue(), 'class' => 'num num_float somme_detail bold_on_blur')) ?>
                                         <?php endif; ?>
-                                    </li>    
+                                    </li>
                                 <?php endif; ?>
                             <?php endif; ?>
                         <?php endforeach; ?>

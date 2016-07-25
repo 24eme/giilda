@@ -14,6 +14,13 @@ use_helper('Display');
 \def\INTERLOIRECOORDONNEESFAX{<?php echo "Fax : 02 47 60 55 09"; ?>}
 \def\INTERLOIRECOORDONNEESEMAIL{<?php echo "Email : contact@vinsvaldeloire.fr"; ?>}
 
+\def\VINIGPCOORDONNEESTITRE{<?php echo "C.I.V.D.L"; ?>}
+\def\VINIGPCOORDONNEESADRESSE{<?php echo "37 avenue Jean Joxé"; ?>}
+\def\VINIGPCOORDONNEESCPVILLE{<?php echo "49100 Angers"; ?>}
+\def\VINIGPCOORDONNEESTELEPHONENANTES{<?php echo "~"; ?>}
+\def\VINIGPCOORDONNEESFAX{<?php echo "Tél: 02.41.87.25.81"; ?>}
+\def\VINIGPCOORDONNEESEMAIL{<?php echo "~"; ?>}
+
 \def\CONTRATNUMENREGISTREMENT{<?php echo $vrac->getNumeroArchive(); ?>}
 \def\CONTRATVISA{<?php echo $vrac->getVisa(); ?>}
 \def\CONTRATDATEENTETE{<?php echo getDateEntete($vrac); ?>}
@@ -62,7 +69,7 @@ if ($vrac->mandataire_exist) {
 
 \def\CONTRATDATEMAXENLEVEMENT{<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()), 50); ?>}
 \def\CONTRATFRAISDEGARDE{ <?php echo ($vrac->exist('enlevement_frais_garde') && $vrac->enlevement_frais_garde) ?
-        formatPrixFr($vrac->getFraisDeGarde()) . '~' : '~~~~~\euro/hl';
+        formatPrixFr($vrac->getFraisDeGarde()) . '~\euro/hl' : '~~~~~\euro/hl';
 ?>}
 
 \def\CONTRATLIEUCREATION{<?php echo cut_latex_string($vrac->getResponsableLieu(), 70); ?>}

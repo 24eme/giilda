@@ -37,7 +37,9 @@ var initSignatureDrmPopup = function () {
     })
 
     $('#signature_drm_popup_content a#signature_drm_popup_confirm').click(function () {
+      console.log($('#drm_transmission_ciel_visible').val());
         $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
+        $("form#drm_validation input#drm_transmission_ciel").val($('#drm_transmission_ciel_visible').is(':checked'));
         $("form#drm_validation").submit();
     });
 
@@ -304,6 +306,25 @@ var initAnnexes = function () {
         }
     });
 
+    genericTogglableSection("annexes");
+    genericTogglableSection("apurement");
+    genericTogglableSection("statistiques");
+    genericTogglableSection("observations");
+    genericTogglableSection("informations");
+}
+
+var genericTogglableSection = function(sectionName){
+  var toggleClass = ".drm_"+sectionName+"_toggle";
+  var contentClass = ".drm_"+sectionName+"_content_togglable";
+  $(toggleClass).click(function(){
+      if($(toggleClass).find('.extendable').hasClass('ouvert')){
+        $(this).find('.extendable').removeClass('ouvert');
+        $(contentClass).hide();
+      }else{
+        $(this).find('.extendable').addClass('ouvert');
+        $(contentClass).show();
+    }
+  });
 }
 
 var initBoldSaisie = function () {

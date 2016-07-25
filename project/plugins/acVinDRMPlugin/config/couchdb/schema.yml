@@ -221,6 +221,7 @@ DRM:
                                                                                                             total: { type: float }
                                                                                                             produit_libelle: {  }
                                                                                                             cvo: {type: float}
+                                                                                                            observations: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection
                                                                                                               definition:
@@ -254,7 +255,7 @@ DRM:
                                                                                                                 fields:
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   achatnoncrd: { type: float, required: false } #NOUVEAU
-                                                                                                                  achatcrd: { type: float, required: false } #NOUVEAU                                                                                                                  
+                                                                                                                  achatcrd: { type: float, required: false } #NOUVEAU
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   transferts: { type: float, required: false } #NOUVEAU
                                                                                                                   declassement: { type: float, required: false } #NOUVEAU
@@ -295,7 +296,7 @@ DRM:
                                                                                                                   transfertsinternes: { type: float, required: false } #NOUVEAU
                                                                                                                   vci: { type: float, required: false } #NOUVEAU
                                                                                                                   travailafacon: { type: float, required: false } #NOUVEAU
-                                                                                                                  export: { type: float, required: false } #ANCIEN ET NOUVEAU                                                                                                                  
+                                                                                                                  export: { type: float, required: false } #ANCIEN ET NOUVEAU
                                                                                                                   destructionperte: { type: float, required: false } #NOUVEAU
                                                                                                                   manquant: { type: float, required: false } #NOUVEAU
                                                                                                                   contrathorsinterpro: { type: float, required: false } #NOUVEAU
@@ -390,9 +391,9 @@ DRM:
           fields:
             raison_sociale: { }
             siret: { }
-            email: { } 
+            email: { }
             telephone: { }
-            fax: { } 
+            fax: { }
             adresse: { }
             commune: { }
             code_postal: { }
@@ -416,6 +417,13 @@ DRM:
                 fields:
                   debut: { type: integer }
                   fin: { type: integer }
+            statistiques:
+              type: collection
+              definition:
+                fields:
+                  jus: { type: float }
+                  mcr: { type: float }
+                  vinaigre: { type: float }
             adhesion_emcs_gamma: { type: integer }
             paiement:
               type: collection
@@ -534,34 +542,42 @@ DRM:
               type: collection
               definition:
                 fields:
-                  '*': { }                  
+                  '*': { }
       documents_annexes:
         type: collection
         required: true
-        definition:          
+        definition:
           fields:
             '*':
               type: collection
               definition:
                 fields:
-                  'debut': { }    
-                  'fin': { }                  
+                  'debut': { }
+                  'fin': { }
       releve_non_apurement:
         type: collection
         class: DRMNonApurement
         required: false
-        definition:          
+        definition:
           fields:
             '*':
               type: collection
               definition:
                 fields:
-                  'numero_document': { }    
-                  'date_emission': { }  
-                  'numero_accise': { }  
+                  'numero_document': { }
+                  'date_emission': { }
+                  'numero_accise': { }
       observations: { }
       quantite_sucre: { }
-      
+      transmission_douane:
+        type: collection
+        required: false
+        definition:
+          fields:
+            'xml': string
+            'success': boolean
+            'horodatage': string
+            'id_declaration': string
 CSV:
   definition:
     fields:
@@ -571,7 +587,7 @@ CSV:
       _attachments:
         type: collection
         definition:
-          fields: 
+          fields:
             '*':
               type: collection
               definition:
@@ -586,12 +602,12 @@ CSV:
       statut: {  }
       erreurs:
         type: collection
-        definition:          
+        definition:
           fields:
             '*':
               type: collection
               definition:
                 fields:
-                  num_ligne: { type: integer }    
-                  csv_erreur: { }  
-                  diagnostic: { }  
+                  num_ligne: { type: integer }
+                  csv_erreur: { }
+                  diagnostic: { }
