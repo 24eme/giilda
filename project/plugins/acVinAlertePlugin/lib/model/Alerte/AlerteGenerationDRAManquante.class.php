@@ -18,33 +18,32 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
     public function creations($import = false) {
         echo "campagnes définies\n";
-        $current_date = date('Y-m-d H:m:s');
         $campagne_periode_arr = $this->getPeriodesByCampagnes($import);
-        if (!count($campagne_periode_arr)) {
+        if(!count($campagne_periode_arr)){
             echo "Aucune Alertes DRA Manquantes à ouvrir\n";
             return;
         }
-
+        
         $etablissements = $this->getEtablissementsByTypeDR(EtablissementClient::TYPE_DR_DRA);
         echo "etablissements définies\n";
-
+        
         foreach ($etablissements as $etablissement) {
-
+            
             foreach ($campagne_periode_arr as $campagne => $campagne_periode) {
                 sleep(0.1);
                 $dra = $this->isDraInCampagneArray($etablissement->identifiant, $campagne_periode);
-                if ($dra) {
+                if ($dra) {                   
                     continue;
                 }
                 $alerte = $this->createOrFindByDRM($this->buildDRAManquante($etablissement, $campagne));
-
+                
                 $alerte->type_relance = $this->getTypeRelance();
                 if ($alerte->isNew() || $alerte->isFerme()) {
                     $alerte->open($this->getDate());
-                    echo $current_date . " NOUVELLE ALERTE CREEE " . $alerte->_id . "\n";
+                    echo "NOUVELLE ALERTE CREEE " . $alerte->_id . "\n";
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
-                    echo $current_date . " L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
                     $alerte->save();
                 }
             }
@@ -52,28 +51,27 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
     }
 
     public function updates() {
-        $current_date = date('Y-m-d H:m:s');
         foreach ($this->getAlertesOpen() as $alerteView) {
             sleep(0.1);
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
-            $dra = $this->findOneDRAForFirstDRM($id_document);
-            $etablissement = EtablissementClient::getInstance()->find($alerte->identifiant, acCouchdbClient::HYDRATE_JSON);
+            $dra = $this->findOneDRAForFirstDRM($id_document);          
+            $etablissement = EtablissementClient::getInstance()->find($alerte->identifiant);
             if ($dra || ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
                 // PASSAGE AU STATUT FERME
                 $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
                 $alerte->save();
-                echo $current_date . " L'ALERTE " . $alerte->_id . " passe au statut fermé\n";
+                echo "L'ALERTE " . $alerte->_id . " passe au statut fermé\n";
             } elseif ($alerte->isRelancable()) {
                 // PASSAGE AU STATUT A_RELANCER
                 $relance = Date::supEqual($this->getDate(), $alerte->date_relance);
                 if ($relance) {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER, AlerteClient::MESSAGE_AUTO_RELANCE, $this->getDate());
                     $alerte->save();
-                    echo $current_date . " L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer\n";
                 } else {
-                    echo $current_date . " L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée le " . $alerte->date_relance . ")\n";
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée le " . $alerte->date_relance . ")\n";
                 }
             } elseif ($alerte->isRelancableAR()) {
                 // PASSAGE AU STATUT A_RELANCER_AR
@@ -81,16 +79,17 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
                 if ($relanceAr) {
                     $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
                     $alerte->save();
-                    echo $current_date . " L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
+                    echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                 } else {
-                    echo $current_date . " L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée AR le " . $alerte->date_relance_ar . ")\n";
+                    echo "L'ALERTE " . $alerte->_id . " ne change pas de statut (sera relancée AR le " . $alerte->date_relance_ar . ")\n";
                 }
             } else {
-                echo $current_date . " L'ALERTE " . $alerte->_id . " ne change pas de statut\n";
+                echo "L'ALERTE " . $alerte->_id . " ne change pas de statut\n";
             }
         }
     }
-
+    
+    
     protected function buildDRAManquante($etablissement, $campagne) {
         $periode = ConfigurationClient::getInstance()->getPeriodeDebut($campagne);
         $id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);
@@ -136,13 +135,8 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
         foreach ($periodes_by_campagne as $periodes) {
             foreach ($periodes as $periode) {
                 $idDrm = DRMClient::getInstance()->buildId($identifiant, $periode);
-                echo $idDrm . " traitement dra \n";
-                try {
-                    $drm = DRMClient::getInstance()->find($idDrm, acCouchdbClient::HYDRATE_JSON);
-                } catch (InvalidArgumentException $e) {
-                    print("erreur de find $idDrm\n");
-                    continue;
-                }
+               echo $idDrm." traitement dra \n";
+                $drm = DRMClient::getInstance()->find($idDrm, acCouchdbClient::HYDRATE_JSON);
                 if ($drm) {
                     return true;
                 }
@@ -153,40 +147,27 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
     public function findOneDRAForFirstDRM($drm_id) {
         $result = array();
-        preg_match('/^DRM-([0-9]{8})-([0-9]{4})([0-9]{2})/', $drm_id, $result);
+        preg_match('/^DRM-([0-9]{8})-([0-9]{4})([0-9]{2})/', $drm_id,$result);
         $identifiant = $result[1];
         $annee = $result[2];
         $mois = $result[3];
         for ($i = $mois; $i <= "12"; $i++) {
-            $periode = $annee . sprintf("%02d", $i);
-            $idDRA = DRMClient::getInstance()->buildId($identifiant, $periode);
-            try {
-                $dra = DRMClient::getInstance()->find($idDRA, acCouchdbClient::HYDRATE_JSON);
-            } catch (InvalidArgumentException $e) {
-                print("erreur de find $idDRA\n");
-                continue;
-            }
-
-            if ($dra) {
+            $periode = $annee.sprintf("%02d",$i);
+            $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode));
+            if($dra){
                 return $dra;
             }
         }
         for ($i = "01"; $i <= "07"; $i++) {
-            $periode = ($annee + 1) . sprintf("%02d", $i);
-            $idDRA = DRMClient::getInstance()->buildId($identifiant, $periode);
-            try {
-                $dra = DRMClient::getInstance()->find($idDRA, acCouchdbClient::HYDRATE_JSON);
-            } catch (InvalidArgumentException $e) {
-                print("erreur de find $idDRA\n");
-                continue;
-            }
-            if ($dra) {
+            $periode = ($annee+1).sprintf("%02d",$i);
+            $dra = DRMClient::getInstance()->find(DRMClient::getInstance()->buildId($identifiant, $periode));
+            if($dra){
                 return $dra;
             }
         }
         return false;
     }
-
+    
     public function updatesByDocumentsIds(array $documents_id, $document_type) {
         
     }
