@@ -3,7 +3,7 @@
 <!-- #principal -->
 <section id="principal" class="drm">
     <?php if (!$isTeledeclarationMode): ?>
-        <?php include_partial('drm/header', array('drm' => $drm)); ?> 
+        <?php include_partial('drm/header', array('drm' => $drm)); ?>
         <ul id="recap_infos_header">
             <li>
                 <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?>
@@ -13,20 +13,20 @@
                     <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
                         <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
                     <?php endif; ?>
-                    <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>                   
-            </li>         
+                    <label style="float: right;">Période : <?php echo $drm->periode ?></label></strong>
+            </li>
         </ul>
     <?php else: ?>
         <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small> &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide1'); ?>"></a></h2>
-        <?php if ($drm->isTeledeclare()): ?>  
+        <?php if ($drm->isTeledeclare()): ?>
             <div id="btn_etape_dr" style="text-align: center;">
                 <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-            </div>  
+            </div>
         <?php endif; ?>
     <?php endif; ?>
 
     <div id="drm_validation_coordonnees">
-        <div class="drm_validation_societe">    
+        <div class="drm_validation_societe">
             <?php include_partial('drm_visualisation/societe_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
         </div>
         <div class="drm_validation_etablissement">
@@ -67,16 +67,19 @@
             <tr><th>Commentaire</th></tr>
             <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
         </table>
-    <?php else: ?> 
-        <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>  
-        <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>  
-    <?php endif; ?>   
+    <?php else: ?>
+        <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>
+        <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>
+    <?php endif; ?>
     <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     <br />
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
         <?php if ($isTeledeclarationMode) : ?>
             <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
+            <?php if($compte->hasDroit("teledeclaration_douane")): ?>
+              <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn_majeur btn_vert" ><span>Transmettre la Drm sur CIEL</span></a>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </section>

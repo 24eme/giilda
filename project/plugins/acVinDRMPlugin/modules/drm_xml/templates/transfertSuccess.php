@@ -9,4 +9,8 @@ else: ?>
 	<p>Pour terminer cette prodécure, vous devez vous rendre sur le site des douanes, une fois connecté sur l'espace DRM CIEL, vous pourrez valider votre DRM.<br/><br/></p>
 	<p><a href="http://testpro.douane.gouv.fr/">Cliquez ici pour vous rendre sur proDouane</a>.</p>
 <?php endif; ?>
-</div></div></section>
+</div></div>
+</section>
+<?php
+include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => true));
+?>

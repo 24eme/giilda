@@ -76,17 +76,14 @@ class drm_validationActions extends drmGeneriqueActions {
             $mailManager->setDRM($this->drm);
             $mailManager->sendMailValidation();
         }
-
         DRMClient::getInstance()->generateVersionCascade($this->drm);
-
         if ($this->form->getValue('transmission_ciel')) {
-		$this->redirect('drm_transmmission', array('identifiant' => $this->drm->identifiant,
-                    'periode_version' => $this->drm->getPeriodeAndVersion()));
-	}else{
-	        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-	            'periode_version' => $this->drm->getPeriodeAndVersion(),
-	            'hide_rectificative' => 1));
-	}
+		      $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
+      	}else{
+      	        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
+      	            'periode_version' => $this->drm->getPeriodeAndVersion(),
+      	            'hide_rectificative' => 1));
+      	}
     }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {

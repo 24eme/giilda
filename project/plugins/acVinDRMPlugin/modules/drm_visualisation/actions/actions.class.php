@@ -15,6 +15,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $this->initSocieteAndEtablissementPrincipal();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->no_link = false;
         if ($this->getUser()->hasOnlyCredentialDRM()) {
