@@ -194,7 +194,7 @@ class vracActions extends sfActions {
 
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
-        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal, true, 10);
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal, true);
 
         //var_dump($this->contratsSocietesWithInfos->contrats); exit;
     }

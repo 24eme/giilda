@@ -252,25 +252,25 @@ class VracClient extends acCouchdbClient {
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
-    //    var_dump($bySoussigne); exit;
+        // var_dump($bySoussigne); exit;
 
 
-        $cpt = 0;
-        $results = array();
-        foreach ($bySoussigne as $soussigne) {
-          if($teledeclare){
-            if($soussigne->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $cpt < $limit){
-              $results[] = $soussigne;
-              $cpt++;
-            }
-          }else{
-            if($cpt < $limit){
-            $results[] = $soussigne;
-            $cpt++;
-            }
-          }
-        }
-        return $results;
+        // $cpt = 0;
+        // $results = array();
+        // foreach ($bySoussigne as $soussigne) {
+        //   if($teledeclare){
+        //     if($soussigne->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $cpt < $limit){
+        //       $results[] = $soussigne;
+        //       $cpt++;
+        //     }
+        //   }else{
+        //     if($cpt < $limit){
+        //     $results[] = $soussigne;
+        //     $cpt++;
+        //     }
+        //   }
+        // }
+        return $bySoussigne;
     }
 
 

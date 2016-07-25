@@ -42,9 +42,9 @@ var initSoussignes = function()
 
     $('.select-ajax').on('change', function() {
 
-        console.log();
         var select = $(this);
         var dataBloc = $($(this).attr('data-bloc'));
+
         var dataHide = $($(this).attr('data-hide'));
         if($(this).val() == "AJOUT"){
           window.location.href = $(this).attr('data-annuaire-link');
@@ -56,8 +56,8 @@ var initSoussignes = function()
             select.parent().find('.select2-focusser').focus();
             return;
         }
-
         dataBloc.find('.container-ajax').load($(this).attr('data-url'), {id: $(this).val()}, function() {
+
             dataBloc.removeClass('hidden');
             dataHide.addClass('hidden');
             dataBloc.find('button').focus();
