@@ -24,7 +24,9 @@ class DRMCepage extends BaseDRMCepage {
     public function getProduitsDetails($teledeclarationMode = false) {
         $details = array();
         foreach ($this->getChildrenNode() as $key => $item) {
-            $details[$item->getHash()] = $item;
+	    if ($teledeclarationMode || $this->getConfig()->isCVOActif($this->getDocument()->getDate())) {
+	            $details[$item->getHash()] = $item;
+	    }
         }
 
         return $details;
