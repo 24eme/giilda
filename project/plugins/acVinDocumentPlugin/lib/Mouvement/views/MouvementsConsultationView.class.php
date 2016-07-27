@@ -75,7 +75,7 @@ class MouvementsConsultationView extends acCouchdbView
             if (!$conf) {
                 $conf = ConfigurationClient::getConfigurationByCampagne($mouvement->campagne);
             }
-            if (!$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($mouvement->date_version)) {
+            if (!$isTeledeclarationMode && !$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($mouvement->date_version)) {
                 continue;;
             }
             $mouvement_sort = sprintf('%02d', str_replace('M', '', $mouvement->version)*1);
@@ -130,4 +130,4 @@ class MouvementsConsultationView extends acCouchdbView
 
     }
 
-}  
+}
