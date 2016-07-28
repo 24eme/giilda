@@ -16,7 +16,7 @@ class GenerationExportShell extends GenerationAbstract
         
         $this->generation->save();
 
-        exec(sfConfig::get('app_export_shell'), $generatedFiles);
+        exec('bash '.sfConfig::get('app_export_shell'), $generatedFiles);
 	$nbfiles = 0;
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
