@@ -17,13 +17,10 @@ class GenerationExportShell extends GenerationAbstract
         $this->generation->save();
 
         exec('bash '.sfConfig::get('app_export_shell'), $generatedFiles);
-	$nbfiles = 0;
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
             $this->generation->add('fichiers')->add($this->publishFile($names[0], $this->generation->date_emission.'-'.$names[1], ''), $names[2]);
-            $nbfiles++;
         }
-        $this->generation->add('nb_documents', $nbfiles);
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
         $this->generation->save();
