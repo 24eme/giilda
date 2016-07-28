@@ -37,7 +37,12 @@ class FactureGenerationForm extends BaseForm {
 
     public function getChoices() {
         $choices = array_merge(FactureClient::$type_facture_mouvement);
-        $choices = array_merge($choices, array(self::TYPE_GENERATION_EXPORT => 'Export SAGE'));
+        if (sfConfig::get('app_export_shell')) {
+          $choices = array_merge($choices, array(self::TYPE_GENERATION_EXPORT => 'Export SAGE'));
+	}
+        if (!isset(sfConfig::get('app_configuration_facture')['emetteur_libre'])) {
+		unset($choices[FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS]);
+	}
         return $choices;
     }
 
