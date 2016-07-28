@@ -18,7 +18,7 @@ class Generation extends BaseGeneration {
     if (count($this->fichiers) && $this->statut != GenerationClient::GENERATION_STATUT_ENERREUR) {
       $this->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     } 
-    if (!count($this->fichiers) && $this->statut == GenerationClient::GENERATION_STATUT_GENERE) {
+    if (!$this->nb_documents && $this->statut == GenerationClient::GENERATION_STATUT_GENERE) {
 	$this->nb_documents = count($this->fichiers);
     }
 
