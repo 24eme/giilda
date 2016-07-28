@@ -12,7 +12,7 @@ cat $TMP/societesWithSageData.csv | perl bin/convertExportSociete2SAGE.pl | icon
 
 php symfony export:csv-configuration --application=declaration --env=$SYMFONYENV > $TMP/produits.csv
 php symfony export:facture --application=declaration --env=$SYMFONYENV | perl bin/preconvertExportFactureChapeau.pl $TMP/produits.csv data/export/ivso_comptes2analytiques.csv > $TMP/factures.csv
-cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.txt
+cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl $TMP/produits.csv | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.txt
 
 echo -n > $TMP/$VINSIEXPORT
 echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
@@ -21,7 +21,6 @@ echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
 cat $TMP/societes.txt >> $TMP/$VINSIEXPORT
 cat $TMP/factures.txt >> $TMP/$VINSIEXPORT
 echo "#FIN" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
-
 
 echo -n > $TMP/factures.sage
 echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/factures.sage
@@ -38,18 +37,8 @@ echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/societes.sage
 cat $TMP/societes.txt >> $TMP/societes.sage
 echo "#FIN" | sed 's/$/\r/' >> $TMP/societes.sage
 
+echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
+echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
+echo "$TMP/factures.sage|factures.sage|Export SAGE des factures"
+echo "$TMP/factures.csv|factures.csv|Export CSV des factures"
 
-if test "$SAMBA_IP" && test "$SAMBA_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_SAGESUBDIR"; then
-    cd $TMP
-    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put $VINSIEXPORT"
-    recode UTF8..ISO88591 societesWithSageData.csv
-    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put societesWithSageData.csv societes.csv"
-    recode UTF8..ISO88591 factures.csv
-    smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; put factures.csv"
-    test "$SAMBA_SAGEVERIFY" && smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGESUBDIR ; rm $SAMBA_SAGEFILE"
-    cd -
-    echo -n $(date '+%d/%m/%Y %H:%M')" : " >> $TMP/$SAGE_EMAILFILE
-    echo "$VINSIEXPORT a été mis à disposition avec succès" >> $TMP/$SAGE_EMAILFILE
-else
-    echo $TMP/$VINSIEXPORT
-fi
