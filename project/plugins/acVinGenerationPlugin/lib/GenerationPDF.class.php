@@ -77,16 +77,6 @@ class GenerationPDF extends GenerationAbstract {
   }
   
 
-  private function publishPDFFile($originpdf, $filename) {
-    $publishname = "/generation/$filename.pdf";
-    $publishrealdirname =  "web".$publishname;
-    if (!file_exists($originpdf)) 
-      throw new sfException("Origin $originpdf doesn't exist");
-    if (!rename($originpdf, $publishrealdirname))
-      throw new sfException("cannot write $publishrealdirname [rename($originpdf, $publishrealdirname)]");
-    return urlencode($publishname);
-  }
-
   function generatePDFAndConcatenateThem($pdfs) {
     return $this->concatenatePDFs($this->generatePDFFiles($pdfs));
   }

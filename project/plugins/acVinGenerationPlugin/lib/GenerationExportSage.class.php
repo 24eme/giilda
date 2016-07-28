@@ -8,7 +8,8 @@ class GenerationExportSage extends GenerationAbstract
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
 
-        $sagefile = "generation/".$this->generation->date_emission."_sage.txt";
+        $facturessagefile = "generation/".$this->generation->date_emission."_factures.sage";
+        $clientssagefile = "generation/".$this->generation->date_emission."_client.sage";
         $facturesfile = "generation/".$this->generation->date_emission."_factures.csv";
         $clientsfile = "generation/".$this->generation->date_emission."_clients.csv";
         

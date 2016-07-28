@@ -25,6 +25,11 @@
   - tinc
   - git-core
   - node-less
+  - texlive-fonts-recommended
+  - texlive-latex-extra
+  - pdflatex pdftk
+  - texlive-lang-french
+  - texlive-lang-greek
 
 - name: "user actualys exist"
   user: name=actualys state=present

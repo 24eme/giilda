@@ -3,7 +3,7 @@
 class FactureGenerationForm extends BaseForm {
 
     const TYPE_DOCUMENT_TOUS = "TOUS";
-    const TYPE_GENERATION_SAGE = "SAGE";
+    const TYPE_GENERATION_EXPORT = "EXPORT";
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
@@ -36,9 +36,7 @@ class FactureGenerationForm extends BaseForm {
 
     public function getChoices() {
         $choices = array_merge(FactureClient::$type_facture_mouvement);
-        if ($this->withExport) {
-		$choices = array_merge($choices, array(self::TYPE_GENERATION_SAGE => 'Export SAGE'));
-        }
+        $choices = array_merge($choices, array(self::TYPE_GENERATION_EXPORT => 'Export SAGE'));
         return $choices;
     }
 
