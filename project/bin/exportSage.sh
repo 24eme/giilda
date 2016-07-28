@@ -37,6 +37,8 @@ echo "#DEV EUR" | sed 's/$/\r/' >> $TMP/societes.sage
 cat $TMP/societes.txt >> $TMP/societes.sage
 echo "#FIN" | sed 's/$/\r/' >> $TMP/societes.sage
 
+bash bin/exportPostSage.sh $TMP/factures.csv
+
 echo "$TMP/societes.sage|societes.sage|Export SAGE des sociétés"
 echo "$TMP/societes.sorted.csv|societes.csv|Export CSV des sociétés"
 echo "$TMP/factures.sage|factures.sage|Export SAGE des factures"
