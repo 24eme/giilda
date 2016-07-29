@@ -93,7 +93,7 @@ class VracSoussigneForm extends VracForm {
         if(!$this->isAcheteurResponsable){
           $this->setWidget('acheteur_type', new bsWidgetFormChoice(array('choices' => $type, 'expanded' => true)));
         }
-        if(!$this->isCourtierResponsable){
+        if(!$this->isAcheteurResponsable && !$this->isCourtierResponsable){
 
           $this->setWidget('mandataire_exist', new bsWidgetFormInputCheckbox());
           $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
@@ -129,7 +129,7 @@ class VracSoussigneForm extends VracForm {
         if(!$this->isAcheteurResponsable){
           $this->setValidator('acheteur_type', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($type))));
         }
-          if(!$this->isCourtierResponsable){
+          if(!$this->isAcheteurResponsable && !$this->isCourtierResponsable){
         $this->setValidator('mandataire_identifiant', new ValidatorEtablissement(array('required' => false, 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
       }
