@@ -150,7 +150,8 @@ class VracClient extends acCouchdbClient {
         if ($bordereau) {
             $numero .= sprintf("%04d", $bordereau);
         } else {
-            $numero .= sprintf("%04d", $this->getNextNoContrat($annee.$type));
+
+            $numero .= sprintf("%04d", $this->getNextNoContrat($annee.$type,$teledeclare));
         }
         return $numero;
     }
@@ -165,18 +166,20 @@ class VracClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
-    public function getNextNoContrat($date = null) {
+    public function getNextNoContrat($date = null, $teledeclare = 1) {
         $date = ($date) ? $date : date('Ymd');
-        $contrats = self::getAtDate($date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-        if (count($contrats) > 0) {
-            return substr(str_replace('VRAC-', '', max($contrats)), -5) + 1;
+
+        $contrats = self::getAtDate($date,$teledeclare, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        if (count($contrats) > 0) {        
+            return substr(str_replace('VRAC-', '', max($contrats)), -4) + 1;
         } else {
-            return $date."00001";
+            return "0001";
         }
     }
 
-    public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-' . $date . '00000')->endkey('VRAC-' . $date . '99999')->execute($hydrate);
+    public function getAtDate($date, $teledeclare = 1, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return $this->startkey('VRAC-' . $date .$teledeclare. '0000')->endkey('VRAC-' . $date .$teledeclare. '9999')->execute($hydrate);
     }
 
     public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
