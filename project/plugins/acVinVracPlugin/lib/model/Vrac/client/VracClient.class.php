@@ -140,7 +140,7 @@ class VracClient extends acCouchdbClient {
         return $id;
     }
 
-    public function buildNumeroContrat($annee, $type, $teledeclare = 1, $bordereau = null) {
+    public function buildNumeroContrat($annee, $type, $teledeclare = 0, $bordereau = null) {
         if ($teledeclare && $bordereau) {
             throw new sfException('options de generation d\'identifiant vrac non coherentes');
         }
@@ -166,18 +166,18 @@ class VracClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
-    public function getNextNoContrat($date = null, $teledeclare = 1) {
+    public function getNextNoContrat($date = null, $teledeclare = 0) {
         $date = ($date) ? $date : date('Ymd');
-
         $contrats = self::getAtDate($date,$teledeclare, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-        if (count($contrats) > 0) {        
+
+        if (count($contrats) > 0) {
             return substr(str_replace('VRAC-', '', max($contrats)), -4) + 1;
         } else {
-            return "0001";
+             return 1;
         }
     }
 
-    public function getAtDate($date, $teledeclare = 1, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+    public function getAtDate($date, $teledeclare = 0, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
 
         return $this->startkey('VRAC-' . $date .$teledeclare. '0000')->endkey('VRAC-' . $date .$teledeclare. '9999')->execute($hydrate);
     }
