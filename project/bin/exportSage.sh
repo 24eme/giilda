@@ -12,7 +12,7 @@ cat $TMP/societesWithSageData.csv | perl bin/convertExportSociete2SAGE.pl | icon
 
 php symfony export:csv-configuration --application=declaration --env=$SYMFONYENV > $TMP/produits.csv
 php symfony export:facture --application=declaration --env=$SYMFONYENV | perl bin/preconvertExportFactureChapeau.pl $TMP/produits.csv data/export/ivso_comptes2analytiques.csv > $TMP/factures.csv
-cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl $TMP/produits.csv | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.txt
+cat $TMP/factures.csv | perl bin/convertExportFacture2SAGE.pl | iconv -f UTF8 -t IBM437//TRANSLIT | sed 's/$/\r/' > $TMP/factures.txt
 
 echo -n > $TMP/$VINSIEXPORT
 echo  "#FLG 001" | sed 's/$/\r/' >> $TMP/$VINSIEXPORT
