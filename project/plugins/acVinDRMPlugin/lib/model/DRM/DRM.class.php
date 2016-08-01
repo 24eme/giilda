@@ -296,18 +296,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->devalide();
     }
 
-    public function setDroits() {
-        $this->remove('droits');
-        $this->add('droits');
-        foreach ($this->declaration->certifications as $certification) {
-            foreach ($certification->genres as $genre) {
-                foreach ($genre->appellations as $appellation) {
-                    $appellation->updateDroits($this->droits);
-                }
-            }
-        }
-    }
-
     public function getEtablissement() {
 
         return EtablissementClient::getInstance()->find($this->identifiant);

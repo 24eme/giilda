@@ -20,13 +20,6 @@ class DRMAppellation extends BaseDRMAppellation {
         return $this->getGenre()->getParent()->getParent();
     }
     
-    public function updateDroits($droits) {
-    	  $merge = array();
-    	  foreach ($this->getDroits() as $typedroits => $droit) {
-    		      $droits->add($typedroits)->add($droit->code)->integreVolume($this->sommeLignes(DRMDroits::getDroitSorties($merge)), $this->sommeLignes(DRMDroits::getDroitEntrees()), $droit->taux, $this->getReportByDroit($droit), $droit->libelle);
-    	  }
-    }
-
     public function getReportByDroit($droit) {
     	$drmPrecedente = $this->getDocument()->getPrecedente();
     	if ($drmPrecedente->isNew()) {
