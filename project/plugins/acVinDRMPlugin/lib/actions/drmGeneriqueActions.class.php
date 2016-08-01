@@ -77,7 +77,7 @@ class drmGeneriqueActions extends sfActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->catKey = $request->getParameter('cat_key');
         $this->key = $request->getParameter('key');
-        $this->form = new $formClass($this->detail->get($this->catKey)->get($this->key."_details"), array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode && false));
+        $this->form = new $formClass($this->detail->get($this->catKey)->get($this->key."_details"), array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode));
 
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -90,7 +90,6 @@ class drmGeneriqueActions extends sfActions {
                 if($request->isXmlHttpRequest())
                 {
                     $this->getUser()->setFlash("notice", 'Le détail a été mis à jour avec success.');
-
                     return $this->renderText(json_encode(array("success" => true, "type" => $this->catKey."_".$this->key, "volume" => $this->detail->get($this->catKey)->get($this->key), "document" => array("id" => $this->drm->get('_id'),"revision" => $this->drm->get('_rev')))));
                 }
 
