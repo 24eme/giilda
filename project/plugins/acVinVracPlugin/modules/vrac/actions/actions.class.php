@@ -573,8 +573,8 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
 
     public function executeGetInformations(sfWebRequest $request) {
         $etablissement = EtablissementClient::getInstance()->find($request->getParameter('id'));
-
-        return $this->renderPartial('vrac/soussigne', array('soussigne' => $etablissement));
+        $isTeledeclarationMode = $this->isTeledeclarationVrac();
+        return $this->renderPartial('vrac/soussigne', array('soussigne' => $etablissement,'isTeledeclarationMode' => $isTeledeclarationMode));
     }
 
     public function executeGetModifications(sfWebRequest $request) {

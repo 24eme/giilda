@@ -17,7 +17,7 @@
 <?php if($soussigne->carte_pro): ?>
 <br /><span class="text-muted">N° Carte professionnel : <strong><?php echo $soussigne->carte_pro ?></strong></span>
 <?php endif; ?>
-<?php if(!$soussigne->exist('teledeclaration_email') || !$soussigne->teledeclaration_email): ?>
+<?php if($isTeledeclarationMode && (!$soussigne->exist('teledeclaration_email') || !$soussigne->teledeclaration_email)): ?>
   <br />
   <br />
   <div class="alert alert-warning" role="warning">
