@@ -3,9 +3,9 @@
 class drm_editionActions extends drmGeneriqueActions {
 
     public function executeSaisieMouvements(sfWebRequest $request) {
+
         $this->init();
         $this->initSocieteAndEtablissementPrincipal();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->loadFavoris();
         $this->initDeleteForm();
         $this->formFavoris = new DRMFavorisForm($this->drm);
@@ -108,9 +108,11 @@ class drm_editionActions extends drmGeneriqueActions {
     protected function init() {
         $this->form = null;
         $this->detail = null;
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+
         $this->drm = $this->getRoute()->getDRM();
         $this->config = $this->drm->declaration->getConfig();
-        $this->details = $this->drm->declaration->getProduitsDetailsSorted();
+        $this->details = $this->drm->declaration->getProduitsDetailsSorted($this->isTeledeclarationMode);
         if (!$this->drm->exist('favoris')) {
             $this->drm->buildFavoris();
         }
