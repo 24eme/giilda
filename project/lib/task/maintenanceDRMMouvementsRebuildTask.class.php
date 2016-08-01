@@ -23,6 +23,7 @@ class maintenanceDRMMouvementsRebuildTask extends sfBaseTask {
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('withdouane', null, sfCommandOption::PARAMETER_OPTIONAL, 'update droit douane', false),
                 // add your own options here
         ));
 
@@ -46,23 +47,24 @@ EOF;
         if(!$drmId){
             throw new sfException("L'identifiant d'une drm est necessaire");
         }
-        $this->rebuildMouvements($drmId);
+        $this->rebuildMouvements($drmId, $options['withdouane']);
     }
 
-    protected function rebuildMouvements($drmId) {
+    protected function rebuildMouvements($drmId, $withDouane) {
         $drm = DRMClient::getInstance()->find($drmId);
         $drm->clearMouvements();
         $isTeleclare = $drm->isTeledeclare();
         
         foreach ($drm->getProduits() as $hash => $produit){
             foreach ($produit->getProduitsDetails($isTeleclare) as $detail){
-             $detail->storeDroits();
-             
+                $detail->storeDroits();
             }
-
-            }
+        }
         
         $drm->generateMouvements();
+        if($withDouane) {
+		$drm->generateDroitsDouanes();
+        }
         $drm->save();
         echo $drm->_id."\n";
     }
