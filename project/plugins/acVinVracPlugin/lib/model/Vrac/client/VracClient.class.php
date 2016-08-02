@@ -30,6 +30,7 @@ class VracClient extends acCouchdbClient {
     const VRAC_VIEW_DATE_CAMPAGNE = 25;
     const VRAC_VIEW_DATE_SAISIE = 26;
     const VRAC_VIEW_MILLESIME = 27;
+
     const VRAC_SIMILAIRE_KEY_VENDEURID = 0;
     const VRAC_SIMILAIRE_KEY_ACHETEURID = 1;
     const VRAC_SIMILAIRE_KEY_MANDATAIREID = 3;
@@ -139,7 +140,7 @@ class VracClient extends acCouchdbClient {
         return $id;
     }
 
-    public function buildNumeroContrat($annee, $type, $teledeclare = 1, $bordereau = null) {
+    public function buildNumeroContrat($annee, $type, $teledeclare = 0, $bordereau = null) {
         if ($teledeclare && $bordereau) {
             throw new sfException('options de generation d\'identifiant vrac non coherentes');
         }
@@ -149,7 +150,8 @@ class VracClient extends acCouchdbClient {
         if ($bordereau) {
             $numero .= sprintf("%04d", $bordereau);
         } else {
-            $numero .= sprintf("%04d", $this->getNextNoContrat($annee.$type));
+
+            $numero .= sprintf("%04d", $this->getNextNoContrat($annee.$type,$teledeclare));
         }
         return $numero;
     }
@@ -164,18 +166,20 @@ class VracClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
-    public function getNextNoContrat($date = null) {
+    public function getNextNoContrat($date = null, $teledeclare = 0) {
         $date = ($date) ? $date : date('Ymd');
-        $contrats = self::getAtDate($date, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+        $contrats = self::getAtDate($date,$teledeclare, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
+
         if (count($contrats) > 0) {
             return substr(str_replace('VRAC-', '', max($contrats)), -4) + 1;
         } else {
-            return 1;
+             return 1;
         }
     }
 
-    public function getAtDate($date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('VRAC-' . $date . '00000')->endkey('VRAC-' . $date . '99999')->execute($hydrate);
+    public function getAtDate($date, $teledeclare = 0, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return $this->startkey('VRAC-' . $date .$teledeclare. '0000')->endkey('VRAC-' . $date .$teledeclare. '9999')->execute($hydrate);
     }
 
     public function findByNumContrat($num_contrat, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
@@ -234,95 +238,124 @@ class VracClient extends acCouchdbClient {
                         ->getView('vrac', 'history');
     }
 
-    public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit = self::RESULTAT_LIMIT) {
-
-        if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
-            throw new sfException("wrong campagne format ($campagne)");
-
+    public function retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $teledeclare = null, $limit = self::RESULTAT_LIMIT) {
+        if (!preg_match('/[0-9]*-[0-9]*/', $campagne)){
+          throw new sfException("wrong campagne format ($campagne)");
+        }
+        if(!$societe){
+          return array();
+        }
         $allEtablissements = $societe->getEtablissementsObj();
         $bySoussigne = array();
         foreach ($allEtablissements as $etablissementObj) {
             $etbId = $etablissementObj->etablissement->identifiant;
-            $bySoussigneQuery = $this->startkey(array('SOCIETE', $campagne, $etbId, $statut, array()))
-                            ->endkey(array('SOCIETE', $campagne, $etbId, $statut))->descending(true);
-            if ($limit) {
-                $bySoussigneQuery = $bySoussigneQuery->limit($limit);
-            }
+            $bySoussigneQuery = $this->startkey(array($etbId,$campagne,  array()))
+                            ->endkey(array($etbId,$campagne))->descending(true);
+
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
+        // var_dump($bySoussigne); exit;
+
+
+        // $cpt = 0;
+        // $results = array();
+        // foreach ($bySoussigne as $soussigne) {
+        //   if($teledeclare){
+        //     if($soussigne->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $cpt < $limit){
+        //       $results[] = $soussigne;
+        //       $cpt++;
+        //     }
+        //   }else{
+        //     if($cpt < $limit){
+        //     $results[] = $soussigne;
+        //     $cpt++;
+        //     }
+        //   }
+        // }
         return $bySoussigne;
     }
 
 
-    public function retrieveBySocieteWithInfosLimit($societe, $etbId, $limit = self::RESULTAT_LIMIT) {
+    public function retrieveBySocieteWithInfosLimit($societe, $etbId, $teledeclare_only = false, $limit = self::RESULTAT_LIMIT) {
 
         $result = new stdClass();
-        $result->contrats = array();
+        $result->rows = array();
         $this->buildInfosObj($result);
         $campagnes = array();
 
         $campagnes['current'] = ConfigurationClient::getInstance()->getCurrentCampagne();
         $campagnes['previous'] = ConfigurationClient::getInstance()->getPreviousCampagne($campagnes['current']);
-
         $statuts = self::$statuts_teledeclaration_sorted;
 
         $cpt = 0;
+        $local_result_view = array();
+        $local_result = array();
+
         foreach ($statuts as $statut) {
             foreach ($campagnes as $campagne) {
-                if ($cpt > $limit) {
-                    break;
-                }
-                $local_result = $this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $limit);
-                if ($statut != VracClient::STATUS_CONTRAT_BROUILLON) {
+                $local_result_view = array_merge($this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, $teledeclare_only, $limit), $local_result_view);
+              }
+            }
 
-                    $result->contrats = array_merge($result->contrats, $local_result);
-                    $cpt+= count($local_result);
-                } else {
-                    foreach ($local_result as $brouillon_contrat) {
-                        if ($societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_CREATEURIDENTIFANT], 0, 6)) {
-                            $result->contrats[] = $brouillon_contrat;
-                            $cpt++;
-                        }
+            foreach ($local_result_view as $local_r) {
+              $local_result[$local_r->id] = $local_r;
+              if ($cpt > $limit) {
+                  break;
+              }
+              $cpt++;
+            }
+            foreach ($local_result as $idContrat => $contrat) {
+              if ($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON) {
+                $result->rows[] = $contrat;
+                $result->infos->brouillon++;
+              }
+            }
+
+            foreach ($local_result as $idContrat => $contrat) {
+              if ($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] != VracClient::STATUS_CONTRAT_BROUILLON) {
+                    $result->rows[] = $contrat;
+                    $v = VracClient::getInstance()->find($contrat->id);//, acCouchdbClient::HYDRATE_JSON);
+                    if($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE){
+                      $signature_vendeur =
+                      $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $v->valide->date_signature_vendeur, $v->valide->date_signature_acheteur, $v->valide->date_signature_courtier);
+                      $result->infos->a_signer += (int) $tobeSignedByMe;
+                      $result->infos->en_attente += (int) !$tobeSignedByMe;
                     }
                 }
-            }
-            if ($cpt > $limit) {
-                break;
-            }
-        }
+              }
 
-
-        $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
-        $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON);
-
-        $nb_my_brouillons_current = $this->countBrouillons($societe, $brouillon_contrats_current);
-        $nb_my_brouillons_previous = $this->countBrouillons($societe, $brouillon_contrats_previous);
-        $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
-
-        $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
-        $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE);
-
-        foreach ($en_attente_contrats_current as $contrats_current_obj) {
-            $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
-                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
-            $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR])) ?
-                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
-            $signature_courtier = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER])) ?
-                    $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
-            $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-            $result->infos->a_signer += (int) $tobeSignedByMe;
-            $result->infos->en_attente += (int) !$tobeSignedByMe;
-        }
-
-        foreach ($en_attente_contrats_previous as $contrats_previous_obj) {
-            $signature_vendeur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
-            $signature_acheteur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
-            $signature_courtier = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
-            $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-            $result->infos->a_signer += (int) $tobeSignedByMe;
-            $result->infos->en_attente += (int) !$tobeSignedByMe;
-        }
+        // $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
+        // $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
+        //
+        // $nb_my_brouillons_current = $this->countBrouillons($societe, $brouillon_contrats_current);
+        // $nb_my_brouillons_previous = $this->countBrouillons($societe, $brouillon_contrats_previous);
+        // $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
+        //
+        // $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
+        // $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
+        //
+        // foreach ($en_attente_contrats_current as $contrats_current_obj) {
+        //
+        //     $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
+        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
+        //     $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR])) ?
+        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
+        //     $signature_courtier = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER])) ?
+        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
+        //     $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+        //     $result->infos->a_signer += (int) $tobeSignedByMe;
+        //     $result->infos->en_attente += (int) !$tobeSignedByMe;
+        // }
+        //
+        // foreach ($en_attente_contrats_previous as $contrats_previous_obj) {
+        //     $signature_vendeur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
+        //     $signature_acheteur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
+        //     $signature_courtier = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
+        //     $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
+        //     $result->infos->a_signer += (int) $tobeSignedByMe;
+        //     $result->infos->en_attente += (int) !$tobeSignedByMe;
+        // }
 
         return $result;
     }
@@ -330,7 +363,7 @@ class VracClient extends acCouchdbClient {
     private function countBrouillons($societe, $viewResult) {
         $nb_brouillon = 0;
         foreach ($viewResult as $brouillon_contrat) {
-            if ($societe->identifiant == substr($brouillon_contrat->value[self::VRAC_VIEW_CREATEURIDENTIFANT], 0, 6)) {
+            if ($brouillon_contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $societe->identifiant == substr($brouillon_contrat->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_ACHETEUR_IDENTIFIANT], 0, 6)) {
                 $nb_brouillon++;
             }
         }
@@ -408,8 +441,8 @@ class VracClient extends acCouchdbClient {
         if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
             throw new sfException("wrong campagne format ($campagne)");
         $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-        $bySoussigneTypeQuery = $this->startkey(array('STATUT', $soussigneId, $campagne, $statut, $type))
-                ->endkey(array('STATUT', $soussigneId, $campagne, $statut, $type, array()));
+        $bySoussigneTypeQuery = $this->startkey(array('STATUT', $soussigneId, $campagne, $statut, $type, true))
+                ->endkey(array('STATUT', $soussigneId, $campagne, $statut, $type, true, array()));
 
         if ($limit) {
             $bySoussigneTypeQuery = $bySoussigneTypeQuery->limit($limit);

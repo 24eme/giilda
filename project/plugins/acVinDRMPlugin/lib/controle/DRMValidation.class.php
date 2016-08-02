@@ -169,7 +169,7 @@ class DRMValidation extends DocumentValidation {
                     }
                 }
             }
-            if (count($detail->sorties->vrac_details)) {
+            if ($detail->sorties->exist('vrac_details') && count($detail->sorties->vrac_details)) {
                 foreach ($detail->sorties->vrac_details as $num_vrac => $vrac) {
                     if ($vrac->numero_document) {
                         $sortiesDocAnnexes[$vrac->type_document] = $vrac->numero_document;

@@ -14,19 +14,19 @@ class globalActions extends sfActions {
     }
 
     public function executeHome(sfWebRequest $request) {
-        
+
         if ($this->getUser()->hasCredential('transactions')) {
             return $this->redirect('accueil');
         }
-        
+
         if ($this->getUser()->hasCredential('drm')) {
             return $this->redirect('drm');
         }
-        
+
         if ($this->getUser()->hasObservatoire() && !$this->getUser()->hasTeledeclarationVrac()) {
             $this->redirect(sfConfig::get('app_observatoire_url'));
         }
-        
+
         if (!$this->getUser()->hasCredential('operateur')) {
 
             return $this->redirect('vrac_societe', array("identifiant" => $this->getUser()->getCompte()->identifiant));
@@ -35,14 +35,35 @@ class globalActions extends sfActions {
 
         return $this->redirect('societe');
     }
-    
+
     public function executeAccueil(sfWebRequest $request) {
-        
+      $this->initTeledeclarationDroits();
+      if($this->teledeclaration){
+        return $this->redirect("accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
+      }
     }
-    
+
     public function executeAccueilEtablissement(sfWebRequest $request) {
+        $this->initTeledeclarationDroits();
         $this->etablissement = EtablissementClient::getInstance()->findByIdentifiant($request->getParameter('identifiant'));
         return $this->setTemplate('accueil');
+    }
+
+    private function initTeledeclarationDroits(){
+      $this->teledeclaration = false;
+      $this->teledeclaration_vrac = false;
+      $this->teledeclaration_drm = false;
+      $this->etablissementPrincipal = null;
+      if($this->getUser()->hasCredential('teledeclaration')){
+        $this->teledeclaration = true;
+        $this->etablissementPrincipal = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal();
+      }
+      if($this->getUser()->hasCredential('teledeclaration_vrac')){
+        $this->teledeclaration_vrac = true;
+      }
+      if($this->getUser()->hasCredential('teledeclaration_drm')){
+        $this->teledeclaration_drm = true;
+      }
     }
 
 }

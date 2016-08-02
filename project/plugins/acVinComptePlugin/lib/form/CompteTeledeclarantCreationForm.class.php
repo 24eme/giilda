@@ -4,7 +4,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
 
     private $typeCompte;
 
-    public function __construct($object, $options = array(), $CSRFSecret = null) {        
+    public function __construct($object, $options = array(), $CSRFSecret = null) {
         $this->typeCompte = $object->getSociete()->type_societe;
         parent::__construct($object, $options, $CSRFSecret);
     }
@@ -13,13 +13,13 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
         parent::configure();
         $this->getValidator('mdp1')->setOption('required', true);
         $this->getValidator('mdp2')->setOption('required', true);
-        if ($this->typeCompte == SocieteClient::SUB_TYPE_COURTIER) {
+        if ($this->typeCompte == SocieteClient::TYPE_COURTIER) {
             $this->setWidget('carte_pro', new sfWidgetFormInputText());
             $this->getWidget('carte_pro')->setLabel("Numéro de carte professionnelle :");
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
 
-        if ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR || $this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) {
+        if ($this->typeCompte == SocieteClient::TYPE_OPERATEUR) {
             $this->setWidget('siret', new sfWidgetFormInputText());
             $this->getWidget('siret')->setLabel("Numéro de SIRET :");
             $this->setValidator('siret', new sfValidatorRegex(array('required' => false,
@@ -45,14 +45,14 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $etbPrincipal = $this->getObject()->getSociete()->getEtablissementPrincipal();
-        if (($this->typeCompte == SocieteClient::SUB_TYPE_COURTIER) && ($this->getValue('carte_pro'))) {
+        if (($this->typeCompte == SocieteClient::TYPE_COURTIER) && ($this->getValue('carte_pro'))) {
             $etbPrincipal->carte_pro = $this->getValue('carte_pro');
             $etbPrincipal->save();
         }
-        if ((($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR)) && ($this->getValue('num_accises'))) {
+        if ($this->typeCompte == SocieteClient::TYPE_OPERATEUR && $this->getValue('num_accises')) {
             $etbPrincipal->no_accises = strtoupper($this->getValue('num_accises'));
             $etbPrincipal->save();
-        }        
+        }
     }
 
     public function getTypeCompte() {

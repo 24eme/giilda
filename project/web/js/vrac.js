@@ -14,6 +14,10 @@ $(document).ready(function()
 
 });
 
+var selectAjout = function(term){
+    return $(this).val('AJOUT').change();
+}
+
 var initSoussignes = function()
 {
 	var form = $("#contrat_soussignes");
@@ -22,12 +26,29 @@ var initSoussignes = function()
 	var etablissementPrincipal = form.attr('data-etablissementprincipal');
 	var isCourtierResponsable = parseInt(form.attr('data-iscourtierresponsable'));
 
+  $("select.select2-soussigne-teledeclaration").each(function(){
+    $(this).select2({
+      allowClear: true,
+        });
+      });
+
+        $("select.select2-soussigne-teledeclaration").each(function(){
+          $(this).select2().parent().find('.select2-with-searchbox').find('.select2-results')
+      .append('<li class="select2-results-dept-0 select2-result select2-result-selectable" role="presentation"><div class="select2-result-label" id="select2-result-label-11" role="option"><span class="select2-match"></span>Ajout récoltant</div></li>')
+      .on('click', '.createLink', function() {
+        alert('Add clicked');
+      });
+    });
+
     $('.select-ajax').on('change', function() {
 
         var select = $(this);
         var dataBloc = $($(this).attr('data-bloc'));
-        var dataHide = $($(this).attr('data-hide'));
 
+        var dataHide = $($(this).attr('data-hide'));
+        if($(this).val() == "AJOUT"){
+          window.location.href = $(this).attr('data-annuaire-link');
+        }
         if(!$(this).val()) {
             dataBloc.addClass('hidden');
             dataHide.removeClass('hidden');
@@ -35,8 +56,8 @@ var initSoussignes = function()
             select.parent().find('.select2-focusser').focus();
             return;
         }
-
         dataBloc.find('.container-ajax').load($(this).attr('data-url'), {id: $(this).val()}, function() {
+
             dataBloc.removeClass('hidden');
             dataHide.addClass('hidden');
             dataBloc.find('button').focus();
@@ -61,7 +82,6 @@ var initSoussignes = function()
     		active.addClass('text-info');
     		active.find('input').removeAttr('checked');
     	} else {
-    		console.log('click');
         	$('.responsable').each(function() {
         		$(this).removeClass('text-success');
         		$(this).addClass('text-info');
@@ -106,10 +126,10 @@ var initConditions = function()
 }
 
 
-var ajaxifySoussigne = function(url, params, eltToReplace, famille) 
+var ajaxifySoussigne = function(url, params, eltToReplace, famille)
 {
-    if(typeof(params)=="string") { 
-        $(params + ' select').on("change", function() {         
+    if(typeof(params)=="string") {
+        $(params + ' select').on("change", function() {
             $.get(url, {id : $(this).val(), famille : famille}, function(data) {
                 $(eltToReplace).html(data);
             });
@@ -119,16 +139,16 @@ var ajaxifySoussigne = function(url, params, eltToReplace, famille)
             if(i == "autocomplete") {
                 var autocompleteEltName = params[i];
                 delete params.autocomplete;
-                $(autocompleteEltName + ' select').on("change", function() {   
+                $(autocompleteEltName + ' select').on("change", function() {
                     $.extend(params, {id : $(this).val(), famille : famille});
                     $.get(url, params, function(data) {
                         $(eltToReplace).html(data);
                     });
-                });   
+                });
                break;
             }
         }
-    }               
+    }
 }
 
 var init_ajax_nouveau = function()
@@ -151,7 +171,3 @@ var formatNumber = function (number)
     }
     return x1 + x2;
 }
-
-
-
-

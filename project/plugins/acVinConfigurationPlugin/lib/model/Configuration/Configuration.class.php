@@ -49,7 +49,7 @@ class Configuration extends BaseConfiguration {
             //echo $libelleSlugify."/".$libelleProduitSlugify."\n";
             if($libelleSlugify == $libelleProduitSlugify) {
                 $this->identifyLibelleProduct[$libelle] = $produit;
-                
+
                 return $produit;
             }
         }
@@ -244,6 +244,17 @@ class Configuration extends BaseConfiguration {
 
     public function prepareCache() {
         $this->loadAllData();
+    }
+
+    public function hasDontRevendique(){
+        foreach ($this->declaration->getDetails() as $keyDetail => $valueDetail) {
+            foreach($valueDetail as $keySubDetail => $valueDetail){
+              if(preg_match('/dont_revendique/',$keySubDetail)){
+                return true;
+              }
+            }
+        }
+        return false;
     }
 
 }

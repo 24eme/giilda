@@ -134,7 +134,7 @@ class CompteClient extends acCouchdbClient {
      *
      * @param string $login
      * @param integer $hydrate
-     * @return Compte 
+     * @return Compte
      */
     public function retrieveByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->findByLogin($login, $hydrate);
