@@ -6,9 +6,15 @@
             <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
                 <small class="text-muted">(n° de chai : <?php echo $etablissement->identifiant; ?>)</small>
             </h2>
-            <h2 style="margin-top: 5px; margin-bottom: 5px;"  class="col-xs-2 text-right">
-                <a href="<?php echo url_for('etablissement_modification', $etablissement); ?>" class="btn btn-default" <?php echo ($etablissement->isSuspendu()) ? "disabled='disabled'" : ""; ?> >Modifier</a>
-            </h2>
+            <div class="col-xs-2 text-right">
+                      <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modfier <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                         <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu()) ? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu()) ? 'javascript:void(0)' : url_for('etablissement_modification', $etablissement); ?>">Editer</a></li>
+                         <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu())? 'javascript:void(0)' : url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>">Suspendre</a></li>
+                         <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isActif())? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isActif())? 'javascript:void(0)' : url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>">Activer</a></li>
+                       </ul>
+            </div></div>
         </div>
         <div class="row">
             <div class="col-xs-9">
@@ -21,9 +27,6 @@
                         <span class="label label-danger"><?php echo $etablissement->statut; ?></span>
                     <?php endif; ?>
                 </p>
-            </div>
-            <div class="col-xs-3 text-right">
-                <a href="<?php echo url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>" <?php echo ($etablissement->getSociete()->isSuspendu()) ? 'disabled="disabled"' : '' ?>  class="btn btn-xs <?php echo ($etablissement->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($etablissement->isActif()) ? 'Suspendre' : 'Activer' ?></a>
             </div>
         </div>            
     </div>
