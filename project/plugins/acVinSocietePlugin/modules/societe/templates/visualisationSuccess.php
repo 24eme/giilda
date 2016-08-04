@@ -15,7 +15,7 @@
 <section id="principal" class="societe row">
     <div class="col-xs-12" style="<?php if (isset($etablissement) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
         <div class="list-group">
-            <div class="list-group-item">
+            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
                 <div class="row">
                     <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?>
                         <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>)</small>
@@ -38,11 +38,11 @@
                         <p class="lead" style="margin-bottom: 5px;">
                             <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
                             <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
-                                <span class="label label-danger"><?php echo $societe->statut; ?></span>
+                                <span class="label label-default"><?php echo $societe->statut; ?></span>
                                 <?php endif; ?>
-                            <small><?php if ($societe->date_creation) : ?><span class="label label-default">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
+                            <small><?php if ($societe->date_creation) : ?><span class="label label-info">Crée le <?php echo format_date($societe->date_creation, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?>
 <?php if ($societe->date_modification) : ?>
-                                    <span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
+                                    <span class="label label-info">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
                         </p>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
 
 
                 <?php if ($societe->getMasterCompte()->exist('droits')): ?>
-                <div class="list-group-item">
+                <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
     <?php if ($societe->getMasterCompte()->exist('droits') && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
                         <p>
                             <strong>Login de télédéclaration :</strong> <?php echo $societe->identifiant; ?>
@@ -85,7 +85,7 @@
                 <?php endif; ?></p>
                 </div>
 <?php endif; ?>
-            <div class="list-group-item">
+            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
                 <ul class="list-inline">
                     <li><attr>N° SIRET :</attr> <?php echo $societe->siret; ?></li>
                     <?php if ($societe->code_naf) : ?>
@@ -115,7 +115,6 @@
         <?php foreach ($etablissements as $etablissementId => $etb) : ?>
         <div class="col-xs-12" style="<?php if ((isset($etablissement) && $etablissement->_id != $etablissementId) || isset($interlocuteur)): ?>opacity: 0.6<?php endif; ?>">
     <?php include_partial('etablissement/visualisation', array('etablissement' => $etb->etablissement, 'ordre' => $etb->ordre, 'fromSociete' => true, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
-            <a name="<?php echo $etablissementId ?>"></a>
         </div>
     <?php endforeach; ?>
 
@@ -123,7 +122,6 @@
             <?php if ($compte->isSocieteContact() || $compte->isEtablissementContact()): ?><?php continue; ?><?php endif; ?>
         <div class="col-xs-4" style="<?php if (isset($etablissement) || (isset($interlocuteur) && $interlocuteur->_id != $compte->_id)): ?>opacity: 0.6<?php endif; ?>">
     <?php include_partial('compte/visualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
-            <a name="<?php echo $compte->_id ?>"></a>
         </div>
 <?php endforeach; ?>
 

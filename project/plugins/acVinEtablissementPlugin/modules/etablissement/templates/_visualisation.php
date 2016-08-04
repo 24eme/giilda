@@ -1,7 +1,7 @@
 <?php use_helper('Etablissement'); ?>
 
-<div class="list-group">
-    <div class="list-group-item">
+<div class="list-group" id="<?php echo $etablissement->_id; ?>">
+    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <div class="row">
             <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
                 <small class="text-muted">(n° de chai : <?php echo $etablissement->identifiant; ?>)</small>
@@ -31,32 +31,32 @@
         </div>            
     </div>
     <?php if ($etablissement->isSameAdresseThanSociete()): ?>
-        <div class="list-group-item text-center text-muted disabled">
+        <div class="list-group-item text-center text-muted<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
             <div class="row">
                 <em>Même adresse que la société</em>
             </div>
         </div>
     <?php else : ?>
-        <div class="list-group-item text-center">
+        <div class="list-group-item text-center<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
             <div class="row">
                 <?php include_partial('compte/adresseVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => false)); ?>
             </div>
         </div>
     <?php endif; ?>
     <?php if ($etablissement->isSameContactThanSociete()): ?>
-        <div class="list-group-item text-center text-muted disabled">
+        <div class="list-group-item text-center text-muted<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
             <div class="row">
                 <em>Même contact que la société</em>
             </div>
         </div>
     <?php else : ?>
-        <div class="list-group-item text-center">
+        <div class="list-group-item text-center<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
             <div class="row">
                 <?php include_partial('compte/contactVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item <?php echo ($etablissement->isSameCompteThanSociete()) ? ' text-center text-muted disabled ' : ''; ?>"> 
+    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>"> 
         <?php if ($etablissement->isSameCompteThanSociete()): ?>
             <div class="row">
                 <em>Même tags que la société</em>
@@ -65,7 +65,7 @@
             <?php include_partial('compte/tagsVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
         <?php endif; ?>
     </div>
-    <div class="list-group-item">
+    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <ul class="list-inline">
             <?php if ($etablissement->recette_locale && $etablissement->recette_locale->nom) : ?>
                 <li><attr>Recette locale :</attr> <a href="<?php echo url_for('societe_visualisation', SocieteClient::getInstance()->find($etablissement->recette_locale->id_douane)); ?>">

@@ -1,5 +1,5 @@
-<div class="list-group">
-    <div class="list-group-item">
+<div class="list-group" id="<?php echo $compte->_id; ?>">
+    <div class="list-group-item<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
         <div class="row">
             <div class="col-xs-10">
                 <h3><span class="<?php echo comptePictoCssClass($compte->getRawValue()) ?>"></span> <?php echo ($compte->nom_a_afficher) ? $compte->nom_a_afficher : $compte->nom; ?></h3>
@@ -29,28 +29,28 @@
 
     </div>
     <?php if ($compte->isSameAdresseThanSociete()): ?>
-        <div class="list-group-item list-group-item-xs text-center text-muted disabled">
+        <div class="list-group-item list-group-item-xs text-center text-muted<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
             <em>Même Adresse que la société</em>
         </div>
     <?php else : ?>
-        <div class="list-group-item list-group-item-xs text-center ">
+        <div class="list-group-item list-group-item-xs text-center<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
             <div class="row">
                 <?php include_partial('compte/adresseVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
             </div>
         </div>        
     <?php endif; ?>
     <?php if ($compte->isSameContactThanSociete()): ?>
-        <div class="list-group-item list-group-item-xs text-center text-muted disabled">
+        <div class="list-group-item list-group-item-xs text-center text-muted<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
             <em>Même contact que la société</em>
         </div>
     <?php else : ?>
-        <div class="list-group-item list-group-item-xs text-center ">
+        <div class="list-group-item list-group-item-xs text-center<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
             <div class="row">
                 <?php include_partial('compte/contactVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item list-group-item-xs ">
+    <div class="list-group-item list-group-item-xs<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
         <?php include_partial('compte/tagsVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
     </div>
 
