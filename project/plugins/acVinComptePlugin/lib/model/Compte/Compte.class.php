@@ -31,12 +31,12 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function hasCoordonneeInheritedFromSociete() {
-        
+
         return $this->isSameAdresseThanSociete();
     }
 
     public function isSameContactThanSociete() {
-       
+
        return CompteGenerique::isSameContactComptes($this, $this->getSociete()->getContact());
     }
 
@@ -157,7 +157,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $this->compte_type = CompteClient::getInstance()->createTypeFromOrigines($this->origines);
         $this->interpro = "INTERPRO-declaration";
-        
+
         $this->updateNomAAfficher();
 
         $this->societe_informations->type = $societe->type_societe;
@@ -300,7 +300,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isSuspendu() {
-        
+
         return $this->statut && ($this->statut == CompteClient::STATUT_SUSPENDU);
      }
 
@@ -334,14 +334,21 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $type_societe = $this->getSociete()->getTypeSociete();
         }
 
-        if ($type_societe == SocieteClient::TYPE_OPERATEUR) {
+        if ($type_societe == SocieteClient::TYPE_OPERATEUR || $type_societe == SocieteClient::TYPE_COURTIER) {
             $acces_teledeclaration = true;
             $droits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
+            if ($this->getSociete()->isNegociant() || $type_societe == SocieteClient::TYPE_COURTIER) {
+                $droits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
+            }
         }
-
+        if ($type_societe == SocieteClient::TYPE_OPERATEUR && $this->getSociete()->isViticulteur()){
+            $acces_teledeclaration = true;
+            $droits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+        }
 
         if ($acces_teledeclaration) {
             $droits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
+
         }
     }
 

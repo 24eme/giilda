@@ -6,15 +6,18 @@ class AnnuaireClient extends acCouchdbClient {
     const ANNUAIRE_RECOLTANTS_KEY = 'recoltants';
     const ANNUAIRE_NEGOCIANTS_KEY = 'negociants';
     const ANNUAIRE_COMMERICAUX_KEY = 'commerciaux';
+    const ANNUAIRE_REPRESENTANT_KEY = 'representants';
     const ANNUAIRE_CAVES_COOPERATIVES_KEY = 'caves_cooperatives';
 
     static $annuaire_types = array(
         self::ANNUAIRE_RECOLTANTS_KEY => 'Viticulteur',
-        self::ANNUAIRE_NEGOCIANTS_KEY => 'Négociant'
+        self::ANNUAIRE_NEGOCIANTS_KEY => 'Négociant',
+        self::ANNUAIRE_REPRESENTANT_KEY => 'Représentant'
     );
     static $tiers_qualites = array(
         self::ANNUAIRE_RECOLTANTS_KEY => '',
-        self::ANNUAIRE_NEGOCIANTS_KEY => ''
+        self::ANNUAIRE_NEGOCIANTS_KEY => '',
+        self::ANNUAIRE_REPRESENTANT_KEY => ''
     );
 
     public static function getAnnuaireTypes() {
@@ -74,6 +77,14 @@ class AnnuaireClient extends acCouchdbClient {
             $localEtb->isActif = $isActif;
             $localEtb->name = $item;
             $annuaireWithSuspendu->negociants[$key] = $localEtb;
+        }
+        $annuaireWithSuspendu->representants = array();
+        foreach ($annuaire->representants as $key => $item) {
+            $isActif = (EtablissementClient::getInstance()->find($key, acCouchdbClient::HYDRATE_JSON)->statut == EtablissementClient::STATUT_ACTIF);
+            $localEtb = new stdClass();
+            $localEtb->isActif = $isActif;
+            $localEtb->name = $item;
+            $annuaireWithSuspendu->representants[$key] = $localEtb;
         }
         $annuaireWithSuspendu->commerciaux = $annuaire->commerciaux;
         return $annuaireWithSuspendu;

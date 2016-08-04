@@ -1,36 +1,47 @@
-stocks_debut;initial;Initial récolté;Stock initial récolté;Stock initial récolté;;
-stocks_debut;instance;En instance de revendication;Vin en instance de revendication;Vin en instance de revendication;;
-stocks_debut;dont_revendique;dont revendiqué;Stock revendiqué dbt de mois;Stock revendiqué dbt de mois;;
-entrees;recolte;01. Récolte;Récolte;Récolte;;
-entrees;revendication;02. Revendiqué à l'ODG;Revendication de récolte;Revendication de récolte;;
-entrees;repli;03. Issu d'un repli;Repli;Repli;;
-entrees;declassement;04. Issu d'un déclassement;Déclassement;Déclassement;;
-entrees;transfertsrecolte;05. Transfert de produit;Transfert de recolte;Transfert de recolte;;
-entrees;retourembouteillage;06. Retour conditionnmt;Retour de conditionnement;Retour d'embouteillage;;
-entrees;transfertcomptamatierecession;07. Retour logement ext.;Retour de logement externe;Retour de logement externe;;
-entrees;travailafacon;08. Retour Travail à façon;Retour de travail à façon;Retour de travail à façon, distillation à façon;;
-entrees;retourmarchandisetaxees;09. Retour de vin sous CRD;Retour de marchandises ayant déjà été taxées;Retour de marchandises ayant déjà été taxées;;
-entrees;retourmarchandisenontaxees;10. Retour de vin hors CRD;Retour de marchandises non taxées;Retour de marchandises non taxées;;
-entrees;achatcrd;11. Achat sous CRD;Achat de vin en CRD;Achat de vin en CRD;;
-entrees;achatnoncrd;12. Achat hors CRD;Achat de vin non CRD;Achat de vin non CRD;;
-entrees;regularisation;13. Excédent constaté;Régularisation;Régularisation;;
-sorties;vrac;01. Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné;;
-sorties;vracsanscontratsuspendu;02. DCA hors contrat;Contrats hors interpro;Contrats hors interpro;;
-sorties;apportgroupement;03. Apport à groupement;Apport à un groupement;Apport à un groupement;;
-sorties;export;04. Export;Export;Export;;
-sorties;vracsanscontratacquitte;05. Vente sous DSA;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté);;
-sorties;ventefrancecrd;06. Vente sous CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD;;
-sorties;repli;07. Repli;Repli;Repli;;
-sorties;declassement;08. Déclassement;Déclassement;Déclassement;;
-sorties;transfertsrecolte;09. Transfert de produit;Transfert de récolte;Transfert de récolte;;
-sorties;embouteillage;10. Conditionnement;Conditionnement;Conditionnement;;
-sorties;transfertcomptamatiere;11. Logement externe;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre;;
-sorties;travailafacon;12. Travail à façon;Sortie de travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon;;
-sorties;consommationfamilialedegustation;13. Conso. Familiale;Consomation familiale et dégustation;Consomation familiale et dégustation;;
-sorties;distillationusageindustriel;14. Usages industriel;Distillation et usages industriels;Distillation et usages industriels;;
-sorties;destructionperte;15. Destruction/perte;Destruction et pertes;Destruction et pertes;;
-sorties;manquant;16. Manquant;Manquant;Manquant;;
-sorties;cession;17. Cession d'exploitation;Cession d'activité;Cession d'activité;;
-stocks_fin;final;Final récolté;Final récolté;Stock final récolté;Stock final récolté;
-stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication;;
-stocks_fin;dont_revendique;dont revendiqué;Stock revendiqué en fin de mois;Stock revendiqué en fin de mois;;
+details;stocks_debut;initial;Initial récolté;Stock initial récolté;Stock initial récolté;;
+details;stocks_debut;instance;En instance de revendication;Vin en instance de revendication;Vin en instance de revendication;;
+details;stocks_debut;dont_revendique;dont revendiqué;Stock revendiqué dbt de mois;Stock revendiqué dbt de mois;;
+details;entrees;recolte;01. Récolte;Récolte;Récolte;;
+details;entrees;revendication;02. Revendiqué à l'ODG;Revendication de récolte;Revendication de récolte;;
+details;entrees;repli;03. Issu d'un repli;Repli;Repli;;
+details;entrees;declassement;04. Issu d'un déclassement;Déclassement;Déclassement;;
+details;entrees;transfertsrecolte;05. Transfert de produit;Transfert de recolte;Transfert de recolte;;
+details;entrees;retourembouteillage;06. Retour conditionnmt;Retour de conditionnement;Retour d'embouteillage;;
+details;entrees;transfertcomptamatierecession;07. Retour logement ext.;Retour de logement externe;Retour de logement externe;;
+details;entrees;travailafacon;08. Retour Travail à façon;Retour de travail à façon;Retour de travail à façon, distillation à façon;;
+details;entrees;retourmarchandisetaxees;09. Retour de vin sous CRD;Retour de marchandises ayant déjà été taxées;Retour de marchandises ayant déjà été taxées;;
+details;entrees;retourmarchandisenontaxees;10. Retour de vin hors CRD;Retour de marchandises non taxées;Retour de marchandises non taxées;;
+details;entrees;achatcrd;11. Achat sous CRD;Achat de vin en CRD;Achat de vin en CRD;;
+details;entrees;achatnoncrd;12. Achat hors CRD;Achat de vin non CRD;Achat de vin non CRD;;
+details;entrees;regularisation;13. Excédent constaté;Régularisation;Régularisation;;
+details;sorties;vrac;01. Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné;;
+details;sorties;vracsanscontratsuspendu;02. DCA hors contrat;Contrats hors interpro;Contrats hors interpro;;
+details;sorties;apportgroupement;03. Apport à groupement;Apport à un groupement;Apport à un groupement;;
+details;sorties;export;04. Export;Export;Export;;
+details;sorties;vracsanscontratacquitte;05. Vente sous DSA;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté);;
+details;sorties;ventefrancecrd;06. Vente sous CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD;;
+details;sorties;repli;07. Repli;Repli;Repli;;
+details;sorties;declassement;08. Déclassement;Déclassement;Déclassement;;
+details;sorties;transfertsrecolte;09. Transfert de produit;Transfert de récolte;Transfert de récolte;;
+details;sorties;embouteillage;10. Conditionnement;Conditionnement;Conditionnement;;
+details;sorties;transfertcomptamatiere;11. Logement externe;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre;;
+details;sorties;travailafacon;12. Travail à façon;Sortie de travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon;;
+details;sorties;consommationfamilialedegustation;13. Conso. Familiale;Consomation familiale et dégustation;Consomation familiale et dégustation;;
+details;sorties;distillationusageindustriel;14. Usages industriel;Distillation et usages industriels;Distillation et usages industriels;;
+details;sorties;destructionperte;15. Destruction/perte;Destruction et pertes;Destruction et pertes;;
+details;sorties;manquant;16. Manquant;Manquant;Manquant;;
+details;sorties;cession;17. Cession d'exploitation;Cession d'activité;Cession d'activité;;
+details;stocks_fin;final;Final récolté;Final récolté;Stock final récolté;Stock final récolté;
+details;stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication;;
+details;stocks_fin;dont_revendique;dont revendiqué;Stock revendiqué en fin de mois;Stock revendiqué en fin de mois;;
+detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;Stock début de mois
+detailsACQUITTE;stocks_debut;instance;En instance;En instance de revendication;Stock début En instance de revendication
+detailsACQUITTE;entrees;recolte;Récolte;Entrées récolte;Entrées récolte
+detailsACQUITTE;entrees;reintegration;Réintégration;Quantités réintégrées;Quantités réintégrées
+detailsACQUITTE;sorties;ventefrancecrd;CRD;Sorties sous CRD;Sorties sous CRD
+detailsACQUITTE;sorties;ventefrancedsa;DSA / DSAC;Sorties sous DSA / DSAC;Sorties sous DSA / DSAC
+detailsACQUITTE;sorties;export;Export;Sorties sous document commercial;Sorties sous document commercial
+detailsACQUITTE;sorties;consommationfamilialedegustation;Dégustation;Dégustation à la propriété;Dégustation à la propriété
+detailsACQUITTE;sorties;destructionperte;Pertes et manquants;Pertes et manquants;Pertes et manquants
+detailsACQUITTE;stocks_fin;final;Final;Stock fin de mois;Stock fin de mois
+detailsACQUITTE;stocks_fin;instance;En instance;En instance de revendication;Stock fin En instance de revendication

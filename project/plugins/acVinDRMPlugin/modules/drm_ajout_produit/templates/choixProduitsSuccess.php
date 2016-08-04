@@ -23,9 +23,10 @@
                     <a tabindex="-1" href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <a class="btn btn-default" href="#drm_delete_popup">
-                        <span>Supprimer la DRM</span>
-                    </a> 
+                    <?php if (!$isTeledeclarationMode): ?>
+                        <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn btn-default">Enregistrer en brouillon</a>
+                    <?php endif; ?>
+                    <a class="btn btn-default" data-toggle="modal" data-target="#drm_delete_popup" >Supprimer la DRM</a>
                 </div>
                 <div class="col-xs-4 text-right">
                     <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>

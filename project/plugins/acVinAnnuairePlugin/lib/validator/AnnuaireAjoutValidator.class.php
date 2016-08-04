@@ -1,21 +1,21 @@
 <?php
-class AnnuaireAjoutValidator extends sfValidatorBase 
+class AnnuaireAjoutValidator extends sfValidatorBase
 {
     protected $societeChoice;
-    
+
     public function __construct($societeChoice, $options = array(), $messages = array()) {
         parent::__construct($options, $messages);
-        $this->societeChoice = $societeChoice;        
+        $this->societeChoice = $societeChoice;
     }
 
-    
 
-    public function configure($options = array(), $messages = array()) 
+
+    public function configure($options = array(), $messages = array())
     {
         $this->setMessage('invalid', "Identifiant incorrect pour ce type d'interlocuteur.");
     }
 
-    protected function doClean($values) 
+    protected function doClean($values)
     {
         $tiers = $this->getTiers($values);
         if (!$tiers && $values['tiers']) {
@@ -23,9 +23,13 @@ class AnnuaireAjoutValidator extends sfValidatorBase
         }
         return array_merge($values, array('societe' => $tiers));
     }
-    
+
     protected function getTiers($values)
     {
-    	return AnnuaireClient::getInstance()->findSocieteByTypeAndTiers($values['type'], $values['tiers']);
+      $type = (isset($values['type']))? $values['type'] : null;
+      if(!$type){
+        $type = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;
+      }
+    	return AnnuaireClient::getInstance()->findSocieteByTypeAndTiers($type, $values['tiers']);
     }
 }

@@ -17,3 +17,12 @@
 <?php if($soussigne->carte_pro): ?>
 <br /><span class="text-muted">N° Carte professionnel : <strong><?php echo $soussigne->carte_pro ?></strong></span>
 <?php endif; ?>
+<?php if($isTeledeclarationMode && (!$soussigne->exist('teledeclaration_email') || !$soussigne->teledeclaration_email)): ?>
+  <br />
+  <br />
+  <div class="alert alert-warning" role="warning">
+  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  <span class="sr-only">Error:</span>
+  Ce ressortissant n'a pas encore activé son compte de télédeclarant.
+</div>
+<?php endif; ?>

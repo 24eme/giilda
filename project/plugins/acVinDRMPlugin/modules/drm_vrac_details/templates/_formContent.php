@@ -3,6 +3,7 @@ echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
 $docShow = $detail->hasTypeDoc('vrac');
 ?>
+
 <table id="drm_vrac_details_table" class="table table-striped <?php echo ($docShow) ? 'typedoc_show' : 'typedoc_unshow'; ?>">
     <thead>
         <tr>
@@ -10,10 +11,10 @@ $docShow = $detail->hasTypeDoc('vrac');
             <th class="col-xs-3">Volumes</th>
 
             <th class="col-xs-2 typedoc_show" <?php echo ($docShow) ? '' : 'style="display: none;"' ?> >Type de doc</th>
-            <th class="col-xs-1 typedoc_show" <?php echo ($docShow) ? '' : 'style="display: none;"' ?> >Numéro&nbsp;de&nbsp;document</th> 
+            <th class="col-xs-1 typedoc_show" <?php echo ($docShow) ? '' : 'style="display: none;"' ?> >Numéro&nbsp;de&nbsp;document</th>
 
 
-            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow) ? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;documents</a></th>            
+            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow) ? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;documents</a></th>
 
 
             <th class="col-xs-1"></th>
@@ -36,10 +37,10 @@ $docShow = $detail->hasTypeDoc('vrac');
             <td class="lead text-right col-xs-3">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
-                    <input type="text" class="form-control text-right drm_details_volume_total" readonly="readonly" value="<?php echo $detail->sorties->vrac > 0 ? $detail->sorties->vrac : "0.00" ?>" />
+                    <input type="text" class="form-control text-right drm_details_volume_total" tabindex="-1" readonly="readonly" value="<?php echo $detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00" ?>" />
                     <div class="input-group-addon">hl</div>
                 </div>
-            </td>           
+            </td>
             <td class="col-xs-2 typedoc_show"  <?php echo ($docShow) ? '' : 'style="display: none;"' ?>  ></td>
             <td class="col-xs-1 typedoc_show"  <?php echo ($docShow) ? '' : 'style="display: none;"' ?>  ></td>
 
@@ -60,7 +61,7 @@ $docShow = $detail->hasTypeDoc('vrac');
         console.log(content);
         $('.modal-body').remove($('script#template_vrac'))
         $('.modal-body').append('<script id="template_vrac" class="template_details" type="text/x-jquery-tmpl">'+content+'<//script>');
-            
+
         });
         $("table#drm_vrac_details_table").find(".typedoc_unshow").each(function () {
             $(this).hide();

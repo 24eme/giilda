@@ -11,7 +11,6 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
-
         return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
     }
 
@@ -30,7 +29,6 @@ class DRMDetail extends BaseDRMDetail {
      * @return DRMCepage
      */
     public function getCepage() {
-
         return $this->getParent()->getParent();
     }
 
@@ -104,6 +102,16 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getConfig()->getDocument()->formatLabelsLibelle($this->labels->toArray(), $format, $label_separator);
     }
 
+    public function getTypeDRM() {
+
+        return $this->getParent()->getTypeDRM();
+    }
+
+    public function getTypeDRMLibelle() {
+
+        return $this->getParent()->getTypeDRMLibelle();
+    }
+
     public function canSetStockDebutMois() {
         return !$this->hasPrecedente();
     }
@@ -130,27 +138,23 @@ class DRMDetail extends BaseDRMDetail {
 
     protected function update($params = array()) {
         parent::update($params);
-
         $this->total_debut_mois = $this->stocks_debut->initial;
+        foreach($this->sorties as $key => $item) {
 
-        if ($this->sorties->exist('vrac_details')) {
-            $this->sorties->vrac = 0;
-            foreach ($this->sorties->vrac_details as $vrac_detail) {
-                $this->sorties->vrac+=$vrac_detail->volume;
+            if($item instanceof acCouchdbJson) {
+              continue;
+            }
+            if(!$this->sorties->getConfig()->exist($key)){
+              continue;
+            }
+            if($this->sorties->getConfig()->get($key)->hasDetails()) {
+                $this->sorties->set($key, 0);
+                foreach ($this->sorties->get($key."_details") as $detail) {
+                    $this->sorties->set($key, $this->sorties->get($key) + $detail->volume);
+                }
             }
         }
-        if ($this->sorties->exist('export_details')) {
-            $this->sorties->export = 0;
-            foreach ($this->sorties->export_details as $export_detail) {
-                $this->sorties->export+=$export_detail->volume;
-            }
-        }
-        if ($this->sorties->exist('cooperative_details')) {
-            $this->sorties->cooperative = 0;
-            foreach ($this->sorties->cooperative_details as $cooperative_detail) {
-                $this->sorties->cooperative+=$cooperative_detail->volume;
-            }
-        }
+
         $this->total_entrees = $this->getTotalByKey('entrees', 'recolte');
         $this->total_sorties = $this->getTotalByKey('sorties', 'recolte');
 
@@ -158,7 +162,9 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->total_entrees_revendique = $this->getTotalByKey('entrees', 'revendique');
         $this->total_sorties_revendique = $this->getTotalByKey('sorties', 'revendique');
-        $this->stocks_fin->dont_revendique = $this->stocks_debut->dont_revendique + $this->total_entrees_revendique - $this->total_sorties_revendique;
+        if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
+          $this->stocks_fin->dont_revendique = $this->stocks_debut->dont_revendique + $this->total_entrees_revendique - $this->total_sorties_revendique;
+        }
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
@@ -170,7 +176,9 @@ class DRMDetail extends BaseDRMDetail {
         $this->cvo->volume_taxable = $this->total_facturable;
 
         $this->total = $this->stocks_fin->final;
-        $this->total_revendique = $this->stocks_fin->dont_revendique;
+        if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
+          $this->total_revendique = $this->stocks_fin->dont_revendique;
+        }
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -327,6 +335,8 @@ class DRMDetail extends BaseDRMDetail {
             }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
             $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
+            $mouvement->type_drm = $this->getTypeDRM();
+            $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
             $mouvement->facture = 0;
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
@@ -413,7 +423,7 @@ class DRMDetail extends BaseDRMDetail {
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
             if ($entreeConf->taxable_douane && $entreeDrm && $entreeDrm > 0) {
-                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
+                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
@@ -428,7 +438,7 @@ class DRMDetail extends BaseDRMDetail {
 
 
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
-                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
+                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
     }

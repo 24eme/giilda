@@ -271,7 +271,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
 
         foreach ($this->getEtablissementsObj() as $id => $e) {
-            if ($e->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+            if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
                 return true;
             }
         }
@@ -284,7 +284,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
 
         foreach ($this->getEtablissementsObj() as $id => $e) {
-            if ($e->famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
+            if ($e->etablissement->famille == EtablissementFamilles::FAMILLE_NEGOCIANT) {
                 return true;
             }
         }
@@ -430,6 +430,12 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             return $this->_set('commentaire', $c . "\n" . $s);
         }
         return $this->_set('commentaire', $s);
+    }
+
+    public function hasLegalSignature() {
+        if ($this->exist('legal_signature'))
+            return ($this->add('legal_signature')->add('v1'));
+        return false;
     }
 
 }

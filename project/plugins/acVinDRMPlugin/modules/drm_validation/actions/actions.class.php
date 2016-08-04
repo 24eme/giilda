@@ -33,8 +33,8 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
-                
-        
+
+
         $this->produits = array();
         foreach ($this->drm->getProduits() as $produit) {
             $d = new stdClass();
@@ -54,10 +54,10 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form = new DRMValidationCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-            
+
             return sfView::SUCCESS;
         }
-        
+
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($request->getParameter('brouillon')) {
             $this->form->save();
@@ -71,9 +71,9 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
-             $mailManager = new DRMEmailManager($this->getMailer());
+             /*$mailManager = new DRMEmailManager($this->getMailer());
              $mailManager->setDRM($this->drm);
-             $mailManager->sendMailValidation();
+             $mailManager->sendMailValidation();*/
         }
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);

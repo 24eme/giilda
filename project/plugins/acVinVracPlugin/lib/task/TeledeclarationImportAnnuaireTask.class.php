@@ -43,7 +43,7 @@ EOF;
         $context = sfContext::createInstance($this->configuration);
 
         $soussignesContrat = $this->getSoussignesContrat();
-        
+
         foreach ($soussignesContrat as $etbId) {
             $this->fillSoussignesAnnuaire($etbId);
         }
@@ -117,13 +117,12 @@ EOF;
 
     protected function fillSoussignesAnnuaire($etbId) {
         $societe = SocieteClient::getInstance()->findByIdentifiantSociete(substr($etbId, 0, 6));
-        $contrats = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($societe, $etbId);
 
         $annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($etbId);
+        $contrats = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($societe, $etbId, false);
         echo "Ajout dans annuaire de " . $societe->identifiant . " (" . $societe->type_societe . ")\n ------ \n";
-
-        foreach ($contrats->contrats as $contrat) {
-
+        
+        foreach ($contrats->rows as $contrat) {
             $vendeur_typeKey = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;
             $vendeurId = $contrat->value[VracClient::VRAC_VIEW_VENDEUR_ID];
             $vendeurNom = $contrat->value[VracClient::VRAC_VIEW_VENDEUR_NOM];
@@ -158,7 +157,7 @@ EOF;
             }
         }
         $annuaire->save();
-        echo " ------ \n";
+        echo "  ------ \n";
     }
 
     public function green($string) {

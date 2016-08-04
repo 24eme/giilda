@@ -1,7 +1,7 @@
 Bonjour <?php echo $compte->nom ?>,
 
-votre compte a bien été créé sur l'espace professionnel du Vignoble du Val de Loire.
+votre compte a bien été créé sur l'espace professionnel de votre interprofession.
 
 Cordialement,
 
-L'espace professionnel du Vignoble du Val de Loire.
+L'espace professionnel de votre interprofession.

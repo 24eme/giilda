@@ -1,8 +1,8 @@
-<?php 
+<?php
 use_helper('Date');
 use_helper('Display');
-$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement(); 
-$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement(); 
+$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
+$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
 ?>
 \documentclass[a4paper,8pt]{extarticle}
@@ -133,11 +133,11 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \begin{tabularx}{\textwidth}{c p{97mm} |p{37mm}}
 
 	~ & ~ & ~  \\
-	 \multirow{7}{*}{ \includegraphics[scale=1]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivso.png}} & 	  
-	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &   	 
+	 \multirow{7}{*}{ \includegraphics[scale=1]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivso.png}} &
+	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &
 	 N° Bordereau :  \textbf{\LARGE{\CONTRATNUMENREGISTREMENT}} \\
 	 ~ & ~ & ~  \\
-	 ~ & \multicolumn{1}{c|}{\IVSOCOORDONNEESADRESSE} &  Visa IVSO : \textbf{\LARGE{\CONTRATVISA}}  \\ 
+	 ~ & \multicolumn{1}{c|}{\IVSOCOORDONNEESADRESSE} &  Visa IVSO : \textbf{\LARGE{\CONTRATVISA}}  \\
 	 ~ &\multicolumn{1}{c|}{\IVSOCOORDONNEESCPVILLE}  & ~ \\
 	 ~ & \multicolumn{1}{c|}{\small{\IVSOCOORDONNEESFAX}}  &  ~ \\
 	 ~ & \multicolumn{1}{c|}{\small{\IVSOCOORDONNEESEMAIL}}  & Le : \textbf{\CONTRATDATEENTETE}  \\
@@ -147,29 +147,29 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \end{tabularx}
 
 \vspace{0.4cm}
-  \begin{center}    
+  \begin{center}
    	\begin{huge}
    		\CONTRAT_TITRE
-	\end{huge}      
+	\end{huge}
 	\\ ~ \\
    	\begin{large}
    		\CONTRATSOUSTITRE
-	\end{large}  
+	\end{large}
     \end{center}
-    
-     Entre les soussignés,     
+
+     Entre les soussignés,
 \begin{multicols}{2}
 
 
 
 \begin{minipage}[t]{0.485\textwidth}
 \begin{tabularx}{\textwidth}{|Xr|}
-	\hline 
+	\hline
          ~ & ~ \\
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
          ~ & ~ \\
-         C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
-	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\ 
+         C.V.I. & \textbf{\CONTRATACHETEURCVI} \\
+	     SIRET & \textbf{\CONTRATACHETEURSIRET} \\
              N° d'ACCISE & \textbf{\CONTRATACHETEURACCISES} \\
 	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
          Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
@@ -184,12 +184,12 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 
 \begin{minipage}[t]{0.485\textwidth}
 \begin{tabularx}{\textwidth}{|Xr|}
-	\hline 
+	\hline
          ~ & ~ \\
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
          ~ & ~ \\
-	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
-	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\ 
+	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\
+	 SIRET & \textbf{\CONTRATVENDEURSIRET} \\
          N° d'ACCISE & \textbf{\CONTRATVENDEURACCISES} \\
 	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
         Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
@@ -198,11 +198,11 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 	 <?php if ($vrac->representant_identifiant): ?>
 	 \multicolumn{2}{|r|}{Représenté par <?php echo $vrac->representant->raison_sociale ?>} \\
 	 <?php endif; ?>
-	 
-	\hline	
-\end{tabularx} 
+
+	\hline
+\end{tabularx}
 \end{minipage}
-\end{multicols}  
+\end{multicols}
 
 <?php if ($vrac->mandataire_identifiant): ?>
 Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins\CONTRATCOURTIERCARTEPRO \\
@@ -246,7 +246,7 @@ A été conclu le marché suivant: \\
 Ce vin est logé dans la commune de : \textbf{\CONTRATLIEUPRODUIT}
 \\ ~ \\
 \textbf{Clause de réserve de proriété:}~~~~\textbf{OUI}~ <?php if ($vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>
-\\ 
+\\
 \begin{multicols}{2}
 
 \begin{minipage}[t]{0.485\textwidth}
@@ -290,11 +290,11 @@ Article 15 : Les transactions liées à des achats de vins sont soumises à des 
 
 \textbf{OBSERVATIONS:} \\
 \fbox{
-\parbox[c][4cm]{\textwidth}{ ~ \\ \CONTRATOBSERVATIONS \\ }
+\parbox[c][3cm]{\textwidth}{ ~ \\ \CONTRATOBSERVATIONS \\ }
 }
 
- ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\ ~ \\  
- 
+ ~ \\ ~ \\
+
 \begin{tabularx}{\textwidth}{<?php if ($vrac->mandataire_identifiant): ?>|X<?php endif; ?>|X|X|}
 \hline
 <?php if ($vrac->mandataire_identifiant): ?>\cellcolor{gray!25}\textbf{Le courtier} & <?php endif; ?>\cellcolor{gray!25}\textbf{Le vendeur} & \cellcolor{gray!25}\textbf{L'acheteur} \\

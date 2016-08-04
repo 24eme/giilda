@@ -18,6 +18,13 @@ Annuaire:
         definition:
           fields:
             '*': { }
+      representants:
+        type: collection
+        class: AnnuaireRepresentant
+        inheritance: _AnnuaireTiers
+        definition:
+          fields:
+            '*': { }
       caves_cooperatives:
         type: collection
         class: AnnuaireCaveCooperative

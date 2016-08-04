@@ -1,6 +1,8 @@
 <?php use_helper('Float'); use_helper('Vrac'); ?>
 
-<?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac)) ?>
+<?php
+$etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrincipal : null;
+include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
 <section id="principal" class="vrac">
 
@@ -82,7 +84,7 @@
 		            <?php endif; ?>
                 </div>
            </div>
-           
+
         	<div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><label>Retiraison</label></h3>
@@ -187,7 +189,7 @@
 								</div>
 							</div>
 						<?php endif; ?>
-					
+
 		            <?php if(isset($form['autorisation_nom_vin'])): ?>
 						<div class="form-group">
 							<?php echo $form['autorisation_nom_vin']->renderError(); ?>
@@ -199,7 +201,7 @@
 							</div>
 						</div>
 					<?php endif; ?>
-		            
+
 		            <?php if(isset($form['autorisation_nom_producteur'])): ?>
 						<div class="form-group">
 							<?php echo $form['autorisation_nom_producteur']->renderError(); ?>
@@ -214,7 +216,7 @@
 				</div>
                 </div>
             </div>
-			
+
         	<?php if(isset($form['pluriannuel'])): ?>
             <?php echo $form['pluriannuel']->renderError(); ?>
             <div class="panel panel-default">
@@ -274,7 +276,7 @@
                 </div>
             </div>
             <?php endif; ?>
-            
+
         </div>
     </div>
 
@@ -285,10 +287,10 @@
         <div class="col-xs-4 text-center">
             <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
                 <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
-              <?php endif; ?> 
+              <?php endif; ?>
            <?php if (!$isTeledeclarationMode) : ?>
                 <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</button>
-            <?php endif; ?>  
+            <?php endif; ?>
         </div>
         <div class="col-xs-4 col-md-pull-8 text-left">
             <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_marche',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
@@ -296,5 +298,3 @@
     </div>
 </form>
 </section>
-
-

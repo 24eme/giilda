@@ -25,7 +25,7 @@ class DRMDroits extends BaseDRMDroits {
                 $droitDouane = $this->getOrAdd(self::$correspondanceGenreKey[$keyGenre]);
                 $droitDouane->volume_reintegre = 0;
                 $droitDouane->volume_taxe = 0;
-                $droitDouane->taux = $droitsDouaneConf->taux;
+                $droitDouane->taux = $droitsDouaneConf->taux * 1;
                 $droitDouane->code = $droitsDouaneConf->code;
                 $droitDouane->libelle = self::$correspondanceGenreLibelle[$keyGenre];
                 $droitDouane->updateTotal();
@@ -46,7 +46,7 @@ class DRMDroits extends BaseDRMDroits {
         } else {
             $genreDouaneNode->volume_taxe += $vol;
         }
-        $genreDouaneNode->taux = $droitsConfig->taux;
+        $genreDouaneNode->taux = $droitsConfig->taux * 1.0;
         $genreDouaneNode->code = $droitsConfig->code;
         $genreDouaneNode->libelle = self::$correspondanceGenreLibelle[$genreKey];
         $genreDouaneNode->updateTotal();

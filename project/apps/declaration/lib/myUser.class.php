@@ -10,9 +10,10 @@ class myUser extends sfBasicSecurityUser {
     const CREDENTIAL_ADMIN = "admin";
 
     public function signInOrigin($login_or_compte) {
-        $compte = $this->registerCompteByNamespace($login_or_compte, self::NAMESPACE_COMPTE_ORIGIN);
-        $this->setAuthenticated(true);
 
+        $compte = $this->registerCompteByNamespace($login_or_compte, self::NAMESPACE_COMPTE_ORIGIN);
+
+        $this->setAuthenticated(true);
         $this->signIn($login_or_compte);
     }
 
@@ -28,10 +29,12 @@ class myUser extends sfBasicSecurityUser {
     }
 
     protected function registerCompteByNamespace($login_or_compte, $namespace) {
+
         if (is_object($login_or_compte) && $login_or_compte instanceof Compte) {
             $compte = $login_or_compte;
             $login = $compte->getLogin();
         } else {
+
             $compte = CompteClient::getInstance()->findByLogin($login_or_compte);
             $login = $login_or_compte;
         }

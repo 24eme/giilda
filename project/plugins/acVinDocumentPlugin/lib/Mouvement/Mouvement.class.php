@@ -24,11 +24,11 @@ abstract class Mouvement extends acCouchdbDocumentTree
     public function getMD5Key() {
         $key = $this->getDocument()->identifiant . $this->produit_hash . $this->type_hash . $this->detail_identifiant;
         $key.= uniqid();
-        
+
         return md5($key);
     }
 
-    public function isFacturable() {        
+    public function isFacturable() {
         return $this->facturable;
     }
 
@@ -94,12 +94,12 @@ abstract class Mouvement extends acCouchdbDocumentTree
 
        return ConfigurationClient::getCurrent()->get($this->produit_hash);
     }
-    
+
     public function getDocId() {
 
         return $this->getDocument()->_id;
     }
-   
+
 
     public function getId() {
 

@@ -143,7 +143,9 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 <?php endif; ?>
 				<?php if ($isValidation) : ?>
                                <li class="list-group-item">Date de saisie : <strong><?php echo format_date($vrac->valide->date_saisie, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
+	                              <?php if (!$isTeledeclarationMode) : ?>
                                <li class="list-group-item">Date de signature : <strong><?php echo format_date($vrac->date_signature, "dd/MM/yyyy", "fr_FR"); ?></strong></li>
+                               	<?php endif; ?>
 				<?php endif; ?>
                                <li class="list-group-item">Campagne viticole : <strong><?php echo $vrac->campagne; ?></strong></li>
                             </ul>
@@ -232,7 +234,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
             </ul>
         </div>
     </div>
-    <?php if (!$template_validation): ?>
+    <?php if (!$template_validation && !$isTeledeclarationMode): ?>
         <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><strong>Enlèvements depuis les DRM</strong> <small>(Répartition de la CVO : <?php echo VracClient::$cvo_repartition[$vrac->cvo_repartition] ?>)</small></div>

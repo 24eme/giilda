@@ -145,6 +145,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     public function isCourtier() {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
+    public function isRepresentant() {
+        return ($this->famille == EtablissementFamilles::FAMILLE_REPRESENTANT);
+    }
+
+
 
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
@@ -233,7 +238,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $this->initFamille();
         $this->raison_sociale = $societe->raison_sociale;
         $this->interpro = "INTERPRO-declaration";
-        $this->region = EtablissementClient::getInstance()->calculRegion($this); 
+        $this->region = EtablissementClient::getInstance()->calculRegion($this);
 
         if($this->isNew()) {
             $societe->addEtablissement($this);
@@ -369,5 +374,8 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         return EtablissementClient::getInstance()->getNatureInaoLibelle($this->nature_inao);
     }
+public function hasLegalSignature() {
+  return $this->getSociete()->hasLegalSignature();
+}
 
 }
