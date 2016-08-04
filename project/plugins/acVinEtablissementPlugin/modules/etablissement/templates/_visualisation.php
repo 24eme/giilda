@@ -21,10 +21,10 @@
                 <p class="lead" style="margin-bottom: 5px;">
                     <span class="label label-primary"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?></span>
                     <?php if ($etablissement->getNatureLibelle()): ?>
-                        <span class="label label-default"><?php echo $etablissement->getNatureLibelle(); ?></span>
+                        <span class="label label-info"><?php echo $etablissement->getNatureLibelle(); ?></span>
                     <?php endif; ?>
                     <?php if ($etablissement->isSuspendu()): ?>
-                        <span class="label label-danger"><?php echo $etablissement->statut; ?></span>
+                        <span class="label label-default"><?php echo $etablissement->statut; ?></span>
                     <?php endif; ?>
                 </p>
             </div>
