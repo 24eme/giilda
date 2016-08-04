@@ -22,7 +22,7 @@
             <div class="col-xs-8">
                 <span class="label label-primary"><?php echo $compte->fonction; ?></span>&nbsp;
                 <?php if ($compte->isSuspendu()): ?>
-                    <span class="label label-danger"><?php echo $compte->statut; ?></span>
+                    <span class="label label-default"><?php echo $compte->statut; ?></span>
                 <?php endif; ?>
             </div>
         </div>
