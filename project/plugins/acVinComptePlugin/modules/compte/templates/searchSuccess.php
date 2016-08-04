@@ -9,11 +9,12 @@
    $(".removetag").click(function() {
        return confirm('Etes vous sur(e) de vouloir supprimer définivement ce tag pour ces <?php echo $nb_results; ?> fiches ?');
      });
-     });
+   $("#contacts_all").click(function () { $('#recherche_contact_form').submit(); });
+    });
 </script>
 <div class="row">
     <section class="col-xs-9" id="contenu_etape">
-		<form>
+		<form id="recherche_contact_form">
 			<div id="recherche_contact" class="section_label_maj">
 				
                 <div class="input-group">
@@ -28,7 +29,6 @@
                 </div>
 			</div>
 		</form>
-
 	<?php if($nb_results > 0): ?>
 	<div class="text-center">
         <nav>	
@@ -59,19 +59,21 @@
 			<?php $data = $res->getData(); ?>
             <?php $societe_informations = (isset($data['doc']['societe_informations'])) ? $data['doc']['societe_informations'] : null; ?>
 			<div class="list-group-item">
-                <div class="row">
+                <div class="row" <?php if ($data['doc']['statut'] != 'ACTIF') echo 'style="opacity: 0.5"'; ?>>
                 <div class="col-xs-8">
+                    <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php if(isset($societe_informations['raison_sociale'])): echo $societe_informations['raison_sociale']; endif; ?></small><br/><?php endif; ?>
                     <span class="lead"><span class="<?php echo comptePictoCssClass($data['doc']) ?>"></span></span>
                     <a class="lead" href="<?php echo url_for('compte_visualisation', array('identifiant' => $data['doc']['identifiant'])); ?>"><?php echo $data['doc']['nom_a_afficher']; ?></a> <span class="text-muted"><?php echo $data['doc']['identifiant']; ?></span>
-                    <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><br/><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php if(isset($societe_informations['raison_sociale'])): echo $societe_informations['raison_sociale']; endif; ?></small>
-                    <?php endif; ?></span>
-<?php if(isset($societe_informations['type']) && $societe_informations['type']): ?><small class="text-muted label label-primary"><?php echo $societe_informations['type'] ?></small><?php endif; ?>
-                    <br />
+                    </span>
+               </div><div class="col-xs-4 text-right">
+<?php if(isset($societe_informations['type']) && $societe_informations['type']): ?><small class="text-muted label label-primary"><?php echo $societe_informations['type'] ?></small><?php endif; if ($data['doc']['statut'] != 'ACTIF') echo ' &nbsp; <small class="text-muted label label-default">'.$data['doc']['statut'].'</small>'; ?>
+                </div>
+                <div class="col-xs-6">
                     <?php echo $data['doc']['adresse']; ?> <?php if ($data['doc']['adresse_complementaire']): ?><small>(<?php echo $data['doc']['adresse_complementaire']; ?>)</small><?php endif; ?><br />
                     <?php echo $data['doc']['code_postal']; ?> <?php echo $data['doc']['commune']; ?><br />
                     
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                     <ul class="list-unstyled" style="margin-bottom: 0;">
                         <?php if($data['doc']['telephone_bureau']): ?>
                         <li>Bureau : <a href="callto:<?php echo $data['doc']['telephone_bureau'] ?>"><?php echo $data['doc']['telephone_bureau'] ?></a></li>
