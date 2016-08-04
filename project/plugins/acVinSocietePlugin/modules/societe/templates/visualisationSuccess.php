@@ -18,14 +18,20 @@
             <div class="list-group-item">
                 <div class="row">
                     <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($societe->getRawValue()) ?>"></span> <?php echo $societe->raison_sociale; ?>
-                        <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>01)</small>
+                        <small class="text-muted">(n° de societe : <?php echo $societe->identifiant; ?>)</small>
                         <?php if ($modification || $reduct_rights) : ?>
 
                         <?php endif; ?>
                     </h2>
-                    <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-2 text-right">
-                        <a href="<?php echo url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-default" <?php echo ($societe->isSuspendu())? 'disabled="disabled"' : ''; ?> >Modifier</a>
-                    </h2>
+                    <div class="col-xs-2 text-right">
+                      <div class="btn-group">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modfier <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                         <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>">Editer</a></li>
+                         <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Suspendre</a></li>
+                         <li<?php echo ($societe->isActif())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isActif()) ? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Activer</a></li>
+                       </ul>
+                      </div></div>
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
@@ -38,9 +44,6 @@
 <?php if ($societe->date_modification) : ?>
                                     <span class="label label-default">Dernière modification le <?php echo format_date($societe->date_modification, 'dd/MM/yyyy'); ?></span>&nbsp;<?php endif; ?></small>
                         </p>
-                    </div>
-                    <div class="col-xs-3 text-right">
-                        <a href="<?php echo url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>" class="btn btn-xs <?php echo ($societe->isActif()) ? 'btn-danger' : 'btn-success' ?> "><?php echo ($societe->isActif()) ? 'Suspendre' : 'Activer' ?></a>
                     </div>
                 </div>
             </div>
