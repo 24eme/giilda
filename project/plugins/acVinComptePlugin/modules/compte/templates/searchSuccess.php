@@ -58,8 +58,8 @@
 		<?php foreach($results as $res): ?>
 			<?php $data = $res->getData(); ?>
             <?php $societe_informations = (isset($data['doc']['societe_informations'])) ? $data['doc']['societe_informations'] : null; ?>
-			<div class="list-group-item">
-                <div class="row" <?php if ($data['doc']['statut'] != 'ACTIF') echo 'style="opacity: 0.5"'; ?>>
+			<div class="list-group-item <?php if ($data['doc']['statut'] != 'ACTIF') echo 'disabled'; ?>">
+                <div class="row">
                 <div class="col-xs-8">
                     <?php if($data['doc']['compte_type'] == 'INTERLOCUTEUR'): ?><small class="text-muted"><span class="glyphicon glyphicon-calendar"></span> <?php if(isset($societe_informations['raison_sociale'])): echo $societe_informations['raison_sociale']; endif; ?></small><br/><?php endif; ?>
                     <span class="lead"><span class="<?php echo comptePictoCssClass($data['doc']) ?>"></span></span>
