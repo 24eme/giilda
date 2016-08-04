@@ -6992,6 +6992,9 @@ button.close {
   background-color: #fff;
   border: none;
 }
+.societe .list-group-item.disabled {
+  background-color: #eee;
+}
 .societe .list-group {
   border: 2px solid #f7f4ed;
 }
@@ -6999,9 +7002,15 @@ button.close {
   background-color: #fff;
   border-bottom: 2px solid #f7f4ed;
 }
+#col_saisies .list-group-item.disabled {
+  background-color: #eee;
+}
 #list-item .list-group-item {
   background-color: #fff;
   border: 1px solid #f7f4ed;
+}
+#list-item .list-group-item.disabled {
+  background-color: #eee;
 }
 .btn {
   border-radius: 0;

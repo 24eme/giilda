@@ -239,6 +239,9 @@
 .societe {
 	.list-group-item {
   		background-color: #fff;
+		&.disabled {
+        	        background-color: #eee;
+	        }
   		border: none;
 	}
 	.list-group {
@@ -249,12 +252,18 @@
 	.list-group-item {
   		background-color: #fff;
   		border-bottom: 2px solid @list-group-bg;
-	}
+       		&.disabled {
+                	background-color: #eee;
+		}
+        }
 }
 #list-item {
 	.list-group-item {
   		background-color: #fff;
   		border: 1px solid @list-group-bg;
+		&.disabled {
+                	background-color: #eee;
+	        }
 	}
 }
 // Buttons
