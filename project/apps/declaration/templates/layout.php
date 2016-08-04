@@ -21,6 +21,7 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script src="/components/jquery/jquery.js"></script>
   </head>
 <?php 
     $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
@@ -38,8 +39,6 @@
     <div id="ajax-modal" class="modal"></div>
 
     <?php include_partial('global/footer'); ?>
-    
-    <script src="/components/jquery/jquery.js"></script>
     <script src="/components/bootstrap/bootstrap.js"></script>
     <script src="/components/select2/select2.min.js"></script>
     <script src="/components/moment/moment-with-locales.min.js"></script>
