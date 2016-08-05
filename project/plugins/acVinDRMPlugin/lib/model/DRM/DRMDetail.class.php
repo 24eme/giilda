@@ -432,7 +432,6 @@ class DRMDetail extends BaseDRMDetail {
 
             $sortieDrm = $this->get('sorties/' . $sortieKey);
 
-
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }

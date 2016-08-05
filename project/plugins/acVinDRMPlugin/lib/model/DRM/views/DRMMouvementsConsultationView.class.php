@@ -31,9 +31,9 @@ class DRMMouvementsConsultationView extends MouvementsConsultationView
         return $this->buildMouvements($this->findByEtablissementAndCampagne($id_or_identifiant, $campagne)->rows);      
     }
 
-    public function getMouvementsByEtablissementAndPeriode($id_or_identifiant, $periode) {
+    public function getMouvementsByEtablissementAndPeriode($id_or_identifiant, $periode, $isTeledeclarationMode = false) {
         
-        return $this->buildMouvements($this->findByEtablissementAndPeriode($id_or_identifiant, $periode)->rows);       
+        return $this->buildMouvements($this->findByEtablissementAndPeriode($id_or_identifiant, $periode)->rows, $isTeledeclarationMode);
     }
 
-}  
+}

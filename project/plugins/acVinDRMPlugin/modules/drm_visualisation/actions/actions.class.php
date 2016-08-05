@@ -24,7 +24,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
         $this->drm_suivante = $this->drm->getSuivante();
         $this->mouvements = array();
-	foreach( DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode) as $m) {
+	foreach( DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode, $this->isTeledeclarationMode) as $m) {
                 if (preg_match('/'.$this->drm->identifiant.'/', $m->doc_id)) {
 			$this->mouvements[] = $m;
 		}
