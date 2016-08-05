@@ -1,39 +1,35 @@
-#Spécifications techniques de l'implémentation du format de DRM pour les logiciels tiers attendues sur le portail d'Interloire
+#Spécifications techniques de l'implémentation du format de DRM attendues sur le portail d'Interloire
 
-La spécification complète du format d'import attendue est détaillée ici : [1] .
-Cette documentation référence l'ensemble des ligne exportable dans le fichier .csv, ainsi que leur interprétation au sein de l'applicatif d'Interloire.
+La spécification complète du format d'import attendue est détaillée ici : [Spécification générique DRM logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/edi/speficication_technique.md) .
+
+Cette documentation référence l'ensemble des lignes exportables dans le fichier csv, ainsi que leur interprétation au sein de l'applicatif d'Interloire.
 
 ## Catalogue des produits spécifiques au portail d'Interloire
 
-Le catalogue produit nécessaire aux imports de DRM pour Interloire est décrit dans le fichier suivant : [2]
+Le catalogue produit nécessaire aux imports de DRM pour Interloire est décrit dans le fichier suivant : [Catalogue produit](catalogue_produits.csv)
+
 Ce fichier comporte les différentes colonnes suivantes :
 
-La certification : la certification du produit (AOC, IGP ou Vins sans IG)
-Le genre : Tanquille, Fines bulles ou Mousseux
-L'appellation : Anjou, Touraine, Saumur...
-La mention : Sur lie, Villages...
-Le lieu : Clisson, Chenin...
-La couleur : Rouge/Rosé/Blanc
-Le cepage : Muscadet AC
+1. La certification : la certification du produit (AOC, IGP ou Vins sans IG)
+2. Le genre : Tanquille, Fines bulles ou Mousseux
+3. L'appellation : Anjou, Touraine, Saumur...
+4. La mention : Sur lie, Villages...
+5. Le lieu : Clisson, Chenin...
+6. La couleur : Rouge/Rosé/Blanc
+7. Le cepage : Muscadet AC
 
-Ces colonnes permettent de définir le produit à importer comme ici :
-
-Il est aussi possible d'utiliser le dernière colonne pour définir le produit grace à son libellé complet [3] .
+Il est aussi possible d'utiliser la dernière colonne pour définir le produit grace à son libellé complet [Spécification générique DRM logiciels tiers, section : identification du vin](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/edi/speficication_technique.md) .
 
 ## Catalogue des mouvements de DRM spécifiques au portail d'Interloire
 
-Le catalogue des mouvements de DRM admis par le portail d'Interloire [3] est composé de trois colonnes :
+Le catalogue des mouvements de DRM admis par le portail d'Interloire  [Catalogue produit](catalogue_produits.csv) est composé de trois colonnes :
 
-Le type de DRM : suspendu ou acquitte
-La catégorie du mouvement : stocks_debut, stocks_fin, entrees ou sorties
-Le type du mouvement : achatcrd, vrac, repli...
+1. Le type de DRM : suspendu ou acquitte
+2. La catégorie du mouvement : stocks_debut, stocks_fin, entrees ou sorties
+3. Le type du mouvement : achatcrd, vrac, repli...
 
 ## Exemple complet de fichier d'import de DRM
 
-Un exemple spécifique de DRM à importer pour le portail d'Interloire est disponible ici : [4] .
-Elle reprend l'ensemble des spécificités décrites ci-dessus.
+Un exemple spécifique de DRM à importer pour le portail d'Interloire est disponible ici : [Exemple de fichier d'import pour Interloire](exemple_export_drm.csv) .
 
-[1]: https://jasig.github.io/cas/4.0.x/index.html
-[2]: https://jasig.github.io/cas/4.0.x/index.html
-[3]: https://jasig.github.io/cas/4.0.x/index.html
-[4]: https://jasig.github.io/cas/4.0.x/index.html
+Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
