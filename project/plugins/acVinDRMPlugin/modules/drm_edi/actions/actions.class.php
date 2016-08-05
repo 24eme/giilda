@@ -4,7 +4,7 @@ class drm_ediActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeVerificationEdi(sfWebRequest $request) {
 
@@ -32,7 +32,7 @@ class drm_ediActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeCreationEdi(sfWebRequest $request) {
 
@@ -53,7 +53,7 @@ class drm_ediActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeExportEdi(sfWebRequest $request) {
         $this->setLayout(false);
