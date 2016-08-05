@@ -18,7 +18,7 @@ Ce fichier comporte les différentes colonnes suivantes :
 6. La couleur : Rouge/Rosé/Blanc
 7. Le cepage : Muscadet AC
 
-Il est aussi possible d'utiliser la dernière colonne pour définir le produit grace à son libellé complet [Spécification générique DRM logiciels tiers, section : identification du vin](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/edi/speficication_technique.md) .
+Il est aussi possible d'utiliser la dernière colonne pour définir le produit grace à son libellé complet [Spécification générique DRM logiciels tiers, section : identification du vin](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/edi/speficication_technique.md#description-des-lignes-cave) .
 
 ## Catalogue des mouvements de DRM spécifiques au portail d'Interloire
 
