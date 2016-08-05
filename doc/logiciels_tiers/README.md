@@ -22,7 +22,7 @@ Il est aussi possible d'utiliser la dernière colonne pour définir le produit g
 
 ## Catalogue des mouvements de DRM spécifiques au portail d'Interloire
 
-Le catalogue des mouvements de DRM admis par le portail d'Interloire  [Catalogue produit](catalogue_produits.csv) est composé de trois colonnes :
+Le catalogue des mouvements de DRM admis par le portail d'Interloire  [Catalogue mouvements](catalogue_mouvements.csv) est composé de trois colonnes :
 
 1. Le type de DRM : suspendu ou acquitte
 2. La catégorie du mouvement : stocks_debut, stocks_fin, entrees ou sorties
