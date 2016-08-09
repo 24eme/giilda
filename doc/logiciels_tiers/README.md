@@ -1,6 +1,6 @@
 #Spécifications techniques de l'implémentation du format de DRM attendues sur le portail d'Interloire
 
-La spécification complète du format d'import attendue est détaillée ici : [Spécification générique DRM logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/edi/speficication_technique.md) .
+La spécification complète du format d'import attendue est détaillée ici : [Spécification générique DRM logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/speficication_technique.md) .
 
 Cette documentation référence l'ensemble des lignes exportables dans le fichier csv, ainsi que leur interprétation au sein de l'applicatif d'Interloire.
 
