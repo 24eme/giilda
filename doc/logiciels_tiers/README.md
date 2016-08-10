@@ -1,8 +1,8 @@
 #Spécifications techniques de l'implémentation du format de DRM attendues sur le portail d'Interloire
 
-La spécification complète du format d'import attendue est détaillée ici : [Spécification générique DRM logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/speficication_technique.md) .
+La spécification complète du format d'import attendu est détaillée ici : [Spécification générique DRM logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/speficication_technique.md). Cette documentation "générique" est commune pour les portails déclaratifs du CIVA, du CIVP, d'Interloire, d'InterRhone, d'IVBD, d'IVSO et d'IVSE.
 
-Cette documentation référence l'ensemble des lignes exportables dans le fichier csv, ainsi que leur interprétation au sein de l'applicatif d'Interloire.
+Cette page apporte un éclairage Loire à la documentation générique. Elle permet d'accéder à la liste des produits aujourd'hui géré par la plateforme d'InterLoire (cette liste peut évoluer en fonction des besoins des ressortissants, n'hésitez donc pas à les remonter), la manière de les déclarer, ainsi que les mouvements désirés pour la DRM Loire.
 
 ## Catalogue des produits spécifiques au portail d'Interloire
 
@@ -18,7 +18,9 @@ Ce fichier comporte les différentes colonnes suivantes :
 6. La couleur : Rouge/Rosé/Blanc
 7. Le cepage : Muscadet AC
 
-Il est aussi possible d'utiliser la dernière colonne pour définir le produit grace à son libellé complet [Spécification générique DRM logiciels tiers, section : identification du vin](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/edi/speficication_technique.md#description-des-lignes-cave) .
+La dernière colonne indique le libellé complet du produit, le processus d'import ne tiendra pas compte de ce champs si les 7 champs d'identification sont remplis. Il sera utilisé que si une ambiguité ressort de l'exploitation de ces champs.
+
+Pour plus de détails sur l'exploitation de ces champs, voir la [section "identification du vin" de la Spécification générique DRM pour logiciels tiers, ](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/speficication_technique.md#description-des-lignes-cave).
 
 ## Catalogue des mouvements de DRM spécifiques au portail d'Interloire
 
