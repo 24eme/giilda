@@ -143,12 +143,12 @@ class CompteClient extends acCouchdbClient {
     public function findByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $societe = SocieteClient::getInstance()->findByIdentifiantSociete($login);
 
-        if (!$societe) {
-
-            return null;
+        if ($societe) {
+            return $societe->getMasterCompte();
         }
 
-        return $societe->getMasterCompte();
+        $compte = $this->find("COMPTE-".$login);
+        return $compte;
     }
 
 }
