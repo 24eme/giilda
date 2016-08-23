@@ -195,19 +195,21 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
             $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
-            if (!$produitConfig->isActif()) {
+            if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
 
                 continue;
             }
+            
             $this->addProduit($produitConfig->produit_hash);
         }
     }
 
-    public function generateByDRM(DRM $drm) {
+    public function generateByDRM(DRM $drm, $teledeclarationMode = false) {
 
         foreach ($drm->getProduits() as $produit) {
             $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
-            if (!$produitConfig->isActif($this->getDate())) {
+
+            if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
 
                 continue;
             }
@@ -598,7 +600,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasDetails() {
-        return (count($this->declaration->getProduitsDetails($this->teldeclare)) > 0) ? true : false;
+        return (count($this->declaration->getProduitsDetails($this->teledeclare)) > 0) ? true : false;
     }
 
     public function hasEditeurs() {
@@ -826,7 +828,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return true;
         }
 
-        if (count($this->getProduitsDetails($this->teldeclare)) != count($this->getMother()->getProduitsDetails($this->teledeclare))) {
+        if (count($this->getProduitsDetails($this->teledeclare)) != count($this->getMother()->getProduitsDetails($this->teledeclare))) {
 
             return true;
         }
