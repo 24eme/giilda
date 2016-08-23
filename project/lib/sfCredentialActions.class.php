@@ -64,6 +64,7 @@ class sfCredentialActions extends sfActions {
 
             case self::CREDENTIAL_DIRECTION:
                 return array(SocieteClient::SUB_TYPE_INSTITUTION,
+                             SocieteClient::SUB_TYPE_SYNDICAT,
                              SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
                              SocieteClient::SUB_TYPE_AUTRE);
 
