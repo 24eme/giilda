@@ -10,8 +10,8 @@ Il existe 8 roles distincts :
  - **transactions** : role ouvrant l'accès à toutes les fonctionnalités sauf la configuration. Pour les contacts, ce rôle ne permet **pas** de **modifier** les comptes *presse*, *syndicat* et *institution*
  - **compta** : role permettant d'accéder qu'aux contacts. Les utilisateurs ayant ce role ne peuvent **pas modifier** les contacts *presse*, *syndicat* et *institution*.
  - **presse** : role permettant d'accéder et modifier des contacts. Ne permet pas de modifier les contacts tagués *transactions*, *institution* et *syndicat*. Des informations liées à la facturation et la transaction ne leur sont pas accessible.
- - **direction** : role permettant d'accéder et modifier des contacts. Ne permet pas de modifier les contacts tagués *transactions*, *syndicats* et  *presse*. Des informations liées à la facturation et la transaction ne leur sont pas accessibles.
- - **bureau** : role permettant d'accéder en lecture aux contacts. **Seuls** les contacts *syndicat* leur sont modifiables.
+ - **direction** : role permettant d'accéder et modifier des contacts. Ne permet *pas* de *modifier* les contacts tagués *transactions* et  *presse*. Des informations liées à la facturation et la transaction ne leur sont pas accessibles.
+ - **bureau** : role permettant d'accéder en lecture aux contacts. **Seuls** les contacts *syndicat* leur sont **modifiables**. (ce droit ne semble pas utilisé par Interloire)
  - **autre** : role permettant d'accéder en lecture seul aux contacts.
  - **DRM** : role permettant seulement l'édition des DRM.
 
