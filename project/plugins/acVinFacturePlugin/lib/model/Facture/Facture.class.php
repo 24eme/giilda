@@ -41,7 +41,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeEmetteur() {
-        $configs = sfConfig::get('app_configuration_facture');
+        $configs = sfConfig::get('app_facture');
         $emetteur = new stdClass();
         if (!$configs && !isset($configs['emetteur_libre']) && !isset($configs['emetteur_cvo'])) {
             throw new sfException(sprintf('Config "configuration/facture/emetteur" not found in app.yml'));
@@ -87,14 +87,18 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeDatesCampagne($date_facturation = null) {
+        $configs = sfConfig::get('app_configuration_facture');
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
         $this->date_echeance = $date_facturation_object->modify('+30 days')->format('Y-m-d');
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
-        $dateFacturation = explode('-', $this->date_facturation);
-        $this->campagne = $dateFacturation[0];
+	$date_campagne = new DateTime(date('Y-m-d'));
+        if (isset($configs['exercice']) && $configs['exercice'] == 'viticole') {
+		$date_campagne = $date_campagne->modify('+5 months');
+	}
+        $this->campagne = $date_campagne->format('Y');
     }
 
     public function constructIds($doc) {
@@ -119,7 +123,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $prefix = FactureConfiguration::getInstance()->getPrefixId($this);
 
-        return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
+        return $prefix . preg_replace('/^\d{2}(\d{2})/', '$1', $this->campagne) . sprintf('%05d', $this->numero_archive);
     }
     
     public function getTaxe() {
