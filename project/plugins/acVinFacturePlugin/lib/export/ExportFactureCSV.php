@@ -23,7 +23,7 @@ class ExportFactureCSV {
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
-        
+
         if ($doc_or_id instanceof Facture) {
             $facture = $doc_or_id;
         } else {
@@ -43,9 +43,9 @@ class ExportFactureCSV {
             foreach ($lignes->origine_mouvements as $keyDoc => $mvt) {
                 $origine_mvt = $keyDoc;
             }
-            
+
             foreach ($lignes->details as $detail) {
-                $libelle = $lignes->libelle.' '.$detail->libelle;
+                $libelle = "DRMS ".preg_replace('/DRM-[^-]*-20(....).*/', '\1', $lignes->getKey()).' '.$detail->libelle;
                 echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $libelle
                 . ';75815000;;' . $detail->identifiant_analytique . ';;CREDIT;' . $detail->montant_ht . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ';' . $detail->origine_type . ';' . "PRODUIT_TYPE" . ';' . $origine_mvt . ';' . $detail->quantite . ';' . $detail->prix_unitaire
                 . ";";
