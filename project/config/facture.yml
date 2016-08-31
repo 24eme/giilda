@@ -6,9 +6,10 @@ ivso:
       type_cvo:
         identifiant_prefix: "C"
       type_libre:
-        identifiant_prefix: "L"        
+        identifiant_prefix: "L"
       idcontrat: "ID"
-              
+      stockage_code_produit: "code_compte"
+
 ivbd:
   configuration:
     facture:
@@ -19,3 +20,4 @@ ivbd:
       type_libre:
         identifiant_prefix: "1"
       idcontrat: "ARCHIVE"
+      stockage_code_produit: "identifiant_analytique"

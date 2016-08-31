@@ -60,7 +60,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             throw new sfException(sprintf('Config "configuration/facture/coordonnees_bancaire" not found in app.yml'));
         }
         $appCoordonneesBancaire = $configs['coordonnees_bancaire'];
-        
+
         $coordonneesBancaires = new stdClass();
 
         $coordonneesBancaires->banque = $appCoordonneesBancaire['banque'];
@@ -69,14 +69,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         return $coordonneesBancaires;
     }
-    
+
     public function getInformationsInterpro() {
         $configs = sfConfig::get('app_configuration_facture');
         if (!$configs && !isset($configs['infos_interpro'])) {
             throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
         }
         $appInfosInterpro = $configs['infos_interpro'];
-        
+
         $infosInterpro = new stdClass();
 
         $infosInterpro->siret = $appInfosInterpro['siret'];
@@ -125,7 +125,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         return $prefix . preg_replace('/^\d{2}(\d{2})/', '$1', $this->campagne) . sprintf('%05d', $this->numero_archive);
     }
-    
+
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
     }
@@ -181,7 +181,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
 
-// PLUS UTILISE => TEMPLATES 
+// PLUS UTILISE => TEMPLATES
     public function storeLignesFromTemplate($cotisations) {
         foreach ($cotisations as $key => $cotisation) {
             $ligne = $this->lignes->add($key);
@@ -273,7 +273,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-                $code_compte = $this->configuration->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->getCodeComptable();
                 $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
 
                 $detail = null;
@@ -284,9 +283,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                     $detail->taux_tva = 0.2;
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
-                    if ($code_compte) {
-	                    $detail->add('code_compte', $code_compte);
-                    }
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
                         if (!$present_detail->origine_type && !is_null($detail) && ($produit_libelle == $detail->libelle)) {
@@ -300,11 +296,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                         $detail->taux_tva = 0.2;
                     }
-                    if ($code_compte) {
-                            $detail->add('code_compte', $code_compte);
-                    }
                     $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                 }
+                $codeProduit =
+                $this->configuration->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->getCodeComptable();
+
+                $detail->add(sfConfig::get('app_configuration_facture_stockage_code_produit', 'code_compte'), $codeProduit);
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();
@@ -316,7 +313,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 }
                 $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
                 $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
-                $detail->add('code_compte',$identifiants_compte_analytique[0]);                
+                $detail->add('code_compte',$identifiants_compte_analytique[0]);
                 $detail->taux_tva = 0.2;
             }
         }
@@ -453,14 +450,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return;
         }
 
-//if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}              
+//if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}
         if ($date < $d2) {
             $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht * 0.5);
             return;
         }
 
-//if(30/06/N < date < 30/09/N) { 100% 30/09/N } 
+//if(30/06/N < date < 30/09/N) { 100% 30/09/N }
         if ($date < $d3) {
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht);
             return;
@@ -475,14 +472,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $date = str_replace('-', '', $this->date_facturation);
 
         $d1 = date('Y') . '0331'; // 31/03/N
-        $d2 = date('Y') . '0630'; // 30/06/N  
+        $d2 = date('Y') . '0630'; // 30/06/N
 //if( date < 31/03/N) { 50% 31/03/N 50% 30/06/N}
         if ($date < $d1) {
             $this->updateEcheance('B', date('Y') . '-03-31', $ligne->montant_ht * 0.5);
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             return;
         }
-//if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }              
+//if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }
         if ($date < $d2) {
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht);
             return;
