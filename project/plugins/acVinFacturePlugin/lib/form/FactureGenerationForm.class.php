@@ -7,6 +7,7 @@ class FactureGenerationForm extends BaseForm {
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
+        $defaults['date_mouvement'] = date('d/m/Y');
         $this->withExport = false;
         if (isset($options['export']) && $options['export']) {
 		$this->withExport = true;
