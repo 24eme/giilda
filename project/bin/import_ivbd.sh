@@ -731,6 +731,10 @@ cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-1]{1}[0-9]
 
 cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2010(08|09|10|11|12)|2011[0-1]{1}[0-9]{1}|2012[0-1]{1}[0-9]{1}|2013[0-1]{1}[0-9]{1}|20140[1-7]{1});" | grep -Ev ";(Ste foy de bordeaux|Côtes de castillon);" > $DATA_DIR/drm_201008_201407.csv
 
+rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
+
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201008_201407.csv
+
 echo "Import des sociétés"
 
 #php symfony import:societe $DATA_DIR/societes.csv
@@ -749,30 +753,12 @@ echo "Import des contrats"
 
 echo "Import des DRM"
 
-echo -n > $DATA_DIR/drm_lignes.csv
-
-cat $DATA_DIR/drm_201008_201407.csv | sed 's|\\|\\\\|' | while read ligne
+ls $DATA_DIR/drms | while read ligne
 do
-    if [ "$PERIODE" != "$(echo $ligne | cut -d ";" -f 2)" ] || [ "$IDENTIFIANT" != "$(echo $ligne | cut -d ";" -f 3)" ]
-    then
-
-        if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
-        then
-            php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true --creation-depuis-precedente=true --env="ivbd"
-        fi
-
-        echo -n > $DATA_DIR/drm_lignes.csv
-
-    fi
-    PERIODE=$(echo $ligne | cut -d ";" -f 2)
-    IDENTIFIANT="$(echo $ligne | cut -d ";" -f 3)"
-    echo "$ligne" >> $DATA_DIR/drm_lignes.csv
+    PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
+    IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --env="ivbd"
 done
-
-if [ $(cat $DATA_DIR/drm_lignes.csv | wc -l) -gt 0 ]
-then
-    php symfony drm:edi-import $DATA_DIR/drm_lignes.csv $PERIODE $IDENTIFIANT $(echo $ligne | cut -d ";" -f 4) --facture=true --creation-depuis-precedente=true --env="ivbd"
-fi
 
 echo "Contrôle de cohérence des DRM"
 
