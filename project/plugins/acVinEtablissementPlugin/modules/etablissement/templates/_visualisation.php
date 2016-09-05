@@ -75,7 +75,7 @@
                 <li>CVI : <?php echo $etablissement->cvi; ?></li>
             <?php endif; ?>
             <?php if ($etablissement->no_accises): ?>
-                <li>Numéro d'accises : <?php echo $etablissement->no_accises; ?></li>
+                <li>Numéro d'accise : <?php echo $etablissement->no_accises; ?></li>
             <?php endif; ?>
             <?php if ($etablissement->carte_pro && $etablissement->isCourtier()) : ?>
                 <li>Carte professionnelle : <?php echo $etablissement->carte_pro; ?></li>  

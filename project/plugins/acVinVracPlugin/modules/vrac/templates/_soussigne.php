@@ -12,7 +12,7 @@
 <span class="text-muted">CVI : <strong><?php echo $soussigne->cvi ?></strong></span>
 <?php endif; ?>
 <?php if($soussigne->cvi): ?>
-<span class="text-muted">N° Accises : <strong><?php echo $soussigne->no_accises ?></strong></span>
+<span class="text-muted">N° Accise : <strong><?php echo $soussigne->no_accises ?></strong></span>
 <?php endif; ?>
 <?php if($soussigne->carte_pro): ?>
 <br /><span class="text-muted">N° Carte professionnel : <strong><?php echo $soussigne->carte_pro ?></strong></span>

@@ -11,7 +11,7 @@
                 if ($drm->exist('releve_non_apurement')):
                     foreach ($drm->releve_non_apurement as $num_non_apurement => $non_apurement):
                         ?>
-                        <li class="list-group-item"><strong>Relevé de non apurement :</strong> n°<?php echo $non_apurement->numero_document; ?> epédié le <?php echo $non_apurement->date_emission; ?> pour le n° d'accises <?php echo $non_apurement->numero_accise; ?></li>
+                        <li class="list-group-item"><strong>Relevé de non apurement :</strong> n°<?php echo $non_apurement->numero_document; ?> expédié le <?php echo $non_apurement->date_emission; ?> pour le n° d'accise <?php echo $non_apurement->numero_accise; ?></li>
                     <?php
                     endforeach;
                 endif;
