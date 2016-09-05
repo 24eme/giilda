@@ -272,6 +272,9 @@ class factureActions extends sfActions {
         if (isset($values['date_facturation']) && $values['date_facturation']) {
             $filters_parameters['date_facturation'] = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
         }
+        if (isset($values['date_mouvement']) && $values['date_mouvement']) {
+            $filters_parameters['date_mouvement'] = DATE::getIsoDateFromFrenchDate($values['date_mouvement']);
+        }
         if (isset($values['message_communication']) && $values['message_communication']) {
             $filters_parameters['message_communication'] = $values['message_communication'];
         }
