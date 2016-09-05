@@ -414,11 +414,11 @@ print base "sorties;" mouvement ";" volume ";;" numero_contrat ;
 }' > $DATA_DIR/drm_cave_contrats.csv
 
 cat $DATA_DIR/drm_cave.csv $DATA_DIR/drm_cave_contrats.csv | sort -t ";" -k 2,3 > $DATA_DIR/drm.csv
-cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_201308.csv
+cat $DATA_DIR/drm.csv | grep -E "^[A-Z]+;(2010(08|09|10|11|12)|2011[0-9]{2}|2012[0-9]{2}|20130[0-7]{1});" > $DATA_DIR/drm_201008_201307.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201308.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_201008_201307.csv
 
 echo "Import des contacts"
 
