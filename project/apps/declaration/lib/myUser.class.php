@@ -125,7 +125,8 @@ class myUser extends sfBasicSecurityUser {
     }
 
     public function hasTeledeclarationDrm() {
-        return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_DRM);
+    	return true;
+        //return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_DRM);
     }
 
     public function hasOnlyCredentialDRM() {

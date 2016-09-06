@@ -18,7 +18,7 @@
             'target' => '_self'
      ));
 
-     include_component('global', 'navItem', array(
+     /*include_component('global', 'navItem', array(
             'libelle' => 'Contrats',
             'prefix' => 'vrac',
             'route' => 'vrac',
@@ -26,6 +26,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
      ));
+     */
 
       include_component('global', 'navItem', array(
             'libelle' => 'Factures',
