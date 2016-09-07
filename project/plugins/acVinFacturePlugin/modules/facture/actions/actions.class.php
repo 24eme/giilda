@@ -104,7 +104,7 @@ class factureActions extends sfActions {
                 $filters_parameters = $this->constructFactureFiltersParameters();
                 $generation = new Generation();
 
-                $generation->arguments->add('date_facturation', $filters_parameters['date_mouvement']);
+                $generation->arguments->add('date_facturation', $filters_parameters['date_facturation']);
                 $generation->arguments->add('date_mouvement', $filters_parameters['date_mouvement']);
                 if ($filters_parameters['message_communication']) {
                     $generation->arguments->add('message_communication', $filters_parameters['message_communication']);
@@ -196,7 +196,7 @@ class factureActions extends sfActions {
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
 
         if ($mouvementsBySocFiltered) {
-            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_facturation'], $filters_parameters['message_communication']);
             $generation->save();
         }
         return $this->redirect('facture_societe', $this->societe);
