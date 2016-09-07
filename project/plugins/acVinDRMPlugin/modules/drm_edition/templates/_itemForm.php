@@ -13,7 +13,7 @@ $tabindex = $numProduit * 100 ;
             <form action="<?php echo url_for('drm_edition_update', array('sf_subject' => $form->getObject(), 'details' => $detailsKey)) ?>" method="post">
                 <?php echo $form->renderHiddenFields(); ?>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="1">
-                    <div style="height:22px;" class="form-group form-group-xs" style="height: 17px;">
+                    <div style="height:22px;" class="form-group form-group-xs">
                         <span>&nbsp;</span>
                     </div>
                     <?php foreach ($form['stocks_debut'] as $key => $subform): ?>
