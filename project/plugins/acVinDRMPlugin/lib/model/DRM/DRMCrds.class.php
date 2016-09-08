@@ -7,14 +7,18 @@
 class DRMCrds extends BaseDRMCrds {
 
     const FACTLITRAGE = 100000;
-    
+
     public function getLibelle() {
         return "";
     }
 
-    public function getOrAddCrdNode($genre, $couleur, $litrage, $stock_debut = null) {
+    public function getOrAddCrdNode($genre, $couleur, $litrage, $stock_debut = null, $litrageInHl = false) {
         $crd = $this->add($this->constructKey($genre, $couleur, $litrage));
-        $crd->centilitrage = $litrage / self::FACTLITRAGE;
+        if(!$litrageInHl) {
+            $crd->centilitrage = $litrage / self::FACTLITRAGE;
+        } else {
+            $crd->centilitrage = $litrage;
+        }
         $crd->couleur = $couleur;
         $crd->genre = $genre;
         $crd->stock_debut = 0;
@@ -46,7 +50,7 @@ class DRMCrds extends BaseDRMCrds {
         }
         $contenances = sfConfig::get('app_vrac_contenances');
         $contenance75 = $contenances['Bouteille 75 cl'] * self::FACTLITRAGE;
-          
+
         foreach ($genres as $genre) {
             $this->getOrAddCrdNode($genre, DRMClient::DRM_VERT, $contenance75);
             $this->getOrAddCrdNode($genre, DRMClient::DRM_BLEU, $contenance75);
