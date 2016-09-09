@@ -116,16 +116,19 @@ if (!isset($fromSociete))
             <label for="adresse_societe">
                 Adresse de la société :</label>
             <?php echo display_adresse_societe($etablissement); ?>
-        </div>          
-         <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime) : ?>
+        </div>
+
             <div class="form_ligne">
+<form method="POST" action="<?php echo url_for('etablissement_resetcrd', $etablissement);?>">
                 <label for="crd_regime">
                     Régime de CRD : 
                 </label>
-                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?>
-                
+         <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime) : ?>
+                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?> <input type="submit" value="Réinitialiser le regime CRD"/>
+         <?php else: ?>
+		    En attente de saisie par l'utilisateur
+         <?php endif; ?> </form>
             </div>  
-        <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
             <div class="form_ligne"> 
                 <label for="commentaire">
@@ -143,7 +146,6 @@ if (!isset($fromSociete))
             <?php foreach ($etablissement->liaisons_operateurs as $liaison_operateur): ?>
                 <div class="form_ligne">
                     <div class="form_colonne">
-
                         <label for="libelle_etablissement"><?php echo $typesLiaisons[$liaison_operateur->type_liaison]; ?></label>     
                         <a href="<?php echo url_for('etablissement_visualisation', EtablissementClient::getInstance()->find($liaison_operateur->id_etablissement)); ?>">
                             <?php echo $liaison_operateur->libelle_etablissement; ?>

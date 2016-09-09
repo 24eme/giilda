@@ -46,4 +46,11 @@ class etablissementActions extends sfCredentialActions {
         $this->applyRights();
     }
 
+    public function executeResetCrd(sfWebRequest $request) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+	$this->etablissement->remove('crd_regime');
+	$this->etablissement->save();
+	return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
+    }
+
 }
