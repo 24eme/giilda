@@ -61,7 +61,6 @@ class drm_crdsActions extends drmGeneriqueActions {
         if (!$this->isTeledeclarationDrm()) {
             $this->redirect403IfIsNotTeledeclaration();
         }
-var_dump($request->getParameter('drmAddTypeForm[regime]'));exit;
         $this->form = new DRMCrdRegimeChoiceForm($drm, array('regime'=>$request->getParameter('drmAddTypeForm[regime]')));
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
