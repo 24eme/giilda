@@ -136,28 +136,10 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
 
 <div class="table-condensable ">
 <div class="drm_informations_toggle" style="cursor:pointer;">
-    <p class="extendable <?php echo ($drm->hasPaiementDouane())? 'ouvert' : '' ?>"></p>
-    <h2>Sucre / Paiement Douane</h2>
+    <p class="extendable ouvert"></p>
+    <h2>Paiement Douane</h2>
 </div>
-            <div <?php echo ($drm->hasPaiementDouane())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_informations_content_togglable" >
-            <table id="table_drm_complement_informations_sucre" class="table_recap table_drm_annexes">
-                <thead >
-                    <tr>
-                        <th colspan="2">Information sur le sucre</th>
-                    </tr>
-                </thead>
-                <tbody class="drm_non_apurement" id="nonapurement_list">
-                    <tr>
-                        <td class="drm_quantite_sucre_label">
-                            <?php echo $annexesForm['quantite_sucre']->renderLabel(); ?>
-                        </td>
-                        <td class="drm_quantite_sucre_volume">
-                            <?php echo $annexesForm['quantite_sucre']->render(); ?><strong style="float: right; padding-top: 5px;">(en quintal)</strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br/>
+            <div style="padding: 0px 10px 10px 10px;" class="drm_informations_content_togglable" >
             <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>

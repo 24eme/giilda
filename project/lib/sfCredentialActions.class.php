@@ -64,6 +64,7 @@ class sfCredentialActions extends sfActions {
 
             case self::CREDENTIAL_DIRECTION:
                 return array(SocieteClient::SUB_TYPE_INSTITUTION,
+                             SocieteClient::SUB_TYPE_SYNDICAT,
                              SocieteClient::SUB_TYPE_HOTELRESTAURANT, 
                              SocieteClient::SUB_TYPE_AUTRE);
 
@@ -107,7 +108,7 @@ class sfCredentialActions extends sfActions {
                     $this->modification = false;
                     $this->reduct_rights = true;
                 }
-                if ($this->societe->isPresse() || $this->societe->isSyndicat()) {
+                if ($this->societe->isPresse()) {
                     $this->modification = false;
                 }                
             return;

@@ -15,7 +15,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         if ($request->getParameter('add_crd')) {
             $this->addCrdRegime = $request->getParameter('add_crd');
             $this->addCrdGenre = $request->getParameter('genre');
-            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm, array('genre' => $this->addCrdGenre));
+            $this->addCrdForm = new DRMAddCrdTypeForm($this->drm, array('genre' => $this->addCrdGenre, 'regime' => $this->addCrdRegime));
         }
 
         if ($request->isMethod(sfRequest::POST)) {
@@ -41,15 +41,15 @@ class drm_crdsActions extends drmGeneriqueActions {
     public function executeAjoutTypeCrd(sfWebRequest $request) {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
-        $this->form = new DRMAddCrdTypeForm($this->drm);
+	$params = $request->getParameter('drmAddTypeForm');
+	$this->regime = $params['regime'];
+        $this->form = new DRMAddCrdTypeForm($this->drm, array('regime' => $this->regime));
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_crd', $this->form->getObject());
             }
-            $regimes = $this->form->getRegimeCrds();
-            $this->regime = $regimes[0];
         }
     }
 
@@ -61,8 +61,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         if (!$this->isTeledeclarationDrm()) {
             $this->redirect403IfIsNotTeledeclaration();
         }
-
-        $this->form = new DRMCrdRegimeChoiceForm($drm);
+        $this->form = new DRMCrdRegimeChoiceForm($drm, array('regime'=>$request->getParameter('drmAddTypeForm[regime]')));
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {

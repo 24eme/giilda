@@ -16,48 +16,50 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
-        $this->regimeCrds = $this->drm->getRegimesCrds();        
+	if (count($this->drm->getRegimesCrds()) > 1 && isset($options['regime'])) {
+		$this->regimeCrds = $options['regime'];
+	}else{
+		$this->regimeCrds = $this->drm->getRegimesCrds()[0];	
+	}
         $this->defaultGenre = $options['genre'];
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
     public function configure() {
-        foreach ($this->regimeCrds as $regime) {
+        $this->setWidget('couleur_crd_'.$this->regimeCrds, new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeCouleurs())));
+        $this->setWidget('litrage_crd_'.$this->regimeCrds, new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeLitrages())));
+        $this->setWidget('stock_debut_'.$this->regimeCrds, new sfWidgetFormInputText());
+        $this->setWidget('genre_crd_'.$this->regimeCrds, new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getGenres())));
+        $this->setWidget('regime', new sfWidgetFormInputHidden());
 
-            $this->setWidget('couleur_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeCouleurs())));
-            $this->setWidget('litrage_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeLitrages())));
-            $this->setWidget('stock_debut_' . $regime, new sfWidgetFormInputText());
-            $this->setWidget('genre_crd_' . $regime, new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getGenres())));
+        $this->widgetSchema->setLabel('couleur_crd_'.$this->regimeCrds, 'Couleur CRD ');
+        $this->widgetSchema->setLabel('litrage_crd_'.$this->regimeCrds, 'Litrage ');
+        $this->widgetSchema->setLabel('stock_debut_'.$this->regimeCrds, 'Stock début ');
+        $this->widgetSchema->setLabel('genre_crd_'.$this->regimeCrds, 'Type de produit ');
 
-
-            $this->widgetSchema->setLabel('couleur_crd_' . $regime, 'Couleur CRD ');
-            $this->widgetSchema->setLabel('litrage_crd_' . $regime, 'Litrage ');
-            $this->widgetSchema->setLabel('stock_debut_' . $regime, 'Stock début ');
-            $this->widgetSchema->setLabel('genre_crd_' . $regime, 'Type de produit ');
-
-            $this->setValidator('couleur_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeCouleurs())), array('required' => "Aucune couleur de CRD n'a été saisi !")));
-            $this->setValidator('litrage_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
-            $this->setValidator('stock_debut_' . $regime, new sfValidatorNumber(array('required' => false)));
-            $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('multiple' => false, 'required' => true, 'choices' => array_keys($this->getGenres())), array('required' => "Aucun genre n'a été saisi !")));
+        $this->setValidator('couleur_crd_'.$this->regimeCrds, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeCouleurs())), array('required' => "Aucune couleur de CRD n'a été saisi !")));
+        $this->setValidator('litrage_crd_'.$this->regimeCrds, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
+        $this->setValidator('stock_debut_'.$this->regimeCrds, new sfValidatorNumber(array('required' => false)));
+        $this->setValidator('genre_crd_'.$this->regimeCrds, new sfValidatorChoice(array('multiple' => false, 'required' => true, 'choices' => array_keys($this->getGenres())), array('required' => "Aucun genre n'a été saisi !")));
+        $this->setValidator('regime', new sfValidatorPass());
            
-            $this->setDefault('genre_crd_' . $regime, $this->defaultGenre);
-        }
+        $this->setDefault('genre_crd_'.$this->regimeCrds, $this->defaultGenre);
+        $this->setDefault('regime', $this->regimeCrds);
 
         $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');
     }
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        foreach ($this->regimeCrds as $regime) {
-            $couleur = $values['couleur_crd_' . $regime];
-            $litrage_libelle = $values['litrage_crd_' . $regime];
-            $contenances = sfConfig::get('app_vrac_contenances');            
-            $litrage = $contenances[$litrage_libelle] * 100000;
-            $genre = $values['genre_crd_' . $regime];
-            $stock_debut = $values['stock_debut_' . $regime];
-            if ($genre && $couleur && $litrage) {
+        $regime = $values['regime'];
+        $couleur = $values['couleur_crd_' . $regime];
+        $litrage_libelle = $values['litrage_crd_' . $regime];
+        $contenances = sfConfig::get('app_vrac_contenances');            
+        $litrage = $contenances[$litrage_libelle] * 100000;
+        $genre = $values['genre_crd_' . $regime];
+        $stock_debut = $values['stock_debut_' . $regime];
+        if ($genre && $couleur && $litrage) {
                 $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $stock_debut);
-            }
         }
         $this->drm->save();
     }

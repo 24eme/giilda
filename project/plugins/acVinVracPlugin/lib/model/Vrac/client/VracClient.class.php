@@ -488,7 +488,6 @@ class VracClient extends acCouchdbClient {
                         ->endkey(array('STATUT', $identifiant, array()))
                         ->group_level(3)
                         ->getView('vrac', 'soussigneidentifiant')->rows;
-
         $current = ConfigurationClient::getInstance()->getCurrentCampagne();
         $list = array();
         foreach ($rows as $r) {
@@ -506,11 +505,13 @@ class VracClient extends acCouchdbClient {
 	        krsort($list);
 		$first = preg_replace('/-.*/', '', array_pop($list));
 		$last = preg_replace('/-.*/', '', array_shift($list));
+		if (!$last) $last = $first;
 		for($i = $first ; $i <= $last ; $i++) {
 			$campagne = $i.'-'.($i + 1);
 			$list_complete[$campagne] = $campagne;
 		}
 	}
+
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list_complete);
     }
 
