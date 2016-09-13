@@ -598,7 +598,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasDetails() {
-        return (count($this->declaration->getProduitsDetails($this->teldeclare)) > 0) ? true : false;
+        return (count($this->declaration->getProduitsDetails($this->teledeclare)) > 0) ? true : false;
     }
 
     public function hasEditeurs() {
@@ -826,7 +826,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return true;
         }
 
-        if (count($this->getProduitsDetails($this->teldeclare)) != count($this->getMother()->getProduitsDetails($this->teledeclare))) {
+        if (count($this->getProduitsDetails($this->teledeclare)) != count($this->getMother()->getProduitsDetails($this->teledeclare))) {
 
             return true;
         }
