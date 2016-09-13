@@ -39,7 +39,15 @@ class acVinEtablissementRouting {
                             'action' => 'visualisation'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Etablissement',
-                            'type' => 'object')));                
+                            'type' => 'object')));
+
+        $r->prependRoute('etablissement_resetcrd', new EtablissementRoute('/etablissement/:identifiant/resetcrd',
+                        array('module' => 'etablissement',
+                            'action' => 'resetCrd'), 
+                        array('sf_method' => array('post')),
+                        array('model' => 'Etablissement',
+                            'type' => 'object')));
+
     }
 
 }
