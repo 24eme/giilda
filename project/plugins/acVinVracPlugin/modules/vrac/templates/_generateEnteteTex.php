@@ -68,7 +68,7 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATTYPEEXPLICATIONPRIX{<?php echo vracTypeExplication($vrac); ?>}
 
 \def\CONTRATDATEMAXENLEVEMENT{<?php echo cut_latex_string(Date::francizeDate($vrac->getMaxEnlevement()), 50); ?>}
-\def\CONTRATFRAISDEGARDE{ <?php echo ($vrac->exist('enlevement_frais_garde') && $vrac->enlevement_frais_garde) ?
+\def\CONTRATFRAISDEGARDE{ <?php echo ($vrac->exist('enlevement_frais_garde') && !is_null($vrac->enlevement_frais_garde)) ?
         formatPrixFr($vrac->getFraisDeGarde()) . '~\euro/hl' : '~~~~~\euro/hl';
 ?>}
 
