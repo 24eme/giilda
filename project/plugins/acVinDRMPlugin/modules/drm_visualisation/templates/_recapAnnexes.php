@@ -8,6 +8,7 @@
                 <th>Type de document</th>
                 <th>Numéro de début</th>
                 <th>Numéro de fin</th>
+                <th>Nombre de document(s)</th>
             </tr>
         </thead>
         <tbody class="drm_adminitration">
@@ -16,6 +17,7 @@
                     <td class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>                       
                     <td class="drm_annexes_doc_debut"><?php echo $numsDoc->debut; ?></td>
                     <td class="drm_annexes_doc_fin"><?php echo $numsDoc->fin; ?></td>
+                    <td class="drm_annexes_doc_fin"><?php echo $numsDoc->nb; ?></td>
                 </tr>
             <?php endforeach; ?>  
         </tbody>

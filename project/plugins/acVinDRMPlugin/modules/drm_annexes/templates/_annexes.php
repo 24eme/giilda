@@ -20,6 +20,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         <th style="width: 200px;">Type de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide1'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
                         <th>Numéro de début</th>
                         <th>Numéro de fin</th>
+                        <th>Nombre de document(s)</th>
                     </tr>
                 </thead>
                 <tbody class="drm_adminitration">
@@ -28,6 +29,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                             <td class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>
                             <td class="drm_annexes_doc_debut"><?php echo $annexesForm[$typeDoc . '_debut']->render(); ?></td>
                             <td class="drm_annexes_doc_fin"><?php echo $annexesForm[$typeDoc . '_fin']->render(); ?></td>
+                            <td class="drm_annexes_doc_nb"><?php echo $annexesForm[$typeDoc . '_nb']->render(array('size'=> 5)); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
