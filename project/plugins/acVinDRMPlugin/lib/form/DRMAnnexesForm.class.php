@@ -28,14 +28,19 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         foreach ($this->docTypesList as $docType) {
             $keyDebut = $docType . '_debut';
             $keyFin = $docType . '_fin';
-            $this->setWidget($keyDebut, new bsWidgetFormInput());
-            $this->setWidget($keyFin, new bsWidgetFormInput());
+            $keyNb = $docType . '_nb';
+
+            $this->setWidget($keyDebut, new sfWidgetFormInputText());
+            $this->setWidget($keyFin, new sfWidgetFormInputText());
+            $this->setWidget($keyNb, new sfWidgetFormInputText());
 
             $this->setValidator($keyDebut, new sfValidatorString(array('required' => false)));
             $this->setValidator($keyFin, new sfValidatorString(array('required' => false)));
+            $this->setValidator($keyNb, new sfValidatorString(array('required' => false)));
 
             $this->widgetSchema->setLabel($keyDebut, DRMClient::$drm_documents_daccompagnement[$docType] . ' début');
             $this->widgetSchema->setLabel($keyFin, DRMClient::$drm_documents_daccompagnement[$docType] . ' fin');
+            $this->widgetSchema->setLabel($keyNb, DRMClient::$drm_documents_daccompagnement[$docType] . ' nombre de documents');
         }
 
         $this->setWidget('quantite_sucre', new bsWidgetFormInput());
@@ -86,6 +91,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         foreach ($this->docTypesList as $docType) {
             $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->debut = $values[$docType . '_debut'];
             $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->fin = $values[$docType . '_fin'];
+            $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->nb = $values[$docType . '_nb'];
         }
 
         foreach ($this->getEmbeddedForms() as $key => $releveNonApurementForm) {
@@ -136,6 +142,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
                     $docNode = $annexesNode->{$docType};
                     $this->setDefault($docType . '_debut', $docNode->debut);
                     $this->setDefault($docType . '_fin', $docNode->fin);
+                    $this->setDefault($docType . '_nb', $docNode->nb);
                 }
             }
         }
@@ -189,7 +196,6 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
 
         $this->docTypesList = array();
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC;
-
         $this->docTypesList[] = DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
 
 

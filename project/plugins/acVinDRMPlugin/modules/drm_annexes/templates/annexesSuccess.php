@@ -37,6 +37,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                         <th class="col-xs-4" >Type de document</th>
                                         <th class="col-xs-4">Numéro de début</th>
                                         <th class="col-xs-4">Numéro de fin</th>
+                                        <th class="col-xs-4">Nombre de documents</th>
                                     </tr>
                                 </thead>
                                 <tbody class="drm_adminitration">
@@ -45,6 +46,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                             <td style="vertical-align: middle;" class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>
                                             <td class="drm_annexes_doc_debut"><?php echo $annexesForm[$typeDoc . '_debut']->render(); ?></td>
                                             <td class="drm_annexes_doc_fin"><?php echo $annexesForm[$typeDoc . '_fin']->render(); ?></td>
+                                            <td class="drm_annexes_doc_nb"><?php echo $annexesForm[$typeDoc . '_nb']->render(); ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
