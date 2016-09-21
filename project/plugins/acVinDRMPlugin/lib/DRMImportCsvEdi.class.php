@@ -19,7 +19,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     public function __construct($file, DRM $drm = null) {
         if(is_null($this->csvDoc)) {
-            $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
+            $this->csvDoc = CSVDRMClient::getInstance()->createOrFindDocFromDRM($file, $drm);
         }
         $this->initConf();
         parent::__construct($file, $drm);
@@ -115,6 +115,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     private function checkCSVIntegrity() {
         $ligne_num = 1;
         foreach ($this->getDocRows() as $csvRow) {
+            if(count($csvRow) < 17){
+              $this->csvDoc->addErreur($this->createWrongFormatFieldCountError($ligne_num, $csvRow));
+              $ligne_num++;
+              continue;
+            }
             if ($ligne_num == 1 && KeyInflector::slugify($csvRow[self::CSV_TYPE]) == 'TYPE') {
                 $ligne_num++;
                 continue;
@@ -289,6 +294,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
         $all_contenances = sfConfig::get('app_vrac_contenances');
+        if (!$all_contenances){
+          $all_contenances = DRMConfiguration::getInstance()->getContenances();
+        }
         foreach ($this->getDocRows() as $csvRow) {
             if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                 $num_ligne++;
@@ -365,39 +373,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     break;
 
-                case self::TYPE_ANNEXE_OBSERVATIONS:
-                    $observations = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_OBSERVATION]);
-                    if (!$observations && $just_check) {
-                        $this->csvDoc->addErreur($this->observationsEmptyError($num_ligne, $csvRow));
-                    }
-                    if (!$just_check) {
-                        $this->drm->add('observations', $observations);
-                    }
-                    $num_ligne++;
-                    break;
-
-
-                case self::TYPE_ANNEXE_SUCRE:
-                    $quantite_sucre = str_replace(',', '.', $csvRow[self::CSV_ANNEXE_QUANTITE]);
-                    if (!$quantite_sucre || !is_numeric($quantite_sucre)) {
-                        if ($just_check) {
-                            $this->csvDoc->addErreur($this->sucreWrongFormatError($num_ligne, $csvRow));
-                        }
-                        $num_ligne++;
-                        break;
-                    }
-                    if (!$just_check) {
-                        $this->drm->add('quantite_sucre', $quantite_sucre);
-                    }
-                    $num_ligne++;
-                    break;
-
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC:
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC:
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
                     $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
                     $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
-                    $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
+                    $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_QUANTITE]);
                     if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->annexesTypeMvtWrongFormatError($num_ligne, $csvRow));
@@ -415,7 +396,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                     $num_ligne++;
                     break;
-
+                case self::TYPE_ANNEXE_STATS_EUROPEENES :
+                    $this->drm->getOrAdd('declaratif')->getOrAdd('statistiques')->add(strtolower($csvRow[self::CSV_ANNEXE_TYPEMVT]),round(floatval($csvRow[self::CSV_ANNEXE_QUANTITE]), 2));
+                    $num_ligne++;
+                    break;
                 default:
                     if ($just_check) {
                         $this->csvDoc->addErreur($this->typeDocumentWrongFormatError($num_ligne, $csvRow));
@@ -426,7 +410,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
     }
 
-    private function getDetailsKeyFromDRMType($drmType) {
+    private function getDetailsKeyFromDRMType($drmType ) {
         if(KeyInflector::slugify($drmType) == "SUSPENDU") {
 
             return DRM::DETAILS_KEY_SUSPENDU;
@@ -452,6 +436,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     /**
      * Functions de création d'erreurs
      */
+
+     private function createWrongFormatFieldCountError($num_ligne, $csvRow) {
+         return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_TYPE]), "La ligne possède trop peu de colonnes.");
+     }
+
     private function createWrongFormatTypeError($num_ligne, $csvRow) {
         return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_TYPE]), "Choix possible type : " . implode(', ', self::$permitted_types));
     }
@@ -470,7 +459,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "Le catégorie de mouvement n'a pas été trouvé");
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "La catégorie de mouvement n'a pas été trouvée");
     }
 
     private function typeMouvementNotFoundError($num_ligne, $csvRow) {

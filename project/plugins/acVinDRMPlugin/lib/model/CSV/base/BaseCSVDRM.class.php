@@ -1,7 +1,7 @@
 <?php
 /**
  * BaseCSV
- * 
+ *
  * Base model for CSV
  *
  * @property string $_id
@@ -29,13 +29,12 @@
  * @method string setStatut()
  * @method acCouchdbJson getErreurs()
  * @method acCouchdbJson setErreurs()
- 
  */
- 
-abstract class BaseCSV extends acCouchdbDocument {
+
+abstract class BaseCSVDRM extends acCouchdbDocument {
 
     public function getDocumentDefinitionModel() {
-        return 'CSV';
+        return 'CSVDRM';
     }
-    
+
 }

@@ -5,7 +5,7 @@
             <h3>Annexes</h3>
             <ul class="list-group">
                 <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
-                    <li class="list-group-item"><strong>Documents d'accompagnements :</strong> <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?> du n°<?php echo $numsDoc->debut; ?> au <?php echo $numsDoc->fin; ?></li>
+                    <li class="list-group-item"><strong>Documents d'accompagnements :</strong> <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?> du n°<?php echo $numsDoc->debut; ?> au <?php echo $numsDoc->fin; ?> pour <?php echo $numsDoc->nb; ?> document(s)</li>
                 <?php endforeach; ?> 
                 <?php
                 if ($drm->exist('releve_non_apurement')):
@@ -15,6 +15,12 @@
                     <?php
                     endforeach;
                 endif;
+                ?>
+                <?php
+                foreach ($drm->getObservationsArray() as $produitLibelle => $observation): ?>
+                    <li class="list-group-item"><strong>Observation <?php echo $produitLibelle; ?> :</strong> <?php echo $observation; ?> </li>
+                <?php
+                endforeach;
                 ?>
                 <?php if ($drm->quantite_sucre): ?>
                     <li class="list-group-item"><strong>Quantité de sucres :</strong> <?php echo $drm->quantite_sucre ?> quintals</li>
