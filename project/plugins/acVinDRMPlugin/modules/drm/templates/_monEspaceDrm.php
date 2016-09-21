@@ -1,6 +1,7 @@
 <?php use_helper('Date'); ?>
 <?php use_helper('DRM'); ?>
 <?php use_helper('Orthographe'); ?>
+<?php use_helper('PointsAides'); ?>
                 <ul style="<?php if (!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="list-group">
                     <?php foreach ($lastDrmToCompleteAndToStart as $etb => $drmsByEtb) : ?>
 
@@ -13,7 +14,7 @@
                                               </div>
                                              <div class="row">
                                                  <div class="col-xs-12">
-                                            <a href="<?php echo url_for('drm_redirect_etape', $drmsByEtb->drm); ?>" ><span>Finir la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a>
+                                            <a href="<?php echo url_for('drm_redirect_etape', $drmsByEtb->drm); ?>" ><span>Finir la DRM <?php echo getFrPeriodeElision($drmsByEtb->periode); ?></span></a><?php echo getPointAideHtml('drm','menu_list') ?>
                                           </div>
                                             </div>
                                         </li>

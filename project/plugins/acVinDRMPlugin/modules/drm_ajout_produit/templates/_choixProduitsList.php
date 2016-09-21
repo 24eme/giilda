@@ -1,3 +1,4 @@
+<?php use_helper('PointsAides'); ?>
 <?php foreach ($certificationsProduits as $certificationHash => $certificationProduits): ?>
     <?php $certifKey = $certificationProduits->certification_libelle; ?>
         <div class="col-xs-12">
@@ -5,11 +6,25 @@
             <table id="table_drm_choix_produit" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th class="col-xs-6 text-left">Produits
+                        <th class="col-xs-4 text-left">Produits<?php echo getPointAideHtml('drm','produits') ?>
                              <a data-form="#form_choix_produits" href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" value="" class="btn btn-default btn-xs link-submit pull-right"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un produit</a>
                         </th>
-                        <th class="col-xs-3 text-center">Déclarer des mouvements<br /> En droit suspendu</th>
-                        <th class="col-xs-3 text-center">Déclarer des mouvements<br /> En droit acquitté</th>
+                        <th class="col-xs-4 text-center">
+                          <div class="col-xs-10">
+                          Déclarer des mouvements de produits<br />détenus en droits suspendus
+                          </div>
+                          <div class="col-xs-2">
+                          <?php echo getPointAideHtml('drm','produits_coche_suspendu') ?>
+                          </div>
+                        </th>
+                        <th class="col-xs-4 text-center">
+                          <div class="col-xs-10">
+                          Déclarer des mouvements de produits<br /> détenus en droits acquittés
+                          </div>
+                          <div class="col-xs-2">
+                            <?php echo getPointAideHtml('drm','produits_coche_acquitte') ?>
+                          </div>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

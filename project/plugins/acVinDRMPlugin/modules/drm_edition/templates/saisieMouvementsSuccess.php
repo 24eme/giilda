@@ -1,5 +1,6 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
+<?php use_helper('PointsAides'); ?>
 <!-- #principal -->
 
 <?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
@@ -10,6 +11,11 @@
     <?php include_partial('drm/controlMessage'); ?>
 
     <div id="application_drm">
+        <?php if($detailsKey == "details"): ?>
+          <p><?php echo getPointAideText('drm','etape_mvt_supendus_description'); ?></p>
+        <?php else: ?>
+          <p><?php echo getPointAideText('drm','etape_mvt_acquittes_description'); ?></p>
+        <?php endif; ?>
         <div class="row">
             <div class="col-sm-9" id="contenu_onglet">
                 <?php
@@ -30,7 +36,7 @@
 
             <div class="col-sm-3">
                 <div class="panel panel-default stickyHeader">
-                    <div class="panel-heading">Édition des Produits</div>
+                    <div class="panel-heading">Édition des Produits<?php echo getPointAideHtml('drm','mouvements_choix_produits') ?></div>
                     <div class="panel-body">
                         <?php include_component('drm_edition', 'produitForm', array('drm' => $drm, 'config' => $config, 'detailsKey' => $detailsKey)) ?>
                     </div>

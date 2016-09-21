@@ -1,6 +1,6 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
-
+<?php use_helper('PointsAides'); ?>
 <?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
 
 <!-- #principal -->
@@ -9,6 +9,7 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_ADMINISTRATION)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
+        <p><?php echo getPointAideText('drm','etape_annexes_description'); ?></p>
         <form action="<?php echo url_for('drm_annexes', $annexesForm->getObject()); ?>" class="form-horizontal" method="post">
             <div class="row">
                 <?php echo $annexesForm->renderGlobalErrors(); ?>

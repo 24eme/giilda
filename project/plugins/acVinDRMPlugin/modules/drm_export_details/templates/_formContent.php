@@ -1,5 +1,5 @@
 <?php use_helper('Float'); ?>
-
+<?php use_helper('PointsAides'); ?>
 <?php
     echo $form->renderHiddenFields();
     echo $form->renderGlobalErrors();
@@ -8,12 +8,15 @@
 <table id="drm_export_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th class="col-xs-5">Pays</th>
+            <th class="col-xs-4">Pays<?php echo getPointAideHtml('drm','mouvements_export_pays') ?></th>
             <th class="col-xs-3">Volumes</th>
-             <th class="col-xs-2 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Type de doc</th>
-            <th class="col-xs-1 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Numéro&nbsp;de&nbsp;document</th>
-            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow)? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;type document</a></th>
-            <th class="col-xs-1"></th>
+
+             <th class="col-xs-2 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Type de doc.<?php echo getPointAideHtml('drm','mouvements_export_type_doc') ?></th>
+            <th class="col-xs-2 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Num.&nbsp;du&nbsp;doc.<?php echo getPointAideHtml('drm','mouvements_export_doc_accompagnement_num') ?></th>
+
+            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow)? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Document</a><?php echo getPointAideHtml('drm','mouvements_export_doc_accompagnement') ?></th>
+
+            <th class="col-xs-2"></th>
         </tr>
     </thead>
     <tbody class="drm_details_tableBody">
@@ -29,7 +32,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="col-xs-5" ></td>
+            <td class="col-xs-4" ></td>
             <td class="lead text-right col-xs-3">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
@@ -39,8 +42,8 @@
             </td>
             <td class="col-xs-2 text-center typedoc_unshow"  <?php echo (!$docShow)? '' : 'style="display: none;"' ?>  ></td>
             <td class="col-xs-2 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
-            <td class="col-xs-1 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
-            <td class="text-right col-xs-1"><button type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a></td>
+            <td class="col-xs-2 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
+            <td class="text-right col-xs-2"><a type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
         </tr>
     </tfoot>
 </table>

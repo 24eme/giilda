@@ -1,5 +1,6 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
+<?php use_helper('PointsAides'); ?>
 <!-- #principal -->
 
 <?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
@@ -9,6 +10,7 @@
 <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post" id="drm_validation">
     <div class="row">
         <div class="col-xs-12">
+            <p><?php echo getPointAideText('drm','etape_recap_description'); ?></p>
             <?php if ($isTeledeclarationMode): ?>
                 <?php //include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>

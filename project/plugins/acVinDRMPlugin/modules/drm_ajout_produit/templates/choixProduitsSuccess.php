@@ -1,5 +1,6 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
+<?php use_helper('PointsAides'); ?>
 
 <?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
 
@@ -8,7 +9,7 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
-        <p>Afin de préparer le détail de la DRM, vous pouvez préciser ici vos stocks épuisés ou l'absence de mouvements pour tout ou partie des produits.</p>
+        <p><?php echo getPointAideText('drm','etape_produit_description'); ?></p>
         <form id="form_choix_produits" action="<?php echo url_for('drm_choix_produit', $form->getObject()) ?>" method="post">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>

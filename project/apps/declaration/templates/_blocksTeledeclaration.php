@@ -29,8 +29,9 @@ $hasBlog = false;
 
 
                     <a class="btn btn-default" href="<?php echo url_for('vrac_societe',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" >
-                        <?php echo 'Accéder aux Contrats' ?><?php echo getPointAideHtml('vrac','menu_acceder') ?>
+                    <?php echo 'Accéder aux Contrats' ?>
                     </a>
+                    <?php echo getPointAideHtml('vrac','menu_acceder') ?>
 
                 </div>
             </div>
@@ -66,7 +67,7 @@ $hasBlog = false;
                     <a class="btn btn-default" href="<?php echo url_for('drm_societe',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" >
                         <?php echo 'Accéder aux DRM' ?>
                     </a>
-
+                    <?php echo getPointAideHtml('drm','menu_acceder') ?>
                 </div>
             </div>
 

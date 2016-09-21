@@ -1,5 +1,6 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
+<?php use_helper('PointsAides'); ?>
 <?php $allCrdsByRegimeAndByGenre = $drm->getAllCrdsByRegimeAndByGenre(); ?>
 
 <?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
@@ -9,6 +10,7 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => true, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
     <div class="row" id="application_drm">
         <div class="col-xs-12">
+          <p><?php echo getPointAideText('drm','etape_capsules_crd_description'); ?></p>
             <form id="form_crds" action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post">
                 <?php echo $crdsForms->renderGlobalErrors(); ?>
                 <?php echo $crdsForms->renderHiddenFields(); ?>
@@ -22,20 +24,20 @@
                                 <thead>
                                     <tr>
                                         <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD <a data-form="#form_crds" href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="btn btn-xs link-submit btn-link"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></th>
-                                        <th class="col-xs-1 text-center vertical-center" rowspan="2">Stock</th>
+                                        <th class="col-xs-1 text-center vertical-center" rowspan="2">Stock<?php echo getPointAideHtml('drm','crd_stock_debut') ?></th>
                                         <th class="text-center" colspan="3">Entrées</th>
                                         <th class="text-center" colspan="3">Sorties</th>
-                                        <th class="col-xs-1 text-center vertical-center" rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?></th>
+                                        <th class="col-xs-1 text-center vertical-center" rowspan="2" >Stock <?php echo getLastDayForDrmPeriode($drm); ?><?php echo getPointAideHtml('drm','crd_stock_fin') ?></th>
                                     </tr>
                                     <tr>
 
-                                        <th class="col-xs-1 text-center">Achat</th>
-                                        <th class="col-xs-1 text-center">Retour</th>
-                                        <th class="col-xs-1 text-center">Excéd.</th>
+                                        <th class="col-xs-1 text-center">Achat<?php echo getPointAideHtml('drm','crd_entree_achat') ?></th>
+                                        <th class="col-xs-1 text-center">Retour<?php echo getPointAideHtml('drm','crd_entree_retour') ?></th>
+                                        <th class="col-xs-1 text-center">Excéd.<?php echo getPointAideHtml('drm','crd_entree_exc') ?></th>
 
-                                        <th class="col-xs-1 text-center">Utilisé</th>
-                                        <th class="col-xs-1 text-center">Destr.</th>
-                                        <th class="col-xs-1 text-center">Manq.</th>
+                                        <th class="col-xs-1 text-center">Utilisé<?php echo getPointAideHtml('drm','crd_sortie_utilisee') ?></th>
+                                        <th class="col-xs-1 text-center">Destr.<?php echo getPointAideHtml('drm','crd_sortie_detruite') ?></th>
+                                        <th class="col-xs-1 text-center">Manq.<?php echo getPointAideHtml('drm','crd_sortie_manquant') ?></th>
 
                                     </tr>
                                 </thead>
