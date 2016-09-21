@@ -29,7 +29,7 @@ $hasBlog = false;
 
 
                     <a class="btn btn-default" href="<?php echo url_for('vrac_societe',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" >
-                        <?php echo 'Accéder aux Contrat' ?>
+                        <?php echo 'Accéder aux Contrats' ?><?php echo getPointAideHtml('vrac','menu_acceder') ?>
                     </a>
 
                 </div>

@@ -301,7 +301,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $codeProduit =
                 $this->configuration->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->getCodeComptable();
 
-                $detail->add(sfConfig::get('app_configuration_facture_stockage_code_produit', 'code_compte'), $codeProduit);
+                $detail->add(FactureConfiguration::getInstance()->getStockageCodeProduit(), $codeProduit);
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();

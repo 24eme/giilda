@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading text-center">
                             <strong><?php echo $etablissement->nom; ?></strong>
                         </div>
                         <div class="text-center panel-body">

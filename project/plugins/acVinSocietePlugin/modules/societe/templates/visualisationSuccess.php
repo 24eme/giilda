@@ -25,7 +25,7 @@
                     </h2>
                     <div class="col-xs-2 text-right">
                       <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modfier <span class="caret"></span></a>
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modifier <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                          <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_modification', array('identifiant' => $societe->identifiant)); ?>">Editer</a></li>
                          <li<?php echo ($societe->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($societe->isSuspendu()) ? 'javascript:void(0)' : url_for('societe_switch_statut', array('identifiant' => $societe->identifiant)); ?>">Suspendre</a></li>
