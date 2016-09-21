@@ -1340,6 +1340,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $produit->observations = $observation;
       }
     }
+    public function addReplacementDateProduit($hash, $date)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->replacement_date = $date;
+      }
+    }
+
     public function getExportableObservations() {
       return 'observations';
     }
@@ -1362,6 +1370,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       }
       return $observations;
     }
+
+    public function getReplacementDateArray(){
+      $dates = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('replacement_date') && $detail->get('replacement_date')){
+          $dates[$detail->getLibelle()] = $detail->get('replacement_date');
+        }
+      }
+      return $dates;
+    }
+
 
     /*
     * Fin Observations
