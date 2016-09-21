@@ -1,0 +1,7 @@
+all:
+  configuration:
+    points_aides:
+      vrac:
+        menu_list_asigner : "Contrats d’achats en attente de votre signature. Ces contrats, initiés par un négociant ou un courtier, doivent être lus avant validation définitive."
+        menu_list_enattente: "Contrats d’achats dont vous êtes l’initiateur  et qui restent en attente des signatures de tous les contractants."
+        menu_acceder: "Permet d’accéder directement à la dernière DRM pour la créer, la finir ou la visualiser."

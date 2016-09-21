@@ -1,4 +1,6 @@
-
+<?php
+use_helper('PointsAides');
+?>
     <ul class="list-group">
         <?php
         if (!$societe->isViticulteur()):
@@ -24,8 +26,8 @@
             ?>
             <li class="list-group-item ">
                <div class="row text-center" >
-              <h4 ><img src="/images/pictos/pi_stylo_a_signer.png" width="40" height="40"/><span>A Signer</span></h4>
-  </div>
+                 <h4 ><img src="/images/pictos/pi_stylo_a_signer.png" width="40" height="40"/><span>A Signer</span><?php echo getPointAideHtml('vrac','menu_list_asigner') ?></h4>
+               </div>
                 <div class="row text-center" >
                 <div class="col-xs-12" <?php echo (!$contratsSocietesWithInfos->infos->a_signer) ? "style='opacity:0.5'" : ""; ?>>
                     <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
@@ -41,7 +43,7 @@
         <?php endif; ?>
         <li class="list-group-item ">
           <div class="row text-center" >
-          <h4><img src="/images/pictos/pi_contrat_en_attente.png" width="40" height="40"/><span>En Attente</span></h4>
+          <h4><img src="/images/pictos/pi_contrat_en_attente.png" width="40" height="40"/><span>En Attente</span><?php echo getPointAideHtml('vrac','menu_list_enattente') ?></h4>
         </div>
         <div class="row text-center" >
             <div class="col-xs-12" <?php echo (!$contratsSocietesWithInfos->infos->en_attente) ? "style='opacity:0.5'" : ""; ?>>
