@@ -36,12 +36,10 @@ details;stocks_fin;instance;En instance de revendication;En instance de revendic
 details;stocks_fin;dont_revendique;dont revendiqué;Stock revendiqué en fin de mois;Stock revendiqué en fin de mois;
 detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;A remplir uniquement sur la 1ère DRM de campagne. En août, indiquer le stock réel constaté par inventaire et identique à la Déclaration de Stocks. Pour tous les mois suivants de la campagne, le stock est automatiquement repris du mois précédent.;
 detailsACQUITTE;stocks_debut;instance;En instance;En instance de revendication;Stock début En instance de revendication;
-detailsACQUITTE;entrees;recolte;Récolte;Entrées récolte;Le mois de dépôt de la Déclaration de Récolte, indiquer le volume inscrit sur  la déclaration de récolte  (ligne 14 pour les VSIG).;
-detailsACQUITTE;entrees;reintegration;Réintégration;Quantités réintégrées;Indiquer les vins sortis sur un mois antérieur et revenus sur l'exploitation.;
-detailsACQUITTE;sorties;ventefrancecrd;CRD;Sorties sous CRD;Inscrire les sorties de vins conditionnés (Bouteilles, BIB, cubi...) avec Capsules Représentatives de Droits (C.R.D.).;
-detailsACQUITTE;sorties;ventefrancedsa;DSA / DSAC;Sorties sous DSA / DSAC;Inscrire les ventes en France sous DSA/DSAC à un débitant, un particulier ou un Entrepositaire Agréé ne travaillant qu'en droits acquittés (n° d'accise sous la forme FR 000 000 A 0000).;
-detailsACQUITTE;sorties;export;Export;Sorties sous document commercial;Indiquer les volumes commercialisés à l'export.;
-detailsACQUITTE;sorties;consommationfamilialedegustation;Dégustation;Dégustation à la propriété;Indiquer les volumes dégustés sur l'exploitation et/ou de consommation familiale.;
-detailsACQUITTE;sorties;destructionperte;Pertes et manquants;Pertes et manquants;Indiquer toute perte (lors d'une mise en bouteilles...), destruction exceptionnelle (vol, casse, fuite... dûment validée par les douanes) ou manquant constaté (lors d'un inventaire ou contrôle douanier).;
+detailsACQUITTE;entrees;achat;Achats;Achats de produit;Indiquer les achats du produit.;
+detailsACQUITTE;entrees;autre;Autres;Autres entrées;Autres entrées du produit. Ex : correspondant à une sortie de produits en droits suspendus pour lesquels les droits ont été payés.;
+detailsACQUITTE;sorties;vente;Ventes de produits ;Ventes de produits ;Indiquer les ventes du produit.;
+detailsACQUITTE;sorties;replacementsuspension;Replacement en suspension;Replacement en suspension;Indiquer le replacement en suspension du produit.;
+detailsACQUITTE;sorties;autre;Autres;Indiquer les autres sorties du produit.;Indiquer les volumes commercialisés à l'export.;
 detailsACQUITTE;stocks_fin;final;Final;Stock fin de mois;Calcul automatique: cette case ne peut être modifiée.;
 detailsACQUITTE;stocks_fin;instance;En instance;En instance de revendication;Stock fin En instance de revendication;
