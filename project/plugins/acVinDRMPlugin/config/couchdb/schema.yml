@@ -231,6 +231,7 @@ DRM:
                                                                                                             produit_libelle: {  }
                                                                                                             cvo: {type: float}
                                                                                                             code_inao: { }
+                                                                                                            replacement_date: { required: false }
                                                                                                             observations: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection
