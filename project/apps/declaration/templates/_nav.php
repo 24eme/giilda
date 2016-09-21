@@ -100,13 +100,20 @@ endif; ?>
             <li><a href="<?php echo url_for("comptabilite_edition") ?>">Codes analytiques</a></li>
           </ul>
         </li>
+<?php if ($etablissement): ?>
+<?php if (preg_match('/drm/', $module)) : ?>
+     <li><a tabindex="-1" href="<?php echo url_for('drm_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+<?php elseif (preg_match('/vrac/', $module)): ?>
+     <li><a tabindex="-1" href="<?php echo url_for('vrac_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+<?php endif; ?>
+<?php endif; ?>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
-     <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a></li>
+     <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>"><span class="glyphicon glyphicon-user"></span></a></li>
 <?php endif; ?>
 <?php if ($sf_user->isAuthenticated()): ?>
 <?php if ($sf_user->isUsurpationCompte()): ?>
-     <li><a tabindex="-1" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a></li>
+     <li><a tabindex="-1" href="<?php echo url_for('vrac_dedebrayage') ?>"><span class="glyphicon glyphicon-cloud-download"></span></a></li>
 <?php else: ?>
      <li><a tabindex="-1" href="<?php echo url_for('auth_logout') ?>"><span class="glyphicon glyphicon-log-out"></span></a></li>
 <?php endif; ?>
