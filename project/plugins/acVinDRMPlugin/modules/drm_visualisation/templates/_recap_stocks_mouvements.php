@@ -1,9 +1,10 @@
+<?php use_helper('PointsAides'); ?>
 <?php if($drm->isDouaneType($typeKey)): ?>
 <h3 style="margin-top: 0;">Mouvements <?php echo DRMClient::$types_libelles[$typeDetailKey] ?>s</h3>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li class="active"  tabindex="10"><a data-target="#stocks_<?php echo $typeKey ?>" href="#tab=stocks_<?php echo $typeKey ?>" aria-controls="stocks_<?php echo $typeKey ?>" role="tab">Résumé des Stocks</a></li>
-    <li  tabindex="20" ><a data-target="#mouvements_<?php echo $typeKey ?>" href="#tab=mouvements_<?php echo $typeKey ?>" aria-controls="mouvements_<?php echo $typeKey ?>" role="tab">Détails des Mouvements</a></li>
+    <li class="active"  tabindex="10"><a data-target="#stocks_<?php echo $typeKey ?>" href="#tab=stocks_<?php echo $typeKey ?>" aria-controls="stocks_<?php echo $typeKey ?>" role="tab">Résumé des Stocks<?php echo getPointAideHtml('drm','recapitulatif_stock'); ?></a></li>
+    <li  tabindex="20" ><a data-target="#mouvements_<?php echo $typeKey ?>" href="#tab=mouvements_<?php echo $typeKey ?>" aria-controls="mouvements_<?php echo $typeKey ?>" role="tab">Détails des Mouvements<?php echo getPointAideHtml('drm','recapitulatif_details'); ?></a></li>
 </ul>
 <div class="tab-content">
     <div id="stocks_<?php echo $typeKey ?>" role="tabpanel" class="tab-pane active">

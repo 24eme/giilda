@@ -6,7 +6,7 @@ class DRMDroits extends BaseDRMDroits {
     const DROIT_DOUANE = 'Douane';
 
     public static $correspondanceGenreKey = array('TRANQ' => 'TRANQ', 'EFF' => 'MOUSSEUX', 'MOU' => 'MOUSSEUX');
-    public static $correspondanceGenreLibelle = array('TRANQ' => 'Vins tranquille', 'EFF' => 'Vins mousseux', 'MOU' => 'Vins mousseux');
+    public static $correspondanceGenreLibelle = array('TRANQ' => 'Vins tranquilles', 'EFF' => 'Vins mousseux', 'MOU' => 'Vins mousseux');
 
     public function getCumul() {
         $sum = 0;

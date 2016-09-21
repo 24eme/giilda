@@ -1,12 +1,13 @@
+<?php use_helper('PointsAides'); ?>
 <?php if (count($drm->documents_annexes) || ($drm->exist('releve_non_apurement') && count($drm->releve_non_apurement)) || $drm->quantite_sucre || $drm->observations): ?>
     <div class="row">
         <div class="col-xs-12">
 
-            <h3>Annexes</h3>
+            <h3>Annexes</h3>            
             <ul class="list-group">
                 <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
                     <li class="list-group-item"><strong>Documents d'accompagnements :</strong> <?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?> du n°<?php echo $numsDoc->debut; ?> au <?php echo $numsDoc->fin; ?> pour <?php echo $numsDoc->nb; ?> document(s)</li>
-                <?php endforeach; ?> 
+                <?php endforeach; ?>
                 <?php
                 if ($drm->exist('releve_non_apurement')):
                     foreach ($drm->releve_non_apurement as $num_non_apurement => $non_apurement):

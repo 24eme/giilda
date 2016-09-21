@@ -8,6 +8,8 @@ if (!isset($isTeledeclarationMode)) {
 }
 $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
 ?>
+<br/>
+<p><?php echo getPointAideText('drm','visualisation_cvo_montant'); ?></p>
 <?php if (count($mouvementsByProduit) > 0): ?>
     <?php if (isset($hamza_style)) : ?>
         <div class="row" style="margin-top: 20px;">

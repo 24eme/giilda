@@ -40,7 +40,19 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+          <?php if($validation->hasErreurs()): ?>
+          <div class="alert alert-danger">
+              <strong>Points bloquants</strong><?php echo getPointAideHtml('drm','recapitulatif_pt_bloquant'); ?>
+              <?php include_partial('document_validation/validationType', array('points' => $validation->getPoints('erreur'))) ?>
+          </div>
+          <?php endif; ?>
+
+          <?php if($validation->hasVigilances()): ?>
+          <div class="alert alert-warning">
+              <strong>Points de vigilance</strong><?php echo getPointAideHtml('drm','recapitulatif_pt_vigilance'); ?>
+              <?php include_partial('document_validation/validationType', array('points' => $validation->getPoints('vigilance'))) ?>
+          </div>
+          <?php endif; ?>
         </div>
     </div>
 
@@ -52,7 +64,7 @@
             <?php /*if ($isTeledeclarationMode) : ?>
                 <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('drm_etablissement', $vrac); ?>">Supprimer le brouillon</a>
             <?php endif;*/ ?>
-
+                <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
                 <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
 
         </div>

@@ -31,13 +31,13 @@
                                     </tr>
                                     <tr>
 
-                                        <th class="col-xs-1 text-center">Achat<?php echo getPointAideHtml('drm','crd_entree_achat') ?></th>
-                                        <th class="col-xs-1 text-center">Retour<?php echo getPointAideHtml('drm','crd_entree_retour') ?></th>
-                                        <th class="col-xs-1 text-center">Excéd.<?php echo getPointAideHtml('drm','crd_entree_exc') ?></th>
+                                        <th class="col-xs-1 text-center">Achat<?php echo getPointAideHtml('drm','crd_entree_achat'); ?></th>
+                                        <th class="col-xs-1 text-center">Retour<?php echo getPointAideHtml('drm','crd_entree_retour'); ?></th>
+                                        <th class="col-xs-1 text-center">Excéd.<?php echo getPointAideHtml('drm','crd_entree_exc'); ?></th>
 
-                                        <th class="col-xs-1 text-center">Utilisé<?php echo getPointAideHtml('drm','crd_sortie_utilisee') ?></th>
-                                        <th class="col-xs-1 text-center">Destr.<?php echo getPointAideHtml('drm','crd_sortie_detruite') ?></th>
-                                        <th class="col-xs-1 text-center">Manq.<?php echo getPointAideHtml('drm','crd_sortie_manquant') ?></th>
+                                        <th class="col-xs-1 text-center">Utilisé<?php echo getPointAideHtml('drm','crd_sortie_utilisee'); ?></th>
+                                        <th class="col-xs-1 text-center">Destr.<?php echo getPointAideHtml('drm','crd_sortie_detruite'); ?></th>
+                                        <th class="col-xs-1 text-center">Manq.<?php echo getPointAideHtml('drm','crd_sortie_manquant'); ?></th>
 
                                     </tr>
                                 </thead>

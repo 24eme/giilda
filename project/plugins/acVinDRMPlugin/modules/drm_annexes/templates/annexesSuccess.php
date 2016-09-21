@@ -35,6 +35,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                         <div id="collapse_documents" class="panel-collapse collapse <?php echo ($drm->hasAnnexes())? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_documents">
                           <div class="panel-body">
+                            <p><?php echo getPointAideText('drm','annexe_document_accompagnement'); ?></p>
                             <table id="table_drm_adminitration" class="table table-bordered table-striped">
                                 <thead >
                                     <tr>
@@ -47,7 +48,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                 <tbody class="drm_adminitration">
                                     <?php foreach ($annexesForm->getDocTypes() as $typeDoc): ?>
                                         <tr>
-                                            <td style="vertical-align: middle;" class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?></td>
+                                            <td style="vertical-align: middle;" class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?><?php echo getPointAideHtml('drm','annexe_'.strtolower($typeDoc)) ?></td>
                                             <td class="drm_annexes_doc_debut"><?php echo $annexesForm[$typeDoc . '_debut']->render(); ?></td>
                                             <td class="drm_annexes_doc_fin"><?php echo $annexesForm[$typeDoc . '_fin']->render(); ?></td>
                                             <td class="drm_annexes_doc_nb"><?php echo $annexesForm[$typeDoc . '_nb']->render(); ?></td>
@@ -78,12 +79,13 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                         <div id="collapse_apurement" class="panel-collapse collapse <?php echo (count($annexesForm['releve_non_apurement']))? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_apurement">
                         <div class="panel-body">
+                          <p><?php echo getPointAideText('drm','annexe_nonapurement'); ?></p>
                           <table id="table_drm_non_apurement" class="table table-bordered table-striped">
                               <thead >
                                   <tr>
-                                      <th class="col-xs-4">Numéro de document</th>
-                                      <th class="drm_non_apurement_date_emission col-xs-4">Date d'expédition</th>
-                                      <th class="col-xs-4">Numéro d'accise</th>
+                                      <th class="col-xs-4">Numéro de document<?php echo getPointAideHtml('drm','annexe_nonapurement_num_doc'); ?></th>
+                                      <th class="drm_non_apurement_date_emission col-xs-4">Date d'expédition<?php echo getPointAideHtml('drm','annexe_nonapurement_date'); ?></th>
+                                      <th class="col-xs-4">Numéro d'accise<?php echo getPointAideHtml('drm','annexe_nonapurement_num_accise'); ?></th>
                                       <th class="col-xs-1"></th>
                                   </tr>
                               </thead>
@@ -124,6 +126,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                         <div id="collapse_stats_europeenes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="drm_annexes_stats_europeenes">
                         <div class="panel-body">
+                          <p><?php echo getPointAideText('drm','annexe_statistique_eur'); ?></p>
                           <table class="table table-bordered table-striped">
                               <thead >
                                 <tr>
@@ -173,6 +176,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                       <div id="collapse_observations" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="drm_annexes_observations">
                         <div class="panel-body">
+                        <p><?php echo getPointAideText('drm','annexe_observations'); ?></p>
                         <table class="table table-bordered table-striped">
                             <thead >
                               <tr>
@@ -218,6 +222,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                       </div>
                     <div id="collapse_douanes" class="panel-collapse collapse <?php echo (!$drm->hasPaiementDouane())? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_douanes">
                       <div class="panel-body">
+                        <p><?php echo getPointAideText('drm','annexe_paiement_douane'); ?></p>
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
@@ -273,6 +278,4 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
         </form>
     </div>
 </section>
-<?php
-include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
-?>
+<?php  include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm)); ?>
