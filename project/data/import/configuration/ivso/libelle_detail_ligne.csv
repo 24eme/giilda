@@ -1,50 +1,47 @@
-details;stocks_debut;initial;Initial récolté;Stock initial récolté;Stock initial récolté;
+details;stocks_debut;initial;Initial récolté;Stock initial récolté;"Le volume récolté correspond à celui indiqué sur la Déclaration de Récolte (lignes 14 pour les VSIG; 15 pour les AOC & IGP; 19 pour les VCI).";
 details;stocks_debut;instance;En instance de revendication;Vin en instance de revendication;Vin en instance de revendication;
-details;stocks_debut;dont_revendique;dont revendiqué;Stock revendiqué dbt de mois;Stock revendiqué dbt de mois;
-details;entrees;recolte;01. Récolte;Récolte;Récolte;
-details;entrees;revendication;02. Revendiqué à l'ODG;Revendication de récolte;Revendication de récolte;
-details;entrees;repli;03. Issu d'un repli;Repli;Repli;
-details;entrees;declassement;04. Issu d'un déclassement;Déclassement;Déclassement;
-details;entrees;transfertsrecolte;05. Transfert de produit;Transfert de recolte;Transfert de recolte;
-details;entrees;retourembouteillage;06. Retour conditionnmt;Retour de conditionnement;Retour d'embouteillage;
-details;entrees;transfertcomptamatierecession;07. Retour logement ext.;Retour de logement externe;Retour de logement externe;
-details;entrees;travailafacon;08. Retour Travail à façon;Retour de travail à façon;Retour de travail à façon, distillation à façon;
-details;entrees;retourmarchandisetaxees;09. Retour de vin sous CRD;Retour de marchandises ayant déjà été taxées;Retour de marchandises ayant déjà été taxées;
-details;entrees;retourmarchandisenontaxees;10. Retour de vin hors CRD;Retour de marchandises non taxées;Retour de marchandises non taxées;
-details;entrees;achatcrd;11. Achat sous CRD;Achat de vin en CRD;Achat de vin en CRD;
-details;entrees;achatnoncrd;12. Achat hors CRD;Achat de vin non CRD;Achat de vin non CRD;
-details;entrees;regularisation;13. Excédent constaté;Régularisation;Régularisation;
-details;entrees;sortie_negative;14. Sortie négative;Sortie négative;Sortie négative;
-details;sorties;consommationfamilialedegustation;01. Conso. Familiale;Consomation familiale et dégustation;Consomation familiale et dégustation;
-details;sorties;ventefrancecrd;02. Vente sous CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD;
-details;sorties;vracsanscontratacquitte;03. Vente sous DSA;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté);
-details;sorties;vrac;04. Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné;
-details;sorties;vracsanscontratsuspendu;05. Vrac hors contrat;Contrats hors interpro;Contrats hors interpro;
-details;sorties;export;06. Export;Export;Export;
-details;sorties;repli;07. Repli;Repli;Repli;
-details;sorties;declassement;08. Déclassement;Déclassement;Déclassement;
-details;sorties;transfertsrecolte;09. Transfert de produit;Transfert de récolte;Transfert de récolte;
-details;sorties;embouteillage;10. Conditionnement;Conditionnement;Conditionnement;
-details;sorties;transfertcomptamatiere;11. Logement externe;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre;
-details;sorties;travailafacon;12. Travail à façon;Sortie de travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon;
-details;sorties;distillationusageindustriel;13. Usages industriel;Distillation et usages industriels;Distillation et usages industriels;
-details;sorties;destructionperte;14. Destruction/perte;Destruction et pertes;Destruction et pertes;
-details;sorties;manquant;15. Manquant;Manquant;Manquant;
-details;sorties;cession;16. Cession d'exploitation;Cession d'activité;Cession d'activité;
-details;sorties;apportgroupement;17. Apport à groupement;Apport à un groupement;Apport à un groupement;
-details;sorties;entree_recolte_negative;18. Entrée négative récolte;Entrée négative de récolte;Entrée négative de récolte;
-details;sorties;entree_negative;19. Entrée négative;Entrée négative;Entrée négative;
+details;stocks_debut;dont_revendique;dont revendiqué;Stock revendiqué dbt de mois;Pour les AOC & IGP, le volume revendiqué correspond à celui effectivement revendiqué auprès de l'ODG. Pour les VSIG, ce volume est identique au volume récolté.;
+details;entrees;recolte;01. Récolte;Récolte;"Indiquer le volume inscrit sur  la déclaration de récolte  (lignes 14 pour les VSIG; 15 pour les AOC & IGP; 19 pour les VCI).";
+details;entrees;revendication;02. Revendiqué à l'ODG;Revendication de récolte;Indiquer le volume ayant fait l’objet d'une déclaration de revendication.;
+details;entrees;repli;03. Issu d'un repli;Repli;"Toute entrée dans cette rubrique pour une colonne doit trouver son équivalent en sortie dans une autre colonne. Tout repli doit être autorisé par le cahier des charges (AOC vers une autre AOC; IGP de zone ou de département vers une IGP régionale).";
+details;entrees;declassement;04. Issu d'un déclassement;Déclassement;Toute entrée dans cette rubrique pour une colonne doit trouver son équivalent en sortie dans une autre colonne. Tout déclassement (AOC ou IGP vers les VSIG) doit être déclaré à l'ODG.;
+details;entrees;transfertsrecolte;05. Transfert de produit;Transfert de recolte;(Concerne que les IGP. Ex: Volume récolté en Côtes de Gascogne et finalement revendiqué en Comté Tolosan)  Indiquer les volumes transférés en provenance d'une autre IGP (récoltés mais non encore revendiqués). Toute entrée dans cette rubrique pour une colonne doit trouver son équivalent en revendication dans la même colonne et en sortie dans une autre colonne.;
+details;entrees;retourembouteillage;06. Retour conditionnmt;Retour de conditionnement;Retour de vins conditionnés  (mis en bouteilles, en BIB...) à l'extérieur de votre chai par un prestataire.;
+details;entrees;transfertcomptamatierecession;07. Retour logement ext.;Retour de logement externe;Retour de vins logés temporairement dans un chai extérieur.;
+details;entrees;travailafacon;08. Retour Travail à façon;Retour de travail à façon;Retour de vins préparés  par un prestataire extérieur (mousseux).;
+details;entrees;retourmarchandisetaxees;09. Retour de vin sous CRD;Retour de marchandises ayant déjà été taxées;Retour de vins préalablement sortis sous CRD (déductible des CVO).;
+details;entrees;retourmarchandisenontaxees;10. Retour de vin hors CRD;Retour de marchandises non taxées;Retour de vins préalablement sortis sans CRD (déductible des CVO).;
+details;entrees;achatcrd;11. Achat sous CRD;Achat de vin en CRD;Indiquer les volumes achetés conditionnés sous CRD. Cas exceptionnel.;
+details;entrees;achatnoncrd;12. Achat hors CRD;Achat de vin non CRD;Indiquer les volumes achetés sans CRD. Cas exceptionnel.;
+details;entrees;regularisation;13. Excédent constaté;Régularisation;Indiquer les volumes constatés en excédent à l'occasion d'un inventaire ou d'un contrôle des douanes,;
+details;sorties;consommationfamilialedegustation;01. Conso. Familiale;Consomation familiale et dégustation;Indiquer les volumes de consommation familiale.;
+details;sorties;ventefrancecrd;02. Vente sous CRD;Ventes en France de Bouteilles sous CRD;Inscrire les sorties de vins conditionnés (Bouteilles, BIB, cubi...) avec Capsules Représentatives de Droits (C.R.D.).;
+details;sorties;vracsanscontratacquitte;03. Vente sous DSA;Sortie de vrac sans contrat (acquitté);Inscrire les ventes en France sous DSA/DSAC à un débitant, un particulier ou un Entrepositaire Agréé ne travaillant qu'en droits acquittés (n° d'accise sous la forme FR 000 000 A 0000).;
+details;sorties;vrac;04. Vrac sous contrat;Contrat de vin en vrac ou conditionné;Indiquer les volumes sortis en vrac sous contrat interprofessionnel et sous DAA/DAC/DCA ou DAE.;
+details;sorties;vracsanscontratsuspendu;05. Vrac hors contrat;Contrats hors interpro;Indiquer les volumes sortis en vrac sans contrat interprofessionnel et sous DAA/DAC/DCA ou DAE. Ex: VSIG sous contrat FranceAgrimer. ;
+details;sorties;export;06. Export;Export;Indiquer les volumes commercialisés à l'export  à l'exception des volumes commercialisés à l'export en vrac sous contrat interprofessionnel.;
+details;sorties;repli;07. Repli;Repli;"Toute sortie dans cette rubrique pour une colonne doit trouver son équivalent en entrée dans une autre colonne. Tout repli doit être autorisé par le cahier des charges (AOC vers une autre AOC; IGP de zone ou de département vers une IGP régionale).";
+details;sorties;declassement;08. Déclassement;Déclassement;Toute sorties dans cette rubrique pour une colonne doit trouver son équivalent en entrée dans une autre colonne. Tout déclassement (AOC ou IGP vers les VSIG) doit être déclaré à l'ODG.;
+details;sorties;transfertsrecolte;09. Transfert de produit;Transfert de récolte;(Concerne que les IGP. Ex : volume récolté en Côtes de Gascogne et finalement revendiqué en Comté Tolosan). Indiquer les volumes (récoltés mais non encore revendiqués) transférés  vers une autre IGP. Toute sorties dans cette rubrique pour une colonne doit trouver son équivalent en entrée et devra être revendiquée dans une autre colonne.;
+details;sorties;embouteillage;10. Conditionnement;Conditionnement;"Indiquer les vins sortis du chai pour conditionnement extérieur par un prestataire. Une fois conditionné, le vin devra revenir au chai: il sera alors noté en entrée sur la ligne ""retour conditionnement"".";
+details;sorties;transfertcomptamatiere;11. Logement externe;Transferts internes d'un chai à un autre;"Indiquer les vins sortis pour être logés temporairement  dans un chai extérieur. Ces vins devront réintégrer le chai: ils seront alors notés en entrée sur la ligne ""retour logement externe"".";
+details;sorties;travailafacon;12. Travail à façon;Sortie de travail à façon, distillation à façon;"Indiquer les vins sortis du chai pour être travaillés par un prestataire. Une fois préparés, ces vins devront réintégrer le chai: ils seront alors notés en entrée sur la ligne ""retour travail à façon"".";
+details;sorties;distillationusageindustriel;13. Usages industriel;Distillation et usages industriels;Indiquer les sorties vers la distillerie.;
+details;sorties;destructionperte;14. Destruction/perte;Destruction et pertes;Indiquer les pertes et destructions régulières (mise en bouteilles...) ou résultant d'évènements exceptionnels (vol, casse, fuite...) dûment validées par le service des douanes.;
+details;sorties;manquant;15. Manquant;Manquant;Indiquer les volumes constatés manquants à l'occasion d'un inventaire ou d'un contrôle des douanes. (soumis à CVO).;
+details;sorties;cession;16. Cession d'exploitation;Cession d'activité;Indiquer les volumes vendus à votre repreneur lors de la vente de l'exploitation.;
+details;sorties;apportgroupement;17. Apport à groupement;Apport à un groupement;Indiquer les sorties à destination d'un groupement ou d'une union de coopératives.;
 details;stocks_fin;final;Final récolté;Final récolté;Stock final récolté;Stock final récolté
 details;stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication;
 details;stocks_fin;dont_revendique;dont revendiqué;Stock revendiqué en fin de mois;Stock revendiqué en fin de mois;
-detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;Stock début de mois
-detailsACQUITTE;stocks_debut;instance;En instance;En instance de revendication;Stock début En instance de revendication
-detailsACQUITTE;entrees;recolte;Récolte;Entrées récolte;Entrées récolte
-detailsACQUITTE;entrees;reintegration;Réintégration;Quantités réintégrées;Quantités réintégrées
-detailsACQUITTE;sorties;ventefrancecrd;CRD;Sorties sous CRD;Sorties sous CRD
-detailsACQUITTE;sorties;ventefrancedsa;DSA / DSAC;Sorties sous DSA / DSAC;Sorties sous DSA / DSAC
-detailsACQUITTE;sorties;export;Export;Sorties sous document commercial;Sorties sous document commercial
-detailsACQUITTE;sorties;consommationfamilialedegustation;Dégustation;Dégustation à la propriété;Dégustation à la propriété
-detailsACQUITTE;sorties;destructionperte;Pertes et manquants;Pertes et manquants;Pertes et manquants
-detailsACQUITTE;stocks_fin;final;Final;Stock fin de mois;Stock fin de mois
-detailsACQUITTE;stocks_fin;instance;En instance;En instance de revendication;Stock fin En instance de revendication
+detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;A remplir uniquement sur la 1ère DRM de campagne. En août, indiquer le stock réel constaté par inventaire et identique à la Déclaration de Stocks. Pour tous les mois suivants de la campagne, le stock est automatiquement repris du mois précédent.;
+detailsACQUITTE;stocks_debut;instance;En instance;En instance de revendication;Stock début En instance de revendication;
+detailsACQUITTE;entrees;recolte;Récolte;Entrées récolte;Le mois de dépôt de la Déclaration de Récolte, indiquer le volume inscrit sur  la déclaration de récolte  (ligne 14 pour les VSIG).;
+detailsACQUITTE;entrees;reintegration;Réintégration;Quantités réintégrées;Indiquer les vins sortis sur un mois antérieur et revenus sur l'exploitation.;
+detailsACQUITTE;sorties;ventefrancecrd;CRD;Sorties sous CRD;Inscrire les sorties de vins conditionnés (Bouteilles, BIB, cubi...) avec Capsules Représentatives de Droits (C.R.D.).;
+detailsACQUITTE;sorties;ventefrancedsa;DSA / DSAC;Sorties sous DSA / DSAC;Inscrire les ventes en France sous DSA/DSAC à un débitant, un particulier ou un Entrepositaire Agréé ne travaillant qu'en droits acquittés (n° d'accise sous la forme FR 000 000 A 0000).;
+detailsACQUITTE;sorties;export;Export;Sorties sous document commercial;Indiquer les volumes commercialisés à l'export.;
+detailsACQUITTE;sorties;consommationfamilialedegustation;Dégustation;Dégustation à la propriété;Indiquer les volumes dégustés sur l'exploitation et/ou de consommation familiale.;
+detailsACQUITTE;sorties;destructionperte;Pertes et manquants;Pertes et manquants;Indiquer toute perte (lors d'une mise en bouteilles...), destruction exceptionnelle (vol, casse, fuite... dûment validée par les douanes) ou manquant constaté (lors d'un inventaire ou contrôle douanier).;
+detailsACQUITTE;stocks_fin;final;Final;Stock fin de mois;Calcul automatique: cette case ne peut être modifiée.;
+detailsACQUITTE;stocks_fin;instance;En instance;En instance de revendication;Stock fin En instance de revendication;
