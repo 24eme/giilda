@@ -38,9 +38,6 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel($keyFin, DRMClient::$drm_documents_daccompagnement[$docType] . ' fin');
         }
 
-        $this->setWidget('quantite_sucre', new bsWidgetFormInput());
-        $this->setValidator('quantite_sucre', new sfValidatorString(array('required' => false)));
-        $this->widgetSchema->setLabel('quantite_sucre', 'Quantité de sucre');
 
         $observations = new DRMObservationsCollectionForm($this->drm);
         $this->embedForm('observationsProduits', $observations);

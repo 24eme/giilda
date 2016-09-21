@@ -201,7 +201,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                       <div class="panel-heading"  id="drm_annexes_douanes" >
                         <div class="row">
                           <div class="col-xs-11">
-                            <h3 class="panel-title text-center"><strong>Sucre / Paiement Douane</strong></h3>
+                            <h3 class="panel-title text-center"><strong>Paiement Douane</strong></h3>
                           </div>
                           <div class="col-xs-1 text-right">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_douanes" aria-expanded="true" aria-controls="collapse_douanes">
@@ -212,27 +212,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                       </div>
                     <div id="collapse_douanes" class="panel-collapse collapse <?php echo (!$drm->hasPaiementDouane())? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_douanes">
                       <div class="panel-body">
-                      <table class="table table-bordered table-striped">
-                        <thead >
-                          <tr>
-                            <th class="col-xs-12" colspan="3" >Information sur le sucre</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="col-xs-5">
-                              <?php echo $annexesForm['quantite_sucre']->renderLabel(); ?>
-                            </td>
-                            <td class="col-xs-5">
-                              <?php echo $annexesForm['quantite_sucre']->render(); ?><strong style="float: right; padding-top: 5px;"></strong>
-                            </td>
-                            <td class="col-xs-2">
-                              (en quintal)
-                            </td>
-                          </tr>
-                      </tbody>
-                    </table>
-                    <br/>
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
