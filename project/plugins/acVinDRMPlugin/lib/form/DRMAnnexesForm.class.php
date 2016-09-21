@@ -114,6 +114,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         if ($observations = $values['observationsProduits']) {
           foreach ($observations as $hash => $observation) {
             $this->drm->addObservationProduit($hash, $observation['observations']);
+            if (isset($observation['replacement'])) {
+            $this->drm->addReplacementDateProduit($hash, $observation['replacement']);
+            }
           }
         }
 

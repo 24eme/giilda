@@ -21,8 +21,9 @@
                     <li class="list-group-item"><strong>Observation <?php echo $produitLibelle; ?> :</strong> <?php echo $observation; ?> </li>
                 <?php
                 endforeach;
-                ?>
-                <?php if ($drm->quantite_sucre): ?>
+                foreach ($drm->getReplacementDateArray() as $produitLibelle => $date): ?>
+                    <li class="list-group-item"><strong>Replacement de <?php echo $produitLibelle; ?> sorti en date du </strong> <?php echo $date; ?> </li>
+                <?php endforeach; if ($drm->quantite_sucre): ?>
                     <li class="list-group-item"><strong>Quantité de sucres :</strong> <?php echo $drm->quantite_sucre ?> quintals</li>
                     <?php endif; ?>
                     <?php if ($drm->observations): ?>

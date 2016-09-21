@@ -247,7 +247,8 @@ DRM:
                                                                                                             total_revendique: { type: float }
                                                                                                             total: { type: float }
                                                                                                             produit_libelle: {  }
-                                                                                                            cvo: {type: float}                                                                                                            
+                                                                                                            cvo: {type: float}
+                                                                                                            replacement_date: { required: false }
                                                                                                             observations: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection

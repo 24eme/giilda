@@ -176,18 +176,23 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         <table class="table table-bordered table-striped">
                             <thead >
                               <tr>
-                                  <th class="col-xs-7" >Produits</th>
-                                  <th class="col-xs-5" >Observations</th>
+                                  <th class="col-xs-5" >Produits</th>
+                                  <th class="col-xs-7" >Observations</th>
                               </tr>
                             </thead>
                             <tbody class="drm_non_apurement" id="nonapurement_list">
                                 <?php foreach ($annexesForm['observationsProduits'] as $formObservations): ?>
                                   <?php if(isset($formObservations['observations'])): ?>
                                   <tr>
-                                    <td class="col-xs-7" ><?php echo $formObservations['observations']->renderLabel() ?></td>
-                                    <td class="col-xs-5" >
+                                    <td class="col-xs-5" ><?php echo $formObservations['observations']->renderLabel() ?></td>
+                                    <td class="col-xs-7" >
                                           <?php echo $formObservations['observations']->renderError() ?>
-                                          <?php echo $formObservations['observations']->render(array("maxlength" => "250", "style" => "width: 95%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset; border-radius: 3px; border: 0px none; padding: 5px;", "rows" => "2")) ?>
+                                          <?php echo $formObservations['observations']->render(array("maxlength" => "250", "style" => "width: 95%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset; border-radius: 3px; border: 0px none; padding: 5px;", "rows" => "2")) ?><br/>
+                                          <?php if (isset($formObservations['replacement'])): ?>
+                                          <?php echo $formObservations['replacement']->renderError(); ?>
+                                          <?php echo $formObservations['replacement']->renderLabel(); ?>
+                                          <?php echo $formObservations['replacement']->render(); ?><br/>
+                                          <?php endif; ?>
                                         </td>
                                   </tr>
                                   <?php endif; ?>
