@@ -121,6 +121,7 @@ if (count($documents_annexes)): ?>
 	        <<?php echo documentAnnexeKey2XMLTag($k); ?>>
         		<debut-periode><?php echo $v->debut ?></debut-periode>
         		<fin-periode><?php echo $v->fin ?></fin-periode>
+                        <nombre-document-empreinte><?php echo $v->nb ?></nombre-document-empreinte>
                 </<?php echo documentAnnexeKey2XMLTag($k); ?>>
 <?php endforeach; ?>
     	</document-accompagnement>

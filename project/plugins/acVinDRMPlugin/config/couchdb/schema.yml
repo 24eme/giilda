@@ -395,17 +395,28 @@ DRM:
             defaut_apurement: { type: integer }
             daa:
               type: collection
+              required: false
               definition:
                 fields:
                   debut: { type: integer }
                   fin: { type: integer }
+                  nb: {type: integer, required: false}
             dsa:
+              type: collection
+              required: false
+              definition:
+                fields:
+                  debut: { type: integer }
+                  fin: { type: integer }
+                  nb: {type: integer, required: false }
+            statistiques:
               type: collection
               definition:
                 fields:
-                  debut: { type: integer }
-                  fin: { type: integer }
-            adhesion_emcs_gamma: { type: integer }
+                  jus: { type: float }
+                  mcr: { type: float }
+                  vinaigre: { type: float }
+            adhesion_emcs_gamma: { type: integer, required: false }
             paiement:
               type: collection
               definition:
@@ -548,6 +559,7 @@ DRM:
                 fields:
                   'debut': { }
                   'fin': { }
+                  'nb' : { }
       releve_non_apurement:
         type: collection
         class: DRMNonApurement
