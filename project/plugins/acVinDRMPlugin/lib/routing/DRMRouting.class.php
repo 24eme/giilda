@@ -44,7 +44,7 @@ class DRMRouting {
                                                         ));
 
         $r->prependRoute('drm_etablissement', new EtablissementRoute('/drm/etablissement/:identifiant/:campagne', array('module' => 'drm',
-            'action' => 'monEspace', 'campagne' => null), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
+            'action' => 'monEspace', 'campagne' => -1), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
             'type' => 'object')
         ));
 
@@ -111,7 +111,7 @@ class DRMRouting {
 
         $r->prependRoute('drm_visualisation', new DRMRoute('/drm/:identifiant/visualisation/:periode_version/:hide_rectificative', array('module' => 'drm_visualisation',
             'action' => 'visualisation',
-            'hide_rectificative' => null), array('sf_method' => array('get')), array('model' => 'DRM',
+            'hide_rectificative' => "-1"), array('sf_method' => array('get')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('valid'))));
 
@@ -259,6 +259,19 @@ class DRMRouting {
             'action' => 'connexion'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object')
         ));
+
+        $r->prependRoute('drm_ciel', new DRMRoute('/drm/:identifiant/ciel/:periode_version', array('module' => 'drm_xml',
+            'action' => 'transfert'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object')
+        ));
+
+        $r->prependRoute('drm_transmission', new DRMRoute('/drm/:identifiant/transmission/:periode_version',
+            array('module' => 'drm_xml', 'action' => 'wait'), array('sf_method' => array('get', 'post')),
+            array('model' => 'DRM', 'type' => 'object')));
+
+        $r->prependRoute('drm_xml', new DRMRoute('/drm/:identifiant/xml/:periode_version', array('module' => 'drm_xml',
+            'action' => 'print'), array('sf_method' => array('get', 'post')),
+            array('model' => 'DRM', 'type' => 'object')));
     }
 
 }

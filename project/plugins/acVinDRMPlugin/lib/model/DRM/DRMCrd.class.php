@@ -6,6 +6,10 @@
 
 class DRMCrd extends BaseDRMCrd {
     
+    public function getType() {
+	return $this->getParent()->getKey();
+    }
+
     public function getLibelle(){
         return DRMClient::$drm_crds_couleurs[$this->couleur].' - '.str_replace('Bouteille', '', $this->detail_libelle);
     }

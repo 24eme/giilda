@@ -44,10 +44,33 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_destructionperte = 0;
 
         $total_mouvement_absolu = 0;
-
         foreach ($this->document->getProduitsDetails() as $detail) {
 
             $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
+
+            $entrees_excedents = ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0.0;
+            $entrees_retourmarchandisetaxees = ($detail->entrees->exist('retourmarchandisetaxees'))? $detail->entrees->retourmarchandisetaxees : 0.0;
+            $entrees_retourmarchandisesanscvo = ($detail->entrees->exist('retourmarchandisesanscvo'))? $detail->entrees->retourmarchandisesanscvo : 0.0;
+            $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
+
+
+            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_destructionperte;
+            if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
+            {
+              $produitLibelle = " pour le produit ".$detail->getLibelle();
+              if($entrees_excedents){
+                $this->addPoint('vigilance', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              }
+              if($entrees_retourmarchandisetaxees){
+                $this->addPoint('vigilance', 'observations', "Entrée retour de marchandises taxées (".sprintf("%.2f",$entrees_retourmarchandisetaxees)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              }
+              if($entrees_retourmarchandisesanscvo){
+                $this->addPoint('vigilance', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              }
+              if($sorties_destructionperte){
+                $this->addPoint('vigilance', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              }
+            }
 
             if (!$detail->getConfig()->entrees->exist('declassement')) {
                 break;

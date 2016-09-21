@@ -179,6 +179,19 @@ class DRMDetail extends BaseDRMDetail {
         if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }
+        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
+        // Qu'est ce que les manipulation en entrée ici???
+          || ($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
+          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
+          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
+          $this->add('observations',null);
+        }else{
+          $this->remove('observations');
+        }
+    }
+
+    public function setImportableObservations($observations) {
+      $this->add('observations', $observations);
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -454,4 +467,7 @@ class DRMDetail extends BaseDRMDetail {
         return false;
     }
 
+     public function getCodeDouane() {
+ 	     return $this->getCepage()->getConfig()->code_douane;
+     }
 }
