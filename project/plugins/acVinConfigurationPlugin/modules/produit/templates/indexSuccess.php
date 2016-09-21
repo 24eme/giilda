@@ -32,6 +32,7 @@
                     <td><?php echo $configDetails->getTypeDRMLibelle() ?></td>
                     <td><span class="<?php if($detail->mouvement_coefficient == -1): ?>text-danger<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>text-success<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
                     <td><?php echo $detail->getLibelle() ?> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
+                    <td><small class="text-muted"><?php echo $detail->douane_cat; ?></small></td>
                     <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
                     <td><?php if($detail->facturable): ?>CVO<?php endif; ?></td>
                     <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
