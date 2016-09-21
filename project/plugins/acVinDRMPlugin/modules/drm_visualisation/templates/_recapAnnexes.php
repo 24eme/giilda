@@ -16,6 +16,12 @@
                     endforeach;
                 endif;
                 ?>
+                <?php
+                foreach ($drm->getObservationsArray() as $produitLibelle => $observation): ?>
+                    <li class="list-group-item"><strong>Observation <?php echo $produitLibelle; ?> :</strong> <?php echo $observation; ?> </li>
+                <?php
+                endforeach;
+                ?>
                 <?php if ($drm->quantite_sucre): ?>
                     <li class="list-group-item"><strong>Quantité de sucres :</strong> <?php echo $drm->quantite_sucre ?> quintals</li>
                     <?php endif; ?>

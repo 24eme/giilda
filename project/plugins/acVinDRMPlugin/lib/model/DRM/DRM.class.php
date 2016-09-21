@@ -1301,7 +1301,72 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function hasPaiementDouane(){
+      if(!$this->declaratif){
+
+        return false;
+      }
+
+      if(!$this->societe->exist('paiement_douane_frequence') && !$this->societe->exist('paiement_douane_moyen')){
+        return false;
+      }
+      if(!$this->societe->get('paiement_douane_frequence') && !$this->societe->get('paiement_douane_moyen')){
+        return false;
+      }
+      if($this->societe->get('paiement_douane_frequence') == DRMPaiement::FREQUENCE_ANNUELLE){
+        $flag = true;
+        foreach ($this->droits->douane as $key => $node) {
+          if(!$node->cumul){
+            $flag = false;
+            break;
+          }
+        }
+        if(!$flag){
+          return false;
+        }
+      }
+      return true;
+    }
+
     /** Fin Droit de circulation douane */
+
+    /*
+    * Observations
+    */
+    public function addObservationProduit($hash, $observation)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->observations = $observation;
+      }
+    }
+    public function getExportableObservations() {
+      return 'observations';
+    }
+
+    public function hasObservations(){
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('observations')){
+          return true;
+        }
+      }
+        return false;
+    }
+
+    public function getObservationsArray(){
+      $observations = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('observations') && $detail->get('observations')){
+          $observations[$detail->getLibelle()] = $detail->get('observations');
+        }
+      }
+      return $observations;
+    }
+
+    /*
+    * Fin Observations
+    */
+
     public function allLibelleDetailLigneForDRM() {
         $config = $this->getConfig();
         $libelles_detail_ligne = $config->libelle_detail_ligne;

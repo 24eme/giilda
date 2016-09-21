@@ -22,4 +22,8 @@ class DRMConfiguration {
         return $this->configuration['details']['export_detail'];
     }
 
+    public function getContenances() {
+        return $this->configuration['contenances'];
+    }
+
 }
