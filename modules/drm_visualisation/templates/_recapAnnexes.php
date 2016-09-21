@@ -11,10 +11,16 @@
                 if ($drm->exist('releve_non_apurement')):
                     foreach ($drm->releve_non_apurement as $num_non_apurement => $non_apurement):
                         ?>
-                        <li class="list-group-item"><strong>Relevé de non apurement :</strong> n°<?php echo $non_apurement->numero_document; ?> epédié le <?php echo $non_apurement->date_emission; ?> pour le n° d'accises <?php echo $non_apurement->numero_accise; ?></li>
+                        <li class="list-group-item"><strong>Relevé de non apurement :</strong> n°<?php echo $non_apurement->numero_document; ?> expédié le <?php echo $non_apurement->date_emission; ?> pour le n° d'accise <?php echo $non_apurement->numero_accise; ?></li>
                     <?php
                     endforeach;
                 endif;
+                ?>
+                <?php
+                foreach ($drm->getObservationsArray() as $produitLibelle => $observation): ?>
+                    <li class="list-group-item"><strong>Observation <?php echo $produitLibelle; ?> :</strong> <?php echo $observation; ?> </li>
+                <?php
+                endforeach;
                 ?>
                 <?php if ($drm->quantite_sucre): ?>
                     <li class="list-group-item"><strong>Quantité de sucres :</strong> <?php echo $drm->quantite_sucre ?> quintals</li>

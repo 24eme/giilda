@@ -50,7 +50,7 @@
                                             <td class="crds_sortiesUtilisations"><?php echo $crdsForms['sorties_utilisations_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_sortiesDestructions"><?php echo $crdsForms['sorties_destructions_' . $regime . '_' . $crdKey]->render(); ?></td>
                                             <td class="crds_sortiesManquants"><?php echo $crdsForms['sorties_manquants_' . $regime . '_' . $crdKey]->render(); ?></td>
-                                            <td class="crds_fin_de_mois text-right vertical-center"><?php echo (is_null($crd->stock_fin)) ? "0" : $crd->stock_fin; ?></td>
+                                            <td class="crds_fin_de_mois text-center vertical-center"><?php echo (is_null($crd->stock_fin)) ? "0" : $crd->stock_fin; ?></td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

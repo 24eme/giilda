@@ -22,8 +22,8 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
         <thead>
             <tr>
                 <th class="col-xs-1">Type</th>
-                <th class="col-xs-5">Produits</th>
-                <th class="col-xs-4">Mouvement</th>
+                <th class="col-xs-4">Produits</th>
+                <th class="col-xs-3">Mouvement</th>
                 <th class="col-xs-2"><span class="pull-right">Volume</span></th>
                 <?php if($hasDontRevendique): ?>
                   <th class="col-xs-2"><span class="pull-left">(dont revendiqué)</span></th>
@@ -43,7 +43,7 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                     <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements_<?php echo $typeKey ?>&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
                     <td><strong>Stock début</strong></td>
                     <td><strong> <span class="pull-right"><?php echoFloat($produit->total_debut_mois) . ' hl'; ?></span></strong></td>
-                    <?php if($hasDontRevendique): ?><td><strong> <span class="pull-left">(<?php echo ($detail->stocks_debut->dont_revendique) ? sprintFloat($detail->stocks_debut->dont_revendique) : "0.00"; ?>)</span></strong></td><?php endif; ?>
+                    <td><?php if($hasDontRevendique && $detail->stocks_debut->exist('dont_revendique')): ?><strong> <span class="pull-left">(<?php echo ($detail->stocks_debut->dont_revendique) ? sprintFloat($detail->stocks_debut->dont_revendique) : "0.00"; ?>)</span></strong><?php endif; ?></td>
                 </tr>
                 <?php endforeach ?>
                 <?php foreach ($mouvements as $mouvement): ?>
@@ -73,7 +73,7 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                     <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
                     <td><strong>Stock fin</strong></td>
                     <td><strong><span class="pull-right"><?php echoFloat($produit->total) . ' hl'; ?></span></strong></td>
-                    <?php if($hasDontRevendique): ?><td><strong><span class="pull-left">(<?php echo ($detail->stocks_fin->dont_revendique) ? sprintFloat($detail->stocks_fin->dont_revendique) : "0.00"; ?>)</span></strong></td><?php endif; ?>
+                    <td><?php if($hasDontRevendique && $detail->stocks_fin->exist('dont_revendique')): ?><strong><span class="pull-left">(<?php echo ($detail->stocks_fin->dont_revendique) ? sprintFloat($detail->stocks_fin->dont_revendique) : "0.00"; ?>)</span></strong><?php endif; ?></td>
                 </tr>
                 <?php endforeach; ?>
 

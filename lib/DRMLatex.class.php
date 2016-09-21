@@ -15,14 +15,13 @@ class DRMLatex extends GenericLatex {
 
     private $drm = null;
     private $libelles_detail_ligne = null;
-    private $aggregateAppellation = false;
+
     const VRAC_OUTPUT_TYPE_PDF = 'pdf';
     const VRAC_OUTPUT_TYPE_LATEX = 'latex';
     const NB_PRODUITS_PER_PAGE = 6;
 
     function __construct(DRM $drm, $config = null) {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
-        $this->aggregateAppellation = $config['aggregateAppellation'];
         $this->drm = $drm;
         $this->libelles_detail_ligne = $drm->allLibelleDetailLigneForDRM();
     }
@@ -51,20 +50,19 @@ class DRMLatex extends GenericLatex {
     }
 
     public function getLatexFileNameWithoutExtention() {
-        return $this->getTEXWorkingDir() . $this->drm->_id . '_' . $this->drm->_rev.'_'.$this->aggregateAppellation;
+        return $this->getTEXWorkingDir() . $this->drm->_id . '_' . $this->drm->_rev;
     }
 
     public function getLatexFileContents() {
         return html_entity_decode(htmlspecialchars_decode(
                         get_partial('drm_pdf/generateTex', array('drm' => $this->drm,
-'aggregateAppellation' => $this->aggregateAppellation,
             'nbPages' => $this->getNbPages(),
             'drmLatex' => $this))
                         , HTML_ENTITIES));
     }
 
     public function getPublicFileName($extention = '.pdf') {
-        return 'drm_' . $this->drm->_id . '_' . $this->drm->_rev.'_'.$this->aggregateAppellation . $extention;
+        return 'drm_' . $this->drm->_id . '_' . $this->drm->_rev . $extention;
     }
 
     public function getMvtsEnteesForPdf($detailNode = 'details') {

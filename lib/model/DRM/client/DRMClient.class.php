@@ -428,6 +428,7 @@ class DRMClient extends acCouchdbClient {
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
 
         if ($prev_drm) {
+
             return $prev_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         } elseif ($next_drm) {
 

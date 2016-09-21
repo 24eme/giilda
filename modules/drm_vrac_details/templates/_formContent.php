@@ -37,7 +37,7 @@ $docShow = $detail->hasTypeDoc('vrac');
             <td class="lead text-right col-xs-3">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
-                    <input type="text" class="form-control text-right drm_details_volume_total" readonly="readonly" value="<?php echo $detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00" ?>" />
+                    <input type="text" class="form-control text-right drm_details_volume_total" tabindex="-1" readonly="readonly" value="<?php echo $detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00" ?>" />
                     <div class="input-group-addon">hl</div>
                 </div>
             </td>

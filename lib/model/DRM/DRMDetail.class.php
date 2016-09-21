@@ -138,12 +138,14 @@ class DRMDetail extends BaseDRMDetail {
 
     protected function update($params = array()) {
         parent::update($params);
-
         $this->total_debut_mois = $this->stocks_debut->initial;
-
         foreach($this->sorties as $key => $item) {
+
             if($item instanceof acCouchdbJson) {
-                continue;
+              continue;
+            }
+            if(!$this->sorties->getConfig()->exist($key)){
+              continue;
             }
             if($this->sorties->getConfig()->get($key)->hasDetails()) {
                 $this->sorties->set($key, 0);
@@ -160,7 +162,7 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->total_entrees_revendique = $this->getTotalByKey('entrees', 'revendique');
         $this->total_sorties_revendique = $this->getTotalByKey('sorties', 'revendique');
-        if($this->getConfig()->getDocument()->hasDontRevendique()){
+        if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->stocks_fin->dont_revendique = $this->stocks_debut->dont_revendique + $this->total_entrees_revendique - $this->total_sorties_revendique;
         }
         if ($this->entrees->exist('recolte')) {
@@ -174,9 +176,22 @@ class DRMDetail extends BaseDRMDetail {
         $this->cvo->volume_taxable = $this->total_facturable;
 
         $this->total = $this->stocks_fin->final;
-        if($this->getConfig()->getDocument()->hasDontRevendique()){
+        if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }
+        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
+        // Qu'est ce que les manipulation en entrée ici???
+          || ($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
+          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
+          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
+          $this->add('observations',null);
+        }else{
+          $this->remove('observations');
+        }
+    }
+
+    public function setImportableObservations($observations) {
+      $this->add('observations', $observations);
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -452,4 +467,7 @@ class DRMDetail extends BaseDRMDetail {
         return false;
     }
 
+     public function getCodeDouane() {
+ 	     return $this->getCepage()->getConfig()->code_douane;
+     }
 }

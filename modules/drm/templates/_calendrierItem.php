@@ -34,10 +34,14 @@
                             <?php else: ?>
 
                <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?>
-                                <a data-toggle="modal" data-target="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="btn btn-default btn-block <?php echo ($lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>  <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): echo 'drm_nouvelle_teledeclaration';
-                           endif; ?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
-                <?php endif; ?>
+                   <?php if(!hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): ?>
+                     <a href="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="btn btn-default btn-block <?php echo ($lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
+                   <?php else : ?>
+                     <a data-toggle="modal" data-target="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="btn btn-default btn-block <?php echo ($lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>  <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): echo 'drm_nouvelle_teledeclaration';
+                endif; ?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
                   <?php endif; ?>
+              <?php endif; ?>
+              <?php endif; ?>
             </div>
 <?php endif; ?>
     </div>

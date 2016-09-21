@@ -121,12 +121,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($p = $this->getProduit($hash, $detailsKey, $labels)) {
             return $p;
         }
-
         $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($labels);
         $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
 
         $this->declaration->reorderByConf();
-        
+
         return $this->getProduit($hash, $detailsKey, $labels);
     }
 
@@ -219,7 +218,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $this->addProduit($produitConfig->getHash());
+            $this->addProduit($produitConfig->getHash(), DRM::DETAILS_KEY_SUSPENDU);
         }
     }
 
@@ -229,6 +228,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
+
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
             throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
@@ -236,7 +236,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
         $keepStock = ($periode > $this->periode);
-
         $drm_suivante = clone $this;
         $drm_suivante->teledeclare = $isTeledeclarationMode;
         $drm_suivante->init(array('keepStock' => $keepStock));
@@ -1302,7 +1301,72 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function hasPaiementDouane(){
+      if(!$this->declaratif){
+
+        return false;
+      }
+
+      if(!$this->societe->exist('paiement_douane_frequence') && !$this->societe->exist('paiement_douane_moyen')){
+        return false;
+      }
+      if(!$this->societe->get('paiement_douane_frequence') && !$this->societe->get('paiement_douane_moyen')){
+        return false;
+      }
+      if($this->societe->get('paiement_douane_frequence') == DRMPaiement::FREQUENCE_ANNUELLE){
+        $flag = true;
+        foreach ($this->droits->douane as $key => $node) {
+          if(!$node->cumul){
+            $flag = false;
+            break;
+          }
+        }
+        if(!$flag){
+          return false;
+        }
+      }
+      return true;
+    }
+
     /** Fin Droit de circulation douane */
+
+    /*
+    * Observations
+    */
+    public function addObservationProduit($hash, $observation)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->observations = $observation;
+      }
+    }
+    public function getExportableObservations() {
+      return 'observations';
+    }
+
+    public function hasObservations(){
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('observations')){
+          return true;
+        }
+      }
+        return false;
+    }
+
+    public function getObservationsArray(){
+      $observations = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('observations') && $detail->get('observations')){
+          $observations[$detail->getLibelle()] = $detail->get('observations');
+        }
+      }
+      return $observations;
+    }
+
+    /*
+    * Fin Observations
+    */
+
     public function allLibelleDetailLigneForDRM() {
         $config = $this->getConfig();
         $libelles_detail_ligne = $config->libelle_detail_ligne;

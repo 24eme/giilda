@@ -11,11 +11,11 @@ $favoris_sorties = $favoris->sorties;
         <div class="head" style="margin-top: 37px;"></div>
         <div class="list-group" >
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
-                <h4 class="form-group form-group-xs">Stock début</h4>
+                <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Stock début</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>
                         <?php if ($key != 'instance'): ?>
-                    <li class="categorie_libelle form-group form-group-xs" >
+                    <li class="categorie_libelle form-group form-group-xs">
                                 <span id="<?php echo 'stock_debut_' . $key ?>" class=" <?php echo 'stock_debut_' . $key ?>">
                                  <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>
                                 </span>
@@ -26,7 +26,7 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="2">
-                <h4 style="height:22px;" class="form-group form-group-xs">Entrées</h4>
+                <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Entrées</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
                         <?php if ($favoris_entrees->exist($key)): ?>
@@ -44,7 +44,7 @@ $favoris_sorties = $favoris->sorties;
                 </ul>
                 <div class="groupe no_favoris" data-groupe-id="3">
                     <?php if($saisieSuspendu): ?>
-                    <p style="height:22px; cursor: pointer;" class="extendable form-group form-group-xs"><strong>Autres entrées</strong><span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
+                    <p style="height:22px; cursor: pointer;" class="extendable form-group form-group-xs">Autres entrées<span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
                     <?php endif; ?>
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
@@ -65,7 +65,7 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque favoris" data-groupe-id="4">
-                <h4 style="height:22px; " class="form-group form-group-xs">Sorties</h4>
+                <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Sorties</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                         <?php if ($favoris_sorties->exist($key)): ?>
@@ -82,7 +82,7 @@ $favoris_sorties = $favoris->sorties;
                 </ul>
                 <div class="groupe no_favoris" data-groupe-id="5">
                   <?php if($saisieSuspendu): ?>
-                    <p style="height:22px; cursor: pointer;" class="extendable form-group form-group-xs"><strong>Autres sorties</strong><span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
+                    <p style="height:22px; cursor: pointer;" class="extendable form-group form-group-xs">Autres sorties<span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
                   <?php endif; ?>
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
@@ -103,7 +103,7 @@ $favoris_sorties = $favoris->sorties;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="6">
-                <h4 style="height:22px;" class="form-group form-group-xs">Stock théorique fin de mois</h4>
+                <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Stock théorique fin de mois</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
                         <?php if ($key != 'instance'): ?>

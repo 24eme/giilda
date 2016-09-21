@@ -13,12 +13,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        <?php if ($isTeledeclarationMode): ?>
-            <?php if ($drm->isTeledeclare()): ?>
-                <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success pull-right"><span>Télécharger le PDF</span></a>
-                <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 1)); ?>" class="btn btn-success pull-right"><span>Télécharger le PDF (appellation)</span></a>
-              <?php endif; ?>
-        <?php endif; ?>
+      
 
         <h3 style="margin-bottom: 30px">DRM <?php echo getFrPeriodeElision($drm->periode); ?> <?php if ($drm->isTeledeclare()): ?><small>(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small><?php endif; ?>
              <?php if (!$isTeledeclarationMode && $drm->isModifiable()): ?>
@@ -83,7 +78,7 @@
     </div>
     <?php //if ($isTeledeclarationMode) : ?>
         <div class="col-xs-4 text-center">
-            <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 1)); ?>" class="btn btn-success">Télécharger le PDF</a>
+            <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
         </div>
     <?php //endif; ?>
 </div>
