@@ -1,10 +1,11 @@
 <?php
 use_helper('Vrac');
+use_helper('PointsAides');
 ?>
 <section id="principal">
   <ol class="breadcrumb">
-      <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a></li>
-      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a></li>
+      <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_liste_contrat'); ?></li>
+      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_annuaire'); ?></li>
   </ol>
 
   <h2>Ajouter un contact</h2>
@@ -24,8 +25,8 @@ use_helper('Vrac');
                               <li class="list-group-item" >
                                       <div class="row">
 
-                    <div class="col-xs-4">Type</div>
-                    <div class="col-xs-8">Identifiant</div>
+                                        <div class="col-xs-4">Type<?php echo getPointAideHtml('vrac','annuaire_selection_type'); ?></div>
+                            						<div class="col-xs-8">Identifiant<?php echo getPointAideHtml('vrac','annuaire_selection_numero'); ?></div>
                     </div>
                   </li>
                   <li class="list-group-item" >
@@ -56,7 +57,12 @@ use_helper('Vrac');
                       <div class="col-xs-12">
 
                 <?php if (!$form->hasSocieteChoice()): ?>
-                    <h2>INFORMATIONS</h2>
+                    <h2>
+                      <div class="row">
+                        <div class="col-xs-3">  INFORMATIONS</div>
+                        <div class="col-xs-5 pull-left" style="font-size:12pt; padding-top:12px;"><?php echo getPointAideHtml('vrac','annuaire_verification_infos'); ?></div>
+                      </div>
+                    </h2>
                   </div>
                       </div>
   <div class="row">
@@ -110,6 +116,7 @@ use_helper('Vrac');
             <div class="row">
               <div class="col-xs-12">
                 <a class="btn btn-default" href="<?php echo url_for('annuaire_selectionner', array('identifiant' => $identifiant, 'type' => $type)) ?>">Retour</a>
+                <?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_contrat'); ?>
                 <button type="submit" name="valider" class="btn btn-success pull-right" >
                     Valider
                 </button>

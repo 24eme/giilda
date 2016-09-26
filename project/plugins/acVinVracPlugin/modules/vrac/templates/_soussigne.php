@@ -1,3 +1,6 @@
+<?php
+use_helper('PointsAides');
+?>
 <?php if (isset($id) && !isset($soussigne)): ?>
 <?php $soussigne = EtablissementClient::getInstance()->find($id) ?>
 <?php endif; ?>
@@ -21,6 +24,7 @@
   <br />
   <br />
   <div class="alert alert-warning" role="warning">
+  <?php echo getPointAideHtml('vrac','soussigne_nonactif_compte'); ?>
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
   <span class="sr-only">Error:</span>
   Ce ressortissant n'a pas encore activé son compte de télédeclarant.
