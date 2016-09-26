@@ -67,8 +67,8 @@ all:
         marche_degre: "Facultatif. Indiquer le degré du vin."
         marche_mention: "Le cas échéant, cocher la case « avec mention »  puis sélectionner le nom de Château, de Domaine ou de marque dans la liste qui apparaît, ou le saisir (en précisant Château ou Domaine)."
         marche_volume: "Indiquer le volume de vin objet du contrat, en hl."
-        marche_prix_ivbd: "Indiquer le prix du vin, en € /hl. (pour l’IVSO)" #####
-        marche_prix_ivso: "Indiquer le prix du vin, en € /T (1Tonneau = 9 hl. (pour l’IVBD)" #####
+        marche_prix: "Indiquer le prix du vin, en € /T (1Tonneau = 9 hl. (pour l’IVBD)" #####
+        marche_prix_ivso: "Indiquer le prix du vin, en € /hl. (pour l’IVSO)" #####
 
         #16 IVSO
         condition_delais_paiement: "Sélectionner le délai de paiement dans la liste. Se référer aux accords interprofessionnels afin de connaître les éventuelles dérogations aux délais légaux."

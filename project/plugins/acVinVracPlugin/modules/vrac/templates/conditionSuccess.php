@@ -1,4 +1,8 @@
-<?php use_helper('Float'); use_helper('Vrac'); ?>
+<?php
+use_helper('Float');
+use_helper('Vrac');
+use_helper('PointsAides');
+?>
 
 <?php
 $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrincipal : null;
