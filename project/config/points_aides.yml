@@ -49,7 +49,7 @@ all:
         #11
         annuaire_verification_infos: "Permet de vérifier l’identité  complète du contact correspondant au n° d’identifiant que vous avez indiqué avant de valider son ajout définitif à votre annuaire."
         #12
-        annuaire_suppression: "1.   Permet de supprimer un contact de votre annuaire."
+        annuaire_suppression: "Permet de supprimer un contact de votre annuaire."
 
         #13
         soussigne_nonactif_compte: "Tant que le ressortissant n’a pas activé son compte, il ne pourra pas signer le contrat qui restera donc à l’état de brouillon."

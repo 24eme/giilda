@@ -1,3 +1,6 @@
+<?php
+use_helper('PointsAides');
+?>
 <section id="principal">
   <ol class="breadcrumb">
       <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a></li>
@@ -28,7 +31,7 @@
                               <li class="list-group-item <?php if ($item->isActif): ?> actif <?php else: ?> list-group-item-danger <?php endif; ?>">
                                     <div class="row">
                                         <div class="col-xs-10"><?php echo $item->name ?><span>&nbsp;(<?php echo str_replace("ETABLISSEMENT-","",$key); ?>)</span></div>
-                                        <div class="col-xs-2 text-right"><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'recoltants', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du viticulteur ?')" class="btn btn-xs btn-danger">X</a></div>
+                                        <div class="col-xs-2 text-right"><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'recoltants', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du viticulteur ?')" class="btn btn-xs btn-danger">X</a>&nbsp;<?php echo getPointAideHtml('vrac','annuaire_suppression'); ?></div>
 
                                     </div>
                                 </li>
@@ -63,7 +66,7 @@
                           <li class="list-group-item <?php if ($item->isActif): ?> actif <?php else: ?> list-group-item-danger <?php endif; ?>">
                                 <div class="row">
                                     <div class="col-xs-10"><?php echo $item->name ?><span>&nbsp;(<?php echo str_replace("ETABLISSEMENT-","",$key); ?>)</span></div>
-                                    <div class="col-xs-2 text-right"><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'recoltants', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du négociant ?')" class="btn btn-small btn-danger">X</a></div>
+                                    <div class="col-xs-2 text-right"><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'recoltants', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du négociant ?')" class="btn btn-xs btn-danger">X</a>&nbsp;<?php echo getPointAideHtml('vrac','annuaire_suppression'); ?></div>
 
                                 </div>
                             </li>
@@ -98,7 +101,7 @@
                           <li class="list-group-item <?php if ($item->isActif): ?> actif <?php else: ?> list-group-item-danger <?php endif; ?>">
                                 <div class="row">
                                     <div class="col-xs-10"><?php echo $item->name ?><span>&nbsp;(<?php echo str_replace("ETABLISSEMENT-","",$key); ?>)</span></div>
-                                    <div class="col-xs-2 text-right"><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'commerciaux', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du commercial ?')" class="btn btn-xs btn-danger">X</a></div>
+                                    <div class="col-xs-2 text-right"><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'commerciaux', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du commercial ?')" class="btn btn-xs btn-danger">X</a>&nbsp;<?php echo getPointAideHtml('vrac','annuaire_suppression'); ?></div>
 
                                 </div>
                             </li>
@@ -118,5 +121,5 @@
     </div>
 
     <a class="btn btn-default" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissement->identifiant)) ?>">Retourner à l'espace contrats</a>
-  
+    <?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_contrat'); ?>
 </section>
