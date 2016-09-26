@@ -15,9 +15,9 @@ class FactureGenerationForm extends BaseForm {
     }
 
     public function configure() {
-        $this->setWidget('modele', new bsWidgetFormChoice(array('choices' => $this->getChoices(), 'expanded' => true)));
-        $this->setWidget('date_mouvement', new bsWidgetFormInputDate());
-        $this->setWidget('date_facturation', new bsWidgetFormInputDate());
+        $this->setWidget('modele', new bsWidgetFormChoice(array('choices' => $this->getChoices(), 'expanded' => true), array("required" => "required")));
+        $this->setWidget('date_mouvement', new bsWidgetFormInputDate(array(), array("required" => "required")));
+        $this->setWidget('date_facturation', new bsWidgetFormInputDate(array(), array("required" => "required")));
         $this->setWidget('message_communication', new sfWidgetFormTextarea());
 
         $this->setValidator('modele', new sfValidatorChoice(array('choices' => array_keys($this->getChoices()), 'required' => true)));
