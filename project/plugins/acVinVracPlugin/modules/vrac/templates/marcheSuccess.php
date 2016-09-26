@@ -211,7 +211,7 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
                               <div class="row">
                                     <?php if (isset($form['lot'])): ?>
                                     <div class="form-group col-xs-6 <?php if ($form['lot']->hasError()): ?>has-error<?php endif; ?>">
-                                      <div class="col-sm-1" style="margin-top:-14px;;" ><?php echo getPointAideHtml('vrac','marche_numero_lot'); ?></div>
+                                      <div class="col-sm-1" style="margin-top:-14px;" ><?php echo getPointAideHtml('vrac','marche_numero_lot'); ?></div>
                                             <?php echo $form['lot']->renderLabel("N° de lot :", array('class' => 'col-sm-4 control-label')); ?>
                                         <div class="col-sm-5">
     <?php echo $form['lot']->render(array("class" => "form-control text-right", 'autocomplete' => 'off')); ?>
@@ -221,7 +221,7 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
 
                                     <?php if (isset($form['degre'])): ?>
                                     <div class="form-group col-xs-6 <?php if ($form['degre']->hasError()): ?>has-error<?php endif; ?>">
-                                      <div class="col-sm-1 text-right" style="margin-top:-14px;;" ><?php echo getPointAideHtml('vrac','marche_degre'); ?></div>
+                                      <div class="col-sm-1 text-right" style="margin-top:-14px;" ><?php echo getPointAideHtml('vrac','marche_degre'); ?></div>
                                       <?php echo $form['degre']->renderLabel("Degré :", array('class' => 'col-sm-2 control-label')); ?>
                                         <div class="col-sm-5">
                                             <div class="input-group">

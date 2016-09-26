@@ -80,15 +80,15 @@ all:
         condition_nom_producteur: "Cocher la case si le vendeur autorise l’utilisation de son nom pour la commercialisation du vin."
         #17 IVBD
 
-        condition_delais_paiement: "1.   Sélectionner le délai de paiement dans la liste. Le délai maximum légal est de 60 jours après la date d’édition de la facture. Se référer aux accords interprofessionnels afin de connaître les éventuelles dérogations au délai maximum légal."
-        condition_moyen_paiement: "2.   Sélectionner le moyen de paiement dans la liste."
-        condition_hors_tva: "3.   Sélectionner « hors TVA » en cas d’exportation du vin."
-        condition_taux_courtage: "4.   Saisir le taux de courtage. Le taux habituel de 2% est indiqué par défaut."
-        condition_repartition_courtage: "5.   Indiquer  la répartition des frais de courtage."
-        condition_date_retiraison: "6.   Sélectionner dans le calendrier la date limite prévue pour la dernière retiraison du vin."
-        condition_observation: "7. Indiquer toute observation complémentaire éventuelle."
-        condition_nom_vin: "8. Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation du nom de Château / Domaine / Marque dans les actes de commercialisation du vin (étiquettes…)."
-        condition_nom_producteur: "9. Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation de son nom dans les actes de commercialisation du vin (étiquettes…)."
+        condition_delais_paiement: "Sélectionner le délai de paiement dans la liste. Le délai maximum légal est de 60 jours après la date d’édition de la facture. Se référer aux accords interprofessionnels afin de connaître les éventuelles dérogations au délai maximum légal."
+        condition_moyen_paiement: "Sélectionner le moyen de paiement dans la liste."
+        condition_hors_tva: " Sélectionner « hors TVA » en cas d’exportation du vin."
+        condition_taux_courtage: "Saisir le taux de courtage. Le taux habituel de 2% est indiqué par défaut."
+        condition_repartition_courtage: "Indiquer  la répartition des frais de courtage."
+        condition_date_retiraison: "Sélectionner dans le calendrier la date limite prévue pour la dernière retiraison du vin."
+        condition_observation: "Indiquer toute observation complémentaire éventuelle."
+        condition_nom_vin: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation du nom de Château / Domaine / Marque dans les actes de commercialisation du vin (étiquettes…)."
+        condition_nom_producteur: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation de son nom dans les actes de commercialisation du vin (étiquettes…)."
 
         #18
         validation_pt_vigilance: "Points non bloquants. Vous pouvez résoudre le point en cliquant sur l’hyperlien."
