@@ -1,6 +1,7 @@
 <?php
 use_helper('Vrac');
 use_helper('Float');
+use_helper('PointsAides');
 ?>
 <ol class="breadcrumb">
     <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrats</a></li>
@@ -28,12 +29,12 @@ use_helper('Float');
                 ?>
                 <div class="<?php echo $panel_size; ?>" >
                 <div class="panel panel-default">
-                    <div class="panel-heading <?php echo ($contratsSocietesWithInfos->infos->brouillon) ? "actif" : ""; ?>">Brouillon</div>
+                    <div class="panel-heading <?php echo ($contratsSocietesWithInfos->infos->brouillon) ? "actif" : ""; ?>">Brouillon<div class="pull-right"><?php echo getPointAideHtml('vrac','menu_list_brouillon'); ?></div></div>
                         <div class="panel-body">
                         <?php if ($contratsSocietesWithInfos->infos->brouillon): ?>
                             <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_CONTRAT_BROUILLON))) ?>">
                             <?php endif; ?>
-                            <?php echo $contratsSocietesWithInfos->infos->brouillon; ?> contrat(s) en brouillon
+                            <?php echo $contratsSocietesWithInfos->infos->brouillon; ?> contrat(s) en brouillon<?php echo getPointAideHtml('vrac','menu_list_acces_brouillon'); ?>
                             <?php if ($contratsSocietesWithInfos->infos->brouillon): ?>
                             </a>
                         <?php endif; ?>
@@ -44,12 +45,12 @@ use_helper('Float');
             <?php if (!$societe->isCourtier()): ?>
             <div class="<?php echo $panel_size; ?>" >
                 <div class="panel panel-default">
-                    <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">A Signer</div>
+                    <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">A Signer<div class="pull-right"><?php echo getPointAideHtml('vrac','menu_list_asigner'); ?></div></div>
                         <div class="panel-body">
                         <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
                             <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI))) ?>">
                             <?php endif; ?>
-                            <?php echo $contratsSocietesWithInfos->infos->a_signer; ?> contrat(s) à signer
+                            <?php echo $contratsSocietesWithInfos->infos->a_signer; ?> contrat(s) à signer<?php echo getPointAideHtml('vrac','menu_list_acces_asigner'); ?>
                             <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
                             </a>
                         <?php endif; ?>
@@ -59,12 +60,12 @@ use_helper('Float');
             <?php endif; ?>
             <div class="<?php echo $panel_size; ?>" >
             <div class="panel panel-default">
-                <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->en_attente) ? "actif" : ""; ?>">En Attente</div>
+                <div class="panel-heading  <?php echo ($contratsSocietesWithInfos->infos->en_attente) ? "actif" : ""; ?>">En Attente<div class="pull-right"><?php echo getPointAideHtml('vrac','menu_list_enattente'); ?></div></div>
                     <div class="panel-body">
                     <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>
                         <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES))) ?>">
                         <?php endif; ?>
-                        <?php echo $contratsSocietesWithInfos->infos->en_attente; ?> contrat(s) en attente
+                        <?php echo $contratsSocietesWithInfos->infos->en_attente; ?> contrat(s) en attente<?php echo getPointAideHtml('vrac','menu_list_acces_enattente'); ?>
                         <?php if ($contratsSocietesWithInfos->infos->en_attente): ?>
                         </a>
                     <?php endif; ?>
@@ -79,9 +80,12 @@ use_helper('Float');
             Voir tout l'historique
         </a>
         <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant() || $etablissementPrincipal->isRepresentant()): ?>
-            <a class="btn btn-warning pull-right" href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
+            <div class="pull-right">
+              <a class="btn btn-warning " href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
                 Saisir Un Nouveau contrat
-            </a>
+              </a>
+              <?php echo getPointAideHtml('vrac','menu_acces_nouveau'); ?>
+            </div>
         <?php endif; ?>
     </div>
 </div>

@@ -1,6 +1,9 @@
-<?php use_helper('Float'); ?>
-<?php use_helper('Vrac'); ?>
-<?php use_helper('Date'); ?>
+<?php
+use_helper('Float');
+use_helper('Vrac');
+use_helper('Date');
+use_helper('PointsAides');
+?>
 
 <?php if(count($vracs->rows) > 0): ?>
 <?php if(isset($hamza_style) && $hamza_style) : ?>
@@ -14,13 +17,13 @@
 <table id="table_contrats" class="table">
     <thead>
         <tr>
-        <th>&nbsp;</th>
-            <th style="width: 110px;">Date</th>
-            <th>Soussignés</th>
-            <th>Produit (Millésime)</th>
-            <th style="width: 50px;">Vol.&nbsp;prop. <?php echo (!isset($teledeclaration) || !$teledeclaration)? "(Vol.&nbsp;enl.)" : "" ?></th>
-            <th style="width: 50px;">Prix</th>
-            <th style="width: 90px;"></th>
+        <th><?php echo getPointAideHtml('vrac','dernier_contrat_nature'); ?></th>
+            <th style="width: 110px;">Date<?php echo getPointAideHtml('vrac','dernier_contrat_date'); ?></th>
+            <th>Soussignés<?php echo getPointAideHtml('vrac','dernier_contrat_soussignes'); ?></th>
+            <th>Produit (Millésime)<?php echo getPointAideHtml('vrac','dernier_contrat_produits'); ?></th>
+            <th style="width: 110px;">Vol.&nbsp;prop. <?php echo (!isset($teledeclaration) || !$teledeclaration)? "(Vol.&nbsp;enl.)" : "" ?><?php echo getPointAideHtml('vrac','dernier_contrat_volume'); ?></th>
+            <th style="width: 50px;">Prix<?php echo getPointAideHtml('vrac','dernier_contrat_prix'); ?></th>
+            <th style="width: 90px;">Visu.<?php echo getPointAideHtml('vrac','dernier_contrat_acces_visu'); ?></th>
         </tr>
     </thead>
     <tbody>

@@ -1,5 +1,5 @@
-<?php use_helper('Vrac'); ?>
-<?php
+<?php use_helper('Vrac');
+use_helper('PointsAides');
 
 $urlForm = null;
 if (($form->getObject()->isNew() && !isset($isTeledeclarationMode)) || ($form->getObject()->isNew() && !$isTeledeclarationMode)) :
@@ -60,7 +60,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
         	<?php if(isset($form['type_transaction'])): ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><label>Type de transaction</label></h3>
+                    <h3 class="panel-title"><label>Type de transaction</label><?php echo getPointAideHtml('vrac','soussignes_type_contrat'); ?></h3>
                 </div>
                 <div class="panel-body">
                     <?php echo $form['type_transaction']->renderError(); ?>
@@ -90,9 +90,9 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                 <div id="vendeur_selection" class="col-sm-12 <?php if($form['vendeur_identifiant']->getValue()): ?>hidden<?php endif; ?>">
                                     <?php echo $form['vendeur_identifiant']->renderError(); ?>
                                     <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
-
                                           <?php if($isTeledeclarationMode): ?>
                                               <div class="col-sm-12" id="vendeur_choice">
+                                                <div class="pull-left" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','soussignes_selection_vendeur'); ?>&nbsp;&nbsp;</div>
                                                 <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Séléctionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'recoltants')), 'data-bloc' => '#vendeur_informations', 'data-hide' => '#vendeur_selection')); ?>
                                                 <?php $style_vendeur_compte_inactif = ($compteVendeurActif) ? 'style="display: none;"' : ""; ?>
                                               </div>
@@ -114,9 +114,11 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                 </div>
                                 <div class="col-sm-12">
         							                   <?php if(isset($form['logement'])): ?>
+
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
                 		                    <?php echo $form['logement_exist']->renderError(); ?>
                 		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_logement">
+                                          <div class="pull-left"><?php echo getPointAideHtml('vrac','soussignes_vin_loge'); ?>&nbsp;&nbsp;</div>
                 		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
                 		                            <?php echo $form['logement_exist']->render(); ?>
                 		                            Vin logé à une autre adresse
@@ -134,6 +136,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 		            <div class="form-group">
                 		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
             		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_intermediaire">
+                                      <div class="pull-left"><?php echo getPointAideHtml('vrac','soussignes_vente_intermediaire'); ?>&nbsp;&nbsp;</div>
             		                	<label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
             		                    	<?php echo $form['vendeur_intermediaire']->render(); ?>
             		                    	Vente via intermédiaire
@@ -172,6 +175,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 		                <div class="col-sm-12">
                 		                    <?php echo $form['vendeur_tva']->renderError(); ?>
                 		                    <div class="checkbox">
+                                            <div class="pull-left"><?php echo getPointAideHtml('vrac','soussignes_non_tva'); ?>&nbsp;&nbsp;</div>
                 		                        <label for="<?php echo $form['vendeur_tva']->renderId(); ?>">
                 		                            <?php echo $form['vendeur_tva']->render(); ?>
                 		                            Le vendeur est assujetti à la TVA
