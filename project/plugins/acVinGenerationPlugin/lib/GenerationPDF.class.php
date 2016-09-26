@@ -75,7 +75,7 @@ class GenerationPDF extends GenerationAbstract {
     }
     return $files;
   }
-  
+
   function generatePDFAndConcatenateThem($pdfs) {
     return $this->concatenatePDFs($this->generatePDFFiles($pdfs));
   }
