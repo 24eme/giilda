@@ -477,6 +477,9 @@ class Vrac extends BaseVrac {
         if (!$isRaisinMout)
             return false;
         $nego = EtablissementClient::getInstance()->findByIdentifiant($this->acheteur_identifiant);
+        if ($nego->isRegionIGPValDeLoire()) {
+            return false;
+        }
         return !$nego->isInterLoire();
     }
 

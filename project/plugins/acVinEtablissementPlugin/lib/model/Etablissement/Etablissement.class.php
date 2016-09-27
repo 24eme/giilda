@@ -416,4 +416,8 @@ class Etablissement extends BaseEtablissement {
         return $this->getSociete()->hasLegalSignature();
     }
 
+    public function isRegionIGPValDeLoire() {
+        return in_array(substr($this->siege->code_postal, 0, 2), array('03', '18', '36', '37', '41', '44', '45', '49', '58', '63', '72', '79', '85', '86'));
+    }
+
 }

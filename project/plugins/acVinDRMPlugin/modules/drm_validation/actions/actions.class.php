@@ -15,7 +15,8 @@
 class drm_validationActions extends drmGeneriqueActions {
 
     public function executeValidation(sfWebRequest $request) {
-        set_time_limit(180);
+      set_time_limit(180);
+      try {
         $this->drm = $this->getRoute()->getDRM();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
@@ -84,6 +85,10 @@ class drm_validationActions extends drmGeneriqueActions {
       	            'periode_version' => $this->drm->getPeriodeAndVersion(),
       	            'hide_rectificative' => 1));
       	}
+      }catch(sfException $e) {
+		$this->getUser()->setFlash('notice', 'Cette DRM ne peut être éditée étant déjà validée');
+		return $this->redirect('drm_visualisation', array('identifiant' => $request->getParameter('identifiant'), 'periode_version' => $request->getParameter('periode_version')));
+      }
     }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {
