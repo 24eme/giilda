@@ -5,7 +5,7 @@ class CielService
 	protected $configuration;
 	const TOKEN_CACHE_FILENAME = 'ciel_access_token';
 	const TOKEN_TIME_VALIDITY = 2700;
-	
+
 	public function __construct()
 	{
 		$this->configuration = sfConfig::get('app_ciel_oauth');
@@ -13,7 +13,7 @@ class CielService
 			throw new sfException('CielService Error : Yml configuration not found for CIEL');
 		}
 	}
-	
+
 	public static function getInstance()
     {
        	if(is_null(self::$_instance)) {
@@ -21,12 +21,12 @@ class CielService
 		}
 		return self::$_instance;
     }
-    
+
     public function getToken()
     {
     	if ($this->needNewToken()) {
     		$token = $this->sign();
-    		$this->setTokenCache($token);   		
+    		$this->setTokenCache($token);
     	} else {
     		$file = $this->getTokenCacheFilename();
     		$token = file_get_contents($file);
@@ -36,7 +36,7 @@ class CielService
     	}
     	return $token;
     }
-	
+
 	public function sign()
 	{
 		$encrypted = '';
@@ -59,16 +59,16 @@ class CielService
 		}
 		return $result['access_token'];
 	}
-	
-	public function transfer($datas = null, $token = null)
+
+	public function transfer($xml = null, $token = null)
 	{
 		if (!$token) {
 			$token = $this->getToken();
 		}
-		$result = $this->httpQuerry($this->configuration['urlapp'], array('http' => $this->getTransferHttpRequest($token, $datas)));
+		$result = $this->httpQuerry($this->configuration['urlapp'], array('http' => $this->getTransferHttpRequest($token, $xml)));
 		return $result;
 	}
-	
+
 	protected function needNewToken()
 	{
 		$file = $this->getTokenCacheFilename();
@@ -80,8 +80,8 @@ class CielService
 		}
 		return true;
 	}
-	
-	protected function setTokenCache($token) 
+
+	protected function setTokenCache($token)
 	{
 		$file = $this->getTokenCacheFilename();
 		$result = file_put_contents($file, $token, LOCK_EX);
@@ -89,12 +89,12 @@ class CielService
 			throw new sfException('CielService Error : cannot write in '.$file);
 		}
 	}
-	
+
 	protected function getTokenCacheFilename()
 	{
 		return sfConfig::get('sf_cache_dir').'/'.self::TOKEN_CACHE_FILENAME;
 	}
-	
+
 	protected function getOauthHttpRequest($content)
 	{
 		return array(
@@ -106,29 +106,29 @@ class CielService
 				'ignore_errors' => true,
 				'content' => http_build_query($content));
 	}
-	
-	protected function getTransferHttpRequest($token, $content = null)
+
+	protected function getTransferHttpRequest($token, $xml = null)
 	{
 		return array(
 				'headers'  => array(
-						"Host: ".$this->configuration['host'], 
+						"Host: ".$this->configuration['host'],
 						"Content-Type: application/xml;charset=UTF-8",
 						"Authorization: Bearer $token"),
 				'method'  => 'POST',
 				'protocol_version' => 1.1,
 				'ignore_errors' => true,
-				'content' => $content);
+				'content' => $xml);
 	}
-	
-	protected function httpQuerry($url, $options) 
+
+	protected function httpQuerry($url, $options)
 	{
 		if (extension_loaded('curl')) {
 			return $this->httpQuerryCurl($url, $options);
 		}
 		return $this->httpQuerryFgc($url, $options);
 	}
-	
-	protected function httpQuerryFgc($url, $options) 
+
+	protected function httpQuerryFgc($url, $options)
 	{
 		if (isset($options['http']['headers'])) {
 			$options['http']['header'] = join('\n', $options['http']['header']);
@@ -137,8 +137,8 @@ class CielService
 		$context  = stream_context_create($options);
 		return file_get_contents($url, false, $context);
 	}
-	
-	protected function httpQuerryCurl($url, $options) 
+
+	protected function httpQuerryCurl($url, $options)
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -154,14 +154,14 @@ class CielService
 		curl_close ($ch);
 		return $server_output;
 	}
-	
+
 	protected function getDatas()
 	{
 		$entete = '{"alg":"RS256"}';
 		$corps = '{"iss":"'.$this->configuration['iss'].'","scope":"'.$this->configuration['service'].'","aud":"'.$this->configuration['url'].'","iat":'.time().'000}';
 		return $this->base64SafeEncode($entete).'.'.$this->base64SafeEncode($corps);
 	}
-	
+
 	protected function base64SafeEncode($input)
 	{
 		return str_replace('=', '', strtr(base64_encode($input), '+/', '-_'));
