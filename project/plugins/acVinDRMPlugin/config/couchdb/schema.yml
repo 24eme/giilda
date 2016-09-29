@@ -249,6 +249,7 @@ DRM:
                                                                                                             produit_libelle: {  }
                                                                                                             cvo: {type: float}
                                                                                                             replacement_date: { required: false }
+                                                                                                            code_inao: { }
                                                                                                             observations: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection
