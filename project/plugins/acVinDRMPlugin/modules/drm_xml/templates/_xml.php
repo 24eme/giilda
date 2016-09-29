@@ -34,7 +34,7 @@
 				<observations><?php echo $produit->getObservations() ?></observations>
 <?php endif; ?>
 				<balance-stocks>
-<?php 
+<?php
 	$xml = details2XmlDouane($produit);
 	echo formatXml($xml, 5);
 ?>
@@ -59,12 +59,12 @@
 <?php endif; ?>
 <?php if ($produit->getPremix()): ?>
 				<premix>true</premix>
-<?php endif; ?>	
+<?php endif; ?>
 <?php if ($produit->getObservations()): ?>
 				<observations><?php echo $produit->getObservations() ?></observations>
 <?php endif; ?>
 				<balance-stocks>
-<?php 
+<?php
 	$xml = details2XmlDouane($produit);
 	echo formatXml($xml, 5);
 ?>
@@ -114,7 +114,7 @@
     	</compte-crd>
 <?php endforeach; endif;
 $documents_annexes = array();
-foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && is_int($v->debut) && is_int($v->fin))  : 
+foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && is_int($v->debut) && is_int($v->fin))  :
 	$documents_annexes[$k] = $v;
 endif; endforeach;
 if (count($documents_annexes)): ?>
