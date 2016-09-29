@@ -1,4 +1,8 @@
-<?php use_helper('Float'); use_helper('Vrac'); ?>
+<?php
+use_helper('Float');
+use_helper('Vrac');
+use_helper('PointsAides');
+?>
 
 <?php include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 
@@ -14,7 +18,23 @@
 <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'template_validation' => 1)); ?>
 </div>
 
-<?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+<div class="row">
+    <div class="col-xs-12">
+      <?php if($validation->hasErreurs()): ?>
+      <div class="alert alert-danger">
+          <strong>Points bloquants</strong><?php echo getPointAideHtml('vrac','validation_pt_bloquant'); ?>
+          <?php include_partial('document_validation/validationType', array('points' => $validation->getPoints('erreur'))) ?>
+      </div>
+      <?php endif; ?>
+
+      <?php if($validation->hasVigilances()): ?>
+      <div class="alert alert-warning">
+          <strong>Points de vigilance</strong><?php echo getPointAideHtml('vrac','validation_pt_vigilance'); ?>
+          <?php include_partial('document_validation/validationType', array('points' => $validation->getPoints('vigilance'))) ?>
+      </div>
+      <?php endif; ?>
+    </div>
+</div>
 
 <?php if ($validation->isValide() && !$isTeledeclarationMode) : ?>
 <div>
@@ -48,8 +68,9 @@
     <?php if ($validation->isValide()) : ?>
         <?php if ($isTeledeclarationMode): ?>
             <?php if ($signatureDemande): ?>
-              <div class="col-xs-4 text-right">
-                <a data-toggle="modal" data-target="#signature_popup_content" class="signature_popup btn btn-success pull-right">Signer le contrat <span class="glyphicon glyphicon-ok"></span></a>
+              <div class="col-xs-2 text-right" style="padding-top:5px;"><?php echo getPointAideHtml('vrac','validation_valider'); ?></div>
+              <div class="col-xs-2 text-right">
+                    <a data-toggle="modal" data-target="#signature_popup_content" class="signature_popup btn btn-success pull-right">Signer le contrat <span class="glyphicon glyphicon-ok"></span></a>
               </div>
               <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
             <?php endif; ?>
@@ -97,3 +118,4 @@
 
 </form>
 </section>
+<br/>
