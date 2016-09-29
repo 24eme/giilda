@@ -6,10 +6,10 @@
  */
 class DRMDetails extends BaseDRMDetails {
 
-    public function getConfigDetails() {        
+    public function getConfigDetails() {
         return $this->getDocument()->getConfig()->declaration->detail;
     }
-    
+
     public function getProduit($labels = array()) {
         $slug = $this->slugifyLabels($labels);
         if (!$this->exist($slug)) {
@@ -23,6 +23,7 @@ class DRMDetails extends BaseDRMDetails {
     public function addProduit($labels = array()) {
         $detail = $this->add($this->slugifyLabels($labels));
         $detail->labels = $labels;
+        $detail->code_inao = $this->getParent()->getConfig()->getCodeDouane();
         foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
             foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
                 $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
@@ -48,6 +49,6 @@ class DRMDetails extends BaseDRMDetails {
         }
 
         return ($key) ? $key : DRM::DEFAULT_KEY;
-    }    
+    }
 
 }
