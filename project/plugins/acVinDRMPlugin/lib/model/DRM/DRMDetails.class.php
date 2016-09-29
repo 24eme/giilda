@@ -7,7 +7,7 @@
 class DRMDetails extends BaseDRMDetails {
 
     public function getConfigDetails() {
-        return $this->getDocument()->getConfig()->declaration->detail;
+        return $this->getDocument()->getConfig()->declaration->get($this->getKey());
     }
 
     public function getProduit($labels = array()) {
@@ -18,6 +18,40 @@ class DRMDetails extends BaseDRMDetails {
         }
 
         return $this->get($slug);
+    }
+
+    public function cleanNoeuds() {
+        if (count($this) == 0) {
+            return $this;
+        }
+
+        return null;
+    }
+
+    public function getTypeDRM() {
+        if($this->getKey() == DRM::DETAILS_KEY_SUSPENDU) {
+
+            return DRMClient::TYPE_DRM_SUSPENDU;
+        }
+
+        if($this->getKey() == DRM::DETAILS_KEY_ACQUITTE) {
+
+            return DRMClient::TYPE_DRM_ACQUITTE;
+        }
+    }
+
+    public function getTypeDRMLibelle() {
+        if($this->getKey() == DRM::DETAILS_KEY_SUSPENDU) {
+
+            return "Suspendu";
+        }
+
+        if($this->getKey() == DRM::DETAILS_KEY_ACQUITTE) {
+
+            return "Acquitté";
+        }
+
+        return null;
     }
 
     public function addProduit($labels = array()) {

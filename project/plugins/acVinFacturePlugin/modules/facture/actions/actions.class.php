@@ -5,7 +5,7 @@ class factureActions extends sfActions {
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
         $this->generationForm = new FactureGenerationForm();
-        $this->generations = GenerationClient::getInstance()->findHistoryWithType(GenerationClient::TYPE_DOCUMENT_FACTURES, 10);
+        $this->generations = GenerationClient::getInstance()->findHistory(10);
         sfContext::getInstance()->getResponse()->setTitle('FACTURE');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -98,7 +98,6 @@ class factureActions extends sfActions {
     public function executeGeneration(sfWebRequest $request) {
         $this->form = new FactureGenerationForm();
         $filters_parameters = array();
-
         if (!$request->isMethod(sfWebRequest::POST)) {
 
             throw new sfException("Pas en mode post");
@@ -204,7 +203,7 @@ class factureActions extends sfActions {
         $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
 
         if ($mouvementsBySocFiltered) {
-            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_mouvement'], $filters_parameters['message_communication']);
+            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_facturation'], $filters_parameters['message_communication']);
             $generation->save();
         }
         return $this->redirect('facture_societe', $this->societe);

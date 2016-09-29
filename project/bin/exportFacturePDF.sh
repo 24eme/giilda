@@ -5,7 +5,7 @@
 csv=$1
 
 if ! test "$csv" ; then 
-    php symfony export:facture > /tmp/factures.csv
+    php symfony export:facture --application=declaration --env=$SYMFONYENV > /tmp/factures.csv
     csv=/tmp/factures.csv
 fi
 
@@ -15,7 +15,7 @@ do
         date=$(echo $datefacture | sed 's/;.*//')
 	FACTUREDIR=$PDFDIR"/"$(echo $date  | sed 's/\(....\)-\(..\)-../\1\/\2/');
 	mkdir -p $FACTUREDIR 2> /dev/null;
-	php symfony generate:AFacture --directory=$FACTUREDIR $facture ; 
+	php symfony generate:AFacture --application=declaration --env=$SYMFONYENV  --directory=$FACTUREDIR $facture ; 
 done
 
 if test $SAMBA_FACTURELOCALDIR; then

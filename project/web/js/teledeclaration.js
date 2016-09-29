@@ -1,25 +1,25 @@
 
 
-var initSignaturePopup = function() {
+// var initSignaturePopup = function() {
 
-    $('a.signature_popup').fancybox({
-        autoSize: true,
-        autoCenter: true,
-        height: 'auto',
-        width: 'auto',
-    });
-    $('#signature_popup_content a#signature_popup_close').click(function(){
-        $.fancybox.close();
-    })
-    
-    $('#signature_popup_content button#signature_popup_confirm').click(function(){
-        $("form#vrac_validation").submit();
-    });
-    
-};
+    // $('a.signature_popup').fancybox({
+    //     autoSize: true,
+    //     autoCenter: true,
+    //     height: 'auto',
+    //     width: 'auto',
+    // });
+    // $('#signature_popup_content a#signature_popup_close').click(function(){
+    //     $.fancybox.close();
+    // })
+    //
+    // $('#signature_popup_content button#signature_popup_confirm').click(function(){
+    //     $("form#vrac_validation").submit();
+    // });
+
+// };
 
 var initNoticePopup = function() {
-    
+
     $('a#liens_notices').click(function(){
         $('a.popup_link_notices').trigger('click');
     })
@@ -33,7 +33,7 @@ var initNoticePopup = function() {
     $('#notice_popup_content a#signature_popup_close').click(function(){
         $.fancybox.close();
     })
-    
+
 };
 
 var triggerSignaturePopup = function() {
@@ -70,10 +70,16 @@ var initTeledeclarationCourtierSoussigne = function() {
     })
 
 }
-
+var initModificationCompte = function() {
+$("#modification_compte a.modifier, #modification_compte a.annuler").click(function() {
+  console.log('here');
+    $("#modification_compte div.presentation").toggle();
+    $("#modification_compte div.modification").toggle();
+});
+}
 $(document).ready(function()
 {
-    initSignaturePopup();
+    // initSignaturePopup();
     initRechercheFiltre();
+    initModificationCompte();
 });
-

@@ -32,7 +32,7 @@ EOF;
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
         $import_dir = $arguments['csv_dir'];
-        
+
         $configuration = ConfigurationClient::getInstance()->find($arguments['configuration_id']);
 
         if(!$configuration) {
@@ -40,7 +40,7 @@ EOF;
             $configuration->_id = $arguments['configuration_id'];
         }
 
-        $csv = new ProduitCsvFile($configuration, $import_dir."/produits.csv");   
+        $csv = new ProduitCsvFile($configuration, $import_dir."/produits.csv");
         $csv->importProduits();
 
         foreach (file($import_dir . '/details.csv') as $line) {
@@ -52,21 +52,23 @@ EOF;
             $detail->writable = (int) $datas[5];
             $detail->recolte = (int) $datas[8];
             $detail->revendique = (int) $datas[9];
-            $detail->details = (int) $datas[6];
+          //  $detail->vrac = (int) $datas[10];
+            $detail->details = $datas[6];
             $detail->mouvement_coefficient = (int) $datas[7];
-            $detail->vrac = (int) $datas[10];
-            $detail->facturable = (int) $datas[11];
-            $detail->douane_type = $datas[12];
-            $detail->douane_cat = $datas[13];
-            $detail->taxable_douane = (int) $datas[14];
+          $detail->restriction_lies = (int) $datas[11];
+          $detail->facturable = (int) $datas[12];
+         $detail->details = $datas[13];
+            $detail->douane_type = $datas[14];
+            $detail->douane_cat = $datas[15];
+            $detail->taxable_douane = (int) $datas[16];
         }
 
         foreach (file($import_dir . '/libelle_detail_ligne.csv') as $line) {
-            $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
-            $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->getOrAdd($datas[1]);
-            $detail->libelle = $datas[2];
-            $detail->libelle_long = $datas[3];
-            $detail->description = $datas[4];
+          $datas = explode(";", preg_replace('/"/', '', str_replace("\n", "", $line)));
+            $detail = $configuration->libelle_detail_ligne->getOrAdd($datas[0])->getOrAdd($datas[1])->getOrAdd($datas[2]);
+            $detail->libelle = $datas[3];
+            $detail->libelle_long = $datas[4];
+            $detail->description = $datas[5];
         }
 
         foreach (file($import_dir . '/mouvements_favoris.csv') as $mvtLine) {

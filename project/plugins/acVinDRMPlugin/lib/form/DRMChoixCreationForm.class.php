@@ -1,6 +1,6 @@
 <?php
 
-class DRMChoixCreationForm extends sfForm {
+class DRMChoixCreationForm extends BaseForm {
 
     private $periode = null;
     private $identifiant = null;
@@ -13,7 +13,7 @@ class DRMChoixCreationForm extends sfForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'type_creation' => new sfWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getTypesCreation())),
+            'type_creation' => new bsWidgetFormChoice(array('expanded' => true, 'inline' => false, 'choices' => $this->getTypesCreation())),
             'file' => new sfWidgetFormInputFile()
         ));
         $this->widgetSchema->setLabels(array(

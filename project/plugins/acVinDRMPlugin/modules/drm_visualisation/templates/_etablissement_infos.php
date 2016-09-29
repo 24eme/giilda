@@ -4,7 +4,7 @@
         <p style="text-align: center"><strong><?php echo $drm->declarant->nom; ?></strong></p>
         <br />
         <strong>N° CVI</strong> : <?php echo $drm->declarant->cvi; ?><br />
-        <strong>N° Accises</strong> : <?php echo $drm->declarant->no_accises; ?><br />
+        <strong>N° Accise</strong> : <?php echo $drm->declarant->no_accises; ?><br />
         <br />
         <strong>Adresse :</strong><br />
         <?php echo $drm->declarant->adresse; ?><br />

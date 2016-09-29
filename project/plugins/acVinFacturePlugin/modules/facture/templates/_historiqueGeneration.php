@@ -17,7 +17,7 @@
                         <span class="col-xs-3">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC] . ' Facture(s)'; ?>
+                                    <?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC] . ' '.$generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT].'(s)'; ?>
                                 </div>
                                 <!--<div class="col-xs-12">
                                     <?php foreach ($generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS] as $cpt => $facture) : ?>
@@ -28,11 +28,11 @@
                             </div>
                         </span>
                         <span class="col-xs-2 text-right">
-                        <?php echo link_to($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => GenerationClient::TYPE_DOCUMENT_FACTURES, 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?>
+                        <?php echo link_to($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?>
                         </span>
-                        <span class="col-xs-2 text-right"><?php
+                        <span class="col-xs-2 text-right"><?php if ($generation->value[GenerationClient::HISTORY_VALUES_SOMME]): 
                             echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);
-                            ?>&nbsp;€ HT</span>
+                            ?>&nbsp;€ HT<?php endif; ?></span>
                         <span class="col-xs-1 text-right">
                             <?php
                             echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC];

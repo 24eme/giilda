@@ -1,4 +1,4 @@
-<footer id="footer">
+<!-- <footer id="footer">
 	<div class="container">
 		<nav>
 			<ul>
@@ -10,4 +10,4 @@
 		</nav>
 	</div>
 </footer>
-
+ -->

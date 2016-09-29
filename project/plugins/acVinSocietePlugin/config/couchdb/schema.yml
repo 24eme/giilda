@@ -13,6 +13,8 @@ Societe:
       code_comptable_client: { }
       code_comptable_fournisseur: { }
       teledeclaration_email: { required: false }
+      paiement_douane_moyen: { required: false }
+      paiement_douane_frequence: { required: false }
       type_fournisseur:
         required: false
         type: array_collection

@@ -257,7 +257,7 @@
 								<input type="text" id="detail_etablissement_carte_professionnelle" />
 							</div>
 							<div class="form_ligne">
-								<label for="detail_etablissement_accises">N° d'ACCISES</label>
+								<label for="detail_etablissement_accises">N° d'accise</label>
 								<input type="text" id="detail_etablissement_accises" />
 							</div>
 							<div class="form_ligne">

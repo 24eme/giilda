@@ -57,7 +57,7 @@ Voici les différentes modifications enregistrées :
 
 ——
 
-L’application de télédéclaration des contrats d’InterLoire";
+L’application de télédéclaration de votre interprofession.";
 
 
         $subject = "Changement de coordonnées de la société " . $typeLibelle . " (" . $identification . ")";
@@ -66,7 +66,7 @@ L’application de télédéclaration des contrats d’InterLoire";
         try {
             $this->getMailer()->send($message);
         } catch (Exception $e) {
-            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
+            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter votre interprofession.');
             return null;
         }
         return true;
@@ -78,7 +78,7 @@ L’application de télédéclaration des contrats d’InterLoire";
         $contact = EtablissementClient::getInstance()->buildInfosContact($etablissement);
 
 
-        $mess = "  
+        $mess = "
 
 La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration ". sfConfig::get('app_teledeclaration_url')." .
 
@@ -86,15 +86,15 @@ La version PDF de cette DRM est également disponible en pièce jointe dans ce m
 
 Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
 
-Pour toutes questions, veuillez contacter: 
+Pour toutes questions, veuillez contacter:
 
  - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
- - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .    
-    
+ - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .
+
 --
 
 L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclaration_url') ." .";
-        
+
         $pdf = new DRMLatex($this->drm);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();

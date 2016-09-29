@@ -95,7 +95,7 @@ EOF;
 
             $drm->type_creation = "IMPORT";
 
-            $drm->save();
+            //$drm->save();
 
             DRMClient::getInstance()->generateVersionCascade($drm);
 

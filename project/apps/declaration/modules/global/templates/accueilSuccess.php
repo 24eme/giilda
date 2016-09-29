@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
+                        <div class="panel-heading text-center">
                             <strong><?php echo $etablissement->nom; ?></strong>
                         </div>
                         <div class="text-center panel-body">
@@ -15,7 +15,7 @@
                             <br>
                             <small><?php echo $etablissement->siege->adresse . ' - ' . $etablissement->siege->commune . ' ' . $etablissement->siege->code_postal; ?></small>
                             <br>
-                            <small class="text-muted"> 
+                            <small class="text-muted">
                                 <?php if ($etablissement->isViticulteur()): echo "CVI : " . $etablissement->cvi;
                                 endif; ?>
                             </small>
@@ -26,6 +26,9 @@
             </div>
         </div>
     <?php endif; ?>
-<?php include_component('global', 'blocks', array('etablissement' => $etablissement)); ?>   
-
+<?php if($teledeclaration): ?>
+<?php include_component('global', 'blocksTeledeclaration', array('etablissementPrincipal' => $etablissementPrincipal)); ?>
+<?php else: ?>
+<?php include_component('global', 'blocks', array('etablissement' => $etablissement)); ?>
+<?php endif; ?>
 </div>

@@ -4,7 +4,7 @@
  * Model for CSV
  *
  */
-class CSV extends BaseCSV {
+class CSVDRM extends BaseCSVDRM {
 
     public function __construct() {
         parent::__construct();

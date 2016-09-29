@@ -5,9 +5,11 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
     public function configure() {
     	$configurationDetail = $this->getObject()->getParent()->getConfig();
         $certif = $this->getObject()->getParent()->getCertification()->getKey();
+        $appellation = $this->getObject()->getParent()->getAppellation()->getkey();
         $drm = $this->getObject()->getDocument();
     	foreach ($configurationDetail->getSortiesSorted() as $key => $value) {
-            $disabled = (!preg_match('/AOC/', $certif) && ($key == 'repli'));
+            $disabled = ((!preg_match('/AOC/', $certif) && ($key == 'repli'))
+                        || (preg_match('/USAGESINDUSTRIELS/', $appellation) && (!$value->restriction_lies)));
             if ($key == 'contrathorsinterpro' && preg_match('/AOC/', $certif)) {
                 $disabled = true;
             }
@@ -22,7 +24,7 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
 	    		}
 	    		$this->setValidator($key, new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
     		}
-    	}        
+    	}
         $this->widgetSchema->setNameFormat('drm_detail_sorties[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }

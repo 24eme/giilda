@@ -13,6 +13,13 @@
     		<?php endif; ?>
         </div>
 <?php else: ?>
+  <?php if(isset($teledeclaration) && $teledeclaration): ?>
+      <li class="<?php echo $actif ? "active" : null ?>">
+            <a tabindex="-1" href="<?php echo url_for($route, array('identifiant' => $identifiant)); ?>" target="<?php echo $target; ?>">
+                <?php echo $libelle ?>
+            </a>
+        </li>
+  <?php else: ?>
     <?php if ($route_etablissement && $etablissement && !$actif): ?>
         <li class="<?php echo $actif ? "active" : null ?>">
             <a tabindex="-1" href="<?php echo url_for($route_etablissement, $etablissement); ?>" target="<?php echo $target; ?>">
@@ -26,4 +33,5 @@
             </a>
         </li>
     <?php endif; ?>
+<?php endif; ?>
 <?php endif; ?>

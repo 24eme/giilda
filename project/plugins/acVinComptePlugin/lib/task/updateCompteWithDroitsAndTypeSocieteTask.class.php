@@ -13,9 +13,9 @@
  */
 class updateCompteWithDroitsAndTypeSocieteTask extends sfBaseTask
 {
-    
+
    protected $debug = false;
-    
+
   protected function configure()
   {
      $this->addArguments(array(
@@ -36,19 +36,19 @@ class updateCompteWithDroitsAndTypeSocieteTask extends sfBaseTask
 The [maintenanceCompteStatut|INFO] task does things.
 Call it with:
 
-  [php symfony maintenance:update-comptes-with-droits|INFO]
+  [php symfony comptes:update-comptes-with-droits|INFO]
 EOF;
   }
 
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
-      
+
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-    
+
     $this->debug = array_key_exists('debug', $arguments) && $arguments['debug'];
-    
+
     //$rows = CompteAllView::getInstance()->findByInterproAndStatutVIEW("INTERPRO-declaration",  CompteClient::STATUT_ACTIF);
     $rows = CompteAllView::getInstance()->findByInterproVIEW("INTERPRO-declaration");
 
@@ -58,7 +58,7 @@ EOF;
             echo $this->red("ERREUR : ")."Le compte $row->id est introuvable en base.\n";
             continue;
         }
-        $societe = $compte->getSociete(); 
+        $societe = $compte->getSociete();
         if(!$societe){
             echo $this->red("ERREUR : ")."Le compte $row->id n'appartient a aucune société.\n";
             continue;
@@ -70,7 +70,7 @@ EOF;
         }
         $compte->add('type_societe', $type_societe);
         if(!$compte->isActif()){
-            $compte->save(false, false, false, true);
+            $compte->save();
             echo $this->yellow("ENREGISTREMENT : ")."Le compte inactif $row->id a pour type société $type_societe.\n";
             continue;
         }
@@ -87,15 +87,15 @@ EOF;
                 if($droit == Roles::TELEDECLARATION){
                     $teledeclaration = true;
                 }
-            }            
-            $compte->save(false, false, false, true);
-            
+            }
+            $compte->save();
+
             echo $this->green("ENREGISTREMENT : ")."Le compte $row->id type société $type_societe (type compte $compte->compte_type) => $droitsDisplay. ";
             if($teledeclaration){
                 if(!$compte->exist('email') || !$compte->email){
-                   echo $this->yellow("EMAIL ABSENT"); 
+                   echo $this->yellow("EMAIL ABSENT");
                 }else{
-                   echo $this->green("EMAIL : $compte->email");  
+                   echo $this->green("EMAIL : $compte->email");
                 }
             }
             echo "\n";
@@ -103,15 +103,15 @@ EOF;
       }
 
   }
-  
+
    public function green($string) {
         return "\033[32m".$string."\033[0m";
     }
-        
+
     public function yellow($string) {
         return "\033[33m".$string."\033[0m";
     }
-    
+
     public function red($string) {
         return "\033[31m".$string."\033[0m";
     }
