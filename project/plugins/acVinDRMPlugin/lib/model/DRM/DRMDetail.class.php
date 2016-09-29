@@ -445,7 +445,7 @@ class DRMDetail extends BaseDRMDetail {
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
             if ($entreeConf->taxable_douane && $entreeDrm && $entreeDrm > 0) {
-                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
@@ -460,7 +460,7 @@ class DRMDetail extends BaseDRMDetail {
 
 
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
-                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
     }
