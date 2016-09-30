@@ -20,6 +20,7 @@
                 <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
             </a>
         </li>
+        <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_SAISIE_ACQUITTE, DRMClient::$drm_etapes))); ?>
         <?php $actif = ($etape_courante == DRMClient::ETAPE_SAISIE_ACQUITTE); ?>
         <?php $isDouaneTypeAcquitte = $drm->isDouaneType(DRMClient::TYPE_DRM_ACQUITTE); ?>
@@ -29,6 +30,7 @@
                 <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
             </a>
         </li>
+        <?php endif; ?>
         <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>
             <?php $actif = ($etape_courante == DRMClient::ETAPE_CRD); ?>
             <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CRD, DRMClient::$drm_etapes))); ?>
