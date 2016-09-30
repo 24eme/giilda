@@ -60,5 +60,9 @@ panel.disabled {
     border-color: #98fa98;
 }
 .select2-container {
-	width: 100%;	
+	width: 100%;
+}
+
+.tooltip-inner {
+  max-width: 500px;
 }
