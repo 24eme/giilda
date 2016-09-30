@@ -45,7 +45,7 @@ $favoris_sorties = $favoris->sorties;
                 </ul>
                 <div class="groupe no_favoris" data-groupe-id="3">
                     <?php if($saisieSuspendu): ?>
-                    <p style="height:22px; cursor: pointer;" class="extendable form-group form-group-xs">Autres entrées<?php echo getPointAideHtml('drm','mouvements_autres_entrees') ?><span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
+                    <p style="height:24px; cursor: pointer;" class="extendable form-group form-group-xs">Autres entrées<?php echo getPointAideHtml('drm','mouvements_autres_entrees') ?><span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
                     <?php endif; ?>
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
@@ -83,7 +83,7 @@ $favoris_sorties = $favoris->sorties;
                 </ul>
                 <div class="groupe no_favoris" data-groupe-id="5">
                   <?php if($saisieSuspendu): ?>
-                    <p style="height:22px; cursor: pointer;" class="extendable form-group form-group-xs">Autres sorties<?php echo getPointAideHtml('drm','mouvements_autres_sorties') ?><span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
+                    <p style="height:24px; cursor: pointer;" class="extendable form-group form-group-xs">Autres sorties<?php echo getPointAideHtml('drm','mouvements_autres_sorties') ?><span style="margin-top: 5px;" class="glyphicon glyphicon-chevron-down pull-right"></span></p>
                   <?php endif; ?>
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
