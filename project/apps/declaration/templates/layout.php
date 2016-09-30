@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <?php include_stylesheets() ?>
     <!-- Bootstrap core CSS -->
-    
+
     <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/components/select2/select2.css" rel="stylesheet">
     <link href="/components/select2/select2-bootstrap.min.css" rel="stylesheet">
@@ -31,14 +31,13 @@
 
     <?php include_partial('global/header'); ?>
 
-
 	<div id="content" style="min-height: 945px;">
 		<div class="container">
         <?php echo $sf_content ?>
-    </div>
+        </div>
 
-    <div id="ajax-modal" class="modal"></div>
-    <?php include_partial('global/footer'); ?>
+        <div id="ajax-modal" class="modal"></div>
+        <?php include_partial('global/footer'); ?>
     </div>
 
     <script src="/components/bootstrap/bootstrap.js"></script>
