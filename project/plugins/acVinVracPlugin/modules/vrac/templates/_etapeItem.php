@@ -13,9 +13,6 @@ if($actif == $num_etape+1) $liClass = 'active';
 
 <li class="<?php if($liClass == 'active'): ?>active<?php elseif ($liClass == 'passe'): ?>visited<?php endif; ?> <?php if ($liClass != 'active' && $liClass != 'passe'): ?>disabled<?php endif; ?>">
     <a href="<?php echo $href ?>">
-        <?php echo $num_etape+1; ?>.&nbsp;&nbsp;<?php echo $label; ?> 
+        <?php echo $label; ?> 
     </a>
 </li>
-
-
-   
