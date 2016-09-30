@@ -19,7 +19,12 @@
             </div>
             <div class="col-xs-11">
             <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
+            </div>
           </div>
+          <div class="row">
+              <div class="col-xs-12">
+                  <?php include_partial('global/blocInscriptionDouane') ?>
+              </div>
           </div>
         <?php else: ?>
             <h3>Historique des DRM</h3>
