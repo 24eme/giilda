@@ -6095,7 +6095,7 @@ button.close {
   padding: 0 5px;
 }
 .tooltip-inner {
-  max-width: 200px;
+  max-width: 500px;
   padding: 3px 8px;
   color: #ffffff;
   text-align: center;
@@ -6166,9 +6166,6 @@ button.close {
   border-bottom-color: #000000;
 }
 
-.tooltip-inner {
-    min-width: 450px; //the minimum width
-}
 
 .popover {
   position: absolute;
