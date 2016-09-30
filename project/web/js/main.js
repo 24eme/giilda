@@ -37,7 +37,7 @@
         $(this).find('.input-float').inputNumberFormat({'decimal': 4, 'decimalAuto': 2});
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
-        $(this).find('[data-toggle="tooltip"]').tooltip();
+        $(this).find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
 
 
         $(this).find("select.select2").select2({
