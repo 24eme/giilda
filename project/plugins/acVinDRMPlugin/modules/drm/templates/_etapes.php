@@ -10,6 +10,7 @@
                     <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
                 </a>
             </li>
+        <?php $cpt_etape++; ?>
         <?php endif; ?>
         <?php $actif = ($etape_courante == DRMClient::ETAPE_SAISIE_SUSPENDU); ?>
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_SAISIE_SUSPENDU, DRMClient::$drm_etapes))); ?>
@@ -20,6 +21,7 @@
                 <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
             </a>
         </li>
+        <?php $cpt_etape++; ?>
         <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_SAISIE_ACQUITTE, DRMClient::$drm_etapes))); ?>
         <?php $actif = ($etape_courante == DRMClient::ETAPE_SAISIE_ACQUITTE); ?>
@@ -30,6 +32,7 @@
                 <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
             </a>
         </li>
+        <?php $cpt_etape++; ?>
         <?php endif; ?>
         <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>
             <?php $actif = ($etape_courante == DRMClient::ETAPE_CRD); ?>
@@ -40,6 +43,7 @@
                     <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
                 </a>
             </li>
+        <?php $cpt_etape++; ?>
         <?php endif; ?>
         <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>
             <?php $actif = ($etape_courante == DRMClient::ETAPE_ADMINISTRATION); ?>
@@ -50,6 +54,7 @@
                     <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
                 </a>
             </li>
+        <?php $cpt_etape++; ?>
         <?php endif; ?>
         <?php $actif = ($etape_courante == DRMClient::ETAPE_VALIDATION); ?>
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_VALIDATION, DRMClient::$drm_etapes))); ?>
@@ -59,5 +64,6 @@
                <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
             </a>
         </li>
+        <?php $cpt_etape++; ?>
     </ul>
 </nav>
