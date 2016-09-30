@@ -4,8 +4,8 @@ use_helper('PointsAides');
 ?>
 <section id="principal">
   <ol class="breadcrumb">
-      <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_liste_contrat'); ?></li>
-      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_annuaire'); ?></li>
+      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_liste_contrat'); ?></li>
+      <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_annuaire'); ?></li>
   </ol>
 
   <h2>Ajouter un contact</h2>
