@@ -5,6 +5,8 @@
 
 <?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
 
+<section id="principal" class="drm">
+
 <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_VALIDATION)); ?>
 
 <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post" id="drm_validation">
@@ -80,3 +82,4 @@
         </div>
     </div>
 </form>
+</div>
