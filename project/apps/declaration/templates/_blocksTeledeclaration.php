@@ -53,6 +53,7 @@ $hasBlog = false;
           </div>
           </div>
         <div class="panel-body" style="height: 250px;">
+            <?php include_partial('global/blocInscriptionDouane') ?>
             <div class="row text-center">
                 <div class="col-xs-12" >
                   <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => true, 'btnAccess' => true, 'accueil_drm' => false)); ?>
