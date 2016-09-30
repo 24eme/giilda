@@ -36,7 +36,9 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 >
     <?php echo $form->renderHiddenFields() ?>
     <?php echo $form->renderGlobalErrors() ?>
+    <?php if(isset($form['responsable'])): ?>
     <?php echo $form['responsable']->renderError(); ?>
+    <?php endif; ?>
     <div class="row">
         <div class="col-sm-12">
         	<?php if(isset($form['attente_original'])): ?>
@@ -74,12 +76,12 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
             <?php endif; ?>
             <div class="row">
         		<?php if(isset($form['vendeur_identifiant'])): ?>
-                <div class="col-xs-12">
+                <div class="<?php if(isset($form['acheteur_producteur']) || isset($form['acheteur_negociant'])): ?>col-xs-6<?php else: ?>col-xs-12<?php endif; ?>">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><label>Vendeur</label>
                             <?php if(isset($form['responsable'])): ?>
-                            <label class="responsable text-right pull-right <?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> text-success<?php else: ?> text-info<?php endif; ?>">
+                            <label class="responsable pointer text-right pull-right <?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> text-success<?php else: ?> text-info<?php endif; ?>">
                               <input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_vendeur" value="vendeur" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'vendeur'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>
                         </label>
 							<?php endif; ?>
@@ -195,12 +197,12 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 </div>
                 <?php endif; ?>
         		<?php if(isset($form['acheteur_producteur']) || isset($form['acheteur_negociant'])): ?>
-                <div class="col-xs-12">
+                <div class="<?php if(isset($form['vendeur_identifiant'])): ?>col-xs-6<?php else: ?>col-xs-12<?php endif; ?>">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title"><label>Acheteur</label>
                             <?php if(isset($form['responsable'])): ?>
-                            <label class="responsable text-right pull-right<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?>  text-success<?php else: ?> text-info<?php endif; ?>">
+                            <label class="responsable pointer text-right pull-right<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?>  text-success<?php else: ?> text-info<?php endif; ?>">
 							    <input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_acheteur" value="acheteur" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'acheteur'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>
 							</label>
 							<?php endif; ?>
@@ -288,7 +290,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                     <h3 class="panel-title">
                     	<span class="bloc_condition" data-condition-cible="#bloc_mandataire"  for="<?php echo $form['mandataire_exist']->renderId(); ?>"><?php echo $form['mandataire_exist']->render(); ?>&nbsp;&nbsp;<label for="vrac_mandataire_exist">Mandataire / Courtier</label></span>
                     <?php if(isset($form['responsable'])): ?>
-                    <label class="responsable pull-right<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?>  text-success<?php else: ?> text-info<?php endif; ?>">
+                    <label class="responsable pointer pull-right<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?>  text-success<?php else: ?> text-info<?php endif; ?>">
 						<input autocomplete="off" type="radio" name="vrac[responsable]" id="vrac_responsable_mandataire" value="mandataire" autocomplete="off"<?php if($vrac->getOrAdd('responsable') == 'mandataire'): ?> checked<?php endif; ?> /><span class="glyphicon glyphicon-user" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Responsable"></span>
 					</label>
 					<?php endif; ?>
