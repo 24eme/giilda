@@ -39,7 +39,7 @@
             <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CRD, DRMClient::$drm_etapes))); ?>
             <li class="<?php if($actif): ?>active<?php endif; ?> <?php if (!$past && !$actif): ?>disabled<?php endif; ?> <?php if ($past && !$actif): ?>visited<?php endif; ?>">
                <a href="<?php echo url_for('drm_crd', $drm); ?>">
-                    <span><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;CRD</span>
+                    <span>CRD</span>
                     <small class="hidden">Etape <?php echo $cpt_etape; ?></small>
                 </a>
             </li>
