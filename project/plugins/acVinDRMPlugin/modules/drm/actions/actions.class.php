@@ -261,7 +261,8 @@ class drmActions extends drmGeneriqueActions {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
                 $this->formCampagne->bind($param);
-                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+                $campagne = ($this->formCampagne->getValue('campagne'))? $this->formCampagne->getValue('campagne') : "-1";
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $campagne));
             }
         }
     }

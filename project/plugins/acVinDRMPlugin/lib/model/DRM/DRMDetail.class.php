@@ -113,12 +113,8 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-        return !$this->hasPrecedente();
-    }
 
-    public function canSetStockInitial() {
-        //TODO : Parametrer en fct de la DATE DRM
-        return true;
+       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
     }
 
     public function canSetLabels() {
