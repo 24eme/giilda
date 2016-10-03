@@ -2,7 +2,7 @@
 <?php use_helper('DRM'); ?>
 <?php use_helper('PointsAides'); ?>
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <!-- #principal -->
 <section id="principal" class="drm">

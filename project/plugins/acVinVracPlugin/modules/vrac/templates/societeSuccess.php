@@ -82,7 +82,7 @@ use_helper('PointsAides');
         <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant() || $etablissementPrincipal->isRepresentant()): ?>
             <div class="pull-right">
               <a class="btn btn-warning " href="<?php echo url_for('vrac_nouveau', array('etablissement' => $etablissementPrincipal->identifiant)); ?>">
-                Saisir Un Nouveau contrat
+                Saisir un nouveau contrat
               </a>
               <?php echo getPointAideHtml('vrac','menu_acces_nouveau'); ?>
             </div>

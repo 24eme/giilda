@@ -3,11 +3,11 @@
 <?php use_helper('PointsAides'); ?>
 <?php $allCrdsByRegimeAndByGenre = $drm->getAllCrdsByRegimeAndByGenre(); ?>
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <!-- #principal -->
 <section id="principal" class="drm">
-    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => true, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
+    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
     <div class="row" id="application_drm">
         <div class="col-xs-12">
           <p><?php echo getPointAideText('drm','etape_capsules_crd_description'); ?></p>
