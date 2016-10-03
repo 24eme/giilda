@@ -378,7 +378,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        if (count($this->getProduitsDetails()) != count($drm_suivante->getProduitsDetails())) {
+        if (count($this->getProduitsDetails($this->teledeclare)) != count($drm_suivante->getProduitsDetails($drm_suivante->teledeclare))) {
 
             return false;
         }
@@ -428,7 +428,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->setInterpros();
         $this->generateMouvements();
-        if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+        if ($this->teledeclare) {
             $this->generateDroitsDouanes();
         }
 
@@ -620,7 +620,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasDetails() {
-        return (count($this->declaration->getProduitsDetails()) > 0) ? true : false;
+        return (count($this->declaration->getProduitsDetails($this->teledeclare)) > 0) ? true : false;
     }
 
     public function hasEditeurs() {
@@ -663,7 +663,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->region = $this->getEtablissement()->region;
         $listEntrees = $listSorties = array();
         $key_to_remove = array();
-        foreach ($this->getProduitsDetails() as $detail) {
+        foreach ($this->getProduitsDetails($this->teledeclare) as $detail) {
             if (!array_key_exists($detail->getConfig()->getHash(), $listEntrees) && !array_key_exists($detail->getConfig()->getHash(), $listSorties)) {
                 $listEntrees[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getEntreesSorted());
                 $listSorties[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getSortiesSorted());
@@ -846,7 +846,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return true;
         }
 
-        if (count($this->getProduitsDetails()) != count($this->getMother()->getProduitsDetails())) {
+        if (count($this->getProduitsDetails($this->teledeclare)) != count($this->getMother()->getProduitsDetails($this->teledeclare))) {
 
             return true;
         }
@@ -946,8 +946,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant, $teledeclaration_drm);
     }
 
-    public function generateMouvements($teledeclaration_drm = false) {
-        return $this->mouvement_document->generateMouvements($teledeclaration_drm);
+    public function generateMouvements() {
+        return $this->mouvement_document->generateMouvements($this->teledeclare);
     }
 
     public function findMouvement($cle, $id = null) {
@@ -1006,7 +1006,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * DROIT ** */
 
     public function storeDroits() {
-        foreach ($this->getProduitsDetails() as $detail) {
+        foreach ($this->getProduitsDetails($this->teledeclare) as $detail) {
             $detail->storeDroits();
         }
     }
@@ -1109,7 +1109,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+                    $count_entree =  $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->stock_fin + $crd->stock_debut;
+                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0 && !$count_entree) {
                         $toRemoves[] = $regime . '/' . $key;
                     }
                 }
@@ -1287,7 +1288,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /** Droit de circulation douane */
     public function generateDroitsDouanes() {
         $this->getOrAdd('droits')->getOrAdd('douane')->initDroitsDouane();
-        foreach ($this->getProduitsDetails() as $produitDetail) {
+        foreach ($this->getProduitsDetails(true) as $produitDetail) {
             $produitDetail->updateDroitsDouanes();
         }
     }
