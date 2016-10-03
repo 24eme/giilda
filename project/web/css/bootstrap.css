@@ -6958,6 +6958,9 @@ h6,
   border-bottom: 0;
   color: #ffffff;
 }
+.table > thead > tr > th a {
+  color: white;
+}
 .table-vertical-striped > tbody > tr > td:nth-of-type(even) {
   background-color: #f7f4ed;
 }
