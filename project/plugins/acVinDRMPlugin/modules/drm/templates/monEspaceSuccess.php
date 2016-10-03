@@ -1,6 +1,10 @@
 <ol class="breadcrumb">
-    <li class="visited"><a href="<?php echo url_for('drm') ?>">DRM</a></li>
-    <li class="active"><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
+    <?php if (!isset($isTeledeclarationMode) || !$isTeledeclarationMode): ?>
+    <li><a href="<?php echo url_for('drm') ?>">DRM</a></li>
+    <?php else: ?>
+        <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>">DRM</a></li>
+    <?php endif; ?>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
     <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>">Calendrier</a></li>
     <li><a href="" class="active"><?php echo ($campagne == -1) ? "Les derniers mois" : $campagne ?></a></li>
 </ol>
@@ -15,14 +19,14 @@
         <?php if ($campagne == -1) : ?>
           <div class="row">
             <div class="col-xs-1 text-right" style="padding-left:10px;">
-              <span class="icon-drm" style="font-size: 50px;"></span>
+              <span class="icon-drm" style="font-size: 46px;"></span>
             </div>
             <div class="col-xs-11">
-            <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
+                <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
             </div>
           </div>
           <div class="row">
-              <div class="col-xs-12">
+              <div class="col-xs-12" style="margin-top: 10px;">
                   <?php include_partial('global/blocInscriptionDouane') ?>
               </div>
           </div>

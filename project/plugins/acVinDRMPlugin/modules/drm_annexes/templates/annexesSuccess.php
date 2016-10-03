@@ -6,7 +6,7 @@
 <?php
 $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null;
 ?>
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <!-- #principal -->
 <section id="principal" class="drm">
@@ -79,13 +79,12 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                         <div id="collapse_apurement" class="panel-collapse collapse <?php echo (count($annexesForm['releve_non_apurement']))? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_apurement">
                         <div class="panel-body">
-                          <p><?php echo getPointAideText('drm','annexe_nonapurement'); ?></p>
                           <table id="table_drm_non_apurement" class="table table-bordered table-striped">
                               <thead >
                                   <tr>
-                                      <th class="col-xs-4">Numéro de document<?php echo getPointAideHtml('drm','annexe_nonapurement_num_doc'); ?></th>
-                                      <th class="drm_non_apurement_date_emission col-xs-4">Date d'expédition<?php echo getPointAideHtml('drm','annexe_nonapurement_date'); ?></th>
-                                      <th class="col-xs-4">Numéro d'accise<?php echo getPointAideHtml('drm','annexe_nonapurement_num_accise'); ?></th>
+                                      <th class="col-xs-4">Numéro de document</th>
+                                      <th class="drm_non_apurement_date_emission col-xs-4">Date d'expédition</th>
+                                      <th class="col-xs-4">Numéro d'accise</th>
                                       <th class="col-xs-1"></th>
                                   </tr>
                               </thead>
@@ -99,7 +98,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                               </tbody>
                               <thead>
                                   <tr>
-                                      <td colspan="4"><a class="btn_ajouter_ligne_template btn btn-sm btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a></td>
+                                      <td colspan="4" class="ajouter_non_apurement"><a class="btn_ajouter_ligne_template btn btn-sm btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a></td>
                                   </tr>
                               </thead>
                           </table>

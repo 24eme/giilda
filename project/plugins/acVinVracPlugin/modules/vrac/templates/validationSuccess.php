@@ -54,7 +54,7 @@ use_helper('PointsAides');
 <?php endif; ?>
 
 <div class="row">
-  <div class="col-xs-4  text-left <?php echo (!$isTeledeclarationMode)? "col-md-pull-8" : "" ?>">
+  <div class="col-xs-4  text-left">
       <a tabindex="-1"  href="<?php echo url_for('vrac_condition',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
   </div>
     <div class="col-xs-4 text-center">
@@ -75,9 +75,9 @@ use_helper('PointsAides');
               <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
             <?php endif; ?>
         <?php else: ?>
-           <div class="col-xs-4 col-md-push-8 text-right">
+           <div class="col-xs-4 text-right">
             <button class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
-          </div>
+            </div>
         <?php endif; ?>
     <?php endif; ?>
 </div>
