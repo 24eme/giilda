@@ -118,8 +118,20 @@
         initNonApurement();
         initUpdateEtablissementValidation();
         initSignatureDrmPopup();
-        initBoldSaisie();        
+        initBoldSaisie();
+        initAnnexes();
     });
+
+    var initAnnexes = function(){
+
+      $('.panel-collapse').on('show.bs.collapse', function(){
+        $(this).parent().find('.panel-heading a span').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down');
+        });
+
+      $('.panel-collapse').on('hide.bs.collapse', function(){
+        $(this).parent().find('.panel-heading a span').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right');
+      });
+    }
 
     var initRaccourcis = function () {
         $('a.click-on-space-key').keypress(function (e) {
@@ -166,8 +178,8 @@
             }
         });
         $('div.panel-heading').click(function(){
-            var col = colonnes.findByHash($('.col_focus').data('hash'));     
-            col.valider($(this).parent().data('hash')); 
+            var col = colonnes.findByHash($('.col_focus').data('hash'));
+            col.valider($(this).parent().data('hash'));
         });
     }
 
@@ -236,7 +248,7 @@
          height: 'auto',
          width: 'auto',
          'afterShow': openedPopupAjoutCRD
-         
+
          });*/
 
         $('a.ajout_crds_popup').click();
@@ -283,7 +295,7 @@
          width: 'auto',
          minWidth: 500,
          'afterShow': $.initProtectForms
-         
+
          });*/
 
         $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
@@ -329,8 +341,8 @@
 
         $(element).on('click', function ()
         {
-            var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
 
+            var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
             try {
                 var params = jQuery.parseJSON($(this).attr('data-template-params'));
             } catch (err) {
@@ -346,7 +358,8 @@
             if (callback) {
                 callback(bloc);
 
-                $('.champ_datepicker input').initDatepicker();
+                $(document).initAdvancedElements();
+                initCollectionDeleteNonApurementTemplate();
             }
             return false;
         });
@@ -356,6 +369,7 @@
     {
         $('.drm_non_apurement_delete_row .btn_supprimer_ligne_template').on('click', function ()
         {
+            console.log($(this));
             var element = $(this).parent().parent();
             $(element).remove();
             return false;
