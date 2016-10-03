@@ -158,6 +158,7 @@ class DRMCalendrier {
 
     private function loadStatuts() {
         $this->statuts = array();
+        $lastPeriode = Date::addDelaiToDate('-1 month', null, 'Ym');
         foreach ($this->etablissements as $etablissement) {
             $etbIdentifiant = $etablissement->identifiant;
             if (!array_key_exists($etbIdentifiant, $this->statuts)) {
@@ -172,18 +173,16 @@ class DRMCalendrier {
                     $drm = $this->drms[$etbIdentifiant][$periode];
                     if (($statut === self::STATUT_VALIDEE) || ($statut === self::STATUT_EN_COURS)) {
                         $hasteledeclaree = true;
-                    }else if (!$hasteledeclaree) {
+                    } else if (!$hasteledeclaree) {
                         $statut = self::STATUT_VALIDEE_NON_TELEDECLARE;
+                        if ($this->isTeledeclarationMode && $this->computeStatut($periode, $etablissement) === self::STATUT_NOUVELLE && ($periode >= $lastPeriode)) {
+                            $statut = self::STATUT_NOUVELLE;
+                        }
                     }
                 }
                 $this->statuts[$etbIdentifiant][$periode] = $statut;
             }
-            if ($this->isTeledeclarationMode && $this->computeStatut($periode, $etablissement) === self::STATUT_NOUVELLE && $periode == date('Ym')) {
-                $this->statuts[$etbIdentifiant][$periode] = self::STATUT_NOUVELLE;
-
-            }
         }
-
     }
 
     private function computeStatut($periode, $etablissement) {
