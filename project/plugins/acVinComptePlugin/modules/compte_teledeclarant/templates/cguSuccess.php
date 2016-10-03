@@ -8,13 +8,14 @@
                         L'IVBD met à disposition de ses ressortissants un portail de télédéclaration pour les DRM et les contrats d’achats&nbsp;:&nbsp;«&nbsp;ivbdpro.fr&nbsp;».
                     </p>
                     <p>
-                        Pour activer votre espace de téléclaration, vous devez prendre connaissance et accepter la <a trarget="_blank" href="/pdf/convention_adhesion_ivbd.pdf">convention d'adhésion</a> aux télédéclarations avec l'IVBD.<br /><br />
+                        Pour activer votre espace de téléclaration, vous devez prendre connaissance et accepter la <a target="_blank" href="/pdf/convention_adhesion_ivbd.pdf">convention d'adhésion</a> aux télédéclarations avec l'IVBD.
+                        <br /><br />
                     </p>
 
                     <div class="checkbox">
                       <label>
                         <input required="required" type="checkbox" name="accepter" value="1">
-                        J'accepte la <a trarget="_blank" href="/pdf/convention_adhesion_ivbd.pdf">convention d'adhésion</a> aux télédéclarations
+                        J'accepte la <a target="_blank" href="/pdf/convention_adhesion_ivbd.pdf">convention d'adhésion</a> aux télédéclarations
                       </label>
                     </div>
                     <div class="row" >
