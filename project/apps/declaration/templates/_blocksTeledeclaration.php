@@ -8,7 +8,7 @@ $hasBlog = false;
         <div class="panel-heading" style="min-height: 85px;">
           <div class="row">
             <div class="col-xs-2 text-right">
-              <span class="icon-contrat" style="font-size: 52px;"></span>
+              <span class="icon-contrat" style="font-size: 44px;"></span>
             </div>
             <div class="col-xs-10 text-left">
               <h2>Espace contrat</h2>
@@ -19,7 +19,6 @@ $hasBlog = false;
             <div class="row">
                 <div class="col-xs-12" >
                   <?php include_partial('vrac/bloc_statuts_contrats', array('societe' => $societe, 'contratsSocietesWithInfos' => $contratsSocietesWithInfos, 'etablissementPrincipal' => $etablissement,'accueil' => true)) ?>
-
                 </div>
             </div>
           </div>
@@ -53,7 +52,6 @@ $hasBlog = false;
           </div>
           </div>
         <div class="panel-body" style="height: 250px;">
-            <?php include_partial('global/blocInscriptionDouane') ?>
             <div class="row text-center">
                 <div class="col-xs-12" >
                   <?php include_component('drm', 'monEspaceDrm', array('etablissement' => $etablissement, 'campagne' => $campagne, 'isTeledeclarationMode' => true, 'btnAccess' => true, 'accueil_drm' => false)); ?>

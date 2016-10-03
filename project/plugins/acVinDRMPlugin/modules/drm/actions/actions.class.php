@@ -26,7 +26,7 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
-        //$this->redirect403IfIsTeledeclaration();
+        $this->redirect403IfIsTeledeclaration();
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {

@@ -1,7 +1,7 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <?php if (!$isTeledeclarationMode): ?>
 <div class="row" style="opacity: 0.7">

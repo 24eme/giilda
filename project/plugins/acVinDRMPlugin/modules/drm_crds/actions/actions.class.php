@@ -7,6 +7,7 @@ class drm_crdsActions extends drmGeneriqueActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->drm->crdsInitDefault();
         $this->crdsForms = new DRMCrdsForm($this->drm);
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initDeleteForm();
         if ($request->getParameter('add_crd')) {
             $this->addCrdRegime = $request->getParameter('add_crd');
@@ -37,7 +38,7 @@ class drm_crdsActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $this->form->save();
                 $this->redirect('drm_crd', $this->form->getObject());
-            } 
+            }
             $regimes = $this->form->getRegimeCrds();
             $this->regime = $regimes[0];
         }

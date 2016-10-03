@@ -3,7 +3,7 @@
 <?php use_helper('PointsAides'); ?>
 <!-- #principal -->
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal" class="drm">
 
