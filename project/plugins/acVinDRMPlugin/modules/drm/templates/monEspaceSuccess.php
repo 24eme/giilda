@@ -25,11 +25,13 @@
                 <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
             </div>
           </div>
-          <div class="row">
-              <div class="col-xs-12" style="margin-top: 10px;">
-                  <?php include_partial('global/blocInscriptionDouane') ?>
-              </div>
-          </div>
+            <?php if ($isTeledeclarationMode): ?>
+            <div class="row">
+                <div class="col-xs-12" style="margin-top: 10px;">
+                     <?php include_partial('global/blocInscriptionDouane') ?>
+                </div>
+            </div>
+            <?php endif ?>
         <?php else: ?>
             <h3>Historique des DRM</h3>
         <?php endif; ?>
