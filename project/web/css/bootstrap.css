@@ -1100,12 +1100,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #4e4e4e;
+  color: #aa4646;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #282828;
+  color: #743030;
   text-decoration: underline;
 }
 a:focus {
@@ -3447,7 +3447,7 @@ fieldset[disabled] .btn-danger.active {
   background-color: #ffffff;
 }
 .btn-link {
-  color: #4e4e4e;
+  color: #aa4646;
   font-weight: normal;
   border-radius: 0;
 }
@@ -3468,7 +3468,7 @@ fieldset[disabled] .btn-link {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #282828;
+  color: #743030;
   text-decoration: underline;
   background-color: transparent;
 }
@@ -4043,7 +4043,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #eeeeee;
-  border-color: #4e4e4e;
+  border-color: #aa4646;
 }
 .nav .nav-divider {
   height: 1px;
@@ -4760,7 +4760,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 12px;
   line-height: 1.42857143;
   text-decoration: none;
-  color: #4e4e4e;
+  color: #aa4646;
   background-color: #ffffff;
   border: 1px solid #dddddd;
   margin-left: -1px;
@@ -4781,7 +4781,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   z-index: 3;
-  color: #282828;
+  color: #743030;
   background-color: #eeeeee;
   border-color: #dddddd;
 }
@@ -4979,7 +4979,7 @@ a.badge:focus {
 }
 .list-group-item.active > .badge,
 .nav-pills > .active > a > .badge {
-  color: #4e4e4e;
+  color: #aa4646;
   background-color: #ffffff;
 }
 .list-group-item > .badge {
@@ -5052,7 +5052,7 @@ a.badge:focus {
 a.thumbnail:hover,
 a.thumbnail:focus,
 a.thumbnail.active {
-  border-color: #4e4e4e;
+  border-color: #aa4646;
 }
 .thumbnail .caption {
   padding: 9px;
@@ -6095,7 +6095,7 @@ button.close {
   padding: 0 5px;
 }
 .tooltip-inner {
-  max-width: 500px;
+  max-width: 200px;
   padding: 3px 8px;
   color: #ffffff;
   text-align: center;
@@ -6165,8 +6165,6 @@ button.close {
   border-width: 0 5px 5px;
   border-bottom-color: #000000;
 }
-
-
 .popover {
   position: absolute;
   top: 0;
