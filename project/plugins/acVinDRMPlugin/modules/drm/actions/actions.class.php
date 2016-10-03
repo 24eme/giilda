@@ -279,6 +279,10 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeStocks(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->campagne = ($request->getParameter('campagne'))? $request->getParameter('campagne') : ConfigurationClient::getInstance()->getCampagneVinicole()->getCurrent();
+        $this->etablissement  = $this->getRoute()->getEtablissement();
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         return $this->formCampagne($request, 'drm_etablissement_stocks');
     }
 
