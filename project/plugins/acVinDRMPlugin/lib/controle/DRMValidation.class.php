@@ -127,11 +127,12 @@ class DRMValidation extends DocumentValidation {
             }
 
             $societe = $this->document->getEtablissement()->getSociete();
-            if (!$societe->exist('paiement_douane_moyen')) {
+
+            if (!$this->document->societe->exist('paiement_douane_moyen') || !$this->document->societe->paiement_douane_moyen) {
                 $this->addPoint('vigilance', 'moyen_paiement_absent', 'Veuillez enregistrer votre moyen de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
 
-            if (!$societe->exist('paiement_douane_frequence')) {
+            if (!$this->document->societe->exist('paiement_douane_frequence') || !$this->document->societe->paiement_douane_frequence) {
                 $this->addPoint('vigilance', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
 
