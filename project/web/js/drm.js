@@ -198,6 +198,12 @@
     };
 
     var initCrds = function () {
+
+        if($('#drm_choix_regime_crd_popup').length){
+              $('#drm_choix_regime_crd_popup').modal('show');
+          }
+
+
         $('.drm_crds_list tr.crd_row').each(function () {
             var id = $(this).attr('id');
 

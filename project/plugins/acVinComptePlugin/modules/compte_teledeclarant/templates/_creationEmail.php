@@ -1,7 +1,7 @@
-Bonjour <?php echo $compte->nom ?>,
+Madame, Monsieur,
 
-votre compte a bien été créé sur l'espace professionnel de votre interprofession.
+Votre compte a bien été créé sur l'espace professionnel de votre interprofession.
 
 Cordialement,
 
-L'espace professionnel de votre interprofession.
+L'espace professionnel de votre interprofession
