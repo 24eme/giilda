@@ -7,6 +7,8 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
     protected $_is_new = true;
     protected $_serialize_loaded_json = null;
 
+    protected $_is_modified = false;
+
     public function loadFromCouchdb(stdClass $data) {
         if (!is_null($this->_serialize_loaded_json)) {
             throw new acCouchdbException("data already load");
@@ -24,7 +26,7 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         $this->_serialize_loaded_json = null;
         $this->loadFromCouchdb($data);
     }
-    
+
     public function __toString() {
         return $this->get('_id') . '/' . $this->get('_rev');
     }
@@ -50,11 +52,11 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         }
 
         $this->preSave();
-        
+
         $this->definitionValidation();
         if ($this->isModified()) {
             $this->doSave();
-            
+
             return $this->storeDoc();
         }
         return false;
@@ -64,10 +66,10 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         $ret = acCouchdbManager::getClient()->save($this);
         $this->_rev = $ret->rev;
         $this->_serialize_loaded_json = serialize(new acCouchdbJsonNative($this->getData()));
-        
+
         return $ret;
     }
-    
+
     public function rollBackAndPreserve($revision = null) {
         $doc_to_roll_back = acCouchdbManager::getClient()->getPreviousDoc($this->_id, $revision);
         $doc_to_roll_back->_rev = $this->_rev;
@@ -77,22 +79,22 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
     }
 
     protected function constructId() {
-        
+
     }
 
     protected function preSave() {
-        
+
     }
-    
+
     protected function doSave() {
-        
+
     }
 
     protected function postSave($doc) {
         $this->_rev = $doc->rev;
         $this->_serialize_loaded_json = serialize(new acCouchdbJsonNative($this->getData()));
     }
-    
+
     public function getData() {
         $data = parent::getData();
         if ($this->isNew()) {
@@ -113,18 +115,18 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         return $ret;
     }
 
-    public function storeAttachment($file, $content_type = 'application/octet-stream', $filename = null) { 
+    public function storeAttachment($file, $content_type = 'application/octet-stream', $filename = null) {
         $ret = acCouchdbManager::getClient()->storeAttachment($this, $file, $content_type, $filename);
 	if (isset($ret->error))
 	  throw new sfException($ret->reason);
         $this->postSave($ret);
         $json = acCouchdbManager::getClient()->find($this->_id, acCouchdbClient::HYDRATE_JSON);
-        
+
         $this->_attachments = $json->_attachments;
 
         return $ret;
     }
-    
+
 
     public function getAttachmentUri($filename) {
 
@@ -154,6 +156,10 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
     }
 
     public function isModified() {
+        if($this->_is_modified) {
+            return true;
+        }
+
         if(strlen($this->_serialize_loaded_json) > self::BIG_DOCUMENT_SIZE) {
 
             return true;
@@ -162,6 +168,10 @@ abstract class acCouchdbDocument extends acCouchdbDocumentStorable {
         $native_json = unserialize($this->_serialize_loaded_json);
         $final_json = new acCouchdbJsonNative($this->getData());
         return $this->isNew() || (!$native_json->equal($final_json));
+    }
+
+    public function forceModified() {
+        $this->_is_modified = true;
     }
 
     protected function reset($document) {

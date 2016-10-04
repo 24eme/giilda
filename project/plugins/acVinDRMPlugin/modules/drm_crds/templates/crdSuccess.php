@@ -81,7 +81,9 @@
         </div>
     </div>
 </section>
-
+<?php if (isset($crdRegimeForm)): ?>
+    <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => 'crds')); ?>
+<?php endif; ?>
 <?php
 include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>
