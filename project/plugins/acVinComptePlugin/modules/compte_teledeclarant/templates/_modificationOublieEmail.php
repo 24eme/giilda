@@ -1,1 +1,7 @@
-Bonjour <?php echo $compte->nom ?>,\n\n votre mot de passe sur le site d'InterLoire vient d'etre modifié. \n\n Cordialement, \n\n Interloire
+Madame, Monsieur,
+
+Votre mot de passe sur l'espace professionnel de votre interprofession vient d'etre modifié.
+
+Cordialement,
+
+L'espace professionnel de votre interprofession
