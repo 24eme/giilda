@@ -114,14 +114,14 @@ all:
         "BIB 10l": 0.1
         "BIB 20l": 0.2
     facture:
-      sans_categories : true  
-      emetteur_cvo: 
+      sans_categories : true
+      emetteur_cvo:
         adresse: 'adresse IVSO CVO'
         code_postal: 'cp IVSO CVO'
         ville: 'IVSO CVO'
         telephone: 'tel IVSO - fax IVSO CVO'
         email: 'IVSO@IVSO.fr CVO'
-      emetteur_libre: 
+      emetteur_libre:
         adresse: 'adresse IVSO LIBRE'
         code_postal: 'cp IVSO LIBRE'
         ville: 'IVSO LIBRE'
@@ -155,7 +155,7 @@ all:
   mail:
     from_email: email@email.com
     from_name: "From name"
-  alertes:  
+  alertes:
     debug: true
     generations:
       #DRM manquantes, une DRM est considéré manquante par rapport à la période de la DRM la plus récente
@@ -163,7 +163,7 @@ all:
         class: AlerteGenerationDRMManquantes
       #DRA manquante, une DRA est considéré manquante par rapport à la période de la DRA la plus récente
       DRA_MANQUANTE:
-        class: AlerteGenerationDRAManquante  
+        class: AlerteGenerationDRAManquante
   facture:
     emetteur:
       adresse: 'adresse'
@@ -211,16 +211,21 @@ all:
       subject: "500 | Internal Server Error | Exception"
 
   teledeclaration:
-    contact:
-      contrat:
-        VILLE:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@example.org'
+    contact_contrat:
+      REGION_CVO:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@example.org'
+        interpro: 'd\'InterProx'
+      REGION_HORS_CVO:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@example.org'
+        interpro: 'd\'InterProx'
+    url: 'url_portail'
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
 
   float:
     default_decimal_format: 2
     max_decimal_authorized: 4
-

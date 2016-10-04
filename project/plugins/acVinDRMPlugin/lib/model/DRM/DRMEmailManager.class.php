@@ -79,17 +79,13 @@ L’application de télédéclaration de votre interprofession.";
 
 
         $mess = "
-
 La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration ". sfConfig::get('app_teledeclaration_url')." .
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 
 Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
 
-Pour toutes questions, veuillez contacter:
-
- - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
- - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .
+Pour toutes questions, veuillez contacter: le service économie de ".$contact->interpro." " . $contact->email . " .
 
 --
 
