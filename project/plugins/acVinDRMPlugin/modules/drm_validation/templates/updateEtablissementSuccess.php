@@ -9,7 +9,7 @@
         <div class="modal modal-autoshow" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <form class="form-horizontal" action="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" method="POST">
+                <form action="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" method="POST" class="form-horizontal">
                     <div class="modal-header">
                         <a href="<?php echo url_for('drm_validation', $drm) ?>" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                         <h3 class="modal-title">Modification des informations de votre chai</h3>
@@ -25,14 +25,14 @@
                             </div>
                             <div class="form-group">
                                 <?php echo $form['cvi']->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <?php echo $form['cvi']->renderError(); ?>
                                     <?php echo $form['cvi']->render(); ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <?php echo $form['no_accises']->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <?php echo $form['no_accises']->renderError(); ?>
                                     <?php echo $form['no_accises']->render(); ?>
                                 </div>
@@ -46,14 +46,14 @@
                             </div>
                             <div class="form-group">
                                 <?php echo $form['code_postal']->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <?php echo $form['code_postal']->renderError(); ?>
                                     <?php echo $form['code_postal']->render(); ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <?php echo $form['commune']->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
-                                <div class="col-sm-4">
+                                <div class="col-sm-8">
                                     <?php echo $form['commune']->renderError(); ?>
                                     <?php echo $form['commune']->render(); ?>
                                 </div>
@@ -61,7 +61,7 @@
                             <?php if ($drm->declarant->exist('adresse_compta')): ?>
                                 <div class="form-group">
                                     <?php echo $form['adresse_compta']->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-8">
                                         <?php echo $form['adresse_compta']->renderError(); ?>
                                         <?php echo $form['adresse_compta']->render(); ?>
                                     </div>
@@ -83,7 +83,7 @@
                                 <div class="form-group" style="<?php echo (!$hasSocialeCautionneur) ? 'display:none;' : ''; ?>" >
                                     <?php echo $form['raison_sociale_cautionneur']->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
                                     <?php echo $form['raison_sociale_cautionneur']->renderError(); ?>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-8">
                                         <?php echo $form['raison_sociale_cautionneur']->render(); ?>
                                     </div>
                                 </div>

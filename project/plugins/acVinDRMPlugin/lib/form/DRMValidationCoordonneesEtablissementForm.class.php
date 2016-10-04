@@ -30,8 +30,8 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('commune', 'Commune :');
 
         $this->setWidget('no_accises', new bsWidgetFormInput());
-        $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
-        $this->widgetSchema->setLabel('no_accises', "N° d'accises :");
+        $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
+        $this->widgetSchema->setLabel('no_accises', "N° d'accise :");
 
         if ($this->drm->declarant->exist('adresse_compta')) {
             $this->setWidget('adresse_compta', new bsWidgetFormInput());
@@ -73,7 +73,7 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
             $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
         }
 
-        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : EtablissementClient::CAUTION_DISPENSE;
+        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : null;
 
         $this->setDefault('caution', $defaultCaution);
 
