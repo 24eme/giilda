@@ -67,7 +67,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
         <?php
         foreach ($produits_for_page as $counter => $produit):
             ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo preg_replace('/[a-zéà]*$/i', ' ', $produit->getLibelle("%format_libelle%")); ?>}}}}
+            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo $produit->getLibelle(); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
         \\
@@ -102,11 +102,11 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
 
             \multicolumn{1}{|l|}{  \small{<?php echo $entree->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
-                \multicolumn{1}{r|}{ \small{<?php echoFloatWithHl($produit->entrees->$entreeKey); ?> }}
+                \multicolumn{1}{r|}{ \small{<?php echoFloatWithHl($produit->entrees->$entreeKey); ?>}}
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>
             \\
-            <?php if ((count($mvtsEnteesForPdf) - 1) != $cpt_entree): ?>
+            <?php if ((count($mvtsEnteesForPdf)) != $cpt_entree): ?>
                 \cline{2-<?php echo $maxCol; ?>}
             <?php endif; ?>
         <?php endforeach; ?>
@@ -145,7 +145,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>
             \\
-            <?php if ((count($mvtsSortiesForPdf) - 1) != $cpt_entree): ?>
+            <?php if ((count($mvtsSortiesForPdf)) != $cpt_sortie): ?>
                 \cline{2-<?php echo $maxCol; ?>}
             <?php endif; ?>
         <?php endforeach; ?>
