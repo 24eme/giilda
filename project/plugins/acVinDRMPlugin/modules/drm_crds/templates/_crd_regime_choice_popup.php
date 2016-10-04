@@ -23,7 +23,7 @@ if (isset($retour) && ($retour == 'crds')) {
              Si vous achetez des CRD Acquitées auprès de votre ODG, sélectionnez «&nbsp;collectif acquitté&nbsp;». Si utilisez des CRD personnalisées, cliquez sur «&nbsp;personnalisé&nbsp;». Pour les autres cas, sélectionnez «&nbsp;collectif suspendu&nbsp;»</p>
             <br/>
             <p>Sur la DRM papier de <?php echo $contactInterpro->interpro; ?>, le régime CRD est demandé dans le cadre dédié au stock capsules&nbsp;:</p>
-            <center><img src="/images/visuels/regime_crd_papier.jpg" width="400" height="125" stype="padding: 10px;" ></center>
+            <center><img src="/images/visuels/regime_crd_papier.jpg" width="600" height="150" ></center>
             <br/>
             <p><b>Votre régime CRD&nbsp;:</b></p>
 
