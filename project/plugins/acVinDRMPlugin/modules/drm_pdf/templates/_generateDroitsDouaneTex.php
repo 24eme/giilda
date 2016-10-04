@@ -80,7 +80,6 @@ $contactInterpro = EtablissementClient::getInstance()->buildInfosContact($drm->g
 \textbf{Liquidation des droits}
 \end{large}
 \end{center}
-
 \begin{tabular}{C{43mm} |C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}
 \multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
 \\
@@ -115,7 +114,7 @@ $contactInterpro = EtablissementClient::getInstance()->buildInfosContact($drm->g
 ~ \\
 <?php endif; ?>
 \fcolorbox{white}{white}{
-\hspace{0.25cm}
+\hspace{-0.25cm}
 \begin{minipage}[t]{0.6\textwidth}
 \begin{tabular}{|C{170mm}|}
 \multicolumn{1}{|c|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{PARTIE RÉSERVÉE À L'ADMINISTRATION}}}}
