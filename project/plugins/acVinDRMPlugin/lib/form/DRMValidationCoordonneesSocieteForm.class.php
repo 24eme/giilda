@@ -13,39 +13,39 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
     public function configure() {
         parent::configure();
 
-        $this->setWidget('siret', new sfWidgetFormInput());
+        $this->setWidget('siret', new bsWidgetFormInput());
         $this->setValidator('siret', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('siret', 'SIRET :');
 
-        $this->setWidget('adresse', new sfWidgetFormInput());
+        $this->setWidget('adresse', new bsWidgetFormInput());
         $this->setValidator('adresse', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('adresse', 'Adresse :');
 
-        $this->setWidget('code_postal', new sfWidgetFormInput());
+        $this->setWidget('code_postal', new bsWidgetFormInput());
         $this->setValidator('code_postal', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('code_postal', 'Code postal :');
 
-        $this->setWidget('commune', new sfWidgetFormInput());
+        $this->setWidget('commune', new bsWidgetFormInput());
         $this->setValidator('commune', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('commune', 'Commune :');
 
-        $this->setWidget('email', new sfWidgetFormInput());
+        $this->setWidget('email', new bsWidgetFormInput());
         $this->setValidator('email', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('email', 'E-mail :');
 
-        $this->setWidget('telephone', new sfWidgetFormInput());
+        $this->setWidget('telephone', new bsWidgetFormInput());
         $this->setValidator('telephone', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('telephone', 'Téléphone :');
 
-        $this->setWidget('fax', new sfWidgetFormInput());
+        $this->setWidget('fax', new bsWidgetFormInput());
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('fax', 'Fax :');
-        
-        $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
+
+        $this->setWidget('paiement_douane_frequence', new bsWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
         $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'est choisie")));
         $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement :');
 
-        $this->setWidget('paiement_douane_moyen', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneMoyen())));
+        $this->setWidget('paiement_douane_moyen', new bsWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneMoyen())));
         $this->setValidator('paiement_douane_moyen', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneMoyen())), array('required' => "Aucun moyen de paiement des droits douane n'est choisi")));
         $this->widgetSchema->setLabel('paiement_douane_moyen', 'Moyen de paiement :');
 
@@ -97,6 +97,10 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->drm->societe->fax = $values['fax'];
         $this->drm->societe->paiement_douane_frequence = $values['paiement_douane_frequence'];
         $this->drm->societe->paiement_douane_moyen = $values['paiement_douane_moyen'];
+        $societe = $this->drm->getEtablissement()->getSociete();
+        $societe->add('paiement_douane_moyen', $values['paiement_douane_moyen']);
+        $societe->add('paiement_douane_frequence', $values['paiement_douane_frequence']);
+        $societe->save();
     }
 
     public function getPaiementDouaneFrequence() {
