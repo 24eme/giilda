@@ -44,7 +44,8 @@ class TeledeclarationEnvoiEmailOuvertureTask extends sfBaseTask
       echo $compte->_id." n'est pas le compte principal\n";
     }
 
-    $this->sendEmail($compte);
+    $resultSend = $this->sendEmail($compte);
+    var_dump($resultSend);
   }
 
   protected function sendEmail($compte) {
@@ -57,8 +58,9 @@ class TeledeclarationEnvoiEmailOuvertureTask extends sfBaseTask
       $message = $this->getMailer()->compose(
                   array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $destMail ,$subject, $body);
 
-    $mailer->send($message);
-    echo "Mail envoyé à $destMail pour l'ouverture de son compte ($compte->identifiant) \n";
+      $resultSend = $mailer->send($message);
+      echo "Mail envoyé à $destMail pour l'ouverture de son compte ($compte->identifiant) \n";
+      return $resultSend;
   }
 
     protected function getBodyMail($compte){
