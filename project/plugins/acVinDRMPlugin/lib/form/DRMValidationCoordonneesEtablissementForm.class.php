@@ -6,45 +6,45 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
     protected $drm = null;
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
-        $this->drm = $drm; 
+        $this->drm = $drm;
         parent::__construct($drm, $options, $CSRFSecret);
     }
 
     public function configure() {
         parent::configure();
-       
-        $this->setWidget('cvi', new sfWidgetFormInput());
+
+        $this->setWidget('cvi', new bsWidgetFormInput());
         $this->setValidator('cvi', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('cvi', 'CVI :');
 
-        $this->setWidget('adresse', new sfWidgetFormInput());
+        $this->setWidget('adresse', new bsWidgetFormInput());
         $this->setValidator('adresse', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('adresse', 'Adresse :');
 
-        $this->setWidget('code_postal', new sfWidgetFormInput());
+        $this->setWidget('code_postal', new bsWidgetFormInput());
         $this->setValidator('code_postal', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('code_postal', 'Code postal :');
 
-        $this->setWidget('commune', new sfWidgetFormInput());
+        $this->setWidget('commune', new bsWidgetFormInput());
         $this->setValidator('commune', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('commune', 'Commune :');
 
-        $this->setWidget('no_accises', new sfWidgetFormInput());
+        $this->setWidget('no_accises', new bsWidgetFormInput());
         $this->setValidator('no_accises', new sfValidatorString(array('required' => true)));
-        $this->widgetSchema->setLabel('no_accises', 'Accises :');
+        $this->widgetSchema->setLabel('no_accises', "N° d'accises :");
 
         if ($this->drm->declarant->exist('adresse_compta')) {
-            $this->setWidget('adresse_compta', new sfWidgetFormInput());
+            $this->setWidget('adresse_compta', new bsWidgetFormInput());
             $this->setValidator('adresse_compta', new sfValidatorString(array('required' => false)));
             $this->widgetSchema->setLabel('adresse_compta', 'Lieu de la comptabilité matière :');
         }
         if ($this->drm->declarant->exist('caution')) {
-            $this->setWidget('caution', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getCautionTypes())));
+            $this->setWidget('caution', new bsWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getCautionTypes())));
             $this->setValidator('caution', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCautionTypes())), array('required' => "Aucune caution n'a été choisie")));
             $this->widgetSchema->setLabel('caution', 'Type caution :');
         }
         if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
-            $this->setWidget('raison_sociale_cautionneur', new sfWidgetFormInput());
+            $this->setWidget('raison_sociale_cautionneur', new bsWidgetFormInput());
             $this->setValidator('raison_sociale_cautionneur', new sfValidatorString(array('required' => false)));
             $this->widgetSchema->setLabel('raison_sociale_cautionneur', 'Raison sociale cautionneur :');
         }
@@ -72,9 +72,9 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         if ($this->drm->declarant->exist('adresse_compta')) {
             $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
         }
-        
+
         $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : EtablissementClient::CAUTION_DISPENSE;
-        
+
         $this->setDefault('caution', $defaultCaution);
 
         if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
