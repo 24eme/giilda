@@ -85,7 +85,7 @@ La version PDF de cette DRM est également disponible en pièce jointe dans ce m
 
 Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
 
-Pour toutes questions, veuillez contacter: le service économie de ".$contact->interpro." : " . $contact->email . " .
+Pour toutes questions, veuillez contacter: le service économie de ".$contact->interpro." " . $contact->email . " .
 
 --
 

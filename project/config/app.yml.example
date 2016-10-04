@@ -211,18 +211,18 @@ all:
       subject: "500 | Internal Server Error | Exception"
 
   teledeclaration:
-    contact:
-      contrat:
-        REGION_CVO:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@example.org'
-          interpro: 'd\'InterProx'
-        REGION_HORS_CVO:
-          nom: 'Prenom Nom'
-          telephone: '00 00 00 00 00'
-          email: 'mail@example.org'
-          interpro: 'd\'InterProx'
+    contact_contrat:
+      REGION_CVO:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@example.org'
+        interpro: 'd\'InterProx'
+      REGION_HORS_CVO:
+        nom: 'Prenom Nom'
+        telephone: '00 00 00 00 00'
+        email: 'mail@example.org'
+        interpro: 'd\'InterProx'
+    url: 'url_portail'
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
 
