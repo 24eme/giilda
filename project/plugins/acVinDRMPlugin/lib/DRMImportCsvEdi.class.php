@@ -312,9 +312,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if ($categorie_key != "stock_debut" && $categorie_key != "stock_fin") {
                 $fieldNameCrd.="_" . $type_key;
             }
-            if ($just_check) {
-                //TODO
-            } else {
+            if (!$just_check) {
 
                 $centilitrage = $all_contenances[$litrageLibelle] * 100000;
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
