@@ -9,6 +9,7 @@ class drm_ajout_produitActions extends drmGeneriqueActions {
         $this->form = new DRMProduitsChoiceForm($this->drm);
         $this->initDeleteForm();
         $this->hasRegimeCrd = $this->drm->getEtablissement()->hasRegimeCrd();
+
         $this->showPopupRegimeCrd = $request->getParameter('popupCRD') || !$this->hasRegimeCrd;
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($this->hasRegimeCrd && $request->isMethod(sfRequest::POST)) {
