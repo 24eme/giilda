@@ -91,8 +91,8 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
                 $diff = $this->form->getDiff();
+                $this->form->save();
                 if(!count($diff)) {
 
                     return $this->redirect('drm_validation', $this->drm);
@@ -114,8 +114,8 @@ class drm_validationActions extends drmGeneriqueActions {
         if($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
                 $diff = $this->form->getDiff();
+                $this->form->save();
                 if(!count($diff)) {
 
                     return $this->redirect('drm_validation', $this->drm);
