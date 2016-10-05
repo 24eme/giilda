@@ -93,10 +93,15 @@ class drm_validationActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $this->form->save();
                 $diff = $this->form->getDiff();
+                if(!count($diff)) {
+
+                    return $this->redirect('drm_validation', $this->drm);
+                }
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
-                $this->redirect('drm_validation', $this->drm);
+
+                return $this->redirect('drm_validation', $this->drm);
             }
         }
     }
@@ -111,10 +116,16 @@ class drm_validationActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $this->form->save();
                 $diff = $this->form->getDiff();
+                if(!count($diff)) {
+
+                    return $this->redirect('drm_validation', $this->drm);
+                }
+
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
-                $this->redirect('drm_validation', $this->drm);
+
+                return $this->redirect('drm_validation', $this->drm);
             }
         }
     }
