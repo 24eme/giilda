@@ -13,7 +13,7 @@
                     <?php echo $deleteForm->renderHiddenFields(); ?>
                     <?php echo $deleteForm->renderGlobalErrors(); ?>
 
-                    <p>Etes vous sur(e) de vouloir supprimer cette DRM <?php echo getFrPeriodeElision($drm->periode); ?> ?</p>               
+                    <p>Étes vous sur(e) de vouloir supprimer cette DRM <?php echo getFrPeriodeElision($drm->periode); ?> ?</p>
 
                 </div>
                 <div class="modal-footer">
