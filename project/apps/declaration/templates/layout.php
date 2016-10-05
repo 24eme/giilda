@@ -53,7 +53,7 @@
     <script src="/js/teledeclaration.js"></script>
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
-    <script src="/js/drm.js"></script>
+    <script src="/js/drm.js?20161004"></script>
     <script src="/js/contacts.js"></script>
     <script src="/js/facture.js"></script>
     <script src="/js/stats.js"></script>

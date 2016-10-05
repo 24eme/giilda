@@ -1,11 +1,11 @@
 <?php
 printf("\xef\xbb\xbf");//UTF8 BOM (pour windows)
-echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; id société ; type société ; société raison sociale ; société adresse ; société adresse complémentaire ; société code postal ; société commune ; société téléphone ; société fax ; société email\n";
+echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; id société ; type société ; société raison sociale ; société adresse ; société adresse complémentaire ; société code postal ; société commune ; société téléphone ; société fax ; société email; code de création \n";
 foreach ($results as $res) {
   $data = $res->getData();
-  
+
   $societe_informations = $data['doc']['societe_informations'];
-                                                
+
   echo '"'.$data['doc']['nom_a_afficher']. '";';
   echo '"'.CompteClient::getInstance()->createTypeFromOrigines($data['doc']['origines']).'";';
   echo '"'.$data['doc']['civilite']. '";';
@@ -20,7 +20,7 @@ foreach ($results as $res) {
   echo '"'.$data['doc']['telephone_mobile']. '";';
   echo '"'.$data['doc']['telephone_perso']. '";';
   echo '"'.$data['doc']['fax']. '";';
-  echo '"'.$data['doc']['email']. '";';  
+  echo '"'.$data['doc']['email']. '";';
   echo '"'.$data['doc']['commentaire']. '";';
   echo '"'.preg_replace('/SOCIETE-/', '', $data['doc']['id_societe']). '";';
   echo '"'.$societe_informations['type']. '";';
@@ -32,5 +32,6 @@ foreach ($results as $res) {
   echo '"'.$societe_informations['telephone']. '";';
   echo '"'.$societe_informations['fax']. '";';
   echo '"'.$societe_informations['email']. '"';
+  echo '"'.(preg_match("/\{TEXT\}/", $data['doc']['mot_de_passe'])) ? str_replace("{TEXT}", "", $data['doc']['mot_de_passe']) : null . '"';
   echo "\n";
 }
