@@ -30,7 +30,7 @@ class DRMEmailManager {
     public function sendMailCoordonneesOperateurChanged($type, $diff) {
         $typeInfos = null;
         $typeLibelle = null;
-        $mailsInterloire = 'test@test.fr';
+        $mailsInterloire = sfConfig::get('app_mail_from_name');
         switch ($type) {
             case CompteClient::TYPE_COMPTE_ETABLISSEMENT:
                 $typeInfos = $this->drm->getDeclarant();
@@ -41,11 +41,11 @@ class DRMEmailManager {
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
-                $identification = $typeInfos->raison_sociale . " (" . substr(0, 6, $this->drm->identifiant) . ")";
+                $identification = $typeInfos->raison_sociale . " (" . substr($this->drm->identifiant, 0, 6) . ")";
                 break;
         }
 
-        $mess = "Les coordonnée de " . $typeLibelle . " " . $identification . " ont été modifiés.
+        $mess = "Les coordonnées de " . $typeLibelle . " " . $identification . " ont été modifiées.
 Voici les différentes modifications enregistrées :
 
 ";
@@ -60,7 +60,7 @@ Voici les différentes modifications enregistrées :
 L’application de télédéclaration de votre interprofession.";
 
 
-        $subject = "Changement de coordonnées de la société " . $typeLibelle . " (" . $identification . ")";
+        $subject = "Changement de coordonnées de " . $typeLibelle . " : " . $identification;
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
         try {
