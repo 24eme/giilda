@@ -30,7 +30,7 @@ class DRMEmailManager {
     public function sendMailCoordonneesOperateurChanged($type, $diff) {
         $typeInfos = null;
         $typeLibelle = null;
-        $mailsInterloire = sfConfig::get('app_mail_from_name');
+        $mailsInterloire = sfConfig::get('app_mail_from_email');
         switch ($type) {
             case CompteClient::TYPE_COMPTE_ETABLISSEMENT:
                 $typeInfos = $this->drm->getDeclarant();
