@@ -1257,8 +1257,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_societe->add('email', $societe->getEmailTeledeclaration());
         $drm_societe->add('telephone', $societe->telephone);
         $drm_societe->add('fax', $societe->fax);
-        $drm_societe->add('paiement_douane_moyen', $societe->paiement_douane_moyen);
-        $drm_societe->add('paiement_douane_frequence', $societe->paiement_douane_frequence);
+        $drm_societe->add('paiement_douane_moyen', ($societe->exist('paiement_douane_moyen')) ? $societe->paiement_douane_moyen : null);
+        $drm_societe->add('paiement_douane_frequence', ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null);
     }
 
     public function getCoordonneesSociete() {
