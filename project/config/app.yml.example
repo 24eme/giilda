@@ -222,6 +222,7 @@ all:
         telephone: '00 00 00 00 00'
         email: 'mail@example.org'
         interpro: 'd\'InterProx'
+    adresse_interpro: "adresse"
     url: 'url_portail'
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"

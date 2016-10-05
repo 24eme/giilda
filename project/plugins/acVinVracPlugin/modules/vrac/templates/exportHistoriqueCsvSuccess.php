@@ -1,3 +1,3 @@
 <?php
-echo VracClient::getCsvBySociete($vracs->getRawValue());        
+echo VracClient::getCsvBySociete($vracs->getRawValue());
 ?>
