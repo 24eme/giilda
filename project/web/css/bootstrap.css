@@ -6958,7 +6958,7 @@ h6,
   border-bottom: 0;
   color: #ffffff;
 }
-.table > thead > tr > th a {
+.table > thead > tr > th a:not(.btn) {
   color: white;
 }
 .table-vertical-striped > tbody > tr > td:nth-of-type(even) {
