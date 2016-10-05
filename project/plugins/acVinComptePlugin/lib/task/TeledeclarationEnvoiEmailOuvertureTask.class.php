@@ -54,7 +54,7 @@ class TeledeclarationEnvoiEmailOuvertureTask extends sfBaseTask
 
       $body = $this->getBodyMail($compte);
       $subject = "Ouverture de votre portail interprofessionnel www.ivbdpro.fr et dématérialisation des DRMS";
-      $destMail = $compte->getEtablissement()->getEmailTeledeclaration();
+      $destMail = $compte->getSociete()->getEmail();
       $message = $this->getMailer()->compose(
                   array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $destMail ,$subject, $body);
 

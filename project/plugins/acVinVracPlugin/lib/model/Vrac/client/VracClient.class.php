@@ -534,12 +534,12 @@ class VracClient extends acCouchdbClient {
         $result.= "numero_contrat;numero_archive;produit_libelle;quantite;prix_unitaire;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_signature;";
         $result.= "acheteur_identifiant;acheteur_nom;acheteur_signature;courtier_identifiant;courtier_nom;courtier_signature\n";
 
-  foreach ($vracs as $vracsRows) {
-        foreach ($vracsRows as $contrat) {
-          $cpt = 0;
-            $vrac = VracClient::getInstance()->find($contrat->id);
-            $quantite = "";
-            switch ($vrac->type_transaction) {
+        foreach ($vracs as $vracsRows) {
+          foreach ($vracsRows as $contrat) {
+            $cpt = 0;
+              $vrac = VracClient::getInstance()->find($contrat->id);
+              $quantite = "";
+              switch ($vrac->type_transaction) {
                 case self::TYPE_TRANSACTION_MOUTS:
                 case self::TYPE_TRANSACTION_VIN_VRAC:
                     $quantite = $vrac->jus_quantite;
