@@ -255,27 +255,24 @@ class VracClient extends acCouchdbClient {
             $local_result = $bySoussigneQuery->reduce(false)->getView('vrac', 'soussigneidentifiant');
             $bySoussigne = array_merge($bySoussigne, $local_result->rows);
         }
-        // var_dump($bySoussigne); exit;
-
-
-        // $cpt = 0;
-        // $results = array();
-        // foreach ($bySoussigne as $soussigne) {
-        //   if($teledeclare){
-        //     if($soussigne->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_TELEDECLARE] && $cpt < $limit){
-        //       $results[] = $soussigne;
-        //       $cpt++;
-        //     }
-        //   }else{
-        //     if($cpt < $limit){
-        //     $results[] = $soussigne;
-        //     $cpt++;
-        //     }
-        //   }
-        // }
         return $bySoussigne;
     }
 
+    public function retrieveByCampagneEtablissementAndStatut($societe, $campagne, $etablissement = 'tous', $statut = 'tous') {
+      $result = new stdClass();
+      $result->rows = array();
+      $local_result_view = array();
+      $local_result = array();
+      $statuts = ($statut == 'tous')? array($statut) : self::$statuts_teledeclaration_sorted;
+      foreach ($statuts as $statut) {
+            $local_result_view = array_merge($this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, true, self::RESULTAT_LIMIT), $local_result_view);
+            $local_result_view = array_merge($this->retrieveByCampagneSocieteAndStatut($campagne, $societe, $statut, false, self::RESULTAT_LIMIT), $local_result_view);
+      }
+      foreach ($local_result_view as $local_r) {
+        $result->rows[] = $local_r;
+      }
+      return $result;
+    }
 
     public function retrieveBySocieteWithInfosLimit($societe, $etbId, $teledeclare_only = false, $limit = self::RESULTAT_LIMIT) {
 
@@ -324,39 +321,6 @@ class VracClient extends acCouchdbClient {
                     }
                 }
               }
-
-        // $brouillon_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
-        // $brouillon_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_BROUILLON,$teledeclare_only);
-        //
-        // $nb_my_brouillons_current = $this->countBrouillons($societe, $brouillon_contrats_current);
-        // $nb_my_brouillons_previous = $this->countBrouillons($societe, $brouillon_contrats_previous);
-        // $result->infos->brouillon = $nb_my_brouillons_current + $nb_my_brouillons_previous;
-        //
-        // $en_attente_contrats_current = $this->retrieveByCampagneSocieteAndStatut($campagnes['current'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
-        // $en_attente_contrats_previous = $this->retrieveByCampagneSocieteAndStatut($campagnes['previous'], $societe, VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE,$teledeclare_only);
-        //
-        // foreach ($en_attente_contrats_current as $contrats_current_obj) {
-        //
-        //     $signature_vendeur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR])) ?
-        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
-        //     $signature_acheteur = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR])) ?
-        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
-        //     $signature_courtier = (isset($contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER])) ?
-        //             $contrats_current_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
-        //     $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-        //     $result->infos->a_signer += (int) $tobeSignedByMe;
-        //     $result->infos->en_attente += (int) !$tobeSignedByMe;
-        // }
-        //
-        // foreach ($en_attente_contrats_previous as $contrats_previous_obj) {
-        //     $signature_vendeur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR];
-        //     $signature_acheteur = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR];
-        //     $signature_courtier = $contrats_previous_obj->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER];
-        //     $tobeSignedByMe = $this->toBeSignedBySociete(VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE, $societe, $signature_vendeur, $signature_acheteur, $signature_courtier);
-        //     $result->infos->a_signer += (int) $tobeSignedByMe;
-        //     $result->infos->en_attente += (int) !$tobeSignedByMe;
-        // }
-
         return $result;
     }
 
@@ -565,54 +529,54 @@ class VracClient extends acCouchdbClient {
     }
 
     public static function getCsvBySociete($vracs) {
+
         $result = "\xef\xbb\xbf";
         $result.= "numero_contrat;numero_archive;produit_libelle;quantite;prix_unitaire;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_signature;";
         $result.= "acheteur_identifiant;acheteur_nom;acheteur_signature;courtier_identifiant;courtier_nom;courtier_signature\n";
 
-        foreach ($vracs as $contrat) {
-            $cpt = 0;
-
+  foreach ($vracs as $vracsRows) {
+        foreach ($vracsRows as $contrat) {
+          $cpt = 0;
+            $vrac = VracClient::getInstance()->find($contrat->id);
             $quantite = "";
-            switch ($contrat->value[self::VRAC_VIEW_TYPEPRODUIT]) {
+            switch ($vrac->type_transaction) {
                 case self::TYPE_TRANSACTION_MOUTS:
                 case self::TYPE_TRANSACTION_VIN_VRAC:
-                    $quantite = $contrat->value[self::VRAC_VIEW_JUS_QUANTITE];
+                    $quantite = $vrac->jus_quantite;
                     break;
                 case self::TYPE_TRANSACTION_RAISINS:
-                    $quantite = $contrat->value[self::VRAC_VIEW_RAISIN_QUANTITE];
+                    $quantite = $vrac->raisin_quantite;
                     break;
                 case self::TYPE_TRANSACTION_VIN_BOUTEILLE:
-                    $quantite = $contrat->value[self::VRAC_VIEW_BOUTEILLE_QUANTITE];
+                    $quantite = $vrac->bouteilles_quantite;
                     break;
             }
 
             $result.= $contrat->value[self::VRAC_VIEW_NUMCONTRAT] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_NUMARCHIVE] . ';';
 
-            $result.= $contrat->value[self::VRAC_VIEW_PRODUIT_LIBELLE] . ';';
+            $result.= $vrac->produit_libelle . ';';
             $result.= str_replace('.', ',', $quantite) . ';';
-            $result.= str_replace('.', ',', $contrat->value[self::VRAC_VIEW_PRIX_UNITAIRE]) . ';';
+            $result.= str_replace('.', ',', $vrac->prix_unitaire) . ';';
 
-            $result.= $contrat->value[self::VRAC_VIEW_STATUT] . ';';
-            $result.= $contrat->value[self::VRAC_VIEW_TYPEPRODUIT] . ';';
+            $result.= $vrac->valide->statut . ';';
+            $result.= $vrac->type_transaction . ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_VENDEUR_ID] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_VENDEUR_NOM] . ';';
-            $result.= $contrat->value[self::VRAC_VIEW_SIGNATUREVENDEUR] . ';';
+            $result.= ($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_vendeur))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d"). ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_ACHETEUR_ID] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_ACHETEUR_NOM] . ';';
-            $result.= $contrat->value[self::VRAC_VIEW_SIGNATUREACHETEUR] . ';';
+            $result.= ($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_acheteur))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d") . ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_MANDATAIRE_ID] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_MANDATAIRE_NOM] . ';';
-            $result.= $contrat->value[self::VRAC_VIEW_SIGNATURECOURTIER] . ';';
-
-
-
+            $result.= ($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_courtier))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d") . ';';
 
             $result.="\n";
         }
+}
         return $result;
     }
 

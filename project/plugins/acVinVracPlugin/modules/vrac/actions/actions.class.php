@@ -952,4 +952,59 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         return $this->renderText(file_get_contents($path));
     }
 
+    public function executeExportHistoriqueCsv(sfWebRequest $request) {
+    $this->setLayout(false);
+
+    $file = $this->getCsvFromHistory($request, false);
+    $filename = $this->createCsvFromHistoryFilename($request);
+
+    $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+    $attachement = "attachment; filename=" . $filename . ".csv";
+
+    $this->response->setContentType('text/csv');
+    $this->response->setHttpHeader('Content-Disposition', $attachement);
+  }
+
+  private function getCsvFromHistory($request, $limited = true) {
+
+      $this->identifiant = $request['identifiant'];
+
+      $this->initSocieteAndEtablissementPrincipal();
+
+      $this->campagne = $request['campagne'];
+      if (!$this->campagne || !preg_match('/[0-9]{4}-[0-9]{4}/', $this->campagne)) {
+          throw new sfException("wrong campagne format ($this->campagne)");
+      }
+
+      $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
+
+      $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
+      $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
+
+
+      $this->vracs = VracClient::getInstance()->retrieveByCampagneEtablissementAndStatut($this->societe, $this->campagne, $this->etablissement, $this->statut);
+
+      return true;
+  }
+
+  private function createCsvFromHistoryFilename($request) {
+        $filename = str_replace(' ', '_', $this->societe->raison_sociale);
+
+        $filename .= '_' . $request['campagne'];
+        if ($this->etablissement != 'tous') {
+            if (!$this->isOnlyOneEtb && ($this->etablissement != $this->etablissementPrincipal->identifiant)) {
+                $filename .= '_' . EtablissementClient::getInstance()->retrieveById($this->etablissement)->nom;
+            }
+        }
+        if ($this->statut != "tous") {
+            if ($this->statut == "SOLDENONSLODE") {
+                $filename .= '_VALIDE';
+            } else {
+                $filename .= '_' . $this->statut;
+            }
+        }
+        return $filename;
+    }
+
 }
