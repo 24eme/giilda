@@ -31,7 +31,7 @@ foreach ($results as $res) {
   echo '"'.$societe_informations['commune']. '";';
   echo '"'.$societe_informations['telephone']. '";';
   echo '"'.$societe_informations['fax']. '";';
-  echo '"'.$societe_informations['email']. '"';
+  echo '"'.$societe_informations['email']. '";';
   echo '"'.(preg_match("/\{TEXT\}/", $data['doc']['mot_de_passe'])) ? str_replace("{TEXT}", "", $data['doc']['mot_de_passe']) : null . '"';
   echo "\n";
 }
