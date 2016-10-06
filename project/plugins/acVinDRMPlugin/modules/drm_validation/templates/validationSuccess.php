@@ -73,13 +73,15 @@
         <div class="col-xs-4 text-right">
                 <?php if ($isTeledeclarationMode): ?>
                         <?php echo $form['email_transmission']->render(); ?>
-                        <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?> type="submit" id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn btn-success"><span>Valider</span></button>
-                        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
+                        <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?> type="button" data-toggle="modal" data-target="#signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn btn-success"><span>Valider</span></button>
+
                 <?php else: ?>
                         <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?>class="btn btn-success" type="submit" tabindex="40" >Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
                 <?php endif; ?>
-
         </div>
     </div>
+    <?php if ($isTeledeclarationMode): ?>
+        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
+    <?php endif; ?>
 </form>
 </div>
