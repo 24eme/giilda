@@ -1402,7 +1402,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
                     if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
-                        $toRemove[] = $catKey . '/' . $typeKey;
+                        $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }
             }
