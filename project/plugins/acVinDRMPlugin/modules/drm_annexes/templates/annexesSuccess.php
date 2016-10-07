@@ -79,12 +79,13 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                         <div id="collapse_apurement" class="panel-collapse collapse <?php echo (count($annexesForm['releve_non_apurement']))? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_apurement">
                         <div class="panel-body">
+                        <p><?php echo getPointAideText('drm','annexe_nonapurement'); ?><p/>
                           <table id="table_drm_non_apurement" class="table table-bordered table-striped">
                               <thead >
                                   <tr>
-                                      <th class="col-xs-4">Numéro de document</th>
-                                      <th class="drm_non_apurement_date_emission col-xs-4">Date d'expédition</th>
-                                      <th class="col-xs-4">Numéro d'accise</th>
+                                      <th class="col-xs-4">Numéro de document<?php echo getPointAideHtml('drm','annexe_nonapurement_num_doc'); ?></th>
+                                      <th class="drm_non_apurement_date_emission col-xs-4">Date d'expédition<?php echo getPointAideHtml('drm','annexe_nonapurement_date'); ?></th>
+                                      <th class="col-xs-4">Numéro d'accise<?php echo getPointAideHtml('drm','annexe_nonapurement_num_accise'); ?></th>
                                       <th class="col-xs-1"></th>
                                   </tr>
                               </thead>
@@ -230,13 +231,13 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th colspan="3">Condition de paiement des douanes</th>
+                          <th colspan="3">Condition de paiement des douanes<?php echo getPointAideHtml('drm','annexe_paiement_douane_condition'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                           <tr>
                               <td class="col-xs-3">
-                                <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
+                                <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?><?php echo getPointAideHtml('drm','annexe_paiement_douane_frequence'); ?>
                               </td>
                               <td class="col-xs-9" colspan="2" >
                                 <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
@@ -245,7 +246,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                           </tr>
                           <tr style="vertical-align: middle;" class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
                               <td class="col-xs-4">
-                                  <strong>Cumul des droits douaniers (en €)</strong>
+                                  <strong>Cumul des droits douaniers (en €)</strong><?php echo getPointAideHtml('drm','annexe_paiement_douane_cumul'); ?>
                               </td>
                               <?php foreach ($drm->getAllGenres() as $genre): ?>
                             <td class="col-xs-4" >
