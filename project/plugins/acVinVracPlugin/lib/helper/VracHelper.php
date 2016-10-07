@@ -81,6 +81,25 @@ function typeToPictoCssClass($type) {
     }
 }
 
+function tooltipForPicto($type) {
+
+    if (is_null($type))
+        return '';
+
+    switch ($type) {
+        case VracClient::TYPE_TRANSACTION_RAISINS:
+            return 'Vendanges Fraîches';
+        case VracClient::TYPE_TRANSACTION_MOUTS:
+            return 'Moûts';
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC:
+            return 'Vrac retiraison Vrac';
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE:
+            return 'Vrac retiraison Bouteilles';
+        default :
+            return '';
+    }
+}
+
 function showRecapPrixUnitaire($vrac) {
     $unite = showPrixUnitaireUnite($vrac);
 
