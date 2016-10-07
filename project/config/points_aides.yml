@@ -21,12 +21,12 @@ all:
         menu_list_acces_enattente: "Permet d’accéder au(x) contrat(s) en attente."
         menu_acces_historique: "Permet de voir tous vos contrats classés par campagne viticole."
         menu_acces_nouveau: "Bouton de saisie d’un nouveau contrat."
-        dernier_contrat_nature: "Nature du contrat ( = Vrac retiraison Vrac ; = Vrac retiraison Bouteilles; = Vendanges Fraîches), n° de visa de l’interprofession, n° de bordereau.  Cliquer sur le n° de visa permet de visualiser le contrat."
-        dernier_contrat_date: "= date de signature du contrat. = date de validation du contrat par l’interprofession. "
+        dernier_contrat_nature: "Nature du contrat (Vrac retiraison Vrac; Vrac retiraison Bouteilles; Vendanges Fraîches), n° de visa de l’interprofession, n° de bordereau.  Cliquer sur le n° de visa permet de visualiser le contrat."
+        dernier_contrat_date: "Date de signature du contrat / Date de validation du contrat par l’interprofession. "
         dernier_contrat_soussignes: "Liste tous les contractants. Cliquer sur un nom permet de trouver tous les contrats passés entre vous et  ce co-contractant."
         dernier_contrat_produits: "Indique le nom du produit et le millésime."
-        dernier_contrat_volume: "Indique le volume initial du contrat."
-        dernier_contrat_prix: "Indique le prix du contrat exprimé en €/hl (pour l’IVSO) €/Tonneau (1T = 9 hl) (pour l’IVBD)."
+        dernier_contrat_volume: "Indique le volume initial du contrat et le volume déjà enlevé."
+        dernier_contrat_prix: "Indique le prix du contrat exprimé en €/Tonneau (1T = 9 hl)"
         dernier_contrat_acces_visu: "Permet de visualiser le contrat."
 
         #7
@@ -178,6 +178,8 @@ ivso:
     points_aides:
       drm:
         mouvements_export_pays: "Indiquer le pays d’exportation en saisissant le nom du pays ou en le sélectionnant dans la liste. A minima, indiquer « Union Européenne » ou « Hors Union Européenne »."
+      vrac:
+        dernier_contrat_prix: "Indique le prix du contrat exprimé en €/hl."
 
 
 ivbd:
@@ -185,3 +187,5 @@ ivbd:
     points_aides:
       drm:
         mouvements_export_pays: "Indiquer le pays d’exportation en saisissant le nom du pays ou en le sélectionnant dans la liste."
+      vrac:
+        dernier_contrat_prix: "Indique le prix du contrat exprimé en €/Tonneau (1T = 9 hl)"
