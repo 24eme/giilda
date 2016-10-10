@@ -10,15 +10,15 @@
  * @author mathurin
  */
 class CompteCoordonneeForm extends acCouchdbObjectForm {
-    
+
     private $compte;
     private $reduct_rights = false;
 
     public function __construct(Compte $compte, $reduct_rights = false, $options = array(), $CSRFSecret = null) {
         $this->compte = $compte;
         $this->reduct_rights = $reduct_rights;
-        parent::__construct($compte, $options, $CSRFSecret);         
-        $this->defaults['pays'] = 'FR';   
+        parent::__construct($compte, $options, $CSRFSecret);
+        $this->defaults['pays'] = 'FR';
     }
 
     public function configure() {
@@ -38,7 +38,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->setWidget('telephone_mobile', new bsWidgetFormInput());
         $this->setWidget('fax', new bsWidgetFormInput());
         $this->setWidget('site_internet', new bsWidgetFormInput());
-        
+
         //   $this->setWidget('tags', new sfWidgetFormChoice(array('choices' => $this->getAllTags())));
         if (!$this->reduct_rights) {
             $this->widgetSchema->setLabel('adresse', 'N° et nom de rue *');
@@ -54,7 +54,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         $this->widgetSchema->setLabel('telephone_mobile', 'Mobile');
         $this->widgetSchema->setLabel('fax', 'Fax');
         $this->widgetSchema->setLabel('site_internet', 'Site Internet');
-        
+
         //    $this->widgetSchema->setLabel('tags', 'Tags');
 
         if (!$this->reduct_rights) {
@@ -65,36 +65,35 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
             $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getDroits()))));
         }
-        
+
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_perso', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_bureau', new sfValidatorString(array('required' => false)));
         $this->setValidator('telephone_mobile', new sfValidatorString(array('required' => false)));
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->setValidator('site_internet', new sfValidatorString(array('required' => false)));
-        
+
         //  $this->setValidator('tags', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getAllTags()))));
 
-       
+
         $this->widgetSchema->setNameFormat('compte_modification[%s]');
     }
 
     public function getDroits() {
-
-        return array(Roles::CONTRAT => "Contrat");
+        return Roles::$teledeclarationLibelles;
     }
-   
+
     public function getCountryList() {
         $destinationChoicesWidget = new bsWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
         $destinationChoices = $destinationChoicesWidget->getChoices();
         $destinationChoices['inconnu'] = 'Inconnu';
         return $destinationChoices;
-    } 
-    
+    }
+
     public function getAllTags() {
         return CompteClient::getInstance()->getAllTags();
-    }    
-    
+    }
+
     protected function doSave($con = null) {
         if (null === $con) {
             $con = $this->getConnection();
@@ -106,14 +105,14 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         }
         if($this->compte->isSocieteContact())
         {
-            $this->compte->statut = $this->compte->getSociete()->statut;          
-            $this->compte->add('type_societe',$this->compte->getSociete()->type_societe);  
+            $this->compte->statut = $this->compte->getSociete()->statut;
+            $this->compte->add('type_societe',$this->compte->getSociete()->type_societe);
             $this->compte->buildDroits();
         }
         if($this->compte->isEtablissementContact()){
             $this->compte->statut = $this->compte->getEtablissement()->statut;
-        }        
+        }
         $this->object->getCouchdbDocument()->save();
     }
-    
+
 }
