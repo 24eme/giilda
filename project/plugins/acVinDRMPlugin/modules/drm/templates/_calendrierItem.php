@@ -29,7 +29,7 @@
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
                 <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?></span>&nbsp;<?php echo getPointAideHtml('drm','etats') ?>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
                             <?php if(getEtatDRMLibelleCalendrier($calendrier, $periode) == "Continuer"): ?>
-                              <a href="<?php echo url_for('drm_redirect_etape', array('identifiant'=>$etablissement->identifiant, 'periode_version' => $periode)); ?>"
+                              <a href="<?php echo url_for('drm_redirect_etape', array('identifiant'=>$etablissement->identifiant, 'periode_version' => $calendrier->getPeriodeVersion($periode, $etablissement))); ?>"
                                  class="btn btn-warning btn-block"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
                             <?php else: ?>
 
