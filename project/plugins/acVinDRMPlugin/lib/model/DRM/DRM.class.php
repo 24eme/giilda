@@ -216,6 +216,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             $this->addProduit($produitConfig->getHash());
         }
+
+        foreach($drm->getAllCrds() as $regime => $crds) {
+            foreach($crds as $crd) {
+                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, null, true);
+            }
+        }
     }
 
     public function generateSuivante() {

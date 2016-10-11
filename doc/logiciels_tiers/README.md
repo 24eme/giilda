@@ -35,3 +35,12 @@ Le catalogue des mouvements de DRM admis par le portail d'Interloire  [Catalogue
 Un exemple spécifique de DRM à importer pour le portail d'Interloire est disponible ici : [Exemple de fichier d'import pour Interloire](exemple_export_drm.csv) .
 
 Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
+
+## Suivi du projet chez les éditeurs de registres de cave 
+
+| Nom de l'Éditeur | Prise de contact | Génération du fichier de transfer | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
+|------------------|------------------|-----------------------------------|---------------------------------------|------------------------------------------------------|----------------------|
+| Isagri           | Oui |  |  |  |  |
+| Solumatic        | Oui |  |  |  |  |
+| Dune Informatique| Oui |  |  |  |  |
+| Cer France       | Oui |  |  |  |  |
