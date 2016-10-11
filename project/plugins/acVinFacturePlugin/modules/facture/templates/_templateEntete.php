@@ -74,8 +74,9 @@ $infosInterpro = $facture->getInformationsInterpro();
                             echo display_latex_string($nom,';',40);
                      ?>}
 \def\FactureClientAdresse{<?php $adresse = ($facture->declarant->adresse == '')? "~" : $facture->declarant->adresse;
-                                                     $adresse .= ($facture->declarant->adresse_complementaire == '')? "~" : " ".$facture->declarant->adresse_complementaire;
                                                  echo display_latex_string($adresse,';',50,2); ?>}
+\def\FactureClientAdresseComplementaire{<?php $adresseComplementaire = (!$facture->declarant->adresse_complementaire)? "~" : "\\\\".$facture->declarant->adresse_complementaire;
+                                          echo display_latex_string($adresseComplementaire,';',50,2);   ?>}
 \def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
 
