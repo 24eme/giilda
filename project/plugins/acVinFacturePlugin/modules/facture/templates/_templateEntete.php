@@ -2,7 +2,7 @@
 use_helper('Date');
 use_helper('Display');
 $coordonneesBancaires = $facture->getCoordonneesBancaire();
-$infosInterpro = $facture->getInformationsInterpro(); 
+$infosInterpro = $facture->getInformationsInterpro();
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -28,15 +28,15 @@ $infosInterpro = $facture->getInformationsInterpro();
 
 \renewcommand\sfdefault{phv}
 
-\newcommand{\CutlnPapillon}{	
-  	\multicolumn{2}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } & 
+\newcommand{\CutlnPapillon}{
+  	\multicolumn{2}{|c|}{ ~~~~~~~~~~~~~~~~~~~~~~~ } &
   	\multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
-\\    
+\\
 }
 
-\newcommand{\CutlnPapillonEntete}{	
+\newcommand{\CutlnPapillonEntete}{
       &  &  \multicolumn{3}{c}{\Rightscissors \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline  \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline \Cutline}
-\\    
+\\
 }
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -48,18 +48,18 @@ $infosInterpro = $facture->getInformationsInterpro();
 \setlength{\headheight}{5.3cm}
 \setlength{\headwidth}{19.5cm}
 \setlength{\topmargin}{-4.5cm}
-\addtolength{\textheight}{29.9cm} 
+\addtolength{\textheight}{29.9cm}
 
-\def\TVA{19.60} 
+\def\TVA{19.60}
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
-		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France} 
+		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France}
 \def\InterproFacturation{\\<?php echo $facture->emetteur->telephone;?>
                                              <?php if($facture->emetteur->exist('email')): ?>
-                                                    \\ Email : <?php echo $facture->emetteur->email; ?> 
-                                              <?php endif;?>} 
-                                              
+                                                    \\ Email : <?php echo $facture->emetteur->email; ?>
+                                              <?php endif;?>}
+
 \def\InterproSIRET{<?php echo $infosInterpro->siret; ?>}
-\def\InterproAPE{APE <?php echo $infosInterpro->ape; ?>} 
+\def\InterproAPE{APE <?php echo $infosInterpro->ape; ?>}
 \def\InterproTVAIntracomm{<?php echo $infosInterpro->tva_intracom; ?>}
 
 \def\InterproBANQUE{<?php echo str_replace(" ", "~", $coordonneesBancaires->banque); ?>}
@@ -70,11 +70,12 @@ $infosInterpro = $facture->getInformationsInterpro();
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
 \def\FactureRefClient{<?php echo $facture->numero_adherent; ?>}
 \def\FactureRefCodeComptableClient{<?php echo $facture->code_comptable_client; ?>}
-\def\FactureClientNom{<?php $nom = ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale; 
+\def\FactureClientNom{<?php $nom = ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale;
                             echo display_latex_string($nom,';',40);
                      ?>}
 \def\FactureClientAdresse{<?php $adresse = ($facture->declarant->adresse == '')? "~" : $facture->declarant->adresse;
-                            echo display_latex_string($adresse,';',50,2); ?>}                            
+                                                     $adresse .= ($facture->declarant->adresse_complementaire == '')? "~" : " ".$facture->declarant->adresse_complementaire;
+                                                 echo display_latex_string($adresse,';',50,2); ?>}
 \def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
 
@@ -84,11 +85,11 @@ $infosInterpro = $facture->getInformationsInterpro();
 \fancyhf{}
 
 \lhead{
- \textbf{IVSO} \\  
+ \textbf{IVSO} \\
  \InterproAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterproFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
-         RIB~:~\InterproBANQUE~(BIC:~\InterproBIC~IBAN:~\InterproIBAN) 
+         RIB~:~\InterproBANQUE~(BIC:~\InterproBIC~IBAN:~\InterproIBAN)
  \end{tiny} \\
  \begin{tiny}
          SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
