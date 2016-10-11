@@ -240,7 +240,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                     </div>
                                   </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_producteur_informations">
-	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_producteur']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?>&nbsp;</div>
+	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_producteur']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_acheteur_supprimer'); ?>&nbsp;</div>
 	                                    <div class="container-ajax">
 	                                        <?php if($form['acheteur_producteur']->getValue()): ?>
 	                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_producteur']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -269,7 +269,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                     </div>
 	                                </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_negociant_informations">
-	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_negociant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?>&nbsp;</div>
+	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_negociant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_acheteur_supprimer'); ?>&nbsp;</div>
 	                                    <div class="container-ajax">
 	                                        <?php if($form['acheteur_negociant']->getValue()): ?>
 	                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_negociant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -313,7 +313,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                             </div>
                         </div>
                         <div class="col-sm-12 text-center <?php if(!$form['mandataire_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="mandataire_informations">
-                            <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['mandataire_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?>&nbsp;</div>
+                            <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['mandataire_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_courtier_supprimer'); ?>&nbsp;</div>
                             <div class="container-ajax">
                               <?php if($form['mandataire_identifiant']->getValue()): ?>
                               <?php include_partial('vrac/soussigne', array('id' => $form['mandataire_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
