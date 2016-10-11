@@ -60,7 +60,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             throw new sfException(sprintf('Config "configuration/facture/coordonnees_bancaire" not found in app.yml'));
         }
         $appCoordonneesBancaire = $configs['coordonnees_bancaire'];
-        
+
         $coordonneesBancaires = new stdClass();
 
         $coordonneesBancaires->banque = $appCoordonneesBancaire['banque'];
@@ -69,14 +69,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         return $coordonneesBancaires;
     }
-    
+
     public function getInformationsInterpro() {
         $configs = sfConfig::get('app_configuration_facture');
         if (!$configs && !isset($configs['infos_interpro'])) {
             throw new sfException(sprintf('Config "configuration/facture/infos_interpro" not found in app.yml'));
         }
         $appInfosInterpro = $configs['infos_interpro'];
-        
+
         $infosInterpro = new stdClass();
 
         $infosInterpro->siret = $appInfosInterpro['siret'];
@@ -121,7 +121,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
         return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
     }
-    
+
     public function getTaxe() {
         return $this->total_ttc - $this->total_ht;
     }
@@ -177,7 +177,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
 
-// PLUS UTILISE => TEMPLATES 
+// PLUS UTILISE => TEMPLATES
     public function storeLignesFromTemplate($cotisations) {
         foreach ($cotisations as $key => $cotisation) {
             $ligne = $this->lignes->add($key);
@@ -312,7 +312,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 }
                 $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
                 $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
-                $detail->add('code_compte',$identifiants_compte_analytique[0]);                
+                $detail->add('code_compte',$identifiants_compte_analytique[0]);
                 $detail->taux_tva = 0.2;
             }
         }
@@ -449,14 +449,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return;
         }
 
-//if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}              
+//if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}
         if ($date < $d2) {
             $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht * 0.5);
             return;
         }
 
-//if(30/06/N < date < 30/09/N) { 100% 30/09/N } 
+//if(30/06/N < date < 30/09/N) { 100% 30/09/N }
         if ($date < $d3) {
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht);
             return;
@@ -471,14 +471,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $date = str_replace('-', '', $this->date_facturation);
 
         $d1 = date('Y') . '0331'; // 31/03/N
-        $d2 = date('Y') . '0630'; // 30/06/N  
+        $d2 = date('Y') . '0630'; // 30/06/N
 //if( date < 31/03/N) { 50% 31/03/N 50% 30/06/N}
         if ($date < $d1) {
             $this->updateEcheance('B', date('Y') . '-03-31', $ligne->montant_ht * 0.5);
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             return;
         }
-//if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }              
+//if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }
         if ($date < $d2) {
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht);
             return;
@@ -651,6 +651,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $declarant->nom = $doc->raison_sociale;
 //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;
         $declarant->adresse = $doc->siege->adresse;
+        $declarant->adresse_complementaire = $doc->siege->adresse_complementaire;
         $declarant->commune = $doc->siege->commune;
         $declarant->code_postal = $doc->siege->code_postal;
         $declarant->raison_sociale = $doc->raison_sociale;
