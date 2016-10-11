@@ -9,6 +9,12 @@
 (function ($)
 {
 
+  if(!('contains' in String.prototype)) {
+      String.prototype.contains = function(str, startIndex) {
+               return -1 !== String.prototype.indexOf.call(this, str, startIndex);
+      };
+  } 
+
     var options = {
         selectors: {
             ajaxModal: '#ajax-modal'
@@ -105,7 +111,7 @@
         });
 
         $(this).find("a.to_autofocus").focus();
-        
+
         $(this).find("input[type='radio'][autofocus='autofocus']").each(function(){
             var name = $(this).attr("name");
             $(document).find("input[name='"+name+"']").each(function(){
@@ -116,7 +122,7 @@
                      $(this).focus();
                 }
             });
-            
+
         });
 
         $(this).find('.select2permissifNoAjax').each(function() {
