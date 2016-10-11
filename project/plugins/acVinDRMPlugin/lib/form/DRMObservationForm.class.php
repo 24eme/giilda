@@ -27,7 +27,7 @@ class DRMObservationForm extends BaseForm
 	if ($this->_detail->exist('replacement_date')) {
                 $w['replacement'] = new bsWidgetFormInputDate();
                 $v['replacement'] = new sfValidatorString(array('required' => false));
-                $l['replacement'] = "Date de la sortie du volume correspondant à ce réplacement";
+                $l['replacement'] = "Date de la sortie du volume correspondant à ce replacement";
         }
         $this->setWidgets($w);
         $this->setValidators($v);

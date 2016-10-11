@@ -68,22 +68,36 @@
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE <?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>de vin AOP et IGP<?php elseif($vrac->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS): ?>de Moût<?php else: ?>de Vendange<?php endif; ?>}
 \def\CONTRATSOUSTITRE{}
+<?php
+$vendeur_raison_sociale = ($vrac->vendeur->raison_sociale) ?
+        $vrac->vendeur->raison_sociale : $vrac->getVendeurObject()->getSociete()->raison_sociale;
+
+$acheteur_raison_sociale = ($vrac->acheteur->raison_sociale) ?
+        $vrac->acheteur->raison_sociale, 50 : $vrac->getAcheteurObject()->getSociete()->raison_sociale;
+
+$mandataire_raison_sociale = "";
+if ($vrac->mandataire_exist) {
+    $mandataire_raison_sociale = ($vrac->mandataire->raison_sociale) ?
+            $vrac->mandataire->raison_sociale : $vrac->getMandataireObject()->getSociete()->raison_sociale;
+}
+?>
 
 
-\def\CONTRATVENDEURNOM{<?php echo $vrac->vendeur->raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+
+\def\CONTRATVENDEURNOM{<?php echo $vendeur_raison_sociale ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
 \def\CONTRATVENDEURACCISES{<?php echo $vrac->vendeur->no_accises ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo $vrac->vendeur->adresse ?>}
 \def\CONTRATVENDEURCOMMUNE{<?php echo $vrac->vendeur->code_postal.' '.$vrac->vendeur->commune ?>}
 
 
-\def\CONTRATACHETEUREURNOM{<?php echo $vrac->acheteur->raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEUREURNOM{<?php echo $acheteur_raison_sociale ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
 \def\CONTRATACHETEURACCISES{<?php echo $vrac->acheteur->no_accises ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo $vrac->acheteur->adresse ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo $vrac->acheteur->code_postal.' '.$vrac->acheteur->commune ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo $vrac->mandataire->raison_sociale ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo $mandataire_raison_sociale ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{, n° carte professionnelle:~<?php echo $vrac->mandataire->carte_pro ?>}
 
 \def\CONTRATTYPE{Moûts}
@@ -123,11 +137,11 @@
 \begin{tabularx}{\textwidth}{c p{97mm} |p{37mm}}
 
 	~ & ~ & ~  \\
-	 \multirow{7}{*}{} & 	  
-	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &   	 
+	 \multirow{7}{*}{} &
+	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &
 	 N° Bordereau :  \textbf{\LARGE{\CONTRATNUMENREGISTREMENT}} \\
 	 ~ & ~ & ~  \\
-	 ~ & \multicolumn{1}{c|}{\IVSOCOORDONNEESADRESSE} &  Visa : \textbf{\LARGE{\CONTRATVISA}}  \\ 
+	 ~ & \multicolumn{1}{c|}{\IVSOCOORDONNEESADRESSE} &  Visa : \textbf{\LARGE{\CONTRATVISA}}  \\
 	 ~ &\multicolumn{1}{c|}{\IVSOCOORDONNEESCPVILLE}  & ~ \\
 	 ~ & \multicolumn{1}{c|}{\small{\IVSOCOORDONNEESFAX}}  &  ~ \\
 	 ~ & \multicolumn{1}{c|}{\small{\IVSOCOORDONNEESEMAIL}}  & Le : \textbf{\CONTRATDATEENTETE}  \\
@@ -137,43 +151,43 @@
 \end{tabularx}
 
 \vspace{0.4cm}
-  \begin{center}    
+  \begin{center}
    	\begin{huge}
    		\CONTRAT_TITRE
-	\end{huge}      
+	\end{huge}
 	\\ ~ \\
    	\begin{large}
    		\CONTRATSOUSTITRE
-	\end{large}  
+	\end{large}
     \end{center}
-    
-     Entre les soussignés,     
+
+     Entre les soussignés,
 \begin{multicols}{2}
 
 \begin{minipage}[t]{0.485\textwidth}
 \begin{tabularx}{\textwidth}{|Xr|}
-	\hline 
+	\hline
          ~ & ~ \\
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATVENDEURNOM}} \\
          ~ & ~ \\
-	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\ 
+	 C.V.I. & \textbf{\CONTRATVENDEURCVI} \\
          N° d'ACCISE & \textbf{\CONTRATVENDEURACCISES} \\
 	 Adresse & \textbf{\CONTRATVENDEURADRESSE} \\
         Commune & \textbf{\CONTRATVENDEURCOMMUNE} \\
 	 ~ & ~ \\
 	 \multicolumn{2}{|r|}{Ci après dénommé le vendeur,} \\
-	 
-	\hline	
-\end{tabularx} 
+
+	\hline
+\end{tabularx}
 \end{minipage}
 
 \begin{minipage}[t]{0.485\textwidth}
 \begin{tabularx}{\textwidth}{|Xr|}
-	\hline 
+	\hline
          ~ & ~ \\
 	 \multicolumn{2}{|c|}{\textbf{\CONTRATACHETEUREURNOM}} \\
          ~ & ~ \\
-         C.V.I. & \textbf{\CONTRATACHETEURCVI} \\ 
+         C.V.I. & \textbf{\CONTRATACHETEURCVI} \\
              N° d'ACCISE & \textbf{\CONTRATACHETEURACCISES} \\
 	     Adresse & \textbf{\CONTRATACHETEURADRESSE} \\
          Commune & \textbf{\CONTRATACHETEURCOMMUNE} \\
@@ -182,7 +196,7 @@
 	 \hline
 \end{tabularx}
 \end{minipage}
-\end{multicols}  
+\end{multicols}
 
 <?php if ($vrac->mandataire_identifiant): ?>
 Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins\CONTRATCOURTIERCARTEPRO \\
@@ -225,7 +239,7 @@ A été conclu le marché suivant: \\
 Ce vin est logé dans la commune de : \textbf{\CONTRATLIEUPRODUIT}
 \\ ~ \\
 \textbf{Clause de réserve de proriété:}~~~~\textbf{OUI}~ <?php if ($vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> ~~~\textbf{NON}~ <?php if (!$vrac->clause_reserve_propriete): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>
-\\ 
+\\
 \begin{multicols}{2}
 
 \begin{minipage}[t]{0.485\textwidth}
@@ -254,8 +268,8 @@ Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
 \parbox{17.7cm}{~ \\ \CONTRATOBSERVATIONS \\ }
 }
 
- ~ \\ ~ \\ ~ \\ 
- 
+ ~ \\ ~ \\ ~ \\
+
 \begin{tabularx}{\textwidth}{<?php if ($vrac->mandataire_identifiant): ?>|X<?php endif; ?>|X|X|}
 \hline
 <?php if ($vrac->mandataire_identifiant): ?>\cellcolor{gray!25}\textbf{Le courtier} & <?php endif; ?>\cellcolor{gray!25}\textbf{Le vendeur} & \cellcolor{gray!25}\textbf{L'acheteur} \\

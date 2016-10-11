@@ -80,7 +80,7 @@
                     <p><?php if ($societe->getMasterCompte()->exist('droits')): ?>
                             <strong>Droits :</strong>
                             <?php foreach ($societe->getMasterCompte()->getDroits() as $droit) : ?>
-                                <button class="btn btn-sm btn-default"><?php echo $droit; ?></button>
+                                <label class="label label-default"><?php echo Roles::$teledeclarationLibelles[$droit]; ?></label>
                             <?php endforeach; ?>
                 <?php endif; ?></p>
                 </div>

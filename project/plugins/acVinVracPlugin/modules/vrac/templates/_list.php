@@ -17,11 +17,11 @@ use_helper('PointsAides');
 <table id="table_contrats" class="table">
     <thead>
         <tr>
-        <th><?php echo getPointAideHtml('vrac','dernier_contrat_nature'); ?></th>
+        <th>Contrat<?php echo getPointAideHtml('vrac','dernier_contrat_nature'); ?></th>
             <th style="width: 110px;">Date<?php echo getPointAideHtml('vrac','dernier_contrat_date'); ?></th>
             <th>Soussignés<?php echo getPointAideHtml('vrac','dernier_contrat_soussignes'); ?></th>
             <th>Produit (Millésime)<?php echo getPointAideHtml('vrac','dernier_contrat_produits'); ?></th>
-            <th style="width: 110px;">Vol.&nbsp;prop. <?php echo (!isset($teledeclaration) || !$teledeclaration)? "(Vol.&nbsp;enl.)" : "" ?><?php echo getPointAideHtml('vrac','dernier_contrat_volume'); ?></th>
+            <th style="width: 180px;">Vol.&nbsp;prop. / Vol.&nbsp;enl.<?php echo getPointAideHtml('vrac','dernier_contrat_volume'); ?></th>
             <th style="width: 50px;">Prix<?php echo getPointAideHtml('vrac','dernier_contrat_prix'); ?></th>
             <th style="width: 90px;">Visu.<?php echo getPointAideHtml('vrac','dernier_contrat_acces_visu'); ?></th>
         </tr>
@@ -43,7 +43,7 @@ use_helper('PointsAides');
                     class="<?php echo statusCssClass($v->valide->statut) ?> hamzastyle-item vertical-center">
 
                     <td class="text-center">
-                        <span class="<?php echo typeToPictoCssClass($v->type_transaction) ?>" style="font-size: 24px;"></span>
+                        <span class="<?php echo typeToPictoCssClass($v->type_transaction) ?> pointer" style="font-size: 24px; " data-toggle="tooltip" title="<?php echo tooltipForPicto($v->type_transaction) ?>"></span>
                         <?php if($v->valide->statut): ?>
                         <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $v->numero_contrat)) ?>">
                         <?php else: ?>
@@ -69,25 +69,42 @@ use_helper('PointsAides');
 
                     <td>
         <?php
-        echo ($v->vendeur_identifiant) ?
-                'Vendeur : ' . link_to($v->vendeur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->vendeur_identifiant)) : '';
+            if((isset($teledeclaration) && $teledeclaration)):
+              echo ($v->vendeur_identifiant) ? 'Vendeur : ' . $v->vendeur->nom : '';
+            else:
+              echo ($v->vendeur_identifiant) ?
+                  'Vendeur : ' . link_to($v->vendeur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->vendeur_identifiant)) : '';
+            endif;
         ?>
         <br />
         <?php
-        echo ($v->acheteur_identifiant) ?
-                'Acheteur : ' . link_to($v->acheteur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->acheteur_identifiant)) : '';
-            ?>
+          if((isset($teledeclaration) && $teledeclaration)):
+              echo ($v->acheteur_identifiant) ? 'Acheteur : ' . $v->acheteur->nom : '';
+          else:
+              echo ($v->acheteur_identifiant) ?
+                  'Acheteur : ' . link_to($v->acheteur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->acheteur_identifiant)) : '';
+          endif;
+                  ?>
         <?php
             $has_representant = ($v->representant_identifiant != $v->vendeur_identifiant) ? $v->representant_identifiant : 0;
             if ($has_representant) echo '<br/>';
-            echo ($has_representant) ?
+
+            if((isset($teledeclaration) && $teledeclaration)):
+              echo ($has_representant) ? 'Representant : ' . $v->representant->nom : '';
+            else:
+              echo ($has_representant) ?
                 'Representant : ' . link_to($v->representant->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->representant_identifiant)) : '';
+            endif;
             ?>
         <?php if($v->mandataire_identifiant): ?>
             <br />
         <?php
-        echo ($v->mandataire_identifiant) ?
+          if((isset($teledeclaration) && $teledeclaration)):
+            echo ($v->mandataire_identifiant) ? $v->mandataire->nom : '';
+          else:
+          echo ($v->mandataire_identifiant) ?
                 'Courtier : ' . link_to($v->mandataire->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->mandataire_identifiant)) : '';
+          endif;
         ?>
                             </li>
         <?php endif; ?>
@@ -105,14 +122,10 @@ use_helper('PointsAides');
         if (isset($v->volume_propose)) {
             echoFloat($v->volume_propose);
             echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_initial']['libelle'].'<br/>';
-            echo '<span class="text-muted">';
-            if(!isset($teledeclaration) || !$teledeclaration){
             if ($v->volume_enleve) {
+            echo '<span class="text-muted">';
                 echoFloat($v->volume_enleve);
                 echo '&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_vigueur']['libelle'];
-            }else{
-                echo '0.00&nbsp;'.VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['volume_vigueur']['libelle'];
-            }
             echo '</span>';
           }
         }

@@ -79,6 +79,14 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setDefault('telephone_mobile', $this->getObject()->getTelephoneMobile());
         $this->setDefault('fax', $this->getObject()->getFax());
         $this->setDefault('site_internet', $this->getObject()->getSiteInternet());
+
+        $compte = $this->getObject()->getMasterCompte();
+        $compte->add('droits');
+        $defaultDroits = array();
+        foreach ($compte->getDroits() as $droit) {
+          $defaultDroits[] = $droit;
+        }
+        $this->setDefault('droits', $defaultDroits);
     }
 
     public function doUpdateObject($values) {
@@ -97,7 +105,20 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->getObject()->setTelephoneMobile($values['telephone_mobile']);
         $this->getObject()->setFax($values['fax']);
         $this->getObject()->setSiteInternet($values['site_internet']);
-    }
+
+        $compte = $this->getObject()->getMasterCompte();
+        $compte->remove("droits");
+        $compte->add('droits');
+        $flag = 0;
+        foreach ($values['droits'] as $key => $droit) {
+          if(!$flag){
+            $compte->getOrAdd("droits")->add(null, Roles::TELEDECLARATION);
+          }
+          $flag++;
+          $compte->getOrAdd("droits")->add(null, $droit);
+        }
+        $compte->save();
+      }
 
 
     public static function getCountryList() {
@@ -116,9 +137,8 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         return EtablissementClient::getStatuts();
     }
 
-    public static function getDroits() {
-
-        return array(Roles::CONTRAT => "Contrat");
+    public function getDroits() {
+        return Roles::$teledeclarationLibellesShort;
     }
 
 }
