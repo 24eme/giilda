@@ -1,5 +1,5 @@
 <?php
-$interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
+$interpro = sfConfig::get('app_teledeclaration_interpro');
 ?>
 <div style="text-align: center; top: 30%; position: absolute; width: 99%;"><center>
 <img src="/images/<?php echo $interpro ?>2douane.gif" width="800" height="150"/>
