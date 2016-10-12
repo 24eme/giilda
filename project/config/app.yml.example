@@ -216,14 +216,13 @@ all:
         nom: 'Prenom Nom'
         telephone: '00 00 00 00 00'
         email: 'mail@example.org'
-        interpro: 'd\'InterProx'
       REGION_HORS_CVO:
         nom: 'Prenom Nom'
         telephone: '00 00 00 00 00'
         email: 'mail@example.org'
-        interpro: 'd\'InterProx'
     adresse_interpro: "adresse"
     url: 'url_portail'
+    interpro: 'Intreprox'
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
 
