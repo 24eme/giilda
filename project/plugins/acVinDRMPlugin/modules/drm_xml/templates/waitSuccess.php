@@ -2,7 +2,7 @@
 $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 ?>
 <div style="text-align: center; top: 30%; position: absolute; width: 99%;"><center>
-<img src="/images/"<?php echo $interpro ?>"2douane.gif" width="600" height="150"/>
+<img src="/images/"<?php echo $interpro ?>"2douane.gif" width="800" height="150"/>
 <p>Transmission des données à pro.douane.gouv.fr en cours... <br/>Veuillez patienter</p>
 </center></div>
 <form id="form_transmission" method="post" action="<?php echo url_for('drm_ciel', $drm); ?>">
@@ -10,6 +10,6 @@ $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 <script src="/js/lib/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
         $(document).ready(function() {
-            setTimeout("$('#form_transmission').submit();", 1000);
+          //  setTimeout("$('#form_transmission').submit();", 1000);
         });
 </script>
