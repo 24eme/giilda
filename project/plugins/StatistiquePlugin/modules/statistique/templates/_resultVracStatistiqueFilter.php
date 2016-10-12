@@ -3,27 +3,27 @@
 <?php use_helper('Date'); ?>
 <table class="table table-striped">
 	<thead>
-		<tr>			
+		<tr>
             <th>&nbsp;</th>
 			<th>Visa</th>
             <th style="width: 110px;">Date</th>
-            <th>Soussignés</th>   
+            <th>Soussignés</th>
             <th>Produit (Millésime)</th>
             <th>Vol.&nbsp;prop. (Vol.&nbsp;enl.)</th>
             <th>Prix</th>
 		</tr>
 	</thead>
 		<tbody>
-		<?php 
-		foreach ($hits as $hit): 
+		<?php
+		foreach ($hits as $hit):
 		$item = $hit->getData();
-		$etab = null; 
+		$etab = null;
 		?>
 			<tr class="<?php echo statusCssClass($item['doc']['valide']['statut']) ?>">
 				<td class="text-center"><span class="<?php echo typeToPictoCssClass($item['doc']['type_transaction']) ?>" style="font-size: 24px;"></span></td>
 				<td>
 					<a href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>"><?php if ($item['doc']['numero_archive']) echo $item['doc']['numero_archive']; elseif($item['doc']['valide']['statut']) echo "Non visé"; else "Brouillon";  ?></a>
-					
+
                     <br />
                     <?php if($item['doc']['numero_archive']): ?>
                     <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($item['doc']['numero_contrat']) ?></span>
@@ -39,7 +39,7 @@
 					<?php echo ($item['doc']['date_signature'])? '<span class="text-muted"><span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Date de signature"></span> ' . strftime('%d/%m/%Y', strtotime($item['doc']['date_signature'])) : null; ?>
 				</td>
 				<td>
-					
+
 			        <?php
 			        echo ($item['doc']['vendeur_identifiant']) ?
 			                'Vendeur : ' . link_to($item['doc']['vendeur']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['vendeur_identifiant'])) : '';
@@ -62,15 +62,15 @@
 			                'Courtier : ' . link_to($item['doc']['mandataire']['nom'], 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $item['doc']['mandataire_identifiant'])) : '';
 			        ?>
 			        <?php endif; ?>
-				
-				
+
+
 				</td>
 				<td>
 					<?php $produit = ($item['doc']['type_transaction'] == VracClient::TYPE_TRANSACTION_VIN_VRAC || $item['doc']['type_transaction'] == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)? $item['doc']['produit_libelle'] : $item['doc']['cepage_libelle'];
-		            $millesime = $item['doc']['millesime'] ? $item['doc']['millesime'] : 'nm'; 
+		            $millesime = $item['doc']['millesime'] ? $item['doc']['millesime'] : 'nm';
 		            if ($produit)
 		                echo "<strong>$produit</strong> ($millesime)";?>
-				
+
 				</td>
 				<td class="text-right">
 					<?php
@@ -88,7 +88,7 @@
 				        }
 				        ?>
 				</td>
-				
+
 				<td class="text-right">
 					<?php
 			            if (isset($item['doc']['prix_initial_unitaire'])) {
@@ -96,6 +96,9 @@
 			                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$item['doc']['type_transaction']]['prix_initial_unitaire']['libelle'] ;
 			            }
 			        ?>
+						<br/>
+						<a class="btn btn-default" href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>">
+						<?php if ($item['doc']['numero_archive']) echo "Visualiser"; elseif($item['doc']['valide']['statut']) echo "Non visé"; else "Brouillon";  ?></a>
 				</td>
 			</tr>
 		<?php endforeach; ?>
