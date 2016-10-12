@@ -263,13 +263,11 @@ class EtablissementClient extends acCouchdbClient {
             $result->nom = $contacts[$region]['nom'];
             $result->email = $contacts[$region]['email'];
             $result->telephone = $contacts[$region]['telephone'];
-            $result->interpro = $contacts[$region]['interpro'];
             return $result;
         }
         $result->nom = $contacts[$region]['nom'];
         $result->email = $contacts[$region]['email'];
         $result->telephone = $contacts[$region]['telephone'];
-        $result->interpro = $contacts[$region]['interpro'];
         return $result;
     }
 

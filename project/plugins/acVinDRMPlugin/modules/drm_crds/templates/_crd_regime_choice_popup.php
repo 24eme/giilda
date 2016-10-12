@@ -3,7 +3,7 @@ $args_url = array('identifiant' => $drm->identifiant, 'periode_version' => $drm-
 if (isset($retour) && ($retour == 'crds')) {
     $args_url = array_merge($args_url, array('retour' => $retour));
 }
-  $contactInterpro = EtablissementClient::getInstance()->buildInfosContact($drm->getEtablissement());
+$interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 ?>
 
 <div id="drm_choix_regime_crd_popup"  class="modal fade" role="dialog">
@@ -22,7 +22,7 @@ if (isset($retour) && ($retour == 'crds')) {
             <p>Il est nécessaire pour la suite de la saisie de choisir ici le régime CRD. Une fois choisi ce message n'apparaîtra plus.</p><br/>
              Si vous achetez des CRD Acquitées auprès de votre ODG (ou auprès d'un autre répartiteur), sélectionnez «&nbsp;collectif acquitté&nbsp;». Si vous utilisez des CRD personnalisées, cliquez sur «&nbsp;personnalisé&nbsp;». Pour les autres cas, sélectionnez «&nbsp;collectif suspendu&nbsp;»</p>
             <br/>
-            <p>Sur la DRM papier de <?php echo $contactInterpro->interpro; ?>, le régime CRD est demandé dans le cadre dédié au stock capsules&nbsp;:</p>
+            <p>Sur la DRM papier de l'<?php echo $interpro; ?>, le régime CRD est demandé dans le cadre dédié au stock capsules&nbsp;:</p>
             <center><img src="/images/visuels/regime_crd_papier.jpg" width="600" height="150" ></center>
             <br/>
             <p><b>Votre régime CRD&nbsp;:</b></p>
