@@ -3,7 +3,7 @@ use_helper('PointsAides');
 ?>
 <section id="principal">
   <ol class="breadcrumb">
-      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrat</a></li>
+      <li><a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Contrats</a></li>
       <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a></li>
   </ol>
 

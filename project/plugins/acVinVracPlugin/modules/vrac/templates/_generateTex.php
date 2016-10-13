@@ -73,7 +73,7 @@ $vendeur_raison_sociale = ($vrac->vendeur->raison_sociale) ?
         $vrac->vendeur->raison_sociale : $vrac->getVendeurObject()->getSociete()->raison_sociale;
 
 $acheteur_raison_sociale = ($vrac->acheteur->raison_sociale) ?
-        $vrac->acheteur->raison_sociale, 50 : $vrac->getAcheteurObject()->getSociete()->raison_sociale;
+        $vrac->acheteur->raison_sociale : $vrac->getAcheteurObject()->getSociete()->raison_sociale;
 
 $mandataire_raison_sociale = "";
 if ($vrac->mandataire_exist) {
