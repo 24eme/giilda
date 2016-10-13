@@ -16,7 +16,7 @@ $douaneNewPage = ($hasNonApurement && (count($drm->releve_non_apurement) >= $lim
 
 $hasObservations = $drm->exist('observations') && $drm->observations;
 
-$contactInterpro = EtablissementClient::getInstance()->buildInfosContact($drm->getEtablissement());
+$interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 ?>
 
 <?php if ($hasAnnexes || $hasNonApurement) : ?>
@@ -140,7 +140,7 @@ $contactInterpro = EtablissementClient::getInstance()->buildInfosContact($drm->g
 \begin{tabular}{|C{100mm}|}
 \hline
 ~ \\
-\multicolumn{1}{|l|}{\small{\underline{\textbf{Fait}} : sur la plateforme de télédeclaration de <?php echo $contactInterpro->interpro; ?>}} \\	~ \\
+\multicolumn{1}{|l|}{\small{\underline{\textbf{Fait}} : sur la plateforme de télédeclaration de l'<?php echo $interpro; ?>}} \\	~ \\
 \multicolumn{1}{|l|}{\small{\underline{\textbf{Le}} : <?php echo $drm->getEuValideDate(); ?> }} \\	~ \\
 \hline
 ~ \\
