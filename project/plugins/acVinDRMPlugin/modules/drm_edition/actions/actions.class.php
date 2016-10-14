@@ -3,19 +3,31 @@
 class drm_editionActions extends drmGeneriqueActions {
 
     public function executeSaisieMouvements(sfWebRequest $request) {
+        if(!($drmdetailtype = $this->getRequest()->getParameter('details'))) {
+            $this->drm = $this->getRoute()->getDRM();
+
+            if(!$this->drm->isDouaneType(DRMClient::TYPE_DRM_SUSPENDU) && $this->drm->isDouaneType(DRMClient::TYPE_DRM_ACQUITTE)) {
+                return $this->redirect('drm_edition_details', array('sf_subject' => $this->drm, 'details' =>  DRM::DETAILS_KEY_ACQUITTE));
+            }
+
+            return $this->redirect('drm_edition_details', array('sf_subject' => $this->drm, 'details' =>  DRM::DETAILS_KEY_SUSPENDU));
+        }
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->init();
         $this->initSocieteAndEtablissementPrincipal();
-        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->loadFavoris();
         $this->initDeleteForm();
-        $this->formFavoris = new DRMFavorisForm($this->drm);
+        $this->formFavoris = new DRMFavorisForm($this->drm,array('details' => $this->getRequest()->getParameter('details')));
         $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
-        $this->detailsNodes = $this->config->detail;
-
+        $this->detailsNodes = $this->config->get($drmdetailtype);
+        $this->saisieSuspendu = ($drmdetailtype == str_replace('SAISIE_','',DRMClient::ETAPE_SAISIE_SUSPENDU));
         if ($request->isMethod(sfRequest::POST)) {
             $this->formValidation->bind($request->getParameter($this->formValidation->getName()));
             if ($this->formValidation->isValid()) {
                 $this->formValidation->save();
+                if($this->detailsKey == DRM::DETAILS_KEY_SUSPENDU && $this->drm->isDouaneType(DRMClient::TYPE_DRM_ACQUITTE)) {
+                    $this->redirect('drm_edition_details', array('sf_subject' => $this->drm, 'details' =>  DRM::DETAILS_KEY_ACQUITTE));
+                }
                 if ($this->isTeledeclarationMode) {
                     $this->redirect('drm_crd', $this->formValidation->getObject());
                 } else {
@@ -31,7 +43,7 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->loadFavoris();
         $this->initDeleteForm();
-        $this->formFavoris = new DRMFavorisForm($this->drm);
+        $this->formFavoris = new DRMFavorisForm($this->drm, array('details' => $this->getRequest()->getParameter('details')));
         $this->formValidation = new DRMMouvementsValidationForm($this->drm, array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->detailsNodes = $this->detail->getConfig();
@@ -68,7 +80,7 @@ class drm_editionActions extends drmGeneriqueActions {
     public function executeProduitAjout(sfWebRequest $request) {
         $this->init();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->form = new DRMProduitForm($this->drm, $this->drm->declaration->getConfig(), $this->isTeledeclarationMode);
+        $this->form = new DRMProduitForm($this->drm, $this->drm->declaration->getConfig(), $this->detailsKey, $this->isTeledeclarationMode);
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($this->form->isValid()) {
             $detail = $this->form->addProduit();
@@ -86,7 +98,7 @@ class drm_editionActions extends drmGeneriqueActions {
                                 "revision" => $this->drm->get('_rev'))
                 )));
             } else {
-                $this->redirect('drm_edition', $this->drm);
+                $this->redirect('drm_edition_details', array('sf_subject' => $this->drm, 'details' => $this->detailsKey));
             }
         }
 
@@ -100,12 +112,13 @@ class drm_editionActions extends drmGeneriqueActions {
         }
     }
 
-    protected function init() {
+    protected function init($teledeclarationMode = false) {
         $this->form = null;
         $this->detail = null;
+        $this->detailsKey = $this->getRequest()->getParameter('details');
         $this->drm = $this->getRoute()->getDRM();
         $this->config = $this->drm->declaration->getConfig();
-        $this->details = $this->drm->declaration->getProduitsDetailsSorted();
+        $this->details = $this->drm->declaration->getProduitsDetailsSorted($teledeclarationMode, $this->detailsKey);
         if (!$this->drm->exist('favoris')) {
             $this->drm->buildFavoris();
         }
@@ -135,10 +148,11 @@ class drm_editionActions extends drmGeneriqueActions {
 
     public function executeChoixFavoris(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $details = (!$request->getParameter('details'))? 'details' : $request->getParameter('details');
         if (!$this->drm->exist('favoris')) {
             $this->drm->buildFavoris();
         }
-        $form = new DRMFavorisForm($this->drm);
+        $form = new DRMFavorisForm($this->drm, array('details' => $details));
         if ($request->isMethod(sfRequest::POST)) {
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
@@ -150,7 +164,8 @@ class drm_editionActions extends drmGeneriqueActions {
     }
 
     private function loadFavoris() {
-        $this->favoris = $this->drm->getAllFavoris();
+        $detail = $this->getRequest()->getParameter('details');
+        $this->favoris = $this->drm->getAllFavoris()->get($detail);
     }
 
 }

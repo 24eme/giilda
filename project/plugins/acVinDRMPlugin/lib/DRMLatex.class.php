@@ -65,10 +65,10 @@ class DRMLatex extends GenericLatex {
         return 'drm_' . $this->drm->_id . '_' . $this->drm->_rev . $extention;
     }
 
-    public function getMvtsEnteesForPdf() {
+    public function getMvtsEnteesForPdf($detailNode = 'details') {
         $entrees = array();
-        foreach ($this->libelles_detail_ligne->entrees as $key => $entree) {
-       
+        foreach ($this->libelles_detail_ligne->get($detailNode)->entrees as $key => $entree) {
+
             $entreeObj = new stdClass();
             $entreeObj->libelle = $entree->libelle;
             $entreeObj->key = $key;
@@ -78,9 +78,9 @@ class DRMLatex extends GenericLatex {
         return $entrees;
     }
 
-    public function getMvtsSortiesForPdf() {
+    public function getMvtsSortiesForPdf($detailNode = 'details') {
         $sorties = array();
-        foreach ($this->libelles_detail_ligne->sorties as $key => $sortie) {
+        foreach ($this->libelles_detail_ligne->get($detailNode)->sorties as $key => $sortie) {
             $sortieObj = new stdClass();
             $sortieObj->libelle = $sortie->libelle;
             $sortieObj->key = $key;

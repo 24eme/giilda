@@ -87,14 +87,18 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeDatesCampagne($date_facturation = null) {
+        $configs = sfConfig::get('app_configuration_facture');
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
         $this->date_echeance = $date_facturation_object->modify('+30 days')->format('Y-m-d');
         if (!$this->date_facturation)
             $this->date_facturation = date('Y-m-d');
-        $dateFacturation = explode('-', $this->date_facturation);
-        $this->campagne = $dateFacturation[0];
+	$date_campagne = new DateTime(date('Y-m-d'));
+        if (isset($configs['exercice']) && $configs['exercice'] == 'viticole') {
+		$date_campagne = $date_campagne->modify('+5 months');
+	}
+        $this->campagne = $date_campagne->format('Y');
     }
 
     public function constructIds($doc) {
@@ -119,7 +123,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         }
         $prefix = FactureConfiguration::getInstance()->getPrefixId($this);
 
-        return $prefix . preg_replace('/^\d{2}(\d{2}).*/', '$1', $this->date_facturation) . sprintf('%05d', $this->numero_archive);
+        return $prefix . preg_replace('/^\d{2}(\d{2})/', '$1', $this->campagne) . sprintf('%05d', $this->numero_archive);
     }
 
     public function getTaxe() {
@@ -269,7 +273,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-                $code_compte = $this->configuration->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->getCodeComptable();
                 $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
 
                 $detail = null;
@@ -280,9 +283,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                     $detail->taux_tva = 0.2;
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
-                    if ($code_compte) {
-	                    $detail->add('code_compte', $code_compte);
-                    }
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
                         if (!$present_detail->origine_type && !is_null($detail) && ($produit_libelle == $detail->libelle)) {
@@ -296,11 +296,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                         $detail->taux_tva = 0.2;
                     }
-                    if ($code_compte) {
-                            $detail->add('code_compte', $code_compte);
-                    }
                     $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
                 }
+                $codeProduit =
+                $this->configuration->get($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])->getCodeComptable();
+
+                $detail->add(FactureConfiguration::getInstance()->getStockageCodeProduit(), $codeProduit);
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();

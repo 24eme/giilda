@@ -30,7 +30,7 @@ class DRMEmailManager {
     public function sendMailCoordonneesOperateurChanged($type, $diff) {
         $typeInfos = null;
         $typeLibelle = null;
-        $mailsInterloire = 'test@test.fr';
+        $mailsInterloire = sfConfig::get('app_mail_from_email');
         switch ($type) {
             case CompteClient::TYPE_COMPTE_ETABLISSEMENT:
                 $typeInfos = $this->drm->getDeclarant();
@@ -41,11 +41,11 @@ class DRMEmailManager {
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
-                $identification = $typeInfos->raison_sociale . " (" . substr(0, 6, $this->drm->identifiant) . ")";
+                $identification = $typeInfos->raison_sociale . " (" . substr($this->drm->identifiant, 0, 6) . ")";
                 break;
         }
 
-        $mess = "Les coordonnée de " . $typeLibelle . " " . $identification . " ont été modifiés.
+        $mess = "Les coordonnées de " . $typeLibelle . " " . $identification . " ont été modifiées.
 Voici les différentes modifications enregistrées :
 
 ";
@@ -57,16 +57,16 @@ Voici les différentes modifications enregistrées :
 
 ——
 
-L’application de télédéclaration des contrats d’InterLoire";
+L’application de télédéclaration de votre interprofession.";
 
 
-        $subject = "Changement de coordonnées de la société " . $typeLibelle . " (" . $identification . ")";
+        $subject = "Changement de coordonnées de " . $typeLibelle . " : " . $identification;
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
         try {
             $this->getMailer()->send($message);
         } catch (Exception $e) {
-            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
+            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter votre interprofession.');
             return null;
         }
         return true;
@@ -77,24 +77,21 @@ L’application de télédéclaration des contrats d’InterLoire";
         $etablissement = EtablissementClient::getInstance()->find($this->drm->identifiant);
         $contact = EtablissementClient::getInstance()->buildInfosContact($etablissement);
 
+        $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 
-        $mess = "  
-
+        $mess = "
 La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration ". sfConfig::get('app_teledeclaration_url')." .
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 
 Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
 
-Pour toutes questions, veuillez contacter: 
+Pour toutes questions, veuillez contacter: le service économie de l'".$interpro." " . $contact->email . " .
 
- - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
- - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .    
-    
 --
 
 L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclaration_url') ." .";
-        
+
         $pdf = new DRMLatex($this->drm);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();

@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * acVinCompte plugin.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -28,6 +28,7 @@ class compte_teledeclarantActions extends sfActions {
     const SESSION_COMPTE_DOC_ID_CREATION = '';
     const SESSION_COMPTE_DOC_ID_OUBLIE = '';
 
+
     /**
      * Executes index action
      *
@@ -40,14 +41,27 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, $this->form->getValue('compte')->_id);
 
-                $this->redirect('compte_teledeclarant_creation');
+                //$this->redirect('compte_teledeclarant_creation');
+                return $this->redirect('compte_teledeclarant_cgu');
             }
         }
     }
 
     /**
+     * Executes index action
      *
-     * @param sfWebRequest $request 
+     * @param sfRequest $request A request object
+     */
+    public function executeCgu(sfWebRequest $request) {
+        if($request->isMethod(sfWebRequest::POST)) {
+
+            return $this->redirect("compte_teledeclarant_creation");
+        }
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request
      */
     public function executeCreation(sfWebRequest $request) {
         $this->forward404Unless($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, null));
@@ -81,9 +95,9 @@ class compte_teledeclarantActions extends sfActions {
                                 $etb->email = $email;
                             }
                             if (!$etb->exist('teledeclaration_email') || !$etb->teledeclaration_email) {
-                                $etb->add('teledeclaration_email', $email);                                
+                                $etb->add('teledeclaration_email', $email);
                             }
-                            $etb->save();   
+                            $etb->save();
                         }
                     }
                 }
@@ -105,14 +119,14 @@ class compte_teledeclarantActions extends sfActions {
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
-                $this->redirect('homepage');
+                $this->redirectWithCredentials($this->compte->identifiant);
             }
         }
     }
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeModification(sfWebRequest $request) {
         $this->compte = $this->getUser()->getCompte();
@@ -165,18 +179,19 @@ class compte_teledeclarantActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $compte = $this->form->save();
+
                 $societe = $compte->getSociete();
                 $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
                 $emailCible = null;
-                
+
                 if (!$societe->isTransaction()) {
                     $emailCible = $societe->getEmailTeledeclaration();
                 }else{
                      $emailCible = $societe->getEtablissementPrincipal()->getEmailTeledeclaration();
                 }
-                
+
                 try {
-                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $this->compte, 'lien' => $lien)));
+                    $message = $this->getMailer()->composeAndSend(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $emailCible, "Demande de mot de passe oublié", $this->getPartial('motDePasseOublieEmail', array('compte' => $compte, 'lien' => $lien)));
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
@@ -194,12 +209,12 @@ class compte_teledeclarantActions extends sfActions {
     }
 
     public function executeMotDePasseOublieConfirm(sfWebRequest $request) {
-        
+
     }
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeModificationOublie(sfWebRequest $request) {
         $this->forward404Unless($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_OUBLIE, null));
@@ -215,7 +230,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_OUBLIE);
                 $this->getUser()->signInOrigin($this->compte);
-                $this->redirect('homepage');
+                return $this->redirect("accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
             }
         }
     }
@@ -226,7 +241,7 @@ class compte_teledeclarantActions extends sfActions {
 
     /*
      * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
-     * 
+     *
      */
 
     protected function renderPdf($path, $filename) {
@@ -239,5 +254,18 @@ class compte_teledeclarantActions extends sfActions {
         $this->getResponse()->setHttpHeader('Expires', '0');
         return $this->renderText(file_get_contents($path));
     }
+
+    protected function redirectWithCredentials($idCompte){
+             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
+             return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+             }
+             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
+                  return $this->redirect('vrac_societe', array('identifiant' => $idCompte));
+             }
+             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM)){
+                    return $this->redirect('drm_societe', array('identifiant' => $idCompte));
+             }
+            return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+     }
 
 }

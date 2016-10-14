@@ -8,7 +8,7 @@
      )); ?>
 <div id="navbar" class="navbar-collapse collapse">
 <ul class="nav navbar-nav">
-    <?php if ($sf_user->hasCredential('transactions')) : 
+    <?php if ($sf_user->hasCredential('transactions')) :
      include_component('global', 'navItem', array(
             'libelle' => 'DRM',
             'prefix' => 'drm',
@@ -36,34 +36,6 @@
             'target' => '_self'
       ));
 
-/*
-      include_component('global', 'navItem', array(
-            'libelle' => 'Import VR',
-            'prefix' => 'revendication',
-            'route' => 'revendication',
-            'route_etablissement' => 'revendication_etablissement',
-            'etablissement' => null,
-            'target' => '_self'
-      ));
-
-       include_component('global', 'navItem', array(
-            'libelle' => 'SV12',
-            'prefix' => 'sv12',
-            'route' => 'sv12',
-            'route_etablissement' => 'sv12_etablissement',
-            'etablissement' => $etablissement,
-            'target' => '_self'
-       ));
-
-       include_component('global', 'navItem', array(
-            'libelle' => 'DS',
-            'prefix' => 'ds',
-            'route' => 'ds',
-            'route_etablissement' => 'ds_etablissement',
-            'etablissement' => $etablissement,
-            'target' => '_self'
-       ));
-*/
        include_component('global', 'navItem', array(
             'libelle' => 'Stocks',
             'prefix' => 'stocks',
@@ -72,26 +44,6 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-/*
-       include_component('global', 'navItem', array(
-            'libelle' => 'Alertes',
-            'prefix' => 'alerte',
-            'route' => 'alerte',
-            'route_etablissement' => 'alerte_etablissement',
-            'etablissement' => $etablissement,
-            'target' => '_self'
-       ));
-*/
-
-       /*include_component('global', 'navItem', array(
-            'libelle' => 'Relance',
-            'prefix' => 'relance',
-            'route' => 'relance',
-            'route_etablissement' => 'relance_etablissement',
-            'etablissement' => $etablissement,
-            'target' => '_self'
-       ));*/
-   
    endif;
 
 
@@ -104,16 +56,43 @@
             'etablissement' => $etablissement,
             'target' => '_self'
        ));
-	endif; 
-?></ul>
+	endif;
+?>
+<?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+<?php if ($sf_user->hasCredential(Roles::TELEDECLARATION_VRAC)):
+  include_component('global', 'navItem', array(
+         'libelle' => 'Contrats',
+         'prefix' => 'vrac',
+         'route' => 'vrac_societe',
+         'teledeclaration' => true,
+         'identifiant' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
+         'target' => '_self'
+  ));
+ endif; ?>
+<?php if ($sf_user->hasCredential(Roles::TELEDECLARATION_DRM)):
+  include_component('global', 'navItem', array(
+       'libelle' => 'DRM',
+       'prefix' => 'drm',
+       'route' => 'drm_societe',
+       'teledeclaration' => true,
+       'identifiant' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
+       'target' => '_self'
+));
+endif; ?>
+<?php endif; ?>
+</ul>
 <ul class="nav navbar-nav navbar-right">
-<?php if (!$sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+<?php if ($sf_user->hasCredential('transactions') || $sf_user->hasCredential('contacts')) : ?>
         <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-search"></span><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="<?php echo url_for("statistiques_vrac") ?>">Contrat d'achat</a></li> 
+            <?php if ($sf_user->hasCredential('transactions')): ?>
+            <li><a href="<?php echo url_for("statistiques_vrac") ?>">Contrat d'achat</a></li>
             <li><a href="<?php echo url_for("statistiques_drm") ?>">DRM</a></li>
+            <?php endif; ?>
+            <?php if ($sf_user->hasCredential('contacts')): ?>
             <li><a href="<?php echo url_for("societe") ?>">Contacts</a></li>
+            <?php endif; ?>
           </ul>
         </li>
 <?php endif; ?>
@@ -121,17 +100,24 @@
         <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span><span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="<?php echo url_for("produits") ?>">Catalogue produit</a></li> 
+            <li><a href="<?php echo url_for("produits") ?>">Catalogue produit</a></li>
             <li><a href="<?php echo url_for("comptabilite_edition") ?>">Codes analytiques</a></li>
           </ul>
         </li>
+<?php if ($etablissement): ?>
+<?php if (preg_match('/drm/', $module)) : ?>
+     <li><a tabindex="-1" href="<?php echo url_for('drm_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+<?php elseif (preg_match('/vrac/', $module)): ?>
+     <li><a tabindex="-1" href="<?php echo url_for('vrac_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+<?php endif; ?>
+<?php endif; ?>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
-     <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a></li>
+     <li><a tabindex="-1" href="<?php echo url_for("compte_teledeclarant_modification") ?>"><span class="glyphicon glyphicon-user"></span></a></li>
 <?php endif; ?>
 <?php if ($sf_user->isAuthenticated()): ?>
 <?php if ($sf_user->isUsurpationCompte()): ?>
-     <li><a tabindex="-1" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a></li>
+     <li><a tabindex="-1" href="<?php echo url_for('vrac_dedebrayage') ?>"><span class="glyphicon glyphicon-cloud-download"></span></a></li>
 <?php else: ?>
      <li><a tabindex="-1" href="<?php echo url_for('auth_logout') ?>"><span class="glyphicon glyphicon-log-out"></span></a></li>
 <?php endif; ?>

@@ -85,8 +85,12 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
     public function getTypeLitrages() {
         if (is_null($this->typesLitrages)) {
             $contenances = sfConfig::get('app_vrac_contenances');
-            if (!$contenances)
-                throw new sfException("Les contenances n'ont pas été renseignée dans le fichier de configuration app.yml");
+            if (!$contenances){
+              $contenances = DRMConfiguration::getInstance()->getContenances();
+            }
+            if (!$contenances){
+              throw new sfException("Les contenances n'ont pas été renseignée dans le fichier de configuration app.yml ou dans drm.yml");
+            }
             $this->typesLitrages = array("" => "");
             foreach ($contenances as $key => $value) {
                 $this->typesLitrages['' . $value] = $key;

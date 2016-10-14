@@ -81,6 +81,25 @@ function typeToPictoCssClass($type) {
     }
 }
 
+function tooltipForPicto($type) {
+
+    if (is_null($type))
+        return '';
+
+    switch ($type) {
+        case VracClient::TYPE_TRANSACTION_RAISINS:
+            return 'Vendanges Fraîches';
+        case VracClient::TYPE_TRANSACTION_MOUTS:
+            return 'Moûts';
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC:
+            return 'Vrac retiraison Vrac';
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE:
+            return 'Vrac retiraison Bouteilles';
+        default :
+            return '';
+    }
+}
+
 function showRecapPrixUnitaire($vrac) {
     $unite = showPrixUnitaireUnite($vrac);
 
@@ -156,9 +175,9 @@ function showRecapVolumePropose($vrac) {
             case VracClient::TYPE_TRANSACTION_MOUTS: return echoF($vrac->volume_propose) . ' hl (moûts)';
             case VracClient::TYPE_TRANSACTION_VIN_VRAC: return echoF($vrac->volume_propose) . ' hl (vrac)';
             case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE:
-                $libelle = (strstr($vrac->bouteilles_contenance_libelle, 'Bouteille'))? 
+                $libelle = (strstr($vrac->bouteilles_contenance_libelle, 'Bouteille'))?
                         str_replace('Bouteille', 'bouteilles de', $vrac->bouteilles_contenance_libelle) : $vrac->bouteilles_contenance_libelle ;
-                
+
                 return echoF($vrac->bouteilles_quantite) .
                         ' ' . $libelle . ', soit ' . echoF($vrac->volume_propose) . ' hl';
         }
@@ -190,6 +209,20 @@ function typeProduit($type) {
             return 'M';
         case VracClient::TYPE_TRANSACTION_RAISINS :
             return 'R';
+    }
+    return '';
+}
+
+function typeProduitIcon($type) {
+    switch ($type) {
+        case VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE :
+            return 'icon-bouteille';
+        case VracClient::TYPE_TRANSACTION_VIN_VRAC :
+            return 'icon-vrac';
+        case VracClient::TYPE_TRANSACTION_MOUTS :
+            return 'icon-mouts';
+        case VracClient::TYPE_TRANSACTION_RAISINS :
+            return 'icon-raisins';
     }
     return '';
 }
@@ -285,15 +318,15 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
         return '';
     $statut = $contrat->value[VracClient::VRAC_VIEW_STATUT];
     if (!$statut || $statut == VracClient::STATUS_CONTRAT_BROUILLON){
-        return '';        
+        return '';
     }
     $createur_contrat = (isset($contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT])) ? $contrat->value[VracClient::VRAC_VIEW_CREATEURIDENTIFANT] : null;
     if(is_null($createur_contrat) &&
             (($statut == VracClient::STATUS_CONTRAT_SOLDE) ||  ($statut == VracClient::STATUS_CONTRAT_NONSOLDE)))
     {
-        return '';     
+        return '';
     }
-    
+
     $signature_vendeur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREVENDEUR] : null;
     $signature_acheteur = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATUREACHETEUR] : null;
     $signature_courtier = (isset($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]))? $contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER] : null;
@@ -330,7 +363,7 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
         }
     }
 
-    if ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER) {
+    if ($societe->type_societe == SocieteClient::TYPE_COURTIER) {
         if ($type == 'Courtier') {
             if (!$toBeSigned) {
                 return 'contrat_signe_moi ';
@@ -350,7 +383,7 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
 
 function echoPictoSignatureFromObject($societe, $contrat, $type, $hide = false) {
     if(!$societe || $hide) return '';
-     
+
     if (!$contrat->isTeledeclare()) {
         return;
      }
@@ -381,7 +414,7 @@ function getClassStatutPicto($vrac) {
         return 'statut_annule';
     } elseif ($vrac->isTeledeclare()) {
         return 'statut_teledeclare';
-    } 
+    }
     return 'statut_solde';
 }
 
@@ -400,7 +433,7 @@ function dateFirstSignatureFromView($signature_vendeur,$signature_acheteur,$sign
     if(!$signature_vendeur && !$signature_acheteur && $signature_courtier){
         return Date::francizeDate($contrat->value[VracClient::VRAC_VIEW_SIGNATURECOURTIER]);
     }
-    return "";    
+    return "";
 }
 
 function contrats_get_words($contrats) {
@@ -420,7 +453,7 @@ function contrat_get_word($contrat) {
         Search::getWords($contrat[VracClient::VRAC_VIEW_MANDATAIRE_NOM]),
         Search::getWords($contrat[VracClient::VRAC_VIEW_NUMCONTRAT]),
         Search::getWords($contrat[VracClient::VRAC_VIEW_NUMARCHIVE]),
-        Search::getWords($contrat[VracClient::VRAC_VIEW_PRODUIT_LIBELLE])   
+        Search::getWords($contrat[VracClient::VRAC_VIEW_PRODUIT_LIBELLE])
     );
 }
 

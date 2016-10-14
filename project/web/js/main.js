@@ -1,9 +1,6 @@
-
-/**
+ /**
  * Initialisation
  ******************************************/
-
-
 
 
 (function ($)
@@ -13,7 +10,7 @@
       String.prototype.contains = function(str, startIndex) {
                return -1 !== String.prototype.indexOf.call(this, str, startIndex);
       };
-  } 
+  }
 
     var options = {
         selectors: {
@@ -45,6 +42,9 @@
 
         $(this).find('.input-float').inputNumberFormat({'decimal': 4, 'decimalAuto': 2});
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
+
+        $(this).find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
+
 
         $(this).find("select.select2").select2({
             allowClear: true
@@ -247,6 +247,61 @@
                 $($(this).attr('data-add')).trigger('click');
             }
         });
+
+        /**
+         * Contrôle la bonne saisie de nombres dans
+         * un champ
+         * $(s).saisieNum(float, callbackKeypress);
+         ******************************************/
+        $.fn.saisieNum = function (float, callbackKeypress, callbackBlur)
+        {
+            var champ = $(this);
+
+            // A chaque touche pressée
+            champ.keypress(function (e)
+            {
+                var val = $(this).val();
+                var touche = e.which;
+                var ponctuationPresente = (val.indexOf('.') != -1 || val.indexOf(',') != -1);
+                var chiffre = (touche >= 48 && touche <= 57); // Si chiffre
+
+                // touche "entrer"
+                if (touche == 13)
+                    return e;
+
+                // touche "entrer"
+                if (touche == 0)
+                    return e;
+
+                // Champ nombre décimal
+                if (float)
+                {
+                    // !backspace && !null && !point && !virgule && !chiffre
+                    if (touche != 8 && touche != 0 && touche != 46 && touche != 44 && !chiffre)
+                        return false;
+                    // point déjà présent
+                    if (touche == 46 && ponctuationPresente)
+                        e.preventDefault();
+                    // virgule déjà présente
+                    if (touche == 44 && ponctuationPresente)
+                        e.preventDefault();
+                    // 2 décimales
+                    if (val.match(/[\.\,][0-9][0-9]/) && chiffre && e.currentTarget && e.currentTarget.selectionStart > val.length - 3)
+                        e.preventDefault();
+                }
+                // Champ nombre entier
+                else
+                {
+                    if (touche != 8 && touche != 0 && !chiffre)
+                        e.preventDefault();
+                }
+
+                if (callbackKeypress)
+                    callbackKeypress();
+                return e;
+            });
+          }
+
     }
 
 

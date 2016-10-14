@@ -20,20 +20,29 @@ class FactureConfiguration {
 
    public function getPrefixId($facture) {
         if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
+
             return $this->configuration['type_libre']['identifiant_prefix'];
         }
         if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM)) {
+
             return $this->configuration['type_cvo']['identifiant_prefix'];
         }
-        
+
     }
-    
+
     public function getPrefixSage() {
-            return $this->configuration['prefix_sage'];
+
+        return $this->configuration['prefix_sage'];
     }
 
     public function getTVACompte() {
-	return $this->configuration['tva_compte'];
+
+        return $this->configuration['tva_compte'];
+    }
+
+    public function getStockageCodeProduit() {
+
+        return $this->configuration['stockage_code_produit'];
     }
 
 }

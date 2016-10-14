@@ -5,67 +5,94 @@ if($compte->getSociete()->isTransaction()){
 }else{
     $email_teledecl = $compte->getSociete()->getEmailTeledeclaration();
 }
- 
+
 ?>
-<div id="principal" class="clearfix">
-    <h2 class="titre_principal">Mon compte</h2>
-
-    <p>Pour changer des informations supplémentaire, veuillez passer par Interloire.</p>
+<div id="principal" >
+  <div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+    <h4 class="titre_principal">Mon compte</h4>
+  </div>
+   <div class="panel-body">
+    <div class="col-xs-12 well">Pour changer des informations supplémentaire, veuillez passer par votre interprofession.</div>
     <br/>
-    
-        <div id="modification_compte" class="fond" >
-            <div class="presentation clearfix"<?php if ($form->hasErrors()) echo ' style="display:none;"'; ?> >
-                <p class="titre_section">Vos identifiants de connexion : </p>
-                <br/>
+
+        <div id="modification_compte" class="col-xs-12">
+            <div class="presentation row" <?php if ($form->hasErrors()) echo ' style="display:none;"'; ?> >
+              <div class="col-xs-12">
+                <h4>Vos identifiants de connexion : </h4>
+              </div>
+
                 <?php if ($sf_user->hasFlash('maj')) : ?>
-                    <p class="flash_message text-info"><?php echo $sf_user->getFlash('maj'); ?></p>
+                    <p class="col-xs-12 flash_message text-info"><?php echo $sf_user->getFlash('maj'); ?></p>
                 <?php endif; ?>
-                <div class="bloc_form bloc_form_condensed" >        
-                    <div class="ligne_form ligne_form_alt">
-                        <label>Email :</label> <?php echo $email_teledecl; ?>
+                <div class="col-xs-8" >
+                  <div class="row">
+                    <div class="col-xs-6 text-right">
+                        <label>Email :</label>
                     </div>
-                    <div class="ligne_form">
-                        <label>Mot de passe :</label> ****** 
+                    <div class="col-xs-6 text-left">
+                        <?php echo $email_teledecl; ?>
                     </div>
-                    <div class="ligne_form ligne_form_alt">
-                        <label>&nbsp;</label>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-6 text-right">
+                        <label>Mot de passe :</label>
                     </div>
+                    <div class="col-xs-6 text-left">
+                        ******
+                    </div>
+                  </div>
                 </div>
-
-                <div class="ligne_btn">
-                    <a href="<?php echo url_for('homepage'); ?>" class=" btn_majeur " alt="Retour" style="cursor: pointer; float: left;">Retour</a>
-                    <a href="#" class=" btn_majeur btn_modifier modifier" style="cursor: pointer; float: right;">Modifier les informations</a>
+                <div class="col-xs-12">&nbsp;<br/><br/></div>
+                <div class="col-xs-12">
+                      <a href="<?php echo url_for('homepage'); ?>" class=" btn btn-default " alt="Retour" style="cursor: pointer;">Retour</a>
+                      <a href="#" class=" btn btn-warning modifier" style="cursor: pointer; float: right;">Modifier les informations</a>
                 </div>
-
             </div>
             <div class="modification clearfix"<?php if (!$form->hasErrors()) echo ' style="display:none;"'; ?>>
-                <p class="intro">Modification de vos identifiants de connexion :</p>
-                <br/>
+              <div class="col-xs-12">
+                <h4>Modification de vos identifiants de connexion :</h4>
+              </div>
+
                 <form method="post" action="">
                     <?php echo $form->renderHiddenFields(); ?>
                     <?php echo $form->renderGlobalErrors(); ?>
 
-                    <div class="bloc_form bloc_form_condensed" >   
-                        <div class="ligne_form ligne_form_alt">
-                            <?php echo $form['email']->renderError() ?>
+                    <div class="col-xs-8" >
+                      <div class="row">
+                        <div class="col-xs-12"><?php echo $form['email']->renderError() ?></div>
+                        <div class="col-xs-6 text-right">
                             <?php echo $form['email']->renderLabel() ?>
-                            <?php echo $form['email']->render() ?>
                         </div>
-                        <div class="ligne_form" >
-                            <?php echo $form['mdp1']->renderError() ?>
+                        <div class="col-xs-6 text-left">
+                              <?php echo $form['email']->render() ?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12"><?php echo $form['mdp1']->renderError() ?></div>
+                        <div class="col-xs-6 text-right">
                             <?php echo $form['mdp1']->renderLabel() ?>
-                            <?php echo $form['mdp1']->render() ?>
                         </div>
-                        <div class="ligne_form ligne_form_alt">
-                            <?php echo $form['mdp2']->renderError() ?>
+                        <div class="col-xs-6 text-left">
+                              <?php echo $form['mdp1']->render() ?>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12"><?php echo $form['mdp2']->renderError() ?></div>
+                        <div class="col-xs-6 text-right">
                             <?php echo $form['mdp2']->renderLabel() ?>
-                            <?php echo $form['mdp2']->render() ?>
                         </div>
+                        <div class="col-xs-6 text-left">
+                              <?php echo $form['mdp2']->render() ?>
+                        </div>
+                      </div>
                     </div>
 
-                    <div class="ligne_btn">
-                        <a class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
-                        <button type="submit" class=" btn_majeur btn_valider modifier" style="cursor: pointer; float: right;" >Valider</button>
+                    <div class="col-xs-12">
+                        <a class="btn btn-danger annuler" style="float: left;" href="#" >Annuler</a>
+                        <button type="submit" class=" btn btn-success btn_valider modifier pull-right" style="cursor: pointer;" >Valider</button>
                     </div>
 
                 </form>
@@ -75,11 +102,7 @@ if($compte->getSociete()->isTransaction()){
         </div>
 
 </div>
-
-<script type="text/javascript">
-    $("#modification_compte a.modifier, #modification_compte a.annuler").click(function() {
-        $("#modification_compte div.presentation").toggle();
-        $("#modification_compte div.modification").toggle();
-    });
-</script>
-
+</div>
+</div>
+</div>
+</div>

@@ -19,7 +19,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     public function __construct($file, DRM $drm = null) {
         if(is_null($this->csvDoc)) {
-            $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
+            $this->csvDoc = CSVDRMClient::getInstance()->createOrFindDocFromDRM($file, $drm);
         }
         $this->initConf();
         parent::__construct($file, $drm);
@@ -115,6 +115,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     private function checkCSVIntegrity() {
         $ligne_num = 1;
         foreach ($this->getDocRows() as $csvRow) {
+            if(count($csvRow) < 17){
+              $this->csvDoc->addErreur($this->createWrongFormatFieldCountError($ligne_num, $csvRow));
+              $ligne_num++;
+              continue;
+            }
             if ($ligne_num == 1 && KeyInflector::slugify($csvRow[self::CSV_TYPE]) == 'TYPE') {
                 $ligne_num++;
                 continue;
@@ -145,7 +150,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function importMouvementsFromCSV($just_check = false) {
-        //$all_produits = $this->configuration->declaration->getProduitsAll();
+        $all_produits = $this->configuration->declaration->getProduitsAll();
 
         $num_ligne = 1;
         foreach ($this->getDocRows() as $csvRow) {
@@ -153,11 +158,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $num_ligne++;
                 continue;
             }
-            //$csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
+
+            $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
 
             $founded_produit = false;
 
-            /*foreach ($all_produits as $produit) {
+            foreach ($all_produits as $produit) {
                 if ($founded_produit) {
                     break;
                 }
@@ -166,7 +172,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     continue;
                 }
                 $founded_produit = $produit;
-            }*/
+            }
 
             if(!$founded_produit) {
                 $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
@@ -178,35 +184,40 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 continue;
             }
 
+            $type_douane_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM]);
+            $type_douane_drm_key = $this->getDetailsKeyFromDRMType($type_douane_drm);
+            $type_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
             $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
             $type_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
 
-            if (!array_key_exists($cat_mouvement, $this->mouvements)) {
+            if (!array_key_exists($cat_mouvement, $this->mouvements[$type_douane_drm_key])) {
                 $this->csvDoc->addErreur($this->categorieMouvementNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
-            if (!array_key_exists($type_mouvement, $this->mouvements[$cat_mouvement])) {
+            if (!array_key_exists($type_mouvement, $this->mouvements[$type_douane_drm_key][$cat_mouvement])) {
                 $this->csvDoc->addErreur($this->typeMouvementNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
             }
-            $confDetailMvt = $this->mouvements[$cat_mouvement][$type_mouvement];
+            $confDetailMvt = $this->mouvements[$type_douane_drm_key][$cat_mouvement][$type_mouvement];
 
             if (!$just_check) {
-                $drmDetails = $this->drm->addProduit($founded_produit->getHash());
+                $drmDetails = $this->drm->addProduit($founded_produit->getHash(), $type_douane_drm_key);
 
                 $detailTotalVol = round(floatval($csvRow[self::CSV_CAVE_VOLUME]), 2);
                 $volume = round(floatval($csvRow[self::CSV_CAVE_VOLUME]), 2);
+
                 $cat_key = $confDetailMvt->getParent()->getKey();
                 $type_key = $confDetailMvt->getKey();
                 if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
+
                     continue;
                 }
                 if ($confDetailMvt->hasDetails()) {
                     $detailTotalVol += floatval($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
-                    if ($type_key == 'export') {
+                    if (preg_match("/^export/", $type_key)) {
                         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
                         $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add($pays);
                         if ($detailNode->volume) {
@@ -283,6 +294,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
         $all_contenances = sfConfig::get('app_vrac_contenances');
+        if (!$all_contenances){
+          $all_contenances = DRMConfiguration::getInstance()->getContenances();
+        }
         foreach ($this->getDocRows() as $csvRow) {
             if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                 $num_ligne++;
@@ -298,9 +312,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if ($categorie_key != "stock_debut" && $categorie_key != "stock_fin") {
                 $fieldNameCrd.="_" . $type_key;
             }
-            if ($just_check) {
-                //TODO
-            } else {
+            if (!$just_check) {
 
                 $centilitrage = $all_contenances[$litrageLibelle] * 100000;
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
@@ -359,39 +371,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     break;
 
-                case self::TYPE_ANNEXE_OBSERVATIONS:
-                    $observations = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_OBSERVATION]);
-                    if (!$observations && $just_check) {
-                        $this->csvDoc->addErreur($this->observationsEmptyError($num_ligne, $csvRow));
-                    }
-                    if (!$just_check) {
-                        $this->drm->add('observations', $observations);
-                    }
-                    $num_ligne++;
-                    break;
-
-
-                case self::TYPE_ANNEXE_SUCRE:
-                    $quantite_sucre = str_replace(',', '.', $csvRow[self::CSV_ANNEXE_QUANTITE]);
-                    if (!$quantite_sucre || !is_numeric($quantite_sucre)) {
-                        if ($just_check) {
-                            $this->csvDoc->addErreur($this->sucreWrongFormatError($num_ligne, $csvRow));
-                        }
-                        $num_ligne++;
-                        break;
-                    }
-                    if (!$just_check) {
-                        $this->drm->add('quantite_sucre', $quantite_sucre);
-                    }
-                    $num_ligne++;
-                    break;
-
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC:
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC:
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
                     $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
                     $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
-                    $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
+                    $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_QUANTITE]);
                     if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->annexesTypeMvtWrongFormatError($num_ligne, $csvRow));
@@ -409,7 +394,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                     $num_ligne++;
                     break;
-
+                case self::TYPE_ANNEXE_STATS_EUROPEENES :
+                    $this->drm->getOrAdd('declaratif')->getOrAdd('statistiques')->add(strtolower($csvRow[self::CSV_ANNEXE_TYPEMVT]),round(floatval($csvRow[self::CSV_ANNEXE_QUANTITE]), 2));
+                    $num_ligne++;
+                    break;
                 default:
                     if ($just_check) {
                         $this->csvDoc->addErreur($this->typeDocumentWrongFormatError($num_ligne, $csvRow));
@@ -418,6 +406,20 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     break;
             }
         }
+    }
+
+    private function getDetailsKeyFromDRMType($drmType ) {
+        if(KeyInflector::slugify($drmType) == "SUSPENDU") {
+
+            return DRM::DETAILS_KEY_SUSPENDU;
+        }
+
+        if(KeyInflector::slugify($drmType) == "ACQUITTE") {
+
+            return DRM::DETAILS_KEY_ACQUITTE;
+        }
+
+        throw new sfException(sprintf("Le type de DRM \"%s\" n'est pas connu", $drmType));
     }
 
     private function findContratDocId($csvRow) {
@@ -432,6 +434,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     /**
      * Functions de création d'erreurs
      */
+
+     private function createWrongFormatFieldCountError($num_ligne, $csvRow) {
+         return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_TYPE]), "La ligne possède trop peu de colonnes.");
+     }
+
     private function createWrongFormatTypeError($num_ligne, $csvRow) {
         return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_TYPE]), "Choix possible type : " . implode(', ', self::$permitted_types));
     }
@@ -450,7 +457,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "Le catégorie de mouvement n'a pas été trouvé");
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "La catégorie de mouvement n'a pas été trouvée");
     }
 
     private function typeMouvementNotFoundError($num_ligne, $csvRow) {
@@ -545,19 +552,21 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function buildAllMouvements() {
-        $all_conf_details = $this->configuration->declaration->getDetailConfiguration()->getAllDetails();
-        $all_conf_details_slugified = array();
-        foreach ($all_conf_details as $all_conf_detail_cat_Key => $all_conf_detail_cat) {
-            foreach ($all_conf_detail_cat as $key_type => $type_detail) {
-                if (!array_key_exists(KeyInflector::slugify($all_conf_detail_cat_Key), $all_conf_details_slugified)) {
-                    $all_conf_details_slugified[KeyInflector::slugify($all_conf_detail_cat_Key)] = array();
+        $all_conf_details_slugified = array("details" => array(), "detailsACQUITTE" => array());
+        foreach($this->configuration->declaration->filter('details') as $keyType => $all_conf_details) {
+            foreach ($all_conf_details as $all_conf_detail_cat_Key => $all_conf_detail_cat) {
+                foreach ($all_conf_detail_cat as $key_type => $type_detail) {
+                    if (!array_key_exists(KeyInflector::slugify($all_conf_detail_cat_Key), $all_conf_details_slugified[$keyType])) {
+                        $all_conf_details_slugified[$keyType][KeyInflector::slugify($all_conf_detail_cat_Key)] = array();
+                    }
+                    if (KeyInflector::slugify($key_type) == 'VRAC') {
+                        $all_conf_details_slugified[$keyType][KeyInflector::slugify($all_conf_detail_cat_Key)]['CONTRAT'] = $type_detail;
+                    }
+                    $all_conf_details_slugified[$keyType][KeyInflector::slugify($all_conf_detail_cat_Key)][KeyInflector::slugify($key_type)] = $type_detail;
                 }
-                if (KeyInflector::slugify($key_type) == 'VRAC') {
-                    $all_conf_details_slugified[KeyInflector::slugify($all_conf_detail_cat_Key)]['CONTRAT'] = $type_detail;
-                }
-                $all_conf_details_slugified[KeyInflector::slugify($all_conf_detail_cat_Key)][KeyInflector::slugify($key_type)] = $type_detail;
             }
         }
+
         return $all_conf_details_slugified;
     }
 

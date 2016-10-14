@@ -3,12 +3,12 @@
 <div class="list-group" id="<?php echo $etablissement->_id; ?>">
     <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <div class="row">
-            <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?> 
+            <h2 style="margin-top: 5px; margin-bottom: 5px;" class="col-xs-10"><span class="<?php echo comptePictoCssClass($etablissement->getRawValue()) ?>"></span> <?php echo $etablissement->nom; ?>
                 <small class="text-muted">(n° de chai : <?php echo $etablissement->identifiant; ?>)</small>
             </h2>
             <div class="col-xs-2 text-right">
                       <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modfier <span class="caret"></span></a>
+                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Modifier <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                          <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu()) ? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu()) ? 'javascript:void(0)' : url_for('etablissement_modification', $etablissement); ?>">Editer</a></li>
                          <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu())? 'javascript:void(0)' : url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>">Suspendre</a></li>
@@ -28,7 +28,7 @@
                     <?php endif; ?>
                 </p>
             </div>
-        </div>            
+        </div>
     </div>
     <?php if ($etablissement->isSameAdresseThanSociete()): ?>
         <div class="list-group-item text-center text-muted<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
@@ -56,7 +56,7 @@
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>"> 
+    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <?php if ($etablissement->isSameCompteThanSociete()): ?>
             <div class="row">
                 <em>Même tags que la société</em>
@@ -75,15 +75,15 @@
                 <li>CVI : <?php echo $etablissement->cvi; ?></li>
             <?php endif; ?>
             <?php if ($etablissement->no_accises): ?>
-                <li>Numéro d'accises : <?php echo $etablissement->no_accises; ?></li>
+                <li>Numéro d'accise : <?php echo $etablissement->no_accises; ?></li>
             <?php endif; ?>
             <?php if ($etablissement->carte_pro && $etablissement->isCourtier()) : ?>
-                <li>Carte professionnelle : <?php echo $etablissement->carte_pro; ?></li>  
+                <li>Carte professionnelle : <?php echo $etablissement->carte_pro; ?></li>
             <?php endif; ?>
             <li>Région : <?php echo $etablissement->region; ?></li>
         </ul>
 
-        <?php if ($etablissement->commentaire) : ?>  
+        <?php if ($etablissement->commentaire) : ?>
             <strong>Commentaires :</strong> <?php echo $etablissement->commentaire; ?>
         <?php endif; ?>
     </div>

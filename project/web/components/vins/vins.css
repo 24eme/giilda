@@ -24,6 +24,9 @@
 
 [data-icon]:before,
 .icon-bouteille:before,
+.icon-contrat:before,
+.icon-drm:before,
+.icon-etablissement:before,
 .icon-mouts:before,
 .icon-raisins:before,
 .icon-vrac:before {
@@ -42,6 +45,9 @@
 }
 
 .icon-bouteille:before { content: "\f100"; }
-.icon-mouts:before { content: "\f101"; }
-.icon-raisins:before { content: "\f102"; }
-.icon-vrac:before { content: "\f103"; }
+.icon-contrat:before { content: "\f101"; }
+.icon-drm:before { content: "\f102"; }
+.icon-etablissement:before { content: "\f103"; }
+.icon-mouts:before { content: "\f104"; }
+.icon-raisins:before { content: "\f105"; }
+.icon-vrac:before { content: "\f106"; }

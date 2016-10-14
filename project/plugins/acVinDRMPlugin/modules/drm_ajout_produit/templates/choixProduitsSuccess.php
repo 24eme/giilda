@@ -1,14 +1,15 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
+<?php use_helper('PointsAides'); ?>
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <!-- #principal -->
 <section id="principal" class="drm">
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CHOIX_PRODUITS)); ?>
     <?php include_partial('drm/controlMessage'); ?>
     <div id="application_drm">
-        <p>Afin de préparer le détail de la DRM, vous pouvez préciser ici vos stocks épuisés ou l'absence de mouvements pour tout ou partie des produits.</p>
+        <p><?php echo getPointAideText('drm','etape_produit_description'); ?></p>
         <form id="form_choix_produits" action="<?php echo url_for('drm_choix_produit', $form->getObject()) ?>" method="post">
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
@@ -23,9 +24,10 @@
                     <a tabindex="-1" href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->getEtablissement()->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <a class="btn btn-default" href="#drm_delete_popup">
-                        <span>Supprimer la DRM</span>
-                    </a> 
+                    <?php if (!$isTeledeclarationMode): ?>
+                        <a href="<?php echo url_for('drm_etablissement', $drm->getEtablissement()); ?>" class="btn btn-default">Enregistrer en brouillon</a>
+                    <?php endif; ?>
+                    <a class="btn btn-default" data-toggle="modal" data-target="#drm_delete_popup" >Supprimer la DRM</a>
                 </div>
                 <div class="col-xs-4 text-right">
                     <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
@@ -36,10 +38,12 @@
     <?php if(isset($formAddProduitsByCertification)): ?>
         <?php include_partial('drm_ajout_produit/ajout_produit_popup_certification', array('drm' => $drm, 'form' => $formAddProduitsByCertification)); ?>
     <?php endif; ?>
-    <?php if(isset($crdRegimeForm)): ?>
-        <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
-    <?php endif; ?>
+
 </section>
+<?php
+if(isset($crdRegimeForm)): ?>
+    <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
+<?php endif; ?>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
 
