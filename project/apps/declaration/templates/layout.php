@@ -10,8 +10,11 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <?php include_stylesheets() ?>
     <!-- Bootstrap core CSS -->
-
-    <link href="/css/bootstrap.css?20161004" rel="stylesheet">
+    <?php if(file_exists(sfConfig::get('sf_web_dir')."/css/bootstrap_".sfConfig::get('sf_environment').'.css')): ?>
+        <link href="/css/bootstrap_<?php echo sfConfig::get('sf_environment'); ?>.css?20161004" rel="stylesheet">
+    <?php else: ?>
+        <link href="/css/bootstrap.css?20161004" rel="stylesheet">
+    <?php endif; ?>
     <link href="/components/select2/select2.css" rel="stylesheet">
     <link href="/components/select2/select2-bootstrap.min.css" rel="stylesheet">
     <link href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -25,11 +28,12 @@
     <![endif]-->
     <script src="/components/jquery/jquery.js"></script>
   </head>
-<?php
-    $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
-    ?><body id="<?php echo $idBody; ?>">
-
-    <?php include_partial('global/header'); ?>
+    <body>
+    <?php if(file_exists(sfConfig::get('sf_app_dir')."/templates/_header_".sfConfig::get('sf_environment').'.php')): ?>
+        <?php include_partial('global/header_'.sfConfig::get('sf_environment')); ?>
+    <?php else: ?>
+        <?php include_partial('global/header'); ?>
+    <?php endif; ?>
 
 	<div id="content" style="min-height: 945px;">
 		<div class="container">
