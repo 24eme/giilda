@@ -33,6 +33,8 @@ class VracEmailManager {
         $resultEmailArr[] = $createurObject->getEmailTeledeclaration();
         $responsableNom = $createurObject->nom;
 
+        $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
+
         $mess = $this->enteteMessageVrac();
         $mess .= "
 
@@ -41,22 +43,20 @@ Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur l
 
 Pour être valable, le contrat doit être signé par toutes les parties et enregistré par votre interprofession. Un fichier en format PDF avec le numéro d’enregistrement de votre interprofession vous sera alors envoyé par courriel.
 
-Attention : si le contrat n’est pas signé par toutes les parties dans les 5 jours à compter de sa date de création, il sera automatiquement supprimé.
-
 Pour toutes questions, veuillez contacter " . $responsableNom . ", l'initiateur du contrat.
 
 ——
 
 L’application de télédéclaration des contrats de votre interprofession.
 
-Rappel de votre identifiant : IDENTIFIANT";
+Rappel de votre n° client / identifiant sur l’application de télédéclaration de l’".$interpro." : IDENTIFIANT";
 
         foreach ($nonCreateursArr as $id => $nonCreateur) {
 
             $message_replaced = str_replace('IDENTIFIANT', substr($nonCreateur->identifiant, 0, 6), $mess);
 
-            $subject = "Demande de signature d'un contrat (" . $createurObject->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")";
-
+            $subject = "Demande de signature d’un contrat d’achat viticole (" . $createurObject->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")";
+          
             $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->getEmailTeledeclaration(), $subject, $message_replaced);
             try {
                 $this->getMailer()->send($message);
