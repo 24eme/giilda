@@ -185,7 +185,7 @@ class DRMValidation extends DocumentValidation {
         }
 
         $sortiesDocAnnexes = array();
-        foreach ($this->document->getProduitsDetails() as $detail) {
+        foreach ($this->document->getProduitsDetails($this->document->teledeclare,'details') as $detail) {
             if (count($detail->sorties->export_details)) {
                 foreach ($detail->sorties->export_details as $paysCode => $export) {
                     if ($export->numero_document) {
