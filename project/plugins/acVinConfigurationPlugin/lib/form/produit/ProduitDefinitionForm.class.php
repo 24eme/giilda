@@ -146,7 +146,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     }
 
     public function save($con = null) {
-        $object = parent::save($con);
+        $object = $this->getObject();
         $values = $this->getValues();
         $produit_non_interpro = isset($values['produit_non_interpro']) && $values['produit_non_interpro'];
 
@@ -209,7 +209,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
     }
 
     public function initDefault($param) {
-        
+
     }
 
 }
