@@ -16,7 +16,7 @@ class ConfigurationDroit extends BaseConfigurationDroit {
         if (!is_string($taux)) {
             return false;
         }
-        return preg_match('/^[-+]/', $taux);
+        return preg_match('/^[+]/', $taux);
     }
 
     public function getTaux($printable = false, $brut = false) {
