@@ -101,7 +101,7 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
 
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-        $this->setDefault('crd_regime', EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE);
+        $this->setDefault('crd_regime', EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU);
     }
 
 }
