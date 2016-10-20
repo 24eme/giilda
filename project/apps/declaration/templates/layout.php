@@ -35,7 +35,12 @@
         <?php include_partial('global/header'); ?>
     <?php endif; ?>
 
+
+
 	<div id="content" style="min-height: 945px;">
+    <?php if(sfConfig::get('app_instance') == 'prepod' ): ?>
+      <div><p style="color:red; text-align:center; font-weight: bold;">Preproduction (la base est succeptible d'être supprimée à tout moment)</p></div>
+    <?php endif; ?>
 		<div class="container">
         <?php echo $sf_content ?>
         </div>
