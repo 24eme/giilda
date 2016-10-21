@@ -41,28 +41,28 @@ class VracEmailManager {
 
 Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
-Pour être valable, le contrat doit être signé par toutes les parties et enregistré par votre interprofession. Un fichier en format PDF avec le numéro d’enregistrement de votre interprofession vous sera alors envoyé par courriel.
+Pour être valable, le contrat doit être signé par toutes les parties et enregistré par votre interprofession. Un fichier en format PDF avec le numéro d'enregistrement de votre interprofession vous sera alors envoyé par courriel.
 
 Pour toutes questions, veuillez contacter " . $responsableNom . ", l'initiateur du contrat.
 
 ——
 
-L’application de télédéclaration des contrats de votre interprofession.
+L'application de télédéclaration des contrats de votre interprofession.
 
-Rappel de votre n° client / identifiant sur l’application de télédéclaration de l’".$interpro." : IDENTIFIANT";
+Rappel de votre n° client / identifiant sur l'application de télédéclaration de l'".$interpro." : IDENTIFIANT";
 
         foreach ($nonCreateursArr as $id => $nonCreateur) {
 
             $message_replaced = str_replace('IDENTIFIANT', substr($nonCreateur->identifiant, 0, 6), $mess);
 
-            $subject = "Demande de signature d’un contrat d’achat viticole (" . $createurObject->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")";
-          
+            $subject = "Demande de signature d'un contrat d'achat viticole (" . $createurObject->nom . " - créé le " . $this->getDateSaisieContratFormatted() . ")";
+
             $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $nonCreateur->getEmailTeledeclaration(), $subject, $message_replaced);
             try {
-                $this->getMailer()->send($message);
+                @$this->getMailer()->send($message);
 
-            } catch (Exception $e) {
-                $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
+            } catch (sfException $e) {
+                $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter l\''.$interpro.'.');
                 return null;
             }
             $resultEmailArr[] = $nonCreateur->getEmailTeledeclaration();
@@ -75,21 +75,21 @@ Rappel de votre n° client / identifiant sur l’application de télédéclarati
         $soussignesArr = $this->vrac->getNonCreateursArray();
         $createur = $this->vrac->getCreateurObject();
         $soussignesArr[$createur->_id] = $createur;
-
+        $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
         $responsableNom = $createur->nom;
 
         $mess = $this->enteteMessageVrac();
         $mess .= "
 
-Ce contrat a été signé électroniquement par l’ensemble des soussignés et enregistré par votre interprofession.
+Ce contrat a été signé électroniquement par l'ensemble des soussignés et enregistré par votre interprofession.
 
 Vous pouvez le visualiser à tout moment en cliquant sur le lien suivant : " . $this->getUrlVisualisationContrat() . " .
 
-Pour toutes questions, veuillez contacter " . $responsableNom . ", l’initiateur du contrat.
+Pour toutes questions, veuillez contacter " . $responsableNom . ", l'initiateur du contrat.
 
 --
 
-L’application de télédéclaration des contrats de votre interprofession.
+L'application de télédéclaration des contrats de l'".$interpro."
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -128,7 +128,7 @@ Rappel de votre identifiant : IDENTIFIANT";
         $createur = $this->vrac->getCreateurObject();
         $soussignesArr[$createur->_id] = $createur;
         $responsableNom = $createur->nom;
-
+        $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
         $resultEmailArr = array();
 
         $mess = $this->enteteMessageVrac();
@@ -154,7 +154,7 @@ Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable d
 
 ——
 
-L’application de télédéclaration de votre interprofession.
+L'application de télédéclaration de de l'".$interpro.".
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -179,7 +179,7 @@ Rappel de votre identifiant : IDENTIFIANT";
         $soussignesArr = $this->vrac->getNonCreateursArray();
         $createur = $this->vrac->getCreateurObject();
         $responsableNom = $createur->nom;
-
+        $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
         $emailsArr = array();
         foreach ($soussignesArr as $identifiant => $soussigne) {
             if (($identifiant == $this->vrac->vendeur_identifiant) && !$this->vrac->isSigneVendeur()) {
@@ -206,7 +206,7 @@ Pour toutes questions, veuillez contacter " . $responsableNom . ", responsable d
 
 ——
 
-L’application de télédéclaration des contrats de votre interprofession.
+L'application de télédéclaration des contrats de de l'".$interpro.".
 
 Rappel de votre identifiant : IDENTIFIANT";
 
@@ -236,7 +236,7 @@ Rappel de votre identifiant : IDENTIFIANT";
         }
 
         $mess = 'Contrat ' . showTypeFromLabel($this->vrac->type_transaction, '', $this->vrac) . ' du ' . $this->getDateSaisieContratFormatted();
-        $mess .= ($this->vrac->isVise()) ? ' (Numéro d’enregistrement : ' . $this->vrac->numero_archive . ')' : '';
+        $mess .= ($this->vrac->isVise()) ? " (Numéro d'enregistrement : " . $this->vrac->numero_archive . ")" : '';
         $mess .= '
 
 
