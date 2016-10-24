@@ -28,7 +28,11 @@ use_helper('PointsAides');
     </thead>
     <tbody>
         <?php
-        foreach ($vracs->rows as $value) {
+        $contrats = array();
+        foreach ($vracs->rows as $contrat) {
+          $contrats[] = $contrat;
+        }
+        foreach (array_reverse($contrats)  as $value) {
             // $elt = $value->getRawValue()->value;
                 $v = VracClient::getInstance()->find($value->id, acCouchdbClient::HYDRATE_JSON);
                 ?>
@@ -70,7 +74,13 @@ use_helper('PointsAides');
                     <td>
         <?php
             if((isset($teledeclaration) && $teledeclaration)):
-              echo ($v->vendeur_identifiant) ? 'Vendeur : ' . $v->vendeur->nom : '';
+              if($v->vendeur_identifiant):
+                if($v->teledeclare):
+                  echo ($v->valide->date_signature_vendeur)?
+                        '<span class="glyphicon glyphicon-check" ></span>&nbsp;' : '<span class="glyphicon glyphicon-pencil" ></span>&nbsp;';
+                endif;
+                echo 'Vendeur : ' . $v->vendeur->nom;
+              endif;
             else:
               echo ($v->vendeur_identifiant) ?
                   'Vendeur : ' . link_to($v->vendeur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->vendeur_identifiant)) : '';
@@ -79,7 +89,13 @@ use_helper('PointsAides');
         <br />
         <?php
           if((isset($teledeclaration) && $teledeclaration)):
-              echo ($v->acheteur_identifiant) ? 'Acheteur : ' . $v->acheteur->nom : '';
+            if($v->acheteur_identifiant):
+              if($v->teledeclare):
+                echo ($v->valide->date_signature_acheteur)?
+                      '<span class="glyphicon glyphicon-check" ></span>&nbsp;' : '<span class="glyphicon glyphicon-pencil" ></span>&nbsp;';
+              endif;
+              echo 'Acheteur : ' . $v->vendeur->nom;
+            endif;
           else:
               echo ($v->acheteur_identifiant) ?
                   'Acheteur : ' . link_to($v->acheteur->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->acheteur_identifiant)) : '';
@@ -90,7 +106,13 @@ use_helper('PointsAides');
             if ($has_representant) echo '<br/>';
 
             if((isset($teledeclaration) && $teledeclaration)):
-              echo ($has_representant) ? 'Representant : ' . $v->representant->nom : '';
+              if($has_representant && $v->vendeur_identifiant):
+                if($v->teledeclare):
+                  echo ($v->valide->date_signature_vendeur)?
+                        '<span class="glyphicon glyphicon-check" ></span>&nbsp;' : '<span class="glyphicon glyphicon-pencil" ></span>&nbsp;';
+                endif;
+                echo ($has_representant) ? 'Representant : ' . $v->representant->nom : '';
+              endif;
             else:
               echo ($has_representant) ?
                 'Representant : ' . link_to($v->representant->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->representant_identifiant)) : '';
@@ -100,7 +122,13 @@ use_helper('PointsAides');
             <br />
         <?php
           if((isset($teledeclaration) && $teledeclaration)):
-            echo ($v->mandataire_identifiant) ? $v->mandataire->nom : '';
+            if($v->mandataire_identifiant):
+              if($v->teledeclare):
+                echo ($v->valide->date_signature_courtier)?
+                      '<span class="glyphicon glyphicon-check" ></span>&nbsp;' : '<span class="glyphicon glyphicon-pencil" ></span>&nbsp;';
+              endif;
+              echo 'Courtier : ' . $v->mandataire->nom;
+            endif;
           else:
           echo ($v->mandataire_identifiant) ?
                 'Courtier : ' . link_to($v->mandataire->nom, 'vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $v->mandataire_identifiant)) : '';
