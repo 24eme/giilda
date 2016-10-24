@@ -44,7 +44,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         if (!$this->nom) {
             return;
         }
-
+        if($this->isSocieteContact()){
+            $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
+            return;
+        }
         $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
     }
 
@@ -126,7 +129,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $societe = $this->getSociete();
         if ($this->isSocieteContact()) {
-            $this->updateNomAAfficher();
             $this->addTag('automatique', 'Societe');
             $this->addTag('automatique', $societe->type_societe);
             if ($this->getFournisseurs()) {
