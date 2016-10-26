@@ -34,7 +34,7 @@ function sprintFloat($float, $format = "%01.02f") {
     return sprintf($format, $float);
 }
 
-function echoFloatWithHl($float) {    
+function echoFloatWithHl($float) {
     echo ($float)? sprintFloat($float).' hl' : '';
 }
 

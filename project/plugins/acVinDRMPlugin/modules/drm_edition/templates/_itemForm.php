@@ -39,7 +39,7 @@ $etablissement = $drm->getEtablissement();
             </div>
             <div class="groupe p_gris" data-groupe-id="2">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
-                    <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="num num_float somme_groupe somme_entrees" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
+                    <input type="text" value="<?php echoFloat($form->getObject()->total_entrees) ?>" class="num num_float somme_groupe somme_entrees" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
                 </p>
                 <ul>
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
@@ -80,7 +80,7 @@ $etablissement = $drm->getEtablissement();
 
             <div class="groupe p_gris" data-groupe-id="4">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
-                    <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
+                    <input type="text" value="<?php echoFloat($form->getObject()->total_sorties) ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
                 </p>
                 <ul>
                     <?php foreach ($form['sorties'] as $key => $subform): ?>

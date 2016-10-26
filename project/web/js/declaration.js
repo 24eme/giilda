@@ -423,10 +423,15 @@
                 val = val.substring(1);
 
             // Comparaison nombre entier / flottant
-            if (float || parseInt(val) != parseFloat(val) && !champ_int)
-                val = parseFloat(val).toFixed(4);
-            else
+            if (float || parseInt(val) != parseFloat(val) && !champ_int){
+                decimales = val.slice(val.indexOf('.')+1);
+                var nbDecimal = (decimales.length < 2 )? 2 : decimales.length;
+                if(nbDecimal > 4) nbDecimal = 4;
+                val = parseFloat(val).toFixed(nbDecimal);
+
+            } else {
                 val = parseInt(val);
+            }
         }
         // Si rien n'a été saisi
         //else val = 0;
