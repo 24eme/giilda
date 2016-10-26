@@ -8,9 +8,10 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
         $drm = $this->getObject()->getDocument();
         foreach ($configurationDetail->getEntreesSorted() as $key => $value) {
             if ($value->readable) {
-                if (!$value->writable 
+                if (!$value->writable
                    || (preg_match('/AOC|IGP/', $certif) && ($key == 'declassement'))
-		   ||  (preg_match('/VINSSIG/', $certif) && ($key == 'repli'))) {
+		               ||  (preg_match('/VINSSIG/', $certif) && ($key == 'repli'))
+                   ||  (preg_match('/AUTRES/', $certif) && ($key != 'revendique'))) {
                     $this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
                 } else {
                     $this->setWidget($key, new sfWidgetFormInputFloat());

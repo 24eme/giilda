@@ -18,6 +18,10 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
             if (preg_match('/VINSSIG/', $certif) && ($key == 'declassement')) {
                 $disabled = true;
             }
+            if (preg_match('/AUTRES/', $certif) && ($key != 'usageindustriel') && ($key != 'destructionperte') && ($key != 'manquant') && ($key != 'vracsanscontrat')) {
+                $disabled = true;
+            }
+
             if ($value->readable) {
                 if (!$value->writable || $disabled) {
                     $this->setWidget($key, new sfWidgetFormInputFloat(array(), array('readonly' => 'readonly')));

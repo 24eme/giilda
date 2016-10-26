@@ -87,10 +87,14 @@ $etablissement = $drm->getEtablissement();
                         <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
                             <?php if ($favoris_sorties->exist($key)): ?>
                                 <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
-                                    <?php if ($key == "vrac"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo (($detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) ? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo (( $detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) ? 'disabled="disabled"' : '' ?> />
-                                    <?php elseif ($key == "export"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                    <?php if ($key == "vrac"):
+                                        $isDisabled = (($detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) || ($detail->getCertification()->getKey() == "AUTRES");
+                                        ?>
+                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo ($isDisabled)? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo ($isDisabled)? 'disabled="disabled"' : '' ?> />
+                                    <?php elseif ($key == "export"):
+                                        $isDisabled = ($detail->getCertification()->getKey() == "AUTRES");
+                                        ?>
+                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details <?php echo ($isDisabled)? 'opacity40' : '' ?>" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" <?php echo ($isDisabled)? 'disabled="disabled"' : '' ?> />
                                     <?php elseif ($key == "cooperative"): ?>
                                         <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
                                     <?php else: ?>

@@ -11,7 +11,7 @@
 			<div id="recherche_contact" class="section_label_maj">
                            <div>
    <label for="champ_recherche">Recherche d'un contact&nbsp;:</label><br /><?php //'; ?>
-				<input id="champ_recherche" class="ui-autocomplete-input" type="text" name="q" value="<?php echo $q; ?>" role="textbox" aria-autocomplete="list" aria-haspopup="true"> 
+				<input id="champ_recherche" class="ui-autocomplete-input" type="text" name="q" value="<?php echo $q; ?>" role="textbox" aria-autocomplete="list" aria-haspopup="true">
 				<button id="btn_rechercher" type="submit">Rechercher</button>
                            </div>
 <div>
@@ -23,16 +23,16 @@
 	</section>
 
 	<span><?php echo $nb_results; ?> résultat(s) trouvé(s) (page <?php echo $current_page; ?> sur <?php echo $last_page; ?>)</span>
-        
+
 	<a class="btn_majeur btn_excel" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>">Télécharger le tableur</a>
-	
-	
-	
+
+
+
 	<?php if($nb_results > 0): ?>
-		
+
         		<div class="pagination">
 			<div class="page_precedente">
-				<?php 
+				<?php
                                 $args_copy = $args;
                                 $args = array('q' => $q, 'tags' => $args['tags']); ?>
 <?php if ($current_page > 1) : ?>
@@ -52,9 +52,9 @@
 <?php endif; ?>
 			</div>
 		</div>
-        
-		
-		<table id="resultats_contact" class="table_recap">	
+
+
+		<table id="resultats_contact" class="table_recap">
 			<?php $cpt = 0; ?>
 
 			<thead>
@@ -70,14 +70,14 @@
 			<tbody>
 				<?php foreach($results as $res): ?>
 
-					<?php 
+					<?php
 						$data = $res->getData();
                         $societe_informations = $data['societe_informations'];
-						$class = ($cpt % 2) ? ' class="even"' : ''; 
+						$class = ($cpt % 2) ? ' class="even"' : '';
 					?>
-                            
+
 					<tr <?php echo $class; ?>>
-                                                <?php 
+                                                <?php
                                                 $class_picto = "contact_picto";
                                                 $compte_type = $data['compte_type'];
                                                 if($compte_type == CompteClient::TYPE_COMPTE_ETABLISSEMENT){
@@ -120,12 +120,12 @@
 <?php endif; ?>
 			</div>
 		</div>
-	
+
 	<?php endif; ?>
 
 </section>
 <?php
-	slot('colButtons'); 
+	slot('colButtons');
 ?>
  <div class="bloc_col" id="action" >
 	<h2>Actions</h2>
@@ -139,7 +139,7 @@
                      <a class="btn_majeur btn_acces" href="<?php echo url_for('compte_search');?>">Accueil rech. avancée</a>
                 </li>
             </ul>
-		
+
 	</div>
 </div>
 <?php
@@ -158,11 +158,11 @@
 								<?php foreach($selected_tags as $t) {
 									$targs = $args_copy->getRawValue();
 									$targs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$t)));
-									echo '<li><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $t).'</a>&nbsp;';
+									echo '<li><a href="'.url_for('compte_search', $targs).'" >'.str_replace('_', ' ', $t).'</a>&nbsp;';
 									$targs = $args_copy->getRawValue();
 									$targs['tag'] = $t;
 									if ($type == 'manuel') {
-									  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'">X</a>)';
+									  echo '(<a class="removetag" href="'.url_for('compte_removetag', $targs).'" onclick=\'return confirm("Êtes vous sûr de vouloir supprimer ce tag")\' >X</a>)';
 									}
 									echo '</li>';
 									} ?>
@@ -176,7 +176,7 @@
 		<div class="bloc_col">
 			<h2>tags dispos</h2>
 			<ul class="liste_tags">
-				<?php 
+				<?php
 				foreach($facets as $type => $ftype) {
 				  if (count($ftype['terms'])) {
 					echo '<li class="typetag">'.$type.'</li><ul>';
@@ -205,7 +205,7 @@
 
                 <?php if(isset($args_copy)): ?>
 		<div class="bloc_col">
-		
+
 			<h2>Créer un tag</h2>
 			<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
 			<input id="creer_tag" name="tag" class="tags" type="text" />
