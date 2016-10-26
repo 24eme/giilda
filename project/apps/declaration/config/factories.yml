@@ -21,6 +21,8 @@ test:
 
   mailer:
     param:
+      transport:
+        class: Swift_MailTransport
       delivery_strategy: none
 
 dev:
@@ -45,3 +47,8 @@ all:
     class: myUser
     param:
       timeout: 7200
+
+  mailer:
+    param:
+      transport:
+        class: Swift_MailTransport
