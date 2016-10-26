@@ -149,8 +149,15 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $object = $this->getObject();
         $values = $this->getValues();
         $produit_non_interpro = isset($values['produit_non_interpro']) && $values['produit_non_interpro'];
-
         $this->getNoeudInterpro($object)->add('produit_non_interpro', $produit_non_interpro);
+        $droit_cvo = $values['droit_cvo'];
+        $droit_douane = $values['droit_douane'];
+
+        unset($this->values['produit_non_interpro']);
+        unset($this->values['droit_cvo']);
+        unset($this->values['droit_douane']);
+
+        $object = parent::save($con);
 
         if ($object->hasDepartements()) {
             $object->remove('departements');
@@ -161,7 +168,8 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         }
         if ($object->hasDroit(ConfigurationDroits::DROIT_DOUANE)) {
             $this->getNoeudInterpro($object)->droits->remove('douane');
-            foreach ($values['droit_douane'] as $value) {
+            $this->getNoeudInterpro($object)->droits->add('douane',array());
+            foreach ($droit_douane as $value) {
 
                 $this->setDroit('DOUANE', 'Douane');
                 $date = new DateTime($value['date']);
@@ -171,7 +179,8 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         }
         if ($object->hasDroit(ConfigurationDroits::DROIT_CVO)) {
             $this->getNoeudInterpro()->droits->remove('cvo');
-            foreach ($values['droit_cvo'] as $value) {
+            $this->getNoeudInterpro()->droits->add('cvo',array());
+            foreach ($droit_cvo as $value) {
 
                 $this->setDroit('CVO', 'Cvo');
                 $date = new DateTime($value['date']);
