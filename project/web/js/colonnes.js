@@ -1035,7 +1035,7 @@
 
         this.setVal = function(value) {
             this.element.val(value);
-            this.element.nettoyageChamps();
+            this.element.nettoyageChampsWithFourPrecision();
         }
 
         this.calculer = function() {

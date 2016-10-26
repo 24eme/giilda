@@ -223,7 +223,7 @@
     {
         // Ctrl + flèche gauche ==> Changement de focus
         /*$.ctrl(37, function() {$.majColFocus('prec');});
-         
+
          // Ctrl + flèche droite ==> Changement de focus
          $.ctrl(39, function() {$.majColFocus('suiv');});*/
 
@@ -356,7 +356,7 @@
                 if (touche == 44 && ponctuationPresente)
                     e.preventDefault();
                 // 2 décimales
-                if (val.match(/[\.\,][0-9][0-9]/) && chiffre && e.currentTarget && e.currentTarget.selectionStart > val.length - 3)
+                if (val.match(/[\.\,][0-9][0-9][0-9][0-9]/) && chiffre && e.currentTarget && e.currentTarget.selectionStart > val.length - 3)
                     e.preventDefault();
             }
             // Champ nombre entier
@@ -424,7 +424,7 @@
 
             // Comparaison nombre entier / flottant
             if (float || parseInt(val) != parseFloat(val) && !champ_int)
-                val = parseFloat(val).toFixed(2);
+                val = parseFloat(val).toFixed(4);
             else
                 val = parseInt(val);
         }
@@ -502,7 +502,7 @@
             var lignes = $('.drm_details_tableBody tr');
 
             if (lignes.length <= 1) {
-                $('.drm_details_addTemplate').trigger('click');               
+                $('.drm_details_addTemplate').trigger('click');
             }
             $.fancybox.update();
             $.majSommeLabelBind();
@@ -607,7 +607,7 @@
                     return true;
                 vol += vol_val_float;
             });
-            $('.drm_details_volume_total').text(vol.toFixed(2));
+            $('.drm_details_volume_total').text(vol.toFixed(4));
         }
         $('.drm_details_tableBody td.volume').unbind();
         $('.drm_details_tableBody td.volume').bind('keyup', $.majSommeLabelBind);
