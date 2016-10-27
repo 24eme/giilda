@@ -13,5 +13,5 @@ cat $TMP/all_drm.csv | while read line; do
    echo $CMD","$line >> $TMP/export_bi_drm.csv.temp
 done
 
-echo "#DRM ID;identifiant etablissement;nom etablissement;campagne;periode;numéro archivage" > $TMP/export_bi_drm.csv
-cat $TMP/export_bi_drm.csv.temp | awk -F "," '{print $2";"$3";"$1";"$4";"$5";"$11}' | sed 's/"value":1}//g'  >> $TMP/export_bi_drm.csv
+echo "#DRM ID;identifiant etablissement;nom etablissement;campagne;periode;numéro archivage;teledeclare" > $TMP/export_bi_drm.csv
+cat $TMP/export_bi_drm.csv.temp | awk -F "," '{print $2";"$3";"$1";"$4";"$5";"$11";"$12}' | sed 's/"value":1}//g'  >> $TMP/export_bi_drm.csv
