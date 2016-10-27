@@ -30,6 +30,7 @@ class Roles
     const TELEDECLARATION_VRAC = 'teledeclaration_vrac';
     const TELEDECLARATION_DRM = 'teledeclaration_drm';
     const TELEDECLARATION_VRAC_CREATION = 'teledeclaration_vrac_creation';
+    const TELEDECLARATION_DOUANE = 'teledeclaration_douane';
 
     const OBSERVATOIRE = 'observatoire';
 
@@ -38,12 +39,14 @@ class Roles
       self::TELEDECLARATION_VRAC => "Teledeclaration signature contrats",
       self::TELEDECLARATION_VRAC_CREATION => "Teledeclaration création contrats",
       self::TELEDECLARATION_DRM => "Teledeclaration DRM",
+      self::TELEDECLARATION_DOUANE => "Transmission Ciel",
       );
 
       public static $teledeclarationLibellesShort = array(
         self::TELEDECLARATION_VRAC => "Signature contrats",
         self::TELEDECLARATION_VRAC_CREATION => "Création contrats",
         self::TELEDECLARATION_DRM => "DRM",
+        self::TELEDECLARATION_DOUANE => "Transmission Ciel",
         );
 
     protected static $hierarchy = array(
