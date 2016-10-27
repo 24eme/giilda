@@ -15,7 +15,7 @@
 		<declaration-neant><?php echo ($drm->declaration->hasStockEpuise())? "true" : "false"; ?></declaration-neant>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
-<?php foreach ($drm->getProduitsDetails() as $produit): ?>
+<?php foreach ($drm->getProduitsDetails(true) as $produit): ?>
 			<produit>
 <?php if (false && $produit->getLibelle()): ?>
 				<libelle-fiscal><?php echo $produit->getLibelle('%format_libelle% %la%') ?></libelle-fiscal>

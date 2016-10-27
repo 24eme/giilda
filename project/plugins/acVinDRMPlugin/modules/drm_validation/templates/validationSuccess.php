@@ -49,7 +49,7 @@
                     <?php endif; ?>
                     <?php if ($isTeledeclarationMode): ?>
                         <?php echo $form['email_transmission']->render(); ?>
-                        <?php if($compte->hasDroit("teledeclaration_douane")): ?>
+                        <?php if($compte->hasDroit(Roles::TELEDECLARATION_DOUANE)): ?>
                               <?php echo $form['transmission_ciel']->render(); ?>
                         <?php endif; ?>
                         <a id="signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn_validation signature_drm<?php if ($validation->isValide()) echo '_popup'; ?>"><span>Valider</span></a>

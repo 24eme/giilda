@@ -27,14 +27,14 @@
             Commune :
         </label>
         <?php echo $compte->commune; ?>
-    </div>   
+    </div>
     <?php if ($compte->cedex) : ?>
         <div class="form_ligne">
             <label for="cedex">
                 Cedex :
             </label>
             <?php echo $compte->cedex; ?>
-        </div>       
+        </div>
     <?php endif; ?>
     <div class="form_ligne">
         <label for="pays">
@@ -50,7 +50,7 @@
     <?php if ($compte->email) : ?>
         <div class="form_ligne">
             <label for="email">
-                E-mail : 
+                E-mail :
             </label>
             <?php echo $compte->email; ?>
         </div>
@@ -125,7 +125,7 @@
                     $targs['tag'] = $t;
                     $targs['q'] = $compte->identifiant;
                     if ($type_tag == 'manuel') {
-                        echo '(<a class="removetag" href="' . url_for('compte_removetag', $targs) . '">X</a>)';
+                        echo '(<a class="removetag" href="' . url_for('compte_removetag', $targs) . '" onclick=\'return confirm("Êtes vous sûr de vouloir supprimer ce tag")\' >X</a>)';
                     }
                     echo '</li>';
                 }
