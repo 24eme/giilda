@@ -123,7 +123,7 @@ $isSameContactThanSociete = !$isCompteSociete && $compteForm->getObject()->isSam
             <div class="panel-body">
                 <div class="form-group">
                     <?php echo $compteForm['droits']->renderError(); ?>
-                    <div class="col-xs-8"><?php echo $compteForm['droits']->render(); ?></div>
+                    <div class="col-xs-12"><?php echo $compteForm['droits']->render(); ?></div>
                 </div>
             </div>
         </div>
