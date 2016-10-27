@@ -23,6 +23,8 @@ ivso:
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
         "ESPECES": "Espèces"
+      transactions:
+        "MOUTS": null
 
 ivbd:
   configuration:
