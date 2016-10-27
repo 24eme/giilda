@@ -503,7 +503,12 @@ class Compte extends BaseCompte {
             }
             if ($droit == Roles::DRM) {
                 $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
-            }            
+            }
+            if ($droit == Roles::TELEDECLARATION_DOUANE) {
+                $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+                $compteDroits->add(Roles::TELEDECLARATION_DOUANE, Roles::TELEDECLARATION_DOUANE);
+            }
+
         }
         if($acces_teledeclaration){
             $compteDroits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
