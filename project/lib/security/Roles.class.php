@@ -4,7 +4,7 @@ class Roles
 {
 
     const CONTRAT = 'contrat';
-    const DRM = 'drm';    
+    const DRM = 'drm';
     const FACTURE = 'facture';
     const DREV = 'drev';
     const SV12 = 'sv12';
@@ -23,25 +23,26 @@ class Roles
     const DIRECTION = 'direction';
     const BUREAU = 'bureau';
     const AUTRE = 'autre';
-    
+
     const ROLEDRM = 'DRM';
 
     const TELEDECLARATION = 'teledeclaration';
     const TELEDECLARATION_VRAC = 'teledeclaration_vrac';
     const TELEDECLARATION_VRAC_CREATION = 'teledeclaration_vrac_creation';
     const TELEDECLARATION_DRM = 'teledeclaration_drm';
-    
+    const TELEDECLARATION_DOUANE = 'teledeclaration_douane';
+
     const OBSERVATOIRE = 'observatoire';
 
     protected static $hierarchy = array(
         self::ADMIN => array(self::OPERATEUR, self::TRANSACTION),
         self::OPERATEUR => array(),
-        self::TRANSACTION => array(self::CONTRAT, 
-                                   self::DRM, 
-                                   self::FACTURE, 
-                                   self::DREV, 
-                                   self::SV12, 
-                                   self::DS, 
+        self::TRANSACTION => array(self::CONTRAT,
+                                   self::DRM,
+                                   self::FACTURE,
+                                   self::DREV,
+                                   self::SV12,
+                                   self::DS,
                                    self::STOCK,
                                    self::ALERTE,
                                    self::RELANCE,
@@ -61,7 +62,7 @@ class Roles
             foreach(self::$hierarchy[$role] as $r) {
                 $roles = array_merge($roles, self::getRoles($r));
             }
-            
+
         }
 
         return $roles;
