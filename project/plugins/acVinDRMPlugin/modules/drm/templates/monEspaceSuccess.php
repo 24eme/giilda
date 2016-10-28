@@ -25,7 +25,9 @@
                 <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
             </div>
           </div>
-            <?php if ($isTeledeclarationMode): ?>
+            <?php
+            $transmission = $etablissement->getSociete()->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DOUANE);
+            if ($isTeledeclarationMode && !$transmission): ?>
             <div class="row">
                 <div class="col-xs-12" style="margin-top: 10px;">
                      <?php include_partial('global/blocInscriptionDouane') ?>
