@@ -30,17 +30,18 @@ class drm_xmlActions extends drmGeneriqueActions {
           $this->drm->add('transmission_douane')->add('horodatage', $m[2]);
           $this->drm->add('transmission_douane')->add('id_declaration', $m[1]);
         }
+        $this->drm->save();
         if (!$this->drm->transmission_douane->success) {
           $to = sfConfig::get('app_ac_exception_notifier_email');
           $to = ($to && isset($to->to)) ? $to->to : 'vins@actualys.com';
           $msg = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')),
-                                             $to,
-                                             "Erreur transmision XML pour ".$this->_id,
-                                             "Une transmission vient d'écouchouer pour la DRM ".$this->_id);
+          $to,
+          "Erreur transmision XML pour ".$this->_id,
+          "Une transmission vient d'écouchouer pour la DRM ".$this->_id);
           $this->getMailer()->send($msg);
         }
-        $this->drm->save();
         return $this->redirect('drm_ciel', $this->drm);
+      }
     }
     $this->cielResponse = $this->drm->transmission_douane->xml;
   }
