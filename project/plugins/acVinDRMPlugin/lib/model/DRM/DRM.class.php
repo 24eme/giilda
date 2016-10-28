@@ -199,7 +199,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
                 continue;
             }
-            
+
             $this->addProduit($produitConfig->produit_hash);
         }
     }
@@ -215,6 +215,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $this->addProduit($produitConfig->getHash());
+        }
+
+        foreach($drm->getAllCrds() as $regime => $crds) {
+            foreach($crds as $crd) {
+                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, null, true);
+            }
         }
     }
 
@@ -1262,6 +1268,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_societe->add('email', $societe->getEmailTeledeclaration());
         $drm_societe->add('telephone', $societe->telephone);
         $drm_societe->add('fax', $societe->fax);
+        $drm_societe->add('paiement_douane_moyen', ($societe->exist('paiement_douane_moyen')) ? $societe->paiement_douane_moyen : null);
+        $drm_societe->add('paiement_douane_frequence', ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null);
     }
 
     public function getCoordonneesSociete() {

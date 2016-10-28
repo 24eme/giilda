@@ -894,6 +894,7 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     {
         .clearfix;
         .gabarit;
+        width: 1040px;
         position: relative;
     }
 }
@@ -949,6 +950,17 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         margin: 10px 0 0;
     }
 
+    .logo_civdl
+    {
+        float: right;
+
+        img {
+            height: 60px;
+            margin: 0 10px;
+        }
+        border-left: 1px solid #9a9a9a;
+    }
+
     /* Baseline */
     .baseline
     {
@@ -965,13 +977,12 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
         margin: 0 0 0 15px;
         padding: 0 15px;
         position: relative;
-        width: 560px;
+        width: 550px;
 
         &:before
             {
             .pos-abs(10px, 0, auto, 0);
             border-left: 1px solid #9a9a9a;
-            border-right: 1px solid #9a9a9a;
             height: 50px;
             content: '';
         }
@@ -1032,15 +1043,14 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
     #actions_utilsateur
     {
         float: right;
+        margin: 5px 10px;
         font-size: 12px;
-
         a
         {
             display: block;
             margin: 10px 0;
             padding: 0 0 0 20px;
             position: relative;
-
             &:before
             {
                 .pos-abs(4px, auto, auto, 0);

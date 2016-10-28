@@ -39,7 +39,7 @@ $etablissement = $drm->getEtablissement();
             </div>
             <div class="groupe p_gris" data-groupe-id="2">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
-                    <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="num num_float somme_groupe somme_entrees" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
+                    <input type="text" value="<?php echoFloat($form->getObject()->total_entrees) ?>" class="num num_float somme_groupe somme_entrees" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
                 </p>
                 <ul>
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
@@ -80,17 +80,21 @@ $etablissement = $drm->getEtablissement();
 
             <div class="groupe p_gris" data-groupe-id="4">
                 <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
-                    <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
+                    <input type="text" value="<?php echoFloat($form->getObject()->total_sorties) ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
                 </p>
                 <ul>
                     <?php foreach ($form['sorties'] as $key => $subform): ?>
                         <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
                             <?php if ($favoris_sorties->exist($key)): ?>
                                 <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
-                                    <?php if ($key == "vrac"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo (($detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) ? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo (( $detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) ? 'disabled="disabled"' : '' ?> />
-                                    <?php elseif ($key == "export"): ?>
-                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>"/>
+                                    <?php if ($key == "vrac"):
+                                        $isDisabled = (($detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) || ($detail->getCertification()->getKey() == "AUTRES");
+                                        ?>
+                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo ($isDisabled)? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo ($isDisabled)? 'disabled="disabled"' : '' ?> />
+                                    <?php elseif ($key == "export"):
+                                        $isDisabled = ($detail->getCertification()->getKey() == "AUTRES");
+                                        ?>
+                                        <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details <?php echo ($isDisabled)? 'opacity40' : '' ?>" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" <?php echo ($isDisabled)? 'disabled="disabled"' : '' ?> />
                                     <?php elseif ($key == "cooperative"): ?>
                                         <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details" data-title="Details des cooperatives" data-href="<?php echo url_for("drm_cooperative_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->cooperative); ?>"/>
                                     <?php else: ?>

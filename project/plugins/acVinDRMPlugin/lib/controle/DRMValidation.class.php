@@ -37,19 +37,17 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_declassement = 0;
 
         $total_mouvement_absolu = 0;
+        $drmTeledeclaree = $this->document->exist('teledeclare') && $this->document->teledeclare;
 
-        foreach ($this->document->getProduitsDetails() as $detail) {
+        foreach ($this->document->getProduitsDetails($drmTeledeclaree) as $detail) {
 
             $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
 
-            if (!$detail->getConfig()->entrees->exist('declassement')) {
-                break;
-            }
-            $total_entrees_replis += $detail->entrees->repli;
-            $total_sorties_replis += $detail->sorties->repli;
+            $total_entrees_replis += (!$detail->getConfig()->entrees->exist('repli'))? 0.0 : $detail->entrees->repli;
+            $total_sorties_replis += (!$detail->getConfig()->sorties->exist('repli'))? 0.0 : $detail->sorties->repli;
 
-            $total_entrees_declassement += $detail->entrees->declassement;
-            $total_sorties_declassement += $detail->sorties->declassement;
+            $total_entrees_declassement += (!$detail->getConfig()->entrees->exist('declassement'))? 0.0 : $detail->entrees->declassement;
+            $total_sorties_declassement += (!$detail->getConfig()->sorties->exist('declassement'))? 0.0 : $detail->sorties->declassement;
 
             $entrees_excedents = ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0.0;
             $entrees_manipulation = ($detail->entrees->exist('manipulation'))? $detail->entrees->manipulation : 0.0;
@@ -127,11 +125,12 @@ class DRMValidation extends DocumentValidation {
             }
 
             $societe = $this->document->getEtablissement()->getSociete();
-            if (!$societe->exist('paiement_douane_moyen')) {
+
+            if (!$this->document->societe->exist('paiement_douane_moyen') || !$this->document->societe->paiement_douane_moyen) {
                 $this->addPoint('vigilance', 'moyen_paiement_absent', 'Veuillez enregistrer votre moyen de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
 
-            if (!$societe->exist('paiement_douane_frequence')) {
+            if (!$this->document->societe->exist('paiement_douane_frequence') || !$this->document->societe->paiement_douane_frequence) {
                 $this->addPoint('vigilance', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
 
@@ -142,7 +141,7 @@ class DRMValidation extends DocumentValidation {
         }
 
         $sortiesDocAnnexes = array();
-        foreach ($this->document->getProduitsDetails() as $detail) {
+        foreach ($this->document->getProduitsDetails($drmTeledeclaree) as $detail) {
             if (count($detail->sorties->export_details)) {
                 foreach ($detail->sorties->export_details as $paysCode => $export) {
                     if ($export->numero_document) {

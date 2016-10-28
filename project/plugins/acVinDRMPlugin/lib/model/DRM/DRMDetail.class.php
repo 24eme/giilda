@@ -442,6 +442,9 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getCodeDouane() {
+      if($this->exist("code_inao") && $this->code_inao){
+        return $this->code_inao;
+      }
 	     return $this->getCepage()->getConfig()->code_douane;
      }
 

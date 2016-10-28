@@ -3,12 +3,12 @@
     <div class="contenu">
         <h1 id="logo">
             <a title="Vins de Loire - Retour à l'accueil" href="<?php echo url_for('homepage') ?>">
-                <img src="/images/visuels/logo_vinsdeloire_new.png" alt="" />
+                <img src="/images/visuels/logo_vinsdeloire_new2.png" alt="" />
             </a>
         </h1>
 
         <div class="conteneur_nav">
-            <span class="baseline">Espace des professionnels du Vignoble du Val de Loire</span>		
+            <span class="baseline">Espace des professionnels du Vignoble du Val de Loire</span>
             <?php include_component('global', 'nav'); ?>
         </div>
 
@@ -16,20 +16,25 @@
             <button class="btn_menu" type="button">Menu</button>
         <?php endif; ?>
 
+        <h1 class="logo_civdl">
+            <a title="CIVDL - Retour à l'accueil" href="<?php echo url_for('homepage') ?>">
+                <img src="/data/vinIGP_logo.jpg" alt="" />
+            </a>
+        </h1>
         <div id="actions_utilsateur">
             <?php if ($sf_user->hasCredential('admin')) : ?>
                 <a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
             <?php endif; ?>
             <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
-                
+
                 <?php //
                 //LIEN OBSERVATOIRE
                 //
                 //if ($sf_user->hasCredential(Roles::OBSERVATOIRE)) : ?>
                 <!--<a href="<?php // echo sfConfig::get('app_observatoire_url'); ?>">Observatoire</a>-->
                 <?php // endif; ?>
-                
-                
+
+
                 <a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
             <?php endif; ?>
             <?php if ($sf_user->isAuthenticated()): ?>

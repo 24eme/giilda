@@ -28,13 +28,14 @@ function getDrmEtablissementAdresse($drm) {
     return $drm->declarant->adresse . ' ' . $drm->declarant->code_postal . ' ' . $drm->declarant->commune;
 }
 
-function sprintFloat($float, $format = "%01.02f") {
-    if (is_null($float))
-        $float = 0.00;
-    return sprintf($format, $float);
+function sprintFloat($float, $format = "%01.04f")
+{
+	if (is_null($float))
+		return null;
+		return preg_replace('/00$/', '', sprintf($format, $float));
 }
 
-function echoFloatWithHl($float) {    
+function echoFloatWithHl($float) {
     echo ($float)? sprintFloat($float).' hl' : '';
 }
 

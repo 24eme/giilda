@@ -38,7 +38,7 @@
                     <p>
                         <strong>
                             Vous utilisez un navigateur obsolète depuis près de 10 ans !
-                        </strong> 
+                        </strong>
                         Il est possible que l'affichage du site soit fortement altéré par l'utilisation de celui-ci.
 
                         <a href="http://browser-update.org/update-browser.html" target="_blank">Découvrez comment mettre votre navigateur à jour</a>
@@ -83,7 +83,7 @@
                         <?php
                         include_slot('colApplications');
                         ?>
-                        <?php include_slot('colFilEdition'); ?>  
+                        <?php include_slot('colFilEdition'); ?>
                         <?php if (!$sf_user->hasCredential('teledeclaration')): ?>
                             <?php include_component_slot('colContacts'); ?>
                         <?php endif; ?>
@@ -101,10 +101,10 @@
                                     </div>
                                 </div>
                             <?php endif; ?>
-                        <?php endif; ?>                        
-                        <?php include_slot('colLegende'); ?>  
+                        <?php endif; ?>
+                        <?php include_slot('colLegende'); ?>
 
-                        <?php include_slot('colAide'); ?>                        
+                        <?php include_slot('colAide'); ?>
 
                         <?php include_slot('colReglementation'); ?>
 
@@ -118,7 +118,7 @@
         </div>
         <!-- fin #global -->
 
-        <?php include_partial('global/ajaxNotification') ?> 
+        <?php include_partial('global/ajaxNotification') ?>
         <?php include_partial('global/initMessageAide') ?>
 
         <script type="text/javascript">var jsPath = "/js/";</script>

@@ -105,7 +105,7 @@ class vracActions extends sfActions {
             throw new sfException("wrong campagne format ($this->campagne)");
         }
 
-        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
+        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj(!$this->isTeledeclarationVrac())) - 1);
 
         $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
         $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
@@ -226,7 +226,7 @@ class vracActions extends sfActions {
                 $this->etablissement = $this->choixEtablissement;
                 $this->initSocieteAndEtablissementPrincipal();
             }
-            if (!$isMethodPost && $this->societe->isNegociant() && count($this->societe->getEtablissementsObj()) > 1 && !$this->choixEtablissement) {
+            if (!$isMethodPost && $this->societe->isNegociant() && count($this->societe->getEtablissementsObj(!$this->isTeledeclarationMode)) > 1 && !$this->choixEtablissement) {
                 return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
             }
         }
@@ -308,7 +308,7 @@ class vracActions extends sfActions {
             throw new sfException("wrong campagne format ($this->campagne)");
         }
 
-        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj()) - 1);
+        $this->isOnlyOneEtb = !(count($this->societe->getEtablissementsObj(!$this->isTeledeclarationVrac())) - 1);
 
         $this->etablissement = (!isset($request['etablissement']) || $this->isOnlyOneEtb ) ? 'tous' : $request['etablissement'];
         $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
@@ -507,7 +507,7 @@ class vracActions extends sfActions {
                 $this->form->save();
                 $this->redirect('vrac_condition', $this->vrac);
             } else {
-                
+
             }
         }
     }
@@ -718,7 +718,7 @@ class vracActions extends sfActions {
 
         $this->response->setContentType('text/csv');
         $this->response->setHttpHeader('Content-Disposition', $attachement);
-        //  $this->response->setHttpHeader('Content-Length', filesize($file));    
+        //  $this->response->setHttpHeader('Content-Length', filesize($file));
     }
 
     public function executeExportEtiquette(sfWebRequest $request) {
@@ -860,7 +860,7 @@ class vracActions extends sfActions {
 
     /*
      * Fonctions pour la population de l'annuaire
-     * 
+     *
      */
 
     protected function populateVracTiers($vrac) {
@@ -870,7 +870,7 @@ class vracActions extends sfActions {
 
     /*
      * Fonctions de service liées aux droits Users
-     * 
+     *
      */
 
     private function isTeledeclarationVrac() {
@@ -998,7 +998,7 @@ class vracActions extends sfActions {
 
     /*
      * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
-     * 
+     *
      */
 
     protected function renderPdf($path, $filename) {
