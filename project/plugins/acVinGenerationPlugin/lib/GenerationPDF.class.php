@@ -127,7 +127,6 @@ class GenerationPDF extends GenerationAbstract {
       $this->generation->remove('pregeneration_needed');
       $this->generation->save();
     }
-    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
     foreach ($this->generation->documents as $docid) {
       $pdf = $this->generatePDFForADocumentID($docid);
       if (!isset($pdfs[$pdf->getNbPages()]))
@@ -141,7 +140,7 @@ class GenerationPDF extends GenerationAbstract {
       if (isset($this->options['page'.$page.'perpage']) && $this->options['page'.$page.'perpage']) {
 	$origin = $this->generatePDFGroupByPageNumberAndConcatenateThem($pdfspage, $page);
 	if ($origin)
-	  $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page), 
+	  $this->generation->add('fichiers')->add($this->publishFile($origin, $this->generation->date_emission.'-'.$page),
 						$this->getDocumentName().' de '.$page.' page(s) trié par numéro de page');
       }else{
         $origin = $this->generatePDFAndConcatenateThem($pdfspage);
@@ -155,6 +154,8 @@ class GenerationPDF extends GenerationAbstract {
     if ($this->postGeneratePDF()) {
         $this->generation->save();
     }
+    $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
+    $this->generation->save();
   }
 
   public function generate() {
