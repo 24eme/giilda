@@ -73,6 +73,9 @@
         <div class="col-xs-4 text-right">
                 <?php if ($isTeledeclarationMode): ?>
                         <?php echo $form['email_transmission']->render(); ?>
+                        <?php if($compte->hasDroit(Roles::TELEDECLARATION_DOUANE)): ?>
+                              <?php echo $form['transmission_ciel']->render(); ?>
+                        <?php endif; ?>
                         <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?> type="button" data-toggle="modal" data-target="#signature_drm_popup" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?> href="#signature_drm_popup_content" class="btn btn-success"><span>Valider</span></button>
 
                 <?php else: ?>
@@ -81,7 +84,7 @@
         </div>
     </div>
     <?php if ($isTeledeclarationMode): ?>
-        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
+        <?php include_partial('drm_validation/signature_popup', array('drm' => $drm, 'societe' => $societe, 'compte' => $compte, 'etablissementPrincipal' => $etablissementPrincipal, 'validationForm' => $form)); ?>
     <?php endif; ?>
 </form>
 </div>
