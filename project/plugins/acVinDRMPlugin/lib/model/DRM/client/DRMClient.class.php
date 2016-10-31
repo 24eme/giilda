@@ -445,15 +445,18 @@ class DRMClient extends acCouchdbClient {
 
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
+            $drm->initProduitsAutres();
             return $drm;
         }
         if (!$drm->getEtablissement()->isNegociant()) {
             $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
             if ($dsLast) {
                 $drm->generateByDS($dsLast);
+                $drm->initProduitsAutres();
                 return $drm;
             }
         }
+        $drm->initProduitsAutres();
         return $drm;
     }
 
