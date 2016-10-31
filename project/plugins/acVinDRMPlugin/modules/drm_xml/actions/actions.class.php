@@ -36,8 +36,8 @@ class drm_xmlActions extends drmGeneriqueActions {
           $to = ($to && isset($to->to)) ? $to->to : 'vins@actualys.com';
           $msg = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')),
           $to,
-          "Erreur transmision XML pour ".$this->_id,
-          "Une transmission vient d'écouchouer pour la DRM ".$this->_id);
+          "Erreur transmision XML pour ".$this->drm->_id,
+          "Une transmission vient d'écouchouer pour la DRM ".$this->drm->_id);
           $this->getMailer()->send($msg);
         }
         return $this->redirect('drm_ciel', $this->drm);
