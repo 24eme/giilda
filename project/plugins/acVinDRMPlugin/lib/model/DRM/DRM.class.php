@@ -1098,6 +1098,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function initProduitsAutres(){
+      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+        if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
+          $this->addProduit($hash);
+        }
+      }
+    }
+
     public function cleanDetails() {
         $this->declaration->cleanDetails();
     }
