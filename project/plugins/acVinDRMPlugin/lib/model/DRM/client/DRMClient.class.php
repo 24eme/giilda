@@ -414,6 +414,7 @@ class DRMClient extends acCouchdbClient {
         }
         $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
         $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
+        $drm->initProduitsAutres();
         return $drm;
     }
 
@@ -445,18 +446,15 @@ class DRMClient extends acCouchdbClient {
 
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
-            $drm->initProduitsAutres();
             return $drm;
         }
         if (!$drm->getEtablissement()->isNegociant()) {
             $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
             if ($dsLast) {
                 $drm->generateByDS($dsLast);
-                $drm->initProduitsAutres();
                 return $drm;
             }
         }
-        $drm->initProduitsAutres();
         return $drm;
     }
 
