@@ -1,3 +1,5 @@
+<?php $interpro = sfConfig::get('app_teledeclaration_interpro'); ?>
+
 <div class="well">
     <p>Vous pouvez dès à présent déclarer votre DRM de septembre sur ce portail ce qui vous permettra de récupérer le document PDF à envoyer aux douanes.</p>
 
@@ -12,7 +14,7 @@
         <h4 class="modal-title">Adhésion à l'application CIEL du portail des douanes</h4>
       </div>
       <div class="modal-body">
-        <p>Pour que nous puissions transmette vos DRM à la douane par l'intermédiaire de l'application CIEL du portail Prodouane, il est indispensable de préalablement remplir, signer et déposer la <a target="_blank" href="/pdf/adhesion_ciel_prodouane_ivbd.pdf">convention d'adhésion à CIEL</a> auprès des douanes.
+        <p>Pour que nous puissions transmette vos DRM à la douane par l'intermédiaire de l'application CIEL du portail Prodouane, il est indispensable de préalablement remplir, signer et déposer la <a target="_blank" href="/pdf/adhesion_ciel_prodouane_<?php echo $interpro;?>.pdf">convention d'adhésion à CIEL</a> auprès des douanes.
 
         <p>Les douanes nous retourneront ensuite le volet qui nous est destiné comme preuve de dépôt : un délai de quelques jours est donc nécessaire pour activer la connexion.</p>
 
@@ -22,7 +24,7 @@
       </div>
       <div class="modal-footer text-center">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
-          <a target="_blank" class="btn btn-info" href="/pdf/adhesion_ciel_prodouane_ivbd.pdf">Télécharger la convention d'adhésion à CIEL</a>
+          <a target="_blank" class="btn btn-info" href="/pdf/adhesion_ciel_prodouane_<?php echo $interpro;?>.pdf">Télécharger la convention d'adhésion à CIEL</a>
       </div>
     </div>
   </div>
