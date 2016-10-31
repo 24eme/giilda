@@ -167,12 +167,13 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                             <ul>
 
                                 <?php foreach ($drm->getAllGenres() as $genre): ?>
-                                <li style="padding: 10px;">
+                                  <?php if(isset($annexesForm['cumul_' . $genre])): ?>
+                                    <li style="padding: 10px;">
                                         <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
                                         <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
                                         <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
                                     </li>
-
+                                  <?php endif; ?>
                                 <?php endforeach; ?>
                             </ul>
                         </td>
