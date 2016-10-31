@@ -3,8 +3,8 @@ class CompteLoginFirstForm extends BaseForm {
     public function configure() {
 
         $this->setWidgets(array(
-                'login'   => new sfWidgetFormInputText(),
-                'mdp'   => new sfWidgetFormInputPassword()
+                'login'   => new bsWidgetFormInput(),
+                'mdp'   => new bsWidgetFormInputPassword()
         ));
 
         $this->widgetSchema->setLabels(array(
