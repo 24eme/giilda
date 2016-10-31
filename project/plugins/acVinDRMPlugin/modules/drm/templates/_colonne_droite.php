@@ -5,7 +5,7 @@ if (!isset($isMonEspace)) {
     $societe = $drm->getEtablissement()->getSociete();
     $etablissementPrincipal = $societe->getEtablissementPrincipal();
 }
-?> 
+?>
 <?php
 if ($isTeledeclarationMode):
     slot('colCompte');
@@ -23,7 +23,7 @@ if ($isTeledeclarationMode):
                     <div class="ligne_btn txt_centre">
                         <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
                     </div>
-                <?php endif; ?>                   
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -58,18 +58,18 @@ if (isset($drm)) {
                     <?php if (!$drm->isValidee()): ?>
                         <a class="drm_delete_lien_colonne lien_drm_supprimer">
                             <span>Supprimer la DRM</span>
-                        </a> 
+                        </a>
                     <?php endif; ?>
                 <?php elseif ($isTeledeclarationMode): ?>
                     <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
                 <?php endif; ?>
             <?php endif; ?>
-        </div> 
+        </div>
         <?php if (!$isTeledeclarationMode): ?>
             <div class="ligne_btn txt_centre">
                 <div class="btnConnexion">
                     <a href="<?php echo url_for('drm_debrayage', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
-                </div>       
+                </div>
             </div>
             <div class="text-center" style="text-align: center;">
                 <p><strong><?php echo $etablissementPrincipal->nom; ?></strong></p>
@@ -78,7 +78,7 @@ if (isset($drm)) {
 
 <?php endif; ?>
                 <p><strong><?php echo $etablissementPrincipal->identifiant; ?></strong></p>
-                <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>            
+                <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>
             </div>
         <?php endif; ?>
     </div>
@@ -102,25 +102,32 @@ if (isset($drm)) {
             <a href="/data/guide_drm.pdf" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
             <br/>
             <br/>
+            <br/>
+            <p>
+                Vous trouverez ci dessous la convention d’adhésion et d'habilitation aux téléprocédures CIEL et Télépaiements en format pdf.
+            </p>
+            <a href="/data/convention_adhesion_CIEL.pdf" id="liens_notices" class="lien_telechargement" style="font-size: 8pt;">Télécharger la convention</a>
+            <br/>
+            <br/>
             <p class="lien_lecteur_pdf">
                 Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>
 
             <h3>Votre contact</h3>
 
-            <ul class="contact"> 
+            <ul class="contact">
                 <li class="nom"><?php echo $contact->nom; ?></li>
                 <li class="email"><a href="mailto:<?php echo $contact->email; ?>"><?php echo $contact->email; ?></a></li>
                 <li class="telephone"><?php echo $contact->telephone; ?></li>
             </ul>
         </div>
-    </div>   
+    </div>
     <script type="text/javascript">
         $(document).ready(function ()
         {
             initNoticePopup();
         });
-    </script>    
+    </script>
     <?php
     end_slot();
     ?>
