@@ -50,7 +50,6 @@ class drm_validationActions extends drmGeneriqueActions {
             $this->produits[] = $d;
         }
 
-
         $this->form = new DRMValidationCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -70,6 +69,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form->save();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
+        
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
             $mailManager = new DRMEmailManager($this->getMailer());
             $mailManager->setDRM($this->drm);
@@ -77,10 +77,13 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
-
-        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-            'periode_version' => $this->drm->getPeriodeAndVersion(),
-            'hide_rectificative' => 1));
+        if ($this->form->getValue('transmission_ciel') == "true") {
+		      $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
+      	}else{
+      	        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
+      	            'periode_version' => $this->drm->getPeriodeAndVersion(),
+      	            'hide_rectificative' => 1));
+      	}
     }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {
