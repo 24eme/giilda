@@ -25,9 +25,13 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         if($compte->hasDroit(Roles::TELEDECLARATION_DRM)){
             $this->defaults['droits'][] =  Roles::DRM; 
         }
-          if($compte->hasDroit(Roles::OBSERVATOIRE)){
+        if($compte->hasDroit(Roles::OBSERVATOIRE)){
             $this->defaults['droits'][] =  Roles::OBSERVATOIRE; 
         }
+        if($compte->hasDroit(Roles::TELEDECLARATION_DOUANE)){
+            $this->defaults['droits'][] =  Roles::TELEDECLARATION_DOUANE;
+        }
+
     }
 
     public function configure() {
@@ -94,7 +98,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
 
     public function getDroits() {
 
-        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM",Roles::OBSERVATOIRE =>  "Observatoire");
+        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM",Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
     }
    
     public function getCountryList() {

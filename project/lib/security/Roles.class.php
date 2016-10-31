@@ -34,6 +34,21 @@ class Roles
 
     const OBSERVATOIRE = 'observatoire';
 
+    public static $teledeclarationLibelles = array(
+      self::TELEDECLARATION => "Teledeclaration",
+      self::TELEDECLARATION_VRAC => "Teledeclaration signature contrats",
+      self::TELEDECLARATION_VRAC_CREATION => "Teledeclaration création contrats",
+      self::TELEDECLARATION_DRM => "Teledeclaration DRM",
+      self::TELEDECLARATION_DOUANE => "Transmission Ciel",
+      );
+
+      public static $teledeclarationLibellesShort = array(
+        self::TELEDECLARATION_VRAC => "Signature contrats",
+        self::TELEDECLARATION_VRAC_CREATION => "Création contrats",
+        self::TELEDECLARATION_DRM => "DRM",
+        self::TELEDECLARATION_DOUANE => "Transmission Ciel",
+        );
+
     protected static $hierarchy = array(
         self::ADMIN => array(self::OPERATEUR, self::TRANSACTION),
         self::OPERATEUR => array(),
