@@ -1,4 +1,6 @@
-
+<?php
+use_helper('PointsAides');
+?>
     <div id="signature_popup_content"  class="modal fade" role="dialog">
        <div class="modal-dialog">
          <div class="modal-content">
@@ -27,16 +29,20 @@
    </div>
    <div class="modal-footer">
         <div class="row">
-          <div class="col-xs-12">
-            <a id="signature_popup_close" class="btn btn-danger" style="float: left;" href="#" >Annuler</a>
+          <div class="col-xs-6 text-left">
+            <a data-dismiss="modal" id="signature_popup_close" class="btn btn-danger" style="float: left;" href="#" >Annuler</a><div style="padding-top:6px;"><?php echo getPointAideHtml('vrac','validation_popup_annuler'); ?></div>
+          </div>
+          <div class="col-xs-6 text-right">
+
             <?php if (isset($validation) && $validation): ?>
-                <button id="signature_popup_confirm" type="submit" class="btn btn-success pull-right" ><span>Signer le contrat</span></button>
+              <button id="signature_popup_confirm" type="submit" class="btn btn-success pull-right" ><span>Signer le contrat</span></button><div class="pull-right" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','validation_popup_valider'); ?>&nbsp;</div>
             <?php else : ?>
-                <a id="signature_popup_confirm" href="<?php echo url_for('vrac_signature', $vrac) ?>" class="btn btn-success pull-right"><span>Signer le contrat</span></a>
+              <a id="signature_popup_confirm" href="<?php echo url_for('vrac_signature', $vrac) ?>" class="btn btn-success pull-right"><span>Signer le contrat</span></a><div class="pull-right" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','validation_popup_valider'); ?>&nbsp;</div>
             <?php endif; ?>
-        </div>
+          </div>
         </div>
     </div>
   </div>
+</div>
 
 </div>

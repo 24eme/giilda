@@ -19,11 +19,14 @@ class GenerationFacturePDF extends GenerationPDF {
 
     public function preGeneratePDF() {
         parent::preGeneratePDF();
-        
+
         $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse(null);
         $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
-        
+
         $arguments = $this->generation->arguments->toArray();
+        if (!isset($arguments['modele']) || !$arguments['modele']) {
+            throw new sfException("Le modele n'existe pas dans les arguments de la génération");
+        }
         $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $arguments);
         $message_communication = (array_key_exists('message_communication', $arguments)) ? $arguments['message_communication'] : null;
         if (!$this->generation->exist('somme'))

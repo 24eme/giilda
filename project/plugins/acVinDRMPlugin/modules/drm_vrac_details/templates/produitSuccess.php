@@ -13,7 +13,7 @@
                 <?php include_partial('templateItem', array('form' => $form->getFormTemplate(), 'detail' => $detail, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Abandonner</button>
+                <button tabindex="-1" type="button" class="btn btn-default pull-left" data-dismiss="modal">Abandonner</button>
                 <button type="submit" class="btn btn-success" >Valider</button>
             </div>
         </form>

@@ -72,7 +72,6 @@ var initTeledeclarationCourtierSoussigne = function() {
 }
 var initModificationCompte = function() {
 $("#modification_compte a.modifier, #modification_compte a.annuler").click(function() {
-  console.log('here');
     $("#modification_compte div.presentation").toggle();
     $("#modification_compte div.modification").toggle();
 });

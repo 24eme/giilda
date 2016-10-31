@@ -10,12 +10,17 @@
     <link rel="shortcut icon" href="/favicon.ico" />
     <?php include_stylesheets() ?>
     <!-- Bootstrap core CSS -->
-    <link href="/components/bootstrap/bootstrap.css" rel="stylesheet">
+    <?php if(file_exists(sfConfig::get('sf_web_dir')."/css/bootstrap_".sfConfig::get('sf_environment').'.css')): ?>
+        <link href="/css/bootstrap_<?php echo sfConfig::get('sf_environment'); ?>.css?20161004" rel="stylesheet">
+    <?php else: ?>
+        <link href="/css/bootstrap.css?20161004" rel="stylesheet">
+    <?php endif; ?>
     <link href="/components/select2/select2.css" rel="stylesheet">
     <link href="/components/select2/select2-bootstrap.min.css" rel="stylesheet">
     <link href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-    
+    <link href="/components/vins/vins.css" rel="stylesheet">
+    <link href="/css/style.css?20161004" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -23,20 +28,25 @@
     <![endif]-->
     <script src="/components/jquery/jquery.js"></script>
   </head>
-<?php
-    $idBody = ($sf_user->hasCredential('teledeclaration'))? "teledeclaration" : "app_transaction_".sfConfig::get('app_instance');
-    ?><body id="<?php echo $idBody; ?>">
+    <body>
+    <?php if(file_exists(sfConfig::get('sf_app_dir')."/templates/_header_".sfConfig::get('sf_environment').'.php')): ?>
+        <?php include_partial('global/header_'.sfConfig::get('sf_environment')); ?>
+    <?php else: ?>
+        <?php include_partial('global/header'); ?>
+    <?php endif; ?>
 
-    <?php include_partial('global/header'); ?>
 
 
 	<div id="content" style="min-height: 945px;">
+    <?php if(sfConfig::get('app_instance') == 'preprod' ): ?>
+      <div><p style="color:red; text-align:center; font-weight: bold;">Preproduction (la base est succeptible d'être supprimée à tout moment)</p></div>
+    <?php endif; ?>
 		<div class="container">
         <?php echo $sf_content ?>
-    </div>
+        </div>
 
-    <div id="ajax-modal" class="modal"></div>
-    <?php include_partial('global/footer'); ?>
+        <div id="ajax-modal" class="modal"></div>
+        <?php include_partial('global/footer'); ?>
     </div>
 
     <script src="/components/bootstrap/bootstrap.js"></script>
@@ -52,7 +62,7 @@
     <script src="/js/teledeclaration.js"></script>
     <script src="/js/conditionnement.js"></script>
     <script src="/js/vrac.js"></script>
-    <script src="/js/drm.js"></script>
+    <script src="/js/drm.js?20161004"></script>
     <script src="/js/contacts.js"></script>
     <script src="/js/facture.js"></script>
     <script src="/js/stats.js"></script>

@@ -15,12 +15,14 @@
 		<declaration-neant><?php echo ($drm->declaration->hasStockEpuise())? "true" : "false"; ?></declaration-neant>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
-<?php foreach ($drm->getProduitsDetails() as $produit): ?>
+<?php foreach ($drm->getProduitsDetails(true) as $produit): ?>
 			<produit>
 <?php if (false && $produit->getLibelle()): ?>
 				<libelle-fiscal><?php echo $produit->getLibelle('%format_libelle% %la%') ?></libelle-fiscal>
 <?php endif; ?>
+<?php if ($produit->getCodeDouane()): ?>
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
+<?php endif; ?>
 				<libelle-personnalise><?php echo trim(html_entity_decode($produit->getLibelle('%format_libelle% %la%'), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
 <?php if (false && $produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
@@ -32,7 +34,7 @@
 				<observations><?php echo $produit->getObservations() ?></observations>
 <?php endif; ?>
 				<balance-stocks>
-<?php 
+<?php
 	$xml = details2XmlDouane($produit);
 	echo formatXml($xml, 5);
 ?>
@@ -57,12 +59,12 @@
 <?php endif; ?>
 <?php if ($produit->getPremix()): ?>
 				<premix>true</premix>
-<?php endif; ?>	
+<?php endif; ?>
 <?php if ($produit->getObservations()): ?>
 				<observations><?php echo $produit->getObservations() ?></observations>
 <?php endif; ?>
 				<balance-stocks>
-<?php 
+<?php
 	$xml = details2XmlDouane($produit);
 	echo formatXml($xml, 5);
 ?>
@@ -112,7 +114,7 @@
     	</compte-crd>
 <?php endforeach; endif;
 $documents_annexes = array();
-foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && is_int($v->debut) && is_int($v->fin))  : 
+foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && is_int($v->debut) && is_int($v->fin))  :
 	$documents_annexes[$k] = $v;
 endif; endforeach;
 if (count($documents_annexes)): ?>

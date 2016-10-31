@@ -16,12 +16,13 @@ $tabindex = $numProduit * 100 ;
                     <div style="height:22px;" class="form-group form-group-xs">
                         <span>&nbsp;</span>
                     </div>
+                    <ul class="list-unstyled">
                     <?php foreach ($form['stocks_debut'] as $key => $subform): ?>
                         <?php
                         if ($key != 'instance'):
                             $class = ($key == 'dont_revendique') ? ' somme_stock_debut_dont_revendique ' : ' somme_stock_debut ';
                             ?>
-                            <div style="height:22px;" class="form-group form-group-xs <?php // echo isVersionnerCssClass($subform->getObject(), $key)                   ?>">
+                            <li style="height:22px;" class="form-group form-group-xs <?php // echo isVersionnerCssClass($subform->getObject(), $key)                   ?>">
                                 <?php
                                 $allAttributes = array('data-val-defaut' => $form['stocks_debut'][$key]->getValue(), 'class' => $form['stocks_debut'][$key]->getWidget()->getAttribute('class') . $class . ' somme_detail ');
                                 if (!$subform->getWidget()->getAttribute('readonly')) {
@@ -30,10 +31,10 @@ $tabindex = $numProduit * 100 ;
                                 }
                                 echo $form['stocks_debut'][$key]->render($allAttributes);
                                 ?>
-                            </div>
+                            </li>
                         <?php endif; ?>
                     <?php endforeach; ?>
-
+                    </ul>
                 </div>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="2">
                     <div style="height:22px;" class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">

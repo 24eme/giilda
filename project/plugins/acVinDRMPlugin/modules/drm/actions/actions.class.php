@@ -26,7 +26,7 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
-        //$this->redirect403IfIsTeledeclaration();
+        $this->redirect403IfIsTeledeclaration();
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {
@@ -261,7 +261,8 @@ class drmActions extends drmGeneriqueActions {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
                 $this->formCampagne->bind($param);
-                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+                $campagne = ($this->formCampagne->getValue('campagne'))? $this->formCampagne->getValue('campagne') : "-1";
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $campagne));
             }
         }
     }
@@ -279,6 +280,10 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeStocks(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->campagne = ($request->getParameter('campagne'))? $request->getParameter('campagne') : ConfigurationClient::getInstance()->getCampagneVinicole()->getCurrent();
+        $this->etablissement  = $this->getRoute()->getEtablissement();
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         return $this->formCampagne($request, 'drm_etablissement_stocks');
     }
 

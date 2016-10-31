@@ -115,7 +115,7 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
 
 function getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
     if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode))
-        return  '(Téleclarée)';
+        return  '(Télédéclarée)';
     else if ($isTeledeclarationMode)
         return '';
     else {

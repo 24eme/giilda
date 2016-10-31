@@ -23,6 +23,9 @@ ivso:
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
         "ESPECES": "Espèces"
+      transactions:
+        "MOUTS": null
+
 ivbd:
   configuration:
     vrac:
@@ -70,3 +73,4 @@ ivbd:
         "AUTRE": "Autre / non précisé"
       transactions:
         "VIN_VRAC": "<span class=\"icon-vrac\" style=\"font-size: 32px;\"></span> Vrac retiraison vrac"
+        "MOUTS": null

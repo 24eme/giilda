@@ -8,7 +8,8 @@
     <form method="post" class="form-inline col-xs-11" style="margin-top: 10px;">
         <?php echo $formCampagne->renderGlobalErrors() ?>
         <?php echo $formCampagne->renderHiddenFields() ?>
-        <?php echo $formCampagne; ?> <input class="btn btn-default btn-sm" type="submit" value="Changer"/>
+        <?php echo $formCampagne['campagne']->render(); ?>
+        <input class="btn btn-default btn-sm" type="submit" value="Changer"/>
     </form>
   </div>
     <div class="row" style="margin-top: 20px;">

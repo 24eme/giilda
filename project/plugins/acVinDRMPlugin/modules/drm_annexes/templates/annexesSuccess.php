@@ -6,7 +6,7 @@
 <?php
 $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null;
 ?>
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <!-- #principal -->
 <section id="principal" class="drm">
@@ -79,7 +79,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         </div>
                         <div id="collapse_apurement" class="panel-collapse collapse <?php echo (count($annexesForm['releve_non_apurement']))? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_apurement">
                         <div class="panel-body">
-                          <p><?php echo getPointAideText('drm','annexe_nonapurement'); ?></p>
+                        <p><?php echo getPointAideText('drm','annexe_nonapurement'); ?><p/>
                           <table id="table_drm_non_apurement" class="table table-bordered table-striped">
                               <thead >
                                   <tr>
@@ -99,7 +99,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                               </tbody>
                               <thead>
                                   <tr>
-                                      <td colspan="4"><a class="btn_ajouter_ligne_template btn btn-sm btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a></td>
+                                      <td colspan="4" class="ajouter_non_apurement"><a class="btn_ajouter_ligne_template btn btn-sm btn-link pull-right" data-container="#nonapurement_list" data-template="#template_nonapurement" href="#"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter une ligne non apurement</a></td>
                                   </tr>
                               </thead>
                           </table>
@@ -231,13 +231,13 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th colspan="3">Condition de paiement des douanes</th>
+                          <th colspan="3">Condition de paiement des douanes<?php echo getPointAideHtml('drm','annexe_paiement_douane_condition'); ?></th>
                         </tr>
                         </thead>
                         <tbody>
                           <tr>
                               <td class="col-xs-3">
-                                <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
+                                <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?><?php echo getPointAideHtml('drm','annexe_paiement_douane_frequence'); ?>
                               </td>
                               <td class="col-xs-9" colspan="2" >
                                 <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
@@ -246,7 +246,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                           </tr>
                           <tr style="vertical-align: middle;" class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
                               <td class="col-xs-4">
-                                  <strong>Cumul des droits douaniers (en €)</strong>
+                                  <strong>Cumul des droits douaniers (en €)</strong><?php echo getPointAideHtml('drm','annexe_paiement_douane_cumul'); ?>
                               </td>
                               <?php foreach ($drm->getAllGenres() as $genre): ?>
                             <td class="col-xs-4" >

@@ -113,12 +113,8 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-        return !$this->hasPrecedente();
-    }
 
-    public function canSetStockInitial() {
-        //TODO : Parametrer en fct de la DATE DRM
-        return true;
+       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
     }
 
     public function canSetLabels() {
@@ -445,7 +441,7 @@ class DRMDetail extends BaseDRMDetail {
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
             if ($entreeConf->taxable_douane && $entreeDrm && $entreeDrm > 0) {
-                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
@@ -460,7 +456,7 @@ class DRMDetail extends BaseDRMDetail {
 
 
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
-                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
     }
@@ -476,7 +472,12 @@ class DRMDetail extends BaseDRMDetail {
         return false;
     }
 
-     public function getCodeDouane() {
- 	     return $this->getCepage()->getConfig()->code_douane;
-     }
+    public function getCodeDouane() {
+        if($this->exist("code_inao") && $this->code_inao) {
+            return $this->code_inao;
+        }
+
+        return $this->getCepage()->getConfig()->code_douane;
+    }
+
 }

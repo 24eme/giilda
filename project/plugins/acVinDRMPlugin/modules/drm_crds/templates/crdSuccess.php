@@ -3,11 +3,11 @@
 <?php use_helper('PointsAides'); ?>
 <?php $allCrdsByRegimeAndByGenre = $drm->getAllCrdsByRegimeAndByGenre(); ?>
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <!-- #principal -->
 <section id="principal" class="drm">
-    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => true, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
+    <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
     <div class="row" id="application_drm">
         <div class="col-xs-12">
           <p><?php echo getPointAideText('drm','etape_capsules_crd_description'); ?></p>
@@ -23,7 +23,7 @@
                             <table id="table_drm_crds" class="table table-bordered table-condensed table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD <a data-form="#form_crds" href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="btn btn-xs link-submit btn-link"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></th>
+                                        <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD<?php echo getPointAideHtml('drm','crd_type') ?>&nbsp;<a data-form="#form_crds" href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="link-submit"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></th>
                                         <th class="col-xs-1 text-center vertical-center" rowspan="2">Stock<?php echo getPointAideHtml('drm','crd_stock_debut') ?></th>
                                         <th class="text-center" colspan="3">Entrées</th>
                                         <th class="text-center" colspan="3">Sorties</th>
@@ -81,7 +81,9 @@
         </div>
     </div>
 </section>
-
+<?php if (isset($crdRegimeForm)): ?>
+    <?php include_partial('drm_crds/crd_regime_choice_popup', array('drm' => $drm, 'crdRegimeForm' => $crdRegimeForm, 'etablissementPrincipal' => $etablissementPrincipal, 'retour' => 'crds')); ?>
+<?php endif; ?>
 <?php
 include_partial('drm/deleteDrmPopup', array('drm' => $drm, 'deleteForm' => $deleteForm));
 ?>

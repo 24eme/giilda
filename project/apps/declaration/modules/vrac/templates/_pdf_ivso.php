@@ -4,6 +4,17 @@ use_helper('Display');
 $moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
 $delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
+$vendeur_raison_sociale = ($vrac->vendeur->raison_sociale) ?
+        $vrac->vendeur->raison_sociale : $vrac->getVendeurObject()->getSociete()->raison_sociale;
+
+$acheteur_raison_sociale = ($vrac->acheteur->raison_sociale) ?
+        $vrac->acheteur->raison_sociale : $vrac->getAcheteurObject()->getSociete()->raison_sociale;
+
+$mandataire_raison_sociale = "";
+if ($vrac->mandataire_exist) {
+    $mandataire_raison_sociale = ($vrac->mandataire->raison_sociale) ?
+            $vrac->mandataire->raison_sociale : $vrac->getMandataireObject()->getSociete()->raison_sociale;
+}
 ?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
@@ -76,7 +87,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \def\CONTRATSOUSTITRE{<?php if($vrac->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC): ?>produits dans le Sud-Ouest<?php else: ?>destinés à l'élaboration d'AOP ou d'IGP du Sud-Ouest<?php endif; ?>}
 
 
-\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vrac->vendeur->raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php echo $vrac->vendeur->cvi ?>}
 \def\CONTRATVENDEURSIRET{<?php echo $vrac->vendeur->siret ?>}
 \def\CONTRATVENDEURACCISES{<?php echo $vrac->vendeur->no_accises ?>}
@@ -84,14 +95,14 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \def\CONTRATVENDEURCOMMUNE{<?php  echo display_latex_string($vrac->vendeur->code_postal.' '.$vrac->vendeur->commune) ?>}
 
 
-\def\CONTRATACHETEUREURNOM{<?php  echo display_latex_string($vrac->acheteur->raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEUREURNOM{<?php  echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php echo $vrac->acheteur->cvi ?>}
 \def\CONTRATACHETEURSIRET{<?php echo $vrac->acheteur->siret ?>}
 \def\CONTRATACHETEURACCISES{<?php echo $vrac->acheteur->no_accises ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse); ?>}
 \def\CONTRATACHETEURCOMMUNE{<?php echo display_latex_string($vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($vrac->mandataire->raison_sociale) ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale) ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{, n° carte professionnelle:~<?php echo $vrac->mandataire->carte_pro ?>}
 
 \def\CONTRATTYPE{Moûts}

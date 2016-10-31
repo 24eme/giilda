@@ -36,7 +36,7 @@
 \setlength{\evensidemargin}{-2cm}
 \setlength{\textwidth}{29.7cm}
 \setlength{\textheight}{16.5cm}
-\setlength{\headheight}{4cm}
+\setlength{\headheight}{4.5cm}
 \setlength{\headwidth}{28.2cm}
 \setlength{\topmargin}{-3.5cm}
 \setlength{\footskip}{-1cm}

@@ -242,7 +242,6 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
     }
 
     public static function sortProduitByLibelle($p1, $p2) {
-        // TODO : autre TRIE
         return $p1->getLibelle("%format_libelle%") > $p2->getLibelle("%format_libelle%");
     }
 

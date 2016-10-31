@@ -14,17 +14,17 @@ if($drm->declarant->caution){
 }
 ?>
 
-\def\InterloireAdresse{<?php echo getAdresseInterloire(); ?>} 
-\def\InterloireContact{<?php //echo getDrmContact($drm); ?>} 
+\def\InterloireAdresse{<?php echo getAdresseInterpro(); ?>}
+\def\InterloireContact{<?php echo getInfosInterpro($drm); ?>}
 
 \def\DRMSocieteRaisonSociale{<?php echo $drm->societe->raison_sociale; ?>}
-\def\DRMSocieteAdresse{<?php echo getDrmSocieteAdresse($drm); ?>}   
+\def\DRMSocieteAdresse{<?php echo getDrmSocieteAdresse($drm); ?>}
 
-\def\DRMAdresseChai{<?php echo getDrmEtablissementAdresse($drm); ?>}   
-\def\DRMAdresseCompta{} 
+\def\DRMAdresseChai{<?php echo getDrmEtablissementAdresse($drm); ?>}
+\def\DRMAdresseCompta{}
 
-\def\DRMNumAccise{<?php echo $drm->declarant->no_accises; ?>} 
-\def\DRMCvi{<?php echo $drm->declarant->cvi; ?>}              
+\def\DRMNumAccise{<?php echo $drm->declarant->no_accises; ?>}
+\def\DRMCvi{<?php echo $drm->declarant->cvi; ?>}
 
 \def\DRMSiret{<?php echo $drm->societe->siret; ?>}
 \def\DRMIdentifiantIL{<?php echo $drm->identifiant; ?>}
@@ -45,16 +45,16 @@ Caution : \textbf{<?php echo $caution; ?>} \\
 Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
 <?php endif; ?>
  }
- 
+
 \rhead{ \\
 \vspace{-2cm}
 \InterloireAdresse
- \begin{small} \InterloireContact \\ 
- \end{small} 
+ \begin{small} \InterloireContact \\
+ \end{small}
  \begin{large}
 \textbf{DRM <?php echo getFrPeriodeElision($drm->periode); ?>} \\
 \textbf{Signé électroniquement le <?php echo $drm->getEuValideDate(); ?>}
 \end{large}
  }
- 
+
 \rfoot{page \thepage\ / <?php echo $nbPages ?>}

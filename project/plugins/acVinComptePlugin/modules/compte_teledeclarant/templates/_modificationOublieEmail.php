@@ -1,1 +1,10 @@
-Bonjour <?php echo $compte->nom ?>,\n\n votre mot de passe sur le site d'InterLoire vient d'etre modifié. \n\n Cordialement, \n\n Interloire
+<?php
+$interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
+?>
+Madame, Monsieur,
+
+Votre mot de passe sur l'espace professionnel de l'<?php echo $interpro; ?> vient d'etre modifié.
+
+Cordialement,
+
+L'espace professionnel de l'<?php echo $interpro; ?>
