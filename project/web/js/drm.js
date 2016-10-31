@@ -186,13 +186,11 @@
     var initSignatureDrmPopup = function () {
 
 
-        $('#signature_drm_popup_content a#signature_drm_popup_close').click(function () {
-            //$.fancybox.close();
-        })
 
-        $('#signature_drm_popup_content a#signature_drm_popup_confirm').click(function () {
+        $('#signature_drm_popup button#signature_drm_popup_confirm').click(function () {
             $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
-            $("form#drm_validation").submit();
+          $("form#drm_validation input#drm_transmission_ciel").val($('#drm_transmission_ciel_visible').is(':checked'));
+          //  $("form#drm_validation").submit();
         });
 
     };
