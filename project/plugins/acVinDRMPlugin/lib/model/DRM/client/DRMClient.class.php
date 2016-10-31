@@ -420,6 +420,7 @@ class DRMClient extends acCouchdbClient {
         }
         $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
         $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
+        $drm->initProduitsAutres();
         return $drm;
     }
 
