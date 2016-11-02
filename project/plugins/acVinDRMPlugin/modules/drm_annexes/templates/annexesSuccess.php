@@ -249,17 +249,13 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                   <strong>Cumul des droits douaniers (en €)</strong><?php echo getPointAideHtml('drm','annexe_paiement_douane_cumul'); ?>
                               </td>
                               <?php foreach ($drm->getAllGenres() as $genre): ?>
-                            <td class="col-xs-4" >
-
-                                  <!-- <div class=""> -->
-                                    <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
-                                    <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
-                                  <!-- </div>
-                                   <div class="col-xs-3"> -->
-                                    <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
-                                  <!-- </div> -->
-
-                              </td>
+                                <?php if(isset($annexesForm['cumul_' . $genre])): ?>
+                                    <td class="col-xs-4">
+                                        <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
+                                        <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
+                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
+                                    </td>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                           </tr>
                         </tbody>

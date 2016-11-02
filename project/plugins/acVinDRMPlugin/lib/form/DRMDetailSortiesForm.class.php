@@ -16,6 +16,9 @@ class DRMDetailSortiesForm  extends acCouchdbObjectForm {
             if ($key == 'contrat' && !preg_match('/AOC/', $certif)) {
                 $disabled = true;
             }
+            if (preg_match('/AUTRES/', $certif) && ($key != 'distillationusageindustriel') && ($key != 'destructionperte') && ($key != 'manquant') && ($key != 'vracsanscontratsuspendu')) {
+                $disabled = true;
+            }
     		if ($value->readable) {
 	    		if (!$value->writable || $disabled) {
 	    			$this->setWidget($key, new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));

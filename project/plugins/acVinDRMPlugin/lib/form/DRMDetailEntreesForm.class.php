@@ -11,8 +11,9 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
             if ($value->readable) {
                 if (!$value->writable
                    || (preg_match('/AOC|IGP/', $certif) && ($key == 'declassement'))
+ || ( preg_match('/AUTRES/', $certif) && ($key != 'recolte') && ($key != 'revendication'))
                    || (preg_match('/USAGESINDUSTRIELS/', $appellation) && (!$value->restriction_lies))
-		   ||  (preg_match('/VINSSIG/', $certif) && ($key == 'repli'))) {
+		              ||  (preg_match('/VINSSIG/', $certif) && ($key == 'repli'))) {
                     $this->setWidget($key, new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
                 } else {
                     $this->setWidget($key, new bsWidgetFormInputFloat());
