@@ -103,7 +103,7 @@ function crdGenre2CategorieFiscale($g) {
 	return $crdGenre2CategorieFiscaleArray[$g];
 }
 function crdType2TypeCapsule($t) {
-	$crdType2TypeCapsuleArray = array('COLLECTIFSUSPENDU'=>'COLLECTIVES_DROITS_SUSPENDUS', 'COLLECTIFAQUITTE' => 'COLLECTIVES_DROITS_AQUITTES', 'PERSONNALISE'=>'PERSONNALISEES');
+	$crdType2TypeCapsuleArray = array('COLLECTIFSUSPENDU'=>'COLLECTIVES_DROITS_SUSPENDUS', 'COLLECTIFACQUITTE' => 'COLLECTIVES_DROITS_ACQUITTES', 'PERSONNALISE'=>'PERSONNALISEES');
 	return $crdType2TypeCapsuleArray[$t];
 }
 function documentAnnexeKey2XMLTag($d) {
