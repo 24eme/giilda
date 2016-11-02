@@ -73,6 +73,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
 
         foreach ($this->drm->getProduits() as $produit) {
             $genre = $produit->getConfig()->getGenre();
+            if(!isset(DRMDroits::$correspondanceGenreKey[$genre->getKey()])) {
+                continue;
+            }
             $droit = $genre->getDroitDouane($this->drm->getFirstDayOfPeriode());
             $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
             $this->setWidget('cumul_' . $genreKey, new bsWidgetFormInputFloat());
@@ -103,6 +106,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         if ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE) {
             foreach ($this->drm->getProduits() as $produit) {
                 $genre = $produit->getConfig()->getGenre();
+                if(!isset(DRMDroits::$correspondanceGenreKey[$genre->getKey()])) {
+                    continue;
+                }
                 $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
                 $localCumul = $values['cumul_' . $genreKey];
 
