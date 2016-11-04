@@ -54,7 +54,7 @@ function details2XmlDouane($detail) {
         $preXML = array();
         foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {
-		if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+		if (($v || (preg_match('/revendique/', $k) && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
                         $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
 		}
 	  }
@@ -103,7 +103,7 @@ function crdGenre2CategorieFiscale($g) {
 	return $crdGenre2CategorieFiscaleArray[$g];
 }
 function crdType2TypeCapsule($t) {
-	$crdType2TypeCapsuleArray = array('COLLECTIFSUSPENDU'=>'COLLECTIVES_DROITS_SUSPENDUS', 'COLLECTIFAQUITTE' => 'COLLECTIVES_DROITS_AQUITTES', 'PERSONNALISE'=>'PERSONNALISEES');
+	$crdType2TypeCapsuleArray = array('COLLECTIFSUSPENDU'=>'COLLECTIVES_DROITS_SUSPENDUS', 'COLLECTIFACQUITTE' => 'COLLECTIVES_DROITS_ACQUITTES', 'PERSONNALISE'=>'PERSONNALISEES');
 	return $crdType2TypeCapsuleArray[$t];
 }
 function documentAnnexeKey2XMLTag($d) {
