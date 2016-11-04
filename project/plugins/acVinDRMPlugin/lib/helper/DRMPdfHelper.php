@@ -32,7 +32,9 @@ function sprintFloat($float, $format = "%01.04f")
 {
 	if (is_null($float))
 		return null;
-		return preg_replace('/00$/', '', sprintf($format, $float));
+  if (preg_match('/f$/', $format))
+	  return preg_replace('/00$/', '', sprintf($format, $float));
+  return $float;
 }
 
 function echoFloatWithHl($float) {
