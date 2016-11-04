@@ -75,7 +75,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function changedToTeledeclare() {
-	return $this->isTeledeclare() && $this->hasPrecedente() && !$this->getPrecedente()->isTeledeclare();
+        $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
+
+        return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
     }
 
     public function setPeriode($periode) {
@@ -343,6 +345,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 return null;
             }
             $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+            if($this->document_suivant && $this->document_suivant->changedToTeledeclare()) {
+                $this->document_suivant = null;
+            }
         }
 
         return $this->document_suivant;
