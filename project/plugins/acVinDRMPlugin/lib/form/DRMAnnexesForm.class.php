@@ -102,8 +102,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
                 $genre = $produit->getConfig()->getGenre();
                 $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
                 $localCumul = $values['cumul_' . $genreKey];
-
-                if ($localCumul && $localCumul > 0) {
+                if (!($localCumul < 0) && !is_null($localCumul)) {
                     $this->drm->getOrAdd('droits')->getOrAdd('douane')->getOrAdd($genreKey)->set('report', $localCumul);
                 }
             }
