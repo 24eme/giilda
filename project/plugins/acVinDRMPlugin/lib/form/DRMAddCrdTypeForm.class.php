@@ -46,7 +46,6 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
                 $this->setDefault('genre_crd_' . $regime, $this->defaultGenre);
             }
         }
-
         $this->widgetSchema->setNameFormat('drmAddTypeForm[%s]');
     }
 
@@ -55,10 +54,11 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         foreach ($this->regimeCrds as $regime) {
             $couleur = $values['couleur_crd_' . $regime];
             $litrage = $values['litrage_crd_' . $regime] * 100000;
+            $litrage_libelle = $values['litrage_crd_' . $regime];
             $genre = $values['genre_crd_' . $regime];
             $stock_debut = $values['stock_debut_' . $regime];
             if ($genre && $couleur && $litrage) {
-                $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $stock_debut);
+                $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $litrage_libelle, $stock_debut);
             }
         }
         $this->drm->save();
@@ -68,7 +68,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         parent::updateDefaultsFromObject();
 //        if (count($this->getGenres()) <= 1) {
 //            $genreCrdKeys = array_keys($this->getGenres());
-//            $genreCrd = $genreCrdKeys[0];           
+//            $genreCrd = $genreCrdKeys[0];
 //            foreach ($this->regimeCrds as $regime) {
 //                $this->setDefault('genre_crd_' . $regime, $genreCrd);
 //            }
