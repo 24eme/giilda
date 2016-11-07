@@ -68,8 +68,10 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
 
         foreach ($this->drm->getProduits() as $produit) {
             $genre = $produit->getConfig()->getGenre();
+            if($genre->getKey() == 'DEFAUT') { continue; }
             $droit = $genre->getDroitDouane($this->drm->getFirstDayOfPeriode());
             $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
+
             $this->setWidget('cumul_' . $genreKey, new sfWidgetFormInputFloat(array('float_format' => "%d")));
             $this->setValidator('cumul_' . $genreKey, new sfValidatorNumber(array('required' => false)));
             $this->widgetSchema->setLabel('cumul_' . $genreKey, $droit->libelle . ' (' . $droit->code . ') :');

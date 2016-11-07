@@ -4,7 +4,9 @@ function sprintFloat($float, $format = "%01.04f")
 {
 	if (is_null($float))
 		return null;
+	if (preg_match('/f$/', $format))
     return preg_replace('/00$/', '', sprintf($format, $float));
+  return $float;
 }
 
 function sprintFloatFr($float, $format = "%01.02f")
