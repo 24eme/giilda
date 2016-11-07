@@ -180,7 +180,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                     </tr>
                     <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
                         <td>
-                            Cumul des droits douaniers (en €)
+                            Cumul <b>début de mois</b> des droits douaniers (en €)
                         </td>
                         <td>
                             <ul>
