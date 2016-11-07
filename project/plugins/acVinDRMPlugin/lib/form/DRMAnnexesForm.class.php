@@ -50,6 +50,10 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'a été choisie")));
         $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement');
 
+        $this->setWidget('quantite_sucre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
+        $this->widgetSchema->setLabel('quantite_sucre', 'Quantités de sucre (en quintaux)');
+        $this->setValidator('quantite_sucre', new sfValidatorNumber(array('required' => false)));
+
         $this->setWidget('statistiques_jus', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
         $this->setWidget('statistiques_mcr', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
         $this->setWidget('statistiques_vinaigre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
@@ -68,7 +72,6 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
             $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
             $this->setWidget('cumul_' . $genreKey, new sfWidgetFormInputFloat(array('float_format' => "%d")));
             $this->setValidator('cumul_' . $genreKey, new sfValidatorNumber(array('required' => false)));
-
             $this->widgetSchema->setLabel('cumul_' . $genreKey, $droit->libelle . ' (' . $droit->code . ') :');
         }
 
@@ -108,6 +111,10 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->drm->declaratif->statistiques->mcr = $values['statistiques_mcr'];
         $this->drm->declaratif->statistiques->vinaigre = $values['statistiques_vinaigre'];
 
+        if (isset($values['quantite_sucre'])) {
+          $this->drm->add('quantite_sucre', $values['quantite_sucre']);
+        }
+
         if ($observations = $values['observationsProduits']) {
           foreach ($observations as $hash => $observation) {
             $this->drm->addObservationProduit($hash, $observation['observations']);
@@ -139,6 +146,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->setDefault('statistiques_jus' , $this->drm->declaratif->statistiques->jus);
         $this->setDefault('statistiques_mcr' , $this->drm->declaratif->statistiques->mcr);
         $this->setDefault('statistiques_vinaigre' , $this->drm->declaratif->statistiques->vinaigre);
+        if ($this->drm->exist('quantite_sucre')) {
+          $this->setDefault('quantite_sucre' , $this->drm->quantite_sucre);
+        }
         $societe = $this->drm->getEtablissement()->getSociete();
         if ($societe->exist('paiement_douane_frequence') && $societe->paiement_douane_frequence) {
             $this->setDefault('paiement_douane_frequence', $societe->paiement_douane_frequence);

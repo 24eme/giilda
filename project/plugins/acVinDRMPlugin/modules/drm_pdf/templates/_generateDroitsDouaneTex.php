@@ -112,7 +112,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \hline
 \multicolumn{2}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Information sur le sucre}}}} \\
 \hline
-\rowcolor{lightgray}\small{\textbf{Taux en quintal}} & \rowcolor{white}\small{\textbf{<?php echo $drm->quantite_sucre ?>}} \\
+\rowcolor{lightgray}\small{\textbf{Taux en quintaux}} & \rowcolor{white}\small{\textbf{<?php echo $drm->quantite_sucre ?>}} \\
 \hline   
 \end{tabular}
 

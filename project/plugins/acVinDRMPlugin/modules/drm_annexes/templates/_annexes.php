@@ -139,9 +139,29 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
 <div class="table-condensable ">
 <div class="drm_informations_toggle" style="cursor:pointer;">
     <p class="extendable ouvert"></p>
-    <h2>Paiement Douane</h2>
+    <h2>Informations Douanières</h2>
 </div>
             <div style="padding: 0px 10px 10px 10px;" class="drm_informations_content_togglable" >
+              <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
+                  <thead >
+                      <tr>
+                          <th colspan="2">Sucre&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide6'); ?>"  style="padding: 0 0 0 10px;"></a></th>
+                      </tr>
+                  </thead>
+                  <tbody class="drm_non_apurement" id="nonapurement_list">
+                    <tr>
+                        <td class="drm_quantite_sucre_label" style="width: 255px;">
+                            <?php echo $annexesForm['quantite_sucre']->renderLabel(); ?>
+                        </td>
+                        <td class="drm_paiement_douane_frequence" style="height: 55px;">
+                            <?php echo $annexesForm['quantite_sucre']->renderError(); ?>
+                            <?php echo $annexesForm['quantite_sucre']->render(); ?>
+                        </td>
+
+                    </tr>
+                  </tbody>
+            </table>
+            <br/>
             <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
                 <thead >
                     <tr>
@@ -157,7 +177,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                             <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
                             <?php echo $annexesForm['paiement_douane_frequence']->render(); ?>
                         </td>
-
                     </tr>
                     <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
                         <td>
