@@ -19,7 +19,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 	if (count($this->drm->getRegimesCrds()) > 1 && isset($options['regime'])) {
 		$this->regimeCrds = $options['regime'];
 	}else{
-		$this->regimeCrds = $this->drm->getRegimesCrds()[0];	
+		$this->regimeCrds = $this->drm->getRegimesCrds()[0];
 	}
         $this->defaultGenre = $options['genre'];
         parent::__construct($this->drm, $options, $CSRFSecret);
@@ -42,7 +42,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         $this->setValidator('stock_debut_'.$this->regimeCrds, new sfValidatorNumber(array('required' => false)));
         $this->setValidator('genre_crd_'.$this->regimeCrds, new sfValidatorChoice(array('multiple' => false, 'required' => true, 'choices' => array_keys($this->getGenres())), array('required' => "Aucun genre n'a été saisi !")));
         $this->setValidator('regime', new sfValidatorPass());
-           
+
         $this->setDefault('genre_crd_'.$this->regimeCrds, $this->defaultGenre);
         $this->setDefault('regime', $this->regimeCrds);
 
@@ -54,12 +54,12 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         $regime = $values['regime'];
         $couleur = $values['couleur_crd_' . $regime];
         $litrage_libelle = $values['litrage_crd_' . $regime];
-        $contenances = sfConfig::get('app_vrac_contenances');            
+        $contenances = sfConfig::get('app_vrac_contenances');
         $litrage = $contenances[$litrage_libelle] * 100000;
         $genre = $values['genre_crd_' . $regime];
         $stock_debut = $values['stock_debut_' . $regime];
         if ($genre && $couleur && $litrage) {
-                $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $stock_debut);
+                $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $litrage_libelle, $stock_debut);
         }
         $this->drm->save();
     }
@@ -68,7 +68,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         parent::updateDefaultsFromObject();
 //        if (count($this->getGenres()) <= 1) {
 //            $genreCrdKeys = array_keys($this->getGenres());
-//            $genreCrd = $genreCrdKeys[0];           
+//            $genreCrd = $genreCrdKeys[0];
 //            foreach ($this->regimeCrds as $regime) {
 //                $this->setDefault('genre_crd_' . $regime, $genreCrd);
 //            }
