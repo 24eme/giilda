@@ -84,18 +84,6 @@ class vracActions extends sfActions {
         $this->redirect('homepage');
     }
 
-    public function executeDeconnexion(sfWebRequest $request) {
-
-        $url_back = $this->getUser()->usurpationOff();
-
-        if ($url_back) {
-
-            return $this->redirect($url_back);
-        }
-
-        $this->redirect('homepage');
-    }
-
     static function rechercheTriListOnID($etb0, $etb1) {
         if ($etb0->id == $etb1->id) {
 
