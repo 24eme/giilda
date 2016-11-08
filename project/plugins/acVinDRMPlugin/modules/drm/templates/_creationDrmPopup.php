@@ -1,6 +1,7 @@
 <?php use_helper('Date'); ?>
 <?php use_helper('DRM'); ?>
 <?php use_helper('Orthographe'); ?>
+<?php use_helper('PointsAides'); ?>
 <div id="drm_nouvelle_<?php echo $periode . '_' . $identifiant; ?>" class="modal fade " role="dialog">
   <div class="modal-dialog">
     <form action="<?php echo url_for('drm_choix_creation', array('identifiant' => $identifiant, 'periode' => $periode)); ?>" method="post" enctype="multipart/form-data">
@@ -10,16 +11,29 @@
         <h2>Création de la DRM <?php echo getFrPeriodeElision($periode); ?></h2>
       </div>
        <div class="modal-body">
+         <div class="row">
             <?php echo $drmCreationForm->renderHiddenFields(); ?>
             <?php echo $drmCreationForm->renderGlobalErrors(); ?>
 
             <div class="ligne_form type_creation" id="type_creation_div_<?php echo $periode . '_' . $identifiant; ?>" >
-                <span>
                     <?php echo $drmCreationForm['type_creation']->renderError(); ?>
-                    <?php echo $drmCreationForm['type_creation']->renderLabel() ?>
-                    <?php echo $drmCreationForm['type_creation']->render(); ?>
-                </span>
-            </div>
+                    <ul class="list-unstyled">
+                        <li class="col-xs-10 col-xs-offset-1">
+                            <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" value="<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>">Création d'une drm vierge</label>
+                              <div class="pull-right"><?php echo getPointAideHtml('drm','creation_nouvelle') ?></div>
+                        </li>
+
+                        <li class="col-xs-10 col-xs-offset-1" >
+                            <input type="radio" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_NEANT; ?>" value="<?php echo DRMClient::DRM_CREATION_NEANT; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_NEANT; ?>">Création d'une drm à néant</label>
+                            <div class="pull-right"><?php echo getPointAideHtml('drm','creation_vierge') ?></div>
+                        </li>
+
+                      <li class="col-xs-10 col-xs-offset-1" >
+                            <input type="radio" id="drmChoixCreation_type_creation_<?php  echo DRMClient::DRM_CREATION_EDI; ?>" value="CREATION_EDI" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_EDI; ?>">Création depuis un logiciel tiers</label>
+                            <div class="pull-right"><?php echo getPointAideHtml('drm','creation_edi') ?></div>
+                        </li>
+                    </ul>
+                </div>
               <div style="display: none;" class="ligne_form" id="file_edi_div_<?php echo $periode . '_' . $identifiant; ?>">
                 <span>
                     <?php echo $drmCreationForm['file']->renderError(); ?>
@@ -27,6 +41,7 @@
                     <?php echo $drmCreationForm['file']->render(); ?>
                 </span>
             </div>
+          </div>
         </div>
 
        <div class="modal-footer">

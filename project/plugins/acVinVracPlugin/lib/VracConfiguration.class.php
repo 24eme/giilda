@@ -21,7 +21,16 @@ class VracConfiguration
 
 	public function getTransactions()
 	{
-		return $this->configuration['transactions'];
+		$transactions = array();
+		foreach($this->configuration['transactions'] as $key => $transaction) {
+			if($transaction === null) {
+				continue;
+			}
+
+			$transactions[$key] = $transaction;
+		}
+		
+		return $transactions;
 	}
 
 	public function getContenances()

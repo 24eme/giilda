@@ -28,6 +28,7 @@ class compte_teledeclarantActions extends sfActions {
     const SESSION_COMPTE_DOC_ID_CREATION = '';
     const SESSION_COMPTE_DOC_ID_OUBLIE = '';
 
+
     /**
      * Executes index action
      *
@@ -40,8 +41,21 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, $this->form->getValue('compte')->_id);
 
-                $this->redirect('compte_teledeclarant_creation');
+                //$this->redirect('compte_teledeclarant_creation');
+                return $this->redirect('compte_teledeclarant_cgu');
             }
+        }
+    }
+
+    /**
+     * Executes index action
+     *
+     * @param sfRequest $request A request object
+     */
+    public function executeCgu(sfWebRequest $request) {
+        if($request->isMethod(sfWebRequest::POST)) {
+
+            return $this->redirect("compte_teledeclarant_creation");
         }
     }
 
@@ -165,7 +179,7 @@ class compte_teledeclarantActions extends sfActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $compte = $this->form->save();
-                var_dump($compte); exit;
+
                 $societe = $compte->getSociete();
                 $lien = $this->generateUrl("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $compte->mot_de_passe)), true);
                 $emailCible = null;

@@ -4,16 +4,16 @@ function getCheckBoxe($b) {
     return ($b) ? '\squareChecked' : '$\square$';
 }
 
-function getInfosInterloire() {
+function getInfosInterpro() {
     return sfConfig::get('app_teledeclaration_contact_drm');
 }
 
-function getAdresseInterloire() {
-    return sfConfig::get('app_teledeclaration_adresse_interloire');
+function getAdresseInterpro() {
+    return sfConfig::get('app_teledeclaration_adresse_interpro');
 }
 
 function getDrmContact($drm) {
-    $infosInterloire = getInfosInterloire();
+    $infosInterloire = getInfosInterpro();
     $infosInterloireRegion = $infosInterloire[$drm->region];
     $drmContact = "Votre contact : " . $infosInterloireRegion['nom'] . ' - Tél: ' . $infosInterloireRegion['telephone'];
     $drmContact .= '\\\\ Email : ' . $infosInterloireRegion['email'];
@@ -34,7 +34,7 @@ function sprintFloat($float, $format = "%01.02f") {
     return sprintf($format, $float);
 }
 
-function echoFloatWithHl($float) {    
+function echoFloatWithHl($float) {
     echo ($float)? sprintFloat($float).' hl' : '';
 }
 

@@ -7,7 +7,7 @@
             <div class="col-xs-2 text-right">
 	    <div class="btn-group">
 	      <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-	        Modfier
+	        Modifier
 	        <span class="caret"></span>
 	      </a>
 	      <ul class="dropdown-menu">
@@ -37,7 +37,7 @@
             <div class="row">
                 <?php include_partial('compte/adresseVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
             </div>
-        </div>        
+        </div>
     <?php endif; ?>
     <?php if ($compte->isSameContactThanSociete()): ?>
         <div class="list-group-item list-group-item-xs text-center text-muted<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">

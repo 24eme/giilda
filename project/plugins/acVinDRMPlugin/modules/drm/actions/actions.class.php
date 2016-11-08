@@ -26,7 +26,7 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
-        //$this->redirect403IfIsTeledeclaration();
+        $this->redirect403IfIsTeledeclaration();
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {
@@ -179,9 +179,10 @@ class drmActions extends drmGeneriqueActions {
     public function executeExportEdi(sfWebRequest $request) {
         $this->setLayout(false);
         $drm = $this->getRoute()->getDRM();
-        $this->drmCsvEdi = new DRMCsvEdi($drm);
 
-        $filename = 'export_edi_' . $drm->identifiant . '_' . $drm->periode;
+        $this->drmCsvEdi = new DRMExportCsvEdi($drm);
+
+        $filename = $drm->identifiant . '_' . $drm->periode.'_'.$drm->_rev.'.csv';
 
 
         $attachement = "attachment; filename=" . $filename . ".csv";
@@ -230,12 +231,14 @@ class drmActions extends drmGeneriqueActions {
     public function executeDelete(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->drm = $this->getRoute()->getDRM();
+        $identifiant = $this->drm->getidentifiant();
         $this->initDeleteForm();
         if ($request->isMethod(sfRequest::POST)) {
             $this->deleteForm->bind($request->getParameter($this->deleteForm->getName()));
             if ($this->deleteForm->isValid()) {
                 $this->drm->delete();
-                $this->redirect('drm_etablissement', $this->drm);
+                $url = $this->generateUrl('drm_etablissement', array('identifiant' => $identifiant, 'campagne' => -1));
+                $this->redirect($url);
             }
         }
     }
@@ -258,7 +261,8 @@ class drmActions extends drmGeneriqueActions {
             $param = $request->getParameter($this->formCampagne->getName());
             if ($param) {
                 $this->formCampagne->bind($param);
-                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $this->formCampagne->getValue('campagne')));
+                $campagne = ($this->formCampagne->getValue('campagne'))? $this->formCampagne->getValue('campagne') : "-1";
+                return $this->redirect($route, array('identifiant' => $this->etablissement->getIdentifiant(), 'campagne' => $campagne));
             }
         }
     }
@@ -276,6 +280,10 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeStocks(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->campagne = ($request->getParameter('campagne'))? $request->getParameter('campagne') : ConfigurationClient::getInstance()->getCampagneVinicole()->getCurrent();
+        $this->etablissement  = $this->getRoute()->getEtablissement();
+        $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         return $this->formCampagne($request, 'drm_etablissement_stocks');
     }
 

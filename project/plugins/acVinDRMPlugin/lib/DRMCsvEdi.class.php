@@ -13,8 +13,8 @@ class DRMCsvEdi extends CsvFile {
     const TYPE_CRD = 'CRD';
     const TYPE_ANNEXE = 'ANNEXE';
     const TYPE_ANNEXE_NONAPUREMENT = 'NONAPUREMENT';
-    const TYPE_ANNEXE_SUCRE = 'SUCRE';
-    const TYPE_ANNEXE_OBSERVATIONS = 'OBSERVATIONS';
+    const TYPE_ANNEXE_STATS_EUROPEENES = "STATS-EUROPEENNES";
+
     const CSV_TYPE = 0;
     const CSV_PERIODE = 1;
     const CSV_IDENTIFIANT = 2;
@@ -26,28 +26,31 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_LIEU = 8;
     const CSV_CAVE_COULEUR = 9;
     const CSV_CAVE_CEPAGE = 10;
-    const CSV_CAVE_TYPE_DRM = 11;
-    const CSV_CAVE_CATEGORIE_MOUVEMENT = 12;
-    const CSV_CAVE_TYPE_MOUVEMENT = 13;
-    const CSV_CAVE_VOLUME = 14;
-    const CSV_CAVE_EXPORTPAYS = 15;
-    const CSV_CAVE_CONTRATID = 16;
-    const CSV_CAVE_COMMENTAIRE = 17;
-    const CSV_CRD_GENRE = 4;
-    const CSV_CRD_COULEUR = 5;
+    const CSV_CAVE_TYPE_DRM = 13;
+    const CSV_CAVE_CATEGORIE_MOUVEMENT = 14;
+    const CSV_CAVE_TYPE_MOUVEMENT = 15;
+    const CSV_CAVE_VOLUME = 16;
+    const CSV_CAVE_EXPORTPAYS = 17;
+    const CSV_CAVE_CONTRATID = 18;
+    const CSV_CAVE_COMMENTAIRE = 19;
+
+    const CSV_CRD_COULEUR = 4;
+    const CSV_CRD_GENRE = 5;
     const CSV_CRD_CENTILITRAGE = 6;
-    const CSV_CRD_TYPE_DRM = 11;
-    const CSV_CRD_CATEGORIE_KEY = 12;
-    const CSV_CRD_TYPE_KEY = 13;
-    const CSV_CRD_QUANTITE = 14;
+
+    const CSV_CRD_TYPE_DRM = 13;
+    const CSV_CRD_CATEGORIE_KEY = 14;
+    const CSV_CRD_TYPE_KEY = 15;
+    const CSV_CRD_QUANTITE = 16;
+
     const CSV_ANNEXE_TYPE_DRM = 11;
-    const CSV_ANNEXE_TYPEANNEXE = 12;
-    const CSV_ANNEXE_TYPEMVT = 13;
-    const CSV_ANNEXE_QUANTITE = 14;
-    const CSV_ANNEXE_NONAPUREMENTDATEEMISSION = 15;
-    const CSV_ANNEXE_NONAPUREMENTACCISEDEST = 16;
-    const CSV_ANNEXE_NUMERODOCUMENT = 17;
-    const CSV_ANNEXE_OBSERVATION = 18;
+    const CSV_ANNEXE_TYPEANNEXE = 14;
+    const CSV_ANNEXE_TYPEMVT = 15;
+    const CSV_ANNEXE_QUANTITE = 16;
+    const CSV_ANNEXE_NONAPUREMENTDATEEMISSION = 17;
+    const CSV_ANNEXE_NONAPUREMENTACCISEDEST = 18;
+    const CSV_ANNEXE_NUMERODOCUMENT = 19;
+    const CSV_ANNEXE_OBSERVATION = 20;
 
     protected static $permitted_types = array(self::TYPE_CAVE,
         self::TYPE_CRD,
@@ -56,7 +59,7 @@ class DRMCsvEdi extends CsvFile {
     protected $drm = null;
     protected $csv = null;
     protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Effervescent', 'TRANQ' => 'Tranquille');
-    protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement', self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
+    protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement',  self::TYPE_ANNEXE_STATS_EUROPEENES => 'Statistiques Européenes');
 
     public function __construct($file, DRM $drm = null) {
         $this->drm = $drm;

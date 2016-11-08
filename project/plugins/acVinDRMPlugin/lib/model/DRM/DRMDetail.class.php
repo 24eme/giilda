@@ -113,12 +113,8 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-        return !$this->hasPrecedente();
-    }
 
-    public function canSetStockInitial() {
-        //TODO : Parametrer en fct de la DATE DRM
-        return true;
+       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
     }
 
     public function canSetLabels() {
@@ -179,6 +175,28 @@ class DRMDetail extends BaseDRMDetail {
         if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }
+        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
+        // Qu'est ce que les manipulation en entrée ici???
+          || ($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
+          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
+          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
+          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
+          $this->add('observations',null);
+        }else{
+          $this->remove('observations');
+        }
+        if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
+          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
+          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
+          || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)) {
+          $this->add('replacement_date',null);
+        }else{
+          $this->remove('replacement_date');
+        }
+    }
+
+    public function setImportableObservations($observations) {
+      $this->add('observations', $observations);
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -423,7 +441,7 @@ class DRMDetail extends BaseDRMDetail {
             $entreeDrm = $this->get('entrees/' . $entreeKey);
 
             if ($entreeConf->taxable_douane && $entreeDrm && $entreeDrm > 0) {
-                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $entreeDrm, true);
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
@@ -438,7 +456,7 @@ class DRMDetail extends BaseDRMDetail {
 
 
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
-                //$droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
+                $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);
             }
         }
     }
@@ -452,6 +470,14 @@ class DRMDetail extends BaseDRMDetail {
             }
         }
         return false;
+    }
+
+    public function getCodeDouane() {
+        if($this->exist("code_inao") && $this->code_inao) {
+            return $this->code_inao;
+        }
+
+        return $this->getCepage()->getConfig()->code_douane;
     }
 
 }

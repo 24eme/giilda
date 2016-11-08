@@ -1,9 +1,20 @@
-<?php 
+<?php
 use_helper('Date');
 use_helper('Display');
-$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement(); 
-$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement(); 
+$moyensDePaiements = VracConfiguration::getInstance()->getMoyensPaiement();
+$delaisDePaiements = VracConfiguration::getInstance()->getDelaisPaiement();
 $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage();
+$vendeur_raison_sociale = ($vrac->vendeur->raison_sociale) ?
+        $vrac->vendeur->raison_sociale : $vrac->getVendeurObject()->getSociete()->raison_sociale;
+
+$acheteur_raison_sociale = ($vrac->acheteur->raison_sociale) ?
+        $vrac->acheteur->raison_sociale : $vrac->getAcheteurObject()->getSociete()->raison_sociale;
+
+$mandataire_raison_sociale = "";
+if ($vrac->mandataire_exist) {
+    $mandataire_raison_sociale = ($vrac->mandataire->raison_sociale) ?
+            $vrac->mandataire->raison_sociale : $vrac->getMandataireObject()->getSociete()->raison_sociale;
+}
 ?>
 \documentclass[a4paper,8pt]{extarticle}
 \usepackage{geometry} % paper=a4paper
@@ -52,18 +63,18 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 
 \def\CONTRAT_TITRE{CONTRAT D'ACHAT EN PROPRIETE}
 
-\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vrac->vendeur->raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATVENDEURNOM{<?php echo display_latex_string($vendeur_raison_sociale); ?><?php if ($vrac->responsable == 'vendeur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATVENDEURCVI{<?php display_cvi_formatted($vrac->vendeur->cvi) ?>}
 \def\CONTRATVENDEURADRESSE{<?php echo display_latex_string($vrac->vendeur->adresse.' '.$vrac->vendeur->code_postal.' '.$vrac->vendeur->commune); ?>}
 \def\CONTRATVENDEURTELEPHONE{<?php echo $vrac->getVendeurObject()->telephone ?>}
 \def\CONTRATVENDEURPAYEUR{<?php echo display_latex_string($vrac->representant->raison_sociale); ?>}
 
-\def\CONTRATACHETEURNOM{<?php echo display_latex_string($vrac->acheteur->raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATACHETEURNOM{<?php echo display_latex_string($acheteur_raison_sociale); ?><?php if ($vrac->responsable == 'acheteur'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATACHETEURCVI{<?php display_cvi_formatted($vrac->acheteur->cvi) ?>}
 \def\CONTRATACHETEURADRESSE{<?php echo display_latex_string($vrac->acheteur->adresse.' '.$vrac->acheteur->code_postal.' '.$vrac->acheteur->commune); ?>}
 \def\CONTRATACHETEURTELEPHONE{<?php echo $vrac->getAcheteurObject()->telephone ?>}
 
-\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($vrac->mandataire->raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
+\def\CONTRATCOURTIERNOM{<?php echo display_latex_string($mandataire_raison_sociale); ?><?php if ($vrac->responsable == 'mandataire'): ?> (responsable)<?php endif; ?>}
 \def\CONTRATCOURTIERCARTEPRO{<?php echo $vrac->mandataire->carte_pro ?>}
 \def\CONTRATCOURTIERADRESSE{<?php echo display_latex_string($vrac->mandataire->adresse.' '.$vrac->mandataire->code_postal.' '.$vrac->mandataire->commune); ?>}
 \def\CONTRATCOURTIERTELEPHONE{<?php echo ($vrac->mandataire_identifiant)? $vrac->getMandataireObject()->telephone : null; ?>}
@@ -101,7 +112,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
 \IVBDCOORDONNEESTITRE\\
 \end{large}
 ~ \\
-	\small{\IVBDCOORDONNEESADRESSE} \\ 
+	\small{\IVBDCOORDONNEESADRESSE} \\
 	~  \\
 	\begin{large}
        \textbf{BORDEREAU DE CONFIRMATION D'ACHAT DE}\\
@@ -110,7 +121,7 @@ $contratRepartitions = VracConfiguration::getInstance()->getRepartitionCourtage(
     ~  \\
     n° IF - \CONTRATANNEEENREGISTREMENT ~- \begin{large}\textbf{\CONTRATNUMENREGISTREMENT} \end{large} \\ La liasse complète doit être adressée à l'IVBD pour enregistrement
     \\ dans un délai maximal de 10 jours après signature du présent bordereau
-\end{center}	
+\end{center}
 \end{minipage}
 \hspace{2cm}
   \begin{minipage}[t]{0.3\textwidth}
@@ -137,7 +148,7 @@ Adresse : \textbf{\CONTRATVENDEURADRESSE} \\
 \hspace*{0.5cm}
 Pour le compte de : \textbf{\CONTRATVENDEURPAYEUR}
 <?php endif; ?>
-\\ ~ 
+\\ ~
 \hspace*{0.5cm}
 \textbf{B)} ACHETEUR : \textbf{\CONTRATACHETEURNOM} \\
 \hspace*{0.5cm}
@@ -154,9 +165,9 @@ Adresse : \textbf{\CONTRATCOURTIERADRESSE}
 <?php if ($vrac->vendeur->cvi): ?>
 N° CVI : \textbf{\CONTRATVENDEURCVI} \\
 <?php else: ?>
-\\ ~ \\ 
+\\ ~ \\
 <?php endif; ?>
-Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\ 
+Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\
 <?php if ($vrac->getAcheteurObject()->famille == EtablissementFamilles::FAMILLE_PRODUCTEUR): ?>
 ~Récoltant~\squareChecked~Négociant~$\square$ \\
 <?php else: ?>
@@ -165,7 +176,7 @@ Tél. : \textbf{\CONTRATVENDEURTELEPHONE} \\ ~ \\
 <?php if ($vrac->acheteur->cvi): ?>
 N° CVI : \textbf{\CONTRATACHETEURCVI} \\
 <?php else: ?>
-\\ ~ \\ 
+\\ ~ \\
 <?php endif; ?>
 Tél. : \textbf{\CONTRATACHETEURTELEPHONE} \\ ~ \\
 <?php if($vrac->mandataire_identifiant): ?>
@@ -189,7 +200,7 @@ pouvant prétandre à l'appellation : \textbf{\CONTRATAPPELLATIONPRODUIT} \small
 Le vendeur s'engage à livrer à l'acheteur les raisins désignés ci-dessus, issus de sa production et conformes à l'ensemble des prescriptions figurant dans \\
 \hspace*{0.5cm}
 les cahiers des charges des vins concernés. Il certifie que les renseignements ci-dessus sont repris dans sa déclaration de récolte.
- ~ \\   ~ \\ 
+ ~ \\   ~ \\
 %PARTIE 3%
 \circled{3}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année : 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
 \hspace*{0.5cm}
@@ -200,7 +211,7 @@ En année 1, préciser :\small ~- si une révision est envisagée pour les anné
 \hspace*{0.5cm}
 \normalsize
 En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
- ~ \\   ~ \\ 
+ ~ \\   ~ \\
 %PARTIE 4%
 \circled{4}~~\textbf{Prix et conditions de paiement:} \\
 \hspace*{0.5cm}
@@ -222,7 +233,7 @@ Des sanction financières conséquentes sont prévues par l'article L 632-7 du C
 Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
 Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> (attestation d'achat en franchise à fournir)
-  ~ \\   ~ \\ 
+  ~ \\   ~ \\
 %PARTIE 5%
 \circled{5}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\
 \hspace*{0.5cm}
@@ -235,7 +246,7 @@ le bordereau. Si la retiraison intervenait avant la date précitée, la délivra
 Les parties entendent placer le présent contrat sous le regime de laréserve de propriété prévu par la loi du 12 mai 1980. En application de cette loi,\\
 \hspace*{0.5cm}
 le vendeur se réserve la propriété des raisins vendus jusqu'à parfait paiement de ceux-ci.\\
-  ~ \\   ~ \\ 
+  ~ \\   ~ \\
 %PARTIE 6%
 \circled{6}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\
 \hspace*{0.5cm}

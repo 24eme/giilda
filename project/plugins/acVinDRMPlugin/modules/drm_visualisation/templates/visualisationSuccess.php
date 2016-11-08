@@ -1,7 +1,7 @@
 <?php use_helper("Date"); ?>
 <?php use_helper('DRM'); ?>
 
-<?php include_partial('drm/breadcrumb', array('drm' => $drm)); ?>
+<?php include_partial('drm/breadcrumb', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <?php if (!$isTeledeclarationMode): ?>
 <div class="row" style="opacity: 0.7">
@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-      
+
 
         <h3 style="margin-bottom: 30px">DRM <?php echo getFrPeriodeElision($drm->periode); ?> <?php if ($drm->isTeledeclare()): ?><small>(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small><?php endif; ?>
              <?php if (!$isTeledeclarationMode && $drm->isModifiable()): ?>
@@ -78,6 +78,7 @@
     </div>
     <?php //if ($isTeledeclarationMode) : ?>
         <div class="col-xs-4 text-center">
+          <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
             <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
         </div>
     <?php //endif; ?>

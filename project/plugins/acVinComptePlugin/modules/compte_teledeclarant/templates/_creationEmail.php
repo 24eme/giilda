@@ -1,7 +1,15 @@
-Bonjour <?php echo $compte->nom ?>,
+<?php
+$societe = $compte->getSociete();
+$identifiant = $societe->getIdentifiant();
+$etablissement = $societe->getEtablissementPrincipal();
+$interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
+?>
+Madame, Monsieur,
 
-votre compte a bien été créé sur l'espace professionnel de votre interprofession.
+Votre compte a bien été créé sur l'espace professionnel de l'<?php echo $interpro; ?>.
+
+Nous vous rappelons que votre identifiant restera toujours le : <?php echo $identifiant ?>.
 
 Cordialement,
 
-L'espace professionnel de votre interprofession.
+L'espace professionnel de l'<?php echo $interpro; ?>

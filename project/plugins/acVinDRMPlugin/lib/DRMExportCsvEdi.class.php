@@ -27,7 +27,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
     }
 
     private function createHeaderEdi() {
-        return "#TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION / TYPE PRODUIT; GENRE / COULEUR CAPSULE; APPELLATION / CENTILITRAGE;MENTION;LIEU;COULEUR;CEPAGE;CATEGORIE MOUVEMENT / TYPE DOCUMENT;TYPE MOUVEMENT;VOLUME / QUANTITE;PAYS EXPORT / DATE NON APUREMENT;NUMERO CONTRAT / NUMERO ACCISE DESTINATAIRE NON APUREMENT;NUMERO DOCUMENT ACCOMPAGNEMENT;OBSERVATIONS\n";
+        return "#TYPE;PERIODE;IDENTIFIANT;ACCISE;CERTIFICATION / TYPE PRODUIT; GENRE / COULEUR CAPSULE; APPELLATION / CENTILITRAGE;MENTION;LIEU;COULEUR;CEPAGE;COMPLEMENT;LIBELLE;TYPE_DRM;CATEGORIE MOUVEMENT / TYPE DOCUMENT;TYPE MOUVEMENT;VOLUME / QUANTITE;PAYS EXPORT / DATE NON APUREMENT;NUMERO CONTRAT / NUMERO ACCISE DESTINATAIRE NON APUREMENT;NUMERO DOCUMENT ACCOMPAGNEMENT;OBSERVATIONS\n";
     }
 
     private function createBodyEdi() {
@@ -37,7 +37,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         return $body;
     }
 
-    public function getProduitCSV($produitDetail) {
+    public function getProduitCSV($produitDetail, $force_type_drm = null) {
         $cepageConfig = $produitDetail->getCepage()->getConfig();
 
         $certification = $cepageConfig->getCertification()->getLibelle();
@@ -48,7 +48,26 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         $couleur = $cepageConfig->getCouleur()->getLibelle();
         $cepage = $cepageConfig->getCepage()->getLibelle();
 
-        return $certification . ";" . $genre . ";" . $appellation . ";" . $mention . ";" . $lieu . ";" . $couleur . ";" . $cepage;
+        $complement = "";
+        if($produitDetail instanceof DSDetail){
+          $libelle = "";
+        }else{
+          $libelle = $produitDetail->getLibelle("%format_libelle%");
+        }
+        $type_drm = ($produitDetail->getParent()->getKey() == 'details')? 'suspendu' : 'acquitte';
+        if($force_type_drm){
+          $type_drm = $force_type_drm;
+        }
+        return $certification . ";" .
+         $genre . ";" .
+          $appellation .
+          ";" . $mention .
+          ";" . $lieu .
+          ";" . $couleur .
+           ";" . $cepage.
+           ";". $complement.
+            ";". $libelle.
+            ";". $type_drm;
     }
 
     private function getLibelleDetail($keyDetail) {
@@ -56,6 +75,21 @@ class DRMExportCsvEdi extends DRMCsvEdi {
             return 'contrat';
         }
         return str_replace('_details', '', $keyDetail);
+    }
+
+    public function createRowStockNullProduit($produitDetail){
+      $debutLigne = self::TYPE_CAVE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";";
+      $lignes = $debutLigne . $this->getProduitCSV($produitDetail,'suspendu') . ";" . "stocks_debut;initial;0;\n";
+      $lignes.= $debutLigne . $this->getProduitCSV($produitDetail,'suspendu') . ";" . "stocks_fin;final;0;\n";
+      return $lignes;
+    }
+
+    public function createRowMouvementProduitDetail($produit, $catMouvement,$typeMouvement,$volume, $num_contrat = null){
+      $debutLigne = self::TYPE_CAVE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";";
+      $lignes = $debutLigne . $this->getProduitCSV($produit,'suspendu') . ";" . $catMouvement.";".$typeMouvement.";".$volume.";";
+      $lignes .= ($num_contrat)? ";".str_replace("VRAC-","",$num_contrat).";" : "";
+      $lignes .= "\n";
+      return $lignes;
     }
 
     private function createMouvementsEdi() {
@@ -119,33 +153,35 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         foreach ($this->drm->getAllCrdsByRegimeAndByGenre() as $regimeKey => $crdByGenre) {
             foreach ($crdByGenre as $genreKey => $crds) {
                 foreach ($crds as $crdKey => $crdDetail) {
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'stock_debut', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'entrees_achats', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'entrees_retours', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'entrees_excedents', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'sorties_utilisations', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'sorties_destructions', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'sorties_manquants', $crdsEdi);
-                    $this->createCrdRowEdi($debutLigne, $crdDetail, 'stock_fin', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey, $crdDetail, 'stock_debut', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'entrees_achats', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'entrees_retours', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'entrees_excedents', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'sorties_utilisations', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'sorties_destructions', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'sorties_manquants', $crdsEdi);
+                    $this->createCrdRowEdi($debutLigne, $regimeKey,$crdDetail, 'stock_fin', $crdsEdi);
                 }
             }
         }
         return $crdsEdi;
     }
 
-    private function createCrdRowEdi($debutLigne, $crdDetail, $type_mvt, &$crdsEdi) {
+    private function createCrdRowEdi($debutLigne, $regimeKey, $crdDetail, $type_mvt, &$crdsEdi) {
         if ($crdDetail->$type_mvt) {
             $type_mvt_csv = "";
             switch ($type_mvt) {
                 case 'stock_debut':
+                    $type_mvt_csv = $type_mvt . ";debut";
+                    break;
                 case 'stock_fin':
-                    $type_mvt_csv = $type_mvt . ";";
+                    $type_mvt_csv = $type_mvt . ";fin";
                     break;
                 default :
                     $type_mvt_csv = str_replace('_', ';', $type_mvt);
                     break;
             }
-            $crdsEdi.= $debutLigne . $crdDetail->genre . ";" . $crdDetail->couleur . ";" . $crdDetail->detail_libelle . ";;;;;" . $type_mvt_csv . ";" . $crdDetail->$type_mvt . ";\n";
+            $crdsEdi.= $debutLigne . $crdDetail->couleur . ";" . $crdDetail->genre . ";" . $crdDetail->detail_libelle . ";;;;;;;".strtolower(EtablissementClient::$regimes_crds_libelles[$regimeKey]).";" . $type_mvt_csv . ";" . $crdDetail->$type_mvt . ";\n";
         }
     }
 
@@ -154,20 +190,25 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         $debutLigneAnnexe = self::TYPE_ANNEXE . ";" . $this->drm->periode . ";" . $this->drm->identifiant . ";" . $this->drm->declarant->no_accises . ";;;;;;;;";
 
         foreach ($this->drm->documents_annexes as $typeDoc => $numsDoc) {
-            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";debut;;;;" . $numsDoc->debut . "\n";
-            $annexesEdi.=$debutLigneAnnexe . $typeDoc . ";fin;;;;" . $numsDoc->fin . "\n";
+            $annexesEdi.=$debutLigneAnnexe .";;;". $typeDoc . ";debut;" . $numsDoc->debut . "\n";
+            $annexesEdi.=$debutLigneAnnexe .";;;". $typeDoc . ";fin;" . $numsDoc->fin . "\n";
+        }
+        if($this->drm->exist('releve_non_apurement')){
+          foreach ($this->drm->releve_non_apurement as $non_apurement) {
+              $annexesEdi.=$debutLigneAnnexe .";;;". self::TYPE_ANNEXE_NONAPUREMENT . ";;;".$non_apurement->date_emission.";" . $non_apurement->numero_accise . ";" . $non_apurement->numero_document . "\n";
+          }
         }
 
-        foreach ($this->drm->releve_non_apurement as $non_apurement) {
-            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_NONAPUREMENT . ";;;".$non_apurement->date_emission.";" . $non_apurement->numero_accise . ";" . $non_apurement->numero_document . "\n";
-        }
-        if ($this->drm->quantite_sucre) {
-
-            $annexesEdi.=$debutLigneAnnexe .  self::TYPE_ANNEXE_SUCRE . ";;" . $this->drm->quantite_sucre . ";\n";
-        }
-        if ($this->drm->observations) {
-
-            $annexesEdi.=$debutLigneAnnexe . self::TYPE_ANNEXE_OBSERVATIONS . ";;;;;;" . $this->drm->observations . "\n";
+        if($this->drm->exist('declaratif') && $this->drm->declaratif->exist('statistiques')){
+            if($this->drm->declaratif->statistiques->exist('jus') && $this->drm->declaratif->statistiques->jus){
+              $annexesEdi.=$debutLigneAnnexe .";;;STATS EUROPEENNES;JUS;" . $this->drm->declaratif->statistiques->jus . ";;;\n";
+            }
+            if($this->drm->declaratif->statistiques->exist('mcr') && $this->drm->declaratif->statistiques->mcr){
+              $annexesEdi.=$debutLigneAnnexe .";;;STATS EUROPEENNES;MCR;" . $this->drm->declaratif->statistiques->mcr . ";;;\n";
+            }
+            if($this->drm->declaratif->statistiques->exist('vinaigre') && $this->drm->declaratif->statistiques->vinaigre){
+              $annexesEdi.=$debutLigneAnnexe .";;;STATS EUROPEENNES;VINAIGRE;" . $this->drm->declaratif->statistiques->vinaigre . ";;;\n";
+            }
         }
 
         return $annexesEdi;

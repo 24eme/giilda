@@ -50,7 +50,6 @@ class drm_validationActions extends drmGeneriqueActions {
             $this->produits[] = $d;
         }
 
-
         $this->form = new DRMValidationCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -70,17 +69,21 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form->save();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
+        
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
-             /*$mailManager = new DRMEmailManager($this->getMailer());
-             $mailManager->setDRM($this->drm);
-             $mailManager->sendMailValidation();*/
+            $mailManager = new DRMEmailManager($this->getMailer());
+            $mailManager->setDRM($this->drm);
+            $mailManager->sendMailValidation();
         }
 
         DRMClient::getInstance()->generateVersionCascade($this->drm);
-
-        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
-            'periode_version' => $this->drm->getPeriodeAndVersion(),
-            'hide_rectificative' => 1));
+        if ($this->form->getValue('transmission_ciel') == "true") {
+		      $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
+      	}else{
+      	        $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
+      	            'periode_version' => $this->drm->getPeriodeAndVersion(),
+      	            'hide_rectificative' => 1));
+      	}
     }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {
@@ -91,12 +94,17 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
                 $diff = $this->form->getDiff();
+                $this->form->save();
+                if(!count($diff)) {
+
+                    return $this->redirect('drm_validation', $this->drm);
+                }
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
-                $this->redirect('drm_validation', $this->drm);
+
+                return $this->redirect('drm_validation', $this->drm);
             }
         }
     }
@@ -109,12 +117,18 @@ class drm_validationActions extends drmGeneriqueActions {
         if($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
                 $diff = $this->form->getDiff();
+                $this->form->save();
+                if(!count($diff)) {
+
+                    return $this->redirect('drm_validation', $this->drm);
+                }
+
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
-                $this->redirect('drm_validation', $this->drm);
+
+                return $this->redirect('drm_validation', $this->drm);
             }
         }
     }

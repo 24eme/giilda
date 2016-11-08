@@ -39,6 +39,10 @@ class myUser extends sfBasicSecurityUser {
             $login = $login_or_compte;
         }
 
+        if(!$compte) {
+            throw new sfException("Le compte est nul : ".$compte->_id);
+        }
+
         $this->setAttribute(self::SESSION_COMPTE_LOGIN, $login, $namespace);
 
         if ($compte->isNew()) {

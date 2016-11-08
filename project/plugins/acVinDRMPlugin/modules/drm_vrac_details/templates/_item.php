@@ -1,6 +1,7 @@
+<?php use_helper('PointsAides'); ?>
 <?php $ligneId = "ligne_" . str_replace(array("[", "]"), array("-", ""), $form->renderName()) ?>
 <tr id="<?php echo $ligneId ?>">
-    <td class="form-group <?php if ($form['identifiant']->hasError()): ?>has-error<?php endif; ?> col-xs-5">
+    <td class="form-group <?php if ($form['identifiant']->hasError()): ?>has-error<?php endif; ?> col-xs-4">
         <?php echo $form['identifiant']->renderError(); ?>
         <?php echo $form['identifiant']->render(array("class" => "form-control select2", "autofocus" => "autofocus")); ?>
     </td>
@@ -28,7 +29,7 @@
 
     <td class="col-xs-2 typedoc_unshow"   <?php echo (!$docShow) ? '' : 'style="display: none;"' ?>  ></td>
 
-    <td class="text-right col-xs-1">
-        <button type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_vrac_details_table .dynamic-element-add" data-lines="#drm_vrac_details_table tbody tr" tabindex="-1" class="btn btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></button>
+    <td class="text-right col-xs-2">
+        <a type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_vrac_details_table dynamic-element-add" data-lines="#drm_vrac_details_table tbody tr" tabindex="-1" class="btn btn-xs btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_supprimer') ?>
     </td>
 </tr>

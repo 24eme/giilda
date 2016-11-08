@@ -60,5 +60,19 @@ panel.disabled {
     border-color: #98fa98;
 }
 .select2-container {
-	width: 100%;	
+	width: 100%;
+}
+
+.tooltip-inner {
+  max-width: 500px;
+}
+
+.form-group .select2-container {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 100%;
+  margin-bottom: 0;
+  display: table;
+  table-layout: fixed;
 }

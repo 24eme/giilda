@@ -16,12 +16,13 @@ $tabindex = $numProduit * 100 ;
                     <div style="height:22px;" class="form-group form-group-xs">
                         <span>&nbsp;</span>
                     </div>
+                    <ul class="list-unstyled">
                     <?php foreach ($form['stocks_debut'] as $key => $subform): ?>
                         <?php
                         if ($key != 'instance'):
                             $class = ($key == 'dont_revendique') ? ' somme_stock_debut_dont_revendique ' : ' somme_stock_debut ';
                             ?>
-                            <div style="height:22px;" class="form-group form-group-xs <?php // echo isVersionnerCssClass($subform->getObject(), $key)                   ?>">
+                            <li style="height:22px;" class="form-group form-group-xs <?php // echo isVersionnerCssClass($subform->getObject(), $key)                   ?>">
                                 <?php
                                 $allAttributes = array('data-val-defaut' => $form['stocks_debut'][$key]->getValue(), 'class' => $form['stocks_debut'][$key]->getWidget()->getAttribute('class') . $class . ' somme_detail ');
                                 if (!$subform->getWidget()->getAttribute('readonly')) {
@@ -30,10 +31,10 @@ $tabindex = $numProduit * 100 ;
                                 }
                                 echo $form['stocks_debut'][$key]->render($allAttributes);
                                 ?>
-                            </div>
+                            </li>
                         <?php endif; ?>
                     <?php endforeach; ?>
-
+                    </ul>
                 </div>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="2">
                     <div style="height:22px;" class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
@@ -162,7 +163,15 @@ $tabindex = $numProduit * 100 ;
                                         <?php if ($form->getObject()->sorties->getConfig()->get($key)->hasDetails()): ?>
                                             <div class="input-group">
                                                 <span class="input-group-btn">
-                                                    <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php echo url_for("drm_" .strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details", array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                                    <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey(); ?>"
+                                                      data-toggle="modal"
+                                                      data-remote="false"
+                                                      href="<?php echo url_for("drm_" .strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details", array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>"
+                                                      class="btn btn-default btn-xs click-on-space-key"
+                                                      type="button"
+                                                      tabindex="<?php echo $tabindex; ?>">
+                                                      <span class="glyphicon glyphicon-list-alt"></span>
+                                                    </a>
                                                 </span>
                                                 <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
                                             </div>

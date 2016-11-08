@@ -322,6 +322,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(0, 9999));
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
+        $compte->nom = $this->raison_sociale;
         return $compte;
     }
 

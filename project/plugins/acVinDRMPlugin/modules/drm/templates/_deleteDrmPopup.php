@@ -13,12 +13,12 @@
                     <?php echo $deleteForm->renderHiddenFields(); ?>
                     <?php echo $deleteForm->renderGlobalErrors(); ?>
 
-                    <p>Etes vous sur(e) de vouloir cette DRM <?php echo getFrPeriodeElision($drm->periode); ?> ?</p>               
+                    <p>Étes vous sur(e) de vouloir supprimer cette DRM <?php echo getFrPeriodeElision($drm->periode); ?> ?</p>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
-                    <button id="drm_delete_popup_confirm" type="submit" class="btn btn-danger" style="float: right;" ><span>Suprimer la DRM</span></button>  
+                    <button id="drm_delete_popup_confirm" type="submit" class="btn btn-danger" style="float: right;" ><span>Suprimer la DRM</span></button>
                 </div>
 
             </div>

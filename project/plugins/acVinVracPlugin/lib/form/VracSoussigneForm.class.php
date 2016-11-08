@@ -99,7 +99,10 @@ class VracSoussigneForm extends VracForm {
           $this->setWidget('mandataire_identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_COURTIER)));
         }
         $this->setWidget('type_contrat', new bsWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true)));
-        $this->setWidget('responsable', new bsWidgetFormChoice(array('choices' => $this->getTypesResponsable(), 'expanded' => true)));
+        if(!$this->fromAnnuaire) {
+            $this->setWidget('responsable', new bsWidgetFormChoice(array('choices' => $this->getTypesResponsable(), 'expanded' => true)));
+            $this->setValidator('responsable', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesResponsable()))));
+        }
         $this->setWidget('type_transaction', new bsWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true)));
         $this->setWidget('interne', new bsWidgetFormInputCheckbox());
         $this->setWidget('vendeur_intermediaire', new bsWidgetFormInputCheckbox());
@@ -134,7 +137,6 @@ class VracSoussigneForm extends VracForm {
         $this->setValidator('mandataire_exist', new sfValidatorBoolean(array('required' => false)));
       }
         $this->setValidator('type_transaction', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesTransaction()))));
-        $this->setValidator('responsable', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesResponsable()))));
         $this->setValidator('interne', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('logement_exist', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('vendeur_intermediaire', new sfValidatorBoolean(array('required' => false)));

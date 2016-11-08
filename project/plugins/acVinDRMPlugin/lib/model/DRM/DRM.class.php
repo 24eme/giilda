@@ -97,6 +97,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->exist('teledeclare') && $this->teledeclare;
     }
 
+    public function changedToTeledeclare() {
+        $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
+
+        return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
+    }
+
     public function setPeriode($periode) {
         $this->campagne = DRMClient::getInstance()->buildCampagne($periode);
 
@@ -355,6 +361,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 return null;
             }
             $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+            if($this->document_suivant && $this->document_suivant->changedToTeledeclare()) {
+                $this->document_suivant = null;
+            }
         }
 
         return $this->document_suivant;
@@ -373,7 +382,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        if (count($this->getProduitsDetails()) != count($drm_suivante->getProduitsDetails())) {
+        if (count($this->getProduitsDetails($this->teledeclare)) != count($drm_suivante->getProduitsDetails($drm_suivante->teledeclare))) {
 
             return false;
         }
@@ -423,7 +432,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->setInterpros();
         $this->generateMouvements();
-        if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+        if ($this->teledeclare) {
             $this->generateDroitsDouanes();
         }
 
@@ -615,7 +624,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasDetails() {
-        return (count($this->declaration->getProduitsDetails()) > 0) ? true : false;
+        return (count($this->declaration->getProduitsDetails($this->teledeclare)) > 0) ? true : false;
     }
 
     public function hasEditeurs() {
@@ -658,7 +667,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->region = $this->getEtablissement()->region;
         $listEntrees = $listSorties = array();
         $key_to_remove = array();
-        foreach ($this->getProduitsDetails() as $detail) {
+        foreach ($this->getProduitsDetails($this->teledeclare) as $detail) {
             if (!array_key_exists($detail->getConfig()->getHash(), $listEntrees) && !array_key_exists($detail->getConfig()->getHash(), $listSorties)) {
                 $listEntrees[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getEntreesSorted());
                 $listSorties[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getSortiesSorted());
@@ -841,7 +850,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return true;
         }
 
-        if (count($this->getProduitsDetails()) != count($this->getMother()->getProduitsDetails())) {
+        if (count($this->getProduitsDetails($this->teledeclare)) != count($this->getMother()->getProduitsDetails($this->teledeclare))) {
 
             return true;
         }
@@ -941,8 +950,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->mouvement_document->getMouvementsCalculeByIdentifiant($identifiant, $teledeclaration_drm);
     }
 
-    public function generateMouvements($teledeclaration_drm = false) {
-        return $this->mouvement_document->generateMouvements($teledeclaration_drm);
+    public function generateMouvements() {
+        return $this->mouvement_document->generateMouvements($this->teledeclare);
     }
 
     public function findMouvement($cle, $id = null) {
@@ -1001,7 +1010,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * DROIT ** */
 
     public function storeDroits() {
-        foreach ($this->getProduitsDetails() as $detail) {
+        foreach ($this->getProduitsDetails($this->teledeclare) as $detail) {
             $detail->storeDroits();
         }
     }
@@ -1093,6 +1102,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function initProduitsAutres(){
+      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+        if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
+          $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
+        }
+      }
+    }
+
     public function cleanDetails() {
         $this->declaration->cleanDetails();
     }
@@ -1104,7 +1121,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {
-                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0) {
+                    $count_entree =  $crd->entrees_achats + $crd->entrees_retours + $crd->entrees_excedents + $crd->stock_fin + $crd->stock_debut;
+                    if ($crd->stock_fin <= 0 && $crd->stock_debut <= 0 && !$count_entree) {
                         $toRemoves[] = $regime . '/' . $key;
                     }
                 }
@@ -1251,6 +1269,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_societe->add('email', $societe->getEmailTeledeclaration());
         $drm_societe->add('telephone', $societe->telephone);
         $drm_societe->add('fax', $societe->fax);
+        $drm_societe->add('paiement_douane_moyen', ($societe->exist('paiement_douane_moyen')) ? $societe->paiement_douane_moyen : null);
+        $drm_societe->add('paiement_douane_frequence', ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null);
     }
 
     public function getCoordonneesSociete() {
@@ -1282,7 +1302,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /** Droit de circulation douane */
     public function generateDroitsDouanes() {
         $this->getOrAdd('droits')->getOrAdd('douane')->initDroitsDouane();
-        foreach ($this->getProduitsDetails() as $produitDetail) {
+        foreach ($this->getProduitsDetails(true) as $produitDetail) {
             $produitDetail->updateDroitsDouanes();
         }
     }
@@ -1301,7 +1321,91 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function hasPaiementDouane(){
+      if(!$this->declaratif){
+
+        return false;
+      }
+
+      if(!$this->societe->exist('paiement_douane_frequence') && !$this->societe->exist('paiement_douane_moyen')){
+        return false;
+      }
+      if(!$this->societe->get('paiement_douane_frequence') && !$this->societe->get('paiement_douane_moyen')){
+        return false;
+      }
+      if($this->societe->get('paiement_douane_frequence') == DRMPaiement::FREQUENCE_ANNUELLE){
+        $flag = true;
+        foreach ($this->droits->douane as $key => $node) {
+          if(!$node->cumul){
+            $flag = false;
+            break;
+          }
+        }
+        if(!$flag){
+          return false;
+        }
+      }
+      return true;
+    }
+
     /** Fin Droit de circulation douane */
+
+    /*
+    * Observations
+    */
+    public function addObservationProduit($hash, $observation)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->observations = $observation;
+      }
+    }
+    public function addReplacementDateProduit($hash, $date)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->replacement_date = $date;
+      }
+    }
+
+    public function getExportableObservations() {
+      return 'observations';
+    }
+
+    public function hasObservations(){
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('observations')){
+          return true;
+        }
+      }
+        return false;
+    }
+
+    public function getObservationsArray(){
+      $observations = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('observations') && $detail->get('observations')){
+          $observations[$detail->getLibelle()] = $detail->get('observations');
+        }
+      }
+      return $observations;
+    }
+
+    public function getReplacementDateArray(){
+      $dates = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('replacement_date') && $detail->get('replacement_date')){
+          $dates[$detail->getLibelle()] = $detail->get('replacement_date');
+        }
+      }
+      return $dates;
+    }
+
+
+    /*
+    * Fin Observations
+    */
+
     public function allLibelleDetailLigneForDRM() {
         $config = $this->getConfig();
         $libelles_detail_ligne = $config->libelle_detail_ligne;
@@ -1310,7 +1414,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
                     if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
-                        $toRemove[] = $catKey . '/' . $typeKey;
+                        $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }
             }
