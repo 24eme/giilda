@@ -8,11 +8,11 @@ homepage:
 
 accueil:
   url:   /accueil
-  param: { module: global, action: accueil} 
+  param: { module: global, action: accueil}
 
 accueil_etablissement:
   url:   /accueil/:identifiant
-  param: { module: global, action: accueilEtablissement} 
+  param: { module: global, action: accueilEtablissement}
 # TELEDECLARATION
 
 auth_login_no_cas:
@@ -24,3 +24,6 @@ auth_logout:
   url:   /logout
   param: { module: auth, action: logout}
 
+auth_deconnexion_usurpation:
+  url:   /deconnexion_usurpation
+  param: { module: auth, action: deconnexionUsurpation}

@@ -3,3 +3,7 @@ all:
 
 home:
   is_secure: true
+
+deconnexionUsurpation:
+  is_secure: true
+  credentials: [[teledeclaration_drm, teledeclaration_vrac]]
