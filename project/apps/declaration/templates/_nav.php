@@ -118,7 +118,7 @@ endif; ?>
 <?php endif; ?>
 <?php if ($sf_user->isAuthenticated()): ?>
 <?php if ($sf_user->isUsurpationCompte()): ?>
-     <li><a tabindex="-1" href="<?php echo url_for('vrac_dedebrayage') ?>"><span class="glyphicon glyphicon-cloud-download"></span></a></li>
+     <li><a tabindex="-1" href="<?php echo url_for('auth_deconnexion_usurpation') ?>"><span class="glyphicon glyphicon-cloud-download"></span></a></li>
 <?php else: ?>
      <li><a tabindex="-1" href="<?php echo url_for('auth_logout') ?>"><span class="glyphicon glyphicon-log-out"></span></a></li>
 <?php endif; ?>
