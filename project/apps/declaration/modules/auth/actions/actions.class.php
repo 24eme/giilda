@@ -42,6 +42,19 @@ class authActions extends sfActions {
           return $this->redirect('homepage');
     }
 
+    public function executeDeconnexionUsurpation(sfWebRequest $request) {
+
+        $url_back = $this->getUser()->usurpationOff();
+
+        if ($url_back) {
+
+            return $this->redirect($url_back);
+        }
+
+        $this->redirect('homepage');
+    }
+
+
     public function executeForbidden(sfWebRequest $request) {
 
     }
