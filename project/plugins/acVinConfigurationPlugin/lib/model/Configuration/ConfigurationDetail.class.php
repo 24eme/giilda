@@ -90,4 +90,5 @@ class ConfigurationDetail extends BaseConfigurationDetail {
     public function isWritableForEtablissement($cat,$type,$etb) {
         return $this->get($cat)->get($type)->isWritableForEtablissement($etb);
     }
+
 }
