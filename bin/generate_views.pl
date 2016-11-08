@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 $dbconfig = shift();
+$verbose = shift();
 $tmpfile = "/tmp/$$.json";
 use JSON -support_by_pp;
 
@@ -9,16 +10,21 @@ while (<CONF>) {
 	chomp;
 	if (/dsn:\s*([^ ]*)/) {
 		$db = $1;
+		print "db: $db\n" if ($verbose);
 	}
 	if (/dbname:\s*([^ ]*)/) {
 		$dbname = $1;
+		print "dbname: $dbname\n" if ($verbose);
 	}
 	if ($db && $dbname) {
-		$couchurl = $db.$dbname;
+		$couchurl = $db.'/'.$dbname;
+		$couchurl =~ s/\/\//\//;
 		last;
 	}
 }
 close(CONF);
+
+print "couchurl: $couchurl\n" if($verbose);
 
 my %views;
 foreach $file (@ARGV) {
