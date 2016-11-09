@@ -1054,6 +1054,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     foreach ($produit->getProduitsDetails(true,$typeDrm) as $detailsKey => $details) {
           $detailsConfig = $details->getConfig();
           foreach ($mvtTypes as $mvtType){
+                $toRemove = array();
                 foreach($details->get($mvtType) as $key => $value) {
                         if(!preg_match('/_details/',$key)){
                           $detailConf = $detailsConfig->get($mvtType)->get($key);
@@ -1064,10 +1065,13 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                                     && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
                               $detailConfCorrespondance = $detailConf->get('switch_regime');
                               $details->get($mvtType)->add($detailConfCorrespondance,$value);
-                              $details->get($mvtType)->remove($key);
+                                $toRemove[] = $key;
                             }
                           }
                        }
+                    }
+                    foreach ($toRemove as $keyRemove) {
+                        $details->get($mvtType)->remove($keyRemove);
                     }
             }
     }
