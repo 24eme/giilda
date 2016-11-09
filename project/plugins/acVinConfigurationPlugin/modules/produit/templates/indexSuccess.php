@@ -34,7 +34,7 @@
                     <td><?php echo $detail->getLibelle() ?> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
                     <td><small class="text-muted"><?php echo $detail->douane_cat; ?></small></td>
                     <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
-                    <td><?php if($detail->douane_type == DRMClient::CRD_TYPE_MIXTE): ?>M<?php endif; ?><?php if($detail->douane_type == DRMClient::CRD_TYPE_SUSPENDU): ?>S<?php endif; ?><?php if($detail->douane_type == DRMClient::CRD_TYPE_ACQUITTE): ?>A<?php endif; ?></td>
+                    <td><?php if($detail->douane_type == DRMClient::CRD_TYPE_MIXTE): ?>CRD Mixte<?php endif; ?><?php if($detail->douane_type == DRMClient::CRD_TYPE_SUSPENDU): ?>CRS Susp.<?php endif; ?><?php if($detail->douane_type == DRMClient::CRD_TYPE_ACQUITTE): ?>CRD Acqui.<?php endif; ?></td>
                     <td><?php if($detail->facturable): ?>CVO<?php endif; ?></td>
                     <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
                     <td><?php if($detail->recolte): ?>RECOLTE<?php endif; ?></td>
