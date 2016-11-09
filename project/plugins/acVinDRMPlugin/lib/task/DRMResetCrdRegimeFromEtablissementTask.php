@@ -1,6 +1,6 @@
 <?php
 
-class DRMSwitchCrdRegimeTask extends sfBaseTask
+class DRMResetCrdRegimeFromEtablissementTask extends sfBaseTask
 {
     protected function configure()
     {
@@ -15,7 +15,7 @@ class DRMSwitchCrdRegimeTask extends sfBaseTask
         ));
 
         $this->namespace        = 'drm';
-        $this->name             = 'switch-crd-regime';
+        $this->name             = 'reset-crd-regime-from-etablissement';
         $this->briefDescription = '';
         $this->detailedDescription = <<<EOF
     The [importVrac|INFO] task does things.
