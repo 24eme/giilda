@@ -1057,13 +1057,13 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                 foreach($details->get($mvtType) as $key => $value) {
                         if(!preg_match('/_details/',$key)){
                           $detailConf = $detailsConfig->get($mvtType)->get($key);
-                          if($detailConf && $value && $detailConf->exist('switch_regime'))
+                          if($detailConf && $detailConf->exist('switch_regime'))
                           {
                             if((($detailConf->douane_type == DRMClient::CRD_TYPE_SUSPENDU) && ($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE))
                                 || (($detailConf->douane_type == DRMClient::CRD_TYPE_ACQUITTE)
                                     && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
                               $detailConfCorrespondance = $detailConf->get('switch_regime');
-                              $details->get($mvtType)->set($detailConfCorrespondance,$value);
+                              $details->get($mvtType)->add($detailConfCorrespondance,$value);
                               $details->get($mvtType)->getOrAdd($key,null);
                             }
                           }
