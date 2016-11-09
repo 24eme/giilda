@@ -1064,7 +1064,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                                     && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
                               $detailConfCorrespondance = $detailConf->get('switch_regime');
                               $details->get($mvtType)->add($detailConfCorrespondance,$value);
-                              $details->get($mvtType)->getOrAdd($key,null);
+                              $details->get($mvtType)->remove($key);
                             }
                           }
                        }
