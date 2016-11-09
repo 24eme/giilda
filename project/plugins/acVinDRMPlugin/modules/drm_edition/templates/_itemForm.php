@@ -45,7 +45,7 @@ $tabindex = $numProduit * 100 ;
                     <ul class="list-unstyled">
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
                             <?php
-                        //    if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)){ continue; }
+                            if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)){ continue; }
                             if (!$favoris_entrees->exist($key)): continue;
                             endif;
                             $class = ($detail->getConfig()->get('entrees')->get($key)->revendique) ? " revendique_entree " : "";
@@ -80,6 +80,7 @@ $tabindex = $numProduit * 100 ;
                             foreach ($form['entrees'] as $key => $subform):
                                 ?>
                                 <?php
+                                if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)){ continue; }
                                 if ($favoris_entrees->exist($key)): continue; endif;
                                 $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
                                 $class.= ($detail->getConfig()->get('entrees')->get($key)->revendique) ? " revendique_entree " : "";
@@ -160,7 +161,8 @@ $tabindex = $numProduit * 100 ;
                             <?php $isfirst = true; ?>
                             <?php foreach ($form['sorties'] as $key => $subform): ?>
                                 <?php
-                                if (!$favoris_sorties->exist($key)):
+                                  if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)){ continue; }
+                                    if (!$favoris_sorties->exist($key)):
                                     ?>
                                     <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                         <?php if ($form->getObject()->sorties->getConfig()->get($key)->hasDetails()): ?>
