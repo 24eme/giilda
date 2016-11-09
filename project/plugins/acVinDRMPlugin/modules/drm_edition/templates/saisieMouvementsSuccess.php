@@ -25,6 +25,7 @@
                     'detailsKey' => $detailsKey,
                     'produits' => $details,
                     'drm' => $drm,
+                    'etablissement' => $etablissementPrincipal,
                     'formFavoris' => $formFavoris,
                     'form' => $form,
                     'favoris' => $favoris,
