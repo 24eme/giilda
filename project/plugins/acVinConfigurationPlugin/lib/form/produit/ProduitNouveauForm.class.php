@@ -1,14 +1,14 @@
 <?php
 class ProduitNouveauForm extends BaseForm {
-	
+
     protected $produit;
 	protected $configuration;
 	protected $configurationProduit;
 	protected static $configurationNoeud = array('certifications' => 'certification', 'genres' => 'genre', 'appellations' => 'appellation', 'mentions' => 'mention', 'lieux' => 'lieu', 'couleurs' => 'couleur', 'cepages' => 'cepage');
 
-    protected static $noeudPermissif = array('appellation', 'lieu', 'cepage');
-	
-	
+    protected static $noeudPermissif = array('appellation', 'mention', 'lieu', 'cepage');
+
+
 	public function __construct($configuration, $interpro, $defaults = array(), $options = array(), $CSRFSecret = null) {
 		$this->configuration = $configuration;
 		parent::__construct($defaults, $options, $CSRFSecret);
@@ -17,21 +17,21 @@ class ProduitNouveauForm extends BaseForm {
     public function configure() {
 
         foreach(self::$configurationNoeud as $name => $noeud) {
-           $this->setWidget($name, self::getWidgetKey($noeud)); 
+           $this->setWidget($name, self::getWidgetKey($noeud));
         }
 
 		$this->widgetSchema->setLabels(array(
 			'certifications' => 'Clé catégorie: ',
 			'genres' => 'Clé genre: ',
-			'appellations' => 'Clé dénomination: ',  	
-			'mentions' => 'Clé mention: ', 		
-			'lieux' => 'Clé lieu: ', 	
-			'couleurs' => 'Clé couleur: ', 
+			'appellations' => 'Clé dénomination: ',
+			'mentions' => 'Clé mention: ',
+			'lieux' => 'Clé lieu: ',
+			'couleurs' => 'Clé couleur: ',
 			'cepages' => 'Clé cépage: '
 		));
 
         foreach(self::$configurationNoeud as $name => $noeud) {
-           $this->setValidator($name, self::getValidatorKey($noeud)); 
+           $this->setValidator($name, self::getValidatorKey($noeud));
         }
 
         $this->widgetSchema->setNameFormat('produit[%s]');
@@ -60,9 +60,9 @@ class ProduitNouveauForm extends BaseForm {
         }
         return json_encode($choices);
     }
-    
+
     public static function getWidgetKey($noeud) {
-        
+
         if(in_array($noeud, self::$noeudPermissif)) {
             $widget = new bsWidgetFormInput();
             $widget->setAttribute('class', 'form-control select2permissifNoAjax');
@@ -84,7 +84,7 @@ class ProduitNouveauForm extends BaseForm {
             return new sfValidatorChoice(array('required' => true, 'choices' => array_keys(self::getLibelles($noeud))));
         }
     }
-    
+
     public function save() {
         $values = $this->getValues();
         $hash = 'declaration';
@@ -127,6 +127,5 @@ class ProduitNouveauForm extends BaseForm {
 
         return $this->produit;
     }
-    
-}
 
+}
