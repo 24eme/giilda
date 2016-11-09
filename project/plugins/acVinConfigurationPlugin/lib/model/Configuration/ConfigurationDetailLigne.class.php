@@ -57,7 +57,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     }
 
     public function isWritableForEtablissement($etb) {
-        if(($this->getKey() == "retourmarchandisetaxeesacquitte") || ($this->getKey() == "ventefrancebibcrdacquitte") || ($this->getKey() == "ventefrancebouteillecrdacquitte")){
+        if($this->douane_type == DRMClient::CRD_TYPE_ACQUITTE){
             if(!$etb->exist('crd_regime')){
                 return false;
             }
@@ -65,7 +65,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
                 return false;
             }
         }
-         if(($this->getKey() == "retourmarchandisetaxees") || ($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
+         if($this->douane_type == DRMClient::CRD_TYPE_SUSPENDU){
             if(!$etb->exist('crd_regime')){
                 return true;
             }
