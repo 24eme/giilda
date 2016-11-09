@@ -73,6 +73,9 @@ EOF;
             }
 
         $drm->generateMouvements();
+        if ($drm->teledeclare) {
+            $drm->generateDroitsDouanes();
+        }
         $drm->save();
         echo $drm->_id."\n";
     }
