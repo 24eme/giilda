@@ -51,6 +51,9 @@ EOF;
 
     protected function rebuildMouvements($drmId) {
         $drm = DRMClient::getInstance()->find($drmId);
+        if(!count($drm->mouvements)) {
+            return;
+        }
         foreach ($drm->mouvements as $id => $list) {
            foreach ($list as $mid => $mvt) {
 		if ($mvt->facture) {
@@ -60,15 +63,15 @@ EOF;
         }
         $drm->clearMouvements();
         $isTeleclare = $drm->isTeledeclare();
-        
+
         foreach ($drm->getProduits() as $hash => $produit){
             foreach ($produit->getProduitsDetails($isTeleclare) as $detail){
              $detail->storeDroits();
-             
+
             }
 
             }
-        
+
         $drm->generateMouvements();
         $drm->save();
         echo $drm->_id."\n";
