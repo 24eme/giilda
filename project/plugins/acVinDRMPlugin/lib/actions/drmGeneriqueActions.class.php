@@ -14,9 +14,10 @@ class drmGeneriqueActions extends sfActions {
                 new sfException("Le compte $compte n'existe pas");
             }*/
 
-            $this->etablissementPrincipal =  $this->getRoute()->getEtablissement();
             $this->societe = $this->etablissementPrincipal->getSociete();
         }
+
+        $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
     }
 
     protected function redirect403IfIsNotTeledeclaration() {
