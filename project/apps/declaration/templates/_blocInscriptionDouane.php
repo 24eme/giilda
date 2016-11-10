@@ -1,5 +1,6 @@
 <?php $interpro = sfConfig::get('app_teledeclaration_interpro'); ?>
 
+
 <div class="well">
     <p>Vous pouvez dès à présent déclarer votre DRM de septembre sur ce portail ce qui vous permettra de récupérer le document PDF à envoyer aux douanes.</p>
 
@@ -20,7 +21,7 @@
 
         <p>En l'absence de cette convention, toute DRM télédéclarée sur notre portail devra faire l’objet d’une impression (proposée en fin de saisie) et être déposée physiquement aux douanes sous format papier pour remplir vos obligations règlementaires.</p>
 
-        <p>Au cas où vous auriez déposé cette convention d'adhésion auprès des douanes très récemment, veuillez prendre contact avec l’IVBD (05 53 63 57 63 ou 05 53 63 57 52) préalablement à la saisie de votre DRM.</p>
+        <p>Au cas où vous auriez déposé cette convention d'adhésion auprès des douanes très récemment, veuillez prendre contact avec l’<?php echo strtoupper($interpro);?> (<?php echo strtoupper(sfConfig::get('app_teledeclaration_numero_interpro_adhesion'));?>) préalablement à la saisie de votre DRM.</p>
       </div>
       <div class="modal-footer text-center">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
