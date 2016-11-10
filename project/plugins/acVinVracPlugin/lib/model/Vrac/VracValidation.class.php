@@ -22,7 +22,6 @@ class VracValidation extends DocumentValidation {
 
             $this->addControle('erreur', 'date_enlevement_sup_maximale', "La date d'enlèvement est supérieure à la date maximale d'enlèvement du produit");
         } else {
-            $this->addControle('erreur', 'hors_interloire_raisins_mouts', "Le négociant ne fait pas parti d'Interloire et le contrat est un contrat de raisins/moûts");
             $this->addControle('vigilance', 'stock_commercialisable_negatif', 'Le stock commercialisable est inférieur au stock proposé');
             $this->addControle('vigilance', 'contrats_similaires', null);
             $this->addControle('vigilance', 'prix_definitif_expected', "Le prix définitif de contrat n'a pas été saisi");
@@ -45,14 +44,6 @@ class VracValidation extends DocumentValidation {
             $this->checkSoussigneCompteNonActive();
             $this->checkDateEnlevement();
         } else {
-
-            if ($this->document->isRaisinMoutNegoHorsIL()) {
-                $this->addPoint('erreur', 'hors_interloire_raisins_mouts', 'changer', $this->generateUrl('vrac_soussigne', $this->document));
-            }
-
-            /* if ($this->document->isVin() && $this->document->volume_propose > $this->document->getStockCommercialisable()) {
-              $this->addPoint('vigilance', 'stock_commercialisable_negatif', 'modifier le volume', $this->generateUrl('vrac_marche', $this->document));
-              } */
             $contrats_similaires = VracClient::getInstance()->retrieveSimilaryContracts($this->document);
             if ($nbsimilaires = count(array_keys($contrats_similaires))) {
                 $contrat_similaires_str = $nbsimilaires . ' contrat(s) similaire(s) possèdant les même soussignés, produit et volume (ou quantité) ';
