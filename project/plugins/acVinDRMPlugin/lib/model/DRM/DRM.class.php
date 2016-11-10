@@ -1226,6 +1226,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if ($this->exist('observations') && count($this->observations)) {
             $this->observations = null;
         }
+        if($this->exist('transmission_douane')){
+            $this->remove('transmission_douane');
+        }
     }
 
     public function cleanAnnexes() {
