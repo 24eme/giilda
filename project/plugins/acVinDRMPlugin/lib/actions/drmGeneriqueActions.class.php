@@ -13,7 +13,7 @@ class drmGeneriqueActions extends sfActions {
             /*if (!$this->compte) {
                 new sfException("Le compte $compte n'existe pas");
             }*/
-
+            $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
             $this->societe = $this->etablissementPrincipal->getSociete();
         }
 
