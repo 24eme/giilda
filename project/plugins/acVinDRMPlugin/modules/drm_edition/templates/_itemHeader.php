@@ -2,6 +2,7 @@
 <?php
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
+$drmTeledeclaree = $detailsNodes->getDocument()->teledeclare;
 ?>
 <div class="col-xs-4">
     <form action="<?php echo url_for('drm_choix_favoris', array('identifiant' => $formFavoris->getObject()->getIdentifiant(),
@@ -30,7 +31,7 @@ $favoris_sorties = $favoris->sorties;
                 <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Entrées&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php if($saisieSuspendu): ?>Indiquer uniquement les entrées du mois de la DRM.<?php else: ?>Total: cette case ne peut être modifiée.<?php endif; ?>"></span></small></div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
-                      <?php if($item->isWritableForEtablissement($etablissement)): ?>
+                      <?php if($item->isWritableForEtablissement($etablissement, $drmTeledeclaree)): ?>
                         <?php if ($favoris_entrees->exist($key)): ?>
                             <li class="form-group form-group-xs" style="cursor: pointer;">
                               <?php if($saisieSuspendu): ?>
@@ -51,7 +52,7 @@ $favoris_sorties = $favoris->sorties;
                     <?php endif; ?>
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
-                            <?php if($item->isWritableForEtablissement($etablissement)): ?>
+                            <?php if($item->isWritableForEtablissement($etablissement, $drmTeledeclaree)): ?>
                               <?php if (!$favoris_entrees->exist($key)): ?>
                                   <li class="form-group form-group-xs" style="cursor: pointer;">
                                     <?php if($saisieSuspendu): ?>
@@ -73,7 +74,7 @@ $favoris_sorties = $favoris->sorties;
                 <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Sorties&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php if($saisieSuspendu): ?>Indiquer uniquement les sorties du mois de la DRM.<?php else: ?>Total: cette case ne peut être modifiée.<?php endif; ?>"></span></small></div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
-                      <?php if($item->isWritableForEtablissement($etablissement)): ?>
+                      <?php if($item->isWritableForEtablissement($etablissement, $drmTeledeclaree)): ?>
                         <?php if ($favoris_sorties->exist($key)): ?>
                             <li class="form-group form-group-xs" style="cursor: pointer;">
                                 <?php if($saisieSuspendu): ?>
@@ -93,7 +94,7 @@ $favoris_sorties = $favoris->sorties;
                   <?php endif; ?>
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
-                          <?php if($item->isWritableForEtablissement($etablissement)): ?>
+                          <?php if($item->isWritableForEtablissement($etablissement, $drmTeledeclaree)): ?>
                             <?php if (!$favoris_sorties->exist($key)): ?>
                                 <li class="form-group form-group-xs">
                                     <?php if($saisieSuspendu): ?>
