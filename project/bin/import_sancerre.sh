@@ -27,7 +27,12 @@ if test "$REMOTE_DATA"; then
 
     file -i $TMP/data_sancerre_origin/*.XML | grep -E "(iso-8859-1|unknown-8bit|us-ascii)" | cut -d ":" -f 1 | sed -r 's|^.+/||' | while read ligne
     do
-        echo $TMP/data_sancerre_origin/$ligne
-        iconv -f iso-8859-1 -t utf-8 $TMP/data_sancerre_origin/$ligne | tr -d "\r"  > $TMP/data_sancerre_origin/$(echo $ligne | sed 's/.XML/.utf8.XML/')
+        newname=$(echo $ligne | sed 's/.XML/.utf8.XML/')
+        iconv -f iso-8859-1 -t utf-8 $TMP/data_sancerre_origin/$ligne | tr -d "\r"  > $TMP/data_sancerre_origin/$newname
+        echo $TMP/data_sancerre_origin/$newname
     done
 fi
+
+echo "Import des sociétés et établissements"
+
+cat $TMP/data_sancerre_origin/ADHERENT.utf8.XML | sed "s|<\ADHERENT>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' > $DATA_DIR/adherents.csv
