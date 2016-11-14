@@ -211,7 +211,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
                 continue;
             }
-            $this->addProduit($produitConfig->produit_hash);
+            $this->addProduit($produitConfig->produit_hash, DRM::DETAILS_KEY_SUSPENDU);
         }
     }
 
@@ -928,10 +928,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     protected function replicateDetail(&$drm, $key, $value, $hash_match, $hash_replication) {
-        if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details/.+)/' . $hash_match . '$|', $key, $match)) {
+        if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details.*/.+)/' . $hash_match . '$|', $key, $match)) {
             $detail = $this->get($match[1]);
             if (!$drm->exist($detail->getHash())) {
-                $drm->addProduit($detail->getCepage()->getHash(), $detail->labels->toArray());
+            $drm->addProduit($detail->getCepage()->getHash(), $detail->getParent()->getKey(), $detail->labels->toArray());
             }
             $drm->get($detail->getHash())->set($hash_replication, $value);
         }
