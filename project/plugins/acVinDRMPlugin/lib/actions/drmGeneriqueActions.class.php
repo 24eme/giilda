@@ -74,9 +74,11 @@ class drmGeneriqueActions extends sfActions {
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->isVracCreation = DRMConfiguration::getInstance()->isVracCreation();
         $this->catKey = $request->getParameter('cat_key');
         $this->key = $request->getParameter('key');
-        $this->form = new $formClass($this->detail->get($this->catKey)->get($this->key."_details"), array(),  array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $this->form = new $formClass($this->detail->get($this->catKey)->get($this->key."_details"), array(),
+                                     array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'isVracCreation' => $this->isVracCreation));
 
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));

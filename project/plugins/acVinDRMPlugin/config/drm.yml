@@ -4,6 +4,8 @@ all:
       details:
         export_detail:
           required: ["identifiant"]
+        vrac_detail:
+          creation: false
       contenances:
         "Bouteille 37 cl": 0.00375
         "Bouteille 37,5 cl": 0.00375
