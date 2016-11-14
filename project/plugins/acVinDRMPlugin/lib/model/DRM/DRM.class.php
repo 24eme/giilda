@@ -1226,6 +1226,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if ($this->exist('observations') && count($this->observations)) {
             $this->observations = null;
         }
+        if($this->exist('transmission_douane')){
+            $this->remove('transmission_douane');
+        }
     }
 
     public function cleanAnnexes() {
@@ -1467,7 +1470,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
-                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
                         $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }

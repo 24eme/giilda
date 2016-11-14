@@ -4,6 +4,7 @@
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $tabindex = $numProduit * 100 ;
+$drmTeledeclaree = $detail->getDocument()->teledeclare;
 ?>
 <div class="pull-left" style="width: 150px;">
     <div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> active col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited panel-success' : '' ?>" data-input-focus="<?php echo $tabindex; ?>" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>" style="margin-right: 10px;">
@@ -45,7 +46,7 @@ $tabindex = $numProduit * 100 ;
                     <ul class="list-unstyled">
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
                             <?php
-                            if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)){ continue; }
+                            if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
                             if (!$favoris_entrees->exist($key)): continue;
                             endif;
                             $class = ($detail->getConfig()->get('entrees')->get($key)->revendique) ? " revendique_entree " : "";
@@ -80,7 +81,7 @@ $tabindex = $numProduit * 100 ;
                             foreach ($form['entrees'] as $key => $subform):
                                 ?>
                                 <?php
-                                if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)){ continue; }
+                                if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
                                 if ($favoris_entrees->exist($key)): continue; endif;
                                 $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
                                 $class.= ($detail->getConfig()->get('entrees')->get($key)->revendique) ? " revendique_entree " : "";
@@ -116,7 +117,7 @@ $tabindex = $numProduit * 100 ;
                     <ul class="list-unstyled">
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
                             <?php
-                            if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)){ continue; }
+                            if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
 
                             if ($favoris_sorties->exist($key)):
                                 $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
@@ -161,7 +162,7 @@ $tabindex = $numProduit * 100 ;
                             <?php $isfirst = true; ?>
                             <?php foreach ($form['sorties'] as $key => $subform): ?>
                                 <?php
-                                  if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)){ continue; }
+                                  if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
                                     if (!$favoris_sorties->exist($key)):
                                     ?>
                                     <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
