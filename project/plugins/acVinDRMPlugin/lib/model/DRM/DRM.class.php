@@ -211,7 +211,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
                 continue;
             }
-            $this->addProduit($produitConfig->produit_hash);
+            $this->addProduit($produitConfig->produit_hash, DRM::DETAILS_KEY_SUSPENDU);
         }
     }
 
@@ -225,6 +225,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
 
             $this->addProduit($produitConfig->getHash(), DRM::DETAILS_KEY_SUSPENDU);
+        }
+
+        foreach($drm->getAllCrds() as $regime => $crds) {
+            foreach($crds as $crd) {
+                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, true);
+            }
         }
     }
 
@@ -922,10 +928,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     protected function replicateDetail(&$drm, $key, $value, $hash_match, $hash_replication) {
-        if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details/.+)/' . $hash_match . '$|', $key, $match)) {
+        if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details.*/.+)/' . $hash_match . '$|', $key, $match)) {
             $detail = $this->get($match[1]);
             if (!$drm->exist($detail->getHash())) {
-                $drm->addProduit($detail->getCepage()->getHash(), $detail->labels->toArray());
+            $drm->addProduit($detail->getCepage()->getHash(), $detail->getParent()->getKey(), $detail->labels->toArray());
             }
             $drm->get($detail->getHash())->set($hash_replication, $value);
         }
@@ -1022,6 +1028,54 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function addCrdRegimeNode($crdNode) {
         $this->add('crds', array($crdNode => array()));
     }
+
+    public function switchCrdRegime($newCrdRegime = EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU){
+
+        $to_removes = array();
+        foreach ($this->getOrAdd('crds') as $regime => $crds) {
+            if ($newCrdRegime != $regime) {
+                $to_removes[$regime] = $crds;
+            }
+        }
+
+        foreach ($to_removes as $removeRegime => $crds) {
+            $this->getOrAdd('crds')->remove($removeRegime);
+            $this->getOrAdd('crds')->add($newCrdRegime, $crds);
+        }
+        foreach ($this->getProduits() as $produit) {
+          $this->switchDetailsCrdRegime($produit,$newCrdRegime,DRM::DETAILS_KEY_SUSPENDU);
+          $this->switchDetailsCrdRegime($produit,$newCrdRegime,DRM::DETAILS_KEY_ACQUITTE);
+          }
+        }
+
+private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::DETAILS_KEY_SUSPENDU)
+{
+    $mvtTypes = array('entrees','sorties');
+    foreach ($produit->getProduitsDetails(true,$typeDrm) as $detailsKey => $details) {
+          $detailsConfig = $details->getConfig();
+          foreach ($mvtTypes as $mvtType){
+                $toRemove = array();
+                foreach($details->get($mvtType) as $key => $value) {
+                        if(!preg_match('/_details/',$key)){
+                          $detailConf = $detailsConfig->get($mvtType)->get($key);
+                          if($detailConf && $detailConf->exist('switch_regime'))
+                          {
+                            if((($detailConf->douane_type == DRMClient::CRD_TYPE_SUSPENDU) && ($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE))
+                                || (($detailConf->douane_type == DRMClient::CRD_TYPE_ACQUITTE)
+                                    && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
+                              $detailConfCorrespondance = $detailConf->get('switch_regime');
+                              $details->get($mvtType)->add($detailConfCorrespondance,$value);
+                                $toRemove[] = $key;
+                            }
+                          }
+                       }
+                    }
+                    foreach ($toRemove as $keyRemove) {
+                        $details->get($mvtType)->remove($keyRemove);
+                    }
+            }
+    }
+}
 
     public function getAllCrds() {
         if ($this->exist('crds') && $this->crds) {
@@ -1171,6 +1225,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         if ($this->exist('observations') && count($this->observations)) {
             $this->observations = null;
+        }
+        if($this->exist('transmission_douane')){
+            $this->remove('transmission_douane');
         }
     }
 
@@ -1413,7 +1470,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
-                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
                         $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }

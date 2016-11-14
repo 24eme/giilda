@@ -87,7 +87,8 @@ class ConfigurationDetail extends BaseConfigurationDetail {
         return $detailsSorted;
     }
 
-    public function isWritableForEtablissement($cat,$type,$etb) {
-        return $this->get($cat)->get($type)->isWritableForEtablissement($etb);
+    public function isWritableForEtablissement($cat,$type,$etb, $isTeledeclaree = false) {
+        return $this->get($cat)->get($type)->isWritableForEtablissement($etb, $isTeledeclaree);
     }
+
 }

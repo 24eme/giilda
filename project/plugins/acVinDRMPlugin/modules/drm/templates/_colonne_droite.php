@@ -5,7 +5,7 @@ if (!isset($isMonEspace)) {
     $societe = $drm->getEtablissement()->getSociete();
     $etablissementPrincipal = $societe->getEtablissementPrincipal();
 }
-?> 
+?>
 <?php
 if ($isTeledeclarationMode):
     slot('colCompte');
@@ -21,9 +21,9 @@ if ($isTeledeclarationMode):
 
                 <?php if ($sf_user->isUsurpationCompte()): ?>
                     <div class="ligne_btn txt_centre">
-                        <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
+                      
                     </div>
-                <?php endif; ?>        
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -59,17 +59,17 @@ if (isset($drm)) {
                     <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
                 <?php endif; ?>
             <?php endif; ?>
-        </div> 
+        </div>
         <?php if (!$isTeledeclarationMode): ?>
             <div class="ligne_btn txt_centre">
                 <div class="btnConnexion">
                     <a href="<?php echo url_for('drm_debrayage', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
-                </div>       
+                </div>
             </div>
             <div class="text-center" style="text-align: center;">
                 <p><strong><?php echo $etablissementPrincipal->nom; ?></strong></p>
                 <p><strong><?php echo $etablissementPrincipal->identifiant; ?></strong></p>
-                <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>            
+                <p> (<?php echo $etablissementPrincipal->getMasterCompte()->commune; ?>) </p>
             </div>
         <?php endif;?>
     </div>
@@ -102,19 +102,19 @@ if (isset($drm)) {
 
             <h3>Votre contact - mise en marche</h3>
 
-            <ul class="contact"> 
+            <ul class="contact">
                 <li class="nom"><?php echo $contact->nom; ?></li>
                 <li class="email"><a href="mailto:<?php echo $contact->email; ?>"><?php echo $contact->email; ?></a></li>
                 <li class="telephone"><?php echo $contact->telephone; ?></li>
             </ul>
         </div>
-    </div>   
+    </div>
     <script type="text/javascript">
         $(document).ready(function ()
         {
             initNoticePopup();
         });
-    </script>    
+    </script>
     <?php
     end_slot();
     ?>

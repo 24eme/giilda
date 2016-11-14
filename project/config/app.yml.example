@@ -223,6 +223,7 @@ all:
     adresse_interpro: "adresse"
     url: 'url_portail'
     interpro: 'Intreprox'
+    numero_interpro_adhesion: '05 53 63 57 63 ou 05 53 63 57 52'
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
 

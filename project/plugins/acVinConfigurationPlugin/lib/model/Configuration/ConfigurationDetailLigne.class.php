@@ -56,17 +56,23 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
         return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getParent()->getKey()."_".$this->getParent()->getKey()."_".$this->getKey());
     }
 
-    public function isWritableForEtablissement($etb) {
-        if(($this->getKey() == "retourmarchandisetaxeesacquitte") || ($this->getKey() == "ventefrancebibcrdacquitte") || ($this->getKey() == "ventefrancebouteillecrdacquitte")){
-            if(!$etb->exist('crd_regime')){
+    public function isWritableForEtablissement($etb, $isTeledeclaree = false) {
+        if($this->douane_type == DRMClient::CRD_TYPE_ACQUITTE){
+            if(!$isTeledeclaree){
+                return false;
+            }
+            if(!$etb->exist('crd_regime') || !$etb->crd_regime){
                 return false;
             }
             if(($etb->crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($etb->crd_regime == EtablissementClient::REGIME_CRD_PERSONNALISE)){
                 return false;
             }
         }
-         if(($this->getKey() == "retourmarchandisetaxees") || ($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
-            if(!$etb->exist('crd_regime')){
+         if($this->douane_type == DRMClient::CRD_TYPE_SUSPENDU){
+            if(!$isTeledeclaree){
+                return true;
+            }
+            if(!$etb->exist('crd_regime') || !$etb->crd_regime){
                 return true;
             }
             if(($etb->crd_regime != EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) && ($etb->crd_regime != EtablissementClient::REGIME_CRD_PERSONNALISE)){

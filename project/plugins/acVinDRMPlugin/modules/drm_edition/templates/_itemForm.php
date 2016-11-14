@@ -4,6 +4,7 @@
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $tabindex = $numProduit * 100 ;
+$drmTeledeclaree = $detail->getDocument()->teledeclare;
 ?>
 <div class="pull-left" style="width: 150px;">
     <div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> active col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited panel-success' : '' ?>" data-input-focus="<?php echo $tabindex; ?>" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>" style="margin-right: 10px;">
@@ -45,6 +46,7 @@ $tabindex = $numProduit * 100 ;
                     <ul class="list-unstyled">
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
                             <?php
+                            if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
                             if (!$favoris_entrees->exist($key)): continue;
                             endif;
                             $class = ($detail->getConfig()->get('entrees')->get($key)->revendique) ? " revendique_entree " : "";
@@ -79,8 +81,8 @@ $tabindex = $numProduit * 100 ;
                             foreach ($form['entrees'] as $key => $subform):
                                 ?>
                                 <?php
-                                if ($favoris_entrees->exist($key)): continue;
-                                endif;
+                                if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
+                                if ($favoris_entrees->exist($key)): continue; endif;
                                 $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
                                 $class.= ($detail->getConfig()->get('entrees')->get($key)->revendique) ? " revendique_entree " : "";
                                 $class.= ($detail->getConfig()->get('entrees')->get($key)->recolte) ? " recolte_entree " : "";
@@ -115,6 +117,8 @@ $tabindex = $numProduit * 100 ;
                     <ul class="list-unstyled">
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
                             <?php
+                            if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
+
                             if ($favoris_sorties->exist($key)):
                                 $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
                                 $class .= ($detail->getConfig()->get('sorties')->get($key)->revendique) ? " revendique_sortie " : "";
@@ -126,7 +130,8 @@ $tabindex = $numProduit * 100 ;
                                             <span class="input-group-btn">
                                                 <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php  echo url_for("drm_" .strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details", array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a> -->
                                             </span>
-                                            <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
+                                            <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>"
+                                            readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
                                         </div>
                                     <?php else: ?>
                                         <?php
@@ -157,7 +162,8 @@ $tabindex = $numProduit * 100 ;
                             <?php $isfirst = true; ?>
                             <?php foreach ($form['sorties'] as $key => $subform): ?>
                                 <?php
-                                if (!$favoris_sorties->exist($key)):
+                                  if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
+                                    if (!$favoris_sorties->exist($key)):
                                     ?>
                                     <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                         <?php if ($form->getObject()->sorties->getConfig()->get($key)->hasDetails()): ?>
@@ -176,10 +182,11 @@ $tabindex = $numProduit * 100 ;
                                                 <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
                                             </div>
                                         <?php else: ?>
-                                        <?php $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
+                                        <?php
+                                            $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';
                                             $class.= ($detail->getConfig()->get('sorties')->get($key)->revendique) ? " revendique_sortie " : "";
                                             $class.= ($detail->getConfig()->get('sorties')->get($key)->recolte) ? " recolte_sortie " : "";
-                                            $isWritable = ($detail->getConfig()->get('sorties')->get($key)->writable && !$subform->getWidget()->getAttribute('readonly'));
+                                                                                    $isWritable = ($detail->getConfig()->get('sorties')->get($key)->writable && !$subform->getWidget()->getAttribute('readonly'));
                                             $allAttributes = array('data-val-defaut' => $subform->getValue(), 'data-previousfocus' => $tabindex);
                                             if ($isWritable) {
                                                 if ($isfirst) {

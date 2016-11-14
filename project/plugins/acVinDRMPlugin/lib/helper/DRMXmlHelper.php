@@ -81,17 +81,21 @@ function drm2CrdCiel($drm) {
 			if (!isset($crds[$type.$crd->genre])) {
 				$crds[$type.$crd->genre] = array();
 			}
-			if (!isset($crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)])) {
-				$crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)] = clone $crd;
+			$subkey = sprintf('%.f', $crd->centilitrage);
+			if (preg_match('/bib/i', $crd->detail_libelle)) {
+				$subkey = "BIB".$subkey;
+			}
+			if (!isset($crds[$type.$crd->genre][$subkey])) {
+				$crds[$type.$crd->genre][$subkey] = clone $crd;
 			}else{
-				$crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->stock_debut += $crd->stock_debut;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->entrees_achats += $crd->entrees_achats;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->entrees_excedents += $crd->entrees_excedents;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->entrees_retours += $crd->entrees_retours;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->sorties_destructions += $crd->sorties_destructions;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->sorties_utilisations += $crd->sorties_utilisations;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->sorties_manquants += $crd->sorties_manquants;
-                                $crds[$type.$crd->genre][sprintf('%.f', $crd->centilitrage)]->stock_fin += $crd->stock_fin;
+				$crds[$type.$crd->genre][$subkey]->stock_debut += $crd->stock_debut;
+                                $crds[$type.$crd->genre][$subkey]->entrees_achats += $crd->entrees_achats;
+                                $crds[$type.$crd->genre][$subkey]->entrees_excedents += $crd->entrees_excedents;
+                                $crds[$type.$crd->genre][$subkey]->entrees_retours += $crd->entrees_retours;
+                                $crds[$type.$crd->genre][$subkey]->sorties_destructions += $crd->sorties_destructions;
+                                $crds[$type.$crd->genre][$subkey]->sorties_utilisations += $crd->sorties_utilisations;
+                                $crds[$type.$crd->genre][$subkey]->sorties_manquants += $crd->sorties_manquants;
+                                $crds[$type.$crd->genre][$subkey]->stock_fin += $crd->stock_fin;
 			}
 		}
 	}
@@ -121,30 +125,30 @@ function formatDateDouane($s) {
 	return preg_replace('/([0-9][0-9])[^0-9]([0-9][0-9])[^0-9]([0-9][0-9][0-9][0-9])/', '\3-\2-\1', $s);
 }
 
-function centilisation2Douane($c) {
-	$conv = array(
-'0.000000' => 'CL_75',
-'0.001000' => 'CL_10',
-'0.001250' => 'CL_12_5',
-'0.001870' => 'CL_18_7',
-'0.002000' => 'CL_20',
-'0.002500' => 'CL_25',
-'0.003500' => 'CL_35',
-'0.003750' => 'CL_37_5',
-'0.005000' => 'CL_50',
-'0.006200' => 'CL_62',
-'0.007000' => 'CL_70',
-'0.007500' => 'CL_75',
-'0.010000' => 'CL_100',
-'0.015000' => 'CL_150',
-'0.017500' => 'CL_175',
-'0.020000' => 'CL_200',
-'0.022500' => 'BIB_225',
-'0.030000' => 'BIB_300',
-'0.040000' => 'BIB_400',
-'0.050000' => 'BIB_500',
-'0.080000' => 'BIB_800',
-'0.100000' => 'BIB_1000',
-'0.200000' => 'BIB_1000');
-	return $conv[sprintf('%.f', $c)];
+function centilisation2Douane($c, $libelle) {
+	$bouteilles = array('0.001000' => 'CL_10',
+		'0.001250' => 'CL_12_5',
+		'0.001870' => 'CL_18_7',
+		'0.002000' => 'CL_20',
+		'0.002500' => 'CL_25',
+		'0.003500' => 'CL_35',
+		'0.003750' => 'CL_37_5',
+		'0.005000' => 'CL_50',
+		'0.006200' => 'CL_62',
+		'0.007000' => 'CL_70',
+		'0.007500' => 'CL_75',
+		'0.010000' => 'CL_100',
+		'0.015000' => 'CL_150',
+		'0.017500' => 'CL_175',
+		'0.020000' => 'CL_200',
+		'0.022500' => 'BIB_225',
+		'0.030000' => 'BIB_300',
+		'0.040000' => 'BIB_400',
+		'0.050000' => 'BIB_500',
+		'0.080000' => 'BIB_800',
+		'0.100000' => 'BIB_1000');
+		if ($ret = $bouteilles[sprintf('%.f', $c)]) {
+			return $ret;
+		}
+		return "AUTRE";
 }
