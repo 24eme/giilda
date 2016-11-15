@@ -12,8 +12,11 @@ class DRMESDetailCreationVrac extends BaseDRMESDetailCreationVrac {
   }
 
   public function getIdentifiantLibelle() {
-
       return EtablissementClient::getInstance()->find($this->acheteur)->__toString();
+  }
+
+  public function getVrac(){
+      return VracClient::getInstance()->createContratFromDrm($this->identifiant);
   }
 
 }
