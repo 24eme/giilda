@@ -37,6 +37,28 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
+    public function addDetailCreationVrac($identifiant = null, $volume = null, $prixhl = null, $acheteur = null) {
+        $detail = $this->add($identifiant);
+
+        $detail->identifiant = $identifiant;
+
+        if ($volume && is_null($detail->volume)) {
+            $detail->volume = $volume;
+        } elseif ($volume) {
+            $detail->volume += $volume;
+        }
+
+        if ($prixhl) {
+            $detail->prixhl = $prixhl;
+        }
+
+        if ($acheteur) {
+            $detail->acheteur = $acheteur;
+        }
+        return $detail;
+    }
+
+
     public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
         $detail = $this->add($identifiant);
 
@@ -55,7 +77,7 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($numero_document) {
             $detail->numero_document = $numero_document;
             $detail->type_document = $type_document;
-            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');            
+            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');
             if ($type_document) {
                 if (($detail instanceof DRMESDetailExport) || ($detail instanceof DRMESDetailVrac)) {
                     if (!$documents_annexes->exist($type_document)) {

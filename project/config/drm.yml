@@ -4,10 +4,24 @@ ivso:
       details:
         export_detail:
           required: []
-              
+        vrac_detail:
+          creation: false
+
 ivbd:
   configuration:
     drm:
       details:
         export_detail:
           required: ["identifiant"]
+        vrac_detail:
+          creation: false
+
+
+sancerre:
+  configuration:
+    drm:
+      details:
+        export_detail:
+          required: ["identifiant"]
+        vrac_detail:
+          creation: true
