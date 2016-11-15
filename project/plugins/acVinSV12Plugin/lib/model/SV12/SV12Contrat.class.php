@@ -47,15 +47,12 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->region = $this->getAcheteur()->region;
 
-<<<<<<< HEAD
-        $mouvement->cvo = $this->getTauxCvo();
-        
-=======
+        $mouvement->cvo = $this->getTauxCvo() * 1.0;
+
         if($mouvement->cvo <= 0) {
             $mouvement->facturable = 0;
         }
 
->>>>>>> 995c437... Pas facturable si cvo = -1
         return $mouvement;
     }
 
@@ -174,7 +171,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
     public function getTauxCvo() {
         if (is_null($this->cvo)) {
-            $this->cvo = $this->getDroitCVO()->taux;
+            $this->cvo = $this->getDroitCVO()->taux*1.0;
         }
 
         return $this->cvo;
