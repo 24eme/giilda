@@ -74,15 +74,12 @@ class drmGeneriqueActions extends sfActions {
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->isVracCreation = DRMConfiguration::getInstance()->isVracCreation();
         $this->catKey = $request->getParameter('cat_key');
         $this->key = $request->getParameter('key');
-        $this->form = new $formClass($this->detail->get($this->catKey)->get($this->key."_details"), array(),
-                                     array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'isVracCreation' => $this->isVracCreation));
+        $this->form = new $formClass($this->detail->get($this->catKey)->get($this->key."_details"), array(),array('isTeledeclarationMode' => $this->isTeledeclarationMode));
 
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
-
             if($this->form->isValid()) {
                 $this->form->update();
                 $this->drm->update();
@@ -98,8 +95,7 @@ class drmGeneriqueActions extends sfActions {
             }
             if($request->isXmlHttpRequest())
             {
-
-                return $this->renderText(json_encode(array('success' => false ,'content' => $this->getPartial('formContent', array('form' => $this->form, 'detail' => $this->detail,'isTeledeclarationMode' => $this->isTeledeclarationMode, 'catKey' => $catKey, 'key' => $key)))));
+                return $this->renderText(json_encode(array('success' => false ,'content' => $this->getPartial('formContent', array('form' =>   $this->form, 'detail' => $this->detail,'isTeledeclarationMode' => $this->isTeledeclarationMode, 'catKey' => $this->catKey, 'key' => $this->key)))));
             }
         }
     }
