@@ -16,7 +16,19 @@ class DRMESDetailCreationVrac extends BaseDRMESDetailCreationVrac {
   }
 
   public function getVrac(){
-      return VracClient::getInstance()->createContratFromDrm($this->identifiant);
+      $etbClient = EtablissementClient::getInstance();
+      $vendeurId = $this->getDocument()->getEtablissement()->identifiant;
+      $vendeur = $etbClient->find($vendeurId);
+      if(!$vendeur){
+          throw new sfException("Le vendeur d'id $vendeurId n'existe pas");
+      }
+      $acheteurId = $this->acheteur;
+      $acheteur = $etbClient->find($acheteurId);
+      if(!$acheteur){
+          throw new sfException("L'acheteur d'id $acheteurId n'existe pas");
+      }
+      $hash = $this->getDetail()->getCepage()->getHash();
+      return VracClient::getInstance()->createContratFromDrm($this->identifiant,$vendeur->identifiant,$acheteur->identifiant,$hash,$this->prixhl,$this->volume);
   }
 
 }

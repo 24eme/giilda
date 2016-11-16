@@ -203,6 +203,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $vracs;
     }
 
+    public function getDetailsAvecCreationVracs(){
+      $creationvracs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $d) {
+          if ($creationvrac = $d->sorties->creationvrac_details)
+              $creationvracs[] = $creationvrac;
+      }
+      return $creationvracs;
+    }
+
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
@@ -509,32 +518,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-  public function creationVracs() {
+    public function creationVracs() {
         if (!$this->isValidee()) {
 
             throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
         }
-
-        $vracs = array();
-
-        if (!$this->getMouvements()->exist($this->identifiant)) {
-
-            return;
-        }
-
-        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
-            if (!$mouvement->isCreationVrac()) {
-
-                continue;
+        foreach ($this->getDetailsAvecCreationVracs($this->teledeclare) as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              $newVrac->createVisa();
+              $newVrac->validate();
+              $newVrac->save();
             }
-
-            // $vrac = $mouvement->getVrac();
-            // $vrac->enleverVolume($mouvement->volume * -1);
-            // $vracs[$vrac->numero_contrat] = $vrac;
         }
-        // foreach ($vracs as $vrac) {
-        //     $vrac->save();
-        // }
     }
 
     public function setInterpros() {
