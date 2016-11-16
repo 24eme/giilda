@@ -14,7 +14,7 @@ declaration;details;entrees;retourmarchandisetaxees;1;1;0;1;1;1;0;0;1;;SUSPENDU;
 declaration;details;entrees;achatcrd;1;1;0;1;1;1;0;0;0;;ACQUITTE;entrees-periode/achats-reintegrations;0
 declaration;details;entrees;achatnoncrd;1;1;0;1;1;1;0;0;0;;SUSPENDU;entrees-periode/volume-produit;0
 declaration;details;entrees;regularisation;1;1;0;1;1;1;0;0;0;;SUSPENDU;entrees-periode/autres-entrees;0
-declaration;details;sorties;vrac;1;1;1;-1;1;1;1;0;1;VRAC;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
+declaration;details;sorties;vrac;1;1;1;-1;1;1;1;0;1;CREATIONVRAC;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;details;sorties;vracsanscontratsuspendu;1;1;0;-1;1;1;0;0;1;;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;details;sorties;apportgroupement;1;1;0;-1;1;1;0;0;0;;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
 declaration;details;sorties;export;1;1;1;-1;1;1;0;0;1;EXPORT;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
@@ -35,12 +35,10 @@ declaration;details;stocks_fin;instance;1;0;0;0;0;0;0;0;0;;STOCK;;0
 declaration;details;stocks_fin;final;1;0;0;0;0;0;0;0;0;;STOCK;;0
 declaration;detailsACQUITTE;stocks_debut;initial;1;0;;0;0;0;0;0;0;;STOCK;;0
 declaration;detailsACQUITTE;stocks_debut;instance;1;0;;0;0;0;0;0;0;;STOCK;;0
-declaration;detailsACQUITTE;entrees;recolte;1;1;;1;1;1;0;0;0;;ACQUITTE;entrees-periode/volume-produit;0
-declaration;detailsACQUITTE;entrees;reintegration;1;1;;1;1;1;0;0;0;;ACQUITTE;entrees-periode/volume-produit;0
-declaration;detailsACQUITTE;sorties;ventefrancecrd;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/sorties-avec-paiement-droits;0
-declaration;detailsACQUITTE;sorties;ventefrancedsa;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/sorties-avec-paiement-droits;0
-declaration;detailsACQUITTE;sorties;export;1;1;EXPORT;-1;1;1;0;0;0;EXPORT;ACQUITTE;sorties-periode/sorties-sans-paiement-droits;0
-declaration;detailsACQUITTE;sorties;consommationfamilialedegustation;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/sorties-sans-paiement-droits/consomation-familiale-degustation;0
-declaration;detailsACQUITTE;sorties;destructionperte;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
+declaration;detailsACQUITTE;entrees;achat;1;1;;1;1;1;0;0;0;;ACQUITTE;entrees-periode/achats;0
+declaration;detailsACQUITTE;entrees;autre;1;1;;1;1;1;0;0;0;;ACQUITTE;entrees-periode/autres-entrees;0
+declaration;detailsACQUITTE;sorties;vente;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/ventes;0
+declaration;detailsACQUITTE;sorties;replacementsuspension;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/replacement-suspension;0
+declaration;detailsACQUITTE;sorties;autre;1;1;;-1;1;1;0;0;0;;ACQUITTE;sorties-periode/autres-sorties;0
 declaration;detailsACQUITTE;stocks_fin;final;1;0;;0;0;0;0;0;0;;STOCK;;0
 declaration;detailsACQUITTE;stocks_fin;instance;1;0;;0;0;0;0;0;0;;STOCK;;0
