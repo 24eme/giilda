@@ -64,21 +64,23 @@ join -a 1 -t ";" -1 18 -2 1 $DATA_DIR/mvts-produits.csv $DATA_DIR/pays.csv | sed
 
 join -t ";" -1 1 -2 1 $DATA_DIR/stocks.csv $DATA_DIR/produits.csv | sed 's/;;/;/g' > $DATA_DIR/stocks-produits.csv
 
-cat $DATA_DIR/result.csv | sed 's/";$/";"/g' | awk -F '";"' '{ 
+cat $DATA_DIR/result.csv | sed 's/";$/";"/g' | awk -F '";"' '{
 if ($4 == 1) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;ventefrancecrd;" $6 ";;;;;" }
 if ($4 == 2) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;export;" $6 ";" $25 ";;;;" }
 if ($4 == 3) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;vracsanscontratsuspendu;" $6 ";;;;;" }
 }' >> $DATA_DIR/drm.csv
 
-cat $DATA_DIR/stocks-produits.csv | sed 's/";$/";"/g' | awk -F '";"' '{ 
+cat $DATA_DIR/stocks-produits.csv | sed 's/";$/";"/g' | awk -F '";"' '{
 print "CAVE;" substr($3, 1, 6) ";" sprintf("%06d01", $2) ";;;;;;;;;;" $10 ";suspendu;stocks_debut;initial;" $4 ";;;;;"
 }'  >> $DATA_DIR/drm.csv
 
 cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
 
+cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201408.csv
+
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_201408.csv
 
 echo "Import des DRMs"
 
