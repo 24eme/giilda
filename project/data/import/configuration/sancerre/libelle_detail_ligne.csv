@@ -13,11 +13,11 @@ details;entrees;retourmarchandisenontaxees;Retour de vin hors CRD;Retour de marc
 details;entrees;achatcrd;Achat sous CRD;Achat de vin en CRD;Achat de vin en CRD
 details;entrees;achatnoncrd;Achat hors CRD;Achat de vin non CRD;Achat de vin non CRD
 details;entrees;regularisation;Excédent constaté;Régularisation;Régularisation
-details;sorties;consommationfamilialedegustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
+details;sorties;consommationfamilialedegustation;Conso. familiale/Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
 details;sorties;ventefrancecrd;Vente sous CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD
 details;sorties;vracsanscontratacquitte;Vente sous DSA;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté)
-details;sorties;vrac;Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné
-details;sorties;vractirebouche;Tiré bouché sous contrat;Contrat de vin tiré bouché;Contrat de vin tiré bouché
+details;sorties;creationvrac;Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné
+details;sorties;creationvractirebouche;Tiré bouché sous contrat;Contrat de vin tiré bouché;Contrat de vin tiré bouché
 details;sorties;vracsanscontratsuspendu;Vrac hors contrat;Contrats hors interpro;Contrats hors interpro
 details;sorties;export;Export;Export;Export
 details;sorties;repli;Repli;Repli;Repli
