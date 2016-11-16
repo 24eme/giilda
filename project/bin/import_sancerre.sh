@@ -54,7 +54,7 @@ cat $TMP/data_sancerre_origin/MOUVEMENT.utf8.XML | sed "s|<\MOUVEMENT>|\\\n|" | 
 
 cat $TMP/data_sancerre_origin/ARTICLE.utf8.XML | sed "s|<\ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 1,1 > $DATA_DIR/produits.csv
 
-cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/g' | sed 's/Corée du Sud, République de/Corée du Sud/' | sed 's/Hong-Kong/Hong Kong/' | sed 's/Taïwan, Province de chine/Taïwan/' | sed 's/Zaïre/Zaire/' | sed 's/Centrafricaine, République/République centrafricaine/' | sed 's/Dominicaine, République/République dominicaine/' | sed 's/Syrienne, République Arabe/Syrie/' | sed 's/Tanzanie, République-Unie de/Tanzanie/' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
+cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/g' | sed 's/Corée du Sud, République de/Corée du Sud/' | sed 's/Hong-Kong/R.A.S. chinoise de Hong Kong/' | sed 's/Taïwan, Province de chine/Taïwan/' | sed 's/Zaïre/République démocratique du Congo/' | sed 's/Iraq/Irak/' | sed 's/Centrafricaine, République/République centrafricaine/' | sed 's/Dominicaine, République/République dominicaine/' | sed 's/Syrienne, République Arabe/Syrie/' | sed 's/Tanzanie, République-Unie de/Tanzanie/' | sed 's/Autres/inconnu/' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
 
 cat $TMP/data_sancerre_origin/POSSEDE_ARTICLE.utf8.XML | sed "s|<\POSSEDE_ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 1,1 > $DATA_DIR/stocks.csv
 
@@ -64,7 +64,7 @@ join -a 1 -t ";" -1 18 -2 1 $DATA_DIR/mvts-produits.csv $DATA_DIR/pays.csv | sed
 
 join -t ";" -1 1 -2 1 $DATA_DIR/stocks.csv $DATA_DIR/produits.csv | sed 's/;;/;/g' > $DATA_DIR/stocks-produits.csv
 
-cat $DATA_DIR/result.csv | sed 's/;";/;/g' | 's/;";/;/g' | sed 's/";$/";"/g' | awk -F '";"' '{
+cat $DATA_DIR/result.csv | sed 's/;";/;/g' | sed 's/;";/;/g' | sed 's/";$/";"/g' | awk -F '";"' '{
 if ($4 == 1) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;ventefrancecrd;" $6 ";;;;;" }
 if ($4 == 2) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;export;" $6 ";" $25 ";;;;" }
 if ($4 == 3) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;vracsanscontratsuspendu;" $6 ";;;;;" }
@@ -76,11 +76,11 @@ print "CAVE;" substr($3, 1, 6) ";" sprintf("%06d01", $2) ";;;;;;;;;;" $10 ";susp
 
 cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
 
-cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201308.csv
+cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201408.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_201308.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_201408.csv
 
 echo "Import des DRMs"
 
