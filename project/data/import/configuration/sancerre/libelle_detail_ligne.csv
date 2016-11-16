@@ -13,9 +13,11 @@ details;entrees;retourmarchandisenontaxees;Retour de vin hors CRD;Retour de marc
 details;entrees;achatcrd;Achat sous CRD;Achat de vin en CRD;Achat de vin en CRD
 details;entrees;achatnoncrd;Achat hors CRD;Achat de vin non CRD;Achat de vin non CRD
 details;entrees;regularisation;Excédent constaté;Régularisation;Régularisation
+details;sorties;consommationfamilialedegustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
 details;sorties;ventefrancecrd;Vente sous CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD
 details;sorties;vracsanscontratacquitte;Vente sous DSA;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté)
 details;sorties;vrac;Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné
+details;sorties;vractirebouche;Tiré bouché sous contrat;Contrat de vin tiré bouché;Contrat de vin tiré bouché
 details;sorties;vracsanscontratsuspendu;Vrac hors contrat;Contrats hors interpro;Contrats hors interpro
 details;sorties;export;Export;Export;Export
 details;sorties;repli;Repli;Repli;Repli
@@ -31,6 +33,12 @@ details;sorties;cession;Cession d'exploitation;Cession d'activité;Cession d'act
 details;sorties;apportgroupement;Apport à groupement;Apport à un groupement;Apport à un groupement
 details;stocks_fin;final;Final;Final;Stock final
 details;stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication
-detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;Stock début de mois
+detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;A remplir uniquement sur la 1ère DRM de campagne. En août, indiquer le stock réel constaté par inventaire et identique à la Déclaration de Stocks. Pour tous les mois suivants de la campagne, le stock est automatiquement repris du mois précédent.
 detailsACQUITTE;stocks_debut;instance;En instance;En instance de revendication;Stock début En instance de revendication
-details;sorties;consommationfamilialedegustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
+detailsACQUITTE;entrees;achat;Achats;Achats de produit;Indiquer les achats du produit.
+detailsACQUITTE;entrees;autre;Autres;Autres entrées;Autres entrées du produit. Ex : correspondant à une sortie de produits en droits suspendus pour lesquels les droits ont été payés.
+detailsACQUITTE;sorties;vente;Ventes de produits ;Ventes de produits ;Indiquer les ventes du produit.
+detailsACQUITTE;sorties;replacementsuspension;Replacement en suspension;Replacement en suspension;Indiquer le replacement en suspension du produit.
+detailsACQUITTE;sorties;autre;Autres;Indiquer les autres sorties du produit.;Indiquer les volumes commercialisés à l'export.
+detailsACQUITTE;stocks_fin;final;Final;Stock fin de mois;Calcul automatique: cette case ne peut être modifiée.
+detailsACQUITTE;stocks_fin;instance;En instance;En instance de revendication;Stock fin En instance de revendication
