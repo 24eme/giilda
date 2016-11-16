@@ -15,7 +15,7 @@ declaration;details;entrees;achatcrd;1;1;0;1;1;1;0;0;0;;ACQUITTE;entrees-periode
 declaration;details;entrees;achatnoncrd;1;1;0;1;1;1;0;0;0;;SUSPENDU;entrees-periode/volume-produit;0
 declaration;details;entrees;regularisation;1;1;0;1;1;1;0;0;0;;SUSPENDU;entrees-periode/autres-entrees;0
 declaration;details;sorties;creationvrac;1;1;1;-1;1;1;1;0;1;CREATIONVRAC;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
-declaration;details;sorties;vractirebouche;1;1;1;-1;1;1;1;0;1;CREATIONVRAC;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
+declaration;details;sorties;creationvractirebouche;1;1;1;-1;1;1;1;0;1;CREATIONVRAC;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;details;sorties;vracsanscontratsuspendu;1;1;0;-1;1;1;0;0;1;;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0
 declaration;details;sorties;apportgroupement;1;1;0;-1;1;1;0;0;0;;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/autres-sorties;0
 declaration;details;sorties;export;1;1;1;-1;1;1;0;0;1;EXPORT;SUSPENDU;sorties-periode/sorties-sans-paiement-droits/sorties-definitives;0

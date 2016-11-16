@@ -322,6 +322,24 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                               numero_document: {  }
                                                                                                                               type_document: {  }
+                                                                                                                  creationvractirebouche_details:
+                                                                                                                    class: DRMESDetails
+                                                                                                                    type:  collection
+                                                                                                                    required: false
+                                                                                                                    definition:
+                                                                                                                      fields:
+                                                                                                                        '*':
+                                                                                                                          type: collection
+                                                                                                                          class: DRMESDetailCreationVrac
+                                                                                                                          definition:
+                                                                                                                            fields:
+                                                                                                                              identifiant: {  }
+                                                                                                                              volume: { type: float }
+                                                                                                                              prixhl: { type: float }
+                                                                                                                              acheteur: {  }
+                                                                                                                              date_enlevement: {  }
+                                                                                                                              numero_document: {  }
+                                                                                                                              type_document: {  }
                                                                                                                   exporttaxe_details:
                                                                                                                     class: DRMESDetails
                                                                                                                     type:  collection

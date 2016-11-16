@@ -17,7 +17,7 @@ details;sorties;consommationfamilialedegustation;Conso. familiale/Dégustation;C
 details;sorties;ventefrancecrd;Vente sous CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD
 details;sorties;vracsanscontratacquitte;Vente sous DSA;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté)
 details;sorties;creationvrac;Vrac sous contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné
-details;sorties;vractirebouche;Tiré bouché sous contrat;Contrat de vin tiré bouché;Contrat de vin tiré bouché
+details;sorties;creationvractirebouche;Tiré bouché sous contrat;Contrat de vin tiré bouché;Contrat de vin tiré bouché
 details;sorties;vracsanscontratsuspendu;Vrac hors contrat;Contrats hors interpro;Contrats hors interpro
 details;sorties;export;Export;Export;Export
 details;sorties;repli;Repli;Repli;Repli
