@@ -54,7 +54,7 @@ cat $TMP/data_sancerre_origin/MOUVEMENT.utf8.XML | sed "s|<\MOUVEMENT>|\\\n|" | 
 
 cat $TMP/data_sancerre_origin/ARTICLE.utf8.XML | sed "s|<\ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 1,1 > $DATA_DIR/produits.csv
 
-cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
+cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/' | sed 's/Corée du Sud, République de/Corée du Sud/' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
 
 cat $TMP/data_sancerre_origin/POSSEDE_ARTICLE.utf8.XML | sed "s|<\POSSEDE_ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 1,1 > $DATA_DIR/stocks.csv
 
