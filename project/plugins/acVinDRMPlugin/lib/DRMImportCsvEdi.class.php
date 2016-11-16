@@ -163,7 +163,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
             $founded_produit = false;
 
-            foreach ($all_produits as $produit) {
+            /*foreach ($all_produits as $produit) {
                 if ($founded_produit) {
                     break;
                 }
@@ -172,10 +172,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     continue;
                 }
                 $founded_produit = $produit;
-            }
+            }*/
 
             if(!$founded_produit) {
                 $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
+            }
+
+            if(!$founded_produit) {
+                $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace("/[ ]+/", " ", $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT])));
             }
 
             if (!$founded_produit) {
