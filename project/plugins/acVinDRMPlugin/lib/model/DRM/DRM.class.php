@@ -437,6 +437,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->setInterpros();
+        $this->creationVracs();
+
         $this->generateMouvements();
         if ($this->teledeclare) {
             $this->generateDroitsDouanes();
@@ -505,6 +507,34 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($vracs as $vrac) {
             $vrac->save();
         }
+    }
+
+  public function creationVracs() {
+        if (!$this->isValidee()) {
+
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+
+        $vracs = array();
+
+        if (!$this->getMouvements()->exist($this->identifiant)) {
+
+            return;
+        }
+
+        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
+            if (!$mouvement->isCreationVrac()) {
+
+                continue;
+            }
+
+            // $vrac = $mouvement->getVrac();
+            // $vrac->enleverVolume($mouvement->volume * -1);
+            // $vracs[$vrac->numero_contrat] = $vrac;
+        }
+        // foreach ($vracs as $vrac) {
+        //     $vrac->save();
+        // }
     }
 
     public function setInterpros() {

@@ -37,10 +37,11 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
-    public function addDetailCreationVrac($identifiant = null, $volume = null, $prixhl = null, $acheteur = null) {
-        $detail = $this->add($identifiant);
+    public function addDetailCreationVrac($identifiant = null, $volume = null, $date_enlevement = null, $prixhl = null, $acheteur = null) {
+        $identifiantVrac = sprintf("%013d",$identifiant);
+        $detail = $this->add($identifiantVrac);
 
-        $detail->identifiant = $identifiant;
+        $detail->identifiant = $identifiantVrac;
 
         if ($volume && is_null($detail->volume)) {
             $detail->volume = $volume;
@@ -55,6 +56,11 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($acheteur) {
             $detail->acheteur = $acheteur;
         }
+
+        if ($date_enlevement) {
+            $detail->date_enlevement = $date_enlevement;
+        }
+
         return $detail;
     }
 
