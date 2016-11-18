@@ -1,0 +1,37 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/07-Databases
+
+all:
+  default:
+    class: acCouchdbDatabase
+    param:
+      dsn: http://localhost:5984/
+      dbname: giilde_ivso
+  elastica:
+    class: acElasticaDatabase
+    param:
+      dsn: http://10.20.31.1:9200/
+      dbname: giilda_ivso_prod
+ivso:
+  default: 
+    class: acCouchdbDatabase
+    param:
+      dsn: http://localhost:5984/
+      dbname: giilde_ivso
+  elastica:
+    class: acElasticaDatabase
+    param:
+      dsn: http://10.20.31.1:9200/
+      dbname: giilda_ivso_prod
+
+ivbd:
+  default:
+    class: acCouchdbDatabase
+    param:
+      dsn: http://localhost:5984/
+      dbname: giilde_ivbd_copy_prod
+  elastica:
+    class: acElasticaDatabase
+    param:
+      dsn: http://10.20.31.1:9200/
+      dbname: giilda_ivbd_prod
