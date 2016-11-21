@@ -473,7 +473,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function findContratDocId($csvRow) {
-      if($vrac = VracClient::getInstance()->findByNumContrat("VRAC-"$csvRow[self::CSV_CAVE_CONTRATID], acCouchdbClient::HYDRATE_JSON)) {
+      if($vrac = VracClient::getInstance()->findByNumContrat("VRAC-".KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRATID]), acCouchdbClient::HYDRATE_JSON)) {
           return $vrac->_id;
       }
 
