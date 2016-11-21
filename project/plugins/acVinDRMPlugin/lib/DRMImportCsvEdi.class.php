@@ -180,7 +180,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailNode->date_enlevement = $date->format('Y-m-d');
                     }
                     if ($type_key == 'vrac' || $type_key == 'contrat') {
-                        $identifiantContrat = "VRAC-".KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRATID]);
+                        $identifiantContrat = $this->findContratDocId($csvRow);
+                        if(!$identifiantContrat){
+                          continue;
+                        }
                         $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd($identifiantContrat,null);
                         if ($detailNode->volume) {
                             $volume+=$detailNode->volume;
