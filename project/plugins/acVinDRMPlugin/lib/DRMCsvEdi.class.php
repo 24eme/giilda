@@ -26,15 +26,20 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_LIEU = 8;
     const CSV_CAVE_COULEUR = 9;
     const CSV_CAVE_CEPAGE = 10;
-    const CSV_CAVE_LIBELLE_COMPLET = 11;
-    const CSV_CAVE_TYPE_DRM = 12; # aujourd'hui tout en SUSPENDU
-    const CSV_CAVE_COMPLEMENT = 13;
+    const CSV_CAVE_COMPLEMENT = 11;
+    const CSV_CAVE_LIBELLE_COMPLET = 12;
+    const CSV_CAVE_TYPE_DRM = 13; # aujourd'hui tout en SUSPENDU
 
     const CSV_CAVE_CATEGORIE_MOUVEMENT = 14;
     const CSV_CAVE_TYPE_MOUVEMENT = 15;
     const CSV_CAVE_VOLUME = 16;
     const CSV_CAVE_EXPORTPAYS = 17;
     const CSV_CAVE_CONTRATID = 18;
+
+    const CSV_CAVE_COMPLEMENT_PRODUIT = 14;
+    const CSV_CAVE_TYPE_COMPLEMENT_PRODUIT = 15;
+    const CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT = 16;
+
     const CSV_CRD_COULEUR = 4;
     const CSV_CRD_GENRE = 5;
     const CSV_CRD_CENTILITRAGE = 6;
@@ -50,6 +55,11 @@ class DRMCsvEdi extends CsvFile {
     const CSV_ANNEXE_NUMERODOCUMENT = 19;
     const CSV_ANNEXE_OBSERVATION = 17;
 
+    const COMPLEMENT = "COMPLEMENT";
+    const COMPLEMENT_OBSERVATIONS = "OBSERVATIONS";
+    const COMPLEMENT_TAV = "TAV";
+    const COMPLEMENT_PREMIX = "PREMIX";
+
     protected static $permitted_types = array(self::TYPE_CAVE,
         self::TYPE_CRD,
         self::TYPE_ANNEXE);
@@ -60,6 +70,8 @@ class DRMCsvEdi extends CsvFile {
     protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement', self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
     protected static  $cat_crd_mvts = array("stocks_debut","entrees","sorties","stocks_fin");
     protected static  $type_crd_mvts = array("achats","retours","excedents","utilisations","destructions","manquants","fin","debut");
+    protected static  $types_complement = array(self::COMPLEMENT_OBSERVATIONS, self::COMPLEMENT_TAV, self::COMPLEMENT_PREMIX);
+
 
     public function __construct($file, DRM $drm = null) {
         $this->drm = $drm;

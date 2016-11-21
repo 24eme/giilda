@@ -68,6 +68,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $this->drm->buildFavoris();
         $this->drm->storeDeclarant();
         $this->drm->initSociete();
+
         $this->drm->update();
         $this->drm->save();
     }
@@ -144,6 +145,42 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             }
 
             $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
+            if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
+              $type_complement = strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT]));
+              if(!in_array($type_complement, self::$types_complement)){
+                $this->csvDoc->addErreur($this->typeComplementNotFoundError($num_ligne, $csvRow));
+                $num_ligne++;
+                continue;
+              }
+              $valeur_complement = $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT];
+              if(!$valeur_complement){
+                $this->csvDoc->addErreur($this->valueComplementVide($num_ligne, $csvRow));
+                $num_ligne++;
+                continue;
+              }
+              if(!$just_check){
+                $valeur_complement = $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT];
+                $value = null;
+                switch ($type_complement) {
+                  case self::COMPLEMENT_TAV:
+                    $value = $this->convertNumber($valeur_complement);
+                    break;
+
+                  case self::COMPLEMENT_OBSERVATIONS:
+                    $value = $valeur_complement;
+                    break;
+
+                  case self::COMPLEMENT_PREMIX:
+                    $value = boolval($valeur_complement);
+                    break;
+                }
+                $drmDetails = $this->drm->addProduit($founded_produit->getHash());
+                $field = strtolower($type_complement);
+                $drmDetails->add($field, $value);
+              }
+                continue;
+            }
+
             $type_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
             if (!array_key_exists($cat_mouvement, $this->mouvements)) {
                 $this->csvDoc->addErreur($this->categorieMouvementNotFoundError($num_ligne, $csvRow));
@@ -263,6 +300,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $this->csvDoc->addErreur($this->crdTypeWrongFormatError($num_ligne, $csvRow));
                 }
             } else {
+                if(!array_key_exists($litrageLibelle,$all_contenances)){ continue; }
 
                 $centilitrage = $all_contenances[$litrageLibelle] * 100000;
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
@@ -417,6 +455,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     private function typeMouvementNotFoundError($num_ligne, $csvRow) {
         return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le type de mouvement n'a pas été trouvé");
+    }
+
+    private function typeComplementNotFoundError($num_ligne, $csvRow) {
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT], "Le type de complément doit être observations, tav ou premix");
+    }
+
+    private function valueComplementVide($num_ligne, $csvRow) {
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT], "La valeur du complément doit être renseignée");
     }
 
     private function exportPaysNotFoundError($num_ligne, $csvRow) {
