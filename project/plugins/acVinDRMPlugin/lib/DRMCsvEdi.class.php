@@ -26,23 +26,28 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_LIEU = 8;
     const CSV_CAVE_COULEUR = 9;
     const CSV_CAVE_CEPAGE = 10;
-    const CSV_CAVE_CATEGORIE_MOUVEMENT = 11;
-    const CSV_CAVE_TYPE_MOUVEMENT = 12;
-    const CSV_CAVE_VOLUME = 13;
-    const CSV_CAVE_EXPORTPAYS = 14;
-    const CSV_CAVE_CONTRATID = 15;
-    const CSV_CRD_GENRE = 4;
-    const CSV_CRD_COULEUR = 5;
+    const CSV_CAVE_LIBELLE_COMPLET = 11;
+    const CSV_CAVE_TYPE_DRM = 12; # aujourd'hui tout en SUSPENDU
+    const CSV_CAVE_COMPLEMENT = 13;
+
+    const CSV_CAVE_CATEGORIE_MOUVEMENT = 14;
+    const CSV_CAVE_TYPE_MOUVEMENT = 15;
+    const CSV_CAVE_VOLUME = 16;
+    const CSV_CAVE_EXPORTPAYS = 17;
+    const CSV_CAVE_CONTRATID = 18;
+    const CSV_CRD_COULEUR = 4;
+    const CSV_CRD_GENRE = 5;
     const CSV_CRD_CENTILITRAGE = 6;
-    const CSV_CRD_CATEGORIE_KEY = 11;
-    const CSV_CRD_TYPE_KEY = 12;
-    const CSV_CRD_QUANTITE = 13;
-    const CSV_ANNEXE_TYPEANNEXE = 11;
-    const CSV_ANNEXE_TYPEMVT = 12;
-    const CSV_ANNEXE_QUANTITE = 13;
-    const CSV_ANNEXE_NONAPUREMENTDATEEMISSION = 14;
-    const CSV_ANNEXE_NONAPUREMENTACCISEDEST = 15;
-    const CSV_ANNEXE_NUMERODOCUMENT = 16;
+    const CSV_CRD_CATEGORIE_KEY = 14;
+    const CSV_CRD_TYPE_KEY = 15;
+    const CSV_CRD_QUANTITE = 16;
+
+    const CSV_ANNEXE_TYPEANNEXE = 14;
+    const CSV_ANNEXE_TYPEMVT = 15;
+    const CSV_ANNEXE_QUANTITE = 16;
+    const CSV_ANNEXE_NONAPUREMENTDATEEMISSION = 17;
+    const CSV_ANNEXE_NONAPUREMENTACCISEDEST = 18;
+    const CSV_ANNEXE_NUMERODOCUMENT = 19;
     const CSV_ANNEXE_OBSERVATION = 17;
 
     protected static $permitted_types = array(self::TYPE_CAVE,
@@ -51,8 +56,10 @@ class DRMCsvEdi extends CsvFile {
     protected static $permitted_annexes_type_mouvements = array('DEBUT', 'FIN');
     protected $drm = null;
     protected $csv = null;
-    protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Effervescent', 'TRANQ' => 'Tranquille');
+    protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Mousseux', 'TRANQ' => 'Tranquille','DEFAUT' => 'Tranquille');
     protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement', self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
+    protected static  $cat_crd_mvts = array("stocks_debut","entrees","sorties","stocks_fin");
+    protected static  $type_crd_mvts = array("achats","retours","excedents","utilisations","destructions","manquants","fin","debut");
 
     public function __construct($file, DRM $drm = null) {
         $this->drm = $drm;
