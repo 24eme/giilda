@@ -1,11 +1,11 @@
 <?php use_helper('PointsAides'); ?>
 <?php $ligneId = "ligne_" . str_replace(array("[", "]"), array("-", ""), $form->renderName()) ?>
 <tr id="<?php echo $ligneId ?>">
-    <td class="form-group <?php if ($form['identifiant']->hasError()): ?>has-error<?php endif; ?> col-xs-3">
+    <td class="form-group <?php if ($form['identifiant']->hasError()): ?>has-error<?php endif; ?> col-xs-4">
         <?php echo $form['identifiant']->renderError(); ?>
         <?php echo $form['identifiant']->render(array("class" => "form-control", "autofocus" => "autofocus")); ?>
     </td>
-    <td class="form-group <?php if ($form['acheteur']->hasError()): ?>has-error<?php endif; ?> col-xs-3">
+    <td class="form-group <?php if ($form['acheteur']->hasError()): ?>has-error<?php endif; ?> col-xs-2">
         <?php echo $form['acheteur']->renderError(); ?>
         <div class="input-group" class="">
             <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete")); ?>

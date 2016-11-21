@@ -7,12 +7,10 @@ echo $form->renderGlobalErrors();
 <table id="drm_creationvrac_details_table" class="table table-striped">
     <thead>
         <tr>
-            <th class="col-xs-3">Numéro contrat<?php echo getPointAideHtml('drm','mouvements_contrats_numero') ?></th>
-            <th class="col-xs-3">Acheteur</th>
-
-            <th class="col-xs-2">Prix hl.<?php echo getPointAideHtml('drm','mouvements_contrats_type_doc') ?></th>
-            <th class="col-xs-2">Vol. enl.<?php echo getPointAideHtml('drm','mouvements_contrats_doc_accompagnement_num') ?></th>
-
+            <th class="col-xs-4">Acheteur</th>
+            <th class="col-xs-2">Volume<?php echo getPointAideHtml('drm','mouvements_contrats_doc_accompagnement_num') ?></th>
+            <th class="col-xs-2">Prix<?php echo getPointAideHtml('drm','mouvements_contrats_type_doc') ?></th>
+            <th class="col-xs-2">Numéro contrat<?php echo getPointAideHtml('drm','mouvements_contrats_numero') ?></th>
 
             <th class="col-xs-2"></th>
         </tr>
@@ -31,8 +29,8 @@ echo $form->renderGlobalErrors();
     <tfoot>
         <tr>
 
-            <td class="col-xs-3" ></td>
-            <td class="col-xs-3" ></td>
+            <td class="col-xs-4" ></td>
+            <td class="col-xs-2" ></td>
             <td class="col-xs-2" ></td>
             <td class="lead text-right col-xs-2">
                 <div class="input-group">
