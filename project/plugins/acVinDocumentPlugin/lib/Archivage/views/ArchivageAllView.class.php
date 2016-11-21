@@ -2,7 +2,7 @@
 
 class ArchivageAllView extends acCouchdbView
 {
-    
+
     const KEYS_TYPE = 0;
     const KEYS_CAMPAGNE = 1;
     const KEYS_NUMERO_ARCHIVE = 2;
@@ -11,12 +11,12 @@ class ArchivageAllView extends acCouchdbView
 
         return acCouchdbManager::getView('archivage', 'all');
     }
-    
-    public function getLastNumeroArchiveByTypeAndCampagne($type, $campagne, $fourchette_basse = 0, $fourchette_haute = 99999, $format = "%05d") {  
+
+    public function getLastNumeroArchiveByTypeAndCampagne($type, $campagne, $fourchette_basse = 0, $fourchette_haute = 99999, $format = "%05d") {
 
         $rows = $this->getViewByTypeAndCampagne($type, $campagne, $fourchette_basse, $fourchette_haute, $format)
                      ->reduce(true)
-                     ->group_level(self::KEYS_CAMPAGNE+1)      
+                     ->group_level(self::KEYS_CAMPAGNE+1)
                      ->getView($this->design, $this->view)->rows;
 
         $nb_docs = 0;
@@ -44,11 +44,25 @@ class ArchivageAllView extends acCouchdbView
         return $this->getLastNumeroArchiveByTypeAndCampagne($type, $campagne, $fourchette_basse, $fourchette_haute, $format);
     }
 
+    public function findDocId($type, $campagne, $numero, $format = "%05d") {
+        $rows = $this->getViewByTypeAndCampagne($type, $campagne, $numero, $numero, $format)
+                     ->reduce(false)
+                     ->limit(1)
+                     ->getView($this->design, $this->view)->rows;
+
+        if(count($rows) == 0) {
+
+            return null;
+        }
+
+        return $rows[0]->id;
+    }
+
     protected function getViewByTypeAndCampagne($type, $campagne, $fourchette_basse = 0, $fourchette_haute = 99999, $format) {
 
             return $this->client
                         ->startkey(array($type, $campagne, sprintf($format, $fourchette_basse)))
                         ->endkey(array($type, $campagne, sprintf($format, $fourchette_haute), array()));
     }
-    
-}  
+
+}

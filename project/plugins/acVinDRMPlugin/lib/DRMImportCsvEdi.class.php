@@ -421,7 +421,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function contratIDNotFoundError($num_ligne, $csvRow) {
-        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRATID], "L'id du contrat ne peut pas être vide");
+        return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRATID], "L'id du contrat ne peut est vide ou n'a pas été trouvé");
     }
 
     private function observationsEmptyError($num_ligne, $csvRow) {
