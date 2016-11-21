@@ -209,6 +209,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             $num_ligne++;
                             continue;
                         }
+                        $vrac_id = $this->findContratDocId($csvRow);
+
+                        if(!$vrac_id) {
+                          $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
+                          $num_ligne++;
+                          continue;
+                        }
                     }
                 }
             }
@@ -463,6 +470,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $error->erreur_csv = $erreur_csv;
         $error->raison = $raison;
         return $error;
+    }
+
+    private function findContratDocId($csvRow) {
+      if($vrac = VracClient::getInstance()->findByNumContrat("VRAC-"$csvRow[self::CSV_CAVE_CONTRATID], acCouchdbClient::HYDRATE_JSON)) {
+          return $vrac->_id;
+      }
+
+      return VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID], 2);
     }
 
     /**
