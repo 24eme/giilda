@@ -285,7 +285,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $categorie_key = $csvRow[self::CSV_CRD_CATEGORIE_KEY];
             $type_key = $csvRow[self::CSV_CRD_TYPE_KEY];
             $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
+            if($categorie_key == "stocks_debut"){ $categorie_key = 'stock_debut'; }
+            if($categorie_key == "stocks_fin"){ $categorie_key = 'stock_fin'; }
             $fieldNameCrd = $categorie_key;
+
             if ($categorie_key != "stock_debut" && $categorie_key != "stock_fin") {
                 $fieldNameCrd.="_" . $type_key;
             }
@@ -299,6 +302,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if(!in_array($type_key,self::$type_crd_mvts)){
                   $this->csvDoc->addErreur($this->crdTypeWrongFormatError($num_ligne, $csvRow));
                 }
+                $num_ligne++;
             } else {
                 if(!array_key_exists($litrageLibelle,$all_contenances)){ continue; }
 
@@ -308,11 +312,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!$regimeNode->exist($keyNode)) {
                     $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
                 }
-                try{
-                  $regimeNode->getOrAdd($keyNode)->$fieldNameCrd = intval($quantite);
-                }catch(sfException $e){
-                  //  var_dump($keyNode,$fieldNameCrd,$quantite); exit;
-                }
+                $regimeNode->getOrAdd($keyNode)->$fieldNameCrd = intval($quantite);
                 $num_ligne++;
             }
         }

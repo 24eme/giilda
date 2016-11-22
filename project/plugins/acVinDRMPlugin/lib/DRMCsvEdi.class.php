@@ -68,7 +68,7 @@ class DRMCsvEdi extends CsvFile {
     protected $csv = null;
     protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Mousseux', 'TRANQ' => 'Tranquille','DEFAUT' => 'Tranquille');
     protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement', self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
-    protected static  $cat_crd_mvts = array("stocks_debut","entrees","sorties","stocks_fin");
+    protected static  $cat_crd_mvts = array("stock_debut","entrees","sorties","stock_fin");
     protected static  $type_crd_mvts = array("achats","retours","excedents","utilisations","destructions","manquants","fin","debut");
     protected static  $types_complement = array(self::COMPLEMENT_OBSERVATIONS, self::COMPLEMENT_TAV, self::COMPLEMENT_PREMIX);
 
