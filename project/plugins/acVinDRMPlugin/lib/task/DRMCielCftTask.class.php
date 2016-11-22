@@ -99,7 +99,7 @@ EOF;
     } else {
 	    $to = sfConfig::get('app_ac_exception_notifier_email');
 	    $to = ($to && isset($to->to)) ? $to->to : 'vins@actualys.com';
-	    $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $to, "Giilda // Rapport CFT", $s)->setContentType('text/html');
+	    $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $to, "IVSO // Rapport CFT", $s)->setContentType('text/html');
 	    $this->getMailer()->sendNextImmediately()->send($message);
     }
   }
