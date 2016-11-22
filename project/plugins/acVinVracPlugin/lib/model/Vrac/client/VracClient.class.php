@@ -168,8 +168,8 @@ class VracClient extends acCouchdbClient {
                         ->limit($limit)
                         ->getView('vrac', 'history');
     }
-    
-    
+
+
     public function retrieveAllVracsTeledeclares() {
 
         return $this->descending(true)
@@ -190,15 +190,15 @@ class VracClient extends acCouchdbClient {
         }
 
         $allStatuts = self::$statuts_teledeclaration_sorted;
-        
+
         array_unshift($allStatuts,"SOLDENONSOLDE");
         array_unshift($allStatuts,self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_AUTRES);
         array_unshift($allStatuts,self::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI);
-        
+
         if (($key = array_search(self::STATUS_CONTRAT_ATTENTE_SIGNATURE, $allStatuts)) !== false) {
             unset($allStatuts[$key]);
         }
-        
+
         if (!in_array(strtoupper($statut), $allStatuts) && $statut != 'tous') {
             throw new sfException("wrong statut id ($statut)");
         }
@@ -483,6 +483,25 @@ class VracClient extends acCouchdbClient {
         return $bySoussigneType;
     }
 
+    public function findDocIdByNumArchive($campagne, $num_contrat, $recursive = 0) {
+
+        $doc_id = ArchivageAllView::getInstance()->findDocId("Vrac", $campagne, $num_contrat);
+
+        if ($doc_id) {
+
+            return $doc_id;
+        }
+
+        $recursive = $recursive - 1;
+
+        if($recursive < 0) {
+
+            return null;
+        }
+
+        return $this->findDocIdByNumArchive(ConfigurationClient::getInstance()->getPreviousCampagne($campagne), $num_contrat, $recursive);
+    }
+
     public function listCampagneByEtablissementId($identifiant) {
         $rows = $this->startkey(array('STATUT', $identifiant))
                         ->endkey(array('STATUT', $identifiant, array()))
@@ -744,7 +763,7 @@ class VracClient extends acCouchdbClient {
      *
      * @param string $id
      * @param integer $hydrate
-     * @return Vrac 
+     * @return Vrac
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
 
