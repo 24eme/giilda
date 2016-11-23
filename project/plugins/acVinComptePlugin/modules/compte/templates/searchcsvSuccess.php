@@ -1,6 +1,6 @@
 <?php
 printf("\xef\xbb\xbf");//UTF8 BOM (pour windows)
-echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; id société ; type société ; société raison sociale ; société adresse ; société adresse complémentaire ; société code postal ; société commune ; société téléphone ; société fax ; société email; fonction\n";
+echo "#nom complet ; type ; civilité ; prénom ; nom ; fonction; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; id société ; type société ; société raison sociale ; société adresse ; société adresse complémentaire ; société code postal ; société commune ; société téléphone ; société fax ; société email\n";
 foreach ($results as $res) {
   $data = $res->getData(ESC_RAW);
 
@@ -11,6 +11,7 @@ foreach ($results as $res) {
   echo '"'.$data['civilite']. '";';
   echo '"'.$data['prenom']. '";';
   echo '"'.$data['nom']. '";';
+  echo '"'.str_replace(array(';','"'),array(' ',''),$data['fonction']). '";';
   echo '"'.$data['adresse']. '";';
   echo '"'.$data['adresse_complementaire']. '";';
   echo '"'.$data['code_postal']. '";';
@@ -31,7 +32,6 @@ foreach ($results as $res) {
   echo '"'.$societe_informations['commune']. '";';
   echo '"'.$societe_informations['telephone']. '";';
   echo '"'.$societe_informations['fax']. '";';
-  echo '"'.$societe_informations['email']. '";';
-  echo '"'.str_replace(array(';','"'),array(' ',''),$data['fonction']). '"';
+  echo '"'.$societe_informations['email']. '"';
   echo "\n";
 }
