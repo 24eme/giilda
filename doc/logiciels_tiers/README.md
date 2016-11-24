@@ -40,7 +40,7 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 
 | Nom de l'Éditeur | Prise de contact | Génération du fichier de transfer | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
 |------------------|------------------|-----------------------------------|---------------------------------------|------------------------------------------------------|----------------------|
-| Isagri           | Oui |  |  |  |  |
+| Isagri           | Oui | Oui | En cours |  |  |
 | Solumatic        | Oui |  |  |  |  |
 | Dune Informatique| Oui |  |  |  |  |
 | Cer France       | Oui |  |  |  |  |
