@@ -660,15 +660,15 @@ class VracClient extends acCouchdbClient {
         return $vrac;
     }
 
-    public function createContratFromDrm($id, $vendeur, $acheteur, $hash, $prixhl, $volume_enleve){
-      $vrac = $this->retrieveById($id);
+    public function createContratFromDrm($idContrat,$identifiant, $vendeur, $acheteur, $hash, $prixhl, $volume_enleve){
+      $vrac = $this->retrieveById($idContrat);
       if ($vrac) {
             return $vrac;
         }
         $vrac = new Vrac();
         $vrac->vendeur_identifiant = $vendeur;
-        $vrac->numero_contrat = $id;
-        $vrac->numero_archive = $id;
+        $vrac->numero_contrat = $idContrat;
+        $vrac->numero_archive = $identifiant;
         $vrac->acheteur_identifiant = $acheteur;
         $vrac->produit = $hash;
         $vrac->setVendeurInformations();

@@ -84,7 +84,6 @@ class drmGeneriqueActions extends sfActions {
                 $this->form->update();
                 $this->drm->update();
                 $this->drm->save();
-
                 if($request->isXmlHttpRequest())
                 {
                     $this->getUser()->setFlash("notice", 'Le détail a été mis à jour avec success.');

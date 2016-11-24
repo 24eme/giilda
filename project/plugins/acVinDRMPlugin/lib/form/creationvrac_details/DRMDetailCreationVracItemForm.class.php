@@ -16,10 +16,10 @@ class DRMDetailCreationVracItemForm extends acCouchdbObjectForm {
         $this->setWidget('prixhl', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
 
-        $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
+        $this->setValidator('identifiant', new sfValidatorString(array('required' => false)));
         $this->setValidator('acheteur', new ValidatorEtablissement(array('required' => true)));
         $this->setValidator('prixhl', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
-        $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
+        $this->setValidator('volume', new sfValidatorNumber(array('required' => true, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
 
 
         $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));

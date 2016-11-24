@@ -37,9 +37,10 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
-    public function addDetailCreationVrac($identifiant = null, $volume = null, $date_enlevement = null, $prixhl = null, $acheteur = null) {
+    public function addDetailCreationVrac($identifiant = null, $volume = null, $date_enlevement = null, $prixhl = null, $acheteur = null, $typeContrat = VracClient::TYPE_TRANSACTION_VIN_VRAC) {
         $identifiantVrac = sprintf("%013d",$identifiant);
-        $detail = $this->add($identifiantVrac);
+        $key = $this->getDocument()->_id."-".uniqid();
+        $detail = $this->add($key);
 
         $detail->identifiant = $identifiantVrac;
 
@@ -60,6 +61,7 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($date_enlevement) {
             $detail->date_enlevement = $date_enlevement;
         }
+        $detail->type_contrat = $typeContrat;
 
         return $detail;
     }

@@ -208,6 +208,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       foreach ($this->getProduitsDetails($this->teledeclare) as $d) {
           if ($creationvrac = $d->sorties->creationvrac_details)
               $creationvracs[] = $creationvrac;
+          if ($creationvrac = $d->sorties->creationvractirebouche_details)
+                  $creationvracs[] = $creationvrac;
       }
       return $creationvracs;
     }
@@ -523,7 +525,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
         }
-        foreach ($this->getDetailsAvecCreationVracs($this->teledeclare) as $details) {
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
             foreach ($details as $keyVrac => $vracCreation) {
               $newVrac = $vracCreation->getVrac();
               $newVrac->createVisa();

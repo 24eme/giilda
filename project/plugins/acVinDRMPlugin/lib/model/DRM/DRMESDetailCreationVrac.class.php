@@ -28,7 +28,7 @@ class DRMESDetailCreationVrac extends BaseDRMESDetailCreationVrac {
           throw new sfException("L'acheteur d'id $acheteurId n'existe pas");
       }
       $hash = $this->getDetail()->getCepage()->getHash();
-      return VracClient::getInstance()->createContratFromDrm($this->identifiant,$vendeur->identifiant,$acheteur->identifiant,$hash,$this->prixhl,$this->volume);
+      return VracClient::getInstance()->createContratFromDrm($this->getKey(),$this->identifiant,$vendeur->identifiant,$acheteur->identifiant,$hash,$this->prixhl,$this->volume);
   }
 
 }

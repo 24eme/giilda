@@ -322,6 +322,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                               numero_document: {  }
                                                                                                                               type_document: {  }
+                                                                                                                              type_contrat: {  }
                                                                                                                   creationvractirebouche_details:
                                                                                                                     class: DRMESDetails
                                                                                                                     type:  collection
@@ -340,6 +341,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                               numero_document: {  }
                                                                                                                               type_document: {  }
+                                                                                                                              type_contrat: {  }
                                                                                                                   exporttaxe_details:
                                                                                                                     class: DRMESDetails
                                                                                                                     type:  collection
