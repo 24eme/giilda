@@ -253,6 +253,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                 $num_ligne++;
                                 continue;
                             }
+                            continue;
                         }
                         if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
                             if (!$csvRow[self::CSV_CAVE_CONTRATID]) {
@@ -261,7 +262,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                 continue;
                             }
                             $vrac_id = $this->findContratDocId($csvRow);
-
                             if(!$vrac_id) {
                               $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
                               $num_ligne++;
