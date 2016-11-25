@@ -303,8 +303,7 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeReouvrir(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
-        $drm->valide->date_saisie = null;
-        $drm->valide->date_signee = null;
+        $drm->devalidate();
         $drm->save();
 
         return $this->redirect('drm_redirect_etape', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
