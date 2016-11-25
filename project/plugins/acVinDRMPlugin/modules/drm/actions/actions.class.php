@@ -363,6 +363,14 @@ class drmActions extends drmGeneriqueActions {
         return $this->renderText($this->getPartial('popupFrequence', array('drm' => $drm)));
     }
 
+    public function executeReouvrir(sfWebRequest $request) {
+        $drm = $this->getRoute()->getDRM();
+        $drm->devalidate();
+        $drm->save();
+
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+    }
+
     public function executeShowError(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
         $drmValidation = new DRMValidation($drm);

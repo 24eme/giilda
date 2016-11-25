@@ -97,6 +97,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->exist('teledeclare') && $this->teledeclare;
     }
 
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
+    }
+
     public function changedToTeledeclare() {
         $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
 
@@ -470,6 +478,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function devalidate(){
+      $this->valide->date_saisie = null;
+      $this->valide->date_signee = null;
+      $this->deleteVracs();
+      $this->clearMouvements();
+    }
+
     public function storeIdentifiant($options) {
         $identifiant = $this->identifiant;
 
@@ -531,6 +546,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
               $newVrac->createVisa();
               $newVrac->validate();
               $newVrac->save();
+            }
+        }
+    }
+
+    public function deleteVracs() {
+        if ($this->isValidee()) {
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              VracClient::getInstance()->delete($newVrac);
             }
         }
     }

@@ -12,7 +12,7 @@ $hasDontRevendique = $drm->getConfig()->getDocument()->hasDontRevendique();
 			<th class="col-xs-1 text-right">Entrées</th>
 			<th class="col-xs-1"><?php if($hasDontRevendique): ?>&nbsp;(Rev.)<?php endif; ?></th>
 			<th class="col-xs-1 text-right">Sorties</th>
-			<th class="col-xs-1"><?php if(!$isTeledeclarationMode): ?>&nbsp;(Rev.)<?php endif; ?></th>
+			<th class="col-xs-1"><?php if($hasDontRevendique): ?>&nbsp;(Rev.)<?php else: ?>&nbsp;(Fact.)<?php endif; ?></th>
 			<th class="col-xs-1 text-right"><strong>Stock final</th>
 			<th class="col-xs-1"><?php if($hasDontRevendique): ?>(revendiqué)</strong>  <?php endif; ?></th>
 		</tr>
@@ -31,9 +31,14 @@ $hasDontRevendique = $drm->getConfig()->getDocument()->hasDontRevendique();
         <td class="<?php echo isVersionnerCssClass($detail, 'total_debut_mois') ?>"><?php if($detail->stocks_debut->exist('dont_revendique')): ?>(<?php echoFloat($detail->stocks_debut->dont_revendique) ?>&nbsp;<span class="unite">hl</span>)<?php endif; ?></td>
 
       	<td class="text-right <?php echo isVersionnerCssClass($detail, 'total_entrees') ?>"><?php echoFloat($detail->total_entrees) ?>&nbsp;<span class="unite">hl</span></td>
-        <td class="<?php echo isVersionnerCssClass($detail, 'total_entrees_revendique') ?>">&nbsp;(<?php echoFloat($detail->total_entrees_revendique) ?>&nbsp;<span class="unite">hl</span>)</td>
+        <td class="<?php echo isVersionnerCssClass($detail, 'total_entrees_revendique') ?>">
+          <?php if(!$isTeledeclarationMode && $hasDontRevendique): ?>&nbsp;(<?php echoFloat($detail->total_entrees_revendique) ?>&nbsp;<span class="unite">hl</span>)<?php endif; ?>
+        </td>
 				<td class="text-right <?php echo isVersionnerCssClass($detail, 'total_sorties') ?>"><?php echoFloat($detail->total_sorties) ?>&nbsp;<span class="unite">hl</span></td>
-        <td><?php if(!$isTeledeclarationMode): ?>&nbsp;(<?php echoFloat($detail->total_sorties_revendique) ?>&nbsp;<span class="unite">hl</span>)<?php endif; ?></td>
+        <td>
+          <?php if(!$isTeledeclarationMode && $hasDontRevendique): ?>&nbsp;(<?php echoFloat($detail->total_sorties_revendique) ?>&nbsp;<span class="unite">hl</span>)<?php endif; ?>
+          <?php if(!$isTeledeclarationMode && !$hasDontRevendique): ?>&nbsp;(<?php echoFloat($detail->total_facturable) ?>&nbsp;<span class="unite">hl</span>)<?php endif; ?>
+        </td>
 				<td class="text-right <?php echo isVersionnerCssClass($detail, 'total') ?>"><strong><?php echoFloat($detail->total) ?></strong>&nbsp;<span class="unite">hl</span>&nbsp;</td>
         <td class="<?php echo isVersionnerCssClass($detail, 'total') ?>"><?php if($detail->stocks_fin->exist('dont_revendique')): ?>(<?php echoFloat($detail->stocks_fin->dont_revendique) ?>&nbsp;<span class="unite">hl</span>)<?php endif; ?></td>
 
