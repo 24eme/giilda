@@ -435,6 +435,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function devalidate(){
+      $this->valide->date_saisie = null;
+      $this->valide->date_signee = null;
+      $this->clearMouvements();
+    }
+
     public function storeIdentifiant($options) {
         $identifiant = $this->identifiant;
 
