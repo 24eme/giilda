@@ -2,7 +2,7 @@
 
 <div class="panel panel-default <?php echo getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?>">
     <div class="panel-heading text-center"><?php echo $calendrier->getPeriodeLibelle($periode) ?></div>
-    <div class="panel-body text-center" <?php echo ($isTeledeclarationMode)? "style='height: 120px'" : "" ?> >
+    <div class="panel-body text-center" <?php echo ($isTeledeclarationMode)? "style='height: 150px'" : "" ?> >
         <?php if ($isTeledeclarationMode && $multiEtablissement): ?>
             <ul class="liste_etablissements clearfix">
                 <?php foreach ($calendrier->getEtablissements() as $etb): ?>
