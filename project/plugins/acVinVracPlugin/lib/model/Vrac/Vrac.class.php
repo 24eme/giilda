@@ -426,7 +426,9 @@ class Vrac extends BaseVrac {
     }
 
     public function getRepartitionCVOCoef($identifiant) {
+
         if (($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
+          
 
             return 0.5;
         }

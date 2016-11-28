@@ -673,7 +673,7 @@ class VracClient extends acCouchdbClient {
         $vrac->produit = $hash;
         $vrac->setVendeurInformations();
         $vrac->setAcheteurInformations();
-
+        $vrac->update();
         return $vrac;
     }
 
