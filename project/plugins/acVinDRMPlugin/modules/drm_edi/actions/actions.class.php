@@ -47,7 +47,7 @@ class drm_ediActions extends drmGeneriqueActions {
         $this->drm->teledeclare = true;
 
         $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $this->drm);
-        $this->drmCsvEdi->importCSV($this->csvFile);
+        $this->drmCsvEdi->importCSV(true);
         $this->redirect('drm_validation', $this->drm);
     }
 

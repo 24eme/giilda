@@ -435,6 +435,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function devalidate(){
+      $this->valide->date_saisie = null;
+      $this->valide->date_signee = null;
+      $this->clearMouvements();
+    }
+
     public function storeIdentifiant($options) {
         $identifiant = $this->identifiant;
 
@@ -782,6 +788,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isModifiable() {
         return $this->version_document->isModifiable() && !$this->isTeledeclare();
+    }
+
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
     }
 
     public function getPreviousVersion() {
