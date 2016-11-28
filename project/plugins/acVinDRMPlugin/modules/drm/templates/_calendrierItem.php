@@ -12,9 +12,9 @@
                             <p class="etablissement_nom"><?php echo $etb->nom; ?></p>
                             <?php if(getEtatDRMLibelleCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb) == "Continuer"): ?>
                               <a href="<?php echo url_for('drm_redirect_etape', array('identifiant'=>$etb->identifiant, 'periode_version' => $periode)); ?>"
-                                 class="btn btn-warning btn-block"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode, $etb); ?></a>
+                                 class="btn btn-warning btn-block"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode, $etb); ?></a><br/>
                             <?php else: ?>
-                            <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?></span>&nbsp;<?php echo getPointAideHtml('drm','etats') ?>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb) ?></p>
+                            <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?></span>&nbsp;<?php echo getPointAideHtml('drm','etats') ?><br/><?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb) ?></p>
                             <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode, $etb)) : ?>
                                 <a data-toggle="modal" data-target="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?>"
                                    class="action <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etb)): echo 'drm_nouvelle_teledeclaration';  endif; ?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode, $etb); ?></a>
@@ -27,7 +27,7 @@
 <?php else: ?>
             <div class="<?php echo getEtatDRMPictoCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?>">
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
-                <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?></span>&nbsp;<?php echo getPointAideHtml('drm','etats') ?>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
+                <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?></span>&nbsp;<?php echo getPointAideHtml('drm','etats') ?><br/>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
                             <?php if(getEtatDRMLibelleCalendrier($calendrier, $periode) == "Continuer"): ?>
                               <a href="<?php echo url_for('drm_redirect_etape', array('identifiant'=>$etablissement->identifiant, 'periode_version' => $calendrier->getPeriodeVersion($periode, $etablissement))); ?>"
                                  class="btn btn-warning btn-block"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
