@@ -586,6 +586,8 @@ DRM:
             'success': boolean
             'horodatage': string
             'id_declaration': string
+            'coherente': boolean
+            'diff': string
 
 CSVDRM:
   definition:
