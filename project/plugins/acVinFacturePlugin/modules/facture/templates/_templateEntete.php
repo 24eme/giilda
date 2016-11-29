@@ -88,7 +88,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \fancyhf{}
 
 \lhead{
- \textbf{IVSO} \\
+ \textbf{Bureau Interprofessionnel Vins Du Centre - BIVC} \\
  \InterproAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterproFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
