@@ -11,7 +11,7 @@
 	    <p>Si vous décidez de transmettre le document par courrier postal ou par mail, n'oubliez pas que la DRM doit être signée manuellement pour être valable.</p>
         <?php if($compte->hasDroit("teledeclaration_douane")): ?>
           <?php if($drm->crds->exist('COLLECTIFACQUITTE')): ?>
-            <p><strong>Les douanes n'ayant pas prévu le cas des CRD en régime acquitté, nous ne pouvons pas vous permettre de télé-transmettre votre DRM sur le portail des douanes pour le moment.</strong></p>
+            <p><strong>Les douanes n'ayant pas prévu le cas des sorties de CRD en régime acquitté, nous ne pouvons pas vous permettre de télé-transmettre votre DRM sur le portail des douanes pour le moment.</strong></p>
           <?php else: ?>
           <p>
             <div class="ligne_form">
