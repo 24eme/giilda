@@ -52,10 +52,18 @@ function multiArray2XML($preXML) {
 function details2XmlDouane($detail) {
 	$confDetail = $detail->getConfig()->getDocument()->declaration->details;
         $preXML = array();
+		$keyForceDisplay = array();
+		foreach (array('stocks_debut', 'stocks_fin') as $type) {
+			foreach($confDetail->get($type) as $k => $v) {
+				if($confDetail->get($type)->get($k)->douane_cat) {
+					$keyForceDisplay[$type] = $k;
+				}
+			}
+		}
         foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {
-		if (($v || (preg_match('/revendique/', $k) && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
-                        $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
+		if (($v || (isset($keyForceDisplay[$type]) && $keyForceDisplay[$type] = $k)) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+            $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
 		}
 	  }
 	}
@@ -147,8 +155,9 @@ function centilisation2Douane($c, $libelle) {
 		'0.050000' => 'BIB_500',
 		'0.080000' => 'BIB_800',
 		'0.100000' => 'BIB_1000');
-		if ($ret = $bouteilles[sprintf('%.f', $c)]) {
-			return $ret;
+		if (isset($bouteilles[sprintf('%.f', $c)]) && $bouteilles[sprintf('%.f', $c)]) {
+
+			return $bouteilles[sprintf('%.f', $c)];
 		}
 		return "AUTRE";
 }
