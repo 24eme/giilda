@@ -57,6 +57,7 @@ function details2XmlDouane($detail) {
 			foreach($confDetail->get($type) as $k => $v) {
 				if($confDetail->get($type)->get($k)->douane_cat) {
 					$keyForceDisplay[$type] = $k;
+					break;
 				}
 			}
 		}
