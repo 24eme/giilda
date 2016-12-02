@@ -147,11 +147,24 @@ class DRMDetail extends BaseDRMDetail {
                 $this->sorties->cooperative+=$cooperative_detail->volume;
             }
         }
-        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
-          || ($this->entrees->exist('manipulation') && $this->entrees->manipulation)
-          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
-          $this->add('observations',null);
-        }else{
+        $hasobs = false;
+        foreach($this->entrees as $entree => $v) {
+          if (preg_match('/autres-entrees/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
+              $hasobs = true;
+              if (!$this->exist('observations')) {
+                $this->add('observations',$entree);
+              }
+          }
+        }
+        foreach($this->sorties as $sortie => $v) {
+          if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
+              $hasobs = true;
+              if (!$this->exist('observations')) {
+                $this->add('observations',$sortie);
+              }
+          }
+        }
+        if (!$hasobs) {
           $this->remove('observations');
         }
 

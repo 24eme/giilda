@@ -84,7 +84,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeChoixCreation(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
@@ -128,11 +128,11 @@ class drmActions extends drmGeneriqueActions {
         }
         return $this->redirect('drm_societe', array('identifiant' => $identifiant));
     }
-   
+
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeNouvelle(sfWebRequest $request) {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
@@ -149,7 +149,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeInProcess(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
@@ -162,7 +162,7 @@ class drmActions extends drmGeneriqueActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeDelete(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
@@ -299,6 +299,14 @@ class drmActions extends drmGeneriqueActions {
         $this->getUser()->setFlash('control_message', $controle->getMessage());
         $this->getUser()->setFlash('control_css', "flash_" . $controle->getType());
         $this->redirect($controle->getLien());
+    }
+
+    public function executeReouvrir(sfWebRequest $request) {
+        $drm = $this->getRoute()->getDRM();
+        $drm->devalidate();
+        $drm->save();
+
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
     }
 
     public function executeRectificative(sfWebRequest $request) {

@@ -221,7 +221,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach($drm->getAllCrds() as $regime => $crds) {
             foreach($crds as $crd) {
-                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, null, true);
+                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, true);
             }
         }
     }
@@ -433,6 +433,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $this->getSuivante()->save();
             }
         }
+    }
+
+    public function devalidate(){
+      $this->valide->date_saisie = null;
+      $this->valide->date_signee = null;
+      $this->clearMouvements();
     }
 
     public function storeIdentifiant($options) {
@@ -782,6 +788,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isModifiable() {
         return $this->version_document->isModifiable() && !$this->isTeledeclare();
+    }
+
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
     }
 
     public function getPreviousVersion() {

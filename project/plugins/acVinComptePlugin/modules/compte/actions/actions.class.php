@@ -1,30 +1,30 @@
 <?php
 
 class compteActions extends sfCredentialActions {
-    
+
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);
         $this->applyRights();
         if(!$this->modification && !$this->reduct_rights){
-          
+
           return $this->forward('acVinCompte','forbidden');
         }
-        $this->processFormCompte($request);        
+        $this->processFormCompte($request);
         $this->setTemplate('modification');
     }
 
     public function executeModification(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();        
-        $this->societe = $this->compte->getSociete(); 
+        $this->compte = $this->getRoute()->getCompte();
+        $this->societe = $this->compte->getSociete();
         $this->applyRights();
         if(!$this->modification && !$this->reduct_rights){
-          
+
           return $this->forward('acVinCompte','forbidden');
         }
         $this->processFormCompte($request);
     }
-    
+
     protected function processFormCompte(sfWebRequest $request) {
         $this->compteForm = new CompteForm($this->compte);
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -32,15 +32,15 @@ class compteActions extends sfCredentialActions {
         }
 
         $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
-        
+
         if (!$this->compteForm->isValid()) {
           return;
         }
-        
+
         $this->compteForm->save();
-                
+
         if (!$this->compte->isSameCoordonneeThanSociete()) {
-                  
+
             return $this->redirect('compte_coordonnee_modification', $this->compte);
         }
 
@@ -48,8 +48,8 @@ class compteActions extends sfCredentialActions {
     }
 
     public function executeModificationCoordonnee(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();        
-        $this->societe = $this->compte->getSociete(); 
+        $this->compte = $this->getRoute()->getCompte();
+        $this->societe = $this->compte->getSociete();
         $this->compteForm = new CompteCoordonneeForm($this->compte);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
@@ -62,7 +62,7 @@ class compteActions extends sfCredentialActions {
             }
         }
     }
- 
+
     public function executeVisualisation(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();
         $this->societe = $this->compte->getSociete();
@@ -71,7 +71,7 @@ class compteActions extends sfCredentialActions {
             $this->redirect('societe_visualisation',array('identifiant' => $this->societe->identifiant));
         if($this->compte->isEtablissementContact())
             $this->redirect('etablissement_visualisation',array('identifiant' => preg_replace ('/^ETABLISSEMENT-/', '', $this->compte->getEtablissementOrigine())));
-    }    
+    }
 
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
       $query = $request->getParameter('q', '*');
@@ -105,6 +105,7 @@ class compteActions extends sfCredentialActions {
     }
 
     public function executeSearchcsv(sfWebRequest $request) {
+      ini_set('memory_limit', '512M');
       $index = acElasticaManager::getType('Compte');
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
@@ -112,12 +113,12 @@ class compteActions extends sfCredentialActions {
       $this->results = $resset->getResults();
       $this->setLayout(false);
       $filename = 'export';
-      
+
 //      $filename.=str_replace(',', '_', $this->q).'_';
 //      if(count($this->args['tags'])){
 //          $filename.= str_replace(',', '_', $this->args['tags']);
 //      }
-      
+
       $attachement = "attachment; filename=".$filename.".csv";
       $this->response->setContentType('text/csv');
       $this->response->setHttpHeader('Content-Disposition',$attachement );
@@ -177,14 +178,14 @@ class compteActions extends sfCredentialActions {
       }
       return true;
     }
-    
+
     public function executeAddtag(sfWebRequest $request) {
       if (!$this->addremovetag($request, false)) {
 	return ;
       }
       return $this->redirect('compte_search', $this->args);
     }
-    
+
     public function executeRemovetag(sfWebRequest $request) {
       if (!$this->addremovetag($request, true)) {
 	return ;
@@ -192,7 +193,7 @@ class compteActions extends sfCredentialActions {
       $this->args['tags'] = implode(',', array_diff($this->selected_rawtags, array('manuel:'.$request->getParameter('tag'))));
       return $this->redirect('compte_search', $this->args);
     }
-    
+
     public function executeSearch(sfWebRequest $request) {
       $res_by_page = 50;
       $page = $request->getParameter('page', 1);
@@ -217,7 +218,7 @@ class compteActions extends sfCredentialActions {
       $this->nb_results = $resset->getTotalHits();
       $this->facets = $resset->getFacets();
 
-      $this->last_page = ceil($this->nb_results / $res_by_page); 
+      $this->last_page = ceil($this->nb_results / $res_by_page);
       $this->current_page = $page;
     }
 }

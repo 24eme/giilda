@@ -1,16 +1,17 @@
 <?php
 printf("\xef\xbb\xbf");//UTF8 BOM (pour windows)
-echo "#nom complet ; type ; civilité ; nom ; prénom ; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; id société ; type société ; société raison sociale ; société adresse ; société adresse complémentaire ; société code postal ; société commune ; société téléphone ; société fax ; société email\n";
+echo "#nom complet ; type ; civilité ; prénom ; nom ; fonction; adresse ; adresse complémentaire ; code postal ; commune ; pays ; téléphone bureau ; téléphone mobile ; téléphone perso ; fax ; email ; commentaire ; id société ; type société ; société raison sociale ; société adresse ; société adresse complémentaire ; société code postal ; société commune ; société téléphone ; société fax ; société email\n";
 foreach ($results as $res) {
   $data = $res->getData(ESC_RAW);
-  
+
   $societe_informations = $data['societe_informations'];
-                                                
+
   echo '"'.$data['nom_a_afficher']. '";';
   echo '"'.CompteClient::getInstance()->createTypeFromOrigines($data['origines']).'";';
   echo '"'.$data['civilite']. '";';
   echo '"'.$data['prenom']. '";';
   echo '"'.$data['nom']. '";';
+  echo '"'.str_replace(array(';','"'),array(' ',''),$data['fonction']). '";';
   echo '"'.$data['adresse']. '";';
   echo '"'.$data['adresse_complementaire']. '";';
   echo '"'.$data['code_postal']. '";';
@@ -20,7 +21,7 @@ foreach ($results as $res) {
   echo '"'.$data['telephone_mobile']. '";';
   echo '"'.$data['telephone_perso']. '";';
   echo '"'.$data['fax']. '";';
-  echo '"'.$data['email']. '";';  
+  echo '"'.$data['email']. '";';
   echo '"'.$data['commentaire']. '";';
   echo '"'.preg_replace('/SOCIETE-/', '', $data['id_societe']). '";';
   echo '"'.$societe_informations['type']. '";';

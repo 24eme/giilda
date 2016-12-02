@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * DRMRouting configuration.
- * 
+ *
  * @package    DRMRouting
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -74,6 +74,12 @@ class DRMRouting {
             'action' => 'delete'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'),)));
+
+        $r->prependRoute('drm_reouvrir', new DRMRoute('/drm/:identifiant/reouvrir/:periode_version', array('module' => 'drm',
+            'action' => 'reouvrir'), array(), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('valid'),
+        )));
 
         $r->prependRoute('drm_rectificative', new DRMRoute('/drm/:identifiant/rectifier/:periode_version', array('module' => 'drm',
             'action' => 'rectificative'), array(), array('model' => 'DRM',
@@ -174,7 +180,7 @@ class DRMRouting {
 
         $r->prependRoute('drm_verification_fichier_edi', new sfRoute('/drm/:identifiant/verification-edi/:periode/:md5', array('module' => 'drm_edi',
             'action' => 'verificationEdi')));
-        
+
         $r->prependRoute('drm_creation_fichier_edi', new sfRoute('/drm/:identifiant/creation-edi/:periode/:md5', array('module' => 'drm_edi',
             'action' => 'creationEdi')));
 

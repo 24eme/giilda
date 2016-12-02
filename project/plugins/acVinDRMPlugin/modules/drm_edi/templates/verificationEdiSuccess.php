@@ -1,5 +1,5 @@
 <?php
-$csvDoc = $drmCsvEdi->csvDoc;
+$csvDoc = $drmCsvEdi->getCsvDoc();
 ?>
 <section id="principal">
     <h2>Import d'une DRM <?php echo $csvDoc->statut; ?></h2>
@@ -7,34 +7,34 @@ $csvDoc = $drmCsvEdi->csvDoc;
 
         <form action="<?php echo url_for('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5)); ?>" method="post" enctype="multipart/form-data">
             <?php echo $creationEdiDrmForm->renderHiddenFields(); ?>
-            <?php echo $creationEdiDrmForm->renderGlobalErrors(); ?> 
+            <?php echo $creationEdiDrmForm->renderGlobalErrors(); ?>
             <div style="display: none;">
                 <?php echo $creationEdiDrmForm['type_creation']->render(); ?>
             </div>
-            <div class="ligne_form" >       
+            <div class="ligne_form" >
                 <span>
                     <?php echo $creationEdiDrmForm['file']->renderError(); ?>
-                    <?php echo $creationEdiDrmForm['file']->renderLabel() ?>    
+                    <?php echo $creationEdiDrmForm['file']->renderLabel() ?>
                     <?php echo $creationEdiDrmForm['file']->render(); ?>
                 </span>
             </div>
             <br/>
             <div class="ligne_btn">
-                <button id="drm_nouvelle_popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Recharger un fichier</span></button>  
+                <button id="drm_nouvelle_popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Recharger un fichier</span></button>
             </div>
         </form>
         <br/><br/>
         <h2>Rapport d'erreurs</h2>
         <table class="table_recap">
             <thead>
-                <tr>                        
+                <tr>
                     <th>Numéro de ligne</th>
                     <th>Erreur</th>
                     <th>Raison</th>
                 </tr>
             </thead>
             <?php foreach ($csvDoc->erreurs as $erreur) : ?>
-                <tr>                        
+                <tr>
                     <td><?php echo $erreur->num_ligne; ?></td>
                     <td style="<?php echo ($csvDoc->statut == DRMCsvEdi::STATUT_ERREUR) ? "color: darkred;" : "color: goldenrod;"; ?>" ><?php echo $erreur->csv_erreur; ?></td>
                     <td style="color: darkgray"><?php echo $erreur->diagnostic; ?></td>

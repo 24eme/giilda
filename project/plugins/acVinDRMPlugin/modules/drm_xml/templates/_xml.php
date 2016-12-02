@@ -30,8 +30,8 @@
 <?php if (false && $produit->getPremix()): ?>
 				<premix>true</premix>
 <?php endif; ?>
-<?php if (false && $produit->getObservations()): ?>
-				<observations><?php echo $produit->getObservations() ?></observations>
+<?php if ($produit->exist('observations')): ?>
+				<observations><?php echo $produit->get('observations'); ?></observations>
 <?php endif; ?>
 				<balance-stocks>
 <?php
@@ -80,7 +80,7 @@
       		<categorie-fiscale-capsules><?php echo crdGenre2CategorieFiscale($gcrds[$fkey]->genre) ?></categorie-fiscale-capsules>
       		<type-capsule><?php echo crdType2TypeCapsule($gcrds[$fkey]->type) ?></type-capsule>
 <?php foreach($gcrds as $crd) : ?>
-      		<centilisation volume="<?php echo centilisation2douane($crd->centilitrage) ?>">
+      		<centilisation volume="<?php echo centilisation2douane($crd->centilitrage, $crd->detail_libelle) ?>">
         		<stock-debut-periode><?php echo $crd->stock_debut ?></stock-debut-periode>
 <?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours): ?>
         		<entrees-capsules>

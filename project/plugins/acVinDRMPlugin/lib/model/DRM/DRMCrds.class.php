@@ -12,8 +12,8 @@ class DRMCrds extends BaseDRMCrds {
         return "";
     }
 
-    public function getOrAddCrdNode($genre, $couleur, $litrage, $stock_debut = null, $litrageInHl = false) {
-        $crd = $this->add($this->constructKey($genre, $couleur, $litrage));
+    public function getOrAddCrdNode($genre, $couleur, $litrage, $libelle = null, $stock_debut = null, $litrageInHl = false) {
+        $crd = $this->add($this->constructKey($genre, $couleur, $litrage, $libelle));
         if(!$litrageInHl) {
             $crd->centilitrage = $litrage / self::FACTLITRAGE;
         } else {
@@ -26,11 +26,18 @@ class DRMCrds extends BaseDRMCrds {
             $crd->stock_debut = $stock_debut;
         }
         $contenances = sfConfig::get('app_vrac_contenances');
-        $crd->detail_libelle = array_search($crd->centilitrage, $contenances);
-        $this->constructKey($genre, $couleur, $litrage);
+        if ($libelle) {
+          $crd->detail_libelle = $libelle;
+        }else{
+          $crd->detail_libelle = array_search($crd->centilitrage, $contenances);
+        }
+        $this->constructKey($genre, $couleur, $litrage, $crd->detail_libelle);
     }
 
-    public function constructKey($genre, $couleur, $litrage) {
+    public function constructKey($genre, $couleur, $litrage, $libelle = null) {
+        if ($libelle && preg_match('/bib/i', $libelle)) {
+          return $genre . '-' . $couleur . '-BIB' . $litrage;
+        }
         return $genre . '-' . $couleur . '-' . $litrage;
     }
 

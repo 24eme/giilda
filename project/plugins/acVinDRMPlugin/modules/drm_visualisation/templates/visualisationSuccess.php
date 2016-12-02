@@ -9,7 +9,10 @@
                 <label>Nom de l'opérateur : </label><?php echo $drm->getEtablissement()->nom ?>
             </li>
             <li>
-                <strong><label><?php echo ($drm->isTeledeclare()) ? 'Télédéclarée' : 'Saisie sur Vinsi'; ?></label>
+                <strong>
+                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->isTeledeclareFacturee()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isTeledeclareNonFacturee()): ?>&nbsp;(non facturée)<?php endif; ?>
+                  <?php else : ?>Saisie sur Vinsi<?php endif; ?>
+                </label>
                     <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
                         <label style="margin-left: 150px;"><?php echo 'Numéro d\'archive : ' . $drm->numero_archive; ?></label>
                     <?php endif; ?>
@@ -35,6 +38,7 @@
     </div>
 
     <?php if (!$isTeledeclarationMode): ?>
+
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()):
             ?>
             <div class="vigilance_list">
@@ -46,7 +50,19 @@
 
         <?php if ($drm->isModifiable()): ?>
             <div style="text-align: right;">
-                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
+                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($drm->isTeledeclareFacturee()): ?>
+            <div style="text-align: right;">
+                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($drm->isTeledeclareNonFacturee()): ?>
+            <div style="text-align: right;">
+                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
             </div>
         <?php endif; ?>
 

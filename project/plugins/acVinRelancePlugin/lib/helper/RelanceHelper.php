@@ -99,7 +99,6 @@ case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
 function getRegion($region) {
     switch ($region) {
         case EtablissementClient::REGION_NANTES :
-            return 'Vertou,';
         case EtablissementClient::REGION_HORSINTERLOIRE :
         case EtablissementClient::REGION_ANGERS :
         case EtablissementClient::REGION_TOURS :
