@@ -358,7 +358,6 @@ class drmActions extends drmGeneriqueActions {
         $this->legalSignatureForm = new DRMLegalSignatureForm($etablissement);
 
         if ($request->isMethod(sfRequest::POST)) {
-            echo "POST ";
             $this->legalSignatureForm->bind($request->getParameter($this->legalSignatureForm->getName()));
             if ($this->legalSignatureForm->isValid()) {
                 $this->legalSignatureForm->save();
