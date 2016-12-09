@@ -1470,7 +1470,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
-                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->exist($typeKey) || !$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
                         $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }
