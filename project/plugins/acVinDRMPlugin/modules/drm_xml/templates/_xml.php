@@ -30,7 +30,7 @@
 <?php if (false && $produit->getPremix()): ?>
 				<premix>true</premix>
 <?php endif; ?>
-<?php if (false && $produit->getObservations()): ?>
+<?php if ($produit->getObservations()): ?>
 				<observations><?php echo $produit->getObservations() ?></observations>
 <?php endif; ?>
 				<balance-stocks>
