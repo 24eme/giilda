@@ -538,6 +538,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return strftime('%d/%m/%Y', strtotime($this->valide->date_signee));
     }
 
+    public function getEuTransmissionDate() {
+        if (!$this->hasTransmissionDate()) {
+          return  '';
+        }
+        return strftime('%d/%m/%Y', strtotime($this->transmission_douane->horodatage));
+    }
+
+    public function hasTransmissionDate() {
+      if (!$this->exist('transmission_douane')) {
+        return false;
+      }
+      if (!$this->get('transmission_douane')->exist('horodatage')) {
+        return false;
+      }
+      return ($this->get('transmission_douane')->get('horodatage'));
+    }
+
     public function isDebutCampagne() {
 
         return ConfigurationClient::getInstance()->isDebutCampagne($this->periode);
