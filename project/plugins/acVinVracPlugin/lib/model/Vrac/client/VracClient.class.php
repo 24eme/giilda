@@ -660,7 +660,7 @@ class VracClient extends acCouchdbClient {
         return $vrac;
     }
 
-    public function createContratFromDrm($idContrat,$identifiant, $vendeur, $acheteur, $hash, $prixhl, $volume_enleve){
+    public function createContratFromDrm($idContrat,$identifiant, $vendeur, $acheteur, $hash, $prix, $volume_enleve, $date_enlevement = null ,$type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC){
       $vrac = $this->retrieveById($idContrat);
       if ($vrac) {
             return $vrac;
@@ -671,6 +671,22 @@ class VracClient extends acCouchdbClient {
         $vrac->numero_archive = $identifiant;
         $vrac->acheteur_identifiant = $acheteur;
         $vrac->produit = $hash;
+        $vrac->type_contrat = $type_contrat;
+        if($vrac->type_contrat == VracClient::TYPE_TRANSACTION_VIN_VRAC){
+          $vrac->prix_initial_unitaire_hl = $prix;
+          $vrac->prix_unitaire_hl = $prix;
+        }else{
+          $vrac->prix_initial_unitaire = $prix;
+          $vrac->prix_unitaire = $prix;
+        }
+        if($date_enlevement){
+          $vrac->enlevement_date = $date_enlevement;
+          $vrac->valide->date_saisie = $date_enlevement;
+          $vrac->date_signature = $date_enlevement;
+          $vrac->date_visa = $date_enlevement;
+        }
+
+
         $vrac->setVendeurInformations();
         $vrac->setAcheteurInformations();
         $vrac->update();

@@ -59,7 +59,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         $this->details = $parent->add($key);
 
         foreach ($this->getDetails() as $identifiant => $detail) {
-            if ($this->getDetails()->exist($identifiant) && !preg_match('/^creationvrac_details$/', $this->getDetails()->getKey())) {
+            if ($this->getDetails()->exist($identifiant) && !preg_match('/^creationvrac_details$/', $this->getDetails()->getKey()) && !preg_match('/^creationvractirebouche_details/', $this->getDetails()->getKey())) {
                 $this->getDetails()->remove($identifiant);
             }
         }

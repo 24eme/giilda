@@ -262,7 +262,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
-            throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
+            throw new sfException(sprintf("Une drm est en cours d'édition (%s) pour cette campagne %s, impossible d'en créer une autre", $this->getHistorique()->hasInProcess()->_id, $this->campagne));
         }
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);

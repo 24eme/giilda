@@ -244,6 +244,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailNode->identifiant = $vrac_id;
                         $detailNode->date_enlevement = $date->format('Y-m-d');
                     }
+                    if($type_key == 'creationvrac' || $type_key == 'creationvractirebouche'){
+                      $idDRM = 'DRM-'.$drmDetails->getDocument()->identifiant.'-'.$drmDetails->getDocument()->periode;
+                      $acheteurId = $csvRow[17];
+                      $prix = floatval($csvRow[18]);
+                      $date = DateTime::createFromFormat('Ymd',$csvRow[19]);
+                      $type_contrat = ($type_key == 'creationvrac')? VracClient::TYPE_TRANSACTION_VIN_VRAC : VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
+                      $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetailCreationVrac($idDRM, $volume, $date->format('Y-m-d'), $prix, $acheteurId, $type_contrat, $idDRM);
+                    }
                 } else {
                     $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
                     if($cat_key == "stocks_debut" && !is_null($oldVolume) && $oldVolume != "") {
