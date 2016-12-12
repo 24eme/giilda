@@ -78,7 +78,6 @@ class DRMRouting {
         $r->prependRoute('drm_reouvrir', new DRMRoute('/drm/:identifiant/reouvrir/:periode_version', array('module' => 'drm',
             'action' => 'reouvrir'), array(), array('model' => 'DRM',
             'type' => 'object',
-            'control' => array('valid'),
         )));
 
         $r->prependRoute('drm_rectificative', new DRMRoute('/drm/:identifiant/rectifier/:periode_version', array('module' => 'drm',

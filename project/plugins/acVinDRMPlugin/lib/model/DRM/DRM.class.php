@@ -1043,6 +1043,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return array();
     }
 
+    public function getCrds() {
+        if(!$this->exist('crds')) {
+
+            return $this->add('crds');
+        }
+
+        return $this->_get('crds');
+    }
+
     public function updateStockFinDeMoisAllCrds() {
         $result = array();
         if ($this->exist('crds') && $this->crds) {

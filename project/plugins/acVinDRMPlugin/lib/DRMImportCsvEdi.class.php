@@ -268,6 +268,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                               continue;
                             }
                         }
+                        $vrac_id = $this->findContratDocId($csvRow);
+
+                        if(!$vrac_id) {
+                          $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
+                          $num_ligne++;
+                          continue;
+                        }
                     }
                 }
                 $num_ligne++;
@@ -537,6 +544,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne, $csvRow[self::CSV_CRD_CATEGORIE_KEY], "La catégorie de ces CRD n'est pas reconnu.");
         }
 
+
         private function crdTypeWrongFormatError ($num_ligne, $csvRow) {
             return $this->createError($num_ligne, $csvRow[self::CSV_CRD_TYPE_KEY], "Le type de ces CRD n'est pas reconnu.");
         }
@@ -563,6 +571,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $error->erreur_csv = $erreur_csv;
             $error->raison = $raison;
             return $error;
+
         }
 
         private function findContratDocId($csvRow) {
