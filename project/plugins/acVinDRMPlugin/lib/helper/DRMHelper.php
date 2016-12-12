@@ -97,6 +97,9 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
     }
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE_BLOQUEE) {
+        return "Saisie impossible";
+    }
     if ($isTeledeclarationMode) {
         return 'Saisie interne';
     }
@@ -112,11 +115,11 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
 function getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
     if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode))
         return  '(Téleclarée)';
-    else if ($isTeledeclarationMode) 
+    else if ($isTeledeclarationMode)
         return '';
     else {
         $a = $calendrier->getNumeroArchive($periode, $etablissement);
-        if ($a) 
+        if ($a)
             return '('.$a.')' ;
     }
 }
@@ -133,7 +136,7 @@ function isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode,
 }
 
 function getEtatDRMPictoCalendrier($isTeledeclaration, $calendrier, $periode, $etablissement = false) {
-    $statut = $calendrier->getStatut($periode, $etablissement);   
+    $statut = $calendrier->getStatut($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_EN_COURS) {
         return 'attente_etablissement';
     }
@@ -151,7 +154,7 @@ function getEtatDRMPictoCalendrier($isTeledeclaration, $calendrier, $periode, $e
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
         return 'attente_etablissement';
-    } 
+    }
     return 'valide_etablissement';
 }
 
@@ -164,12 +167,12 @@ function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $eta
     }
     if (($statut == DRMCalendrier::STATUT_EN_COURS) || ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE)) {
         return url_for('drm_redirect_etape', array('identifiant' => $etablissementId, 'periode_version' => $periode_version));
-    }    
+    }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         if($isTeledeclaration){
-           return '#drm_nouvelle_'.$periode . '_' . $etablissementId; 
+           return '#drm_nouvelle_'.$periode . '_' . $etablissementId;
         }else{
-            
+
         return url_for('drm_nouvelle', array('identifiant' => $etablissementId, 'periode' => $periode));
         }
     }
@@ -178,14 +181,14 @@ function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $eta
 
 function hasPopup($isTeledecaration, $calendrier, $periode, $etablissement = false) {
     if(!$isTeledecaration) return false;
-    $statut = $calendrier->getStatut($periode, $etablissement);   
+    $statut = $calendrier->getStatut($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return true;
     }
     return false;
 }
 
-function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = false) {
+function getEtatDRMLibelleCalendrier($calendrier, $periode, $isTeledeclarationMode = null, $etablissement = false) {
     $statut = $calendrier->getStatut($periode, $etablissement);
     if ($statut == DRMCalendrier::STATUT_VALIDEE) {
         return 'Voir la drm';
@@ -194,6 +197,9 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = fal
         return 'En attente';
     }
     if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
+      if ($isTeledeclarationMode) {
+        return '';
+      }
         return 'Voir la drm';
     }
     if ($statut == DRMCalendrier::STATUT_EN_COURS_NON_TELEDECLARE) {
@@ -201,6 +207,9 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode, $etablissement = fal
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
+    }
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE_BLOQUEE) {
+        return "Une DRM est en cours d'édition";
     }
     return $statut;
 }
@@ -219,9 +228,9 @@ function getLastDayForDrmPeriode($drm) {
 
 
 function getHelpMsgText($idText) {
-    $helpMsgsTexts = sfYaml::load(dirname(__FILE__). '/../../config/helpMsgs.yml' );    
+    $helpMsgsTexts = sfYaml::load(dirname(__FILE__). '/../../config/helpMsgs.yml' );
     return $helpMsgsTexts["drm"][$idText];
-    
+
 }
 
 function echoDroitDouane($float) {
