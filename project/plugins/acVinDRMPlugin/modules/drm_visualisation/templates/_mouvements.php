@@ -24,12 +24,11 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
         <thead>
             <tr>
                 <th class="col-xs-2">Type</th>
-                <th class="col-xs-3">Produits</th>
-                <th class="col-xs-4">Mouvement</th>
-                <th class="col-xs-3">
-                  <span class="pull-right">Volume</span></th>
+                <th class="col-xs-4">Produits</th>
+                <th class="col-xs-3">Mouvement</th>
+                <th class="col-xs-3"><span class="pull-right">Volume</span></th>
                 <?php if($hasDontRevendique): ?>
-                  <span class="pull-left">(dont revendiqué)</span>
+                  <th class="col-xs-2"><span class="pull-left">(dont revendiqué)</span></th>
                 <?php endif; ?>
             </tr>
         </thead>
@@ -53,12 +52,20 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                     <tr data-words='<?php echo json_encode(array_merge(array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation)) ? " facturable" : ""; ?>">
                         <td><?php echo $mouvement->type_drm_libelle ?></td>
                         <td><a href="#tab=mouvements_<?php echo $typeKey ?>&filtre=<?php echo strtolower($produit_libelle); ?>"><?php if($drm->version): ?><small class="text-muted"><?php echo ($mouvement->version) ? $mouvement->version : "M00" ?></small> <?php endif; ?><?php echo $mouvement->produit_libelle ?></a></td>
-                        <td><?php echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle; ?>
+                        <td><?php
+                            if ($mouvement->vrac_numero) {
+                                echo (!isset($no_link) || !$no_link) ? '<a href="' . url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)) . '">' : '';
+                                echo $mouvement->type_libelle . ' ' . $mouvement->numero_archive;
+                                echo (!isset($no_link) || !$no_link) ? '</a>' : '';
+                            } else {
+                                echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle;
+                            }
+                            ?>
                         </td>
                         <td <?php echo ($mouvement->volume > 0) ? ' class="positif"' : 'class="negatif"'; ?> >
                             <span class="pull-right"><?php echoSignedFloat($mouvement->volume); ?></span>
-                            <?php if($hasDontRevendique): ?>  <td></td> <?php endif; ?>
                         </td>
+                      <?php if($hasDontRevendique): ?>  <td></td> <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
 
