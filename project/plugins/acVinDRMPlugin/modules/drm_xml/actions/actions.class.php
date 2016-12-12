@@ -15,6 +15,10 @@ class drm_xmlActions extends drmGeneriqueActions {
     $this->drm = $this->getRoute()->getDRM();
     $this->etablissement = $this->getRoute()->getEtablissement();
     if ($request->isMethod(sfWebRequest::POST)) {
+      if (!CielService::hasAppConfig() ||
+          ($this->drm->add('transmission_douane')->exit('success') && $this->drm->add('transmission_douane')->get('success'))) {
+        return $this->redirect('drm_ciel', $this->drm);
+      }
       $this->cielResponse = '';
       if ($xml = $this->getPartial('xml', array('drm' => $this->drm))) {
         try {
@@ -51,10 +55,10 @@ class drm_xmlActions extends drmGeneriqueActions {
       $this->setLayout(false);
       $this->getResponse()->setHttpHeader('Content-Type', 'text/xml');
   }
-  
+
   public function executeMain()
   {
-  	
+
   }
 
   }
