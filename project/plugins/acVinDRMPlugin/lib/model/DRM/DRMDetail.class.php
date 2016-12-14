@@ -359,6 +359,9 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
             $mouvement->facturable = ($this->getConfig()->get($hash . "/" . $key)->facturable && $mouvement->cvo > 0) ? 1 : 0;
+            if($this->getDocument()->isDrmNegoce()){
+              $mouvement->facturable = 0;
+            }
             $mouvement->version = $this->getDocument()->getVersion();
             $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
