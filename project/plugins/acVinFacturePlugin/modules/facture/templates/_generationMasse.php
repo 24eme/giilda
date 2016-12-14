@@ -26,6 +26,16 @@
         </div>
         <div class="form-group <?php if ($generationForm["message_communication"]->hasError()): ?>has-error<?php endif; ?>">
             <?php echo $generationForm["message_communication"]->renderError(); ?>
+            <?php echo $generationForm["message_communication"]->renderLabel("Seuil minimum", array("class" => "col-xs-5 control-label")); ?>
+            <div class="col-xs-4">
+                <div class="input-group">
+                    <?php echo $generationForm["seuil"]->render(); ?>
+                    <span class="input-group-addon">€</span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group <?php if ($generationForm["message_communication"]->hasError()): ?>has-error<?php endif; ?>">
+            <?php echo $generationForm["message_communication"]->renderError(); ?>
             <?php echo $generationForm["message_communication"]->renderLabel("Cadre de communication", array("class" => "col-xs-5 control-label")); ?>
             <div class="col-xs-7">
 
