@@ -269,7 +269,7 @@ class factureActions extends sfActions {
         $filters_parameters['date_mouvement'] = date('Y-m-d');
         $filters_parameters['message_communication'] = "";
         $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_FACTURES;
-        $filters_parameters['modele'] = 'DRM';
+        $filters_parameters['modele'] = $values['modele'];
 
         if (isset($values['date_facturation']) && $values['date_facturation']) {
             $filters_parameters['date_facturation'] = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
@@ -285,7 +285,9 @@ class factureActions extends sfActions {
         if (isset($values['modele']) && $values['modele']) {
             if ($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS) {
                 $filters_parameters['modele'] = 'MouvementsFacture';
-            } elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
+            }elseif($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DRM){
+              $filters_parameters['modele'] = "DRM";
+            }elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
                 $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL;
                 $filters_parameters['modele'] = null;
             }

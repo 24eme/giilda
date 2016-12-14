@@ -235,7 +235,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $etablissements = $this->getEtablissements();
 
         $keysOrigin = array();
-        if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+        if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM || $modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {
             foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
                 $keyOrigin = explode(':', $origine);
                 $keyOriginWithoutModificatrice = preg_replace('/(.*)-M[0-9]+$/', '$1', $keyOrigin[0]);
@@ -271,10 +271,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $ligne->add("produit_identifiant_analytique", $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
             }
 
-            if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+            if (($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
                 $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-
                 $detail = null;
                 if ($transacteur) {
                     $detail = $ligne->getOrAdd('details')->add();
@@ -379,7 +378,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     private function createOrigine($transacteur, $famille, $view) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
-        if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+        if (($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM)
+            || ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
 
             if ($famille == SocieteClient::TYPE_OPERATEUR) {
                 if ( sfConfig::get('app_configuration_facture_idcontrat') == 'ID' ) {
