@@ -39,9 +39,12 @@ use_helper('Date');
                         <tr class="vertical-center">
                             <td class="text-left">
                                 <?php
-                                $numeroFormatted = ($drmMvt) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
-                                        ($sv12Mvt) ? SV12Client::getInstance()->getLibelleFromId($mouvement->numero) : $mouvement->nom_facture;
-
+                                $numeroFormatted = $mouvement->nom_facture;
+                                if ($drmMvt) {
+                                  $numeroFormatted = DRMClient::getInstance()->getLibelleFromId($mouvement->numero);
+                                }else if ($sv12Mvt) {
+                                  $numeroFormatted = SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
+                                }
                                 echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
                                 ?>
                             </td>
