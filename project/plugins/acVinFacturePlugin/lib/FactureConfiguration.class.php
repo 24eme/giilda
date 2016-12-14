@@ -35,6 +35,11 @@ class FactureConfiguration {
         return $this->configuration['prefix_sage'];
     }
 
+    public function getPrefixCodeComptable() {
+
+        return $this->configuration['prefix_code_comptable'];
+    }
+
     public function getTVACompte() {
 
         return $this->configuration['tva_compte'];
