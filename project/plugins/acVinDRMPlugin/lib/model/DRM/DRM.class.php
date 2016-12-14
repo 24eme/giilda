@@ -1487,4 +1487,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $libelles_detail_ligne;
     }
 
+    public function isDrmNegoce(){
+      return $this->getEtablissement()->isNegociant();
+    }
 }
