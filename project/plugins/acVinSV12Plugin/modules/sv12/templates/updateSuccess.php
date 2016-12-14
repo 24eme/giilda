@@ -1,7 +1,9 @@
 <?php use_helper('SV12'); ?>
 
 <?php include_partial('sv12/breadcrumb', array('sv12' => $sv12)); ?>
-
+<?php
+$types_contrats = VracClient::getTypes();
+?>
 <section id="principal" class="sv12">
     <?php include_partial('sv12/etapes', array('sv12' => $sv12, 'etape' => 'saisie')); ?>
     <form name="sv12_update" class="form-horizontal" method="POST" action="<?php echo url_for('sv12_update', $sv12); ?>" >
@@ -33,7 +35,7 @@
                         <td><?php echo $contrat->produit_libelle; ?></td>
                         <td>
                             <?php if (!$contrat->contrat_numero): ?>
-                                -
+                                <?php echo $types_contrats[$contrat->contrat_type]; ?>
                             <?php else: ?>
                                 <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo $contrat->numero_archive; ?></a>
                                 <?php echo sprintf('(%s,&nbsp;%s&nbsp;hl)', $contrat->getContratTypeLibelle(), $contrat->volume_prop); ?>

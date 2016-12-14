@@ -38,9 +38,11 @@ $tabindex = $numProduit * 100 ;
                 </div>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="2">
                     <div style="height:22px;" class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
-                        <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="input-float somme_entrees_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
-                        <input type="text" value="0" class="input-float  somme_entrees_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly" style="display: none;" />
-
+                        <div class="input-group input-group-xs">
+                            <span class="input-group-addon">Σ</span>
+                            <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="input-float somme_entrees_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
+                            <input type="text" value="0" class="input-float  somme_entrees_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly" style="display: none;" />
+                        </div>
                     </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
@@ -108,9 +110,11 @@ $tabindex = $numProduit * 100 ;
 
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="4">
                     <div style="height:22px;" class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
-                        <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="input-float somme_sorties_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
-                        <input type="text" value="0" class="input-float somme_sorties_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly"  style="display: none;" />
-
+                        <div class="input-group input-group-xs">
+                            <span class="input-group-addon">Σ</span>
+                            <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="input-float somme_sorties_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
+                            <input type="text" value="0" class="input-float somme_sorties_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly"  style="display: none;" />
+                        </div>
                     </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['sorties'] as $key => $subform): ?>

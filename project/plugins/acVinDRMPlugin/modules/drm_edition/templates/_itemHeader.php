@@ -88,7 +88,7 @@ $favoris_sorties = $favoris->sorties;
                     <ul class="list-unstyled" style="display: none;">
                         <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                             <?php if (!$favoris_sorties->exist($key)): ?>
-                                <li class="form-group form-group-xs">
+                                <li class="form-group form-group-xs" style="cursor: pointer;">
                                     <?php if($saisieSuspendu): ?>
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <?php endif; ?>

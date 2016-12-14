@@ -5,7 +5,7 @@ $hasDontRevendique = $drm->getConfig()->getDocument()->hasDontRevendique();
 <table class="table table-striped table-condensed">
 	<thead>
 		<tr>
-			<th class="col-xs-2">Type</th>
+			<th class="<?php if($hasDontRevendique): ?>col-xs-1<?php else: ?>col-xs-2<?php endif; ?>">Type</th>
 			<th class="col-xs-3">Produits</th>
 			<th class="col-xs-1 text-right">Stock initial</th>
 			<th class="col-xs-1"><?php if($hasDontRevendique): ?>(revendiqué) <?php endif; ?></th>

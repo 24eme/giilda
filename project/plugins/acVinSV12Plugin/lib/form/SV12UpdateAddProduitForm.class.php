@@ -20,23 +20,25 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 			      'hashref' => new bsWidgetFormChoice(array('choices' => $this->getChoices()), array("class" => "form-control select2")),
 			      'raisinetmout' => new bsWidgetFormChoice(array('choices' => array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins', VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts'), 'expanded'=>true)),
 			      'identifiant' => new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR))),
-			      'withviti' => new  bsWidgetFormInputCheckbox(array('value_attribute_value' => 'withviti'))
+			      'withviti' => new  bsWidgetFormInputCheckbox(array('value_attribute_value' => 'withviti')),
+            'volume' => new bsWidgetFormInputFloat(array())
 			      ));
 
       $this->widgetSchema->setLabels(array(
 					   'hashref' => 'Produit&nbsp;: ',
 					   'raisinetmout' => 'Raisins et moûts&nbsp;:',
 					   'identifiant' => 'Viticulteur&nbsp;:',
-					   'withviti' => "Affecter l'enlevement à un viti"
+					   'withviti' => "Affecter l'enlevement à un viti",
+             'volume' => "Volume&nbsp;:"
 					   ));
 
       $this->setValidators(array(
 				 'hashref'  => new sfValidatorChoice(array('required' => true,  'choices' => array_keys($this->getProduits())),array('required' => "Aucun produit n'a été saisi !")),
 				 'raisinetmout' => new sfValidatorChoice(array('choices' => array(VracClient::TYPE_TRANSACTION_RAISINS, VracClient::TYPE_TRANSACTION_MOUTS), 'required' => false)),
 				 'identifiant' => new ValidatorEtablissement(array('required' => false)),
-				 'withviti' => new sfValidatorChoice(array('required' => false, 'choices' => array('withviti')))
-				 ));
-
+				 'withviti' => new sfValidatorChoice(array('required' => false, 'choices' => array('withviti'))),
+         'volume' => new sfValidatorNumber(array('required' => false, 'min' => 0))
+       ));
       $this->validatorSchema->setPostValidator(new SV12AddProduitValidator());
       $this->widgetSchema->setNameFormat('sv12_add_produit[%s]');
     }
@@ -71,7 +73,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 
       $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$this->values['raisinetmout'].str_replace('/', '-', $this->values['hashref']));
       echo "update no contrat avec viti\n";
-      $sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $this->values['raisinetmout']));
+      $sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $this->values['raisinetmout'],'volume' => $this->values['volume']));
 
     }
 
