@@ -38,6 +38,16 @@
                     <?php echo $form['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'placeholder' => 'Rechercher')); ?>
                 </div>
             </div>
+            <div class="form-group">
+                <?php echo $form['volume']->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
+                <div class="col-sm-6">
+                    <?php echo $form['volume']->renderError(); ?>
+                    <div class="input-group">
+                      <?php echo $form['volume']->render(array('class' => 'form-control input-md text-right', 'placeholder' => 'Volume')); ?>
+                      <div class="input-group-addon">hl</div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-xs-4 text-left">
