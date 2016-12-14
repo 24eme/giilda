@@ -54,7 +54,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 
 \def\TVA{19.60}
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
-		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France}
+		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}
 \def\InterproFacturation{\\<?php echo $facture->emetteur->telephone;?>
                                              <?php if($facture->emetteur->exist('email')): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?>
