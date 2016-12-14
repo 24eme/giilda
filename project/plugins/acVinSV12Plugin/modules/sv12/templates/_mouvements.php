@@ -17,7 +17,7 @@
                     <th>Date de modification</th>
                     <th>Contrat</th>
                     <th>Produit</th>
-                    <th>Volume</th>
+                    <th class="text-center">Volume</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@
 	  <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $mouvement->vrac_numero)) ?>"><?php echo sprintf("%s, n°%s, %s", $mouvement->type_libelle, $mouvement->numero_archive, $mouvement->vrac_destinataire); ?></a>
                             <?php
                             } else if ($mouvement->vrac_destinataire) {
-                                echo sprintf("%s, %s", $mouvement->type_libelle, $mouvement->vrac_destinataire)." (sans contrat)";
+                                echo sprintf("%s, %s", $mouvement->type_libelle, $mouvement->vrac_destinataire);
                             } else {
                                 echo '-';
                             }
@@ -42,8 +42,8 @@
                         <td>
                     <?php echo $mouvement->produit_libelle; ?>
                         </td>
-                        <td <?php echo ($mouvement->volume > 0) ? ' class="positif"' : 'class="negatif"'; ?> >
-        <?php echoSignedFloat($mouvement->volume * -1); ?>
+                        <td <?php echo ($mouvement->volume > 0) ? ' class="positif text-right"' : 'class="negatif text-right"'; ?> >
+        <?php echoSignedFloat($mouvement->volume * -1); ?>&nbsp;hl
                         </td>
                     </tr>
         <?php

@@ -48,8 +48,8 @@ use_helper('Date');
                                 echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
                                 ?>
                             </td>
-                            <td class="text-left"><?php echo ($drmMvt) ? $mouvement->produit_libelle : $mouvement->type_libelle; ?></td>
-                            <td class="text-left"><?php echo ($drmMvt) ? $mouvement->type_libelle : "" ?></td>
+                            <td class="text-left"><?php echo ($drmMvt || $sv12Mvt) ? $mouvement->produit_libelle : $mouvement->type_libelle; ?></td>
+                            <td class="text-left"><?php echo ($drmMvt || $sv12Mvt) ? $mouvement->type_libelle : "" ?></td>
                             <td class="text-right">
                                 <div class="row">
                                     <div class="col-xs-6" style="padding: 0;">
@@ -59,7 +59,7 @@ use_helper('Date');
                                     </div>
                                     <div class="col-xs-6 text-left" style="padding: 0;">
                                         <span >
-                                            <?php if ($drmMvt): ?>&nbsp;hl<?php else: ?>&nbsp;<?php endif; ?>
+                                            <?php if ($drmMvt || $sv12Mvt): ?>&nbsp;hl<?php else: ?>&nbsp;<?php endif; ?>
                                         </span>
                                     </div>
                                 </div>
