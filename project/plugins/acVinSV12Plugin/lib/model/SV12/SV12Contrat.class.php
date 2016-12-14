@@ -26,11 +26,21 @@ class SV12Contrat extends BaseSV12Contrat {
             $mouvement->facturable = 0;
         }
 
+        if(VracConfiguration::getInstance()->getRepartitionCvo() == "50"){
+          $coeff = ($this->isVendeurRegion())? 0.5 : 0.0;
+          $mouvement->cvo = $this->getTauxCvo() * $coeff;
+          $mouvement->facturable = 1;
+        }
+
         return $mouvement;
     }
 
     public function getVendeur() {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant);
+    }
+
+    public function isVendeurRegion() {
+      return EtablissementClient::getInstance()->find($this->vendeur_identifiant)->region == EtablissementClient::REGION_CVO;
     }
 
     public function getAcheteur() {
@@ -51,6 +61,11 @@ class SV12Contrat extends BaseSV12Contrat {
 
         if($mouvement->cvo <= 0) {
             $mouvement->facturable = 0;
+        }
+
+        if(VracConfiguration::getInstance()->getRepartitionCvo() == "50"){
+          $coeff = ($this->isVendeurRegion())? 0.5 : 1.0;
+          $mouvement->cvo = $this->getTauxCvo() * $coeff;
         }
 
         return $mouvement;

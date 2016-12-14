@@ -6,5 +6,5 @@
  */
 class DRMMouvement extends BaseDRMMouvement {
 
-    
+
 }
