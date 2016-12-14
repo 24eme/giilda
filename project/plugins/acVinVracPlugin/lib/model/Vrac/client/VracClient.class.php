@@ -672,6 +672,7 @@ class VracClient extends acCouchdbClient {
         $vrac->acheteur_identifiant = $acheteur;
         $vrac->produit = $hash;
         $vrac->type_contrat = $type_contrat;
+        $vrac->volume_propose = $volume_enleve;
         if($vrac->type_contrat == VracClient::TYPE_TRANSACTION_VIN_VRAC){
           $vrac->prix_initial_unitaire_hl = $prix;
           $vrac->prix_unitaire_hl = $prix;
