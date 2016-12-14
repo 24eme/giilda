@@ -54,7 +54,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 
 \def\TVA{19.60}
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
-		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France}
+		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}
 \def\InterproFacturation{\\<?php echo $facture->emetteur->telephone;?>
                                              <?php if($facture->emetteur->exist('email')): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?>
@@ -88,7 +88,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \fancyhf{}
 
 \lhead{
- \textbf{Bureau Interprofessionnel Vins Du Centre - BIVC} \\
+ \textbf{Bureau Interprofessionnel des Vins du Centre} \\
  \InterproAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterproFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}

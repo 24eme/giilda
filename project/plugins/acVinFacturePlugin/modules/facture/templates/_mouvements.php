@@ -32,12 +32,15 @@ use_helper('Date');
                 </thead>
                 <tbody>
                     <?php foreach ($mouvements as $mouvement): ?>
-                        <?php $drmMvt = (strstr($mouvement->numero, 'DRM') !== false); ?>
+                        <?php
+                        $drmMvt = (strstr($mouvement->numero, 'DRM') !== false);
+                        $sv12Mvt = (strstr($mouvement->numero, 'SV12') !== false);
+                         ?>
                         <tr class="vertical-center">
                             <td class="text-left">
                                 <?php
                                 $numeroFormatted = ($drmMvt) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
-                                        $mouvement->nom_facture;
+                                        ($sv12Mvt) ? SV12Client::getInstance()->getLibelleFromId($mouvement->numero) : $mouvement->nom_facture;
 
                                 echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
                                 ?>
