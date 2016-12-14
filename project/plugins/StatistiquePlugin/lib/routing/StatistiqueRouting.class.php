@@ -38,6 +38,7 @@ class StatistiqueRouting {
         $r->prependRoute('statistiques_vrac', new sfRoute('/recherche/vrac', array('module' => 'statistique', 'action' => 'vracStatistiques')));
         $r->prependRoute('statistiques_vrac_csv', new sfRoute('/recherche/vrac/csv', array('module' => 'statistique', 'action' => 'vracCsvStatistiques')));
         $r->prependRoute('statistiques_drm_csv', new sfRoute('/recherche/drm/csv', array('module' => 'statistique', 'action' => 'drmCsvStatistiques')));
+        $r->prependRoute('statistiques_stats', new sfRoute('/recherche/stats', array('module' => 'statistique', 'action' => 'statsStatistiques')));
     }
 
 }
