@@ -122,6 +122,9 @@ class factureActions extends sfActions {
         if ($filters_parameters['message_communication']) {
             $generation->arguments->add('message_communication', $filters_parameters['message_communication']);
         }
+        if (isset($filters_parameters['seuil'])) {
+            $generation->arguments->add('seuil', $filters_parameters['seuil']);
+        }
         $generation->save();
 
         return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
@@ -286,6 +289,9 @@ class factureActions extends sfActions {
                 $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL;
                 $filters_parameters['modele'] = null;
             }
+        }
+        if(isset($values['seuil'])) {
+            $filters_parameters['seuil'] = $values['seuil']*1.0;
         }
         return $filters_parameters;
     }
