@@ -33,7 +33,7 @@
 	  <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $mouvement->vrac_numero)) ?>"><?php echo sprintf("%s, n°%s, %s", $mouvement->type_libelle, $mouvement->numero_archive, $mouvement->vrac_destinataire); ?></a>
                             <?php
                             } else if ($mouvement->vrac_destinataire) {
-                                echo "SANS CONTRAT " . sprintf("(%s, %s)", $mouvement->type_libelle, $mouvement->vrac_destinataire);
+                                echo sprintf("%s, %s", $mouvement->type_libelle, $mouvement->vrac_destinataire)." (sans contrat)";
                             } else {
                                 echo '-';
                             }
