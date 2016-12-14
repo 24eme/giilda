@@ -48,6 +48,8 @@ cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ famille=null; regio
 
 php symfony import:etablissement $DATA_DIR/etablissements.csv
 
+cat $DATA_DIR/adherents.csv | cut -d ";" -f 1,17 | grep ";\"1\"$" | cut -d ";" -f 1 | sed 's/"//g' | sed 's/$/;Abonné BIVC/' > $DATA_DIR/tags_manuels_abonne_bivc.csv
+
 echo "Construction du fichier d'import des DRM"
 
 cat $TMP/data_sancerre_origin/MOUVEMENT.utf8.XML | sed "s|<\MOUVEMENT>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 2,2 > $DATA_DIR/mvts.csv
@@ -91,3 +93,7 @@ do
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
     php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --env="sancerre"
 done
+
+echo "Import des tags"
+
+php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv
