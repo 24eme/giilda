@@ -37,7 +37,7 @@ class FactureConfiguration {
 
     public function getPrefixCodeComptable() {
 
-        return $this->configuration['prefix_code_comptable'];
+        return isset($this->configuration['prefix_code_comptable']) ? $this->configuration['prefix_code_comptable'] : null;
     }
 
     public function getTVACompte() {
