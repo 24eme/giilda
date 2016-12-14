@@ -47,7 +47,7 @@ class DRMESDetails extends BaseDRMESDetails {
           $identifiantVrac = sprintf("%013d",$identifiant);
           $key = $this->getDocument()->_id."-".uniqid();
         }
-        
+
         $detail = $this->add($key);
 
         $detail->identifiant = $identifiantVrac;
@@ -76,7 +76,12 @@ class DRMESDetails extends BaseDRMESDetails {
 
 
     public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
-        $detail = $this->add($identifiant);
+        $key = $identifiant;
+        if($this->getKey() == "export_details") {
+            $key .= "-".uniqid();
+        }
+
+        $detail = $this->add($key);
 
         $detail->identifiant = $identifiant;
 

@@ -36,17 +36,17 @@ fi
 echo "Import des sociétés"
 
 echo "Numéro adhérent;Nom adhérent;Adresse adhérent;code postal adhérent;ville adhérent;tel adhérent;fax adhérent;type adhérent;num cvi;tva;recette affectation;surface;seuil facturation;num compte;mémo adhérent;stock déclaré;abonné;activité;ntva" > $DATA_DIR/adherents.csv
-cat $TMP/data_sancerre_origin/ADHERENT.utf8.XML | sed "s|<\ADHERENT>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | sed 's/\([^;\\n">]\)$/\1|/' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | grep -v "<?xml" | sed "s/FIN D[' ]*A[ ]*CT[I]*VITE[RS]* //" | sed 's/|/\\n/' >> $DATA_DIR/adherents.csv
+cat $TMP/data_sancerre_origin/ADHERENT.utf8.XML | sed "s|<\ADHERENT>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | sed 's/\([^;\\n">]\)$/\1|/' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | grep -v "<?xml" | sed "s/FIN D[' ]*A[ ]*CT[I]*VIT[ÉéE]*[RS]* //i" | sed 's/|/\\n/' >> $DATA_DIR/adherents.csv
 
 cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ print sprintf("%06d", $1) ";RESSORTISSANT;\"" $2 "\";\"" $2 "\";" (($18) ? "ACTIF" : "SUSPENDU") ";" $14 ";;;;;\"" $3 "\";;;;" $4 ";\"" $5 "\";;;FR;;" $6 ";;;" $7 ";;" $15  }' > $DATA_DIR/societes.csv
 
-php symfony import:societe $DATA_DIR/societes.csv
+php symfony import:societe $DATA_DIR/societes.csv --env="sancerre"
 
 echo "Import des établissements"
 
 cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ famille=null; region="REGION_CVO"; if($8 == 1) { famille="PRODUCTEUR";} if($8 == 2) { famille="NEGOCIANT";} if($8 == 3) { famille="NEGOCIANT"; region="REGION_HORS_CVO" } if($8 == 4) { famille="COOPERATIVE"; }  print sprintf("%06d01", $1) ";SOCIETE-" sprintf("%06d", $1) ";" famille ";\"" $2 "\";" (($18) ? "ACTIF" : "SUSPENDU") ";" region ";" $9 ";;;" $11 ";;\"" $3 "\";;;;" $4 ";\"" $5 "\";;;FR;;" $6 ";;;" $7 ";;" $15 }' > $DATA_DIR/etablissements.csv
 
-php symfony import:etablissement $DATA_DIR/etablissements.csv
+php symfony import:etablissement $DATA_DIR/etablissements.csv --env="sancerre"
 
 cat $DATA_DIR/adherents.csv | cut -d ";" -f 1,17 | grep ";\"1\"$" | cut -d ";" -f 1 | sed 's/"//g' | sed 's/$/;Abonné BIVC/' > $DATA_DIR/tags_manuels_abonne_bivc.csv
 
@@ -69,9 +69,8 @@ join -t ";" -1 1 -2 1 $DATA_DIR/stocks.csv $DATA_DIR/produits.csv | sed 's/;;/;/
 cat $DATA_DIR/result.csv | sed 's/;";/;/g' | sed 's/;";/;/g' | sed 's/";$/";"/g' | awk -F '";"' '{
 if ($4 == 1) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;ventefrancecrd;" $6 ";;;;;" }
 if ($4 == 2) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;export;" $6 ";" $25 ";;;;" }
-if ($4 == 3) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;creationvrac;" $6 ";" sprintf("%06d01", $11) ";" $10 ";" $5 ";;" }
+if ($4 == 3) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;creationvrac;" $6 ";" sprintf("%06d01", $11) ";" $10*100 ";" $5 ";;" }
 }' > $DATA_DIR/drm.csv
-
 
 cat $DATA_DIR/stocks-produits.csv | sed 's/";$/";"/g' | awk -F '";"' '{
 print "CAVE;" substr($3, 1, 6) ";" sprintf("%06d01", $2) ";;;;;;;;;;" $10 ";suspendu;stocks_debut;initial;" $4 ";;;;;"
@@ -96,4 +95,4 @@ done
 
 echo "Import des tags"
 
-php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv
+php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv --env="sancerre"
