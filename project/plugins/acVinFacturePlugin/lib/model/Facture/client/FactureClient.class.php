@@ -307,7 +307,6 @@ class FactureClient extends acCouchdbClient {
         $cpt = 0;
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-
             $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication);
 
             $f->save();

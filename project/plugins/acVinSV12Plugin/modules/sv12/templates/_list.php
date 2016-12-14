@@ -33,13 +33,13 @@
                     <?php endif; ?>
                 </td>
                 <td>
-                    <?php echoFloat($item->totaux->volume_raisins) ?>&nbps;hl
+                    <?php echoFloat($item->totaux->volume_raisins) ?>&nbsp;hl
                 </td>
                 <td>
-                    <?php echoFloat($item->totaux->volume_mouts) ?>&nbps;hl
+                    <?php echoFloat($item->totaux->volume_mouts) ?>&nbsp;hl
                 </td>
                 <td>
-                    <?php echoFloat($item->totaux->volume_raisins + $item->totaux->volume_mouts + $item->totaux->volume_ecarts) ?>&nbps;hl
+                    <?php echoFloat($item->totaux->volume_raisins + $item->totaux->volume_mouts + $item->totaux->volume_ecarts) ?>&nbsp;hl
                 </td>
                 <td>
                     <?php if(in_array($item->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL))): ?>

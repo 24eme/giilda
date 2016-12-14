@@ -50,4 +50,10 @@ class FactureConfiguration {
         return $this->configuration['stockage_code_produit'];
     }
 
+    public function isPdfProduitFirst() {
+
+        return isset($this->configuration['pdf_produit']) ? $this->configuration['pdf_produit'] : false;
+    }
+
+
 }
