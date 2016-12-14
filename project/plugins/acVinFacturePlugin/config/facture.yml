@@ -9,3 +9,4 @@ all:
         identifiant_prefix: "1"
       idcontrat: "ID"
       stockage_code_produit: "code_compte"
+      prefix_code_comptable: ""
