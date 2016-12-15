@@ -9,6 +9,7 @@ ivso:
         identifiant_prefix: "L"
       idcontrat: "ID"
       stockage_code_produit: "code_compte"
+      pdf_produit: false
 
 ivbd:
   configuration:
@@ -21,6 +22,7 @@ ivbd:
         identifiant_prefix: "1"
       idcontrat: "ARCHIVE"
       stockage_code_produit: "identifiant_analytique"
+      pdf_produit: false
 
 sancerre:
   configuration:
@@ -34,3 +36,4 @@ sancerre:
       idcontrat: "ARCHIVE"
       stockage_code_produit: "identifiant_analytique"
       prefix_code_comptable: "4110"
+      pdf_produit: true
