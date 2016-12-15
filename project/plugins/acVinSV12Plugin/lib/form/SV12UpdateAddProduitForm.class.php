@@ -21,7 +21,7 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 			      'raisinetmout' => new bsWidgetFormChoice(array('choices' => array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins', VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts'), 'expanded'=>true)),
 			      'identifiant' => new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR))),
 			      'withviti' => new  bsWidgetFormInputCheckbox(array('value_attribute_value' => 'withviti')),
-            'volume' => new bsWidgetFormInputFloat(array())
+                  'volume' => new bsWidgetFormInputFloat(array())
 			      ));
 
       $this->widgetSchema->setLabels(array(
