@@ -16,7 +16,7 @@ class drm_xmlActions extends drmGeneriqueActions {
     $this->etablissement = $this->getRoute()->getEtablissement();
     if ($request->isMethod(sfWebRequest::POST)) {
       if (!CielService::hasAppConfig() ||
-          ($this->drm->add('transmission_douane')->exit('success') && $this->drm->add('transmission_douane')->get('success'))) {
+          ($this->drm->add('transmission_douane')->exist('success') && $this->drm->add('transmission_douane')->get('success'))) {
         return $this->redirect('drm_ciel', $this->drm);
       }
       $this->cielResponse = '';
