@@ -1,4 +1,4 @@
-<?php 
+<?php
 use_helper('Float');
 use_helper('Date');
 use_helper('Revendication');
@@ -9,11 +9,11 @@ use_helper('Revendication');
         <div class="generation_facture_options" style="text-align: center; margin-top: 20px;">
             <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_downloadCSV', $revendication); ?>">Télécharger le fichier originel</a>
             <a class="btn_majeur btn_excel" href="<?php echo url_for('revendication_download_imported_rowsCSV', $revendication); ?>">Télécharger le fichier des lignes importées</a>
-         
+
         </div>
         <?php endif;?>
-        <?php 
-        include_partial('global/hamzaStyle', array('table_selector' => '#table_revendications', 
+        <?php
+        include_partial('global/hamzaStyle', array('table_selector' => '#table_revendications',
                                                  'mots' => revendication_get_words($revendications),
                                                  'consigne' => "Saisissez un produit, un numéro de cvi, un numéro de certificat ou un volume :")) ?>
     <table id="table_revendications" class="table_recap">
@@ -36,9 +36,9 @@ use_helper('Revendication');
                 'row' => "%s",
                 'retour' => $retour))); ?>
         <?php foreach ($revendications as $rev) : ?>
-            
+
             <?php if ($rev->statut != RevendicationProduits::STATUT_SUPPRIME): ?>
-            <tr id="<?php echo $rev->ligne_identifiant; ?>">
+            <tr id="<?php echo revendication_get_id($rev); ?>">
                 <td><?php echo $rev->odg ?></td>
                 <td><?php echo isset($rev->date_traitement)? format_date($rev->date_traitement, 'dd/MM/yyyy') : 'N/A';
                           echo ' ('.$rev->num_certif.')';  ?></td>
