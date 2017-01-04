@@ -115,7 +115,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function checkCSVIntegrity() {
             $ligne_num = 1;
             foreach ($this->getDocRows() as $csvRow) {
-                if ($ligne_num == 1 && KeyInflector::slugify($csvRow[self::CSV_TYPE]) == 'TYPE') {
+                if (($ligne_num == 1)
+                && (KeyInflector::slugify($csvRow[self::CSV_TYPE]) != self::TYPE_CAVE)
+                && (KeyInflector::slugify($csvRow[self::CSV_TYPE]) != self::TYPE_CRD)
+                && (KeyInflector::slugify($csvRow[self::CSV_TYPE]) != self::TYPE_ANNEXE)) {
                     $ligne_num++;
                     continue;
                 }
@@ -125,7 +128,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^FR[0-9]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
+                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                    $this->csvDoc->addErreur($this->createWrongNumeroCompteError($ligne_num, $csvRow));
+                }
+                if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
                 }
                 $ligne_num++;
@@ -398,7 +404,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             $num_ligne++;
                             break;
                         }
-                        if (!preg_match('/^FR0[0-9]{10}$/', $numero_accise)) {
+                        if (!preg_match('/^[A-Z]{2}[0-9A-Z]{11}$/', $numero_accise)) {
                             if ($just_check) {
                                 $this->csvDoc->addErreur($this->annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow));
                             }
@@ -464,7 +470,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                         $num_ligne++;
                         break;
-
+                    case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_STATS_EUROPEENNES:
+                        $type = strtolower($csvRow[self::CSV_ANNEXE_TYPEMVT]);
+                        $this->drm->declaratif->statistiques->add($type,$this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]));
+                    break;
                     default:
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->typeDocumentWrongFormatError($num_ligne, $csvRow));
@@ -485,6 +494,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
          */
         private function createWrongFormatTypeError($num_ligne, $csvRow) {
             return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_TYPE]), "Choix possible type : " . implode(', ', self::$permitted_types));
+        }
+
+        private function createWrongNumeroCompteError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]), "Le numéro de compte est mal formatté : il doit être au format 12345601");
         }
 
         private function createWrongFormatPeriodeError($num_ligne, $csvRow) {
