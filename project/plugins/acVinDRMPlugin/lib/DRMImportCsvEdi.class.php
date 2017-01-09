@@ -18,14 +18,48 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $csvDoc = null;
     protected $fromEdi = false;
 
-      public function __construct($file, DRM $drm = null) {
-            $this->initConf($drm);
-
-            if(is_null($this->csvDoc)) {
-                $this->csvDoc = CSVDRMClient::getInstance()->createOrFindDocFromDRM($file, $drm);
-            }
+        public function __construct($file, DRM $drm = null, $fromEdi = false) {
+          $this->fromEdi = $fromEdi;
+          if($this->fromEdi){
             parent::__construct($file, $drm);
+            $drmInfos = $this->getDRMInfosFromFile();
+            if(!$drmInfos){
+              throw new sfException("Aucune DRM ne peut être initialisé le fichier csv n'a ni identifiant, ni periode");
+            }
+            try{
+              $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($drmInfos['identifiant'],$drmInfos['periode'], true);
+            }catch(sfException $e){
+              echo "\"#Niveau erreur\";\"Numéro ligne de l'erreur\";\"Parametre en erreur \";\"Diagnostic\"\n";
+              echo "Error;1;".$drmInfos['identifiant'].";Le numéro de compte n'est pas connu\n";
+              return;
+            }
+          }
+
+          $this->initConf($drm);
+          if(is_null($this->csvDoc)) {
+              $this->csvDoc = CSVDRMClient::getInstance()->createOrFindDocFromDRM($file, $drm);
+          }
+          parent::__construct($file, $drm);
         }
+
+        private function getDRMInfosFromFile(){
+          if($this->getCsv()){
+            foreach ($this->getCsv() as $keyRow => $csvRow) {
+              if((KeyInflector::slugify($csvRow[self::CSV_TYPE]) == self::TYPE_CAVE)
+              || (KeyInflector::slugify($csvRow[self::CSV_TYPE]) == self::TYPE_CRD)
+              || (KeyInflector::slugify($csvRow[self::CSV_TYPE]) == self::TYPE_ANNEXE)){
+                if (!preg_match('/^[0-9]+$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                  continue;
+                }
+                if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
+                    continue;
+                }
+                return array('identifiant' => sprintf("%08d",KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])), 'periode' => KeyInflector::slugify($csvRow[self::CSV_PERIODE]));
+              }
+            }
+          }
+          return null;
+       }
 
         public function getDrm(){
           return $this->drm;
@@ -90,40 +124,50 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         return true;
     }
 
-    /**
-     * IMPORT DEPUIS LE CSV
-     */
-    public function importCSV($withSave = true) {
-        if($this->drm->isNew()) {
-            $this->drm->constructId();
-        }
-        $this->importAnnexesFromCSV();
+        /**
+         * IMPORT DEPUIS LE CSV
+         */
+         public function importCSV($withSave = true) {
+             $this->importAnnexesFromCSV();
 
-        $this->importMouvementsFromCSV();
-        $this->importCrdsFromCSV();
-        $this->drm->etape = DRMClient::ETAPE_VALIDATION;
-        $this->drm->type_creation = "IMPORT";
-        $this->drm->etape = ($this->fromEdi)? DRMClient::ETAPE_VALIDATION_EDI : DRMClient::ETAPE_VALIDATION;
-        $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
-        $this->drm->buildFavoris();
-        $this->drm->storeDeclarant();
-        $this->drm->initSociete();
-        $this->updateAndControlCoheranceStocks();
+             $this->importMouvementsFromCSV();
+             $this->importCrdsFromCSV();
+             $this->drm->etape = ($this->fromEdi)? DRMClient::ETAPE_VALIDATION_EDI : DRMClient::ETAPE_VALIDATION;
+             $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
+             $this->drm->buildFavoris();
+             $this->drm->storeDeclarant();
+             $this->drm->initSociete();
+             $this->updateAndControlCoheranceStocks();
 
-        if($withSave) {
-            $this->drm->save();
-        }
-        return true;
-    }
+             if($withSave) {
+                 $this->drm->save();
+             }
+         }
 
-    public function updateAndControlCoheranceStocks() {
-        $this->drm->update();
-        $this->drm->updateStockFinDeMoisAllCrds();
-        if ($this->csvDoc->hasErreurs()) {
-            $this->csvDoc->setStatut(self::STATUT_WARNING);
-            $this->csvDoc->save();
-        }
-    }
+         public function updateAndControlCoheranceStocks() {
+             /*$stocks = array();
+             foreach($this->drm->getProduitsDetails() as $detail) {
+               $stocks[$detail->getHash()] = $detail->stocks_fin->final;
+             }*/
+
+             $this->drm->update();
+
+             /*foreach($this->drm->getProduitsDetails() as $detail) {
+                 if(!array_key_exists($detail->getHash(), $stocks) || is_null($stocks[$detail->getHash()])) {
+                     continue;
+                 }
+
+                 if(round($stocks[$detail->getHash()], 2) == round($detail->stocks_fin->final, 2)) {
+                     continue;
+                 }
+                 $this->csvDoc->addErreur($this->createError(1, sprintf("%s %0.2f hl (CSV) / %0.2f hl (calculé)", $detail->produit_libelle, $stocks[$detail->getHash()], $detail->stocks_fin->final), "Le stock fin de mois du CSV différent du calculé"));
+             }*/
+
+             if ($this->csvDoc->hasErreurs()) {
+                 $this->csvDoc->setStatut(self::STATUT_WARNING);
+                 $this->csvDoc->save();
+             }
+         }
 
     private function checkCSVIntegrity() {
         $ligne_num = 1;
