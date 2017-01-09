@@ -8,19 +8,15 @@ class ediActions extends sfActions {
       $this->periode = $request->getParameter('periode');
 
       $this->creationEdiDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $this->identifiant, 'periode' => $this->periode, 'only-edi' => true));
-      $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode);
+      $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
       if ($request->isMethod(sfWebRequest::POST)) {
           $this->creationEdiDrmForm->bind($request->getParameter($this->creationEdiDrmForm->getName()), $request->getFiles($this->creationEdiDrmForm->getName()));
           if ($this->creationEdiDrmForm->isValid()) {
 
-            if(!$drm->isCreationEdi()){
-              throw new sfException("La DRM n'est pas en création EDi");
-            }
-
             $md5 = $this->creationEdiDrmForm->getValue('edi-file')->getMd5();
             $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $md5;
 
-            $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
+            $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm, true);
             $this->drmCsvEdi->checkCSV();
             $csvArrayErreurs = $this->drmCsvEdi->getCsvArrayErreurs();
             unlink($csvFilePath);
@@ -41,7 +37,7 @@ class ediActions extends sfActions {
             if(!$this->drmCsvEdi->getCsvDoc()->hasErreurs(CSVClient::LEVEL_ERROR)){
               $this->drmCsvEdi->importCSV(true);
             }
-            
+
             $this->setLayout(false);
             $attachement = "attachment; filename=" . $filename ;
             $this->response->setContent($content);

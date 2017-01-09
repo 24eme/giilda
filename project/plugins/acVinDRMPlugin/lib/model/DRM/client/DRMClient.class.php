@@ -232,7 +232,7 @@ class DRMClient extends acCouchdbClient {
         $this->getHistorique($identifiant, $periode)->reload();
 
         $drm = $this->createDocByPeriode($identifiant, $periode);
-        $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
+        $drm->type_creation = DRMClient::DRM_CREATION_EDI;
         $drm->etape = self::ETAPE_VALIDATION_EDI;
         $drm->teledeclare = true;
         return $drm;

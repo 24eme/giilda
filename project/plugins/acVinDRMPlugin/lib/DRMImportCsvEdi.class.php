@@ -16,12 +16,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $configuration = null;
     protected $mouvements = array();
     protected $csvDoc = null;
+    protected $fromEdi = false;
 
-        public function __construct($file, DRM $drm = null) {
+        public function __construct($file, DRM $drm = null, $fromEdi = false) {
             if(is_null($this->csvDoc)) {
                 $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
             }
             $this->initConf();
+            $this->fromEdi = $fromEdi;
             parent::__construct($file, $drm);
         }
 
@@ -87,7 +89,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
              $this->importMouvementsFromCSV();
              $this->importCrdsFromCSV();
-             $this->drm->etape = DRMClient::ETAPE_VALIDATION;
+             $this->drm->etape = ($this->fromEdi)? DRMClient::ETAPE_VALIDATION_EDI : DRMClient::ETAPE_VALIDATION;
              $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
              $this->drm->buildFavoris();
              $this->drm->storeDeclarant();
@@ -151,6 +153,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
                 if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
                   $this->csvDoc->addErreur($this->otherPeriodeError($ligne_num, $csvRow));
+                }
+                if($this->fromEdi && (!$this->drm || ! $this->drm->isCreationEdi())){
+                  $this->csvDoc->addErreur($this->drmIsNotCreationEdiError($ligne_num, $csvRow));
                 }
 
                 $ligne_num++;
@@ -546,6 +551,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                       "La période spécifiée ne correspond pas à celle transmise",
                                       CSVClient::LEVEL_ERROR);
         }
+
+        private function drmIsNotCreationEdiError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      'DRM existante',
+                                      "Une DRM sur cette période existe déjà",
+                                      CSVClient::LEVEL_ERROR);
+        }
+
 
         private function createWrongFormatNumAcciseError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
