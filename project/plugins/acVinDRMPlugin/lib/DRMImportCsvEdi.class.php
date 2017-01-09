@@ -146,6 +146,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
                 }
+                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
+                  $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
+                }
+                if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
+                  $this->csvDoc->addErreur($this->otherPeriodeError($ligne_num, $csvRow));
+                }
+
                 $ligne_num++;
             }
         }
@@ -518,10 +525,25 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                       CSVClient::LEVEL_ERROR);
         }
 
+        private function otherNumeroCompteError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]),
+                                      "Le numéro de compte n'est pas celui du ressortissant attendu",
+                                      CSVClient::LEVEL_ERROR);
+        }
+
+
         private function createWrongFormatPeriodeError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_PERIODE]),
                                       "Format période : AAAAMM",
+                                      CSVClient::LEVEL_ERROR);
+        }
+
+        private function otherPeriodeError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      KeyInflector::slugify($csvRow[self::CSV_PERIODE]),
+                                      "La période spécifiée ne correspond pas à celle transmise",
                                       CSVClient::LEVEL_ERROR);
         }
 

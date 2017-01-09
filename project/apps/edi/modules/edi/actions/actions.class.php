@@ -38,19 +38,17 @@ class ediActions extends sfActions {
             $content = stream_get_contents($handle);
             fclose($handle);
 
-            if($this->drmCsvEdi->getCsvDoc()->hasErreurs()){
-              $this->setLayout(false);
-              $attachement = "attachment; filename=" . $filename ;
-              $this->response->setContent($content);
-              $this->response->setContentType('text/csv');
-              $this->response->setHttpHeader('Content-Disposition', $attachement);
-              $this->response->setContent($content);
-              return sfView::NONE;
-            }else{
-              //ON IMPORTE ET ON CREER SI PAS DERREUR BLOQUANTE
+            if(!$this->drmCsvEdi->getCsvDoc()->hasErreurs(CSVClient::LEVEL_ERROR)){
               $this->drmCsvEdi->importCSV(true);
-              return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $this->identifiant, 'periode' => $this->periode, 'md5' => $md5));
             }
+            
+            $this->setLayout(false);
+            $attachement = "attachment; filename=" . $filename ;
+            $this->response->setContent($content);
+            $this->response->setContentType('text/csv');
+            $this->response->setHttpHeader('Content-Disposition', $attachement);
+            $this->response->setContent($content);
+            return sfView::NONE;
           }
       }
     }
