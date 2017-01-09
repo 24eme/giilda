@@ -19,7 +19,6 @@ class ediActions extends sfActions {
             $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm, true);
             $this->drmCsvEdi->checkCSV();
             $csvArrayErreurs = $this->drmCsvEdi->getCsvArrayErreurs();
-            unlink($csvFilePath);
 
             //CSV RESPONSE
 
@@ -35,8 +34,14 @@ class ediActions extends sfActions {
             fclose($handle);
 
             if(!$this->drmCsvEdi->getCsvDoc()->hasErreurs(CSVClient::LEVEL_ERROR)){
+              if(($drm->etape == DRMClient::ETAPE_VALIDATION_EDI) && !$drm->isNew()){
+                $drm->delete();
+                $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
+                $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm, true);
+              }
               $this->drmCsvEdi->importCSV(true);
             }
+            unlink($csvFilePath);
 
             $this->setLayout(false);
             $attachement = "attachment; filename=" . $filename ;
