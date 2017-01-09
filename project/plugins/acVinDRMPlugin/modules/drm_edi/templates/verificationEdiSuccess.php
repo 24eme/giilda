@@ -13,9 +13,9 @@ $csvDoc = $drmCsvEdi->getCsvDoc();
             </div>
             <div class="ligne_form" >
                 <span>
-                    <?php echo $creationEdiDrmForm['file']->renderError(); ?>
-                    <?php echo $creationEdiDrmForm['file']->renderLabel() ?>
-                    <?php echo $creationEdiDrmForm['file']->render(); ?>
+                    <?php echo $creationEdiDrmForm['edi-file']->renderError(); ?>
+                    <?php echo $creationEdiDrmForm['edi-file']->renderLabel() ?>
+                    <?php echo $creationEdiDrmForm['edi-file']->render(); ?>
                 </span>
             </div>
             <br/>

@@ -24,7 +24,7 @@ class drm_ediActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->creationEdiDrmForm->bind($request->getParameter($this->creationEdiDrmForm->getName()), $request->getFiles($this->creationEdiDrmForm->getName()));
             if ($this->creationEdiDrmForm->isValid()) {
-                $md5 = $this->creationEdiDrmForm->getValue('file')->getMd5();
+                $md5 = $this->creationEdiDrmForm->getValue('edi-file')->getMd5();
                 return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $this->identifiant, 'periode' => $this->periode, 'md5' => $md5));
             }
         }

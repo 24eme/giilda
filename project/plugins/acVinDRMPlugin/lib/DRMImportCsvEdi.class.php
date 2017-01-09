@@ -30,6 +30,18 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->csvDoc;
         }
 
+        public function getCsvArrayErreurs(){
+          $csvErreurs = array();
+          $csvErreurs[] = array("#Numéro ligne de l'erreur","Parametre en erreur ","Diagnostic");
+          if($this->getCsvDoc()->hasErreurs()){
+            $erreursRows = $this->getCsvDoc()->getErreurs();
+            foreach ($erreursRows as $erreur) {
+              $csvErreurs[] = array("".$erreur->num_ligne,"".$erreur->csv_erreur,$erreur->diagnostic);
+            }
+          }
+          return $csvErreurs;
+        }
+
         protected function initConf() {
             $this->configuration = ConfigurationClient::getCurrent();
             $this->mouvements = $this->buildAllMouvements();
@@ -74,7 +86,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
              $this->importMouvementsFromCSV();
              $this->importCrdsFromCSV();
-             //$this->drm->teledeclare = true;
              $this->drm->etape = DRMClient::ETAPE_VALIDATION;
              $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
              $this->drm->buildFavoris();

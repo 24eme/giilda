@@ -1453,4 +1453,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       return true;
     }
 
+    public function isCreationEdi(){
+      return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
+    }
+
 }

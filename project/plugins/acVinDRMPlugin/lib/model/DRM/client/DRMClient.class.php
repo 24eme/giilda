@@ -11,6 +11,7 @@ class DRMClient extends acCouchdbClient {
     const ETAPE_CRD = 'CRD';
     const ETAPE_ADMINISTRATION = 'ADMINISTRATION';
     const ETAPE_VALIDATION = 'VALIDATION';
+    const ETAPE_VALIDATION_EDI = 'VALIDATION_EDI';
     const VALIDE_STATUS_EN_COURS = '';
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
     const VALIDE_STATUS_VALIDEE_ENVOYEE = 'ENVOYEE';
@@ -220,6 +221,21 @@ class DRMClient extends acCouchdbClient {
         $this->getHistorique($identifiant, $periode)->reload();
 
         return $this->createDocByPeriode($identifiant, $periode);
+    }
+
+    public function findOrCreateFromEdiByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        if ($obj = $this->findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate)) {
+
+            return $obj;
+        }
+
+        $this->getHistorique($identifiant, $periode)->reload();
+
+        $drm = $this->createDocByPeriode($identifiant, $periode);
+        $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
+        $drm->etape = self::ETAPE_VALIDATION_EDI;
+        $drm->teledeclare = true;
+        return $drm;
     }
 
     public function listCampagneByEtablissementId($identifiant) {

@@ -108,7 +108,7 @@ class drmActions extends drmGeneriqueActions {
             switch ($choixCreation) {
                 case DRMClient::DRM_CREATION_EDI :
                     if ($this->creationDrmForm->isValid()) {
-                        $md5 = $this->creationDrmForm->getValue('file')->getMd5();
+                        $md5 = $this->creationDrmForm->getValue('edi-file')->getMd5();
                         return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
                     }
                     return $this->redirect('drm_societe', array('identifiant' => $identifiant));
