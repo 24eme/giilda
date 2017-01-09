@@ -38,7 +38,7 @@ class ediActions extends sfActions {
             $content = stream_get_contents($handle);
             fclose($handle);
 
-            if(true){
+            if($this->drmCsvEdi->getCsvDoc()->hasErreurs()){
               $this->setLayout(false);
               $attachement = "attachment; filename=" . $filename ;
               $this->response->setContent($content);
