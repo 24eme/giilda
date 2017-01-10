@@ -4,13 +4,11 @@ class ediActions extends sfActions {
 
     public function executeDrmCreationEdi(sfWebRequest $request) {
 
-      $this->identifiant = $request->getParameter('identifiant');
-      $this->periode = $request->getParameter('periode');
-
+      $this->identifiant = $request->getParameter('identifiant', null);
+      $this->periode = $request->getParameter('periode', null);
       $this->creationEdiDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $this->identifiant, 'periode' => $this->periode, 'only-edi' => true));
-      $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
-      if ($request->isMethod(sfWebRequest::POST)) {
-
+      if ($request->isMethod(sfWebRequest::POST) && $this->identifiant && $this->periode) { 
+          $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
           $this->creationEdiDrmForm->bind(array(),array('edi-file' => $request->getFiles('edi-file')));
           if ($this->creationEdiDrmForm->isValid()) {
 

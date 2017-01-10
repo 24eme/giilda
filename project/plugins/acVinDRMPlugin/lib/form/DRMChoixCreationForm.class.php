@@ -7,8 +7,8 @@ class DRMChoixCreationForm extends sfForm {
     private $onlyEdi = false;
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
-        $this->periode = $options['periode'];
-        $this->identifiant = $options['identifiant'];
+        $this->periode = (isset($options['periode']))? $options['periode'] : null ;
+        $this->identifiant = (isset($options['identifiant']))? $options['identifiant'] : null ;
         $this->onlyEdi = (isset($options['only-edi']))? $options['only-edi'] : false;
         parent::__construct($defaults, $options, $CSRFSecret);
     }

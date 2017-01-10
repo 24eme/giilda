@@ -3,7 +3,7 @@
 
 # default rules
 drm_creation_edi:
-  url:   /:identifiant/:periode
+  url:   /
   class: sfRequestRoute
   param: { module: edi, action: drmCreationEdi}
   requirements:
