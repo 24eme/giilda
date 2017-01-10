@@ -116,7 +116,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $attributesCombinaison = array(
                                        array(),
                                        array(self::ATTRIBUTE_CVO_FACTURABLE),
-                                       array(self::ATTRIBUTE_CVO_ACTIF), 
+                                       array(self::ATTRIBUTE_CVO_ACTIF),
                                        array(self::ATTRIBUTE_CVO_ACTIF, self::ATTRIBUTE_DOUANE_ACTIF)
                                        );
         foreach($datesDroits as $dateDroit => $null) {
@@ -143,7 +143,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         foreach ($this->getProduitsAll($interpro, $departement) as $hash => $item) {
             if(!$item->hasProduitAttributes($date, $attributes)) {
-                
+
                 continue;
             }
 
@@ -185,13 +185,20 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getCodeDouane() {
+    public function getCodeDouane($uniq = false) {
         if (!$this->_get('code_douane')) {
 
-            return $this->getParentNode()->getCodeDouane();
+            return $this->getParentNode()->getCodeDouane($uniq);
         }
 
-        return $this->_get('code_douane');
+        $codeDouane = $this->_get('code_douane');
+
+        if(!$uniq) {
+
+            return str_replace("X", "", $codeDouane);
+        }
+
+        return $codeDouane;
     }
 
     public function getCodeProduit() {
@@ -325,7 +332,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         try {
             $droit_produit = $this->getDroitCVO($date, $type_transaction);
             $cvo_produit = $droit_produit->getTaux();
-        } catch (Exception $ex) { 
+        } catch (Exception $ex) {
             $cvo_produit = -1;
         }
 
@@ -338,7 +345,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     }
 
     public function isDouaneFacturable($date) {
-        
+
         return $this->getTauxDouane($date) > 0;
     }
 
@@ -414,9 +421,9 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         foreach($this->getChildrenNode() as $child) {
             $child->compressDroits();
         }
-        
+
         $this->compressDroitsSelf();
-    }   
+    }
 
     protected function compressDroitsSelf() {
         foreach($this->interpro as $interpro => $object) {

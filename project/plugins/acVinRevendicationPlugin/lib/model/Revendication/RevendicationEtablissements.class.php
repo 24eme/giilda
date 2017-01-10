@@ -6,7 +6,7 @@
  */
 class RevendicationEtablissements extends BaseRevendicationEtablissements {
 
-    public function storeProduits($num_ligne, $row,$hashLibelle, $bailleur) {        
+    public function storeProduits($num_ligne, $row,$hashLibelle, $bailleur) {
             $produit_to_store = $this->produits->add($row[RevendicationCsvFile::CSV_COL_CODE_PRODUIT]);
             $produit_to_store->storeProduit($num_ligne,$row,$hashLibelle, $bailleur);
     }
@@ -38,7 +38,7 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
     }
 
     public function addProduit($produit_hash) {
-        $code_douane = $this->getDocument()->getConfig()->get($produit_hash)->getCodeDouane();
+        $code_douane = $this->getDocument()->getConfig()->get($produit_hash)->getCodeDouane(true);
         $libelle = $this->getDocument()->getConfig()->get($produit_hash)->getLibelleFormat(array(), "%format_libelle%");
 
         $item_produit = $this->produits->add($code_douane);
