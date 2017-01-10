@@ -4,19 +4,21 @@ class ediActions extends sfActions {
 
     public function executeDrmCreationEdi(sfWebRequest $request) {
 
-      $this->identifiant = $request->getParameter('identifiant', null);
-      $this->periode = $request->getParameter('periode', null);
-      $this->creationEdiDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $this->identifiant, 'periode' => $this->periode, 'only-edi' => true));
-      if ($request->isMethod(sfWebRequest::POST) && $this->identifiant && $this->periode) { 
-          $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
+      $this->creationEdiDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => null, 'periode' => null, 'only-edi' => true));
+      if ($request->isMethod(sfWebRequest::POST)) {
           $this->creationEdiDrmForm->bind(array(),array('edi-file' => $request->getFiles('edi-file')));
+
           if ($this->creationEdiDrmForm->isValid()) {
 
             $md5 = $this->creationEdiDrmForm->getValue('edi-file')->getMd5();
             $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $md5;
 
-            $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm, true);
+            $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, null, true);
+            $drm = $this->drmCsvEdi->getDrm();
+            $this->identifiant = $drm->getIdentifiant();
+            $this->periode = $drm->getPeriode();
             $this->drmCsvEdi->checkCSV();
+            
             $csvArrayErreurs = $this->drmCsvEdi->getCsvArrayErreurs();
 
             //CSV RESPONSE

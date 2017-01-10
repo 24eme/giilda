@@ -18,13 +18,45 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $csvDoc = null;
     protected $fromEdi = false;
 
-        public function __construct($file, DRM $drm = null, $fromEdi = false) {
+      public function __construct($file, DRM $drm = null, $fromEdi = false) {
+            $this->fromEdi = $fromEdi;
+            $this->initConf();
+            if($this->fromEdi){
+              parent::__construct($file, $drm);
+              $drmInfos = $this->getDRMInfosFromFile();
+              if(!$drmInfos){
+                throw new sfException("Aucune DRM ne peut être initialisé le fichier csv n'a ni identifiant, ni periode");
+              }
+              $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($drmInfos['identifiant'],$drmInfos['periode'], true);
+            }
+
             if(is_null($this->csvDoc)) {
                 $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
             }
-            $this->initConf();
-            $this->fromEdi = $fromEdi;
             parent::__construct($file, $drm);
+        }
+
+        private function getDRMInfosFromFile(){
+          if($this->getCsv()){
+            foreach ($this->getCsv() as $keyRow => $csvRow) {
+              if((KeyInflector::slugify($csvRow[self::CSV_TYPE]) == self::TYPE_CAVE)
+              || (KeyInflector::slugify($csvRow[self::CSV_TYPE]) == self::TYPE_CRD)
+              || (KeyInflector::slugify($csvRow[self::CSV_TYPE]) == self::TYPE_ANNEXE)){
+                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                  continue;
+                }
+                if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
+                    continue;
+                }
+                return array('identifiant' => KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]), 'periode' => KeyInflector::slugify($csvRow[self::CSV_PERIODE]));
+              }
+            }
+          }
+          return null;
+        }
+
+        public function getDrm(){
+          return $this->drm;  
         }
 
         public function getCsvDoc() {
