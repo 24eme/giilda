@@ -25,11 +25,12 @@ class DRMChoixCreationForm extends sfForm {
         $this->widgetSchema->setLabel('edi-file', "Fichier d'import de votre logiciel tiers");
         $this->setValidator('edi-file' , new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir') . '/upload')));
 
-        $this->widgetSchema->setNameFormat('drmChoixCreation[%s]');
+        $this->widgetSchema->setNameFormat('%s');
     }
 
     public function getTypesCreation() {
         return DRMClient::$typesCreationLibelles;
     }
+
 
 }

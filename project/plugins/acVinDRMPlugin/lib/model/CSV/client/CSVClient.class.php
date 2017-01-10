@@ -6,7 +6,7 @@ class CSVClient extends acCouchdbClient {
     const LEVEL_WARNING = 'WARNING';
     const LEVEL_ERROR = 'ERROR';
 
-    public static $levelErrorsLibelle = array(self::LEVEL_WARNING => 'Attention', self::LEVEL_ERROR => 'Erreur');
+    public static $levelErrorsLibelle = array(self::LEVEL_WARNING => 'Warning', self::LEVEL_ERROR => "Error");
 
 
     public static function getInstance() {
