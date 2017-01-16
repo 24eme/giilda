@@ -1,10 +1,10 @@
-<?php 
-$prix_u_libelle = "Taux";
+<?php
+$prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
 $titre_type_facture = "Cotisation interprofessionnelle";
 $qt_libelle = "Volume \\tiny{en hl}";
 if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
     $qt_libelle = "Quantité";
-    $prix_u_libelle = "Prix U.";    
+    $prix_u_libelle = "Prix U.";
     $titre_type_facture = "";
 } ?>
 
@@ -22,7 +22,7 @@ if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
                         \centering \small{\textbf{Libellé}} &
    			\centering \small{\textbf{<?php echo $qt_libelle; ?>}} &
                         \centering \small{\textbf{<?php echo $prix_u_libelle; ?>}} &
-   			\centering \small{\textbf{Montant HT \tiny{en \texteuro{}}}} &   
+   			\centering \small{\textbf{Montant HT \tiny{en \texteuro{}}}} &
    			 \\
   			\hline
                       ~ & ~ & ~ & ~ &\\

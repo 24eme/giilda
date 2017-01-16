@@ -65,5 +65,9 @@ class FactureConfiguration {
         return isset($this->configuration['pdf_display_code_comptable']) ? $this->configuration['pdf_display_code_comptable'] : "";
     }
 
+    public function getNomTaux(){
+      return isset($this->configuration['pdf_nom_taux']) ? $this->configuration['pdf_nom_taux'] : "";      
+    }
+
 
 }
