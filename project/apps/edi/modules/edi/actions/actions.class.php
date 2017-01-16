@@ -3,22 +3,45 @@
 class ediActions extends sfActions {
 
     public function executeDrmCreationEdi(sfWebRequest $request) {
-
-      $this->creationEdiDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => null, 'periode' => null, 'only-edi' => true));
-      if ($request->isMethod(sfWebRequest::POST)) {
+      $only_edi = true;
+      if($request->getContentType()){
+        $only_edi = $request->getContentType();
+      }
+      $this->creationEdiDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => null, 'periode' => null,
+                                                                          'only-edi' => $only_edi));
+      if ($request->isMethod(sfWebRequest::POST) && ($request->getContentType() == 'multipart/form-data')) {
           $this->creationEdiDrmForm->bind(array(),array('edi-file' => $request->getFiles('edi-file')));
-
           if ($this->creationEdiDrmForm->isValid()) {
+             $md5 = $this->creationEdiDrmForm->getValue('edi-file')->getMd5();
+             $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $md5;
+             return $this->importEdiFile($csvFilePath);
+           }
+      }
 
-            $md5 = $this->creationEdiDrmForm->getValue('edi-file')->getMd5();
-            $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $md5;
+      if ($request->isMethod(sfWebRequest::POST) && ($request->getContentType() == 'application/x-www-form-urlencoded')){
+          $file_data = array();
+          $this->parse_raw_http_request($file_data);
+          $file_content = $file_data['edi-file'];
+          $uniqId = uniqId();
+          $csvFileTmpPath = sfConfig::get('sf_data_dir') . '/upload/' . $uniqId;
+          file_put_contents($csvFileTmpPath,$file_content);
+          $csvFile = new CsvFile($csvFileTmpPath);
+          $result = $this->importEdiFile($csvFileTmpPath);
+          unlink($csvFileTmpPath);
+          return $result;
+      }
+      if($request->getContentType() == 'application/x-www-form-urlencoded'){
+        $this->enctype = "application/x-www-form-urlencoded";
+      }
+    }
+
+    public function importEdiFile($csvFilePath){
 
             $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, null, true);
             $drm = $this->drmCsvEdi->getDrm();
             $this->identifiant = $drm->getIdentifiant();
             $this->periode = $drm->getPeriode();
             $this->drmCsvEdi->checkCSV();
-            
             $csvArrayErreurs = $this->drmCsvEdi->getCsvArrayErreurs();
 
             //CSV RESPONSE
@@ -55,8 +78,33 @@ class ediActions extends sfActions {
             $this->response->setHttpHeader('Content-Disposition', $attachement);
             $this->response->setContent($content);
             return sfView::NONE;
-          }
-      }
+  }
+
+  public function parse_raw_http_request(array &$a_data)
+ {
+
+  $input = file_get_contents('php://input');
+
+  preg_match('/boundary=(.*)$/', $_SERVER['CONTENT_TYPE'], $matches);
+  $boundary = $matches[1];
+
+  $a_blocks = preg_split("/-+$boundary/", $input);
+  array_pop($a_blocks);
+
+  foreach ($a_blocks as $id => $block)
+  {
+    if (empty($block))
+      continue;
+    if (strpos($block, 'application/octet-stream') !== FALSE)
+    {
+      preg_match("/name=\"([^\"]*)\".*stream[\n|\r]+([^\n\r].*)?$/s", $block, $matches);
     }
+    else
+    {
+      preg_match('/name=\"([^\"]*)\"[\n|\r]+([^\n\r].*)?\r$/s', $block, $matches);
+    }
+    $a_data[$matches[1]] = $matches[2];
+  }
+}
 
 }

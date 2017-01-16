@@ -1,4 +1,4 @@
-<form action="<?php echo url_for('drm_creation_edi'); ?>" method="post" enctype="multipart/form-data">
+<form action="<?php echo url_for('drm_creation_edi'); ?>" method="post" enctype="<?php echo (isset($enctype) && $enctype)? $enctype : "multipart/form-data"; ?>" >
     <?php echo $creationEdiDrmForm->renderHiddenFields(); ?>
     <?php echo $creationEdiDrmForm->renderGlobalErrors(); ?>
 

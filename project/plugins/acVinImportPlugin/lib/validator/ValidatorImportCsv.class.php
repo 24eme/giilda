@@ -9,17 +9,17 @@ class ValidatorImportCsv extends sfValidatorFile
     $options['required'] = true;
     parent::configure($options, $messages);
     $this->setMessage('mime_types', "Le fichier fourni doit être un CSV");
-    $this->options['mime_types'] = array('text/plain', 'text/csv','text/comma-separated-values','application/csv', 'application/octet-stream');
+    $this->options['mime_types'] = array('text/plain', 'text/csv','text/comma-separated-values','application/csv', 'application/octet-stream', 'application/x-www-form-urlencoded');
 
   }
 
   protected function doClean($value)
-  { 
+  {
 	parent::doClean($value);
     $csvValidated = new CsvValidatedFile($value['name'], 'text/csv', $value['tmp_name'], $value['size'], $this->getOption('file_path'));
-    
+
     $errorSchema = new sfValidatorErrorSchema($this);
-    
+
     $csvValidated->save();
 
     try {

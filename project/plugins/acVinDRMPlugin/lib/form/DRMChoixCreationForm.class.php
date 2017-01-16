@@ -20,8 +20,8 @@ class DRMChoixCreationForm extends sfForm {
           $this->setValidator('type_creation', new sfValidatorChoice(array('multiple' => false,  'required' => true, 'choices' => array_keys($this->getTypesCreation()))));
           $this->widgetSchema['type_creation']->setDefault(DRMClient::DRM_CREATION_VIERGE);
         }
-
-        $this->setWidget('edi-file', new sfWidgetFormInputFile());
+        $options = ($this->onlyEdi && ($this->onlyEdi == 'application/x-www-form-urlencoded'))? array('needs_multipart' => false) : array();
+        $this->setWidget('edi-file', new sfWidgetFormInputFile($options));
         $this->widgetSchema->setLabel('edi-file', "Fichier d'import de votre logiciel tiers");
         $this->setValidator('edi-file' , new ValidatorImportCsv(array('file_path' => sfConfig::get('sf_data_dir') . '/upload')));
 
