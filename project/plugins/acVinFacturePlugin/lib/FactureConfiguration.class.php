@@ -55,5 +55,15 @@ class FactureConfiguration {
         return isset($this->configuration['pdf_produit']) ? $this->configuration['pdf_produit'] : false;
     }
 
+    public function getNomRefClient() {
+
+        return isset($this->configuration['pdf_nom_ref_client']) ? $this->configuration['pdf_nom_ref_client'] : "";
+    }
+
+    public function getPdfDiplayCodeComptable() {
+
+        return isset($this->configuration['pdf_display_code_comptable']) ? $this->configuration['pdf_display_code_comptable'] : "";
+    }
+
 
 }

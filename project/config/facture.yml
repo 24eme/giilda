@@ -10,7 +10,8 @@ ivso:
       idcontrat: "ID"
       stockage_code_produit: "code_compte"
       pdf_produit: false
-
+      pdf_nom_ref_client: "N° IVSO"
+      pdf_display_code_comptable: true
 ivbd:
   configuration:
     facture:
@@ -23,6 +24,8 @@ ivbd:
       idcontrat: "ARCHIVE"
       stockage_code_produit: "identifiant_analytique"
       pdf_produit: false
+      pdf_nom_ref_client: "N° IVBD"
+      pdf_display_code_comptable: true
 
 sancerre:
   configuration:
@@ -37,3 +40,5 @@ sancerre:
       stockage_code_produit: "identifiant_analytique"
       prefix_code_comptable: "4110"
       pdf_produit: true
+      pdf_nom_ref_client: "N° BIVC"
+      pdf_display_code_comptable: false
