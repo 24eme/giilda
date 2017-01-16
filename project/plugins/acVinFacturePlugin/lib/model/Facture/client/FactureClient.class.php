@@ -78,7 +78,7 @@ class FactureClient extends acCouchdbClient {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM, FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
         }
         elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {
-              $facture->arguments->add(FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12, FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
+              $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12, FactureClient::TYPE_FACTURE_MOUVEMENT_SV12);
         }
         elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS, FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS);
