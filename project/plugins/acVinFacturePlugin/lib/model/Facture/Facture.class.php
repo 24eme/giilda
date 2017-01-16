@@ -766,4 +766,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return self::MESSAGE_DEFAULT;
     }
 
+    public function isFactureDRM(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
+    }
+
+    public function isFactureSV12(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12);
+    }
+
+    public function isFactureDivers(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS);
+    }
+
 }

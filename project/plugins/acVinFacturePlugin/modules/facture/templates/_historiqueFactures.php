@@ -16,14 +16,15 @@ use_helper('Date');
                     ?>
                     <li class="list-group-item col-xs-12">
                         <span class="col-xs-1"><?php if ($f->isAvoir()): ?>AVOIR<?php else: ?>FACTURE<?php endif; ?></span>
+                        <span class="col-xs-1"><?php if ($f->isFactureDRM()): ?>DRM<?php elseif($f->isFactureSV12()): ?>SV12<?php elseif($f->isFactureDivers()): ?>Libre<?php endif; ?></span>
                         <span class="col-xs-2">N° <?php echo $f->numero_piece_comptable ?></span>
-                        <span class="col-xs-4"><?php echo $date; ?> <?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></span>
+                        <span class="col-xs-3"><?php echo $date; ?> <?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></span>
                         <span class="col-xs-2 text-right"><?php echo echoFloat($f->total_ht); ?> € HT</span>
                         <span class="col-xs-3 text-right">
                             <div class="btn-group text-left">
                                 <?php if ($f->isRedressable()): ?>
                                     <a onclick="return confirm('Êtes-vous sur de vouloir créer annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_avoir", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a>
-                                <?php endif; ?>                            
+                                <?php endif; ?>
                                 <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
                             </div>
                         </span>
