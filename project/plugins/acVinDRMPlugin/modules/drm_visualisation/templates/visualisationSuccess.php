@@ -76,12 +76,19 @@
     <div class="col-xs-4">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace DRM</a>
     </div>
-    <?php //if ($isTeledeclarationMode) : ?>
-        <div class="col-xs-4 text-center">
-          <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
-            <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
-        </div>
-    <?php //endif; ?>
+    <div class="col-xs-4 text-center">
+      <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
+        <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
+    </div>
+    <?php if ($drm->isTeledeclare() && !$isTeledeclarationMode) : ?>
+      <div class="col-xs-4 text-right">
+          <?php if ($drm->isNonFactures()): ?>
+          <a href="<?php echo url_for('drm_reopen', $drm); ?>" class="btn btn-warning">Reouvrir la DRM</a>
+          <?php else: ?>
+          <span>DRM Facturée (pas réouvrable)</span>
+          <?php endif; ?>
+      </div>
+    <?php endif; ?>
 </div>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
