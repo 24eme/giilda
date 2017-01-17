@@ -94,7 +94,7 @@ use_helper('PointsAides');
                 echo ($v->valide->date_signature_acheteur)?
                       '<span class="glyphicon glyphicon-check" ></span>&nbsp;' : '<span class="glyphicon glyphicon-pencil" ></span>&nbsp;';
               endif;
-              echo 'Acheteur : ' . $v->vendeur->nom;
+              echo 'Acheteur : ' . $v->acheteur->nom;
             endif;
           else:
               echo ($v->acheteur_identifiant) ?
