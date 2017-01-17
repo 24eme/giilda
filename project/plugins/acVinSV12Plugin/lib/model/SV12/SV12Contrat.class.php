@@ -203,7 +203,8 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getContratTypeLibelle() {
-        return ($this->contrat_type) ? VracClient::$types_transaction[$this->contrat_type] : null;
+        $contratTypeLibelles = array_merge(VracClient::$types_transaction, array(SV12Client::SV12_TYPEKEY_VENDANGE => 'de vendanges'));
+        return ($this->contrat_type) ? $contratTypeLibelles[$this->contrat_type] : null;
     }
 
     function getNumeroArchive() {

@@ -2,7 +2,7 @@
 
 <?php include_partial('sv12/breadcrumb', array('sv12' => $sv12)); ?>
 <?php
-$types_contrats = VracClient::getTypes();
+$types_contrats = array_merge(VracClient::getTypes(), array(SV12Client::SV12_TYPEKEY_VENDANGE => 'Contrat de vendanges'));
 ?>
 <section id="principal" class="sv12">
     <?php include_partial('sv12/etapes', array('sv12' => $sv12, 'etape' => 'saisie')); ?>
