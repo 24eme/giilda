@@ -237,7 +237,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($drm->getProduits() as $produit) {
             $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
-            if (!$produitConfig->isActif($this->getDate())) {
+            if (!$produitConfig && !$produitConfig->isActif($this->getDate())) {
 
                 continue;
             }
