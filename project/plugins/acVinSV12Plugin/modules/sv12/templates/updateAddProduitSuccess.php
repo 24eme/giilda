@@ -24,6 +24,7 @@
                 </div>
             </div>
         <div class="lienviti">
+          <?php if($raisinetmout) : ?>
             <div class="form-group">
                 <?php echo $form['raisinetmout']->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
                 <div class="col-sm-10">
@@ -31,6 +32,8 @@
                     <?php echo $form['raisinetmout']->render(); ?>
                 </div>
             </div>
+          <?php endif; ?>
+
             <div class="form-group">
                 <?php echo $form['identifiant']->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
                 <div class="col-sm-6">

@@ -77,8 +77,9 @@ class sv12Actions extends sfActions {
             if ($this->form->isValid()) {
                 $this->form->doUpdateObject();
                 $this->sv12->save();
-		if ($request->getParameter('addproduit'))
-		  return $this->redirect('sv12_update_addProduit', $this->sv12);
+            		if ($request->getParameter('addproduit')){
+                  return $this->redirect('sv12_update_addProduit', $this->sv12);
+                }
                 return $this->redirect('sv12_validation', $this->sv12);
             }
         }
@@ -121,7 +122,8 @@ class sv12Actions extends sfActions {
     public function executeUpdateAddProduit(sfWebRequest $request)
     {
         $this->sv12 = $this->getRoute()->getSV12();
-        $this->form = new SV12UpdateAddProduitForm($this->sv12);
+        $this->raisinetmout = SV12Configuration::getInstance()->hasRaisinetmout();
+        $this->form = new SV12UpdateAddProduitForm($this->sv12, array("raisinetmout" => $this->raisinetmout));
          if ($request->isMethod(sfWebRequest::POST)) {
              $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
