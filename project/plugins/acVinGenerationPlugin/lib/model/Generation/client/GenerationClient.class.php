@@ -30,7 +30,11 @@ class GenerationClient extends acCouchdbClient {
         return 'GENERATION-' . $type_document . '-' . $date;
     }
 
-    public function findHistory($limit = 10, $types = array()) {
+    public function findHistoryWithType($types, $limit = 100) {
+        if(!is_array($types)) {
+            $types = array($types);
+        }
+
         $rows = array();
 
         foreach($types as $type) {
@@ -46,22 +50,6 @@ class GenerationClient extends acCouchdbClient {
         uasort($rows, "GenerationClient::sortHistoryByDate");
 
         return array_slice($rows, 0, $limit);
-    }
-
-//     public function findHistoryWithStatusAndType($status, $type,$limit = 10) {
-//        $views = acCouchdbManager::getClient()
-//                        ->startkey(array($status, $type))
-//                        ->endkey(array($status, $type, array()));
-//           if($limit) $views = $views->limit($limit);
-//        return $views->getView("generation", "history")->rows;
-//    }
-
-    public function findHistoryWithType($types, $limit = 100) {
-        if(!is_array($types)) {
-            $types = array($types);
-        }
-
-        return $this->findHistory($limit, $types);
     }
 
     public static function sortHistory($a, $b) {
