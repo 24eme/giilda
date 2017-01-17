@@ -12,11 +12,11 @@ class generationActions extends sfActions {
 
       return $this->generation;
   }
-  
-  public function executeView(sfWebRequest $request) {      
+
+  public function executeView(sfWebRequest $request) {
       $this->generation = $this->getGenerationFromRequest($request);
   }
-  
+
   public function executeList(sfWebRequest $request) {
       $this->type = $request['type_document'];
       $this->historyGeneration = GenerationClient::getInstance()->findHistoryWithType($this->type);
@@ -51,5 +51,5 @@ class generationActions extends sfActions {
           return $this->redirect('generation_list', array('type_document' => $this->type));
       }
   }
-    
+
 }

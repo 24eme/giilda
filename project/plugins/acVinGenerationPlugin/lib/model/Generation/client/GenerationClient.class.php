@@ -10,8 +10,8 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_EXPORT_SHELL = 'EXPORT';
     const HISTORY_KEYS_TYPE_DOCUMENT = 0;
     const HISTORY_KEYS_TYPE_DATE_EMISSION = 1;
-    const HISTORY_KEYS_DOCUMENT_ID = 1;
-    
+    const HISTORY_KEYS_DOCUMENT_ID = 2;
+
     const HISTORY_VALUES_NBDOC = 0;
     const HISTORY_VALUES_DOCUMENTS = 1;
     const HISTORY_VALUES_SOMME = 2;
@@ -30,11 +30,22 @@ class GenerationClient extends acCouchdbClient {
         return 'GENERATION-' . $type_document . '-' . $date;
     }
 
-    public function findHistory($limit = 10) {
-        return acCouchdbManager::getClient()
+    public function findHistory($limit = 10, $types = array()) {
+        $rows = array();
+
+        foreach($types as $type) {
+            $rows = array_merge($rows, acCouchdbManager::getClient()
+                        ->startkey(array($type, array()))
+                        ->endkey(array($type))
+                        ->descending(true)
                         ->limit($limit)
                         ->getView("generation", "history")
-                ->rows;
+                        ->rows);
+        }
+
+        uasort($rows, "GenerationClient::sortHistoryByDate");
+
+        return array_slice($rows, 0, $limit);
     }
 
 //     public function findHistoryWithStatusAndType($status, $type,$limit = 10) {
@@ -45,23 +56,22 @@ class GenerationClient extends acCouchdbClient {
 //        return $views->getView("generation", "history")->rows;
 //    }
 
-    public function findHistoryWithType($type, $limit = 100) {
-        $views = acCouchdbManager::getClient()
-                ->startkey(array($type))
-                ->endkey(array($type, array()));
-	$rows = $views->getView("generation", "history")->rows;
-        uasort($rows, "GenerationClient::sortHistory");
-        $cpt = count($rows) - 1;
-        $result = array();
-        while($cpt > (count($rows) - $limit) && $cpt > -1){
-         $result[] = $rows[$cpt]; 
-         $cpt--;
+    public function findHistoryWithType($types, $limit = 100) {
+        if(!is_array($types)) {
+            $types = array($types);
         }
-	return $result;
+
+        return $this->findHistory($limit, $types);
     }
 
     public static function sortHistory($a, $b) {
-      return strcmp($b->id, $a->id);
+
+        return strcmp($b->key[self::HISTORY_KEYS_TYPE_DATE_EMISSION], $a->key[self::HISTORY_KEYS_TYPE_DATE_EMISSION]);
+    }
+
+    public static function sortHistoryByDate($a, $b) {
+
+        return strcmp($b->key[self::HISTORY_KEYS_TYPE_DATE_EMISSION], $a->key[self::HISTORY_KEYS_TYPE_DATE_EMISSION]);
     }
 
     public function getGenerationIdEnAttente() {
@@ -94,7 +104,7 @@ class GenerationClient extends acCouchdbClient {
     public function getClassForGeneration($generation) {
         switch ($generation->type_document) {
             case GenerationClient::TYPE_DOCUMENT_FACTURES:
-                
+
                 return 'GenerationFacturePDF';
 
             case GenerationClient::TYPE_DOCUMENT_DS:
@@ -117,7 +127,7 @@ class GenerationClient extends acCouchdbClient {
 
                 return 'GenerationExportShell';
         }
-      
+
         throw new sfException($generation->type_document." n'est pas un type supporté");
     }
 
