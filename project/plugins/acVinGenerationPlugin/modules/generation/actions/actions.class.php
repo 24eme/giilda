@@ -19,7 +19,8 @@ class generationActions extends sfActions {
 
   public function executeList(sfWebRequest $request) {
       $this->type = $request['type_document'];
-      $this->historyGeneration = GenerationClient::getInstance()->findHistoryWithType($this->type);
+      $this->limit = $request->getParameter("limite", 100);
+      $this->historyGeneration = GenerationClient::getInstance()->findHistoryWithType($this->type, $this->limit);
   }
 
   public function executeRegenerate(sfWebRequest $request) {
