@@ -388,8 +388,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $isProduitFirst = FactureConfiguration::getInstance()->isPdfProduitFirst();
 
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
-        if (($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
-            $type_contrat = ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)? $view->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE].' ' : 'Contrat ';
+        if (($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM)
+          || ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
+
+            $type_contrat = "";
+            if($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12){
+              $type_contrat =  'Achat ';
+            }else{
+              $type_contrat = 'Contrat ';
+            }
+
             if ($famille == SocieteClient::TYPE_OPERATEUR) {
                 if ( sfConfig::get('app_configuration_facture_idcontrat') == 'ID' ) {
                     $idContrat = intval(substr($view->key[MouvementfactureFacturationView::KEYS_CONTRAT_ID], -6));
@@ -403,7 +411,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             if($isProduitFirst){
               $origine_libelle = $type_contrat . $transacteur;
             }
-
             return $origine_libelle;
         }
     }
