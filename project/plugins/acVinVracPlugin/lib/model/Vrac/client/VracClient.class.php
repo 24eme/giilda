@@ -110,7 +110,7 @@ class VracClient extends acCouchdbClient {
         self::STATUS_CONTRAT_SOLDE => 'Validé',
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
         self::STATUS_CONTRAT_NONSOLDE => 'Validé');
-        
+
     public static $statuts_teledeclaration_sorted = array(self::STATUS_CONTRAT_VISE,
         self::STATUS_CONTRAT_VALIDE,
         self::STATUS_CONTRAT_BROUILLON,
@@ -679,15 +679,11 @@ class VracClient extends acCouchdbClient {
         $vrac->numero_archive = $identifiant;
         $vrac->acheteur_identifiant = $acheteur;
         $vrac->produit = $hash;
-        $vrac->type_contrat = $type_contrat;
+        $vrac->type_transaction = $type_contrat;
         $vrac->volume_propose = $volume_enleve;
-        if($vrac->type_contrat == VracClient::TYPE_TRANSACTION_VIN_VRAC){
-          $vrac->prix_initial_unitaire_hl = $prix;
-          $vrac->prix_unitaire_hl = $prix;
-        }else{
-          $vrac->prix_initial_unitaire = $prix;
-          $vrac->prix_unitaire = $prix;
-        }
+        $vrac->prix_initial_unitaire_hl = $prix;
+        $vrac->prix_initial_unitaire = $prix;
+        $vrac->prix_unitaire = $prix;
         if($date_enlevement){
           $vrac->enlevement_date = $date_enlevement;
           $vrac->valide->date_saisie = $date_enlevement;
