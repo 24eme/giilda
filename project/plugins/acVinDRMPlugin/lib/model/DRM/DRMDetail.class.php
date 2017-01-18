@@ -175,16 +175,32 @@ class DRMDetail extends BaseDRMDetail {
         if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }
-        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
-        // Qu'est ce que les manipulation en entrée ici???
-          || ($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
-          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
-          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
-          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
-          $this->add('observations',null);
-        }else{
+
+        $hasobs = false;
+        foreach($this->entrees as $entree => $v) {
+          if ($this->getConfig()->get('entrees')->exist($entree)){
+            if (preg_match('/autres-entrees/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
+                $hasobs = true;
+                if (!$this->exist('observations')) {
+                  $this->add('observations',$entree);
+                }
+            }
+          }
+        }
+        foreach($this->sorties as $sortie => $v) {
+          if ($this->getConfig()->get('sorties')->exist($sortie)){
+            if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
+                $hasobs = true;
+                if (!$this->exist('observations')) {
+                  $this->add('observations',$sortie);
+                }
+            }
+          }
+        }
+        if (!$hasobs) {
           $this->remove('observations');
         }
+
         if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
           || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)

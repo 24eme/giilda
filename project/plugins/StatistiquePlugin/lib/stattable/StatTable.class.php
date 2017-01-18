@@ -11,10 +11,10 @@ class StatTable
 	protected $pivotTotal;
 	protected $fullPivotTotal;
 	protected $columnTotal;
-	
+
 	const HASH_SEPARATOR = '_/_';
 	const TOTAL_KEY = 'ZZTOTAUX';
-	
+
 	public function __construct(array $datas, $filters = null)
 	{
 		$this->originDatas = $datas;
@@ -28,18 +28,18 @@ class StatTable
 			$this->filter();
 		}
 	}
-	
+
 	public function addFilters(StatFilters $filters)
 	{
 		$this->statFilters = $filters;
 		$this->filter();
 	}
-	
+
 	protected function filter()
 	{
 		$this->datas = ($this->statFilters)? $this->statFilters->filter($this->originDatas) : $this->originDatas;
 	}
-	
+
 	public function joinColumns(array $cols, $joinToken = null)
 	{
 		$nbCol = count(current($this->originDatas));
@@ -56,32 +56,32 @@ class StatTable
 					throw new Exception('Indices doesn\'t exist');
 				}
 			}
-			
+
 		}
 		$this->filter();
 		return $nbCol-1;
 	}
-	
+
 	public function getDatas()
 	{
 		return $this->datas;
 	}
-	
+
 	public function pivotOn($colInd)
 	{
 		$this->pivot = (is_array($colInd))? $colInd : array($colInd);
 	}
-	
+
 	public function columnsOn($colInd)
 	{
 		$this->columns = $colInd;
 	}
-	
+
 	public function aggregatOn($colInd)
 	{
 		$this->aggregat = (!is_array($colInd))? array($colInd) : $colInd;
 	}
-	
+
 	public function addTotalPivot($colInd = null)
 	{
 		if (!$colInd) {
@@ -94,18 +94,18 @@ class StatTable
 		} else {
 			$this->pivotTotal = $pivotTotal;
 		}
-		
+
 	}
-	
+
 	public function addTotalColumn($bool = true)
 	{
 		$this->columnTotal = $bool;
 	}
-	
+
 	protected function getPivotHash($items, $forTotal = false)
 	{
 		$hash = '';
-		$pivots = ($forTotal)? $this->pivotTotal : $this->pivot; 
+		$pivots = ($forTotal)? $this->pivotTotal : $this->pivot;
 		foreach ($pivots as $pivot) {
 			if ($hash) {
 				$hash .= self::HASH_SEPARATOR;
@@ -114,7 +114,7 @@ class StatTable
 		}
 		return (!$forTotal)? $hash : $hash.self::HASH_SEPARATOR.self::TOTAL_KEY;
 	}
-	
+
 	protected function processValues($pivot, array $items, &$result, $makeColumnsHeader = false)
 	{
 		if (!isset($result[$pivot])) {
@@ -142,14 +142,14 @@ class StatTable
 		foreach ($this->aggregat as $key) {
 				$val = ($items[$key] < 0)? ($items[$key] * -1) : $items[$key];
 				$result[$pivot][$items[$this->columns]][$key]['nb'] += 1;
-				$result[$pivot][$items[$this->columns]][$key]['sum'] += $val;
+				$result[$pivot][$items[$this->columns]][$key]['sum'] = number_format($result[$pivot][$items[$this->columns]][$key]['sum'] + $val, 2, ',', '');
 				if ($this->columnTotal) {
 					$result[$pivot][self::TOTAL_KEY][$key]['nb'] += 1;
-					$result[$pivot][self::TOTAL_KEY][$key]['sum'] += $val;
+					$result[$pivot][self::TOTAL_KEY][$key]['sum'] = number_format($result[$pivot][self::TOTAL_KEY][$key]['sum'] + $val, 2, ',', '');
 				}
 		}
 	}
-	
+
 	public function getStatTable($csvFormat = false, $headers = null, $pivotLibelles = array())
 	{
 		$result = array();
@@ -177,7 +177,7 @@ class StatTable
 		ksort($result, SORT_NATURAL | SORT_FLAG_CASE);
 		return ($csvFormat)? $this->makeCsv($result, $headers, $pivotLibelles) : $result;
 	}
-	
+
 	protected function makeCsv($tab, $headers = null, $pivotLibelles = array())
 	{
 		$csv = ($headers)? $headers."\n" : '';
@@ -187,7 +187,7 @@ class StatTable
 			foreach ($this->columnsHeader as $columnHeader) {
 				if (isset($columns[$columnHeader])) {
 					foreach ($this->aggregat as $key) {
-						$csv .= ';'.number_format($columns[$columnHeader][$key]['sum'], 2, ',', '');
+						$csv .= ';'.$columns[$columnHeader][$key]['sum'];
 					}
 				} else {
 					foreach ($this->aggregat as $key) {
@@ -197,12 +197,12 @@ class StatTable
 			}
 			if ($this->columnTotal) {
 				foreach ($this->aggregat as $key) {
-					$csv .= ';'.number_format($columns[self::TOTAL_KEY][$key]['sum'], 2, ',', '');
+					$csv .= ';'.$columns[self::TOTAL_KEY][$key]['sum'];
 				}
 			}
 			$csv .= "\n";
 		}
 		return $csv;
 	}
-	
+
 }

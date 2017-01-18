@@ -130,25 +130,25 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                           <table class="table table-bordered table-striped">
                               <thead >
                                 <tr>
-                                  <th class="col-xs-6" ></th>
-                                  <th class="col-xs-5" >Volume</th>
+                                  <th class="col-xs-8" ></th>
+                                  <th class="col-xs-3" >Volume</th>
                                   <th class="col-xs-1" ></th>
                               </tr>
                             </thead>
                             <tbody class="drm_non_apurement" id="nonapurement_list">
                               <tr>
-                                <td class="col-xs-6"><?php echo $annexesForm['statistiques_jus']->renderLabel() ?></td>
-                                <td class="col-xs-5"><?php echo $annexesForm['statistiques_jus']->render() ?><?php echo $annexesForm['statistiques_jus']->renderError() ?></td>
+                                <td class="col-xs-8"><?php echo $annexesForm['statistiques_jus']->renderLabel() ?></td>
+                                <td class="col-xs-3"><?php echo $annexesForm['statistiques_jus']->render() ?><?php echo $annexesForm['statistiques_jus']->renderError() ?></td>
                                 <td class="col-xs-1" ><span class="unite">hl</span></td>
                               </tr>
                               <tr>
-                                <td class="col-xs-6"><?php echo $annexesForm['statistiques_mcr']->renderLabel() ?></td>
-                                <td class="col-xs-5"><?php echo $annexesForm['statistiques_mcr']->render() ?><?php echo $annexesForm['statistiques_mcr']->renderError() ?></td>
+                                <td class="col-xs-8"><?php echo $annexesForm['statistiques_mcr']->renderLabel() ?></td>
+                                <td class="col-xs-3"><?php echo $annexesForm['statistiques_mcr']->render() ?><?php echo $annexesForm['statistiques_mcr']->renderError() ?></td>
                                 <td class="col-xs-1" ><span class="unite">hl</span></td>
                               </tr>
                               <tr style="border:none;" >
-                                <td class="col-xs-6"><?php echo $annexesForm['statistiques_vinaigre']->renderLabel() ?></td>
-                                <td class="col-xs-5"><?php echo $annexesForm['statistiques_vinaigre']->render() ?><?php echo $annexesForm['statistiques_vinaigre']->renderError() ?></td>
+                                <td class="col-xs-8"><?php echo $annexesForm['statistiques_vinaigre']->renderLabel() ?></td>
+                                <td class="col-xs-3"><?php echo $annexesForm['statistiques_vinaigre']->render() ?><?php echo $annexesForm['statistiques_vinaigre']->renderError() ?></td>
                                 <td class="col-xs-1" ><span class="unite">hl</span></td>
                               </tr>
                             </tbody>
@@ -246,14 +246,16 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                           </tr>
                           <tr style="vertical-align: middle;" class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
                               <td class="col-xs-4">
-                                  <strong>Cumul des droits douaniers (en €)</strong><?php echo getPointAideHtml('drm','annexe_paiement_douane_cumul'); ?>
+                                  Cumul <strong>début de mois</strong> des droits douaniers (en €) <?php echo getPointAideHtml('drm','annexe_paiement_douane_cumul'); ?>
                               </td>
                               <?php foreach ($drm->getAllGenres() as $genre): ?>
                                 <?php if(isset($annexesForm['cumul_' . $genre])): ?>
                                     <td class="col-xs-4">
-                                        <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
                                         <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
-                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
+                                        <div>
+                                        <div class="col-xs-6"><?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?></div>
+                                        <div class="col-xs-6"><?php echo $annexesForm['cumul_' . $genre]->render(); ?></div>
+                                        </div>
                                     </td>
                                 <?php endif; ?>
                             <?php endforeach; ?>

@@ -12,7 +12,6 @@ slot('colCompte');
 
             <?php if ($sf_user->isUsurpationCompte()): ?>
                 <div class="ligne_btn txt_centre">
-                    <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
                 </div>
             <?php endif; ?>
 
@@ -38,7 +37,7 @@ slot('colCompte');
     <div class="contenu">
         <h3>Types de marchés :</h3>
 
-        <div class="contenu legende">    
+        <div class="contenu legende">
             <div>
                 <span class="type_raisins">type_raisins</span>
                 <span class="legende_type_texte">Raisins</span>
@@ -62,7 +61,7 @@ slot('colCompte');
             <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
             <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
         </ul>
-        
+
         <div class="legende">
             <h3>État des contrats validés :</h3>
             <br/>
@@ -104,19 +103,19 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
 
         <h3>Votre contact - mise en marche</h3>
 
-        <ul class="contact"> 
+        <ul class="contact">
             <li class="nom"><?php echo $contact->nom; ?></li>
             <li class="email"><a href="mailto:<?php echo $contact->email; ?>"><?php echo $contact->email; ?></a></li>
             <li class="telephone"><?php echo $contact->telephone; ?></li>
         </ul>
     </div>
-</div>   
+</div>
 <script type="text/javascript">
 $(document).ready(function()
     {
         initNoticePopup();
     });
-</script>    
+</script>
 <?php
 end_slot();
 ?>

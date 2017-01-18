@@ -7,6 +7,7 @@
     <?php
     include_partial('drm_edition/itemHeader', array('config' => $config,
         'drm' => $drm,
+        'etablissement' => $etablissement,
         'favoris' => $favoris,
         'formFavoris' => $formFavoris,
         'isTeledeclarationMode' => $isTeledeclarationMode,
@@ -30,6 +31,7 @@
                 <?php
                 include_component('drm_edition', 'itemForm', array(
                     'config' => $config,
+                    'etablissement' => $etablissement,
                     'detail' => $produit,
                     'detailsKey' => $detailsKey,
                     'active' => ($detail && $detail->getHash() == $produit->getHash()),

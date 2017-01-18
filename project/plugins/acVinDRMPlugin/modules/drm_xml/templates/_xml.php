@@ -23,15 +23,15 @@
 <?php if ($produit->getCodeDouane()): ?>
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
 <?php endif; ?>
-				<libelle-personnalise><?php echo trim(html_entity_decode($produit->getLibelle('%format_libelle% %la%'), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
+				<libelle-personnalise><?php echo trim(html_entity_decode((($produit->produit_libelle) ? $produit->produit_libelle : $produit->getLibelle('%format_libelle% %la%')), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
 <?php if (false && $produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
 <?php endif; ?>
 <?php if (false && $produit->getPremix()): ?>
 				<premix>true</premix>
 <?php endif; ?>
-<?php if (false && $produit->getObservations()): ?>
-				<observations><?php echo $produit->getObservations() ?></observations>
+<?php if ($produit->exist('observations')): ?>
+				<observations><?php echo $produit->get('observations'); ?></observations>
 <?php endif; ?>
 				<balance-stocks>
 <?php

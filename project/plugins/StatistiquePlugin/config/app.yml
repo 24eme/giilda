@@ -7,7 +7,7 @@ all:
     stats:
       statistiques:
         exportations:
-          datas: "/home/jb/Bureau/sancerre-datas/export_bi_mouvements.csv"
+          datas: "/.../export_bi_mouvements.csv"
           libelle: "Exports"
           csv_headers: "Appellation;Pays;Blanc;Rose;Rouge;Total"
           pivot: [8,22]
@@ -27,11 +27,11 @@ all:
             dates:
               ind: 4
         stock_article:
-          datas: "/home/jb/Bureau/sancerre-datas/export_bi_drm_stock.csv"
+          datas: "/.../export_bi_drm_stock.csv"
           libelle: "Stocks article"
           csv_headers: "Appellation;Couleur;Stock initial;Stock actuel"
           pivot: [6,9]
-          columns: 2 
+          columns: 2
           aggregat: [13,18]
           total_pivot: [6]
           full_total_pivot: 1
@@ -45,7 +45,7 @@ all:
             dates:
               ind: 11
         sorties_appellation:
-          datas: "/home/jb/Bureau/sancerre-datas/export_bi_mouvements.csv"
+          datas: "/.../export_bi_mouvements.csv"
           libelle: "Sorties appellation"
           csv_headers: "Appellation;Couleur;Export;France;Vrac;Total"
           pivot: [8,11]
