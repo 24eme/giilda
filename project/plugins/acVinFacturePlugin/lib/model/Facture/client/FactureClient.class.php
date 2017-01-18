@@ -14,10 +14,11 @@ class FactureClient extends acCouchdbClient {
     const STATUT_REDRESSEE = 'REDRESSE';
     const STATUT_NONREDRESSABLE = 'NON_REDRESSABLE';
     const TYPE_FACTURE_MOUVEMENT_DRM = "MOUVEMENTS_DRM";
+    const TYPE_FACTURE_MOUVEMENT_SV12 = "MOUVEMENTS_SV12";
     const TYPE_FACTURE_MOUVEMENT_DIVERS = "MOUVEMENTS_DIVERS";
 
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12, self::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE);
-    public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Facturation CVO', self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Facturation libre');
+    public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Facturation DRM',self::FACTURE_LIGNE_ORIGINE_TYPE_SV12 => 'Facturation SV12', self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Facturation libre');
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -65,17 +66,21 @@ class FactureClient extends acCouchdbClient {
         $facture->storeDatesCampagne($date_facturation);
         $facture->constructIds($societe);
         $facture->storeDeclarant($societe);
-        
+
         $famille = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR)? SocieteClient::TYPE_AUTRE : $societe->famille;
-        
+
         $facture->storeLignesFromMouvements($mouvementsSoc, $famille, $modele);
         $facture->updateTotalHT();
         $facture->updateAvoir();
         $facture->updateTotaux();
         $facture->storeOrigines();
-        if ($modele == "DRM") {
+        if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM, FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
-        } elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+        }
+        elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12) {
+              $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12, FactureClient::TYPE_FACTURE_MOUVEMENT_SV12);
+        }
+        elseif ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
             $facture->arguments->add(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS, FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS);
         }
         if (trim($message_communication)) {
@@ -190,7 +195,6 @@ class FactureClient extends acCouchdbClient {
                         $mouvementsBySoc[$identifiant] = $mouvements;
                         continue;
                     }
-
                     if (isset($parameters['modele']) && $parameters['modele'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
                         unset($mouvements[$key]);
                         $mouvementsBySoc[$identifiant] = $mouvements;
@@ -301,10 +305,8 @@ class FactureClient extends acCouchdbClient {
         $generation->documents = array();
         $generation->somme = 0;
         $cpt = 0;
-
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
-
             $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication);
 
             $f->save();
@@ -452,7 +454,7 @@ class FactureClient extends acCouchdbClient {
     public function findAll() {
         return FactureEtablissementView::getInstance()->getAllFacturesForCompta();
     }
-    
+
     public function getFacturesByCompte($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $ids = $this->startkey(sprintf("FACTURE-%s-%s", $identifiant, "0000000000"))
                         ->endkey(sprintf("FACTURE-%s-%s", $identifiant, "9999999999"))

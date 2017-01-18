@@ -7,6 +7,7 @@
 class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     const DETAILS_VRAC = 'VRAC';
+    const DETAILS_CREATIONVRAC = 'CREATIONVRAC';
     const DETAILS_EXPORT = 'EXPORT';
     const DETAILS_COOPERATIVE = 'COOPERATIVE';
 
@@ -21,8 +22,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     }
 
     public function isVrac() {
-
-        return ($this->hasDetails() && $this->getDetails() == self::DETAILS_VRAC);
+        return ($this->hasDetails() && (($this->getDetails() == self::DETAILS_VRAC) || ($this->getDetails() == self::DETAILS_CREATIONVRAC)));
     }
 
     public function hasDetails() {

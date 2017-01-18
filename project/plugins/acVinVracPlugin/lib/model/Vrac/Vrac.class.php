@@ -215,7 +215,7 @@ class Vrac extends BaseVrac {
         if ($etb->isCourtier()) {
             $this->mandataire_exist = true;
             $this->setMandataireIdentifiant($etbId);
-            $this->setMandataireInformations();            
+            $this->setMandataireInformations();
         }
 
         if ($etb->isNegociant()) {
@@ -426,7 +426,9 @@ class Vrac extends BaseVrac {
     }
 
     public function getRepartitionCVOCoef($identifiant) {
+
         if (($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
+          
 
             return 0.5;
         }
@@ -924,6 +926,14 @@ class Vrac extends BaseVrac {
 
     public function isBio() {
         return $this->exist('label') && $this->label->exist('agriculture_biologique') && $this->label->agriculture_biologique;
+    }
+
+    public function getVolumePropose(){
+        $vol_prop = $this->_get("volume_propose");
+        if(!$vol_prop){
+          return $this->getVolumeEnleve();
+        }
+        return $vol_prop;
     }
 
 }

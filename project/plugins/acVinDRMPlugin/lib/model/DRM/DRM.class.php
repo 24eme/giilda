@@ -86,6 +86,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->exist('teledeclare') && $this->teledeclare;
     }
 
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
+    }
+
     public function changedToTeledeclare() {
         $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
 
@@ -192,6 +200,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $vracs;
     }
 
+    public function getDetailsAvecCreationVracs(){
+      $creationvracs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $d) {
+          if ($creationvrac = $d->sorties->creationvrac_details)
+              $creationvracs[] = $creationvrac;
+          if ($creationvrac = $d->sorties->creationvractirebouche_details)
+                  $creationvracs[] = $creationvrac;
+      }
+      return $creationvracs;
+    }
+
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
@@ -227,7 +246,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
-            throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
+            throw new sfException(sprintf("Une drm est en cours d'édition (%s) pour cette campagne %s, impossible d'en créer une autre", $this->getHistorique()->hasInProcess()->_id, $this->campagne));
         }
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
@@ -422,6 +441,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->setInterpros();
+        $this->creationVracs();
+
         $this->generateMouvements();
         if ($this->teledeclare) {
             $this->generateDroitsDouanes();
@@ -440,6 +461,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $this->getSuivante()->save();
             }
         }
+    }
+
+    public function devalidate(){
+      $this->valide->date_saisie = null;
+      $this->valide->date_signee = null;
+      $this->deleteVracs();
+      $this->clearMouvements();
     }
 
     public function storeIdentifiant($options) {
@@ -489,6 +517,33 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($vracs as $vrac) {
             $vrac->save();
+        }
+    }
+
+    public function creationVracs() {
+        if (!$this->isValidee()) {
+
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              $newVrac->createVisa();
+              $newVrac->validate();
+              $newVrac->save();
+            }
+        }
+    }
+
+    public function deleteVracs() {
+        if ($this->isValidee()) {
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              VracClient::getInstance()->delete($newVrac);
+            }
         }
     }
 
@@ -1468,4 +1523,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         return $libelles_detail_ligne;
     }
 
+    public function isDrmNegoce(){
+      return $this->getEtablissement()->isNegociant();
+    }
 }

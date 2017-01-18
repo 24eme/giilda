@@ -59,13 +59,17 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         $this->details = $parent->add($key);
 
         foreach ($this->getDetails() as $identifiant => $detail) {
-            if ($this->getDetails()->exist($identifiant)) {
+            if ($this->getDetails()->exist($identifiant) && !preg_match('/^creationvrac_details$/', $this->getDetails()->getKey()) && !preg_match('/^creationvractirebouche_details/', $this->getDetails()->getKey())) {
                 $this->getDetails()->remove($identifiant);
             }
         }
 
         foreach ($details as $key => $detail) {
-            if(preg_match('/^(VRAC-|BOUTEILLE-)?([0-9]+|[A-Z]+|inconnu)$/', $detail->identifiant)) {
+            if(preg_match('/^creationvrac_details$/', $this->getDetails()->getKey())){
+              $this->getDetails()->addDetailCreationVrac($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->prixhl, $detail->acheteur, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE);
+            }elseif(preg_match('/^creationvractirebouche_details/', $this->getDetails()->getKey())){
+              $this->getDetails()->addDetailCreationVrac($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->prixhl, $detail->acheteur,     VracClient::TYPE_TRANSACTION_VIN_VRAC);
+            }elseif(preg_match('/^(VRAC-|BOUTEILLE-)?([0-9]+|[A-Z]+|inconnu)$/', $detail->identifiant)) {
                 $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
             }
         }

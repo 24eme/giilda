@@ -47,10 +47,20 @@ ivbd:
   .action:
     error_500_includeexception: true
 
+sancerre:
+  .settings:
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_DEPRECATED)."\n" ?>
+    web_debug:              true
+    cache:                  true
+    no_script_name:         true
+    etag:                   false
+  .action:
+    error_500_includeexception: true
+
 all:
   .settings:
 
-    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_vrac_details, drm_export_details, drm_cooperative_details, drm_pdf, drm_validation, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant, drm_crds, drm_annexes, drm_ajout_produit, drm_visualisation, statistique, drm_xml]
+    enabled_modules:        [default, teledeclaration, vrac, drm, drm_edition, drm_vrac_details, drm_creationvrac_details, drm_export_details, drm_cooperative_details, drm_pdf, drm_validation, etablissement, etablissement_autocomplete, facture, sv12, ds, generation, revendication, stocks, alerte, societe, compte, document, produit, relance, annuaire, compte_teledeclarant, drm_crds, drm_annexes, drm_ajout_produit, drm_visualisation, statistique, drm_xml]
 
     # Form security secret (CSRF protection)
     csrf_secret:            false

@@ -13,3 +13,4 @@ data/latex/*
 data/upload/*
 web/*.log
 web/generation/*.pdf
+web/sf

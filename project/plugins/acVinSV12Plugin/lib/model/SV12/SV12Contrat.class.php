@@ -26,11 +26,21 @@ class SV12Contrat extends BaseSV12Contrat {
             $mouvement->facturable = 0;
         }
 
+        if(VracConfiguration::getInstance()->getRepartitionCvo() == "50"){
+          $coeff = ($this->isVendeurRegion())? 0.5 : 0.0;
+          $mouvement->cvo = $this->getTauxCvo() * $coeff;
+          $mouvement->facturable = 1;
+        }
+
         return $mouvement;
     }
 
     public function getVendeur() {
         return EtablissementClient::getInstance()->find($this->vendeur_identifiant);
+    }
+
+    public function isVendeurRegion() {
+      return EtablissementClient::getInstance()->find($this->vendeur_identifiant)->region == EtablissementClient::REGION_CVO;
     }
 
     public function getAcheteur() {
@@ -47,15 +57,17 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->vrac_destinataire = $this->vendeur_nom;
         $mouvement->region = $this->getAcheteur()->region;
 
-<<<<<<< HEAD
-        $mouvement->cvo = $this->getTauxCvo();
-        
-=======
+        $mouvement->cvo = $this->getTauxCvo() * 1.0;
+
         if($mouvement->cvo <= 0) {
             $mouvement->facturable = 0;
         }
 
->>>>>>> 995c437... Pas facturable si cvo = -1
+        if(VracConfiguration::getInstance()->getRepartitionCvo() == "50"){
+          $coeff = ($this->isVendeurRegion())? 0.5 : 1.0;
+          $mouvement->cvo = $this->getTauxCvo() * $coeff;
+        }
+
         return $mouvement;
     }
 
@@ -174,7 +186,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
     public function getTauxCvo() {
         if (is_null($this->cvo)) {
-            $this->cvo = $this->getDroitCVO()->taux;
+            $this->cvo = $this->getDroitCVO()->taux*1.0;
         }
 
         return $this->cvo;
@@ -191,7 +203,8 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getContratTypeLibelle() {
-        return ($this->contrat_type) ? VracClient::$types_transaction[$this->contrat_type] : null;
+        $contratTypeLibelles = array_merge(VracClient::$types_transaction, array(SV12Client::SV12_TYPEKEY_VENDANGE => 'de vendanges'));
+        return ($this->contrat_type) ? $contratTypeLibelles[$this->contrat_type] : null;
     }
 
     function getNumeroArchive() {

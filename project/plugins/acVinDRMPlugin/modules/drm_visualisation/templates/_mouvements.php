@@ -23,10 +23,10 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
     <table id="table_mouvements" class="table table-striped table-condensed">
         <thead>
             <tr>
-                <th class="col-xs-1">Type</th>
+                <th class="col-xs-2">Type</th>
                 <th class="col-xs-4">Produits</th>
                 <th class="col-xs-3">Mouvement</th>
-                <th class="col-xs-2"><span class="pull-right">Volume</span></th>
+                <th class="col-xs-3"><span class="pull-right">Volume</span></th>
                 <?php if($hasDontRevendique): ?>
                   <th class="col-xs-2"><span class="pull-left">(dont revendiqué)</span></th>
                 <?php endif; ?>

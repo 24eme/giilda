@@ -37,8 +37,51 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
+    public function addDetailCreationVrac($identifiant = null, $volume = null, $date_enlevement = null, $prixhl = null, $acheteur = null, $typeContrat = VracClient::TYPE_TRANSACTION_VIN_VRAC, $idDrmImport = null) {
+        $identifiantVrac = null;
+        $key = null;
+        if($idDrmImport){
+          $identifiantVrac = $idDrmImport."-".uniqid();
+          $key = $idDrmImport."-".uniqid();
+        }else{
+          $identifiantVrac = sprintf("%013d",$identifiant);
+          $key = $this->getDocument()->_id."-".uniqid();
+        }
+
+        $detail = $this->add($key);
+
+        $detail->identifiant = $identifiantVrac;
+
+        if ($volume && is_null($detail->volume)) {
+            $detail->volume = $volume;
+        } elseif ($volume) {
+            $detail->volume += $volume;
+        }
+
+        if ($prixhl) {
+            $detail->prixhl = $prixhl;
+        }
+
+        if ($acheteur) {
+            $detail->acheteur = $acheteur;
+        }
+
+        if ($date_enlevement) {
+            $detail->date_enlevement = $date_enlevement;
+        }
+        $detail->type_contrat = $typeContrat;
+
+        return $detail;
+    }
+
+
     public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
-        $detail = $this->add($identifiant);
+        $key = $identifiant;
+        if($this->getKey() == "export_details") {
+            $key .= "-".uniqid();
+        }
+
+        $detail = $this->add($key);
 
         $detail->identifiant = $identifiant;
 
@@ -55,7 +98,7 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($numero_document) {
             $detail->numero_document = $numero_document;
             $detail->type_document = $type_document;
-            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');            
+            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');
             if ($type_document) {
                 if (($detail instanceof DRMESDetailExport) || ($detail instanceof DRMESDetailVrac)) {
                     if (!$documents_annexes->exist($type_document)) {

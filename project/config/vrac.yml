@@ -1,3 +1,9 @@
+sancerre:
+  configuration:
+    vrac:
+      pdf: "vrac/pdf_sancerre"
+      repartition_cvo: "50"
+      
 ivso:
   configuration:
     vrac:

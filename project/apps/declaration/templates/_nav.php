@@ -27,6 +27,15 @@
             'target' => '_self'
      ));
 
+     include_component('global', 'navItem', array(
+            'libelle' => 'SV12',
+            'prefix' => 'sv12',
+            'route' => 'sv12',
+            'route_etablissement' => 'sv12_etablissement',
+            'etablissement' => $etablissement,
+            'target' => '_self'
+     ));
+
       include_component('global', 'navItem', array(
             'libelle' => 'Factures',
             'prefix' => 'facture',

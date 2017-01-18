@@ -34,7 +34,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <?php echo $vrac->vendeur->commune; ?></small><br/>
                 <small class="text-muted">CVI&nbsp;: <?php echo $vrac->vendeur->cvi; ?> / SIRET&nbsp;: <?php echo $vrac->vendeur->siret ?></small>
                 <br />
-                <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo $vrac->getRepresentantObject()->getNom(); ?></a><br /><?php endif; ?>
+                <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo ($vrac->getRepresentantObject())? $vrac->getRepresentantObject()->getNom() : "Représentant sans nom"; ?></a><br /><?php endif; ?>
                 <?php if ($vrac->logement): ?>Logement du vin : <?php echo $vrac->logement ?><br/><?php endif; ?>
             </div>
         </div>
@@ -130,7 +130,15 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong>Compléments</strong></div>
                             <ul class="list-group">
-                                <li class="list-group-item">Mention : <strong><?php if ($vrac->domaine): echo $vrac->domaine; else: echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; endif; ?></strong></li>
+                                <li class="list-group-item">Mention : <strong><?php if ($vrac->domaine):
+                                                                                      echo $vrac->domaine;
+                                                                                    elseif($vrac->categorie_vin):
+                                                                                      echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin];
+                                                                                    else :
+                                                                                      echo "pas de catégorie de vin";
+                                                                                    endif; ?>
+                                                                        </strong>
+                                </li>
                                 <?php if ($vrac->lot): ?>
                                     <li class="list-group-item">Lot : <strong><?php echo $vrac->lot ?></strong></li>
                                 <?php endif; ?>
