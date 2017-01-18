@@ -12,6 +12,16 @@
  * @author mathurin
  */
 class drm_visualisationActions extends drmGeneriqueActions {
+    public function executeReopen(sfWebRequest $request) {
+      $this->redirect403IfIsTeledeclaration();
+      $drm = $this->getRoute()->getDRM();
+      $this->redirect403Unless($drm->isTeledeclare());
+      $this->redirect403Unless(!$drm->isNonFactures());
+      $drm->valide->date_saisie = null;
+      $drm->valide->date_signee = null;
+      $drm->save();
+      return $this->redirect('drm_etablissement', $drm->getEtablissement());
+    }
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();

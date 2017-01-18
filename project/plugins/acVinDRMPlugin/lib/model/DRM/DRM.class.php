@@ -47,17 +47,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	}
     }
 
-    public function initLies(){
-      $produits = $this->getConfigProduits(true);
-    	if (!is_null($produits)) {
-    		foreach ($produits as $hash => $produit) {
-          if(preg_match("/USAGESINDUSTRIELS/",$hash)){
-            $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
-          }
-    		}
-    	}
-    }
-
     public function constructId() {
 
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->version));
@@ -253,11 +242,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function generateSuivante() {
-
-        return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
-    }
-
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
@@ -293,6 +277,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
 
+        $drm_suivante->initProduitsAutres($isTeledeclarationMode);
         $drm_suivante->initCrds();
         if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
             $drm_suivante->initDroitsDouane();
@@ -1211,8 +1196,8 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
     }
 
-    public function initProduitsAutres(){
-      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+    public function initProduitsAutres($isTeledeclarationMode){
+      foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
           $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
         }

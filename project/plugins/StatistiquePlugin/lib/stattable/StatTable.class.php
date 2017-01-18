@@ -142,10 +142,10 @@ class StatTable
 		foreach ($this->aggregat as $key) {
 				$val = ($items[$key] < 0)? ($items[$key] * -1) : $items[$key];
 				$result[$pivot][$items[$this->columns]][$key]['nb'] += 1;
-				$result[$pivot][$items[$this->columns]][$key]['sum'] = number_format($result[$pivot][$items[$this->columns]][$key]['sum'] + $val, 2, ',', '');
+				$result[$pivot][$items[$this->columns]][$key]['sum'] += $val;
 				if ($this->columnTotal) {
 					$result[$pivot][self::TOTAL_KEY][$key]['nb'] += 1;
-					$result[$pivot][self::TOTAL_KEY][$key]['sum'] = number_format($result[$pivot][self::TOTAL_KEY][$key]['sum'] + $val, 2, ',', '');
+					$result[$pivot][self::TOTAL_KEY][$key]['sum'] += $val;
 				}
 		}
 	}
@@ -187,7 +187,7 @@ class StatTable
 			foreach ($this->columnsHeader as $columnHeader) {
 				if (isset($columns[$columnHeader])) {
 					foreach ($this->aggregat as $key) {
-						$csv .= ';'.$columns[$columnHeader][$key]['sum'];
+						$csv .= ';'.number_format($columns[$columnHeader][$key]['sum'], 2, ',', '');
 					}
 				} else {
 					foreach ($this->aggregat as $key) {
@@ -197,7 +197,7 @@ class StatTable
 			}
 			if ($this->columnTotal) {
 				foreach ($this->aggregat as $key) {
-					$csv .= ';'.$columns[self::TOTAL_KEY][$key]['sum'];
+					$csv .= ';'.number_format($columns[self::TOTAL_KEY][$key]['sum'], 2, ',', '');
 				}
 			}
 			$csv .= "\n";
