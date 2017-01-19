@@ -27,6 +27,7 @@
             'target' => '_self'
      ));
 
+     if(SV12Configuration::getInstance()->isActif()):
      include_component('global', 'navItem', array(
             'libelle' => 'SV12',
             'prefix' => 'sv12',
@@ -35,6 +36,7 @@
             'etablissement' => $etablissement,
             'target' => '_self'
      ));
+    endif;
 
       include_component('global', 'navItem', array(
             'libelle' => 'Factures',

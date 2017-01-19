@@ -21,4 +21,8 @@ class SV12Configuration {
     public function hasRaisinetmout() {
         return $this->configuration['raisinetmout'];
     }
+
+    public function isActif() {
+        return $this->configuration['actif'];
+    }
 }
