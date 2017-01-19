@@ -39,7 +39,9 @@ use_helper('Date');
                         <tr class="vertical-center">
                             <td class="text-left">
                                 <?php
-                                $numeroFormatted = $mouvement->nom_facture;
+                                if(isset($mouvement->nom_facture)) {
+                                    $numeroFormatted = $mouvement->nom_facture;
+                                }
                                 if ($drmMvt) {
                                   $numeroFormatted = DRMClient::getInstance()->getLibelleFromId($mouvement->numero);
                                 }else if ($sv12Mvt) {
