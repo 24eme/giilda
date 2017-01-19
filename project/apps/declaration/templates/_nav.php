@@ -100,13 +100,15 @@ endif; ?>
             <?php if ($sf_user->hasCredential('transactions')): ?>
             <li><a href="<?php echo url_for("statistiques_vrac") ?>">Contrat d'achat</a></li>
             <li><a href="<?php echo url_for("statistiques_drm") ?>">DRM</a></li>
-            <li><a href="<?php echo url_for("statistiques_stats") ?>">Stats</a></li>
             <?php endif; ?>
             <?php if ($sf_user->hasCredential('contacts')): ?>
             <li><a href="<?php echo url_for("societe") ?>">Contacts</a></li>
             <?php endif; ?>
           </ul>
         </li>
+<?php endif; ?>
+<?php if ($sf_user->hasCredential('transactions')): ?>
+    <li><a tabindex="-1" href="<?php echo url_for("statistiques_stats") ?>"><span class="glyphicon glyphicon-stats"></span></a></li>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential('admin')) : ?>
         <li class="dropdown">
