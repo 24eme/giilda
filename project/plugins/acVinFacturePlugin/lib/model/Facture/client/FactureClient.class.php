@@ -480,4 +480,14 @@ class FactureClient extends acCouchdbClient {
         return '';
     }
 
+    public function getTypeFactureMouvement() {
+        $type_mouvement = self::$type_facture_mouvement;
+
+        if(!SV12Configuration::getInstance()->isActif()) {
+            unset($type_mouvement[FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12]);
+        }
+
+        return $type_mouvement;
+    }
+
 }
