@@ -1,5 +1,4 @@
 all:
   configuration:
-    sv12:
+    statistique:
       actif: true
-      raisinetmout: false

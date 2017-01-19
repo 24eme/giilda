@@ -1,15 +1,12 @@
 ivso:
   configuration:
-    sv12:
-      raisinetmout: false
+    statistique:
       actif: false
 ivbd:
   configuration:
-    sv12:
-      raisinetmout: false
+    statistique:
       actif: false
 
 sancerre:
   configuration:
-    sv12:
-      raisinetmout: false
+    statistique:

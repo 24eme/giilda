@@ -16,7 +16,7 @@
 </div>
 
 <div class="row">
-    <div class="col-xs-8">
+    <div class="col-xs-10">
         <h3>Générer toutes les factures</h3>
         <?php include_component('facture','generationMasse'); ?>
     </div>
