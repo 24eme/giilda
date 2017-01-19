@@ -1,6 +1,6 @@
 <?php
 
-class SV12Configuration {
+class StatistiqueConfiguration {
 
     private static $_instance = null;
     protected $configuration;
@@ -15,12 +15,7 @@ class SV12Configuration {
     }
 
     public function __construct() {
-        $this->configuration = sfConfig::get('sv12_configuration_sv12', array());
-    }
-
-    public function hasRaisinetmout() {
-
-        return $this->configuration['raisinetmout'];
+        $this->configuration = sfConfig::get('statistique_configuration_statistique', array());
     }
 
     public function isActif() {

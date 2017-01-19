@@ -107,7 +107,7 @@ endif; ?>
           </ul>
         </li>
 <?php endif; ?>
-<?php if ($sf_user->hasCredential('transactions')): ?>
+<?php if ($sf_user->hasCredential('transactions') && StatistiqueConfiguration::getInstance()->isActif()): ?>
     <li><a tabindex="-1" href="<?php echo url_for("statistiques_stats") ?>"><span class="glyphicon glyphicon-stats"></span></a></li>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential('admin')) : ?>

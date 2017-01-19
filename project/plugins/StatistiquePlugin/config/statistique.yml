@@ -1,0 +1,4 @@
+all:
+  configuration:
+    statistique:
+      actif: true
