@@ -13,10 +13,11 @@ class drmGeneriqueActions extends sfActions {
             /*if (!$this->compte) {
                 new sfException("Le compte $compte n'existe pas");
             }*/
-
-            $this->etablissementPrincipal =  $this->getRoute()->getEtablissement();
+            $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
             $this->societe = $this->etablissementPrincipal->getSociete();
         }
+
+        $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
     }
 
     protected function redirect403IfIsNotTeledeclaration() {
@@ -37,6 +38,13 @@ class drmGeneriqueActions extends sfActions {
             $this->redirect403();
         }
     }
+
+    private function redirect403Unless($bool) {
+        if (!$bool) {
+          $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+    }
+
 
     private function redirect403() {
         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));

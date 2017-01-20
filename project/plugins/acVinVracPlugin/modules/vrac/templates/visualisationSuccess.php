@@ -75,10 +75,10 @@ use_helper('Date');
                             <a id="btn_editer_contrat" href="<?php echo url_for('vrac_soussigne', $vrac); ?>" class="btn btn-warning">Modifier</a>
                         <?php endif; ?>
                         <?php if ($isTeledeclarationMode && $isTeledeclare && $isProprietaire && !$vrac->isVise() && $vrac->valide->statut != VracClient::STATUS_CONTRAT_VALIDE): ?>
-                            <button id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>
+                            <button onclick='return confirm("Étes-vous sur de vouloir supprimer ce contrat ?")' id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>
                         <?php endif; ?>
                         <?php if (!$isTeledeclarationMode): ?>
-                            <button id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>
+                            <button onclick='return confirm("Étes-vous sur de vouloir supprimer ce contrat ?")' id="btn_annuler_contrat" type="submit" class="btn btn-danger">Annuler</button>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>

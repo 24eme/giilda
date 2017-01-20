@@ -6,6 +6,9 @@ class drm_annexesActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->drm = $this->getRoute()->getDRM();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+
+        $this->drm->update();
+
         $this->initDeleteForm();
         $this->drm->initReleveNonApurement();
         $this->annexesForm = new DRMAnnexesForm($this->drm);

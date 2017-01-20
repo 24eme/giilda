@@ -33,6 +33,10 @@ class DRMClient extends acCouchdbClient {
     const TYPE_DRM_SUSPENDU = 'SUSPENDU';
     const TYPE_DRM_ACQUITTE = 'ACQUITTE';
 
+    const CRD_TYPE_SUSPENDU = 'CRD_SUSPENDU';
+    const CRD_TYPE_ACQUITTE = 'CRD_ACQUITTE';
+    const CRD_TYPE_MIXTE = 'CRD_MIXTE';
+
     public static $types_libelles = array(DRM::DETAILS_KEY_SUSPENDU => 'Suspendu', DRM::DETAILS_KEY_ACQUITTE => 'Acquitté');
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE_SUSPENDU, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
@@ -420,7 +424,6 @@ class DRMClient extends acCouchdbClient {
         }
         $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
         $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
-        $drm->initProduitsAutres();
         return $drm;
     }
 
@@ -445,7 +448,7 @@ class DRMClient extends acCouchdbClient {
         $drm->storeDeclarant();
         $drm->initSociete();
         $drm->initCrds();
-        $drm->initLies();
+        $drm->initProduitsAutres($isTeledeclarationMode);
         $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;

@@ -51,5 +51,9 @@ class drm_xmlActions extends drmGeneriqueActions {
       $this->setLayout(false);
       $this->getResponse()->setHttpHeader('Content-Type', 'text/xml');
   }
+  
+  public function executeMain()
+  {
+  }
 
 }

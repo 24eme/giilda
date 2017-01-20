@@ -47,17 +47,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	}
     }
 
-    public function initLies(){
-      $produits = $this->getConfigProduits(true);
-    	if (!is_null($produits)) {
-    		foreach ($produits as $hash => $produit) {
-          if(preg_match("/USAGESINDUSTRIELS/",$hash)){
-            $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
-          }
-    		}
-    	}
-    }
-
     public function constructId() {
 
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->version));
@@ -230,7 +219,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
                 continue;
             }
-            $this->addProduit($produitConfig->produit_hash);
+            $this->addProduit($produitConfig->produit_hash, DRM::DETAILS_KEY_SUSPENDU);
         }
     }
 
@@ -251,11 +240,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, true);
             }
         }
-    }
-
-    public function generateSuivante() {
-
-        return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
     }
 
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
@@ -293,6 +277,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
 
+        $drm_suivante->initProduitsAutres($isTeledeclarationMode);
         $drm_suivante->initCrds();
         if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
             $drm_suivante->initDroitsDouane();
@@ -983,10 +968,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     protected function replicateDetail(&$drm, $key, $value, $hash_match, $hash_replication) {
-        if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details/.+)/' . $hash_match . '$|', $key, $match)) {
+        if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details.*/.+)/' . $hash_match . '$|', $key, $match)) {
             $detail = $this->get($match[1]);
             if (!$drm->exist($detail->getHash())) {
-                $drm->addProduit($detail->getCepage()->getHash(), $detail->labels->toArray());
+            $drm->addProduit($detail->getCepage()->getHash(), $detail->getParent()->getKey(), $detail->labels->toArray());
             }
             $drm->get($detail->getHash())->set($hash_replication, $value);
         }
@@ -1084,6 +1069,54 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->add('crds', array($crdNode => array()));
     }
 
+    public function switchCrdRegime($newCrdRegime = EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU){
+
+        $to_removes = array();
+        foreach ($this->getOrAdd('crds') as $regime => $crds) {
+            if ($newCrdRegime != $regime) {
+                $to_removes[$regime] = $crds;
+            }
+        }
+
+        foreach ($to_removes as $removeRegime => $crds) {
+            $this->getOrAdd('crds')->remove($removeRegime);
+            $this->getOrAdd('crds')->add($newCrdRegime, $crds);
+        }
+        foreach ($this->getProduits() as $produit) {
+          $this->switchDetailsCrdRegime($produit,$newCrdRegime,DRM::DETAILS_KEY_SUSPENDU);
+          $this->switchDetailsCrdRegime($produit,$newCrdRegime,DRM::DETAILS_KEY_ACQUITTE);
+          }
+        }
+
+private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::DETAILS_KEY_SUSPENDU)
+{
+    $mvtTypes = array('entrees','sorties');
+    foreach ($produit->getProduitsDetails(true,$typeDrm) as $detailsKey => $details) {
+          $detailsConfig = $details->getConfig();
+          foreach ($mvtTypes as $mvtType){
+                $toRemove = array();
+                foreach($details->get($mvtType) as $key => $value) {
+                        if(!preg_match('/_details/',$key)){
+                          $detailConf = $detailsConfig->get($mvtType)->get($key);
+                          if($detailConf && $detailConf->exist('switch_regime'))
+                          {
+                            if((($detailConf->douane_type == DRMClient::CRD_TYPE_SUSPENDU) && ($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE))
+                                || (($detailConf->douane_type == DRMClient::CRD_TYPE_ACQUITTE)
+                                    && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
+                              $detailConfCorrespondance = $detailConf->get('switch_regime');
+                              $details->get($mvtType)->add($detailConfCorrespondance,$value);
+                                $toRemove[] = $key;
+                            }
+                          }
+                       }
+                    }
+                    foreach ($toRemove as $keyRemove) {
+                        $details->get($mvtType)->remove($keyRemove);
+                    }
+            }
+    }
+}
+
     public function getAllCrds() {
         if ($this->exist('crds') && $this->crds) {
             return $this->crds;
@@ -1163,8 +1196,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function initProduitsAutres(){
-      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+    public function initProduitsAutres($isTeledeclarationMode){
+      foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
           $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
         }
@@ -1232,6 +1265,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         if ($this->exist('observations') && count($this->observations)) {
             $this->observations = null;
+        }
+        if($this->exist('transmission_douane')){
+            $this->remove('transmission_douane');
         }
     }
 
@@ -1474,7 +1510,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
-                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->exist($typeKey) || !$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
                         $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }

@@ -167,6 +167,7 @@ Configuration:
                               douane_type: { }
                               douane_cat: { }
                               taxable_douane: { }
+                              switch_regime: { required: false }
                   sorties:
                     required: false
                     type: collection
@@ -189,6 +190,7 @@ Configuration:
                               douane_type: { }
                               douane_cat: { }
                               taxable_douane: { }
+                              switch_regime: { required: false }
                   stocks_fin:
                     required: false
                     type: collection

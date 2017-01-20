@@ -246,7 +246,7 @@ class VracSoussigneForm extends VracForm {
             $this->getObject()->add('interlocuteur_commercial');
         }
         parent::doUpdateObject($values);
-        if (!$this->getObject()->acheteur_identifiant){
+        if (isset($values['acheteur_producteur']) || isset($values['acheteur_negociant'])){
           if($values['acheteur_type'] == EtablissementFamilles::FAMILLE_PRODUCTEUR) {
               $this->getObject()->acheteur_identifiant = $values['acheteur_producteur'];
           } else {

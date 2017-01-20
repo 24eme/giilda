@@ -76,6 +76,7 @@ L’application de télédéclaration de votre interprofession.";
 
         $etablissement = EtablissementClient::getInstance()->find($this->drm->identifiant);
         $contact = EtablissementClient::getInstance()->buildInfosContact($etablissement);
+        $transmission_douane = $etablissement->getSociete()->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DOUANE);
 
         $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 
@@ -83,9 +84,12 @@ L’application de télédéclaration de votre interprofession.";
 La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration ". sfConfig::get('app_teledeclaration_url')." .
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
-
-Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
-
+";
+$mess .= ($transmission_douane)? "
+Dans l'attente de votre acceptation du contrat de service douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
+" : "
+";
+$mess .= "
 Pour toutes questions, veuillez contacter: le service économie de l'".$interpro." " . $contact->email . " .
 
 --
