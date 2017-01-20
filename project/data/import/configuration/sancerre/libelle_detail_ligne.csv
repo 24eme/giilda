@@ -2,7 +2,7 @@ details;stocks_debut;initial;Initial;Stock initial;Stock initial
 details;stocks_debut;instance;En instance de revendication;Vin en instance de revendication;Vin en instance de revendication
 details;entrees;recolte;Récolte;Récolte;Récolte
 details;entrees;declassement;Issu d'un déclassement;Déclassement;Déclassement
-details;entrees;retourembouteillage;Retour conditionnmt;Retour de conditionnement;Retour d'embouteillage
+details;entrees;retourembouteillage;Retour conditionnement;Retour de conditionnement;Retour d'embouteillage
 details;entrees;transfertcomptamatierecession;Retour logement ext.;Retour de logement externe;Retour de logement externe
 details;entrees;travailafacon;Retour Travail à façon;Retour de travail à façon;Retour de travail à façon, distillation à façon
 details;entrees;retourmarchandisetaxees;Retour de vin CRD acquittées;Retour de vin CRD acquittées;Retour de vin CRD acquittées
@@ -11,7 +11,7 @@ details;entrees;achatcrd;Achat CRD acquittées;Achat CRD acquittées;Achat CRD a
 details;entrees;achatnoncrd;Achat suspension;Achat suspension;Achat suspension
 details;entrees;regularisation;Excédent constaté;Régularisation;Régularisation
 details;sorties;consommationfamilialedegustation;Conso. familiale/Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
-details;sorties;ventefrancecrd;Vente sous CRD aqcittées;Vente sous CRD aqcittées;Vente sous CRD aqcittées
+details;sorties;ventefrancecrd;Vente sous CRD acquittées;Vente sous CRD acquittées;Vente sous CRD acquittées
 details;sorties;vracsanscontratacquitte;Petit vrac France;Petit vrac France (DSA facture);Petit vrac France (DSA facture)
 details;sorties;creationvrac;Vrac négoce;Vrac négoce;Vrac négoce
 details;sorties;creationvractirebouche;Tiré bouché négoce;Tiré bouché négoce;Tiré bouché négoce
