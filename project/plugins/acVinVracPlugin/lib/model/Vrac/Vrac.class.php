@@ -371,7 +371,7 @@ class Vrac extends BaseVrac {
                 break;
         }
 
-        if ($this->prix_unitaire) {
+        if ($this->prix_unitaire && $this->volume_propose) {
             $this->prix_unitaire_hl = round($this->prix_total / $this->volume_propose * 1.0, 2);
         }
     }
@@ -428,7 +428,7 @@ class Vrac extends BaseVrac {
     public function getRepartitionCVOCoef($identifiant) {
 
         if (($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
-          
+
 
             return 0.5;
         }
