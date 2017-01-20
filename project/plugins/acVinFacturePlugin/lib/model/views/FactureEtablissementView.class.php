@@ -47,7 +47,7 @@ class FactureEtablissementView extends acCouchdbView
 
             $facturesResult = array();
             foreach ($factures as $facture) {
-              $facturesResult[$facture->value[self::VALUE_NUMERO_ARCHIVE]] = $facture;
+              $facturesResult[$facture->id] = $facture;
             }
             krsort($facturesResult);
             return $facturesResult;
