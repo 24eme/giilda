@@ -71,6 +71,7 @@ class drmActions extends drmGeneriqueActions {
                 break;
 
             case DRMClient::ETAPE_VALIDATION:
+            case DRMClient::ETAPE_VALIDATION_EDI:
                 return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
                 break;
         }
@@ -108,7 +109,7 @@ class drmActions extends drmGeneriqueActions {
             switch ($choixCreation) {
                 case DRMClient::DRM_CREATION_EDI :
                     if ($this->creationDrmForm->isValid()) {
-                        $md5 = $this->creationDrmForm->getValue('file')->getMd5();
+                        $md5 = $this->creationDrmForm->getValue('edi-file')->getMd5();
                         return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
                     }
                     return $this->redirect('drm_societe', array('identifiant' => $identifiant));
@@ -358,7 +359,6 @@ class drmActions extends drmGeneriqueActions {
         $this->legalSignatureForm = new DRMLegalSignatureForm($etablissement);
 
         if ($request->isMethod(sfRequest::POST)) {
-            echo "POST ";
             $this->legalSignatureForm->bind($request->getParameter($this->legalSignatureForm->getName()));
             if ($this->legalSignatureForm->isValid()) {
                 $this->legalSignatureForm->save();

@@ -11,6 +11,7 @@ class DRMClient extends acCouchdbClient {
     const ETAPE_CRD = 'CRD';
     const ETAPE_ADMINISTRATION = 'ADMINISTRATION';
     const ETAPE_VALIDATION = 'VALIDATION';
+    const ETAPE_VALIDATION_EDI = 'VALIDATION_EDI';
     const VALIDE_STATUS_EN_COURS = '';
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
     const VALIDE_STATUS_VALIDEE_ENVOYEE = 'ENVOYEE';
@@ -22,20 +23,22 @@ class DRMClient extends acCouchdbClient {
     const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
     const DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC = 'DSADSAC';
     const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
+    const DRM_DOCUMENTACCOMPAGNEMENT_STATS_EUROPEENNES = 'STATS-EUROPEENNES';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
 
-    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
     public static $drm_documents_daccompagnement = array(
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte');
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte',
+        self::DRM_DOCUMENTACCOMPAGNEMENT_STATS_EUROPEENNES => 'Stats Européennes');
     public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant", self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
     protected $drm_historiques = array();
 
@@ -218,6 +221,21 @@ class DRMClient extends acCouchdbClient {
         $this->getHistorique($identifiant, $periode)->reload();
 
         return $this->createDocByPeriode($identifiant, $periode);
+    }
+
+    public function findOrCreateFromEdiByIdentifiantAndPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        if ($obj = $this->findMasterByIdentifiantAndPeriode($identifiant, $periode, $hydrate)) {
+
+            return $obj;
+        }
+
+        $this->getHistorique($identifiant, $periode)->reload();
+
+        $drm = $this->createDocByPeriode($identifiant, $periode);
+        $drm->type_creation = DRMClient::DRM_CREATION_EDI;
+        $drm->etape = self::ETAPE_VALIDATION_EDI;
+        $drm->teledeclare = true;
+        return $drm;
     }
 
     public function listCampagneByEtablissementId($identifiant) {
@@ -414,7 +432,6 @@ class DRMClient extends acCouchdbClient {
         }
         $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
         $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
-        $drm->initProduitsAutres();
         return $drm;
     }
 
@@ -438,6 +455,8 @@ class DRMClient extends acCouchdbClient {
         $drm->storeDeclarant();
         $drm->initSociete();
         $drm->initCrds();
+        $drm->initProduitsAutres($isTeledeclarationMode);
+
         $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
