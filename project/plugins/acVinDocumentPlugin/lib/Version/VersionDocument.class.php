@@ -240,6 +240,9 @@ class VersionDocument
         $document_modificative->version = $this->buildVersionDocument($this->getRectificative(), $this->getModificative() + 1);
         $this->document->listenerGenerateVersion($document_modificative);
 
+        $document_modificative->remove('_attachments');
+        $document_modificative->remove('transmission_douane');
+
         return $document_modificative;
     }
 

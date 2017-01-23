@@ -80,7 +80,9 @@
       		<categorie-fiscale-capsules><?php echo crdGenre2CategorieFiscale($gcrds[$fkey]->genre) ?></categorie-fiscale-capsules>
       		<type-capsule><?php echo crdType2TypeCapsule($gcrds[$fkey]->type) ?></type-capsule>
 <?php foreach($gcrds as $crd) : ?>
-                <centilisation volume="<?php echo centilisation2douane($crd->centilitrage, $crd->detail_libelle); ?>"<? if (centilisation2douane($crd->centilitrage, $crd->detail_libelle) == 'AUTRE') : ?> volumePersonnalise="<?php printf('%.01lf', $crd->centilitrage * 10000); ?>" bib="<?php echo ($crd->isBib()) ? 'Vrai' : 'Faux' ; ?>"<?php endif; ?>>
+                <centilisation volume="<?php echo centilisation2douane($crd->centilitrage, $crd->detail_libelle); ?>"<?php
+ 									if (centilisation2douane($crd->centilitrage, $crd->detail_libelle) == 'AUTRE') : ?> volumePersonnalise="<?php printf('%.01lf', $crd->centilitrage * 10000);
+									?>" bib="<?php echo ($crd->isBib()) ? 'Vrai' : 'Faux' ; ?>"<?php endif; ?>>
         		<stock-debut-periode><?php echo $crd->stock_debut ?></stock-debut-periode>
 <?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours): ?>
         		<entrees-capsules>
