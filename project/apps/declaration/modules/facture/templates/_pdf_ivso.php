@@ -1,13 +1,44 @@
 <?php
+$prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
+$titre_type_facture = "Cotisation interprofessionnelle";
+$qt_libelle = "Volume \\tiny{en hl}";
+if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
+    $qt_libelle = "Quantité";
+    $prix_u_libelle = "Prix U.";
+    $titre_type_facture = "";
+}
 $avoir = ($facture->total_ht <= 0);
-var_dump("dedze"); exit;
-include_partial('facture/templateEntete', array('facture' => $facture));
+include_partial('facture/pdf_ivso_entete', array('facture' => $facture));
 ?>
 \begin{document}
 <?php
-include_partial('facture/templateTitreAdresse', array('facture' => $facture, 'avoir' => $avoir));
-include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
-include_partial('facture/templateHeadTable',array('facture' => $facture));
+include_partial('facture/pdf_ivso_titreAdresse', array('facture' => $facture, 'avoir' => $avoir));
+?>
+\fontsize{8}{10}\selectfont
+\begin{flushright}
+page \thepage / <?php echo $nb_pages; ?>
+\end{flushright}
+
+\begin{center}
+ \large{\textbf{<?php echo $titre_type_facture; ?>}} \\
+\end{center}
+
+\centering
+\fontsize{8}{10}\selectfont
+    \begin{tikzpicture}
+		\node[inner sep=1pt] (tab1){
+                        \renewcommand{\arraystretch}{1.2}
+			\begin{tabular}{p{120mm} |p{20mm}|p{12mm}|p{24mm}p{0mm}}
+  			\rowcolor{lightgray}
+                        \centering \small{\textbf{Libellé}} &
+   			\centering \small{\textbf{<?php echo $qt_libelle; ?>}} &
+                        \centering \small{\textbf{<?php echo $prix_u_libelle; ?>}} &
+   			\centering \small{\textbf{Montant HT \tiny{en \texteuro{}}}} &
+   			 \\
+  			\hline
+                      ~ & ~ & ~ & ~ &\\
+
+<?php
 $line_nb_current_page = FactureLatex::NB_LIGNES_ENTETE * ($nb_pages > 1);
 $current_avg_nb_lines_per_page = floor($nb_lines / $nb_pages);
 $max_line_nb_current_page = FactureLatex::MAX_LIGNES_PERPAGE - FactureLatex::NB_LIGNES_ENTETE;
@@ -23,13 +54,44 @@ foreach ($facture->lignes as $type => $typeLignes) {
     \\
     <?php
     foreach ($typeLignes->details as $prodHash => $produit) {
-        include_partial('facture/templateTableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
+        include_partial('facture/pdf_ivso_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
         $line_nb_current_page++;
         if ($line_nb_current_page > $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
-            include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => ($max_line_nb_current_page - $line_nb_current_page), 'avoir' => $avoir));
+            for($i = 0 ; $i < ($max_line_nb_current_page - $line_nb_current_page); $i++):  ?>
+            ~ & ~ & ~ & ~ &\\
+            <?php endfor;?>
+                ~ & ~ & ~ & ~ & \\
+                            \end{tabular}
+                    };
+            \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};
+            \end{tikzpicture}
+            <?php
             echo "\\newpage\n";
-            include_partial('facture/templateNumPage', array('nb_page' => $nb_pages));
-            include_partial('facture/templateHeadTable',array('facture' => $facture));
+            ?>
+            \fontsize{8}{10}\selectfont
+            \begin{flushright}
+            page \thepage / <?php echo $nb_pages; ?>
+            \end{flushright}
+
+            \begin{center}
+             \large{\textbf{<?php echo $titre_type_facture; ?>}} \\
+            \end{center}
+
+            \centering
+            \fontsize{8}{10}\selectfont
+                \begin{tikzpicture}
+            		\node[inner sep=1pt] (tab1){
+                                    \renewcommand{\arraystretch}{1.2}
+            			\begin{tabular}{p{120mm} |p{20mm}|p{12mm}|p{24mm}p{0mm}}
+              			\rowcolor{lightgray}
+                                    \centering \small{\textbf{Libellé}} &
+               			\centering \small{\textbf{<?php echo $qt_libelle; ?>}} &
+                                    \centering \small{\textbf{<?php echo $prix_u_libelle; ?>}} &
+               			\centering \small{\textbf{Montant HT \tiny{en \texteuro{}}}} &
+               			 \\
+              			\hline
+                                  ~ & ~ & ~ & ~ &\\
+            <?php
             $current_total_line_nb += $line_nb_current_page;
             $line_nb_current_page = 0;
             $current_nb_pages++;
@@ -45,9 +107,19 @@ if ($nb_echeances)
 if (!$current_nb_pages)
     $nb_blank -= FactureLatex::NB_LIGNES_ENTETE;
 
-include_partial('facture/templateEndTableWithMention', array('add_blank_lines' => $nb_blank, 'end_document' => true, 'avoir' => $avoir));
-include_partial('facture/templateReglement', array('facture' => $facture));
+    for($i=0; $i<$nb_blank;$i++):
+    ?>
+~ & ~ & ~ & ~ &\\
+    <?php
+    endfor;
+    ?>
+    \end{tabular}
+    };
+    \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};
+\end{tikzpicture}
+<?php
+include_partial('facture/pdf_ivso_reglement', array('facture' => $facture));
 if ($nb_echeances && !$avoir)
-    include_partial('facture/templateEcheances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
+    include_partial('facture/pdf_ivso_echeances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
 ?>
 \end{document}
