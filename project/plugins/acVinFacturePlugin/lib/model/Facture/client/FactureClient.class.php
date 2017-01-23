@@ -407,7 +407,7 @@ class FactureClient extends acCouchdbClient {
         $avoir->numero_piece_comptable = null;
         $avoir->versement_comptable = 0;
         $avoir->versement_comptable_paiement = 1;
-        $avoir->storeDatesCampagne(date('Y-m-d'));
+        $avoir->storeDatesCampagne($f->date_facturation);
         $avoir->date_paiement = null;
         $avoir->reglement_paiement = null;
         $avoir->remove('arguments');
@@ -437,7 +437,7 @@ class FactureClient extends acCouchdbClient {
         $avoir->remove('echeances');
         $avoir->add('echeances');
         $avoir->statut = self::STATUT_NONREDRESSABLE;
-        $avoir->storeDatesCampagne(date('Y-m-d'));
+        $avoir->storeDatesCampagne($f->date_facturation);
         $avoir->numero_archive = null;
         $avoir->numero_piece_comptable_origine = $avoir->numero_piece_comptable;
         $avoir->numero_piece_comptable = null;
