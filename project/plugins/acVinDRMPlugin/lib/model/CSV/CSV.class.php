@@ -18,8 +18,16 @@ class CSV extends BaseCSV {
         return 'import_edi_' . $this->identifiant . '_' . $this->periode . '.csv';
     }
 
-    public function hasErreurs() {
+    public function hasErreurs($level = null) {
+      if(!$level){
         return count($this->erreurs);
+      }
+      foreach ($this->erreurs as $erreur) {
+        if($erreur->exist('level') && ($erreur->level == $level)){
+          return true;
+        }
+      }
+      return false;
     }
 
     public function addErreur($erreur) {
@@ -27,6 +35,9 @@ class CSV extends BaseCSV {
         $erreurNode->num_ligne = $erreur->num_ligne;
         $erreurNode->csv_erreur = $erreur->erreur_csv;
         $erreurNode->diagnostic = $erreur->raison;
+        if($erreur->level){
+          $erreurNode->level = $erreur->level;
+        }
         return $erreurNode;
     }
 
@@ -34,6 +45,13 @@ class CSV extends BaseCSV {
         $this->remove('erreurs');
         $this->add('erreurs');
         $this->statut = null;
+    }
+
+    public function getLevel(){
+      if(!$this->exist('level')){
+        return CSVClient::LEVEL_WARNING;
+      }
+      return $this->_get('level');
     }
 
 }

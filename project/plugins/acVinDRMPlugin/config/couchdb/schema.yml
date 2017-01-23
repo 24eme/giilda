@@ -619,3 +619,4 @@ CSV:
                   num_ligne: { type: integer }
                   csv_erreur: { }
                   diagnostic: { }
+                  level: { }
