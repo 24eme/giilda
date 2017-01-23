@@ -158,7 +158,7 @@ class CielService
 		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close ($ch);
 		if ($httpCode < 200 || $httpCode >= 300 ) {
-			throw new sfException('HTTP Error n°'.$httpCode);
+			throw new sfException('HTTP Error '.$httpCode.' : '.$server_output);
 		}
 		return $server_output;
 	}
