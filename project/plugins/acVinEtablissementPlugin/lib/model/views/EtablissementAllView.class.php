@@ -77,7 +77,7 @@ class EtablissementAllView extends acCouchdbView
 	}
 
         return $etablissements;
-    }    
+    }
 
     public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null, $limit = null) {
       try{
@@ -87,7 +87,7 @@ class EtablissementAllView extends acCouchdbView
       }
     }
 
-    private function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = 100) { 
+    private function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = 100) {
       $q = explode(' ', $query);
       for($i = 0 ; $i < count($q); $i++) {
 	$q[$i] = '*'.$q[$i].'*';
@@ -157,7 +157,7 @@ class EtablissementAllView extends acCouchdbView
                             ->endkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe,$etablissement->_id, array()))
 			    ->reduce(false)
 			    ->getView($this->design, $this->view)->rows;
-        
+
     }
 
     public static function makeLibelle($row) {
@@ -172,6 +172,11 @@ class EtablissementAllView extends acCouchdbView
         if (isset($row->key[self::KEY_CVI]) && $cvi = $row->key[self::KEY_CVI]) {
             $libelle .= ' / '.$cvi;
         }
+
+		if (isset($row->value[self::VALUE_NO_ACCISES]) && $numAccises = $row->value[self::VALUE_NO_ACCISES]) {
+            $libelle .= ' / '.$numAccises;
+        }
+
         $libelle .= ') ';
 
     	if (isset($row->key[self::KEY_FAMILLE]))
@@ -184,8 +189,8 @@ class EtablissementAllView extends acCouchdbView
     	  	$libelle .= ' '.$row->value[self::VALUE_CODE_POSTAL];
 
         $libelle .= " (Etablissement)";
-        
+
         return trim($libelle);
     }
 
-}  
+}
