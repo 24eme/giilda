@@ -1,47 +1,63 @@
-<?php use_helper('Float'); ?>
-<fieldset id="recapitulatif_sv12">
-        <table class="table_recap">
-        <thead>
+<?php
+use_helper('Float');
+$raisinetmout = SV12Configuration::getInstance()->hasRaisinetmout();
+ ?>
+<table class="table table-bordered table-striped table-condensed">
+    <thead>
+    <tr>
+        <th>Produits</th>
+        <?php if($raisinetmout): ?>
+          <th class="text-center">Volume de raisins</th>
+          <th class="text-center">Volume de moûts</th>
+        <?php else: ?>
+          <th class="text-center">Volume vendanges</th>
+        <?php endif; ?>
+        <th class="text-center">Total</th>
+    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($sv12->totaux->produits as $libelle => $produit) :  ?>
         <tr>
-            <th>Produits</th>
-            <th>Volume de raisins</th>
-            <th>Volume de moûts</th>
-            <th>Total</th>                        
+            <td>
+                <?php echo $libelle; ?>
+            </td>
+            <?php if($raisinetmout): ?>
+              <td class="text-right">
+                  <?php echoFloat($produit->volume_raisins); ?>&nbsp;hl
+              </td>
+
+              <td class="text-right">
+                  <?php echoFloat($produit->volume_mouts); ?>&nbsp;hl
+              </td>
+            <?php else: ?>
+              <td class="text-right">
+                <?php echoFloat($produit->volume_ecarts); ?>&nbsp;hl
+              </td>
+            <?php endif; ?>
+            <td class="text-right">
+                <?php echoFloat($produit->volume_raisins + $produit->volume_mouts + $produit->volume_ecarts); ?>&nbsp;hl
+            </td>
         </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($sv12->totaux->produits as $libelle => $produit) :  ?>
-            <tr>
-                <td>
-                    <?php echo $libelle; ?>
+        <?php
+        endforeach;
+        ?>
+        <tr>
+            <td style="font-weight:bold;">Total</td>
+            <?php if($raisinetmout): ?>
+                <td style="font-weight:bold;"  class="text-right">
+                    <?php echoFloat($sv12->totaux->volume_raisins); ?>&nbsp;hl
                 </td>
-                <td>
-                    <?php echoFloat($produit->volume_raisins).' hl'; ?>
+                <td style="font-weight:bold;"  class="text-right">
+                    <?php echoFloat($sv12->totaux->volume_mouts); ?>&nbsp;hl
                 </td>
-
-                <td>
-                    <?php echoFloat($produit->volume_mouts).' hl'; ?>
+              <?php else: ?>
+                <td style="font-weight:bold;"  class="text-right">
+                  <?php echoFloat($sv12->totaux->volume_ecarts); ?>&nbsp;hl
                 </td>
-
-                <td>     
-                    <?php echoFloat($produit->volume_raisins + $produit->volume_mouts + $produit->volume_ecarts).' hl'; ?>
-                </td>
-            </tr>
-            <?php
-            endforeach;
-            ?>
-            <tr>
-                <td style="font-weight:bold;">Total</td>
-                <td style="font-weight:bold;">
-                    <?php echoFloat($sv12->totaux->volume_raisins).' hl'; ?>
-                </td>
-                <td style="font-weight:bold;">
-                    <?php echoFloat($sv12->totaux->volume_mouts).' hl'; ?>
-                </td>
-                <td style="font-weight:bold;">
-                    <?php echoFloat($sv12->volume_total).' hl'; ?>
-                </td>
-            </tr>
-        </tbody>
-        </table> 
-</fieldset>
+              <?php endif; ?>
+            <td style="font-weight:bold;" class="text-right">
+                <?php echoFloat($sv12->volume_total); ?>&nbsp;hl
+            </td>
+        </tr>
+    </tbody>
+</table>

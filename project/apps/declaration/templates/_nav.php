@@ -18,7 +18,7 @@
             'target' => '_self'
      ));
 
-     include_component('global', 'navItem', array(
+     /*include_component('global', 'navItem', array(
             'libelle' => 'Contrats',
             'prefix' => 'vrac',
             'route' => 'vrac',
@@ -26,6 +26,27 @@
             'etablissement' => $etablissement,
             'target' => '_self'
      ));
+     */
+
+     include_component('global', 'navItem', array(
+            'libelle' => 'SV12',
+            'prefix' => 'sv12',
+            'route' => 'sv12',
+            'route_etablissement' => 'sv12_etablissement',
+            'etablissement' => $etablissement,
+            'target' => '_self'
+     ));
+
+     if(SV12Configuration::getInstance()->isActif()):
+     include_component('global', 'navItem', array(
+            'libelle' => 'SV12',
+            'prefix' => 'sv12',
+            'route' => 'sv12',
+            'route_etablissement' => 'sv12_etablissement',
+            'etablissement' => $etablissement,
+            'target' => '_self'
+     ));
+    endif;
 
       include_component('global', 'navItem', array(
             'libelle' => 'Factures',
@@ -89,13 +110,15 @@ endif; ?>
             <?php if ($sf_user->hasCredential('transactions')): ?>
             <li><a href="<?php echo url_for("statistiques_vrac") ?>">Contrat d'achat</a></li>
             <li><a href="<?php echo url_for("statistiques_drm") ?>">DRM</a></li>
-            <li><a href="<?php echo url_for("statistiques_stats") ?>">Stats</a></li>
             <?php endif; ?>
             <?php if ($sf_user->hasCredential('contacts')): ?>
             <li><a href="<?php echo url_for("societe") ?>">Contacts</a></li>
             <?php endif; ?>
           </ul>
         </li>
+<?php endif; ?>
+<?php if ($sf_user->hasCredential('transactions') && StatistiqueConfiguration::getInstance()->isActif()): ?>
+    <li><a tabindex="-1" href="<?php echo url_for("statistiques_stats") ?>"><span class="glyphicon glyphicon-stats"></span></a></li>
 <?php endif; ?>
 <?php if ($sf_user->hasCredential('admin')) : ?>
         <li class="dropdown">

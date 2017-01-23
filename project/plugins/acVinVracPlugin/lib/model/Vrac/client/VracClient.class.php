@@ -81,14 +81,20 @@ class VracClient extends acCouchdbClient {
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
         VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
         VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE => 'Vin conditionné');
+
     public static $categories_vin = array(self::CATEGORIE_VIN_GENERIQUE => 'Générique', self::CATEGORIE_VIN_DOMAINE => 'Domaine', self::CATEGORIE_VIN_CHATEAU => 'Château', self::CATEGORIE_VIN_AGE => 'Age', self::CATEGORIE_VIN_MARQUE => 'Marque');
+
     public static $types_transaction_vins = array(self::TYPE_TRANSACTION_VIN_VRAC, self::TYPE_TRANSACTION_VIN_BOUTEILLE);
+
     public static $types_transaction_non_vins = array(self::TYPE_TRANSACTION_RAISINS, self::TYPE_TRANSACTION_MOUTS);
+
     public static $cvo_repartition = array(self::CVO_REPARTITION_50_50 => '50/50',
         self::CVO_REPARTITION_100_VITI => '100% Vendeur',
         self::CVO_REPARTITION_100_NEGO => '100% Acheteur',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
+
     public static $statuts_vise = array(self::STATUS_CONTRAT_NONSOLDE, self::STATUS_CONTRAT_SOLDE, self::STATUS_CONTRAT_VISE);
+
     public static $statuts_labels = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En attente de signature',
         self::STATUS_CONTRAT_VISE => 'En attente de traitement',
@@ -96,6 +102,7 @@ class VracClient extends acCouchdbClient {
         self::STATUS_CONTRAT_SOLDE => 'Soldé',
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
         self::STATUS_CONTRAT_NONSOLDE => 'Non Soldé');
+
     public static $statuts_labels_teledeclaration = array(self::STATUS_CONTRAT_BROUILLON => 'Brouillon',
         self::STATUS_CONTRAT_ATTENTE_SIGNATURE => 'En attente de signature',
         self::STATUS_CONTRAT_VISE => 'En attente de traitement',
@@ -103,6 +110,7 @@ class VracClient extends acCouchdbClient {
         self::STATUS_CONTRAT_SOLDE => 'Validé',
         self::STATUS_CONTRAT_ANNULE => 'Annulé',
         self::STATUS_CONTRAT_NONSOLDE => 'Validé');
+
     public static $statuts_teledeclaration_sorted = array(self::STATUS_CONTRAT_VISE,
         self::STATUS_CONTRAT_VALIDE,
         self::STATUS_CONTRAT_BROUILLON,
@@ -657,6 +665,36 @@ class VracClient extends acCouchdbClient {
             throw new sfException('le vendeur ne correpond pas à l\'établissement initial');
         if (!preg_match("|^$hash|", $vrac->produit))
             throw new sfException('Le hash du produit ne correpond pas au hash initial (' . $vrac->produit . '<->' . $hash . ')');
+        return $vrac;
+    }
+
+    public function createContratFromDrm($idContrat,$identifiant, $vendeur, $acheteur, $hash, $prix, $volume_enleve, $date_enlevement = null ,$type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC){
+      $vrac = $this->retrieveById($idContrat);
+      if ($vrac) {
+            return $vrac;
+        }
+        $vrac = new Vrac();
+        $vrac->vendeur_identifiant = $vendeur;
+        $vrac->numero_contrat = $idContrat;
+        $vrac->numero_archive = $identifiant;
+        $vrac->acheteur_identifiant = $acheteur;
+        $vrac->produit = $hash;
+        $vrac->type_transaction = $type_contrat;
+        $vrac->volume_propose = $volume_enleve;
+        $vrac->prix_initial_unitaire_hl = $prix;
+        $vrac->prix_initial_unitaire = $prix;
+        $vrac->prix_unitaire = $prix;
+        if($date_enlevement){
+          $vrac->enlevement_date = $date_enlevement;
+          $vrac->valide->date_saisie = $date_enlevement;
+          $vrac->date_signature = $date_enlevement;
+          $vrac->date_visa = $date_enlevement;
+        }
+
+
+        $vrac->setVendeurInformations();
+        $vrac->setAcheteurInformations();
+        $vrac->update();
         return $vrac;
     }
 

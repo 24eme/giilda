@@ -8,6 +8,8 @@
  * @property string $produit_hash
  * @property string $produit_libelle
  * @property string $type_hash
+ * @property string $type_drm
+ * @property string $type_drm_libelle
  * @property string $type_libelle
  * @property string $vrac_numero
  * @property string $vrac_destinataire
@@ -30,6 +32,10 @@
  * @method string setProduitLibelle()
  * @method string getTypeHash()
  * @method string setTypeHash()
+ * @method string getTypeDrm()
+ * @method string setTypeDrm()
+ * @method string getTypeDrmLibelle()
+ * @method string setTypeDrmLibelle()
  * @method string getTypeLibelle()
  * @method string setTypeLibelle()
  * @method string getVracNumero()

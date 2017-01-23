@@ -47,17 +47,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	}
     }
 
-    public function initLies(){
-      $produits = $this->getConfigProduits(true);
-    	if (!is_null($produits)) {
-    		foreach ($produits as $hash => $produit) {
-          if(preg_match("/USAGESINDUSTRIELS/",$hash)){
-            $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
-          }
-    		}
-    	}
-    }
-
     public function constructId() {
 
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->version));
@@ -95,6 +84,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function isTeledeclare() {
 
         return $this->exist('teledeclare') && $this->teledeclare;
+    }
+
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
     }
 
     public function changedToTeledeclare() {
@@ -203,6 +200,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $vracs;
     }
 
+    public function getDetailsAvecCreationVracs(){
+      $creationvracs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $d) {
+          if ($d->sorties->exist('creationvrac_details') && $creationvrac = $d->sorties->creationvrac_details)
+              $creationvracs[] = $creationvrac;
+          if ($d->sorties->exist('creationvractirebouche_details') && $creationvrac = $d->sorties->creationvractirebouche_details)
+              $creationvracs[] = $creationvrac;
+      }
+      return $creationvracs;
+    }
+
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
@@ -234,16 +242,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function generateSuivante() {
-
-        return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
-    }
-
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
-            throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
+            throw new sfException(sprintf("Une drm est en cours d'édition (%s) pour cette campagne %s, impossible d'en créer une autre", $this->getHistorique()->hasInProcess()->_id, $this->campagne));
         }
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
@@ -274,6 +277,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
 
+        $drm_suivante->initProduitsAutres($isTeledeclarationMode);
         $drm_suivante->initCrds();
         if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
             $drm_suivante->initDroitsDouane();
@@ -440,6 +444,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->setInterpros();
+        $this->creationVracs();
+
         $this->generateMouvements();
         if ($this->teledeclare) {
             $this->generateDroitsDouanes();
@@ -458,6 +464,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $this->getSuivante()->save();
             }
         }
+    }
+
+    public function devalidate(){
+      $this->valide->date_saisie = null;
+      $this->valide->date_signee = null;
+      $this->deleteVracs();
+      $this->clearMouvements();
     }
 
     public function storeIdentifiant($options) {
@@ -507,6 +520,33 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($vracs as $vrac) {
             $vrac->save();
+        }
+    }
+
+    public function creationVracs() {
+        if (!$this->isValidee()) {
+
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              $newVrac->createVisa();
+              $newVrac->validate();
+              $newVrac->save();
+            }
+        }
+    }
+
+    public function deleteVracs() {
+        if ($this->isValidee()) {
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              VracClient::getInstance()->delete($newVrac);
+            }
         }
     }
 
@@ -1159,8 +1199,8 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
     }
 
-    public function initProduitsAutres(){
-      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+    public function initProduitsAutres($isTeledeclarationMode){
+      foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
           $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
         }
@@ -1486,4 +1526,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         return $libelles_detail_ligne;
     }
 
+    public function isDrmNegoce(){
+      return $this->getEtablissement()->isNegociant();
+    }
 }

@@ -1,0 +1,38 @@
+details;stocks_debut;initial;Initial;Stock initial;Stock initial
+details;stocks_debut;instance;En instance de revendication;Vin en instance de revendication;Vin en instance de revendication
+details;entrees;recolte;Récolte;Récolte;Récolte
+details;entrees;declassement;Issu d'un déclassement;Déclassement;Déclassement
+details;entrees;retourembouteillage;Retour conditionnmt;Retour de conditionnement;Retour d'embouteillage
+details;entrees;transfertcomptamatierecession;Retour logement ext.;Retour de logement externe;Retour de logement externe
+details;entrees;travailafacon;Retour Travail à façon;Retour de travail à façon;Retour de travail à façon, distillation à façon
+details;entrees;retourmarchandisetaxees;Retour de vin CRD acquittées;Retour de vin CRD acquittées;Retour de vin CRD acquittées
+details;entrees;retourmarchandisenontaxees;Retour de vin en suspension;Retour de vin en suspension;Retour de vin en suspension
+details;entrees;achatcrd;Achat CRD acquittées;Achat CRD acquittées;Achat CRD acquittées
+details;entrees;achatnoncrd;Achat suspension;Achat suspension;Achat suspension
+details;entrees;regularisation;Excédent constaté;Régularisation;Régularisation
+details;sorties;consommationfamilialedegustation;Conso. familiale/Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
+details;sorties;ventefrancecrd;Vente sous CRD acquittées;Vente sous CRD acquittées;Vente sous CRD acquittées
+details;sorties;vracsanscontratacquitte;Petit vrac France;Petit vrac France (DSA facture);Petit vrac France (DSA facture)
+details;sorties;creationvrac;Vrac négoce;Vrac négoce;Vrac négoce
+details;sorties;creationvractirebouche;Tiré bouché négoce;Tiré bouché négoce;Tiré bouché négoce
+details;sorties;export;Export;Export;Export
+details;sorties;declassement;Déclassement;Déclassement;Déclassement
+details;sorties;transfertsrecolte;Transfert de produit;Transfert de récolte;Transfert de récolte
+details;sorties;embouteillage;Conditionnement;Conditionnement;Conditionnement
+details;sorties;transfertcomptamatiere;Logement externe;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre
+details;sorties;travailafacon;Travail à façon;Sortie de travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon
+details;sorties;destructionperte;Destruction/perte;Destruction et pertes;Destruction et pertes
+details;sorties;manquant;Manquants;Manquants;Manquants
+details;sorties;cession;Cession d'exploitation;Cession d'activité;Cession d'activité
+details;sorties;apportgroupement;Livraison coopérative;Livraison coopérative;Livraison coopérative
+details;stocks_fin;final;Final;Final;Stock final
+details;stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication
+detailsACQUITTE;stocks_debut;initial;Initial;Stock début de mois;A remplir uniquement sur la 1ère DRM de campagne. En août, indiquer le stock réel constaté par inventaire et identique à la Déclaration de Stocks. Pour tous les mois suivants de la campagne, le stock est automatiquement repris du mois précédent.
+detailsACQUITTE;stocks_debut;instance;En instance;En instance de revendication;Stock début En instance de revendication
+detailsACQUITTE;entrees;achat;Achats;Achats de produit;Indiquer les achats du produit.
+detailsACQUITTE;entrees;autre;Autres;Autres entrées;Autres entrées du produit. Ex : correspondant à une sortie de produits en droits suspendus pour lesquels les droits ont été payés.
+detailsACQUITTE;sorties;vente;Ventes de produits ;Ventes de produits ;Indiquer les ventes du produit.
+detailsACQUITTE;sorties;replacementsuspension;Replacement en suspension;Replacement en suspension;Indiquer le replacement en suspension du produit.
+detailsACQUITTE;sorties;autre;Autres;Indiquer les autres sorties du produit.;Indiquer les volumes commercialisés à l'export.
+detailsACQUITTE;stocks_fin;final;Final;Stock fin de mois;Calcul automatique: cette case ne peut être modifiée.
+detailsACQUITTE;stocks_fin;instance;En instance;En instance de revendication;Stock fin En instance de revendication

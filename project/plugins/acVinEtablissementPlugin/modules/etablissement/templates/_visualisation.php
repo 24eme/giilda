@@ -59,7 +59,9 @@
     <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <?php if ($etablissement->isSameCompteThanSociete()): ?>
             <div class="row">
+                <div class="col-xs-12">
                 <em>Même tags que la société</em>
+                </div>
             </div>
         <?php else: ?>
             <?php include_partial('compte/tagsVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>

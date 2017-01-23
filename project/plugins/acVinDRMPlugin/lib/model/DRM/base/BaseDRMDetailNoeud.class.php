@@ -4,16 +4,7 @@
  * 
  * Base model for DRMDetailNoeud
 
- * @property float $revendique
- * @property float $instance
- * @property float $bloque
 
- * @method float getRevendique()
- * @method float setRevendique()
- * @method float getInstance()
- * @method float setInstance()
- * @method float getBloque()
- * @method float setBloque()
  
  */
 

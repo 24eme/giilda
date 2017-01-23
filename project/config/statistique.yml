@@ -1,0 +1,12 @@
+ivso:
+  configuration:
+    statistique:
+      actif: false
+ivbd:
+  configuration:
+    statistique:
+      actif: false
+
+sancerre:
+  configuration:
+    statistique:

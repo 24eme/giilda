@@ -96,7 +96,7 @@ $drmTeledeclaree = $drm->teledeclare;
                         <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                           <?php if($item->isWritableForEtablissement($etablissement, $drmTeledeclaree)): ?>
                             <?php if (!$favoris_sorties->exist($key)): ?>
-                                <li class="form-group form-group-xs">
+                                <li class="form-group form-group-xs" style="cursor: pointer;">
                                     <?php if($saisieSuspendu): ?>
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <?php endif; ?>

@@ -125,7 +125,7 @@
         </div>
 <?php endforeach; ?>
 
-    <div class="col-xs-12 text-center">
+    <div style="margin-bottom: 20px;" class="col-xs-12 text-center">
         <div class="row">
             <?php if ($modification || $reduct_rights) : ?>
                 <?php if (!$reduct_rights && $societe->canHaveChais()) : ?>

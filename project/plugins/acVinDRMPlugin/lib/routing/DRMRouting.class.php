@@ -92,6 +92,11 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('valid'),
         )));
+        
+        $r->prependRoute('drm_reouvrir', new DRMRoute('/drm/:identifiant/reouvrir/:periode_version', array('module' => 'drm',
+            'action' => 'reouvrir'), array(), array('model' => 'DRM',
+            'type' => 'object',
+        )));
 
         $r->prependRoute('drm_redirect_etape', new DRMRoute('/drm/:identifiant/redirect-etape/:periode_version', array('module' => 'drm',
             'action' => 'redirectEtape'), array('sf_method' => array('get')), array('model' => 'DRM',
@@ -159,6 +164,11 @@ class DRMRouting {
             'action' => 'produit'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
             'control' => array('edition'))));
+
+            $r->prependRoute('drm_creationvrac_details', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/details-creationvrac/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail/:cat_key/:key', array('module' => 'drm_creationvrac_details',
+                'action' => 'produit'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+                'type' => 'object',
+                'control' => array('edition'))));
 
 
         $r->prependRoute('drm_export_details', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/details-export/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail/:cat_key/:key', array('module' => 'drm_export_details',

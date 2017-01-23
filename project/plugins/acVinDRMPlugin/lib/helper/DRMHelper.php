@@ -47,11 +47,12 @@ function getNumberOfFirstProduitWithMovements($produits) {
 }
 
 function getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = null) {
-    $statut = $calendrier->getStatutForAllEtablissements($periode);
-    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
-        return 'nouv_campagne';
-    }
     if ($isTeledeclarationMode) {
+        $statut = $calendrier->getStatutForAllEtablissements($periode);
+
+        if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
+            return 'nouv_campagne';
+        }
         if ($statut == DRMCalendrier::STATUT_VALIDEE) {
             return 'valide_campagne panel-success';
         }
@@ -63,6 +64,10 @@ function getClassGlobalEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $p
 
     //Cas VINSI
     $statut = $calendrier->getStatut($periode, $etablissement);
+
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
+        return 'nouv_campagne';
+    }
 
     if ($statut == DRMCalendrier::STATUT_VALIDEE_NON_TELEDECLARE) {
         return 'valide_campagne_teledeclaree panel-success ';

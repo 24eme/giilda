@@ -39,9 +39,11 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
                 </div>
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="2">
                     <div style="height:22px;" class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?>">
-                        <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="input-float somme_entrees_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
-                        <input type="text" value="0" class="input-float  somme_entrees_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly" style="display: none;" />
-
+                        <div class="input-group input-group-xs">
+                            <span class="input-group-addon">Σ</span>
+                            <input type="text" value="<?php echo $form->getObject()->total_entrees ?>" class="input-float somme_entrees_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_entrees ?>" readonly="readonly" />
+                            <input type="text" value="0" class="input-float  somme_entrees_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly" style="display: none;" />
+                        </div>
                     </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['entrees'] as $key => $subform): ?>
@@ -110,9 +112,11 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
 
                 <div class="list-group-item list-group-item-xs groupe p_gris" data-groupe-id="4">
                     <div style="height:22px;" class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?>">
-                        <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="input-float somme_sorties_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
-                        <input type="text" value="0" class="input-float somme_sorties_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly"  style="display: none;" />
-
+                        <div class="input-group input-group-xs">
+                            <span class="input-group-addon">Σ</span>
+                            <input type="text" value="<?php echo $form->getObject()->total_sorties ?>" class="input-float somme_sorties_recolte form-control input-xs text-right" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
+                            <input type="text" value="0" class="input-float somme_sorties_revendique form-control input-xs text-right" data-val-defaut="0" readonly="readonly"  style="display: none;" />
+                        </div>
                     </div>
                     <ul class="list-unstyled">
                         <?php foreach ($form['sorties'] as $key => $subform): ?>
@@ -128,7 +132,9 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
                                     <?php if ($form->getObject()->sorties->getConfig()->get($key)->hasDetails()): ?>
                                         <div class="input-group">
                                             <span class="input-group-btn">
-                                                <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php  echo url_for("drm_" .strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details", array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a> -->
+                                                <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php
+                                                echo url_for("drm_".strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details",
+                                                array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
                                             </span>
                                             <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>"
                                             readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
@@ -167,20 +173,14 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
                                     ?>
                                     <li class="form-group form-group-xs <?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                         <?php if ($form->getObject()->sorties->getConfig()->get($key)->hasDetails()): ?>
-                                            <div class="input-group">
-                                                <span class="input-group-btn">
-                                                    <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey(); ?>"
-                                                      data-toggle="modal"
-                                                      data-remote="false"
-                                                      href="<?php echo url_for("drm_" .strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details", array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>"
-                                                      class="btn btn-default btn-xs click-on-space-key"
-                                                      type="button"
-                                                      tabindex="<?php echo $tabindex; ?>">
-                                                      <span class="glyphicon glyphicon-list-alt"></span>
-                                                    </a>
-                                                </span>
-                                                <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
-                                            </div>
+                                          <div class="input-group">
+                                              <span class="input-group-btn">
+                                                  <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php
+                                                  echo url_for("drm_".strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details",
+                                                  array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                              </span>
+                                              <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
+                                          </div>
                                         <?php else: ?>
                                         <?php
                                             $class = $subform->getWidget()->getAttribute('class') . ' somme_detail bold_on_blur ';

@@ -178,6 +178,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
             }
 
+            if(!$founded_produit) {
+                $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace("/[ ]+/", " ", $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT])));
+            }
+
             if (!$founded_produit) {
                 $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
@@ -239,6 +243,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailNode->volume = $volume;
                         $detailNode->identifiant = $vrac_id;
                         $detailNode->date_enlevement = $date->format('Y-m-d');
+                    }
+                    if($type_key == 'creationvrac' || $type_key == 'creationvractirebouche'){
+                      $idDRM = 'DRM-'.$drmDetails->getDocument()->identifiant.'-'.$drmDetails->getDocument()->periode;
+                      $acheteurId = $csvRow[17];
+                      $prix = floatval($csvRow[18]);
+                      $date = DateTime::createFromFormat('Ymd',$csvRow[19]);
+                      $type_contrat = ($type_key == 'creationvrac')? VracClient::TYPE_TRANSACTION_VIN_VRAC : VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
+                      $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetailCreationVrac($idDRM, $volume, $date->format('Y-m-d'), $prix, $acheteurId, $type_contrat, $idDRM);
                     }
                 } else {
                     $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);

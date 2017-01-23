@@ -5,7 +5,7 @@ class factureActions extends sfActions {
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
         $this->generationForm = new FactureGenerationForm();
-        $this->generations = GenerationClient::getInstance()->findHistory(10);
+        $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL, GenerationClient::TYPE_DOCUMENT_FACTURES), 10);
         sfContext::getInstance()->getResponse()->setTitle('FACTURE');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -121,6 +121,9 @@ class factureActions extends sfActions {
         }
         if ($filters_parameters['message_communication']) {
             $generation->arguments->add('message_communication', $filters_parameters['message_communication']);
+        }
+        if (isset($filters_parameters['seuil'])) {
+            $generation->arguments->add('seuil', $filters_parameters['seuil']);
         }
         $generation->save();
 
@@ -266,7 +269,7 @@ class factureActions extends sfActions {
         $filters_parameters['date_mouvement'] = date('Y-m-d');
         $filters_parameters['message_communication'] = "";
         $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_FACTURES;
-        $filters_parameters['modele'] = 'DRM';
+        $filters_parameters['modele'] = $values['modele'];
 
         if (isset($values['date_facturation']) && $values['date_facturation']) {
             $filters_parameters['date_facturation'] = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
@@ -282,10 +285,15 @@ class factureActions extends sfActions {
         if (isset($values['modele']) && $values['modele']) {
             if ($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS) {
                 $filters_parameters['modele'] = 'MouvementsFacture';
-            } elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
+            }elseif($values['modele'] == FactureClient::TYPE_FACTURE_MOUVEMENT_DRM){
+              $filters_parameters['modele'] = "DRM";
+            }elseif ($values['modele'] == FactureGenerationForm::TYPE_GENERATION_EXPORT) {
                 $filters_parameters['type_document'] = GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL;
                 $filters_parameters['modele'] = null;
             }
+        }
+        if(isset($values['seuil'])) {
+            $filters_parameters['seuil'] = $values['seuil']*1.0;
         }
         return $filters_parameters;
     }

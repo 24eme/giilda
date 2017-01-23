@@ -26,4 +26,7 @@ class DRMConfiguration {
         return $this->configuration['contenances'];
     }
 
+    public function isVracCreation() {
+        return boolval($this->configuration['details']['vrac_detail']['creation']);
+    }
 }

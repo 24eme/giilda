@@ -45,7 +45,7 @@ class FacturationTemplateForm extends BaseForm {
     }
 
     public function getChoices() {
-        $choices = array_merge(array("" => ""),  FactureClient::$type_facture_mouvement);
+        $choices = array_merge(array("" => ""), FactureClient::getInstance()->getTypeFactureMouvement());
         foreach ($this->templatesFactures as $templateFacture) {
             $choices[$templateFacture->_id] = $templateFacture->libelle;
         }

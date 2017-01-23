@@ -1,30 +1,30 @@
 <?php
 
 class compteActions extends sfCredentialActions {
-    
+
     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->compte = CompteClient::getInstance()->createCompteFromSociete($this->societe);
         $this->applyRights();
         if(!$this->modification && !$this->reduct_rights){
-          
+
           return $this->forward('acVinCompte','forbidden');
         }
-        $this->processFormCompte($request);        
+        $this->processFormCompte($request);
         $this->setTemplate('modification');
     }
 
     public function executeModification(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();        
-        $this->societe = $this->compte->getSociete(); 
+        $this->compte = $this->getRoute()->getCompte();
+        $this->societe = $this->compte->getSociete();
         $this->applyRights();
         if(!$this->modification && !$this->reduct_rights){
-          
+
           return $this->forward('acVinCompte','forbidden');
         }
         $this->processFormCompte($request);
     }
-    
+
     protected function processFormCompte(sfWebRequest $request) {
         $this->compteForm = new InterlocuteurForm($this->compte);
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -32,18 +32,18 @@ class compteActions extends sfCredentialActions {
         }
 
         $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
-        
+
         if (!$this->compteForm->isValid()) {
           return;
         }
-        
+
         $this->compteForm->save();
         return $this->redirect('compte_visualisation', $this->compte);
     }
 
     public function executeModificationCoordonnee(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();        
-        $this->societe = $this->compte->getSociete(); 
+        $this->compte = $this->getRoute()->getCompte();
+        $this->societe = $this->compte->getSociete();
         $this->compteForm = new CompteCoordonneeForm($this->compte);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
@@ -56,7 +56,7 @@ class compteActions extends sfCredentialActions {
             }
         }
     }
- 
+
     public function executeVisualisation(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();
         $this->societe = $this->compte->getSociete();
@@ -66,19 +66,19 @@ class compteActions extends sfCredentialActions {
         if($this->compte->isEtablissementContact())
             $this->redirect('etablissement_visualisation',array('identifiant' => preg_replace ('/^ETABLISSEMENT-/', '', $this->compte->getEtablissementOrigine())));
 
-        $this->redirect($this->generateUrl('societe_visualisation', array('identifiant' => $this->societe->identifiant, 'interlocuteur' => $this->compte->_id)).'#'.$this->compte->_id);  
-    }   
-    
+        $this->redirect($this->generateUrl('societe_visualisation', array('identifiant' => $this->societe->identifiant, 'interlocuteur' => $this->compte->_id)).'#'.$this->compte->_id);
+    }
+
     public function executeSwitchStatus(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();
         $newStatus = "";
         if($this->compte->isActif()){
-           $newStatus = CompteClient::STATUT_SUSPENDU; 
+           $newStatus = CompteClient::STATUT_SUSPENDU;
         }
         if($this->compte->isSuspendu()){
-           $newStatus = CompteClient::STATUT_ACTIF; 
+           $newStatus = CompteClient::STATUT_ACTIF;
         }
-            
+
         $this->compte->setStatut($newStatus);
         $this->compte->save();
         return $this->redirect('compte_visualisation', array('identifiant' => $this->compte->identifiant));
@@ -116,19 +116,19 @@ class compteActions extends sfCredentialActions {
 
     public function executeSearchcsv(sfWebRequest $request) {
       $index = acElasticaManager::getType('COMPTE');
-      
+
       $q = $this->initSearch($request);
       $q->setLimit(5000);
       $resset = $index->search($q);
       $this->results = $resset->getResults();
       $this->setLayout(false);
       $filename = 'export';
-      
+
 //      $filename.=str_replace(',', '_', $this->q).'_';
 //      if(count($this->args['tags'])){
 //          $filename.= str_replace(',', '_', $this->args['tags']);
 //      }
-      
+
       $attachement = "attachment; filename=".$filename.".csv";
       $this->response->setContentType('text/csv');
       $this->response->setHttpHeader('Content-Disposition',$attachement );
@@ -190,14 +190,14 @@ class compteActions extends sfCredentialActions {
       }
       return true;
     }
-    
+
     public function executeAddtag(sfWebRequest $request) {
       if (!$this->addremovetag($request, false)) {
 		return ;
       }
       return $this->redirect('compte_search', $this->args);
     }
-    
+
     public function executeRemovetag(sfWebRequest $request) {
       if (!$this->addremovetag($request, true)) {
 		return ;
@@ -205,7 +205,7 @@ class compteActions extends sfCredentialActions {
       $this->args['tags'] = implode(',', array_diff($this->selected_rawtags, array('manuel:'.$request->getParameter('tag'))));
       return $this->redirect('compte_search', $this->args);
     }
-    
+
     public function executeSearch(sfWebRequest $request) {
       $res_by_page = 30;
       $page = $request->getParameter('page', 1);
@@ -218,20 +218,21 @@ class compteActions extends sfCredentialActions {
       foreach($facets as $nom => $f) {
 		$elasticaFacet 	= new acElasticaFacetTerms($nom);
 		$elasticaFacet->setField($f);
+		$elasticaFacet->setSize(100);
 		$q->addFacet($elasticaFacet);
       }
 
       $index = acElasticaManager::getType('COMPTE');
-      
+
       $resset = $index->search($q);
 
       $this->results = $resset->getResults();
       $this->nb_results = $resset->getTotalHits();
       $this->facets = $resset->getFacets();
-      
+
       ksort($this->facets);
 
-      $this->last_page = ceil($this->nb_results / $res_by_page); 
+      $this->last_page = ceil($this->nb_results / $res_by_page);
       $this->current_page = $page;
     }
 }
