@@ -1457,6 +1457,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
     }
 
+    public function getXML() {
+      return get_partial('drm_xml/xml', array('drm' => $this));
+    }
+
     public function getXMLRetour() {
         $uri = $this->getAttachmentUri('drm_retour.xml');
         if ($uri) {
@@ -1478,6 +1482,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
         unlink($tmp);
         return true;
+    }
+
+    public function transferToCiel() {
+      $xml = $this->getXML();
+      $service = new CielService();
+      return $service->transferAndStore($this, $xml);
     }
 
 }
