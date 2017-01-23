@@ -1,6 +1,7 @@
 ivso:
   configuration:
     facture:
+      pdf: "facture/pdf_ivso"
       prefix_sage: "02"
       tva_compte: "44571502"
       type_cvo:
@@ -16,6 +17,7 @@ ivso:
 ivbd:
   configuration:
     facture:
+      pdf: "facture/pdf_ivbd"
       prefix_sage: "VEN"
       tva_compte: "44570100"
       type_cvo:
@@ -32,6 +34,7 @@ ivbd:
 sancerre:
   configuration:
     facture:
+      pdf: "facture/pdf_sancerre"
       prefix_sage: ""
       tva_compte: ""
       type_cvo:

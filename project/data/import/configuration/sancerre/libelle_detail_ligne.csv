@@ -11,7 +11,7 @@ details;entrees;achatcrd;Achat CRD acquittées;Achat CRD acquittées;Achat CRD a
 details;entrees;achatnoncrd;Achat suspension;Achat suspension;Achat suspension
 details;entrees;regularisation;Excédent constaté;Régularisation;Régularisation
 details;sorties;consommationfamilialedegustation;Conso. familiale/Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
-details;sorties;ventefrancecrd;Vente sous CRD aqcittées;Vente sous CRD aqcittées;Vente sous CRD aqcittées
+details;sorties;ventefrancecrd;Vente sous CRD acquittées;Vente sous CRD acquittées;Vente sous CRD acquittées
 details;sorties;vracsanscontratacquitte;Petit vrac France;Petit vrac France (DSA facture);Petit vrac France (DSA facture)
 details;sorties;creationvrac;Vrac négoce;Vrac négoce;Vrac négoce
 details;sorties;creationvractirebouche;Tiré bouché négoce;Tiré bouché négoce;Tiré bouché négoce
