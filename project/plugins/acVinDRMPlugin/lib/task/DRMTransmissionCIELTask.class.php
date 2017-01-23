@@ -36,9 +36,7 @@ EOF;
 
     $drm = DRMClient::getInstance()->find($arguments['drmid']);
 
-    $xml = get_partial('drm_xml/xml', array('drm' => $drm));
-    $service = new CielService();
-    $service->transferAndStore($drm, $xml);
+    $drm->transferToCiel();
 
     if ($drm->transmission_douane->success)  {
       echo "DRM ".$drm->_id." transmisse avec succès\n";

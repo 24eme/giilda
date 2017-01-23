@@ -1530,6 +1530,10 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return $this->getEtablissement()->isNegociant();
     }
 
+    public function getXML() {
+      return get_partial('drm_xml/xml', array('drm' => $this));
+    }
+
     public function getXMLRetour() {
         $uri = $this->getAttachmentUri('drm_retour.xml');
         if ($uri) {
@@ -1551,6 +1555,12 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
         unlink($tmp);
         return true;
+    }
+
+    public function transferToCiel() {
+      $xml = $this->getXML();
+      $service = new CielService();
+      return $service->transferAndStore($this, $xml);
     }
 
 }
