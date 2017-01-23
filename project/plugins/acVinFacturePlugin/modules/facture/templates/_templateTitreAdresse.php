@@ -10,7 +10,7 @@ use_helper('Display');
 	\begin{tikzpicture}
 		\node[inner sep=1pt] (tab0){
 			\begin{tabular}{*{2}{c|}c}
-  				\rowcolor{lightgray} \textbf{NUMERO} & \textbf{DATE} & \textbf{REF CLIENT} \\
+  				\rowcolor{lightgray} \textbf{NUMERO} & \textbf{DATE} & \textbf{<?php echo FactureConfiguration::getInstance()->getNomRefClient(); ?>} \\
   				\hline
   				\FactureNum & \FactureDate & \FactureRefClient
 			\end{tabular}

@@ -1,6 +1,8 @@
 <?php
 use_helper('Date');
 use_helper('Display');
+
+$env = sfConfig::get('sf_environment');
 $coordonneesBancaires = $facture->getCoordonneesBancaire();
 $infosInterpro = $facture->getInformationsInterpro();
 ?>
@@ -52,7 +54,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 
 \def\TVA{19.60}
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
-		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France}
+		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}
 \def\InterproFacturation{\\<?php echo $facture->emetteur->telephone;?>
                                              <?php if($facture->emetteur->exist('email')): ?>
                                                     \\ Email : <?php echo $facture->emetteur->email; ?>
@@ -68,8 +70,9 @@ $infosInterpro = $facture->getInformationsInterpro();
 
 \def\FactureNum{<?php echo $facture->numero_piece_comptable; ?>}
 \def\FactureDate{<?php echo format_date($facture->date_facturation,'dd/MM/yyyy'); ?>}
+\def\NomRefClient{<?php echo $facture->numero_adherent; ?>}
 \def\FactureRefClient{<?php echo $facture->numero_adherent; ?>}
-\def\FactureRefCodeComptableClient{<?php echo $facture->code_comptable_client; ?>}
+\def\FactureRefCodeComptableClient{<?php echo (FactureConfiguration::getInstance()->getPdfDiplayCodeComptable())? $facture->code_comptable_client : $facture->numero_adherent; ?>}
 \def\FactureClientNom{<?php $nom = ($facture->declarant->raison_sociale == '')? $facture->declarant->nom : $facture->declarant->raison_sociale;
                             echo display_latex_string($nom,';',40);
                      ?>}
@@ -86,7 +89,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \fancyhf{}
 
 \lhead{
- \textbf{IVSO} \\
+ \textbf{Bureau Interprofessionnel des Vins du Centre} \\
  \InterproAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterproFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
@@ -96,4 +99,4 @@ $infosInterpro = $facture->getInformationsInterpro();
          SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
 \end{tiny}
  }
-\rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_ivso.png"; ?>}}
+\rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_".$env.".png"; ?>}}

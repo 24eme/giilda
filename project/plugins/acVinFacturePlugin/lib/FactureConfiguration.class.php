@@ -50,6 +50,11 @@ class FactureConfiguration {
         return $this->configuration['stockage_code_produit'];
     }
 
+    public function getPdfPartial()
+  	{
+  		return $this->configuration['pdf'];
+  	}
+
     public function isPdfProduitFirst() {
 
         return isset($this->configuration['pdf_produit']) ? $this->configuration['pdf_produit'] : false;
@@ -66,7 +71,7 @@ class FactureConfiguration {
     }
 
     public function getNomTaux(){
-      return isset($this->configuration['pdf_nom_taux']) ? $this->configuration['pdf_nom_taux'] : "";      
+      return isset($this->configuration['pdf_nom_taux']) ? $this->configuration['pdf_nom_taux'] : "";
     }
 
 

@@ -24,7 +24,7 @@ class SV12Configuration {
     }
 
     public function isActif() {
-        
+
         return $this->configuration['actif'];
     }
 }

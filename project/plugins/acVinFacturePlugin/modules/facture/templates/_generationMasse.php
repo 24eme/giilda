@@ -5,8 +5,8 @@
         <?php echo $generationForm->renderGlobalErrors(); ?>
         <div class="form-group <?php if ($generationForm["modele"]->hasError()): ?>has-error<?php endif; ?>">
             <?php echo $generationForm["modele"]->renderError() ?>
-            <?php echo $generationForm["modele"]->renderLabel("Type de facture", array("class" => "col-xs-4 control-label")); ?>
-            <div class="col-xs-8">
+            <?php echo $generationForm["modele"]->renderLabel("Type de facture", array("class" => "col-xs-5 control-label")); ?>
+            <div class="col-xs-7">
                 <?php echo $generationForm["modele"]->render(); ?>
             </div>
         </div>

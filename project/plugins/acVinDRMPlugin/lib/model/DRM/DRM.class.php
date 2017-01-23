@@ -206,7 +206,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
           if ($d->sorties->exist('creationvrac_details') && $creationvrac = $d->sorties->creationvrac_details)
               $creationvracs[] = $creationvrac;
           if ($d->sorties->exist('creationvractirebouche_details') && $creationvrac = $d->sorties->creationvractirebouche_details)
-                  $creationvracs[] = $creationvrac;
+              $creationvracs[] = $creationvrac;
       }
       return $creationvracs;
     }
