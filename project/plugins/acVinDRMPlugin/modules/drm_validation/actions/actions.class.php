@@ -20,7 +20,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->drm = $this->getRoute()->getDRM();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
-        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
+        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant,$this->isTeledeclarationMode);
         $this->drm->cleanDeclaration();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'validation_step' => true, 'no_vracs' => true));
         $this->initDeleteForm();

@@ -19,7 +19,11 @@
                 <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_validation_texte1'); ?></p>
                 <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>
-
+            <?php if ($drm->isCreationEdi()): ?>
+              <div style="padding-bottom: 20px">
+                <p>Cette DRM a été importée par un logiciel tiers</p>
+              </div>
+            <?php endif; ?>
             <div style="padding-bottom: 20px">
                 <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             </div>

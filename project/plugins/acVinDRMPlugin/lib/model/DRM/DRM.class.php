@@ -279,6 +279,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function init($params = array()) {
         parent::init($params);
 
+        $this->remove('_attachments');
+        $this->remove('transmission_douane');
+
         $this->remove('douane');
         $this->add('douane');
         $this->remove('declarant');
@@ -1448,6 +1451,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
       }
       return true;
+    }
+
+    public function isCreationEdi(){
+      return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
     }
 
 }
