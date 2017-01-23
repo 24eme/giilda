@@ -1457,4 +1457,27 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
     }
 
+    public function getXMLRetour() {
+        $uri = $this->getAttachmentUri('drm_retour.xml');
+        if ($uri) {
+          return file_get_contents($uri);
+        }
+        return "";
+    }
+
+    public function storeXMLRetour($xml) {
+        if (!$xml) {
+          throw new sfException('XML empty');
+        }
+        if (md5($this->getXMLRetour()) == md5($xml)) {
+          return false;
+        }
+
+        $tmp = tempnam('/tmp', 'attachment_retour');
+        file_put_contents($tmp, $xml);
+        $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
+        unlink($tmp);
+        return true;
+    }
+
 }
