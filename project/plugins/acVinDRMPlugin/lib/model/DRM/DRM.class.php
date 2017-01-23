@@ -1535,6 +1535,8 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     }
 
     public function getXMLRetour() {
+        if (!$this->exist('_attachments') || !$this->_attachments->exist('drm_retour.xml'))
+          return "";
         $uri = $this->getAttachmentUri('drm_retour.xml');
         if ($uri) {
           return file_get_contents($uri);
@@ -1555,6 +1557,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
         unlink($tmp);
         return true;
+    }
+
+    public function getXMLComparison() {
+        return new DRMCielCompare($this->getXML(), $this->getXMLRetour());
+    }
+
+    public function areXMLIdentical() {
+      $comp = $this->getXMLComparison();
+      return !$comp->hasDiff();
     }
 
     public function transferToCiel() {

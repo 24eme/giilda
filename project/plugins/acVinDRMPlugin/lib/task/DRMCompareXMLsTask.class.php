@@ -1,12 +1,12 @@
 <?php
 
-class DRMTransmissionXMLTask extends sfBaseTask
+class DRMCcompareXMLsTask extends sfBaseTask
 {
+
   protected function configure()
   {
-
   	$this->addArguments(array(
-      new sfCommandArgument('drmid', sfCommandArgument::REQUIRED, 'Cible contenant les DRM en retour de CIEL'),
+      new sfCommandArgument('drmid', sfCommandArgument::REQUIRED, 'Cible contenant les DRM en retour de CIEL')
   	));
 
     $this->addOptions(array(
@@ -17,10 +17,9 @@ class DRMTransmissionXMLTask extends sfBaseTask
     ));
 
     $this->namespace        = 'drm';
-    $this->name             = 'transmissionCIEL';
+    $this->name             = 'compareXMLs';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-
 EOF;
   }
 
@@ -34,18 +33,12 @@ EOF;
 
     $contextInstance = sfContext::createInstance($this->configuration);
 
-    try {
-      $drm = DRMClient::getInstance()->find($arguments['drmid']);
-      $drm->transferToCiel();
-      if ($drm->transmission_douane->success)  {
-        echo "DRM ".$drm->_id." transmisse avec succès\n";
-      }else{
-        echo "DRM ".$drm->_id." : Erreur de transmission\n";
-        echo $drm->transmission_douane->xml;
-        echo "\n";
-      }
-    }catch(sfException $e) {
-      echo "DRM ".$drm->_id." : Erreur de transmission (".$e->getMessage().")\n";
+    $drm = DRMClient::getInstance()->find($arguments['drmid']);
+
+    if ($drm->areXMLIdentical()) {
+      echo $drm->_id." : XML are identical\n";
+    }else{
+      echo $drm->_id." : XML are different :-(\n";
     }
 
   }
