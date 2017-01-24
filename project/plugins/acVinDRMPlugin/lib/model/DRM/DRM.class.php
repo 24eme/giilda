@@ -1487,7 +1487,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getXMLComparison() {
-        return new DRMCielCompare($this->getXML(), $this->getXMLRetour());
+        return new DRMCielCompare($this->getXMLRetour(), $this->getXML());
     }
 
     public function areXMLIdentical() {
