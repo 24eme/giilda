@@ -32,6 +32,11 @@ class DRMCielCompare
 				$diff[$key] = $value;
 			}
 		}
+		foreach ($arrOut as $key => $value) {
+			if (!isset($arrIn[$key]) && $value) {
+				$diff[$key] = null;
+			}
+		}
 		return $diff;
 	}
 
