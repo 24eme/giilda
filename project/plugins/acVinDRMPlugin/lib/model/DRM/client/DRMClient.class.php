@@ -556,7 +556,7 @@ class DRMClient extends acCouchdbClient {
           throw new sfException('Accise not found');
       }
       if ($etablissement->no_accises != $m[1]) {
-        throw new sfException('XML Accise '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.')');
+        throw new sfException('XML Accise '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->no_accises.')');
       }
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
           throw new sfException('mois not found');
