@@ -13,7 +13,7 @@ class DRMCcompareXMLsTask extends sfBaseTask
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-      new sfCommandOption('checking', null, sfCommandOption::PARAMETER_REQUIRED, 'Cheking mode', 0),
+      new sfCommandOption('checking', null, sfCommandOption::PARAMETER_REQUIRED, 'Cheking mode', false),
     ));
 
     $this->namespace        = 'drm';
@@ -39,6 +39,10 @@ EOF;
       echo $drm->_id." : XML are identical\n";
     }else{
       echo $drm->_id." : XML are different :-(\n";
+      if ($options['checking']) {
+        $comp = $drm->getXMLComparison();
+        var_dump($comp->getDiff());
+      }
     }
 
   }
