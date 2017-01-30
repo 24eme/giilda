@@ -43,7 +43,7 @@
                 </ul>
 
                 <div class="contenu_onglet_declaratif ">
-                    <p class="intro">Veuillez séléctionner un défaut d'apurement :</p>
+                    <p class="intro">Veuillez sélectionner un défaut d'apurement :</p>
                     <div class="ligne_form alignes">
 
                         <?php echo $form['apurement']->renderError() ?>

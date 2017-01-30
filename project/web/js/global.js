@@ -239,7 +239,7 @@ var fbConfig =
 	};
 
 	/**
-	 * Séléction d'une checkbox par la cellule d'un tableau  
+	 * Sélection d'une checkbox par la cellule d'un tableau  
 	 * $.initToggleNavMobile();
 	 ******************************************/
 	$.initCheckboxTableCell = function()
