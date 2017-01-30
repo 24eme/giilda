@@ -74,5 +74,12 @@ class FactureConfiguration {
       return isset($this->configuration['pdf_nom_taux']) ? $this->configuration['pdf_nom_taux'] : "";
     }
 
+    public function getNomInterproFacture(){
+      return $this->configuration['pdf_nom_interpro'];
+    }
+
+    public function getOrdreCheques(){
+      return $this->configuration['pdf_ordre_cheque'];
+    }
 
 }

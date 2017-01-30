@@ -53,6 +53,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \addtolength{\textheight}{29.9cm}
 
 \def\TVA{19.60}
+\def\NomInterpro{<?php echo (FactureConfiguration::getInstance()->getNomInterproFacture())?FactureConfiguration::getInstance()->getNomInterproFacture() : "interprofession"; ?>}
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}
 \def\InterproFacturation{\\<?php echo $facture->emetteur->telephone;?>
@@ -89,7 +90,7 @@ $infosInterpro = $facture->getInformationsInterpro();
 \fancyhf{}
 
 \lhead{
- \textbf{Bureau Interprofessionnel des Vins du Centre} \\
+ \textbf{\NomInterpro} \\
  \InterproAdresse \\
  \begin{small} \textbf{\begin{footnotesize}\InterproFacturation\end{footnotesize}}\\ \end{small}
  \begin{tiny}
