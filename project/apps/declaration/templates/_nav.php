@@ -27,7 +27,6 @@
             'target' => '_self'
      ));
 
-
      if(SV12Configuration::getInstance()->isActif()):
      include_component('global', 'navItem', array(
             'libelle' => 'SV12',
