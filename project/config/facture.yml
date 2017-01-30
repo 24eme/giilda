@@ -1,7 +1,9 @@
 ivso:
   configuration:
     facture:
-      pdf: "facture/pdf_ivso"
+      pdf: "facture/pdf_generique"
+      pdf_nom_interpro: "IVSO"
+      pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
       prefix_sage: "02"
       tva_compte: "44571502"
       type_cvo:
@@ -17,7 +19,9 @@ ivso:
 ivbd:
   configuration:
     facture:
-      pdf: "facture/pdf_ivbd"
+      pdf: "facture/pdf_generique"
+      pdf_nom_interpro: "IVBD"
+      pdf_ordre_cheque: "Interprofession IVBD"
       prefix_sage: "VEN"
       tva_compte: "44570100"
       type_cvo:
@@ -34,7 +38,9 @@ ivbd:
 sancerre:
   configuration:
     facture:
-      pdf: "facture/pdf_sancerre"
+      pdf: "facture/pdf_generique"
+      pdf_nom_interpro: "Bureau Interprofessionnel des Vins du Centre"
+      pdf_ordre_cheque: "Bureau Interprofessionnel des Vins du Centre"
       prefix_sage: ""
       tva_compte: ""
       type_cvo:
