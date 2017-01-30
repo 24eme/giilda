@@ -16,10 +16,10 @@ class DRMValidationCommentaireForm extends acCouchdbObjectForm {
 
       $myUser = sfContext::getInstance()->getUser();
       if ($myUser->hasCredential('teledeclaration_drm')){
-              if($myUser->getCompte()->hasDroit("teledeclaration_douane")){                
+              if($myUser->getCompte()->hasDroit("teledeclaration_douane")){
                 $this->setWidget('transmission_ciel', new sfWidgetFormInputHidden());
                 $this->setValidator('transmission_ciel', new sfValidatorString(array('required' => false)));
-                $this->widgetSchema->setLabel('transmission_ciel', 'Transmission pour préremplissage de votre DRM electronique sur le portail pro.douane.gouv.fr :');
+                $this->widgetSchema->setLabel('transmission_ciel', 'Transmission pour préremplissage de votre DRM électronique sur le portail pro.douane.gouv.fr :');
               }
             }
 

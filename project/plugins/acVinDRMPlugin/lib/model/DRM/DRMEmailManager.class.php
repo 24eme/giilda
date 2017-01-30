@@ -78,23 +78,24 @@ L’application de télédéclaration des contrats d’InterLoire";
         $contact = EtablissementClient::getInstance()->buildInfosContact($etablissement);
 
 
-        $mess = "  
+        $mess = "
 
 La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->nom . " a été validée électroniquement sur le portail de télédeclaration ". sfConfig::get('app_teledeclaration_url')." .
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 
-Dans l'attente de la liaison sécurisée avec la Douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
+Si vous n'avez pas signé la convention avec la douane qui active vos droits à la télédéclaration, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
+Sinon, vous pouvez transmettre cette DRM directement sur le portail de la douane, qui apparaîtra en mode brouillon sur le portail pro.douane.gouv.fr. Il vous restera alors à la valider une dernière fois en ligne sur le portail douanier.
 
-Pour toutes questions, veuillez contacter: 
+Pour toutes questions, veuillez contacter:
 
  - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
- - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .    
-    
+ - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .
+
 --
 
 L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclaration_url') ." .";
-        
+
         $pdf = new DRMLatex($this->drm);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();
