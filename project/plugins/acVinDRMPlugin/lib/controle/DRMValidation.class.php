@@ -103,7 +103,7 @@ class DRMValidation extends DocumentValidation {
         }
 
         $volumes_restant = array();
-        if (!$this->isTeledeclarationDrm) {
+        if (!$this->isTeledeclarationDrm && !DRMConfiguration::getInstance()->isVracCreation()) {
             foreach ($this->document->getMouvementsCalculeByIdentifiant($this->document->identifiant, $this->isTeledeclarationDrm) as $mouvement) {
                 if ($mouvement->isVrac()) {
                     $vrac = $mouvement->getVrac();
