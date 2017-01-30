@@ -14,6 +14,46 @@
               "campagne" : {
                 "type" : "string"
               },
+              "mouvements" : {
+                "properties" : {
+                  "categorie" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "detail_identifiant" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "detail_libelle" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "produit_hash" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "produit_libelle" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "region" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "type_drm_libelle" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "type_hash" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  },
+                  "type_libelle" : {
+                    "type" : "string",
+                    "index" : "not_analyzed"
+                  }
+                }
+              },
               "declarant" : {
                 "properties" : {
                   "adresse" : {
