@@ -35,6 +35,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->archivage_document = new ArchivageDocument($this);
     }
 
+
     public function constructId() {
 
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->version));
@@ -226,11 +227,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function generateSuivante() {
-
-        return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
-    }
-
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
@@ -266,6 +262,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
 
+        $drm_suivante->initProduitsAutres($isTeledeclarationMode);
         $drm_suivante->initCrds();
         if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
             $drm_suivante->initDroitsDouane();
@@ -281,6 +278,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function init($params = array()) {
         parent::init($params);
+
+        $this->remove('_attachments');
+        $this->remove('transmission_douane');
 
         $this->remove('douane');
         $this->add('douane');
@@ -1141,8 +1141,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function initProduitsAutres(){
-      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+    public function initProduitsAutres($isTeledeclarationMode){
+      foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
           $this->addProduit($hash);
         }
@@ -1455,6 +1455,50 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function isCreationEdi(){
       return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
+    }
+
+    public function getXML() {
+      return get_partial('drm_xml/xml', array('drm' => $this));
+    }
+
+    public function getXMLRetour() {
+        if (!$this->exist('_attachments') || !$this->_attachments->exist('drm_retour.xml'))
+          return "";
+        $uri = $this->getAttachmentUri('drm_retour.xml');
+        if ($uri) {
+          return file_get_contents($uri);
+        }
+        return "";
+    }
+
+    public function storeXMLRetour($xml) {
+        if (!$xml) {
+          throw new sfException('XML empty');
+        }
+        if (md5($this->getXMLRetour()) == md5($xml)) {
+          return false;
+        }
+
+        $tmp = tempnam('/tmp', 'attachment_retour');
+        file_put_contents($tmp, $xml);
+        $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
+        unlink($tmp);
+        return true;
+    }
+
+    public function getXMLComparison() {
+        return new DRMCielCompare($this->getXMLRetour(), $this->getXML());
+    }
+
+    public function areXMLIdentical() {
+      $comp = $this->getXMLComparison();
+      return !$comp->hasDiff();
+    }
+
+    public function transferToCiel() {
+      $xml = $this->getXML();
+      $service = new CielService();
+      return $service->transferAndStore($this, $xml);
     }
 
 }

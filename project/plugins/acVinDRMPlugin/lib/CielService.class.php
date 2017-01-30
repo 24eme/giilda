@@ -73,6 +73,31 @@ class CielService
 		return $result;
 	}
 
+	public function storeXmlAsAttachement($drm, $xml) {
+			$tmp = tempnam('/tmp', 'attachement');
+			file_put_contents($tmp, $xml);
+			$drm->storeAttachment($tmp, 'text/xml', 'drm_transmise.xml');
+			unlink($tmp);
+	}
+
+	public function transferAndStore($drm, $xml, $token = null) {
+		$cielResponse = "";
+		try {
+			$cielResponse = $this->transfer($xml, $token);
+		} catch (sfException $e) {
+			$cielResponse = $e->getMessage();
+		}
+		$this->storeXmlAsAttachement($drm, $xml);
+		$drm->add('transmission_douane')->add('xml', $cielResponse);
+		$drm->add('transmission_douane')->add('success', false);
+		if (preg_match('/identifiant-declaration>([^<]*)<.*horodatage-depot>([^<]+)</', $cielResponse, $m)) {
+			$drm->add('transmission_douane')->add('success', true);
+			$drm->add('transmission_douane')->add('horodatage', $m[2]);
+			$drm->add('transmission_douane')->add('id_declaration', $m[1]);
+		}
+		$drm->save();
+	}
+
 	protected function needNewToken()
 	{
 		$file = $this->getTokenCacheFilename();
@@ -155,7 +180,11 @@ class CielService
 		}
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$server_output = curl_exec ($ch);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close ($ch);
+		if ($httpCode < 200 || $httpCode >= 300 ) {
+			throw new sfException('HTTP Error '.$httpCode.' : '.$server_output);
+		}
 		return $server_output;
 	}
 

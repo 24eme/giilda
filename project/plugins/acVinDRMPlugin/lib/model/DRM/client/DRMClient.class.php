@@ -432,7 +432,6 @@ class DRMClient extends acCouchdbClient {
         }
         $drm = $this->createDocByPeriode($identifiant, $periode, $isTeledeclarationMode);
         $drm->type_creation = DRMClient::DRM_CREATION_VIERGE;
-        $drm->initProduitsAutres();
         return $drm;
     }
 
@@ -456,6 +455,8 @@ class DRMClient extends acCouchdbClient {
         $drm->storeDeclarant();
         $drm->initSociete();
         $drm->initCrds();
+        $drm->initProduitsAutres($isTeledeclarationMode);
+
         $drm->clearAnnexes();
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
@@ -537,6 +538,44 @@ class DRMClient extends acCouchdbClient {
             }
         }
         return $recapCvo;
+    }
+
+    public static function storeXMLRetourFromURL($url, $verbose = false, $allwaysreturndrm = false) {
+      $xml = file_get_contents($url);
+      if (!$xml) {
+          throw new sfException($url." empty");
+      }
+      if(!preg_match('/<numero-cvi>([^<]+)</', $xml, $m)){
+          throw new sfException('CVI not found');
+      }
+      $etablissement = EtablissementClient::getInstance()->findByCvi($m[1]);
+      if (!$etablissement) {
+        throw new sfException('No Etablissement found for CVI'.$m[1]);
+      }
+      if(!preg_match('/<numero-agrement>([^<]+)</', $xml, $m)){
+          throw new sfException('Accise not found');
+      }
+      if ($etablissement->no_accises != $m[1]) {
+        throw new sfException('XML Accise '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->no_accises.')');
+      }
+      if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
+          throw new sfException('mois not found');
+      }
+      $mois = $m[1];
+      if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
+          throw new sfException('Annee not found');
+      }
+      $annee = $m[1];
+      if ($verbose) echo "INFO: retrieve DRM for ".$etablissement->identifiant.' '.$annee.$mois."\n";
+      $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
+      if (!$drm->_id) {
+          throw new sfException("No DRM found for ".$etablissement->identifiant.' '.$annee.$mois);
+      }
+      if (!$drm->storeXMLRetour($xml) && !$allwaysreturndrm) {
+        return null;
+      }
+      $drm->save();
+      return $drm;
     }
 
 }

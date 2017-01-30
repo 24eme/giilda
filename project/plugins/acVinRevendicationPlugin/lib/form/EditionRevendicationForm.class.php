@@ -68,7 +68,7 @@ class EditionRevendicationForm extends sfForm {
     }
 
     public function doUpdate() {
-        $newProduitDouane = $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane();
+        $newProduitDouane = $this->getConfig()->get($this->values['produit_hash'])->getCodeDouane(true);
         $oldNode = RevendicationClient::getInstance()->getProduitNode($this->revendication, $this->identifiant, $this->produit);
         $row = $this->row;
         if ($this->code_douane != $newProduitDouane) {
@@ -103,7 +103,7 @@ class EditionRevendicationForm extends sfForm {
         $new_ligne->num_ligne = $oldNode->volumes->$row->num_ligne;
         $new_ligne->volume = $oldNode->volumes->$row->volume;
         $new_ligne->bailleur_identifiant = $oldNode->volumes->$row->bailleur_identifiant;
-        $new_ligne->bailleur_nom = $oldNode->volumes->$row->bailleur_nom;        
+        $new_ligne->bailleur_nom = $oldNode->volumes->$row->bailleur_nom;
         $new_ligne->date_certification = $oldNode->volumes->$row->date_certification;
         $new_ligne->ligne = $oldNode->volumes->$row->ligne;
         $new_ligne->statut = RevendicationProduits::STATUT_MODIFIE;
