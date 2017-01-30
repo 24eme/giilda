@@ -318,7 +318,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
         $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
         $this->compte_societe = $compte->_id;
-        $compte->statut = CompteClient::STATUT_ACTIF;
+        if($this->statut) {
+            $compte->statut = $this->statut;
+        } else {
+            $compte->statut = CompteClient::STATUT_ACTIF;
+        }
         $compte->mot_de_passe = "{TEXT}" . sprintf("%04d", rand(0, 9999));
         $compte->addOrigine($this->_id);
         $this->addCompte($compte, -1);
