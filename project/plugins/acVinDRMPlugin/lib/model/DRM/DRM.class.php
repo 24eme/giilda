@@ -1504,4 +1504,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       return $service->transferAndStore($this, $xml);
     }
 
+    public function getTransmissionDate() {
+      if ($this->exist('transmission_douane')) {
+        return date('d/m/Y', strtotime($this->transmission_douane->horodatage));
+      }
+      return "";
+    }
+
+    public function getTransmissionErreur() {
+      if ($this->exist('transmission_douane')) {
+        return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
+      }
+      return "";
+    }
+
 }
