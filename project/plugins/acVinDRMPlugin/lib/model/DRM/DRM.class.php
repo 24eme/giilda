@@ -1458,6 +1458,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getXML() {
+      if (!function_exists('get_partial')) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
+      }
       return get_partial('drm_xml/xml', array('drm' => $this));
     }
 
