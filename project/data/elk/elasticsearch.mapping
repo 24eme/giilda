@@ -19,6 +19,7 @@
                 "type" : "string"
               },
               "mouvements" : {
+                "type" : "nested",
                 "properties" : {
                   "categorie" : {
                     "type" : "string",
@@ -135,9 +136,6 @@
               },
               "interpros" : {
                 "type" : "string"
-              },
-              "mouvements" : {
-                    "type" : "nested"
               },
               "numero_archive" : {
                 "type" : "string"
