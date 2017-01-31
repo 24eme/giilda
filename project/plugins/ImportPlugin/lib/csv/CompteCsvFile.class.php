@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-class CompteCsvFile extends CsvFile 
+class CompteCsvFile extends CsvFile
 {
 
     const CSV_ID = 0;
@@ -42,12 +42,12 @@ class CompteCsvFile extends CsvFile
 
 
                 $societe = SocieteClient::getInstance()->find(sprintf("SOCIETE-%06d", $line[self::CSV_ID_SOCIETE]));
-                
+
                 if(!$societe) {
 
                     throw new sfException(sprintf("Societe introuvable '%s'", sprintf("SOCIETE-%06d", $line[self::CSV_ID_SOCIETE])));
                 }
-                
+
               	$c = CompteClient::getInstance()->createCompteFromSociete($societe);
 
                 $c->statut = ($line[self::CSV_STATUT] == SocieteClient::STATUT_SUSPENDU) ? $line[self::CSV_STATUT] : $societe->statut;
@@ -73,8 +73,17 @@ class CompteCsvFile extends CsvFile
     protected function storeCompteInfos(InterfaceCompteGenerique $c, $line) {
         $c->setAdresseComplementaire(null);
         $c->adresse = trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE')));
+
+        if(preg_match('/^(.+)\\\n(.+)$/', $c->adresse, $matches)) {
+            $c->adresse = $matches[1];
+            $c->setAdresseComplementaire($matches[2]);
+        }
+
         if(preg_match('/[a-z]/i', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))) {
-           $c->setAdresseComplementaire(trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))));
+            if($c->getAdresseComplementaire()) {
+                $c->setAdresseComplementaire($c->getAdresseComplementaire(). " ; ");
+            }
+            $c->setAdresseComplementaire($c->getAdresseComplementaire().trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_1'))));
             if(preg_match('/[a-z]/i', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2'))) {
                 $c->setAdresseComplementaire($c->getAdresseComplementaire(). " ; ".trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE_COMPLEMENTAIRE_2'))));
             }
