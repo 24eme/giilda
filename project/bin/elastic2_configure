@@ -26,14 +26,7 @@ if curl -s http://$ELASTHOST:$ELASTPORT/$ELASTBASE | grep -v "IndexMissingExcept
     curl -s -X DELETE http://$ELASTHOST:$ELASTPORT/$ELASTBASE > /dev/null
 fi
 
-curl -s -X PUT http://$ELASTHOST:$ELASTPORT/$ELASTBASE -d '
-index :
-    number_of_shards : 5 
-    number_of_replicas : 0 
-'
-
-
-curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE/_mapping" -d '@data/elk/elasticsearch.mapping' > /dev/null
+curl -s -XPUT "http://$ELASTHOST:$ELASTPORT/$ELASTBASE" -d '@data/elk/elasticsearch.mapping' > /dev/null
 
 
 cat data/elk/logstash.conf | sed "s/ELASTHOST/$ELASTHOST/g" | sed "s/ELASTPORT/$ELASTPORT/g" | sed "s/ELASTBASE/$ELASTBASE/g" | sed "s/COUCHHOST/$COUCHHOST/g" | sed "s/COUCHPORT/$COUCHPORT/g" | sed "s/COUCHBASE/$COUCHBASE/g" > "/tmp/"$ELASTBASE".conf"

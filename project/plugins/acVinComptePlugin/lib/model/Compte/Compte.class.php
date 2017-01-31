@@ -493,4 +493,9 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return $this->_get('fax');
     }
 
+    public function hasContactInformations() {
+
+        return ($this->getTelephoneBureau() || $this->getEmail() || $this->getFax() ||  $this->getTelephonePerso() ||  $this->getTelephoneMobile() || $this->getSiteInternet());
+    }
+
 }

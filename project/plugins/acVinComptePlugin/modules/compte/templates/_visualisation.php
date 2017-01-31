@@ -2,7 +2,7 @@
     <div class="list-group-item<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
         <div class="row">
             <div class="col-xs-10">
-                <h4><span class="<?php echo comptePictoCssClass($compte->getRawValue()) ?>"></span> <?php echo ($compte->nom_a_afficher) ? $compte->nom_a_afficher : $compte->nom; ?></h4>
+                <h4 style="margin-top: 5px;"><span class="<?php echo comptePictoCssClass($compte->getRawValue()) ?>"></span> <?php echo ($compte->nom_a_afficher) ? $compte->nom_a_afficher : $compte->nom; ?></h4>
             </div>
             <div class="col-xs-2 text-right">
 	            <div class="btn-group">
@@ -10,7 +10,7 @@
                     <ul class="dropdown-menu">
                         <li<?php echo ($compte->getSociete()->isSuspendu() || $compte->isSuspendu()) ? ' class="disabled"' : '' ; ?>><a href="<?php echo ($compte->getSociete()->isSuspendu() || $compte->isSuspendu()) ? 'javascript:void(0)' : url_for('compte_modification', $compte); ?>">Editer</a></li>
                         <li<?php echo ($compte->getSociete()->isSuspendu() || $compte->isSuspendu()) ? ' class="disabled"' : '' ; ?>><a href="<?php echo ($compte->getSociete()->isSuspendu() || $compte->isSuspendu()) ? 'javascript:void(0)' : url_for('compte_switch_statut', array('identifiant' => $compte->identifiant)); ?>">Suspendre</a></li>
-                                <li<?php echo ($compte->getSociete()->isSuspendu() || $compte->isActif()) ? ' class="disabled"' : '' ; ?>><a href="<?php echo ($compte->getSociete()->isSuspendu() || $compte->isActif()) ? 'javascript:void(0)' : url_for('compte_switch_statut', array('identifiant' => $compte->identifiant)); ?>">Activer</a></li>
+                        <li<?php echo ($compte->getSociete()->isSuspendu() || $compte->isActif()) ? ' class="disabled"' : '' ; ?>><a href="<?php echo ($compte->getSociete()->isSuspendu() || $compte->isActif()) ? 'javascript:void(0)' : url_for('compte_switch_statut', array('identifiant' => $compte->identifiant)); ?>">Activer</a></li>
                     </ul>
 	               </div>
             </div>
@@ -28,7 +28,7 @@
     </div>
     <?php if ($compte->isSameAdresseThanSociete()): ?>
         <div class="list-group-item list-group-item-xs text-center text-muted<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
-            <em>Même Adresse que la société</em>
+            <em>Même adresse que la société</em>
         </div>
     <?php else : ?>
         <div class="list-group-item list-group-item-xs text-center<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">

@@ -89,7 +89,7 @@ use_helper('Date');
     <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
 
 
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
         <?php if ($vrac->isVise()): ?>
             <div class="txt_centre text-center">
                 <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn btn-success">Télécharger le PDF</a>

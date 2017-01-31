@@ -8,15 +8,15 @@ if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
     $titre_type_facture = "";
 }
 $avoir = ($facture->total_ht <= 0);
-include_partial('facture/pdf_sancerre_entete', array('facture' => $facture));
+include_partial('facture/pdf_generique_entete', array('facture' => $facture));
 ?>
 \begin{document}
 <?php
-include_partial('facture/pdf_sancerre_titreAdresse', array('facture' => $facture, 'avoir' => $avoir));
+include_partial('facture/pdf_generique_titreAdresse', array('facture' => $facture, 'avoir' => $avoir));
 ?>
 \fontsize{8}{10}\selectfont
 \begin{flushright}
-page \thepage / <?php echo $nb_page; ?>
+page \thepage / <?php echo $nb_pages; ?>
 \end{flushright}
 
 \begin{center}
@@ -54,7 +54,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
     \\
     <?php
     foreach ($typeLignes->details as $prodHash => $produit) {
-        include_partial('facture/pdf_sancerre_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
+        include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
         $line_nb_current_page++;
         if ($line_nb_current_page > $current_avg_nb_lines_per_page || $line_nb_current_page >= $max_line_nb_current_page) {
             for($i = 0 ; $i < ($max_line_nb_current_page - $line_nb_current_page); $i++):  ?>
@@ -70,7 +70,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
             ?>
             \fontsize{8}{10}\selectfont
             \begin{flushright}
-            page \thepage / <?php echo $nb_page; ?>
+            page \thepage / <?php echo $nb_pages; ?>
             \end{flushright}
 
             \begin{center}
@@ -118,8 +118,8 @@ if (!$current_nb_pages)
     \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};
 \end{tikzpicture}
 <?php
-include_partial('facture/pdf_sancerre_reglement.php', array('facture' => $facture));
+include_partial('facture/pdf_generique_reglement', array('facture' => $facture));
 if ($nb_echeances && !$avoir)
-    include_partial('facture/pdf_sancerre_echeances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
+    include_partial('facture/pdf_generique_echeances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
 ?>
 \end{document}

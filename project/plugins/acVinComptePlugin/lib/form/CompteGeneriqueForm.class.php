@@ -80,11 +80,13 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->setDefault('fax', $this->getObject()->getFax());
         $this->setDefault('site_internet', $this->getObject()->getSiteInternet());
 
-        $compte = $this->getObject()->getMasterCompte();
-        $compte->add('droits');
         $defaultDroits = array();
-        foreach ($compte->getDroits() as $droit) {
-          $defaultDroits[] = $droit;
+        $compte = $this->getObject()->getMasterCompte();
+        if($compte) {
+            $compte->add('droits');
+            foreach ($compte->getDroits() as $droit) {
+                $defaultDroits[] = $droit;
+            }
         }
         $this->setDefault('droits', $defaultDroits);
     }
@@ -107,6 +109,9 @@ class CompteGeneriqueForm extends acCouchdbObjectForm {
         $this->getObject()->setSiteInternet($values['site_internet']);
 
         $compte = $this->getObject()->getMasterCompte();
+        if(!$compte) {
+            return;
+        }
         if(isset($values['droits'])){
             $compte->remove("droits");
             $compte->add('droits');

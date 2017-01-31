@@ -1,6 +1,7 @@
 <?php
 use_helper('Float');
 use_helper('Date');
+$chequesOrdre = FactureConfiguration::getInstance()->getOrdreCheques();
 ?>
 \begin{center}
 
@@ -9,12 +10,12 @@ use_helper('Date');
 \begin{tabular}{|p{0mm} p{87mm} | p{36mm} p{36mm} p{36mm}|}
             \hline
 	\multicolumn{2}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Modalités de règlement}}} &
-	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Références à rappeler avec votre règlement}}} \\
+	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\
 
         \CutlnPapillonEntete
         <?php $nb = count($echeances) ; foreach ($echeances as $key => $papillon) : ?>
         &
-   \centering \fontsize{7}{8}\selectfont Par chèque à l'ordre : Bureau Interprofessionnel des Vins du Centre \\ ~ &
+   \centering \fontsize{7}{8}\selectfont Par chèque à l'ordre : <?php echo ($chequesOrdre)? $chequesOrdre : "Ordre chèque"; ?> \\ ~ &
 
     \centering \small{Echéance} &
     \centering \small{Client~/~Facture} &
