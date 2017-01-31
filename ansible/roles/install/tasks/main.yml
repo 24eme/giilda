@@ -27,9 +27,14 @@
   - node-less
   - texlive-fonts-recommended
   - texlive-latex-extra
-  - pdflatex pdftk
+  - texlive-latex-base
+  - pdftk
   - texlive-lang-french
   - texlive-lang-greek
+  - sudo
+  - vim
+  - rkhunter
+  - fail2ban
 
 - name: "user actualys exist"
   user: name=actualys state=present
@@ -94,6 +99,7 @@
 
 - name: "Logstash and kibana"
   apt: name={{item}} state=present
+  become: yes
   with_items:
   - logstash
   - kibana
