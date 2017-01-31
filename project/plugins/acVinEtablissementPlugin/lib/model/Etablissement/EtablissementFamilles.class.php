@@ -28,7 +28,7 @@ class EtablissementFamilles
     );
 
     protected static $type_societe_famille = array(
-        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_REPRESENTANT),
+        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_COOPERATIVE, self::FAMILLE_REPRESENTANT),
         SocieteClient::TYPE_COURTIER => array(self::FAMILLE_COURTIER),
         SocieteClient::TYPE_AUTRE => array(),
     );
