@@ -29,4 +29,6 @@ interface InterfaceCompteGenerique
     public function getTelephoneMobile();
     public function getSiteInternet();
     public function getFax();
+
+    public function hasContactInformations();
 }

@@ -66,7 +66,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setAdresseComplementaire($s) {
-        
+
         return ($this->siege->adresse_complementaire = $s);
     }
 
@@ -184,7 +184,6 @@ abstract class CompteGenerique extends acCouchdbDocument {
         return false;
     }
 
-
     public function isSameAdresseThan(InterfaceCompteGenerique $compte) {
 
         return self::isSameAdresseComptes($this, $compte);
@@ -244,6 +243,11 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
     public function pullContactFrom(InterfaceCompteGenerique $compteFrom) {
         self::pullContact($this, $compteFrom);
+    }
+
+    public function hasContactInformations() {
+
+        return ($this->getTelephoneBureau() || $this->getEmail() || $this->getFax() ||  $this->getTelephonePerso() ||  $this->getTelephoneMobile() || $this->getSiteInternet());
     }
 
 }
