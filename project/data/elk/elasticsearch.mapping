@@ -137,9 +137,6 @@
               "interpros" : {
                 "type" : "string"
               },
-              "mouvements" : {
-                    "type" : "nested"
-              },
               "numero_archive" : {
                 "type" : "string"
               },
