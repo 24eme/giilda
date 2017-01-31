@@ -245,9 +245,4 @@ abstract class CompteGenerique extends acCouchdbDocument {
         self::pullContact($this, $compteFrom);
     }
 
-    public function hasContactInformations() {
-
-        return ($this->getTelephoneBureau() || $this->getEmail() || $this->getFax() ||  $this->getTelephonePerso() ||  $this->getTelephoneMobile() || $this->getSiteInternet());
-    }
-
 }
