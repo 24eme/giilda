@@ -35,6 +35,7 @@
   - vim
   - rkhunter
   - fail2ban
+  - curl
 
 - name: "user actualys exist"
   user: name=actualys state=present
@@ -45,6 +46,7 @@
   git: repo=https://github.com/24eme/giilda.git
     dest=/home/actualys/{{giilda_branch}}_{{giilda_instance}}
     update=yes clone=yes version={{giilda_branch}} remote={{giilda_branch}}
+    force=yes
 
 - name: "cache and log created"
   become: yes
@@ -133,3 +135,9 @@
   shell: make
   args:
     chdir: /home/actualys/{{giilda_branch}}_{{giilda_instance}}/project
+
+#- name: "logstash configuration"
+#  shell: bash bin/elastic2_configure
+#  args:
+#    chdir: /home/actualys/{{giilda_branch}}_{{giilda_instance}}/project
+#    creates: /etc/logstash/conf.d/{{giilda_dbname}}.conf
