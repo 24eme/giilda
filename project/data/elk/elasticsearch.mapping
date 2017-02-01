@@ -45,6 +45,9 @@
                     "type" : "string",
                     "index" : "not_analyzed"
                   },
+                  "volume" : {
+                    "type" : "double"
+                  },
                   "type_drm_libelle" : {
                     "type" : "string",
                     "index" : "not_analyzed"
