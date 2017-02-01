@@ -61,6 +61,8 @@
   with_items:
   - cache
   - log
+  - web/generation
+  - data/latex
 
 - name: "Prepare Virtual document root"
   become: yes
