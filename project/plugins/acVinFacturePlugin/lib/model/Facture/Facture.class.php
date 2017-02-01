@@ -222,16 +222,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeLignesFromMouvements($mvts, $famille, $modele) {
-
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
-                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
+            if (isset($this->config_sortie_array['vrac']) && $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
+                continue;
             }
+            $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
         }
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
-                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
+            if (!isset($this->config_sortie_array['vrac'])) {
+                continue;
             }
+            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
+                continue;
+            }
+
+            $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
         }
     }
 
