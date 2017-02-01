@@ -22,7 +22,7 @@ $hasDontRevendique = $drm->getConfig()->getDocument()->hasDontRevendique();
 		<?php foreach($details as $detail): ?>
 			<tr>
 				<td><?php echo $detail->getTypeDRMLibelle() ?></td>
-				<td><a href="#tab=mouvements&filtre=<?php echo strtolower($detail->getLibelle(ESC_RAW)); ?>"><?php echo $detail->getLibelle(ESC_RAW) ?></a></td>
+				<td><a href="#tab=mouvements_<?php echo $detail->getTypeDRM() ?>&filtre=<?php echo strtolower($detail->getLibelle(ESC_RAW)); ?>"><?php echo $detail->getLibelle(ESC_RAW) ?></a></td>
 
         <td class="text-right <?php echo isVersionnerCssClass($detail, 'total_debut_mois') ?>">
           <strong><?php echoFloat($detail->total_debut_mois) ?></strong>&nbsp;<span class="unite">hl</span>&nbsp;
