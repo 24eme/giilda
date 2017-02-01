@@ -131,8 +131,12 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
+    public function findByAccises($no_accises) {
+        return $this->findByCvi($no_accises);
+    }
+
     public function findByCvi($cvi) {
-        $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
+        $rows = EtablissementFindByCviView::getInstance()->findByCvi(str_replace(' ', '', $cvi));
 
         if (!count($rows)) {
             return null;
