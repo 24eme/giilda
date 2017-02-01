@@ -66,7 +66,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function setAdresseComplementaire($s) {
-        
+
         return ($this->siege->adresse_complementaire = $s);
     }
 
@@ -183,7 +183,6 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
         return false;
     }
-
 
     public function isSameAdresseThan(InterfaceCompteGenerique $compte) {
 

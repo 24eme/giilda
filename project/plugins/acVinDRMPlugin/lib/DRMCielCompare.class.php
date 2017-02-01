@@ -3,18 +3,26 @@ class DRMCielCompare
 {
 	protected $xmlIn;
 	protected $xmlOut;
-	
+
 	public function __construct($xmlIn, $xmlOut)
 	{
-		$this->xmlIn = $xmlIn;
-		$this->xmlOut = $xmlOut;
+		if(is_string($xmlIn)) {
+			$this->xmlIn = simplexml_load_string($xmlIn);
+		}else {
+			$this->xmlIn = $xmlIn;
+		}
+		if(is_string($xmlOut)) {
+			$this->xmlOut = simplexml_load_string($xmlOut);
+		}else {
+			$this->xmlOut = $xmlOut;
+		}
 	}
-	
+
 	public function getDiff()
 	{
 		$arrIn = $this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlIn)));
 		$arrOut = $this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlOut)));
-		
+
 		$diff = array();
 		foreach ($arrIn as $key => $value) {
 			if (!isset($arrOut[$key]) && $value) {
@@ -24,9 +32,14 @@ class DRMCielCompare
 				$diff[$key] = $value;
 			}
 		}
+		foreach ($arrOut as $key => $value) {
+			if (!isset($arrIn[$key]) && $value) {
+				$diff[$key] = null;
+			}
+		}
 		return $diff;
 	}
-	
+
 	public function hasDiff()
 	{
 		return (count($this->getDiff()) > 0)? true : false;
@@ -36,12 +49,12 @@ class DRMCielCompare
 	{
 		return json_decode(json_encode((array)$xml), true);
 	}
-	
+
 	private function flattenArray($array)
 	{
 		return acCouchdbToolsJson::json2FlatenArray($array, null, '_');
 	}
-	
+
 	private function identifyKey($array)
 	{
 		$patternProduit = '/\/produit\/\{array\}\/([0-9]+)\/\{array\}\//i';
@@ -83,7 +96,7 @@ class DRMCielCompare
 				} elseif (preg_match($patternCrd, $key) || preg_match($patternCentilisation, $key)) {
 					$tmp = preg_replace($patternCrd, '/compte-crd/{array}/'.$newKeyCrd.'/{array}/', $key);
 					$tmp = preg_replace($patternCentilisation, '/centilisation/{array}/'.$newKeyCentilisation.'/{array}/', $tmp);
-					$result[$tmp] = $value;		
+					$result[$tmp] = $value;
 				} else {
 					$result[$key] = $value;
 				}

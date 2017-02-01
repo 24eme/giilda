@@ -515,4 +515,59 @@ class DRMClient extends acCouchdbClient {
         return null;
     }
 
+    public static function recapCvo($mouvements) {
+        $recapCvo = new stdClass();
+        $recapCvo->totalVolumeDroitsCvo = 0;
+        $recapCvo->totalVolumeReintegration = 0;
+        $recapCvo->totalPrixDroitCvo = 0;
+        foreach ($mouvements as $mouvement) {
+            if ($mouvement->facturable) {
+                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
+            }
+            if ($mouvement->type_hash == 'entrees/reintegration') {
+                $recapCvo->totalVolumeReintegration += $mouvement->volume;
+            }
+        }
+        return $recapCvo;
+    }
+
+    public static function storeXMLRetourFromURL($url, $verbose = false, $allwaysreturndrm = false) {
+      $xml = file_get_contents($url);
+      if (!$xml) {
+          throw new sfException($url." empty");
+      }
+      if(!preg_match('/<numero-cvi>([^<]+)</', $xml, $m)){
+          throw new sfException('CVI not found');
+      }
+      $etablissement = EtablissementClient::getInstance()->findByCvi($m[1]);
+      if (!$etablissement) {
+        throw new sfException('No Etablissement found for CVI'.$m[1]);
+      }
+      if(!preg_match('/<numero-agrement>([^<]+)</', $xml, $m)){
+          throw new sfException('Accise not found');
+      }
+      if ($etablissement->no_accises != $m[1]) {
+        throw new sfException('XML Accise '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->no_accises.')');
+      }
+      if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
+          throw new sfException('mois not found');
+      }
+      $mois = $m[1];
+      if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
+          throw new sfException('Annee not found');
+      }
+      $annee = $m[1];
+      if ($verbose) echo "INFO: retrieve DRM for ".$etablissement->identifiant.' '.$annee.$mois."\n";
+      $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
+      if (!$drm->_id) {
+          throw new sfException("No DRM found for ".$etablissement->identifiant.' '.$annee.$mois);
+      }
+      if (!$drm->storeXMLRetour($xml) && !$allwaysreturndrm) {
+        return null;
+      }
+      $drm->save();
+      return $drm;
+    }
+
 }

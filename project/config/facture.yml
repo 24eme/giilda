@@ -16,6 +16,8 @@ ivso:
       pdf_nom_ref_client: "N° IVSO"
       pdf_nom_taux: "Taux"
       pdf_display_code_comptable: true
+      echeance: "+30 days"
+
 ivbd:
   configuration:
     facture:
@@ -34,6 +36,7 @@ ivbd:
       pdf_nom_ref_client: "N° IVBD"
       pdf_nom_taux: "Taux"
       pdf_display_code_comptable: true
+      echeance: "+30 days"
 
 sancerre:
   configuration:
@@ -54,3 +57,4 @@ sancerre:
       pdf_nom_ref_client: "N° BIVC"
       pdf_nom_taux: "Cotisat°"
       pdf_display_code_comptable: false
+      echeance: "last day of +1 month"

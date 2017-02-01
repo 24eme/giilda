@@ -91,11 +91,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
-        $this->date_echeance = $date_facturation_object->modify('+30 days')->format('Y-m-d');
+        $this->date_echeance = $date_facturation_object->modify(FactureConfiguration::getInstance()->getEcheance())->format('Y-m-d');
         if (!$this->date_facturation) {
             $this->date_facturation = date('Y-m-d');
         }
-        
+
 	    $date_campagne = new DateTime($this->date_facturation);
 
         if (isset($configs['exercice']) && $configs['exercice'] == 'viticole') {

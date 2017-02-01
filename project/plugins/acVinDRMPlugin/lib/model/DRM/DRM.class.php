@@ -294,6 +294,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function init($params = array()) {
         parent::init($params);
 
+        $this->remove('_attachments');
+        $this->remove('transmission_douane');
+
         $this->remove('douane');
         $this->add('douane');
         $this->remove('declarant');
@@ -1526,4 +1529,49 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     public function isDrmNegoce(){
       return $this->getEtablissement()->isNegociant();
     }
+
+    public function getXML() {
+      return get_partial('drm_xml/xml', array('drm' => $this));
+    }
+
+    public function getXMLRetour() {
+        if (!$this->exist('_attachments') || !$this->_attachments->exist('drm_retour.xml'))
+          return "";
+        $uri = $this->getAttachmentUri('drm_retour.xml');
+        if ($uri) {
+          return file_get_contents($uri);
+        }
+        return "";
+    }
+
+    public function storeXMLRetour($xml) {
+        if (!$xml) {
+          throw new sfException('XML empty');
+        }
+        if (md5($this->getXMLRetour()) == md5($xml)) {
+          return false;
+        }
+
+        $tmp = tempnam('/tmp', 'attachment_retour');
+        file_put_contents($tmp, $xml);
+        $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
+        unlink($tmp);
+        return true;
+    }
+
+    public function getXMLComparison() {
+        return new DRMCielCompare($this->getXMLRetour(), $this->getXML());
+    }
+
+    public function areXMLIdentical() {
+      $comp = $this->getXMLComparison();
+      return !$comp->hasDiff();
+    }
+
+    public function transferToCiel() {
+      $xml = $this->getXML();
+      $service = new CielService();
+      return $service->transferAndStore($this, $xml);
+    }
+
 }
