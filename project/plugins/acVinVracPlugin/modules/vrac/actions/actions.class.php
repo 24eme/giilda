@@ -560,6 +560,18 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         $this->redirect('vrac_visualisation', $this->vrac);
     }
 
+    public function executeChangeContratInterne(sfWebRequest $request) {
+        $this->vrac = $this->getRoute()->getVrac();
+
+        $this->forward404Unless($this->vrac);
+        $this->redirect403IfIsTeledeclaration();
+
+        $this->vrac->interne = boolval($request->getParameter('interne'));
+        $this->vrac->save();
+
+        return $this->redirect('vrac_visualisation', $this->vrac);
+    }
+
     public function executeGetInformations(sfWebRequest $request) {
         $etablissement = EtablissementClient::getInstance()->find($request->getParameter('id'));
         $isTeledeclarationMode = $this->isTeledeclarationVrac();
