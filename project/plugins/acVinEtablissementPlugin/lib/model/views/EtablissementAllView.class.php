@@ -176,7 +176,7 @@ class EtablissementAllView extends acCouchdbView
 		if (isset($row->value[self::VALUE_NO_ACCISES]) && $numAccises = $row->value[self::VALUE_NO_ACCISES]) {
             $libelle .= ' / '.$numAccises;
         }else {
-					$libelle .= ' / SANS ACCISES';
+					$libelle .= " / sans n° d'accise";
 				}
 
         $libelle .= ') ';
