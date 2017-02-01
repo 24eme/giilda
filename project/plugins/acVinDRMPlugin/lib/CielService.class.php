@@ -5,7 +5,11 @@ class CielService
 	protected $configuration;
 	const TOKEN_CACHE_FILENAME = 'ciel_access_token';
 	const TOKEN_TIME_VALIDITY = 2700;
-	
+
+  	public static function hasAppConfig() {
+		return (sfConfig::get('app_ciel_oauth'));
+	}
+
 	public function __construct()
 	{
 		$this->configuration = sfConfig::get('app_ciel_oauth');
@@ -68,7 +72,33 @@ class CielService
 		$result = $this->httpQuerry($this->configuration['urlapp'], array('http' => $this->getTransferHttpRequest($token, $datas)));
 		return $result;
 	}
-	
+
+	public function storeXmlAsAttachement($drm, $xml) {
+			$tmp = tempnam('/tmp', 'attachement');
+			file_put_contents($tmp, $xml);
+			$drm->storeAttachment($tmp, 'text/xml', 'drm_transmise.xml');
+			unlink($tmp);
+	}
+
+	public function transferAndStore($drm, $xml, $token = null) {
+		$cielResponse = "";
+		try {
+			$cielResponse = $this->transfer($xml, $token);
+		} catch (sfException $e) {
+			$cielResponse = $e->getMessage();
+		}
+		$this->storeXmlAsAttachement($drm, $xml);
+		$drm->add('transmission_douane')->add('xml', $cielResponse);
+		$drm->add('transmission_douane')->add('success', false);
+		if (preg_match('/identifiant-declaration>([^<]*)<.*horodatage-depot>([^<]+)</', $cielResponse, $m)) {
+			$drm->add('transmission_douane')->add('success', true);
+			$drm->add('transmission_douane')->add('horodatage', $m[2]);
+			$drm->add('transmission_douane')->add('id_declaration', $m[1]);
+		}
+		$drm->save();
+	}
+
+>>>>>>> e41ad65... Correction pb CRD
 	protected function needNewToken()
 	{
 		$file = $this->getTokenCacheFilename();

@@ -77,7 +77,7 @@ class EtablissementAllView extends acCouchdbView
 	}
 
         return $etablissements;
-    }    
+    }
 
     public function findByInterproStatutAndFamille($interpro, $statut, $famille, $filter = null, $limit = null) {
       try{
@@ -87,7 +87,7 @@ class EtablissementAllView extends acCouchdbView
       }
     }
 
-    private function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = 100) { 
+    private function findByInterproStatutAndFamilleELASTIC($interpro, $statut, $famille, $query = null, $limit = 100) {
       $q = explode(' ', $query);
       for($i = 0 ; $i < count($q); $i++) {
 	$q[$i] = '*'.$q[$i].'*';
@@ -128,7 +128,7 @@ class EtablissementAllView extends acCouchdbView
 	$e = new stdClass();
 	$e->id = $er->getId();
 	$e->key = array($r['doc']['interpro'], $r['doc']['statut'], $r['doc']['famille'], $r['doc']['id_societe'], $er->getId(), $r['doc']['nom'], $r['doc']['identifiant'], $r['doc']['cvi'], $r['doc']['region']);
-	$e->value = array($r['doc']['nom'],$r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal']);
+	$e->value = array($r['doc']['nom'],$r['doc']['siege']['adresse'], $r['doc']['siege']['commune'], $r['doc']['siege']['code_postal'], $r['doc']['no_accises']);
 	$res[] = $e;
       }
       return $res;
@@ -157,7 +157,7 @@ class EtablissementAllView extends acCouchdbView
                             ->endkey(array($etablissement->interpro, $etablissement->statut, $etablissement->famille, $etablissement->id_societe,$etablissement->_id, array()))
 			    ->reduce(false)
 			    ->getView($this->design, $this->view)->rows;
-        
+
     }
 
     public static function makeLibelle($row) {
@@ -172,11 +172,18 @@ class EtablissementAllView extends acCouchdbView
         if (isset($row->key[self::KEY_CVI]) && $cvi = $row->key[self::KEY_CVI]) {
             $libelle .= ' / '.$cvi;
         }
+
+		if (isset($row->value[self::VALUE_NO_ACCISES]) && $numAccises = $row->value[self::VALUE_NO_ACCISES]) {
+            $libelle .= ' / '.$numAccises;
+        }else {
+					$libelle .= ' / SANS ACCISES';
+				}
+
         $libelle .= ') ';
 
     	if (isset($row->key[self::KEY_FAMILLE]))
     	  	$libelle .= $row->key[self::KEY_FAMILLE];
-        
+
     	if (isset($row->value[self::VALUE_COMMUNE]))
     	  	$libelle .= ' '.$row->value[self::VALUE_COMMUNE];
 
@@ -184,8 +191,8 @@ class EtablissementAllView extends acCouchdbView
     	  	$libelle .= ' '.$row->value[self::VALUE_CODE_POSTAL];
 
         $libelle .= " (Etablissement)";
-        
+
         return trim($libelle);
     }
 
-}  
+}

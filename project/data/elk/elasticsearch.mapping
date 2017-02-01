@@ -1,5 +1,9 @@
 {
-
+	"settings" : {
+        "number_of_shards" : 5,
+    	"number_of_replicas" : 0
+    },
+    "mappings" : {
       "DRM" : {
         "properties" : {
           "@timestamp" : {
@@ -15,6 +19,7 @@
                 "type" : "string"
               },
               "mouvements" : {
+                "type" : "nested",
                 "properties" : {
                   "categorie" : {
                     "type" : "string",
@@ -39,6 +44,9 @@
                   "region" : {
                     "type" : "string",
                     "index" : "not_analyzed"
+                  },
+                  "volume" : {
+                    "type" : "double"
                   },
                   "type_drm_libelle" : {
                     "type" : "string",
@@ -131,9 +139,6 @@
               },
               "interpros" : {
                 "type" : "string"
-              },
-              "mouvements" : {
-                    "type" : "nested"
               },
               "numero_archive" : {
                 "type" : "string"
@@ -477,6 +482,6 @@
           }
         }
       }
-
+	}
 }
 

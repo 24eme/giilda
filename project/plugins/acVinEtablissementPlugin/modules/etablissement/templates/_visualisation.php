@@ -56,11 +56,11 @@
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
+    <div class="list-group-item text-center text-muted<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <?php if ($etablissement->isSameCompteThanSociete()): ?>
             <div class="row">
                 <div class="col-xs-12">
-                <em>Même tags que la société</em>
+                    <em>Même tags que la société</em>
                 </div>
             </div>
         <?php else: ?>

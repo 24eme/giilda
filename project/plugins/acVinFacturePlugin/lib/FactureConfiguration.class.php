@@ -71,15 +71,23 @@ class FactureConfiguration {
     }
 
     public function getNomTaux(){
-      return isset($this->configuration['pdf_nom_taux']) ? $this->configuration['pdf_nom_taux'] : "";
+
+        return isset($this->configuration['pdf_nom_taux']) ? $this->configuration['pdf_nom_taux'] : "";
     }
 
     public function getNomInterproFacture(){
-      return $this->configuration['pdf_nom_interpro'];
+
+        return $this->configuration['pdf_nom_interpro'];
     }
 
     public function getOrdreCheques(){
-      return $this->configuration['pdf_ordre_cheque'];
+
+        return $this->configuration['pdf_ordre_cheque'];
     }
+
+    public function getEcheance()
+  	{
+  		return $this->configuration['echeance'];
+  	}
 
 }
