@@ -103,6 +103,11 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
 
+        $r->prependRoute('vrac_changecontratinterne', new VracRoute('/vrac/:numero_contrat/contratinterne',
+                                                        array('module' => 'vrac','action' => 'changeContratInterne'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
+
         $r->prependRoute('vrac_export_etiquette', new sfRoute('/vrac/export-etiquette', array('module' => 'vrac',
                                                                         'action' => 'exportEtiquette')));
 
