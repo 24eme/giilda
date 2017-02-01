@@ -31,13 +31,16 @@
             colonnes = new $.Colonnes();
             colonnes.init();
 
-            colonnes.event_valider = function (colonne, nextfocus) {
+            colonnes.event_valider = function (colonne, nextfocus, fieldfocus) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('list-group-item-success');
                 if ((nextfocus == undefined) || (nextfocus == 'nextCol')) {
                     var next = colonne.getNext();
                     if (next) {
                         next.focus();
                         next.focusChampDefault();
+                        if(nextfocus == 'nextCol'){
+                          next.focusChamp(fieldfocus);
+                        }
                     } else {
                         $('form button.btn-success').focus();
                     }
@@ -54,8 +57,8 @@
                         var prev = colonne.gePrevious();
                         if (prev) {
                             prev.focus();
-                            prev.focusChampDefault();
-                        }
+                            prev.focusChamp(fieldfocus);
+                          }
                     }else{
                         var colToFocus = colonnes.findByHash(nextfocus);
                         colToFocus.focus();
@@ -167,12 +170,14 @@
                 }
                 if (keyCode == 39) {
                     var col = colonnes.findByHash($('.col_focus').data('hash'));
-                    col.valider('nextCol');
+                    var id = $(this).attr("id");
+                    col.valider('nextCol',$(this).attr("id"));
                     return false;
                 }
                 if (keyCode == 37) {
                     var col = colonnes.findByHash($('.col_focus').data('hash'));
-                    col.valider('prevCol');
+                    var id = $(this).attr("id");
+                    col.valider('prevCol', $(this).attr("id"));
                     return false;
                 }
             }
