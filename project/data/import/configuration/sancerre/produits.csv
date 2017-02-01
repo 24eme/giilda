@@ -16,3 +16,5 @@ declaration;AOC;AOC;Tranquille;TRANQ;Coteaux du Giennois;CDG;;;;;Rouge;rouge;;;;
 declaration;AOC;AOC;Tranquille;TRANQ;Coteaux du Giennois;CDG;;;;;Rosé;rose;;;;L387;Vins Tranquilles;3,77;2016-01-01;G;5;1900-01-01;C;;;;;;;;;;;;;;%c% %a% %l% %m% %co%;genre;
 declaration;AOC;AOC;Tranquille;TRANQ;Châteaumeillant;CHM;;;;;Rouge;rouge;;;;L387;Vins Tranquilles;3,77;2016-01-01;G;5;1900-01-01;C;;;;;;;;;;;;;;%c% %a% %l% %m% %co%;genre;
 declaration;AOC;AOC;Tranquille;TRANQ;Châteaumeillant;CHM;;;;;Rosé;rose;;;;L387;Vins Tranquilles;3,77;2016-01-01;G;5;1900-01-01;C;;;;;;;;;;;;;;%c% %a% %l% %m% %co%;genre;
+declaration;Autres;AUTRES;;;Lies et Bourbes;LIES;;;;;;DEFAUT;;;;;;;2016-01-01;G;-1;1900-01-01;C;;;;;;;;;;;4X999V;;;%a% %g% %l% %m% %co%;certification;
+declaration;Autres;AUTRES;;;DPLC;DPLC;;;;;;DEFAUT;;;;;;;2016-01-01;G;-1;1900-01-01;C;;;;;;;;;;;4B988Y;;;%a% %g% %l% %m% %co%;certification;
