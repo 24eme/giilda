@@ -3,7 +3,7 @@
 <tr id="<?php echo $ligneId ?>" class="row">
     <td class="form-group <?php if ($form['acheteur']->hasError()): ?>has-error<?php endif; ?> col-xs-5">
         <?php echo $form['acheteur']->renderError(); ?>
-        <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete ")); ?>
+        <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete", "autofocus" => "autofocus")); ?>
     </td>
     <td class="form-group volume <?php if ($form['volume']->hasError()): ?>has-error<?php endif; ?> col-xs-2" >
         <?php
