@@ -1,7 +1,7 @@
 <?php
 
 class InterproClient extends acCouchdbClient {
-    
+
     /**
      *
      * @return _ContratClient
@@ -9,22 +9,22 @@ class InterproClient extends acCouchdbClient {
     public static function getInstance() {
         return acCouchdbManager::getClient("Interpro");
     }
-    
+
     /**
      *
      * @param string $id
      * @param integer $hydrate
-     * @return Interpro 
+     * @return Interpro
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->getInterpro();
     }
-    
+
     /**
      *
      * @param string $id
      * @param integer $hydrate
-     * @return Interpro 
+     * @return Interpro
      */
     public function getById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->getInterpro();
@@ -37,13 +37,13 @@ class InterproClient extends acCouchdbClient {
 
     protected function getInterpro() {
         $interpro = new Interpro();
-        $interpro->identifiant = 'inter-loire';
-        $interpro->nom = "Inter Loire";
+        $interpro->identifiant = 'interpro';
+        $interpro->nom = "InterPro";
         $interpro->set('_id', 'INTERPRO-'.$interpro->identifiant);
 
-        return $interpro; 
+        return $interpro;
     }
-    
+
     /**
      *
      * @param integer $hydrate
@@ -53,6 +53,6 @@ class InterproClient extends acCouchdbClient {
     public function getAll($hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->keys(array('INTERPRO-CIVP', 'INTERPRO-IR', 'INTERPRO-IVSE'))->execute($hydrate);
     }
-    
+
 
 }
