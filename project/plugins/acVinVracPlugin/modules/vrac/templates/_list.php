@@ -53,13 +53,17 @@ use_helper('PointsAides');
                         <?php else: ?>
                         <a href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $v->numero_contrat)) ?>">
                         <?php endif; ?>
-                        <?php if($v->numero_archive): ?><?php echo $v->numero_archive ?><?php elseif(!$v->valide->statut): ?>Brouillon<?php else: ?>Non visé<?php endif; ?>
+                        <?php if($v->numero_archive) : if (preg_match('/^DRM/', $v->numero_archive)) { echo tooltipForPicto($v->type_transaction); } else { echo $v->numero_archive ; } elseif(!$v->valide->statut): ?>Brouillon<?php else: ?>Non visé<?php endif; ?>
                         </a>
                         <br />
                         <?php if($v && isset($v->teledeclare) && $v->teledeclare): ?>
                         Télédeclaré
                         <?php endif; ?>
+                        <?php if (preg_match('/^DRM/', $v->numero_archive)) : ?>
+                        <span class="text-muted" style="font-size: 12px;">issu de DRM</span>
+                        <?php else: ?>
                         <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($v->numero_contrat) ?></span>
+                        <?php endif; ?>
                     </td>
 
                     <td>
