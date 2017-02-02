@@ -29,7 +29,7 @@ class stocksActions extends sfActions {
         }
 
         if ($this->etablissement->isNegociant()) {
-              if(sfConfig::get('app_drmnegoce')){
+              if(DRMConfiguration::getInstance()->isDRMNegoce()){
                 $this->formCampagne = new DRMEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
               }else{
                 $this->formCampagne = new VracEtablissementCampagneForm($this->etablissement->identifiant, $this->campagne);
