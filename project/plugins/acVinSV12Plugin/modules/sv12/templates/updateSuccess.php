@@ -52,7 +52,7 @@ $types_contrats = array_merge(VracClient::getTypes(), array(SV12Client::SV12_TYP
             </tbody>
         </table>
 
-        <input name="addproduit" type="submit" tabindex="-1" class="btn btn-default" value="Ajouter un produit" />
+        <input name="addproduit" type="submit" tabindex="-1" class="btn btn-default" autofocus="autofocus" value="Ajouter un produit" />
 
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-4 text-left">

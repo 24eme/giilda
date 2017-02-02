@@ -121,7 +121,7 @@ class CompteCsvFile extends CsvFile
             if($pays) {
                 $c->pays = $pays;
             } else {
-                echo "WARNING: la pays ".$this->getField($line, 'CSV_PAYS')." n'a pas été trouvé pour la société ".$c->identifiant.":".implode(";", $line)."\n";
+                echo "WARNING: le pays ".$this->getField($line, 'CSV_PAYS')." n'a pas été trouvé pour la société ".$c->identifiant.":".implode(";", $line)."\n";
             }
         }
 
