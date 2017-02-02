@@ -29,7 +29,6 @@ class statistiqueActions extends sfActions {
 	
 	public function executeStatsStatistiques(sfWebRequest $request) 
 	{
-		ini_set('memory_limit','512M');
 		$this->statistiquesConfig = sfConfig::get('app_statistiques_stats');
 		if (!$this->statistiquesConfig) {
 			throw new sfException('No configuration set for statistiques type stats');
@@ -40,31 +39,58 @@ class statistiqueActions extends sfActions {
 		if (!$request->isMethod(sfWebRequest::POST)) {
 			return sfView::SUCCESS;
 		}
-		
 		$this->form->bind($request->getParameter($this->form->getName()));
 		if ($this->form->isValid()) {
-			$statFilters = new StatFilters(StatFilters::OPERATOR_AND);
-			$statFilters = $this->form->processFilters($statFilters);
-			$conf = $this->form->getStatistiquesConf();
-			$csv = new CsvFile($conf['datas']);
-			$statTable = new StatTable($csv->getCsv(), $statFilters);
-			$statTable->pivotOn($conf['pivot']);
-			$statTable->columnsOn($conf['columns']);
-			$statTable->aggregatOn($conf['aggregat']);
-			if (isset($conf['total_pivot']) && !empty($conf['total_pivot'])) {
-				$statTable->addTotalPivot($conf['total_pivot']);
+			$values = $this->form->getValues();
+			if (!isset($this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation'])) {
+				throw new sfException('No aggregation set for statistiques '.$values['statistiques']);
 			}
-			if (isset($conf['full_total_pivot']) && $conf['full_total_pivot']) {
-				$statTable->addTotalPivot();
-			}
-			if (isset($conf['total_column']) && $conf['total_column']) {
-				$statTable->addTotalColumn();
-			}
-			$libelles = StatistiqueStatsFilterForm::getLibelles('appellation');
-			return $this->renderCsv($statTable->getStatTable(true, $conf['csv_headers'], $libelles), KeyInflector::slugify($conf['libelle']));
+			$result = $this->getAggsResult('*', array('exportations' => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+			return $this->renderCsv($this->getAggsResultCsv($result), 'statistiques_'.$values['statistiques']);
 		}
-		
 	}
+	
+	protected function getAggsResult($q, $agg)
+	{		
+		$query = new acElasticaQueryQueryString($q);
+		$index = acElasticaManager::getType('DRM');
+		$elasticaQuery = new acElasticaQuery();
+		$elasticaQuery->setSize(0);
+		$elasticaQuery->setQuery($query);
+		$elasticaQuery->setParams(array('aggs' => $agg));
+		return $index->search($elasticaQuery)->getFacets();
+	}
+	
+	protected function getAggsResultCsv($result)
+	{
+		print_r($result);exit;
+		$appellations = $this->getLibelles('appellation');
+		$csv = '';
+		foreach ($result['aggs_produits']['produits_filter']['produits']['buckets'] as $appellation) {
+			if ($csv) {
+				$csv .= "\n";
+			}
+			$csv .= $appellations[strtoupper($appellation['key'])]."\n";
+			$csv .= 'Pays;Blanc;Rosé;Rouge;Total'."\n";
+			foreach ($appellation['pays']['buckets'] as $pays) {
+				if (!$pays['blanc']['blanc_val']['value'] && !$pays['rose']['rose_val']['value'] && !$pays['rouge']['rouge_val']['value']) {
+					continue;
+				}
+				$csv .= $pays['key'].';'.$pays['blanc']['blanc_val']['value'].';'.$pays['rose']['rose_val']['value'].';'.$pays['rouge']['rouge_val']['value'].';'.$pays['total']['total_val']['value']."\n";
+			}
+		}
+		return $csv;
+	}
+	protected function getLibelles($noeud) {
+        $libelles = array();
+        $items = ConfigurationClient::getCurrent()->declaration->getKeys($noeud);
+
+        foreach($items as $key => $item) {
+            $libelles[$key] = $item->getLibelle();
+        }
+
+        return $libelles;
+    }				
 	
     public function executeDrmStatistiques(sfWebRequest $request) {
         $this->page = $request->getParameter('p', 1);
@@ -73,7 +99,7 @@ class statistiqueActions extends sfActions {
             throw new sfException('No configuration set for elasticsearch type drm');
         }
         
-        $index = $index = acElasticaManager::getType($this->statistiquesConfig['elasticsearch_type']);
+        $index = acElasticaManager::getType($this->statistiquesConfig['elasticsearch_type']);
         
         $this->fields = array();
         $mapping = $index->getMapping()[acElasticaManager::getClient()->dbname]['mappings'][$this->statistiquesConfig['elasticsearch_type']]['properties']['doc']['properties'];
