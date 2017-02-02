@@ -7,6 +7,62 @@ all:
     stats:
       statistiques:
         exportations:
+          aggregation:
+            nested:
+              path: 'doc.mouvements'
+            aggs:
+              agg_filtered:
+                filter:
+                  term:
+                    doc.mouvements.type_hash: 'export_details'
+                aggs:
+                  agg_page:
+                    terms:
+                      field: 'doc.mouvements.appellation'
+                    aggs:
+                      agg_line:
+                        terms:
+                          field: 'doc.mouvements.detail_libelle'
+                          order:
+                            total: desc
+                        aggs:
+                          blanc:
+                            filter:
+                              term:
+                                doc.mouvements.couleur: 'blanc'
+                            aggs:
+                              agg_column:
+                                sum:
+                                  field: 'doc.mouvements.volume'
+                                  script: '_value * -1'
+                          rose:
+                            filter:
+                              term:
+                                doc.mouvements.couleur: 'rose'
+                            aggs:
+                              agg_column:
+                                sum:
+                                  field: 'doc.mouvements.volume'
+                                  script: '_value * -1'
+                          rouge:
+                            filter:
+                              term:
+                                doc.mouvements.couleur: 'rouge'
+                            aggs:
+                              agg_column:
+                                sum:
+                                  field: 'doc.mouvements.volume'
+                                  script: '_value * -1'
+                          total:
+                            filter:
+                              terms:
+                                doc.mouvements.couleur: ['blanc', 'rose', 'rouge']
+                            aggs:
+                              agg_column:
+                                sum:
+                                  field: 'doc.mouvements.volume'
+                                  script: '_value * -1'
+                      
           datas: "/tmp/sancerre/export_bi_mouvements.csv"
           libelle: "Exports"
           csv_headers: "Appellation;Pays;Blanc;Rose;Rouge;Total"

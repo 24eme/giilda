@@ -29,7 +29,7 @@ class VracConfiguration
 
 			$transactions[$key] = $transaction;
 		}
-		
+
 		return $transactions;
 	}
 
@@ -101,6 +101,7 @@ class VracConfiguration
 	}
 
 	public function getRegionDepartement() {
+
 		return $this->configuration['region_departement'];
 	}
 
