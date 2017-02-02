@@ -32,7 +32,6 @@ class societeActions extends sfCredentialActions {
 
         return $this->redirect('compte_search');
         $this->contactsForm = new ContactsChoiceForm('INTERPRO-declaration');
-        $this->societes_creation = SocieteClient::getInstance()->getSocietesWithStatut(SocieteClient::STATUT_EN_CREATION);
         $this->formUploadCSVNoCVO = new UploadCSVNoCVOForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->contactsForm->bind($request->getParameter($this->contactsForm->getName()));
@@ -78,7 +77,7 @@ class societeActions extends sfCredentialActions {
         $this->raison_sociale = $request->getParameter('raison_sociale', false);
         $this->type = $request->getParameter('type', false);
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale);
-        
+
         if (!count($this->societesDoublons)) {
             $this->redirect('societe_nouvelle', array('type' => $this->type, 'raison_sociale' => $this->raison_sociale));
         }
@@ -136,10 +135,10 @@ class societeActions extends sfCredentialActions {
         $this->societe = $this->getRoute()->getSociete();
         $newStatus = "";
         if($this->societe->isActif()){
-           $newStatus = SocieteClient::STATUT_SUSPENDU; 
+           $newStatus = SocieteClient::STATUT_SUSPENDU;
         }
         if($this->societe->isSuspendu()){
-           $newStatus = SocieteClient::STATUT_ACTIF; 
+           $newStatus = SocieteClient::STATUT_ACTIF;
         }
         foreach ($this->societe->contacts as $keyCompte => $compte) {
             $contact = CompteClient::getInstance()->find($keyCompte);
@@ -149,13 +148,13 @@ class societeActions extends sfCredentialActions {
         foreach ($this->societe->etablissements as $keyEtablissement => $etablissement) {
             $etablissement = EtablissementClient::getInstance()->find($keyEtablissement);
             $etablissement->setStatut($newStatus);
-            $etablissement->save();            
+            $etablissement->save();
         }
         $this->societe->setStatut($newStatus);
         $this->societe->save();
         return $this->redirect('compte_visualisation', array('identifiant' => $this->societe->getMasterCompte()->identifiant));
     }
-    
+
     public function executeVisualisation(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->etablissements = $this->societe->getEtablissementsObj();
@@ -175,11 +174,6 @@ class societeActions extends sfCredentialActions {
 
     public function executeAnnulation(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-
-
-        if (!$this->societe->isInCreation()) {
-            $this->redirect('societe_visualisation', $this->societe);
-        }
 
         $master_compte = $this->societe->getMasterCompte();
         if ($master_compte) {
@@ -216,7 +210,7 @@ class societeActions extends sfCredentialActions {
                 $this->rapport = SocieteClient::getInstance()->addTagRgtEnAttenteFromFile($path, $societesCodeClientView);
             }
         }else{
-            
+
             return $this->redirect('societe');
         }
     }

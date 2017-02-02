@@ -15,7 +15,7 @@
                     <div class="form-group<?php if ($form['raison_sociale']->hasError()): ?> has-error<?php endif; ?>">
                         <?php echo $form['raison_sociale']->renderError(); ?>
                         <?php echo $form['raison_sociale']->renderLabel(null, array("class" => "col-xs-6 control-label")); ?>
-                        <div class="col-xs-6"><?php echo $form['raison_sociale']->render(array("class" => "form-control first-focus")); ?></div>
+                        <div class="col-xs-6"><?php echo $form['raison_sociale']->render(array("class" => "form-control first-focus", "autofocus" => "autofocus")); ?></div>
                     </div>
                     <div class="form-group<?php if ($form['type']->hasError()): ?> has-error<?php endif; ?>">
                         <?php echo $form['type']->renderError(); ?>

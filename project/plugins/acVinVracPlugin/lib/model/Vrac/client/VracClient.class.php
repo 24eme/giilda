@@ -689,8 +689,9 @@ class VracClient extends acCouchdbClient {
 
         $vrac = new Vrac();
         $vrac->vendeur_identifiant = $vendeurId;
+        $vrac->campagne = $details->getDocument()->campagne;
         $vrac->numero_contrat = $idContrat;
-        //$vrac->numero_archive = $identifiant;
+        $vrac->numero_archive = $idContrat;
         $vrac->acheteur_identifiant = $acheteurId;
         $vrac->produit = $hash;
         $vrac->type_transaction = $details->type_contrat;
@@ -699,15 +700,21 @@ class VracClient extends acCouchdbClient {
         $vrac->prix_initial_unitaire_hl = $details->prixhl;
         $vrac->prix_initial_unitaire = $details->prixhl;
         $vrac->prix_unitaire = $details->prixhl;
-        if($details->date_enlevement){
+        if ($details->date_enlevement) {
           $vrac->enlevement_date = $details->date_enlevement;
-          $vrac->valide->date_saisie = $details->date_enlevement;
-          $vrac->date_signature = $details->date_enlevement;
           $vrac->date_visa = $details->date_enlevement;
+        }else{
+          $vrac->enlevement_date = $details->getDocument()->getDate();
+          $vrac->date_visa = $details->getDocument()->getDate();
         }
-        $vrac->setVendeurInformations();
-        $vrac->setAcheteurInformations();
+        if ($details->getDocument()->exist('validation')) {
+          $vrac->valide->date_saisie = $details->getDocument()->validation->date_saisie;
+          $vrac->date_signature = $details->getDocument()->validation->date_signee;
+        }
+
+        $vrac->setInformations();
         $vrac->update();
+
         return $vrac;
     }
 
