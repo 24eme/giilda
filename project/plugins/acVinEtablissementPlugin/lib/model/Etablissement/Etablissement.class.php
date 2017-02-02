@@ -238,8 +238,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         $this->initFamille();
         $this->raison_sociale = $societe->raison_sociale;
         $this->interpro = "INTERPRO-declaration";
-        $this->region = EtablissementClient::getInstance()->calculRegion($this);
 
+        if(VracConfiguration::getInstance()->getRegionDepartement() !== false) {
+            $this->region = EtablissementClient::getInstance()->calculRegion($this);
+        }
+        
         if($this->isNew()) {
             $societe->addEtablissement($this);
             $needSaveSociete = true;

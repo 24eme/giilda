@@ -19,11 +19,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
     }
 
-    public function isInCreation() {
-
-        return $this->statut == SocieteClient::STATUT_EN_CREATION;
-    }
-
     public function addNewEnseigne() {
         $this->enseignes->add(count($this->enseignes), "");
     }
@@ -344,10 +339,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $this->add('date_modification', date('Y-m-d'));
         $this->interpro = "INTERPRO-declaration";
         $compteMaster = $this->getMasterCompte();
-
-        if ($this->isInCreation()) {
-            $this->setStatut(SocieteClient::STATUT_ACTIF);
-        }
 
         if (!$compteMaster) {
             $compteMaster = $this->createCompteSociete();
