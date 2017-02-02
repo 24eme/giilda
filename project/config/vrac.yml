@@ -3,7 +3,8 @@ sancerre:
     vrac:
       pdf: "vrac/pdf_sancerre"
       repartition_cvo: "50"
-      
+      region_departement: "^(18|58|45|36)"
+
 ivso:
   configuration:
     vrac:
