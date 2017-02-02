@@ -345,13 +345,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $this->interpro = "INTERPRO-declaration";
         $compteMaster = $this->getMasterCompte();
 
+        if ($this->isInCreation()) {
+            $this->setStatut(SocieteClient::STATUT_ACTIF);
+        }
+
         if (!$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
 
-        if ($this->isInCreation()) {
-            $this->setStatut(SocieteClient::STATUT_ACTIF);
-        }
         parent::save();
 
         if ($compteMaster->isNew()) {
