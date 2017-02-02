@@ -11,6 +11,7 @@ class ComptabiliteClient extends acCouchdbClient {
 
         if(!$compta) {
             $compta = new Comptabilite();
+            $compta->set("_id", "COMPTABILITE");
         }
 
         return $compta;
