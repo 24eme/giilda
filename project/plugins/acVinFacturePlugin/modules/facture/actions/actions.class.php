@@ -251,7 +251,7 @@ class factureActions extends sfActions {
     }
 
     public function executeComptabiliteEdition(sfWebRequest $request) {
-        $compta = ComptabiliteClient::getInstance()->find('COMPTABILITE');
+        $compta = ComptabiliteClient::getInstance()->findCompta();
         $this->form = new ComptabiliteEditionForm($compta);
 
         if ($request->isMethod(sfWebRequest::POST)) {

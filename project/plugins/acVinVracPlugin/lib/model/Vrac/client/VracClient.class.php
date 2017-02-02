@@ -767,7 +767,7 @@ class VracClient extends acCouchdbClient {
         $all_mouvements_vendeur = DRMMouvementsConsultationView::getInstance()->findByEtablissement($vrac->vendeur_identifiant);
         $enlevements = array();
         foreach ($all_mouvements_vendeur->rows as $rowView) {
-            $vrac_view_id = $rowView->key[DRMMouvementsConsultationView::KEY_DETAIL_IDENTIFIANT];
+            $vrac_view_id = "VRAC-".$rowView->key[DRMMouvementsConsultationView::KEY_VRAC_NUMERO];
             if ($vrac_view_id && $vrac_view_id == $vrac->_id) {
 
                 $index = $rowView->value[DRMMouvementsConsultationView::VALUE_MOUVEMENT_ID];
@@ -778,6 +778,7 @@ class VracClient extends acCouchdbClient {
 
             }
         }
+
         return $enlevements;
     }
 

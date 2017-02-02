@@ -32,7 +32,7 @@ curl -s -X PUT -d '{ "_id": "SOCIETE-7523700100", "type": "Societe", "identifian
 curl -s -X PUT -d '{ "_id": "CURRENT", "type": "Current", "configurations": { "1994-08-01": "CONFIGURATION" } }' $DBURL$DBNAME/CURRENT
 
 cd project;
-php symfony import:configuration CONFIGURATION data/import/configuration/sancerre
+php symfony import:configuration CONFIGURATION data/import/configuration/sancerre --env=sancerre
 php symfony cc
 cd ..
 
