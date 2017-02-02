@@ -95,9 +95,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function changedToTeledeclare() {
-        $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
-
+        $drmPrecedente = $this->getPrecedente();
         return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
+    }
+
+    public function lastIsImport() {
+      if ($this->isImport())
+        return true;
+      $drmPrecedente = $this->getPrecedente();
+      return $drmPrecedente && $drmPrecedente->isImport();
+    }
+
+    public function isImport() {
+      return ($this->type_creation == 'IMPORT');
     }
 
     public function setPeriode($periode) {
