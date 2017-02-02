@@ -230,11 +230,10 @@ class ConfigurationClient extends acCouchdbClient {
 
     public function getCountryList() {
         if(is_null($this->countries)) {
-            $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
+            $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr'));
             $this->countries = $destinationChoicesWidget->getChoices();
-            $this->countries['inconnu'] = 'Inconnu';
-            $this->countries['UE'] = 'Union Européenne';
-            $this->countries['HORSUE'] = 'Hors Union Européenne';
+			DRMConfiguration::getInstance();
+			$this->countries = array_merge(array("" => ""), DRMConfiguration::getInstance()->getExportPaysDebut(), $this->countries, DRMConfiguration::getInstance()->getExportPaysFin());
         }
 
         return $this->countries;
