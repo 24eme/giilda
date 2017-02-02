@@ -45,7 +45,7 @@ class DRMESDetails extends BaseDRMESDetails {
           $identifiantVrac = $idDrmImport."-".uniqid();
           $key = $idDrmImport."-".uniqid();
         }else{
-          $identifiantVrac = sprintf("%013d",$identifiant);
+          $identifiantVrac = ($identifiant)? sprintf("%013d",$identifiant) : null;
           $key = $this->getDocument()->_id."-".uniqid();
         }
 
@@ -90,7 +90,7 @@ class DRMESDetails extends BaseDRMESDetails {
         }
         $detail->identifiant = $identifiant;
         $detail->volume = $volume;
-        
+
         if ($date_enlevement) {
             $detail->date_enlevement = $date_enlevement;
         }
