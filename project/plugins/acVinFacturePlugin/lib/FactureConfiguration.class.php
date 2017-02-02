@@ -90,4 +90,24 @@ class FactureConfiguration {
   		return $this->configuration['echeance'];
   	}
 
+    public function getTauxTva() {
+
+        return $this->configuration['taux_tva'];
+    }
+
+    public function isSansCategories() {
+
+        return $this->configuration['sans_categories'];
+    }
+
+    public function getExercice() {
+
+        return $this->configuration['exercice'];
+    }
+
+    public function getExportShell() {
+
+        return $this->configuration['export_shell'];
+    }
+
 }
