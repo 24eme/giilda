@@ -61,3 +61,4 @@ sancerre:
       pdf_display_code_comptable: false
       echeance: "last day of +1 month"
       export_shell: "%SF_ROOT_DIR%/bin/exportSage.sh"
+      reglement: 'Conformément aux articles 441-6 c. com. et D. 441-5 c. com., tout retard de paiement entraîne de plein droit, une obligation pour le débiteur de payer une indemnité forfaitaire de 40€ pour frais de recouvrement.  Conformément à l’article 441-6 c. com., les pénalités de retard calculées sur le taux d’intérêt légal en vigueur,  sont exigibles dès que le délai de règlement est dépassé, sans qu’un rappel soit nécessaire. Escompte pour paiement anticipé néant. \vspace{3cm}'

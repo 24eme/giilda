@@ -1,7 +1,7 @@
 all:
   configuration:
     facture:
-      pdf: "facture/latexContent"
+      pdf: "facture/pdf_generique"
       prefix_sage: "VEN"
       tva_compte: 44570100
       type_cvo:
