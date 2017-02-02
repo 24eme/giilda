@@ -83,6 +83,7 @@ $infosInterpro = $facture->getInformationsInterpro();
                                           echo display_latex_string($adresseComplementaire,';',50,2);   ?>}
 \def\FactureClientCP{<?php echo $facture->declarant->code_postal; ?>}
 \def\FactureClientVille{<?php echo $facture->declarant->commune; ?>}
+\def\FactureReglement{ <?php echo FactureConfiguration::getInstance()->getReglement(); ?> }
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
