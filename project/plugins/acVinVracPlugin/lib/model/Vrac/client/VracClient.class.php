@@ -688,7 +688,6 @@ class VracClient extends acCouchdbClient {
       $hash = $details->getDetail()->getCepage()->getHash();
 
         $vrac = new Vrac();
-        $vrac->representant_identifiant = $vendeurId;
         $vrac->vendeur_identifiant = $vendeurId;
         $vrac->campagne = $details->getDocument()->campagne;
         $vrac->numero_contrat = $idContrat;
@@ -712,10 +711,10 @@ class VracClient extends acCouchdbClient {
           $vrac->valide->date_saisie = $details->getDocument()->validation->date_saisie;
           $vrac->date_signature = $details->getDocument()->validation->date_signee;
         }
-        $vrac->setVendeurInformations();
-        $vrac->setRepresentantInformations();
-        $vrac->setAcheteurInformations();
+
+        $vrac->setInformations();
         $vrac->update();
+
         return $vrac;
     }
 

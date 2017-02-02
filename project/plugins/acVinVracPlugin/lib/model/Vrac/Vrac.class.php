@@ -149,6 +149,9 @@ class Vrac extends BaseVrac {
     }
 
     public function setInformations() {
+        if(!$this->representant_identifiant) {
+            $this->representant_identifiant = $this->vendeur_identifiant;
+        }
         $this->setAcheteurInformations();
         $this->setVendeurInformations();
         $this->setRepresentantInformations();
