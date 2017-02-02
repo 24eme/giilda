@@ -688,23 +688,23 @@ class VracClient extends acCouchdbClient {
       $hash = $details->getDetail()->getCepage()->getHash();
 
         $vrac = new Vrac();
-        $vrac->vendeur_identifiant = $vendeur;
+        $vrac->vendeur_identifiant = $vendeurId;
         $vrac->numero_contrat = $idContrat;
-        $vrac->numero_archive = $identifiant;
-        $vrac->acheteur_identifiant = $acheteur;
+        //$vrac->numero_archive = $identifiant;
+        $vrac->acheteur_identifiant = $acheteurId;
         $vrac->produit = $hash;
         $vrac->type_transaction = $details->type_contrat;
-        $vrac->volume_propose = $details->volume_enleve;
-        $vrac->prix_initial_unitaire_hl = $details->prix;
-        $vrac->prix_initial_unitaire = $details->prix;
-        $vrac->prix_unitaire = $details->prix;
+        $vrac->jus_quantite = $details->volume;
+        $vrac->volume_propose = $details->volume;
+        $vrac->prix_initial_unitaire_hl = $details->prixhl;
+        $vrac->prix_initial_unitaire = $details->prixhl;
+        $vrac->prix_unitaire = $details->prixhl;
         if($details->date_enlevement){
           $vrac->enlevement_date = $details->date_enlevement;
           $vrac->valide->date_saisie = $details->date_enlevement;
           $vrac->date_signature = $details->date_enlevement;
           $vrac->date_visa = $details->date_enlevement;
         }
-
         $vrac->setVendeurInformations();
         $vrac->setAcheteurInformations();
         $vrac->update();
