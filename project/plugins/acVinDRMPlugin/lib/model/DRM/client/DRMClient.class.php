@@ -537,18 +537,18 @@ class DRMClient extends acCouchdbClient {
       if (!$xml) {
           throw new sfException($url." empty");
       }
-      if(!preg_match('/<numero-cvi>([^<]+)</', $xml, $m)){
-          throw new sfException('CVI not found');
-      }
-      $etablissement = EtablissementClient::getInstance()->findByCvi($m[1]);
-      if (!$etablissement) {
-        throw new sfException('No Etablissement found for CVI'.$m[1]);
-      }
       if(!preg_match('/<numero-agrement>([^<]+)</', $xml, $m)){
           throw new sfException('Accise not found');
       }
-      if ($etablissement->no_accises != $m[1]) {
-        throw new sfException('XML Accise '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->no_accises.')');
+      $etablissement = EtablissementClient::getInstance()->findByAccises($m[1]);
+      if (!$etablissement) {
+        throw new sfException('No Etablissement found for accises '.$m[1]);
+      }
+      if(preg_match('/<numero-cvi>([^<]+)</', $xml, $m)){
+        $m[1] = str_replace(' ', '', $m[1]);
+        if ($etablissement->cvi != $m[1]) {
+          throw new sfException('XML CVI '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->cvi.')');
+        }
       }
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
           throw new sfException('mois not found');

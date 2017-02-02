@@ -10,4 +10,5 @@
     giilda_dbname: mydatabase
     giilda_elastica_dsn: http://127.0.0.1:9200/
     giilda_tinc_ip: 10.0.0.1
+    giilda_email: email@example.org
 
