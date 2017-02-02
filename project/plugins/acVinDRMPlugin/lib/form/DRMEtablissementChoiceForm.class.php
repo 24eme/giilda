@@ -14,7 +14,7 @@ class DRMEtablissementChoiceForm extends EtablissementChoiceForm {
     public function configure() {
         parent::configure();
         $familles = array(EtablissementFamilles::FAMILLE_PRODUCTEUR);
-        if(sfConfig::get('app_drmnegoce')){
+        if(DRMConfiguration::getInstance()->isDRMNegoce()){
           $familles = array_merge($familles,array(EtablissementFamilles::FAMILLE_NEGOCIANT));
         }
         $this->configureFamilles($familles);

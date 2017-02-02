@@ -163,17 +163,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
             $founded_produit = false;
 
-            foreach ($all_produits as $produit) {
-                if ($founded_produit) {
-                    break;
-                }
-                $produitConfLibelle = $this->slugifyProduitConf($produit);
-                if (count(array_diff($csvLibelleProductArray, $produitConfLibelle))) {
-                    continue;
-                }
-                $founded_produit = $produit;
-            }
-
             if(!$founded_produit) {
                 $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
             }
@@ -186,6 +175,19 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
+            }
+
+            if (!$founded_produit) {
+                foreach ($all_produits as $produit) {
+                    if ($founded_produit) {
+                        break;
+                    }
+                    $produitConfLibelle = $this->slugifyProduitConf($produit);
+                    if (count(array_diff($csvLibelleProductArray, $produitConfLibelle)) < count(array_diff($produitConfLibelle, $csvLibelleProductArray))) {
+                        continue;
+                    }
+                    //$founded_produit = $produit;
+                }
             }
 
             $type_douane_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM]);
@@ -305,10 +307,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $etablissementObj = $this->drm->getEtablissementObject();
 
         $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
-        $all_contenances = sfConfig::get('app_vrac_contenances');
-        if (!$all_contenances){
-          $all_contenances = DRMConfiguration::getInstance()->getContenances();
-        }
+        $all_contenances = VracConfiguration::getInstance()->getContenances();
         foreach ($this->getDocRows() as $csvRow) {
             if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                 $num_ligne++;

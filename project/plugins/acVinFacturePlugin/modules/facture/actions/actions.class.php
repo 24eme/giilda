@@ -60,8 +60,7 @@ class factureActions extends sfActions {
 
             return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
         }
-        $configAppFacture = sfConfig::get('app_configuration_facture');
-        $this->sans_categorie = $configAppFacture['sans_categories'];
+        $this->sans_categorie = FactureConfiguration::getInstance()->isSansCategories();
         $this->form = new FactureEditionForm($this->facture, array('sans_categories' => $this->sans_categorie));
 
         if ($this->facture->isPayee()) {
@@ -251,7 +250,7 @@ class factureActions extends sfActions {
     }
 
     public function executeComptabiliteEdition(sfWebRequest $request) {
-        $compta = ComptabiliteClient::getInstance()->find('COMPTABILITE');
+        $compta = ComptabiliteClient::getInstance()->findCompta();
         $this->form = new ComptabiliteEditionForm($compta);
 
         if ($request->isMethod(sfWebRequest::POST)) {

@@ -242,6 +242,8 @@
         });
 
         $(this).find('.dynamic-element-delete').on('click', function () {
+            $($(this).attr('data-line')).find('input').val("");
+            $($(this).attr('data-line')).find('input').trigger('keyup');
             $($(this).attr('data-line')).remove();
             if ($($(this).attr('data-lines')).length < 1 && $(this).attr('data-add')) {
                 $($(this).attr('data-add')).trigger('click');

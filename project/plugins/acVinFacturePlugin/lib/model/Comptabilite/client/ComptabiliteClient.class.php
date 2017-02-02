@@ -4,9 +4,16 @@ class ComptabiliteClient extends acCouchdbClient {
     public static function getInstance()
     {
       return acCouchdbManager::getClient("Comptabilite");
-    }  
-    
+    }
+
     public function findCompta() {
-        return $this->find('COMPTABILITE');
+        $compta = $this->find('COMPTABILITE');
+
+        if(!$compta) {
+            $compta = new Comptabilite();
+            $compta->set("_id", "COMPTABILITE");
+        }
+
+        return $compta;
     }
 }

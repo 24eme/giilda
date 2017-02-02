@@ -668,30 +668,43 @@ class VracClient extends acCouchdbClient {
         return $vrac;
     }
 
-    public function createContratFromDrm($idContrat,$identifiant, $vendeur, $acheteur, $hash, $prix, $volume_enleve, $date_enlevement = null ,$type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC){
+    public function createContratFromDrmDetails($details) {
+      $idContrat = $details->getKey();
       $vrac = $this->retrieveById($idContrat);
       if ($vrac) {
             return $vrac;
-        }
+      }
+
+      $vendeurId = $details->getDocument()->getEtablissement()->identifiant;
+      $vendeur = EtablissementClient::getInstance()->find($vendeurId);
+      if(!$vendeur){
+          throw new sfException("Le vendeur d'id $vendeurId n'existe pas");
+      }
+      $acheteurId = $details->acheteur;
+      $acheteur = EtablissementClient::getInstance()->find($acheteurId);
+      if(!$acheteur){
+          throw new sfException("L'acheteur d'id $acheteurId n'existe pas");
+      }
+      $hash = $details->getDetail()->getCepage()->getHash();
+
         $vrac = new Vrac();
-        $vrac->vendeur_identifiant = $vendeur;
+        $vrac->vendeur_identifiant = $vendeurId;
         $vrac->numero_contrat = $idContrat;
-        $vrac->numero_archive = $identifiant;
-        $vrac->acheteur_identifiant = $acheteur;
+        //$vrac->numero_archive = $identifiant;
+        $vrac->acheteur_identifiant = $acheteurId;
         $vrac->produit = $hash;
-        $vrac->type_transaction = $type_contrat;
-        $vrac->volume_propose = $volume_enleve;
-        $vrac->prix_initial_unitaire_hl = $prix;
-        $vrac->prix_initial_unitaire = $prix;
-        $vrac->prix_unitaire = $prix;
-        if($date_enlevement){
-          $vrac->enlevement_date = $date_enlevement;
-          $vrac->valide->date_saisie = $date_enlevement;
-          $vrac->date_signature = $date_enlevement;
-          $vrac->date_visa = $date_enlevement;
+        $vrac->type_transaction = $details->type_contrat;
+        $vrac->jus_quantite = $details->volume;
+        $vrac->volume_propose = $details->volume;
+        $vrac->prix_initial_unitaire_hl = $details->prixhl;
+        $vrac->prix_initial_unitaire = $details->prixhl;
+        $vrac->prix_unitaire = $details->prixhl;
+        if($details->date_enlevement){
+          $vrac->enlevement_date = $details->date_enlevement;
+          $vrac->valide->date_saisie = $details->date_enlevement;
+          $vrac->date_signature = $details->date_enlevement;
+          $vrac->date_visa = $details->date_enlevement;
         }
-
-
         $vrac->setVendeurInformations();
         $vrac->setAcheteurInformations();
         $vrac->update();
@@ -767,7 +780,7 @@ class VracClient extends acCouchdbClient {
         $all_mouvements_vendeur = DRMMouvementsConsultationView::getInstance()->findByEtablissement($vrac->vendeur_identifiant);
         $enlevements = array();
         foreach ($all_mouvements_vendeur->rows as $rowView) {
-            $vrac_view_id = $rowView->key[DRMMouvementsConsultationView::KEY_DETAIL_IDENTIFIANT];
+            $vrac_view_id = "VRAC-".$rowView->key[DRMMouvementsConsultationView::KEY_VRAC_NUMERO];
             if ($vrac_view_id && $vrac_view_id == $vrac->_id) {
 
                 $index = $rowView->value[DRMMouvementsConsultationView::VALUE_MOUVEMENT_ID];
@@ -778,6 +791,7 @@ class VracClient extends acCouchdbClient {
 
             }
         }
+
         return $enlevements;
     }
 

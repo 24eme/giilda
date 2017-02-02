@@ -347,6 +347,12 @@
             field.focus();
         }
 
+        this.focusChamp = function (fieldId) {
+          var field = this.element.find('input#' + fieldId);
+          console.log(fieldId)
+          field.focus();
+        }
+
         this.unFocus = function () {
             this.element.removeClass('col_focus');
             if (this.element.hasClass('col_edited')) {
@@ -399,10 +405,10 @@
             this.unActive();
         }
 
-        this.valider = function (nextfocus) {
+        this.valider = function (nextfocus,fieldFocus) {
             if (!this.isActive()) {
                 var object = this;
-                object.colonnes.event_valider(object, nextfocus);
+                object.colonnes.event_valider(object, nextfocus,fieldFocus);
                 return;
             }
 
@@ -431,7 +437,7 @@
                 object.groupes.valider();
                 object.unActive();
 
-                object.colonnes.event_valider(object, nextfocus);
+                object.colonnes.event_valider(object, nextfocus,fieldFocus);
 
             }, 'json');
         }

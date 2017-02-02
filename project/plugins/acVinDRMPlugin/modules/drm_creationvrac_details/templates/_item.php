@@ -3,7 +3,7 @@
 <tr id="<?php echo $ligneId ?>" class="row">
     <td class="form-group <?php if ($form['acheteur']->hasError()): ?>has-error<?php endif; ?> col-xs-5">
         <?php echo $form['acheteur']->renderError(); ?>
-        <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete ")); ?>
+        <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete", "autofocus" => "autofocus")); ?>
     </td>
     <td class="form-group volume <?php if ($form['volume']->hasError()): ?>has-error<?php endif; ?> col-xs-2" >
         <?php
@@ -31,6 +31,6 @@
     </td>
 
     <td class="text-right">
-        <a type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_creationvrac_details_table dynamic-element-add" data-lines="#drm_creationvrac_details_table tbody tr" tabindex="-1" class="btn btn-xs btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_supprimer') ?>
+        <a type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_creationvrac_details_table .dynamic-element-add" data-lines="#drm_creationvrac_details_table tbody tr" tabindex="-1" class="btn btn-xs btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_supprimer') ?>
     </td>
 </tr>

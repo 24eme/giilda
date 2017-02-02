@@ -37,6 +37,7 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
+
     public function addDetailCreationVrac($identifiant = null, $volume = null, $date_enlevement = null, $prixhl = null, $acheteur = null, $typeContrat = VracClient::TYPE_TRANSACTION_VIN_VRAC, $idDrmImport = null) {
         $identifiantVrac = null;
         $key = null;
@@ -44,7 +45,7 @@ class DRMESDetails extends BaseDRMESDetails {
           $identifiantVrac = $idDrmImport."-".uniqid();
           $key = $idDrmImport."-".uniqid();
         }else{
-          $identifiantVrac = sprintf("%013d",$identifiant);
+          $identifiantVrac = ($identifiant)? sprintf("%013d",$identifiant) : null;
           $key = $this->getDocument()->_id."-".uniqid();
         }
 
@@ -75,21 +76,20 @@ class DRMESDetails extends BaseDRMESDetails {
     }
 
 
-    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
-        $key = $identifiant;
-        if($this->getKey() == "export_details") {
-            $key .= "-".uniqid();
+    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null, $oldDetail = null) {
+
+        $detail = null;
+        if($oldDetail && $this->exist($oldDetail)){
+          $detail = $this->get($oldDetail);
+        }else{
+          $key = $identifiant;
+          if($this->getKey() == "export_details") {
+              $key .= "-".uniqid();
+          }
+          $detail = $this->add($key);
         }
-
-        $detail = $this->add($key);
-
         $detail->identifiant = $identifiant;
-
-        if ($volume && is_null($detail->volume)) {
-            $detail->volume = $volume;
-        } elseif ($volume) {
-            $detail->volume += $volume;
-        }
+        $detail->volume = $volume;
 
         if ($date_enlevement) {
             $detail->date_enlevement = $date_enlevement;

@@ -46,31 +46,34 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
     }
 
     public function update() {
-        //$this->details->clear();
         $details = array();
 
         foreach ($this->getEmbeddedForms() as $key => $form) {
             $form->updateObject($this->values[$key]);
             $details[] = clone $form->getObject();
         }
-        $parent = $this->getDetails()->getParent();
-        $key = $this->getDetails()->getKey();
-        $parent->remove($key);
-        $this->details = $parent->add($key);
-
-        foreach ($this->getDetails() as $identifiant => $detail) {
-            if ($this->getDetails()->exist($identifiant) && !preg_match('/^creationvrac_details$/', $this->getDetails()->getKey()) && !preg_match('/^creationvractirebouche_details/', $this->getDetails()->getKey())) {
-                $this->getDetails()->remove($identifiant);
-            }
-        }
 
         foreach ($details as $key => $detail) {
+
             if(preg_match('/^creationvrac_details$/', $this->getDetails()->getKey())){
-              $this->getDetails()->addDetailCreationVrac($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->prixhl, $detail->acheteur, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE);
+              if(preg_match('/^'.$this->getDocument()->_id.'$/',$detail->getKey()) || preg_match('/^[0-9a-z-]+$/',$detail->getKey())){
+                $this->getDetails()->addDetailCreationVrac($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->prixhl, $detail->acheteur, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE);
+                if(preg_match('/^[0-9a-z-]+$/',$detail->getKey())){
+                  $this->getDetails()->remove($detail->getKey());
+                }
+              }
             }elseif(preg_match('/^creationvractirebouche_details/', $this->getDetails()->getKey())){
-              $this->getDetails()->addDetailCreationVrac($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->prixhl, $detail->acheteur,     VracClient::TYPE_TRANSACTION_VIN_VRAC);
+              if(preg_match('/^'.$this->getDocument()->_id.'$/',$detail->getKey()) || preg_match('/^[0-9a-z-]+$/',$detail->getKey())){
+                $this->getDetails()->addDetailCreationVrac($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->prixhl, $detail->acheteur,     VracClient::TYPE_TRANSACTION_VIN_VRAC);
+                if(preg_match('/^[0-9a-z-]+$/',$detail->getKey())){
+                  $this->getDetails()->remove($detail->getKey());
+                }
+              }
             }elseif(preg_match('/^(VRAC-|BOUTEILLE-)?([0-9]+|[A-Z]+|inconnu)$/', $detail->identifiant)) {
-                $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
+              if(preg_match('/^[0-9a-z-]+$/',$detail->getKey())){
+                $this->getDetails()->remove($detail->getKey());
+              }
+                $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document,$detail->getKey());
             }
         }
     }

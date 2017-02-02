@@ -98,7 +98,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
 	    $date_campagne = new DateTime($this->date_facturation);
 
-        if (isset($configs['exercice']) && $configs['exercice'] == 'viticole') {
+        if (FactureConfiguration::getInstance()->getExercice() == 'viticole') {
 		    $date_campagne = $date_campagne->modify('+5 months');
 	    }
 
@@ -222,16 +222,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function storeLignesFromMouvements($mvts, $famille, $modele) {
-
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
-                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
+            if (isset($this->config_sortie_array['vrac']) && $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
+                continue;
             }
+            $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
         }
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
-                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
+            if (!isset($this->config_sortie_array['vrac'])) {
+                continue;
             }
+            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
+                continue;
+            }
+
+            $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
         }
     }
 
@@ -319,7 +324,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-                if(!preg_match('/^([0-9]+)_([0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
+                if(preg_match('/^([0-9]+)_([a-z0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
                     throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format!",$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]));
                 }
                 $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
@@ -618,7 +623,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($this->exist('taux_tva') && $this->_get('taux_tva')) {
             return round($this->_get('taux_tva'), 2);
         }
-        $config_tva = sfConfig::get('app_tva_taux');
+        $config_tva = FactureConfiguration::getInstance()->getTauxTva();
         $date_facturation = str_replace('-', '', $this->date_facturation);
         $taux_f = 0.0;
         foreach ($config_tva as $date => $taux) {

@@ -1,10 +1,10 @@
 PROJET=giilda_{{giilda_branch}}
 TMP=/tmp/giilda_{{giilda_branch}}_{{giilda_instance}}
 COUCHHOST={{giilda_couchdb_dsn|replace("http://","")|regex_replace(':.*', '')}}
-COUCHPORT={{giilda_couchdb_dsn|replace("http://","")|regex_replace('.*:', '')}}
+COUCHPORT={{giilda_couchdb_dsn|replace("http://","")|regex_replace('.*:', '')|replace('/', '')}}
 COUCHBASE={{giilda_dbname}}
 ELASTHOST={{giilda_elastica_dsn|replace("http://","")|regex_replace(':.*', '')}}
-ELASTPORT={{giilda_elastica_dsn|replace("http://","")|regex_replace('.*:', '')}}
+ELASTPORT={{giilda_elastica_dsn|replace("http://","")|regex_replace('.*:', '')|replace('/', '')}}
 ELASTBASE={{giilda_dbname}}
 ELASTKIBANAINDEX=.kibana
 
