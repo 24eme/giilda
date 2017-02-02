@@ -382,6 +382,8 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
+        $this->urlRetour = $request->getParameter('urlretour', false);
+        $this->modeStandalone = ($this->urlRetour !== false);
         $this->vrac = $this->getRoute()->getVrac();
         $this->configuration = VracConfiguration::getInstance();
         $this->compte = null;
@@ -403,6 +405,10 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         $this->form = new VracMarcheForm($this->vrac, $this->isTeledeclarationMode, $this->defaultDomaine);
         $vracParam = $request->getParameter('vrac');
 
+        if($request->getParameter('redirect')) {
+            $this->urlRetour = $request->getParameter('redirect');
+        }
+
         if ($request->isMethod(sfWebRequest::POST)) {
             if ($vracParam['millesime'] == VracMarcheForm::NONMILLESIMELABEL) {
                 $vracParam['millesime'] = 0;
@@ -413,14 +419,22 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
                 $this->maj_etape(2);
                 $this->form->save();
 
-                if ($request->getParameter('redirect')) {
-                    return $this->redirect($request->getParameter('redirect'));
+                if ($this->urlRetour) {
+
+                    return $this->redirect($this->urlRetour);
                 }
 
                 return $this->redirect('vrac_condition', $this->vrac);
-            } elseif ($request->getParameter('redirect')) {
+            }
 
-                return $this->redirect($request->getParameter('redirect'));
+            if($this->modeStandalone) {
+
+                return sfView::SUCCESS;
+            }
+
+            if ($this->urlRetour) {
+
+                return $this->redirect($this->urlRetour);
             }
         }
     }
