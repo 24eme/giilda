@@ -690,7 +690,7 @@ class VracClient extends acCouchdbClient {
         $vrac = new Vrac();
         $vrac->vendeur_identifiant = $vendeurId;
         $vrac->numero_contrat = $idContrat;
-        //$vrac->numero_archive = $identifiant;
+        $vrac->numero_archive = $idContrat;
         $vrac->acheteur_identifiant = $acheteurId;
         $vrac->produit = $hash;
         $vrac->type_transaction = $details->type_contrat;
