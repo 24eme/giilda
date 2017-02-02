@@ -250,6 +250,19 @@
             }
         });
 
+        $(this).find('.btn-success').on('click', function(e) {
+            var vals = $(this).parents('form').serializeArray();
+            for(i in vals) {
+                if (!vals[i].name.match(/revision/)) {
+                  if (vals[i].value) { return true;}
+                }
+            }
+            $(this).parents('form').find('.dynamic-element-delete').each(function(){
+              $($(this).attr('data-line')).remove();
+            });
+            return true;
+        });
+
         /**
          * Contrôle la bonne saisie de nombres dans
          * un champ

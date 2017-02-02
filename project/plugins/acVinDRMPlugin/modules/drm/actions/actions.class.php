@@ -250,7 +250,7 @@ class drmActions extends drmGeneriqueActions {
         $this->societe = $this->etablissement->getSociete();
         $hasDrmRight = ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR);
         if(DRMConfiguration::getInstance()->isDRMNegoce()){
-            $hasDrmRight = $hasDrmRight && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT);
+            $hasDrmRight = $hasDrmRight && (($this->etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT) && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_COOPERATIVE));
         }
         if ($hasDrmRight){
           throw new sfException("L'établissement sélectionné ne déclare pas de DRM");

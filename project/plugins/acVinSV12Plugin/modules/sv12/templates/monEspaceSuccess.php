@@ -22,7 +22,7 @@
                   <?php echo $formCampagne['campagne']->render(); ?>
                 </div>
                 <div class="col-sm-4">
-                    <button class="btn btn-default" type="submit">Créer une SV12</button>
+                    <button class="btn btn-default" autofocus="autofocus" type="submit">Créer une SV12</button>
                 </div>
             </div>
         <form>
