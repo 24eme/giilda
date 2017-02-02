@@ -1,6 +1,7 @@
 all:
   configuration:
     drm:
+      negoce: false
       details:
         export_detail:
           required: ["identifiant"]

@@ -249,7 +249,7 @@ class drmActions extends drmGeneriqueActions {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         $hasDrmRight = ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR);
-        if(sfConfig::get('app_drmnegoce')){
+        if(DRMConfiguration::getInstance()->isDRMNegoce()){
             $hasDrmRight = $hasDrmRight && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT);
         }
         if ($hasDrmRight){

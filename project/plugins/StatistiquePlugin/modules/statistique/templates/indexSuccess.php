@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('statistiques') ?>" class="active">Statistiques</a></li>
+    <li><a href="<?php echo url_for('statistiques') ?>" class="active">Recherche</a></li>
 </ol>
 
 <div class="row">
@@ -12,7 +12,7 @@
     				<p style="font-size: 30px;"><span class="glyphicon glyphicon-file" aria-hidden="true"></span></p>
 					<a class="btn btn-default btn-block " href="<?php echo url_for('statistiques_drm') ?>">Accéder</a>
             	</div>
-            </div>        
+            </div>
         </div>
         <div class="col-sm-3">
         	<div class="panel panel-default nouv_campagne">

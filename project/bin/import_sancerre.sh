@@ -58,7 +58,10 @@ cat $TMP/data_sancerre_origin/MOUVEMENT.utf8.XML | sed "s|<\MOUVEMENT>|\\\n|" | 
 
 cat $TMP/data_sancerre_origin/ARTICLE.utf8.XML | sed "s|<\ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sed 's/Sancerre/AOC Sancerre/' | sed 's/Menetou-Salon/AOC Menetou-Salon/' | sed 's/Pouilly-Fumé/AOC Pouilly-Fumé/' | sed 's/Pouilly Sur Loire/AOC Pouilly-sur-Loire/' | sed 's/Quincy Blanc/AOC Quincy/' | sed 's/Reuilly/AOC Reuilly/' | sed -r 's/"(AOVDQS Coteaux|Coteaux) du Giennois/"AOC Coteaux du Giennois/' | sed 's/Châteaumeillant/AOC Châteaumeillant/' | sort -t ';' -k 1,1 > $DATA_DIR/produits.csv
 
-cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/g' | sed 's/Corée du Sud, République de/Corée du Sud/' | sed 's/Hong-Kong/R.A.S. chinoise de Hong Kong/' | sed 's/Taïwan, Province de chine/Taïwan/' | sed 's/Zaïre/République démocratique du Congo/' | sed 's/Iraq/Irak/' | sed 's/Centrafricaine, République/République centrafricaine/' | sed 's/Dominicaine, République/République dominicaine/' | sed 's/Syrienne, République Arabe/Syrie/' | sed 's/Tanzanie, République-Unie de/Tanzanie/' | sed 's/Autres/inconnu/' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
+cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/g' | sed 's/Corée du Sud, République de/Corée du Sud/g' | sed 's/Hong-Kong/R.A.S. chinoise de Hong Kong/g' | sed 's/Taïwan, Province de chine/Taïwan/g' | sed 's/Zaïre/République démocratique du Congo/g' | sed 's/Iraq/Irak/g' | sed 's/Centrafricaine, République/République centrafricaine/g' | sed 's/Dominicaine, République/République dominicaine/g' | sed 's/Syrienne, République Arabe/Syrie/g' | sed 's/Tanzanie, République-Unie de/Tanzanie/g' | sed 's/Belise/Belize/g' | sed 's/Caïmanes,îles/Îles Caïmans/g' | sed 's/Cisjordanie - Bande de Gaza/Territoire palestinien/g' | sed 's/Dubai/Émirats arabes unis/g' | sed 's/Iles Vierges Britaniques/Royaume-Uni/g' | sed 's/Macao/R.A.S. chinoise de Macao/g' | sed 's/Saint-Vincent-et-Grenadines/Saint-Vincent-et-les Grenadines/g' | sed 's/Turks et Caïques, îles/Îles Turks et Caïques/g' | sed 's/Urugay/Uruguay/g' | sed 's/Vietnam/Viêt Nam/g' | sed 's/Vatican, Saint-Siège/État de la Cité du Vatican/g' | sed 's/Wallis et Futuna, îles/Wallis-et-Futuna/g' | sed 's/Caraïbes, îles/inconnu/g' | sed 's/Autres/inconnu/g' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
+
+
+
 
 cat $TMP/data_sancerre_origin/POSSEDE_ARTICLE.utf8.XML | sed "s|<\POSSEDE_ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 1,1 > $DATA_DIR/stocks.csv
 
@@ -71,7 +74,14 @@ join -t ";" -1 1 -2 1 $DATA_DIR/stocks.csv $DATA_DIR/produits.csv | sed 's/;;/;/
 cat $DATA_DIR/result.csv | sed 's/;";/;/g' | sed 's/;";/;/g' | sed 's/";$/";"/g' | awk -F '";"' '{
 if ($4 == 1) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;ventefrancecrd;" $6 ";;;;;" }
 if ($4 == 2) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;export;" $6 ";" $25 ";;;;" }
-if ($4 == 3) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;creationvrac;" $6 ";" sprintf("%06d01", $11) ";" $10*100 ";" $5 ";;" }
+if ($4 == 3) {
+  prix=$15*100;
+  periode=substr($5, 1, 6);
+  if(periode < 200210){
+      prix=prix/6.55957
+  }
+  print "CAVE;" periode ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;creationvrac;" $6 ";" sprintf("%06d01", $11) ";" prix ";" $5 ";;"
+  }
 }' > $DATA_DIR/drm.csv
 
 cat $DATA_DIR/stocks-produits.csv | sed 's/";$/";"/g' | awk -F '";"' '{

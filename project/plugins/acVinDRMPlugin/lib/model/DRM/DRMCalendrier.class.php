@@ -33,7 +33,7 @@ class DRMCalendrier {
         $this->periodes = $this->buildPeriodes();
         $this->etablissements = array();
         $famillesArray = array(EtablissementFamilles::FAMILLE_PRODUCTEUR);
-        if(sfConfig::get('app_drmnegoce')){
+        if(DRMConfiguration::getInstance()->isDRMNegoce()){
           $famillesArray = array_merge($famillesArray,array(EtablissementFamilles::FAMILLE_NEGOCIANT));
         }
         foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {

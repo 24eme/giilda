@@ -29,4 +29,7 @@ class DRMConfiguration {
     public function isVracCreation() {
         return boolval($this->configuration['details']['vrac_detail']['creation']);
     }
+    public function isDRMNegoce() {
+        return boolval($this->configuration['negoce']);
+    }
 }

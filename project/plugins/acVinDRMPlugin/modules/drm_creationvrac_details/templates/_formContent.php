@@ -39,7 +39,7 @@ echo $form->renderGlobalErrors();
             </td>
             <td></td>
             <td></td>
-            <td class="text-right"><a data-container="#drm_creationvrac_details_table tbody" data-template="#template_creationvrac" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
+            <td class="text-right"><button type="button" data-container="#drm_creationvrac_details_table tbody" data-template="#template_creationvrac" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></button><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
         </tr>
     </tfoot>
 </table>

@@ -167,8 +167,6 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Les conditions</strong> <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
-
-
                 <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->courtage_taux || $vrac->tva): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
@@ -231,13 +229,19 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </span>
                     </li>
                 <?php endif; ?>
-
                 <?php if ($vrac->conditions_particulieres): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-12">
                             <?php if ($vrac->conditions_particulieres): ?>Observations : <strong><?php echo $vrac->conditions_particulieres ?></strong><?php endif; ?>
                         </span>
                     </li>
+                <?php endif; ?>
+                <?php if(!$isTeledeclarationMode): ?>
+                <li class="list-group-item clearfix">
+                    <span class="col-xs-6">
+                        Contrat <?php if($vrac->interne): ?>interne<?php else: ?>externe<?php endif; ?> <a href="<?php echo  url_for('vrac_changecontratinterne', array('sf_subject' => $vrac, 'interne' => !$vrac->interne)) ?>">(changer)</a>
+                    </span>
+                </li>
                 <?php endif; ?>
             </ul>
         </div>

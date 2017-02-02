@@ -37,7 +37,7 @@
 
 
 
-	<div id="content" style="min-height: 945px;">
+	<div id="content" style="min-height: 945px; padding-bottom: 20px;">
     <?php if(sfConfig::get('app_instance') == 'preprod' ): ?>
       <div><p style="color:red; text-align:center; font-weight: bold;">Preproduction (la base est succeptible d'être supprimée à tout moment)</p></div>
     <?php endif; ?>
