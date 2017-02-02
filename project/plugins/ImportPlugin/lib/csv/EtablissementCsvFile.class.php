@@ -105,7 +105,7 @@ class EtablissementCsvFile extends CompteCsvFile
               $line[self::CSV_COMMUNE] = "";
               $line[self::CSV_INSEE] = "";
               $line[self::CSV_CEDEX] = "";
-              $line[self::CSV_PAYS] = "";
+              $line[self::CSV_PAYS] = $s->getPays();
               $line[self::CSV_EMAIL] = "";
               $line[self::CSV_TEL_BUREAU] = "";
               $line[self::CSV_TEL_PERSO] = "";
@@ -115,7 +115,6 @@ class EtablissementCsvFile extends CompteCsvFile
             }
 
             $e->save();
-
             $this->storeCompteInfos($e, $line);
 
             $e->save();
