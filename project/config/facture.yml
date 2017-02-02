@@ -60,4 +60,3 @@ sancerre:
       pdf_nom_taux: "Cotisat°"
       pdf_display_code_comptable: false
       echeance: "last day of +1 month"
-      export_shell: "%SF_ROOT_DIR%/bin/exportSage.sh"
