@@ -35,7 +35,7 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
         $identifiants_analytiques = $this->getObject()->getOrAdd('identifiants_analytiques');
         foreach ($values as $key => $value) {
             $matches = array();
-            if (preg_match('/^identifiant_analytique([a-z_]*)_([0-9]+_[0-9]+)/', $key, $matches)) {
+            if (preg_match('/^identifiant_analytique([a-z_]*)_([0-9]+_[0-9a-z]+)/', $key, $matches)) {
                 if (!$matches[1]) {
                     $identifiants_analytiques->getOrAdd($matches[2])->identifiant_analytique = $value;
                 } else {
@@ -43,8 +43,12 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
                 }
             }
             if (preg_match('/^identifiant_analytique([a-z_]*)_nouvelle/', $key, $matches)
-                && $values['identifiant_analytique_numero_compte_nouvelle'] && $values['identifiant_analytique_nouvelle'])  {
-                $newNode = $identifiants_analytiques->getOrAdd($values['identifiant_analytique_numero_compte_nouvelle'] . '_' . $values['identifiant_analytique_nouvelle']);
+                && $values['identifiant_analytique_numero_compte_nouvelle'])  {
+                $keyid = $values['identifiant_analytique_numero_compte_nouvelle'] . '_' . $values['identifiant_analytique_nouvelle'];
+                if (!$values['identifiant_analytique_nouvelle']) {
+                    $keyid = $values['identifiant_analytique_numero_compte_nouvelle'] . '_' . md5($values['identifiant_analytique_libelle_compta_nouvelle']);
+                }
+                $newNode = $identifiants_analytiques->getOrAdd($keyid);
                 if (!$matches[1]) {
                     $newNode->identifiant_analytique = $value;
                 } else {
@@ -52,14 +56,12 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
                 }
             }
         }
-        
         $verif_ia = clone $identifiants_analytiques;
         foreach($verif_ia as $key => $value) {
-            if (!$value->identifiant_analytique_numero_compte || !$value->identifiant_analytique) {
+            if (!$value->identifiant_analytique_numero_compte) {
                 $identifiants_analytiques->remove($key);
             }
         }
-
     }
 
     public function setDefaults($defaults) {
