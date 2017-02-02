@@ -58,25 +58,33 @@ class statistiqueActions extends sfActions {
 		$elasticaQuery->setSize(0);
 		$elasticaQuery->setQuery($query);
 		$elasticaQuery->setParams(array('aggs' => $agg));
+		//print_r(json_encode($elasticaQuery->toArray()));exit;
 		return $index->search($elasticaQuery)->getFacets();
 	}
 	
 	protected function getAggsResultCsv($result)
 	{
+		//print_r($result);exit;
 		$appellations = $this->getLibelles('appellation');
-		$csv = '';
-		foreach ($result['aggs_produits']['produits_filter']['produits']['buckets'] as $appellation) {
-			if ($csv) {
-				$csv .= "\n";
-			}
-			$csv .= $appellations[strtoupper($appellation['key'])]."\n";
-			$csv .= 'Pays;Blanc;Rosé;Rouge;Total'."\n";
-			foreach ($appellation['pays']['buckets'] as $pays) {
-				if (!$pays['blanc']['blanc_val']['value'] && !$pays['rose']['rose_val']['value'] && !$pays['rouge']['rouge_val']['value']) {
+		$csv = 'Appellation;Pays;Blanc;Rosé;Rouge;TOTAL'."\n";
+		foreach ($result['exportations']['agg_page']['buckets'] as $appellation) {
+			$appellationLibelle = $appellations[strtoupper($appellation['key'])];
+			$totalBlanc =  $this->formatNumber(0);
+			$totalRose =  $this->formatNumber(0);
+			$totalRouge =  $this->formatNumber(0);
+			$totalTotal =  $this->formatNumber(0);
+			foreach ($appellation['agg_line']['buckets'] as $pays) {
+				$paysLibelle = $pays['key'];
+				$blanc = $this->formatNumber($pays['blanc']['agg_column']['value']);
+				$rose = $this->formatNumber($pays['rose']['agg_column']['value']);
+				$rouge = $this->formatNumber($pays['rouge']['agg_column']['value']);
+				$total = $this->formatNumber($pays['total']['agg_column']['value']);
+				if (!$blanc && !$rose && !$rouge) {
 					continue;
 				}
-				$csv .= $pays['key'].';'.$pays['blanc']['blanc_val']['value'].';'.$pays['rose']['rose_val']['value'].';'.$pays['rouge']['rouge_val']['value'].';'.$pays['total']['total_val']['value']."\n";
+				$csv .= $appellationLibelle.';'.$paysLibelle.';'.$blanc.';'.$rose.';'.$rouge.';'.$total."\n";
 			}
+			$csv .= $appellationLibelle.';TOTAL;'.$totalBlanc.';'.$totalRose.';'.$totalRouge.';'.$totalTotal."\n";
 		}
 		return $csv;
 	}
@@ -89,7 +97,10 @@ class statistiqueActions extends sfActions {
         }
 
         return $libelles;
-    }				
+    }	
+    protected function formatNumber($number) {
+    	return ($number && $number > 0)? number_format($number, 2, ',', '') : null;
+    }
 	
     public function executeDrmStatistiques(sfWebRequest $request) {
         $this->page = $request->getParameter('p', 1);
