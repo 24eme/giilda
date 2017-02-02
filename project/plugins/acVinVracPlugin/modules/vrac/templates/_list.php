@@ -160,12 +160,13 @@ use_helper('PointsAides');
         ?>
                     </td>
                     <td class="text-right">
-
-        <?php if (isset($v->prix_initial_unitaire_hl)) {
-                echoFloat($v->prix_initial_unitaire_hl);
-                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['prix_initial_unitaire']['libelle'] ;
-            }
-        ?>
+                    <?php if (isset($v->prix_initial_unitaire_hl) && $v->prix_initial_unitaire_hl):
+                            echoFloat($v->prix_initial_unitaire_hl);
+                            echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['prix_initial_unitaire']['libelle'] ;
+                          else:
+                    ?>
+                    <a href="<?php echo url_for('vrac_marche', array('numero_contrat' => $v->numero_contrat)) ?>" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;éditer</a>
+                  <?php endif;?>
                     </td>
                     <?php if(isset($teledeclaration) && $teledeclaration):
                       $statut = $v->valide->statut;
