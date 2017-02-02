@@ -63,7 +63,6 @@ class statistiqueActions extends sfActions {
 	
 	protected function getAggsResultCsv($result)
 	{
-		print_r($result);exit;
 		$appellations = $this->getLibelles('appellation');
 		$csv = '';
 		foreach ($result['aggs_produits']['produits_filter']['produits']['buckets'] as $appellation) {
