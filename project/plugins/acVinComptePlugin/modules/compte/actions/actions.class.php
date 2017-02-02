@@ -86,8 +86,11 @@ class compteActions extends sfCredentialActions {
 
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
       $query = $request->getParameter('q', '*');
+      if($query == ""){
+        $query.="*";
+      }
       if (! $request->getParameter('contacts_all') ) {
-		$query .= " doc.statut:ACTIF";
+		      $query .= " doc.statut:ACTIF";
       }
       $this->selected_rawtags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
       $this->selected_typetags = array();
