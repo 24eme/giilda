@@ -11,7 +11,10 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
 
 <section id="principal" class="vrac">
 
+<?php if(!$modeStandalone): ?>
 <?php include_component('vrac', 'etapes', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 2, 'urlsoussigne' => null, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+<?php endif; ?>
+
 
 <form action="" method="post" class="form-horizontal" id="contrat_marche" >
     <?php echo $form->renderHiddenFields() ?>
@@ -344,19 +347,32 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
 
     <div class="row">
         <div class="col-xs-4 col-md-push-8 text-right">
-            <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
+            <button type="submit" class="btn btn-success">
+                <?php if($modeStandalone): ?>
+                Valider
+                <?php else: ?>
+                Étape suivante <span class="glyphicon glyphicon-chevron-right"></span>
+                <?php endif; ?>
+            </button>
         </div>
         <div class="col-xs-4 text-center">
-            <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
+            <?php if (!$modeStandalone && $isTeledeclarationMode && $vrac->isBrouillon()) : ?>
                 <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
             <?php endif; ?>
-            <?php if (!$isTeledeclarationMode) : ?>
+            <?php if (!$modeStandalone && !$isTeledeclarationMode) : ?>
                 <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</button>
             <?php endif; ?>
         </div>
         <div class="col-xs-4 col-md-pull-8 text-left">
-            <button type="submit" formnovalidate="formnovalidate" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</button>
+            <?php if($modeStandalone && $urlRetour): ?>
+                <a href="<?php echo $urlRetour; ?>" tabindex="-1" class="btn btn-default">Annuler</a>
+            <?php else: ?>
+                <button type="submit" formnovalidate="formnovalidate" tabindex="-1" name="redirect" value="<?php echo url_for('vrac_soussigne',$vrac); ?>" class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Etape précédente
+                </button>
+            <?php endif; ?>
         </div>
     </div>
+
 </form>
 </section>
