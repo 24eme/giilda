@@ -22,3 +22,5 @@ all:
         "BIB 6l": 0.06
         "BIB 10l": 0.1
         "BIB 20l": 0.2
+      export_pays_debut: { }
+      export_pays_fin: { }

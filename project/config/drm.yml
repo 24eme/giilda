@@ -7,6 +7,8 @@ ivso:
           required: []
         vrac_detail:
           creation: false
+      export_pays_debut: { "UE": "Union Européenne", "HORSUE": "Hors Union Européenne" }
+      export_pays_fin: { "inconnu": "Inconnu" }
 
 ivbd:
   configuration:
@@ -17,6 +19,8 @@ ivbd:
           required: ["identifiant"]
         vrac_detail:
           creation: false
+      export_pays_debut: { }
+      export_pays_fin: { "inconnu": "Inconnu" }
 
 
 sancerre:
@@ -28,3 +32,5 @@ sancerre:
           required: ["identifiant"]
         vrac_detail:
           creation: true
+      export_pays_debut: { }
+      export_pays_fin: { "AUTRE": "Autres pays"}

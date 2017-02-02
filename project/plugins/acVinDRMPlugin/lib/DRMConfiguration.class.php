@@ -19,17 +19,31 @@ class DRMConfiguration {
     }
 
     public function getExportDetail() {
+
         return $this->configuration['details']['export_detail'];
     }
 
     public function getContenances() {
+
         return $this->configuration['contenances'];
     }
 
     public function isVracCreation() {
+
         return boolval($this->configuration['details']['vrac_detail']['creation']);
     }
     public function isDRMNegoce() {
+
         return boolval($this->configuration['negoce']);
+    }
+
+    public function getExportPaysDebut() {
+
+        return $this->configuration['export_pays_debut'];
+    }
+
+    public function getExportPaysFin() {
+
+        return $this->configuration['export_pays_fin'];
     }
 }

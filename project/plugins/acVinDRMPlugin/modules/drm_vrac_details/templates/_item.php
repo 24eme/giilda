@@ -30,6 +30,6 @@
     <td class="col-xs-2 typedoc_unshow"   <?php echo (!$docShow) ? '' : 'style="display: none;"' ?>  ></td>
 
     <td class="text-right col-xs-2">
-        <a type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_vrac_details_table dynamic-element-add" data-lines="#drm_vrac_details_table tbody tr" tabindex="-1" class="btn btn-xs btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_supprimer') ?>
+        <a type="button" data-line="#<?php echo $ligneId ?>" data-add="#drm_vrac_details_table .dynamic-element-add" data-lines="#drm_vrac_details_table tbody tr" tabindex="-1" class="btn btn-xs btn-danger dynamic-element-delete"><span class="glyphicon glyphicon-remove"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_supprimer') ?>
     </td>
 </tr>
