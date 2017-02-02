@@ -24,6 +24,7 @@ SV12:
             commune: {  }
             code_postal: {   }
             region: {  }
+            famille: {  }
       totaux:
         type: collection
         definition:

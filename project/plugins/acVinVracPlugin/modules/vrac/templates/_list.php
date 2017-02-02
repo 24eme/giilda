@@ -47,6 +47,7 @@ use_helper('PointsAides');
                     class="<?php echo statusCssClass($v->valide->statut) ?> hamzastyle-item vertical-center">
 
                     <td class="text-center">
+                        <a name="ligne_<?php echo vrac_get_id($value) ?>"></a>
                         <span class="<?php echo typeToPictoCssClass($v->type_transaction) ?> pointer" style="font-size: 24px; " data-toggle="tooltip" title="<?php echo tooltipForPicto($v->type_transaction) ?>"></span>
                         <?php if($v->valide->statut): ?>
                         <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $v->numero_contrat)) ?>">
@@ -167,9 +168,9 @@ use_helper('PointsAides');
                     <?php if (isset($v->prix_initial_unitaire_hl) && $v->prix_initial_unitaire_hl):
                             echoFloat($v->prix_initial_unitaire_hl);
                             echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['prix_initial_unitaire']['libelle'] ;
-                          else:
+                          elseif($v->valide->statut):
                     ?>
-                    <a href="<?php echo url_for('vrac_marche', array('numero_contrat' => $v->numero_contrat)) ?>" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;éditer</a>
+                    <a href="<?php echo url_for('vrac_marche', array('numero_contrat' => $v->numero_contrat, 'urlretour' => $sf_request->getUri()."#ligne_".vrac_get_id($value))) ?>" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Éditer</a>
                   <?php endif;?>
                     </td>
                     <?php if(isset($teledeclaration) && $teledeclaration):

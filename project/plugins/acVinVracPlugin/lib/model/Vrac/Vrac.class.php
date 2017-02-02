@@ -149,6 +149,9 @@ class Vrac extends BaseVrac {
     }
 
     public function setInformations() {
+        if(!$this->representant_identifiant) {
+            $this->representant_identifiant = $this->vendeur_identifiant;
+        }
         $this->setAcheteurInformations();
         $this->setVendeurInformations();
         $this->setRepresentantInformations();
@@ -181,13 +184,8 @@ class Vrac extends BaseVrac {
 
     private function setMandataireInformations() {
         $etablissement = $this->getMandataireObject();
-        $this->mandataire->nom = $etablissement->nom;
-        $this->mandataire->raison_sociale = $etablissement->raison_sociale;
-        $this->mandataire->adresse = $etablissement->siege->adresse;
-        $this->mandataire->commune = $etablissement->siege->commune;
-        $this->mandataire->code_postal = $etablissement->siege->code_postal;
-        $this->mandataire->carte_pro = $etablissement->carte_pro;
-        $this->mandataire->siret = $etablissement->getSociete()->siret;
+
+        return $this->setEtablissementInformations('mandataire', $etablissement);
     }
 
     public function setVendeurInformations() {
@@ -244,6 +242,7 @@ class Vrac extends BaseVrac {
         $this->get($type)->commune = $etablissement->siege->commune;
         $this->get($type)->code_postal = $etablissement->siege->code_postal;
         $this->get($type)->region = $etablissement->region;
+        $this->get($type)->famille = $etablissement->famille;
     }
 
     public function setDate($attribut, $d) {
@@ -428,7 +427,7 @@ class Vrac extends BaseVrac {
     public function getRepartitionCVOCoef($identifiant) {
 
         if (($this->acheteur_identifiant == $identifiant || $this->vendeur_identifiant == $identifiant) && $this->cvo_repartition == VracClient::CVO_REPARTITION_50_50) {
-          
+
 
 
             return 0.5;

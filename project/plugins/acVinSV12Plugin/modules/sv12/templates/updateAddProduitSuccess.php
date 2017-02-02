@@ -9,7 +9,7 @@
             <?php echo $form['hashref']->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
             <div class="col-sm-6">
                 <?php echo $form['hashref']->renderError(); ?>
-                <?php echo $form['hashref']->render(); ?>
+                <?php echo $form['hashref']->render(array("autofocus" => "autofocus")); ?>
             </div>
         </div>
             <div class="form-group">
