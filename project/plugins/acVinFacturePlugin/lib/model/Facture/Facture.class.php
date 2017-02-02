@@ -98,7 +98,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
 	    $date_campagne = new DateTime($this->date_facturation);
 
-        if (isset($configs['exercice']) && $configs['exercice'] == 'viticole') {
+        if (FactureConfiguration::getInstance()->getExercice() == 'viticole') {
 		    $date_campagne = $date_campagne->modify('+5 months');
 	    }
 
@@ -623,7 +623,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($this->exist('taux_tva') && $this->_get('taux_tva')) {
             return round($this->_get('taux_tva'), 2);
         }
-        $config_tva = sfConfig::get('app_tva_taux');
+        $config_tva = FactureConfiguration::getInstance()->getTauxTva();
         $date_facturation = str_replace('-', '', $this->date_facturation);
         $taux_f = 0.0;
         foreach ($config_tva as $date => $taux) {

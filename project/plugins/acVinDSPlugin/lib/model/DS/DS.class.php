@@ -10,14 +10,14 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     protected $archivage_document = null;
 
     public function  __construct() {
-        parent::__construct();   
+        parent::__construct();
         $this->initDocuments();
     }
 
     public function __clone() {
         parent::__clone();
         $this->initDocuments();
-    }   
+    }
 
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
@@ -30,13 +30,13 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         }
         $this->set('_id', DSClient::getInstance()->buildId($this->identifiant, $this->periode));
     }
-    
+
     public function getCampagne() {
 
         return $this->_get('campagne');
     }
-    
-    public function getFirstDayOfPeriode() {        
+
+    public function getFirstDayOfPeriode() {
        return substr($this->periode, 0,4).'-'.substr($this->periode, 4,2).'-01';
     }
 
@@ -54,12 +54,12 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     public function getLastDRM() {
-        
+
         return DRMClient::getInstance()->findLastByIdentifiantAndCampagne($this->identifiant, $this->campagne);
     }
 
     public function getLastDS() {
-        
+
         return DSClient::getInstance()->findLastByIdentifiant($this->identifiant);
     }
 
@@ -67,16 +67,16 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
 	if ($this->getEtablissement()->isViticulteur()) {
 	  $drm = $this->getLastDRM();
 	  if ($drm) {
-	    return $this->updateProduitsFromDRM($drm); 
+	    return $this->updateProduitsFromDRM($drm);
 	  }
 	}
 	if ($this->getEtablissement()->isNegociant()) {
-	  return $this->updateProduitsFromVracs(); 
+	  return $this->updateProduitsFromVracs();
 	}
         $ds = $this->getLastDS();
         if ($ds) {
-           return $this->updateProduitsFromDS($ds); 
-        }	
+           return $this->updateProduitsFromDS($ds);
+        }
     }
 
     public function addProduit($hash) {
@@ -117,13 +117,13 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     protected function updateProduitsFromDS($ds) {
         foreach ($ds->declarations as $produit) {
             if (!$produit->isActif()) {
-                
+
                 continue;
             }
             $produitDs = $this->addProduit($produit->produit_hash);
         }
     }
-    
+
     public function isStatutValide() {
         return $this->statut === DSClient::STATUT_VALIDE;
     }
@@ -166,8 +166,8 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     }
 
     /*** FIN ARCHIVAGE ***/
-    
-    public function getDepartement() 
+
+    public function getDepartement()
     {
         if($this->declarant->code_postal )  {
           return substr($this->declarant->code_postal, 0, 2);
@@ -175,18 +175,18 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
         return null;
     }
 
-    public function getEtablissement() 
+    public function getEtablissement()
     {
         return EtablissementClient::getInstance()->find($this->identifiant);
     }
-    
-    public function getInterpro() 
+
+    public function getInterpro()
     {
       	if ($this->getEtablissement()) {
          	return $this->getEtablissement()->getInterproObject();
      	}
     }
-    
+
     public function getMaster() {
         return $this;
     }
@@ -194,9 +194,9 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivag
     public function isMaster(){
         return true;
     }
-    
+
     public function getCoordonneesIL(){
-        $configs = sfConfig::get('app_facture_emetteur');
+        $configs = sfConfig::get('app_configuration_facture')['emetteur_cvo'];
         if (!array_key_exists($this->declarant->region, $configs))
             throw new sfException(sprintf('Config %s not found in app.yml', $this->declarant->region));
         return $configs[$this->declarant->region];

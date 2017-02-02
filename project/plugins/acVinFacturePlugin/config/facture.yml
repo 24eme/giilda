@@ -16,3 +16,9 @@ all:
       pdf_nom_taux: "Taux"
       pdf_display_code_comptable: true
       echeance: "+30 days"
+      sans_categories: false
+      exercice: "comptable"
+      taux_tva:
+          19700101: 19.6
+          20140101: 20.0
+      export_shell: false
