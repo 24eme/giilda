@@ -31,13 +31,14 @@ EOF;
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        $export = new ExportFactureCSV($options['horstaxe']);
+        $export = ExportFactureCSVFactory::getObject($options['env'], $options['horstaxe']);
         $export->printHeader();
 
         if ($options['factureid']) {
-		$export->printFacture($options['factureid']);
-		return ;
-	}
+		    $export->printFacture($options['factureid']);
+
+            return ;
+	    }
         foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
     	     $export->printFacture($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
         }

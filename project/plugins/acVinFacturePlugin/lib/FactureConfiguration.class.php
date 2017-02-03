@@ -35,6 +35,11 @@ class FactureConfiguration {
         return $this->configuration['prefix_sage'];
     }
 
+    public function getPrefixSageDivers() {
+
+        return $this->configuration['prefix_sage_divers'];
+    }
+
     public function getPrefixCodeComptable() {
 
         return isset($this->configuration['prefix_code_comptable']) ? $this->configuration['prefix_code_comptable'] : null;

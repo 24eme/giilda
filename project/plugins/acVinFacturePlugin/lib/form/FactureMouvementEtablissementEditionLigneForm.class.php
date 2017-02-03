@@ -13,16 +13,16 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
     }
 
     public function configure() {
-       
+
         if ($this->getObject() && ($this->getObject() instanceof FactureMouvement)
                 && $this->getObject()->exist('facture') && $this->getObject()->facture) {
             $this->isreadonly = array('readonly' => 'readonly');
         }
-        
+
         $this->setWidget('identifiant', new WidgetSociete(array('interpro_id' => $this->interpro_id, 'type_societe' => array(SocieteClient::TYPE_OPERATEUR,SocieteClient::TYPE_AUTRE)), $this->isreadonly));
-        $this->setWidget("libelle", new sfWidgetFormInput(array(), $this->isreadonly));
-        $this->setWidget("quantite", new sfWidgetFormInputFloat(array(), $this->isreadonly));
-        $this->setWidget("prix_unitaire", new sfWidgetFormInputFloat(array(), $this->isreadonly));
+        $this->setWidget("libelle", new bsWidgetFormInput(array(), $this->isreadonly));
+        $this->setWidget("quantite", new bsWidgetFormInputFloat(array(), $this->isreadonly));
+        $this->setWidget("prix_unitaire", new bsWidgetFormInputFloat(array(), $this->isreadonly));
 
         if ($this->getObject() && ($this->getObject() instanceof FactureMouvement)
                 && $this->getObject()->exist('facture') && $this->getObject()->facture) {

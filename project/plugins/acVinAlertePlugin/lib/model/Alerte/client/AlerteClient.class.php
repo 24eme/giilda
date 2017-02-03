@@ -2,7 +2,7 @@
 
 class AlerteClient extends acCouchdbClient {
 
-    const FIRSTCAMPAGNEIMPORT = "2012-2013";
+    const FIRSTCAMPAGNEIMPORT = "2014-2015";
     const DRM_MANQUANTE = "DRM_MANQUANTE";
     const DRA_MANQUANTE = "DRA_MANQUANTE";
 
