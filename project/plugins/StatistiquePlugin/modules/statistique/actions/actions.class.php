@@ -53,7 +53,7 @@ class statistiqueActions extends sfActions {
 	protected function getAggsResult($q, $agg)
 	{		
 		$query = new acElasticaQueryQueryString($q);
-		$index = acElasticaManager::getType('DRM');
+		$index = acElasticaManager::getType('DRMMVT');
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
 		$elasticaQuery->setQuery($query);
@@ -69,10 +69,10 @@ class statistiqueActions extends sfActions {
 		$csv = 'Appellation;Pays;Blanc;Rosé;Rouge;TOTAL'."\n";
 		foreach ($result['exportations']['agg_page']['buckets'] as $appellation) {
 			$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-			$totalBlanc =  $this->formatNumber(0);
-			$totalRose =  $this->formatNumber(0);
-			$totalRouge =  $this->formatNumber(0);
-			$totalTotal =  $this->formatNumber(0);
+			$totalBlanc =  $this->formatNumber($appellation['total_blanc']['value']);
+			$totalRose =  $this->formatNumber($appellation['total_rose']['value']);
+			$totalRouge =  $this->formatNumber($appellation['total_rouge']['value']);
+			$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
 			foreach ($appellation['agg_line']['buckets'] as $pays) {
 				$paysLibelle = $pays['key'];
 				$blanc = $this->formatNumber($pays['blanc']['agg_column']['value']);

@@ -3,6 +3,7 @@ all:
     facture:
       pdf: "facture/pdf_generique"
       prefix_sage: "VEN"
+      prefix_sage_divers: null
       tva_compte: 44570100
       type_cvo:
         identifiant_prefix: "1"

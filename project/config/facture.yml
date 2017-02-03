@@ -17,7 +17,7 @@ ivso:
       pdf_nom_taux: "Taux"
       pdf_display_code_comptable: true
       echeance: "+30 days"
-      export_shell: "%sf_project_dir%/bin/exportSage.sh"
+      export_shell: "%sf_root_dir%/bin/exportSage.sh"
 
 ivbd:
   configuration:
@@ -46,8 +46,9 @@ sancerre:
       pdf: "facture/pdf_generique"
       pdf_nom_interpro: "Bureau Interprofessionnel des Vins du Centre"
       pdf_ordre_cheque: "Bureau Interprofessionnel des Vins du Centre"
-      prefix_sage: ""
-      tva_compte: ""
+      prefix_sage: "VT"
+      prefix_sage_divers: "OD"
+      tva_compte: "44571000"
       type_cvo:
         identifiant_prefix: ""
       type_libre:
@@ -60,4 +61,5 @@ sancerre:
       pdf_nom_taux: "Cotisat°"
       pdf_display_code_comptable: false
       echeance: "last day of +1 month"
+      export_shell: "%sf_root_dir%/bin/exportCielCompta.sh"
       reglement: 'Conformément aux articles 441-6 c. com. et D. 441-5 c. com., tout retard de paiement entraîne de plein droit, une obligation pour le débiteur de payer une indemnité forfaitaire de 40€ pour frais de recouvrement.  Conformément à l’article 441-6 c. com., les pénalités de retard calculées sur le taux d’intérêt légal en vigueur,  sont exigibles dès que le délai de règlement est dépassé, sans qu’un rappel soit nécessaire. Escompte pour paiement anticipé néant. \vspace{3cm}'
