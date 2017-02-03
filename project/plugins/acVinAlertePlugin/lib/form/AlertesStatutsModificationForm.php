@@ -10,7 +10,7 @@ class AlertesStatutsModificationForm extends BaseForm {
     }
 
     public function configure() {
-        $this->setWidget('statut_all_alertes', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'expanded' => false)));
+        $this->setWidget('statut_all_alertes', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'expanded' => false), array("class" => "form-control select2")));
         $this->setWidget('commentaire_all_alertes', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
         foreach ($this->alertesList as $a) {
