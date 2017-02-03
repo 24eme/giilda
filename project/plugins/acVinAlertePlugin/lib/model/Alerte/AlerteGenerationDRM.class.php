@@ -12,10 +12,11 @@
 abstract class AlerteGenerationDRM extends AlerteGeneration {
 
     const TYPE_DOCUMENT = 'DRM';
-    
-    protected function createOrFindByDRM($drm) {        
+
+    protected function createOrFindByDRM($drm) {
+      
         $alerte = $this->createOrFind(DRMClient::getInstance()->buildId($drm->identifiant, $drm->periode));
-        
+
         $alerte->identifiant = $drm->identifiant;
         $alerte->campagne = $drm->campagne;
         $alerte->region = $drm->declarant->region;
@@ -27,7 +28,7 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
     protected function storeDatasRelance(Alerte $alerte) {
         $alerte->libelle_document = DRMClient::getInstance()->getLibelleFromId($alerte->id_document);
     }
-    
+
     protected function getEtablissementsByTypeDR($type_dr) {
         $etablissement_rows = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR), null, -1);
         $etablissements = array();
@@ -37,6 +38,7 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
             if ($etablissement->type_dr != $type_dr) {
                 continue;
             }
+
             if (($type_dr == EtablissementClient::TYPE_DR_DRM)
                     && ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
                 continue;
@@ -45,5 +47,5 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
         }
         return $etablissements;
     }
-   
+
 }
