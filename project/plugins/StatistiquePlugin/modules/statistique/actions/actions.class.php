@@ -45,19 +45,18 @@ class statistiqueActions extends sfActions {
 			if (!isset($this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation'])) {
 				throw new sfException('No aggregation set for statistiques '.$values['statistiques']);
 			}
-			$result = $this->getAggsResult('*', array('exportations' => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+			$result = $this->getAggsResult($this->form->processFilters(), array('exportations' => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
 			return $this->renderCsv($this->getAggsResultCsv($result), 'statistiques_'.$values['statistiques']);
 		}
 	}
 	
-	protected function getAggsResult($q, $agg)
+	protected function getAggsResult($filters, $agg)
 	{		
-		$query = new acElasticaQueryQueryString($q);
 		$index = acElasticaManager::getType('DRMMVT');
+		$params = ($filters)? array('aggs' => $agg, 'query' => $filters) : array('aggs' => $agg);
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
-		$elasticaQuery->setQuery($query);
-		$elasticaQuery->setParams(array('aggs' => $agg));
+		$elasticaQuery->setParams($params);
 		//print_r(json_encode($elasticaQuery->toArray()));exit;
 		return $index->search($elasticaQuery)->getFacets();
 	}

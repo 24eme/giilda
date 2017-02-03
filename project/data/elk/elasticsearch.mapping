@@ -49,6 +49,38 @@
                   				}
                 			}
               			},
+              			
+                        "declaration" : {
+                			"properties" : {
+                  				"total" : {
+				                    "type" : "double"
+				                  },
+				                  "total_debut_mois" : {
+				                    "type" : "double"
+				                  },
+				                  "total_entrees" : {
+				                    "type" : "double"
+				                  },
+				                  "total_entrees_revendique" : {
+				                    "type" : "double"
+				                  },
+				                  "total_facturable" : {
+				                    "type" : "double"
+				                  },
+				                  "total_recolte" : {
+				                    "type" : "double"
+				                  },
+				                  "total_revendique" : {
+				                    "type" : "double"
+				                  },
+				                  "total_sorties" : {
+				                    "type" : "double"
+				                  },
+				                  "total_sorties_revendique" : {
+				                    "type" : "double"
+				                  }
+				        	}
+				        },
               			"identifiant" : {
                 			"type" : "string",
                 			"index" : "not_analyzed"
@@ -137,6 +169,12 @@
                   				"region" : {
                     				"type" : "string",
                     				"index" : "not_analyzed"
+                  				},
+                  				"date" : {
+                    				"type" : "date"
+                  				},
+                  				"date_version" : {
+                    				"type" : "date"
                   				}
                 			}
               			},
