@@ -31,7 +31,7 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 	<?php include_partial('history_alertes_pagination', array('page' => $page, 'nbPage' => $nbPage, 'consultationFilter' => $consultationFilter, )); ?>
 	<div class="row">
 			<div class="col-xs-12">
-				<table class="table table-striped table-condensed table-bordered table_selection">
+				<table class="table  table-condensed table-bordered table_selection">
 					<thead>
 						<tr>
 							<th class="selecteur"><input type="checkbox" /></th>
@@ -62,13 +62,13 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 			                                    $styleRow = 'style="opacity: 0.5"';
 			                                }
 			                                if(($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER) || ($alerte['statut_courant'] == AlerteClient::STATUT_A_RELANCER_AR)){
-			                                    $classRow = 'statut_solde';
+			                                    $classRow = 'sucess';
 			                                }
 			                                if($alerte['statut_courant'] == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
-			                                    $classRow = 'statut_non-solde';
+			                                    $classRow = 'warning';
 			                                }
 			                                if($alerte['statut_courant'] == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
-			                                     $classRow = 'statut_annule';
+			                                     $classRow = 'danger';
 			                                }
 
 						?>

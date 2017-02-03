@@ -4,14 +4,18 @@
         ?>
 
         <?php if (!count($alertesEtablissement)): ?>
-            <div>
-                <span>
+          <div class="row">
+      			<div class="col-xs-12">
+      				<p><strong>
                     Aucune alerte pour cet opérateur
-                </span>
-            </div>
+                  </strong></p>
+          			</div>
+          		</div>
 
         <?php else: ?>
-            <table class="table_recap table_selection">
+          <div class="row">
+      			<div class="col-xs-12">
+            <table class="table table-condensed table-bordered table_selection">
                 <thead>
                     <tr>
                         <th class="selecteur"><input type="checkbox" /></th>
@@ -23,10 +27,10 @@
                 </thead>
                 <tbody>
                     <?php foreach ($alertesEtablissement as $alerte) :
-                        
+
                         $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'redirect_visualisation', array('id_doc' => $alerte->value[AlerteRechercheView::VALUE_ID_DOC]));
                         if(($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::DRM_MANQUANTE) || ($alerte->key[AlerteRechercheView::KEY_TYPE_ALERTE] == AlerteClient::DRA_MANQUANTE)){
-                                       $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'drm_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB], 'campagne' => $alerte->key[AlerteRechercheView::KEY_CAMPAGNE])); 
+                                       $document_link = link_to($alerte->value[AlerteRechercheView::VALUE_LIBELLE_DOCUMENT], 'drm_etablissement', array('identifiant' => $alerte->key[AlerteRechercheView::KEY_IDENTIFIANT_ETB], 'campagne' => $alerte->key[AlerteRechercheView::KEY_CAMPAGNE]));
                                     }
                                     $styleRow = "";
                                 $classRow = "";
@@ -37,20 +41,20 @@
                                     $styleRow = 'style="opacity: 0.5"';
                                 }
                                 if(($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER) || ($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_A_RELANCER_AR)){
-                                    $classRow = 'statut_solde';
+                                    $classRow = 'success';
                                 }
                                 if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
-                                    $classRow = 'statut_non-solde';
+                                    $classRow = 'warning';
                                 }
                                  if($alerte->key[AlerteRechercheView::KEY_STATUT] == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
-                                     $classRow = 'statut_annule';
+                                     $classRow = 'danger';
                                  }
-                        
-                    ?>   
+
+                    ?>
                         <tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
                             <td class="selecteur">
                                 <?php echo $modificationStatutForm[$alerte->id]->renderError(); ?>
-                                <?php echo $modificationStatutForm[$alerte->id]->render() ?> 
+                                <?php echo $modificationStatutForm[$alerte->id]->render() ?>
                             </td>
                             <td>
                                 <?php echo format_date($alerte->value[AlerteRechercheView::VALUE_DATE_MODIFICATION], 'dd/MM/yyyy'); ?>
@@ -67,5 +71,7 @@
                     endforeach;
                     ?>
                 </tbody>
-            </table> 
+            </table>
+          </div>
+        </div>
 <?php endif; ?>
