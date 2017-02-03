@@ -5,7 +5,7 @@
     },
     "mappings" : {
     
-    	"DRM" : {
+    	"DRMMVT" : {
     		"properties" : {
     			"doc" : {
     				"properties" : {
@@ -40,6 +40,10 @@
                     				"type" : "string"
                   				},
                   				"region" : {
+                   					"type" : "string",
+                    				"index" : "not_analyzed"
+                  				},
+                  				"famille" : {
                    					"type" : "string",
                     				"index" : "not_analyzed"
                   				}
@@ -127,6 +131,10 @@
                     				"index" : "not_analyzed"
                   				},
                   				"vrac_numero" : {
+                    				"type" : "string",
+                    				"index" : "not_analyzed"
+                  				},
+                  				"region" : {
                     				"type" : "string",
                     				"index" : "not_analyzed"
                   				}

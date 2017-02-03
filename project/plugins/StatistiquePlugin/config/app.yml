@@ -16,11 +16,23 @@ all:
                 terms:
                   field: 'doc.mouvements.appellation'
                 aggs:
+                  total_blanc:
+                    sum_bucket:
+                      buckets_path: "agg_line>blanc>agg_column"
+                  total_rose:
+                    sum_bucket:
+                      buckets_path: "agg_line>rose>agg_column"
+                  total_rouge:
+                    sum_bucket:
+                      buckets_path: "agg_line>rouge>agg_column"
+                  total_total:
+                    sum_bucket:
+                      buckets_path: "agg_line>total>agg_column"
                   agg_line:
                     terms:
                       field: 'doc.mouvements.detail_libelle'
                       order:
-                        total: desc
+                        "total>agg_column": desc
                     aggs:
                       blanc:
                         filter:
