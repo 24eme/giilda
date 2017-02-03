@@ -8,60 +8,56 @@ all:
       statistiques:
         exportations:
           aggregation:
-            nested:
-              path: 'doc.mouvements'
+            filter:
+              term:
+                doc.mouvements.type_hash: 'export_details'
             aggs:
-              agg_filtered:
-                filter:
-                  term:
-                    doc.mouvements.type_hash: 'export_details'
+              agg_page:
+                terms:
+                  field: 'doc.mouvements.appellation'
                 aggs:
-                  agg_page:
+                  agg_line:
                     terms:
-                      field: 'doc.mouvements.appellation'
+                      field: 'doc.mouvements.detail_libelle'
+                      order:
+                        total: desc
                     aggs:
-                      agg_line:
-                        terms:
-                          field: 'doc.mouvements.detail_libelle'
-                          order:
-                            total: desc
+                      blanc:
+                        filter:
+                          term:
+                            doc.mouvements.couleur: 'blanc'
                         aggs:
-                          blanc:
-                            filter:
-                              term:
-                                doc.mouvements.couleur: 'blanc'
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.mouvements.volume'
-                                  script: '_value * -1'
-                          rose:
-                            filter:
-                              term:
-                                doc.mouvements.couleur: 'rose'
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.mouvements.volume'
-                                  script: '_value * -1'
-                          rouge:
-                            filter:
-                              term:
-                                doc.mouvements.couleur: 'rouge'
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.mouvements.volume'
-                                  script: '_value * -1'
-                          total:
-                            filter:
-                              terms:
-                                doc.mouvements.couleur: ['blanc', 'rose', 'rouge']
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.mouvements.volume'
-                                  script: '_value * -1'
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
+                      rose:
+                        filter:
+                          term:
+                            doc.mouvements.couleur: 'rose'
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
+                      rouge:
+                        filter:
+                          term:
+                            doc.mouvements.couleur: 'rouge'
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
+                      total:
+                        filter:
+                          terms:
+                            doc.mouvements.couleur: ['blanc', 'rose', 'rouge']
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
                       
           datas: "/tmp/sancerre/export_bi_mouvements.csv"
           libelle: "Exports"
