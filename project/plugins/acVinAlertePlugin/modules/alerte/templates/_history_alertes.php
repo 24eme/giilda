@@ -1,6 +1,6 @@
 <div id="toutes_alertes">
 	<h2>Historique des alertes</h2>
-	
+
 	<?php
 	use_helper('Date');
 	$statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
@@ -12,7 +12,7 @@
 			Aucune alerte ouverte
 		</span>
 	</div>
-	
+
 	<?php else: ?>
 	<div>
 		<span>
@@ -32,13 +32,15 @@
 			</tr>
 		</thead>
 		<tbody>
-				<?php 
+				<?php
                                 foreach ($alertesHistorique as $a) :
-				$alerte = $a->getData()->getRawValue();
+				$alerteRaw = $a->getHit()->getRawValue();
+				$alerteId = $alerteRaw['_id'];
+				$alerte = $alerteRaw['_source']['doc'];
 				$derniereAlerte = array_pop($alerte['statuts']);
                                 $document_link = link_to($alerte['libelle_document'], 'redirect_visualisation', array('id_doc' => $alerte['id_document']));
                                 if(($alerte['type_alerte'] == AlerteClient::DRM_MANQUANTE) || ($alerte['type_alerte'] == AlerteClient::DRA_MANQUANTE)){
-                                   $document_link = link_to($alerte['libelle_document'], 'drm_etablissement', array('identifiant' => $alerte['identifiant'], 'campagne' => $alerte['campagne'])); 
+                                   $document_link = link_to($alerte['libelle_document'], 'drm_etablissement', array('identifiant' => $alerte['identifiant'], 'campagne' => $alerte['campagne']));
                                 }
                                 $styleRow = "";
                                 $classRow = "";
@@ -58,11 +60,11 @@
                                      $classRow = 'statut_annule';
                                 }
 
-			?>   
+			?>
                     <tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
                             <td class="selecteur">
-					<?php echo $modificationStatutForm[$alerte['_id']]->renderError(); ?>
-					<?php echo $modificationStatutForm[$alerte['_id']]->render() ?> 
+					<?php echo $modificationStatutForm[$alerteId]->renderError(); ?>
+					<?php echo $modificationStatutForm[$alerteId]->render() ?>
 				</td>
 				<td>
 					<?php echo ($derniereAlerte)? format_date($derniereAlerte['date'],'dd/MM/yyyy') : null; ?>
@@ -80,7 +82,7 @@
 			endforeach;
 			?>
 		</tbody>
-	</table> 
+	</table>
 	<?php include_partial('history_alertes_pagination', array('page' => $page, 'nbPage' => $nbPage, 'consultationFilter' => $consultationFilter, )); ?>
 	<?php endif; ?>
 </div>
