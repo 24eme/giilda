@@ -21,8 +21,8 @@
     $(document).ready(function ()
     {
         $(document).initAdvancedElements();
-
         $.initQueryHash();
+        $.initTableSelection();
 
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
             var link = $(e.relatedTarget);
@@ -35,6 +35,47 @@
         });
 
     });
+
+
+  	/**
+  	 * Sélection de lignes de tableau
+  	 * $.initTableSelection();
+  	 ******************************************/
+  	$.initTableSelection = function()
+  	{
+  		var tables = $('.table_selection');
+
+  		tables.each(function()
+  		{
+  			var table = $(this);
+  			var selecteurGlobal = table.find('thead .selecteur input');
+  			var selecteursLignes = table.find('tbody .selecteur input');
+
+  			// Selection / Déselection globale
+  			selecteurGlobal.click(function()
+  			{
+  				if(selecteurGlobal.is(':checked'))
+  				{
+  					selecteursLignes.attr('checked', 'checked');
+  				}
+  				else
+  				{
+  					selecteursLignes.removeAttr('checked');
+  				}
+  			});
+
+  			// Déselection unique
+  			selecteursLignes.click(function()
+  			{
+  				var selecteur = $(this);
+
+  				if(!selecteur.is(':checked'))
+  				{
+  					selecteurGlobal.removeAttr('checked');
+  				}
+  			});
+  		});
+  	};
 
     $.fn.initAdvancedElements = function () {
 
@@ -262,6 +303,36 @@
             });
             return true;
         });
+
+        /**
+      	 * Sélection de lignes de tableau
+      	 ******************************************/
+      	$(this).find('.table_selection thead .selecteur input').each(function(){
+
+          $(this).on('click', function(){
+              console.log('click');
+    			    var selecteursLignes = $(this).parents('table').find('tbody .selecteur input');
+              console.log(selecteursLignes,$(this).is(':checked'));
+      				if($(this).is(':checked'))
+      				{
+      					selecteursLignes.attr('checked', 'checked');
+      				}
+      				else
+      				{
+      					selecteursLignes.removeAttr('checked');
+      				}
+          });
+      	});
+
+        $(this).find('.table_selection tbody .selecteur input').on('click', function(e){
+
+      				var selecteur = $(this).parents('table').find('thead .selecteur input');
+
+      				if(!$(this).is(':checked'))
+      				{
+      					selecteur.removeAttr('checked');
+      				}
+      			});
 
         /**
          * Contrôle la bonne saisie de nombres dans

@@ -15,10 +15,10 @@ class AlertesConsultationForm extends BaseForm {
     public function configure()
     {
         $this->setWidget('identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => array(EtablissementFamilles::FAMILLE_PRODUCTEUR,  EtablissementFamilles::FAMILLE_NEGOCIANT))));
-        $this->setWidget('region',new bsWidgetFormChoice(array('choices' => $this->getRegions(),'expanded' => false)));
-        $this->setWidget('type_alerte', new bsWidgetFormChoice(array('choices' => $this->getTypes(),'expanded' => false)));
-        $this->setWidget('statut_courant',new bsWidgetFormChoice(array('choices' => $this->getStatuts(),'expanded' => false)));
-        $this->setWidget('campagne',new bsWidgetFormChoice(array('choices' => $this->getCampagnes(),'expanded' => false)));
+        $this->setWidget('region',new bsWidgetFormChoice(array('choices' => $this->getRegions(),'expanded' => false),array("class" => "form-control select2")));
+        $this->setWidget('type_alerte', new bsWidgetFormChoice(array('choices' => $this->getTypes(),'expanded' => false),array("class" => "form-control select2")));
+        $this->setWidget('statut_courant',new bsWidgetFormChoice(array('choices' => $this->getStatuts(),'expanded' => false),array("class" => "form-control select2")));
+        $this->setWidget('campagne',new bsWidgetFormChoice(array('choices' => $this->getCampagnes(),'expanded' => false),array("class" => "form-control select2")));
 
         $this->widgetSchema->setLabels(array(
             'identifiant' => 'Rechercher un opérateur :',
