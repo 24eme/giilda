@@ -10,7 +10,7 @@ class AlertesDateForm extends acCouchdbObjectForm {
 
     public function configure() {
         parent::configure();
-         $this->setWidget('date', new sfWidgetFormInput());
+         $this->setWidget('date', new bsWidgetFormInput());
 
         $this->widgetSchema->setLabel('date', 'Date :');
 
