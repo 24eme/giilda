@@ -42,6 +42,7 @@
   - curl
   - dehydrated
   - dehydrated-apache2
+  - gawk
 
 - name: "user actualys exist"
   user: name=actualys state=present
