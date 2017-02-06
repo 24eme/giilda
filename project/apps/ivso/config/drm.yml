@@ -1,0 +1,11 @@
+all:
+  configuration:
+    drm:
+      negoce: false
+      details:
+        export_detail:
+          required: []
+        vrac_detail:
+          creation: false
+      export_pays_debut: { "UE": "Union Européenne", "HORSUE": "Hors Union Européenne" }
+      export_pays_fin: { "inconnu": "Inconnu" }
