@@ -89,11 +89,33 @@
     <?php endif; ?>
     <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
     <br />
+    <?php if ($drm->exist('transmission_douane')) : ?>
+    <div id="contenu_onglet">
+        <h2>Transmission Douane</h2>
+        <table class="table_recap">
+            <thead >
+                <tr>
+                    <th>Transmission sur le portail proDou@ane</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>
+<?php if ($drm->transmission_douane->success) : ?>
+    La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
+<?php else: ?>
+    La transmission a échouée. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
+<?php endif; ?>
+                </td></tr>
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <?php endif; ?>
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
         <?php if ($isTeledeclarationMode) : ?>
             <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-            <?php if($compte->hasDroit("teledeclaration_douane")): ?>
+            <?php if($compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
               <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn_majeur btn_vert" ><span>Transmettre la Drm sur CIEL</span></a>
             <?php endif; ?>
         <?php endif; ?>
