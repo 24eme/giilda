@@ -27,7 +27,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               if(!$drmInfos){
                 throw new sfException("Aucune DRM ne peut être initialisé le fichier csv n'a ni identifiant, ni periode");
               }
-              $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($drmInfos['identifiant'],$drmInfos['periode'], true);
+              try{
+                $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($drmInfos['identifiant'],$drmInfos['periode'], true);
+              }catch(sfException $e){
+                echo "\"#Niveau erreur\";\"Numéro ligne de l'erreur\";\"Parametre en erreur \";\"Diagnostic\"\n";
+                echo "Error;1;".$drmInfos['identifiant'].";Le numéro de compte n'est pas connu\n";
+                return;
+              }
             }
 
             if(is_null($this->csvDoc)) {
@@ -56,7 +62,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         public function getDrm(){
-          return $this->drm;  
+          return $this->drm;
         }
 
         public function getCsvDoc() {
@@ -217,7 +223,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
                 $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
                 $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
-
                 $founded_produit = false;
 
                 foreach ($all_produits as $produit) {
@@ -548,6 +553,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         /**
          * Functions de création d'erreurs
          */
+
         private function createWrongFormatTypeError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_TYPE]),
