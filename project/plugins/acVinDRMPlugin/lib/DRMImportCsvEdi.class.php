@@ -231,7 +231,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                     $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
                     $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
-
                     $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
                     $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
 
@@ -239,7 +238,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     if ((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
                         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)) {
+                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
                         continue;
                     }
                     $founded_produit = $produit;
@@ -249,7 +249,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
-
+                                
                 $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
                 if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
                     $this->importComplementMvt($csvRow,$founded_produit,$just_check);
