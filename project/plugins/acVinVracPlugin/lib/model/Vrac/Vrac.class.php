@@ -234,15 +234,17 @@ class Vrac extends BaseVrac {
     protected function setEtablissementInformations($type, $etablissement) {
         $this->get($type)->nom = $etablissement->nom;
         $this->get($type)->raison_sociale = $etablissement->raison_sociale;
-        $this->get($type)->cvi = $etablissement->cvi;
+        if ($type != 'mandataire') {
+          $this->get($type)->cvi = $etablissement->cvi;
+          $this->get($type)->no_accises = $etablissement->no_accises;
+          $this->get($type)->no_tva_intracomm = $etablissement->getNoTvaIntraCommunautaire();
+          $this->get($type)->region = $etablissement->region;
+          $this->get($type)->famille = $etablissement->famille;
+        }
         $this->get($type)->siret = $etablissement->getSociete()->siret;
-        $this->get($type)->no_accises = $etablissement->no_accises;
-        $this->get($type)->no_tva_intracomm = $etablissement->getNoTvaIntraCommunautaire();
         $this->get($type)->adresse = $etablissement->siege->adresse;
         $this->get($type)->commune = $etablissement->siege->commune;
         $this->get($type)->code_postal = $etablissement->siege->code_postal;
-        $this->get($type)->region = $etablissement->region;
-        $this->get($type)->famille = $etablissement->famille;
     }
 
     public function setDate($attribut, $d) {
@@ -603,6 +605,17 @@ class Vrac extends BaseVrac {
 
     protected function preSave() {
         $this->archivage_document->preSave();
+    }
+
+    public function save() {
+      if (!$this->numero_contrat) {
+        $this->numero_contrat = VracClient::getInstance()->buildNumeroContrat(null, null, $this->isTeledeclare());
+      }
+      if (!$this->valide->statut) {
+        $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
+      }
+      $this->update();
+      return parent::save();
     }
 
     /*     * * ARCHIVAGE ** */
