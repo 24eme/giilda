@@ -40,20 +40,6 @@ class vracActions extends sfActions {
         }
     }
 
-    public function executeCreation(sfWebRequest $request) {
-        $this->redirect403IfICanNotCreate();
-        $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
-        $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        $this->vrac = new Vrac();
-
-        $this->vrac->setEtablissementCreateur($etablissement);
-        $this->vrac->update();
-        $this->vrac->setInformations();
-        $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
-        $this->vrac->save();
-        $this->redirect('vrac_soussigne', array('numero_contrat' => $this->vrac->numero_contrat));
-    }
-
     public function executeEtablissementSelection(sfWebRequest $request) {
         $form = new VracEtablissementChoiceForm('INTERPRO-declaration');
         $form->bind($request->getParameter($form->getName()));
