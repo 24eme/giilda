@@ -200,21 +200,61 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public function pushAdresseTo(InterfaceCompteGenerique $compte) {
-        $compte->adresse = $this->getAdresse();
-        $compte->adresse_complementaire = $this->getAdresseComplementaire();
-        $compte->commune = $this->getCommune();
-        $compte->code_postal = $this->getCodePostal();
-        $compte->insee = $this->getInsee();
-        $compte->pays = $this->getPays();
+        $ret = false;
+        if ($compte->adresse != $this->getAdresse()) {
+          $compte->adresse = $this->getAdresse();
+          $ret = true;
+        }
+        if ($compte->adresse_complementaire != $this->getAdresseComplementaire()) {
+          $compte->adresse_complementaire = $this->getAdresseComplementaire();
+          $ret = true;
+        }
+        if ($compte->commune != $this->getCommune()) {
+          $compte->commune = $this->getCommune();
+          $ret = true;
+        }
+        if ($compte->code_postal != $this->getCodePostal()) {
+          $compte->code_postal = $this->getCodePostal();
+          $ret = true;
+        }
+        if ($compte->insee != $this->getInsee()) {
+          $compte->insee = $this->getInsee();
+          $ret = true;
+        }
+        if ($compte->pays != $this->getPays()) {
+          $compte->pays = $this->getPays();
+          $ret = true;
+        }
+        return $ret;
     }
 
     public function pushContactTo(InterfaceCompteGenerique $compte) {
-        $compte->telephone_bureau= $this->getTelephoneBureau();
-        $compte->email = $this->getEmail();
-        $compte->fax = $this->getFax();
-        $compte->telephone_perso = $this->getTelephonePerso();
-        $compte->telephone_mobile = $this->getTelephoneMobile();
-        $compte->site_internet = $this->getSiteInternet();
+        $ret = false;
+        if ($compte->telephone_bureau != $this->getTelephoneBureau()) {
+          $compte->telephone_bureau = $this->getTelephoneBureau();
+          $ret = true;
+        }
+        if ($compte->email = $this->getEmail()) {
+          $compte->email = $this->getEmail();
+          $ret = true;
+        }
+        if ($compte->fax = $this->getFax()) {
+          $compte->fax = $this->getFax();
+          $ret = true;
+        }
+        if ($compte->telephone_perso = $this->getTelephonePerso()) {
+          $compte->telephone_perso = $this->getTelephonePerso();
+          $ret = true;
+        }
+        if ($compte->telephone_mobile = $this->getTelephoneMobile()) {
+          $compte->telephone_mobile = $this->getTelephoneMobile();
+          $ret = true;
+        }
+        if ($compte->site_internet = $this->getSiteInternet()) {
+          $compte->site_internet = $this->getSiteInternet();
+          $ret = true;
+        }
+        return $ret;
     }
 
     public function pullContactAndAdresseFrom(InterfaceCompteGenerique $compte) {
