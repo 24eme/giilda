@@ -81,7 +81,7 @@ class vracActions extends sfActions {
         $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
 
         $this->getUser()->usurpationOn($societeIdentifiant, $request->getReferer());
-        $this->redirect('homepage');
+        $this->redirect('common_homepage');
     }
 
     static function rechercheTriListOnID($etb0, $etb1) {

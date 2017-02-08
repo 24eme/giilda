@@ -1,0 +1,11 @@
+all:
+  configuration:
+    drm:
+      negoce: false
+      details:
+        export_detail:
+          required: ["identifiant"]
+        vrac_detail:
+          creation: false
+      export_pays_debut: { }
+      export_pays_fin: { "inconnu": "Inconnu" }

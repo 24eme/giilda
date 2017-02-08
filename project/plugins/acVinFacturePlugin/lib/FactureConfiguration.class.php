@@ -55,14 +55,6 @@ class FactureConfiguration {
         return $this->configuration['stockage_code_produit'];
     }
 
-    public function getPdfPartial()
-  	{
-      if ($this->configuration['pdf']) {
-  		  return $this->configuration['pdf'];
-      }
-      return "facture/pdf_generique";
-  	}
-
     public function isPdfProduitFirst() {
 
         return isset($this->configuration['pdf_produit']) ? $this->configuration['pdf_produit'] : false;
