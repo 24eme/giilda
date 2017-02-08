@@ -530,16 +530,11 @@
             {
                 if (e.keyCode == 27)
                 {
-                    var hasModal = false;
                     $(".modal").each(function () {
                         if ($(this).hasClass('in')) {
                             $("#" + $(this).attr('id')).modal('hide');
-                            hasModal = true;
                         }
                     });
-                    if (!hasModal) {
-                        object.reinit();
-                    }
                     e.preventDefault();
                 }
             });
