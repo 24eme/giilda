@@ -251,15 +251,6 @@
             return false;
         });
 
-        /*$('a.ajout_crds_popup').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         'afterShow': openedPopupAjoutCRD
-
-         });*/
-
         $('a.ajout_crds_popup').click();
 
         $('.add_crds_popup_content a#popup_close').click(function () {
@@ -280,35 +271,12 @@
     };
 
     var initRegimeCrdsPopup = function () {
-        /*$('a.crd_regime_choice_popup').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         closeClick: false,
-         closeBtn: false,
-         helpers: {
-         overlay: {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
-         }
-         });*/
         $('a.crd_regime_choice_popup').click();
 
     };
 
     var initCreationDrmPopup = function () {
-
-        /*$('a.drm_nouvelle_teledeclaration').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         minWidth: 500,
-         'afterShow': $.initProtectForms
-
-         });*/
-
         $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
-            //$.fancybox.close();
         });
 
         $('.popup_creation_drm div.type_creation input').change(function () {
