@@ -9,6 +9,5 @@
 
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('declaration', 'sancerre', true);
-sfConfig::set("sf_no_script_name", false);
+$configuration = ProjectConfiguration::getApplicationConfiguration('bivc', 'dev', true);
 sfContext::createInstance($configuration)->dispatch();
