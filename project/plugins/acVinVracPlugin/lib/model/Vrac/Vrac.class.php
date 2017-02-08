@@ -123,6 +123,8 @@ class Vrac extends BaseVrac {
                     $this->volume_propose = $this->jus_quantite;
                     break;
                 }
+            default:
+              throw new sfException("Vrac sans type :(");
         }
 
         if ($this->volume_propose) {
@@ -370,6 +372,8 @@ class Vrac extends BaseVrac {
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
                 $this->prix_total = round($this->jus_quantite * $this->prix_unitaire, 2);
                 break;
+            default:
+              throw new sfException("not vrac type found");
         }
 
         if ($this->prix_unitaire && $this->volume_propose) {
@@ -394,9 +398,10 @@ class Vrac extends BaseVrac {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
             if ($this->acheteur_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_acheteur', date('c'));
-            }
-            if ($this->mandataire_identifiant == $this->createur_identifiant) {
+            }else if ($this->mandataire_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_courtier', date('c'));
+            }else {
+              throw new sfException("Créateur obligatoire pour un contrat télédéclaré");
             }
         } else {
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
