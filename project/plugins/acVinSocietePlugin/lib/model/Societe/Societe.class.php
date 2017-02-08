@@ -149,11 +149,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     public function getComptesAndEtablissements() {
         $contacts = array();
 
+        foreach ($this->etablissements as $id => $obj) {
+          $contacts[$id] = EtablissementClient::getInstance()->find($id);
+        }
         foreach ($this->contacts as $id => $obj) {
             $contacts[$id] = CompteClient::getInstance()->find($id);
-        }
-        foreach ($this->etablissements as $id => $obj) {
-            $contacts[$id] = EtablissementClient::getInstance()->find($id);
         }
 
         return $contacts;
@@ -359,17 +359,17 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $needSave = false;
 
         if ($compteMaster->_id == $compteOrEtablissement->_id) {
-            $compteOrEtablissement->nom = $this->raison_sociale;
-            $needSave = true;
+            if ($compteOrEtablissement->nom != $this->raison_sociale) {
+              $compteOrEtablissement->nom = $this->raison_sociale;
+              $needSave = true;
+            }
         }
 
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
-            $this->pushAdresseTo($compteOrEtablissement);
-            $needSave = true;
+            $needSave = $needSave || $this->pushAdresseTo($compteOrEtablissement);
         }
         if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
-            $this->pushContactTo($compteOrEtablissement);
-            $needSave = true;
+            $needSave = $needSave || $this->pushContactTo($compteOrEtablissement);
         }
 
         if ($needSave) {
@@ -433,6 +433,13 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         if ($this->exist('legal_signature'))
             return ($this->add('legal_signature')->add('v1'));
         return false;
+    }
+
+    public function delete() {
+      foreach($this->getComptesAndEtablissements() as $id => $obj) {
+          $obj->delete();
+      }
+      return parent::delete();
     }
 
 }
