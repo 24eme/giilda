@@ -1,7 +1,6 @@
 all:
   configuration:
     facture:
-      pdf: "facture/pdf_generique"
       pdf_nom_interpro: "IVSO"
       pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
       prefix_sage: "02"

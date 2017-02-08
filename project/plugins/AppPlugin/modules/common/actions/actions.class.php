@@ -5,7 +5,7 @@ class commonActions extends sfActions {
     public function executeError500(sfWebRequest $request) {
         $this->exception = $request->getParameter('exception');
         if (sfConfig::get('app_auth_mode') != 'HTTP_AD') {
-            $this->setTemplate('error500Teledeclaration', 'global');
+            $this->setTemplate('error500Teledeclaration');
         }
     }
 

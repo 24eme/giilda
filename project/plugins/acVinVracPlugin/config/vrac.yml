@@ -1,7 +1,6 @@
 all:
   configuration:
     vrac:
-      pdf: "vrac/generateTex"
       etapes:
         "soussigne": "Soussignés"
         "marche": "Marché"

@@ -2,7 +2,6 @@
 use_helper('Date');
 use_helper('Display');
 
-$env = sfConfig::get('sf_environment');
 $coordonneesBancaires = $facture->getCoordonneesBancaire();
 $infosInterpro = $facture->getInformationsInterpro();
 ?>
@@ -101,4 +100,4 @@ $infosInterpro = $facture->getInformationsInterpro();
          SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
 \end{tiny}
  }
-\rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_".$env.".png"; ?>}}
+\rhead{\includegraphics[scale=0.7]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_". sfConfig::get('sf_app').".png"; ?>}}
