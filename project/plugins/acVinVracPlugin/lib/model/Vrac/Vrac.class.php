@@ -394,7 +394,7 @@ class Vrac extends BaseVrac {
     }
 
     public function validate($options = array()) {
-        if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+        if ($this->isTeledeclare()) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
             if ($this->acheteur_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_acheteur', date('c'));

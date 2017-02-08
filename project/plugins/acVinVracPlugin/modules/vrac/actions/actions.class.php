@@ -493,7 +493,7 @@ class vracActions extends sfActions {
             if ($this->form->isValid() && $this->validation->isValide()) {
                 $this->maj_etape(4);
                 $this->form->save();
-                $this->vrac->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+                $this->vrac->validate();
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
