@@ -800,16 +800,6 @@ class Vrac extends BaseVrac {
         return $this->valide->exist('date_signature_courtier') && $this->valide->date_signature_courtier;
     }
 
-    public function setEtablissementCreateur($etablissement) {
-        if ($etablissement->getSociete()->isCourtier()) {
-            $this->setMandataireIdentifiant($etablissement->_id);
-            $this->mandataire_exist = true;
-        }
-        if ($etablissement->getSociete()->isNegociant()) {
-            $this->setAcheteurIdentifiant($etablissement->_id);
-        }
-    }
-
     public function signatureByEtb($etb) {
         switch ($etb->getFamilleType()) {
             case 'vendeur' :
