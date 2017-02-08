@@ -15,7 +15,6 @@ class PointsAidesConfiguration {
     }
 
     public function __construct() {
-
         $this->pointsAides = sfConfig::get('configuration_points_aides', array());
     }
 
