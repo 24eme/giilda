@@ -103,6 +103,7 @@
                 colonne.focusChampDefault();
             }
 
+
             $('.drm_input_details').on('modal_callback', function (e, data) {
                 $(this).val(data.volume);
                 $(this).change();

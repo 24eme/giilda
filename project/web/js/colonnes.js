@@ -322,6 +322,35 @@
             this.colonnes.event_disabled(this);
         }
 
+        this.notifyNotFavoris = function() {
+          var nofavorisEntrees = this.element.find('input.not_a_favoris_entrees');
+          var nofavorisSorties =  this.element.find('input.not_a_favoris_sorties');
+          var sommeNotFavorisEntrees = 0.0;
+          var sommeNotFavorisSorties = 0.0;
+          nofavorisEntrees.each(function(){
+              if($(this).val()){
+                sommeNotFavorisEntrees = parseFloat($(this).val()) + sommeNotFavorisEntrees;
+              }
+          });
+          nofavorisSorties.each(function(){
+            if($(this).val()){
+              sommeNotFavorisSorties = parseFloat($(this).val()) + sommeNotFavorisSorties;
+            }
+          });
+          var raccourcis_ouvrir_entrees = this.element.find('a.raccourcis_ouvrir_entrees');
+          var raccourcis_ouvrir_sorties = this.element.find('a.raccourcis_ouvrir_sorties');
+          if(sommeNotFavorisEntrees != 0 ){
+            raccourcis_ouvrir_entrees.addClass('active');
+          }else{
+            raccourcis_ouvrir_entrees.removeClass('active');
+          }
+          if(sommeNotFavorisSorties != 0){
+            raccourcis_ouvrir_sorties.addClass('active');
+          }else{
+            raccourcis_ouvrir_sorties.removeClass('active');
+          }
+        }
+
         this.focus = function () {
             if (this.isFocus()) {
                 return;
@@ -1250,7 +1279,7 @@
                 if (this.isSommeDetail() && val_before != this.getVal()) {
                     this.champs.calculer();
                 }
-
+                this.colonne.notifyNotFavoris();
                 return;
             }
 
