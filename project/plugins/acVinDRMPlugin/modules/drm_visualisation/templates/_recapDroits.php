@@ -24,9 +24,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php foreach($recapCvos as $recapCvo): ?>
-                    <tr >
-                        <td><?php if($recapCvo->version): ?><small class="text-muted"><?php echo $recapCvo->version ?></small> <?php endif; ?>CVO</td>
+                <?php foreach($recapCvos as $key => $recapCvo): ?>
+                    <tr style="<?php echo ($key == 'TOTAL')? 'font-weight:bold;' : ''; ?>" >
+                        <td><?php if($recapCvo->version): ?><small class="text-muted"><?php echo $recapCvo->version ?></small> <?php endif; ?>CVO<?php echo ($recapCvo->version)? '' : ' Totale'; ?></td>
                         <td class="text-right"><?php
                             echoFloat($recapCvo->totalVolumeDroitsCvo);
                             echo " hl";

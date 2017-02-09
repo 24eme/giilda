@@ -75,7 +75,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
 
             return array("TOTAL" => $recapCvos["TOTAL"]);
         }
-
+        ksort($recapCvos);
         return $recapCvos;
     }
 
