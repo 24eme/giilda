@@ -10,38 +10,38 @@
 			<?php echo $form->renderHiddenFields() ?>
 	
 			<div class="form-group">
-				<span class="error has-error"><?php echo $form['appellations']->renderError() ?></span>
-		        <?php echo $form['appellations']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-		        <div class="col-xs-8"><?php echo $form['appellations']->render(); ?></div>
+				<span class="error has-error"><?php echo $form['doc.mouvements.appellation']->renderError() ?></span>
+		        <?php echo $form['doc.mouvements.appellation']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?>
+		        <div class="col-xs-10"><?php echo $form['doc.mouvements.appellation']->render(); ?></div>
 			</div>
 			<div class="form-group">
-				<span class="error has-error"><?php echo $form['familles']->renderError() ?></span>
-		        <?php echo $form['familles']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-		        <div class="col-xs-8"><?php echo $form['familles']->render(); ?></div>
-			</div>
-	
-			<div class="form-group">
-				<span class="error has-error"><?php echo $form['region']->renderError() ?></span>
-		        <?php echo $form['region']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-		        <div class="col-xs-8"><?php echo $form['region']->render(); ?></div>
+				<span class="error has-error"><?php echo $form['doc.declarant.famille']->renderError() ?></span>
+		        <?php echo $form['doc.declarant.famille']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?>
+		        <div class="col-xs-10"><?php echo $form['doc.declarant.famille']->render(); ?></div>
 			</div>
 	
 			<div class="form-group">
-				<span class="error has-error"><?php echo $form['dates']->renderError() ?></span>
-		        <?php echo $form['dates']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-		        <div class="col-xs-8"><?php echo $form['dates']->render(); ?></div>
+				<span class="error has-error"><?php echo $form['doc.mouvements.region']->renderError() ?></span>
+		        <?php echo $form['doc.mouvements.region']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?>
+		        <div class="col-xs-10"><?php echo $form['doc.mouvements.region']->render(); ?></div>
+			</div>
+	
+			<div class="form-group">
+				<span class="error has-error"><?php echo $form['doc.mouvements.date']->renderError() ?></span>
+		        <?php echo $form['doc.mouvements.date']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?>
+		        <div class="col-xs-10"><?php echo $form['doc.mouvements.date']->render(); ?></div>
 			</div>
 	
 			<div class="form-group">
 				<span class="error has-error"><?php echo $form['lastyear']->renderError() ?></span>
-		        <span class="text-muted"><?php echo $form['lastyear']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?></span>
-		        <div class="col-xs-8"><?php echo $form['lastyear']->render(array('disabled' => 'disabled')); ?></div>
+		        <span class="text-muted"><?php echo $form['lastyear']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?></span>
+		        <div class="col-xs-10"><?php echo $form['lastyear']->render(array('disabled' => 'disabled')); ?></div>
 			</div>
 	
 			<div class="form-group">
 				<span class="error has-error"><?php echo $form['statistiques']->renderError() ?></span>
-		        <?php echo $form['statistiques']->renderLabel(null, array("class" => "col-xs-4 control-label")); ?>
-		        <div class="col-xs-8"><?php echo $form['statistiques']->render(); ?></div>
+		        <?php echo $form['statistiques']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?>
+		        <div class="col-xs-10"><?php echo $form['statistiques']->render(); ?></div>
 			</div>
 			
 			<div class="form_ligne_btn" style="margin-top:20px;">

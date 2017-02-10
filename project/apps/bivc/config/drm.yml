@@ -1,0 +1,11 @@
+all:
+  configuration:
+    drm:
+      negoce: true
+      details:
+        export_detail:
+          required: ["identifiant"]
+        vrac_detail:
+          creation: true
+      export_pays_debut: { }
+      export_pays_fin: { "AUTRE": "Autres pays"}

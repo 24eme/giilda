@@ -33,6 +33,7 @@ curl -s -X PUT -d '{ "_id": "CURRENT", "type": "Current", "configurations": { "1
 
 cd project;
 php symfony import:configuration CONFIGURATION data/import/configuration/sancerre --env=sancerre
+php symfony import:CVO CONFIGURATION data/import/configuration/sancerre/cvo.csv --env=sancerre
 php symfony cc
 cd ..
 

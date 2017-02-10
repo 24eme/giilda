@@ -1,0 +1,15 @@
+all:
+  configuration:
+    points_aides:
+      drm:
+        mouvements_export_pays: "Indiquer le pays d’exportation en saisissant le nom du pays ou en le sélectionnant dans la liste."
+      vrac:
+        dernier_contrat_prix: "Indique le prix du contrat exprimé en €/Tonneau (1T = 9 hl)"
+        marche_prix: "Indiquer le prix du vin, en € /T (1Tonneau = 9 hl) ."
+
+        condition_delais_paiement: "Sélectionner le délai de paiement dans la liste. Le délai maximum légal est de 60 jours après la date d’édition de la facture. Se référer aux accords interprofessionnels afin de connaître les éventuelles dérogations au délai maximum légal."
+        condition_accompte: "Indiquer le montant de  l’acompte. Se référer aux accords interprofessionnels afin de connaitre les éventuelles dérogations au versement de l’acompte."
+        condition_moyen_paiement: "Sélectionner le moyen de paiement dans la liste."
+        condition_observation: "Indiquer toute observation complémentaire éventuelle."
+        condition_nom_vin: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation du nom de Château / Domaine / Marque dans les actes de commercialisation du vin (étiquettes…)."
+        condition_nom_producteur: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation de son nom dans les actes de commercialisation du vin (étiquettes…).""

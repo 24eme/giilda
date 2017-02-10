@@ -1,0 +1,169 @@
+all:
+  configuration:
+    points_aides:
+      vrac:
+        #menu_list_asigner : "Contrats d’achats en attente de votre signature. Ces contrats, initiés par un négociant ou un courtier, doivent être lus avant validation définitive."
+
+
+        #7
+        etape_soussignes: "Indiquer les autres contractants."
+        etape_marche: "Indiquer l’objet du marché: Vin, millésime, nom de domaine, volume, prix…"
+        etape_condition: "Indiquer les conditions du contrat: paiement, retiraison, clauses spécifiques…"
+        etape_validation: "Relire, dater, signer et envoyer le contrat aux autres contractants pour signature."
+
+        #5
+        menu_list_enattente: "Contrats d’achats dont vous êtes l’initiateur  et qui restent en attente des signatures de tous les contractants."
+        menu_acceder: "Permet d’accéder à l’ensemble de vos contrats."
+        menu_list_brouillon: "Contrats  d’achats initiés mais incomplets donc à terminer OU à supprimer."
+        menu_list_asigner: "Contrats  d’achats en attente de votre signature. Ces contrats, initiés par un autre contractant, doivent être lus avant validation définitive."
+        menu_list_acces_brouillon: "Permet d’accéder au(x) contrat(s) en brouillon."
+        menu_list_acces_asigner: "Permet d’accéder au(x) contrat(s) à signer."
+        menu_list_acces_enattente: "Permet d’accéder au(x) contrat(s) en attente."
+        menu_acces_historique: "Permet de voir tous vos contrats classés par campagne viticole."
+        menu_acces_nouveau: "Bouton de saisie d’un nouveau contrat."
+        dernier_contrat_nature: "Nature du contrat (Vrac retiraison Vrac; Vrac retiraison Bouteilles; Vendanges Fraîches), n° de visa de l’interprofession, n° de bordereau.  Cliquer sur le n° de visa permet de visualiser le contrat."
+        dernier_contrat_date: "Date de signature du contrat / Date de validation du contrat par l’interprofession. "
+        dernier_contrat_soussignes: "Liste tous les contractants. Cliquer sur un nom permet de trouver tous les contrats passés entre vous et  ce co-contractant."
+        dernier_contrat_produits: "Indique le nom du produit et le millésime."
+        dernier_contrat_volume: "Indique le volume initial du contrat et le volume déjà enlevé."
+        dernier_contrat_prix: "Indique le prix du contrat exprimé en €/Tonneau (1T = 9 hl)"
+        dernier_contrat_acces_visu: "Permet de visualiser le contrat."
+
+        #7
+        soussignes_type_contrat: "Cocher le type de contrat que vous souhaitez réaliser."
+        soussignes_selection_vendeur: "Sélectionner un vendeur dans la liste ou  indiquer un nouveau vendeur. La liste proposée contient des producteurs avec qui vous avez déjà travaillé. Pour indiquer un nouveau vendeur, sélectionner  « ajouter un récoltant ». Il vous faudra connaître son n° de client à l’interprofession."
+        soussignes_vin_loge: "Cocher cette case si le vin est logé dans un autre chai que celui indiqué dans l’adresse du récoltant. Indiquer ensuite la commune."
+        soussignes_vente_intermediaire: "Cocher cette case si un intermédiaire intervient dans la transaction, puis le sélectionner.  Un intermédiaire est quelqu’un qui se substitue au vendeur dans ses obligations vis-à-vis de l’interprofession (CVO). Pour indiquer un nouvel intermédiaire, sélectionner  « ajouter un représentant ». Il vous faudra connaître son n° de client à l’interprofession."
+        soussignes_non_tva: "Décocher la case si le vendeur n’est pas assujetti à la TVA."
+
+        #8
+        soussignes_nature_acheteur: "Indiquer la nature de l’acheteur. L’acheteur ne peut être un producteur  que dans le cadre d’un contrat de vendanges fraîches."
+        soussignes_selection_acheteur: "Sélectionner un acheteur dans la liste ou  indiquer un nouvel acheteur. La liste proposée contient des acheteurs avec qui vous avez déjà travaillé. Pour indiquer un nouvel acheteur, sélectionner  « ajouter un négociant ». Il vous faudra connaître son n° de client à l’interprofession."
+
+        #10
+        annuaire_fil_saisi_retour_liste_contrat: "Permet de retourner à la liste de vos contrats."
+        annuaire_fil_saisi_retour_annuaire: "Permet de visualiser la liste des contacts avec qui vous avez passé un contrat par le passé."
+        annuaire_fil_saisi_retour_contrat:  "Permet de retourner au contrat en cours de saisie."
+        annuaire_selection_type: "Sélectionner le type de contact que vous souhaitez  ajouter: Viticulteur, Représentant, Courtier, Négociant."
+        annuaire_selection_numero: "Inscrire le n° de client interprofessionnel  à 6 chiffres de ce contact (ex: 000001). Ce n° figure sur chacune des factures CVO du contact. Il est identique au n° d’identifiant utilisé par le contact pour son accès au portail de l’interprofession. En cas de problème, contacter l’interprofession."
+        #11
+        annuaire_verification_infos: "Permet de vérifier l’identité  complète du contact correspondant au n° d’identifiant que vous avez indiqué avant de valider son ajout définitif à votre annuaire."
+        #12
+        annuaire_suppression: "Permet de supprimer un contact de votre annuaire."
+
+        #13
+        soussigne_nonactif_compte: "Tant que le ressortissant n’a pas activé son compte, il ne pourra pas signer le contrat qui restera donc à l’état de brouillon."
+        soussigne_recoltant_supprimer: "Permet de supprimer le récoltant pour en choisir un autre."
+        soussigne_acheteur_supprimer: "Permet de supprimer l'acheteur pour en choisir un autre."
+        soussigne_courtier_supprimer: "Permet de supprimer le courtier pour en choisir un autre."
+        #14
+        soussignes_selection_intermediaire: "Sélectionner un intermédiaire  dans la liste ou  indiquer un nouveau représentant. La liste proposée contient des intermédiaires avec qui vous avez déjà travaillé. Pour indiquer un nouveau représentant, sélectionner  « ajouter un représentant ». Il vous faudra connaître son n° de client à l’interprofession."
+        #15 marche
+        marche_selection_produit: "Sélectionner un produit.  Pour cela, commencer à le saisir dans la barre d’auto-complétion: les produits possibles seront sélectionnés au fur et à mesure en fonction des caractères saisis."
+        marche_millesime: "Sélectionner un millésime si le vin contient au moins 85% de ce millésime ou indiquer « non millésimé »."
+        marche_millesime_8515: "Cocher la case si la règle  dite du « 85/15 » a été appliquée sur le millésime (millésime entre 85 et 100%)."
+        marche_cepage: "Facultatif. Cocher la case en cas de cépage déclaré, puis sélectionner le cépage dans la liste proposée (barre d’auto-complétion)."
+        marche_cepage_8515: "Cocher la case si la règle  dite du « 85/15 » a été appliquée sur le cépage (cépage entre 85 et 100%)."
+        marche_agriculture_bio: "Cocher la case si le vin est issu de l’agriculture biologique."
+        marche_numero_lot: "Facultatif. Indiquer le n° du lot."
+        marche_degre: "Facultatif. Indiquer le degré du vin."
+        marche_mention: "Le cas échéant, cocher la case « avec mention »  puis sélectionner le nom de Château, de Domaine ou de marque dans la liste qui apparaît, ou le saisir (en précisant Château ou Domaine)."
+        marche_volume: "Indiquer le volume de vin objet du contrat, en hl."
+        marche_prix: "Indiquer le prix du vin, en € /T (1Tonneau = 9 hl)"
+
+
+        condition_accompte: "Indiquer le montant de  l’acompte. Se référer aux accords interprofessionnels afin de connaitre les éventuelles dérogations au versement de l’acompte."
+        condition_clause_reserve_prop: "Cocher la case si l’acheteur accepte une réserve de propriété. Dans ce cas le vendeur conserve la propriété du bien vendu jusqu’au paiement de  l’intégralité du prix en principal et accessoire."
+        condition_delais_paiement: "Sélectionner le délai de paiement dans la liste. Le délai maximum légal est de 60 jours après la date d’édition de la facture. Se référer aux accords interprofessionnels afin de connaître les éventuelles dérogations au délai maximum légal."
+        condition_moyen_paiement: "Sélectionner le moyen de paiement dans la liste."
+        condition_hors_tva: " Sélectionner « hors TVA » en cas d’exportation du vin."
+        condition_taux_courtage: "Saisir le taux de courtage. Le taux habituel de 2% est indiqué par défaut."
+        condition_repartition_courtage: "Indiquer  la répartition des frais de courtage."
+        condition_date_retiraison: "Sélectionner dans le calendrier la date limite prévue pour la dernière retiraison du vin."
+        condition_observation: "Indiquer toute observation complémentaire éventuelle."
+        condition_nom_vin: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation du nom de Château / Domaine / Marque dans les actes de commercialisation du vin (étiquettes…)."
+        condition_nom_producteur: "Case automatiquement cochée si un nom de Château / Domaine / Marque est indiqué à l’étape 2. Le vendeur autorise ainsi l’utilisation de son nom dans les actes de commercialisation du vin (étiquettes…)."
+
+        #18
+        validation_pt_vigilance: "Points non bloquants. Vous pouvez résoudre le point en cliquant sur l’hyperlien."
+        validation_pt_bloquant: "Les points bloquants doivent être résolus avant de valider le contrat. Pour cela, cliquer sur l’hyperlien."
+        validation_valider: "Cliquer pour valider et signer le contrat."
+
+        #19
+        validation_popup_annuler: "Permet de revenir à la saisie pour modification ou suppression  intégrale du contrat."
+        validation_popup_valider: "Signer le contrat déclenche l’envoi aux autres contractants d’un courriel pour leur demander de signer eux-aussi le contrat."
+
+        #21
+        visualisation_nature: "Nature et statut du contrat."
+        visualisation_signature: "Merci de vérifier l’ensemble des informations de ce contrat avant de le signer. En cas de désaccord, ne pas signer ce contrat et prendre contact avec l’initiateur du contrat."
+
+        #24
+        visualisation_visa: "N° et date de visa de l’interprofession."
+        visualisation_bordereau: "N° de bordereau du contrat."
+      drm:
+        menu_list : "Permet d’accéder directement à la dernière DRM pour la créer, la finir ou la visualiser ."
+        menu_acceder: "Permet d’accéder à l’ensemble de vos DRM."
+        changement_campagne : "Sélectionner une campagne particulière ou les 6 derniers mois puis cliquer sur le bouton changer."
+        etats : "Indique l’état de la DRM: à créer, à finir, validée ou saisie interne. L’état « saisie interne » indique une DRM papier saisie par l’interprofession: ces DRM ne peuvent être consultées ici. "
+        creation_nouvelle : "Crée une nouvelle DRM."
+        creation_vierge : "Crée une DRM sans mouvement. A utiliser uniquement si aucun mouvement d’entrée et de sortie n’a eu lieu dans le mois."
+        creation_edi : "Permet d’importer directement votre DRM à partir de votre logiciel de gestion. Contacter l’interprofession pour  connaître les logiciels compatibles."
+        produits : "Indiquer les produits que vous détenez. Vous pourrez à tout moment en rajouter."
+        produits_coche_suspendu : "C’est le régime général. Les capsules CRD que vous utilisez peuvent être personnalisées (donc forcément achetées en droits suspendus) ou banalisées (achetées en droits suspendus ou acquittés). Le montant des droits d’accise pour les capsules achetées en droits suspendus est comptabilisé à la sortie du chai, c’est-à-dire en fin de DRM.  Le paiement de ces droits d’accise aux douanes peut alors se faire annuellement pour les opérateurs dispensés de caution, ou bien chaque mois pour tous les autres."
+        produits_coche_acquitte : "Ce régime est exceptionnel. Pour les vins que vous produisez, les capsules CRD utilisées sont forcément des capsules banalisées achetées en droits acquittés. Pour les vins que vous détenez mais dont vous n’êtes pas producteur, peu importe la capsule CRD utilisée: les droits ont été acquittés par le producteur."
+        mouvements_autres_entrees : "Cliquer pour développer ou réduire les autres entrées. Pour rendre l'une de ces entrées visible par défaut, cliquer sur l'étoile blanche à gauche de l'intitulé."
+        mouvements_autres_sorties: "Cliquer pour développer ou réduire les autres sorties. Pour rendre l'une de ces sorties visible par défaut, cliquer sur l'étoile blanche à gauche de l'intitulé."
+        mouvements_choix_produits: "Liste de tous les produits que vous détenez. Pour ajouter un produit, commencer à le saisir dans la barre «ajouter un produit» : les produits possibles seront sélectionnés au fur et à mesure en fonction des caractères saisis. Ci dessous une liste de l'ensemble de vos produits est disponible. Un code couleur indique l’état du produit: saisi, en cours, à saisir. L’icône « œil » permet  de masquer ou afficher la colonne du produit."
+        mouvements_contrats_numero : "Sélectionner le contrat correspondant au volume à sortir en saisissant l’un des éléments listés:  nom de l’acheteur - n° de bordereau (n° de contrat/visa de l’interprofession) - volume du contrat. Les volumes indiqués sont: volume restant à retirer hl [volume déjà retiré/volume initial du contrat]."
+        mouvements_contrats_doc_accompagnement : "Vous pouvez indiquer le type de document d’accompagnement utilisé et ses références."
+        mouvements_contrats_supprimer: "Supprimer la ligne."
+        mouvements_contrats_ajouter: "Ajouter une ligne pour indiquer un autre mouvement."
+        mouvements_contrats_type_doc: "Indiquer le type de document utilisé: DAA/DAC/DCA; DSA/DSAC; DAE; Empreinte."
+        mouvements_contrats_doc_accompagnement_num: "Indiquer le numéro du document utilisé."
+        mouvements_export_pays: "Indiquer le pays d’exportation en saisissant le nom du pays ou en le sélectionnant dans la liste."
+        mouvements_export_doc_accompagnement: "Vous pouvez préciser ici le type de document d’accompagnement utilisé et ses références."
+        mouvements_export_type_doc: "Indiquer le type de document utilisé: DAA/DAC/DCA; DSA/DSAC; DAE; Empreinte."
+        mouvements_export_doc_accompagnement_num: "Indiquer le numéro du document utilisé."
+        crd_type : "Indiquer les mouvements de CRD par type (vertes = AOC; bleues = IGP/VSIG; lies de vin = tous vins) et centilisation."
+        crd_stock_debut : "Indiquer le stock de départ (au 1er août pour une campagne complète). Le stock est ensuite calculé automatiquement."
+        crd_entree_achat : "Indiquer les achats de capsules CRD ."
+        crd_entree_retour : "Indiquer les retours éventuels de capsules en cas de retour de vin."
+        crd_entree_exc : "Indiquer les capsules constatées en excédent lors d’un inventaire ou d’un contrôle douanier."
+        crd_sortie_utilisee : "Indiquer les capsules utilisées (= capsules sorties physiquement du chai pour commercialisation, y compris éventuellement à l’export)."
+        crd_sortie_detruite : "Indiquer  les capsules détruites."
+        crd_sortie_manquant : "Indiquer les capsules constatées manquantes lors d’un inventaire ou d’un contrôle douanier."
+        crd_stock_fin : "Le stock de fin de mois est calculé automatiquement."
+        annexe_document_accompagnement: "Indiquer les documents utilisés dans le mois."
+        annexe_daadac : "DAA/DAC (=DCA)"
+        annexe_dsadsac : "DSA/DSAC. Documents servant pour la vente à un débitant, un particulier ou un entrepositaire agréé ne travaillant qu’en droits acquittés (n° d’identification sous la forme FR 000 000 A 0000)."
+        annexe_empreinte : "Empreinte. Uniquement en cas de détention d’une machine à timbrer."
+        annexe_nonapurement: "Indiquer les documents d’accompagnement en droits suspendus non apurés 3 mois après la date d’expédition."
+        annexe_nonapurement_num_doc: "Indiquer le n° de document."
+        annexe_nonapurement_date: "Indiquer la date d’expédition du vin."
+        annexe_nonapurement_num_accise: "Indiquer le n° d’accise du destinataire."
+        annexe_observations: "La douane exige que vous remplissiez les observations concernant les mouvements de retour de vin, transfert de comptabilité matières,  destruction, excédents ou manquants pour les vins suivants."
+        annexe_statistique_eur: "Veuillez indiquer ci dessous vos quantités de moûts transformées en jus de raisin, MCR et vinaigre."
+        annexe_paiement_douane: "Indiquer la fréquence de paiement des droits d’accise aux douanes et, si vous payer de manière annuelle, le cumul des droits des mois précédents."
+        annexe_paiement_douane_condition: "Les conditions de paiement sont liées au montant cumulé de vos droits d’accise (y compris la taxe sur le sucre) pour une campagne.  Le seuil de référence pour ce montant cumulé est modifié à chaque nouvelle campagne. Si le cumul annuel de vos droits est inférieur ou égal  au seuil de référence, vous êtes dispensé de caution et devez payer vos droits de manière annuelle en fin de campagne. Si le cumul annuel de vos droits est supérieur au seuil de référence, vous devez être cautionné et payer vos droits chaque mois."
+        annexe_paiement_douane_frequence: "Indiquer la fréquence de paiement pour la campagne en cours. Pour la campagne 2016-2017, le seuil de référence est de 4 342 €."
+        annexe_paiement_douane_cumul: "Si vous êtes dispensé de caution et que vous payez donc vos droits de manière annuelle, alors indiquez ici le montant cumulé de vos droits d’accise pour tous les mois précédents de la campagne en cours. Ceci n’est à faire que lors de votre première DRM télédéclarée de la campagne: par la suite, le calcul se fera automatiquement."
+        recapitulatif_stock: "Résumé: récapitulation synthétique par produit des stocks initiaux et finaux ainsi que des totaux des entrées et des sorties."
+        recapitulatif_details: "Détails: liste chaque mouvement de chaque produit."
+        recapitulatif_pt_bloquant:  "Les points bloquants doivent être résolus avant de valider la DRM. Pour cela, cliquer sur l’hyperlien."
+        recapitulatif_pt_vigilance:  "Points non bloquants. Vous pouvez résoudre le point en cliquant sur l’hyperlien."
+
+        visualisation_cvo: "Les indications portées dans ce tableau sont une simple estimation indicative et non contractuelle.  Se reporter à la facture de l’interprofession pour le détail des CVO et au portail CIEL pour les droits de circulation."
+        visualisation_cvo_volume_fact: "Le volume indiqué est la somme des volumes sujets à CVO, tous vins confondus, à payer par le déclarant."
+        visualisation_cvo_montant: "Vous pouvez trier les produits et les types de mouvements en les indiquant, seuls ou combinés, dans la barre de recherche."
+        visualisation_droit_volume: "Le volume indiqué est la somme des volumes, tous vins confondus, détenus par le déclarant en droits suspendus et mis à la consommation en France dans le mois."
+        visualisation_droit_taux: "Les taux sont indicatifs. Ils changent chaque année au 1er janvier."
+        visualisation_droit_montant: "Le montant indiqué correspond au total des droits d’accise dus pour le mois par le déclarant."
+        visualisation_pdf: "Permet de télécharger un fichier PDF pour pouvoir imprimer la DRM. Utile par exemple en procédure de secours  dans le cas d’inaccessibilité du site CIEL."
+        visualisation_detail_mvt: "Indiquer un produit pour voir uniquement les mouvements liés à ce produit;  un type de mouvement pour voir tous les produits concernés; ou plusieurs éléments de recherche combinés."
+
+        etape_produit_description: "Lister les produits détenus et leurs statuts fiscaux. Afin de mieux préparer votre DRM, vous pouvez préciser ici vos stocks épuisés ou l'absence de mouvements pour tout ou partie des produits."
+        etape_mvt_supendus_description: "Indiquer les mouvements d’entrée et de sortie du stock en droits suspendus."
+        etape_mvt_acquittes_description: "Indiquer les mouvements d’entrée et de sortie du stock en droits acquittés."
+        etape_capsules_crd_description: "Indiquer les mouvements d’entrée et de sortie du stock de capsules CRD."
+        etape_annexes_description: "Indiquer les documents d’accompagnement utilisés, le sucre utilisé et toute observation obligatoire ou facultative."
+        etape_recap_description: "Récapitulatif de la DRM saisie et validation."

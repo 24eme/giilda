@@ -221,7 +221,7 @@ class DRMDetail extends BaseDRMDetail {
             }
             $config = $this->getConfig()->get($hash . "/" . $key);
 
-            if ($config->facturable) {
+            if ($config->facturable && !$this->getDocument()->isDrmNegoce()) {
                 $this->total_facturable += $volume * $coefficient_facturable;
             }
         }

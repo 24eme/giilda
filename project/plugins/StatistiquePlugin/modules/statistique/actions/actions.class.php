@@ -45,49 +45,91 @@ class statistiqueActions extends sfActions {
 			if (!isset($this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation'])) {
 				throw new sfException('No aggregation set for statistiques '.$values['statistiques']);
 			}
-			$result = $this->getAggsResult('*', array('exportations' => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
-			return $this->renderCsv($this->getAggsResultCsv($result), 'statistiques_'.$values['statistiques']);
+			$result = $this->getAggsResult($this->form->processFilters(), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+			return $this->renderCsv($this->getAggsResultCsv($values['statistiques'], $result), 'statistiques_'.$values['statistiques']);
 		}
 	}
 	
-	protected function getAggsResult($q, $agg)
+	protected function getAggsResult($filters, $agg)
 	{		
-		$query = new acElasticaQueryQueryString($q);
-		$index = acElasticaManager::getType('DRM');
+		$index = acElasticaManager::getType('DRMMVT');
+		$params = ($filters)? array('aggs' => $agg, 'query' => $filters) : array('aggs' => $agg);
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
-		$elasticaQuery->setQuery($query);
-		$elasticaQuery->setParams(array('aggs' => $agg));
+		$elasticaQuery->setParams($params);
 		//print_r(json_encode($elasticaQuery->toArray()));exit;
 		return $index->search($elasticaQuery)->getFacets();
 	}
 	
-	protected function getAggsResultCsv($result)
+	protected function getAggsResultCsv($type, $result)
 	{
 		//print_r($result);exit;
 		$appellations = $this->getLibelles('appellation');
-		$csv = 'Appellation;Pays;Blanc;Rosé;Rouge;TOTAL'."\n";
-		foreach ($result['exportations']['agg_page']['buckets'] as $appellation) {
-			$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-			$totalBlanc =  $this->formatNumber(0);
-			$totalRose =  $this->formatNumber(0);
-			$totalRouge =  $this->formatNumber(0);
-			$totalTotal =  $this->formatNumber(0);
-			foreach ($appellation['agg_line']['buckets'] as $pays) {
-				$paysLibelle = $pays['key'];
-				$blanc = $this->formatNumber($pays['blanc']['agg_column']['value']);
-				$rose = $this->formatNumber($pays['rose']['agg_column']['value']);
-				$rouge = $this->formatNumber($pays['rouge']['agg_column']['value']);
-				$total = $this->formatNumber($pays['total']['agg_column']['value']);
-				if (!$blanc && !$rose && !$rouge) {
-					continue;
+		$familles = EtablissementFamilles::getFamilles();
+		$couleurs = array('blanc' => 'Blanc', 'rose' => 'Rosé', 'rouge' => 'Rouge');
+		
+		if ($type == 'exportations') {
+			$csv = 'Appellation;Pays;Blanc;Rosé;Rouge;TOTAL'."\n";
+			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
+				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
+				$totalBlanc =  $this->formatNumber($appellation['total_blanc']['value']);
+				$totalRose =  $this->formatNumber($appellation['total_rose']['value']);
+				$totalRouge =  $this->formatNumber($appellation['total_rouge']['value']);
+				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
+				foreach ($appellation['agg_line']['buckets'] as $pays) {
+					$paysLibelle = $pays['key'];
+					$blanc = $this->formatNumber($pays['blanc']['agg_column']['value']);
+					$rose = $this->formatNumber($pays['rose']['agg_column']['value']);
+					$rouge = $this->formatNumber($pays['rouge']['agg_column']['value']);
+					$total = $this->formatNumber($pays['total']['agg_column']['value']);
+					if (!$blanc && !$rose && !$rouge) {
+						continue;
+					}
+					$csv .= $appellationLibelle.';'.$paysLibelle.';'.$blanc.';'.$rose.';'.$rouge.';'.$total."\n";
 				}
-				$csv .= $appellationLibelle.';'.$paysLibelle.';'.$blanc.';'.$rose.';'.$rouge.';'.$total."\n";
+				$csv .= $appellationLibelle.';TOTAL;'.$totalBlanc.';'.$totalRose.';'.$totalRouge.';'.$totalTotal."\n";
 			}
-			$csv .= $appellationLibelle.';TOTAL;'.$totalBlanc.';'.$totalRose.';'.$totalRouge.';'.$totalTotal."\n";
+		} elseif ($type == 'stocks') {
+			$csv = 'Appellation;Catégorie;Stock initial;Stock actuel;TOTAL MVT'."\n";
+			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
+				$appellationLibelle = $appellation['key'];
+				$totalStockInitial =  $this->formatNumber($appellation['total_stock_initial']['value']);
+				$totalStockFinal =  $this->formatNumber($appellation['total_stock_final']['value']);
+				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
+				foreach ($appellation['agg_line']['buckets'] as $categorie) {
+					$categorieLibelle = $familles[$categorie['key']];
+					$stockInitial = $this->formatNumber($categorie['stock_initial']['agg_column']['value']);
+					$stockFinal = $this->formatNumber($categorie['stock_final']['agg_column']['value']);
+					$totalMvt = $this->formatNumber($categorie['total']['value']);
+					$csv .= $appellationLibelle.';'.$categorieLibelle.';'.$stockInitial.';'.$stockFinal.';'.$totalMvt."\n";
+				}
+				$csv .= $appellationLibelle.';TOTAL;'.$totalStockInitial.';'.$totalStockFinal.';'.$totalTotal."\n";
+			}
+		} elseif ($type == 'sorties_categorie') {
+			$csv = 'Appellation;Couleur;France;Export;Négoce;TOTAL'."\n";
+			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
+				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
+				$totalFrance =  $this->formatNumber($appellation['total_france']['value']);
+				$totalExport =  $this->formatNumber($appellation['total_export']['value']);
+				$totalNegoce =  $this->formatNumber($appellation['total_negoce']['value']);
+				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
+				foreach ($appellation['agg_line']['buckets'] as $couleur) {
+					$couleurLibelle = $couleurs[$couleur['key']];
+					$france = $this->formatNumber($couleur['france']['agg_column']['value']);
+					$export = $this->formatNumber($couleur['export']['agg_column']['value']);
+					$negoce = $this->formatNumber($couleur['negoce']['agg_column']['value']);
+					$total = $this->formatNumber($couleur['total']['agg_column']['value']);
+					if (!$france && !$export && !$negoce) {
+						continue;
+					}
+					$csv .= $appellationLibelle.';'.$couleurLibelle.';'.$france.';'.$export.';'.$negoce.';'.$total."\n";
+				}
+				$csv .= $appellationLibelle.';TOTAL;'.$totalFrance.';'.$totalExport.';'.$totalNegoce.';'.$totalTotal."\n";
+			}
 		}
 		return $csv;
 	}
+	
 	protected function getLibelles($noeud) {
         $libelles = array();
         $items = ConfigurationClient::getCurrent()->declaration->getKeys($noeud);
@@ -99,7 +141,7 @@ class statistiqueActions extends sfActions {
         return $libelles;
     }	
     protected function formatNumber($number) {
-    	return ($number && $number > 0)? number_format($number, 2, ',', '') : null;
+    	return ($number && $number != 0)? number_format($number, 2, ',', '') : null;
     }
 	
     public function executeDrmStatistiques(sfWebRequest $request) {
