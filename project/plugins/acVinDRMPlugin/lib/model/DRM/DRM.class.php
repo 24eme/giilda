@@ -585,6 +585,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return array('certification' => $match[1], 'appellation' => $match[2]);
     }
 
+    public function setIdentifiant($identifiant) {
+      $this->_set('identifiant', $identifiant);
+      $this->storeDeclarant();
+    }
+
     private function setDroit($type, $appellation) {
         $configurationDroits = $appellation->getConfig()->getDroitByType($this->getDocument()->getDate(), $type, $this->getInterpro()->get('_id'));
         $droit = $appellation->droits->get($type);
