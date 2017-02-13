@@ -94,7 +94,7 @@ cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2014(08|09|10|11|12)|2015[0-9]{2
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_201408.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final.csv
 
 echo "Import des DRMs"
 
