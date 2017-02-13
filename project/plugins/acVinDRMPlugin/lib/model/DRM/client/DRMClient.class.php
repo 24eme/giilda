@@ -445,7 +445,6 @@ class DRMClient extends acCouchdbClient {
         $drm->teledeclare = $isTeledeclarationMode;
         $drm->etape = self::ETAPE_SAISIE;
         $drm->buildFavoris();
-        $drm->storeDeclarant();
         $drm->initSociete();
         $drm->initCrds();
         $drm->initProduitsAutres($isTeledeclarationMode);

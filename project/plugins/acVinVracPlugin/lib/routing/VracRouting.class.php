@@ -12,12 +12,6 @@ class VracRouting {
 
         $r = $event->getSubject();
 
-        $r->prependRoute('vrac_creation', new EtablissementRoute('/vrac/creation/:identifiant', array('module' => 'vrac',
-                                                            'action' => 'creation'),
-                                                            array('sf_method' => array('get','post')),
-                                                            array('model' => 'Etablissement', 'type' => 'object')));
-
-
         $r->prependRoute('vrac', new sfRoute('/vrac', array('module' => 'vrac',
                                                             'action' => 'index')));
         $r->prependRoute('vrac_recherche',  new EtablissementRoute('/vrac/recherche/:identifiant', array('module' => 'vrac',

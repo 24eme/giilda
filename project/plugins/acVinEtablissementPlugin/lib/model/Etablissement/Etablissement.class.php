@@ -242,7 +242,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if(VracConfiguration::getInstance()->getRegionDepartement() !== false) {
             $this->region = EtablissementClient::getInstance()->calculRegion($this);
         }
-        
+
         if($this->isNew()) {
             $societe->addEtablissement($this);
             $needSaveSociete = true;
@@ -252,9 +252,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         if($needSaveSociete) {
             $societe->save();
+        }else {
+            $societe->getMasterCompte()->save();
         }
-
-        $societe->getMasterCompte()->save();
     }
 
     public function isActif() {
