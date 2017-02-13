@@ -17,7 +17,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
           }
           foreach (DRMClient::getInstance()->viewByIdentifiant($etabl->etablissement->identifiant) as $id => $drm) {
             $drm = DRMClient::getInstance()->find($id);
-            $drm->delete();
+            $drm->delete(false);
             $t->is(DRMClient::getInstance()->find($id), null, "Suppression de la DRM ".$id);
           }
       }
