@@ -9,7 +9,6 @@ echo $$ > /tmp/cron_generation_pdf.$PROJET.pid
 
 cd $WORKINGDIR
 
-php symfony --application=declaration --env=$SYMFONYENV generation:generate
+php symfony generation:generate $SYMFONYTASKOPTIONS
 
 rm /tmp/cron_generation_pdf.$PROJET.pid
-

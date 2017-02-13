@@ -2,7 +2,7 @@
 
 . bin/config.inc
 
-php symfony export:facture --application=declaration --env=$SYMFONYENV > $TMP/factures.csv
+php symfony export:facture $SYMFONYTASKOPTIONS > $TMP/factures.csv
 
 cat $TMP/factures.csv | bash bin/convertExportFacture2CIEL.sh | iconv -f utf-8 -t iso-8859-1 | sed "s/$/\r/" > $TMP/factures.txt
 
