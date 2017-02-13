@@ -42,13 +42,13 @@ cat $TMP/data_sancerre_origin/ADHERENT.utf8.XML | sed "s|<\ADHERENT>|\\\n|" | se
 
 cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ print sprintf("%06d", $1) ";RESSORTISSANT;\"" $2 "\";\"" $2 "\";" (($18) ? "ACTIF" : "SUSPENDU") ";" $14 ";;;;;\"" $3 "\";;;;" $4 ";\"" $5 "\";;;FR;;" $6 ";;;" $7 ";;" $15  }' > $DATA_DIR/societes.csv
 
-php symfony import:societe $DATA_DIR/societes.csv --env="sancerre"
+php symfony import:societe $DATA_DIR/societes.csv --application="bivc"
 
 echo "Import des établissements"
 
 cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ famille=null; region="REGION_CVO"; if($8 == 1) { famille="PRODUCTEUR";} if($8 == 2) { famille="NEGOCIANT";} if($8 == 3) { famille="NEGOCIANT"; region="REGION_HORS_CVO" } if($8 == 4) { famille="COOPERATIVE"; }  print sprintf("%06d01", $1) ";SOCIETE-" sprintf("%06d", $1) ";" famille ";\"" $2 "\";" (($18) ? "ACTIF" : "SUSPENDU") ";" region ";" $9 ";;;" $11 ";;\"" $3 "\";;;;" $4 ";\"" $5 "\";;;FR;;" $6 ";;;" $7 ";;" $15 }' > $DATA_DIR/etablissements.csv
 
-php symfony import:etablissement $DATA_DIR/etablissements.csv --env="sancerre"
+php symfony import:etablissement $DATA_DIR/etablissements.csv --application="bivc"
 
 cat $DATA_DIR/adherents.csv | cut -d ";" -f 1,17 | grep ";\"1\"$" | cut -d ";" -f 1 | sed 's/"//g' | sed 's/$/;Abonné BIVC/' > $DATA_DIR/tags_manuels_abonne_bivc.csv
 
@@ -102,9 +102,9 @@ ls $DATA_DIR/drms | while read ligne
 do
     PERIODE=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 2)
     IDENTIFIANT=$(echo $ligne | sed 's/.csv//' | cut -d "_" -f 1)
-    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --env="sancerre"
+    php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true --application="bivc"
 done
 
 echo "Import des tags"
 
-php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv --env="sancerre"
+php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv --application="bivc"
