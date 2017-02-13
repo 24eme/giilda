@@ -69,6 +69,10 @@ class DRMESDetails extends BaseDRMESDetails {
         return $detail;
     }
 
+    public function addAdvancedDetail($detail) {
+      return $this->add($detail->getKey(), $detail);
+    }
+
 
     public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null, $oldDetail = null) {
 
