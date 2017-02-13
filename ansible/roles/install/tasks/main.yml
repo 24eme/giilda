@@ -43,6 +43,10 @@
   - dehydrated
   - dehydrated-apache2
   - gawk
+  - libjson-perl
+  - screen
+  - recode
+  - unzip
 
 - name: "user actualys exist"
   user: name=actualys state=present
