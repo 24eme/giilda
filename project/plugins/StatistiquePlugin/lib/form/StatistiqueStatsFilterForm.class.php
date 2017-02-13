@@ -15,17 +15,15 @@ class StatistiqueStatsFilterForm extends BaseForm
 		$this->setWidgets(array(
 				'doc.mouvements.appellation' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
 				'doc.declarant.famille' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getFamilles())),
-				'doc.mouvements.region' => new bsWidgetFormChoice(array('choices' => self::getRegions())),
 				'lastyear' => new bsWidgetFormInputCheckbox(),
-				'doc.mouvements.date' => new sfWidgetFormFilterDate(array('from_date' => new bsWidgetFormInputDate(), 'to_date' => new bsWidgetFormInputDate(), 'with_empty' => false, 'template' => 'Du %from_date% <br />Au %to_date%')),
+				'doc.mouvements.date/from' => new bsWidgetFormInputDate(),
+				'doc.mouvements.date/to' => new bsWidgetFormInputDate(),
 				'statistiques' => new bsWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getStatistiques())),
 		));
 		
 		$this->widgetSchema->setLabels(array(
 				'doc.mouvements.appellation' => 'Appellation',
 				'doc.declarant.famille' => 'Catégorie',
-				'doc.mouvements.region' => 'Région',
-				'doc.mouvements.date' => 'Période',
 				'lastyear' => 'Stat N/N-1',
 				'statistiques' => 'Statistiques',
 		));
@@ -33,8 +31,8 @@ class StatistiqueStatsFilterForm extends BaseForm
 		$this->setValidators(array(
 				'doc.mouvements.appellation' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation')))),
 				'doc.declarant.famille' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getFamilles()))),
-				'doc.mouvements.region' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getRegions()))),
-				'doc.mouvements.date' => new sfValidatorDateRange(array('from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)), 'from_field' => 'from_date', 'to_field' => 'to_date')),
+				'doc.mouvements.date/from' => new sfValidatorDate(array('required' => false)),
+				'doc.mouvements.date/to' => new sfValidatorDate(array('required' => false)),
 				'lastyear' => new ValidatorBoolean(array('required' => false)),
 				'statistiques' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatistiques()))),
 		));
