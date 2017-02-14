@@ -1,6 +1,6 @@
 <?php
 
-class AlertesStatutsModificationForm extends sfForm {
+class AlertesStatutsModificationForm extends BaseForm {
 
     private $alertesList = null;
 
@@ -10,20 +10,20 @@ class AlertesStatutsModificationForm extends sfForm {
     }
 
     public function configure() {
-        $this->setWidget('statut_all_alertes', new sfWidgetFormChoice(array('choices' => $this->getStatuts(), 'expanded' => false)));
-        $this->setWidget('commentaire_all_alertes', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
+        $this->setWidget('statut_all_alertes', new bsWidgetFormChoice(array('choices' => $this->getStatuts(), 'expanded' => false), array("class" => "form-control select2")));
+        $this->setWidget('commentaire_all_alertes', new bsWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
         foreach ($this->alertesList as $a) {
-            
+
             $alerte_id = null;
             if ($a instanceof Elastica_Result) {
-                $alerte = $a->getData();
-                $alerte_id = $alerte['_id'];
+                $alerte_h = $a->getHit();
+                $alerte_id = $alerte_h['_id'];
             } else {
                 $alerte_id = $a->id;
             }
-            
-            $this->setWidget($alerte_id, new sfWidgetFormInputCheckbox());
+
+            $this->setWidget($alerte_id, new bsWidgetFormInputCheckbox());
             $this->setValidator($alerte_id, new sfValidatorChoice(array('required' => false, 'choices' => array('0' => 0, '1' => 1))));
         }
 

@@ -52,6 +52,7 @@ class AlerteHistoryView extends acCouchdbView {
     }
 
     public function findByTypeAndStatut($type_alerte, $statut_alerte) {
+      
         return acCouchdbManager::getClient()
                         ->startkey(array($type_alerte, $statut_alerte))
                         ->endkey(array($type_alerte, $statut_alerte, array()))

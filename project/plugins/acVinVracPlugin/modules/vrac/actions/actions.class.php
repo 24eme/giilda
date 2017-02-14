@@ -40,20 +40,6 @@ class vracActions extends sfActions {
         }
     }
 
-    public function executeCreation(sfWebRequest $request) {
-        $this->redirect403IfICanNotCreate();
-        $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
-        $etablissement = EtablissementClient::getInstance()->find($this->identifiant);
-        $this->vrac = new Vrac();
-
-        $this->vrac->setEtablissementCreateur($etablissement);
-        $this->vrac->update();
-        $this->vrac->setInformations();
-        $this->vrac->numero_contrat = VracClient::getInstance()->getNextNoContrat();
-        $this->vrac->save();
-        $this->redirect('vrac_soussigne', array('numero_contrat' => $this->vrac->numero_contrat));
-    }
-
     public function executeEtablissementSelection(sfWebRequest $request) {
         $form = new VracEtablissementChoiceForm('INTERPRO-declaration');
         $form->bind($request->getParameter($form->getName()));
@@ -81,7 +67,7 @@ class vracActions extends sfActions {
         $societeIdentifiant = $this->etablissement->getSociete()->identifiant;
 
         $this->getUser()->usurpationOn($societeIdentifiant, $request->getReferer());
-        $this->redirect('homepage');
+        $this->redirect('common_homepage');
     }
 
     static function rechercheTriListOnID($etb0, $etb1) {
@@ -102,7 +88,7 @@ class vracActions extends sfActions {
         if($this->getUser()->getCompte()->getSociete()->isNegociant()){
           $this->vrac->acheteur_identifiant = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant;
         }
-        $this->vrac = $this->populateVracTiers($this->vrac);
+        $this->vrac->setInformations();
         $this->compte = null;
         $this->etablissementPrincipal = null;
         $this->compteVendeurActif = true;
@@ -184,8 +170,6 @@ class vracActions extends sfActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal, true);
-
-        //var_dump($this->contratsSocietesWithInfos->contrats); exit;
     }
 
     public function executeHistory(sfWebRequest $request) {
@@ -208,10 +192,10 @@ class vracActions extends sfActions {
         $this->statut = (!isset($request['statut']) || $request['statut'] === 'tous' ) ? 'tous' : strtoupper($request['statut']);
 
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
-$this->contratsByCampagneEtablissementAndStatut = new stdClass();
-$this->contratsByCampagneEtablissementAndStatut->rows = array();
+        $this->contratsByCampagneEtablissementAndStatut = new stdClass();
+        $this->contratsByCampagneEtablissementAndStatut->rows = array();
         $this->contratsByCampagneEtablissementAndStatut->rows = VracClient::getInstance()->retrieveByCampagneSocieteAndStatut($this->campagne,$this->societe,  $this->etablissement, $this->statut,true);
-        //var_dump($this->contratsByCampagneEtablissementAndStatut->rows); exit;
+
     }
 
     public function executeSignature(sfWebRequest $request) {
@@ -249,7 +233,7 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         }
 
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
-        $this->vrac = $this->populateVracTiers($this->vrac);
+        $this->vrac->setInformations();
         if ($this->vrac->isNew()) {
             $this->vrac->initCreateur($this->createur_identifiant);
         }
@@ -280,7 +264,7 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         $this->identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('identifiant'));
         $this->createur_identifiant = str_replace('ETABLISSEMENT-', '', $request->getParameter('createur'));
         $this->vrac = ($request->getParameter('numero_contrat')) ? VracClient::getInstance()->find($request->getParameter('numero_contrat')) : new Vrac();
-        $this->vrac = $this->populateVracTiers($this->vrac);
+        $this->vrac->setInformations();
         if ($this->vrac->isNew()) {
             $this->vrac->initCreateur($this->createur_identifiant);
         }
@@ -509,7 +493,7 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
             if ($this->form->isValid() && $this->validation->isValide()) {
                 $this->maj_etape(4);
                 $this->form->save();
-                $this->vrac->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+                $this->vrac->validate();
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
@@ -807,15 +791,6 @@ $this->contratsByCampagneEtablissementAndStatut->rows = array();
         throw new sfStopException();
     }
 
-    /*
-     * Fonctions pour la population de l'annuaire
-     *
-     */
-
-    protected function populateVracTiers($vrac) {
-        $vrac->setInformations();
-        return $vrac;
-    }
 
     /*
      * Fonctions de service liées aux droits Users

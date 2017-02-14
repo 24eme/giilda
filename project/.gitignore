@@ -13,5 +13,6 @@ bin/config.inc
 data/latex/*
 data/upload/*
 web/*.log
-web/generation/*.pdf
+web/generation/*
+web/export/*
 web/sf

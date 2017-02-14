@@ -35,6 +35,11 @@ class FactureConfiguration {
         return $this->configuration['prefix_sage'];
     }
 
+    public function getPrefixSageDivers() {
+
+        return $this->configuration['prefix_sage_divers'];
+    }
+
     public function getPrefixCodeComptable() {
 
         return isset($this->configuration['prefix_code_comptable']) ? $this->configuration['prefix_code_comptable'] : null;
@@ -49,14 +54,6 @@ class FactureConfiguration {
 
         return $this->configuration['stockage_code_produit'];
     }
-
-    public function getPdfPartial()
-  	{
-      if ($this->configuration['pdf']) {
-  		  return $this->configuration['pdf'];
-      }
-      return "facture/pdf_generique";
-  	}
 
     public function isPdfProduitFirst() {
 

@@ -123,6 +123,8 @@ class Vrac extends BaseVrac {
                     $this->volume_propose = $this->jus_quantite;
                     break;
                 }
+            default:
+              throw new sfException("Vrac sans type :(");
         }
 
         if ($this->volume_propose) {
@@ -234,15 +236,17 @@ class Vrac extends BaseVrac {
     protected function setEtablissementInformations($type, $etablissement) {
         $this->get($type)->nom = $etablissement->nom;
         $this->get($type)->raison_sociale = $etablissement->raison_sociale;
-        $this->get($type)->cvi = $etablissement->cvi;
+        if ($type != 'mandataire') {
+          $this->get($type)->cvi = $etablissement->cvi;
+          $this->get($type)->no_accises = $etablissement->no_accises;
+          $this->get($type)->no_tva_intracomm = $etablissement->getNoTvaIntraCommunautaire();
+          $this->get($type)->region = $etablissement->region;
+          $this->get($type)->famille = $etablissement->famille;
+        }
         $this->get($type)->siret = $etablissement->getSociete()->siret;
-        $this->get($type)->no_accises = $etablissement->no_accises;
-        $this->get($type)->no_tva_intracomm = $etablissement->getNoTvaIntraCommunautaire();
         $this->get($type)->adresse = $etablissement->siege->adresse;
         $this->get($type)->commune = $etablissement->siege->commune;
         $this->get($type)->code_postal = $etablissement->siege->code_postal;
-        $this->get($type)->region = $etablissement->region;
-        $this->get($type)->famille = $etablissement->famille;
     }
 
     public function setDate($attribut, $d) {
@@ -368,6 +372,8 @@ class Vrac extends BaseVrac {
             case VracClient::TYPE_TRANSACTION_VIN_VRAC :
                 $this->prix_total = round($this->jus_quantite * $this->prix_unitaire, 2);
                 break;
+            default:
+              throw new sfException("not vrac type found");
         }
 
         if ($this->prix_unitaire && $this->volume_propose) {
@@ -388,13 +394,14 @@ class Vrac extends BaseVrac {
     }
 
     public function validate($options = array()) {
-        if (isset($options['isTeledeclarationMode']) && $options['isTeledeclarationMode']) {
+        if ($this->isTeledeclare()) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
             if ($this->acheteur_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_acheteur', date('c'));
-            }
-            if ($this->mandataire_identifiant == $this->createur_identifiant) {
+            }else if ($this->mandataire_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_courtier', date('c'));
+            }else {
+              throw new sfException("Créateur obligatoire pour un contrat télédéclaré");
             }
         } else {
             $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
@@ -605,6 +612,17 @@ class Vrac extends BaseVrac {
         $this->archivage_document->preSave();
     }
 
+    public function save() {
+      if (!$this->numero_contrat) {
+        $this->numero_contrat = VracClient::getInstance()->buildNumeroContrat(null, null, $this->isTeledeclare());
+      }
+      if (!$this->valide->statut) {
+        $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
+      }
+      $this->update();
+      return parent::save();
+    }
+
     /*     * * ARCHIVAGE ** */
 
     public function getNumeroArchive() {
@@ -780,16 +798,6 @@ class Vrac extends BaseVrac {
 
     public function isSigneCourtier() {
         return $this->valide->exist('date_signature_courtier') && $this->valide->date_signature_courtier;
-    }
-
-    public function setEtablissementCreateur($etablissement) {
-        if ($etablissement->getSociete()->isCourtier()) {
-            $this->setMandataireIdentifiant($etablissement->_id);
-            $this->mandataire_exist = true;
-        }
-        if ($etablissement->getSociete()->isNegociant()) {
-            $this->setAcheteurIdentifiant($etablissement->_id);
-        }
     }
 
     public function signatureByEtb($etb) {

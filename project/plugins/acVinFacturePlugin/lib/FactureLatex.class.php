@@ -41,7 +41,7 @@ class FactureLatex extends GenericLatex {
 
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
-						      get_partial($this->conf->getPdfPartial(), array('facture' => $this->facture,
+						      get_partial("facture/pdf_generique", array('facture' => $this->facture,
 												'nb_pages' => $this->getNbPages(),
 												'nb_lines' => $this->getNbLignes()))
 						      , HTML_ENTITIES));

@@ -1,7 +1,7 @@
 PROJET=giilda
 TMP=/tmp/giilda
-SYMFONYENV=dev
-#WORKINGDIRWORKINGDIR=/home/giilda
+SYMFONYTASKOPTIONS="--application=generique --env=dev"
+WORKINGDIR=/home/giilda/project/
 COUCHHOST=localhost
 COUCHPORT=5984
 COUCHBASE=giilda

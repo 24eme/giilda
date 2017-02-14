@@ -148,10 +148,19 @@ class VracClient extends acCouchdbClient {
         return $id;
     }
 
-    public function buildNumeroContrat($annee, $type, $teledeclare = 0, $bordereau = null) {
+    public function buildNumeroContrat($annee = null, $type = null, $teledeclare = 0, $bordereau = null) {
         if ($teledeclare && $bordereau) {
             throw new sfException('options de generation d\'identifiant vrac non coherentes');
         }
+
+        if (!$annee) {
+          $annee = date('Y');
+        }
+
+        if (!$type) {
+          $type = date('md');
+        }
+
         $numero = $annee;
         $numero .= str_pad($type, 4, "0");
         $numero .= $teledeclare;
@@ -174,10 +183,9 @@ class VracClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
-    public function getNextNoContrat($date = null, $teledeclare = 0) {
+    private function getNextNoContrat($date = null, $teledeclare = 0) {
         $date = ($date) ? $date : date('Ymd');
         $contrats = self::getAtDate($date,$teledeclare, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
-
         if (count($contrats) > 0) {
             return substr(str_replace('VRAC-', '', max($contrats)), -4) + 1;
         } else {
@@ -359,12 +367,17 @@ class VracClient extends acCouchdbClient {
         $result->infos->en_attente = 0;
     }
 
-    public function retrieveBySoussigne($soussigneId, $campagne, $limit = self::RESULTAT_LIMIT) {
+    public function retrieveBySoussigne($soussigneId, $campagne = null, $limit = self::RESULTAT_LIMIT) {
         $soussigneId = EtablissementClient::getInstance()->getIdentifiant($soussigneId);
-        if (!preg_match('/[0-9]*-[0-9]*/', $campagne))
+        if ($campagne && !preg_match('/[0-9]*-[0-9]*/', $campagne))
             throw new sfException("wrong campagne format ($campagne)");
-        $bySoussigneQuery = $this->startkey(array($soussigneId, $campagne))
+        if ($campagne) {
+          $bySoussigneQuery = $this->startkey(array($soussigneId, $campagne))
                 ->endkey(array($soussigneId, $campagne, array()));
+        }else{
+          $bySoussigneQuery = $this->startkey(array($soussigneId))
+                ->endkey(array($soussigneId, array()));
+        }
         if ($limit) {
             $bySoussigneQuery = $bySoussigneQuery->limit($limit);
         }

@@ -7,8 +7,8 @@ class FloatHelper
     protected static $self = null;
 
     public function __construct() {
-        $this->defaultDecimalFormat = sfConfig::get('global_float_default_decimal_format', $this->defaultDecimalFormat);
-        $this->maxDecimalAuthorized = sfConfig::get('global_float_max_decimal_authorized', $this->maxDecimalAuthorized);
+        $this->defaultDecimalFormat = sfConfig::get('app_float_default_decimal_format', $this->defaultDecimalFormat);
+        $this->maxDecimalAuthorized = sfConfig::get('app_float_max_decimal_authorized', $this->maxDecimalAuthorized);
     }
 
     public static function getInstance()

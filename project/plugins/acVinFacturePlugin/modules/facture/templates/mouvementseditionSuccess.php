@@ -57,9 +57,9 @@
         <div class="row row-margin">
             <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" id="mouvementsfacture_list"  data-template="#template_mouvementfacture">
                 <div class="row">
-                    <div class="col-xs-3 text-center lead text-muted">Identité</div>
-                    <div class="col-xs-4 text-center lead text-muted">Code comptable</div>
-                    <div class="col-xs-2 text-center lead text-muted">Complément de libellé</div>
+                    <div class="col-xs-4 text-center lead text-muted">Identité</div>
+                    <div class="col-xs-2 text-center lead text-muted">Lien comptable</div>
+                    <div class="col-xs-3 text-center lead text-muted">Libellé article</div>
                     <div class="col-xs-1 text-center lead text-muted">Prix&nbsp;U.</div>
                     <div class="col-xs-1 text-center lead text-muted">Quantité</div>
                     <div class="col-xs-1 text-center lead text-muted">&nbsp;</div>
@@ -77,7 +77,7 @@
                         <?php
                     endif;
                 endforeach;
-                ?> 
+                ?>
                 <?php include_partial('templateMouvementFactureItem', array('mvtForm' => $form->getFormTemplate(), 'mvtKey' => $form->getNewMvtId())); ?>
             </div>
             <?php echo $form->renderHiddenFields(); ?>

@@ -20,7 +20,7 @@ details;sorties;transfertcomptamatiere;07. Logement externe;Transferts internes 
 details;sorties;declassement;08. Déclassement;Déclassement;Déclassement
 details;sorties;travailafacon;09. Travail à façon;Sortie de travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon
 details;sorties;transfertsrecolte;10. Transfert de produit;Transfert de récolte;Transfert de récolte
-details;sorties;embouteillage;11. Conditionnement;Conditionnement;Conditionnement
+details;sorties;embouteillage;11. Conditionnement;Conditionnement;Sortie de vin pour mise en bouteille
 details;sorties;consommationfamilialedegustation;12. Conso. familiale/Dégustation;Consommation familiale / Dégustation;Consommation familiale / Dégustation
 details;sorties;destructionperte;13. Destruction/perte;Destruction et pertes;Destruction et pertes
 details;sorties;manquant;14. Manquants;Manquants;Manquants
