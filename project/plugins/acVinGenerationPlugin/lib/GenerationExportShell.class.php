@@ -18,7 +18,6 @@ class GenerationExportShell extends GenerationAbstract
 
         exec('bash '.FactureConfiguration::getInstance()->getExportShell(), $generatedFiles);
 
-        var_dump($generatedFiles);
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
             if(!isset($names[1]) || !isset($names[2])) {
