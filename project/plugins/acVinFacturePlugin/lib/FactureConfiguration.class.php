@@ -50,6 +50,11 @@ class FactureConfiguration {
         return $this->configuration['tva_compte'];
     }
 
+    public function getDefautCompte() {
+
+        return $this->configuration['defaut_compte'];
+    }
+
     public function getStockageCodeProduit() {
 
         return $this->configuration['stockage_code_produit'];

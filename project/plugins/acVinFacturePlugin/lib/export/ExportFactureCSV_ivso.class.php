@@ -50,7 +50,7 @@ class ExportFactureCSV_ivso {
             }
 
             foreach ($lignes->details as $detail) {
-                $code_compte = ($detail->exist('code_compte') && $detail->code_compte)? $detail->code_compte : '70610000';
+                $code_compte = ($detail->exist('code_compte') && $detail->code_compte) ? $detail->code_compte : FactureConfiguration::getInstance()->getDefautCompte();
                 $identifiant_analytique = ($detail->exist('identifiant_analytique') && $detail->identifiant_analytique)? $detail->identifiant_analytique : $detail->identifiant_analytique;
 
 		$libelle = $lignes->libelle.' - '.$detail->libelle;
