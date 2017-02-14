@@ -685,6 +685,10 @@ class VracClient extends acCouchdbClient {
       $idContrat = $details->getKey();
       $vrac = $this->retrieveById($idContrat);
       if ($vrac) {
+            if ($vrac->acheteur_identifiant != $details->acheteur) {
+              $vrac->acheteur_identifiant = $details->acheteur;
+              $vrac->setInformations();
+            }
             return $vrac;
       }
 

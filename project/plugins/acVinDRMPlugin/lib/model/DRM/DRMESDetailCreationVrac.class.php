@@ -26,4 +26,25 @@ class DRMESDetailCreationVrac extends BaseDRMESDetailCreationVrac {
     return $this->_get('date_enlevement');
   }
 
+  public function setAcheteur($acheteur) {
+    $this->_set('acheteur', $acheteur);
+    if ($this->getHash()) {
+      $this->getParent()->remove($this->getKey());
+      $this->getParent()->add($this->getTheoriticalKey(), $this);
+    }
+  }
+
+  public function getKey() {
+    if (parent::getKey()) {
+      return parent::getKey();
+    }
+    return $this->getTheoriticalKey();
+  }
+  private function getTheoriticalKey() {
+    if (!$this->identifiant) {
+      $this->identifiant = $this->getDocument()->_id."-".uniqid();
+    }
+    return $this->identifiant.'-'.$this->acheteur;
+  }
+
 }
