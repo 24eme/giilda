@@ -14,4 +14,17 @@ class DRMESDetailExport extends BaseDRMESDetailExport {
 
         return ConfigurationClient::getInstance()->getCountry($this->identifiant);
     }
+
+    public function setKey($k) {
+      $this->key = $k;
+    }
+
+    public function getKey() {
+      if (!isset($this->key) || !$this->key) {
+        if (!($this->key = parent::getKey())) {
+          $this->key = $this->identifiant.'-'.uniqid();
+        }
+      }
+      return $this->key;
+    }
 }
