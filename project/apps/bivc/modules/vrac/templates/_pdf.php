@@ -144,7 +144,7 @@ if ($vrac->mandataire_exist) {
 \begin{tabularx}{\textwidth}{c p{97mm} |p{37mm}}
 
 	~ & ~ & ~  \\
-	 \multirow{7}{*}{ \includegraphics[scale=1]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_sancerre.png}} &
+	 \multirow{7}{*}{ \includegraphics[scale=1]{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_bivc.png}} &
 	 \multicolumn{1}{c|}{\textbf{\IVSOCOORDONNEESTITRE}} &
 	 N° Bordereau :  \textbf{\LARGE{\CONTRATNUMENREGISTREMENT}} \\
 	 ~ & ~ & ~  \\
