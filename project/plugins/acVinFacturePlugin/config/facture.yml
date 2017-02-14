@@ -3,7 +3,8 @@ all:
     facture:
       prefix_sage: "VEN"
       prefix_sage_divers: null
-      tva_compte: 44570100
+      tva_compte: "44570100"
+      defaut_compte: null
       type_cvo:
         identifiant_prefix: "1"
       type_libre:

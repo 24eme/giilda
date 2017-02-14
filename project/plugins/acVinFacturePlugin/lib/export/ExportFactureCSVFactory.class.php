@@ -3,8 +3,9 @@
 class ExportFactureCSVFactory
 {
 
-    public static function getObject($environment, $ht = false) {
+    public static function getObject($application, $ht = false) {
+        $class = "ExportFactureCSV_".$application;
 
-        return new ExportFactureCSV_sancerre($ht);
+        return new $class($ht);
     }
 }

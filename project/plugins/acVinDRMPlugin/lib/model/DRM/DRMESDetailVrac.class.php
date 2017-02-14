@@ -25,4 +25,9 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
 
         return $this->getVrac()->getNumeroArchive();
     }
+
+    public function getKey() {
+      return $this->identifiant;
+    }
+
 }

@@ -8,12 +8,6 @@ class DRMESDetails extends BaseDRMESDetails {
 
     public function update($params = array()) {
         parent::update($params);
-        /* if (count($this) == 1 && !$this[0]->identifiant) {
-          $p = $this->getParent();
-          $k = $this->getKey();
-          $this->delete();
-          $p->add($k);
-          } */
     }
 
     public function getNoeud() {
@@ -73,6 +67,10 @@ class DRMESDetails extends BaseDRMESDetails {
         $detail->type_contrat = $typeContrat;
 
         return $detail;
+    }
+
+    public function addAdvancedDetail($detail) {
+      return $this->add($detail->getKey(), $detail);
     }
 
 
