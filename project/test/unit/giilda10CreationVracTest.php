@@ -2,6 +2,12 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
+$conf = ConfigurationClient::getCurrent();
+if (!($conf->declaration->exist('details/sorties/vrac')) || ($conf->declaration->get('details/sorties/vrac')->details != "VRAC")) {
+    $t = new lime_test(0);
+    exit(0);
+}
+
 $t = new lime_test(16);
 $t->comment("création d'un contrat viti/négo/courtier");
 
