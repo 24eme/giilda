@@ -7,6 +7,7 @@ $t->comment('création des différentes établissements');
 
 $societeviti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
 $etablissementviti = EtablissementClient::getInstance()->createEtablissementFromSociete($societeviti, EtablissementFamilles::FAMILLE_PRODUCTEUR);
+$etablissementviti->region = EtablissementClient::REGION_CVO;
 $etablissementviti->save();
 $id = $etablissementviti->getSociete()->getidentifiant();
 $compteviti = CompteClient::getInstance()->findByIdentifiant($id.'01');
@@ -16,6 +17,7 @@ $t->is($compteviti->tags->automatique->toArray(true, false), array('societe', 'r
 
 $societenego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getSociete();
 $etablissementnego = EtablissementClient::getInstance()->createEtablissementFromSociete($societenego, EtablissementFamilles::FAMILLE_NEGOCIANT);
+$etablissementnego->region = EtablissementClient::REGION_CVO;
 $etablissementnego->save();
 $id = $etablissementnego->getSociete()->getidentifiant();
 $comptenego = CompteClient::getInstance()->findByIdentifiant($id.'01');
@@ -25,6 +27,7 @@ $t->is($comptenego->tags->automatique->toArray(true, false), array('societe', 'r
 
 $societenego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getSociete();
 $etablissementnego_horsregion = EtablissementClient::getInstance()->createEtablissementFromSociete($societenego_horsregion, EtablissementFamilles::FAMILLE_NEGOCIANT);
+$etablissementnego_horsregion->region = EtablissementClient::REGION_HORS_CVO;
 $etablissementnego_horsregion->save();
 $id = $etablissementnego_horsregion->getSociete()->getidentifiant();
 $comptenego_horsregion = CompteClient::getInstance()->findByIdentifiant($id.'01');
@@ -43,6 +46,7 @@ $t->is($comptecourtier->tags->automatique->toArray(true, false), array('societe'
 
 $societeintermediaire = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_intermediaire')->getSociete();
 $etablissementintermediaire = EtablissementClient::getInstance()->createEtablissementFromSociete($societeintermediaire, EtablissementFamilles::FAMILLE_REPRESENTANT);
+$etablissementintermediaire->region = EtablissementClient::REGION_CVO;
 $etablissementintermediaire->save();
 $id = $etablissementintermediaire->getSociete()->getidentifiant();
 $compteintermediaire = CompteClient::getInstance()->findByIdentifiant($id.'01');
@@ -52,6 +56,7 @@ $t->is($compteintermediaire->tags->automatique->toArray(true, false), array('soc
 
 $societecoop = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_cooperative')->getSociete();
 $etablissementcoop = EtablissementClient::getInstance()->createEtablissementFromSociete($societecoop, EtablissementFamilles::FAMILLE_COOPERATIVE);
+$etablissementcoop->region = EtablissementClient::REGION_CVO;
 $etablissementcoop->save();
 $id = $etablissementcoop->getSociete()->getidentifiant();
 $comptecoop = CompteClient::getInstance()->findByIdentifiant($id.'01');
