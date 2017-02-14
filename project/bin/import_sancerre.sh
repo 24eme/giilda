@@ -90,11 +90,11 @@ print "CAVE;" substr($3, 1, 6) ";" sprintf("%06d01", $2) ";;;;;;;;;;" $10 ";susp
 
 cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
 
-cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201408.csv
+cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201308.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_201308.csv
 
 echo "Import des DRMs"
 
