@@ -7,6 +7,7 @@ all:
       prefix_sage: "VT"
       prefix_sage_divers: "OD"
       tva_compte: "44571000"
+      defaut_compte: "75800000"
       type_cvo:
         identifiant_prefix: ""
       type_libre:

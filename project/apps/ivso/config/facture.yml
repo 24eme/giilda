@@ -5,6 +5,7 @@ all:
       pdf_ordre_cheque: "Interprofession des Vins du Sud Ouest"
       prefix_sage: "02"
       tva_compte: "44571502"
+      defaut_compte: "70610000"
       type_cvo:
         identifiant_prefix: "C"
       type_libre:
