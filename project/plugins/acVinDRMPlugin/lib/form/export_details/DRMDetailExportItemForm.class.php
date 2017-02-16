@@ -20,12 +20,9 @@ class DRMDetailExportItemForm extends DRMESDetailsItemForm {
 
         return 'DRMDetailExportItemValidator';
     }
-    
+
     public function doUpdateObject($values) {
-        $exportDetailConfig = DRMConfiguration::getInstance()->getExportDetail();
-        if (!in_array('identifiant', $exportDetailConfig['required']) && !(isset($values['identifiant']) || $values['identifiant'])) {
-            $values['identifiant'] = DRMClient::DETAIL_EXPORT_PAYS_DEFAULT;
-        }
         parent::doUpdateObject($values);
     }
+    
 }
