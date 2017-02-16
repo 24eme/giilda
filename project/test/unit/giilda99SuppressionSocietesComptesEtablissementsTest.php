@@ -2,6 +2,12 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
+if (getenv("NODELETE")) {
+    $t = new lime_test(0);
+    exit(0);
+}
+
+
 $t = new lime_test(9);
 $t->comment('suppression des différentes sociétés, de leurs établissements et comptes');
 
