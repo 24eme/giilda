@@ -115,7 +115,7 @@ class EtablissementCsvFile extends CompteCsvFile
             }
 
             $e->save();
-            $this->storeCompteInfos($e, $line);
+            $this->storeCompteInfos($e, $line, false);
 
             $e->save();
 
