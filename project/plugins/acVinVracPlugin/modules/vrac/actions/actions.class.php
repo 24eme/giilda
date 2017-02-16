@@ -32,7 +32,7 @@ class vracActions extends sfActions {
                 $vrac = new Vrac();
                 $vrac->etape = 1;
                 $vrac->numero_contrat = $this->creationForm->getIdVrac();
-
+                $vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
                 $vrac->constructId();
                 $vrac->save();
                 return $this->redirect('vrac_soussigne', $vrac);
