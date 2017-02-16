@@ -83,6 +83,7 @@ class statistiqueActions extends sfActions {
 		$appellations = $this->getLibelles('appellation');
 		$categories = EtablissementFamilles::getFamilles();
 		$familles = EtablissementFamilles::getFamilles();
+		$conditionnements = VracClient::$types_transaction;
 		$couleurs = array('blanc' => 'Blanc', 'rose' => 'Rosé', 'rouge' => 'Rouge');
 		
 		if ($type == 'exportations') {
@@ -166,6 +167,27 @@ class statistiqueActions extends sfActions {
 						$csv .= $appellationLibelle.';'.$couleurLibelle.';'.$france.';'.$export.';'.$negoce.';'.$total."\n";
 					}
 					$csv .= $appellationLibelle.';TOTAL;'.$totalFrance.';'.$totalExport.';'.$totalNegoce.';'.$totalTotal."\n";
+			}
+		} elseif ($type == 'prix') {
+			$csv = 'Conditionnement;Appellation;Couleur;Qté sans prix;Qté avec prix;CA;Moyenne'."\n";
+			foreach ($result[$type]['agg_page']['buckets'] as $conditionnement) {
+			$conditionnementLibelle = $conditionnements[strtoupper($conditionnement['key'])];
+			foreach ($conditionnement['agg_page']['buckets'] as $appellation) {
+				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
+				$totalSansPrix =  $this->formatNumber($appellation['total_sans_prix']['value']);
+				$totalAvecPrix =  $this->formatNumber($appellation['total_avec_prix']['value']);
+				$totalCa =  $this->formatNumber($appellation['total_ca']['value']);
+				$totalMoyenne =  $this->formatNumber($appellation['total_moyenne']['value']);
+				foreach ($appellation['agg_line']['buckets'] as $couleur) {
+					$couleurLibelle = $couleurs[$couleur['key']];
+					$sansPrix = $this->formatNumber($couleur['vol_sans_prix']['agg_column']['value']);
+					$avecPrix = $this->formatNumber($couleur['vol_avec_prix']['agg_column']['value']);
+					$ca = $this->formatNumber($couleur['ca']['agg_column']['value']);
+					$moyenne = $this->formatNumber($couleur['moyenne']['value']);
+					$csv .= $conditionnementLibelle.';'.$appellationLibelle.';'.$couleurLibelle.';'.$sansPrix.';'.$avecPrix.';'.$ca.';'.$moyenne."\n";
+				}
+				$csv .= $conditionnementLibelle.';'.$appellationLibelle.';TOTAL;'.$totalSansPrix.';'.$totalAvecPrix.';'.$totalCa.';'.$totalMoyenne."\n";
+			}
 			}
 		}
 		return $csv;
