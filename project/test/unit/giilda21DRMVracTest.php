@@ -35,7 +35,7 @@ $vrac = array_shift(VracClient::getInstance()->getBySoussigne($drm->campagne, $n
 $contrat = DRMESDetailVrac::freeInstance($drm);
 $contrat->identifiant = $vrac->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_ID];
 $contrat->volume = 100;
-$details->sorties->vrac_details->addAdvancedDetail($contrat);
+$details->sorties->vrac_details->addDetail($contrat);
 $details->sorties->ventefrancecrd = 100;
 $contrat_key = $contrat->getKey();
 if (!$contrat_key) {
@@ -85,7 +85,7 @@ $vrac = array_shift(VracClient::getInstance()->getBySoussigne($drm->campagne, $n
 $contrat = DRMESDetailVrac::freeInstance($drm);
 $contrat->identifiant = $vrac->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_ID];
 $contrat->volume = 100;
-$vrac_details->addAdvancedDetail($contrat);
+$vrac_details->addDetail($contrat);
 $drm_mod->update();
 $drm_mod->validate();
 $drm_mod->save();

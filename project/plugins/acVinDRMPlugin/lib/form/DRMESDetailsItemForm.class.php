@@ -11,26 +11,26 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
 
     public function configure() {
 
-        $this->setWidget('identifiant', new bsWidgetFormChoice(array('choices' => $this->getIdentifiantChoices()), array('class' => 'autocomplete')));
-        $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
-
-        
-        $this->setWidget('numero_document', new bsWidgetFormInput());
-        $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
-       
-
-        $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getIdentifiantChoices()))));
-        $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
-       
-        $this->setValidator('numero_document', new sfValidatorString(array('required' => false)));
-        $this->setValidator('type_document', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypeDocumentsChoices()))));
-       
+      $this->setWidget('identifiant', new bsWidgetFormChoice(array('choices' => $this->getIdentifiantChoices()), array('class' => 'autocomplete')));
+      $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
 
 
-        $post_validator_class = $this->getPostValidatorClass();
-        $this->validatorSchema->setPostValidator(new $post_validator_class());
-        $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
-//        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
+      $this->setWidget('numero_document', new bsWidgetFormInput());
+      $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
+
+
+      $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getIdentifiantChoices()))));
+      $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
+
+      $this->setValidator('numero_document', new sfValidatorString(array('required' => false)));
+      $this->setValidator('type_document', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypeDocumentsChoices()))));
+
+
+
+      $post_validator_class = $this->getPostValidatorClass();
+      $this->validatorSchema->setPostValidator(new $post_validator_class());
+      $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
+      $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);    
     }
 
     public function updateDefaultsFromObject() {
@@ -44,7 +44,7 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $date = new DateTime($this->getObject()->getDocument()->getDate());
-        $this->getObject()->date_enlevement = $date->format('Y-m-d');        
+        $this->getObject()->date_enlevement = $date->format('Y-m-d');
     }
 
     public function getProduitDetail() {
@@ -63,10 +63,6 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
     public function getPostValidatorClass() {
 
         return 'DRMDetailItemValidator';
-    }
-    
-    public function isTypeDocShow() {
-        return true;
     }
 
 }

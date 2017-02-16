@@ -6,7 +6,7 @@
 
 class DRMESDetailExport extends BaseDRMESDetailExport {
     public function getProduitDetail() {
-        
+
         return $this->getParent()->getProduitDetail();
     }
 
@@ -27,4 +27,5 @@ class DRMESDetailExport extends BaseDRMESDetailExport {
       }
       return $this->key;
     }
+
 }

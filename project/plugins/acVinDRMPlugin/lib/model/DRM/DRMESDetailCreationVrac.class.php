@@ -34,12 +34,18 @@ class DRMESDetailCreationVrac extends BaseDRMESDetailCreationVrac {
     }
   }
 
+  public function setKey($k) {
+    $this->key = $k;
+  }
+
   public function getKey() {
     if (parent::getKey()) {
       return parent::getKey();
     }
     return $this->getTheoriticalKey();
   }
+
+
   private function getTheoriticalKey() {
     if (!$this->identifiant) {
       $this->identifiant = $this->getDocument()->_id."-".uniqid();

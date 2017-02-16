@@ -248,6 +248,34 @@
                   				}
                 			}
               			},
+              			"certification" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
+              			"genre" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
+              			"appellation" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
+              			"mention" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
+              			"lieu" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
+              			"couleur" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
+              			"cepage" : {
+                			"type" : "string",
+                    		"index" : "not_analyzed"
+              			},
               			"acheteur_identifiant" : {
                 			"type" : "string",
                     		"index" : "not_analyzed"
