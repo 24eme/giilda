@@ -54,11 +54,15 @@ $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)-
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego->identifiant)->rows), 1, $drm->_id." : Un contrat vrac pour le nego");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego_horsregion->identifiant)->rows), 0, $drm->_id." : Pas de vrac pour le nego hors région");
 
+$contrat = VracClient::getInstance()->find(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows[0]->id);
+$t->is($contrat->type_transaction, VracClient::TYPE_TRANSACTION_VIN_VRAC, "Une sortie contrat de type vrac produit un contrat de type vrac");
+
 $mvts_viti = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete());
 $mvts_nego = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($nego->getSociete());
 $t->is(count($mvts_viti), 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du viti");
 $t->is(count($mvts_nego), 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du négo");
 $t->is($mvts_nego[0]->volume * $mvts_nego[0]->cvo, $mvts_viti[0]->volume * $mvts_viti[0]->cvo, $drm->_id." : la cvo est partagée entre le viti et le nego");
+$t->isnt($mvts_viti[0]->vrac_destinataire, null, $drm->_id." : le mouvement a un vrac_destinataire");
 
 $drm_mod = $drm->generateModificative();
 $creationvrac2 = $drm_mod->getProduit($produit_hash, 'details')->sorties->creationvrac_details->get($creationvrac->getKey());
