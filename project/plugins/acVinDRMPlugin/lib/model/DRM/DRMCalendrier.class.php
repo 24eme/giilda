@@ -36,12 +36,16 @@ class DRMCalendrier {
         if(DRMConfiguration::getInstance()->isDRMNegoce()){
           $famillesArray = array_merge($famillesArray,array(EtablissementFamilles::FAMILLE_NEGOCIANT,EtablissementFamilles::FAMILLE_COOPERATIVE));
         }
-        foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
-            if(!in_array($e->etablissement->famille,$famillesArray)) {
-                continue;
-            }
+        if($this->isTeledeclarationMode) {
+            foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
+                if(!in_array($e->etablissement->famille,$famillesArray)) {
+                    continue;
+                }
 
-            $this->etablissements[] = $e->etablissement;
+                $this->etablissements[] = $e->etablissement;
+            }
+        } else {
+            $this->etablissements[] = $etablissement;
         }
 
         $this->multiEtbs = ((count($this->etablissements) > 1) && $this->isTeledeclarationMode);
