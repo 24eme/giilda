@@ -62,7 +62,7 @@ $mvts_nego = MouvementfactureFacturationView::getInstance()->getMouvementsNonFac
 $t->is(count($mvts_viti), 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du viti");
 $t->is(count($mvts_nego), 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du négo");
 $t->is($mvts_nego[0]->volume * $mvts_nego[0]->cvo, $mvts_viti[0]->volume * $mvts_viti[0]->cvo, $drm->_id." : la cvo est partagée entre le viti et le nego");
-$t->isnt($mvts_viti[0]->vrac_destinataire, null, $drm->_id." : le mouvement a un vrac_destinataire");
+$t->isnt($mvts_viti[0]->detail_libelle, null, $drm->_id." : le mouvement a un detail_libelle");
 
 $drm_mod = $drm->generateModificative();
 $creationvrac2 = $drm_mod->getProduit($produit_hash, 'details')->sorties->creationvrac_details->get($creationvrac->getKey());
