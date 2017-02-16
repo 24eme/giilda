@@ -50,7 +50,6 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
   public function update(){
 
     foreach ($this->getEmbeddedForms() as $key => $form) {
-        var_dump($key);
         $form->updateObject($this->values[$key]);
     }
 
@@ -83,8 +82,6 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
           if($detailNode->identifiant && $detailNode->volume){
             $this->details->addDetail($detailNode);
           }
-        }else{
-      //    var_dump($this->details->get($key)->volume);
         }
       }
     }
