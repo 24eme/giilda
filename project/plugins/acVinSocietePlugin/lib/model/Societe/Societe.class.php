@@ -437,7 +437,9 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
     public function delete() {
       foreach($this->getComptesAndEtablissements() as $id => $obj) {
+        if ($obj) {
           $obj->delete();
+        }
       }
       return parent::delete();
     }
