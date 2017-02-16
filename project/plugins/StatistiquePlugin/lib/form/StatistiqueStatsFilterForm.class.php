@@ -2,7 +2,7 @@
 class StatistiqueStatsFilterForm extends BaseForm
 {
 	protected $config;
-	protected static $rangeFields = array('doc.mouvements.date');
+	protected static $rangeFields = array('doc.mouvements.date', 'doc.date_campagne');
 	
 	public function __construct($config, $defaults = array(), $options = array(), $CSRFSecret = null)
 	{
@@ -20,7 +20,7 @@ class StatistiqueStatsFilterForm extends BaseForm
 				'doc.mouvements.date/to' => new bsWidgetFormInputDate(),
 				'statistiques' => new bsWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getStatistiques())),
 				
-				'doc.produit' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation', true)), array('class' => 'select2 form-control')),
+				'doc.appellation' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
 				'doc.type_transaction' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getTransactions())),
 				'doc.date_campagne/from' => new bsWidgetFormInputDate(),
 				'doc.date_campagne/to' => new bsWidgetFormInputDate(),
@@ -32,7 +32,7 @@ class StatistiqueStatsFilterForm extends BaseForm
 				'lastyear' => 'Stat N/N-1',
 				'statistiques' => 'Statistiques',
 
-				'doc.produit' => 'Appellation',
+				'doc.appellation' => 'Appellation',
 				'doc.type_transaction' => 'Conditionnement',
 		));
 		
@@ -44,7 +44,7 @@ class StatistiqueStatsFilterForm extends BaseForm
 				'lastyear' => new ValidatorBoolean(array('required' => false)),
 				'statistiques' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatistiques()))),
 				
-				'doc.produit' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation', true)))),
+				'doc.appellation' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation')))),
 				'doc.type_transaction' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getTransactions()))),
 				'doc.date_campagne/from' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 				'doc.date_campagne/to' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
@@ -78,16 +78,12 @@ class StatistiqueStatsFilterForm extends BaseForm
     	return array_merge(array(null => null), EtablissementClient::getRegions());
     }
 
-    public static function getLibelles($noeud, $expandedForSearch = false) {
+    public static function getLibelles($noeud) {
         $libelles = array();
         $items = self::getItems($noeud);
 
         foreach($items as $key => $item) {
-        	if ($expandedForSearch) {
-        		$libelles['*/'.$key.'/*'] = $item->getLibelle();
-        	} else {
-            	$libelles[$key] = $item->getLibelle();
-        	}
+            $libelles[$key] = $item->getLibelle();
         }
 
         return $libelles;
@@ -126,7 +122,12 @@ class StatistiqueStatsFilterForm extends BaseForm
     		$values['doc.mouvements.date']['from'] = $values['doc.mouvements.date/from'];
     		$values['doc.mouvements.date']['to'] = $values['doc.mouvements.date/to'];
     	}
-    	unset($values['statistiques'], $values['lastyear'], $values['doc.mouvements.date/from'], $values['doc.mouvements.date/to']);
+    	if ($values['doc.date_campagne/from'] || $values['doc.date_campagne/to']) {
+    		$values['doc.date_campagne'] = array();
+    		$values['doc.date_campagne']['from'] = $values['doc.date_campagne/from'];
+    		$values['doc.date_campagne']['to'] = $values['doc.date_campagne/to'];
+    	}
+    	unset($values['statistiques'], $values['lastyear'], $values['doc.mouvements.date/from'], $values['doc.mouvements.date/to'], $values['doc.date_campagne/from'], $values['doc.date_campagne/to']);
     	$rangeFields = self::$rangeFields;
     	$nbFilters = 0;
     	$filters = array();
