@@ -42,7 +42,7 @@ $creationvrac->volume = 100;
 $creationvrac->prixhl = 150;
 $creationvrac->acheteur = $nego->identifiant;
 $creationvrac->type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC;
-$details->sorties->creationvrac_details->addAdvancedDetail($creationvrac);
+$details->sorties->creationvrac_details->addDetail($creationvrac);
 
 $drm->update();
 $drm->save();
