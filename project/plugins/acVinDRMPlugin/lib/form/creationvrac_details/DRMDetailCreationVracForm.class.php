@@ -21,4 +21,17 @@ class DRMDetailCreationVracForm extends DRMESDetailsForm {
         return 'DRMDetailCreationVracTemplateForm';
     }
 
+    public function getModelNode(){
+      return 'DRMESDetailCreationVrac';
+    }
+
+
+    public function bind(array $taintedValues = null, array $taintedFiles = null) {
+      parent::bind($taintedValues,$taintedFiles);
+    }
+
+    public function update(){
+      parent::update();
+    }
+
 }

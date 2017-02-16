@@ -11,8 +11,9 @@ class DRMDetailCreationVracTemplateForm extends DRMDetailCreationVracForm {
     }
 
     public function configure() {
+        $newCreationVrac = DRMESDetailCreationVrac::freeInstance($this->details->getDocument());
         $item_form_class = $this->getFormItemClass();
-        $this->embedForm('var---nbItem---', new $item_form_class($this->details->addDetail(), array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
+        $this->embedForm('var---nbItem---', new $item_form_class($this->details->addDetail($newCreationVrac), array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
         $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
