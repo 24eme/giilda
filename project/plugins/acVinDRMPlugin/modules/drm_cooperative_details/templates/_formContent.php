@@ -22,7 +22,7 @@ echo $form->renderGlobalErrors();
             $itemForm->renderRow();
         }
     }
-    ?>        
+    ?>
         <tr id="drm_details_lastRow">
             <td class="cooperative_detail_produit"></td>
             <td class="cooperative_detail_destination">
@@ -35,11 +35,10 @@ echo $form->renderGlobalErrors();
                         <span class="drm_details_volume_total"><?php echo $detail->sorties->cooperative > 0 ? $detail->sorties->cooperative : "0.00" ?></span>
                         <span class="drm_details_volume_unite unite">hl</span>
                     </strong>
-                </div>      
+                </div>
             </td>
-            <td class="cooperative_detail_date_enlevement"></td>   
+            <td class="cooperative_detail_date_enlevement"></td>
             <td class="cooperative_detail_remove"></td>
         </tr>
     </tbody>
 </table>
-
