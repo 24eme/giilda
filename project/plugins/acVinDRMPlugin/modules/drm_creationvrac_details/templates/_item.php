@@ -1,6 +1,7 @@
 <?php use_helper('PointsAides'); ?>
 <?php $ligneId = "ligne_" . str_replace(array("[", "]"), array("-", ""), $form->renderName()) ?>
 <tr id="<?php echo $ligneId ?>" class="row">
+    <?php echo $form['identifiant']->render() ?>
     <td class="form-group <?php if ($form['acheteur']->hasError()): ?>has-error<?php endif; ?> col-xs-5">
         <?php echo $form['acheteur']->renderError(); ?>
         <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete", "autofocus" => "autofocus")); ?>
@@ -25,9 +26,9 @@
       </div>
     </td>
 
-    <td class="form-group <?php if ($form['identifiant']->hasError()): ?>has-error<?php endif; ?> col-xs-2">
-      <?php echo $form['identifiant']->renderError(); ?>
-      <?php echo $form['identifiant']->render(array("class" => "form-control", "autofocus" => "autofocus","placeholder" => "Num. du contrat")); ?>
+    <td class="form-group <?php if ($form['numero_archive']->hasError()): ?>has-error<?php endif; ?> col-xs-2">
+      <?php echo $form['numero_archive']->renderError(); ?>
+      <?php echo $form['numero_archive']->render(array("class" => "form-control", "autofocus" => "autofocus","placeholder" => "Num. du contrat")); ?>
     </td>
 
     <td class="text-right">
