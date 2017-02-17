@@ -156,7 +156,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
       if (!$this->comptes) {
         $this->comptes = array();
       }
-      if (!$compte) {
+      if ($compte === NULL) {
         throw new sfException("Could not add NULL compte");
       }
       $this->comptes[$compte->_id] = $compte;
@@ -340,7 +340,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
     protected function createCompteSociete() {
         if ($this->compte_societe) {
-            return $this->getComte($this->compte_societe);
+            return $this->getCompte($this->compte_societe);
         }
 
         $compte = CompteClient::getInstance()->findOrCreateCompteSociete($this);
@@ -356,6 +356,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $this->addCompte($compte, -1);
         $compte->nom = $this->raison_sociale;
         $this->addToComptes($compte);
+        $this->pushContactAndAdresseTo($compte);
         return $compte;
     }
 
