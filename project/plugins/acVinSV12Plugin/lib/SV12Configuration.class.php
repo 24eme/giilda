@@ -22,6 +22,11 @@ class SV12Configuration {
         $this->configuration = sfConfig::get('sv12_configuration_sv12', array());
     }
 
+    public function getAll() {
+
+        return $this->configuration;
+    }
+
     public function hasRaisinetmout() {
 
         return $this->configuration['raisinetmout'];

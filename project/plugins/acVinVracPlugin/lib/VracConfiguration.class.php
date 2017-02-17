@@ -23,6 +23,11 @@ class VracConfiguration
 		$this->configuration = sfConfig::get('vrac_configuration_vrac', array());
 	}
 
+	public function getAll() {
+
+		return $this->configuration;
+	}
+
 	public function getTransactions()
 	{
 		$transactions = array();

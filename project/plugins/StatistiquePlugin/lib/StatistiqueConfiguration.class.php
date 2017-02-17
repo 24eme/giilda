@@ -22,6 +22,11 @@ class StatistiqueConfiguration {
         $this->configuration = sfConfig::get('statistique_configuration_statistique', array());
     }
 
+    public function getAll() {
+
+        return $this->configuration;
+    }
+
     public function isActif() {
 
         return $this->configuration['actif'];

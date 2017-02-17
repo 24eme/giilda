@@ -22,6 +22,11 @@ class DRMConfiguration {
         $this->configuration = sfConfig::get('drm_configuration_drm', array());
     }
 
+    public function getAll() {
+
+        return $this->configuration;
+    }
+
     public function getExportDetail() {
 
         return $this->configuration['details']['export_detail'];

@@ -1,7 +1,6 @@
 all:
   configuration:
     vrac:
-      pdf: "vrac/pdf_ivbd"
       solde_seuil: "9"
       repartition_cvo: "100_ACHETEUR"
       region_departement: "^(24|33|46|47)"

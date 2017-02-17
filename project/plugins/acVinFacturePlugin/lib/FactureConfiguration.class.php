@@ -22,7 +22,12 @@ class FactureConfiguration {
         $this->configuration = sfConfig::get('facture_configuration_facture', array());
     }
 
-   public function getPrefixId($facture) {
+    public function getAll() {
+
+        return $this->configuration;
+    }
+
+    public function getPrefixId($facture) {
         if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
 
             return $this->configuration['type_libre']['identifiant_prefix'];
