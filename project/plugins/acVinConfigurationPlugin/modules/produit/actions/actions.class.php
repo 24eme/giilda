@@ -29,7 +29,7 @@ class produitActions extends sfActions
 
   public function executeModification(sfWebRequest $request)
   {
-    throw new sfException("Edition de l'arbre produit désactivé pour le moment");
+  //  throw new sfException("Edition de l'arbre produit désactivé pour le moment");
   	$this->forward404Unless($request_noeud = $request->getParameter('noeud', null));
   	$this->forward404Unless($hash = str_replace('-', '/', $request->getParameter('hash', null)));
 
@@ -38,7 +38,7 @@ class produitActions extends sfActions
     $this->noeud = $this->produit->get($request_noeud);
 
   	$this->form = new ProduitDefinitionForm($this->noeud);
-  	
+
   	if ($request->isMethod(sfWebRequest::POST)) {
       $this->form->bind($request->getParameter($this->form->getName()));
   		if ($this->form->isValid()) {
@@ -47,7 +47,7 @@ class produitActions extends sfActions
 
         return $this->redirectModification($this->produit->getHash(), explode("|", $request->getParameter('noeud_to_edit', array())));
       }
-    } 
+    }
   }
 
   public function executeNouveau(sfWebRequest $request)
@@ -82,7 +82,7 @@ class produitActions extends sfActions
     unset($noeud_to_edit[0]);
 
     $hash = str_replace('/', '-', $hash);
-    
+
     return $this->redirect('produit_modification', array('noeud' => $noeud, 'hash' => $hash, 'noeud_to_edit' => implode("|", $noeud_to_edit)));
   }
 }
