@@ -27,6 +27,7 @@ foreach($applications as $application) {
         $configuration = ProjectConfiguration::getApplicationConfiguration($application, 'dev', true);
         $t->is(get_class(ProjectConfiguration::getActive()), $application."Configuration", "L'application utilisé est ".$application."Configuration");
     } else {
+        $configuration = new ProjectConfiguration();
         $t->is(get_class(ProjectConfiguration::getActive()), "ProjectConfiguration", "Aucune application utilisé");
     }
 
@@ -43,7 +44,6 @@ foreach($applications as $application) {
 
 $t->comment("Tests spécifiques de la conf ivso");
 $configuration = ProjectConfiguration::getApplicationConfiguration("ivso", 'dev', true);
-
 $configurationInstance = new VracConfiguration();
 $t->is($configurationInstance->getRepartitionCvo(), "50", "ivso : La repartition CVO d'un contrat est 50/50");
 $t->is($configurationInstance->getRegionDepartement(), ".*", "ivso : La région est toute la france");
