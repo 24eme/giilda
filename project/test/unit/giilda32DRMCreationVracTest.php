@@ -8,7 +8,7 @@ if (!($conf->declaration->exist('details/sorties/creationvrac')) || ($conf->decl
     exit(0);
 }
 
-$t = new lime_test(20);
+$t = new lime_test(25);
 
 $nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $nego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getEtablissement();
@@ -94,3 +94,30 @@ $drm_mod->save();
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows), 0, $drm_mod->_id." : la suppression du mouvement de vrac supprime le vrac pour le viti");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego->identifiant)->rows), 0, $drm_mod->_id." : la suppression du mouvement de vrac supprime le vrac pour le nego");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego_horsregion->identifiant)->rows), 0, $drm_mod->_id." : la suppression du mouvement de vrac supprime le vrac pour le nego hors région");
+
+
+$visa = '199999';
+$t->comment("DRM modificatrice qui crée un contrat bouteille avec un visa : ".$visa);
+
+$drm_mod = $drm_mod->generateModificative();
+$drm_mod->save();
+$creationvrac3 = DRMESDetailCreationVrac::freeInstance($drm_mod);
+$creationvrac3->volume = 200;
+$creationvrac3->prixhl = 150;
+$creationvrac3->acheteur = $nego->identifiant;
+$creationvrac3->type_contrat = VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
+$creationvrac3->numero_archive = $visa;
+
+$drm_mod->addProduit($produit_hash, 'details')->sorties->creationvractirebouche_details->addDetail($creationvrac3);
+
+$drm_mod->update();
+$drm_mod->save();
+
+$drm_mod->validate();
+$drm_mod->save();
+
+$mvts = VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows;
+$t->is(count($mvts), 1, $drm_mod->_id." : on retrouve bien un mouvement pour le viti");
+$vrac = VracClient::getInstance()->find(($mvts[0]->id));
+$t->isnt($vrac, null, $vrac->_id." : on retrouve bien un contrat pour le viti");
+$t->is($vrac->numero_archive, $visa, $vrac->_id." : a bien pour numéro de visa ".$visa);

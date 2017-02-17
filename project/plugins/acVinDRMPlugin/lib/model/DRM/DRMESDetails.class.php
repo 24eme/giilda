@@ -35,44 +35,6 @@ class DRMESDetails extends BaseDRMESDetails {
          return $this->add($detail->getKey(),$detail);
     }
 
-
-    // public function addDetailCreationVrac($identifiant = null, $volume = null, $date_enlevement = null, $prixhl = null, $acheteur = null, $typeContrat = VracClient::TYPE_TRANSACTION_VIN_VRAC, $idDrmImport = null) {
-    //     $identifiantVrac = null;
-    //     $key = null;
-    //     if($idDrmImport){
-    //       $identifiantVrac = $idDrmImport."-".uniqid();
-    //       $key = $idDrmImport."-".uniqid();
-    //     }else{
-    //       $identifiantVrac = ($identifiant)? sprintf("%013d",$identifiant) : null;
-    //       $key = $this->getDocument()->_id."-".uniqid();
-    //     }
-    //
-    //     $detail = $this->add($key);
-    //
-    //     $detail->identifiant = $identifiantVrac;
-    //
-    //     if ($volume && is_null($detail->volume)) {
-    //         $detail->volume = $volume;
-    //     } elseif ($volume) {
-    //         $detail->volume += $volume;
-    //     }
-    //
-    //     if ($prixhl) {
-    //         $detail->prixhl = $prixhl;
-    //     }
-    //
-    //     if ($acheteur) {
-    //         $detail->acheteur = $acheteur;
-    //     }
-    //
-    //     if ($date_enlevement) {
-    //         $detail->date_enlevement = $date_enlevement;
-    //     }
-    //     $detail->type_contrat = $typeContrat;
-    //
-    //     return $detail;
-    // }
-
     public function createMouvements($template_mouvement) {
         $mouvements = array();
 

@@ -16,7 +16,16 @@ class VracConfiguration
 
 	public function __construct()
 	{
+		if(!sfConfig::has('vrac_configuration_vrac')) {
+			throw new sfException("La configuration pour les contrats n'a pas été défini pour cette application");
+		}
+
 		$this->configuration = sfConfig::get('vrac_configuration_vrac', array());
+	}
+
+	public function getAll() {
+
+		return $this->configuration;
 	}
 
 	public function getTransactions()
