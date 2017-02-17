@@ -1458,6 +1458,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getXML() {
+      if (!function_exists('get_partial')) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
+      }
       return get_partial('drm_xml/xml', array('drm' => $this));
     }
 
@@ -1499,6 +1502,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       $xml = $this->getXML();
       $service = new CielService();
       return $service->transferAndStore($this, $xml);
+    }
+
+    public function getTransmissionDate() {
+      if ($this->exist('transmission_douane')) {
+        return date('d/m/Y', strtotime($this->transmission_douane->horodatage));
+      }
+      return "";
+    }
+
+    public function getTransmissionErreur() {
+      if ($this->exist('transmission_douane')) {
+        return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
+      }
+      return "";
     }
 
 }
