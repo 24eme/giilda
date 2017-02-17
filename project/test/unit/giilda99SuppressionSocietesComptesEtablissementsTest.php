@@ -8,7 +8,7 @@ if (getenv("NODELETE")) {
 }
 
 
-$t = new lime_test(9);
+$t = new lime_test(12);
 $t->comment('suppression des différentes sociétés, de leurs établissements et comptes');
 
 $clientcond = false;
