@@ -502,7 +502,8 @@
                 return true;
             vol += vol_val_float;
         });
-        $('.drm_details_volume_total').val(vol.toFixed(2));
+        $('.drm_details_volume_total').val(vol);
+        $('.drm_details_volume_total').change();
     }
 
 
