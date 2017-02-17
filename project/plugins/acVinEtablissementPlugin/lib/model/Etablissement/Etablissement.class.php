@@ -99,12 +99,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function isSameAdresseThanSociete() {
 
-        return $this->isSameAdresseThan($this->getSociete()->getContact());
+        return $this->isSameAdresseThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameContactThanSociete() {
 
-        return $this->isSameContactThan($this->getSociete()->getContact());
+        return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameCompteThanSociete() {
