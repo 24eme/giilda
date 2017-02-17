@@ -262,6 +262,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
+    public function delete() {
+      $this->getSociete()->removeEtablissement($this);
+      parent::delete();
+    }
+
     public function isActif() {
         return $this->statut && ($this->statut == EtablissementClient::STATUT_ACTIF);
     }

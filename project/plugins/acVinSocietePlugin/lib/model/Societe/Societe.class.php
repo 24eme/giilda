@@ -201,6 +201,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
     }
 
+    public function removeEtablissement($e) {
+      $this->etablissements->remove($e->_id);
+    }
+
     public function setCooperative($c) {
         $this->_set('cooperative', $c);
         foreach ($this->getEtablissementsObj() as $e) {

@@ -2,6 +2,27 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
+
+foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) {
+    if (preg_match('/SOCIETE-([^ ]*)/', implode(' ', array_values($v->value)), $m)) {
+      $soc = SocieteClient::getInstance()->findByIdentifiantSociete($m[1]);
+      foreach($soc->getEtablissementsObj() as $k => $etabl) {
+        if ($etabl->etablissement) {
+          foreach (VracClient::getInstance()->retrieveBySoussigne($etabl->etablissement->identifiant)->rows as $k => $vrac) {
+            $vrac_obj = VracClient::getInstance()->find($vrac->id);
+            $vrac_obj->delete();
+          }
+          foreach (DRMClient::getInstance()->viewByIdentifiant($etabl->etablissement->identifiant) as $id => $drm) {
+            $drm = DRMClient::getInstance()->find($id);
+            $drm->delete(false);
+          }
+          $etabl->etablissement->delete();
+        }
+      }
+    }
+}
+
+
 $t = new lime_test(6);
 $t->comment('création des différentes établissements');
 
