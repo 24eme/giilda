@@ -6,12 +6,20 @@
  */
 class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
+    private $societe = NULL;
+
     public function constructId() {
         $this->set('_id', 'COMPTE-' . $this->identifiant);
     }
-
+    public function setSociete($s) {
+      $this->societe = $s;
+      $this->id_societe = $s->_id;
+    }
     public function getSociete() {
-        return SocieteClient::getInstance()->find($this->id_societe);
+        if (!$this->societe) {
+          $this->societe = SocieteClient::getInstance()->findSingleton($this->id_societe);
+        }
+        return $this->societe;
     }
 
     public function getLogin() {
@@ -112,11 +120,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function save() {
-
-        if ($this->isSocieteContact()) {
-            $this->addTag('automatique', 'Societe');
-        }
-
         $this->tags->remove('automatique');
         $this->tags->add('automatique');
         if ($this->exist('teledeclaration_active') && $this->teledeclaration_active) {
@@ -194,7 +197,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function isSocieteContact() {
-        return ((SocieteClient::getInstance()->find($this->id_societe)->compte_societe) == $this->_id);
+        return ($this->getSociete()->compte_societe == $this->_id);
     }
 
     private function removeFournisseursTag() {
@@ -202,7 +205,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getFournisseurs() {
-        $societe = SocieteClient::getInstance()->find($this->id_societe);
+        $societe = $this->getSociete();
         if (!$societe->code_comptable_fournisseur)
             return false;
 
