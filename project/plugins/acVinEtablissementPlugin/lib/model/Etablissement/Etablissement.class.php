@@ -4,6 +4,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     protected $_interpro = null;
     protected $droit = null;
+    protected $societe = null;
 
     /**
      * @return _Compte
@@ -69,11 +70,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
                         ->getView("drm", "all");
     }
 
+    public function setCompte($c) {
+      return $this->_set('compte', $c);
+    }
+
     public function getMasterCompte() {
         if ($this->compte) {
-            return CompteClient::getInstance()->find($this->compte);
+            return $this->getSociete()->getCompte($this->compte);
         }
-        return CompteClient::getInstance()->find($this->getSociete()->compte_societe);
+        return $this->getSociete()->getCompte($this->getSociete()->compte_societe);
     }
 
     public function getContact() {
@@ -82,7 +87,14 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function getSociete() {
-        return SocieteClient::getInstance()->find($this->id_societe);
+      if (!$this->societe) {
+          $this->societe = SocieteClient::getInstance()->findSingleton($this->id_societe);
+      }
+      return $this->societe;
+    }
+
+    public function setSociete($s) {
+      $this->societe = $s;
     }
 
     public function isSameAdresseThanSociete() {
@@ -194,17 +206,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function save() {
-        if(!$this->getCompte()){
-            $this->setCompte($this->getSociete()->getMasterCompte()->_id);
-        }
-
         $societe = $this->getSociete();
-
+        if(!$this->getCompte()){
+            $this->compte = $societe->getMasterCompte()->_id;
+        }
         $needSaveSociete = false;
 
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
-                $compte = CompteClient::getInstance()->createCompteFromEtablissement($this);
+                $compte = $societe->createCompteFromEtablissement($this);
                 $compte->addOrigine($this->_id);
             }else{
                 $compte = $this->getMasterCompte();
@@ -217,39 +227,34 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
             $compte->save();
 
-            $this->setCompte($compte->_id);
+            $this->compte = $compte->_id;
         } else if(!$this->isSameCompteThanSociete()){
             $compteEtablissement = $this->getMasterCompte();
             $compteSociete = $this->getSociete()->getMasterCompte();
 
-            $this->setCompte($compteSociete->_id);
-
-            CompteClient::getInstance()->find($compteEtablissement->_id)->delete();
+            $this->compte = $compteSociete->_id;
+            $this->getSociete()->removeContact($compteEtablissement->_id);
+            $compteEtablissement = $this->compte;
+            $needSaveSociete = true;
         }
-
         if($this->isSameAdresseThanSociete()) {
             $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
         }
-
         if($this->isSameContactThanSociete()) {
             $this->pullContactFrom($this->getSociete()->getMasterCompte());
         }
-
         $this->initFamille();
         $this->raison_sociale = $societe->raison_sociale;
         $this->interpro = "INTERPRO-declaration";
-
         if(VracConfiguration::getInstance()->getRegionDepartement() !== false) {
             $this->region = EtablissementClient::getInstance()->calculRegion($this);
         }
-
         if($this->isNew()) {
             $societe->addEtablissement($this);
             $needSaveSociete = true;
         }
 
         parent::save();
-
         if($needSaveSociete) {
             $societe->save();
         }else {
@@ -267,7 +272,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
 
     public function setIdSociete($id) {
-        $soc = SocieteClient::getInstance()->find($id);
+        $soc = SocieteClient::getInstance()->findSingleton($id);
         if (!$soc)
             throw new sfException("$id n'est pas une société connue");
         $this->_set("id_societe", $id);
@@ -333,7 +338,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
     }
 
     public function getEtablissementPrincipal() {
-        return SocieteClient::getInstance()->find($this->id_societe)->getEtablissementPrincipal();
+        return SocieteClient::getInstance()->findSingleton($this->id_societe)->getEtablissementPrincipal();
     }
 
     public function hasCompteTeledeclarationActivate() {
@@ -373,8 +378,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
         return EtablissementClient::getInstance()->getNatureInaoLibelle($this->nature_inao);
     }
-public function hasLegalSignature() {
-  return $this->getSociete()->hasLegalSignature();
-}
+
+    public function hasLegalSignature() {
+      return $this->getSociete()->hasLegalSignature();
+    }
 
 }

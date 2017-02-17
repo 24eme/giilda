@@ -30,7 +30,7 @@ all:
       from: "email@email.email"
       from_name: "acExceptionNotifierPlugin"
       to: ["email@email.email"]
-      subject: "500 | Internal Server Error | Exception"
+      subject: "[GIILDA] Erreur 500 : %title%"
   pdf:
     reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
   configuration:

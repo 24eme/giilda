@@ -115,15 +115,17 @@ class EtablissementCsvFile extends CompteCsvFile
             }
 
             $e->save();
-            $this->storeCompteInfos($e, $line);
+            $this->storeCompteInfos($e, $line, false);
 
             $e->save();
 
             $s->pushToCompteOrEtablissementAndSave($s->getMasterCompte(), $e);
-
-            echo $e->_id."\n";
         }catch(Exception $e) {
-          echo $e->getMessage()."\n";
+          if (isset($this->options['throw_exception']) && $this->options['throw_exception']) {
+            throw $e;
+          }else{
+            echo $e->getMessage()."\n";
+          }
         }
       }
 

@@ -63,14 +63,18 @@ class CompteCsvFile extends CsvFile
 
                 echo "Compte " . $c->_id ." créé\n";
         	} catch(Exception $e) {
-               echo $e->getMessage()."\n";
+            if (isset($this->options['throw_exception']) && $this->options['throw_exception']) {
+              throw $e;
+            }else{
+              echo $e->getMessage()."\n";
             }
+          }
         }
 
         return $societes;
     }
 
-    protected function storeCompteInfos(InterfaceCompteGenerique $c, $line) {
+    protected function storeCompteInfos(InterfaceCompteGenerique $c, $line, $warningsociete = true) {
         $c->setAdresseComplementaire(null);
         $c->adresse = trim(preg_replace('/,/', '', $this->getField($line, 'CSV_ADRESSE')));
 
@@ -95,7 +99,7 @@ class CompteCsvFile extends CsvFile
 
         $c->code_postal = trim($this->getField($line, 'CSV_CODE_POSTAL'));
 
-        if(!$c->code_postal) {
+        if(!$c->code_postal && $warningsociete) {
             echo "WARNING: le code postal est vide pour la société ".$c->identifiant."\n";
         }
 
@@ -106,7 +110,7 @@ class CompteCsvFile extends CsvFile
         $c->commune = $this->getField($line, 'CSV_COMMUNE');
         $c->insee = $this->getField($line, 'CSV_INSEE');
 
-        if(!$c->commune) {
+        if(!$c->commune && $warningsociete) {
             echo "WARNING: la commune est vide pour la société ".$c->identifiant.":".implode(";", $line)."\n";
         }
 

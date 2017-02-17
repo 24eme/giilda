@@ -15,6 +15,10 @@ class SV12Configuration {
     }
 
     public function __construct() {
+        if(!sfConfig::has('sv12_configuration_sv12')) {
+			throw new sfException("La configuration pour les sv12 n'a pas été défini pour cette application");
+		}
+
         $this->configuration = sfConfig::get('sv12_configuration_sv12', array());
     }
 
