@@ -13,8 +13,12 @@ class CsvFile
     return $this->file;
   }
 
-  public function __construct($file = null, $ignore_first_if_comment = 1) {
-    $this->ignore = $ignore_first_if_comment;
+  public function __construct($file = null, $options = array()) {
+    $this->options = $options;
+    if (!isset($this->options["ignore_first_if_comment"])) {
+      $this->options["ignore_first_if_comment"] = true;
+    }
+    $this->ignore = $this->options["ignore_first_if_comment"];
     $this->separator = ';';
     if (!$file)
       return ;

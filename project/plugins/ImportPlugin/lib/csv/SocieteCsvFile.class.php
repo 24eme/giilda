@@ -85,7 +85,11 @@ class SocieteCsvFile extends CompteCsvFile
               	$s->save();
 
             }catch(Exception $e) {
+              if (isset($this->options['throw_exception']) && $this->options['throw_exception']) {
+                throw $e;
+              }else{
                 echo $e->getMessage()."\n";
+              }
             }
         }
 
