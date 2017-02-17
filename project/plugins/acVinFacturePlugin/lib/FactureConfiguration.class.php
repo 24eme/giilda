@@ -14,7 +14,11 @@ class FactureConfiguration {
         return self::$_instance;
     }
 
-      public function __construct() {
+    public function __construct() {
+        if(!sfConfig::has('facture_configuration_facture')) {
+			throw new sfException("La configuration pour les factures n'a pas été défini pour cette application");
+		}
+
         $this->configuration = sfConfig::get('facture_configuration_facture', array());
     }
 
