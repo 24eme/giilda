@@ -5,6 +5,6 @@ require_once dirname(__FILE__).'/../../lib/vendor/symfony/test/bootstrap/unit.ph
 
 $application = (getenv("APPLICATION")) ? getenv("APPLICATION") : 'bivc';
 
-$configuration = ProjectConfiguration::getApplicationConfiguration( $application, 'prod', true);
+$configuration = ProjectConfiguration::getApplicationConfiguration( $application, 'dev', true);
 
 new sfDatabaseManager($configuration);
