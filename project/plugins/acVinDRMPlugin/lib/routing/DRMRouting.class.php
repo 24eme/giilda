@@ -92,7 +92,7 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('valid'),
         )));
-        
+
         $r->prependRoute('drm_reouvrir', new DRMRoute('/drm/:identifiant/reouvrir/:periode_version', array('module' => 'drm',
             'action' => 'reouvrir'), array(), array('model' => 'DRM',
             'type' => 'object',
@@ -176,10 +176,6 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('edition'))));
 
-        $r->prependRoute('drm_cooperative_details', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/details-cooperative/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail/:cat_key/:key', array('module' => 'drm_cooperative_details',
-            'action' => 'produit'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
-            'type' => 'object',
-            'control' => array('edition'))));
 
         $r->prependRoute('drm_edition_produit_addlabel', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/addlabel/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', array('module' => 'drm_edition',
             'action' => 'addLabel'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',

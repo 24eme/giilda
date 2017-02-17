@@ -89,9 +89,9 @@ class drmGeneriqueActions extends sfActions {
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if($this->form->isValid()) {
-                $this->form->update();
-                $this->drm->update();
-                $this->drm->save();
+                  $this->form->update();
+                  $this->drm->update();
+                  $this->drm->save();
                 if($request->isXmlHttpRequest())
                 {
                     $this->getUser()->setFlash("notice", 'Le détail a été mis à jour avec success.');

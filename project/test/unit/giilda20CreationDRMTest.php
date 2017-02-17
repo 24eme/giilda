@@ -38,13 +38,13 @@ $t->is($drm->getProduit($produit_hash, 'details')->get('stocks_fin/final'), 700,
 $export = DRMESDetailExport::freeInstance($drm);
 $export->identifiant = 'BE';
 $export->volume = 50;
-$details->sorties->export_details->addAdvancedDetail($export);
+$details->sorties->export_details->addDetail($export);
 $export_key1 = $export->getKey();
 
 $export = DRMESDetailExport::freeInstance($drm);
 $export->identifiant = 'BE';
 $export->volume = 50;
-$details->sorties->export_details->addAdvancedDetail($export);
+$details->sorties->export_details->addDetail($export);
 $export_key2 = $export->getKey();
 $t->is($drm->getProduit($produit_hash, 'details')->get("sorties/export_details")->get($export_key2)->getKey(), $export_key2, $drm->_id." : les clés d'export sont conservées");
 
@@ -88,7 +88,7 @@ $detail = $drm_mod->getProduit($produit_hash, 'details')->get('sorties/export_de
 $export->identifiant = $detail->identifiant;
 $export->volume = 100;
 $export->key = $detail->key;
-$drm_mod->getProduit($produit_hash, 'details')->get('sorties/export_details')->addAdvancedDetail($export);
+$drm_mod->getProduit($produit_hash, 'details')->get('sorties/export_details')->addDetail($export);
 $drm_mod->update();
 $drm_mod->save();
 $t->is($detail->getKey(), $export->getKey(), $drm_mod->_id." : Le détails doit avoir la même clé que l'export qui le remplace");

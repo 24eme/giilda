@@ -2,15 +2,16 @@
 <?php use_helper('PointsAides'); ?>
 <?php $multiEtablissement = $calendrier->isMultiEtablissement(); ?>
   <div class="row">
-  <div style="height:50px; padding-top:16px;" class="col-xs-1 text-right">
-      <?php echo getPointAideHtml('drm','changement_campagne') ?>
-    </div>
     <form method="post" class="form-inline col-xs-11" style="margin-top: 10px;">
         <?php echo $formCampagne->renderGlobalErrors() ?>
         <?php echo $formCampagne->renderHiddenFields() ?>
         <?php echo $formCampagne['campagne']->render(); ?>
-        <input class="btn btn-default btn-sm" type="submit" value="Changer"/>
+        <input class="btn btn-default" type="submit" value="Changer"/>
+        <?php echo getPointAideHtml('drm','changement_campagne') ?>
     </form>
+    <div class="col-xs-1 text-right">
+
+    </div>
   </div>
     <div class="row" style="margin-top: 20px;">
     <?php foreach ($calendrier->getPeriodes() as $periode): ?>
