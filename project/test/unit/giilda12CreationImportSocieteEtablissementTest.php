@@ -16,7 +16,7 @@ for ($i = 0 ; $i < 10 ; $i++) {
     $client->delete();
   }
 }
-$t = new lime_test(6);
+$t = new lime_test(9);
 
 $t->comment("création d'une société d'après l'import");
 $societefile = tempnam("/tmp", "test");
@@ -36,10 +36,8 @@ $etablissementfile = tempnam("/tmp", "test");
 file_put_contents($etablissementfile, "99999001;SOCIETE-999990;NEGOCIANT;\"Nego VINICOLE\";ACTIF;REGION_HORS_CVO;;;;;;\"Rue du Comte           \";;;;92310;\"Bourg\";;;FR;;01.45.15.00.00;;;01.45.15.00.00;;\n");
 $csv = new EtablissementCsvFile($etablissementfile, array('throw_exception' => true));
 $csv->importEtablissements();
-/*
 unlink($societefile);
 unlink($etablissementfile);
-*/
 
 $t->comment("Tests de récupération de la société et du chais créé");
 $etablissement = EtablissementClient::getInstance()->findByIdentifiant('99999001');
@@ -51,13 +49,16 @@ $t->is($compte01 && true, true, "Le compte 01 existe");
 $t->is($compte02 && true, false, "Le compte 02 n'existe pas");
 $t->is(count($societe->contacts), 1, "La société n'est liée qu'à un seul contact");
 
-/*
+$compte01->addTag('test', 'test');
+$compte01->save();
+
 $t->comment("Tests de suppression de la société");
+
+$societe = SocieteClient::getInstance()->find($societe->_id);
 $societe->delete();
 $compte01 = CompteClient::getInstance()->findByIdentifiant('99999001');
 $societe = SocieteClient::getInstance()->findByIdentifiantSociete('999990');
 $etablissement = EtablissementClient::getInstance()->findByIdentifiant('99999001');
 $t->is($societe, null, "La societe n'existe plus");
 $t->is($etablissement, null, "L'etablissement 01 n'existe plus");
-$t->is($compte, null, "Le compte 01 n'existe plus");
-*/
+$t->is($compte01, null, "Le compte 01 n'existe plus");
