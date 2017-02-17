@@ -14,14 +14,14 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
     public function configure() {
         foreach ($this->details as $key => $item) {
             $form_item_class = $this->getFormItemClass();
-            $form = $this->embedForm($key, new $form_item_class($item,array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
+            $form = $this->embedForm($key, new $form_item_class($item,array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'details' => $this->details)));
         }
 
         $newDetailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
         $newDetailNode->setKey(uniqid());
         $form_item_class = $this->getFormItemClass();
 
-        $this->embedForm($newDetailNode->getKey(), new $form_item_class($newDetailNode,array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
+        $this->embedForm($newDetailNode->getKey(), new $form_item_class($newDetailNode,array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'details' => $this->details)));
 
         $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
@@ -42,7 +42,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
           $detailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
           $detailNode->fromArray($values);
           $form_item_class = $this->getFormItemClass();
-          $this->embedForm($key, new $form_item_class($detailNode,array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
+          $this->embedForm($key, new $form_item_class($detailNode,array('isTeledeclarationMode' => $this->isTeledeclarationMode,'details' => $this->details)));
       }
         parent::bind($taintedValues, $taintedFiles);
     }

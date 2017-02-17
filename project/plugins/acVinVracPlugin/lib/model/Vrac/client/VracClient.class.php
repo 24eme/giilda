@@ -673,6 +673,7 @@ class VracClient extends acCouchdbClient {
             $vrac->vendeur_identifiant = $etablissement;
             $vrac->numero_contrat = $id;
             $vrac->produit = $hash;
+            $vrac->type_transaction = self::TYPE_TRANSACTION_VIN_VRAC;
         }
         if ($etablissement != $vrac->vendeur_identifiant)
             throw new sfException('le vendeur ne correpond pas à l\'établissement initial');
