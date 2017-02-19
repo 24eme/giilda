@@ -99,12 +99,12 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function isSameAdresseThanSociete() {
 
-        return $this->isSameAdresseThan($this->getSociete()->getContact());
+        return $this->isSameAdresseThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameContactThanSociete() {
 
-        return $this->isSameContactThan($this->getSociete()->getContact());
+        return $this->isSameContactThan($this->getSociete()->getMasterCompte());
     }
 
     public function isSameCompteThanSociete() {
@@ -260,6 +260,11 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }else {
             $societe->getMasterCompte()->save();
         }
+    }
+
+    public function delete() {
+      $this->getSociete()->removeEtablissement($this);
+      parent::delete();
     }
 
     public function isActif() {

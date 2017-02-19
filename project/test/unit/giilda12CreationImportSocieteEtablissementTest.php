@@ -20,7 +20,6 @@ $t = new lime_test(9);
 
 $t->comment("création d'une société d'après l'import");
 $societefile = tempnam("/tmp", "test");
-//                               000002;RESSORTISSANT;" ANJOU VINICOLE";" ANJOU VINICOLE";ACTIF;41100002;;;;;"Rue du Comte de Champagny";;;;49310;"VIHIERS";;;FR;;02.41.75.21.90;;;02.41.75.21.99;;
 file_put_contents($societefile, "999990;RESSORTISSANT;\"Nego VINICOLE\";\"Nego VINICOLE\";ACTIF;41199999;;;;;\"Rue du Comte           \";;;;92310;\"Bourg\";;;FR;;01.45.15.00.00;;;01.45.15.00.00;;\n");
 $csv = new SocieteCsvFile($societefile, array('throw_exception' => true));
 $csv->importSocietes();
@@ -32,7 +31,6 @@ $t->is($etablissement, null, "L'etablissement n'existe pas");
 
 $t->comment("création d'un établiessement d'après l'import");
 $etablissementfile = tempnam("/tmp", "test");
-//                                     00000201;SOCIETE-000002;NEGOCIANT;" ANJOU VINICOLE";ACTIF;REGION_HORS_CVO;;;;;;"Rue du Comte de Champagny";;;;49310;"VIHIERS";;;FR;;02.41.75.21.90;;;02.41.75.21.99;;
 file_put_contents($etablissementfile, "99999001;SOCIETE-999990;NEGOCIANT;\"Nego VINICOLE\";ACTIF;REGION_HORS_CVO;;;;;;\"Rue du Comte           \";;;;92310;\"Bourg\";;;FR;;01.45.15.00.00;;;01.45.15.00.00;;\n");
 $csv = new EtablissementCsvFile($etablissementfile, array('throw_exception' => true));
 $csv->importEtablissements();
