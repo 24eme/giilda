@@ -18,7 +18,7 @@ class SocieteClient extends acCouchdbClient {
     const FOURNISSEUR_TYPE_PLV = "PLV";
     const FOURNISSEUR_TYPE_FOURNISSEUR = "FOURNISSEUR";
 
-    private $societes = NULL;
+    private $societes = null;
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Societe");
@@ -83,6 +83,18 @@ class SocieteClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
+    public function clearSingleton() {
+        $this->societes = null;
+    }
+
+    public function setSingleton($societe) {
+        if (!$this->societes) {
+          $this->societes = array();
+        }
+
+        $this->societes[$this->getId($societe->_id)] = $societe;
+    }
+
     public function findSingleton($id_or_identifiant) {
       if (!$this->societes) {
         $this->societes = array();
@@ -91,6 +103,7 @@ class SocieteClient extends acCouchdbClient {
       if (isset($this->societes[$id])){
         return $this->societes[$id];
       }
+
       $this->societes[$id] = $this->find($id);
 
       return $this->societes[$id];

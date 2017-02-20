@@ -56,6 +56,10 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
             $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
             return;
         }
+        if($this->isEtablissementContact()){
+            $this->nom_a_afficher = trim(sprintf('%s', $this->nom));
+            return;
+        }
         $this->nom_a_afficher = trim(sprintf('%s %s %s', $this->civilite, $this->prenom, $this->nom));
     }
 

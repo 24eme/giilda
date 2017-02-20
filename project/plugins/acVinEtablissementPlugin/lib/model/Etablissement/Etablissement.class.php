@@ -216,6 +216,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             if ($this->isSameCompteThanSociete()) {
                 $compte = $societe->createCompteFromEtablissement($this);
                 $compte->addOrigine($this->_id);
+                $needSaveSociete = true;
             }else{
                 $compte = $this->getMasterCompte();
             }
@@ -223,10 +224,9 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->pushContactAndAdresseTo($compte);
 
             $compte->id_societe = $this->getSociete()->_id;
-            $compte->nom_a_afficher = $this->nom;
+            $compte->nom = $this->nom;
 
             $compte->save();
-
             $this->compte = $compte->_id;
         } else if(!$this->isSameCompteThanSociete()){
             $compteEtablissement = $this->getMasterCompte();
@@ -237,6 +237,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $compteEtablissement = $this->compte;
             $needSaveSociete = true;
         }
+
         if($this->isSameAdresseThanSociete()) {
             $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
         }
@@ -255,6 +256,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
 
         parent::save();
+
         if($needSaveSociete) {
             $societe->save();
         }else {
