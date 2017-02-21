@@ -3,7 +3,7 @@
 class acVinSV12PluginConfiguration extends sfPluginConfiguration
 {
 
-  public function setup() {
+    public function setup() {
         if ($this->configuration instanceof sfApplicationConfiguration) {
             $configCache = $this->configuration->getConfigCache();
             $configCache->registerConfigHandler('config/sv12.yml', 'sfDefineEnvironmentConfigHandler', array('prefix' => 'sv12_'));

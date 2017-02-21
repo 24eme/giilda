@@ -266,55 +266,38 @@ class FactureClient extends acCouchdbClient {
         return $mouvementsBySoc;
     }
 
-    /** FONCTION INUTILTE * */
-    public function createFactureBySociete($template, $societe_or_id, $date_facturation = null) {
-        $generation = new Generation();
-        $generation->date_emission = date('Y-m-d-H:i');
-        $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
-        $generation->documents = array();
-        $generation->somme = 0;
-        $cpt = 0;
+    public function createAndSaveFacturesBySociete($societe, $parameters) {
+        $mouvements = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe));
+        $mouvements = FactureClient::getInstance()->filterWithParameters($mouvements, $parameters);
 
-        $societe = $societe_or_id;
+        if(!count($mouvements)) {
 
-        if (is_string($societe)) {
-            $societe = SocieteClient::getInstance()->find($societe_or_id);
-        }
-
-        $cotisations = $template->generateCotisations($societe, $template->campagne);
-
-        if (!count($cotisations)) {
             return null;
         }
 
-        $f = FactureClient::getInstance()->createDocFromTemplate($cotisations, $societe, $date_facturation, null, $template->arguments->toArray(true, false));
-        $f->save();
+        $mouvements = $mouvements[$societe->identifiant];
 
-        $generation->somme += $f->total_ttc;
-        $generation->add('documents')->add($cpt, $f->_id);
-        $generation->libelle = $societe->raison_sociale;
-        $cpt++;
+        if(!count($mouvements)) {
 
-        return $generation;
+            return null;
+        }
+
+        $facture = $this->createDocFromMouvements($mouvements,
+                                            $societe,
+                                            $parameters['modele'],
+                                            $parameters['date_facturation'],
+                                            $parameters['message_communication']);
+
+        return $facture;
     }
 
-    public function createFacturesBySoc($generationFactures, $modele, $date_facturation, $message_communication = null) {
+    public function createGenerationForOneFacture($facture) {
         $generation = new Generation();
         $generation->date_emission = date('Y-m-d-H:i');
         $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
         $generation->documents = array();
-        $generation->somme = 0;
-        $cpt = 0;
-        foreach ($generationFactures as $societeID => $mouvementsSoc) {
-            $societe = SocieteClient::getInstance()->find($societeID);
-            $f = $this->createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication);
-
-            $f->save();
-
-            $generation->somme += $f->total_ttc;
-            $generation->add('documents')->add($cpt, $f->_id);
-            $cpt++;
-        }
+        $generation->somme = $facture->total_ttc;
+        $generation->add('documents')->add(null, $facture->_id);
 
         return $generation;
     }

@@ -673,6 +673,7 @@ class VracClient extends acCouchdbClient {
             $vrac->vendeur_identifiant = $etablissement;
             $vrac->numero_contrat = $id;
             $vrac->produit = $hash;
+            $vrac->type_transaction = self::TYPE_TRANSACTION_VIN_VRAC;
         }
         if ($etablissement != $vrac->vendeur_identifiant)
             throw new sfException('le vendeur ne correpond pas à l\'établissement initial');
@@ -717,6 +718,7 @@ class VracClient extends acCouchdbClient {
         $vrac->prix_initial_unitaire_hl = $details->prixhl;
         $vrac->prix_initial_unitaire = $details->prixhl;
         $vrac->prix_unitaire = $details->prixhl;
+        $vrac->numero_archive = ($details->exist('numero_archive') && $details->numero_archive)? $details->numero_archive : null;
         if ($details->date_enlevement) {
           $vrac->enlevement_date = $details->date_enlevement;
           $vrac->date_visa = $details->date_enlevement;

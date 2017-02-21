@@ -15,7 +15,16 @@ class DRMConfiguration {
     }
 
     public function __construct() {
+        if(!sfConfig::has('drm_configuration_drm')) {
+			throw new sfException("La configuration pour les drm n'a pas été défini pour cette application");
+		}
+
         $this->configuration = sfConfig::get('drm_configuration_drm', array());
+    }
+
+    public function getAll() {
+
+        return $this->configuration;
     }
 
     public function getExportDetail() {

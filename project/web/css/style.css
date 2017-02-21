@@ -82,3 +82,7 @@ panel.disabled {
   display: table;
   table-layout: fixed;
 }
+
+span.disabled, a.disabled {
+    cursor: not-allowed !important;
+}

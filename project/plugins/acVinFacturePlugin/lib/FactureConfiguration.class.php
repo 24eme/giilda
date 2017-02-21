@@ -14,11 +14,20 @@ class FactureConfiguration {
         return self::$_instance;
     }
 
-      public function __construct() {
+    public function __construct() {
+        if(!sfConfig::has('facture_configuration_facture')) {
+			throw new sfException("La configuration pour les factures n'a pas été défini pour cette application");
+		}
+
         $this->configuration = sfConfig::get('facture_configuration_facture', array());
     }
 
-   public function getPrefixId($facture) {
+    public function getAll() {
+
+        return $this->configuration;
+    }
+
+    public function getPrefixId($facture) {
         if ($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)) {
 
             return $this->configuration['type_libre']['identifiant_prefix'];
