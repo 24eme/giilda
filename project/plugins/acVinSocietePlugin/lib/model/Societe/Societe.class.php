@@ -362,18 +362,27 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
         parent::save();
 
+
         if ($compteMaster->isNew()) {
             $compteMaster->save();
         }
+        
+        SocieteClient::getInstance()->setSingleton($this);
+
+        $compteMasterOrigin = clone $compteMaster;
+        $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
+
         foreach ($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
-            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement);
+            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement, $compteMasterOrigin);
         }
 
-        SocieteClient::getInstance()->setSingleton($this);
     }
 
-    public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement) {
+    public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement, $compteMasterOrigin = null) {
         $needSave = false;
+        if(is_null($compteMasterOrigin)) {
+            $compteMasterOrigin = $compteMaster;
+        }
         if (!$compteMaster) {
           throw new sfException("compteMaster should not be NULL");
         }
@@ -386,10 +395,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
               $needSave = true;
             }
         }
-        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
+        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $needSave = $needSave || $this->pushAdresseTo($compteOrEtablissement);
         }
-        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
+        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $needSave = $needSave || $this->pushContactTo($compteOrEtablissement);
         }
         if ($needSave) {
