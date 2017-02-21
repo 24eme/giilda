@@ -366,7 +366,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         if ($compteMaster->isNew()) {
             $compteMaster->save();
         }
-        
+
         SocieteClient::getInstance()->setSingleton($this);
 
         $compteMasterOrigin = clone $compteMaster;
@@ -396,10 +396,12 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             }
         }
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
-            $needSave = $needSave || $this->pushAdresseTo($compteOrEtablissement);
+            $ret = $this->pushAdresseTo($compteOrEtablissement);
+            $needSave = $needSave || $ret;
         }
         if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
-            $needSave = $needSave || $this->pushContactTo($compteOrEtablissement);
+            $ret = $this->pushContactTo($compteOrEtablissement);
+            $needSave = $needSave || $ret;
         }
         if ($needSave) {
             $compteOrEtablissement->save();

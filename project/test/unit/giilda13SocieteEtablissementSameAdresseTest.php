@@ -11,7 +11,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test_same') as $k =>
 
 SocieteClient::getInstance()->clearSingleton();
 
-$t = new lime_test(18);
+$t = new lime_test(19);
 $t->comment("création d'une société et un etablissement avec meme adresse et meme contact");
 
 $societe = SocieteClient::getInstance()->createSociete("société viti test contacts", SocieteClient::TYPE_OPERATEUR);
@@ -65,9 +65,12 @@ $t->is($etablissement->isSameContactThan($societe), true, $etablissement->_id." 
 $t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : un etablissement dont l'adresse et l'email sont RAZ a le même compte que la societe");
 $t->ok(!SocieteClient::getInstance()->find($societe->_id)->contacts->exist($idContactEtablissement), $etablissement->_id." : Le compte de l'établissement n'est plus referencé dans la société");
 
+$societe->raison_sociale = "société viti test contacts modifié";
 $societe->adresse = "rue du chateau";
+$societe->email = "email2@example.org";
 $societe->save();
 $etablissement = EtablissementClient::getInstance()->find($etablissement->_id);
 
-$t->is($etablissement->adresse, $societe->adresse, $etablissement->_id." : l'établissement a l'adresse de la société");
+$t->is($etablissement->adresse, $societe->adresse, $etablissement->_id." : l'établissement à la même adresse que la société après modification");
+$t->is($etablissement->email, $societe->email, $etablissement->_id." : l'établissement à le même email que la société après modification");
 $t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : l'établissement à le même compte que la société");
