@@ -16,6 +16,7 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.mouvements.appellation'
                 aggs:
                   total_blanc:
@@ -32,6 +33,7 @@ all:
                       buckets_path: "agg_line>total>agg_column"
                   agg_line:
                     terms:
+                      size: 0,
                       field: 'doc.mouvements.detail_libelle'
                       order:
                         "total>agg_column": desc
@@ -82,6 +84,7 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.mouvements.produit_libelle'
                 aggs:
                   total_stock_initial:
@@ -95,6 +98,7 @@ all:
                       buckets_path: "agg_line>total"
                   agg_line:
                     terms:
+                      size: 0,
                       field: 'doc.declarant.famille'
                     aggs:
                       stock_initial:
@@ -129,10 +133,12 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.declarant.famille'
                 aggs:
                   agg_page:
                     terms:
+                      size: 0,
                       field: 'doc.mouvements.appellation'
                     aggs:
                       total_france:
@@ -149,6 +155,7 @@ all:
                           buckets_path: "agg_line>total>agg_column"
                       agg_line:
                         terms:
+                          size: 0,
                           field: 'doc.mouvements.couleur'
                         aggs:
                           france:
@@ -197,6 +204,7 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.mouvements.appellation'
                 aggs:
                   total_france:
@@ -213,6 +221,7 @@ all:
                       buckets_path: "agg_line>total"
                   agg_line:
                     terms:
+                      size: 0,
                       field: 'doc.mouvements.couleur'
                     aggs:
                       france:
@@ -273,10 +282,12 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.type_transaction'
                 aggs:
                   agg_page:
                     terms:
+                      size: 0,
                       field: 'doc.appellation'
                     aggs:
                       total_sans_prix:

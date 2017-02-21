@@ -6,8 +6,6 @@
  */
 class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
-    private $changedCooperative = null;
-    private $changedStatut = null;
     private $comptes = null;
 
     public function constructId() {
@@ -181,6 +179,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     public function getCompte($id) {
         $this->getContactsObj();
         if (!isset($this->comptes[$id]) || !$this->comptes[$id]) {
+            var_dump(array_key_exists($id, $this->comptes));
           throw new sfException("Pas de compte ".$id);
         }
         return $this->comptes[$id];
@@ -203,22 +202,6 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
 
     public function removeEtablissement($e) {
       $this->etablissements->remove($e->_id);
-    }
-
-    public function setCooperative($c) {
-        $this->_set('cooperative', $c);
-        foreach ($this->getEtablissementsObj() as $e) {
-            $e->cooperative = $c;
-        }
-        $this->changedCooperative = true;
-    }
-
-    public function setStatut($s) {
-        $this->_set('statut', $s);
-        foreach ($this->getEtablissementsObj() as $e) {
-            $e->statut = $s;
-        }
-        $this->changedStatut = true;
     }
 
     public function addCompte($c, $ordre = null) {
@@ -385,6 +368,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         foreach ($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
             $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement);
         }
+
+        SocieteClient::getInstance()->setSingleton($this);
     }
 
     public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement) {
@@ -482,19 +467,23 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
     public function createEtablissement($famille) {
       $etablissement = new Etablissement();
       $etablissement->id_societe = $this->_id;
-      $etablissement->setSociete($this);
-      $etablissement->identifiant = EtablissementClient::getInstance()->getNextIdentifiantForSociete($this);
+      $societeSingleton = SocieteClient::getInstance()->findSingleton($this->_id);
+      if(!$societeSingleton) {
+          throw new sfException("La société doit être créé avant de créer l'établissement");
+      }
+      $etablissement->setSociete($societeSingleton);
+      $etablissement->identifiant = EtablissementClient::getInstance()->getNextIdentifiantForSociete($societeSingleton);
       if ($famille) {
           $etablissement->famille = $famille;
       }
       $etablissement->constructId();
-      $this->pushContactAndAdresseTo($etablissement);
+      $societeSingleton->pushContactAndAdresseTo($etablissement);
       return $etablissement;
     }
 
     public function createCompteFromEtablissement($etablissement) {
       $compte = CompteClient::getInstance()->createCompteFromEtablissement($etablissement);
-      $this->addToComptes($compte);
+      $this->addCompte($compte);
       return $compte;
     }
 
