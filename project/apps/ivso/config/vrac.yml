@@ -1,7 +1,6 @@
 all:
   configuration:
     vrac:
-      pdf: "vrac/pdf_ivso"
       solde_seuil: "10%"
       repartition_cvo: "50"
       region_departement: ".*"

@@ -504,7 +504,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function updateVracs() {
+    private function updateVracs() {
         if (!$this->isValidee()) {
 
             throw new sfException("La DRM doit être validée pour pouvoir enlever les volumes des contrats vracs");
@@ -525,7 +525,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             $vrac = $mouvement->getVrac();
             $vrac->enleverVolume($mouvement->volume * -1);
-            $vracs[$vrac->numero_contrat] = $vrac;
+            if ($mouvement->type_hash == 'creationvrac_details' && ($vrac->volume_enleve == 0)) {
+                $vrac->delete();
+            }else {
+              $vracs[$vrac->numero_contrat] = $vrac;
+            }
+
         }
 
         foreach ($vracs as $vrac) {
@@ -533,7 +538,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function creationVracs() {
+    private function creationVracs() {
         if (!$this->isValidee()) {
 
             throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
@@ -548,7 +553,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function deleteVracs() {
+    private function deleteVracs() {
         if ($this->isValidee()) {
             throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
         }

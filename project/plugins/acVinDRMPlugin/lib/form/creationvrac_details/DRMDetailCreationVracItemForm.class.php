@@ -11,15 +11,17 @@ class DRMDetailCreationVracItemForm extends acCouchdbObjectForm {
 
     public function configure() {
 
-        $this->setWidget('identifiant', new sfWidgetFormInputText());
+        $this->setWidget('identifiant', new sfWidgetFormInputHidden());
+        $this->setWidget('numero_archive', new sfWidgetFormInputText());
         $this->setWidget('acheteur', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-declaration', 'familles' => EtablissementFamilles::FAMILLE_NEGOCIANT)));
         $this->setWidget('prixhl', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
         $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
 
-        $this->setValidator('identifiant', new sfValidatorString(array('required' => false)));
-        $this->setValidator('acheteur', new ValidatorEtablissement(array('required' => true)));
+        $this->setValidator('identifiant', new sfValidatorString(array('required' => true)));
+        $this->setValidator('numero_archive', new sfValidatorString(array('required' => false)));
+        $this->setValidator('acheteur', new ValidatorEtablissement(array('required' => false)));
         $this->setValidator('prixhl', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
-        $this->setValidator('volume', new sfValidatorNumber(array('required' => true, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
+        $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
 
 
         $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));

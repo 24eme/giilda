@@ -136,7 +136,7 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
-        $this->factures = FactureSocieteView::getInstance()->findByEtablissement($this->societe);
+        $this->factures = FactureSocieteView::getInstance()->findBySociete($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
 
         $this->compte = $this->societe->getMasterCompte();
@@ -200,14 +200,21 @@ class factureActions extends sfActions {
             return sfView::SUCCESS;
         }
 
-        $filters_parameters = $this->constructFactureFiltersParameters();
-        $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
-        $mouvementsBySocFiltered = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc, $filters_parameters);
+        $parameters = $this->constructFactureFiltersParameters();
 
-        if ($mouvementsBySocFiltered) {
-            $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySocFiltered, $filters_parameters['modele'], $filters_parameters['date_facturation'], $filters_parameters['message_communication']);
-            $generation->save();
+        $f = FactureClient::getInstance()->createAndSaveFacturesBySociete($this->societe, $parameters);
+
+        if(!$f) {
+
+            return $this->redirect('facture_societe', $this->societe);
+
         }
+
+        $f->save();
+
+        $generation = FactureClient::getInstance()->createGenerationForOneFacture($f);
+        $generation->save();
+
         return $this->redirect('facture_societe', $this->societe);
     }
 

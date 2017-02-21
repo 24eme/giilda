@@ -147,26 +147,21 @@ abstract class CompteGenerique extends acCouchdbDocument {
     }
 
     public static function isSameAdresseComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
-
         if
         (
             ($compte1->getAdresse() == $compte2->getAdresse() || !$compte1->getAdresse()) &&
             ($compte1->getCommune() == $compte2->getCommune() || !$compte1->getCommune()) &&
             ($compte1->getCodePostal() == $compte2->getCodePostal() || !$compte1->getCodePostal()) &&
-            ($compte1->getInsee() == $compte2->getInsee() || !$compte1->getInsee()) &&
             ($compte1->getAdresseComplementaire() == $compte2->getAdresseComplementaire() || !$compte1->getAdresseComplementaire()) &&
             ($compte1->getPays() == $compte2->getPays() || !$compte1->getPays())
         )
         {
-
             return true;
         }
-
         return false;
     }
 
     public static function isSameContactComptes(InterfaceCompteGenerique $compte1, InterfaceCompteGenerique $compte2) {
-
         if
         (
             ($compte1->getTelephoneBureau() == $compte2->getTelephoneBureau() || !$compte1->getTelephoneBureau()) &&
@@ -177,10 +172,8 @@ abstract class CompteGenerique extends acCouchdbDocument {
             ($compte1->getSiteInternet() == $compte2->getSiteInternet() || !$compte1->getSiteInternet())
         )
         {
-
             return true;
         }
-
         return false;
     }
 

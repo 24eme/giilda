@@ -45,14 +45,30 @@ class statistiqueActions extends sfActions {
 			if (!isset($this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation'])) {
 				throw new sfException('No aggregation set for statistiques '.$values['statistiques']);
 			}
-			$result = $this->getAggsResult($this->form->processFilters(), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
-			return $this->renderCsv($this->getAggsResultCsv($values['statistiques'], $result), 'statistiques_'.$values['statistiques']);
+			$result = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters(), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+			$csvResult = $this->getAggsResultCsv($values['statistiques'], $result);
+			if ($this->form->canPeriodeCompare()) {
+				$resultLastPeriode = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters($this->form->getValuesLastPeriode()), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+				$csvResultLastPeriode = $this->getAggsResultCsv($values['statistiques'], $resultLastPeriode);
+				$nbKeys = $this->getNbKeys($values['statistiques']);
+				$csvResult = $this->getAggsResultCompareCsv($values['statistiques'], $this->getCsvToArray($csvResultLastPeriode,$nbKeys), $this->getCsvToArray($csvResult,$nbKeys));
+			}
+			return $this->renderCsv($csvResult, 'statistiques_'.$values['statistiques']);
 		}
 	}
 	
-	protected function getAggsResult($filters, $agg)
+	protected function getNbKeys($type)
+	{
+		if ($type == 'exportations' || $type == 'sorties_appellation') {
+			return 2;
+		} elseif ($type == 'sorties_categorie') {
+			return 3;
+		}
+	}
+	
+	protected function getAggsResult($index, $filters, $agg)
 	{		
-		$index = acElasticaManager::getType('DRMMVT');
+		$index = acElasticaManager::getType($index);
 		$params = ($filters)? array('aggs' => $agg, 'query' => $filters) : array('aggs' => $agg);
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
@@ -63,71 +79,138 @@ class statistiqueActions extends sfActions {
 	
 	protected function getAggsResultCsv($type, $result)
 	{
-		//print_r($result);exit;
-		$appellations = $this->getLibelles('appellation');
-		$familles = EtablissementFamilles::getFamilles();
-		$couleurs = array('blanc' => 'Blanc', 'rose' => 'Rosé', 'rouge' => 'Rouge');
-		
+		return $this->getPartial('statistique/'.$type, array('result' => $result[$type]));
+	}
+	
+	protected function getAggsResultCompareCsv($type, $lastPariode, $current)
+	{
+		$result = array();
+		$csv = '';
 		if ($type == 'exportations') {
-			$csv = 'Appellation;Pays;Blanc;Rosé;Rouge;TOTAL'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-				$totalBlanc =  $this->formatNumber($appellation['total_blanc']['value']);
-				$totalRose =  $this->formatNumber($appellation['total_rose']['value']);
-				$totalRouge =  $this->formatNumber($appellation['total_rouge']['value']);
-				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $pays) {
-					$paysLibelle = $pays['key'];
-					$blanc = $this->formatNumber($pays['blanc']['agg_column']['value']);
-					$rose = $this->formatNumber($pays['rose']['agg_column']['value']);
-					$rouge = $this->formatNumber($pays['rouge']['agg_column']['value']);
-					$total = $this->formatNumber($pays['total']['agg_column']['value']);
-					if (!$blanc && !$rose && !$rouge) {
-						continue;
+			$result[] = array('Appellation','Pays','Blanc N-1','Blanc N','Blanc %','Rosé N-1','Rosé N','Rosé %','Rouge N-1','Rouge N','Rouge %','TOTAL N-1','TOTAL N','TOTAL %');
+			$currentKeys = array_keys($current);
+			$currentPartKeys = array();
+			foreach ($current as $key => $values) {
+				$tabKey = explode('/', $key);
+				if (!in_array($tabKey[0], $currentPartKeys)) {
+					$currentPartKeys[] = $tabKey[0];
+				}
+				if ($tabKey[1] == 'TOTAL') {
+					foreach ($lastPariode as $subkey => $subvalues) {
+						$subtabKey = explode('/', $subkey);
+						if ($subtabKey[0] == $tabKey[0] && !in_array($subkey, $currentKeys)) {
+							$result[] = array($subtabKey[0], $subtabKey[1], $subvalues[0], null, $this->getEvol($subvalues[0], 0), $subvalues[1], null, $this->getEvol($subvalues[1], 0), $subvalues[2], null, $this->getEvol($subvalues[2], 0), $subvalues[3], null, $this->getEvol($subvalues[3], 0));
+						}
 					}
-					$csv .= $appellationLibelle.';'.$paysLibelle.';'.$blanc.';'.$rose.';'.$rouge.';'.$total."\n";
 				}
-				$csv .= $appellationLibelle.';TOTAL;'.$totalBlanc.';'.$totalRose.';'.$totalRouge.';'.$totalTotal."\n";
+				if (isset($lastPariode[$key])) {
+					$result[] = array($tabKey[0], $tabKey[1], $lastPariode[$key][0], $values[0], $this->getEvol($lastPariode[$key][0], $values[0]), $lastPariode[$key][1], $values[1], $this->getEvol($lastPariode[$key][1], $values[1]), $lastPariode[$key][2], $values[2], $this->getEvol($lastPariode[$key][2], $values[2]), $lastPariode[$key][3], $values[3], $this->getEvol($lastPariode[$key][3], $values[3]));
+				} else {
+					$result[] = array($tabKey[0], $tabKey[1], null, $values[0], $this->getEvol(0, $values[0]), null, $values[1], $this->getEvol(0, $values[1]), null, $values[2], $this->getEvol(0, $values[2]), null, $values[3], $this->getEvol(0, $values[3]));					
+				}
 			}
-		} elseif ($type == 'stocks') {
-			$csv = 'Appellation;Catégorie;Stock initial;Stock actuel;TOTAL MVT'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellation['key'];
-				$totalStockInitial =  $this->formatNumber($appellation['total_stock_initial']['value']);
-				$totalStockFinal =  $this->formatNumber($appellation['total_stock_final']['value']);
-				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $categorie) {
-					$categorieLibelle = $familles[$categorie['key']];
-					$stockInitial = $this->formatNumber($categorie['stock_initial']['agg_column']['value']);
-					$stockFinal = $this->formatNumber($categorie['stock_final']['agg_column']['value']);
-					$totalMvt = $this->formatNumber($categorie['total']['value']);
-					$csv .= $appellationLibelle.';'.$categorieLibelle.';'.$stockInitial.';'.$stockFinal.';'.$totalMvt."\n";
+			foreach ($lastPariode as $key => $values) {
+				$tabKey = explode('/', $key);
+				if (!in_array($tabKey[0], $currentPartKeys)) {
+					$result[] = array($tabKey[0], $tabKey[1], $values[0], null, $this->getEvol($values[0], 0), $values[1], null, $this->getEvol($values[1], 0), $values[2], null, $this->getEvol($values[2], 0), $values[3], null, $this->getEvol($values[3], 0));
 				}
-				$csv .= $appellationLibelle.';TOTAL;'.$totalStockInitial.';'.$totalStockFinal.';'.$totalTotal."\n";
 			}
 		} elseif ($type == 'sorties_categorie') {
-			$csv = 'Appellation;Couleur;France;Export;Négoce;TOTAL'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-				$totalFrance =  $this->formatNumber($appellation['total_france']['value']);
-				$totalExport =  $this->formatNumber($appellation['total_export']['value']);
-				$totalNegoce =  $this->formatNumber($appellation['total_negoce']['value']);
-				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $couleur) {
-					$couleurLibelle = $couleurs[$couleur['key']];
-					$france = $this->formatNumber($couleur['france']['agg_column']['value']);
-					$export = $this->formatNumber($couleur['export']['agg_column']['value']);
-					$negoce = $this->formatNumber($couleur['negoce']['agg_column']['value']);
-					$total = $this->formatNumber($couleur['total']['agg_column']['value']);
-					if (!$france && !$export && !$negoce) {
-						continue;
-					}
-					$csv .= $appellationLibelle.';'.$couleurLibelle.';'.$france.';'.$export.';'.$negoce.';'.$total."\n";
+			$result[] = array('Catégorie','Appellation','Couleur','France N-1','France N','France %','Export N-1','Export N','Export %','Négoce N-1','Négoce N','Négoce %','TOTAL N-1','TOTAL N','TOTAL %');
+			$currentKeys = array_keys($current);
+			$currentPartKeys = array();
+			foreach ($current as $key => $values) {
+				$tabKey = explode('/', $key);
+				if (!in_array($tabKey[0].'/'.$tabKey[1], $currentPartKeys)) {
+					$currentPartKeys[] = $tabKey[0].'/'.$tabKey[1];
 				}
-				$csv .= $appellationLibelle.';TOTAL;'.$totalFrance.';'.$totalExport.';'.$totalNegoce.';'.$totalTotal."\n";
+				if ($tabKey[2] == 'TOTAL') {
+					foreach ($lastPariode as $subkey => $subvalues) {
+						$subtabKey = explode('/', $subkey);
+						if ($subtabKey[0].'/'.$subtabKey[1] == $tabKey[0].'/'.$tabKey[1] && !in_array($subkey, $currentKeys)) {
+							$result[] = array($subtabKey[0], $subtabKey[1], $subtabKey[2], $subvalues[0], null, $this->getEvol($subvalues[0], 0), $subvalues[1], null, $this->getEvol($subvalues[1], 0), $subvalues[2], null, $this->getEvol($subvalues[2], 0), $subvalues[3], null, $this->getEvol($subvalues[3], 0));
+						}
+					}
+				}
+				if (isset($lastPariode[$key])) {
+					$result[] = array($tabKey[0], $tabKey[1], $tabKey[2], $lastPariode[$key][0], $values[0], $this->getEvol($lastPariode[$key][0], $values[0]), $lastPariode[$key][1], $values[1], $this->getEvol($lastPariode[$key][1], $values[1]), $lastPariode[$key][2], $values[2], $this->getEvol($lastPariode[$key][2], $values[2]), $lastPariode[$key][3], $values[3], $this->getEvol($lastPariode[$key][3], $values[3]));
+				} else {
+					$result[] = array($tabKey[0], $tabKey[1], $tabKey[2], null, $values[0], $this->getEvol(0, $values[0]), null, $values[1], $this->getEvol(0, $values[1]), null, $values[2], $this->getEvol(0, $values[2]), null, $values[3], $this->getEvol(0, $values[3]));
+				}
+			}
+			foreach ($lastPariode as $key => $values) {
+				$tabKey = explode('/', $key);
+				if (!in_array($tabKey[0].'/'.$tabKey[1], $currentPartKeys)) {
+					$result[] = array($tabKey[0], $tabKey[1], $tabKey[2], $values[0], null, $this->getEvol($values[0], 0), $values[1], null, $this->getEvol($values[1], 0), $values[2], null, $this->getEvol($values[2], 0), $values[3], null, $this->getEvol($values[3], 0));
+				}
+			}
+		} elseif ($type == 'sorties_appellation') {
+			$result[] = array('Appellation','Couleur','France N-1','France N','France %','Export N-1','Export N','Export %','Négoce N-1','Négoce N','Négoce %','TOTAL N-1','TOTAL N','TOTAL %');
+			$currentKeys = array_keys($current);
+			$currentPartKeys = array();
+			foreach ($current as $key => $values) {
+				$tabKey = explode('/', $key);
+				if (!in_array($tabKey[0], $currentPartKeys)) {
+					$currentPartKeys[] = $tabKey[0];
+				}
+				if ($tabKey[1] == 'TOTAL') {
+					foreach ($lastPariode as $subkey => $subvalues) {
+						$subtabKey = explode('/', $subkey);
+						if ($subtabKey[0] == $tabKey[0] && !in_array($subkey, $currentKeys)) {
+							$result[] = array($subtabKey[0], $subtabKey[1], $subvalues[0], null, $this->getEvol($subvalues[0], 0), $subvalues[1], null, $this->getEvol($subvalues[1], 0), $subvalues[2], null, $this->getEvol($subvalues[2], 0), $subvalues[3], null, $this->getEvol($subvalues[3], 0));
+						}
+					}
+				}
+				if (isset($lastPariode[$key])) {
+					$result[] = array($tabKey[0], $tabKey[1], $lastPariode[$key][0], $values[0], $this->getEvol($lastPariode[$key][0], $values[0]), $lastPariode[$key][1], $values[1], $this->getEvol($lastPariode[$key][1], $values[1]), $lastPariode[$key][2], $values[2], $this->getEvol($lastPariode[$key][2], $values[2]), $lastPariode[$key][3], $values[3], $this->getEvol($lastPariode[$key][3], $values[3]));
+				} else {
+					$result[] = array($tabKey[0], $tabKey[1], null, $values[0], $this->getEvol(0, $values[0]), null, $values[1], $this->getEvol(0, $values[1]), null, $values[2], $this->getEvol(0, $values[2]), null, $values[3], $this->getEvol(0, $values[3]));
+				}
+			}
+			foreach ($lastPariode as $key => $values) {
+				$tabKey = explode('/', $key);
+				if (!in_array($tabKey[0], $currentPartKeys)) {
+					$result[] = array($tabKey[0], $tabKey[1], $values[0], null, $this->getEvol($values[0], 0), $values[1], null, $this->getEvol($values[1], 0), $values[2], null, $this->getEvol($values[2], 0), $values[3], null, $this->getEvol($values[3], 0));
+				}
 			}
 		}
+		
+		foreach ($result as $line) {
+			$csv .= implode(';', $line);
+			$csv .= "\n";
+		}
 		return $csv;
+	}
+	
+	protected function getEvol($last, $current)
+	{
+		$last = str_replace(',', '.', $last);
+		$current = str_replace(',', '.', $current);
+		return ($last > 0)? $this->formatNumber(round((($current - $last) / $last) * 100)) : null;
+	}
+
+	protected function getCsvToArray($csv, $nbKeys)
+	{
+		$lines = explode(PHP_EOL, $csv);
+		$array = array();
+		foreach ($lines as $line) {
+			$subArray = str_getcsv($line, ';');
+			$key = '';
+			for ($i=0; $i<$nbKeys; $i++) {
+				if (isset($subArray[$i])) {
+					$key .= ($key)? '/'.$subArray[$i] : $subArray[$i];
+					unset($subArray[$i]);
+				} else {
+					$key = null;
+					break;
+				}
+			}
+			if ($key) {
+				$array[$key] = array_values($subArray);
+			}
+		}
+		array_shift($array);
+		return $array;
 	}
 	
 	protected function getLibelles($noeud) {

@@ -54,7 +54,7 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                         <td><?php echo $mouvement->type_drm_libelle ?></td>
                         <td><a href="#tab=mouvements_<?php echo $typeKey ?>&filtre=<?php echo strtolower($produit_libelle); ?>"><?php if($drm->version): ?><small class="text-muted"><?php echo ($mouvement->version) ? $mouvement->version : "M00" ?></small> <?php endif; ?><?php echo $mouvement->produit_libelle ?></a></td>
                         <td><?php
-                            if ($mouvement->vrac_numero) {
+                            if ($mouvement->vrac_numero && $mouvement->vrac_numero!="SUPPRIME") {
                                 echo (!isset($no_link) || !$no_link) ? '<a href="' . url_for("vrac_visualisation", array("numero_contrat" => $mouvement->vrac_numero)) . '">' : '';
                                 if(preg_match("/^(creationvractirebouche_details|creationvrac_details)/",$mouvement->type_hash)){
                                   echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle;
@@ -64,6 +64,9 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                                 echo (!isset($no_link) || !$no_link) ? '</a>' : '';
                             } else {
                                 echo $mouvement->type_libelle . ' ' . $mouvement->detail_libelle;
+                                if($mouvement->vrac_numero == "SUPPRIME"){
+                                  echo " supprimé";
+                                }
                             }
                             ?>
                         </td>
