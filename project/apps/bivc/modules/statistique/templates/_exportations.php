@@ -16,7 +16,7 @@ foreach ($result['agg_page']['buckets'] as $appellation) {
 		$rouge = formatNumber($pays['rouge']['agg_column']['value']);
 		$total = formatNumber($pays['total']['agg_column']['value']);
 		if (!$blanc && !$rose && !$rouge) {
-			continue;
+			//continue;
 		}
 		$csv .= $appellationLibelle.';'.$paysLibelle.';'.$blanc.';'.$rose.';'.$rouge.';'.$total."\n";
 	}

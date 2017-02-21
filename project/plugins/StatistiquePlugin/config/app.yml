@@ -9,22 +9,6 @@ all:
         exportations:
           libelle: "Exportations"
           index: "DRMMVT"
-          csv:
-            headers: "Appellation;Pays;Blanc;Rosé;Rouge;TOTAL"
-            pattern:
-              "agg_page/buckets":
-                "values":
-                  "total_blanc/value": 1
-                  "total_rose/value": 1
-                  "total_rouge/value": 1
-                  "total_total/value": 1
-                "branch":
-                  "agg_line/buckets":
-                    "values":
-                      "blanc/agg_column/value": 1  
-                      "rose/agg_column/value": 1
-                      "rouge/agg_column/value": 1
-                      "total/agg_column/value": 1
           aggregation:
             filter:
               term:
@@ -32,6 +16,7 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.mouvements.appellation'
                 aggs:
                   total_blanc:
@@ -48,6 +33,7 @@ all:
                       buckets_path: "agg_line>total>agg_column"
                   agg_line:
                     terms:
+                      size: 0,
                       field: 'doc.mouvements.detail_libelle'
                       order:
                         "total>agg_column": desc
@@ -98,6 +84,7 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.mouvements.produit_libelle'
                 aggs:
                   total_stock_initial:
@@ -111,6 +98,7 @@ all:
                       buckets_path: "agg_line>total"
                   agg_line:
                     terms:
+                      size: 0,
                       field: 'doc.declarant.famille'
                     aggs:
                       stock_initial:
@@ -145,10 +133,12 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.declarant.famille'
                 aggs:
                   agg_page:
                     terms:
+                      size: 0,
                       field: 'doc.mouvements.appellation'
                     aggs:
                       total_france:
@@ -165,6 +155,7 @@ all:
                           buckets_path: "agg_line>total>agg_column"
                       agg_line:
                         terms:
+                          size: 0,
                           field: 'doc.mouvements.couleur'
                         aggs:
                           france:
@@ -213,6 +204,7 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.mouvements.appellation'
                 aggs:
                   total_france:
@@ -229,6 +221,7 @@ all:
                       buckets_path: "agg_line>total"
                   agg_line:
                     terms:
+                      size: 0,
                       field: 'doc.mouvements.couleur'
                     aggs:
                       france:
@@ -289,10 +282,12 @@ all:
             aggs:
               agg_page:
                 terms:
+                  size: 0,
                   field: 'doc.type_transaction'
                 aggs:
                   agg_page:
                     terms:
+                      size: 0,
                       field: 'doc.appellation'
                     aggs:
                       total_sans_prix:
