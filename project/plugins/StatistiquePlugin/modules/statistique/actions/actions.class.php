@@ -73,124 +73,12 @@ class statistiqueActions extends sfActions {
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
 		$elasticaQuery->setParams($params);
-		//print_r(json_encode($elasticaQuery->toArray()));exit;
 		return $index->search($elasticaQuery)->getFacets();
 	}
 	
 	protected function getAggsResultCsv($type, $result)
 	{
-		//print_r($result);exit;
-		$appellations = $this->getLibelles('appellation');
-		$categories = EtablissementFamilles::getFamilles();
-		$familles = EtablissementFamilles::getFamilles();
-		$conditionnements = VracClient::$types_transaction;
-		$couleurs = array('blanc' => 'Blanc', 'rose' => 'Rosé', 'rouge' => 'Rouge');
-		
-		if ($type == 'exportations') {
-			$csv = 'Appellation;Pays;Blanc;Rosé;Rouge;TOTAL'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-				$totalBlanc =  $this->formatNumber($appellation['total_blanc']['value']);
-				$totalRose =  $this->formatNumber($appellation['total_rose']['value']);
-				$totalRouge =  $this->formatNumber($appellation['total_rouge']['value']);
-				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $pays) {
-					$paysLibelle = $pays['key'];
-					$blanc = $this->formatNumber($pays['blanc']['agg_column']['value']);
-					$rose = $this->formatNumber($pays['rose']['agg_column']['value']);
-					$rouge = $this->formatNumber($pays['rouge']['agg_column']['value']);
-					$total = $this->formatNumber($pays['total']['agg_column']['value']);
-					if (!$blanc && !$rose && !$rouge) {
-						continue;
-					}
-					$csv .= $appellationLibelle.';'.$paysLibelle.';'.$blanc.';'.$rose.';'.$rouge.';'.$total."\n";
-				}
-				$csv .= $appellationLibelle.';TOTAL;'.$totalBlanc.';'.$totalRose.';'.$totalRouge.';'.$totalTotal."\n";
-			}
-		} elseif ($type == 'stocks') {
-			$csv = 'Appellation;Catégorie;Stock initial;Stock actuel;TOTAL MVT'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellation['key'];
-				$totalStockInitial =  $this->formatNumber($appellation['total_stock_initial']['value']);
-				$totalStockFinal =  $this->formatNumber($appellation['total_stock_final']['value']);
-				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $categorie) {
-					$categorieLibelle = $familles[$categorie['key']];
-					$stockInitial = $this->formatNumber($categorie['stock_initial']['agg_column']['value']);
-					$stockFinal = $this->formatNumber($categorie['stock_final']['agg_column']['value']);
-					$totalMvt = $this->formatNumber($categorie['total']['value']);
-					$csv .= $appellationLibelle.';'.$categorieLibelle.';'.$stockInitial.';'.$stockFinal.';'.$totalMvt."\n";
-				}
-				$csv .= $appellationLibelle.';TOTAL;'.$totalStockInitial.';'.$totalStockFinal.';'.$totalTotal."\n";
-			}
-		} elseif ($type == 'sorties_categorie') {
-			$csv = 'Catégorie;Appellation;Couleur;France;Export;Négoce;TOTAL'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $categorie) {
-			$categorieLibelle = $categories[strtoupper($categorie['key'])];
-			foreach ($categorie['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-				$totalFrance =  $this->formatNumber($appellation['total_france']['value']);
-				$totalExport =  $this->formatNumber($appellation['total_export']['value']);
-				$totalNegoce =  $this->formatNumber($appellation['total_negoce']['value']);
-				$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $couleur) {
-					$couleurLibelle = $couleurs[$couleur['key']];
-					$france = $this->formatNumber($couleur['france']['agg_column']['value']);
-					$export = $this->formatNumber($couleur['export']['agg_column']['value']);
-					$negoce = $this->formatNumber($couleur['negoce']['agg_column']['value']);
-					$total = $this->formatNumber($couleur['total']['agg_column']['value']);
-					if (!$france && !$export && !$negoce) {
-						continue;
-					}
-					$csv .= $categorieLibelle.';'.$appellationLibelle.';'.$couleurLibelle.';'.$france.';'.$export.';'.$negoce.';'.$total."\n";
-				}
-				$csv .= $categorieLibelle.';'.$appellationLibelle.';TOTAL;'.$totalFrance.';'.$totalExport.';'.$totalNegoce.';'.$totalTotal."\n";
-			}
-			}
-		} elseif ($type == 'sorties_appellation') {
-			$csv = 'Appellation;Couleur;France;Export;Négoce;TOTAL'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $appellation) {
-					$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-					$totalFrance =  $this->formatNumber($appellation['total_france']['value']);
-					$totalExport =  $this->formatNumber($appellation['total_export']['value']);
-					$totalNegoce =  $this->formatNumber($appellation['total_negoce']['value']);
-					$totalTotal =  $this->formatNumber($appellation['total_total']['value']);
-					foreach ($appellation['agg_line']['buckets'] as $couleur) {
-						$couleurLibelle = $couleurs[$couleur['key']];
-						$france = $this->formatNumber($couleur['france']['agg_column']['value']);
-						$export = $this->formatNumber($couleur['export']['agg_column']['value']);
-						$negoce = $this->formatNumber($couleur['negoce']['value']);
-						$total = $this->formatNumber($couleur['total']['value']);
-						if (!$france && !$export && !$negoce) {
-							continue;
-						}
-						$csv .= $appellationLibelle.';'.$couleurLibelle.';'.$france.';'.$export.';'.$negoce.';'.$total."\n";
-					}
-					$csv .= $appellationLibelle.';TOTAL;'.$totalFrance.';'.$totalExport.';'.$totalNegoce.';'.$totalTotal."\n";
-			}
-		} elseif ($type == 'prix') {
-			$csv = 'Conditionnement;Appellation;Couleur;Qté sans prix;Qté avec prix;CA;Moyenne'."\n";
-			foreach ($result[$type]['agg_page']['buckets'] as $conditionnement) {
-			$conditionnementLibelle = $conditionnements[strtoupper($conditionnement['key'])];
-			foreach ($conditionnement['agg_page']['buckets'] as $appellation) {
-				$appellationLibelle = $appellations[strtoupper($appellation['key'])];
-				$totalSansPrix =  $this->formatNumber($appellation['total_sans_prix']['value']);
-				$totalAvecPrix =  $this->formatNumber($appellation['total_avec_prix']['value']);
-				$totalCa =  $this->formatNumber($appellation['total_ca']['value']);
-				$totalMoyenne =  $this->formatNumber($appellation['total_moyenne']['value']);
-				foreach ($appellation['agg_line']['buckets'] as $couleur) {
-					$couleurLibelle = $couleurs[$couleur['key']];
-					$sansPrix = $this->formatNumber($couleur['vol_sans_prix']['agg_column']['value']);
-					$avecPrix = $this->formatNumber($couleur['vol_avec_prix']['agg_column']['value']);
-					$ca = $this->formatNumber($couleur['ca']['agg_column']['value']);
-					$moyenne = $this->formatNumber($couleur['moyenne']['value']);
-					$csv .= $conditionnementLibelle.';'.$appellationLibelle.';'.$couleurLibelle.';'.$sansPrix.';'.$avecPrix.';'.$ca.';'.$moyenne."\n";
-				}
-				$csv .= $conditionnementLibelle.';'.$appellationLibelle.';TOTAL;'.$totalSansPrix.';'.$totalAvecPrix.';'.$totalCa.';'.$totalMoyenne."\n";
-			}
-			}
-		}
-		return $csv;
+		return $this->getPartial('statistique/'.$type, array('result' => $result[$type]));
 	}
 	
 	protected function getAggsResultCompareCsv($type, $lastPariode, $current)
