@@ -123,7 +123,6 @@
             var select2 = $(this);
             $(this).select2({
                 onselected: function () {
-                    console.log('fre');
                 },
                 initSelection: function (element, callback) {
                     if (defaultValue != '') {
@@ -316,16 +315,24 @@
             }
         });
 
-        $(this).find('.btn-success').on('click', function(e) {
+        $(this).find('.btn-dynamic-element-submit').on('click', function(e) {
             var vals = $(this).parents('form').serializeArray();
-            for(i in vals) {
-                if (!vals[i].name.match(/revision/)) {
-                  if (vals[i].value) { return true;}
-                }
-            }
+
             $(this).parents('form').find('.dynamic-element-delete').each(function(){
-              $($(this).attr('data-line')).remove();
+                var ligne = $($(this).attr('data-line'));
+                var hasValue = false;
+                ligne.find('input, select, textarea').each(function() {
+                    if($(this).attr('name') && $(this).val()) {
+                        console.log($(this).val());
+                        hasValue = true;
+                    }
+                });
+
+                if(!hasValue) {
+                    $($(this).attr('data-line')).remove();
+                }
             });
+
             return true;
         });
 
@@ -333,20 +340,14 @@
       	 * Sélection de lignes de tableau
       	 ******************************************/
       	$(this).find('.table_selection thead .selecteur input').each(function(){
-
-          $(this).on('click', function(){
-              console.log('click');
-    			    var selecteursLignes = $(this).parents('table').find('tbody .selecteur input');
-              console.log(selecteursLignes,$(this).is(':checked'));
-      				if($(this).is(':checked'))
-      				{
-      					selecteursLignes.attr('checked', 'checked');
-      				}
-      				else
-      				{
-      					selecteursLignes.removeAttr('checked');
-      				}
-          });
+            $(this).on('click', function(){
+    			var selecteursLignes = $(this).parents('table').find('tbody .selecteur input');
+      			if($(this).is(':checked')) {
+      				selecteursLignes.attr('checked', 'checked');
+      			} else {
+      				selecteursLignes.removeAttr('checked');
+      			}
+            });
       	});
 
         $(this).find('.table_selection tbody .selecteur input').on('click', function(e){

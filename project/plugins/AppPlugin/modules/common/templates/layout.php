@@ -52,14 +52,14 @@
         <script src="/js/ajaxHelper.js"></script>
         <script src="/js/form.js"></script>
         <script src="/js/colonnes.js"></script>
-        <script src="/js/main.js?20170221"></script>
+        <script src="/js/main.js?20170222"></script>
         <script src="/js/teledeclaration.js"></script>
         <script src="/js/conditionnement.js"></script>
         <script src="/js/vrac.js"></script>
-        <script src="/js/drm.js?20170221"></script>
+        <script src="/js/drm.js?20170222"></script>
         <script src="/js/contacts.js"></script>
         <script src="/js/facture.js"></script>
-        <script src="/js/stats.js?20170221"></script>
+        <script src="/js/stats.js?20170222"></script>
         <script src="/js/lib/jquery.sticky.js"></script>
   </body>
 </html>

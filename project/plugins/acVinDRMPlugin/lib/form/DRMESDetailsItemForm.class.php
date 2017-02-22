@@ -16,29 +16,23 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
 
 
       $this->setWidget('numero_document', new bsWidgetFormInput());
-      $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => $this->getTypeDocumentsChoices())));
+      $this->setWidget('type_document', new bsWidgetFormChoice(array('choices' => array_merge(array("" => ""), $this->getTypeDocumentsChoices()))));
 
 
-      $this->setValidator('identifiant', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getIdentifiantChoices()))));
-      $this->setValidator('volume', new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
+      $this->setValidator('identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getIdentifiantChoices()))));
+      $this->setValidator('volume', new sfValidatorNumber(array('required' => true, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
 
       $this->setValidator('numero_document', new sfValidatorString(array('required' => false)));
       $this->setValidator('type_document', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypeDocumentsChoices()))));
 
-
-
       $post_validator_class = $this->getPostValidatorClass();
       $this->validatorSchema->setPostValidator(new $post_validator_class());
       $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
-      $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);    
+      $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
 
     public function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
-//        if(!$this->getObject()->date_enlevement) $this->setDefault('date_enlevement', $this->getObject()->getDocument()->getDate());
-//
-//        $date = new DateTime($this->getDefault('date_enlevement'));
-//        $this->setDefault('date_enlevement', $date->format('d/m/Y'));
     }
 
     public function doUpdateObject($values) {

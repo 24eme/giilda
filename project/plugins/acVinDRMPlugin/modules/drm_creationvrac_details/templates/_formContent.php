@@ -1,3 +1,4 @@
+<?php use_helper('Float'); ?>
 <?php use_helper('PointsAides'); ?>
 <?php
 echo $form->renderHiddenFields();
@@ -11,7 +12,6 @@ echo $form->renderGlobalErrors();
             <th>Volume<?php echo getPointAideHtml('drm','mouvements_contrats_doc_accompagnement_num') ?></th>
             <th>Prix en €/hl<?php echo getPointAideHtml('drm','mouvements_contrats_type_doc') ?></th>
             <th>Numéro contrat<?php echo getPointAideHtml('drm','mouvements_contrats_numero') ?></th>
-
             <th></th>
         </tr>
     </thead>
@@ -28,13 +28,15 @@ echo $form->renderGlobalErrors();
     </tbody>
     <tfoot>
         <tr class="row">
-
-            <td></td>
-            <td class=" text-right">
-                <div class="input-group">
-                    <div class="input-group-addon">&Sigma;</div>
-                    <input type="text" class="form-control text-right drm_details_volume_total" tabindex="-1" readonly="readonly" value="<?php echo $detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00" ?>" />
-                    <div class="input-group-addon">hl</div>
+            <td colspan="2" class="text-right">
+                <div class="row">
+                    <div class="col-xs-5 col-xs-offset-7">
+                        <div class="input-group">
+                            <div class="input-group-addon">&Sigma;</div>
+                            <input type="text" class="form-control input-float text-right drm_details_volume_total" data-decimal="4" readonly="readonly"  tabindex="-1"  value="<?php echo sprintFloat($detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00") ?>" />
+                            <div class="input-group-addon">hl</div>
+                        </div>
+                    </div>
                 </div>
             </td>
             <td></td>

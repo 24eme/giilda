@@ -27,11 +27,11 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
     }
 
     public function getKey() {
-      if (!isset($this->key) || !$this->key) {
-        if (!($this->key = parent::getKey())) {
-          $this->key = $this->identifiant.'-'.uniqid();
+        if (!isset($this->key) || !$this->key) {
+            if (!($this->key = parent::getKey())) {
+                $this->key = $this->identifiant.'-'.uniqid();
+            }
         }
-      }
       return $this->key;
     }
 
