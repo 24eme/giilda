@@ -16,16 +16,17 @@ class DRMESDetailExport extends BaseDRMESDetailExport {
     }
 
     public function setKey($k) {
-      $this->key = $k;
+        $this->key = $k;
     }
 
     public function getKey() {
-      if (!isset($this->key) || !$this->key) {
-        if (!($this->key = parent::getKey())) {
-          $this->key = $this->identifiant.'-'.uniqid();
+        if (!isset($this->key) || !$this->key) {
+            if (!($this->key = parent::getKey())) {
+                $this->key = $this->identifiant.'-'.uniqid();
+            }
         }
-      }
-      return $this->key;
+
+        return $this->key;
     }
 
 }

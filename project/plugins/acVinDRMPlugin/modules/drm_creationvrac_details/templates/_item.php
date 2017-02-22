@@ -1,7 +1,6 @@
 <?php use_helper('PointsAides'); ?>
 <?php $ligneId = "ligne_" . str_replace(array("[", "]"), array("-", ""), $form->renderName()) ?>
 <tr id="<?php echo $ligneId ?>" class="row">
-    <?php echo $form['identifiant']->render() ?>
     <td class="form-group <?php if ($form['acheteur']->hasError()): ?>has-error<?php endif; ?> col-xs-5">
         <?php echo $form['acheteur']->renderError(); ?>
         <?php echo $form['acheteur']->render(array("class" => "form-control select2autocomplete", "autofocus" => "autofocus")); ?>

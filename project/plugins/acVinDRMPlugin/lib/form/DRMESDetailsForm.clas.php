@@ -47,52 +47,67 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         parent::bind($taintedValues, $taintedFiles);
     }
 
-  public function update(){
+    public function update(){
+        //Changement d'indentifiant
+        foreach ($this->values as $key => $value) {
+            if(is_string($value) || !is_array($value)){
 
-    foreach ($this->getEmbeddedForms() as $key => $form) {
-        $form->updateObject($this->values[$key]);
-    }
+                continue;
+            }
+            if(!$this->details->exist($key) || !array_key_exists('identifiant', $value) || $value['identifiant'] == $this->details->get($key)->getIdentifiant()){
 
-    //suppression
-    $keysToRemove = array();
-    foreach ($this->details->toArray(true,false) as $key => $value) {
-      if(!array_key_exists($key,$this->values)){
-        $keysToRemove[] = $key;
-      }
-    }
-    foreach ($keysToRemove as $keyToRemove) {
-      $this->details->remove($keyToRemove);
-    }
-
-    //CHANGEMENT d'indentifiant
-    foreach ($this->values as $key => $value) {
-      if(!is_string($value) && is_array($value)){
-        if(array_key_exists($key,$this->details->toArray(true,false)) && $value['identifiant'] != $this->details->get($key)->getIdentifiant()){
-          $this->details->remove($key);
+                continue;
+            }
+            $this->details->remove($key);
         }
-      }
-    }
 
-    //AJOUT CLASSIQUE
-    foreach ($this->values as $key => $value) {
-      if(!is_string($value) && is_array($value)){
-        if(!array_key_exists($key,$this->details->toArray(true,false))){
-          $detailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
-          $detailNode->fromArray($value);
-          if($detailNode->identifiant && $detailNode->volume){
+        foreach ($this->getEmbeddedForms() as $key => $form) {
+            $form->updateObject($this->values[$key]);
+        }
+
+        //Suppression
+        $keysToRemove = array();
+        foreach ($this->details->toArray(true,false) as $key => $value) {
+            if(array_key_exists($key,$this->values)){
+
+                continue;
+            }
+
+            $keysToRemove[] = $key;
+        }
+
+        foreach ($keysToRemove as $keyToRemove) {
+            $this->details->remove($keyToRemove);
+        }
+
+        //Ajout
+        foreach ($this->values as $key => $value) {
+            if(is_string($value) || !is_array($value)){
+
+                continue;
+            }
+            if($this->details->exist($key)) {
+
+                continue;
+            }
+            $detailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
+            $detailNode->fromArray($value);
+            $detailNode->getKey();
+
+            if(!$detailNode->identifiant || !$detailNode->volume){
+                continue;
+            }
+
             $this->details->addDetail($detailNode);
-          }
         }
-      }
-    }
 
-    //PURGE type document si pas de Numero document
-    foreach ($this->details as $key => $detail) {
-      if($detail->exist('type_document') && $detail->type_document && !$detail->numero_document){
-        $this->details->get($key)->type_document = null;
-      }
+        //Purge type document si pas de Numero document
+        foreach ($this->details as $key => $detail) {
+            if($detail->exist('type_document') && $detail->type_document && !$detail->numero_document){
+                $this->details->get($key)->type_document = null;
+            }
+        }
     }
-  }
 
     public function getDetails() {
 

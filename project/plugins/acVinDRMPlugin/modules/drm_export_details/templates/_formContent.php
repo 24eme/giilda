@@ -32,8 +32,8 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="col-xs-4" ></td>
-            <td class="lead text-right col-xs-3">
+            <td class="col-xs-4"></td>
+            <td class="text-right col-xs-3">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
                     <input type="text" class="form-control input-float text-right drm_details_volume_total" data-decimal="4" readonly="readonly"  tabindex="-1"  value="<?php echo sprintFloat($detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00") ?>" />
