@@ -286,7 +286,6 @@
             var value = $(this).attr('value');
             var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
 
-            console.log($('#file_edi_div_' + id_drm));
             if (value == 'CREATION_EDI') {
                 $('#file_edi_div_' + id_drm).show();
             } else {
@@ -357,7 +356,6 @@
     {
         $('.drm_non_apurement_delete_row .btn_supprimer_ligne_template').on('click', function ()
         {
-            console.log($(this));
             var element = $(this).parent().parent();
             $(element).remove();
             return false;

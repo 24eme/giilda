@@ -20,6 +20,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->createMouvementsByProduits($this->mouvements);
+
         $this->drm->cleanDeclaration();
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);

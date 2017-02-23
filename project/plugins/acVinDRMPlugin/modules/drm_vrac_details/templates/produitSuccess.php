@@ -14,7 +14,7 @@
             </div>
             <div class="modal-footer">
                 <button tabindex="-1" type="button" class="btn btn-default pull-left" data-dismiss="modal">Abandonner</button>
-                <button type="submit" class="btn btn-success" >Valider</button>
+                <button type="submit" class="btn btn-success btn-loading btn-dynamic-element-submit">Valider</button>
             </div>
         </form>
         <?php else: ?>

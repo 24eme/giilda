@@ -3,11 +3,11 @@
 class DRMDetailExportForm extends DRMESDetailsForm {
 
     public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {
-            parent::__construct($details, $defaults, $options, $CSRFSecret);
+        parent::__construct($details, $defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
-      parent::configure();
+        parent::configure();
     }
 
     public function getFormName() {
@@ -26,7 +26,8 @@ class DRMDetailExportForm extends DRMESDetailsForm {
     }
 
     public function getModelNode(){
-      return 'DRMESDetailExport';
+
+        return 'DRMESDetailExport';
     }
 
 
@@ -35,6 +36,6 @@ class DRMDetailExportForm extends DRMESDetailsForm {
     }
 
     public function update(){
-      parent::update();
+        parent::update();
     }
 }

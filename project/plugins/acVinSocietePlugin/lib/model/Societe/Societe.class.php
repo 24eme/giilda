@@ -362,18 +362,27 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         }
         parent::save();
 
+
         if ($compteMaster->isNew()) {
             $compteMaster->save();
         }
-        foreach ($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
-            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement);
-        }
 
         SocieteClient::getInstance()->setSingleton($this);
+
+        $compteMasterOrigin = clone $compteMaster;
+        $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteMaster);
+
+        foreach ($this->getComptesAndEtablissements() as $id => $compteOrEtablissement) {
+            $this->pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement, $compteMasterOrigin);
+        }
+
     }
 
-    public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement) {
+    public function pushToCompteOrEtablissementAndSave($compteMaster, $compteOrEtablissement, $compteMasterOrigin = null) {
         $needSave = false;
+        if(is_null($compteMasterOrigin)) {
+            $compteMasterOrigin = $compteMaster;
+        }
         if (!$compteMaster) {
           throw new sfException("compteMaster should not be NULL");
         }
@@ -386,11 +395,13 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
               $needSave = true;
             }
         }
-        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMaster)) {
-            $needSave = $needSave || $this->pushAdresseTo($compteOrEtablissement);
+        if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
+            $ret = $this->pushAdresseTo($compteOrEtablissement);
+            $needSave = $needSave || $ret;
         }
-        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMaster)) {
-            $needSave = $needSave || $this->pushContactTo($compteOrEtablissement);
+        if (CompteGenerique::isSameContactComptes($compteOrEtablissement, $compteMasterOrigin)) {
+            $ret = $this->pushContactTo($compteOrEtablissement);
+            $needSave = $needSave || $ret;
         }
         if ($needSave) {
             $compteOrEtablissement->save();
