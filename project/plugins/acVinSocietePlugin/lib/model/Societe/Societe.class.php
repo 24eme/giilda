@@ -154,8 +154,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
       if (!$this->comptes) {
         $this->comptes = array();
       }
-      if ($compte === NULL) {
-        throw new sfException("Could not add NULL compte");
+      if ($compte === null) {
+          throw new sfException("Could not add NULL compte");
       }
       $this->comptes[$compte->_id] = $compte;
     }
@@ -360,12 +360,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         if (!$compteMaster) {
             $compteMaster = $this->createCompteSociete();
         }
+
         parent::save();
-
-
-        if ($compteMaster->isNew()) {
-            $compteMaster->save();
-        }
 
         SocieteClient::getInstance()->setSingleton($this);
 
@@ -392,8 +388,8 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         if ($compteMaster->_id == $compteOrEtablissement->_id) {
             if ($compteOrEtablissement->nom != $this->raison_sociale) {
               $compteOrEtablissement->nom = $this->raison_sociale;
-              $needSave = true;
             }
+            $needSave = true;
         }
         if (CompteGenerique::isSameAdresseComptes($compteOrEtablissement, $compteMasterOrigin)) {
             $ret = $this->pushAdresseTo($compteOrEtablissement);
