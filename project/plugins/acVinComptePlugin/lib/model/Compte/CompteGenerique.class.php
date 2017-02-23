@@ -227,23 +227,23 @@ abstract class CompteGenerique extends acCouchdbDocument {
           $compte->telephone_bureau = $this->getTelephoneBureau();
           $ret = true;
         }
-        if ($compte->email = $this->getEmail()) {
+        if ($compte->email != $this->getEmail()) {
           $compte->email = $this->getEmail();
           $ret = true;
         }
-        if ($compte->fax = $this->getFax()) {
+        if ($compte->fax != $this->getFax()) {
           $compte->fax = $this->getFax();
           $ret = true;
         }
-        if ($compte->telephone_perso = $this->getTelephonePerso()) {
+        if ($compte->telephone_perso != $this->getTelephonePerso()) {
           $compte->telephone_perso = $this->getTelephonePerso();
           $ret = true;
         }
-        if ($compte->telephone_mobile = $this->getTelephoneMobile()) {
+        if ($compte->telephone_mobile != $this->getTelephoneMobile()) {
           $compte->telephone_mobile = $this->getTelephoneMobile();
           $ret = true;
         }
-        if ($compte->site_internet = $this->getSiteInternet()) {
+        if ($compte->site_internet != $this->getSiteInternet()) {
           $compte->site_internet = $this->getSiteInternet();
           $ret = true;
         }

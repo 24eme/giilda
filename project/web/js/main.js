@@ -336,6 +336,11 @@
             return true;
         });
 
+        $(this).find('button.btn-loading').on('click', function () {
+            $(this).attr('disabled', 'disabled');
+            $(this).html("<span class='glyphicon glyphicon-repeat rotate'></span>");
+        });
+
         /**
       	 * Sélection de lignes de tableau
       	 ******************************************/
