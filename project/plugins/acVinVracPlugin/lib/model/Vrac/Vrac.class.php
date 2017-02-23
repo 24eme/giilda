@@ -521,7 +521,9 @@ class Vrac extends BaseVrac {
     }
 
     public function setNumeroArchive($numero) {
-        $this->setDateVisa(date('Y-m-d'));
+        if(!$this->_get('date_visa')) {
+          $this->setDateVisa(date('Y-m-d'));
+        }
         return $this->_set('numero_archive', $numero);
     }
 
@@ -943,5 +945,6 @@ class Vrac extends BaseVrac {
         }
         return $vol_prop;
     }
+
 
 }
