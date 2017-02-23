@@ -11,7 +11,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test_same') as $k =>
 
 SocieteClient::getInstance()->clearSingleton();
 
-$t = new lime_test(19);
+$t = new lime_test(21);
 $t->comment("création d'une société et un etablissement avec meme adresse et meme contact");
 
 $societe = SocieteClient::getInstance()->createSociete("société viti test contacts", SocieteClient::TYPE_OPERATEUR);
@@ -36,6 +36,7 @@ $t->is($etablissement->isSameAdresseThan($societe), true, $etablissement->_id." 
 $t->is($etablissement->isSameContactThan($societe), true, $etablissement->_id." : un etablissement créé depuis une société a les même contacts");
 $t->is($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : un etablissement créé depuis une société a le même compte");
 $t->ok(SocieteClient::getInstance()->find($societe->_id)->etablissements->exist($etablissement->_id), $etablissement->_id." : L'établissement est referencé dans la société");
+$t->ok(in_array("etablissement", CompteClient::getInstance()->find($societe->getMasterCompte()->_id)->tags->automatique->toArray(true, false)), $societe->_id." : Le compte de la société possède le tag \"etablissement\"");
 
 $etablissement->adresse = "rue dulud";
 $etablissement->save();
@@ -49,6 +50,7 @@ $t->is($etablissement->isSameContactThan($societe), true, $etablissement->_id." 
 $t->isnt($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : un etablissement dont on a changé l'adresse n'a pas le même compte de la societe");
 $t->ok(SocieteClient::getInstance()->find($societe->_id)->contacts->exist($etablissement->getMasterCompte()->_id), $etablissement->_id." : Le compte de l'établissement est referencé dans la société");
 
+
 $idContactEtablissement = $etablissement->getMasterCompte()->_id;
 
 $etablissement->email = "contact@exemple.fr";
@@ -56,6 +58,7 @@ $etablissement->save();
 $t->is($etablissement->isSameAdresseThan($societe), false, $etablissement->_id." : un etablissement dont on a changé l'adresse et l'email n'a plus la même adresse que la societe");
 $t->is($etablissement->isSameContactThan($societe), false, $etablissement->_id." : un etablissement dont on a changé l'email a les même contacts que la societe");
 $t->isnt($etablissement->getMasterCompte()->_id, $societe->getMasterCompte()->_id, $etablissement->_id." : un etablissement dont on a changé l'adresse n'a pas le même compte que la societe");
+$t->ok(!in_array("etablissement", $societe->getMasterCompte()->tags->automatique->toArray(true, false)), $societe->_id." : Le compte de la société ne possède plus le tag \"etablissement\"");
 
 $etablissement->adresse = NULL;
 $etablissement->email = NULL;
