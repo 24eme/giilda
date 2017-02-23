@@ -735,7 +735,7 @@ class VracClient extends acCouchdbClient {
 
         $vrac->setInformations();
         $vrac->update();
-
+        
         return $vrac;
     }
 
