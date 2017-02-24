@@ -1129,7 +1129,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                         if(preg_match('/_details/',$key)){
                             continue;
                         }
-                        if(!$detailsConfig->get($mvtType)->exist($key);){
+                        if(!$detailsConfig->get($mvtType)->exist($key)){
                             continue;
                         }
                         $detailConf = $detailsConfig->get($mvtType)->get($key);
