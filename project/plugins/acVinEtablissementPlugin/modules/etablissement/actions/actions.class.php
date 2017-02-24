@@ -9,7 +9,7 @@ class etablissementActions extends sfCredentialActions {
             $this->forward('acVinCompte', 'forbidden');
         }
         $this->famille = $request->getParameter('famille');
-        $this->etablissement = EtablissementClient::getInstance()->createEtablissementFromSociete($this->societe, $this->famille);
+        $this->etablissement = $this->societe->createEtablissement($this->famille);
         $this->processFormEtablissement($request);
         $this->setTemplate('modification');
     }
@@ -43,21 +43,21 @@ class etablissementActions extends sfCredentialActions {
 
         $this->redirect($this->generateUrl('societe_visualisation', array('sf_subject' => $this->etablissement->getSociete(), 'etablissement' => $this->etablissement->_id)) . '#' . $this->etablissement->_id);
     }
-    
+
      public function executeSwitchStatus(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $newStatus = "";
         if($this->etablissement->isActif()){
-           $newStatus = SocieteClient::STATUT_SUSPENDU; 
+           $newStatus = SocieteClient::STATUT_SUSPENDU;
         }
         if($this->etablissement->isSuspendu()){
-           $newStatus = SocieteClient::STATUT_ACTIF; 
+           $newStatus = SocieteClient::STATUT_ACTIF;
         }
         $compte = $this->etablissement->getMasterCompte();
         if($compte && !$this->etablissement->isSameCompteThanSociete()){
             $compte->setStatut($newStatus);
             $compte->save();
-        }      
+        }
         $this->etablissement->setStatut($newStatus);
         $this->etablissement->save();
         return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));

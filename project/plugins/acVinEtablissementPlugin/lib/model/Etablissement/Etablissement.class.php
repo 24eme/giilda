@@ -210,14 +210,13 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if(!$this->getCompte()){
             $this->compte = $societe->getMasterCompte()->_id;
         }
-        $needSaveSociete = false;
+
 
         if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
             if ($this->isSameCompteThanSociete()) {
                 $compte = $societe->createCompteFromEtablissement($this);
                 $compte->addOrigine($this->_id);
-                $needSaveSociete = true;
-            }else{
+            } else {
                 $compte = $this->getMasterCompte();
             }
 
@@ -226,7 +225,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $compte->id_societe = $this->getSociete()->_id;
             $compte->nom = $this->nom;
 
-            $compte->save();
             $this->compte = $compte->_id;
         } else if(!$this->isSameCompteThanSociete()){
             $compteEtablissement = $this->getMasterCompte();
@@ -235,7 +233,6 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             $this->compte = $compteSociete->_id;
             $this->getSociete()->removeContact($compteEtablissement->_id);
             $compteEtablissement = $this->compte;
-            $needSaveSociete = true;
         }
 
         if($this->isSameAdresseThanSociete()) {
@@ -250,17 +247,17 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if(VracConfiguration::getInstance()->getRegionDepartement() !== false) {
             $this->region = EtablissementClient::getInstance()->calculRegion($this);
         }
+        
         if($this->isNew()) {
             $societe->addEtablissement($this);
-            $needSaveSociete = true;
         }
 
         parent::save();
 
-        if($needSaveSociete) {
-            $societe->save();
-        }else {
-            $societe->getMasterCompte()->save();
+        $societe->save();
+
+        if(!$this->isSameCompteThanSociete()) {
+            $compte->save();
         }
     }
 
