@@ -290,7 +290,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
             if (($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-                $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
+                $transacteur = $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST];
                 $detail = null;
                 if ($transacteur) {
                     $detail = $ligne->getOrAdd('details')->add();
