@@ -22,9 +22,9 @@ $facture->save();
 $t->ok($facture, "La facture est créée");
 
 $t->is($facture->identifiant, $societeViti->identifiant, "La facture appartient à la société demandé");
-$t->is($facture->total_ht, 450, "Le total HT est de 300 €");
-$t->is($facture->total_ttc, 540, "Le total TTC est de 360 €");
-$t->is($facture->total_taxe, 90, "Le total de taxe est de 60 €");
+$t->is($facture->total_ht, 450, "Le total HT est de 450 €");
+$t->is($facture->total_ttc, 540, "Le total TTC est de 540 €");
+$t->is($facture->total_taxe, 90, "Le total de taxe est de 90 €");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 
@@ -42,9 +42,9 @@ $avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture)
 $t->ok($avoir, "L'avoir est créé");
 $t->is($avoir->identifiant, $societeViti->identifiant, "L'avoir appartient à la même société que la facture");
 $t->ok($avoir->isAvoir(), "L'avoir est marqué comme un avoir");
-$t->is($avoir->total_ht, -450, "Le total TTC est de -300 €");
-$t->is($avoir->total_ttc, -540, "Le total TTC est de -360 €");
-$t->is($avoir->total_taxe, -90, "Le total TTC est de -60 €");
+$t->is($avoir->total_ht, -450, "Le total TTC est de -450 €");
+$t->is($avoir->total_ttc, -540, "Le total TTC est de -540 €");
+$t->is($avoir->total_taxe, -90, "Le total TTC est de -90 €");
 $t->ok(!$avoir->isRedressable(), "L'avoir n'est pas redressable");
 
 $t->is($facture->avoir, $avoir->_id, "L'avoir est conservé dans la facture");
