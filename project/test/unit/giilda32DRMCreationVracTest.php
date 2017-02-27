@@ -8,7 +8,7 @@ if (!($conf->declaration->exist('details/sorties/creationvrac')) || ($conf->decl
     exit(0);
 }
 
-$t = new lime_test(25);
+$t = new lime_test(30);
 
 $nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $nego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getEtablissement();
@@ -121,3 +121,35 @@ $t->is(count($mvts), 1, $drm_mod->_id." : on retrouve bien un mouvement pour le 
 $vrac = VracClient::getInstance()->find(($mvts[0]->id));
 $t->isnt($vrac, null, $vrac->_id." : on retrouve bien un contrat pour le viti");
 $t->is($vrac->numero_archive, $visa, $vrac->_id." : a bien pour numéro de visa ".$visa);
+
+
+$t->comment("DRM de 201506 qui crée des vracs");
+
+$periode = "201606";
+$drmHistorique = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
+$drmHistorique->save();
+
+$details = $drmHistorique->addProduit($produit_hash, 'details');
+$details->stocks_debut->initial = 1000;
+$cvrac = DRMESDetailCreationVrac::freeInstance($drmHistorique);
+$cvrac->volume = 100;
+$cvrac->prixhl = 150;
+$cvrac->acheteur = $nego->identifiant;
+$cvrac->type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC;
+$details->sorties->creationvrac_details->addDetail($cvrac);
+$drmHistorique->update();
+$drmHistorique->save();
+$drmHistorique->validate();
+$drmHistorique->save();
+
+$mvts_viti = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete());
+$mvtVrac = array_shift($mvts_viti);
+$date_mouvement = $mvtVrac->date;
+
+$vracObj = $cvrac->getVrac();
+$t->is($vracObj->enlevement_date, $date_mouvement, $vracObj->_id." : L'objet vrac a bien pour date d'enlevement ".$vracObj->enlevement_date);
+$t->is($vracObj->date_campagne, $date_mouvement, $vracObj->_id." : L'objet vrac a bien pour date de campagne ".$vracObj->date_campagne);
+$t->is($vracObj->date_signature, $date_mouvement, $vracObj->_id." : L'objet vrac a bien pour date de signature ".$vracObj->date_signature);
+$t->is($vracObj->date_visa, $date_mouvement, $vracObj->_id." : L'objet vrac a bien pour date de visa ".$vracObj->date_visa);
+$date_saisie = (new DateTime($vracObj->valide->date_saisie))->format("Y-m-d");
+$t->is($date_saisie, $date_mouvement, $vracObj->_id." : L'objet vrac a bien pour date de saisie ".$vracObj->valide->date_saisie);

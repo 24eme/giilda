@@ -29,4 +29,12 @@ class DRMESDetailExport extends BaseDRMESDetailExport {
         return $this->key;
     }
 
+    public function getDateEnlevement(){
+        if(!$this->_get('date_enlevement')){
+            return $this->getDocument()->getDate();
+        }
+
+        return $this->_get('date_enlevement');
+    }
+
 }

@@ -722,9 +722,11 @@ class VracClient extends acCouchdbClient {
         if ($details->date_enlevement) {
           $vrac->enlevement_date = $details->date_enlevement;
           $vrac->date_visa = $details->date_enlevement;
+          $vrac->date_campagne =  $details->date_enlevement;
         }else{
           $vrac->enlevement_date = $details->getDocument()->getDate();
           $vrac->date_visa = $details->getDocument()->getDate();
+          $vrac->valide->date_campagne = $details->getDocument()->getDate();
         }
         if ($details->getDocument()->exist('validation')) {
           $vrac->valide->date_saisie = $details->getDocument()->validation->date_saisie;
@@ -733,7 +735,7 @@ class VracClient extends acCouchdbClient {
 
         $vrac->setInformations();
         $vrac->update();
-
+        
         return $vrac;
     }
 
