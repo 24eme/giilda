@@ -73,6 +73,12 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $this->setWidget('produit_non_interpro', new bsWidgetFormInputCheckbox());
         $this->widgetSchema->setLabel('produit_non_interpro', 'Produit hors Interpro : ');
         $this->setValidator('produit_non_interpro', new sfValidatorString(array('required' => false)));
+        // var_dump(get_class($this->getObject())); exit;
+        if ($this->getObject()->hasCepagesAutorises()) {
+          $this->setWidget('cepages_autorises', new bsWidgetFormTextarea());
+          $this->widgetSchema->setLabel('cepages_autorises', 'Cepages autorisés : ');
+          $this->setValidator('cepages_autorises', new sfValidatorString(array('required' => false)));
+        }
 
         $this->widgetSchema->setNameFormat('produit_definition[%s]');
         $this->mergePostValidator(new ProduitDefinitionValidatorSchema($this->getObject()));
@@ -152,10 +158,12 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
         $this->getNoeudInterpro($object)->add('produit_non_interpro', $produit_non_interpro);
         $droit_cvo = $values['droit_cvo'];
         $droit_douane = $values['droit_douane'];
+        $this->getObject()->setCepagesAutorises($this->values['cepages_autorises']);
 
         unset($this->values['produit_non_interpro']);
         unset($this->values['droit_cvo']);
         unset($this->values['droit_douane']);
+        unset($this->values['cepages_autorises']);
 
         $object = parent::save($con);
 
@@ -213,11 +221,16 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
                 $labels->add(null, $value['code']);
             }
         }
+
         $object->getDocument()->save();
         return $object;
     }
 
-    public function initDefault($param) {
+    public function updateDefaultsFromObject() {
+      parent::updateDefaultsFromObject();
+      if($this->getObject()->hasCepagesAutorises()){
+        $this->setDefault('cepages_autorises',implode(', ',$this->getObject()->cepages_autorises->toArray(true,false)));
+      }
 
     }
 

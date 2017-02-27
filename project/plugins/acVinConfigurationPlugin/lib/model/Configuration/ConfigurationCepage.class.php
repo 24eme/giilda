@@ -44,13 +44,13 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function getProduitsAll($interpro = null, $departement = null) {
-        
+
         return array($this->getHash() => $this);
     }
 
     public function compressDroits() {
         $this->compressDroitsSelf();
-    } 
+    }
 
     public function getCouleur() {
         return $this->getParentNode();
@@ -62,13 +62,13 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->getCouleur()->setDonneesCsv($datas);
         $this->libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_LIBELLE] : null;
         $this->code = $this->formatCodeFromCsv($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]);
-        
+
         $this->cepages_autorises = ($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGES_AUTORISES]) ? explode('|', $datas[ProduitCsvFile::CSV_PRODUIT_CEPAGES_AUTORISES]) : array();
 
         $this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
-        $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT); 
+        $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
     }
-    
+
     public function isCepageAutorise($cepage) {
     	return in_array($cepage, $this->cepages_autorises->toArray());
     }
@@ -79,13 +79,13 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function getTypeNoeud() {
-        
+
         return self::TYPE_NOEUD;
     }
 
-    public function addInterpro($interpro) 
+    public function addInterpro($interpro)
     {
-        
+
         return $this->getParentNode()->addInterpro($interpro);
     }
 
@@ -94,8 +94,28 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function hasCodes() {
-        
+
         return true;
     }
 
+    public function hasCepagesAutorises(){
+      return $this->exist('cepages_autorises') && count($this->cepages_autorises);
+    }
+
+    public function setCepagesAutorises($cepages_autorises_str){
+      if($this->hasCepagesAutorises()){
+        $cepages_autorises = explode(',',$cepages_autorises_str);
+        $c_a_new = array();
+        foreach ($cepages_autorises as $cepage_autorise) {
+          $c_a = strtoupper(trim($cepage_autorise));
+          if($c_a){
+            if(!preg_match('/^[A-Z\.\ Ç0-9\-É\']+$/',$c_a)){
+              throw new sfException("Le cépage autorisé $c_a n'a pas un bon format. ");
+            }
+            $c_a_new[] = $c_a;
+          }
+        }
+        $this->_set('cepages_autorises',$c_a_new);
+      }
+    }
 }
