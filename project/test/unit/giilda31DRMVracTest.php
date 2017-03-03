@@ -101,7 +101,9 @@ $drm_mod->validate();
 $drm_mod->save();
 $t->is($drm_mod->getProduit($produit_hash, 'details')->get('stocks_fin/final'), 800, $drm_mod->_id." : le stock final est impacté par la modification de l'exports");
 $t->is(count($drm_mod->mouvements), 3, $drm_mod->_id." : la validation a impacté trois tiers (viti, nego, nego hors region)");
-$t->is($drm_mod->mouvements->{$nego_horsregion->identifiant}->toArray(true, false)[0]->facturable, 0, $drm_mod->_id." : le mouvement du négo hors région n'est pas facturable");
+$mvts_nego_horsRegion =  $drm_mod->mouvements->{$nego_horsregion->identifiant}->toArray(true, false);
+$mvt_nego_horsRegion = (count($mvts_nego_horsRegion))? array_shift($mvts_nego_horsRegion)['facturable'] : 0;
+$t->is($mvt_nego_horsRegion, 0, $drm_mod->_id." : le mouvement du négo hors région n'est pas facturable");
 
 $somme_cvo = 0;
 foreach($drm_mod->mouvements->{$nego->identifiant} as $k => $mvt) {

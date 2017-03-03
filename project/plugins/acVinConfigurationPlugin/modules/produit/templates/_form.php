@@ -56,7 +56,7 @@
                                         <div class="col-xs-8"><?php echo $form['code_comptable']->render(); ?></div>
                                     </div>
                     <?php endif; ?>
-                                <div class="form-group <?php if ($form['produit_non_interpro']->hasError()): ?>has-error<?php endif; ?>" > 
+                                <div class="form-group <?php if ($form['produit_non_interpro']->hasError()): ?>has-error<?php endif; ?>" >
                                     <?php echo $form['produit_non_interpro']->renderError() ?>
                                     <?php echo $form['produit_non_interpro']->renderLabel(null, array('class' => 'col-xs-4')); ?>
                                     <div class="col-xs-8"><?php echo $form['produit_non_interpro']->render(); ?></div>
@@ -85,7 +85,7 @@
                 </div>
 
             </div>
-        <?php endif; ?> 
+        <?php endif; ?>
         <?php if ($form->getObject()->hasDroit(ConfigurationDroits::DROIT_DOUANE)): ?>
             <div class="col-sm-12">
                 <div class="panel panel-default">
@@ -98,6 +98,22 @@
                                 <?php endforeach; ?>
                                 <a href="javascript:void(0)" class="btn_majeur btn_orange">Ajouter une ligne</a>
                             <input class="counteur" type="hidden" name="nb_douane" value="<?php echo count($form['droit_douane']) ?>" />
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if($form->getObject()->exist('cepages_autorises') && count($form->getObject()->cepages_autorises)): ?>
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><label>Cépages Autorisés</label></h3>
+                    </div>
+                    <div class="panel-body">
+                      <div class="form-group <?php if ($form['cepages_autorises']->hasError()): ?>has-error<?php endif; ?>" >
+                          <?php echo $form['cepages_autorises']->renderError() ?>
+                          <?php echo $form['cepages_autorises']->renderLabel(null, array('class' => 'col-xs-4')); ?>
+                          <div class="col-xs-8"><?php echo $form['cepages_autorises']->render(); ?></div>
+                      </div>
                     </div>
                 </div>
             </div>

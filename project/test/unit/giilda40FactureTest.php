@@ -16,15 +16,27 @@ $paramFacturation =  array(
 );
 
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
+
+$mouvementsFacture = array($societeViti->identifiant => FactureClient::getInstance()->getFacturationForSociete($societeViti));
+$mouvementsFacture = FactureClient::getInstance()->filterWithParameters($mouvementsFacture, $paramFacturation);
+$prixHt = 0.0;
+foreach ($mouvementsFacture[$societeViti->identifiant] as $mvt) {
+  $prixHt += $mvt->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mvt->value[MouvementfactureFacturationView::VALUE_CVO];
+}
+$prixHt = $prixHt * -1;
+$prixTaxe = $prixHt * 0.2;
+$prixTTC = $prixHt+$prixTaxe;
+
 $facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation);
 
 $facture->save();
 $t->ok($facture, "La facture est créée");
 
 $t->is($facture->identifiant, $societeViti->identifiant, "La facture appartient à la société demandé");
-$t->is($facture->total_ht, 300, "Le total HT est de 300 €");
-$t->is($facture->total_ttc, 360, "Le total TTC est de 360 €");
-$t->is($facture->total_taxe, 60, "Le total de taxe est de 60 €");
+
+$t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
+$t->is($facture->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC."  €");
+$t->is($facture->total_taxe, $prixTaxe, "Le total de taxe est de ".$prixTaxe."  €");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 
@@ -38,13 +50,17 @@ $t->comment("Création d'un avoir à partir de la facture");
 
 $t->ok($facture->isRedressable(), "La facture est redressable");
 
+$prixHt = $prixHt * -1;
+$prixTaxe = $prixHt * 0.2;
+$prixTTC = $prixHt+$prixTaxe;
+
 $avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture);
 $t->ok($avoir, "L'avoir est créé");
 $t->is($avoir->identifiant, $societeViti->identifiant, "L'avoir appartient à la même société que la facture");
 $t->ok($avoir->isAvoir(), "L'avoir est marqué comme un avoir");
-$t->is($avoir->total_ht, -300, "Le total TTC est de -300 €");
-$t->is($avoir->total_ttc, -360, "Le total TTC est de -360 €");
-$t->is($avoir->total_taxe, -60, "Le total TTC est de -60 €");
+$t->is($avoir->total_ht, $prixHt, "Le total TTC est de ".$prixHt." €");
+$t->is($avoir->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC." €");
+$t->is($avoir->total_taxe, $prixTaxe, "Le total TTC est de ".$prixTaxe." €");
 $t->ok(!$avoir->isRedressable(), "L'avoir n'est pas redressable");
 
 $t->is($facture->avoir, $avoir->_id, "L'avoir est conservé dans la facture");
