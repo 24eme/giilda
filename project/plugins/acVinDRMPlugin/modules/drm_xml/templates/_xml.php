@@ -6,7 +6,9 @@
 	<declaration-recapitulative>
 		<identification-declarant>
 			<numero-agrement><?php echo $drm->declarant->no_accises ?></numero-agrement>
+<?php if ($drm->declarant->cvi): ?>
 			<numero-cvi><?php echo $drm->declarant->cvi ?></numero-cvi>
+<?php endif; ?>
 		</identification-declarant>
 		<periode>
 			<mois><?php echo $drm->getMois() ?></mois>
