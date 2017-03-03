@@ -52,6 +52,15 @@ function multiArray2XML($preXML) {
 function details2XmlDouane($detail) {
 	$confDetail = $detail->getConfig()->getDocument()->declaration->details;
         $preXML = array();
+		$keyForceDisplay = array();
+		foreach (array('stocks_debut', 'stocks_fin') as $type) {
+			foreach($confDetail->get($type) as $k => $v) {
+				if($confDetail->get($type)->get($k)->douane_cat) {
+					$keyForceDisplay[$type] = $k;
+					break;
+				}
+			}
+		}
         foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {
 		if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
@@ -153,9 +162,16 @@ function centilisation2Douane($c, $libelle) {
 		'0.010000' => 'CL_100',
 		'0.015000' => 'CL_150',
 		'0.017500' => 'CL_175',
-		'0.020000' => 'CL_200');
-		if ($ret = $bouteilles[sprintf('%.f', $c)]) {
-			return $ret;
+		'0.020000' => 'CL_200',
+		'0.022500' => 'BIB_225',
+		'0.030000' => 'BIB_300',
+		'0.040000' => 'BIB_400',
+		'0.050000' => 'BIB_500',
+		'0.080000' => 'BIB_800',
+		'0.100000' => 'BIB_1000');
+		if (isset($bouteilles[sprintf('%.f', $c)]) && $bouteilles[sprintf('%.f', $c)]) {
+
+			return $bouteilles[sprintf('%.f', $c)];
 		}
 		return "AUTRE";
 }

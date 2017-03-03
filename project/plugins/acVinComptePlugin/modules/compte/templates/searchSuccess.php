@@ -16,9 +16,9 @@
     <section class="col-xs-9" id="contenu_etape">
 		<form id="recherche_contact_form">
 			<div id="recherche_contact" class="section_label_maj">
-				
+
                 <div class="input-group">
-                    <input id="champ_recherche" class="form-control input-lg" type="text" name="q" value="<?php echo $q; ?>"> 
+                    <input id="champ_recherche" class="form-control input-lg" type="text" name="q" value="<?php echo $q; ?>">
                     <span class="input-group-btn">
                         <button class="btn btn-lg btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
@@ -31,7 +31,7 @@
 		</form>
 	<?php if($nb_results > 0): ?>
 	<div class="text-center">
-        <nav>	
+        <nav>
     		<ul class="pagination">
                 <?php $args_copy = $args; ?>
                 <?php $args = array('q' => $q, 'tags' => $args['tags']); ?>
@@ -71,7 +71,7 @@
                 <div class="col-xs-6">
                     <?php echo $data['doc']['adresse']; ?> <?php if ($data['doc']['adresse_complementaire']): ?><small>(<?php echo $data['doc']['adresse_complementaire']; ?>)</small><?php endif; ?><br />
                     <?php echo $data['doc']['code_postal']; ?> <?php echo $data['doc']['commune']; ?><br />
-                    
+
                 </div>
                 <div class="col-xs-6">
                     <ul class="list-unstyled" style="margin-bottom: 0;">
@@ -96,7 +96,7 @@
 	</div>
 
     <div class="text-center">
-        <nav>   
+        <nav>
             <ul class="pagination">
                 <?php if ($current_page > 1) : ?>
                     <li><a href="<?php echo url_for('compte_search', $args); ?>"><span aria-hidden="true"><<</span></a></li>
@@ -115,13 +115,13 @@
             </ul>
         </nav>
     </div>
-	
+
 	<?php endif; ?>
 
 </section>
 <section class="col-xs-3">
     <div class="col-xs-12">
-        <a href="<?php echo url_for('societe_creation', array()); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a> 
+        <a href="<?php echo url_for('societe_creation', array()); ?>" class="btn btn-default btn-block"><span class="glyphicon glyphicon-plus"></span> Créer une société</a>
      	<a class="btn btn-default btn-block" href="<?php echo url_for('compte_search_csv', array('q' => $q, 'tags' => $args['tags'])); ?>"<?php if($nb_results > 5000): ?> disabled="disabled"<?php endif;?>> <span class="glyphicon glyphicon-export"></span> Exporter en CSV</a>
 
         <p style="margin-top: 10px;"><strong><?php echo $nb_results; ?></strong> résultat(s) trouvé(s)</p>
@@ -136,15 +136,15 @@
                         <?php if (preg_match('/^(export|produit)_/', $f['key'])) { continue; } ?>
 
     					<?php $targs = $args_copy->getRawValue(); ?>
-    					<?php 
-    						$targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key']))); 
+    					<?php
+    						$targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key'])));
     						$sargs['tags'] = implode(',', array_diff($selected_rawtags->getRawValue(), array($type.':'.$f['key'])));
     						$active = (isset($selected_typetags->getRawValue()[$type]) && in_array($f['key'], $selected_typetags->getRawValue()[$type]))? 'active' : '';
     						if ($type == 'manuel') {
     							$tagsManuels[] = $f['key'];
     						}
     					?>
-    					  <a class="list-group-item list-group-item-xs <?php echo $active ?>" href="<?php echo ($active)? url_for('compte_search', $sargs) : url_for('compte_search', $targs); ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge"><?php echo $f['doc_count'] ?></span></a>
+    					  <a class="list-group-item list-group-item-xs <?php echo $active ?>" href="<?php echo ($active)? url_for('compte_search', $sargs) : url_for('compte_search', $targs); ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge" style="position: absolute; right: 10px;"><?php echo $f['doc_count'] ?></span></a>
 					<?php endforeach; ?>
 					</div>
 			    <?php endif; ?>

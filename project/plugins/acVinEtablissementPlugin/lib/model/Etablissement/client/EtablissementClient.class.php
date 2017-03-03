@@ -41,14 +41,14 @@ class EtablissementClient extends acCouchdbClient {
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
     public static $regimes_crds_libelles_longs = array(self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'collectif acquitté (C-DA)',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (C-DS)');
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'banalisées acquittées (DA)',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'banalisées suspendues (DS)');
     public static $regimes_crds_libelles = array(self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Collectif acquitté',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu');
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Banalisées acquittées',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Banalisées suspendues');
     public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
-        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
+        self::REGIME_CRD_COLLECTIF_ACQUITTE => 'DA',
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'DS');
     public static $natures_inao_libelles = array(
         "01" => self::NATURE_INAO_PRODUCTEUR_INDIVIDUEL,
         "04" => self::NATURE_INAO_COOPERATIVE,

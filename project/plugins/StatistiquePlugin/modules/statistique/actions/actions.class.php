@@ -26,7 +26,46 @@ class statistiqueActions extends sfActions {
 		}
 		return $result;
 	}
-
+	
+	public function executeStatsStatistiques(sfWebRequest $request) 
+	{
+		ini_set('memory_limit','512M');
+		$this->statistiquesConfig = sfConfig::get('app_statistiques_stats');
+		if (!$this->statistiquesConfig) {
+			throw new sfException('No configuration set for statistiques type stats');
+		}
+		
+		$this->form = new StatistiqueStatsFilterForm($this->statistiquesConfig);
+		
+		if (!$request->isMethod(sfWebRequest::POST)) {
+			return sfView::SUCCESS;
+		}
+		
+		$this->form->bind($request->getParameter($this->form->getName()));
+		if ($this->form->isValid()) {
+			$statFilters = new StatFilters(StatFilters::OPERATOR_AND);
+			$statFilters = $this->form->processFilters($statFilters);
+			$conf = $this->form->getStatistiquesConf();
+			$csv = new CsvFile($conf['datas']);
+			$statTable = new StatTable($csv->getCsv(), $statFilters);
+			$statTable->pivotOn($conf['pivot']);
+			$statTable->columnsOn($conf['columns']);
+			$statTable->aggregatOn($conf['aggregat']);
+			if (isset($conf['total_pivot']) && !empty($conf['total_pivot'])) {
+				$statTable->addTotalPivot($conf['total_pivot']);
+			}
+			if (isset($conf['full_total_pivot']) && $conf['full_total_pivot']) {
+				$statTable->addTotalPivot();
+			}
+			if (isset($conf['total_column']) && $conf['total_column']) {
+				$statTable->addTotalColumn();
+			}
+			$libelles = StatistiqueStatsFilterForm::getLibelles('appellation');
+			return $this->renderCsv($statTable->getStatTable(true, $conf['csv_headers'], $libelles), KeyInflector::slugify($conf['libelle']));
+		}
+		
+	}
+	
     public function executeDrmStatistiques(sfWebRequest $request) {
         $this->page = $request->getParameter('p', 1);
         $this->statistiquesConfig = sfConfig::get('app_statistiques_drm');

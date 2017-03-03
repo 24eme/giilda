@@ -89,6 +89,7 @@ endif; ?>
             <?php if ($sf_user->hasCredential('transactions')): ?>
             <li><a href="<?php echo url_for("statistiques_vrac") ?>">Contrat d'achat</a></li>
             <li><a href="<?php echo url_for("statistiques_drm") ?>">DRM</a></li>
+            <li><a href="<?php echo url_for("statistiques_stats") ?>">Stats</a></li>
             <?php endif; ?>
             <?php if ($sf_user->hasCredential('contacts')): ?>
             <li><a href="<?php echo url_for("societe") ?>">Contacts</a></li>
