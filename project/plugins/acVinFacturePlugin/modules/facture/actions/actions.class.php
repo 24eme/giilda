@@ -50,7 +50,7 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $resquest) {        
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
-        $this->factures = FactureSocieteView::getInstance()->findByEtablissement($this->societe);
+        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
     }
     
