@@ -54,7 +54,7 @@ function details2XmlDouane($detail) {
         $preXML = array();
         foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {
-		if (($v || (preg_match('/revendique/', $k) && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+		if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
                         $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
 		}
 	  }
@@ -126,6 +126,19 @@ function formatDateDouane($s) {
 }
 
 function centilisation2Douane($c, $libelle) {
+	if (preg_match('/bib/i', $libelle)) {
+		$bib = array(
+			'0.022500' => 'BIB_225',
+			'0.030000' => 'BIB_300',
+			'0.040000' => 'BIB_400',
+			'0.050000' => 'BIB_500',
+			'0.080000' => 'BIB_800',
+			'0.100000' => 'BIB_1000');
+		if ($ret = $bib[sprintf('%.f', $c)]) {
+			return $ret;
+		}
+		return "AUTRE";
+	}
 	$bouteilles = array('0.001000' => 'CL_10',
 		'0.001250' => 'CL_12_5',
 		'0.001870' => 'CL_18_7',
@@ -140,13 +153,7 @@ function centilisation2Douane($c, $libelle) {
 		'0.010000' => 'CL_100',
 		'0.015000' => 'CL_150',
 		'0.017500' => 'CL_175',
-		'0.020000' => 'CL_200',
-		'0.022500' => 'BIB_225',
-		'0.030000' => 'BIB_300',
-		'0.040000' => 'BIB_400',
-		'0.050000' => 'BIB_500',
-		'0.080000' => 'BIB_800',
-		'0.100000' => 'BIB_1000');
+		'0.020000' => 'CL_200');
 		if ($ret = $bouteilles[sprintf('%.f', $c)]) {
 			return $ret;
 		}
