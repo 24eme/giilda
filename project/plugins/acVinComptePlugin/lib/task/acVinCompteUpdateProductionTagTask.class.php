@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * acVinComptePlugin task.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -69,13 +69,19 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
             $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
             foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
+                if(!$produit_libelle) {
+                    continue;
+                }
                 $tags['produit'][$produit_libelle] = 1;
             }
             $mvts = DRMMouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
             foreach ($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
+                if(!$produit_libelle) {
+                    continue;
+                }
                 $tags['produit'][$produit_libelle] = 1;
-                if ($m->detail_libelle && $m->type_libelle == 'Export') {
+                if ($m->detail_libelle && preg_match("/Export/", $m->type_libelle)) {
                     $tags['export'][$m->detail_libelle] = 1;
                 }
             }
@@ -110,18 +116,18 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                     $compte->addTag($type, $t);
                 }
             }
-            
+
             if(!$compte){
                echo ("compte de l'établissement $etablissement->_id non trouvé\n");
                continue;
             }
-            
+
             try {
 
-                $compte->save();    
+                $compte->save();
             } catch (Exception $exc) {
-                var_dump($compte->_id, $compte->tags->toJson());
-                exit;
+                echo $exc->getMessage()."\n";
+                continue;
             }
 
             $this->logSection("done", $compte->identifiant);
@@ -130,6 +136,12 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
 
     public function getProduitLibelle($hash) {
         $configuration = ConfigurationClient::getInstance()->getCurrent();
+
+        if(!$configuration->exist($hash)) {
+            echo "Hash non trouvé :".$m->produit_hash."\n";
+            return null;
+        }
+
 
         return $this->replaceAccents($configuration->get($hash)->getLibelleFormat(array(), "%format_libelle%"));
     }

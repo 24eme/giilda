@@ -32,13 +32,18 @@ class DRMCalendrier {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = $this->buildPeriodes();
         $this->etablissements = array();
-        foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
-            if($e->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
 
-                continue;
+        if($this->isTeledeclarationMode) {
+            foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
+                if($e->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+
+                    continue;
+                }
+
+                $this->etablissements[] = $e->etablissement;
             }
-
-            $this->etablissements[] = $e->etablissement;
+        } else {
+            $this->etablissements[] = $etablissement;
         }
 
         $this->multiEtbs = ((count($this->etablissements) > 1) && $this->isTeledeclarationMode);

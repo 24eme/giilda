@@ -47,17 +47,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	}
     }
 
-    public function initLies(){
-      $produits = $this->getConfigProduits(true);
-    	if (!is_null($produits)) {
-    		foreach ($produits as $hash => $produit) {
-          if(preg_match("/USAGESINDUSTRIELS/",$hash)){
-            $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
-          }
-    		}
-    	}
-    }
-
     public function constructId() {
 
         $this->set('_id', DRMClient::getInstance()->buildId($this->identifiant, $this->periode, $this->version));
@@ -234,11 +223,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function generateSuivante() {
-
-        return $this->generateSuivanteByPeriode(DRMClient::getInstance()->getPeriodeSuivante($this->periode));
-    }
-
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
@@ -274,6 +258,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
 
+        $drm_suivante->initProduitsAutres($isTeledeclarationMode);
         $drm_suivante->initCrds();
         if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
             $drm_suivante->initDroitsDouane();
@@ -1056,10 +1041,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
           foreach ($mvtTypes as $mvtType){
                 $toRemove = array();
                 foreach($details->get($mvtType) as $key => $value) {
-                        if(!preg_match('/_details/',$key)){
-                          $detailConf = $detailsConfig->get($mvtType)->get($key);
-                          if($detailConf && $detailConf->exist('switch_regime'))
-                          {
+                        if(preg_match('/_details/',$key)){
+                            continue;
+                        }
+                        if(!$detailsConfig->get($mvtType)->exist($key)){
+                            continue;
+                        }
+                        $detailConf = $detailsConfig->get($mvtType)->get($key);
+                        if($detailConf && $detailConf->exist('switch_regime'))
+                        {
                             if((($detailConf->douane_type == DRMClient::CRD_TYPE_SUSPENDU) && ($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE))
                                 || (($detailConf->douane_type == DRMClient::CRD_TYPE_ACQUITTE)
                                     && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
@@ -1067,8 +1057,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                               $details->get($mvtType)->add($detailConfCorrespondance,$value);
                                 $toRemove[] = $key;
                             }
-                          }
-                       }
+                        }
                     }
                     foreach ($toRemove as $keyRemove) {
                         $details->get($mvtType)->remove($keyRemove);
@@ -1156,8 +1145,8 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
     }
 
-    public function initProduitsAutres(){
-      foreach ($this->getConfig()->getProduits() as $hash => $produit) {
+    public function initProduitsAutres($isTeledeclarationMode){
+      foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
           $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
         }
@@ -1470,7 +1459,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
             foreach ($typedetaillibelle as $catKey => $cat) {
                 foreach ($cat as $typeKey => $detail) {
-                    if (!$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->exist($typeKey) || !$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
                         $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
                     }
                 }

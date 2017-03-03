@@ -4,6 +4,69 @@
 # default values
 all:
   statistiques:
+    stats:
+      statistiques:
+        exportations:
+          datas: "/home/jb/Bureau/sancerre-datas/export_bi_mouvements.csv"
+          libelle: "Exports"
+          csv_headers: "Appellation;Pays;Blanc;Rose;Rouge;Total"
+          pivot: [8,22]
+          columns: 11
+          aggregat: [20]
+          total_pivot: [8]
+          total_column: 1
+          filters:
+            14: '/export_details/'
+          form_filters:
+            appellations:
+              ind: 8
+            familles:
+              ind:
+            region:
+              ind:
+            dates:
+              ind: 4
+        stock_article:
+          datas: "/home/jb/Bureau/sancerre-datas/export_bi_drm_stock.csv"
+          libelle: "Stocks article"
+          csv_headers: "Appellation;Couleur;Stock initial;Stock actuel"
+          pivot: [6,9]
+          columns: 2 
+          aggregat: [13,18]
+          total_pivot: [6]
+          full_total_pivot: 1
+          form_filters:
+            appellations:
+              ind: 6
+            familles:
+              ind:
+            region:
+              ind:
+            dates:
+              ind: 11
+        sorties_appellation:
+          datas: "/home/jb/Bureau/sancerre-datas/export_bi_mouvements.csv"
+          libelle: "Sorties appellation"
+          csv_headers: "Appellation;Couleur;Export;France;Vrac;Total"
+          pivot: [8,11]
+          columns: 14
+          aggregat: [20]
+          total_pivot: [8]
+          total_column: 1
+          full_total_pivot: 1
+          filters:
+            14: '/export_details|sorties\/vracsanscontratsuspendu|sorties\/ventefrancecrd/'
+          form_filters:
+            appellations:
+              ind: 8
+            familles:
+              ind:
+            region:
+              ind:
+            dates:
+              ind: 4
+        prix_soumission:
+          libelle: "Prix moyen de vente"
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20

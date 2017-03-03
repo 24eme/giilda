@@ -23,7 +23,7 @@
                             <table id="table_drm_crds" class="table table-bordered table-condensed table-striped">
                                 <thead>
                                     <tr>
-                                        <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD<?php echo getPointAideHtml('drm','crd_type') ?>&nbsp;<a data-form="#form_crds" href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="link-submit"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></th>
+                                        <th class="col-xs-2 text-center vertical-center" rowspan="2">CRD<?php echo getPointAideHtml('drm','crd_type') ?></th>
                                         <th class="col-xs-1 text-center vertical-center" rowspan="2">Stock<?php echo getPointAideHtml('drm','crd_stock_debut') ?></th>
                                         <th class="text-center" colspan="3">Entrées</th>
                                         <th class="text-center" colspan="3">Sorties</th>
@@ -57,6 +57,7 @@
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+                            <p><a data-form="#form_crds" href="<?php echo url_for('drm_crd', array('sf_subject' => $crdsForms->getObject(), 'add_crd' => $regime, 'genre' => $genre)); ?>" class="link-submit"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un type de CRD</a></p>
                     <?php endforeach; ?>
                 <?php endforeach; ?>
                 <div class="row">

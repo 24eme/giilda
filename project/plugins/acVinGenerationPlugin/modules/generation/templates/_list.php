@@ -1,21 +1,33 @@
 <?php use_helper('Float'); ?>
 <?php use_helper('Generation'); ?>
-
-<div class="row row-margin">
-    <div class="col-xs-12">
-        <div class="list-group">
-            <?php foreach ($generations as $generation) : ?>
+<table class="table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th class="col-xs-2">Numéro</th>
+            <th class="col-xs-2">Date</th>
+            <th class="col-xs-3">Libellé</th>
+            <th class="col-xs-1 text-right">Nb doc</th>
+            <th class="col-xs-2 text-right">Total</th>
+            <th class="col-xs-2 text-center">Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($generations as $generation): ?>
             <?php $documents = $generation->value[GenerationClient::HISTORY_VALUES_DOCUMENTS]; ?>
-                <a href="<?php echo url_for('generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])) ?>" class="list-group-item col-xs-12">
-                    <span class="col-xs-3 text-muted"><?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION]); ?></span>
-                    <span class="col-xs-3 text-muted"><?php echo $generation->value[GenerationClient::HISTORY_VALUES_LIBELLE] ?></span>
-                    <span class="col-xs-2 text-muted text-right"><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?> document<?php if(count($generation->value[GenerationClient::HISTORY_VALUES_NBDOC])):?>s<?php endif; ?></span>
-                    <span class="col-xs-2 text-muted text-right">
-                    <?php if($generation->value[GenerationClient::HISTORY_VALUES_SOMME]): ?><?php echoFloat(($generation->value[GenerationClient::HISTORY_VALUES_SOMME]) ? $generation->value[GenerationClient::HISTORY_VALUES_SOMME]: 0);?>&nbsp;€<?php endif; ?>
-                    </span>
-                    <span class="col-xs-2 text-muted text-right"><span class="label label-<?php echo statutToCssClass($generation->value[GenerationClient::HISTORY_VALUES_STATUT]) ?>"><span class="<?php echo statutToIconCssClass($generation->value[GenerationClient::HISTORY_VALUES_STATUT]) ?>"></span>&nbsp;&nbsp;<?php echo statutToLibelle($generation->value[GenerationClient::HISTORY_VALUES_STATUT]); ?></span></span>
-                </a>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
+            <tr>
+                <td><?php echo link_to("n° ". $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION], 'generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])); ?></td>
+                <td>
+                    <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION]); ?>
+                </td>
+                <td><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC] . ' '.$generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT].'(s)'; ?></td>
+                <td class="text-right"><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
+                <td class="text-right">
+                    <?php if ($generation->value[GenerationClient::HISTORY_VALUES_SOMME]):
+                    echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);
+                    ?>&nbsp;€ HT<?php endif; ?>
+                </td>
+                <td class="text-center"><a href="<?php echo url_for('generation_view', array('type_document' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT], 'date_emission' => $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION])) ?>" class="btn btn-xs btn-<?php echo statutToCssClass($generation->value[GenerationClient::HISTORY_VALUES_STATUT]) ?>"><?php echo statutToLibelle($generation->value[GenerationClient::HISTORY_VALUES_STATUT]); ?></a></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

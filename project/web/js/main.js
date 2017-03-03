@@ -44,7 +44,32 @@
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
         $(this).find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
+        $(this).find('[data-toggle="popover"], .toggle-popover').popover({'container': 'body', trigger: "manual" , html: true, animation:false})
+        .on("mouseenter", function () {
+            var _this = this;
+            $(this).popover("show");
+            $(".popover").on("mouseleave", function () {
+                $(_this).popover('hide');
+            });
+        })
+        .on("mouseleave", function () {
+            var _this = this;
+            setTimeout(function () {
+                if (!$(".popover:hover").length) {
+                    $(_this).popover("hide");
+                }
+            }, 50);
+        });
 
+        $(this).find('[data-toggle="popover"], .toggle-popover').each(function() {
+            if($(this).attr('data-content').match(/^#/)) {
+                $(this).attr('data-content', $($(this).attr('data-content')).html());
+            };
+        });
+
+        $(this).find('[data-toggle="popover"], .toggle-popover').on("shown.bs.popover", function(e) {
+            $('.popover').initAdvancedElements();
+        });
 
         $(this).find("select.select2").select2({
             allowClear: true

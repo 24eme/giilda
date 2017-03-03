@@ -81,6 +81,9 @@
                 <li>Carte professionnelle : <?php echo $etablissement->carte_pro; ?></li>
             <?php endif; ?>
             <li>Région : <?php echo $etablissement->region; ?></li>
+            <?php if ($etablissement->exist('crd_regime')): ?>
+                <li>Régime CRD : <?php echo $etablissement->crd_regime; ?></li>
+            <?php endif; ?>
         </ul>
 
         <?php if ($etablissement->commentaire) : ?>

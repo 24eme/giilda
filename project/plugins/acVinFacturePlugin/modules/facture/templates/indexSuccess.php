@@ -11,21 +11,20 @@
 <div class="row">
     <div class="col-xs-12">
         <h2>Génération des factures</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
-            </div>
-            <div class="col-xs-8">
-                <h3>Générer toutes les factures</h3>
-                <?php include_component('facture','generationMasse'); ?>
-            </div>
-        </div>
+        <?php include_partial('historiqueGeneration', array('generations' => $generations)); ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-8">
+        <h3>Générer toutes les factures</h3>
+        <?php include_component('facture','generationMasse'); ?>
     </div>
 </div>
 
 <hr />
 
-<div class="row">
+<div class="row" style="padding-bottom: 20px;">
     <div class="col-xs-12">
         <h2>Facturation libre</h3>
         <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
