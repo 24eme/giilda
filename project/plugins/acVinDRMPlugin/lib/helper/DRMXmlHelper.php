@@ -162,11 +162,6 @@ function centilisation2Douane($c, $libelle) {
 		'0.010000' => 'CL_100',
 		'0.015000' => 'CL_150',
 		'0.017500' => 'CL_175',
-<<<<<<< HEAD
-		'0.020000' => 'CL_200');
-		if ($ret = $bouteilles[sprintf('%.f', $c)]) {
-			return $ret;
-=======
 		'0.020000' => 'CL_200',
 		'0.022500' => 'BIB_225',
 		'0.030000' => 'BIB_300',
@@ -177,7 +172,6 @@ function centilisation2Douane($c, $libelle) {
 		if (isset($bouteilles[sprintf('%.f', $c)]) && $bouteilles[sprintf('%.f', $c)]) {
 
 			return $bouteilles[sprintf('%.f', $c)];
->>>>>>> d4a1e123a735e64b56c8b80d2380bb98a45f9d36
 		}
 		return "AUTRE";
 }
