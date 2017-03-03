@@ -353,6 +353,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->document_suivant;
     }
 
+    public function hasSuivante() {
+      return ($this->getSuivante());
+    }
+
     public function isSuivanteCoherente() {
         $drm_suivante = $this->getSuivante();
 
@@ -1502,6 +1506,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       $xml = $this->getXML();
       $service = new CielService();
       return $service->transferAndStore($this, $xml);
+    }
+
+    public function hasBeenTransferedToCiel() {
+      return ($this->exist('transmission_douane') && $this->transmission_douane->exit('xml') && $this->transmission_douane->success);
     }
 
     public function getTransmissionDate() {
