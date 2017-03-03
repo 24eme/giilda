@@ -44,3 +44,4 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 | Solumatic        | Oui |  |  |  |  |
 | Dune Informatique| Oui |  |  |  |  |
 | Cer France       | Oui |  |  |  |  |
+| Vinosoft         | Oui |  |  |  |  |
