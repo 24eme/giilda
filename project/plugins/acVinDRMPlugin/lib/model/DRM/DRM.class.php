@@ -291,6 +291,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->commentaire = null;
 
         $this->archivage_document->reset();
+        if ($this->declaratif->exist('statistiques')) {
+                $this->declaratif->remove('statistiques');
+                $this->declaratif->add('statistiques');
+        }
 
         $this->devalide();
     }
@@ -358,6 +362,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         return $this->document_suivant;
+    }
+
+    public function hasSuivante() {
+      return ($this->getSuivante());
     }
 
     public function isSuivanteCoherente() {
@@ -537,6 +545,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function getEuValideDate() {
         return strftime('%d/%m/%Y', strtotime($this->valide->date_signee));
+    }
+
+    public function getEuTransmissionDate() {
+        if (!$this->hasTransmissionDate()) {
+          return  '';
+        }
+        return strftime('%d/%m/%Y', strtotime($this->transmission_douane->horodatage));
+    }
+
+    public function hasTransmissionDate() {
+      if (!$this->exist('transmission_douane')) {
+        return false;
+      }
+      if (!$this->get('transmission_douane')->exist('horodatage')) {
+        return false;
+      }
+      return ($this->get('transmission_douane')->get('horodatage'));
     }
 
     public function isDebutCampagne() {
@@ -786,6 +811,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->version_document->isModifiable() && !$this->isTeledeclare();
     }
 
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
+    }
+
     public function getPreviousVersion() {
 
         return $this->version_document->getPreviousVersion();
@@ -984,6 +1017,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->getEtablissement();
     }
 
+    public function isDRMNegociant() {
+	return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
+    }
+
+    public function getFamille() {
+	if (!$this->exist('famille') ) {
+		$this->add('famille', $this->getEtablissement()->getFamille());
+	}
+	return $this->_get('famille');
+    }
+
     /*     * * ARCHIVAGE ** */
 
     public function getNumeroArchive() {
@@ -1067,6 +1111,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
             return $this->crds;
         }
         return array();
+    }
+
+    public function getCrds() {
+        if(!$this->exist('crds')) {
+
+            return $this->add('crds');
+        }
+
+        return $this->_get('crds');
     }
 
     public function updateStockFinDeMoisAllCrds() {
@@ -1246,6 +1299,21 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if (!count($releveNonApurement)) {
             $releveNonApurement->addEmptyNonApurement();
         }
+    }
+
+    public function hasReleveNonApurement() {
+      if(!$this->exist('releve_non_apurement')){
+        return false;
+      }
+      if(!count($this->get('releve_non_apurement'))){
+        return false;
+      }
+      foreach ($this->get('releve_non_apurement') as $nonApurement) {
+        if($nonApurement->get("numero_document") && $nonApurement->get("date_emission") && $nonApurement->get("numero_accise")){
+          return true;
+        }
+      }
+      return false;
     }
 
     public function hasAnnexes() {
@@ -1466,6 +1534,75 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
             $libelles_detail_ligne->remove($removeNode);
         }
         return $libelles_detail_ligne;
+    }
+
+    public function isDrmNegoce(){
+      return $this->getEtablissement()->isNegociant();
+    }
+
+    public function getXML() {
+      if (!function_exists('get_partial')) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
+      }
+      return get_partial('drm_xml/xml', array('drm' => $this));
+    }
+
+    public function getXMLRetour() {
+        if (!$this->exist('_attachments') || !$this->_attachments->exist('drm_retour.xml'))
+          return "";
+        $uri = $this->getAttachmentUri('drm_retour.xml');
+        if ($uri) {
+          return file_get_contents($uri);
+        }
+        return "";
+    }
+
+    public function storeXMLRetour($xml) {
+        if (!$xml) {
+          throw new sfException('XML empty');
+        }
+        if (md5($this->getXMLRetour()) == md5($xml)) {
+          return false;
+        }
+
+        $tmp = tempnam('/tmp', 'attachment_retour');
+        file_put_contents($tmp, $xml);
+        $this->storeAttachment($tmp, 'text/xml', 'drm_retour.xml');
+        unlink($tmp);
+        return true;
+    }
+
+    public function getXMLComparison() {
+        return new DRMCielCompare($this->getXMLRetour(), $this->getXML());
+    }
+
+    public function areXMLIdentical() {
+      $comp = $this->getXMLComparison();
+      return !$comp->hasDiff();
+    }
+
+    public function transferToCiel() {
+      $xml = $this->getXML();
+      $service = new CielService();
+      return $service->transferAndStore($this, $xml);
+    }
+
+    public function hasBeenTransferedToCiel() {
+      return ($this->exist('transmission_douane') && $this->transmission_douane->exit('xml') && $this->transmission_douane->success);
+    }
+
+    public function getTransmissionDate() {
+      if ($this->exist('transmission_douane')) {
+        return date('d/m/Y', strtotime($this->transmission_douane->horodatage));
+      }
+      return "";
+    }
+
+    public function getTransmissionErreur() {
+      if ($this->exist('transmission_douane')) {
+        return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
+      }
+      return "";
     }
 
 }
