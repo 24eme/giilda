@@ -591,7 +591,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
     public abstract function getTypeNoeud();
 
     public function getDetailConfiguration($key = 'details') {
-        
+
         return $this->getDocument()->declaration->get($key);;
     }
 
@@ -647,6 +647,10 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public function hasCodes() {
         return false;
+    }
+
+    public function hasCepagesAutorises(){
+      return false;
     }
 
 }

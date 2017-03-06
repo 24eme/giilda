@@ -20,7 +20,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
 }
 
 
-$t = new lime_test(6);
+$t = new lime_test(7);
 $t->comment('création des différentes sociétés');
 
 $societeviti = SocieteClient::getInstance()->createSociete("société viti test", SocieteClient::TYPE_OPERATEUR);
@@ -46,6 +46,18 @@ $compte->addTag('test', 'test');
 $compte->addTag('test', 'test_nego_region');
 $compte->save();
 $t->is($compte->tags->automatique->toArray(true, false), array('societe', 'ressortissant'), "Création de société négo crée un compte du même type");
+
+$societenegocvo = SocieteClient::getInstance()->createSociete("société négo 2 de la région test", SocieteClient::TYPE_OPERATEUR);
+$societenegocvo->pays = "FR";
+$societenegocvo->code_postal = "92100";
+$societenegocvo->commune = "Neuilly sur seine";
+$societenegocvo->save();
+$id = $societenegocvo->getidentifiant();
+$compte = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$compte->addTag('test', 'test');
+$compte->addTag('test', 'test_nego_region_2');
+$compte->save();
+$t->is($compte->tags->automatique->toArray(true, false), array('societe', 'ressortissant'), "Création de société négo 2 crée un compte du même type");
 
 $societenegohors = SocieteClient::getInstance()->createSociete("société négo hors région test", SocieteClient::TYPE_OPERATEUR);
 $societenegohors->pays = "BE";
