@@ -98,10 +98,6 @@ class CielService
 		$drm->save();
 	}
 
-<<<<<<< HEAD
->>>>>>> e41ad65... Correction pb CRD
-=======
->>>>>>> 618a52e... Merge XML de Vinsi :
 	protected function needNewToken()
 	{
 		$file = $this->getTokenCacheFilename();

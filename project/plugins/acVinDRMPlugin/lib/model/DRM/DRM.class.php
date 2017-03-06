@@ -1625,19 +1625,14 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         return $libelles_detail_ligne;
     }
 
-<<<<<<< HEAD
     public function isDrmNegoce(){
       return $this->getEtablissement()->isNegociant();
     }
 
     public function getXML() {
-=======
-
-    public function getXML() {
       if (!function_exists('get_partial')) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
       }
->>>>>>> 618a52e... Merge XML de Vinsi :
       return get_partial('drm_xml/xml', array('drm' => $this));
     }
 
@@ -1681,8 +1676,6 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return $service->transferAndStore($this, $xml);
     }
 
-<<<<<<< HEAD
-=======
     public function hasBeenTransferedToCiel() {
       return ($this->exist('transmission_douane') && $this->transmission_douane->exit('xml') && $this->transmission_douane->success);
     }
@@ -1701,6 +1694,4 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return "";
     }
 
-
->>>>>>> 618a52e... Merge XML de Vinsi :
 }
