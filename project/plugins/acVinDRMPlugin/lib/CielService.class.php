@@ -5,7 +5,11 @@ class CielService
 	protected $configuration;
 	const TOKEN_CACHE_FILENAME = 'ciel_access_token';
 	const TOKEN_TIME_VALIDITY = 2700;
-	
+
+  public static function hasAppConfig() {
+		return (sfConfig::get('app_ciel_oauth'));
+	}
+
 	public function __construct()
 	{
 		$this->configuration = sfConfig::get('app_ciel_oauth');
