@@ -61,14 +61,14 @@ function details2XmlDouane($detail) {
 				}
 			}
 		}
-        foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
-	  foreach ($detail->get($type) as $k => $v) {
-		if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+    foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
+	  	foreach ($detail->get($type) as $k => $v) {
+				if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
                         $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
+				}
+	  	}
 		}
-	  }
-	}
-	return multiArray2XML($preXML);
+		return multiArray2XML($preXML);
 }
 
 function formatXml($xml, $level = 0) {

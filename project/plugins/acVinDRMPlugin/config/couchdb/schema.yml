@@ -4,6 +4,15 @@ DRM:
     fields:
       _id: {  }
       _rev: {  }
+      _attachments:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': { }
       type: {  }
       region: {  }
       editeurs:

@@ -5,7 +5,11 @@ class CielService
 	protected $configuration;
 	const TOKEN_CACHE_FILENAME = 'ciel_access_token';
 	const TOKEN_TIME_VALIDITY = 2700;
-	
+
+  public static function hasAppConfig() {
+		return (sfConfig::get('app_ciel_oauth'));
+	}
+
 	public function __construct()
 	{
 		$this->configuration = sfConfig::get('app_ciel_oauth');
@@ -26,7 +30,7 @@ class CielService
     {
     	if ($this->needNewToken()) {
     		$token = $this->sign();
-    		$this->setTokenCache($token);   		
+    		$this->setTokenCache($token);
     	} else {
     		$file = $this->getTokenCacheFilename();
     		$token = file_get_contents($file);
@@ -59,16 +63,41 @@ class CielService
 		}
 		return $result['access_token'];
 	}
-	
-	public function transfer($datas = null, $token = null)
+
+	public function transfer($xml = null, $token = null)
 	{
 		if (!$token) {
 			$token = $this->getToken();
 		}
-		$result = $this->httpQuerry($this->configuration['urlapp'], array('http' => $this->getTransferHttpRequest($token, $datas)));
+		$result = $this->httpQuerry($this->configuration['urlapp'], array('http' => $this->getTransferHttpRequest($token, $xml)));
 		return $result;
 	}
-	
+
+	public function storeXmlAsAttachement($drm, $xml) {
+			$tmp = tempnam('/tmp', 'attachement');
+			file_put_contents($tmp, $xml);
+			$drm->storeAttachment($tmp, 'text/xml', 'drm_transmise.xml');
+			unlink($tmp);
+	}
+
+	public function transferAndStore($drm, $xml, $token = null) {
+		$cielResponse = "";
+		try {
+			$cielResponse = $this->transfer($xml, $token);
+		} catch (sfException $e) {
+			$cielResponse = $e->getMessage();
+		}
+		$this->storeXmlAsAttachement($drm, $xml);
+		$drm->add('transmission_douane')->add('xml', $cielResponse);
+		$drm->add('transmission_douane')->add('success', false);
+		if (preg_match('/identifiant-declaration>([^<]*)<.*horodatage-depot>([^<]+)</', $cielResponse, $m)) {
+			$drm->add('transmission_douane')->add('success', true);
+			$drm->add('transmission_douane')->add('horodatage', $m[2]);
+			$drm->add('transmission_douane')->add('id_declaration', $m[1]);
+		}
+		$drm->save();
+	}
+
 	protected function needNewToken()
 	{
 		$file = $this->getTokenCacheFilename();
@@ -80,8 +109,8 @@ class CielService
 		}
 		return true;
 	}
-	
-	protected function setTokenCache($token) 
+
+	protected function setTokenCache($token)
 	{
 		$file = $this->getTokenCacheFilename();
 		$result = file_put_contents($file, $token, LOCK_EX);
@@ -106,29 +135,29 @@ class CielService
 				'ignore_errors' => true,
 				'content' => http_build_query($content));
 	}
-	
-	protected function getTransferHttpRequest($token, $content = null)
+
+	protected function getTransferHttpRequest($token, $xml = null)
 	{
 		return array(
 				'headers'  => array(
-						"Host: ".$this->configuration['host'], 
+						"Host: ".$this->configuration['host'],
 						"Content-Type: application/xml;charset=UTF-8",
 						"Authorization: Bearer $token"),
 				'method'  => 'POST',
 				'protocol_version' => 1.1,
 				'ignore_errors' => true,
-				'content' => $content);
+				'content' => $xml);
 	}
-	
-	protected function httpQuerry($url, $options) 
+
+	protected function httpQuerry($url, $options)
 	{
 		if (extension_loaded('curl')) {
 			return $this->httpQuerryCurl($url, $options);
 		}
 		return $this->httpQuerryFgc($url, $options);
 	}
-	
-	protected function httpQuerryFgc($url, $options) 
+
+	protected function httpQuerryFgc($url, $options)
 	{
 		if (isset($options['http']['headers'])) {
 			$options['http']['header'] = join('\n', $options['http']['header']);
@@ -137,8 +166,8 @@ class CielService
 		$context  = stream_context_create($options);
 		return file_get_contents($url, false, $context);
 	}
-	
-	protected function httpQuerryCurl($url, $options) 
+
+	protected function httpQuerryCurl($url, $options)
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -151,7 +180,11 @@ class CielService
 		}
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$server_output = curl_exec ($ch);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close ($ch);
+		if ($httpCode < 200 || $httpCode >= 300 ) {
+			throw new sfException('HTTP Error '.$httpCode.' : '.$server_output);
+		}
 		return $server_output;
 	}
 	

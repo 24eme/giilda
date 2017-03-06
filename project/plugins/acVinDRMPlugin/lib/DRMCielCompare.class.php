@@ -6,8 +6,16 @@ class DRMCielCompare
 	
 	public function __construct($xmlIn, $xmlOut)
 	{
-		$this->xmlIn = $xmlIn;
-		$this->xmlOut = $xmlOut;
+		if(is_string($xmlIn)) {
+			$this->xmlIn = simplexml_load_string($xmlIn);
+		}else {
+			$this->xmlIn = $xmlIn;
+		}
+		if(is_string($xmlOut)) {
+			$this->xmlOut = simplexml_load_string($xmlOut);
+		}else {
+			$this->xmlOut = $xmlOut;
+		}
 	}
 	
 	public function getDiff()
@@ -22,6 +30,11 @@ class DRMCielCompare
 			}
 			if (isset($arrOut[$key]) && $arrOut[$key] != $value) {
 				$diff[$key] = $value;
+			}
+		}
+		foreach ($arrOut as $key => $value) {
+			if (!isset($arrIn[$key]) && $value) {
+				$diff[$key] = null;
 			}
 		}
 		return $diff;
@@ -83,7 +96,7 @@ class DRMCielCompare
 				} elseif (preg_match($patternCrd, $key) || preg_match($patternCentilisation, $key)) {
 					$tmp = preg_replace($patternCrd, '/compte-crd/{array}/'.$newKeyCrd.'/{array}/', $key);
 					$tmp = preg_replace($patternCentilisation, '/centilisation/{array}/'.$newKeyCentilisation.'/{array}/', $tmp);
-					$result[$tmp] = $value;		
+					$result[$tmp] = $value;
 				} else {
 					$result[$key] = $value;
 				}

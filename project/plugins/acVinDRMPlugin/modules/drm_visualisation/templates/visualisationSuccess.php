@@ -72,6 +72,19 @@
     <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>
 <?php endif; ?>
 <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvos' => $recapCvos, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
+<?php if ($drm->exist('transmission_douane') && $drm->transmission_douane): ?>
+<div class="row">
+  <div class="col-xs-12">
+    <h3>Transmission sur le portail proDou@ane</h3>
+    <?php if ($drm->transmission_douane->success) : ?>
+      <p>La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.</p>
+    <?php else: ?>
+      <p>La transmission a échouée. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».</p>
+    <?php endif; ?>
+  </div>
+</div>
+<?php endif; ?>
+<br/><br/>
 <div class="row">
     <div class="col-xs-4">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace DRM</a>
