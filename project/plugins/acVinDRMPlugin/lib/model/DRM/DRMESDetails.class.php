@@ -123,6 +123,9 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($mouvement->cvo > 0 && $mouvement->volume) {
             $mouvement->facturable = 1;
         }
+        if($this->getDocument()->isDrmNegoce()){
+            $mouvement->facturable = 0;
+        }
         return $mouvement;
     }
 
@@ -142,6 +145,9 @@ class DRMESDetails extends BaseDRMESDetails {
         $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->representant_identifiant, $detail->getDocument()->getDate());
         if ($mouvement->cvo > 0 && $mouvement->volume) {
             $mouvement->facturable = 1;
+        }
+        if($this->getDocument()->isDrmNegoce()){
+            $mouvement->facturable = 0;
         }
         return $mouvement;
     }
