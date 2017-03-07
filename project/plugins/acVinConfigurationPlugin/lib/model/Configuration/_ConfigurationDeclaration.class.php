@@ -195,7 +195,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
         if(!$uniq) {
 
-            return str_replace("X", "", $codeDouane);
+            return preg_replace("/[X]+$/", "", $codeDouane);
         }
 
         return $codeDouane;
