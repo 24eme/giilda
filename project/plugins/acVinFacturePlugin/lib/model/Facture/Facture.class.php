@@ -535,6 +535,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $this->_set('versement_comptable', 0);
     }
 
+    public function setDateFacturation($d) {
+	    if (!preg_match('/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/', $d)) {
+		    throw new sfException("Mauvais format de date");
+	    }
+	    return $this->_set('date_facturation', $d);
+    }
+
     public function isArchivageCanBeSet() {
 
         return true;

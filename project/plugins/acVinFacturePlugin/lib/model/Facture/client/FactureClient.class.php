@@ -232,11 +232,11 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function isRedressee($factureview){
-      return ($factureview->value[FactureSocieteView::VALUE_STATUT] == self::STATUT_REDRESSEE);
+      return ($factureview->value[FactureEtablissementView::VALUE_STATUT] == self::STATUT_REDRESSEE);
     }
         
     public function isRedressable($factureview){
-      return !$this->isRedressee($factureview) && $factureview->value[FactureSocieteView::VALUE_STATUT] != self::STATUT_NONREDRESSABLE;
+      return !$this->isRedressee($factureview) && $factureview->value[FactureEtablissementView::VALUE_STATUT] != self::STATUT_NONREDRESSABLE;
     }
         
     public function getTypeLignePdfLibelle($typeLibelle) {

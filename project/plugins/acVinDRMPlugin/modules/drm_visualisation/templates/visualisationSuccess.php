@@ -52,15 +52,11 @@
             <div style="text-align: right;">
                 <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
             </div>
-        <?php endif; ?>
-
-        <?php if ($drm->isTeledeclareFacturee()): ?>
+        <?php elseif (($drm->isTeledeclareFacturee() || $drm->hasSuivante()) && !$drm->hasBeenTransferedToCiel()): ?>
             <div style="text-align: right;">
                 <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
             </div>
-        <?php endif; ?>
-
-        <?php if ($drm->isTeledeclareNonFacturee()): ?>
+        <?php elseif ($drm->isTeledeclareNonFacturee() && !$drm->hasSuivante()): ?>
             <div style="text-align: right;">
                 <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
             </div>

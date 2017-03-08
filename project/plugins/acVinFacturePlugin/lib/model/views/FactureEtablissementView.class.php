@@ -40,7 +40,23 @@ class FactureEtablissementView extends acCouchdbView
                     ->startkey(array(1, $etablissement->identifiant))
                     ->endkey(array(1, $etablissement->identifiant, array()))
                     ->getView($this->design, $this->view)->rows);
-            
+
     }
-    
-}  
+
+    public function findBySociete($societe) {
+                $rows = acCouchdbManager::getClient()
+                        ->startkey(array(0, $societe->identifiant))
+                        ->endkey(array(0, $societe->identifiant, array()))
+                        ->getView($this->design, $this->view)->rows;
+                $factures = array_merge($rows, acCouchdbManager::getClient()
+                        ->startkey(array(1, $societe->identifiant))
+                        ->endkey(array(1, $societe->identifiant, array()))
+                        ->getView($this->design, $this->view)->rows);
+                $facturesResult = array();
+                foreach ($factures as $facture) {
+                  $facturesResult[$facture->id] = $facture;
+                }
+                krsort($facturesResult);
+                return $facturesResult;
+  }  
+}
