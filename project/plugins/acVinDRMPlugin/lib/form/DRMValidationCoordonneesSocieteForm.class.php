@@ -101,6 +101,10 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $societe->add('paiement_douane_moyen', $values['paiement_douane_moyen']);
         $societe->add('paiement_douane_frequence', $values['paiement_douane_frequence']);
         $societe->save();
+        $etb = $this->drm->getEtablissement();
+        $etb->teledeclaration_email = $this->drm->societe->email;
+        $etb->email = $this->drm->societe->email;
+        $etb->save();
     }
 
     public function getPaiementDouaneFrequence() {
