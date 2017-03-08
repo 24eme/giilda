@@ -91,9 +91,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
     }
 
+    public function changedImportToCreation() {
+        $drmPrecedente = $this->getPrecedente();
+
+        return !$this->isImport() && $this->lastIsImport();
+    }
+
     public function lastIsImport() {
-      if ($this->isImport())
-        return true;
+
       $drmPrecedente = $this->getPrecedente();
       return $drmPrecedente && $drmPrecedente->isImport();
     }
@@ -381,6 +386,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
             $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
             if($this->document_suivant && $this->document_suivant->changedToTeledeclare()) {
+                $this->document_suivant = null;
+            }
+
+            if($this->document_suivant && $this->document_suivant->changedImportToCreation()) {
                 $this->document_suivant = null;
             }
         }
