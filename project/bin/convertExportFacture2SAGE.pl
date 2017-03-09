@@ -8,7 +8,7 @@ while(<STDIN>) {
 	chomp;
 	@field = split/;/ ;
         next if ($field[0] ne 'VEN' && $field[0] !~ /^[02]+$/);
-	next if ($field[10] == 0); #si montant à 0, l'ignorer
+	next if ($field[10] == 0  && $field[14] !~ /TVA/); #si montant à 0, l'ignorer
 	$montant = $field[10];
         $field[10] = sprintf("%.2f", $field[10]);
 	$field[10] =~ s/\./,/;
@@ -52,7 +52,7 @@ while(<STDIN>) {
         print "0\n";
         print "sens (credit = 1 / debit = 0);" if ($verbose);
         if ($field[9] eq 'CREDIT') {
-		print "1\n"; 
+		print "1\n";
 	} else {
 		print "0\n";
 	}
@@ -125,6 +125,7 @@ while(<STDIN>) {
 		print encode_utf8(substr(decode_utf8($field[15]), 0, 30))."\n";
 	}
 	if ($field[14] =~ /TVA/) {
+		$montant_tva_isset = 1;
 	    $montant_tva = $montant;
 	    $compte_tva = $field[5];
 	}
@@ -134,7 +135,7 @@ while(<STDIN>) {
 	    $date_echeance = $field[8];
 	    $code_client = $field[6];
 	}
-	if ($montant_tva && $montant_ttc) {
+	if ($montant_tva_isset && $montant_ttc) {
 	    print "MRGT;" if ($verbose);
 	    print "#MRGT\n";
 	    print "\n";
@@ -230,5 +231,6 @@ while(<STDIN>) {
 	    print "\n";
 	    $montant_tva = 0;
 	    $montant_ttc = 0;
+		$montant_tva_isset = 0;
 	}
 }
