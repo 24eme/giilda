@@ -376,9 +376,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
             $campagne = DRMClient::getInstance()->buildCampagne($periode);
             if ($campagne != $this->campagne) {
+
                 return null;
             }
             $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+
+            is_null($this->document_suivant);
             if($this->document_suivant && $this->document_suivant->changedToTeledeclare()) {
                 $this->document_suivant = null;
             }
@@ -418,7 +421,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        return false;
+        return true;
     }
 
     public function devalide() {
