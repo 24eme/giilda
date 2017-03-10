@@ -94,13 +94,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function changedImportToCreation() {
         $drmPrecedente = $this->getPrecedente();
 
-        return !$this->isImport() && $this->lastIsImport();
-    }
-
-    public function lastIsImport() {
-
-      $drmPrecedente = $this->getPrecedente();
-      return $drmPrecedente && $drmPrecedente->isImport();
+        return !$this->isImport() && $drmPrecedente && $drmPrecedente->isImport();
     }
 
     public function isImport() {
@@ -253,7 +247,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
-            throw new sfException(sprintf("Une drm est en cours d'édition (%s) pour cette campagne %s, impossible d'en créer une autre", $this->getHistorique()->hasInProcess()->_id, $this->campagne));
+            throw new sfException(sprintf("Une drm est en cours d'édition pour la campagne %s, impossible d'en créer une autre", $this->campagne));
         }
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
