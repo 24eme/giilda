@@ -56,6 +56,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $this->checkImportMouvementsFromCSV();
         // Check Crds
         $this->checkImportCrdsFromCSV();
+        // Check Crds
+        $this->checkHorsRegionFromCSV();
 
         if ($this->csvDoc->hasErreurs()) {
             $this->csvDoc->setStatut(self::STATUT_WARNING);
@@ -146,6 +148,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     private function checkImportCrdsFromCSV() {
         return $this->importCrdsFromCSV(true);
+    }
+    
+    private function checkHorsRegionFromCSV() {
+    	$etablissementObj = $this->drm->getEtablissementObject();
+    	if ($etablissementObj->region == EtablissementClient::REGION_HORS_CVO) {
+    		$this->csvDoc->addErreur($this->importHorsRegionError());
+    	}
     }
 
     private function checkImportAnnexesFromCSV() {
@@ -507,6 +516,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     private function annexesNumeroDocumentError($num_ligne, $csvRow) {
         return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_TYPEANNEXE], "Le numéro de document ne peut pas être vide.");
+    }
+    
+    private function importHorsRegionError() {
+    	return $this->createError(0, "Etablissemment", "Import DRM non permis pour les établissements hors région.");
     }
 
     private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {
