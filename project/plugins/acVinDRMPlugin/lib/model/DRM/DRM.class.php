@@ -86,24 +86,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->exist('teledeclare') && $this->teledeclare;
     }
 
-    public function isTeledeclareFacturee() {
-        return $this->isTeledeclare() && !$this->isNonFactures();
-    }
-
-    public function isTeledeclareNonFacturee() {
-        return $this->isTeledeclare() && $this->isNonFactures();
-    }
-
     public function changedToTeledeclare() {
         $drmPrecedente = $this->getPrecedente();
         return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
     }
 
-    public function lastIsImport() {
-      if ($this->isImport())
-        return true;
-      $drmPrecedente = $this->getPrecedente();
-      return $drmPrecedente && $drmPrecedente->isImport();
+    public function changedImportToCreation() {
+        $drmPrecedente = $this->getPrecedente();
+
+        return !$this->isImport() && $drmPrecedente && $drmPrecedente->isImport();
     }
 
     public function isImport() {
@@ -256,7 +247,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
-            throw new sfException(sprintf("Une drm est en cours d'édition (%s) pour cette campagne %s, impossible d'en créer une autre", $this->getHistorique()->hasInProcess()->_id, $this->campagne));
+            throw new sfException(sprintf("Une drm est en cours d'édition pour la campagne %s, impossible d'en créer une autre", $this->campagne));
         }
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
@@ -323,6 +314,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->commentaire = null;
 
         $this->archivage_document->reset();
+        if ($this->declaratif->exist('statistiques')) {
+                $this->declaratif->remove('statistiques');
+                $this->declaratif->add('statistiques');
+        }
 
         $this->devalide();
     }
@@ -381,15 +376,26 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
             $campagne = DRMClient::getInstance()->buildCampagne($periode);
             if ($campagne != $this->campagne) {
+
                 return null;
             }
             $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+
+            is_null($this->document_suivant);
             if($this->document_suivant && $this->document_suivant->changedToTeledeclare()) {
+                $this->document_suivant = null;
+            }
+
+            if($this->document_suivant && $this->document_suivant->changedImportToCreation()) {
                 $this->document_suivant = null;
             }
         }
 
         return $this->document_suivant;
+    }
+
+    public function hasSuivante() {
+      return ($this->getSuivante());
     }
 
     public function isSuivanteCoherente() {
@@ -415,7 +421,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        return false;
+        return true;
     }
 
     public function devalide() {
@@ -547,6 +553,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             foreach ($details as $keyVrac => $vracCreation) {
               $newVrac = $vracCreation->getVrac();
               $newVrac->createVisa();
+
+              $d = (DateTime::createFromFormat('Y-m-d',$newVrac->enlevement_date));
+              $enlevement_date = $d->format('c');
+              $newVrac->valide->add('date_saisie', $enlevement_date);
+              $newVrac->add('date_signature', $enlevement_date);
+              $newVrac->date_visa = $d->format('Y-m-d');
+
               $newVrac->validate();
               $newVrac->save();
             }
@@ -615,6 +628,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function getEuValideDate() {
         return strftime('%d/%m/%Y', strtotime($this->valide->date_signee));
+    }
+
+    public function getEuTransmissionDate() {
+        if (!$this->hasTransmissionDate()) {
+          return  '';
+        }
+        return strftime('%d/%m/%Y', strtotime($this->transmission_douane->horodatage));
+    }
+
+    public function hasTransmissionDate() {
+      if (!$this->exist('transmission_douane')) {
+        return false;
+      }
+      if (!$this->get('transmission_douane')->exist('horodatage')) {
+        return false;
+      }
+      return ($this->get('transmission_douane')->get('horodatage'));
     }
 
     public function isDebutCampagne() {
@@ -864,6 +894,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->version_document->isModifiable() && !$this->isTeledeclare();
     }
 
+    public function isTeledeclareFacturee() {
+        return $this->isTeledeclare() && !$this->isNonFactures();
+    }
+
+    public function isTeledeclareNonFacturee() {
+        return $this->isTeledeclare() && $this->isNonFactures();
+    }
+
     public function getPreviousVersion() {
 
         return $this->version_document->getPreviousVersion();
@@ -1062,6 +1100,28 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->getEtablissement();
     }
 
+    public function isDRMNegociant() {
+
+           return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
+    }
+
+    public function getFamille() {
+        if($this->declarant->famille) {
+
+            return $this->declarant->famille;
+        }
+
+        if($this->getDefinition()->exist('famille')) {
+            if (!$this->exist('famille') ) {
+                $this->add('famille', $this->getEtablissement()->getFamille());
+    	    }
+
+            return $this->_get('famille');
+        }
+
+        return $this->getEtablissement()->getFamille();
+    }
+
     /*     * * ARCHIVAGE ** */
 
     public function getNumeroArchive() {
@@ -1119,10 +1179,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
           foreach ($mvtTypes as $mvtType){
                 $toRemove = array();
                 foreach($details->get($mvtType) as $key => $value) {
-                        if(!preg_match('/_details/',$key)){
-                          $detailConf = $detailsConfig->get($mvtType)->get($key);
-                          if($detailConf && $detailConf->exist('switch_regime'))
-                          {
+                        if(preg_match('/_details/',$key)){
+                            continue;
+                        }
+                        if(!$detailsConfig->get($mvtType)->exist($key)){
+                            continue;
+                        }
+                        $detailConf = $detailsConfig->get($mvtType)->get($key);
+                        if($detailConf && $detailConf->exist('switch_regime'))
+                        {
                             if((($detailConf->douane_type == DRMClient::CRD_TYPE_SUSPENDU) && ($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE))
                                 || (($detailConf->douane_type == DRMClient::CRD_TYPE_ACQUITTE)
                                     && (($newCrdRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($newCrdRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)))){
@@ -1130,8 +1195,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
                               $details->get($mvtType)->add($detailConfCorrespondance,$value);
                                 $toRemove[] = $key;
                             }
-                          }
-                       }
+                        }
                     }
                     foreach ($toRemove as $keyRemove) {
                         $details->get($mvtType)->remove($keyRemove);
@@ -1145,6 +1209,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
             return $this->crds;
         }
         return array();
+    }
+
+    public function getCrds() {
+        if(!$this->exist('crds')) {
+
+            return $this->add('crds');
+        }
+
+        return $this->_get('crds');
     }
 
     public function updateStockFinDeMoisAllCrds() {
@@ -1324,6 +1397,21 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if (!count($releveNonApurement)) {
             $releveNonApurement->addEmptyNonApurement();
         }
+    }
+
+    public function hasReleveNonApurement() {
+      if(!$this->exist('releve_non_apurement')){
+        return false;
+      }
+      if(!count($this->get('releve_non_apurement'))){
+        return false;
+      }
+      foreach ($this->get('releve_non_apurement') as $nonApurement) {
+        if($nonApurement->get("numero_document") && $nonApurement->get("date_emission") && $nonApurement->get("numero_accise")){
+          return true;
+        }
+      }
+      return false;
     }
 
     public function hasAnnexes() {
@@ -1547,10 +1635,14 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     }
 
     public function isDrmNegoce(){
-      return $this->getEtablissement()->isNegociant();
+
+        return $this->isDRMNegociant();
     }
 
     public function getXML() {
+      if (!function_exists('get_partial')) {
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
+      }
       return get_partial('drm_xml/xml', array('drm' => $this));
     }
 
@@ -1592,6 +1684,24 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       $xml = $this->getXML();
       $service = new CielService();
       return $service->transferAndStore($this, $xml);
+    }
+
+    public function hasBeenTransferedToCiel() {
+      return ($this->exist('transmission_douane') && $this->transmission_douane->exit('xml') && $this->transmission_douane->success);
+    }
+
+    public function getTransmissionDate() {
+      if ($this->exist('transmission_douane')) {
+        return date('d/m/Y', strtotime($this->transmission_douane->horodatage));
+      }
+      return "";
+    }
+
+    public function getTransmissionErreur() {
+      if ($this->exist('transmission_douane')) {
+        return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
+      }
+      return "";
     }
 
 }

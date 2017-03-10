@@ -19,9 +19,9 @@
         </div>
         <div class="form-group <?php if ($generationForm["date_mouvement"]->hasError()): ?>has-error<?php endif; ?>">
             <?php echo $generationForm["date_mouvement"]->renderError(); ?>
-            <?php echo $generationForm["date_mouvement"]->renderLabel("Date de prise en compte des mouvements", array("class" => "col-xs-4 control-label")); ?>
+            <?php echo $generationForm["date_mouvement"]->renderLabel("Prise en compte des mouvements jusqu'au", array("class" => "col-xs-4 control-label")); ?>
             <div class="col-xs-4 date-picker">
-                    <?php echo $generationForm["date_mouvement"]->render(array("class" => "form-control", "placeholder" => "Date de prise en compte des mouvements")); ?>
+                    <?php echo $generationForm["date_mouvement"]->render(array("class" => "form-control", "placeholder" => "Prise en compte des mouvements jusqu'au")); ?>
             </div>
         </div>
         <div class="form-group <?php if ($generationForm["message_communication"]->hasError()): ?>has-error<?php endif; ?>">

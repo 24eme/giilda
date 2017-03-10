@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(18);
+$t = new lime_test(19);
 $t->comment("création d'une DRM avec des sorties facturables et non");
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
@@ -61,16 +61,19 @@ $drm->save();
 
 $mvts_viti = $drm->mouvements->{$drm->identifiant};
 $t->is(count($mvts_viti) * count($drm->mouvements), 4, $drm->_id." : la validation a généré trois mouvements chez le viti");
+$mvt_export = null;
 foreach ($mvts_viti as $mvt) {
   if ($mvt->type_hash == 'sorties/ventefrancecrd') {
     $mvt_crd = $mvt;
   }elseif ($mvt->type_hash == 'sorties/destructionperte') {
     $mvt_dest = $mvt;
+  }elseif ($mvt->type_hash == 'export_details') {
+    $mvt_export = $mvt;
   }
 }
 $t->is($mvt_crd->facturable, 1, $drm->_id." : le mouvement de sortie crd est facturable");
 $t->is($mvt_dest->facturable, 0, $drm->_id." : le mouvement de sortie destruction n'est pas facturable");
-
+$t->isnt($mvt_export->date, null, $drm->_id." : le mouvement d'export a une date ".$mvt_export->date);
 
 $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete())), 3, $drm->_id." : on retrouve le mouvement facturable dans la vue facture");
 

@@ -101,6 +101,9 @@ EOF;
 
         } catch(Exception $e) {
             echo $e->getMessage().";#".$arguments['periode'].";".$arguments['identifiant']."\n";
+            if(isset($options['trace'])) {
+                throw $e;
+            }
             return;
         }
 

@@ -52,6 +52,9 @@ class DRMESDetailCreationVrac extends BaseDRMESDetailCreationVrac {
 
     private function getTheoriticalKey() {
         if (!$this->identifiant) {
+            if(!$this->getDocument()->_id) {
+                throw new sfException("DRM id must be set");
+            }
             $this->identifiant = $this->getDocument()->_id."-".uniqid();
         }
 

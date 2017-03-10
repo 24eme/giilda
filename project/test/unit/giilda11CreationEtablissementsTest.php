@@ -23,7 +23,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
 }
 
 
-$t = new lime_test(6);
+$t = new lime_test(7);
 $t->comment('création des différentes établissements');
 
 $societeviti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
@@ -47,6 +47,17 @@ $comptenego = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $comptenego->addTag('test', 'test');
 $comptenego->save();
 $t->is($comptenego->tags->automatique->toArray(true, false), array('societe', 'ressortissant', 'negociant', 'etablissement'), "Création d'un etablissement nego met à jour le compte");
+
+$societenego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region_2')->getSociete();
+$etablissementnego = $societenego->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
+$etablissementnego->region = EtablissementClient::REGION_CVO;
+$etablissementnego->nom = "Etablissement negociant 2 de la région";
+$etablissementnego->save();
+$id = $etablissementnego->getSociete()->getidentifiant();
+$comptenego = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$comptenego->addTag('test', 'test');
+$comptenego->save();
+$t->is($comptenego->tags->automatique->toArray(true, false), array('societe', 'ressortissant', 'negociant', 'etablissement'), "Création d'un etablissement nego 2 met à jour le compte");
 
 $societenego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getSociete();
 $etablissementnego_horsregion = $societenego_horsregion->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
