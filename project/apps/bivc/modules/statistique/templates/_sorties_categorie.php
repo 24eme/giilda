@@ -15,8 +15,8 @@ foreach ($result['agg_page']['buckets'] as $categorie) {
 			$couleurLibelle = getCouleurLibelle($couleur['key']);
 			$france =formatNumber($couleur['france']['agg_column']['value']);
 			$export =formatNumber($couleur['export']['agg_column']['value']);
-			$negoce =formatNumber($couleur['negoce']['agg_column']['value']);
-			$total =formatNumber($couleur['total']['agg_column']['value']);
+			$negoce =formatNumber($couleur['negoce']['value']);
+			$total =formatNumber($couleur['total']['value']);
 			if (!$france && !$export && !$negoce) {
 				continue;
 			}

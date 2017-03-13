@@ -149,10 +149,10 @@ all:
                           buckets_path: "agg_line>export>agg_column"
                       total_negoce:
                         sum_bucket:
-                          buckets_path: "agg_line>negoce>agg_column"
+                          buckets_path: "agg_line>negoce"
                       total_total:
                         sum_bucket:
-                          buckets_path: "agg_line>total>agg_column"
+                          buckets_path: "agg_line>total"
                       agg_line:
                         terms:
                           size: 0,
@@ -176,7 +176,15 @@ all:
                                 sum:
                                   field: 'doc.mouvements.volume'
                                   script: '_value * -1'
-                          negoce:
+                          entree_negoce:
+                            filter:
+                              term:
+                                doc.mouvements.type_hash: 'entrees/achatcrd'
+                            aggs:
+                              agg_column:
+                                sum:
+                                  field: 'doc.mouvements.volume'
+                          sortie_negoce:
                             filter:
                               terms:
                                 doc.mouvements.type_hash: ['creationvrac_details', 'creationvractirebouche_details']
@@ -185,15 +193,19 @@ all:
                                 sum:
                                   field: 'doc.mouvements.volume'
                                   script: '_value * -1'
+                          negoce:
+                            bucket_script:
+                              buckets_path:
+                                entree_negoce_sum: "entree_negoce>agg_column"
+                                sortie_negoce_sum: "sortie_negoce>agg_column"
+                              script: "sortie_negoce_sum - entree_negoce_sum"
                           total:
-                            filter:
-                              terms:
-                                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details']
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.mouvements.volume'
-                                  script: '_value * -1'
+                            bucket_script:
+                              buckets_path:
+                                france_sum: "france>agg_column"
+                                export_sum: "export>agg_column"
+                                negoce_sum: "negoce"
+                              script: "france_sum + export_sum + negoce_sum"
         sorties_appellation:
           libelle: "Sorties de l'appellation"
           index: "DRMMVT"
