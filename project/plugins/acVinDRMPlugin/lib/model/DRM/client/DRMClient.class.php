@@ -399,6 +399,16 @@ class DRMClient extends acCouchdbClient {
         return $result;
     }
 
+    public function clearHistorique($identifiant, $campagne_or_periode) {
+        $campagne = $campagne_or_periode;
+
+        if (preg_match('/^[0-9]{6}$/', $campagne_or_periode)) {
+            $campagne = $this->buildCampagne($campagne_or_periode);
+        }
+
+        unset($this->drm_historiques[$identifiant . $campagne]);
+    }
+
     public function getHistorique($identifiant, $campagne_or_periode) {
         $campagne = $campagne_or_periode;
 
@@ -417,6 +427,7 @@ class DRMClient extends acCouchdbClient {
     public function createDoc($identifiant, $periode = null, $isTeledeclarationMode = false) {
         if (!$periode) {
             $periode = $this->getCurrentPeriode();
+            $this->clearHistorique($identifiant, $periode);
             $last_drm = $this->getHistorique($identifiant, $periode)->getLastDRM();
             if ($last_drm) {
                 $periode = $this->getPeriodeSuivante($last_drm->periode);
@@ -428,6 +439,7 @@ class DRMClient extends acCouchdbClient {
     }
 
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
+        $this->clearHistorique($identifiant, $periode);
         $prev_drm = $this->getHistorique($identifiant, $periode)->getPrevious($periode);
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
 

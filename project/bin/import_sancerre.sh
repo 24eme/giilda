@@ -42,13 +42,13 @@ cat $TMP/data_sancerre_origin/ADHERENT.utf8.XML | sed "s|<\ADHERENT>|\\\n|" | se
 
 cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ print sprintf("%06d", $1) ";RESSORTISSANT;\"" $2 "\";\"" $2 "\";" (($18) ? "ACTIF" : "SUSPENDU") ";" $14 ";;;;;\"" $3 "\";;;;" $4 ";\"" $5 "\";;;FR;;" $6 ";;;" $7 ";;" $15  }' > $DATA_DIR/societes.csv
 
-php symfony import:societe $DATA_DIR/societes.csv $SYMFONYTASKOPTIONS
+#php symfony import:societe $DATA_DIR/societes.csv $SYMFONYTASKOPTIONS
 
 echo "Import des établissements"
 
 cat $DATA_DIR/adherents.csv | sed 's/^"//' | awk -F '";"' '{ famille=null; region="REGION_CVO"; if($8 == 1) { famille="PRODUCTEUR";} if($8 == 2) { famille="NEGOCIANT";} if($8 == 3) { famille="NEGOCIANT"; region="REGION_HORS_CVO" } if($8 == 4) { famille="COOPERATIVE"; }  print sprintf("%06d01", $1) ";SOCIETE-" sprintf("%06d", $1) ";" famille ";\"" $2 "\";" (($18) ? "ACTIF" : "SUSPENDU") ";" region ";" $9 ";;;" $11 ";;\"" $3 "\";;;;" $4 ";\"" $5 "\";;;FR;;" $6 ";;;" $7 ";;" $15 }' > $DATA_DIR/etablissements.csv
 
-php symfony import:etablissement $DATA_DIR/etablissements.csv $SYMFONYTASKOPTIONS
+#php symfony import:etablissement $DATA_DIR/etablissements.csv $SYMFONYTASKOPTIONS
 
 cat $DATA_DIR/adherents.csv | cut -d ";" -f 1,17 | grep ";\"1\"$" | cut -d ";" -f 1 | sed 's/"//g' | sed 's/$/;Abonné BIVC/' > $DATA_DIR/tags_manuels_abonne_bivc.csv
 
@@ -78,6 +78,7 @@ if ($4 == 3) {
       prix=prix/6.55957
   }
   print "CAVE;" periode ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;creationvrac;" $6 ";" sprintf("%06d01", $11) ";" prix ";" $5 ";;"
+   print "CAVE;" periode ";" sprintf("%06d01", $11) ";;;;;;;;;;" $21 ";suspendu;entrees;achatcrd;" $6 ";;;;;"
   }
 }' > $DATA_DIR/drm.csv
 
@@ -85,7 +86,9 @@ cat $DATA_DIR/stocks-produits.csv | sed 's/";$/";"/g' | awk -F '";"' '{
 print "CAVE;" substr($3, 1, 6) ";" sprintf("%06d01", $2) ";;;;;;;;;;" $10 ";suspendu;stocks_debut;initial;" $4 ";;;;;"
 }'  >> $DATA_DIR/drm.csv
 
-cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
+#cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
+
+cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 | grep -E "^[A-Z]+;[0-9]+;$(cat /tmp/acheteurs_a_supprimer.csv | tr '\n' '|' | sed 's/^/(/' |sed 's/|$/)/')" > $DATA_DIR/drm_final.csv
 
 cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201308.csv
 
@@ -104,4 +107,4 @@ done
 
 echo "Import des tags"
 
-php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv $SYMFONYTASKOPTIONS
+#php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv $SYMFONYTASKOPTIONS
