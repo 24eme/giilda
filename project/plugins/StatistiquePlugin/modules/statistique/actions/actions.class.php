@@ -50,19 +50,10 @@ class statistiqueActions extends sfActions {
 			if ($this->form->canPeriodeCompare()) {
 				$resultLastPeriode = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters($this->form->getValuesLastPeriode()), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
 				$csvResultLastPeriode = $this->getAggsResultCsv($values['statistiques'], $resultLastPeriode);
-				$nbKeys = $this->getNbKeys($values['statistiques']);
-				$csvResult = $this->getAggsResultCompareCsv($values['statistiques'], $this->getCsvToArray($csvResultLastPeriode,$nbKeys), $this->getCsvToArray($csvResult,$nbKeys));
+				$nbKeys = $this->statistiquesConfig['statistiques'][$values['statistiques']]['hashkeysize'];
+				$csvResult = $this->getAggsResultCsv($values['statistiques'], $this->getCsvToArray($csvResult, $nbKeys), $this->getCsvToArray($csvResultLastPeriode, $nbKeys));
 			}
 			return $this->renderCsv($csvResult, 'statistiques_'.$values['statistiques']);
-		}
-	}
-	
-	protected function getNbKeys($type)
-	{
-		if ($type == 'exportations' || $type == 'sorties_appellation') {
-			return 2;
-		} elseif ($type == 'sorties_categorie') {
-			return 3;
 		}
 	}
 	
@@ -73,120 +64,12 @@ class statistiqueActions extends sfActions {
 		$elasticaQuery = new acElasticaQuery();
 		$elasticaQuery->setSize(0);
 		$elasticaQuery->setParams($params);
-		//print_r(json_encode($elasticaQuery->toArray()));exit;
 		return $index->search($elasticaQuery)->getFacets();
 	}
 	
-	protected function getAggsResultCsv($type, $result)
+	protected function getAggsResultCsv($type, $current, $lastPeriode = null)
 	{
-		return $this->getPartial('statistique/'.$type, array('result' => $result[$type]));
-	}
-	
-	protected function getAggsResultCompareCsv($type, $lastPariode, $current)
-	{
-		$result = array();
-		$csv = '';
-		if ($type == 'exportations') {
-			$result[] = array('Appellation','Pays','Blanc N-1','Blanc N','Blanc %','Rosé N-1','Rosé N','Rosé %','Rouge N-1','Rouge N','Rouge %','TOTAL N-1','TOTAL N','TOTAL %');
-			$currentKeys = array_keys($current);
-			$currentPartKeys = array();
-			foreach ($current as $key => $values) {
-				$tabKey = explode('/', $key);
-				if (!in_array($tabKey[0], $currentPartKeys)) {
-					$currentPartKeys[] = $tabKey[0];
-				}
-				if ($tabKey[1] == 'TOTAL') {
-					foreach ($lastPariode as $subkey => $subvalues) {
-						$subtabKey = explode('/', $subkey);
-						if ($subtabKey[0] == $tabKey[0] && !in_array($subkey, $currentKeys)) {
-							$result[] = array($subtabKey[0], $subtabKey[1], $subvalues[0], null, $this->getEvol($subvalues[0], 0), $subvalues[1], null, $this->getEvol($subvalues[1], 0), $subvalues[2], null, $this->getEvol($subvalues[2], 0), $subvalues[3], null, $this->getEvol($subvalues[3], 0));
-						}
-					}
-				}
-				if (isset($lastPariode[$key])) {
-					$result[] = array($tabKey[0], $tabKey[1], $lastPariode[$key][0], $values[0], $this->getEvol($lastPariode[$key][0], $values[0]), $lastPariode[$key][1], $values[1], $this->getEvol($lastPariode[$key][1], $values[1]), $lastPariode[$key][2], $values[2], $this->getEvol($lastPariode[$key][2], $values[2]), $lastPariode[$key][3], $values[3], $this->getEvol($lastPariode[$key][3], $values[3]));
-				} else {
-					$result[] = array($tabKey[0], $tabKey[1], null, $values[0], $this->getEvol(0, $values[0]), null, $values[1], $this->getEvol(0, $values[1]), null, $values[2], $this->getEvol(0, $values[2]), null, $values[3], $this->getEvol(0, $values[3]));					
-				}
-			}
-			foreach ($lastPariode as $key => $values) {
-				$tabKey = explode('/', $key);
-				if (!in_array($tabKey[0], $currentPartKeys)) {
-					$result[] = array($tabKey[0], $tabKey[1], $values[0], null, $this->getEvol($values[0], 0), $values[1], null, $this->getEvol($values[1], 0), $values[2], null, $this->getEvol($values[2], 0), $values[3], null, $this->getEvol($values[3], 0));
-				}
-			}
-		} elseif ($type == 'sorties_categorie') {
-			$result[] = array('Catégorie','Appellation','Couleur','France N-1','France N','France %','Export N-1','Export N','Export %','Négoce N-1','Négoce N','Négoce %','TOTAL N-1','TOTAL N','TOTAL %');
-			$currentKeys = array_keys($current);
-			$currentPartKeys = array();
-			foreach ($current as $key => $values) {
-				$tabKey = explode('/', $key);
-				if (!in_array($tabKey[0].'/'.$tabKey[1], $currentPartKeys)) {
-					$currentPartKeys[] = $tabKey[0].'/'.$tabKey[1];
-				}
-				if ($tabKey[2] == 'TOTAL') {
-					foreach ($lastPariode as $subkey => $subvalues) {
-						$subtabKey = explode('/', $subkey);
-						if ($subtabKey[0].'/'.$subtabKey[1] == $tabKey[0].'/'.$tabKey[1] && !in_array($subkey, $currentKeys)) {
-							$result[] = array($subtabKey[0], $subtabKey[1], $subtabKey[2], $subvalues[0], null, $this->getEvol($subvalues[0], 0), $subvalues[1], null, $this->getEvol($subvalues[1], 0), $subvalues[2], null, $this->getEvol($subvalues[2], 0), $subvalues[3], null, $this->getEvol($subvalues[3], 0));
-						}
-					}
-				}
-				if (isset($lastPariode[$key])) {
-					$result[] = array($tabKey[0], $tabKey[1], $tabKey[2], $lastPariode[$key][0], $values[0], $this->getEvol($lastPariode[$key][0], $values[0]), $lastPariode[$key][1], $values[1], $this->getEvol($lastPariode[$key][1], $values[1]), $lastPariode[$key][2], $values[2], $this->getEvol($lastPariode[$key][2], $values[2]), $lastPariode[$key][3], $values[3], $this->getEvol($lastPariode[$key][3], $values[3]));
-				} else {
-					$result[] = array($tabKey[0], $tabKey[1], $tabKey[2], null, $values[0], $this->getEvol(0, $values[0]), null, $values[1], $this->getEvol(0, $values[1]), null, $values[2], $this->getEvol(0, $values[2]), null, $values[3], $this->getEvol(0, $values[3]));
-				}
-			}
-			foreach ($lastPariode as $key => $values) {
-				$tabKey = explode('/', $key);
-				if (!in_array($tabKey[0].'/'.$tabKey[1], $currentPartKeys)) {
-					$result[] = array($tabKey[0], $tabKey[1], $tabKey[2], $values[0], null, $this->getEvol($values[0], 0), $values[1], null, $this->getEvol($values[1], 0), $values[2], null, $this->getEvol($values[2], 0), $values[3], null, $this->getEvol($values[3], 0));
-				}
-			}
-		} elseif ($type == 'sorties_appellation') {
-			$result[] = array('Appellation','Couleur','France N-1','France N','France %','Export N-1','Export N','Export %','Négoce N-1','Négoce N','Négoce %','TOTAL N-1','TOTAL N','TOTAL %');
-			$currentKeys = array_keys($current);
-			$currentPartKeys = array();
-			foreach ($current as $key => $values) {
-				$tabKey = explode('/', $key);
-				if (!in_array($tabKey[0], $currentPartKeys)) {
-					$currentPartKeys[] = $tabKey[0];
-				}
-				if ($tabKey[1] == 'TOTAL') {
-					foreach ($lastPariode as $subkey => $subvalues) {
-						$subtabKey = explode('/', $subkey);
-						if ($subtabKey[0] == $tabKey[0] && !in_array($subkey, $currentKeys)) {
-							$result[] = array($subtabKey[0], $subtabKey[1], $subvalues[0], null, $this->getEvol($subvalues[0], 0), $subvalues[1], null, $this->getEvol($subvalues[1], 0), $subvalues[2], null, $this->getEvol($subvalues[2], 0), $subvalues[3], null, $this->getEvol($subvalues[3], 0));
-						}
-					}
-				}
-				if (isset($lastPariode[$key])) {
-					$result[] = array($tabKey[0], $tabKey[1], $lastPariode[$key][0], $values[0], $this->getEvol($lastPariode[$key][0], $values[0]), $lastPariode[$key][1], $values[1], $this->getEvol($lastPariode[$key][1], $values[1]), $lastPariode[$key][2], $values[2], $this->getEvol($lastPariode[$key][2], $values[2]), $lastPariode[$key][3], $values[3], $this->getEvol($lastPariode[$key][3], $values[3]));
-				} else {
-					$result[] = array($tabKey[0], $tabKey[1], null, $values[0], $this->getEvol(0, $values[0]), null, $values[1], $this->getEvol(0, $values[1]), null, $values[2], $this->getEvol(0, $values[2]), null, $values[3], $this->getEvol(0, $values[3]));
-				}
-			}
-			foreach ($lastPariode as $key => $values) {
-				$tabKey = explode('/', $key);
-				if (!in_array($tabKey[0], $currentPartKeys)) {
-					$result[] = array($tabKey[0], $tabKey[1], $values[0], null, $this->getEvol($values[0], 0), $values[1], null, $this->getEvol($values[1], 0), $values[2], null, $this->getEvol($values[2], 0), $values[3], null, $this->getEvol($values[3], 0));
-				}
-			}
-		}
-		
-		foreach ($result as $line) {
-			$csv .= implode(';', $line);
-			$csv .= "\n";
-		}
-		return $csv;
-	}
-	
-	protected function getEvol($last, $current)
-	{
-		$last = str_replace(',', '.', $last);
-		$current = str_replace(',', '.', $current);
-		return ($last > 0)? $this->formatNumber(round((($current - $last) / $last) * 100)) : null;
+		return ($lastPeriode !== null)? $this->getPartial('statistique/'.$type.'_compare', array('lastPeriode' => $lastPeriode, 'current' => $current)) : $this->getPartial('statistique/'.$type, array('result' => $current[$type]));
 	}
 
 	protected function getCsvToArray($csv, $nbKeys)
@@ -484,7 +367,7 @@ class statistiqueActions extends sfActions {
     	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=stats_".$type."_".$date.".csv");
     	$this->response->setHttpHeader('LastDocDate', $date);
     	$this->response->setHttpHeader('Last-Modified', date('r', strtotime($date)));
-    	return $this->renderText($csv_file);
+    	return $this->renderText(utf8_decode($csv_file));
     }
 
 }
