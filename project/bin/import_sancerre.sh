@@ -78,7 +78,7 @@ if ($4 == 3) {
       prix=prix/6.55957
   }
   print "CAVE;" periode ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;creationvrac;" $6 ";" sprintf("%06d01", $11) ";" prix ";" $5 ";;"
-   print "CAVE;" periode ";" sprintf("%06d01", $11) ";;;;;;;;;;" $21 ";suspendu;entrees;achatcrd;" $6 ";;;;;"
+   print "CAVE;" periode ";" sprintf("%06d01", $11) ";;;;;;;;;;" $21 ";suspendu;entrees;achatnoncrd;" $6 ";;;;;"
   }
 }' > $DATA_DIR/drm.csv
 
