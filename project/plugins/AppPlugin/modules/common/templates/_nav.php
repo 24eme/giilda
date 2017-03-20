@@ -56,14 +56,14 @@
             'target' => '_self'
        ));
 
-       include_component('common', 'navItem', array(
+       /*include_component('common', 'navItem', array(
             'libelle' => 'Alertes',
             'prefix' => 'alerte',
             'route' => 'alerte',
             'route_etablissement' => 'alerte_etablissement',
             'etablissement' => $etablissement,
             'target' => '_self'
-       ));
+       ));*/
    endif;
 
 
