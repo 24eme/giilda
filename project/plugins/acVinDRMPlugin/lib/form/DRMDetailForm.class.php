@@ -5,17 +5,7 @@ class DRMDetailForm extends acCouchdbObjectForm {
     protected $_label_choices;
 
     public function configure() {
-
-//        if ($this->getObject()->canSetStockDebutMois()) {
-//            $this->setWidget('total_debut_mois', new bsWidgetFormInputFloat());                    
-//        } else {
-//            
-//            $this->setWidget('total_debut_mois', new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
-//        }
-
-
-
-
+        
         $this->stocks_debut = new DRMDetailStocksDebutForm($this->getObject()->stocks_debut);
         $this->embedForm('stocks_debut', $this->stocks_debut);
 

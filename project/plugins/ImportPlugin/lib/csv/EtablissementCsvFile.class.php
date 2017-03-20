@@ -66,7 +66,7 @@ class EtablissementCsvFile extends CompteCsvFile
               continue;
             }
 
-            $e = EtablissementClient::getInstance()->createEtablissementFromSociete($s, $line[self::CSV_TYPE]);
+            $e = $s->createEtablissement($line[self::CSV_TYPE]);
             $e->constructId();
 
             $e->famille=$line[self::CSV_TYPE];
@@ -105,7 +105,7 @@ class EtablissementCsvFile extends CompteCsvFile
               $line[self::CSV_COMMUNE] = "";
               $line[self::CSV_INSEE] = "";
               $line[self::CSV_CEDEX] = "";
-              $line[self::CSV_PAYS] = "";
+              $line[self::CSV_PAYS] = $s->getPays();
               $line[self::CSV_EMAIL] = "";
               $line[self::CSV_TEL_BUREAU] = "";
               $line[self::CSV_TEL_PERSO] = "";
@@ -115,16 +115,17 @@ class EtablissementCsvFile extends CompteCsvFile
             }
 
             $e->save();
-
-            $this->storeCompteInfos($e, $line);
+            $this->storeCompteInfos($e, $line, false);
 
             $e->save();
 
             $s->pushToCompteOrEtablissementAndSave($s->getMasterCompte(), $e);
-
-            echo $e->_id."\n";
         }catch(Exception $e) {
-          echo $e->getMessage()."\n";
+          if (isset($this->options['throw_exception']) && $this->options['throw_exception']) {
+            throw $e;
+          }else{
+            echo $e->getMessage()."\n";
+          }
         }
       }
 

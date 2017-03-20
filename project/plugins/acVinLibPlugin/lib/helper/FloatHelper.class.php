@@ -2,8 +2,8 @@
 
 class FloatHelper
 {
-    protected $defaultDecimalFormat = 2; 
-    protected $maxDecimalAuthorized = 2; 
+    protected $defaultDecimalFormat = 2;
+    protected $maxDecimalAuthorized = 2;
     protected static $self = null;
 
     public function __construct() {
@@ -21,7 +21,7 @@ class FloatHelper
     }
 
     public function getDefaultDecimalFormat() {
-        
+
         return $this->defaultDecimalFormat;
     }
 
@@ -68,5 +68,5 @@ class FloatHelper
 
         return str_replace(".", ",", $this->format($number, $defaultDecimalFormat, $maxDecimalAuthorized, $format, $milliSeparate));
     }
- 
+
 }

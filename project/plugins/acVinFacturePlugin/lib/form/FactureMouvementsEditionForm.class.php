@@ -13,7 +13,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = $options['interpro_id'];
         parent::__construct($object, $options, $CSRFSecret);
-        
+
     }
 
     public function configure() {
@@ -25,6 +25,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
+        $this->widgetSchema->setLabel('libelle', 'Libellé opération');
     }
 
     public function getFormTemplate() {

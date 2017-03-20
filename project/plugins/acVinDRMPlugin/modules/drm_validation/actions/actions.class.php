@@ -20,6 +20,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->createMouvementsByProduits($this->mouvements);
+
         $this->drm->cleanDeclaration();
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
@@ -33,8 +34,6 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
-
-
         $this->produits = array();
         foreach ($this->drm->getProduits() as $produit) {
             $d = new stdClass();
@@ -69,7 +68,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form->save();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->save();
-        
+
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
             $mailManager = new DRMEmailManager($this->getMailer());
             $mailManager->setDRM($this->drm);

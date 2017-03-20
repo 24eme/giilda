@@ -3,6 +3,7 @@
 class FactureLatex extends GenericLatex {
 
   private $facture = null;
+  protected $conf = null;
 
   const MAX_LIGNES_PERPAGE = 44;
   const NB_LIGNES_PAPILLONS_FIXE = 2;
@@ -14,6 +15,7 @@ class FactureLatex extends GenericLatex {
   function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
+    $this->conf = FactureConfiguration::getInstance();
   }
 
   public function getNbLignes() {
@@ -23,11 +25,11 @@ class FactureLatex extends GenericLatex {
       $nbLignes += self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $nb_echeances;
     return $nbLignes;
   }
-  
+
   public function getNbPages() {
     return floor(($this->getNbLignes()/ self::MAX_LIGNES_PERPAGE) + 1);
   }
-  
+
   private function getFileNameWithoutExtention() {
     return  'facture_'.$this->facture->identifiant.'_'.str_replace('/', '-', $this->facture->numero_piece_comptable).'_'.$this->facture->numero_facture.'_'.$this->facture->_rev;
   }
@@ -39,7 +41,7 @@ class FactureLatex extends GenericLatex {
 
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
-						      get_partial('facture/latexContent', array('facture' => $this->facture,
+						      get_partial("facture/pdf_generique", array('facture' => $this->facture,
 												'nb_pages' => $this->getNbPages(),
 												'nb_lines' => $this->getNbLignes()))
 						      , HTML_ENTITIES));

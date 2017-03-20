@@ -4,6 +4,7 @@ class EtablissementFamilles
 
     const FAMILLE_PRODUCTEUR = "PRODUCTEUR";
     const FAMILLE_NEGOCIANT = "NEGOCIANT";
+    const FAMILLE_COOPERATIVE = "COOPERATIVE";
     const FAMILLE_COURTIER = "COURTIER";
     const FAMILLE_REPRESENTANT = "REPRESENTANT";
 
@@ -21,12 +22,13 @@ class EtablissementFamilles
     protected static $familles = array(
     	self::FAMILLE_PRODUCTEUR => "Producteur",
     	self::FAMILLE_NEGOCIANT => "Négociant",
+    	self::FAMILLE_COOPERATIVE => "Coopérative",
     	self::FAMILLE_COURTIER => "Courtier",
 		self::FAMILLE_REPRESENTANT => "Representant"
     );
 
     protected static $type_societe_famille = array(
-        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_REPRESENTANT),
+        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_COOPERATIVE, self::FAMILLE_REPRESENTANT),
         SocieteClient::TYPE_COURTIER => array(self::FAMILLE_COURTIER),
         SocieteClient::TYPE_AUTRE => array(),
     );

@@ -6,7 +6,7 @@ class CielService
 	const TOKEN_CACHE_FILENAME = 'ciel_access_token';
 	const TOKEN_TIME_VALIDITY = 2700;
 
-  public static function hasAppConfig() {
+  	public static function hasAppConfig() {
 		return (sfConfig::get('app_ciel_oauth'));
 	}
 

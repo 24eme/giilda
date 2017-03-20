@@ -6,7 +6,7 @@
  */
 class AlerteConsultationSearch {
 
-    const ELASTICSEARCH_INDEX = 'Alerte';
+    const ELASTICSEARCH_INDEX = 'ALERTE';
     const ELASTICSEARCH_LIMIT = 20;
 
     protected $values;
@@ -43,47 +43,47 @@ class AlerteConsultationSearch {
     }
 
     public function getElasticSearchDefaultResult($from = 0, $limit = null) {
-        $query = $this->makeQuery(new acElasticaQueryMatchAll(), $from, $limit);
-        return $this->getResult($query);
+        return $this->executeQuery("*", $from, $limit);
     }
 
     public function getElasticSearchResult($from = 0, $limit = null) {
-        $query = $this->makeQuery(new acElasticaFiltered(new acElasticaQueryMatchAll(), $this->getFilters()), $from, $limit);
-        return $this->getResult($query);
+        $filterStr = $this->getFiltersString();
+        return $this->executeQuery($filterStr, $from, $limit);
+
     }
 
-    protected function makeQuery($query, $from = 0, $limit = null) {
-        $limit = $this->getLimit($limit);
-        $elasticaQuery = new acElasticaQuery();
-        $elasticaQuery->setQuery($query);
-        $elasticaQuery->setFrom($from);
-        $elasticaQuery->setsort(array("date_dernier_statut" => array("order" => "desc")));
-        $elasticaQuery->setLimit($limit);
-
-        return $elasticaQuery;
+    protected function executeQuery($query, $from = 0, $limit = null) {
+      $index = acElasticaManager::getType(self::ELASTICSEARCH_INDEX);
+      $elasticaQueryString = new acElasticaQueryQueryString($query);
+      $elasticaQuery = new acElasticaQuery();
+      $elasticaQuery->setQuery($elasticaQueryString);
+      $elasticaQuery->setFrom($from);
+      $elasticaQuery->setLimit($limit);
+      $search = $this->index->search($elasticaQuery);
+      $this->setNbResult($search->getTotalHits());
+      return $search->getResults();
     }
 
-    protected function getResult($query) {
-        $search = $this->index->search($query);
-        $this->setNbResult($search->getTotalHits());
-        return $search->getResults();
-    }
 
     protected function getCampagneCourante() {
         $year = date('Y');
         return $year . '-' . ($year + 1);
     }
 
-	protected function getFilters()
+	protected function getFiltersString()
 	{
-        $and_filter = new acElasticaFilterAnd();
-            foreach ($this->values as $node => $value) {
-                $result = $this->buildQueryString($node, $value);
-                if ($result) {
-                    $and_filter->addFilter($result);
-                }
-            }
-        return $and_filter;
+      $result = "";
+      if(is_null($this->values) || !count($this->values)){
+        $result = "*";
+      }else{
+        $cpt = 0;
+        foreach ($this->values as $node => $value) {
+          if($cpt > 0){  $result .= " , "; }
+          $result .= 'doc.'.$node.":".$value;
+          $cpt++;
+        }
+      }
+      return $result;
     }
 
 	protected function buildQueryString($node, $value)

@@ -16,7 +16,7 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('erreur', 'transfert_appellation', "La somme des transferts d'appellation en entrée et en sortie n'est pas la même");
         $this->addControle('vigilance', 'revendique_sup_initial', "Le stock revendiqué ne peut pas être supérieur au stock récolté");
         if (!$this->isTeledeclarationDrm) {
-            $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
+          //$this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
         }
         $this->addControle('vigilance', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
@@ -75,8 +75,10 @@ class DRMValidation extends DocumentValidation {
             if (!$detail->getConfig()->entrees->exist('declassement')) {
                 break;
             }
-            $total_entrees_replis += $detail->entrees->repli;
-            $total_sorties_replis += $detail->sorties->repli;
+            if($detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
+              $total_entrees_replis += $detail->entrees->repli;
+              $total_sorties_replis += $detail->sorties->repli;
+            }
 
             $total_entrees_declassement += $detail->entrees->declassement;
             $total_sorties_declassement += $detail->sorties->declassement;
@@ -101,7 +103,7 @@ class DRMValidation extends DocumentValidation {
         }
 
         $volumes_restant = array();
-        if (!$this->isTeledeclarationDrm) {
+        if (!$this->isTeledeclarationDrm && !DRMConfiguration::getInstance()->isVracCreation()) {
             foreach ($this->document->getMouvementsCalculeByIdentifiant($this->document->identifiant, $this->isTeledeclarationDrm) as $mouvement) {
                 if ($mouvement->isVrac()) {
                     $vrac = $mouvement->getVrac();

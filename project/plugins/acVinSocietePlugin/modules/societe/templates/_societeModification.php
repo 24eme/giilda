@@ -6,7 +6,7 @@ echo $societeForm->renderGlobalErrors();
     <div class="form-group<?php if ($societeForm['type_societe']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $societeForm['type_societe']->renderError(); ?>
         <?php echo $societeForm['type_societe']->renderLabel("Type de la société", array('class' => 'col-xs-4 control-label')); ?>
-        <div class="col-xs-8"><?php echo $societeForm['type_societe']->render(); ?></div>
+        <div class="col-xs-8"><?php echo $societeForm['type_societe']->render(array("autofocus" => "autofocus")); ?></div>
     </div>
     <div class="form-group<?php if($societeForm['raison_sociale']->hasError()): ?> has-error<?php endif; ?>">
         <?php echo $societeForm['raison_sociale']->renderError(); ?>

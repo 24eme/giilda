@@ -32,18 +32,26 @@ use_helper('Date');
                 </thead>
                 <tbody>
                     <?php foreach ($mouvements as $mouvement): ?>
-                        <?php $drmMvt = (strstr($mouvement->numero, 'DRM') !== false); ?>
+                        <?php
+                        $drmMvt = (strstr($mouvement->numero, 'DRM') !== false);
+                        $sv12Mvt = (strstr($mouvement->numero, 'SV12') !== false);
+                         ?>
                         <tr class="vertical-center">
                             <td class="text-left">
                                 <?php
-                                $numeroFormatted = ($drmMvt) ? DRMClient::getInstance()->getLibelleFromId($mouvement->numero) :
-                                        $mouvement->nom_facture;
-
+                                if(isset($mouvement->nom_facture)) {
+                                    $numeroFormatted = $mouvement->nom_facture;
+                                }
+                                if ($drmMvt) {
+                                  $numeroFormatted = DRMClient::getInstance()->getLibelleFromId($mouvement->numero);
+                                }else if ($sv12Mvt) {
+                                  $numeroFormatted = SV12Client::getInstance()->getLibelleFromId($mouvement->numero);
+                                }
                                 echo link_to($numeroFormatted, 'facture_redirect_to_doc', array('iddocument' => $mouvement->numero));
                                 ?>
                             </td>
-                            <td class="text-left"><?php echo ($drmMvt) ? $mouvement->produit_libelle : $mouvement->type_libelle; ?></td>
-                            <td class="text-left"><?php echo ($drmMvt) ? $mouvement->type_libelle : "" ?></td>
+                            <td class="text-left"><?php echo ($drmMvt || $sv12Mvt) ? $mouvement->produit_libelle : $mouvement->type_libelle; ?></td>
+                            <td class="text-left"><?php echo ($drmMvt || $sv12Mvt) ? $mouvement->type_libelle : "" ?></td>
                             <td class="text-right">
                                 <div class="row">
                                     <div class="col-xs-6" style="padding: 0;">
@@ -53,7 +61,7 @@ use_helper('Date');
                                     </div>
                                     <div class="col-xs-6 text-left" style="padding: 0;">
                                         <span >
-                                            <?php if ($drmMvt): ?>&nbsp;hl<?php else: ?>&nbsp;<?php endif; ?>
+                                            <?php if ($drmMvt || $sv12Mvt): ?>&nbsp;hl<?php else: ?>&nbsp;<?php endif; ?>
                                         </span>
                                     </div>
                                 </div>

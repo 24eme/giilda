@@ -16,10 +16,23 @@
 
 
         <h3 style="margin-bottom: 30px">DRM <?php echo getFrPeriodeElision($drm->periode); ?> <?php if ($drm->isTeledeclare()): ?><small>(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small><?php endif; ?>
-             <?php if (!$isTeledeclarationMode && $drm->isModifiable()): ?>
-        <div class="pull-right">
-            <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
-        </div>
+        <?php if (!$isTeledeclarationMode): ?>
+          <?php if ($drm->isModifiable()): ?>
+            <div class="pull-right">
+              <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
+            </div>
+          <?php endif; ?>
+          <?php if ($drm->isTeledeclareFacturee()): ?>
+              <div class="pull-right">
+                  <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
+              </div>
+          <?php endif; ?>
+
+          <?php if ($drm->isTeledeclareNonFacturee()): ?>
+              <div class="pull-right">
+                  <a class="btn btn-warning" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
+              </div>
+          <?php endif; ?>
         <?php endif; ?>
         </h3>
 
@@ -103,6 +116,3 @@
       </div>
     <?php endif; ?>
 </div>
-<?php
-include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode));
-?>

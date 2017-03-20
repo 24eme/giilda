@@ -21,8 +21,8 @@
     $(document).ready(function ()
     {
         $(document).initAdvancedElements();
-
         $.initQueryHash();
+        $.initTableSelection();
 
         $(options.selectors.ajaxModal).on("show.bs.modal", function (e) {
             var link = $(e.relatedTarget);
@@ -36,6 +36,47 @@
 
     });
 
+
+  	/**
+  	 * Sélection de lignes de tableau
+  	 * $.initTableSelection();
+  	 ******************************************/
+  	$.initTableSelection = function()
+  	{
+  		var tables = $('.table_selection');
+
+  		tables.each(function()
+  		{
+  			var table = $(this);
+  			var selecteurGlobal = table.find('thead .selecteur input');
+  			var selecteursLignes = table.find('tbody .selecteur input');
+
+  			// Selection / Déselection globale
+  			selecteurGlobal.click(function()
+  			{
+  				if(selecteurGlobal.is(':checked'))
+  				{
+  					selecteursLignes.attr('checked', 'checked');
+  				}
+  				else
+  				{
+  					selecteursLignes.removeAttr('checked');
+  				}
+  			});
+
+  			// Déselection unique
+  			selecteursLignes.click(function()
+  			{
+  				var selecteur = $(this);
+
+  				if(!selecteur.is(':checked'))
+  				{
+  					selecteurGlobal.removeAttr('checked');
+  				}
+  			});
+  		});
+  	};
+
     $.fn.initAdvancedElements = function () {
 
         var element = $(this);
@@ -44,7 +85,32 @@
         $(this).find('.input-integer').inputNumberFormat({'decimal': 0, 'decimalAuto': 0});
 
         $(this).find('[data-toggle="tooltip"]').tooltip({'container': 'body'});
+        $(this).find('[data-toggle="popover"], .toggle-popover').popover({'container': 'body', trigger: "manual" , html: true, animation:false})
+        .on("mouseenter", function () {
+            var _this = this;
+            $(this).popover("show");
+            $(".popover").on("mouseleave", function () {
+                $(_this).popover('hide');
+            });
+        })
+        .on("mouseleave", function () {
+            var _this = this;
+            setTimeout(function () {
+                if (!$(".popover:hover").length) {
+                    $(_this).popover("hide");
+                }
+            }, 50);
+        });
 
+        $(this).find('[data-toggle="popover"], .toggle-popover').each(function() {
+            if($(this).attr('data-content').match(/^#/)) {
+                $(this).attr('data-content', $($(this).attr('data-content')).html());
+            };
+        });
+
+        $(this).find('[data-toggle="popover"], .toggle-popover').on("shown.bs.popover", function(e) {
+            $('.popover').initAdvancedElements();
+        });
 
         $(this).find("select.select2").select2({
             allowClear: true
@@ -57,7 +123,6 @@
             var select2 = $(this);
             $(this).select2({
                 onselected: function () {
-                    console.log('fre');
                 },
                 initSelection: function (element, callback) {
                     if (defaultValue != '') {
@@ -242,11 +307,63 @@
         });
 
         $(this).find('.dynamic-element-delete').on('click', function () {
+            $($(this).attr('data-line')).find('input').val("");
+            $($(this).attr('data-line')).find('input').trigger('keyup');
             $($(this).attr('data-line')).remove();
             if ($($(this).attr('data-lines')).length < 1 && $(this).attr('data-add')) {
                 $($(this).attr('data-add')).trigger('click');
             }
         });
+
+        $(this).find('.btn-dynamic-element-submit').on('click', function(e) {
+            var vals = $(this).parents('form').serializeArray();
+
+            $(this).parents('form').find('.dynamic-element-delete').each(function(){
+                var ligne = $($(this).attr('data-line'));
+                var hasValue = false;
+                ligne.find('input, select, textarea').each(function() {
+                    if($(this).attr('name') && $(this).val()) {
+                        console.log($(this).val());
+                        hasValue = true;
+                    }
+                });
+
+                if(!hasValue) {
+                    $($(this).attr('data-line')).remove();
+                }
+            });
+
+            return true;
+        });
+
+        $(this).find('button.btn-loading').on('click', function () {
+            $(this).attr('disabled', 'disabled');
+            $(this).html("<span class='glyphicon glyphicon-repeat rotate'></span>");
+        });
+
+        /**
+      	 * Sélection de lignes de tableau
+      	 ******************************************/
+      	$(this).find('.table_selection thead .selecteur input').each(function(){
+            $(this).on('click', function(){
+    			var selecteursLignes = $(this).parents('table').find('tbody .selecteur input');
+      			if($(this).is(':checked')) {
+      				selecteursLignes.attr('checked', 'checked');
+      			} else {
+      				selecteursLignes.removeAttr('checked');
+      			}
+            });
+      	});
+
+        $(this).find('.table_selection tbody .selecteur input').on('click', function(e){
+
+      				var selecteur = $(this).parents('table').find('thead .selecteur input');
+
+      				if(!$(this).is(':checked'))
+      				{
+      					selecteur.removeAttr('checked');
+      				}
+      			});
 
         /**
          * Contrôle la bonne saisie de nombres dans

@@ -26,7 +26,7 @@ class DRMImportCsvEdiStandalone extends DRMImportCsvEdi {
 
 }
 
-class CSVStandalone extends CSV {
+class CSVStandalone extends CSVDRM {
 
     public function save() {
 

@@ -7,6 +7,7 @@
  * @property integer $defaut_apurement
  * @property acCouchdbJson $daa
  * @property acCouchdbJson $dsa
+ * @property acCouchdbJson $statistiques
  * @property integer $adhesion_emcs_gamma
  * @property acCouchdbJson $paiement
  * @property acCouchdbJson $caution
@@ -17,6 +18,8 @@
  * @method acCouchdbJson setDaa()
  * @method acCouchdbJson getDsa()
  * @method acCouchdbJson setDsa()
+ * @method acCouchdbJson getStatistiques()
+ * @method acCouchdbJson setStatistiques()
  * @method integer getAdhesionEmcsGamma()
  * @method integer setAdhesionEmcsGamma()
  * @method acCouchdbJson getPaiement()

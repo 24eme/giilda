@@ -8,6 +8,12 @@
     border-radius: 3px;
 }
 
+.input-group-xs .input-group-addon {
+    font-size: 12px;
+    padding: 2px 5px;
+    height: 22px;
+}
+
 .form-group-xs {
     margin-bottom: 7px;
 }
@@ -75,4 +81,24 @@ panel.disabled {
   margin-bottom: 0;
   display: table;
   table-layout: fixed;
+}
+
+span.disabled, a.disabled {
+    cursor: not-allowed !important;
+}
+
+.rotate {
+    -moz-animation: spin .4s infinite linear;
+    -webkit-animation: spin .4s infinite linear;
+}
+
+
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+    };
 }

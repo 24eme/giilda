@@ -8,65 +8,103 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
     public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {
         $this->isTeledeclarationMode = $options['isTeledeclarationMode'];
         $this->details = $details;
-        parent::__construct($this->details->getDocument(), $defaults, $options, $CSRFSecret);
+        parent::__construct($this->details->getDocument(),$defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
-        if (!count($this->details)) {
-            $this->details->addDetail();
-        }
-
         foreach ($this->details as $key => $item) {
             $form_item_class = $this->getFormItemClass();
-            if (!$key) {
-                $key = uniqid();
-            }
-            $form = $this->embedForm($key, new $form_item_class($item, array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
+            $form = $this->embedForm($key, new $form_item_class($item,array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'details' => $this->details)));
         }
+
+        $newDetailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
+        $newDetailNode->setKey(uniqid());
+        $form_item_class = $this->getFormItemClass();
+
+        $this->embedForm($newDetailNode->getKey(), new $form_item_class($newDetailNode,array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'details' => $this->details)));
+
         $this->widgetSchema->setNameFormat(sprintf("%s[%%s]", $this->getFormName()));
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
 
+
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
-        foreach ($this->embeddedForms as $key => $form) {
-            if (!array_key_exists($key, $taintedValues)) {
-                $this->unembedForm($key);
-            }
-        }
-
-        foreach ($taintedValues as $key => $values) {
-            if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
-                continue;
-            }
-
-            $form_item_class = $this->getFormItemClass();
-            $this->embedForm($key, new $form_item_class($this->details->addDetail($key), array('isTeledeclarationMode' => $this->isTeledeclarationMode)));
-        }
+      foreach ($this->embeddedForms as $key => $form) {
+          if (!array_key_exists($key, $taintedValues)) {
+              $this->unEmbedForm($key);
+              continue;
+          }
+      }
+      foreach ($taintedValues as $key => $values) {
+          if (!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
+              continue;
+          }
+          $detailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
+          $detailNode->fromArray($values);
+          $form_item_class = $this->getFormItemClass();
+          $this->embedForm($key, new $form_item_class($detailNode,array('isTeledeclarationMode' => $this->isTeledeclarationMode,'details' => $this->details)));
+      }
         parent::bind($taintedValues, $taintedFiles);
     }
 
-    public function update() {
-        //$this->details->clear();
-        $details = array();
+    public function update(){
+        //Changement d'indentifiant
+        foreach ($this->values as $key => $value) {
+            if(is_string($value) || !is_array($value)){
+
+                continue;
+            }
+            if(!$this->details->exist($key) || !array_key_exists('identifiant', $value) || $value['identifiant'] == $this->details->get($key)->getIdentifiant()){
+
+                continue;
+            }
+            $this->details->remove($key);
+        }
 
         foreach ($this->getEmbeddedForms() as $key => $form) {
             $form->updateObject($this->values[$key]);
-            $details[] = clone $form->getObject();
         }
-        $parent = $this->getDetails()->getParent();
-        $key = $this->getDetails()->getKey();
-        $parent->remove($key);
-        $this->details = $parent->add($key);
 
-        foreach ($this->getDetails() as $identifiant => $detail) {
-            if ($this->getDetails()->exist($identifiant)) {
-                $this->getDetails()->remove($identifiant);
+        //Suppression
+        $keysToRemove = array();
+        foreach ($this->details->toArray(true,false) as $key => $value) {
+            if(array_key_exists($key,$this->values)){
+
+                continue;
             }
+
+            $keysToRemove[] = $key;
         }
 
-        foreach ($details as $key => $detail) {
-            if(preg_match('/^(VRAC-|BOUTEILLE-)?([0-9]+|[A-Z]+|inconnu)$/', $detail->identifiant)) {
-                $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
+        foreach ($keysToRemove as $keyToRemove) {
+            $this->details->remove($keyToRemove);
+        }
+
+        //Ajout
+        foreach ($this->values as $key => $value) {
+            if(is_string($value) || !is_array($value)){
+
+                continue;
+            }
+            if($this->details->exist($key)) {
+
+                continue;
+            }
+            $detailNode = call_user_func(array($this->getModelNode(), 'freeInstance'), $this->details->getDocument());
+            $detailNode->fromArray($value);
+            $detailNode->getKey();
+
+            if(!$detailNode->identifiant || !$detailNode->volume){
+                continue;
+            }
+
+            $this->details->addDetail($detailNode);
+        }
+
+        //Purge type document si pas de Numero document
+        foreach ($this->details as $key => $detail) {
+            if($detail->exist('type_document') && $detail->type_document && !$detail->numero_document){
+                $this->details->get($key)->type_document = null;
             }
         }
     }
@@ -78,7 +116,7 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
 
     public function getFormTemplate() {
         $form_template_class = $this->getFormTemplateClass();
-        $form = new $form_template_class($this->details, array(), array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+        $form = new $form_template_class($this->details,array(),array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         return $form->getFormTemplate();
     }
 
@@ -89,13 +127,9 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         $this->details->remove($key);
     }
 
-    public function isTypeDocShow() {
-        foreach ($this->details as $detail) {
-            if ($detail->numero_document) {
-                return true;
-            }
-        }
-        return false;
+    public function updateEmbedForm($name, $form) {
+        $this->widgetSchema[$name] = $form->getWidgetSchema();
+        $this->validatorSchema[$name] = $form->getValidatorSchema();
     }
 
     public abstract function getFormName();

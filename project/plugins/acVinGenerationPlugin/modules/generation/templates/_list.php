@@ -5,8 +5,8 @@
         <tr>
             <th class="col-xs-2">Numéro</th>
             <th class="col-xs-2">Date</th>
-            <th class="col-xs-3">Libellé</th>
-            <th class="col-xs-1 text-right">Nb doc</th>
+            <th class="col-xs-2 text-right">Nb doc</th>
+            <th class="col-xs-2">Type</th>
             <th class="col-xs-2 text-right">Total</th>
             <th class="col-xs-2 text-center">Statut</th>
         </tr>
@@ -19,8 +19,8 @@
                 <td>
                     <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->key[GenerationClient::HISTORY_KEYS_TYPE_DATE_EMISSION]); ?>
                 </td>
-                <td><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC] . ' '.$generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT].'(s)'; ?></td>
-                <td class="text-right"><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
+                <td class="text-right" ><?php echo $generation->value[GenerationClient::HISTORY_VALUES_NBDOC]; ?></td>
+                <td ><?php echo $generation->key[GenerationClient::HISTORY_KEYS_TYPE_DOCUMENT]."S"; ?></td>
                 <td class="text-right">
                     <?php if ($generation->value[GenerationClient::HISTORY_VALUES_SOMME]):
                     echoFloat($generation->value[GenerationClient::HISTORY_VALUES_SOMME]);

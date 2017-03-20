@@ -1,21 +1,11 @@
 all:
   configuration:
     drm:
+      negoce: false
       details:
         export_detail:
           required: ["identifiant"]
-      contenances:
-        "Bouteille 37 cl": 0.00375
-        "Bouteille 37,5 cl": 0.00375
-        "Bouteille 50 cl": 0.005
-        "Bouteille 75 cl": 0.0075
-        "Bouteille 100 cl": 0.01
-        "Bouteille 150 cl": 0.015
-        "Bouteille 300 cl": 0.03
-        "Bouteille 500 cl": 0.05
-        "Bouteille 600 cl": 0.06
-        "BIB 3l": 0.03
-        "BIB 5l": 0.05
-        "BIB 6l": 0.06
-        "BIB 10l": 0.1
-        "BIB 20l": 0.2
+        vrac_detail:
+          creation: false
+      export_pays_debut: { }
+      export_pays_fin: { }

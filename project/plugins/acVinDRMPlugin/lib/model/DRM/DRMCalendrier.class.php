@@ -32,13 +32,20 @@ class DRMCalendrier {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = $this->buildPeriodes();
         $this->etablissements = array();
-        foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
-            if($e->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR) {
+        $famillesArray = array(EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        if(DRMConfiguration::getInstance()->isDRMNegoce()){
+          $famillesArray = array_merge($famillesArray,array(EtablissementFamilles::FAMILLE_NEGOCIANT,EtablissementFamilles::FAMILLE_COOPERATIVE));
+        }
+        if($this->isTeledeclarationMode) {
+            foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
+                if(!in_array($e->etablissement->famille,$famillesArray)) {
+                    continue;
+                }
 
-                continue;
+                $this->etablissements[] = $e->etablissement;
             }
-
-            $this->etablissements[] = $e->etablissement;
+        } else {
+            $this->etablissements[] = $etablissement;
         }
 
         $this->multiEtbs = ((count($this->etablissements) > 1) && $this->isTeledeclarationMode);

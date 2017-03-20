@@ -56,10 +56,12 @@
             </div>
         </div>
     <?php endif; ?>
-    <div class="list-group-item<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
+    <div class="list-group-item text-muted<?php echo ($etablissement->isSuspendu()) ? ' disabled': '' ?>">
         <?php if ($etablissement->isSameCompteThanSociete()): ?>
             <div class="row">
-                <em>Même tags que la société</em>
+                <div class="col-xs-12 text-center">
+                    <em>Même tags que la société</em>
+                </div>
             </div>
         <?php else: ?>
             <?php include_partial('compte/tagsVisualisation', array('compte' => $etablissement->getMasterCompte(), 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>

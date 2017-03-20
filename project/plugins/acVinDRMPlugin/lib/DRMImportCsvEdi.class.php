@@ -56,6 +56,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $this->checkImportMouvementsFromCSV();
         // Check Crds
         $this->checkImportCrdsFromCSV();
+        // Check Crds
+        $this->checkHorsRegionFromCSV();
 
         if ($this->csvDoc->hasErreurs()) {
             $this->csvDoc->setStatut(self::STATUT_WARNING);
@@ -70,13 +72,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
      * IMPORT DEPUIS LE CSV
      */
     public function importCSV($withSave = true) {
+        if($this->drm->isNew()) {
+            $this->drm->constructId();
+        }
         $this->importAnnexesFromCSV();
 
         $this->importMouvementsFromCSV();
         $this->importCrdsFromCSV();
         //$this->drm->teledeclare = true;
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;
-        $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
+        $this->drm->type_creation = "IMPORT";
         $this->drm->buildFavoris();
         $this->drm->storeDeclarant();
         $this->drm->initSociete();
@@ -144,6 +149,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     private function checkImportCrdsFromCSV() {
         return $this->importCrdsFromCSV(true);
     }
+    
+    private function checkHorsRegionFromCSV() {
+    	$etablissementObj = $this->drm->getEtablissementObject();
+    	if ($etablissementObj->region == EtablissementClient::REGION_HORS_CVO) {
+    		$this->csvDoc->addErreur($this->importHorsRegionError());
+    	}
+    }
 
     private function checkImportAnnexesFromCSV() {
         return $this->importAnnexesFromCSV(true);
@@ -163,25 +175,31 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
             $founded_produit = false;
 
-            foreach ($all_produits as $produit) {
-                if ($founded_produit) {
-                    break;
-                }
-                $produitConfLibelle = $this->slugifyProduitConf($produit);
-                if (count(array_diff($csvLibelleProductArray, $produitConfLibelle))) {
-                    continue;
-                }
-                $founded_produit = $produit;
+            if(!$founded_produit) {
+                $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
             }
 
             if(!$founded_produit) {
-                $founded_produit = $this->configuration->identifyProductByLibelle(preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE])));
+                $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace("/[ ]+/", " ", $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT])));
             }
 
             if (!$founded_produit) {
                 $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                 $num_ligne++;
                 continue;
+            }
+
+            if (!$founded_produit) {
+                foreach ($all_produits as $produit) {
+                    if ($founded_produit) {
+                        break;
+                    }
+                    $produitConfLibelle = $this->slugifyProduitConf($produit);
+                    if (count(array_diff($csvLibelleProductArray, $produitConfLibelle)) < count(array_diff($produitConfLibelle, $csvLibelleProductArray))) {
+                        continue;
+                    }
+                    //$founded_produit = $produit;
+                }
             }
 
             $type_douane_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM]);
@@ -219,15 +237,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     if (preg_match("/^export/", $type_key)) {
                         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
-                        $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add($pays);
-                        if ($detailNode->volume) {
-                            $volume+=$detailNode->volume;
-                        }
-                        $date = new DateTime($this->drm->getDate());
-                        $detailNode->volume = $volume;
-                        $detailNode->identifiant = $pays;
-                        $detailNode->date_enlevement = $date->format('Y-m-d');
+                        $export = DRMESDetailExport::freeInstance($this->drm);
+                        $export->volume = $volume;
+                        $export->identifiant = $pays;
+                        $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($export);
                     }
+
                     if ($type_key == 'vrac' || $type_key == 'contrat') {
                         $vrac_id = $this->findContratDocId($csvRow);
 
@@ -239,6 +254,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailNode->volume = $volume;
                         $detailNode->identifiant = $vrac_id;
                         $detailNode->date_enlevement = $date->format('Y-m-d');
+                    }
+                    if($type_key == 'creationvrac' || $type_key == 'creationvractirebouche'){
+                        $creationvrac = DRMESDetailCreationVrac::freeInstance($this->drm);
+                        $creationvrac->volume = $volume;
+                        $creationvrac->prixhl = floatval($csvRow[18]);
+                        $creationvrac->acheteur = $csvRow[17];
+                        $creationvrac->type_contrat = ($type_key == 'creationvrac')? VracClient::TYPE_TRANSACTION_VIN_VRAC : VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
+                        $creationvrac->date_enlevement = DateTime::createFromFormat('Ymd',$csvRow[19])->format('Y-m-d');
+
+                        $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($creationvrac);
                     }
                 } else {
                     $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
@@ -293,10 +318,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $etablissementObj = $this->drm->getEtablissementObject();
 
         $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
-        $all_contenances = sfConfig::get('app_vrac_contenances');
-        if (!$all_contenances){
-          $all_contenances = DRMConfiguration::getInstance()->getContenances();
-        }
+        $all_contenances = VracConfiguration::getInstance()->getContenances();
         foreach ($this->getDocRows() as $csvRow) {
             if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                 $num_ligne++;
@@ -494,6 +516,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     private function annexesNumeroDocumentError($num_ligne, $csvRow) {
         return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_TYPEANNEXE], "Le numéro de document ne peut pas être vide.");
+    }
+    
+    private function importHorsRegionError() {
+    	return $this->createError(0, "Etablissemment", "Import DRM non permis pour les établissements hors région.");
     }
 
     private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {

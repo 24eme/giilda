@@ -5,20 +5,20 @@
 
 
 if ! test "$1"; then
-    echo "Le paramètre d'import doit être indiqué";  
-    exit 1;  
+    echo "Le paramètre d'import doit être indiqué";
+    exit 1;
 fi
 
 IMPORT=$1
 
 echo "Lancement de la creation des alertes"
 
-php symfony generate:alertes_creations --import=$IMPORT
+php symfony generate:alertes_creations --import=$IMPORT $SYMFONYTASKOPTIONS --trace
 
 echo "FIN de la creation des alertes"
 echo ""
 echo "Lancement de la mise à jour des alertes"
 
-php symfony generate:alertes_updates --import=$IMPORT
+php symfony generate:alertes_updates --import=$IMPORT $SYMFONYTASKOPTIONS --trace
 
 echo "FIN de la mise à jour des alertes"

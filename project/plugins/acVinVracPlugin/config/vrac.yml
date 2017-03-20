@@ -1,7 +1,6 @@
 all:
   configuration:
     vrac:
-      pdf: "vrac/generateTex"
       etapes:
         "soussigne": "Soussignés"
         "marche": "Marché"
@@ -41,6 +40,8 @@ all:
         "50_50": "50/50 pour l'acheteur et le vendeur"
         "ACHETEUR": "100% pour l'acheteur"
         "VENDEUR": "100% pour le vendeur"
+      delais_paiement: { }
+      moyens_paiement: { }
       tva:
         "AVEC": "avec TVA"
         "SANS": "hors TVA"

@@ -1,0 +1,4 @@
+all:
+  configuration:
+    sv12:
+      raisinetmout: false

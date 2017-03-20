@@ -7,7 +7,7 @@
 class DRMCrds extends BaseDRMCrds {
 
     const FACTLITRAGE = 100000;
-    
+
     public function getLibelle() {
         return "";
     }
@@ -25,7 +25,7 @@ class DRMCrds extends BaseDRMCrds {
         if ($stock_debut) {
             $crd->stock_debut = $stock_debut;
         }
-        $contenances = sfConfig::get('app_vrac_contenances');
+        $contenances = VracConfiguration::getInstance()->getContenances();
         if ($libelle) {
           $crd->detail_libelle = $libelle;
         }else{
@@ -55,9 +55,9 @@ class DRMCrds extends BaseDRMCrds {
         if ($this->isEmptyNode()) {
             return;
         }
-        $contenances = sfConfig::get('app_vrac_contenances');
+        $contenances = VracConfiguration::getInstance()->getContenances();
         $contenance75 = $contenances['Bouteille 75 cl'] * self::FACTLITRAGE;
-          
+
         foreach ($genres as $genre) {
             $this->getOrAddCrdNode($genre, DRMClient::DRM_VERT, $contenance75);
             $this->getOrAddCrdNode($genre, DRMClient::DRM_BLEU, $contenance75);

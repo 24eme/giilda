@@ -47,7 +47,7 @@ EOF;
         if ($options['file']) {
             foreach(file($options['file']) as $line) {
                 $args = split(';', $line);
-                $this->addTag($args[1], $args[2]);
+                $this->addTag($args[0], $args[1]);
             }
             return ;
         }

@@ -32,8 +32,8 @@
     </tbody>
     <tfoot>
         <tr>
-            <td class="col-xs-4" ></td>
-            <td class="lead text-right col-xs-3">
+            <td class="col-xs-4"></td>
+            <td class="text-right col-xs-3">
                 <div class="input-group">
                     <div class="input-group-addon">&Sigma;</div>
                     <input type="text" class="form-control input-float text-right drm_details_volume_total" data-decimal="4" readonly="readonly"  tabindex="-1"  value="<?php echo sprintFloat($detail->get($catKey)->get($key) > 0 ? $detail->get($catKey)->get($key) : "0.00") ?>" />
@@ -43,7 +43,7 @@
             <td class="col-xs-2 text-center typedoc_unshow"  <?php echo (!$docShow)? '' : 'style="display: none;"' ?>  ></td>
             <td class="col-xs-2 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
             <td class="col-xs-2 typedoc_show"  <?php echo ($docShow)? '' : 'style="display: none;"' ?>  ></td>
-            <td class="text-right col-xs-2"><a data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
+            <td class="text-right col-xs-2"><button type="button" data-container="#drm_export_details_table tbody" data-template="#template_export" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></button><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
         </tr>
     </tfoot>
 </table>

@@ -18,7 +18,7 @@ class DRMEDIImportTask extends sfBaseTask
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('date-validation', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', false),
             new sfCommandOption('creation-depuis-precedente', null, sfCommandOption::PARAMETER_REQUIRED, 'Création depuis la précédente', false),
-            new sfCommandOption('facture', null, sfCommandOption::PARAMETER_REQUIRED, 'Flag automatiquement les mouvements a facturé', false),
+            new sfCommandOption('facture', null, sfCommandOption::PARAMETER_REQUIRED, 'Flag automatiquement les mouvements comme facturé', true),
         ));
 
         $this->namespace        = 'drm';
@@ -95,12 +95,15 @@ EOF;
 
             $drm->type_creation = "IMPORT";
 
-            //$drm->save();
+            $drm->save();
 
             DRMClient::getInstance()->generateVersionCascade($drm);
 
         } catch(Exception $e) {
             echo $e->getMessage().";#".$arguments['periode'].";".$arguments['identifiant']."\n";
+            if(isset($options['trace'])) {
+                throw $e;
+            }
             return;
         }
 

@@ -47,19 +47,24 @@ use_helper('PointsAides');
                     class="<?php echo statusCssClass($v->valide->statut) ?> hamzastyle-item vertical-center">
 
                     <td class="text-center">
+                        <a name="ligne_<?php echo vrac_get_id($value) ?>"></a>
                         <span class="<?php echo typeToPictoCssClass($v->type_transaction) ?> pointer" style="font-size: 24px; " data-toggle="tooltip" title="<?php echo tooltipForPicto($v->type_transaction) ?>"></span>
                         <?php if($v->valide->statut): ?>
                         <a href="<?php echo url_for('vrac_visualisation', array('numero_contrat' => $v->numero_contrat)) ?>">
                         <?php else: ?>
                         <a href="<?php echo url_for('vrac_redirect_saisie', array('numero_contrat' => $v->numero_contrat)) ?>">
                         <?php endif; ?>
-                        <?php if($v->numero_archive): ?><?php echo $v->numero_archive ?><?php elseif(!$v->valide->statut): ?>Brouillon<?php else: ?>Non visé<?php endif; ?>
+                        <?php if($v->numero_archive) : if (preg_match('/^DRM/', $v->numero_archive)) { echo tooltipForPicto($v->type_transaction); } else { echo $v->numero_archive ; } elseif(!$v->valide->statut): ?>Brouillon<?php else: ?>Non visé<?php endif; ?>
                         </a>
                         <br />
                         <?php if($v && isset($v->teledeclare) && $v->teledeclare): ?>
                         Télédeclaré
                         <?php endif; ?>
+                        <?php if (preg_match('/^DRM/', $v->numero_archive)) : ?>
+                        <span class="text-muted" style="font-size: 12px;">issu de DRM</span>
+                        <?php else: ?>
                         <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($v->numero_contrat) ?></span>
+                        <?php endif; ?>
                     </td>
 
                     <td>
@@ -160,12 +165,13 @@ use_helper('PointsAides');
         ?>
                     </td>
                     <td class="text-right">
-
-        <?php if (isset($v->prix_initial_unitaire_hl)) {
-                echoFloat($v->prix_initial_unitaire_hl);
-                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['prix_initial_unitaire']['libelle'] ;
-            }
-        ?>
+                    <?php if (isset($v->prix_initial_unitaire_hl) && $v->prix_initial_unitaire_hl):
+                            echoFloat($v->prix_initial_unitaire_hl);
+                            echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$v->type_transaction]['prix_initial_unitaire']['libelle'] ;
+                          elseif($v->valide->statut):
+                    ?>
+                    <a href="<?php echo url_for('vrac_marche', array('numero_contrat' => $v->numero_contrat, 'urlretour' => $sf_request->getUri()."#ligne_".vrac_get_id($value))) ?>" class="btn btn-sm btn-warning"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Éditer</a>
+                  <?php endif;?>
                     </td>
                     <?php if(isset($teledeclaration) && $teledeclaration):
                       $statut = $v->valide->statut;

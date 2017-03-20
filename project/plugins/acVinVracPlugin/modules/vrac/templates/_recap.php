@@ -34,7 +34,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                 <?php echo $vrac->vendeur->commune; ?></small><br/>
                 <small class="text-muted">CVI&nbsp;: <?php echo $vrac->vendeur->cvi; ?> / SIRET&nbsp;: <?php echo $vrac->vendeur->siret ?></small>
                 <br />
-                <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo $vrac->getRepresentantObject()->getNom(); ?></a><br /><?php endif; ?>
+                <?php if ($vrac->representant_identifiant != $vrac->vendeur_identifiant): ?>Representé par <a href="<?php echo url_for('vrac/recherche?identifiant=' . preg_replace('/ETABLISSEMENT-/', '', $vrac->representant_identifiant)) ?>"><?php echo ($vrac->getRepresentantObject())? $vrac->getRepresentantObject()->getNom() : "Représentant sans nom"; ?></a><br /><?php endif; ?>
                 <?php if ($vrac->logement): ?>Logement du vin : <?php echo $vrac->logement ?><br/><?php endif; ?>
             </div>
         </div>
@@ -130,7 +130,15 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         <div class="panel panel-default">
                             <div class="panel-heading"><strong>Compléments</strong></div>
                             <ul class="list-group">
-                                <li class="list-group-item">Mention : <strong><?php if ($vrac->domaine): echo $vrac->domaine; else: echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin]; endif; ?></strong></li>
+                                <li class="list-group-item">Mention : <strong><?php if ($vrac->domaine):
+                                                                                      echo $vrac->domaine;
+                                                                                    elseif($vrac->categorie_vin):
+                                                                                      echo VracConfiguration::getInstance()->getCategories()[$vrac->categorie_vin];
+                                                                                    else :
+                                                                                      echo "pas de catégorie de vin";
+                                                                                    endif; ?>
+                                                                        </strong>
+                                </li>
                                 <?php if ($vrac->lot): ?>
                                     <li class="list-group-item">Lot : <strong><?php echo $vrac->lot ?></strong></li>
                                 <?php endif; ?>
@@ -159,8 +167,6 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
         <div class="panel panel-default">
             <div class="panel-heading"><strong>Les conditions</strong> <?php if ($template_validation) : ?><a href="<?php echo url_for('vrac_condition', $vrac); ?>" class="btn btn-xs btn-default pull-right">Modifier</a><?php endif; ?></div>
             <ul class="list-group">
-
-
                 <?php if ($vrac->delai_paiement_libelle || $vrac->moyen_paiement_libelle || $vrac->acompte || $vrac->courtage_taux || $vrac->tva): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
@@ -223,13 +229,19 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                         </span>
                     </li>
                 <?php endif; ?>
-
                 <?php if ($vrac->conditions_particulieres): ?>
                     <li class="list-group-item clearfix">
                         <span class="col-xs-12">
                             <?php if ($vrac->conditions_particulieres): ?>Observations : <strong><?php echo $vrac->conditions_particulieres ?></strong><?php endif; ?>
                         </span>
                     </li>
+                <?php endif; ?>
+                <?php if(!$isTeledeclarationMode): ?>
+                <li class="list-group-item clearfix">
+                    <span class="col-xs-6">
+                        Contrat <?php if($vrac->interne): ?>interne<?php else: ?>externe<?php endif; ?> <a href="<?php echo  url_for('vrac_changecontratinterne', array('sf_subject' => $vrac, 'interne' => !$vrac->interne)) ?>">(changer)</a>
+                    </span>
+                </li>
                 <?php endif; ?>
             </ul>
         </div>
@@ -245,7 +257,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                                 <li class="list-group-item clearfix">
                                     <div class="row">
                                         <span class="col-xs-6">
-                                            <strong><a href="<?php echo url_for('drm_redirect_to_visualisation', array('identifiant_drm' => $enlevement->drm_id)); ?>"> <?php echo "DRM " . getFrPeriodeElision($enlevement->periode); ?></a></strong>
+                                            <strong><a href="<?php echo url_for('drm_redirect_to_visualisation', array('identifiant_drm' => $enlevement->drm_id)); ?>"> <?php echo "DRM ".preg_replace("/^DRM-[0-9]+-[0-9]+-?(M[0-9]+)?$/","$1 ",$enlevement->drm_id) . getFrPeriodeElision($enlevement->periode); ?></a></strong>
                                         </span>
                                         <span class="col-xs-6 text-right">
                                                 <?php echoFloat($enlevement->volume, true) ; echo " hl"; ?>

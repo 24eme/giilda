@@ -2,6 +2,13 @@
 
 class DRMDetailVracItemForm extends DRMESDetailsItemForm {
 
+    protected $details = null;
+
+    public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+        $this->details = $options['details'];
+        parent::__construct($object, $options, $CSRFSecret);
+    }
+
     public function getFormName() {
 
         return "drm_detail_vrac_item";
@@ -21,6 +28,14 @@ class DRMDetailVracItemForm extends DRMESDetailsItemForm {
     public function getPostValidatorClass() {
 
         return 'DRMDetailVracItemValidator';
+    }
+
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+    }
+
+    public function getProduitDetail() {
+        return $this->details->getProduitDetail();
     }
 
 }

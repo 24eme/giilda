@@ -399,6 +399,16 @@ class DRMClient extends acCouchdbClient {
         return $result;
     }
 
+    public function clearHistorique($identifiant, $campagne_or_periode) {
+        $campagne = $campagne_or_periode;
+
+        if (preg_match('/^[0-9]{6}$/', $campagne_or_periode)) {
+            $campagne = $this->buildCampagne($campagne_or_periode);
+        }
+
+        unset($this->drm_historiques[$identifiant . $campagne]);
+    }
+
     public function getHistorique($identifiant, $campagne_or_periode) {
         $campagne = $campagne_or_periode;
 
@@ -417,6 +427,7 @@ class DRMClient extends acCouchdbClient {
     public function createDoc($identifiant, $periode = null, $isTeledeclarationMode = false) {
         if (!$periode) {
             $periode = $this->getCurrentPeriode();
+            $this->clearHistorique($identifiant, $periode);
             $last_drm = $this->getHistorique($identifiant, $periode)->getLastDRM();
             if ($last_drm) {
                 $periode = $this->getPeriodeSuivante($last_drm->periode);
@@ -428,6 +439,7 @@ class DRMClient extends acCouchdbClient {
     }
 
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
+        $this->clearHistorique($identifiant, $periode);
         $prev_drm = $this->getHistorique($identifiant, $periode)->getPrevious($periode);
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
 
@@ -445,7 +457,6 @@ class DRMClient extends acCouchdbClient {
         $drm->teledeclare = $isTeledeclarationMode;
         $drm->etape = self::ETAPE_SAISIE;
         $drm->buildFavoris();
-        $drm->storeDeclarant();
         $drm->initSociete();
         $drm->initCrds();
         $drm->initProduitsAutres($isTeledeclarationMode);
@@ -513,6 +524,61 @@ class DRMClient extends acCouchdbClient {
             return self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC;
         }
         return null;
+    }
+
+    public static function recapCvo($mouvements) {
+        $recapCvo = new stdClass();
+        $recapCvo->totalVolumeDroitsCvo = 0;
+        $recapCvo->totalVolumeReintegration = 0;
+        $recapCvo->totalPrixDroitCvo = 0;
+        foreach ($mouvements as $mouvement) {
+            if ($mouvement->facturable) {
+                $recapCvo->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvo->totalVolumeDroitsCvo += $mouvement->volume * -1;
+            }
+            if ($mouvement->type_hash == 'entrees/reintegration') {
+                $recapCvo->totalVolumeReintegration += $mouvement->volume;
+            }
+        }
+        return $recapCvo;
+    }
+
+    public static function storeXMLRetourFromURL($url, $verbose = false, $allwaysreturndrm = false) {
+      $xml = file_get_contents($url);
+      if (!$xml) {
+          throw new sfException($url." empty");
+      }
+      if(!preg_match('/<numero-agrement>([^<]+)</', $xml, $m)){
+          throw new sfException('Accise not found');
+      }
+      $etablissement = EtablissementClient::getInstance()->findByAccises($m[1]);
+      if (!$etablissement) {
+        throw new sfException('No Etablissement found for accises '.$m[1]);
+      }
+      if(preg_match('/<numero-cvi>([^<]+)</', $xml, $m)){
+        $m[1] = str_replace(' ', '', $m[1]);
+        if ($etablissement->cvi != $m[1]) {
+          throw new sfException('XML CVI '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->cvi.')');
+        }
+      }
+      if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
+          throw new sfException('mois not found');
+      }
+      $mois = $m[1];
+      if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
+          throw new sfException('Annee not found');
+      }
+      $annee = $m[1];
+      if ($verbose) echo "INFO: retrieve DRM for ".$etablissement->identifiant.' '.$annee.$mois."\n";
+      $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
+      if (!$drm->_id) {
+          throw new sfException("No DRM found for ".$etablissement->identifiant.' '.$annee.$mois);
+      }
+      if (!$drm->storeXMLRetour($xml) && !$allwaysreturndrm) {
+        return null;
+      }
+      $drm->save();
+      return $drm;
     }
 
 }

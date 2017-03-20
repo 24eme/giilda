@@ -113,8 +113,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-
-       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
+       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare()  || $this->getDocument()->changedImportToCreation());
     }
 
     public function canSetLabels() {
@@ -222,7 +221,7 @@ class DRMDetail extends BaseDRMDetail {
             }
             $config = $this->getConfig()->get($hash . "/" . $key);
 
-            if ($config->facturable) {
+            if ($config->facturable && !$this->getDocument()->isDrmNegoce()) {
                 $this->total_facturable += $volume * $coefficient_facturable;
             }
         }
@@ -334,12 +333,12 @@ class DRMDetail extends BaseDRMDetail {
 
     public function hasMouvement() {
 
-        return $this->total_entrees > 0 || $this->total_sorties > 0;
+        return $this->total_entrees > 0 || $this->total_entrees_revendique > 0 || $this->total_sorties > 0 || $this->total_sorties_revendique > 0;
     }
 
     public function hasStockEpuise() {
 
-        return $this->total_debut_mois == 0 && !$this->hasMouvement() && $this->total == 0;
+        return $this->total_debut_mois == 0 && !$this->hasMouvement() && $this->total == 0 && $this->total_revendique == 0;
     }
 
     public function isSupprimable() {
@@ -375,6 +374,9 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
             $mouvement->facturable = ($this->getConfig()->get($hash . "/" . $key)->facturable && $mouvement->cvo > 0) ? 1 : 0;
+            if($this->getDocument()->isDrmNegoce()){
+              $mouvement->facturable = 0;
+            }
             $mouvement->version = $this->getDocument()->getVersion();
             $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;

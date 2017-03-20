@@ -6,11 +6,12 @@ class exportFactureTask extends sfBaseTask
     {
       // // add your own arguments here
         $this->addOptions(array(
-            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
+            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('horstaxe', null, sfCommandOption::PARAMETER_REQUIRED, 'Facturation HT (par defaut False)', false),
             new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_OPTIONAL, 'Export a specific Facture', ''),
+            new sfCommandOption('entete', null, sfCommandOption::PARAMETER_REQUIRED, "Ligne d'entête", true),
             // add your own options here
         ));
 
@@ -31,13 +32,16 @@ EOF;
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        $export = new ExportFactureCSV($options['horstaxe']);
-        $export->printHeader();
+        $export = ExportFactureCSVFactory::getObject($options['application'], $options['horstaxe']);
+        if($options["entete"]) {
+            $export->printHeader();
+        }
 
         if ($options['factureid']) {
-		$export->printFacture($options['factureid']);
-		return ;
-	}
+		    $export->printFacture($options['factureid']);
+
+            return ;
+	    }
         foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
     	     $export->printFacture($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
         }

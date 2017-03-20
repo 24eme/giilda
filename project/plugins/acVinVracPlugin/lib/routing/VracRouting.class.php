@@ -12,12 +12,6 @@ class VracRouting {
 
         $r = $event->getSubject();
 
-        $r->prependRoute('vrac_creation', new EtablissementRoute('/vrac/creation/:identifiant', array('module' => 'vrac',
-                                                            'action' => 'creation'),
-                                                            array('sf_method' => array('get','post')),
-                                                            array('model' => 'Etablissement', 'type' => 'object')));
-
-
         $r->prependRoute('vrac', new sfRoute('/vrac', array('module' => 'vrac',
                                                             'action' => 'index')));
         $r->prependRoute('vrac_recherche',  new EtablissementRoute('/vrac/recherche/:identifiant', array('module' => 'vrac',
@@ -100,6 +94,11 @@ class VracRouting {
 
         $r->prependRoute('vrac_nonsolder', new VracRoute('/vrac/:numero_contrat/nonsolder',
                                                         array('module' => 'vrac','action' => 'changeStatut'),
+                                                        array('sf_method' => array('get','post')),
+                                                        array('model' => 'Vrac', 'type' => 'object')));
+
+        $r->prependRoute('vrac_changecontratinterne', new VracRoute('/vrac/:numero_contrat/contratinterne',
+                                                        array('module' => 'vrac','action' => 'changeContratInterne'),
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
 

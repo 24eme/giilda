@@ -6,7 +6,7 @@ service elastic_forward
     protocol        = tcp
     user            = nobody
     wait            = no
-    redirect        = 127.0.0.1 5984
+    redirect        = 127.0.0.1 9200
     port            = 9200
     bind            = {{giilda_tinc_ip}}
 }

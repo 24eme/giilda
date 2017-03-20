@@ -2,6 +2,7 @@
 class StatistiqueStatsFilterForm extends BaseForm
 {
 	protected $config;
+	protected static $rangeFields = array('doc.mouvements.date', 'doc.date_campagne');
 	
 	public function __construct($config, $defaults = array(), $options = array(), $CSRFSecret = null)
 	{
@@ -12,30 +13,41 @@ class StatistiqueStatsFilterForm extends BaseForm
 	public function configure() 
 	{
 		$this->setWidgets(array(
-				'appellations' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
-				'familles' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getFamilles())),
-				'region' => new bsWidgetFormChoice(array('choices' => self::getRegions())),
+				'doc.mouvements.appellation' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
+				'doc.declarant.famille' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getFamilles())),
 				'lastyear' => new bsWidgetFormInputCheckbox(),
-				'dates' => new sfWidgetFormFilterDate(array('from_date' => new bsWidgetFormInputDate(), 'to_date' => new bsWidgetFormInputDate(), 'with_empty' => false, 'template' => 'Du %from_date% <br />Au %to_date%')),
+				'doc.mouvements.date/from' => new bsWidgetFormInputDate(),
+				'doc.mouvements.date/to' => new bsWidgetFormInputDate(),
 				'statistiques' => new bsWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getStatistiques())),
+				
+				'doc.appellation' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
+				'doc.type_transaction' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getTransactions())),
+				'doc.date_campagne/from' => new bsWidgetFormInputDate(),
+				'doc.date_campagne/to' => new bsWidgetFormInputDate(),
 		));
 		
 		$this->widgetSchema->setLabels(array(
-				'appellations' => 'Appellation',
-				'familles' => 'Catégorie',
-				'region' => 'Région',
-				'dates' => '',
+				'doc.mouvements.appellation' => 'Appellation',
+				'doc.declarant.famille' => 'Catégorie',
 				'lastyear' => 'Stat N/N-1',
 				'statistiques' => 'Statistiques',
+
+				'doc.appellation' => 'Appellation',
+				'doc.type_transaction' => 'Conditionnement',
 		));
 		
 		$this->setValidators(array(
-				'appellations' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation')))),
-				'familles' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getFamilles()))),
-				'region' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys(self::getRegions()))),
-				'dates' => new sfValidatorDateRange(array('from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)), 'from_field' => 'from_date', 'to_field' => 'to_date')),
+				'doc.mouvements.appellation' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation')))),
+				'doc.declarant.famille' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getFamilles()))),
+				'doc.mouvements.date/from' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
+				'doc.mouvements.date/to' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 				'lastyear' => new ValidatorBoolean(array('required' => false)),
 				'statistiques' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatistiques()))),
+				
+				'doc.appellation' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation')))),
+				'doc.type_transaction' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getTransactions()))),
+				'doc.date_campagne/from' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
+				'doc.date_campagne/to' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 		));
         $this->widgetSchema->setNameFormat('statistique_filter[%s]');
     }
@@ -46,6 +58,16 @@ class StatistiqueStatsFilterForm extends BaseForm
     		$statistiques[$key] = $value['libelle'];
     	}
     	return $statistiques;
+    }
+    
+    public static function getTransactions() {
+    	$transactions = VracClient::$types_transaction_vins;
+    	$libelles = VracClient::$types_transaction;
+    	$result = array();
+    	foreach ($transactions as $transaction) {
+    		$result[$transaction] = $libelles[$transaction];
+    	}
+    	return $result;
     }
     
     public static function getFamilles() {
@@ -72,33 +94,61 @@ class StatistiqueStatsFilterForm extends BaseForm
         return ConfigurationClient::getCurrent()->declaration->getKeys($noeud);
     }
     
-    public function processFilters($statFilters)
+    public function canPeriodeCompare()
     {
     	$values = $this->getValues();
-    	$conf = $this->getStatistiquesConf();
-    	if ($values['appellations']) {
-    		foreach ($values['appellations'] as $item) {
-    			$statFilters->addFilter($conf['form_filters']['appellations']['ind'], new RegexpStatFilter("/$item/"));
+    	return ($values['lastyear'] && $values['doc.mouvements.date/from'])? true : false;
+    }
+    
+    public function getValuesLastPeriode()
+    {
+    	$values = $this->getValues();
+    	$from = ($values['doc.mouvements.date/from'])? new DateTime($values['doc.mouvements.date/from']) : new DateTime();
+    	$to = ($values['doc.mouvements.date/to'])? new DateTime($values['doc.mouvements.date/to']) : new DateTime();
+    	$from->modify('-1 year');
+    	$to->modify('-1 year');
+    	$values['doc.mouvements.date/from'] = $from->format('Y-m-d');
+    	$values['doc.mouvements.date/to'] = $to->format('Y-m-d');
+    	return $values;
+    }
+    
+    public function processFilters($values = array())
+    {
+    	if (!$values) {
+    		$values = $this->getValues();
+    	}
+    	if ($values['doc.mouvements.date/from'] || $values['doc.mouvements.date/to']) {
+    		$values['doc.mouvements.date'] = array();
+    		$values['doc.mouvements.date']['from'] = $values['doc.mouvements.date/from'];
+    		$values['doc.mouvements.date']['to'] = $values['doc.mouvements.date/to'];
+    	}
+    	if ($values['doc.date_campagne/from'] || $values['doc.date_campagne/to']) {
+    		$values['doc.date_campagne'] = array();
+    		$values['doc.date_campagne']['from'] = $values['doc.date_campagne/from'];
+    		$values['doc.date_campagne']['to'] = $values['doc.date_campagne/to'];
+    	}
+    	unset($values['statistiques'], $values['lastyear'], $values['doc.mouvements.date/from'], $values['doc.mouvements.date/to'], $values['doc.date_campagne/from'], $values['doc.date_campagne/to']);
+    	$rangeFields = self::$rangeFields;
+    	$nbFilters = 0;
+    	$filters = array();
+    	foreach ($values as $field => $value) {
+    		if (in_array($field, $rangeFields)) {
+    			$range = array('format' => 'yyyy-MM-dd');
+    			if ($value['from']) {
+    				$range['gte'] = $value['from'];
+    			}
+    			if ($value['to']) {
+    				$range['lte'] = $value['to'];
+    			}
+    			$filters[] = array('range' => array($field => $range));
+    			$nbFilters++;
+    		} elseif ($value) {
+    			$filter = (is_array($value))? 'terms' : 'term';
+    			$filters[] = array($filter => array($field => $value));
+    			$nbFilters++;
     		}
     	}
-    	if ($values['familles']) {
-    		foreach ($values['familles'] as $item) {
-    			$statFilters->addFilter($conf['form_filters']['familles']['ind'], new RegexpStatFilter("/$item/"));
-    		}
-    	}
-    	if ($values['region']) {
-    		$statFilters->addFilter($conf['form_filters']['region']['ind'], new RegexpStatFilter("/".$values['region']."/"));
-    	}
-    	if ($values['dates'] && ($values['dates']['from'] || $values['dates']['to'])) {
-    		$statFilters->addFilter($conf['form_filters']['dates']['ind'], new RangeStatFilter(array('gte' => $this->getPeriodeFromDate($values['dates']['from']), 'lte' => $this->getPeriodeFromDate($values['dates']['to']))));
-    	}
-    	if (isset($this->config['statistiques'][$values['statistiques']]['filters'])) {
-    		foreach ($this->config['statistiques'][$values['statistiques']]['filters'] as $ind => $regexp) {
-    			$statFilters->addFilter($ind, new RegexpStatFilter($regexp));
-    		}
-    		
-    	}
-    	return $statFilters;
+    	return ($nbFilters > 0)? ($nbFilters > 1)? array('filtered' => array('filter' => array('and' => $filters))) : array('filtered' => array('filter' => current($filters))) : null;
     }
     
     public function getStatistiquesConf()

@@ -28,7 +28,7 @@ class drm_xmlActions extends drmGeneriqueActions {
           $msg = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')),
           $to,
           "Erreur transmision XML pour ".$this->drm->_id,
-          "Une transmission vient d'échouer pour la DRM ".$this->drm->_id." : \n".$this->cielResponse);
+          "Une transmission vient d'échouer pour la DRM ".$this->drm->_id." : \n".$this->drm->transmission_douane->xml);
           $this->getMailer()->send($msg);
       }
 
@@ -42,7 +42,7 @@ class drm_xmlActions extends drmGeneriqueActions {
       $this->setLayout(false);
       $this->getResponse()->setHttpHeader('Content-Type', 'text/xml');
   }
-  
+
   public function executeMain()
   {
   }

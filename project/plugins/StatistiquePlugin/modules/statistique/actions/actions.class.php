@@ -29,7 +29,6 @@ class statistiqueActions extends sfActions {
 	
 	public function executeStatsStatistiques(sfWebRequest $request) 
 	{
-		ini_set('memory_limit','512M');
 		$this->statistiquesConfig = sfConfig::get('app_statistiques_stats');
 		if (!$this->statistiquesConfig) {
 			throw new sfException('No configuration set for statistiques type stats');
@@ -40,31 +39,76 @@ class statistiqueActions extends sfActions {
 		if (!$request->isMethod(sfWebRequest::POST)) {
 			return sfView::SUCCESS;
 		}
-		
 		$this->form->bind($request->getParameter($this->form->getName()));
 		if ($this->form->isValid()) {
-			$statFilters = new StatFilters(StatFilters::OPERATOR_AND);
-			$statFilters = $this->form->processFilters($statFilters);
-			$conf = $this->form->getStatistiquesConf();
-			$csv = new CsvFile($conf['datas']);
-			$statTable = new StatTable($csv->getCsv(), $statFilters);
-			$statTable->pivotOn($conf['pivot']);
-			$statTable->columnsOn($conf['columns']);
-			$statTable->aggregatOn($conf['aggregat']);
-			if (isset($conf['total_pivot']) && !empty($conf['total_pivot'])) {
-				$statTable->addTotalPivot($conf['total_pivot']);
+			$values = $this->form->getValues();
+			if (!isset($this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation'])) {
+				throw new sfException('No aggregation set for statistiques '.$values['statistiques']);
 			}
-			if (isset($conf['full_total_pivot']) && $conf['full_total_pivot']) {
-				$statTable->addTotalPivot();
+			$result = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters(), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+			$csvResult = $this->getAggsResultCsv($values['statistiques'], $result);
+			if ($this->form->canPeriodeCompare()) {
+				$resultLastPeriode = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters($this->form->getValuesLastPeriode()), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
+				$csvResultLastPeriode = $this->getAggsResultCsv($values['statistiques'], $resultLastPeriode);
+				$nbKeys = $this->statistiquesConfig['statistiques'][$values['statistiques']]['hashkeysize'];
+				$csvResult = $this->getAggsResultCsv($values['statistiques'], $this->getCsvToArray($csvResult, $nbKeys), $this->getCsvToArray($csvResultLastPeriode, $nbKeys));
 			}
-			if (isset($conf['total_column']) && $conf['total_column']) {
-				$statTable->addTotalColumn();
-			}
-			$libelles = StatistiqueStatsFilterForm::getLibelles('appellation');
-			return $this->renderCsv($statTable->getStatTable(true, $conf['csv_headers'], $libelles), KeyInflector::slugify($conf['libelle']));
+			return $this->renderCsv($csvResult, 'statistiques_'.$values['statistiques']);
 		}
-		
 	}
+	
+	protected function getAggsResult($index, $filters, $agg)
+	{		
+		$index = acElasticaManager::getType($index);
+		$params = ($filters)? array('aggs' => $agg, 'query' => $filters) : array('aggs' => $agg);
+		$elasticaQuery = new acElasticaQuery();
+		$elasticaQuery->setSize(0);
+		$elasticaQuery->setParams($params);
+		return $index->search($elasticaQuery)->getFacets();
+	}
+	
+	protected function getAggsResultCsv($type, $current, $lastPeriode = null)
+	{
+		return ($lastPeriode !== null)? $this->getPartial('statistique/'.$type.'_compare', array('lastPeriode' => $lastPeriode, 'current' => $current)) : $this->getPartial('statistique/'.$type, array('result' => $current[$type]));
+	}
+
+	protected function getCsvToArray($csv, $nbKeys)
+	{
+		$lines = explode(PHP_EOL, $csv);
+		$array = array();
+		foreach ($lines as $line) {
+			$subArray = str_getcsv($line, ';');
+			$key = '';
+			for ($i=0; $i<$nbKeys; $i++) {
+				if (isset($subArray[$i])) {
+					$key .= ($key)? '/'.$subArray[$i] : $subArray[$i];
+					unset($subArray[$i]);
+				} else {
+					$key = null;
+					break;
+				}
+			}
+			if ($key) {
+				$array[$key] = array_values($subArray);
+			}
+		}
+		array_shift($array);
+		return $array;
+	}
+	
+	protected function getLibelles($noeud) {
+        $libelles = array();
+        $items = ConfigurationClient::getCurrent()->declaration->getKeys($noeud);
+
+        foreach($items as $key => $item) {
+            $libelles[$key] = $item->getLibelle();
+        }
+
+        return $libelles;
+    }	
+    protected function formatNumber($number) {
+    	return ($number && $number != 0)? number_format($number, 2, ',', '') : null;
+    }
 	
     public function executeDrmStatistiques(sfWebRequest $request) {
         $this->page = $request->getParameter('p', 1);
@@ -73,7 +117,7 @@ class statistiqueActions extends sfActions {
             throw new sfException('No configuration set for elasticsearch type drm');
         }
         
-        $index = $index = acElasticaManager::getType($this->statistiquesConfig['elasticsearch_type']);
+        $index = acElasticaManager::getType($this->statistiquesConfig['elasticsearch_type']);
         
         $this->fields = array();
         $mapping = $index->getMapping()[acElasticaManager::getClient()->dbname]['mappings'][$this->statistiquesConfig['elasticsearch_type']]['properties']['doc']['properties'];
@@ -323,7 +367,7 @@ class statistiqueActions extends sfActions {
     	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=stats_".$type."_".$date.".csv");
     	$this->response->setHttpHeader('LastDocDate', $date);
     	$this->response->setHttpHeader('Last-Modified', date('r', strtotime($date)));
-    	return $this->renderText($csv_file);
+    	return $this->renderText(utf8_decode($csv_file));
     }
 
 }
