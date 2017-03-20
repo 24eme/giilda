@@ -65,17 +65,33 @@ foreach ($mvts_viti as $mvt) {
     $mvt_vrac = $mvt;
   }
 }
-$t->is($mvt_vrac->facturable, 1, $drm->_id." : le mouvement de sortie vrac est facturable");
-$t->is($mvt_vrac->cvo, $mvt_crd->cvo / 2, $drm->_id." : la cvo du mouvement de sortie vrac est de 50%");
+
+if($application == "ivbd") {
+    $t->is($mvt_vrac->facturable, 0, $drm->_id." : le mouvement de sortie vrac n'est pas facturable");
+    $t->is($mvt_vrac->cvo, 0, $drm->_id." : la cvo du mouvement de sortie vrac est de 0");
+} else {
+    $t->is($mvt_vrac->facturable, 1, $drm->_id." : le mouvement de sortie vrac est facturable");
+    $t->is($mvt_vrac->cvo, $mvt_crd->cvo / 2, $drm->_id." : la cvo du mouvement de sortie vrac est de 50%");
+}
 
 $mvts_nego = $drm->mouvements->{$nego->identifiant};
 $t->is(count($mvts_nego), 1, $drm->_id." : la validation a généré un mouvement chez le nego");
 foreach ($mvts_nego as $mvt_nego) {
   break;
 }
-$t->is($mvt_nego->cvo, $mvt_vrac->cvo, $drm->_id." : la cvo du mouvement de sortie vrac nego est de 50%");
 
-$t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete())), 2, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du viti");
+if($application == "ivbd") {
+    $t->is($mvt_nego->cvo, $mvt_crd->cvo, $drm->_id." : la cvo du mouvement de sortie vrac nego est de 100%");
+} else {
+    $t->is($mvt_nego->cvo, $mvt_vrac->cvo, $drm->_id." : la cvo du mouvement de sortie vrac nego est de 50%");
+}
+
+if($application == "ivbd") {
+    $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete())), 1, $drm->_id." : on retrouve uns seul mouvement facturable dans la vue facture du viti");
+} else {
+    $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete())), 2, $drm->_id." : on retrouve les 2 mouvements facturables dans la vue facture du viti");
+}
+
 $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($nego->getSociete())), 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du négo");
 
 $t->comment("Testes sur les enlévements liés au contrat ".$vracObj->_id." de volume proposé : ".$vracObj->volume_propose);
