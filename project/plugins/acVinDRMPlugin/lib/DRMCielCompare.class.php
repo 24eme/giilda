@@ -3,7 +3,7 @@ class DRMCielCompare
 {
 	protected $xmlIn;
 	protected $xmlOut;
-	
+
 	public function __construct($xmlIn, $xmlOut)
 	{
 		if(is_string($xmlIn)) {
@@ -17,12 +17,12 @@ class DRMCielCompare
 			$this->xmlOut = $xmlOut;
 		}
 	}
-	
+
 	public function getDiff()
 	{
 		$arrIn = $this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlIn)));
 		$arrOut = $this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlOut)));
-		
+
 		$diff = array();
 		foreach ($arrIn as $key => $value) {
 			if (!isset($arrOut[$key]) && $value) {
@@ -39,7 +39,7 @@ class DRMCielCompare
 		}
 		return $diff;
 	}
-	
+
 	public function hasDiff()
 	{
 		return (count($this->getDiff()) > 0)? true : false;
@@ -49,12 +49,12 @@ class DRMCielCompare
 	{
 		return json_decode(json_encode((array)$xml), true);
 	}
-	
+
 	private function flattenArray($array)
 	{
 		return acCouchdbToolsJson::json2FlatenArray($array, null, '_');
 	}
-	
+
 	private function identifyKey($array)
 	{
 		$patternProduit = '/\/produit\/\{array\}\/([0-9]+)\/\{array\}\//i';

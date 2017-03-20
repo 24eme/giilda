@@ -1,7 +1,7 @@
 PROJET=giilda
 TMP=/tmp/giilda
-SYMFONYENV=dev
-#WORKINGDIRWORKINGDIR=/home/giilda
+SYMFONYTASKOPTIONS="--application=generique --env=dev"
+WORKINGDIR=/home/giilda/project/
 COUCHHOST=localhost
 COUCHPORT=5984
 COUCHBASE=giilda
@@ -26,4 +26,5 @@ ELASTKIBANAINDEX=.kibana #ne pas changer
 #DEV_EMAILS="test@example.org test2@example.org"
 #REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
 EXPORTDIR=MYDIR
+URL_RETOUR_CFT=http://10.222.XXX.X/reception_douanes/XXXXXXXXX/
 mkdir -p $TMP > /dev/null

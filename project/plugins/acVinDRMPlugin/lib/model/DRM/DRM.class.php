@@ -87,9 +87,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function changedToTeledeclare() {
-        $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
-
+        $drmPrecedente = $this->getPrecedente();
         return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
+    }
+
+    public function changedImportToCreation() {
+        $drmPrecedente = $this->getPrecedente();
+
+        return !$this->isImport() && $drmPrecedente && $drmPrecedente->isImport();
+    }
+
+    public function isImport() {
+      return ($this->type_creation == 'IMPORT');
     }
 
     public function setPeriode($periode) {
@@ -192,6 +201,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $vracs;
     }
 
+    public function getDetailsAvecCreationVracs(){
+      $creationvracs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $d) {
+          if ($d->sorties->exist('creationvrac_details') && $creationvrac = $d->sorties->creationvrac_details)
+              $creationvracs[] = $creationvrac;
+          if ($d->sorties->exist('creationvractirebouche_details') && $creationvrac = $d->sorties->creationvractirebouche_details)
+              $creationvracs[] = $creationvrac;
+      }
+      return $creationvracs;
+    }
+
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
@@ -208,7 +228,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($drm->getProduits() as $produit) {
             $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
-            if (!$produitConfig->isActif($this->getDate())) {
+            if (!$produitConfig || !$produitConfig->isActif($this->getDate())) {
 
                 continue;
             }
@@ -227,7 +247,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if (!$isTeledeclarationMode && $this->getHistorique()->hasInProcess()) {
 
-            throw new sfException(sprintf("Une drm est en cours d'édition pour cette campagne %s, impossible d'en créer une autre", $this->campagne));
+            throw new sfException(sprintf("Une drm est en cours d'édition pour la campagne %s, impossible d'en créer une autre", $this->campagne));
         }
 
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
@@ -356,10 +376,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $periode = DRMClient::getInstance()->getPeriodeSuivante($this->periode);
             $campagne = DRMClient::getInstance()->buildCampagne($periode);
             if ($campagne != $this->campagne) {
+
                 return null;
             }
             $this->document_suivant = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $periode);
+
+            is_null($this->document_suivant);
             if($this->document_suivant && $this->document_suivant->changedToTeledeclare()) {
+                $this->document_suivant = null;
+            }
+
+            if($this->document_suivant && $this->document_suivant->changedImportToCreation()) {
                 $this->document_suivant = null;
             }
         }
@@ -394,7 +421,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        return false;
+        return true;
     }
 
     public function devalide() {
@@ -433,6 +460,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->setInterpros();
+        $this->creationVracs();
+
         $this->generateMouvements();
         if ($this->teledeclare) {
             $this->generateDroitsDouanes();
@@ -456,6 +485,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function devalidate(){
       $this->valide->date_saisie = null;
       $this->valide->date_signee = null;
+      $this->deleteVracs();
       $this->clearMouvements();
     }
 
@@ -480,7 +510,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function updateVracs() {
+    private function updateVracs() {
         if (!$this->isValidee()) {
 
             throw new sfException("La DRM doit être validée pour pouvoir enlever les volumes des contrats vracs");
@@ -501,11 +531,50 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             $vrac = $mouvement->getVrac();
             $vrac->enleverVolume($mouvement->volume * -1);
-            $vracs[$vrac->numero_contrat] = $vrac;
+            if ($mouvement->type_hash == 'creationvrac_details' && ($vrac->volume_enleve == 0)) {
+                $vrac->delete();
+            }else {
+              $vracs[$vrac->numero_contrat] = $vrac;
+            }
+
         }
 
         foreach ($vracs as $vrac) {
             $vrac->save();
+        }
+    }
+
+    private function creationVracs() {
+        if (!$this->isValidee()) {
+
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              $newVrac->createVisa();
+
+              $d = (DateTime::createFromFormat('Y-m-d',$newVrac->enlevement_date));
+              $enlevement_date = $d->format('c');
+              $newVrac->valide->add('date_saisie', $enlevement_date);
+              $newVrac->add('date_signature', $enlevement_date);
+              $newVrac->date_visa = $d->format('Y-m-d');
+
+              $newVrac->validate();
+              $newVrac->save();
+            }
+        }
+    }
+
+    private function deleteVracs() {
+        if ($this->isValidee()) {
+            throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
+        }
+        foreach ($this->getDetailsAvecCreationVracs() as $details) {
+            foreach ($details as $keyVrac => $vracCreation) {
+              $newVrac = $vracCreation->getVrac();
+              VracClient::getInstance()->delete($newVrac);
+            }
         }
     }
 
@@ -532,6 +601,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         return array('certification' => $match[1], 'appellation' => $match[2]);
+    }
+
+    public function setIdentifiant($identifiant) {
+      $this->_set('identifiant', $identifiant);
+      $this->storeDeclarant();
     }
 
     private function setDroit($type, $appellation) {
@@ -746,8 +820,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return ConfigurationClient::getInstance()->getPeriodeLibelle($this->periode);
     }
 
-    public function delete() {
-        if ($this->isValidee() || !$this->isMaster()) {
+    public function delete($protect_validee = true) {
+        if ($protect_validee && ($this->isValidee() || !$this->isMaster())) {
 
             throw new sfException("Impossible de supprimer une DRM validée");
         }
@@ -1629,6 +1703,5 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       }
       return "";
     }
-
 
 }

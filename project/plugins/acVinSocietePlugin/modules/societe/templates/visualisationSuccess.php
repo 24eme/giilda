@@ -119,13 +119,14 @@
     <?php endforeach; ?>
 
     <?php foreach ($interlocuteurs as $interlocuteurId => $compte) : ?>
+        <?php if(!$compte): continue; endif; ?> 
             <?php if ($compte->isSocieteContact() || $compte->isEtablissementContact()): ?><?php continue; ?><?php endif; ?>
         <div class="col-xs-4" style="<?php if (isset($etablissement) || (isset($interlocuteur) && $interlocuteur->_id != $compte->_id)): ?>opacity: 0.6<?php endif; ?>">
     <?php include_partial('compte/visualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
         </div>
 <?php endforeach; ?>
 
-    <div class="col-xs-12 text-center">
+    <div style="margin-bottom: 20px;" class="col-xs-12 text-center">
         <div class="row">
             <?php if ($modification || $reduct_rights) : ?>
                 <?php if (!$reduct_rights && $societe->canHaveChais()) : ?>

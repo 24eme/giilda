@@ -248,8 +248,13 @@ class drmActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
-        if ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR)
-             throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+        $hasDrmRight = ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        if(DRMConfiguration::getInstance()->isDRMNegoce()){
+            $hasDrmRight = $hasDrmRight && (($this->etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT) && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_COOPERATIVE));
+        }
+        if ($hasDrmRight){
+          throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+        }
 
         $this->campagne = $request->getParameter('campagne');
         if (!$this->campagne) {
@@ -361,6 +366,14 @@ class drmActions extends drmGeneriqueActions {
         $this->forward404Unless($request->isXmlHttpRequest());
         $drm = $this->getRoute()->getDRM();
         return $this->renderText($this->getPartial('popupFrequence', array('drm' => $drm)));
+    }
+
+    public function executeReouvrir(sfWebRequest $request) {
+        $drm = $this->getRoute()->getDRM();
+        $drm->devalidate();
+        $drm->save();
+
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
     }
 
     public function executeShowError(sfWebRequest $request) {

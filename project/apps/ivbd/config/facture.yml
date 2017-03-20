@@ -1,0 +1,19 @@
+all:
+  configuration:
+    facture:
+      pdf_nom_interpro: "IVBD"
+      pdf_ordre_cheque: "Interprofession IVBD"
+      prefix_sage: "VEN"
+      tva_compte: "44570100"
+      type_cvo:
+        identifiant_prefix: "1"
+      type_libre:
+        identifiant_prefix: "1"
+      idcontrat: "ARCHIVE"
+      stockage_code_produit: "identifiant_analytique"
+      pdf_produit: false
+      pdf_nom_ref_client: "N° IVBD"
+      pdf_nom_taux: "Taux"
+      pdf_display_code_comptable: true
+      echeance: "+30 days"
+      exercice: "viticole"

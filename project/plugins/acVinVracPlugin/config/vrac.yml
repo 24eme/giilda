@@ -1,7 +1,6 @@
 all:
   configuration:
     vrac:
-      pdf: "vrac/generateTex"
       etapes:
         "soussigne": "Soussignés"
         "marche": "Marché"
@@ -41,6 +40,8 @@ all:
         "50_50": "50/50 pour l'acheteur et le vendeur"
         "ACHETEUR": "100% pour l'acheteur"
         "VENDEUR": "100% pour le vendeur"
+      delais_paiement: { }
+      moyens_paiement: { }
       tva:
         "AVEC": "avec TVA"
         "SANS": "hors TVA"
@@ -118,6 +119,7 @@ all:
         "BIB 6l": 0.06
         "BIB 10l": 0.1
         "BIB 20l": 0.2
+        "BIB 30l": 0.3
       acteurs_preparation_vin:
         "VENDEUR": "Vendeur"
         "ACHETEUR": "Acheteur"

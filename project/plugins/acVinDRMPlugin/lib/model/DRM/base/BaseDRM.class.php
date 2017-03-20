@@ -38,6 +38,7 @@
  * @property DRMNonApurement $releve_non_apurement
  * @property string $observations
  * @property string $quantite_sucre
+ * @property acCouchdbJson $transmission_douane
 
  * @method string get_id()
  * @method string set_id()
@@ -107,6 +108,8 @@
  * @method string setObservations()
  * @method string getQuantiteSucre()
  * @method string setQuantiteSucre()
+ * @method acCouchdbJson getTransmissionDouane()
+ * @method acCouchdbJson setTransmissionDouane()
  
  */
  

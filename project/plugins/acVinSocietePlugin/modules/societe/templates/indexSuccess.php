@@ -14,7 +14,7 @@
 
                 <label for="contacts_all">Inclure les contacts suspendus </label>
                 <input id="contacts_all" name="contacts_all" type="checkbox" value="1" />
-            </div> 
+            </div>
 
         </form>
 
@@ -22,8 +22,6 @@
             <li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('compte_search'); ?>">Recherche avancée</a></li>
             <li class=""><a class="btn_majeur btn_acces" href="<?php echo url_for('societe_creation'); ?>">Créer une société</a></li>
         </ul>
-
-        <?php include_partial('societe/historyCreation', array('societes_creation' => $societes_creation)); ?>
     </section>
 </section>
 <?php
@@ -49,10 +47,7 @@ slot('colApplications');
     <?php
     include_partial('uploadCsvForRgtEnAttente', array('formUploadCSVNoCVO' => $formUploadCSVNoCVO));
     ?>
-</div> 
+</div>
 <?php
 end_slot();
 ?>
-
-
-

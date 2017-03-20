@@ -31,13 +31,16 @@
             colonnes = new $.Colonnes();
             colonnes.init();
 
-            colonnes.event_valider = function (colonne, nextfocus) {
+            colonnes.event_valider = function (colonne, nextfocus, fieldfocus) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('list-group-item-success');
                 if ((nextfocus == undefined) || (nextfocus == 'nextCol')) {
                     var next = colonne.getNext();
                     if (next) {
                         next.focus();
                         next.focusChampDefault();
+                        if(nextfocus == 'nextCol'){
+                          next.focusChamp(fieldfocus);
+                        }
                     } else {
                         $('form button.btn-success').focus();
                     }
@@ -54,8 +57,8 @@
                         var prev = colonne.gePrevious();
                         if (prev) {
                             prev.focus();
-                            prev.focusChampDefault();
-                        }
+                            prev.focusChamp(fieldfocus);
+                          }
                     }else{
                         var colToFocus = colonnes.findByHash(nextfocus);
                         colToFocus.focus();
@@ -78,10 +81,12 @@
 
             colonnes.event_disabled = function (colonne) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').addClass('disabled');
+                $('.categorie_libelle.clickable').addClass('disabled');
             }
 
             colonnes.event_enabled = function (colonne) {
                 $('#list-produits a[data-hash="' + colonne.getHash() + '"]').removeClass('disabled');
+                $('.categorie_libelle.clickable').removeClass('disabled');
             }
 
             colonnes.event_edition_on = function (colonne) {
@@ -99,6 +104,7 @@
                 colonne.focus();
                 colonne.focusChampDefault();
             }
+
 
             $('.drm_input_details').on('modal_callback', function (e, data) {
                 $(this).val(data.volume);
@@ -167,12 +173,14 @@
                 }
                 if (keyCode == 39) {
                     var col = colonnes.findByHash($('.col_focus').data('hash'));
-                    col.valider('nextCol');
+                    var id = $(this).attr("id");
+                    col.valider('nextCol',$(this).attr("id"));
                     return false;
                 }
                 if (keyCode == 37) {
                     var col = colonnes.findByHash($('.col_focus').data('hash'));
-                    col.valider('prevCol');
+                    var id = $(this).attr("id");
+                    col.valider('prevCol', $(this).attr("id"));
                     return false;
                 }
             }
@@ -246,15 +254,6 @@
             return false;
         });
 
-        /*$('a.ajout_crds_popup').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         'afterShow': openedPopupAjoutCRD
-
-         });*/
-
         $('a.ajout_crds_popup').click();
 
         $('.add_crds_popup_content a#popup_close').click(function () {
@@ -275,42 +274,18 @@
     };
 
     var initRegimeCrdsPopup = function () {
-        /*$('a.crd_regime_choice_popup').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         closeClick: false,
-         closeBtn: false,
-         helpers: {
-         overlay: {closeClick: false} // prevents closing when clicking OUTSIDE fancybox
-         }
-         });*/
         $('a.crd_regime_choice_popup').click();
 
     };
 
     var initCreationDrmPopup = function () {
-
-        /*$('a.drm_nouvelle_teledeclaration').fancybox({
-         autoSize: true,
-         autoCenter: true,
-         height: 'auto',
-         width: 'auto',
-         minWidth: 500,
-         'afterShow': $.initProtectForms
-
-         });*/
-
         $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
-            //$.fancybox.close();
         });
 
         $('.popup_creation_drm div.type_creation input').change(function () {
             var value = $(this).attr('value');
             var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
 
-            console.log($('#file_edi_div_' + id_drm));
             if (value == 'CREATION_EDI') {
                 $('#file_edi_div_' + id_drm).show();
             } else {
@@ -327,13 +302,21 @@
     var initFavoris = function () {
         $('form#colonne_intitules').find('span.categorie_libelle').each(function () {
             $(this).parent().click(function () {
+                if($(this).find('span.categorie_libelle').hasClass('disabled')) {
 
+                    return false;
+                }
                 var id_fav_input = $(this).find('.categorie_libelle').attr('id').replace('star_', 'drmFavoris_');
                 var value = $('#colonne_intitules input#' + id_fav_input).val();
                 if (value === "1") {
                     $('#colonne_intitules input#' + id_fav_input).val("");
                 } else {
+                  if ($(".glyphicon-star").length > 7) {
+                    alert("On ne peut sélectionner en favoris qu'au maximum 8 mouvements d'entrée ou de sortie");
+                    return false;
+                  }else {
                     $('#colonne_intitules input#' + id_fav_input).val("1");
+                  }
                 }
                 $("form#colonne_intitules").submit();
             });
@@ -373,7 +356,6 @@
     {
         $('.drm_non_apurement_delete_row .btn_supprimer_ligne_template').on('click', function ()
         {
-            console.log($(this));
             var element = $(this).parent().parent();
             $(element).remove();
             return false;
@@ -518,7 +500,8 @@
                 return true;
             vol += vol_val_float;
         });
-        $('.drm_details_volume_total').val(vol.toFixed(2));
+        $('.drm_details_volume_total').val(vol);
+        $('.drm_details_volume_total').change();
     }
 
 

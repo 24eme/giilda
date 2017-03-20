@@ -8,17 +8,21 @@ class GenerationExportShell extends GenerationAbstract
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
 
-        if (!file_exists(sfConfig::get('app_export_shell'))) {
+        if (!file_exists(FactureConfiguration::getInstance()->getExportShell())) {
             $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENERREUR);
             $this->generation->save();
             return false;
         }
-        
+
         $this->generation->save();
 
-        exec('bash '.sfConfig::get('app_export_shell'), $generatedFiles);
+        exec('bash '.FactureConfiguration::getInstance()->getExportShell(), $generatedFiles);
+
         foreach($generatedFiles as $file) {
             $names = explode('|', $file);
+            if(!isset($names[1]) || !isset($names[2])) {
+                continue;
+            }
             $this->generation->add('fichiers')->add($this->publishFile($names[0], $this->generation->date_emission.'-'.$names[1], ''), $names[2]);
         }
 
@@ -31,4 +35,4 @@ class GenerationExportShell extends GenerationAbstract
         return 'ExportShell';
     }
 
-} 
+}

@@ -16,7 +16,7 @@ use_helper('Date');
   <?php else: ?>
     <li><a href="<?php echo url_for('vrac') ?>">Contrats</a></li>
   <?php endif; ?>
-    <li><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive; ?> (<?php echo formatNumeroBordereau($vrac->numero_contrat); ?>)</a></li>
+    <li><a href="" class="active">Visualisation du contrat n° <?php echo $vrac->numero_archive; ?> <?php if ($vrac->numero_archive == $vrac->numero_contrat) echo '('.formatNumeroBordereau($vrac->numero_contrat).')'; ?></a></li>
 </ol>
 <section id="principal" class="vrac">
 <div class="row">
@@ -47,12 +47,14 @@ use_helper('Date');
     </div>
 
     <?php if ($vrac->isVise()) : ?>
-        <div class="col-xs-4 text-center">
+      <div class="col-xs-4 text-center">
+      <?php if (!preg_match('/^DRM/', $vrac->numero_archive)): ?>
             <p style="font-size: 24px;">
                 N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_visa, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
                 <small class="text-muted"><?php echo formatNumeroBordereau($vrac->numero_contrat); ?></small>
             </p>
-        </div>
+      <?php endif; ?>
+      </div>
         <div class="col-xs-4 text-right">
             <form id="vrac_condition" method="post" action="<?php echo url_for('vrac_visualisation', $vrac) ?>">
                 <div class="btn-group">
@@ -89,7 +91,7 @@ use_helper('Date');
     <?php include_partial("vrac/recap", array('vrac' => $vrac, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
 
 
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="margin-bottom: 20px;">
         <?php if ($vrac->isVise()): ?>
             <div class="txt_centre text-center">
                 <a href="<?php echo url_for('vrac_pdf', $vrac) ?>" class="btn btn-success">Télécharger le PDF</a>

@@ -11,6 +11,7 @@
             <th>Produit (Millésime)</th>
             <th>Vol.&nbsp;prop. (Vol.&nbsp;enl.)</th>
             <th>Prix</th>
+						<th>&nbsp;</th>
 		</tr>
 	</thead>
 		<tbody>
@@ -22,12 +23,25 @@
 			<tr class="<?php echo statusCssClass($item['doc']['valide']['statut']) ?>">
 				<td class="text-center"><span class="<?php echo typeToPictoCssClass($item['doc']['type_transaction']) ?>" style="font-size: 24px;"></span></td>
 				<td>
-					<a href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>"><?php if ($item['doc']['numero_archive']) echo $item['doc']['numero_archive']; elseif($item['doc']['valide']['statut']) echo "Non visé"; else "Brouillon";  ?></a>
+					<a href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>"><?php
+					if ($item['doc']['numero_archive']) {
+						if (preg_match('/^DRM/', $item['doc']['numero_archive'])) {
+							echo tooltipForPicto($item['doc']['type_transaction']);
+						}else {
+					 		echo $item['doc']['numero_archive'];
+						}
+					} elseif($item['doc']['valide']['statut'])
+						echo "Non visé";
+					else echo "Brouillon";
+					 ?></a>
 
                     <br />
-                    <?php if($item['doc']['numero_archive']): ?>
+                    <?php if($item['doc']['numero_archive']) : if(!preg_match('/^DRM/', $item['doc']['numero_archive'])): ?>
                     <span class="text-muted" style="font-size: 12px;"><?php echo formatNumeroBordereau($item['doc']['numero_contrat']) ?></span>
+									  <?php else: ?>
+											<span class="text-muted" style="font-size: 12px;">Issu d'une DRM</span>
                     <?php endif; ?>
+									<?php endif; ?>
                     <br />
                     <?php if($item['doc']['teledeclare']): ?>
                     Télédeclaré
@@ -96,7 +110,7 @@
 			                echo "&nbsp;".VracConfiguration::getInstance()->getUnites()[$item['doc']['type_transaction']]['prix_initial_unitaire']['libelle'] ;
 			            }
 			        ?>
-						<br/>
+						</td><td>
 						<a class="btn btn-default" href="<?php echo ($item['doc']['valide']['statut'])? url_for("vrac_visualisation", array('numero_contrat' => $item['doc']['numero_contrat'])) : url_for("vrac_redirect_saisie", array('numero_contrat' => $item['doc']['numero_contrat'])); ?>">
 						<?php if ($item['doc']['numero_archive']) echo "Visualiser"; elseif($item['doc']['valide']['statut']) echo "Non visé"; else "Brouillon";  ?></a>
 				</td>

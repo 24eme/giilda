@@ -49,4 +49,15 @@ $(document).ready(function ()
     	initCollectionDeleteTemplate();
         initStatistiques();
     }
+    if ($("#resetBtn").length > 0) {
+    	$("#resetBtn").css('display', 'none');
+    }
+    $("#stat_choices input[type='radio']").on('click', function () {
+    	$("#stat_choices input[type='radio']").each(function() {
+    		$(this).removeAttr('checked');
+    	});
+    	$("#resetBtn").trigger("click");
+    	$(".select2-search-choice").remove();
+    	$(this).attr("checked", "checked");
+    });
 });

@@ -11,9 +11,9 @@ class AlertesGenerationTask extends sfBaseTask
 
     $this->addOptions(array(
 			    new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
-			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
+			    new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment'),
 			    new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-                            new sfCommandOption('import', null, sfCommandOption::PARAMETER_OPTIONAL, 'import', 0),     
+                            new sfCommandOption('import', null, sfCommandOption::PARAMETER_OPTIONAL, 'import', 0),
     ));
 
     $this->namespace        = 'generate';
@@ -26,7 +26,7 @@ Call it with:
   [php symfony generate:alertes_creations typeAlerte1 typeAlerte2 ... --import="1"|INFO]
 EOF;
   }
-  
+
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
@@ -35,15 +35,15 @@ EOF;
     $context = sfContext::createInstance($this->configuration);
     $container = new AlerteGenerationsContainer();
     $import = (isset($options['import']) && $options['import']);
-    
+
     if(count($arguments['alertes']) > 0) {
       foreach($arguments['alertes'] as $name) {
         $container->add($name);
       }
     } else {
       $container->addAll();
-    }   
-    
+    }
+
     $container->executeCreations($import);
   }
 }

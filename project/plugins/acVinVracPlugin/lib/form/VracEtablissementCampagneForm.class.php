@@ -1,6 +1,6 @@
 <?php
 
-class VracEtablissementCampagneForm extends sfForm {
+class VracEtablissementCampagneForm extends BaseForm {
 
     public function __construct($identifiantEtablissement, $defaultCampagne) {
         $this->etablissement_id = $identifiantEtablissement;
@@ -11,7 +11,7 @@ class VracEtablissementCampagneForm extends sfForm {
     public function configure() {
         $list = VracClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
         $this->setWidgets(array(
-            'campagne' => new sfWidgetFormChoice(array('choices' => $list, 'default' => $this->default_campagne))
+            'campagne' => new bsWidgetFormChoice(array('choices' => $list, 'default' => $this->default_campagne))
         ));
         $this->setValidators(array(
             'campagne' => new sfValidatorChoice(array('required' => true, 'choices' => $list))

@@ -77,7 +77,7 @@ class ConfigurationClient extends acCouchdbClient {
 
     public function cacheFindConfigurationForCache($id) {
 
-        return CacheFunction::cache('model', array(ConfigurationClient::getInstance(), 'findConfigurationForCache'), array($id));
+        return CacheFunction::cache('model', "ConfigurationClientCache::findConfigurationForCache", array($id));
     }
 
     public function findConfigurationForCache($id) {
@@ -230,11 +230,10 @@ class ConfigurationClient extends acCouchdbClient {
 
     public function getCountryList() {
         if(is_null($this->countries)) {
-            $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
+            $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr'));
             $this->countries = $destinationChoicesWidget->getChoices();
-            $this->countries['inconnu'] = 'Inconnu';
-            $this->countries['UE'] = 'Union Européenne';
-            $this->countries['HORSUE'] = 'Hors Union Européenne';
+			DRMConfiguration::getInstance();
+			$this->countries = array_merge(array("" => ""), DRMConfiguration::getInstance()->getExportPaysDebut(), $this->countries, DRMConfiguration::getInstance()->getExportPaysFin());
         }
 
         return $this->countries;
@@ -342,4 +341,13 @@ class ConfigurationClient extends acCouchdbClient {
         return $fork;
     }
 
+}
+
+class ConfigurationClientCache {
+	public static function findConfigurationForCache($id) {
+        $configuration = ConfigurationClient::getInstance()->find($id);
+        $configuration->prepareCache();
+
+        return $configuration;
+    }
 }

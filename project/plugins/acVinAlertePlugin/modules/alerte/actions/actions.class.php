@@ -6,7 +6,7 @@ class alerteActions extends sfActions {
         $search = new AlerteConsultationSearch();
         $this->page = $request->getParameter('p', 1);
         $this->consultationFilter = $this->makeParameterQuery(array('consultation' => $request->getParameter('consultation', null)));
-        $this->alertesHistorique = (is_null($this->page)) ? $search->getElasticSearchDefaultResult() : $search->getElasticSearchDefaultResult(($this->page - 1) * 20, 20);
+        $this->alertesHistorique = (is_null($this->page)) ? $search->getElasticSearchDefaultResult() : $search->getElasticSearchResult(($this->page - 1) * 20, 20);
         //usort($this->alertesHistorique, array("alerteActions", "triResultElasticaAlertesDates"));
 
         $this->form = new AlertesConsultationForm();
@@ -26,7 +26,12 @@ class alerteActions extends sfActions {
         if ($this->form->isValid() && $this->form->hasFilters()) {
             $values = $this->createSearchValues($this->form);
             $search->setValues($values);
+
+            // foreach ($search->getElasticSearchResult(($this->page - 1) * 20, 20) as $key => $result) {
+            // var_dump($key); exit;
+            // }
             $this->alertesHistorique = $search->getElasticSearchResult(($this->page - 1) * 20, 20);
+
             //     usort($this->alertesHistorique, array("alerteActions", "triResultElasticaAlertesDates"));
         }
         $this->nbResult = $search->getNbResult();

@@ -61,14 +61,14 @@ function details2XmlDouane($detail) {
 				}
 			}
 		}
-    foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
-	  	foreach ($detail->get($type) as $k => $v) {
-				if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+        foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
+	  foreach ($detail->get($type) as $k => $v) {
+		if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
                         $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
-				}
-	  	}
 		}
-		return multiArray2XML($preXML);
+	  }
+	}
+	return multiArray2XML($preXML);
 }
 
 function formatXml($xml, $level = 0) {
@@ -135,19 +135,6 @@ function formatDateDouane($s) {
 }
 
 function centilisation2Douane($c, $libelle) {
-	if (preg_match('/bib/i', $libelle)) {
-		$bib = array(
-			'0.022500' => 'BIB_225',
-			'0.030000' => 'BIB_300',
-			'0.040000' => 'BIB_400',
-			'0.050000' => 'BIB_500',
-			'0.080000' => 'BIB_800',
-			'0.100000' => 'BIB_1000');
-		if ($ret = $bib[sprintf('%.f', $c)]) {
-			return $ret;
-		}
-		return "AUTRE";
-	}
 	$bouteilles = array('0.001000' => 'CL_10',
 		'0.001250' => 'CL_12_5',
 		'0.001870' => 'CL_18_7',

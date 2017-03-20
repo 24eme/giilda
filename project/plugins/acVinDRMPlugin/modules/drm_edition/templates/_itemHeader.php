@@ -37,7 +37,7 @@ $drmTeledeclaree = $drm->teledeclare;
                               <?php if($saisieSuspendu): ?>
                                 <span class="glyphicon glyphicon-star"></span>
                               <?php endif; ?>
-                                <span id="<?php echo ($saisieSuspendu)? 'star_favoris_entrees_' . $key : ''; ?>" class="categorie_libelle <?php echo 'entrees_' . $key; ?> <?php echo (count($favoris_entrees) > 1 ) ? 'clickable' : ''; ?>">
+                                <span id="<?php echo ($saisieSuspendu)? 'star_favoris_entrees_' . $key : ''; ?>" class="categorie_libelle <?php echo 'entrees_' . $key; ?> <?php echo (count($favoris_entrees) >= 1 ) ? 'clickable' : ''; ?>">
                                 <?php echo $item->getLibelle(); ?>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php echo $item->getDescription(); ?>"></span></small>
                                 </span>
                                 &nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
@@ -80,7 +80,7 @@ $drmTeledeclaree = $drm->teledeclare;
                                 <?php if($saisieSuspendu): ?>
                                 <span class="glyphicon glyphicon-star"></span>
                               <?php endif; ?>
-                                <span id="<?php echo ($saisieSuspendu)? 'star_favoris_sorties_' . $key : ''; ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
+                                <span id="<?php echo ($saisieSuspendu)? 'star_favoris_sorties_' . $key : ''; ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) >= 1 ) ? 'clickable' : ''; ?>">
                                     <?php echo $item->getLibelle(); ?>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php echo $item->getDescription(); ?>"></span></small>
                                 </span>&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
                             </li>
@@ -96,7 +96,7 @@ $drmTeledeclaree = $drm->teledeclare;
                         <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                           <?php if($item->isWritableForEtablissement($etablissement, $drmTeledeclaree)): ?>
                             <?php if (!$favoris_sorties->exist($key)): ?>
-                                <li class="form-group form-group-xs">
+                                <li class="form-group form-group-xs" style="cursor: pointer;">
                                     <?php if($saisieSuspendu): ?>
                                     <span class="glyphicon glyphicon-star-empty"></span>
                                     <?php endif; ?>

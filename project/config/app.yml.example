@@ -3,118 +3,38 @@ all:
   auth_mode: NO_AUTH #HTTP_AD, CAS, NO_CAS, NO_AUTH
   routing_context_production_host: domaine.pro
   observatoire_url: "https://observatoire_url"
+  cas:
+    domain: login.cas
+    port: 443
+    path: cas
+    url : "https://login.cas:443/cas"
+  ldap:
+    serveur: localhost
+    dn: cn=admin,dc=interloire,dc=tld
+    dc: dc=interloire,dc=tld
+    pass: pass
+    autoupdate: false
+  ad:
+    defaultuser: user
+    defaultpassword: pass
+    domain: interloire
+    basedn: dc=interloire,dc=tld
+    host: localhost
+    port: 389
+  mail:
+    from_email: email@email.com
+    from_name: "From name"
+  ac_exception_notifier:
+    enabled: false
+    email:
+      from: "email@email.email"
+      from_name: "acExceptionNotifierPlugin"
+      to: ["email@email.email"]
+      subject: "[GIILDA] Erreur 500 : %title%"
+  pdf:
+    reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
   configuration:
-    vrac:
-      etapes:
-        "soussigne": "Soussignés"
-        "marche": "Marché"
-        "condition": "Conditions"
-        "validation": "Validation"
-      champs:
-        soussigne: ["vendeur_identifiant", "acheteur_identifiant", "mandataire_identifiant", "responsable", "type_transaction", "interne", "mandataire_exist", "logement_exist", "logement", "vendeur_intermediaire"]
-        marche: ["label", "produit", "cepage", "selection", "millesime", "categorie_vin", "domaine", "raisin_quantite", "jus_quantite", "bouteilles_contenance_libelle", "prix_initial_unitaire", "volume_initial", "volume_vigueur", "degre", "surface"]
-        condition: ["delai_paiement", "moyen_paiement", "date_limite_retiraison", "courtage_repartition", "conditions_particulieres", "tva", "pluriannuel", "clause_reserve_propriete", "autorisation_nom_vin", "autorisation_nom_producteur"]
-      transactions:
-        "RAISINS": "<span class=\"icon-raisins\" style=\"font-size: 32px;\"></span> Vendange fraiche"
-        "MOUTS": "<span class=\"icon-mouts\" style=\"font-size: 32px;\"></span> Moûts"
-        "VIN_VRAC": "<span class=\"icon-vrac\" style=\"font-size: 32px;\"></span> Vin en vrac"
-        "VIN_BOUTEILLE": "<span class=\"icon-bouteille\" style=\"font-size: 32px;\"></span> Vrac retiraison bouteille"
-      delais_paiement:
-        "30_JOURS": "30 jours fin de mois"
-        "60_JOURS": "60 jours fin de mois"
-        "90_JOURS": "90 jours fin de mois"
-      moyens_paiement:
-        "VIREMENT": "Virement bancaire"
-        "CB": "Carte bancaire"
-        "CHEQUE": "Chèque"
-        "ESPECES": "Espèces"
-      repartition_courtage:
-        "50_50": "50/50"
-        "ACHETEUR": "100% acheteur"
-        "VENDEUR": "100% vendeur"
-      tva:
-        "ASSUJETTI": "Assujetti"
-        "AVEC": "Avec"
-        "SANS": "Sans"
-      unites:
-        "RAISINS":
-          "raisin_quantite":
-            "cle": "KILOGRAMME"
-            "libelle": "kg"
-          "prix_initial_unitaire":
-            "cle": "EURO_KILOGRAMME"
-            "libelle": "€/kg"
-          "volume_initial":
-            "cle": "KILOGRAMME"
-            "libelle": "kg"
-          "volume_vigueur":
-            "cle": "KILOGRAMME"
-            "libelle": "kg"
-          "surface":
-            "cle": "HECTARE"
-            "libelle": "ha"
-        "MOUTS":
-          "jus_quantite":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-          "prix_initial_unitaire":
-            "cle": "EURO_HECTOLITRE"
-            "libelle": "€/hl"
-          "volume_initial":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-          "volume_vigueur":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-        "VIN_VRAC":
-          "jus_quantite":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-          "prix_initial_unitaire":
-            "cle": "EURO_HECTOLITRE"
-            "libelle": "€/hl"
-          "volume_initial":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-          "volume_vigueur":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-        "VIN_BOUTEILLE":
-          "jus_quantite":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-          "prix_initial_unitaire":
-            "cle": "EURO_HECTOLITRE"
-            "libelle": "€/hl"
-          "volume_initial":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-          "volume_vigueur":
-            "cle": "HECTOLITRE"
-            "libelle": "hl"
-      categories:
-        "GENERIQUE": "Générique"
-        "DOMAINE": "Domaine"
-        "CHATEAU": "Château"
-        "MARQUE": "Marque"
-        "AGE": "Age"
-      contenances:
-        "Bouteille 37 cl": 0.0037
-        "Bouteille 37,5 cl": 0.00375
-        "Bouteille 50 cl": 0.005
-        "Bouteille 75 cl": 0.0075
-        "Bouteille 100 cl": 0.01
-        "Bouteille 150 cl": 0.015
-        "Bouteille 300 cl": 0.03
-        "Bouteille 500 cl": 0.05
-        "Bouteille 600 cl": 0.06
-        "BIB 3l": 0.03
-        "BIB 5l": 0.05
-        "BIB 6l": 0.06
-        "BIB 10l": 0.1
-        "BIB 20l": 0.2
     facture:
-      sans_categories : true
       emetteur_cvo:
         adresse: 'adresse IVSO CVO'
         code_postal: 'cp IVSO CVO'
@@ -135,81 +55,24 @@ all:
         siret: '000 111 000 22222'
         ape: ' 1111 X'
         tva_intracom: 'FR 00 00000000'
-  cas:
-    domain: login.cas
-    port: 443
-    path: cas
-    url : "https://login.cas:443/cas"
-  ldap:
-    serveur: localhost
-    dn: cn=admin,dc=interloire,dc=tld
-    dc: dc=interloire,dc=tld
-    pass: pass
-  ad:
-    defaultuser: user
-    defaultpassword: pass
-    domain: interloire
-    basedn: dc=interloire,dc=tld
-    host: localhost
-    port: 389
-  mail:
-    from_email: email@email.com
-    from_name: "From name"
-  alertes:
-    debug: true
-    generations:
-      #DRM manquantes, une DRM est considéré manquante par rapport à la période de la DRM la plus récente
-      DRM_MANQUANTE:
-        class: AlerteGenerationDRMManquantes
-      #DRA manquante, une DRA est considéré manquante par rapport à la période de la DRA la plus récente
-      DRA_MANQUANTE:
-        class: AlerteGenerationDRAManquante
-  facture:
-    emetteur:
-      adresse: 'adresse'
-      code_postal: 'cp'
-      ville: 'ville'
-      service_facturation: 'nom prenom personne'
-      telephone: 'tel - fax'
-      email: 'email@example.org'
-  tva:
-    taux:
-      19700101: 19.6
-      20140101: 20.0
-  relance:
-    responsable_economique: 'prenom nom'
-    emetteur:
-      VILLE:
-        adresse: 'adresse'
-        code_postal: 'cp'
-        ville: 'ville'
-        services_operateurs:
-         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'email@example.org'}
-  vrac:
-    contenances:
-      "Bouteille 37 cl": 0.00375
-      "Bouteille 37,5 cl": 0.00375
-      "Bouteille 50 cl": 0.005
-      "Bouteille 75 cl": 0.0075
-      "Bouteille 100 cl": 0.01
-      "Bouteille 150 cl": 0.015
-      "Bouteille 300 cl": 0.03
-      "Bouteille 500 cl": 0.05
-      "Bouteille 600 cl": 0.06
-      "BIB 3l": 0.03
-      "BIB 5l": 0.05
-      "BIB 6l": 0.06
-      "BIB 10l": 0.1
-      "BIB 20l": 0.2
-
-  ac_exception_notifier:
-    enabled: false
-    email:
-      from: "email@email.email"
-      from_name: "acExceptionNotifierPlugin"
-      to: ["email@email.email"]
-      subject: "500 | Internal Server Error | Exception"
-
+#  alertes:
+#    debug: true
+#    generations:
+#      #DRM manquantes, une DRM est considéré manquante par rapport à la période de la DRM la plus récente
+#      DRM_MANQUANTE:
+#        class: AlerteGenerationDRMManquantes
+#      #DRA manquante, une DRA est considéré manquante par rapport à la période de la DRA la plus récente
+#      DRA_MANQUANTE:
+#        class: AlerteGenerationDRAManquante
+#  relance:
+#    responsable_economique: 'prenom nom'
+#    emetteur:
+#      VILLE:
+#        adresse: 'adresse'
+#        code_postal: 'cp'
+#        ville: 'ville'
+#        services_operateurs:
+#         - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'email@example.org'}
   teledeclaration:
     contact_contrat:
       REGION_CVO:
@@ -224,9 +87,14 @@ all:
     url: 'url_portail'
     interpro: 'Intreprox'
     numero_interpro_adhesion: '05 53 63 57 63 ou 05 53 63 57 52'
-  pdf:
-    reader_link: "https://pdfreaders.org/pdfreaders.fr.html"
-
-  float:
-    default_decimal_format: 2
-    max_decimal_authorized: 4
+  ciel:
+    siren: ""
+    oauth:
+      url: ""
+      service: ""
+      host: ""
+      iss: ""
+      keypath: ""
+      keypass: ""
+      urltoken: ""
+      urlapp: ""

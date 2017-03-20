@@ -16,7 +16,16 @@ class VracConfiguration
 
 	public function __construct()
 	{
+		if(!sfConfig::has('vrac_configuration_vrac')) {
+			throw new sfException("La configuration pour les contrats n'a pas été défini pour cette application");
+		}
+
 		$this->configuration = sfConfig::get('vrac_configuration_vrac', array());
+	}
+
+	public function getAll() {
+
+		return $this->configuration;
 	}
 
 	public function getTransactions()
@@ -29,7 +38,7 @@ class VracConfiguration
 
 			$transactions[$key] = $transaction;
 		}
-		
+
 		return $transactions;
 	}
 
@@ -90,10 +99,6 @@ class VracConfiguration
 	{
 		return $this->configuration['conditionnements_crd'];
 	}
-	public function getPdfPartial()
-	{
-		return $this->configuration['pdf'];
-	}
 
     public function getSoldeSeuil()
 	{
@@ -101,6 +106,7 @@ class VracConfiguration
 	}
 
 	public function getRegionDepartement() {
+
 		return $this->configuration['region_departement'];
 	}
 

@@ -65,15 +65,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public function createEtablissementFromSociete($societe, $famille = null) {
-        $etablissement = new Etablissement();
-        $etablissement->id_societe = $societe->_id;
-        $etablissement->identifiant = $this->getNextIdentifiantForSociete($societe);
-        if ($famille) {
-            $etablissement->famille = $famille;
-        }
-        $etablissement->constructId();
-        $societe->pushContactAndAdresseTo($etablissement);
-        return $etablissement;
+        return $societe->createEtablissement($famille);
     }
 
     public function getNextIdentifiantForSociete($societe) {
@@ -131,8 +123,12 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
+    public function findByAccises($no_accises) {
+        return $this->findByCvi($no_accises);
+    }
+
     public function findByCvi($cvi) {
-        $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
+        $rows = EtablissementFindByCviView::getInstance()->findByCvi(str_replace(' ', '', $cvi));
 
         if (!count($rows)) {
             return null;

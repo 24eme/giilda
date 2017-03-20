@@ -124,6 +124,7 @@ class CompteClient extends acCouchdbClient {
 
     public function createCompteFromEtablissement($etablissement) {
         $compte = $this->createCompteFromSociete($etablissement->getSociete());
+        $compte->statut = $etablissement->statut;
         $compte->addOrigine($etablissement->_id);
         $etablissement->pushContactAndAdresseTo($compte);
 

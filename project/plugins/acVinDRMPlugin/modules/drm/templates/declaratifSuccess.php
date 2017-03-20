@@ -8,7 +8,7 @@
         <div id="application_dr">
             <form id="declaratif_info" action="<?php echo url_for('drm_declaratif', $drm) ?>" method="post">
                 <?php echo $form->renderHiddenFields() ?>
-                
+
                 <?php if ($sf_user->hasCredential(myUser::CREDENTIAL_ADMIN)): ?>
                 <?php if ($form->getObject()->isRectificative()): ?>
                 <ul class="onglets_declaratif">
@@ -37,13 +37,13 @@
                 </div>
                 <?php endif; ?>
                 <?php endif; ?>
-                
+
                 <ul class="onglets_declaratif">
                     <li><strong>Défaut d'apurement</strong><a href="" class="msg_aide" data-msg="help_popup_declaratif_defaut_apurement" title="Message aide"></a></li>
                 </ul>
 
                 <div class="contenu_onglet_declaratif ">
-                    <p class="intro">Veuillez séléctionner un défaut d'apurement :</p>
+                    <p class="intro">Veuillez sélectionner un défaut d'apurement :</p>
                     <div class="ligne_form alignes">
 
                         <?php echo $form['apurement']->renderError() ?>
@@ -51,7 +51,7 @@
 
                     </div>
                 </div>
-                
+
 		<?php if ($form->getObject()->hasVrac()): ?>
                 <ul class="onglets_declaratif">
                     <li><strong>Mouvements au cours du mois</strong><a href="" class="msg_aide" data-msg="help_popup_declaratif_mouvement" title="Message aide"></a></li>
@@ -111,7 +111,7 @@
                     <li><strong>Paiement des droits de circulation</strong><a href="" class="msg_aide" data-msg="help_popup_declaratif_paiement" title="Message aide"></a></li>
                 </ul>
                 <div class="contenu_onglet_declaratif">
-                    
+
                     <?php if ($hasFrequencePaiement): ?>
                         <?php if (DRMPaiement::isDebutCampagne()): ?>
                             <p class="intro"><?php echo $form['frequence']->renderLabel() ?></p>

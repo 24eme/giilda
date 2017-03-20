@@ -1,0 +1,5 @@
+all:
+  configuration:
+    vrac:
+      repartition_cvo: "50"
+      region_departement: false

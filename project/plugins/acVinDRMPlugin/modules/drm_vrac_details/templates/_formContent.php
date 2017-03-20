@@ -47,7 +47,7 @@ $docShow = $detail->hasTypeDoc('vrac');
 
             <td class="col-xs-2 text-center typedoc_unshow"  <?php echo (!$docShow) ? '' : 'style="display: none;"' ?>  ></td>
 
-            <td class="text-right col-xs-2"><a data-container="#drm_vrac_details_table tbody" data-template="#template_vrac" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></a><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
+            <td class="text-right col-xs-2"><button type="button" data-container="#drm_vrac_details_table tbody" data-template="#template_vrac" class="btn btn-xs btn-default dynamic-element-add"><span class="glyphicon glyphicon-plus"></span></button><?php echo getPointAideHtml('drm','mouvements_contrats_ajouter') ?></td>
         </tr>
     </tfoot>
 </table>

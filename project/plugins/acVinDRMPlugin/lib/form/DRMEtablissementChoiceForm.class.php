@@ -10,10 +10,14 @@ class DRMEtablissementChoiceForm extends EtablissementChoiceForm {
         }
         parent::__construct($interpro_id, $defaults, $options, $CSRFSecret);
     }
-    
+
     public function configure() {
         parent::configure();
-        $this->configureFamilles(array(EtablissementFamilles::FAMILLE_PRODUCTEUR));
+        $familles = array(EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        if(DRMConfiguration::getInstance()->isDRMNegoce()){
+          $familles = array_merge($familles,array(EtablissementFamilles::FAMILLE_NEGOCIANT,EtablissementFamilles::FAMILLE_COOPERATIVE));
+        }
+        $this->configureFamilles($familles);
         if ($this->autofocus) {
             $this->configureAutfocus();
         }

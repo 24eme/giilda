@@ -1,0 +1,24 @@
+all:
+  configuration:
+    facture:
+      pdf: "facture/pdf_generique"
+      pdf_nom_interpro: "Bureau Interprofessionnel des Vins du Centre"
+      pdf_ordre_cheque: "Bureau Interprofessionnel des Vins du Centre"
+      prefix_sage: "VT"
+      prefix_sage_divers: "OD"
+      tva_compte: "44571000"
+      defaut_compte: "75800000"
+      type_cvo:
+        identifiant_prefix: ""
+      type_libre:
+        identifiant_prefix: ""
+      idcontrat: "ARCHIVE"
+      stockage_code_produit: "identifiant_analytique"
+      prefix_code_comptable: "4110"
+      pdf_produit: true
+      pdf_nom_ref_client: "N° BIVC"
+      pdf_nom_taux: "Cotisat°"
+      pdf_display_code_comptable: false
+      echeance: "last day of +1 month"
+      export_shell: "%sf_root_dir%/bin/exportCielCompta.sh"
+      reglement: 'Conformément aux articles 441-6 c. com. et D. 441-5 c. com., tout retard de paiement entraîne de plein droit, une obligation pour le débiteur de payer une indemnité forfaitaire de 40€ pour frais de recouvrement.  Conformément à l’article 441-6 c. com., les pénalités de retard calculées sur le taux d’intérêt légal en vigueur,  sont exigibles dès que le délai de règlement est dépassé, sans qu’un rappel soit nécessaire. Escompte pour paiement anticipé néant. \vspace{3cm}'

@@ -59,4 +59,11 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php if(!$compte->getTelephoneBureau() && !$compte->getEmail() && !$compte->getFax() && !$compte->getTelephonePerso() && !$compte->getTelephoneMobile() && !$compte->getSiteInternet()): ?>
+        <div class="row">
+            <div class="text-center text-muted col-xs-12">
+                <em>Aucune information de contact</em>
+            </div>
+        </div>
+    <?php endif; ?>
 </div>

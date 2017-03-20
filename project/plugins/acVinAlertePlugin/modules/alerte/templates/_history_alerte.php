@@ -3,10 +3,10 @@ use_helper('Date');
 $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 ?>
 
-<div id="historique_alerte">	
+<div id="historique_alerte">
 	<h2>Historique de l'alerte</h2>
-	
-	<table class="table_recap">
+
+	<table class="table table-condensed table-bordered">
 		<thead>
 		<tr>
 			<th>Type d'alerte</th>
@@ -15,7 +15,7 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
 		</tr>
 		</thead>
 		<tbody>
-				<?php 
+				<?php
 				$cpt = count($alerte->statuts)-1;
 				while($cpt>=0) :
 				$statut = $alerte->statuts[$cpt];
@@ -28,16 +28,16 @@ $statutsWithLibelles = AlerteClient::getStatutsWithLibelles();
                                     $styleRow = 'style="opacity: 0.5"';
                                 }
                                 if(($statut->statut == AlerteClient::STATUT_A_RELANCER) || ($statut->statut == AlerteClient::STATUT_A_RELANCER_AR)){
-                                    $classRow = 'statut_solde';
+                                    $classRow = 'success';
                                 }
                                 if($statut->statut == AlerteClient::STATUT_EN_ATTENTE_REPONSE){
-                                    $classRow = 'statut_non-solde';
+                                    $classRow = 'warning';
                                 }
                                 if($statut->statut == AlerteClient::STATUT_EN_ATTENTE_REPONSE_AR){
-                                     $classRow = 'statut_annule';
+                                     $classRow = 'danger';
                                 }
-                                
-			?>   
+
+			?>
 			<tr class="<?php echo $classRow; ?>" <?php echo $styleRow; ?> >
 				<td><?php echo $statutsWithLibelles[$statut->statut]; ?></td>
 				<td><?php echo format_date($statut->date,'dd/MM/yyyy'); ?></td>

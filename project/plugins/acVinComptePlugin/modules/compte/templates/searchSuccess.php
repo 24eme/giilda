@@ -18,7 +18,7 @@
 			<div id="recherche_contact" class="section_label_maj">
 
                 <div class="input-group">
-                    <input id="champ_recherche" class="form-control input-lg" type="text" name="q" value="<?php echo $q; ?>">
+                    <input id="champ_recherche" class="form-control input-lg" type="text" name="q" value="<?php echo $q; ?>" autofocus="autofocus" />
                     <span class="input-group-btn">
                         <button class="btn btn-lg btn-primary" type="submit"><span class="glyphicon glyphicon-search"></span></button>
                     </span>
@@ -156,7 +156,7 @@
 		<h4>Créer un tag</h4>
 		<form class="form_ajout_tag" action="<?php echo url_for('compte_addtag', $args_copy->getRawValue()); ?>" method="GET">
         <div class="input-group">
-            <input id="creer_tag" name="tag" class="form-control" type="text" />
+            <input id="creer_tag" name="tag" class="form-control" required="required" type="text" placeholder="Saisir le nom du tag" />
 			<span class="input-group-btn">
                 <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-plus"></span></button>
             </span>
@@ -171,7 +171,7 @@
 		<h4>Supprimer un tag</h4>
 		<form class="form_ajout_tag" action="<?php echo url_for('compte_removetag', $args_copy->getRawValue()); ?>" method="GET">
         <div class="input-group">
-            <select id="suppr_tag" name="tag" class="form-control select2">
+            <select id="suppr_tag" placeholder="Sélectionner un tag" required="required" name="tag" class="form-control select2">
             	<option value=""></option>
             	<?php foreach ($tagsManuels as $tm): ?>
             	<option value="<?php echo $tm ?>"><?php echo $tm ?></option>

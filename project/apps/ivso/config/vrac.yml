@@ -1,0 +1,26 @@
+all:
+  configuration:
+    vrac:
+      solde_seuil: "10%"
+      repartition_cvo: "50"
+      region_departement: ".*"
+      champs_supprimes:
+        condition:
+          "_ALL": ["tva", "pluriannuel", "annee_contrat", "seuil_revision", "pourcentage_variation", "courtage_taux", "courtage_repartition"]
+          "RAISINS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
+          "MOUTS": ["autorisation_nom_vin", "autorisation_nom_producteur", "preparation_vin", "embouteillage", "conditionnement_crd"]
+          "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd"]
+          "VIN_BOUTEILLE": []
+      delais_paiement:
+        "60_JOURS": "60 jours fin de mois"
+        "30_JOURS": "30 jours fin de mois"
+        "COMPTANT": "Comptant"
+        "ACCORD_INTERPROFESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
+        "45_JOURS": "45 jours à compter du mois d'émission de la facture"
+      moyens_paiement:
+        "VIREMENT": "Virement bancaire"
+        "CB": "Carte bancaire"
+        "CHEQUE": "Chèque"
+        "ESPECES": "Espèces"
+      transactions:
+        "MOUTS": null

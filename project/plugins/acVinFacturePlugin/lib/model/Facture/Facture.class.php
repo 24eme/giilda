@@ -91,13 +91,17 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->date_emission = date('Y-m-d');
         $this->date_facturation = $date_facturation;
         $date_facturation_object = new DateTime($this->date_facturation);
-        $this->date_echeance = $date_facturation_object->modify('+30 days')->format('Y-m-d');
-        if (!$this->date_facturation)
+        $this->date_echeance = $date_facturation_object->modify(FactureConfiguration::getInstance()->getEcheance())->format('Y-m-d');
+        if (!$this->date_facturation) {
             $this->date_facturation = date('Y-m-d');
-	$date_campagne = new DateTime(date('Y-m-d'));
-        if (isset($configs['exercice']) && $configs['exercice'] == 'viticole') {
-		$date_campagne = $date_campagne->modify('+5 months');
-	}
+        }
+
+	    $date_campagne = new DateTime($this->date_facturation);
+
+        if (FactureConfiguration::getInstance()->getExercice() == 'viticole') {
+		    $date_campagne = $date_campagne->modify('+5 months');
+	    }
+
         $this->campagne = $date_campagne->format('Y');
     }
 
@@ -219,14 +223,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeLignesFromMouvements($mvts, $famille, $modele) {
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
-                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
+            if (isset($this->config_sortie_array['vrac']) && $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
+                continue;
             }
+            $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
         }
         foreach ($mvts as $ligneByType) {
-            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
-                $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
+            if (!isset($this->config_sortie_array['vrac'])) {
+                continue;
             }
+            if ($ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] != $this->config_sortie_array['vrac']) {
+                continue;
+            }
+
+            $this->storeLigneFromMouvements($ligneByType, $famille, $modele);
         }
     }
 
@@ -235,7 +245,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $etablissements = $this->getEtablissements();
 
         $keysOrigin = array();
-        if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+        if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->value[MouvementfactureFacturationView::VALUE_ID_ORIGINE] as $origine) {
                 $keyOrigin = explode(':', $origine);
                 $keyOriginWithoutModificatrice = preg_replace('/(.*)-M[0-9]+$/', '$1', $keyOrigin[0]);
@@ -259,22 +269,28 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $ligne->origine_mouvements->getOrAdd($mvtKeyArray[0])->add(null, $mvtKeyArray[1]);
             }
             $origin_mouvement = $ligneByType->key[MouvementfactureFacturationView::KEYS_ORIGIN];
-            if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+            if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM){
                 $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($docId);
                 if (count($etablissements) > 1) {
                     $idEtb = $ligneByType->key[MouvementfactureFacturationView::KEYS_ETB_ID];
                     $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
                     $ligne->libelle .= ' (' . $etb->etablissement->nom . ')';
                 }
-            } elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
+            }elseif($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12){
+                $ligne->libelle = SV12Client::getInstance()->getLibelleFromId($docId);
+                if (count($etablissements) > 1) {
+                    $idEtb = $ligneByType->key[MouvementfactureFacturationView::KEYS_ETB_ID];
+                    $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
+                    $ligne->libelle .= ' (' . $etb->etablissement->nom . ')';
+                  }
+            }elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $ligne->libelle = $ligneByType->key[MouvementfactureFacturationView::KEYS_MATIERE];
                 $ligne->add("produit_identifiant_analytique", $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
             }
 
-            if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+            if (($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
                 $produit_libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_PRODUIT_LIBELLE];
-                $transacteur = $ligneByType->value[MouvementfactureFacturationView::VALUE_VRAC_DEST];
-
+                $transacteur = $ligneByType->key[MouvementfactureFacturationView::KEYS_VRAC_DEST];
                 $detail = null;
                 if ($transacteur) {
                     $detail = $ligne->getOrAdd('details')->add();
@@ -308,7 +324,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-                if(!preg_match('/^([0-9]+)_([0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
+                if(preg_match('/^([0-9]+)_([a-z0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
                     throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format!",$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]));
                 }
                 $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
@@ -378,8 +394,18 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     private function createOrigine($transacteur, $famille, $view) {
+        $isProduitFirst = FactureConfiguration::getInstance()->isPdfProduitFirst();
+
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Date'));
-        if ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) {
+        if (($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM)
+          || ($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
+
+            $type_contrat = "";
+            if($view->key[MouvementfactureFacturationView::KEYS_ORIGIN] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12){
+              $type_contrat =  'Achat ';
+            }else{
+              $type_contrat = 'Contrat ';
+            }
 
             if ($famille == SocieteClient::TYPE_OPERATEUR) {
                 if ( sfConfig::get('app_configuration_facture_idcontrat') == 'ID' ) {
@@ -391,6 +417,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             }
             $origine_libelle .= ' (' . $transacteur . ') ';
 
+            if($isProduitFirst){
+              $origine_libelle = $type_contrat . $transacteur;
+            }
             return $origine_libelle;
         }
     }
@@ -594,7 +623,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($this->exist('taux_tva') && $this->_get('taux_tva')) {
             return round($this->_get('taux_tva'), 2);
         }
-        $config_tva = sfConfig::get('app_tva_taux');
+        $config_tva = FactureConfiguration::getInstance()->getTauxTva();
         $date_facturation = str_replace('-', '', $this->date_facturation);
         $taux_f = 0.0;
         foreach ($config_tva as $date => $taux) {
@@ -751,6 +780,18 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return $this->_get('message_communication');
         }
         return self::MESSAGE_DEFAULT;
+    }
+
+    public function isFactureDRM(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DRM);
+    }
+
+    public function isFactureSV12(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_SV12);
+    }
+
+    public function isFactureDivers(){
+      return $this->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS);
     }
 
 }

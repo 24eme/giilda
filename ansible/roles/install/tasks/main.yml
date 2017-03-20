@@ -11,6 +11,10 @@
   - "deb http://packages.elastic.co/logstash/2.2/debian stable main"
   - "deb http://packages.elastic.co/kibana/4.1/debian stable main"
 
+- name: "backport repo"
+  become: true
+  apt_repository: repo='deb http://ftp.debian.org/debian stable-backports main' state=present
+
 - name: "modules debian installés"
   apt: name={{item}} state=latest
   become: yes
@@ -27,9 +31,22 @@
   - node-less
   - texlive-fonts-recommended
   - texlive-latex-extra
-  - pdflatex pdftk
+  - texlive-latex-base
+  - pdftk
   - texlive-lang-french
   - texlive-lang-greek
+  - sudo
+  - vim
+  - rkhunter
+  - fail2ban
+  - curl
+  - dehydrated
+  - dehydrated-apache2
+  - gawk
+  - libjson-perl
+  - screen
+  - recode
+  - unzip
 
 - name: "user actualys exist"
   user: name=actualys state=present
@@ -40,6 +57,7 @@
   git: repo=https://github.com/24eme/giilda.git
     dest=/home/actualys/{{giilda_branch}}_{{giilda_instance}}
     update=yes clone=yes version={{giilda_branch}} remote={{giilda_branch}}
+    force=yes
 
 - name: "cache and log created"
   become: yes
@@ -48,14 +66,12 @@
   with_items:
   - cache
   - log
+  - web/generation
+  - data/latex
 
 - name: "Prepare Virtual document root"
   become: yes
   file: path=/home/www state=directory owner=actualys
-
-- name: "Configuration apache"
-  become: yes
-  copy: src=files/apache.conf dest=/etc/apache2/sites-available/000-default.conf
 
 - name: "Apache modules"
   become: yes
@@ -63,11 +79,32 @@
   with_items:
   - rewrite
   - vhost_alias
+  - ssl
   notify: reload apache
+
+- name: "configuration dehydrated/letsencrypt"
+  become: true
+  template: src={{item.src}} dest={{item.dest}} mode={{item.mode}}
+  with_items:
+  - {src: dehydrated/domain.txt.j2, dest: /etc/dehydrated/domains.txt, mode: "0644"}
+  - {src: dehydrated/config.sh.j2, dest: /etc/dehydrated/conf.d/config.sh, mode: "0755"}
+  - {src: dehydrated/hook.sh.j2, dest: /etc/dehydrated/hook.sh, mode: "0755"}
+  - {src: dehydrated/crontab.weekly.j2, dest: /etc/cron.weekly/dehydrated, mode: "0755"}
 
 - name: "Create virtualhost"
   become: yes
   file: path=/home/www/{{giilda_hostname}} state=link src=/home/actualys/{{giilda_branch}}_{{giilda_instance}}/project/web
+  notify: reload apache
+
+- name: "Configuration default apache"
+  become: yes
+  copy: src=files/apache.conf dest=/etc/apache2/sites-enabled/000-default.conf
+  notify: reload apache
+
+- name: "Configuration apache pour notre site"
+  become: yes
+  template: src=templates/apache.conf.j2 dest=/etc/apache2/sites-enabled/{{giilda_hostname}}.conf
+  notify: reload apache
 
 - name: "Has couchdb package"
   become: yes
@@ -94,6 +131,7 @@
 
 - name: "Logstash and kibana"
   apt: name={{item}} state=present
+  become: yes
   with_items:
   - logstash
   - kibana
@@ -127,3 +165,10 @@
   shell: make
   args:
     chdir: /home/actualys/{{giilda_branch}}_{{giilda_instance}}/project
+
+
+#- name: "logstash configuration"
+#  shell: bash bin/elastic2_configure
+#  args:
+#    chdir: /home/actualys/{{giilda_branch}}_{{giilda_instance}}/project
+#    creates: /etc/logstash/conf.d/{{giilda_dbname}}.conf

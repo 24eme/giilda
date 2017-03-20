@@ -6,17 +6,19 @@ class SV12Client extends acCouchdbClient {
      * @return DRMClient
      */
 
-    const STATUT_VALIDE = 'VALIDE'; 
-    const STATUT_VALIDE_PARTIEL = 'VALIDE_PARTIEL'; 
-    const STATUT_BROUILLON = 'BROUILLON'; 
-    
-    const SV12_KEY_SANSCONTRAT = 'SANSCONTRAT'; 
-    const SV12_KEY_SANSVITI = 'SANSVITI'; 
-    
+    const STATUT_VALIDE = 'VALIDE';
+    const STATUT_VALIDE_PARTIEL = 'VALIDE_PARTIEL';
+    const STATUT_BROUILLON = 'BROUILLON';
+
+    const SV12_KEY_SANSCONTRAT = 'SANSCONTRAT';
+    const SV12_KEY_SANSVITI = 'SANSVITI';
+
+    const SV12_TYPEKEY_VENDANGE = 'VENDANGE'; 
+
     const SV12_VIEWHISTORY_ID = 0;
-    const SV12_VIEWHISTORY_DATESAISIE = 1;    
+    const SV12_VIEWHISTORY_DATESAISIE = 1;
     const SV12_VIEWHISTORY_PERIODE = 2;
-    const SV12_VIEWHISTORY_VERSION = 3;     
+    const SV12_VIEWHISTORY_VERSION = 3;
     const SV12_VIEWHISTORY_NEGOCIANT_ID = 4;
     const SV12_VIEWHISTORY_NEGOCIANT_NOM = 5;
     const SV12_VIEWHISTORY_NEGOCIANT_CVI = 6;
@@ -43,7 +45,7 @@ class SV12Client extends acCouchdbClient {
     }
 
     public function buildPeriode($date) {
-      
+
         return ConfigurationClient::getInstance()->buildCampagne($date);
     }
 
@@ -64,7 +66,7 @@ class SV12Client extends acCouchdbClient {
 
     	return $periode;
     }
-    
+
     public function createOrFind($identifiant, $periode) {
         $sv12 = $this->find($this->buildId($identifiant, $periode));
         if (!$sv12) {
@@ -90,7 +92,7 @@ class SV12Client extends acCouchdbClient {
         }
         return $sv12_master;
     }
-    
+
     public function findMaster($id_or_identifiant, $periode) {
 
       $sv12 = SV12AllView::getInstance()->getMasterByEtablissementAndPeriode($id_or_identifiant, $periode);
@@ -102,11 +104,11 @@ class SV12Client extends acCouchdbClient {
       return $this->find($sv12->_id);
     }
 
-    public function retreiveSV12s() {   
+    public function retreiveSV12s() {
       return SV12AllView::getInstance()->findAll();
-        
+
     }
-    
+
     public function findMasterRectificative($id_or_identifiant, $periode, $version_rectificative) {
 
       $sv12 = SV12AllView::getInstance()->getMasterByEtablissementPeriodeAndVersionRectificative($id_or_identifiant, $periode, $version_rectificative);
@@ -117,21 +119,21 @@ class SV12Client extends acCouchdbClient {
 
       return $this->find($sv12->_id);
     }
-    
-    
-    public function findContratsByEtablissement($identifiant) {   
+
+
+    public function findContratsByEtablissement($identifiant) {
       return $this->findContratsByEtablissementAndCampagne($identifiant, ConfigurationClient::getInstance()->getCurrentCampagne());
-        
+
     }
-    
-    public function findContratsByEtablissementAndCampagne($identifiant, $campagne) {   
-      return VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, array('start' => VracClient::TYPE_TRANSACTION_MOUTS, 'end' => VracClient::TYPE_TRANSACTION_RAISINS), 10000)->rows;    
+
+    public function findContratsByEtablissementAndCampagne($identifiant, $campagne) {
+      return VracClient::getInstance()->retrieveBySoussigneAndType($identifiant,  $campagne, array('start' => VracClient::TYPE_TRANSACTION_MOUTS, 'end' => VracClient::TYPE_TRANSACTION_RAISINS), 10000)->rows;
     }
-    
+
     public function getLibelleFromId($id) {
 
         if (!preg_match('/^SV12-[0-9]+-([0-9]{4})-([0-9]{4})/', $id, $matches)) {
-            
+
             return $id;
         }
 

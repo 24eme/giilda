@@ -8,12 +8,6 @@ class DRMESDetails extends BaseDRMESDetails {
 
     public function update($params = array()) {
         parent::update($params);
-        /* if (count($this) == 1 && !$this[0]->identifiant) {
-          $p = $this->getParent();
-          $k = $this->getKey();
-          $this->delete();
-          $p->add($k);
-          } */
     }
 
     public function getNoeud() {
@@ -37,45 +31,8 @@ class DRMESDetails extends BaseDRMESDetails {
         $this->getParent()->add($this->getKey());
     }
 
-    public function addDetail($identifiant = null, $volume = null, $date_enlevement = null, $numero_document = null, $type_document = null) {
-        $detail = $this->add($identifiant);
-
-        $detail->identifiant = $identifiant;
-
-        if ($volume && is_null($detail->volume)) {
-            $detail->volume = $volume;
-        } elseif ($volume) {
-            $detail->volume += $volume;
-        }
-
-        if ($date_enlevement) {
-            $detail->date_enlevement = $date_enlevement;
-        }
-
-        if ($numero_document) {
-            $detail->numero_document = $numero_document;
-            $detail->type_document = $type_document;
-            $documents_annexes = $this->getDocument()->getOrAdd('documents_annexes');            
-            if ($type_document) {
-                if (($detail instanceof DRMESDetailExport) || ($detail instanceof DRMESDetailVrac)) {
-                    if (!$documents_annexes->exist($type_document)) {
-                        $docNode = $documents_annexes->add($type_document);
-                        $docNode->debut = $numero_document;
-                        $docNode->fin = $numero_document;
-                    } else {
-                        $docNode = $documents_annexes->getOrAdd($type_document);
-                        if (strcmp($numero_document, $docNode->debut) < 0) {
-                            $docNode->debut = $numero_document;
-                        }
-                        if (strcmp($numero_document, $docNode->fin) > 0) {
-                            $docNode->fin = $numero_document;
-                        }
-                    }
-                }
-            }
-        }
-
-        return $detail;
+    public function addDetail($detail) {
+         return $this->add($detail->getKey(),$detail);
     }
 
     public function createMouvements($template_mouvement) {
@@ -166,6 +123,9 @@ class DRMESDetails extends BaseDRMESDetails {
         if ($mouvement->cvo > 0 && $mouvement->volume) {
             $mouvement->facturable = 1;
         }
+        if($this->getDocument()->isDrmNegoce()){
+            $mouvement->facturable = 0;
+        }
         return $mouvement;
     }
 
@@ -185,6 +145,9 @@ class DRMESDetails extends BaseDRMESDetails {
         $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->representant_identifiant, $detail->getDocument()->getDate());
         if ($mouvement->cvo > 0 && $mouvement->volume) {
             $mouvement->facturable = 1;
+        }
+        if($this->getDocument()->isDrmNegoce()){
+            $mouvement->facturable = 0;
         }
         return $mouvement;
     }

@@ -11,7 +11,7 @@ PATHFILEFA=$(echo $TMP/exports_franceagrimer/$FILENAME);
 
 echo 'CONSTRUCTION DU FICHIER '$PATHFILEFA;
 
-php symfony export:contrats-france-agrimer --env=$SYMFONYENV > $PATHFILEFA".tmp"
+php symfony export:contrats-france-agrimer $SYMFONYTASKOPTIONS > $PATHFILEFA".tmp"
 
 cat data/export/match_cepages.csv | cut -d ';' -f 1,2 | sed -r 's|"([0-9]+)";"(.*)"|s\/;"\2";\/;"\1";\/g|g' | grep -v '"COD_CEP";"LIB_CEP"' > $TMP/exports_franceagrimer/sedCepages
 

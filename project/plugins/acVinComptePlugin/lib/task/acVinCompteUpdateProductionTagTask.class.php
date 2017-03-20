@@ -126,7 +126,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
 
                 $compte->save();
             } catch (Exception $exc) {
-                echo $exc->getMessage()."\n";
+                echo $exc."\n";
                 continue;
             }
 
@@ -138,7 +138,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
         $configuration = ConfigurationClient::getInstance()->getCurrent();
 
         if(!$configuration->exist($hash)) {
-            echo "Hash non trouvé :".$m->produit_hash."\n";
+            echo "Hash non trouvé :".$hash."\n";
             return null;
         }
 
