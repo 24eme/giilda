@@ -252,7 +252,7 @@ class DRMClient extends acCouchdbClient {
             $list[$c] = $c;
         }
         krsort($list);
-        return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
+        return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list,true,true,true);
     }
 
     public function viewByIdentifiant($identifiant) {

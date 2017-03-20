@@ -23,7 +23,7 @@ class CampagneManager {
 
         $annees = $this->getAnnees($campagne);
 
-        return $annees[1]."-".$this->mm_dd_debut; 
+        return $annees[1]."-".$this->mm_dd_debut;
     }
 
     public function getDateFinByCampagne($campagne) {
@@ -53,7 +53,7 @@ class CampagneManager {
     public function getPrevious($campagne) {
         $annees = $this->getAnnees($campagne);
 
-        return $this->formatCampagneOutput(sprintf('%s-%s', $annees[1]-1, $annees[2]-1)); 
+        return $this->formatCampagneOutput(sprintf('%s-%s', $annees[1]-1, $annees[2]-1));
 
     }
 
@@ -62,13 +62,13 @@ class CampagneManager {
 
         $annees = $this->getAnnees($campagne);
 
-        return $this->formatCampagneOutput(sprintf('%s-%s', $annees[1]+1, $annees[2]+1)); 
+        return $this->formatCampagneOutput(sprintf('%s-%s', $annees[1]+1, $annees[2]+1));
 
     }
 
     protected function getAnnees($campagne) {
         $campagne = $this->formatCampagneInput($campagne);
-        
+
     	if (!preg_match('/^([0-9]+)-([0-9]+)$/', $campagne, $annees)) {
 
             throw new sfException('campagne bad format');
@@ -87,19 +87,18 @@ class CampagneManager {
         return $campagne_input;
     }
 
-    public function consoliderCampagnesList($campagnes, $add_current = true, $add_one_more = true) {
+    public function consoliderCampagnesList($campagnes, $add_current = true, $add_one_more = true, $fill = false) {
         krsort($campagnes);
-        
+
         $campagnes_consolider = array();
-        
+
         if($add_current) {
             $campagnes_consolider[$this->getCurrent()] = $this->getCurrent();
         }
 
         foreach($campagnes as $campagne => $value) {
             if(!$campagne) {
-
-                    continue;
+								continue;
             }
 
             $next_campagne = $this->getNext($campagne);
@@ -113,8 +112,25 @@ class CampagneManager {
         }
 
         krsort($campagnes_consolider);
+				$campagnes_result = $campagnes_consolider;
+				if($fill){
+					$campagnes_result = array();
+					$cpt = 0;
+					foreach ($campagnes_consolider as $c => $ca) {
+						$campagnes_result[$c] = $ca;
+						if($cpt >= count($campagnes_consolider)-1){
+							break;
+						}
+						$cpt++;
+						while(!in_array($this->getPrevious($c),$campagnes_consolider)){
+							$last = $this->getPrevious($c);
+							$campagnes_result[$last] = $last;
+							$c = $this->getPrevious($c);
+						}
+					}
+				}
 
-        return $campagnes_consolider;
+        return $campagnes_result;
     }
 
 }
