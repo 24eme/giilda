@@ -28,7 +28,12 @@ $t->ok($vrac->produit_libelle, $vrac->_id." : Enregistrement du produit");
 $t->is($vrac->volume_propose, 100, $vrac->_id." : Enregistrement du volue proposé");
 $t->is($vrac->prix_total, 7000, $vrac->_id." : Enregistrement du prix");
 $t->is($vrac->representant_identifiant, $vrac->vendeur_identifiant, $vrac->_id." : Le représentant est le vendeur si pas de représentant");
-$t->is($vrac->cvo_repartition, "50", $vrac->_id." : Répartition 50/50 car négo");
+
+if($application == "ivbd") {
+    $t->is($vrac->cvo_repartition, "100_ACHETEUR", $vrac->_id." : Répartition 100% acheteur car le négo est en région");
+} else {
+    $t->is($vrac->cvo_repartition, "50", $vrac->_id." : Répartition 50/50 car négo");
+}
 
 $vrac->validate();
 $vrac->save();
