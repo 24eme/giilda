@@ -24,5 +24,7 @@ foreach ($result['agg_page']['buckets'] as $categorie) {
 		}
 		$csv .= $categorieLibelle.';'.$appellationLibelle.';TOTAL;'.$totalFrance.';'.$totalExport.';'.$totalNegoce.';'.$totalTotal."\n";
 	}
+	$csv .= $categorieLibelle.';TOTAL;TOTAL;'.formatNumber($categorie['sous_totaux_france']['value']).';'.formatNumber($categorie['sous_totaux_export']['value']).';'.formatNumber($categorie['sous_totaux_negoce']['value']).';'.formatNumber($categorie['sous_totaux_total']['value'])."\n";
 }
+$csv .= 'TOTAL;TOTAL;TOTAL;'.formatNumber($result['totaux_france']['value']).';'.formatNumber($result['totaux_export']['value']).';'.formatNumber($result['totaux_negoce']['value']).';'.formatNumber($result['totaux_total']['value'])."\n";
 echo $csv;

@@ -9,11 +9,24 @@ all:
         exportations:
           libelle: "Exportations"
           index: "DRMMVT"
+          hashkeysize: 2
           aggregation:
             filter:
               term:
                 doc.mouvements.type_hash: 'export_details'
             aggs:
+              totaux_blanc:
+                sum_bucket:
+                  buckets_path: "agg_page>total_blanc"
+              totaux_rose:
+                sum_bucket:
+                  buckets_path: "agg_page>total_rose"
+              totaux_rouge:
+                sum_bucket:
+                  buckets_path: "agg_page>total_rouge"
+              totaux_total:
+                sum_bucket:
+                  buckets_path: "agg_page>total_total"
               agg_page:
                 terms:
                   size: 0,
@@ -82,6 +95,15 @@ all:
               term:
                 doc.mouvements.categorie: 'stocks'
             aggs:
+              totaux_stock_initial:
+                sum_bucket:
+                  buckets_path: "agg_page>total_stock_initial"
+              totaux_stock_final:
+                sum_bucket:
+                  buckets_path: "agg_page>total_stock_final"
+              totaux_total:
+                sum_bucket:
+                  buckets_path: "agg_page>total_total"
               agg_page:
                 terms:
                   size: 0,
@@ -126,16 +148,41 @@ all:
         sorties_categorie:
           libelle: "Sorties par catégorie"
           index: "DRMMVT"
+          hashkeysize: 3
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd', 'entrees/achatnoncrd']
             aggs:
+              totaux_france:
+                sum_bucket:
+                  buckets_path: "agg_page>sous_totaux_france"
+              totaux_export:
+                sum_bucket:
+                  buckets_path: "agg_page>sous_totaux_export"
+              totaux_negoce:
+                sum_bucket:
+                  buckets_path: "agg_page>sous_totaux_negoce"
+              totaux_total:
+                sum_bucket:
+                  buckets_path: "agg_page>sous_totaux_total"
               agg_page:
                 terms:
                   size: 0,
                   field: 'doc.declarant.famille'
                 aggs:
+                  sous_totaux_france:
+                    sum_bucket:
+                      buckets_path: "agg_page>total_france"
+                  sous_totaux_export:
+                    sum_bucket:
+                      buckets_path: "agg_page>total_export"
+                  sous_totaux_negoce:
+                    sum_bucket:
+                      buckets_path: "agg_page>total_negoce"
+                  sous_totaux_total:
+                    sum_bucket:
+                      buckets_path: "agg_page>total_total"
                   agg_page:
                     terms:
                       size: 0,
@@ -178,8 +225,8 @@ all:
                                   script: '_value * -1'
                           entree_negoce:
                             filter:
-                              term:
-                                doc.mouvements.type_hash: 'entrees/achatcrd'
+                              terms:
+                                doc.mouvements.type_hash: ['entrees/achatcrd', 'entrees/achatnoncrd']
                             aggs:
                               agg_column:
                                 sum:
@@ -209,11 +256,24 @@ all:
         sorties_appellation:
           libelle: "Sorties de l'appellation"
           index: "DRMMVT"
+          hashkeysize: 2
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'creationvrac_details', 'creationvractirebouche_details', 'entrees/achatcrd', 'entrees/achatnoncrd']
             aggs:
+              totaux_france:
+                sum_bucket:
+                  buckets_path: "agg_page>total_france"
+              totaux_export:
+                sum_bucket:
+                  buckets_path: "agg_page>total_export"
+              totaux_negoce:
+                sum_bucket:
+                  buckets_path: "agg_page>total_negoce"
+              totaux_total:
+                sum_bucket:
+                  buckets_path: "agg_page>total_total"
               agg_page:
                 terms:
                   size: 0,
@@ -265,8 +325,8 @@ all:
                               script: '_value * -1'
                       entree_negoce:
                         filter:
-                          term:
-                            doc.mouvements.type_hash: 'entrees/achatcrd'
+                          terms:
+                            doc.mouvements.type_hash: ['entrees/achatcrd', 'entrees/achatnoncrd']
                         aggs:
                           agg_column:
                             sum:
