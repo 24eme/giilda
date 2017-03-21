@@ -3,12 +3,12 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(18);
+$t = new lime_test(24);
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
 $paramFacturation =  array(
     "modele" => "DRM",
-    "date_facturation" => date('Y-m-d'),
+    "date_facturation" => date('Y').'-08-01',
     "date_mouvement" => null,
     "type_document" => GenerationClient::TYPE_DOCUMENT_FACTURES,
     "message_communication" => null,
@@ -37,6 +37,45 @@ $t->is($facture->identifiant, $societeViti->identifiant, "La facture appartient 
 $t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
 $t->is($facture->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC."  €");
 $t->is($facture->total_taxe, $prixTaxe, "Le total de taxe est de ".$prixTaxe."  €");
+
+$nbLignes = 0;
+$doublons = 0;
+foreach($facture->lignes as $lignes) {
+    $libellesUnique = array();
+    foreach($lignes->details as $ligne) {
+        $nbLignes++;
+        if(array_key_exists($ligne->libelle . $ligne->origine_type, $libellesUnique)) {
+            $doublons++;
+        }
+        $libellesUnique[$ligne->libelle . $ligne->origine_type] = 1;
+    }
+}
+
+$t->ok(!$doublons, "Aucune ligne (par libellé) en doublon");
+
+if($application == "ivbd") {
+    $t->is($nbLignes, 2, "La facture à 2 lignes");
+} else {
+    $t->is($nbLignes, 3, "La facture à 3 lignes");
+}
+
+if($application == "ivbd") {
+    $t->is($facture->campagne, (date('Y')+1)."", "La campagne est de la facture est sur l'année viticole");
+} else {
+    $t->is($facture->campagne, date('Y'), "La campagne est l'année courante");
+}
+
+$t->ok(preg_match("/^[0-9]{5}$/", $facture->numero_archive), "Le numéro d'archive a été créé et est composé de 5 chiffres");
+
+if($application == "ivbd") {
+    $t->is($facture->numero_piece_comptable, "1".substr($facture->campagne, -2).$facture->numero_archive, "Le numéro de facture est bien formé");
+} elseif($application == "ivso") {
+    $t->is($facture->numero_piece_comptable, "C".substr($facture->campagne, -2).$facture->numero_archive, "Le numéro de facture est bien formé");
+} else {
+    $t->is($facture->numero_piece_comptable, substr($facture->campagne, -2).$facture->numero_archive, "Le numéro de facture est bien formé");
+}
+
+$t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablement");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 

@@ -64,7 +64,7 @@ $t->is($comptenego->tags->automatique->toArray(true, false), array('societe', 'r
 $societenego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getSociete();
 $etablissementnego_horsregion = $societenego_horsregion->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
 $etablissementnego_horsregion->region = EtablissementClient::REGION_HORS_CVO;
-$etablissementnego->nom = "Etablissement negociant hors région";
+$etablissementnego_horsregion->nom = "Etablissement negociant hors région";
 $etablissementnego_horsregion->save();
 $id = $etablissementnego_horsregion->getSociete()->getidentifiant();
 $comptenego_horsregion = CompteClient::getInstance()->findByIdentifiant($id.'01');
