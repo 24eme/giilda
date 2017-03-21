@@ -23,7 +23,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
 }
 
 
-$t = new lime_test(7);
+$t = new lime_test(10);
 $t->comment('création des différentes établissements');
 
 $societeviti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
@@ -36,6 +36,7 @@ $compteviti = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $compteviti->addTag('test', 'test');
 $compteviti->save();
 $t->is($compteviti->tags->automatique->toArray(true, false), array('societe', 'ressortissant', 'producteur', 'etablissement'), "Création d'un etablissement viti met à jour le compte");
+$t->is($etablissementviti->region, EtablissementClient::REGION_CVO, "L'établissement est en région CVO après le save");
 
 $societenego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getSociete();
 $etablissementnego = $societenego->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
@@ -47,6 +48,7 @@ $comptenego = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $comptenego->addTag('test', 'test');
 $comptenego->save();
 $t->is($comptenego->tags->automatique->toArray(true, false), array('societe', 'ressortissant', 'negociant', 'etablissement'), "Création d'un etablissement nego met à jour le compte");
+$t->is($etablissementnego->region, EtablissementClient::REGION_CVO, "L'établissement est en région CVO après le save");
 
 $societenego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region_2')->getSociete();
 $etablissementnego = $societenego->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
@@ -62,13 +64,14 @@ $t->is($comptenego->tags->automatique->toArray(true, false), array('societe', 'r
 $societenego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getSociete();
 $etablissementnego_horsregion = $societenego_horsregion->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
 $etablissementnego_horsregion->region = EtablissementClient::REGION_HORS_CVO;
-$etablissementnego->nom = "Etablissement negociant hors région";
+$etablissementnego_horsregion->nom = "Etablissement negociant hors région";
 $etablissementnego_horsregion->save();
 $id = $etablissementnego_horsregion->getSociete()->getidentifiant();
 $comptenego_horsregion = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $comptenego_horsregion->addTag('test', 'test');
 $comptenego_horsregion->save();
 $t->is($comptenego_horsregion->tags->automatique->toArray(true, false), array('societe', 'ressortissant', 'negociant', 'etablissement'), "Création d'un etablissement nego_horsregion met à jour le compte");
+$t->is($etablissementnego_horsregion->region, EtablissementClient::REGION_HORS_CVO, "L'établissement est hors région CVO après le save");
 
 $societecourtier = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_courtier')->getSociete();
 $etablissementcourtier = $societecourtier->createEtablissement(EtablissementFamilles::FAMILLE_COURTIER);

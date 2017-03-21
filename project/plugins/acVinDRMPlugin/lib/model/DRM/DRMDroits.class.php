@@ -21,6 +21,9 @@ class DRMDroits extends BaseDRMDroits {
         $date = $this->getDocument()->getDate();
         foreach ($conf->declaration->certifications as $keyCertif => $certification) {
             foreach ($certification->genres as $keyGenre => $genre) {
+                if(!array_key_exists($keyGenre, self::$correspondanceGenreKey)) {
+                    continue;
+                }
                 $droitsDouaneConf = $genre->getDroitDouane($date);
                 $droitDouane = $this->getOrAdd(self::$correspondanceGenreKey[$keyGenre]);
                 $droitDouane->volume_reintegre = 0;

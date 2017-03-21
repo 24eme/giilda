@@ -23,9 +23,15 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
 $t = new lime_test(7);
 $t->comment('création des différentes sociétés');
 
+$codePostalRegion = "92100";
+
+if($application == "ivbd") {
+    $codePostalRegion = "24100";
+}
+
 $societeviti = SocieteClient::getInstance()->createSociete("société viti test", SocieteClient::TYPE_OPERATEUR);
 $societeviti->pays = "FR";
-$societeviti->code_postal = "92100";
+$societeviti->code_postal = $codePostalRegion;
 $societeviti->commune = "Neuilly sur seine";
 $societeviti->save();
 $id = $societeviti->getidentifiant();
@@ -37,7 +43,7 @@ $t->is($compteviti->tags->automatique->toArray(true, false), array('societe', 'r
 
 $societenegocvo = SocieteClient::getInstance()->createSociete("société négo de la région test", SocieteClient::TYPE_OPERATEUR);
 $societenegocvo->pays = "FR";
-$societenegocvo->code_postal = "92100";
+$societenegocvo->code_postal = $codePostalRegion;
 $societenegocvo->commune = "Neuilly sur seine";
 $societenegocvo->save();
 $id = $societenegocvo->getidentifiant();
@@ -49,7 +55,7 @@ $t->is($compte->tags->automatique->toArray(true, false), array('societe', 'resso
 
 $societenegocvo = SocieteClient::getInstance()->createSociete("société négo 2 de la région test", SocieteClient::TYPE_OPERATEUR);
 $societenegocvo->pays = "FR";
-$societenegocvo->code_postal = "92100";
+$societenegocvo->code_postal = $codePostalRegion;
 $societenegocvo->commune = "Neuilly sur seine";
 $societenegocvo->save();
 $id = $societenegocvo->getidentifiant();
@@ -73,7 +79,7 @@ $t->is($compte->tags->automatique->toArray(true, false), array('societe', 'resso
 
 $societecourtier = SocieteClient::getInstance()->createSociete("société courtier test", SocieteClient::TYPE_COURTIER);
 $societecourtier->pays = "FR";
-$societecourtier->code_postal = "92100";
+$societecourtier->code_postal = $codePostalRegion;
 $societecourtier->commune = "Neuilly sur seine";
 $societecourtier->save();
 $id = $societecourtier->getidentifiant();
@@ -85,7 +91,7 @@ $t->is($compte->tags->automatique->toArray(true, false), array('societe', 'inter
 
 $societeintermediaire = SocieteClient::getInstance()->createSociete("société intermédiaire test", SocieteClient::TYPE_COURTIER);
 $societeintermediaire->pays = "FR";
-$societeintermediaire->code_postal = "92100";
+$societeintermediaire->code_postal = $codePostalRegion;
 $societeintermediaire->commune = "Neuilly sur seine";
 $societeintermediaire->save();
 $id = $societeintermediaire->getidentifiant();
@@ -97,7 +103,7 @@ $t->is($compte->tags->automatique->toArray(true, false), array('societe', 'inter
 
 $societeintermediaire = SocieteClient::getInstance()->createSociete("société cooperative test", SocieteClient::TYPE_OPERATEUR);
 $societeintermediaire->pays = "FR";
-$societeintermediaire->code_postal = "92100";
+$societeintermediaire->code_postal = $codePostalRegion;
 $societeintermediaire->commune = "Neuilly sur seine";
 $societeintermediaire->save();
 $id = $societeintermediaire->getidentifiant();
