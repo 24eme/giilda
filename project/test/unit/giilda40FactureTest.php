@@ -118,4 +118,3 @@ $t->ok(!$avoir->isRedressable(), "L'avoir n'est pas redressable");
 $t->is($facture->avoir, $avoir->_id, "L'avoir est conservé dans la facture");
 $t->ok($facture->isRedressee(), "La facture est au statut redressé");
 $t->ok(!$facture->isRedressable(), "La facture n'est pas redressable");
-exit;
