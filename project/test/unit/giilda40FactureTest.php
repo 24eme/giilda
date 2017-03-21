@@ -3,7 +3,8 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(24);
+$t = new lime_test(25);
+
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
 $paramFacturation =  array(
@@ -55,6 +56,8 @@ $t->ok(!$doublons, "Aucune ligne (par libellé) en doublon");
 
 if($application == "ivbd") {
     $t->is($nbLignes, 2, "La facture à 2 lignes");
+} elseif($application == "bivc") {
+    $t->is($nbLignes, 2, "La facture à 2 lignes");
 } else {
     $t->is($nbLignes, 3, "La facture à 3 lignes");
 }
@@ -76,6 +79,16 @@ if($application == "ivbd") {
 }
 
 $t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablement");
+
+if($application == 'ivso'){
+  $md5sumAttendu = "06e003ba82f72f03e7670e52a2d3c3ec";
+  $factureLatex = new FactureLatex($facture);
+  $latexFileName = $factureLatex->getLatexFile();
+  $md5sum = md5_file($latexFileName);
+  $t->is($md5sumAttendu, $md5sum, "Le md5 du pdf doit être le suivant ".$md5sumAttendu." path = ".$latexFileName);
+}else{
+  $t->is(1, 1, "Pas de test sur la structure latex");
+}
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 
@@ -105,3 +118,4 @@ $t->ok(!$avoir->isRedressable(), "L'avoir n'est pas redressable");
 $t->is($facture->avoir, $avoir->_id, "L'avoir est conservé dans la facture");
 $t->ok($facture->isRedressee(), "La facture est au statut redressé");
 $t->ok(!$facture->isRedressable(), "La facture n'est pas redressable");
+exit;
