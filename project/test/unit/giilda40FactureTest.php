@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(18);
+$t = new lime_test(19);
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
 $paramFacturation =  array(
@@ -38,6 +38,17 @@ $t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
 $t->is($facture->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC."  €");
 $t->is($facture->total_taxe, $prixTaxe, "Le total de taxe est de ".$prixTaxe."  €");
 
+if($application == 'ivso'){
+  $md5sumAttendu = "06e003ba82f72f03e7670e52a2d3c3ec";
+  $factureLatex = new FactureLatex($facture);
+  $latexFileName = $factureLatex->getLatexFile();
+  $md5sum = md5_file($latexFileName);
+  $t->is($md5sumAttendu, $md5sum, "Le md5 du pdf doit être le suivant ".$md5sumAttendu." path = ".$latexFileName);
+}else{
+  $t->is(1, 1, "Pas de test sur la structure latex");
+}
+
+
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 
 $t->ok($generation, "La génération est créée");
@@ -66,3 +77,4 @@ $t->ok(!$avoir->isRedressable(), "L'avoir n'est pas redressable");
 $t->is($facture->avoir, $avoir->_id, "L'avoir est conservé dans la facture");
 $t->ok($facture->isRedressee(), "La facture est au statut redressé");
 $t->ok(!$facture->isRedressable(), "La facture n'est pas redressable");
+exit;
