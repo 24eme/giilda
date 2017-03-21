@@ -55,6 +55,8 @@ $t->ok(!$doublons, "Aucune ligne (par libellé) en doublon");
 
 if($application == "ivbd") {
     $t->is($nbLignes, 2, "La facture à 2 lignes");
+} elseif($application == "bivc") {
+    $t->is($nbLignes, 2, "La facture à 2 lignes");
 } else {
     $t->is($nbLignes, 3, "La facture à 3 lignes");
 }
