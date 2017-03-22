@@ -10,7 +10,7 @@ $t->comment("Création d'une facture à partir des DRM pour une société");
 $paramFacturation =  array(
     "modele" => "DRM",
     "date_facturation" => date('Y').'-08-01',
-    "date_mouvement" => null,
+    "date_mouvement" => date('Y-m')."-31",
     "type_document" => GenerationClient::TYPE_DOCUMENT_FACTURES,
     "message_communication" => null,
     "seuil" => null,
@@ -78,7 +78,7 @@ $generation = FactureClient::getInstance()->createGenerationForOneFacture($factu
 
 $t->ok($generation, "La génération est créée");
 
-$t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera créée");
+$t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera pas créée");
 
 $t->ok(!FactureClient::getInstance()->createAndSaveFacturesBySociete($societeViti, $paramFacturation), "La facture n'a pas été créée");
 
