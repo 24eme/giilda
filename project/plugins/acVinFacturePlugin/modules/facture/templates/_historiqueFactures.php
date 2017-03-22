@@ -27,7 +27,7 @@ use_helper('Date');
                 <td class="text-right"><?php echo echoFloat($f->total_ht); ?> € HT</td>
                 <td class="text-right"><div class="btn-group text-left">
                     <?php if ($f->isRedressable()): ?>
-                        <a onclick="return confirm('Êtes-vous sur de vouloir créer annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_avoir", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a>
+                        <a onclick="return confirm('Êtes-vous sur de vouloir annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_defacturer", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a>
                     <?php endif; ?>
                     <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
                 </div></td>
