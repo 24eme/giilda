@@ -14,9 +14,9 @@ class FactureRouting {
 
 //        $r->prependRoute('facture', new sfRoute('/facture', array('module' => 'facture',
 //								  'action' => 'index')));
-//      
-//        
-//        
+//
+//
+//
         $r->prependRoute('facture_societe', new SocieteRoute('/facture/:identifiant', array('module' => 'facture',
             'action' => 'monEspace'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
             'type' => 'object')
@@ -32,16 +32,9 @@ class FactureRouting {
             'type' => 'object')
         ));
 
-
-        $r->prependRoute('facture_generer', new SocieteRoute('/facture/:identifiant/generer', array('module' => 'facture',
-            'action' => 'generer'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
-            'type' => 'object')
-        ));
-
         $r->prependRoute('facture_redirect_to_doc', new sfRoute('/facture/redirect/:iddocument', array('module' => 'facture', 'action' => 'redirect')));
 
-
-        $r->prependRoute('defacturer', new FactureRoute('/facture/:id/defacturer', array('module' => 'facture',
+        $r->prependRoute('facture_defacturer', new FactureRoute('/facture/:id/defacturer', array('module' => 'facture',
             'action' => 'defacturer'), array('sf_method' => array('get', 'post')), array('model' => 'Facture',
             'type' => 'object')
         ));
@@ -51,42 +44,20 @@ class FactureRouting {
         $r->prependRoute('facture_generation', new sfRoute('/facture/generation', array('module' => 'facture',
             'action' => 'generation')));
 
-
         $r->prependRoute('facture_mouvements', new sfRoute('/facture_mouvements_list', array('module' => 'facture',
             'action' => 'mouvementsList')));
 
         $r->prependRoute('facture_mouvements_nouveaux', new sfRoute('/facture_mouvements_nouveaux', array('module' => 'facture',
             'action' => 'nouveauMouvements')));
 
-
-
         $r->prependRoute('facture_mouvements_edition', new sfRoute('/facture_mouvements/:id', array('module' => 'facture',
             'action' => 'mouvements-edition')));
-        
+
         $r->prependRoute('facture_mouvements_supprimer', new sfRoute('/facture_mouvements_supprimer/:id', array('module' => 'facture',
             'action' => 'mouvements-supprimer')));
 
         $r->prependRoute('facture_pdf', new sfRoute('/facture/pdf/:id', array('module' => 'facture',
             'action' => 'latex'), array('sf_method' => array('get')), array('model' => 'Facture',
-            'type' => 'object')
-        ));
-
-        $r->prependRoute('facture_edition', new sfRoute('/facture/edition/:id', array('module' => 'facture',
-            'action' => 'edition'), array('sf_method' => array('get', 'post')), array('model' => 'Facture',
-            'type' => 'object')
-        ));
-
-        $r->prependRoute('facture_avoir', new sfRoute('/facture/avoir/:id', array('module' => 'facture',
-            'action' => 'avoir'), array('sf_method' => array('get', 'post')), array('model' => 'Facture',
-            'type' => 'object')
-        ));
-
-        $r->prependRoute('facture_paiement', new sfRoute('/facture/paiement/:id', array('module' => 'facture',
-            'action' => 'paiement'), array('sf_method' => array('get', 'post')), array('model' => 'Facture',
-            'type' => 'object')
-        ));
-        $r->prependRoute('facture_regenerate', new sfRoute('/facture/regenerer/:id', array('module' => 'facture',
-            'action' => 'regenererate'), array('sf_method' => array('get')), array('model' => 'Facture',
             'type' => 'object')
         ));
 
