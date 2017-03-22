@@ -71,4 +71,3 @@ foreach ($arrayCompta as $cpt => $row) {
     $t->ok($debitOuCredit, "La ligne est bien du CREDIT ou du DEBIT");
 
 }
-exit;
