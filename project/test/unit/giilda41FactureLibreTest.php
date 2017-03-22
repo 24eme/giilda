@@ -18,13 +18,12 @@ $keyCompta = key(ComptabiliteClient::getInstance()->findCompta()->getAllIdentifi
 
 $t->comment("Création d'un document de mouvements de facturation libre");
 
-$societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
-
+$societeViti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
 
 $docMouvementsLibres = MouvementsFactureClient::getInstance()->createMouvementsFacture();
 $docMouvementsLibres->set('_id', "MOUVEMENTSFACTURE-TEST");
 
-$this->form = new FactureMouvementsEditionForm($docMouvementsLibres);
+$form = new FactureMouvementsEditionForm($docMouvementsLibres);
 
 $values["libelle"] = "Test opération";
 $values["mouvements"]["nouveau_1"]["identifiant"] = $societeViti->_id;
@@ -39,11 +38,11 @@ $values["mouvements"]["nouveau_2"]["prix_unitaire"] = 3.00;
 $values["mouvements"]["nouveau_2"]["quantite"] = 5.00;
 $values["_revision"] = $docMouvementsLibres->_rev;
 
-$this->form->bind($values);
+$form->bind($values);
 
-$t->ok($this->form->isValid(), "Le formulaire est valide");
+$t->ok($form->isValid(), "Le formulaire est valide");
 
-$this->form->save();
+$form->save();
 
 $totalHT = 30;
 $totalTTC = 36;
@@ -55,7 +54,6 @@ $t->is($docMouvementsLibres->getNbMvts(), 2, "Le document à 2 mouvements de fac
 $t->is($docMouvementsLibres->getNbSocietes(), 1, "La document à 1 société");
 $t->is($docMouvementsLibres->getTotalHt(), $totalHT, "Le montant total HT est de 30 €");
 $t->is($docMouvementsLibres->getTotalHtAFacture(), $totalHT, "Le montant total HT à facturer est de 30 €");
-//$t->is($docMouvementsLibres->mouvements->get("1")->, $totalHT, "Le montant total HT à facturer est de 30 €");
 
 $t->comment("Génération de la facture");
 
