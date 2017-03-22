@@ -7,7 +7,7 @@ if (getenv("NODELETE")) {
     exit(0);
 }
 
-$t = new lime_test(35);
+$t = new lime_test(36);
 
 $t->comment('suppression des différentes sociétés, de leurs établissements et comptes');
 
@@ -35,4 +35,9 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
         $soc->delete();
         $t->is(CompteClient::getInstance()->findByIdentifiant($m[1].'01'), null, "Suppression de la sociétés ".$m[1]." provoque la suppression de son compte");
     }
+}
+
+if($doc = MouvementsFactureClient::getInstance()->find("MOUVEMENTSFACTURE-TEST")) {
+    $doc->delete();
+    $t->is(MouvementsFactureClient::getInstance()->find("MOUVEMENTSFACTURE-TEST"), null, "Suppression du document de mouvements de facturation MOUVEMENTSFACTURE-TEST");
 }

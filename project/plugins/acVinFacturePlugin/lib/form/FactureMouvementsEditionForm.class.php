@@ -11,7 +11,10 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     protected $mvtId;
 
     public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
-        $this->interpro_id = $options['interpro_id'];
+        $this->interpro_id = "INTERPRO-declaration";
+        if(isset($options['interpro_id'])) {
+            $this->interpro_id = $options['interpro_id'];
+        }
         parent::__construct($object, $options, $CSRFSecret);
 
     }
