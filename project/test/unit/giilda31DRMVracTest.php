@@ -8,7 +8,7 @@ if (!($conf->declaration->exist('details/sorties/vrac')) || ($conf->declaration-
     exit(0);
 }
 
-$t = new lime_test(17);
+$t = new lime_test(18);
 
 $nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $nego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getEtablissement();
@@ -86,10 +86,17 @@ if($application == "ivbd") {
     $t->is($mvt_nego->cvo, $mvt_vrac->cvo, $drm->_id." : la cvo du mouvement de sortie vrac nego est de 50%");
 }
 
+$mouvementsFacturable = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete());
+foreach($mouvementsFacturable as $key => $mouvement) {
+    if($mouvement->origine != "DRM") {
+        unset($mouvementsFacturable[$key]);
+    }
+}
+
 if($application == "ivbd") {
-    $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete())), 1, $drm->_id." : on retrouve uns seul mouvement facturable dans la vue facture du viti");
+    $t->is(count($mouvementsFacturable), 1, $drm->_id." : on retrouve uns seul mouvement facturable dans la vue facture du viti");
 } else {
-    $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete())), 2, $drm->_id." : on retrouve les 2 mouvements facturables dans la vue facture du viti");
+    $t->is(count($mouvementsFacturable), 2, $drm->_id." : on retrouve les 2 mouvements facturables dans la vue facture du viti");
 }
 
 $t->is(count(MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($nego->getSociete())), 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du négo");
@@ -101,7 +108,7 @@ $enlevement = array_shift($enlevements);
 $t->is($enlevement->volume, 100, $vracObj->_id." : on retrouve l'enlévement de volume 100 hl.");
 
 $vracObj = VracClient::getInstance()->find($vrac->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_ID]);
-$t->is($vracObj->volume_enleve, 100, $vracObj->_id." : Le contrat a bien pour volume enlevé : ".$vracObj->volume_enleve);
+$t->is($vracObj->volume_enleve, 100, $vracObj->_id." : Le contrat a bien pour volume enlevé : 100");
 
 $t->comment("Génère une nouvelle modificatrice et change le contrat pour un contrat hors region");
 $drm_mod = $drm->generateModificative();
@@ -111,10 +118,15 @@ $vrac = array_shift(VracClient::getInstance()->getBySoussigne($drm->campagne, $n
 $contrat = DRMESDetailVrac::freeInstance($drm);
 $contrat->identifiant = $vrac->value[VracSoussigneIdentifiantView::VRAC_VIEW_VALUE_ID];
 $contrat->volume = 100;
-$vrac_details->addDetail($contrat);
+$detailVrac = $vrac_details->addDetail($contrat);
+
+
 $drm_mod->update();
 $drm_mod->validate();
 $drm_mod->save();
+
+$t->is($detailVrac->date_enlevement, $drm->getDate(), $drm_mod->_id." : La sortie de vrac a une date d'enlèvement");
+
 $t->is($drm_mod->getProduit($produit_hash, 'details')->get('stocks_fin/final'), 800, $drm_mod->_id." : le stock final est impacté par la modification de l'exports");
 $t->is(count($drm_mod->mouvements), 3, $drm_mod->_id." : la validation a impacté trois tiers (viti, nego, nego hors region)");
 $mvts_nego_horsRegion =  $drm_mod->mouvements->{$nego_horsregion->identifiant}->toArray(true, false);

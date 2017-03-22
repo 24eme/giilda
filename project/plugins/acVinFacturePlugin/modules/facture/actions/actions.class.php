@@ -54,46 +54,6 @@ class factureActions extends sfActions {
         $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
     }
 
-    public function executeEdition(sfWebRequest $request) {
-        $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
-        if (!$this->facture) {
-
-            return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
-        }
-        $this->sans_categorie = FactureConfiguration::getInstance()->isSansCategories();
-        $this->form = new FactureEditionForm($this->facture, array('sans_categories' => $this->sans_categorie));
-
-        if ($this->facture->isPayee()) {
-
-            throw new sfException(sprintf("La factures %s a déjà été payée", $facture->_id));
-        }
-
-        if (!$request->isMethod(sfWebRequest::POST)) {
-
-            return sfView::SUCCESS;
-        }
-
-        $this->form->bind($request->getParameter($this->form->getName()));
-
-        if (!$this->form->isValid()) {
-            return sfView::SUCCESS;
-        }
-
-        $this->form->save();
-
-        if ($this->facture->isAvoir()) {
-            $this->getUser()->setFlash("notice", "L'avoir a bien été modifié.");
-        } else {
-            $this->getUser()->setFlash("notice", "La facture a été modifiée.");
-        }
-
-        if ($request->getParameter("not_redirect")) {
-
-            return $this->redirect('facture_edition', $this->facture);
-        }
-        return $this->redirect('facture_societe', $this->facture->getSociete());
-    }
-
     public function executeGeneration(sfWebRequest $request) {
         $this->form = new FactureGenerationForm();
         $filters_parameters = array();
@@ -140,46 +100,6 @@ class factureActions extends sfActions {
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
 
         $this->compte = $this->societe->getMasterCompte();
-    }
-
-    public function executeAvoir(sfWebRequest $request) {
-        $this->baseFacture = FactureClient::getInstance()->find($request->getParameter('id'));
-
-        if (!$this->baseFacture) {
-
-            return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
-        }
-        return $this->redirect('defacturer', $this->baseFacture);
-
-
-        $this->facture = FactureClient::createAvoir($this->baseFacture);
-
-        $configAppFacture = sfConfig::get('app_configuration_facture');
-        $this->sans_categorie = $configAppFacture['sans_categories'];
-        $this->form = new FactureEditionForm($this->facture, array('sans_categories' => $this->sans_categorie));
-
-        $this->setTemplate('edition');
-
-        if (!$request->isMethod(sfWebRequest::POST)) {
-
-            return sfView::SUCCESS;
-        }
-
-        $this->form->bind($request->getParameter($this->form->getName()));
-
-        if (!$this->form->isValid()) {
-            return sfView::SUCCESS;
-        }
-
-        $this->form->save();
-
-        $this->getUser()->setFlash("notice", "L'avoir a été créé.");
-        if ($request->getParameter("not_redirect")) {
-
-            return $this->redirect('facturation_edition', $this->facture);
-        }
-
-        return $this->redirect('facture_societe', array("identifiant" => $this->facture->identifiant));
     }
 
     public function executeCreation(sfWebRequest $request) {
