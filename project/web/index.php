@@ -3,5 +3,5 @@
 
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('ivbd', 'prod', true);
+$configuration = ProjectConfiguration::getApplicationConfiguration('ivbd', 'prod', false);
 sfContext::createInstance($configuration)->dispatch();
