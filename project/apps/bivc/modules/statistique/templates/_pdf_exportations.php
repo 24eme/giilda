@@ -29,7 +29,7 @@
 		unset($values[0]);
 ?>
 <?php 
-	if ($i == 30 || ($page != $current && !preg_match('/total/i', $current))): 
+	if ($i == $maxTableRowsPerPage || ($page != $current && !preg_match('/total/i', $current))): 
 	$newSection = false;
 	if ($page != $current) {
 		$fstyle++;

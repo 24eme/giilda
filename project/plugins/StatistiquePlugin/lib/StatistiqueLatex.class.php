@@ -20,7 +20,7 @@ class StatistiqueLatex extends GenericLatex
 
   	public function getLatexFileNameWithoutExtention() 
   	{
-    	return $this->getTEXWorkingDir().'statistiques_'.$this->type.'_'.date('c');
+    	return $this->getTEXWorkingDir().'statistiques_'.$this->type.'_'.date('YmdHi');
   	}
 
   	public function getLatexFileContents() 
@@ -30,6 +30,6 @@ class StatistiqueLatex extends GenericLatex
 
   	public function getPublicFileName($extention = '.pdf') 
   	{
-    	return 'statistiques_'.$this->type.'_'.date('c').$extention;
+    	return 'statistiques_'.$this->type.'_'.date('YmdHi').$extention;
   	}
 }
