@@ -19,7 +19,7 @@
         <link href="/components/select2/select2-bootstrap.min.css" rel="stylesheet">
         <link href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         <link href="/components/vins/vins.css" rel="stylesheet">
-        <link href="/css/style.css?20170222" rel="stylesheet">
+        <link href="/css/style.css?20170324" rel="stylesheet">
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -56,7 +56,7 @@
         <script src="/js/teledeclaration.js"></script>
         <script src="/js/conditionnement.js"></script>
         <script src="/js/vrac.js"></script>
-        <script src="/js/drm.js?20170222"></script>
+        <script src="/js/drm.js?20170324"></script>
         <script src="/js/contacts.js"></script>
         <script src="/js/facture.js"></script>
         <script src="/js/stats.js?20170222"></script>

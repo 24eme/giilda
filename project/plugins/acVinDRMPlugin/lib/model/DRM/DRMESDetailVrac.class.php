@@ -17,6 +17,14 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
         return $this->vrac;
     }
 
+    public function getDateEnlevement(){
+        if(!$this->_get('date_enlevement')){
+            return $this->getDocument()->getDate();
+        }
+
+        return $this->_get('date_enlevement');
+    }
+
     public function getIdentifiantLibelle() {
 
         return $this->getVrac()->getNumeroArchive();

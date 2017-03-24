@@ -111,11 +111,6 @@ class FactureConfiguration {
         return $this->configuration['taux_tva'];
     }
 
-    public function isSansCategories() {
-
-        return $this->configuration['sans_categories'];
-    }
-
     public function getExercice() {
 
         return $this->configuration['exercice'];

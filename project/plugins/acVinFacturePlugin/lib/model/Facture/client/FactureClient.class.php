@@ -180,26 +180,31 @@ class FactureClient extends acCouchdbClient {
     }
 
     public function filterWithParameters($mouvementsBySoc, $parameters) {
-        if (isset($parameters['date_mouvement']) && ($parameters['date_mouvement'])) {
+        $date_mouvement = null;
+        if (isset($parameters['date_mouvement']) && $parameters['date_mouvement']) {
             $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
-            foreach ($mouvementsBySoc as $identifiant => $mouvements) {
-                foreach ($mouvements as $key => $mouvement) {
-                    $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
-                    if (Date::sup($farDateMvt, $date_mouvement)) {
-                        unset($mouvements[$key]);
-                        $mouvementsBySoc[$identifiant] = $mouvements;
-                        continue;
-                    }
-                    if (isset($parameters['modele']) && !in_array($parameters['modele'], self::$origines)) {
-                        unset($mouvements[$key]);
-                        $mouvementsBySoc[$identifiant] = $mouvements;
-                        continue;
-                    }
-                    if (isset($parameters['modele']) && $parameters['modele'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
-                        unset($mouvements[$key]);
-                        $mouvementsBySoc[$identifiant] = $mouvements;
-                        continue;
-                    }
+        }
+        $modele = null;
+        if (isset($parameters['modele']) && $parameters['modele']) {
+            $modele = $parameters['modele'];
+        }
+        foreach ($mouvementsBySoc as $identifiant => $mouvements) {
+            foreach ($mouvements as $key => $mouvement) {
+                $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
+                if ($date_mouvement && Date::sup($farDateMvt, $date_mouvement)) {
+                    unset($mouvements[$key]);
+                    $mouvementsBySoc[$identifiant] = $mouvements;
+                    continue;
+                }
+                if ($modele && !in_array($parameters['modele'], self::$origines)) {
+                    unset($mouvements[$key]);
+                    $mouvementsBySoc[$identifiant] = $mouvements;
+                    continue;
+                }
+                if ($modele && $parameters['modele'] != $mouvement->key[MouvementfactureFacturationView::KEYS_ORIGIN]) {
+                    unset($mouvements[$key]);
+                    $mouvementsBySoc[$identifiant] = $mouvements;
+                    continue;
                 }
             }
         }
