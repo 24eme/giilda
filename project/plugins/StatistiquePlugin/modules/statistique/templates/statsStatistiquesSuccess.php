@@ -58,7 +58,12 @@
 			<div class="form_ligne_btn" style="margin-top:20px;">
 				<input id="resetBtn" type="reset" value="reset">
 				<div class="col-xs-6"><a class="btn btn-default" href="<?php echo url_for('statistiques_stats') ?>">Annuler</a></div>
-				<div class="col-xs-6 text-right"><button name="valider" class="btn btn-success" type="submit">Valider</button></div>
+				<div class="col-xs-6 text-right">
+					<span class="error has-error"><?php echo $form['pdf']->renderError() ?></span>
+				    <?php echo $form['pdf']->render(); ?>
+				    <?php echo $form['pdf']->renderLabel(null, array("class" => "control-label")); ?>
+					<button name="valider" class="btn btn-success" type="submit">Exporter</button>
+				</div>
 			</div>
 		</form>
     	

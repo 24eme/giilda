@@ -53,8 +53,20 @@ class statistiqueActions extends sfActions {
 				$nbKeys = $this->statistiquesConfig['statistiques'][$values['statistiques']]['hashkeysize'];
 				$csvResult = $this->getAggsResultCsv($values['statistiques'], $this->getCsvToArray($csvResult, $nbKeys), $this->getCsvToArray($csvResultLastPeriode, $nbKeys));
 			}
-			return $this->renderCsv($csvResult, 'statistiques_'.$values['statistiques']);
+			if ($this->form->pdfFormat()) {
+				return $this->renderPdf($csvResult, $values['statistiques'], array('compare' => $this->form->canPeriodeCompare(), 'periode' => $this->form->getPeriode()));
+			} else {
+				return $this->renderCsv($csvResult, 'statistiques_'.$values['statistiques']);
+			}
 		}
+	}
+	
+	protected function renderPdf($csv, $type, $options = array()) 
+	{
+		$latex = new StatistiqueLatex($csv, $type, $options);
+		//echo $latex->getLatexFileContents();exit;
+		$latex->echoWithHTTPHeader();
+		exit;
 	}
 	
 	protected function getAggsResult($index, $filters, $agg)
