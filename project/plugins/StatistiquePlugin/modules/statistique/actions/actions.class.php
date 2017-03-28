@@ -64,7 +64,6 @@ class statistiqueActions extends sfActions {
 	protected function renderPdf($csv, $type, $options = array()) 
 	{
 		$latex = new StatistiqueLatex($csv, $type, $options);
-		//echo $latex->getLatexFileContents();exit;
 		$latex->echoWithHTTPHeader();
 		exit;
 	}
@@ -81,7 +80,7 @@ class statistiqueActions extends sfActions {
 	
 	protected function getAggsResultCsv($type, $current, $lastPeriode = null)
 	{
-		return ($lastPeriode !== null)? $this->getPartial('statistique/'.$type.'_compare', array('lastPeriode' => $lastPeriode, 'current' => $current)) : $this->getPartial('statistique/'.$type, array('result' => $current[$type]));
+		return ($lastPeriode !== null)? $this->getPartial('statistique/'.$type, array('lastPeriode' => $lastPeriode, 'result' => $current)) : $this->getPartial('statistique/'.$type, array('lastPeriode' => null, 'result' => $current[$type]));
 	}
 
 	protected function getCsvToArray($csv, $nbKeys)

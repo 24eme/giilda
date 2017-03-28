@@ -98,7 +98,7 @@ class StatistiqueStatsFilterForm extends BaseForm
     public function canPeriodeCompare()
     {
     	$values = $this->getValues();
-    	return ($values['lastyear'] && $values['doc.mouvements.date/from'])? true : false;
+    	return ($values['lastyear'] && ($values['doc.mouvements.date/from'] || $values['doc.date_campagne/from']))? true : false;
     }
     
     public function pdfFormat()
@@ -117,6 +117,15 @@ class StatistiqueStatsFilterForm extends BaseForm
     		$periode[1] = date($format);
     	}
     	if ($to = $values['doc.mouvements.date/to']) {
+    		$to = new DateTime($to);
+    		$periode[1] = $to->format($format);
+    	}
+    	if ($from = $values['doc.date_campagne/from']) {
+    		$from = new DateTime($from);
+    		$periode[0] = $from->format($format);
+    		$periode[1] = date($format);
+    	}
+    	if ($to = $values['doc.date_campagne/to']) {
     		$to = new DateTime($to);
     		$periode[1] = $to->format($format);
     	}

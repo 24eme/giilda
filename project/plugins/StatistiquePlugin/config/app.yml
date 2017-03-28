@@ -108,6 +108,8 @@ all:
                 terms:
                   size: 0,
                   field: 'doc.mouvements.produit_libelle'
+                  order: 
+                    "_term": asc
                 aggs:
                   total_stock_initial:
                     sum_bucket:
