@@ -16,10 +16,10 @@ class StatistiqueStatsFilterForm extends BaseForm
 				'doc.mouvements.appellation' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
 				'doc.declarant.famille' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getFamilles())),
 				'lastyear' => new bsWidgetFormInputCheckbox(),
+				'pdf' => new bsWidgetFormInputCheckbox(),
 				'doc.mouvements.date/from' => new bsWidgetFormInputDate(),
 				'doc.mouvements.date/to' => new bsWidgetFormInputDate(),
 				'statistiques' => new bsWidgetFormChoice(array('multiple' => false, 'expanded' => true, 'choices' => $this->getStatistiques())),
-				
 				'doc.appellation' => new bsWidgetFormChoice(array('multiple' => true, 'choices' => self::getLibelles('appellation')), array('class' => 'select2 form-control')),
 				'doc.type_transaction' => new bsWidgetFormChoice(array('multiple' => true, 'expanded' => true, 'choices' => self::getTransactions())),
 				'doc.date_campagne/from' => new bsWidgetFormInputDate(),
@@ -30,8 +30,8 @@ class StatistiqueStatsFilterForm extends BaseForm
 				'doc.mouvements.appellation' => 'Appellation',
 				'doc.declarant.famille' => 'Catégorie',
 				'lastyear' => 'Stat N/N-1',
+				'pdf' => 'PDF',
 				'statistiques' => 'Statistiques',
-
 				'doc.appellation' => 'Appellation',
 				'doc.type_transaction' => 'Conditionnement',
 		));
@@ -42,13 +42,14 @@ class StatistiqueStatsFilterForm extends BaseForm
 				'doc.mouvements.date/from' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 				'doc.mouvements.date/to' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 				'lastyear' => new ValidatorBoolean(array('required' => false)),
+				'pdf' => new ValidatorBoolean(array('required' => false)),
 				'statistiques' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getStatistiques()))),
-				
 				'doc.appellation' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getLibelles('appellation')))),
 				'doc.type_transaction' => new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys(self::getTransactions()))),
 				'doc.date_campagne/from' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 				'doc.date_campagne/to' => new sfValidatorDate(array('date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => false)),
 		));
+		$this->setDefault('pdf', true);
         $this->widgetSchema->setNameFormat('statistique_filter[%s]');
     }
     
@@ -100,6 +101,28 @@ class StatistiqueStatsFilterForm extends BaseForm
     	return ($values['lastyear'] && $values['doc.mouvements.date/from'])? true : false;
     }
     
+    public function pdfFormat()
+    {
+    	$values = $this->getValues();
+    	return ($values['pdf'])? true : false;
+    }
+    
+    public function getPeriode($format = 'd/m/Y')
+    {
+    	$values = $this->getValues();
+    	$periode = array();
+    	if ($from = $values['doc.mouvements.date/from']) {
+    		$from = new DateTime($from);
+    		$periode[0] = $from->format($format);
+    		$periode[1] = date($format);
+    	}
+    	if ($to = $values['doc.mouvements.date/to']) {
+    		$to = new DateTime($to);
+    		$periode[1] = $to->format($format);
+    	}
+    	return $periode;
+    }
+    
     public function getValuesLastPeriode()
     {
     	$values = $this->getValues();
@@ -127,7 +150,7 @@ class StatistiqueStatsFilterForm extends BaseForm
     		$values['doc.date_campagne']['from'] = $values['doc.date_campagne/from'];
     		$values['doc.date_campagne']['to'] = $values['doc.date_campagne/to'];
     	}
-    	unset($values['statistiques'], $values['lastyear'], $values['doc.mouvements.date/from'], $values['doc.mouvements.date/to'], $values['doc.date_campagne/from'], $values['doc.date_campagne/to']);
+    	unset($values['statistiques'], $values['lastyear'], $values['pdf'], $values['doc.mouvements.date/from'], $values['doc.mouvements.date/to'], $values['doc.date_campagne/from'], $values['doc.date_campagne/to']);
     	$rangeFields = self::$rangeFields;
     	$nbFilters = 0;
     	$filters = array();

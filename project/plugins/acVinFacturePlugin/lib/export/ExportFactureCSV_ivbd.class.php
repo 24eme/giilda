@@ -7,7 +7,7 @@ class ExportFactureCSV_ivbd {
     const TYPE_LIGNE_TVA = 'TVA';
 
     public function __construct($ht = false) {
-    	$this->ht = $ht;
+    	$this->ht = true;
     }
 
     public static function printHeaderAnneeComptable() {
