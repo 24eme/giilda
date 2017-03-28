@@ -39,7 +39,7 @@ class commonActions extends sfActions {
     public function executeAccueil(sfWebRequest $request) {
       $this->initTeledeclarationDroits();
       if($this->teledeclaration){
-        return $this->redirect("accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
+        return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
       }
     }
 
