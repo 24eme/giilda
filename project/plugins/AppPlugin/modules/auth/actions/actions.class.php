@@ -60,7 +60,7 @@ class authActions extends sfActions {
 
     protected function redirectWithCredentials($idCompte){
             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
-            return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+            return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
             }
             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
                  return $this->redirect('vrac_societe', array('identifiant' => $idCompte));
@@ -68,7 +68,7 @@ class authActions extends sfActions {
             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM)){
                    return $this->redirect('drm_societe', array('identifiant' => $idCompte));
             }
-           return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+           return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
     }
 
 }
