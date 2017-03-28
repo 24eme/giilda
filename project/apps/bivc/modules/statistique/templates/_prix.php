@@ -16,7 +16,7 @@ foreach ($result['agg_page']['buckets'] as $conditionnement) {
 			$sansPrix =formatNumber($couleur['vol_sans_prix']['agg_column']['value']);
 			$avecPrix =formatNumber($couleur['vol_avec_prix']['agg_column']['value']);
 			$ca = formatNumber($couleur['ca']['agg_column']['value']);
-			$moyenne = formatNumber($couleur['moyenne']['value']);
+			$moyenne = formatNumber($couleur['moyenne']['value'], 2);
 			$csv .= $conditionnementLibelle.';'.$appellationLibelle.';'.$couleurLibelle.';'.$sansPrix.';'.$avecPrix.';'.$ca.';'.$moyenne."\n";
 		}
 		$csv .= $conditionnementLibelle.';'.$appellationLibelle.';TOTAL;'.$totalSansPrix.';'.$totalAvecPrix.';'.$totalCa.';'.$totalMoyenne."\n";

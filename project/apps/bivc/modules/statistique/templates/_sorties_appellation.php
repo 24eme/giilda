@@ -3,7 +3,7 @@ use_helper('Statistique');
 use_helper('BivcStatistique');
 
 if($lastPeriode) {
-	$csv = "Appellation;Couleur;France N-1;France;France %;Export N-1;Export;Export %;Négoce N-1;Négoce;Négoce %;TOTAL N-1;TOTAL;TOTAL %\n";
+	$csv = "Appellation;Couleur;France N-1;France;France %;Export N-1;Export;Export %;Négociant N-1;Négociant;Négociant %;TOTAL N-1;TOTAL;TOTAL %\n";
 	$result = $result->getRawValue();
 	$lastPeriode = $lastPeriode->getRawValue();
 	$resultKeys = array_keys($result);
@@ -36,7 +36,7 @@ if($lastPeriode) {
 		}
 	}
 } else {
-	$csv = "Appellation;Couleur;France;Export;Négoce;TOTAL\n";
+	$csv = "Appellation;Couleur;France;Export;Négociant;TOTAL\n";
 	foreach ($result['agg_page']['buckets'] as $appellation) {
 			$appellationLibelle = getAppellationLibelle(strtoupper($appellation['key']));
 			$totalFrance = formatNumber($appellation['total_france']['value']);
