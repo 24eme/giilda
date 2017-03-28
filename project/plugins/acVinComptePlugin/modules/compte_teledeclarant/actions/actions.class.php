@@ -57,7 +57,6 @@ class compte_teledeclarantActions extends sfActions {
 
             return $this->redirect("compte_teledeclarant_creation");
         }
-        $this->setTemplate('cgu_'.sfConfig::get('sf_app'));
     }
 
     /**
@@ -231,7 +230,7 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_OUBLIE);
                 $this->getUser()->signInOrigin($this->compte);
-                return $this->redirect("accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
+                return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
             }
         }
     }
@@ -258,7 +257,7 @@ class compte_teledeclarantActions extends sfActions {
 
     protected function redirectWithCredentials($idCompte){
              if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
-             return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+             return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
              }
              if($this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
                   return $this->redirect('vrac_societe', array('identifiant' => $idCompte));
@@ -266,7 +265,7 @@ class compte_teledeclarantActions extends sfActions {
              if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM)){
                     return $this->redirect('drm_societe', array('identifiant' => $idCompte));
              }
-            return $this->redirect("accueil_etablissement" ,array('identifiant' => $idCompte));
+            return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
      }
 
 }
