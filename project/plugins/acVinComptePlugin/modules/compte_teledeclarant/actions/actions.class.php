@@ -57,7 +57,6 @@ class compte_teledeclarantActions extends sfActions {
 
             return $this->redirect("compte_teledeclarant_creation");
         }
-        $this->setTemplate('cgu_'.sfConfig::get('sf_app'));
     }
 
     /**
