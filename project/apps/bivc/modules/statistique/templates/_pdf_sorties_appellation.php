@@ -4,7 +4,7 @@ $items = explode(PHP_EOL, $csv);
 array_shift($items);
 $maxTableRowsPerPage = 30;
 $nbPage = 0;
-$periode = (isset($options['periode']))? $options['periode'] : null;
+$periode = (isset($options['periode']) && isset($options['periode'][0]) && isset($options['periode'][1]))? $options['periode'] : null;
 $compare = (isset($options['compare']))? $options['compare'] : false;
 ?>
 \documentclass[a4paper, landscape, 10pt]{article}
