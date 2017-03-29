@@ -10,7 +10,7 @@ foreach ($result['agg_page']['buckets'] as $conditionnement) {
 		$totalSansPrix = formatNumber($appellation['total_sans_prix']['value']);
 		$totalAvecPrix = formatNumber($appellation['total_avec_prix']['value']);
 		$totalCa = formatNumber($appellation['total_ca']['value']);
-		$totalMoyenne = formatNumber($appellation['total_moyenne']['value']);
+		$totalMoyenne = formatNumber($appellation['total_moyenne']['value'], 2);
 		foreach ($appellation['agg_line']['buckets'] as $couleur) {
 			$couleurLibelle = getCouleurLibelle($couleur['key']);
 			$sansPrix =formatNumber($couleur['vol_sans_prix']['agg_column']['value']);
