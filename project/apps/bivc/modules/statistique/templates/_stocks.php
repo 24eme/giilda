@@ -4,7 +4,7 @@ use_helper('BivcStatistique');
 
 $csv = "Appellation;Catégorie;Stock initial;Stock actuel;TOTAL mvt\n";
 foreach ($result['agg_page']['buckets'] as $appellation) {
-	$appellationLibelle = $appellation['key'];
+	$appellationLibelle = str_replace('AOC', '', $appellation['key']);
 	$totalStockInitial = formatNumber($appellation['total_stock_initial']['value']);
 	$totalStockFinal = formatNumber($appellation['total_stock_final']['value']);
 	$totalTotal = formatNumber($appellation['total_total']['value']);

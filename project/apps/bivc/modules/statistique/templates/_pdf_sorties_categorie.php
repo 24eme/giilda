@@ -42,7 +42,7 @@ $compare = (isset($options['compare']))? $options['compare'] : false;
 
 <?php $i=0; foreach ($headers as $header): ?>
 \fancypagestyle{fstyle_<?php echo $i ?>}{
-\fancyhead[C]{Volume exporté par pays et par couleur pour l'appellation \textbf{<?php echo $header ?>}<?php if ($periode): ?>\\Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
+\fancyhead[C]{Ventes de \textbf{<?php echo $header ?>}<?php if ($periode): ?>\\Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
 }
 <?php $i++; endforeach; ?>
 
@@ -56,12 +56,12 @@ $compare = (isset($options['compare']))? $options['compare'] : false;
 <?php if ($compare): ?>
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | }
 \hline
-\rowcolor{gray!40} & \multicolumn{3}{c |}{Blanc} & \multicolumn{3}{c |}{Rosé} & \multicolumn{3}{c |}{Rouge} & \multicolumn{3}{c |}{Total} \tabularnewline
-\rowcolor{gray!40} Pays & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} \tabularnewline \hline
+\rowcolor{gray!40} & \multicolumn{3}{c |}{France} & \multicolumn{3}{c |}{Export} & \multicolumn{3}{c |}{Négociant} & \multicolumn{3}{c |}{Total} \tabularnewline
+\rowcolor{gray!40} Article & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} \tabularnewline \hline
 <?php else: ?>
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 \hline
-\rowcolor{gray!40} Pays & \multicolumn{1}{c |}{Blanc} & \multicolumn{1}{c |}{Rosé} & \multicolumn{1}{c |}{Rouge} & \multicolumn{1}{c |}{Total} \tabularnewline \hline
+\rowcolor{gray!40} Article & \multicolumn{1}{c |}{France} & \multicolumn{1}{c |}{Export} & \multicolumn{1}{c |}{Négociant} & \multicolumn{1}{c |}{Total} \tabularnewline \hline
 <?php endif; ?>
 <?php 
 	$i = ($compare)? 2 : 1;
@@ -77,6 +77,8 @@ $compare = (isset($options['compare']))? $options['compare'] : false;
 			$page = $values[0];
 		}
 		unset($values[0]);
+		$values[1] = ($values[1] != $values[2])? $values[1].' '.$values[2] : $values[1];
+		unset($values[2]);
 ?>
 <?php 
 	if ($i == $maxTableRowsPerPage || ($page != $current && !preg_match('/total/i', $current))): 
@@ -96,14 +98,14 @@ $compare = (isset($options['compare']))? $options['compare'] : false;
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.061\linewidth} | >{\raggedleft}p{0.028\linewidth} | }
 <?php if ($newSection): ?>
 \hline
-\rowcolor{gray!40} & \multicolumn{3}{c |}{Blanc} & \multicolumn{3}{c |}{Rosé} & \multicolumn{3}{c |}{Rouge} & \multicolumn{3}{c |}{Total} \tabularnewline
-\rowcolor{gray!40} Pays & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} \tabularnewline
+\rowcolor{gray!40} & \multicolumn{3}{c |}{France} & \multicolumn{3}{c |}{Export} & \multicolumn{3}{c |}{Négociant} & \multicolumn{3}{c |}{Total} \tabularnewline
+\rowcolor{gray!40} Article & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} & \multicolumn{1}{c |}{N-1} & \multicolumn{1}{c |}{N} & \multicolumn{1}{c |}{\%} \tabularnewline
 <?php endif; ?>
 <?php else: ?>
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 <?php if ($newSection): ?>
 \hline
-\rowcolor{gray!40} Pays & \multicolumn{1}{c |}{Blanc} & \multicolumn{1}{c |}{Rosé} & \multicolumn{1}{c |}{Rouge} & \multicolumn{1}{c |}{Total} \tabularnewline
+\rowcolor{gray!40} Article & \multicolumn{1}{c |}{France} & \multicolumn{1}{c |}{Export} & \multicolumn{1}{c |}{Négociant} & \multicolumn{1}{c |}{Total} \tabularnewline
 <?php endif; ?>
 <?php endif; ?>
 \hline
@@ -113,4 +115,4 @@ $compare = (isset($options['compare']))? $options['compare'] : false;
 \end{tabularx}
 \end{table}
 
-\end{document} 
+\end{document}
