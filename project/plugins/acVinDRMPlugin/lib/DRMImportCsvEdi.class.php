@@ -249,7 +249,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
-                                
+
                 $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
                 if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
                     $this->importComplementMvt($csvRow,$founded_produit,$just_check);
@@ -284,7 +284,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
                         if ($type_key == 'export') {
-                            $pays = array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList);
+                            $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
                             $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd($pays,null);
                             if ($detailNode->volume) {
                                 $volume+=$detailNode->volume;
@@ -315,7 +315,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 } else {
                     if ($confDetailMvt->hasDetails()) {
                         if ($confDetailMvt->getKey() == 'export') {
-                            if (!array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList)) {
+                            $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
+                            if (!$pays) {
                                 $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
                                 $num_ligne++;
                                 continue;
