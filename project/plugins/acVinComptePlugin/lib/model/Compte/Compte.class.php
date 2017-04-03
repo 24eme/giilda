@@ -136,7 +136,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
         $societe = $this->getSociete();
         if ($this->isSocieteContact()) {
-            $this->updateNomAAfficher();
             $this->addTag('automatique', 'Societe');
             $this->addTag('automatique', $societe->type_societe);
             if ($this->getFournisseurs()) {
