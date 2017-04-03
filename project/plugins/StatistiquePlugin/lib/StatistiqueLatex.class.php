@@ -25,11 +25,21 @@ class StatistiqueLatex extends GenericLatex
 
   	public function getLatexFileContents() 
   	{
-    	return html_entity_decode(htmlspecialchars_decode(get_partial('statistique/pdf', array('csv' => $this->csv, 'type' => $this->type, 'options' => $this->options)), HTML_ENTITIES));
+    	return html_entity_decode(htmlspecialchars_decode(get_partial('statistique/pdf_'.$this->type, array('csv' => $this->csv, 'options' => $this->options)), HTML_ENTITIES));
   	}
 
   	public function getPublicFileName($extention = '.pdf') 
   	{
     	return 'statistiques_'.$this->type.'_'.date('YmdHi').$extention;
+  	}
+
+  	public function generatePDF() {
+	    $cmdCompileLatex = '/usr/bin/latexmk -pdf -output-directory="'.$this->getTEXWorkingDir().'" -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
+	    exec($cmdCompileLatex);
+	    $pdfpath = $this->getLatexFileNameWithoutExtention().'.pdf';
+	    if (!file_exists($pdfpath)) {
+	      throw new sfException("pdf not created ($pdfpath): ".$output);
+	    }
+	    return $pdfpath;
   	}
 }
