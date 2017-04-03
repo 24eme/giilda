@@ -2,11 +2,12 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(68);
+$t = new lime_test(77);
 
 $nego2 =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region_2')->getEtablissement();
 $produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
 $produit_hash = array_shift($produits);
+$produit2_hash = array_shift($produits);
 
 
 //Suppression des DRM précédentes
@@ -94,6 +95,7 @@ $t->ok(!$drm->isImport() && $drm->type_creation == DRMClient::DRM_CREATION_VIERG
 $details = $drm->get($produit_hash.'/details/DEFAUT');
 $t->ok($details->canSetStockDebutMois(), "Le stock début est éditable");
 $details->stocks_debut->initial = 1800;
+$details->stocks_debut->dont_revendique = -400;
 $details->sorties->ventefrancecrd = 100;
 $drm->update();
 $drm->save();
@@ -183,17 +185,45 @@ $t->ok($drm->isTeledeclare(), "La drm est télédéclaré");
 
 $details = $drm->get($produit_hash.'/details/DEFAUT');
 $t->ok($details->canSetStockDebutMois(), "Le stock début est éditable");
-$details->stocks_debut->initial = 4000;
-$details->sorties->ventefrancecrd = 100;
+$details->stocks_debut->initial = 1000;
+$details->sorties->ventefrancecrd = 50;
+
+$drm->addProduit($produit2_hash, 'details');
+$details2 = $drm->get($produit2_hash.'/details/DEFAUT');
+$details2->stocks_debut->initial = 4000;
+$details2->sorties->ventefrancecrd = 100;
+
 $drm->update();
 $drm->save();
 $drm->validate();
 $drm->save();
 
-$t->is($details->stocks_fin->final, 3900, "Le stock de fin de mois est cohérent");
+$t->is($drm->get($produit_hash.'/details/DEFAUT')->stocks_fin->final, 950, "Le stock de fin de mois du 1er produit est cohérent");
+$t->is($drm->get($produit2_hash.'/details/DEFAUT')->stocks_fin->final, 3900, "Le stock de fin de mois du 2ème produit est cohérent");
 $t->is(count(DRMClient::getInstance()->generateVersionCascade($drm)), 0, "La génération en cascade impacte aucune DRM");
 $drm08Id = $drm->_id;
 
+$t->comment("Création d'une DRM télédéclaré en Septembre");
+
+$periode = (date('Y'))."09";
+$drm = DRMClient::getInstance()->createDoc($nego2->identifiant, $periode, true);
+$drm->save();
+
+$t->is($drm->_get('precedente'), $drm08Id, "La drm précédente est stocké");
+$t->ok($drm->isTeledeclare(), "La drm est télédéclaré");
+
+$details = $drm->get($produit_hash.'/details/DEFAUT');
+$details->sorties->ventefrancecrd = 150;
+
+$drm->update();
+$drm->save();
+$drm->validate();
+$drm->save();
+
+$t->is($drm->get($produit_hash.'/details/DEFAUT')->stocks_fin->final, 800, "Le stock de fin de mois est cohérent");
+$t->is($drm->get($produit2_hash.'/details/DEFAUT')->stocks_fin->final, 3900, "Le stock de fin de mois du 2ème produit est cohérent");
+$t->is(count(DRMClient::getInstance()->generateVersionCascade($drm)), 0, "La génération en cascade impacte aucune DRM");
+$drm09Id = $drm->_id;
 
 $t->comment("Création d'une modificatrice pour la DRM de Janvier");
 
@@ -264,7 +294,7 @@ $t->comment("Création d'une modificatrice pour la DRM de Juin");
 
 $drm = DRMClient::getInstance()->find($drm06Id)->generateModificative();
 $drm->save();
-$t->is($drm->_get('precedente'), $drm05Id, "La drm précédente n'est pas stocké");
+$t->is($drm->_get('precedente'), $drm05Id, "La drm précédente est stocké");
 $t->ok($drm->isTeledeclare(), "La drm modificatrice est télédeclaré");
 
 $details = $drm->get($produit_hash.'/details/DEFAUT');
@@ -286,3 +316,24 @@ $drm = DRMClient::getInstance()->getMaster($drm07Id);
 $t->is($drm->_id, $drm07Id."-M01", "La master est la M01");
 $t->is($drm->_get('precedente'), $drm06Id."-M01", "La drm précédente est la M01 de juin");
 $t->is($drm->get($produit_hash.'/details/DEFAUT')->stocks_fin->final, 3301, "La modification de stock a été répercuté sur la DRM de février");
+
+$t->comment("Création d'une modificatrice pour la DRM d'Août en intervertissant les sorties des produits");
+
+$drm = DRMClient::getInstance()->find($drm08Id)->generateModificative();
+$drm->save();
+$t->is($drm->_get('precedente'), null, "La drm précédente n'est pas stocké");
+$t->ok($drm->isTeledeclare(), "La drm modificatrice est télédeclaré");
+
+$details = $drm->get($produit_hash.'/details/DEFAUT');
+$details->sorties->ventefrancecrd = 100;
+
+$details2 = $drm->get($produit2_hash.'/details/DEFAUT');
+$details2->sorties->ventefrancecrd = 50;
+
+$drm->update();
+$drm->save();
+$drm->validate();
+$drm->save();
+
+$cascades = DRMClient::getInstance()->generateVersionCascade($drm);
+$t->is(count($cascades) == 1 && $cascades[0], $drm09Id."-M01", "La génération en cascade génère une modificatrice pour la DRM de septembre");

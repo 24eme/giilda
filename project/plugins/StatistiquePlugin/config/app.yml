@@ -108,6 +108,8 @@ all:
                 terms:
                   size: 0,
                   field: 'doc.mouvements.produit_libelle'
+                  order: 
+                    "_term": asc
                 aggs:
                   total_stock_initial:
                     sum_bucket:
@@ -245,7 +247,7 @@ all:
                               buckets_path:
                                 entree_negoce_sum: "entree_negoce>agg_column"
                                 sortie_negoce_sum: "sortie_negoce>agg_column"
-                              script: "sortie_negoce_sum - entree_negoce_sum"
+                              script: "sortie_negoce_sum - 0"
                           total:
                             bucket_script:
                               buckets_path:
