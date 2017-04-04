@@ -411,9 +411,30 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        if (count($this->getProduitsDetails($this->teledeclare)) != count($drm_suivante->getProduitsDetails($drm_suivante->teledeclare))) {
+        if (count($this->getProduitsDetails($this->teledeclare)) > count($drm_suivante->getProduitsDetails($drm_suivante->teledeclare))) {
 
             return false;
+        }
+
+        foreach($this->getProduitsDetails($this->teledeclare) as $detail) {
+            if(!$drm_suivante->exist($detail->getHash())) {
+
+                return false;
+            }
+            $detailSuivante = $drm_suivante->get($detail->getHash());
+
+            foreach($detail->stocks_fin as $keyStock => $valueStock) {
+                $keyStockSuivante = str_replace('final', 'initial', $keyStock);
+                if(!$detailSuivante->stocks_debut->exist($keyStockSuivante)) {
+
+                    return false;
+                }
+
+                if($valueStock != $detailSuivante->stocks_debut->get($keyStockSuivante)) {
+
+                    return false;
+                }
+            }
         }
 
         if ($this->droits->douane->getCumul() != $drm_suivante->droits->douane->getCumul()) {
@@ -1554,6 +1575,15 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
       }
       return true;
+    }
+
+    public function setPaiementDouaneFrequence($p){
+      $this->societe->paiement_douane_frequence = $p;
+      $soc = $this->getEtablissement()->getSociete();
+      if (!$soc->exist('paiement_douane_frequence') || !$soc->get('paiement_douane_frequence') != $p) {
+        $soc->add('paiement_douane_frequence', $p);
+        $soc->save();
+      }
     }
 
     /** Fin Droit de circulation douane */
