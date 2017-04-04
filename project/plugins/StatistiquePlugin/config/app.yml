@@ -107,6 +107,7 @@ all:
                     terms:
                       size: 0,
                       field: 'doc.declarant.famille'
+                      "order" : { "_term" : "desc" }
                     aggs:
                       stock_initial:
                         filter:
@@ -189,6 +190,7 @@ all:
                         terms:
                           size: 0,
                           field: 'doc.mouvements.couleur'
+                          "order" : { "_term" : "asc" }
                         aggs:
                           france:
                             filter:
@@ -280,6 +282,7 @@ all:
                     terms:
                       size: 0,
                       field: 'doc.mouvements.couleur'
+                      "order" : { "_term" : "asc" }
                     aggs:
                       france:
                         filter:
