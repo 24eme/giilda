@@ -107,7 +107,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_set('periode', $periode);
     }
 
-    public function getProduit($hash, $detailsKey, $labels = array()) {
+    public function getProduit($hash, $detailsKey, $denomination_complementaire = null) {
         if (!$this->exist($hash)) {
 
             return false;
@@ -118,19 +118,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        return $this->get($hash)->get($detailsKey)->getProduit($labels);
+        return $this->get($hash)->get($detailsKey)->getProduit($denomination_complementaire);
     }
 
-    public function addProduit($hash, $detailsKey, $labels = array()) {
-        if ($p = $this->getProduit($hash, $detailsKey, $labels)) {
+    public function addProduit($hash, $detailsKey, $denomination_complementaire = null) {
+        if ($p = $this->getProduit($hash, $detailsKey, $denomination_complementaire)) {
             return $p;
         }
-        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($labels);
+        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($denomination_complementaire);
         $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
 
         $this->declaration->reorderByConf();
 
-        return $this->getProduit($hash, $detailsKey, $labels);
+        return $this->getProduit($hash, $detailsKey, $denomination_complementaire);
     }
 
     public function getDepartement() {

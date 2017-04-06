@@ -245,6 +245,7 @@ DRM:
                                                                                                         type: collection
                                                                                                         definition:
                                                                                                           fields:
+                                                                                                            denomination_complementaire: { }
                                                                                                             pas_de_mouvement_check: { type: integer }
                                                                                                             total_debut_mois: { type: float }
                                                                                                             total_entrees: { type: float }

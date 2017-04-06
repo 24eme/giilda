@@ -11,7 +11,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
-        return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
+        return $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator);
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
@@ -89,18 +89,6 @@ class DRMDetail extends BaseDRMDetail {
         return '';
     }
 
-    public function getLabelKey() {
-        $key = null;
-        if ($this->labels) {
-            $key = implode('-', $this->labels->toArray());
-        }
-        return ($key) ? $key : DRM::DEFAULT_KEY;
-    }
-
-    public function getLabelsLibelle($format = "%la%", $label_separator = ", ") {
-
-        return $this->getConfig()->getDocument()->formatLabelsLibelle($this->labels->toArray(), $format, $label_separator);
-    }
 
     public function getTypeDRM() {
 
@@ -367,7 +355,7 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
-            $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
+            $mouvement->produit_hash = $this->getHash(); //WARNING : ceci change tout je pense
             $mouvement->type_drm = $this->getTypeDRM();
             $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
             $mouvement->facture = 0;
@@ -496,6 +484,23 @@ class DRMDetail extends BaseDRMDetail {
         }
 
         return $this->getCepage()->getConfig()->code_douane;
+    }
+
+    public function setDenominationComplementaire($denomination_complementaire){
+      $denomChanged = ($this->get('denomination_complementaire') && ($this->get('denomination_complementaire') != $denomination_complementaire));
+
+      if(!$denomChanged){
+        $this->_set('denomination_complementaire',$denomination_complementaire);
+      }else{
+        $oldKey = $this->getKey();
+        $parent = $this->getParent();
+        $detailNode = clone $this;
+        $detailNode->_set('denomination_complementaire',$denomination_complementaire);
+
+        $newKey = $parent->createSHA1Denom($denomination_complementaire);
+        $parent->add($newKey,$detailNode);
+        $parent->get($oldKey)->delete();
+      }
     }
 
 }
