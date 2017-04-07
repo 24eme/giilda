@@ -17,8 +17,8 @@ if (!isset($fromSociete))
                 Type établissement :
             </label>
             <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?>
-        </div>        
-        <div class="form_ligne"> 
+        </div>
+        <div class="form_ligne">
             <label for="nom">
                 Nom du chai :
             </label>
@@ -32,73 +32,73 @@ if (!isset($fromSociete))
         <?php if ($etablissement->recette_locale && $etablissement->recette_locale->nom) : ?>
             <div class="form_ligne">
                 <label for="recette_locale">
-                    Recette locale : 
+                    Recette locale :
                 </label>
                 <a href="<?php echo url_for('societe_visualisation', SocieteClient::getInstance()->find($etablissement->recette_locale->id_douane)); ?>">
                     <?php echo $etablissement->recette_locale->nom; ?>
                 </a>
-            </div>  
+            </div>
         <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->relance_ds) : ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="relance_ds">
-                    Relance DS : 
+                    Relance DS :
                 </label>
                 <?php echo $etablissement->relance_ds; ?>
-            </div>  
+            </div>
         <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->raisins_mouts) : ?>
-            <div class="form_ligne">                   
+            <div class="form_ligne">
                 <label for="raisins_mouts">
-                    Raisins et moûts : 
+                    Raisins et moûts :
                 </label>
                 <?php echo $etablissement->raisins_mouts; ?>
-            </div>  
-        <?php endif; ?>         
+            </div>
+        <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->exclusion_drm) : ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="exclusion_drm">
-                    Exclusion DRM : 
+                    Exclusion DRM :
                 </label>
                 <?php echo $etablissement->exclusion_drm; ?>
-            </div>  
+            </div>
         <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->type_dr && !$etablissement->isCourtier()) : ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="type_dr">
-                    Type DR : 
+                    Type DR :
                 </label>
                 <?php echo $etablissement->type_dr; ?>
-            </div>  
+            </div>
         <?php endif; ?>
         <?php if ($etablissement->cvi): ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="cvi">
                     CVI :</label>
                 <?php echo $etablissement->cvi; ?>
-            </div>  
+            </div>
         <?php endif; ?>
         <?php if ($etablissement->no_accises): ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="no_accises">
                     Numéro d'accises :</label>
                 <?php echo $etablissement->no_accises; ?>
-            </div>  
+            </div>
         <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->site_fiche): ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="site_fiche">
                     Site fiche :</label>
                 <a href="<?php echo $etablissement->site_fiche; ?>"><?php echo $etablissement->site_fiche; ?></a>
-            </div>  
-        <?php endif; ?>        
+            </div>
+        <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->carte_pro && $etablissement->isCourtier()) : ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="carte_pro">
-                    Carte professionnelle : 
+                    Carte professionnelle :
                 </label>
                 <?php echo $etablissement->carte_pro; ?>
-            </div>  
+            </div>
         <?php endif; ?>
         <div class="form_ligne">
             <label for="region">
@@ -112,7 +112,7 @@ if (!isset($fromSociete))
             </label>
             <?php echo $etablissement->siege->commune; ?>
         </div>
-        <div class="form_ligne"> 
+        <div class="form_ligne">
             <label for="adresse_societe">
                 Adresse de la société :</label>
             <?php echo display_adresse_societe($etablissement); ?>
@@ -121,23 +121,30 @@ if (!isset($fromSociete))
             <div class="form_ligne">
 <form method="POST" action="<?php echo url_for('etablissement_resetcrd', $etablissement);?>">
                 <label for="crd_regime">
-                    Régime de CRD : 
+                    Régime de CRD :
                 </label>
          <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime) : ?>
                     <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?> <input type="submit" value="Réinitialiser le regime CRD"/>
          <?php else: ?>
 		    En attente de saisie par l'utilisateur
          <?php endif; ?> </form>
-            </div>  
+            </div>
+            <div class="form_ligne">
+                <label for="commentaire">
+                    Caution :</label>
+                <?php echo ($etablissement->caution)? "Caution" : "Dispensé";
+                    echo ($etablissement->caution)? " / ".$etablissement->raison_sociale_cautionneur : '';
+                 ?>
+            </div>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
-            <div class="form_ligne"> 
+            <div class="form_ligne">
                 <label for="commentaire">
                     Commentaire :</label>
                 <?php echo $etablissement->commentaire; ?>
-            </div>  
+            </div>
         <?php endif; ?>
 
-        <?php if (!$fromSociete && count($etablissement->liaisons_operateurs) > 0) : ?> 
+        <?php if (!$fromSociete && count($etablissement->liaisons_operateurs) > 0) : ?>
             <div class="form_ligne">
                 <legend>
                     Liaisons opérateurs :
@@ -146,13 +153,13 @@ if (!isset($fromSociete))
             <?php foreach ($etablissement->liaisons_operateurs as $liaison_operateur): ?>
                 <div class="form_ligne">
                     <div class="form_colonne">
-                        <label for="libelle_etablissement"><?php echo $typesLiaisons[$liaison_operateur->type_liaison]; ?></label>     
+                        <label for="libelle_etablissement"><?php echo $typesLiaisons[$liaison_operateur->type_liaison]; ?></label>
                         <a href="<?php echo url_for('etablissement_visualisation', EtablissementClient::getInstance()->find($liaison_operateur->id_etablissement)); ?>">
                             <?php echo $liaison_operateur->libelle_etablissement; ?>
                         </a>
                     </div>
                 </div>
             <?php endforeach; ?>
-        <?php endif; ?>     
+        <?php endif; ?>
     </div>
 </div>

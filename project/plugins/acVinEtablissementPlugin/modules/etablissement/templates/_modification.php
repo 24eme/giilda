@@ -16,7 +16,7 @@
     <?php if (!$etablissement->isNegociant() && !$etablissement->isCourtier()) : ?>
         <div class="form_ligne">
             <div class="form_colonne">
-                <?php echo $etablissementForm['raisins_mouts']->renderLabel(); ?>                
+                <?php echo $etablissementForm['raisins_mouts']->renderLabel(); ?>
                 <?php echo $etablissementForm['raisins_mouts']->render(); ?>
                 <?php echo $etablissementForm['raisins_mouts']->renderError(); ?>
             </div>
@@ -34,8 +34,8 @@
                 <?php echo $etablissementForm['recette_locale_choice']->renderLabel(); ?>
                 <?php echo $etablissementForm['recette_locale_choice']->render(array('class' => 'champ_long')); ?>
     <?php echo $etablissementForm['recette_locale_choice']->renderError(); ?>
-            </div> 
-    
+            </div>
+
         <div class="form_ligne">
             <div class="form_colonne">
                 <?php echo $etablissementForm['relance_ds']->renderLabel(); ?>
@@ -44,7 +44,7 @@
             </div>
             <div class="form_colonne">
             </div>
-        </div>    
+        </div>
 <?php endif; ?>
     <div class="form_ligne">
         <div class="form_colonne">
@@ -77,7 +77,7 @@
             <?php echo $etablissementForm['cvi']->renderLabel(); ?>
         <?php echo $etablissementForm['cvi']->render(); ?>
         <?php echo $etablissementForm['cvi']->renderError(); ?>
-        </div> 
+        </div>
         <?php endif; ?>
     <div class="form_ligne">
         <?php echo $etablissementForm['site_fiche']->renderLabel(); ?>
@@ -97,6 +97,20 @@
         <?php echo $etablissementForm['no_accises']->renderError(); ?>
     </div>
     <div class="form_ligne">
+        <?php echo $etablissementForm['caution']->renderLabel('Caution : ',array('class' => 'label_liste')); ?>
+<?php echo $etablissementForm['caution']->render(); ?>
+        <?php echo $etablissementForm['caution']->renderError(); ?>
+    </div>
+    <div class="form_ligne">
+        <?php echo $etablissementForm['raison_sociale_cautionneur']->renderLabel(); ?>
+        <?php echo $etablissementForm['raison_sociale_cautionneur']->render(); ?>
+        <?php echo $etablissementForm['raison_sociale_cautionneur']->renderError(); ?>
+    </div>
+
+
+
+
+    <div class="form_ligne">
         <?php echo $etablissementForm['commentaire']->renderLabel(); ?>
 <?php echo $etablissementForm['commentaire']->render(); ?>
 <?php echo $etablissementForm['commentaire']->renderError(); ?>
@@ -105,7 +119,7 @@
 </div>
 <?php include_partial('templateLiaisonItem', array('form' => $etablissementForm->getFormTemplate()));
 ?>
-<script type="text/javascript">    
+<script type="text/javascript">
     (function($)
     {
         $(document).ready(function()
@@ -116,16 +130,16 @@
 
         var callbackAddTemplate = function(bloc)
         {
-          
+
         }
 
-       
+
         var initCollectionAddTemplate = function(element, regexp_replace, callback)
         {
-       
+
             $(element).live('click', function()
             {
-                
+
         console.log($($(this).attr('data-template')).html());
                 var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
 
@@ -147,17 +161,17 @@
                 return false;
             });
         }
-   
+
         var initCollectionDeleteTemplate = function()
         {
             $('.btn_supprimer_ligne_template').live('click',function()
             {
                 var element = $(this).attr('data-container');
                 $(this).parent(element).remove();
-   
+
                 return false;
             });
         }
     })(jQuery);
-    
+
 </script>

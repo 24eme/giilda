@@ -17,8 +17,13 @@
             <?php echo $drm->declarant->adresse; ?>, <?php echo $drm->declarant->code_postal; ?> <?php echo $drm->declarant->commune; ?><br />
         <?php endif; ?>
         <br />
-        <?php if ($drm->declarant->exist('caution')): ?>
-        <strong>Caution :</strong> <?php if($drm->declarant->caution): ?><?php echo EtablissementClient::$caution_libelles[$drm->declarant->caution]; ?> <?php if($drm->declarant->raison_sociale_cautionneur): ?>(<?php echo $drm->declarant->raison_sociale_cautionneur; ?>)<?php endif; ?><?php else: ?>Non défini<?php endif; ?><br />
+        <?php if ($drm->declarant->exist('caution')):
+          $index = EtablissementClient::CAUTION_DISPENSE;
+          if($drm->declarant->caution){
+            $index = EtablissementClient::CAUTION_CAUTION;
+          }
+          ?>
+        <strong>Caution :</strong> <?php if($drm->declarant->caution): ?><?php echo EtablissementClient::$caution_libelles[$index]; ?> <?php if($drm->declarant->raison_sociale_cautionneur): ?>(<?php echo $drm->declarant->raison_sociale_cautionneur; ?>)<?php endif; ?><?php else: ?>Non défini<?php endif; ?><br />
         <?php endif; ?>
         <?php if ($isModifiable): ?>
             <div id="btn_etape_dr">
