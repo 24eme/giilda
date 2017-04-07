@@ -233,10 +233,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
                     $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
                     $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
-
                     $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
 
-                    if ((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
+                    $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
+
+                    if ($isEmptyArray){
+                      if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+                      && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                      && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+                        continue;
+                      }
+                    }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
                         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
                         && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                         && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
@@ -249,7 +256,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
-                                
+
                 $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
                 if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
                     $this->importComplementMvt($csvRow,$founded_produit,$just_check);
@@ -284,7 +291,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
                         if ($type_key == 'export') {
-                            $pays = array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList);
+                            $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
                             $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd($pays,null);
                             if ($detailNode->volume) {
                                 $volume+=$detailNode->volume;
@@ -315,7 +322,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 } else {
                     if ($confDetailMvt->hasDetails()) {
                         if ($confDetailMvt->getKey() == 'export') {
-                            if (!array_search($csvRow[self::CSV_CAVE_EXPORTPAYS], $this->countryList)) {
+                            $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
+                              if (!$pays) {
                                 $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
                                 $num_ligne++;
                                 continue;
@@ -607,8 +615,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function productNotFoundError($num_ligne, $csvRow) {
             $libellesArray = $this->buildLibellesArrayWithRow($csvRow);
+            $libelles = ($this->isEmptyArray($libellesArray))? $csvRow[self::CSV_CAVE_LIBELLE_COMPLET] : implode(' ', $libellesArray);
             return $this->createError($num_ligne,
-                                      implode(' ', $libellesArray),
+                                      $libelles,
                                       "Le produit n'a pas été trouvé",
                                       CSVClient::LEVEL_WARNING);
         }
@@ -810,5 +819,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             }
             return $all_conf_details_slugified;
         }
+
+        private function isEmptyArray($array){
+          foreach ($array as $csvLibelle) {
+            if($csvLibelle){
+              return false;
+            }
+          }
+            return true;
+        }
+
 
     }
