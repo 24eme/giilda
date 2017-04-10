@@ -150,7 +150,7 @@ class DRMDetail extends BaseDRMDetail {
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
           if ($this->getConfig()->get('entrees')->exist($entree)){
-            if (preg_match('/autres-entrees/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
+            if (preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations')) {
                   $this->add('observations',$entree);
@@ -490,5 +490,23 @@ class DRMDetail extends BaseDRMDetail {
       }
 	     return $this->getCepage()->getConfig()->code_douane;
      }
+    public function getReplacementDate() {
+      $d = $this->_get('replacement_date');
+      return preg_replace('/(\d{4})-(\d{2})-(\d{2})/', '\3/\2/\1', $d);
+    }
+
+    public function setReplacementDate($d) {
+      $d = preg_replace('/(\d{2}).(\d{2}).(\d{4})/', '$3-$2-$1', $d);
+      return $this->_set('replacement_date', $d);
+    }
+
+    public function getReplacementMonth() {
+      $d = $this->_get('replacement_date');
+      return sprintf('%02d', preg_replace('/.*(-|\/)(\d{2})(-|\/).*/', '\2', $d));
+    }
+    public function getReplacementYear() {
+      $d = $this->_get('replacement_date');
+      return preg_replace('/(\d{4})/', '\1', $d);
+    }
 
 }
