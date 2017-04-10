@@ -6,13 +6,13 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
     protected $drm = null;
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
-        $this->drm = $drm; 
+        $this->drm = $drm;
         parent::__construct($drm, $options, $CSRFSecret);
     }
 
     public function configure() {
         parent::configure();
-       
+
         $this->setWidget('cvi', new sfWidgetFormInput());
         $this->setValidator('cvi', new sfValidatorString(array('required' => true), array('required' => 'Le cvi est obligatoire.')));
         $this->widgetSchema->setLabel('cvi', 'CVI :');
@@ -72,9 +72,9 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         if ($this->drm->declarant->exist('adresse_compta')) {
             $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
         }
-        
-        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? $this->coordonneesEtablissement->caution : null;
-        
+
+        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? EtablissementClient::CAUTION_CAUTION : EtablissementClient::CAUTION_DISPENSE;
+
         $this->setDefault('caution', $defaultCaution);
 
         if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {

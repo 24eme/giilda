@@ -54,12 +54,26 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setWidget('relance_ds', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
             $this->setWidget('recette_locale_choice', new sfWidgetFormChoice(array('choices' => $recette_locale)));
             $this->widgetSchema->setLabel('cvi', 'CVI');
-            $this->widgetSchema->setLabel('relance_ds', 'Relance DS *');            
+            $this->widgetSchema->setLabel('relance_ds', 'Relance DS *');
             $this->widgetSchema->setLabel('recette_locale_choice', 'Recette Locale *');
             $this->setValidator('cvi', new sfValidatorString(array('required' => false)));
-            $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));            
+            $this->setValidator('relance_ds', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getOuiNonChoices()))));
             $this->setValidator('recette_locale_choice', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($recette_locale))));
-            
+
+            $this->setWidget('caution',  new sfWidgetFormChoice(array(
+                'expanded' => true,
+                'choices' => array(
+                    1 => "Oui",
+                    0 => "Dispense",
+                ))));
+            $this->widgetSchema->setLabel('caution', 'Caution');
+            $this->setValidator('caution', new sfValidatorChoice(array('required' => false, 'choices' => array(1, 0))));
+
+            $this->setWidget('raison_sociale_cautionneur', new sfWidgetFormInput());
+            $this->widgetSchema->setLabel('raison_sociale_cautionneur', 'Raison sociale cautionneur');
+            $this->setValidator('raison_sociale_cautionneur', new sfValidatorString(array('required' => false)));
+
+
             if (!$this->etablissement->isNegociant()) {
                 $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
                 $this->setWidget('exclusion_drm', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
@@ -76,7 +90,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->widgetSchema->setLabel('carte_pro', 'N° Carte professionnelle');
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
-        
+
         if($this->etablissement->isNew()) {
             $this->widgetSchema['statut']->setAttribute('disabled', 'disabled');
         }
@@ -91,20 +105,20 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
     }
 
     public function getStatuts() {
-        
+
         return EtablissementClient::getStatuts();
     }
 
     public function getOuiNonChoices() {
-        
+
         return array(EtablissementClient::OUI => 'Oui', EtablissementClient::NON => 'Non');
     }
 
     public function getAdresseSociete() {
-        
+
         return array(1 => 'Oui', 0 => 'Non');
     }
-    
+
     public function getRegions() {
         return EtablissementClient::getRegions();
     }
@@ -118,10 +132,10 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $con = $this->getConnection();
         }
         $this->updateObject();
-        
+
         $this->etablissement->remove('liaisons_operateurs');
         $this->etablissement->add('liaisons_operateurs');
-        
+
         foreach ($this->getEmbeddedForms() as $key => $form) {
 
             foreach ($this->values[$key] as $liaison) {
@@ -131,14 +145,14 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         if($this->values['recette_locale_choice']){
             $this->etablissement->recette_locale->id_douane = $this->values['recette_locale_choice'];
         }
-        
+
         $old_compte = $this->etablissement->compte;
         $switch = false;
          if($this->values['adresse_societe'] && !is_null($this->values['statut']) && !$this->etablissement->getSociete()->isManyEtbPrincipalActif()
             && ($this->values['statut'] != ($socStatut = $this->etablissement->getSociete()->statut))){
                 throw new sfException("Il s'agit de l'établissement pricipal de la société, il ne peut être suspendu. Pour le suspendre, vous devez suspendre la société.");
         }
-        if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){           
+        if($this->values['adresse_societe'] && !$this->etablissement->isSameContactThanSociete()){
            $this->etablissement->compte = $this->etablissement->getSociete()->compte_societe;
            $switch = true;
         } elseif(!$this->values['adresse_societe'] && $this->etablissement->isSameContactThanSociete()) {
@@ -146,7 +160,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
            $switch = true;
         }
         $this->etablissement->save();
-        
+
         if($switch) {
             $this->etablissement->switchOrigineAndSaveCompte($old_compte);
             $this->etablissement->save();
@@ -189,15 +203,15 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->liaisons_operateurs->remove($key);
     }
 
-    protected function getRecettesLocales() {        
+    protected function getRecettesLocales() {
         $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE));
 
         $douanesList = array();
         foreach ($douanes as $key => $douane) {
-            $douaneObj = SocieteClient::getInstance()->find($douane->id);            
+            $douaneObj = SocieteClient::getInstance()->find($douane->id);
             $douanesList[$douane->id] = $douane->key[SocieteAllView::KEY_RAISON_SOCIALE].' '.$douaneObj->siege->commune.' ('.$douaneObj->siege->code_postal.')';
         }
-        return $douanesList;    
+        return $douanesList;
     }
 
 

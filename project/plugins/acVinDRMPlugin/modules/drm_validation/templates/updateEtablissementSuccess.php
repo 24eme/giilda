@@ -59,9 +59,9 @@
                         <?php echo $form['caution']->renderLabel(); ?>
                         <?php echo $form['caution']->render(); ?>
                     </span>
-                </div> 
+                </div>
             <?php endif; ?>
-            <?php $hasSocialeCautionneur = (($drm->getEtablissement()->exist('caution') && ($drm->getEtablissement()->caution == EtablissementClient::CAUTION_CAUTION))
+            <?php $hasSocialeCautionneur = (($drm->getEtablissement()->exist('caution') && ($drm->getEtablissement()->caution))
             || (($drm->declarant->exist('caution')) && ($drm->declarant->caution == EtablissementClient::CAUTION_CAUTION)));
             ?>
                 <?php if ($drm->declarant->exist('raison_sociale_cautionneur')): ?>
@@ -74,7 +74,7 @@
 
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_etablissement_annuler_btn"><span>annuler</span></a>
-                <button type="submit" class="btn_majeur btn_valider" id="drm_validation_etablissement_valider_btn" style="float: right;"><span>Valider</span></button> 
+                <button type="submit" class="btn_majeur btn_valider" id="drm_validation_etablissement_valider_btn" style="float: right;"><span>Valider</span></button>
             </div>
         </form>
     </div>

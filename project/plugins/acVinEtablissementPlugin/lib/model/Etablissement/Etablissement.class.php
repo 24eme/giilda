@@ -282,10 +282,7 @@ class Etablissement extends BaseEtablissement {
             }
         }
 
-        if ($this->isViticulteur() && $this->type_dr == EtablissementClient::TYPE_DR_DRA) {
-            $this->exclusion_drm = EtablissementClient::EXCLUSION_DRM_OUI;
-        }
-
+    
         parent::save();
 
         if (!$fromsociete) {
@@ -407,7 +404,7 @@ class Etablissement extends BaseEtablissement {
     public function setEmailTeledeclaration($email) {
         $this->add('teledeclaration_email', $email);
     }
-    
+
     public function hasRegimeCrd() {
         return $this->exist('crd_regime') && $this->crd_regime;
     }

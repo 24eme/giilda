@@ -90,4 +90,13 @@ class DRMCsvEdi extends CsvFile {
         $this->countryList = array_merge($countryList, $match_array);
     }
 
+    public function findPays($pays){
+      foreach($this->countryList as $countryKey => $country){
+        if(KeyInflector::slugify($country) == KeyInflector::slugify($pays)) {
+          return $countryKey;
+        }
+      }
+      return false;
+    }
+
 }

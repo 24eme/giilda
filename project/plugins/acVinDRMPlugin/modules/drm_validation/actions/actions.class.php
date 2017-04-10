@@ -99,8 +99,8 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
                 $diff = $this->form->getDiff();
+                $this->form->save();
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
@@ -117,8 +117,8 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $this->form->save();
                 $diff = $this->form->getDiff();
+                $this->form->save();
                 $mailManager = new DRMEmailManager($this->getMailer());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
