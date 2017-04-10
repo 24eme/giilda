@@ -61,7 +61,7 @@ L’application de télédéclaration des contrats d’InterLoire";
 
 
         $subject = "Changement de coordonnées de la société " . $typeLibelle . " (" . $identification . ")";
-
+        
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
         try {
             $this->getMailer()->send($message);
