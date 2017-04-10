@@ -23,7 +23,7 @@ all:
   mail:
     from_email: email@email.com
     from_name: "From name"
-  alertes:  
+  alertes:
     debug: true
     generations:
       #DRM manquantes, une DRM est considéré manquante par rapport à la période de la DRM la plus récente
@@ -31,7 +31,7 @@ all:
         class: AlerteGenerationDRMManquantes
       #DRA manquante, une DRA est considéré manquante par rapport à la période de la DRA la plus récente
       DRA_MANQUANTE:
-        class: AlerteGenerationDRAManquante  
+        class: AlerteGenerationDRAManquante
   facture:
     emetteur:
       TOURS:
@@ -131,6 +131,7 @@ all:
         email: 'mail@mail.fr'
     adresse_interloire: "adresse_interloire"
     url: "interloire_domainname"
+    emails_interloire: ['email1@email.fr','email2@email.fr','email3@email.fr']
   pdf:
     reader_link: "http://lien.fr"
   ciel:
@@ -143,4 +144,3 @@ all:
       keypath: "data/ciel/interpro.key"
       urltoken: "http://1.1.1.1/authtokenqualif/oauth2/v1/token"
       urlapp: "http://1.1.1.1/cielqualifinterpro/ws/1.0/declarations"
-
