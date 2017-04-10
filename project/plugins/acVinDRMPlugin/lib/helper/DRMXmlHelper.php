@@ -42,8 +42,12 @@ function multiArray2XML($preXML) {
 			$xml .= "</$k>";
 		}else{
 			$xml .= "<$k>";
-                        $xml .= sprintf('%.04f', $v);
-                        $xml .= "</$k>";
+			if ($k != "annee" && $k != "mois") {
+      	$xml .= sprintf('%.04f', $v);
+			}else{
+				$xml .= sprintf('%02d', $v);
+			}
+      $xml .= "</$k>";
 		}
 	}
 	return $xml;
@@ -51,12 +55,16 @@ function multiArray2XML($preXML) {
 
 function details2XmlDouane($detail) {
 	$confDetail = $detail->getConfig()->getDocument()->declaration->detail;
-        $preXML = array();
-        foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
+  $preXML = array();
+  foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {
-		if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
-                        $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
-		}
+			if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+				$preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->douane_cat)) {
+						$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth());
+						$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear());
+				}
+			}
 	  }
 	}
 	return multiArray2XML($preXML);

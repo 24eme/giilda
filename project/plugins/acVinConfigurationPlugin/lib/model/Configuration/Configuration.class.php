@@ -202,4 +202,8 @@ class Configuration extends BaseConfiguration {
         $this->loadAllData();
     }
 
+    public function hasDontRevendique() {
+      return false;
+    }
+
 }

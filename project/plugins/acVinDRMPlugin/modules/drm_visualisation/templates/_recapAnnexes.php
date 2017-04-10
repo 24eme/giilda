@@ -33,7 +33,6 @@
                 <th>Numéro de document</th>
                 <th class="drm_non_apurement_date_emission">Date d'expédition</th>
                 <th>Numéro d'accises</th>
-
             </tr>
         </thead>
         <tbody class="drm_non_apurement" id="nonapurement_list">
