@@ -355,6 +355,7 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
+            $mouvement->produit_libelle = $this->getLibelle();
             $mouvement->produit_hash = $this->getHash(); //WARNING : ceci change tout je pense
             $mouvement->type_drm = $this->getTypeDRM();
             $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
@@ -400,7 +401,7 @@ class DRMDetail extends BaseDRMDetail {
         if ($volume == 0) {
             return null;
         }
-
+        
         $mouvement->type_hash = $hash;
         $mouvement->type_libelle = $config->getLibelle();
         $mouvement->volume = $volume;

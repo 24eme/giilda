@@ -90,6 +90,8 @@ foreach ($produitsByCertif as $produitByCertif) {
 
 $grandCru = "Grand Cru";
 $hashOrigine = $detailsM->getHash();
+$baseLibelle = "";
+$denomComplLibelle = "";
 $drm->get($hashOrigine)->set("denomination_complementaire",$grandCru);
 $drm->update();
 $drm->save();
@@ -100,14 +102,18 @@ foreach ($drm->declaration->getProduitsDetailsByCertifications(true) as $produit
     $produitsAdded = $produitByCertif->produits;
     $cpt = 0;
     foreach ($produitsAdded as $produitAdded) {
-      if($cpt >= 0){
+      if($cpt > 0){
         $produitFounded = $produitAdded;
+        $denomComplLibelle = $produitFounded->getLibelle();
+      }else{
+        $baseLibelle = $produitAdded->getLibelle();
       }
       $cpt++;
     }
   }
 }
 $hashDest = $produitFounded->getHash();
+$keyDetailsDest = $produitFounded->getKey();
 
 $t->is($drm->get($hashDest)->get('denomination_complementaire'), $grandCru, $drm->_id." : la dénomination complémentaire est bien devenue $grandCru ");
 $t->isnt($hashOrigine, $hashDest, $drm->_id." : La hash a bougé parce que $millesime a été remplacé par $grandCru");
@@ -116,3 +122,61 @@ $t->is($drm->get($hashDest)->get('sorties/consommationfamilialedegustation'), 50
 
 $existNodeMillesime = $drm->exist($hashOrigine);
 $t->ok(!$existNodeMillesime, $drm->_id." : il n'y a plus de produit avec $millesime ");
+
+# test des mvts avant validation
+$drm_mvts_sorted = $drm->getMouvementsCalculeByIdentifiant($drm->identifiant);
+$mvts_sorted = DRMClient::getInstance()->sortMouvementsForDRM($drm_mvts_sorted);
+$cpt = 0;
+foreach ($mvts_sorted as $type_mvt_drm => $mvts_grouped) {
+  foreach ($mvts_grouped as $hash_produit => $mvts) {
+    foreach ($mvts as $key => $mvt) {
+      if(!$cpt){
+        $t->is($mvt->getProduitLibelle(), $baseLibelle, $drm->_id." : le libelle du mvt du produit est bien $baseLibelle");
+      }else{
+        $t->is($mvt->getProduitLibelle(), $denomComplLibelle, $drm->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
+      }
+      $cpt++;
+    }
+  }
+}
+
+# test des mvts après validation
+$drm->validate();
+$drm->save();
+
+$mvts_viti = $drm->mouvements->{$drm->identifiant};
+$t->is(count($mvts_viti), 2, $drm->_id." : la validation a généré deux mouvements chez le viti");
+
+$mvt_consoFam = null;
+$cpt = 0;
+foreach ($mvts_viti as $mvt) {
+  if ($mvt->type_hash == 'sorties/consommationfamilialedegustation') {
+    $mvt_consoFam = $mvt;
+  }
+  if(!$cpt){
+    $getKeyOfMvthash = str_replace("details/","",strstr($mvt_consoFam->produit_hash,"details/"));
+    $t->is($getKeyOfMvthash, "DEFAUT", $drm->_id." : la fin de la hash produit du mvt est bien DEFAUT");
+    $t->is($mvt->getProduitLibelle(), $baseLibelle, $drm->_id." : le libelle du mvt du produit est bien $baseLibelle");
+  }else{
+    $getKeyOfMvthash = str_replace("details/","",strstr($mvt_consoFam->produit_hash,"details/"));
+    $t->is($getKeyOfMvthash, $keyDetailsDest, $drm->_id." : la fin de la hash produit du mvt est bien $keyDetailsDest");
+    $t->is($mvt->getProduitLibelle(), $denomComplLibelle, $drm->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
+  }
+  $cpt++;
+}
+
+$drm_mvts_sorted = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($drm->identifiant, $drm->periode);
+$mvts_sorted = DRMClient::getInstance()->sortMouvementsForDRM($drm_mvts_sorted);
+$cpt = 0;
+foreach ($mvts_sorted as $type_mvt_drm => $mvts_grouped) {
+  foreach ($mvts_grouped as $hash_produit => $mvts) {
+    foreach ($mvts as $key => $mvt) {
+      if(!$cpt){
+        $t->is($mvt->produit_libelle, $denomComplLibelle, $drm->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
+      }else{
+        $t->is($mvt->produit_libelle, $baseLibelle, $drm->_id." : le libelle du mvt du produit est bien $baseLibelle");
+      }
+      $cpt++;
+    }
+  }
+}

@@ -114,7 +114,7 @@
           <span>DRM Facturée (pas réouvrable)</span>
           <?php endif; ?>
     <?php endif; ?>
-    <?php if($compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
+    <?php if(isset($compte) && $compte && $compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
       <?php if (!$drm->transmission_douane->success) : ?>
         <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn btn-success" ><span>Transmettre la Drm sur CIEL</span></a>
       <?php endif; ?>

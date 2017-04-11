@@ -524,6 +524,7 @@ DRM:
                     definition:
                       fields:
                         categorie: {  }
+                        denomination_complementaire: {  }
                         produit_hash: {  }
                         produit_libelle: {  }
                         type_hash: {  }
