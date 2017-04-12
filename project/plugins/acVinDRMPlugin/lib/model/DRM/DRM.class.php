@@ -1733,5 +1733,16 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       }
       return "";
     }
+    public function getDetailsByHash($hash_details_or_cepage){
+      if($this->exist($hash_details_or_cepage)){
+        $node_details_or_cepage = $this->get($hash_details_or_cepage);
+        if($node_details_or_cepage instanceof DRMCepage){
+          return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+        }elseif($node_details_or_cepage instanceof DRMDetail){
+          return $node_details_or_cepage;
+        }
+      }
+      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
+    }
 
 }
