@@ -33,10 +33,8 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
         </thead>
         <tbody>
             <?php $i = 1; ?>
-            <?php
-                var_dump(count($mouvementsByProduit[$typeKey])); 
-                foreach ($mouvementsByProduit[$typeKey] as $produit_hash => $mouvements):
-                $produitDetail = $drm->get($produit_hash);
+            <?php foreach ($mouvementsByProduit[$typeKey] as $produit_hash => $mouvements):
+                $produitDetail = $drm->getDetailsByHash($produit_hash);
                 $produit_libelle = $produitDetail->getLibelle();
                 $libelleDoc = DRMClient::getInstance()->getLibelleFromId($drm->_id);
                 ?>
@@ -76,8 +74,6 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                       <?php if($hasDontRevendique): ?>  <td></td> <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
-
-                <?php //foreach($produit->getProduitsDetails(true, $typeDetailKey) as $detail): ?>
                 <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock fin"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
                     <td><?php echo $produitDetail->getTypeDRMLibelle() ?></td>
                     <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
@@ -87,8 +83,6 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                     <td class="text-left"><strong>(<?php echo ($produitDetail->stocks_fin->dont_revendique) ? sprintFloat($produitDetail->stocks_fin->dont_revendique) : "0.00"; ?>)</strong></td>
                     <?php endif; ?>
                 </tr>
-                <?php //endforeach; ?>
-
             <?php endforeach; ?>
         </tbody>
     </table>
