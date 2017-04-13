@@ -13,16 +13,23 @@
                     <div class="col-sm-12">
                     <?php echo $form->renderHiddenFields(); ?>
                     <?php echo $form->renderGlobalErrors(); ?>
-                    <?php echo $form['produit']->render(array('class' => 'select2 form-control')); ?>
+                    <div class="row">
+                        <div class="col-sm-4 text-right">
+                          <?php echo $form['produit']->renderLabel(); ?>
+                        </div>
+                        <div class="col-sm-8 text-left">
+                          <?php echo $form['produit']->render(array('class' => 'select2 form-control')); ?>
+                        </div>
+                    </div>
                     </div>
                     <div class="col-sm-12">
                       <br/>
                       <div class="row">
-                        <div class="col-sm-6 text-right">
+                        <div class="col-sm-4 text-right">
                           <?php echo $form['denomination_complementaire']->renderLabel(); ?>
                         </div>
-                        <div class="col-sm-6 text-left">
-                          <?php echo $form['denomination_complementaire']->render(array('class' => 'form-control')); ?>
+                        <div class="col-sm-8 text-left">
+                          <?php echo $form['denomination_complementaire']->render(array('class' => 'form-control', 'placeholder' => 'Exemple : millesime, sous produit')); ?>
                         </div>
                       </div>
                     </div>

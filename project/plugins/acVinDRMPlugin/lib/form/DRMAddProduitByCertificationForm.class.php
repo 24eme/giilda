@@ -35,7 +35,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
         ));
         $this->widgetSchema->setLabels(array(
             'produit' => 'Produit : ',
-            'denomination_complementaire' => "Dénomination complémentaires : "
+            'denomination_complementaire' => "Dénomination : "
         ));
 
         $this->setValidators(array(
