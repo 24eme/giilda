@@ -145,7 +145,7 @@ $t->is($drmNext->getProduit($produit_hash, 'details', $millesime)->get('stocks_f
 $countProduit = 0;
 $produitsByCertif = $drmNext->declaration->getProduitsDetailsByCertifications(true);
 foreach ($produitsByCertif as $produitByCertif) {
-  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP"))){
+  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP") || ($produitByCertif->certification_libelle == "AOC"))){
     $countProduit = count($produitByCertif->produits);
   }
 }
@@ -153,7 +153,7 @@ $t->is($countProduit, 2, $drmNext->_id." : le nombre de produits est bien 2");
 
 ## vérification que la dénomination complémentaire soit bien remplie dans le second produit
 foreach ($produitsByCertif as $produitByCertif) {
-  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP"))){
+  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP" || ($produitByCertif->certification_libelle == "AOC")))){
     $produitsAdded = $produitByCertif->produits;
     $cpt = 0;
     foreach ($produitsAdded as $produitAdded) {
@@ -170,7 +170,7 @@ foreach ($produitsByCertif as $produitByCertif) {
 ## vérification que le getLibelle renvoie le millésime
 
 foreach ($produitsByCertif as $produitByCertif) {
-  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP"))){
+  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP" || ($produitByCertif->certification_libelle == "AOC")))){
     $produitsAdded = $produitByCertif->produits;
     $cpt = 0;
     foreach ($produitsAdded as $produitAdded) {
@@ -196,7 +196,7 @@ $drmNext->save();
 
 $produitFounded = false;
 foreach ($drmNext->declaration->getProduitsDetailsByCertifications(true) as $produitByCertif) {
-  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP"))){
+  if(count($produitByCertif->produits) && (($produitByCertif->certification_libelle == "IGP") || ($produitByCertif->certification_libelle == "AOP" || ($produitByCertif->certification_libelle == "AOC")))){
     $produitsAdded = $produitByCertif->produits;
     $cpt = 0;
     foreach ($produitsAdded as $produitAdded) {
