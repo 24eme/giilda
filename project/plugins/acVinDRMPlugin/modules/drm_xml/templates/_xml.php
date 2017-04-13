@@ -23,7 +23,7 @@
 				<libelle-fiscal><?php echo $produit->getLibelle('%format_libelle% %la%') ?></libelle-fiscal>
 <?php endif; ?>
 <?php if ($produit->getCodeDouane()): ?>
-			<?php if(preg_match('/$[0-9]{1}/', $produit->getCodeDouane())): ?>
+			<?php if(preg_match('/^[0-9]{1}/', $produit->getCodeDouane())): ?>
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
 			<?php else: ?>
 				<libelle-fiscal><?php echo formatCodeINAO($produit->getCodeDouane()) ?></libelle-fiscal>
