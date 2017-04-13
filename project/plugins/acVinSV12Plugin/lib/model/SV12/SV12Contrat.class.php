@@ -41,7 +41,7 @@ class SV12Contrat extends BaseSV12Contrat {
     public function getMouvementAcheteur() {
         $mouvement = $this->getMouvement();
         if (!$mouvement) {
-            
+
             return null;
         }
 
@@ -52,7 +52,7 @@ class SV12Contrat extends BaseSV12Contrat {
         } else if ($this->vendeur_identifiant) {
 	  $mouvement->cvo = $this->getTauxCvo();
 	} else {
-	  $mouvement->cvo = $this->getTauxCvo();	  
+	  $mouvement->cvo = $this->getTauxCvo();
 	}
 
         if($mouvement->cvo <= 0) {
@@ -91,12 +91,12 @@ class SV12Contrat extends BaseSV12Contrat {
         $mouvement->version = $this->getDocument()->version;
         $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
         if ($this->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
-            $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS;  
+            $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_RAISINS;
         } elseif($this->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
-            $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS;  
+            $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_MOUTS;
         }
         if (!$this->getVrac())
-        	$mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART;  
+        	$mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_ECART;
         $mouvement->type_hash = $this->contrat_type;
         $mouvement->type_libelle = sprintf("Contrat %s", strtolower($this->getContratTypeLibelle()));
         $mouvement->volume = -1 * $volume;
@@ -110,19 +110,19 @@ class SV12Contrat extends BaseSV12Contrat {
         else
             {
             $mouvement->detail_identifiant = null;
-            $mouvement->detail_libelle = $this->contrat_numero;            
+            $mouvement->detail_libelle = $this->contrat_numero;
         }
 
         return $mouvement;
     }
-    
+
     public function canBeSoldable() {
-        
+
         return $this->isSaisi();
     }
 
     public function isSaisi() {
-        return !is_null($this->volume); 
+        return !is_null($this->volume);
     }
 
     public function isSansContrat() {
@@ -140,7 +140,7 @@ class SV12Contrat extends BaseSV12Contrat {
 
 		if (!$this->getVrac()) {
 
-            throw new sfException(sprintf("Le contrat %s est introuvable", $this->getVracIdentifiant()));            
+            throw new sfException(sprintf("Le contrat %s est introuvable", $this->getVracIdentifiant()));
         }
 
         if ($this->isSaisi() && $volume == 0 && $this->getVrac()->isSolde()) {
@@ -173,7 +173,7 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     public function getDroitCVO() {
-        
+
         return $this->getProduitObject()->getDroitCVO($this->getDocument()->getDate(), VracClient::TYPE_TRANSACTION_RAISINS);
     }
 
@@ -190,14 +190,14 @@ class SV12Contrat extends BaseSV12Contrat {
         $this->getTauxCvo();
     }
 
-    public function getProduitObject() 
+    public function getProduitObject()
     {
 
         return $this->getDocument()->getConfig()->get($this->produit_hash);
     }
 
     public function getContratTypeLibelle() {
-        return ($this->contrat_type)? VracClient::$types_transaction[$this->contrat_type] : null; 
+        return ($this->contrat_type)? VracClient::$types_transaction[$this->contrat_type] : null;
     }
 
     function getNumeroArchive() {
@@ -205,8 +205,8 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     function updateFromView($viewinfo) {
-      if ($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID] != $this->produit_hash || 
-	  $this->vendeur_identifiant != $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID] || 
+      if ($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID] != $this->produit_hash ||
+	  $this->vendeur_identifiant != $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID] ||
 	  $this->contrat_type != $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT]) {
 	$produit = $this->getDocument()->getConfig()->get($viewinfo[VracClient::VRAC_VIEW_PRODUIT_ID]);
 	return $this->updateNoContrat($produit, array('contrat_type' => $viewinfo[VracClient::VRAC_VIEW_TYPEPRODUIT], 'vendeur_identifiant' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_ID], 'vendeur_nom' => $viewinfo[VracClient::VRAC_VIEW_VENDEUR_NOM], 'contrat_numero' => $this->contrat_numero, 'volume' => $this->volume, 'volume_prop' => $this->volume_prop));

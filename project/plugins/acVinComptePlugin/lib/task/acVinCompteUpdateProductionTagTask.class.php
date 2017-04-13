@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * acVinComptePlugin task.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -59,7 +59,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
         foreach(EtablissementAllView::getInstance()->findByInterproStatutAndFamilleVIEW('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF,null) as $e) {
             $id = $e->key[EtablissementAllView::KEY_ETABLISSEMENT_ID];
             $tags = array('export' => array(), 'produit' => array());
-            
+
             $mvts = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($id, $campagne);
             foreach($mvts as $m) {
                 $produit_libelle = $this->getProduitLibelle($m->produit_hash);
@@ -72,7 +72,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
               	if ($m->detail_libelle && $m->type_libelle == 'Export') {
               	  $tags['export'][$m->detail_libelle] = 1;
               	}
-            }   
+            }
             $etablissement = EtablissementClient::getInstance()->findByIdentifiant(str_replace('ETABLISSEMENT-', '' ,$id));
             if (!$etablissement) {
       	        throw new sfException("etablissement $id non trouvé");
@@ -101,7 +101,11 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask
 
     public function getProduitLibelle($hash) {
         $configuration =  ConfigurationClient::getInstance()->getCurrent();
+        if(!$configuration->exist($hash)) {
+            echo "Hash non trouvé :".$hash."\n";
+            return null;
+        }
 
-        return $configuration->get($hash)->getLibelleFormat(array(), "%format_libelle%");
+        return $this->replaceAccents($configuration->get($hash)->getLibelleFormat(null, "%format_libelle%"));
     }
 }

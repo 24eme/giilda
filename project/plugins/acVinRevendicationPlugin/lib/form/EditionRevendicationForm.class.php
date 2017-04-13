@@ -91,7 +91,7 @@ class EditionRevendicationForm extends sfForm {
         if (!isset($produits->$codeDouane)) {
             $produits->$codeDouane = new stdClass();
         }
-        $libelle = $this->getConfig()->get($this->values['produit_hash'])->getLibelleFormat(array(), "%format_libelle% %la%");
+        $libelle = $this->getConfig()->get($this->values['produit_hash'])->getLibelleFormat( null, "%format_libelle% %la%");
         $produits->$codeDouane->libelle_produit_csv = $libelle;
         $produits->$codeDouane->produit_hash = $hash;
         $produits->$codeDouane->produit_libelle = $libelle;

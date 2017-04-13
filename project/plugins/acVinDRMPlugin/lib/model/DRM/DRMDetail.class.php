@@ -10,8 +10,9 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getParent()->getConfigDetails();
     }
 
-    public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
-	     return $this->getCepage()->getConfig()->getLibelleFormat(array(), $format, $label_separator);
+
+    public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
+        return $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator);
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
@@ -90,13 +91,7 @@ class DRMDetail extends BaseDRMDetail {
         return '';
     }
 
-    public function getLabelKey() {
-        $key = null;
-        if ($this->labels) {
-            $key = implode('-', $this->labels->toArray());
-        }
-        return ($key) ? $key : DRM::DEFAULT_KEY;
-    }
+
 
     public function getTypeDRM() {
 
@@ -379,7 +374,11 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
-            $mouvement->produit_hash = $this->getCepage()->getConfig()->getHash();
+
+            $mouvement->produit_libelle = $this->getLibelle();
+            $mouvement->produit_hash = $this->getHash(); //WARNING : ceci change tout je pense
+            $mouvement->type_drm = $this->getTypeDRM();
+            $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
             $mouvement->facture = 0;
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
@@ -498,11 +497,14 @@ class DRMDetail extends BaseDRMDetail {
       }
 
     public function getCodeDouane() {
-      if($this->exist("code_inao") && $this->code_inao){
-        return $this->code_inao;
-      }
-	     return $this->getCepage()->getConfig()->code_douane;
-     }
+
+        if($this->exist("code_inao") && $this->code_inao) {
+            return $this->code_inao;
+        }
+
+        return $this->getCepage()->getConfig()->code_douane;
+    }
+
     public function getReplacementDate() {
       $d = $this->_get('replacement_date');
       return preg_replace('/(\d{4})-(\d{2})-(\d{2})/', '\3/\2/\1', $d);
@@ -540,4 +542,20 @@ class DRMDetail extends BaseDRMDetail {
       return $this->_get('tav');
     }
 
+    public function setDenominationComplementaire($denomination_complementaire){
+      $denomChanged = ($this->get('denomination_complementaire') && ($this->get('denomination_complementaire') != $denomination_complementaire));
+
+      if(!$denomChanged){
+        $this->_set('denomination_complementaire',$denomination_complementaire);
+      }else{
+        $oldKey = $this->getKey();
+        $parent = $this->getParent();
+        $detailNode = clone $this;
+        $detailNode->_set('denomination_complementaire',$denomination_complementaire);
+
+        $newKey = $parent->createSHA1Denom($denomination_complementaire);
+        $parent->add($newKey,$detailNode);
+        $parent->get($oldKey)->delete();
+      }
+    }
 }
