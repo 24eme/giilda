@@ -27,10 +27,10 @@ class GenericLatex {
 
   public function generatePDF() {
     $cmdCompileLatex = '/usr/bin/latexmk -pdf -output-directory="'.$this->getTEXWorkingDir().'" -interaction=nonstopmode "'.$this->getLatexFile().'" 2>&1';
-    exec($cmdCompileLatex);
+    exec($cmdCompileLatex, $output);
     $pdfpath = $this->getLatexFileNameWithoutExtention().'.pdf';
     if (!file_exists($pdfpath)) {
-      throw new sfException("pdf not created ($pdfpath): ".$output);
+      throw new sfException("pdf not created ($pdfpath): ".implode(',', $output));
     }
     return $pdfpath;
   }

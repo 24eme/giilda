@@ -53,7 +53,7 @@ use_helper('Display');
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{flushleft}
 		\vspace{0.2cm}
-		\\
+		~ \\
   	\vspace{0.5cm}
 		\end{flushleft}
 	\end{minipage}

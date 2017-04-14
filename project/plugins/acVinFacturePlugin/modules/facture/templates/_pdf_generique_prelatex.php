@@ -38,7 +38,7 @@
 \fancyhf{}
 \def\PdfTitre{<?php echo $pdf_titre; ?>}
 \def\PdfNbPages{<?php echo $pdf_nb_pages; ?>}
-\def\NomInterpro{<?php echo sfConfig::get('facture_configuration_facture')['pdf']['nom_interpro']; ?>}
+\def\NomInterpro{<?php echo sfConfig::get('facture_configuration_facture', array('pdf_nom_interpro'=>''))['pdf_nom_interpro']; ?>}
 \def\InterproAdresse{ <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['adresse']; ?>\\
 		       <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['code_postal']." ".sfConfig::get('app_configuration_facture_emetteur_libre_ville'); ?> }
 \def\InterproContact{\\<?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['telephone']; ?>
