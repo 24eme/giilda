@@ -49,8 +49,7 @@ use_helper('Date');
     <?php if ($vrac->isVise()) : ?>
       <div class="col-xs-4 text-center">
       <?php if (!preg_match('/^DRM/', $vrac->numero_archive)): ?>
-            <p style="font-size: 24px;">
-                N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_visa, "dd/MM/yyyy", "fr_FR"); ?>)<br/>
+            <h3>N° <?php echo $vrac->numero_archive; ?> (<?php echo format_date($vrac->date_visa, "dd/MM/yyyy", "fr_FR"); ?>)</h3>
                 <small class="text-muted"><?php echo formatNumeroBordereau($vrac->numero_contrat); ?></small>
             </p>
       <?php endif; ?>
