@@ -23,10 +23,10 @@
 				<libelle-fiscal><?php echo $produit->getLibelle('%format_libelle% %la%') ?></libelle-fiscal>
 <?php endif; ?>
 <?php if ($produit->getCodeDouane()): ?>
-			<?php if(preg_match('/^[0-9]{1}/', $produit->getCodeDouane())): ?>
-				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
-			<?php else: ?>
+			<?php if($produit->isCodeDouaneAlcool()): ?>
 				<libelle-fiscal><?php echo formatCodeINAO($produit->getCodeDouane()) ?></libelle-fiscal>
+			<?php else: ?>
+				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
 			<?php endif; ?>
 <?php endif; ?>
 				<libelle-personnalise><?php echo trim(html_entity_decode((($produit->produit_libelle) ? $produit->produit_libelle : $produit->getLibelle('%format_libelle% %la%')), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
