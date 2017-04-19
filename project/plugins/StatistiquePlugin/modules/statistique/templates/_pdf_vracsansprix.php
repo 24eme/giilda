@@ -7,7 +7,7 @@ $ressortissant->adresse_complementaire = '';
 $ressortissant->code_postal = $csv[0][3];
 $ressortissant->ville = $csv[0][4];
 $ressortissant->commune = $csv[0][4];
-include_partial('facture/pdf_generique_prelatex', array('pdf_nb_pages' => 1, 'pdf_titre' => "Prix d'achats", 'ressortissant' => $ressortissant));
+include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => "Prix d'achats", 'ressortissant' => $ressortissant));
 include_partial('facture/pdf_generique_entete');
 
 ?>
