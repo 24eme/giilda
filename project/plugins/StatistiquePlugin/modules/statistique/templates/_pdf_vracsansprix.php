@@ -25,20 +25,24 @@ if ($options['date_fin']) {
 Merci de renseigner les prix afin de nous permettre d'établir les statistiques correspondantes :
 
 ~ \\
-\fontsize{8}{10}\selectfont
-
+<?php $i = 0; $max = 30;
+while($i < count($csv)) :
+if (($i - count($csv) - $max) < 5 ) $max += 4 ;
+if ($i) pdf_newpage();
+?>
+\fontsize{8}{13}\selectfont
 \centering
 \begin{tabular}{|l|l|l|r|r|l|}
 \hline
-\multicolumn{1}{|c|}{\textbf{Date}} & \multicolumn{1}{c|}{\textbf{Vendeur}} & \multicolumn{1}{c|}{\textbf{Appellation /  Couleur}} & \multicolumn{1}{c|}{\textbf{hl}} & \multicolumn{1}{c|}{\textbf{Prix}} & \multicolumn{1}{c|}{\textbf{Vrac/blle}} \\ \hline
-<?php foreach($csv as $c ): ?>
+\multicolumn{1}{|c|}{\textbf{Date}} & \multicolumn{1}{c|}{\textbf{Vendeur}} & \multicolumn{1}{c|}{\textbf{Appellation /  Couleur}} & \multicolumn{1}{c|}{\textbf{hl}} & \multicolumn{1}{c|}{\textbf{Prix/hl Vrac}} & \multicolumn{1}{c|}{\textbf{Prix/Bt Tiré-Bouché}} \\ \hline
+<?php for(; $i < count($csv) && $i < $max ; $i++): $c = $csv[$i]; ?>
 <?php echo preg_replace('/(\d{4})-(\d{2})-(\d{2})/', '$3/$2/$1', $c[5]); ?>                &
 <?php echo $c[6]; ?>                &
 <?php echo $c[7]; ?>                &
 <?php printf("%.02f", $c[8]); ?>    &
-  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~             &
-  ~ ~ ~ ~ ~ ~               \\ \hline
-<?php endforeach; ?>
+  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~   &
+  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~   \\ \hline
+<?php endfor; ?>
 \end{tabular}
-
+<?php $max = $i + 35; endwhile ; ?>
 \end{document}
