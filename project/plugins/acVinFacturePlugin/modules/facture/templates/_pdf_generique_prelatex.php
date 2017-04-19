@@ -51,12 +51,12 @@ $fax = sfConfig::get('app_configuration_facture')['emetteur_libre']['fax']; echo
 \def\InterproBIC{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['bic']; ?>}
 \def\InterproIBAN{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['iban']; ?>}
 
-\def\RessortissantNom{<?php $nom = ($ressortissant->raison_sociale == '')? $ressortissant->nom : $ressortissant->raison_sociale;
+\def\RessortissantNom{<?php $nom = ($ressortissant->raison_sociale == '')? $ressortissant->nom : html_entity_decode($ressortissant->raison_sociale);
                             echo display_latex_string($nom,';',40);
                      ?>}
-\def\RessortissantAdresse{<?php $adresse = ($ressortissant->adresse == '')? "~" : $ressortissant->adresse;
+\def\RessortissantAdresse{<?php $adresse = ($ressortissant->adresse == '')? "~" : html_entity_decode($ressortissant->adresse);
                                                  echo display_latex_string($adresse,';',50,2); ?>}
-\def\RessortissantAdresseComplementaire{<?php $adresseComplementaire = (!$ressortissant->adresse_complementaire)? "~" : "\\\\".$ressortissant->adresse_complementaire;
+\def\RessortissantAdresseComplementaire{<?php $adresseComplementaire = (!$ressortissant->adresse_complementaire)? "~" : "\\\\".html_entity_decode($ressortissant->adresse_complementaire);
                                           echo display_latex_string($adresseComplementaire,';',50,2);   ?>}
 \def\RessortissantCP{<?php echo $ressortissant->code_postal; ?>}
 \def\RessortissantVille{<?php echo $ressortissant->commune; ?>}
