@@ -1669,8 +1669,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     public function getTavsArray(){
       $tavs = array();
       foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+
         if($detail->exist('tav') && $detail->get('tav')){
-          $tavs[$detail->getLibelle()] = $detail->get('tav');
+          $tavs[$detail->getLibelle().' ('.$detail->getTypeDRMLibelle().')'] = $detail->get('tav');
         }
       }
       return $tavs;

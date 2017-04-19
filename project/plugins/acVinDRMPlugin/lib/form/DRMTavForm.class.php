@@ -22,7 +22,7 @@ class DRMTavForm extends BaseForm
 	{
         $w = array('tav' => new bsWidgetFormInputFloat());
         $v = array('tav' => new sfValidatorNumber(array('required' => false, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
-        $l = array('tav' => $this->_detail->getLibelle());
+        $l = array('tav' => $this->_detail->getLibelle().' ('.$this->_detail->getTypeDRMLibelle().')');
 
         $this->setWidgets($w);
         $this->setValidators($v);

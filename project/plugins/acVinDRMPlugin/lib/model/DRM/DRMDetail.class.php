@@ -533,4 +533,10 @@ class DRMDetail extends BaseDRMDetail {
         $parent->get($oldKey)->delete();
       }
     }
+    public function getTav(){
+      if(!$this->exist('tav')){
+       return false;
+      }
+      return $this->_get('tav');
+    }
 }
