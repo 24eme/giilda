@@ -19,31 +19,61 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->_drm = $object;
-        $this->_produits = $this->_drm->declaration->getProduitsDetails(true);
+        $this->_produits = $this->_drm->declaration->getProduitsDetails(true, DRM::DETAILS_KEY_SUSPENDU);
         parent::__construct($this->_drm, $options, $CSRFSecret);
     }
 
     public function configure() {
         foreach ($this->_produits as $produit) {
-            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => true)));
+          $disabled=array();
+
+            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
+
+            $this->setWidget('acquitte' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
+            if(preg_match("/USAGESINDUSTRIELS/",$produit->getHashForKey())){
+                $this->getWidget('acquitte' . $produit->getHashForKey())->setAttribute('disabled', 'disabled');
+              }
+
 
             $this->widgetSchema->setLabel('produit' . $produit->getHashForKey(), '');
+            $this->widgetSchema->setLabel('acquitte' . $produit->getHashForKey(), '');
 
             $this->setValidator('produit' . $produit->getHashForKey(), new sfValidatorString(array('required' => false)));
+            $this->setValidator('acquitte' . $produit->getHashForKey(), new sfValidatorString(array('required' => false)));
         }
 
         $this->widgetSchema->setNameFormat('produitsChoice[%s]');
     }
 
     protected function doUpdateObject($values) {
+        $oneAcq = array();
         foreach ($values as $key => $value) {
             $matches = array();
             if (preg_match('/^produit(.*)/', $key, $matches)) {
                 $key = str_replace('-', '/', $matches[1]);
-                $this->_drm->get($key)->getCepage()->add('no_movements', ! $value);
+                $this->_drm->get($key)->add('no_movements', ! $value);
                 $this->_drm->etape = DRMClient::ETAPE_SAISIE;
-                
+
             }
+            if (preg_match('/^acquitte(.*)/', $key, $matches)) {
+                $key = str_replace('-', '/', $matches[1]);
+                if ($value) {
+                $p =	$this->_drm->addProduit($this->_drm->get($key)->getCepage()->getHash(), DRM::DETAILS_KEY_ACQUITTE);
+                $p->add('no_movements', ! $value);
+                $oneAcq[$this->_drm->get($key)->getCepage()->getHash()] = true;
+                }
+            }
+        }
+        foreach ($values as $key => $value) {
+          if (preg_match('/^acquitte(.*)/', $key, $matches)) {
+              $key = str_replace('-', '/', $matches[1]);
+              if(!array_key_exists($this->_drm->get($key)->getCepage()->getHash(),$oneAcq))
+              {
+              if ($this->_drm->get($key)->getCepage()->exist(DRM::DETAILS_KEY_ACQUITTE)) {
+             	 $this->_drm->get($key)->getCepage()->remove(DRM::DETAILS_KEY_ACQUITTE);
+              }
+           }
+          }
         }
         $this->_drm->save();
     }
@@ -52,13 +82,20 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
         $this->all_checked = true;
         parent::updateDefaultsFromObject();
         foreach ($this->_produits as $produit) {
-            if ($produit->getCepage()->exist('no_movements') && $produit->getCepage()->no_movements) {
-                $this->setDefault('produit' . $produit->getHashForKey(), false);
-                $this->all_checked = false;
-            }
-        }
+
+              if (!$produit->getCepage()->exist('no_movements') || !$produit->getCepage()->no_movements) {
+                  $this->setDefault('produit' . $produit->getHashForKey(), true);
+              }
+              if(!$produit->exist('no_movements') || !$produit->get('no_movements')){
+                $this->setDefault('produit' . $produit->getHashForKey(), true);
+              }
+
+              if ($produit->getCepage()->exist(DRM::DETAILS_KEY_ACQUITTE)) {
+                  $this->setDefault('acquitte' . $produit->getHashForKey(), true);
+              }
+          }
     }
-    
+
     public function isAllChecked() {
         return $this->all_checked;
     }

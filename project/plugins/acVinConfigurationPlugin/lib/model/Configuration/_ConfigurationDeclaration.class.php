@@ -259,7 +259,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
             $this->libelle_format[$format] = trim($libelle);
         }
-
         return $this->libelle_format[$format];
     }
 

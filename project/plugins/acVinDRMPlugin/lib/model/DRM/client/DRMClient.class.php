@@ -8,6 +8,8 @@ class DRMClient extends acCouchdbClient {
     const CONTRATSPRODUITS_VOL_ENLEVE = 3;
     const ETAPE_CHOIX_PRODUITS = 'CHOIX_PRODUITS';
     const ETAPE_SAISIE = 'SAISIE';
+    const ETAPE_SAISIE_SUSPENDU = 'SAISIE_details';
+    const ETAPE_SAISIE_ACQUITTE = 'SAISIE_detailsACQUITTE';
     const ETAPE_CRD = 'CRD';
     const ETAPE_ADMINISTRATION = 'ADMINISTRATION';
     const ETAPE_VALIDATION = 'VALIDATION';
@@ -29,8 +31,10 @@ class DRMClient extends acCouchdbClient {
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
+    const TYPE_DRM_SUSPENDU = 'SUSPENDU';
+    const TYPE_DRM_ACQUITTE = 'ACQUITTE';
 
-    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
+    public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
     public static $drm_documents_daccompagnement = array(
@@ -577,5 +581,22 @@ class DRMClient extends acCouchdbClient {
       $drm->save();
       return $drm;
     }
+
+
+    public function sortMouvementsForDRM($mouvements) {
+        $mouvementsSorted = array();
+        foreach ($mouvements as $mouvement) {
+          $type_drm = ($mouvement->exist("type_drm") && $mouvement->type_drm)? $mouvement->type_drm : "SUSPENDU";
+          if (!isset($mouvementsSorted[$type_drm])) {
+              $mouvementsSorted[$type_drm] = array();
+          }
+          if (!array_key_exists($mouvement->produit_hash, $mouvementsSorted[$type_drm])) {
+              $mouvementsSorted[$type_drm][$mouvement->produit_hash] = array();
+          }
+            $mouvementsSorted[$type_drm][$mouvement->produit_hash][] = $mouvement;
+        }
+        return $mouvementsSorted;
+    }
+
 
 }

@@ -11,8 +11,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
-
-        return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
+	return $this->getCepage()->getConfig()->getLibelleFormat(array(), $format, $label_separator);
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
@@ -99,13 +98,23 @@ class DRMDetail extends BaseDRMDetail {
         return ($key) ? $key : DRM::DEFAULT_KEY;
     }
 
+    public function getTypeDRM() {
+
+        return $this->getParent()->getTypeDRM();
+    }
+
+    public function getTypeDRMLibelle() {
+
+        return $this->getParent()->getTypeDRMLibelle();
+    }
+
+
     public function getLabelsLibelle($format = "%la%", $label_separator = ", ") {
 
         return $this->getConfig()->getDocument()->formatLabelsLibelle($this->labels->toArray(), $format, $label_separator);
     }
 
     public function canSetStockDebutMois() {
-
        return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
     }
 
@@ -127,7 +136,7 @@ class DRMDetail extends BaseDRMDetail {
     protected function update($params = array()) {
         parent::update($params);
 
-        $this->total_debut_mois = $this->stocks_debut->revendique;
+        $this->total_debut_mois =   ($this->stocks_fin->exist('revendique'))? $this->stocks_debut->revendique : 0.0;
 
         if ($this->sorties->exist('vrac_details')) {
             $this->sorties->vrac = 0;
@@ -176,8 +185,9 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
-
-        $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+        if($this->stocks_fin->exist('revendique')){
+          $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+        }
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
@@ -190,7 +200,7 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->cvo->volume_taxable = $this->total_facturable;
 
-        $this->total = $this->stocks_fin->revendique;
+        $this->total = ($this->stocks_fin->exist("revendique"))? $this->stocks_fin->revendique : 0.0;
         if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }

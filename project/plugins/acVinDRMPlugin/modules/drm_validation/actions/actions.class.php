@@ -16,11 +16,13 @@ class drm_validationActions extends drmGeneriqueActions {
 
     public function executeValidation(sfWebRequest $request) {
       set_time_limit(180);
-      try {
+    //  try {
         $this->drm = $this->getRoute()->getDRM();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->initSocieteAndEtablissementPrincipal();
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant,$this->isTeledeclarationMode);
+        $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
+
         $this->drm->cleanDeclaration();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode, 'validation_step' => true, 'no_vracs' => true));
         $this->initDeleteForm();
@@ -85,10 +87,10 @@ class drm_validationActions extends drmGeneriqueActions {
       	            'periode_version' => $this->drm->getPeriodeAndVersion(),
       	            'hide_rectificative' => 1));
       	}
-      }catch(sfException $e) {
-		$this->getUser()->setFlash('notice', 'Cette DRM ne peut être éditée étant déjà validée');
-		return $this->redirect('drm_visualisation', array('identifiant' => $request->getParameter('identifiant'), 'periode_version' => $request->getParameter('periode_version')));
-      }
+    //   }catch(sfException $e) {
+		// $this->getUser()->setFlash('notice', 'Cette DRM ne peut être éditée étant déjà validée');
+		// return $this->redirect('drm_visualisation', array('identifiant' => $request->getParameter('identifiant'), 'periode_version' => $request->getParameter('periode_version')));
+    //   }
     }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {

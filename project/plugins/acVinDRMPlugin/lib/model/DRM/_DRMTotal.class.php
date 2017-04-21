@@ -196,18 +196,40 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getProduitsDetails($teledeclarationMode = false) {
+    public function reorderByConf() {
+        $children = array();
+
+        foreach($this->getChildrenNode() as $child) {
+            $children[$child->getKey()] = $child->getData();
+        }
+
+        foreach($children as $key => $child) {
+            $this->getChildrenNode()->remove($key);
+        }
+
+        foreach($this->getConfig()->getChildrenNode() as $child) {
+            if(!array_key_exists($child->getKey(), $children)) {
+                continue;
+            }
+
+            $child_added = $this->getChildrenNode()->add($child->getKey(), $children[$child->getKey()]);
+            $child_added->reorderByConf();
+        }
+
+    }
+
+    public function getProduitsDetails($teledeclarationMode = false, $detailsKey = null) {
         $produits = array();
         foreach($this->getChildrenNode() as $key => $item) {
-            $produits = array_merge($produits, $item->getProduitsDetails($teledeclarationMode));
+            $produits = array_merge($produits, $item->getProduitsDetails($teledeclarationMode, $detailsKey));
         }
 
         return $produits;
     }
 
-    public function getProduitsDetailsSorted($teledeclarationMode = false) {
-        $produits = $this->getProduitsDetails($teledeclarationMode);
-        
+    public function getProduitsDetailsSorted($teledeclarationMode = false, $detailsKey = null) {
+        $produits = $this->getProduitsDetails($teledeclarationMode, $detailsKey);
+
         uasort($produits, "_DRMTotal::sortProduitByLibelle");
 
         return $produits;
@@ -241,7 +263,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         $noeuds = array();
 
         foreach($this->getChildrenNode() as $key => $item) {
-            if($item instanceof _DRMTotal) {
+            if($item instanceof _DRMTotal || $item instanceof DRMDetails) {
                 $noeud = $item->cleanNoeuds();
                 if(isset($noeud)) {
                     $noeuds[] = $noeud;
@@ -258,22 +280,22 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         $this->_cleanNoeuds();
 
         if (count($this->getChildrenNode()) == 0) {
-            
+
             return $this;
         }
 
         return null;
     }
-    
+
     public function hasProduitDetailsWithStockNegatif() {
         foreach ($this->getProduitsDetails() as $prod) {
             if ($prod->hasProduitDetailsWithStockNegatif()) {
                 return true;
             }
-        }        
+        }
         return false;
     }
-    
+
     abstract public function getChildrenNode();
 
 }
