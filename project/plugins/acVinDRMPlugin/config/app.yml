@@ -3,16 +3,3 @@
 
 # default values
 all:
-  drm_etapes:
-    informations:
-      url: "drm_informations"
-    ajouts_liquidations:
-      url: "drm_mouvements_generaux"
-    recapitulatif:
-      url: "drm_recap_redirect"
-    vrac:
-      url: "drm_vrac"
-    declaratif:
-      url: "drm_declaratif"
-    validation:
-      url: "drm_validation"

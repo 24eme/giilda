@@ -460,6 +460,7 @@ DRM:
                         moyen: {  }
             caution:
               type: collection
+              required: false
               definition:
                 fields:
                   dispense: { type: integer }
