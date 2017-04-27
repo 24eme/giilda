@@ -63,7 +63,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setWidget('caution',  new sfWidgetFormChoice(array(
                 'expanded' => true,
                 'choices' => array(
-                    1 => "Oui",
+                    1 => "Caution",
                     0 => "Dispense",
                 ))));
             $this->widgetSchema->setLabel('caution', 'Caution');

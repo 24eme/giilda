@@ -1467,6 +1467,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       }
       return get_partial('drm_xml/xml', array('drm' => $this));
     }
+    public function addReplacementDateProduit($hash, $date)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->setReplacementDate($date);
+      }
+    }
 
     public function getXMLRetour() {
         if (!$this->exist('_attachments') || !$this->_attachments->exist('drm_retour.xml'))
@@ -1497,6 +1504,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return new DRMCielCompare($this->getXMLRetour(), $this->getXML());
     }
 
+    public function getReplacementDateArray(){
+      $dates = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('replacement_date') && $detail->get('replacement_date')){
+          $dates[$detail->getLibelle()] = $detail->get('replacement_date');
+        }
+      }
+      return $dates;
+    }
+
+
+    /*
+    * Fin Observations
+    */
     public function areXMLIdentical() {
       $comp = $this->getXMLComparison();
       return !$comp->hasDiff();
@@ -1525,5 +1546,4 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       }
       return "";
     }
-
 }

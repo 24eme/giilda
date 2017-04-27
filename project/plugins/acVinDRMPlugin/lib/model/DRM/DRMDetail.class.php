@@ -150,7 +150,7 @@ class DRMDetail extends BaseDRMDetail {
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
           if ($this->getConfig()->get('entrees')->exist($entree)){
-            if (preg_match('/autres-entrees/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
+            if (preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations')) {
                   $this->add('observations',$entree);
@@ -191,6 +191,35 @@ class DRMDetail extends BaseDRMDetail {
         $this->cvo->volume_taxable = $this->total_facturable;
 
         $this->total = $this->stocks_fin->revendique;
+        if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
+          $this->total_revendique = $this->stocks_fin->dont_revendique;
+        }
+        if(($this->entrees->exist('excedents') && $this->entrees->excedents)
+        // Qu'est ce que les manipulation en entrée ici???
+          || ($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
+          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
+          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
+          || ($this->sorties->exist('destructionperte') && $this->sorties->destructionperte)){
+            if (!$this->exist('observations')) {
+              $this->add('observations',null);
+            }
+        }else{
+          $this->remove('observations');
+        }
+        if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
+          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
+          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
+          || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)) {
+            if (!$this->exist('replacement_date')) {
+              $this->add('replacement_date',null);
+            }
+        }else{
+          $this->remove('replacement_date');
+        }
+    }
+
+    public function setImportableObservations($observations) {
+      $this->add('observations', $observations);
     }
 
     protected function updateNoeud($hash, $coefficient_facturable) {
@@ -454,9 +483,6 @@ class DRMDetail extends BaseDRMDetail {
             }
         }
       }
-    public function setImportableObservations($observations) {
-    	$this->add('observations', $observations);
-    }
 
     public function getCodeDouane() {
       if($this->exist("code_inao") && $this->code_inao){
@@ -464,5 +490,23 @@ class DRMDetail extends BaseDRMDetail {
       }
 	     return $this->getCepage()->getConfig()->code_douane;
      }
+    public function getReplacementDate() {
+      $d = $this->_get('replacement_date');
+      return preg_replace('/(\d{4})-(\d{2})-(\d{2})/', '\3/\2/\1', $d);
+    }
+
+    public function setReplacementDate($d) {
+      $d = preg_replace('/(\d{2}).(\d{2}).(\d{4})/', '$3-$2-$1', $d);
+      return $this->_set('replacement_date', $d);
+    }
+
+    public function getReplacementMonth() {
+      $d = $this->_get('replacement_date');
+      return sprintf('%02d', preg_replace('/.*(-|\/)(\d{2})(-|\/).*/', '\2', $d));
+    }
+    public function getReplacementYear() {
+      $d = $this->_get('replacement_date');
+      return preg_replace('/(\d{4})/', '\1', $d);
+    }
 
 }

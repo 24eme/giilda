@@ -116,16 +116,24 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                               <tr>
                                 <th style=" width: auto;">Produits</th>
                                 <th>Observations</th>
+                                <th>Date de la sortie donnant lieue à réintégration</th>
                               </tr>
                             </thead>
                 <?php foreach ($annexesForm['observationsProduits'] as $formObservations): ?>
                   <?php if(isset($formObservations['observations'])): ?>
                   <tr>
-                    <td style="width: 332px;"><?php echo $formObservations['observations']->renderLabel() ?></td>
+                    <td><?php echo $formObservations['observations']->renderLabel() ?></td>
                     <td>
                           <?php echo $formObservations['observations']->renderError() ?>
-                          <?php echo $formObservations['observations']->render(array("maxlength" => "250", "style" => "width: 95%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset; border-radius: 3px; border: 0px none; padding: 5px;", "rows" => "2")) ?>
-                        </td>
+                          <?php echo $formObservations['observations']->render(array("maxlength" => "250", "style" => "box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset; border-radius: 3px; border: 0px none; padding: 5px;", "rows" => "2")) ?>
+                    </td><td>
+                      <div class="ligne_form champ_datepicker">
+                          <?php if (isset($formObservations['replacement_date'])): ?>
+                            <?php echo $formObservations['replacement_date']->renderError(); ?>
+                            <?php echo $formObservations['replacement_date']->render(); ?><br/>
+                          <?php endif; ?>
+                      </div>
+                    </td>
                     </tr>
                   <?php endif; ?>
                   <?php endforeach; ?>
