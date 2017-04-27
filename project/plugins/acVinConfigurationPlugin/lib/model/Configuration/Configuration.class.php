@@ -187,9 +187,16 @@ class Configuration extends BaseConfiguration {
        if($this->exist($hash)){
            return $this->get($hash);
        }
+
        $correspondanceInverse = $this->getCorrespondancesInverse();
 
+       if(!array_key_exists($hash, $correspondanceInverse)) {
+
+           return null;
+       }
+
        $newHash = str_replace('-', '/', $correspondanceInverse[$hash]);
+
        return $this->get($newHash);
     }
 
