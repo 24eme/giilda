@@ -112,7 +112,7 @@
         <?php if ($isTeledeclarationMode) : ?>
             <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
             <?php if($compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
-              <?php if (!$drm->transmission_douane->success) : ?>
+              <?php if (!$drm->exist('transmission_douane') || !$drm->transmission_douane->success) : ?>
                 <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn_majeur btn_vert" ><span>Transmettre la Drm sur CIEL</span></a>
               <?php endif; ?>
             <?php endif; ?>
