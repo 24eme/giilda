@@ -9,7 +9,7 @@ class DeclarantDocument
     {
         $this->document = $document;
     }
-    
+
     public function getIdentifiant()
     {
         return $this->document->identifiant;
@@ -19,7 +19,7 @@ class DeclarantDocument
     {
         return $this->document->declarant;
     }
-    
+
    public function getDeclarantObject() {
        if(is_null($this->etablissement)) {
             $class = sfConfig::get('app_declarant_class', 'Etablissement');
@@ -28,7 +28,7 @@ class DeclarantDocument
 
         return $this->etablissement;
     }
-    
+
     public function getEtablissementObject() {
         return $this->getDeclarantObject();
     }
@@ -79,7 +79,7 @@ class DeclarantDocument
         }
         if ($etablissement->exist("caution")) {
              if($declarant->getDefinition()->exist('caution'))
-                $declarant->add('caution', $etablissement->caution);
+                $declarant->add('caution', ($etablissement->caution == "1") ? EtablissementClient::CAUTION_CAUTION : (($etablissement->caution == "0") ? EtablissementClient::CAUTION_DISPENSE : null));
         }
         if ($etablissement->exist("raison_sociale_cautionneur")) {
              if($declarant->getDefinition()->exist('raison_sociale_cautionneur'))
