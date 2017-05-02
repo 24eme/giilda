@@ -73,7 +73,7 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
             $this->setDefault('adresse_compta', $this->coordonneesEtablissement->adresse_compta);
         }
 
-        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution))? EtablissementClient::CAUTION_CAUTION : EtablissementClient::CAUTION_DISPENSE;
+        $defaultCaution = ($this->coordonneesEtablissement->exist('caution') && !is_null($this->coordonneesEtablissement->caution));
 
         $this->setDefault('caution', $defaultCaution);
 
@@ -119,7 +119,15 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
     }
 
     private function getCautionTypes() {
-        return EtablissementClient::$caution_libelles;
+        $cautionsType = array();
+        foreach (EtablissementClient::$caution_libelles as $key => $value) {
+          if($key == EtablissementClient::CAUTION_DISPENSE){
+            $cautionsType[0] = $value;
+          }else{
+            $cautionsType[1] = $value;
+          }
+        }
+        return $cautionsType;
     }
 
 }
