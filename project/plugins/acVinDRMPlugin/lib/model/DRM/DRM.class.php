@@ -107,7 +107,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_set('periode', $periode);
     }
 
-    public function getProduit($hash, $detailsKey, $labels = array()) {
+    public function getProduit($hash, $detailsKey, $denomination_complementaire = null) {
         if (!$this->exist($hash)) {
 
             return false;
@@ -118,19 +118,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         }
 
-        return $this->get($hash)->get($detailsKey)->getProduit($labels);
+        return $this->get($hash)->get($detailsKey)->getProduit($denomination_complementaire);
     }
 
-    public function addProduit($hash, $detailsKey, $labels = array()) {
-        if ($p = $this->getProduit($hash, $detailsKey, $labels)) {
+    public function addProduit($hash, $detailsKey, $denomination_complementaire = null) {
+        if ($p = $this->getProduit($hash, $detailsKey, $denomination_complementaire)) {
             return $p;
         }
-        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($labels);
-        $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
+        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($denomination_complementaire);
+        $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle%");
 
         $this->declaration->reorderByConf();
 
-        return $this->getProduit($hash, $detailsKey, $labels);
+        return $this->getProduit($hash, $detailsKey, $denomination_complementaire);
     }
 
     public function getDepartement() {
@@ -1316,7 +1316,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     public function initProduitsAutres($isTeledeclarationMode){
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
-          $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
+            if(preg_match("/(DPLC|LIES)/",$hash)){
+              $this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
+            }
         }
       }
     }
@@ -1452,7 +1454,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     /**     * FAVORIS ** */
     public function buildFavoris() {
         foreach ($this->drmDefaultFavoris() as $key => $value) {
-            $keySplitted = split('/', $key);
+            $keySplitted = explode('/', $key);
             $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->getOrAdd($keySplitted[1])->add($keySplitted[2], $value);
         }
     }
@@ -1644,6 +1646,41 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     * Fin Observations
     */
 
+    /**
+    * Tavs
+    */
+    public function addTavProduit($hash, $tav)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->add("tav",$tav);
+      }
+    }
+
+    public function hasTavs(){
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('tav')){
+          return true;
+        }
+      }
+        return false;
+    }
+
+    public function getTavsArray(){
+      $tavs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+
+        if($detail->exist('tav') && $detail->get('tav')){
+          $tavs[$detail->getLibelle().' ('.$detail->getTypeDRMLibelle().')'] = $detail->get('tav');
+        }
+      }
+      return $tavs;
+    }
+    /**
+    * Fin Tavs
+    */
+
+
     public function allLibelleDetailLigneForDRM() {
         $config = $this->getConfig();
         $libelles_detail_ligne = $config->libelle_detail_ligne;
@@ -1732,6 +1769,17 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
       }
       return "";
+    }
+    public function getDetailsByHash($hash_details_or_cepage){
+      if($this->exist($hash_details_or_cepage)){
+        $node_details_or_cepage = $this->get($hash_details_or_cepage);
+        if($node_details_or_cepage instanceof DRMCepage){
+          return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+        }elseif($node_details_or_cepage instanceof DRMDetail){
+          return $node_details_or_cepage;
+        }
+      }
+      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
     }
 
 }

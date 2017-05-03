@@ -245,6 +245,8 @@ DRM:
                                                                                                         type: collection
                                                                                                         definition:
                                                                                                           fields:
+                                                                                                            no_movements: { required: false }
+                                                                                                            denomination_complementaire: { }
                                                                                                             pas_de_mouvement_check: { type: integer }
                                                                                                             total_debut_mois: { type: float }
                                                                                                             total_entrees: { type: float }
@@ -260,6 +262,7 @@ DRM:
                                                                                                             replacement_date: { required: false }
                                                                                                             code_inao: { }
                                                                                                             observations: { required: false }
+                                                                                                            tav: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection
                                                                                                               definition:
@@ -523,6 +526,7 @@ DRM:
                     definition:
                       fields:
                         categorie: {  }
+                        denomination_complementaire: {  }
                         produit_hash: {  }
                         produit_libelle: {  }
                         type_hash: {  }
@@ -538,6 +542,7 @@ DRM:
                         facture: { type: integer }
                         facturable: { type: integer }
                         region: { }
+                        region_destinataire: { }
                         date: {  }
                         date_version: {  }
                         version: {  }
