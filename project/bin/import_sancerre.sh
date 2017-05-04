@@ -58,7 +58,7 @@ cat $TMP/data_sancerre_origin/MOUVEMENT.utf8.XML | sed "s|<\MOUVEMENT>|\\\n|" | 
 
 cat $TMP/data_sancerre_origin/ARTICLE.utf8.XML | sed "s|<\ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sed 's/Sancerre/AOC Sancerre/' | sed 's/Menetou-Salon/AOC Menetou-Salon/' | sed 's/Pouilly-Fumé/AOC Pouilly-Fumé/' | sed 's/Pouilly Sur Loire/AOC Pouilly-sur-Loire/' | sed 's/Quincy Blanc/AOC Quincy/' | sed 's/Reuilly/AOC Reuilly/' | sed -r 's/"(AOVDQS Coteaux|Coteaux) du Giennois/"AOC Coteaux du Giennois/' | sed 's/Châteaumeillant/AOC Châteaumeillant/' | sort -t ';' -k 1,1 > $DATA_DIR/produits.csv
 
-cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/g' | sed 's/Corée du Sud, République de/Corée du Sud/g' | sed 's/Hong-Kong/R.A.S. chinoise de Hong Kong/g' | sed 's/Taïwan, Province de chine/Taïwan/g' | sed 's/Zaïre/République démocratique du Congo/g' | sed 's/Iraq/Irak/g' | sed 's/Centrafricaine, République/République centrafricaine/g' | sed 's/Dominicaine, République/République dominicaine/g' | sed 's/Syrienne, République Arabe/Syrie/g' | sed 's/Tanzanie, République-Unie de/Tanzanie/g' | sed 's/Belise/Belize/g' | sed 's/Caïmanes,îles/Îles Caïmans/g' | sed 's/Cisjordanie - Bande de Gaza/Territoire palestinien/g' | sed 's/Dubai/Émirats arabes unis/g' | sed 's/Iles Vierges Britaniques/Royaume-Uni/g' | sed 's/Macao/R.A.S. chinoise de Macao/g' | sed 's/Saint-Vincent-et-Grenadines/Saint-Vincent-et-les Grenadines/g' | sed 's/Turks et Caïques, îles/Îles Turks et Caïques/g' | sed 's/Urugay/Uruguay/g' | sed 's/Vietnam/Viêt Nam/g' | sed 's/Vatican, Saint-Siège/Vatican/g' | sed 's/Wallis et Futuna, îles/Wallis-et-Futuna/g' | sed 's/Caraïbes, îles/inconnu/g' | sed 's/Autres/Autres pays/g' | sed 's/États fédérés de Micronésie/Micronésie/g' | sed 's/inconnu/Autres pays/g' | sed 's/Biélorussie/Bélarus/g' | sed 's/Kirghize/Kirghizistan/g' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
+cat $TMP/data_sancerre_origin/PAYS.utf8.XML | sed "s|^\t<\PAYS>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | sed 's/"NTZ";"Zone Neutre";";/"NTZ";"Zone Neutre";/' | grep -v "<?xml" | sed "s/&apos;/'/g" | sed 's/&amp;/\&/g' | sed 's/&quot;/"/g' | sed 's/Tchèque (République)/République tchèque/g' | sed 's/Corée du Sud, République de/Corée du Sud/g' | sed 's/Hong-Kong/R.A.S. chinoise de Hong Kong/g' | sed 's/Taïwan, Province de chine/Taïwan/g' | sed 's/Zaïre/République démocratique du Congo/g' | sed 's/Iraq/Irak/g' | sed 's/Centrafricaine, République/République centrafricaine/g' | sed 's/Dominicaine, République/République dominicaine/g' | sed 's/Syrienne, République Arabe/Syrie/g' | sed 's/Tanzanie, République-Unie de/Tanzanie/g' | sed 's/Belise/Belize/g' | sed 's/Caïmanes,îles/Îles Caïmans/g' | sed 's/Cisjordanie - Bande de Gaza/Territoire palestinien/g' | sed 's/Dubai/Émirats arabes unis/g' | sed 's/Iles Vierges Britaniques/Royaume-Uni/g' | sed 's/Macao/R.A.S. chinoise de Macao/g' | sed 's/Saint-Vincent-et-Grenadines/Saint-Vincent-et-les Grenadines/g' | sed 's/Turks et Caïques, îles/Îles Turks et Caïques/g' | sed 's/Urugay/Uruguay/g' | sed 's/Vietnam/Viêt Nam/g' | sed 's/Vatican, Saint-Siège/Vatican/g' | sed 's/Wallis et Futuna, îles/Wallis-et-Futuna/g' | sed 's/Caraïbes, îles/inconnu/g' | sed 's/Autres/Autres pays/g' | sed 's/États fédérés de Micronésie/Micronésie/g' | sed 's/inconnu/Autres pays/g' | sed 's/Biélorussie/Bélarus/g' | sed 's/Kirghize/Kirghizistan/g' | sed 's/Tchécoslovaquie/République tchèque/' | sed 's/Libyenne, Jamahiriya Arabe/Libye/' | sed 's/Yougoslavie/Croatie/' | sed 's/Surinam\"/Suriname\"/' | sed 's/Salomon, îles/Îles Salomon/' | sed "s/Océan Indien, Territoire Britanique de L'/Territoire britannique de l'océan Indien/" | sed 's/Norfolk,île/Île Norfolk/' | sed 's/Marshall, îles/Îles Marshall/' | sed 's/Mariannes du Nord, îles/Îles Mariannes du Nord/' | sed 's/DOM-TOM/Guadeloupe/' | sed 's/Cocos (Keeling), îles des/Îles Cocos - Keeling/' | sed 's/Bungladesh/Bangladesh/' | sort -t ';' -k 1,1 > $DATA_DIR/pays.csv
 
 cat $TMP/data_sancerre_origin/POSSEDE_ARTICLE.utf8.XML | sed "s|<\POSSEDE_ARTICLE>|\\\n|" | sed -r 's/<[a-zA-Z0-9_-]+>/"/' | sed -r 's|</[a-zA-Z0-9_-]+>|";|' |sed 's/\t//g' | tr -d "\r" | tr -d "\n" | sed 's/\\n/\n/g' | sed 's/";$//' | grep -v "<?xml" | sort -t ';' -k 1,1 > $DATA_DIR/stocks.csv
 
@@ -70,7 +70,7 @@ join -t ";" -1 1 -2 1 $DATA_DIR/stocks.csv $DATA_DIR/produits.csv | sed 's/;;/;/
 
 cat $DATA_DIR/result.csv | sed 's/;";/;/g' | sed 's/;";/;/g' | sed 's/";$/";"/g' | awk -F '";"' '{
 if ($4 == 1) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;ventefrancecrd;" $6 ";;;;;" }
-if ($4 == 2) { print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;export;" $6 ";" $25 ";;;;" }
+if ($4 == 2) { pays=$25; if(!pays) { pays="Autres pays"; } print "CAVE;" substr($5, 1, 6) ";" sprintf("%06d01", $7) ";;;;;;;;;;" $21 ";suspendu;sorties;export;" $6 ";" pays ";;;;" }
 if ($4 == 3) {
   prix=$15*100;
   periode=substr($5, 1, 6);
@@ -86,15 +86,13 @@ cat $DATA_DIR/stocks-produits.csv | sed 's/";$/";"/g' | awk -F '";"' '{
 print "CAVE;" substr($3, 1, 6) ";" sprintf("%06d01", $2) ";;;;;;;;;;" $10 ";suspendu;stocks_debut;initial;" $4 ";;;;;"
 }'  >> $DATA_DIR/drm.csv
 
-#cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
+cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 > $DATA_DIR/drm_final.csv
 
-cat $DATA_DIR/drm.csv | sort -t ';' -k 3,3 -k 2,2 | grep -E "^[A-Z]+;[0-9]+;$(cat /tmp/acheteurs_a_supprimer.csv | tr '\n' '|' | sed 's/^/(/' |sed 's/|$/)/')" > $DATA_DIR/drm_final.csv
-
-cat $DATA_DIR/drm_final.csv | grep -E "^[A-Z]+;(2013(08|09|10|11|12)|2014[0-9]{2}|2015[0-9]{2}|2016[0-9]{2});" > $DATA_DIR/drm_final_201308.csv
+cat $DATA_DIR/drm_final.csv | grep -vE "^[A-Z]+;(2013(08|09|10|11|12)|201(4|5|6|7|8)[0-9]{2});" | grep -Ev "^CAVE;;" > $DATA_DIR/drm_final_avant_201308.csv
 
 rm -rf $DATA_DIR/drms; mkdir $DATA_DIR/drms
 
-awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_201308.csv
+awk -F ";" '{print >> ("'$DATA_DIR'/drms/" $3 "_" $2 ".csv")}' $DATA_DIR/drm_final_avant_201308.csv
 
 echo "Import des DRMs"
 
@@ -105,6 +103,6 @@ do
     php symfony drm:edi-import $DATA_DIR/drms/$ligne $PERIODE $IDENTIFIANT --facture=true --creation-depuis-precedente=true $SYMFONYTASKOPTIONS
 done
 
-echo "Import des tags"
+#echo "Import des tags"
 
 #php symfony tag:addManuel --file=$DATA_DIR/tags_manuels_abonne_bivc.csv $SYMFONYTASKOPTIONS

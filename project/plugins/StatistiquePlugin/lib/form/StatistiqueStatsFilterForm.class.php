@@ -107,6 +107,30 @@ class StatistiqueStatsFilterForm extends BaseForm
     	return ($values['pdf'])? true : false;
     }
     
+    public function getAppellations()
+    {
+    	$values = $this->getValues();
+    	$appellations = array();
+    	$libelles = self::getLibelles('appellation');
+    	$items = (isset($values['doc.mouvements.appellation']))? $values['doc.mouvements.appellation'] : array();
+    	foreach ($items as $item) {
+    		$appellations[] = $libelles[$item];
+    	}
+    	return $appellations;
+    }
+    
+    public function getCategories()
+    {
+    	$values = $this->getValues();
+    	$categories = array();
+    	$libelles = self::getFamilles();
+    	$items = (isset($values['doc.declarant.famille']))? $values['doc.declarant.famille'] : array();
+    	foreach ($items as $item) {
+    		$categories[] = $libelles[$item];
+    	}
+    	return $categories;
+    }
+    
     public function getPeriode($format = 'd/m/Y')
     {
     	$values = $this->getValues();

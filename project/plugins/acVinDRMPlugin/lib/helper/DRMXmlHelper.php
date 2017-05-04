@@ -42,8 +42,12 @@ function multiArray2XML($preXML) {
 			$xml .= "</$k>";
 		}else{
 			$xml .= "<$k>";
-                        $xml .= sprintf('%.04f', $v);
-                        $xml .= "</$k>";
+			if ($k != "annee" && $k != "mois") {
+      	$xml .= sprintf('%.04f', $v);
+			}else{
+				$xml .= sprintf('%02d', $v);
+			}
+      $xml .= "</$k>";
 		}
 	}
 	return $xml;
@@ -65,6 +69,10 @@ function details2XmlDouane($detail) {
 	  foreach ($detail->get($type) as $k => $v) {
 		if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
                         $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
+			if (preg_match('/replacement/', $confDetail->get($type)->get($k)->douane_cat)) {
+				$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth());
+				$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear());
+			}
 		}
 	  }
 	}
@@ -149,15 +157,17 @@ function centilisation2Douane($c, $libelle) {
 		'0.010000' => 'CL_100',
 		'0.015000' => 'CL_150',
 		'0.017500' => 'CL_175',
-		'0.020000' => 'CL_200',
-		'0.022500' => 'BIB_225',
+		'0.020000' => 'CL_200');
+	$bib = array('0.022500' => 'BIB_225',
 		'0.030000' => 'BIB_300',
 		'0.040000' => 'BIB_400',
 		'0.050000' => 'BIB_500',
 		'0.080000' => 'BIB_800',
 		'0.100000' => 'BIB_1000');
+		if (preg_match('/bib/i', $libelle) && isset($bib[sprintf('%.f', $c)]) && $bib[sprintf('%.f', $c)]) {
+			return $bib[sprintf('%.f', $c)];
+		}
 		if (isset($bouteilles[sprintf('%.f', $c)]) && $bouteilles[sprintf('%.f', $c)]) {
-
 			return $bouteilles[sprintf('%.f', $c)];
 		}
 		return "AUTRE";
