@@ -133,7 +133,7 @@ if (!isset($fromSociete))
             <div class="form_ligne">
                 <label for="commentaire">
                     Caution :</label>
-                <?php echo ($etablissement->caution)? "Caution" : "Dispensé";
+                <?php echo ($etablissement->caution) ? "Caution" : ((!is_null($etablissement->caution)) ? "Dispensé" : "Non défini");
                     echo ($etablissement->caution)? " / ".$etablissement->raison_sociale_cautionneur : '';
                  ?>
             </div>
