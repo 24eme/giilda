@@ -56,6 +56,8 @@ class DRMValidation extends DocumentValidation {
             if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
             {
               $this->addPoint('vigilance', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl), manipulation (".sprintf("%.2f",$entrees_manipulation)." hl), sortie manquant (".sprintf("%.2f",$sorties_destructionperte).") pour le produit ".$detail->getLibelle(), $this->generateUrl('drm_annexes', $this->document));
+            } elseif($detail->exist('observations') && !$detail->observations) {
+                $this->addPoint('vigilance', 'observations', "Les mouvements du produit ".$detail->getLibelle()." nécessitent une observation", $this->generateUrl('drm_annexes', $this->document));
             }
 
             if ($detail->total < 0) {
