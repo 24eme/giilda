@@ -335,6 +335,15 @@ class vracActions extends sfActions {
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
         $this->vrac->signatureByEtb($this->etablissement_concerned);
         $this->vrac->save();
+
+        if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE && sfConfig::get('app_vrac_teledeclaration_visa_automatique', true)) {
+            $vracEmailManager = new VracEmailManager($this->getMailer());
+            $vracEmailManager->setVrac($this->vrac);
+            $vracEmailManager->sendMailContratVise();
+            $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+            $this->vrac->save();
+        }
+
         $this->redirect('vrac_visualisation', $this->vrac);
     }
 
