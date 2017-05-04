@@ -203,8 +203,8 @@ class DRMDetail extends BaseDRMDetail {
             if (!$this->exist('observations')) {
               $this->add('observations',null);
             }
-        }else{
-          $this->remove('observations');
+        }elseif(!$hasobs){
+            $this->remove('observations');
         }
         if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
