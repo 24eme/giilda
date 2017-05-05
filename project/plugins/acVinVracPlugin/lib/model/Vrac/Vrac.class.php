@@ -715,6 +715,10 @@ class Vrac extends BaseVrac {
             if (!$this->date_signature) {
                 $this->date_signature = date('Y-m-d H:i:s');
             }
+
+            if(sfConfig::get('app_vrac_teledeclaration_visa_automatique', true)) {
+                $this->createVisa();
+            }
         }
         return $allSignatures;
     }
