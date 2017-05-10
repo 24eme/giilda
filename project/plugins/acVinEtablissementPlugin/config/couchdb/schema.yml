@@ -15,7 +15,7 @@ Etablissement:
        relance_ds: {  }
        teledeclaration_email: {  }
        nature_inao: {  }
-       recette_locale: 
+       recette_locale:
          type: collection
          definition:
            fields:
@@ -93,3 +93,18 @@ Etablissement:
                code_postal: {  }
                commune: {  }
                pays: {}
+       lieux_stockage:
+         type: collection
+         required: false
+         definition:
+           fields:
+             '*':
+               class: EtablissementLieuStockage
+               type: collection
+               definition:
+                 fields:
+                   numero: {  }
+                   nom: {  }
+                   adresse: {  }
+                   commune: {  }
+                   code_postal: {  }      
