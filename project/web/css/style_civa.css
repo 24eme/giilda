@@ -1,0 +1,97 @@
+body {
+    background: #000 url("https://declaration.vinsalsace.pro/images/fonds/bg_global.jpg") no-repeat scroll center 0px;
+}
+
+body > .navbar {
+    background: transparent url("https://declaration.vinsalsace.pro/images/fonds/bg_header.png") repeat scroll 0px 0px;
+}
+
+#content > .container {
+    background: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid #000;
+    width: 1000px;
+}
+
+/**
+ * Header
+ ******************************************/
+
+#header
+{
+    background: url("https://declaration.vinsalsace.pro/images/fonds/bg_header.png") 0 0 repeat;
+    border: 1px solid #252303;
+    color: #f1f1f1;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    padding: 10px;
+    width: 1000px;
+    font-size: 12px;
+}
+
+/* Logo */
+#header h1#logo
+{
+    float: left;
+    text-align: center;
+    width: 135px;
+}
+
+/* Titre rubrique */
+#header #titre_rubrique
+{
+    border: solid #fff;
+    border-width: 0 1px;
+    float: left;
+    margin: 0 12px;
+    padding: 0 12px;
+    width: 650px;
+    height: 95px;
+}
+
+#header #titre_rubrique h1
+{
+    font-size: 30px;
+    font-weight: normal;
+    margin: 0 0 5px;
+}
+
+#header #titre_rubrique p.utilisateur
+{
+    background: url(../images/pictos/pi_utilisateur.png) 0 center no-repeat;
+    font-size: 20px;
+    padding: 0 0 0 15px;
+}
+
+#header #titre_rubrique p.utilisateur a
+{
+    background: url(../images/puces/fleche_bas_1.png) right center no-repeat;
+    color: #f1f1f1;
+    padding: 0 12px 0 0;
+}
+
+#header #titre_rubrique p.utilisateur { font-size: 16px; }
+
+/* Accès directs */
+#header #acces_directs
+{
+    float: left;
+    width: 120px;
+}
+
+#header #acces_directs h2
+{
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 5px;
+}
+
+#header #acces_directs ul { margin: 0;  padding: 0; line-height: 1; list-style-type: none }
+
+#header #acces_directs ul li { margin: 0;  padding: 0; }
+
+#header #acces_directs ul li a { color: #c4d00a; }
+
+#header #acces_directs ul li.admin a { color: #ff0000; }
+a.admin { color: #ff0000; }

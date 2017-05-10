@@ -20,7 +20,9 @@
         <link href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
         <link href="/components/vins/vins.css" rel="stylesheet">
         <link href="/css/style.css?20170324" rel="stylesheet">
-
+        <?php if(file_exists(sfConfig::get('sf_web_dir')."/css/style_".sfConfig::get('sf_app').'.css')): ?>
+            <link href="/css/style_<?php echo sfConfig::get('sf_app'); ?>.css" rel="stylesheet">
+        <?php endif; ?>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
