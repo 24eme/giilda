@@ -472,7 +472,12 @@ class DRMClient extends acCouchdbClient {
             return $drm;
         }
         if (!$drm->getEtablissement()->isNegociant()) {
-            $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+            $dsLast = null;
+            try {
+                $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+            } catch (Exception $e) {
+
+            }
             if ($dsLast) {
                 $drm->generateByDS($dsLast);
                 return $drm;
