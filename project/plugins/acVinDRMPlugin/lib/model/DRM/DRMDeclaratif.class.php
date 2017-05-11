@@ -15,8 +15,10 @@ class DRMDeclaratif extends BaseDRMDeclaratif {
             $this->paiement->douane->moyen = null;
             $this->paiement->cvo->frequence = null;
             $this->paiement->cvo->moyen = null;
+            if($this->exist('caution')) {
             $this->caution->dispense = null;
-            $this->caution->organisme = null;
+                $this->caution->organisme = null;
+            }
         }
         $this->defaut_apurement = null;
         $this->add('daa');
