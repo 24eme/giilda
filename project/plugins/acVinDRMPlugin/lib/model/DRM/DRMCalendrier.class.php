@@ -32,7 +32,7 @@ class DRMCalendrier {
         $this->isTeledeclarationMode = $isTeledeclarationMode;
         $this->periodes = $this->buildPeriodes();
         $this->etablissements = array();
-        $famillesArray = array(EtablissementFamilles::FAMILLE_PRODUCTEUR);
+        $famillesArray = array(EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR);
         if(DRMConfiguration::getInstance()->isDRMNegoce()){
           $famillesArray = array_merge($famillesArray,array(EtablissementFamilles::FAMILLE_NEGOCIANT,EtablissementFamilles::FAMILLE_COOPERATIVE));
         }
