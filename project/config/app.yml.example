@@ -4,6 +4,7 @@ all:
   routing_context_production_host: domaine.pro
   observatoire_url: "https://observatoire_url"
   url_reprise_donnees_drm: "http://url_reprise_donnees_drm"
+  url_header: "http://url_header"
   cas:
     domain: login.cas
     port: 443

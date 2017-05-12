@@ -1,21 +1,8 @@
-<div id="header" class="container">
-    <h1 id="logo"><a href="/" title="CIVA - Conseil Interprofessionnel des Vins d'Alsace - Retour à l'accueil"><img src="https://declaration.vinsalsace.pro/images/visuels/logo_civa.png" alt="CIVA - Conseil Interprofessionnel des Vins d'Alsace" /></a></h1>
 
-    <div id="titre_rubrique">
-        <h1>Espace des professionnels du Vignoble d’Alsace</h1>
-        <p class="utilisateur">
-            Administrateur, vous êtes connecté en tant que ACTUALYS JEAN
-        </p>
-    </div>
+<?php $isAdmin = $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN); ?>
+<?php $compteOrigine = $sf_user->getCompte()->login; ?>
+<?php $compte = null; ?>
+<?php if($sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceEtablissementRoute): $compte = $sf_request->getAttribute('sf_route')->getEtablissement()->getMasterCompte()->identifiant;  endif; ?>
+<?php if(!$compte && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceSocieteRoute): $compte = $sf_request->getAttribute('sf_route')->getSociete()->getMasterCompte()->identifiant; endif; ?>
 
-    <div id="acces_directs">
-        <h2>Accès directs</h2>
-        <ul>
-            <li><a href="">Mes déclarations</a></li>
-            <li><a href="">Mon espace CIVA</a></li>
-            <li><a href="">Mon espace AVA</a></li>
-            <li><a href="">Mon compte</a></li>
-            <li class="admin"><a href="<?php echo url_for('drm') ?>">Administration</a></li>
-        </ul>
-    </div>
-</div>
+<?php echo file_get_contents(sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine); ?>

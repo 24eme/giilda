@@ -28,6 +28,8 @@ body > .navbar {
     padding: 10px;
     width: 1000px;
     font-size: 12px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 /* Logo */
@@ -59,14 +61,14 @@ body > .navbar {
 
 #header #titre_rubrique p.utilisateur
 {
-    background: url(../images/pictos/pi_utilisateur.png) 0 center no-repeat;
+    background: url(https://declaration.vinsalsace.pro/images/pictos/pi_utilisateur.png) 0 center no-repeat;
     font-size: 20px;
     padding: 0 0 0 15px;
 }
 
 #header #titre_rubrique p.utilisateur a
 {
-    background: url(../images/puces/fleche_bas_1.png) right center no-repeat;
+    background: url(https://declaration.vinsalsace.pro/images/puces/fleche_bas_1.png) right center no-repeat;
     color: #f1f1f1;
     padding: 0 12px 0 0;
 }
