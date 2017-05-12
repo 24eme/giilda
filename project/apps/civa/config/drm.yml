@@ -10,3 +10,4 @@ all:
       export_pays_debut: { }
       export_pays_fin: { "AUTRE": "Autres pays"}
       reprise_donnees_url: true
+      sans_contrat_option: true

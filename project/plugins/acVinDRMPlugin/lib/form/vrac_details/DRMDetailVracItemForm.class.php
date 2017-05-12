@@ -22,7 +22,12 @@ class DRMDetailVracItemForm extends DRMESDetailsItemForm {
                 $vracs[$this->getObject()->identifiant] = sprintf("%s - %s (%s) - %s hl [%s/%s]", $vrac->acheteur->nom, $vrac->numero_contrat, $vrac->numero_archive, round($vrac->volume_propose - $vrac->volume_enleve, 2), $vrac->volume_enleve, $vrac->volume_propose);
             }
         }
-        return array_merge(array("" => ""), $vracs);
+
+        if(DRMConfiguration::getInstance()->hasSansContratOption()) {
+            $optionsSansContrat = array(DRMESDetailVrac::CONTRAT_VRAC_SANS_NUMERO => "Contrat Vrac (Sans le numéro)", DRMESDetailVrac::CONTRAT_BOUTEILLE_SANS_NUMERO => "Contrat Bouteille (Sans le numéro)");
+        }
+
+        return array_merge(array("" => ""), $optionsSansContrat, $vracs);
     }
 
     public function getPostValidatorClass() {

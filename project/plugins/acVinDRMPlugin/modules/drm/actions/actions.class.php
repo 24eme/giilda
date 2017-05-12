@@ -183,17 +183,14 @@ class drmActions extends drmGeneriqueActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
-        $this->drm = new DRM();
-        $this->drm->identifiant = $this->identifiant;
-        $this->drm->periode = $this->periode;
-        $this->drm->teledeclare = true;
+        $this->drm = DRMClient::getInstance()->createDoc($this->identifiant, $this->periode, true);
 
         $fileName = 'import_'.$this->drm->identifiant . '_' . $this->drm->periode.'_'.$this->md5.'.csv';
         $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
         $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
         $this->drmCsvEdi->importCSV();
 
-        $this->redirect('drm_validation', $this->drm);
+        $this->redirect('drm_choix_produit', $this->drm);
 
     }
 

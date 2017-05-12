@@ -10,3 +10,4 @@ all:
       export_pays_debut: { }
       export_pays_fin: { }
       reprise_donnees_url: false
+      sans_contrat_option: false

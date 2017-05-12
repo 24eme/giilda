@@ -55,4 +55,9 @@ class DRMConfiguration {
 
         return $this->configuration['reprise_donnees_url'];
     }
+
+    public function hasSansContratOption() {
+
+        return $this->configuration['sans_contrat_option'];
+    }
 }

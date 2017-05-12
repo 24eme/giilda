@@ -8,6 +8,8 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
 
     protected $vrac = null;
 
+    const CONTRAT_VRAC_SANS_NUMERO = "VRAC-SANSNUMERO";
+    const CONTRAT_BOUTEILLE_SANS_NUMERO = "BOUTEILLE-SANSNUMERO";
 
     public function getVrac() {
         if (is_null($this->vrac)) {
@@ -25,7 +27,21 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
         return $this->_get('date_enlevement');
     }
 
+    public function isSansContrat() {
+
+        return in_array($this->identifiant, array(self::CONTRAT_VRAC_SANS_NUMERO, self::CONTRAT_BOUTEILLE_SANS_NUMERO));
+    }
+
     public function getIdentifiantLibelle() {
+        if($this->isSansContrat() && $this->identifiant == self::CONTRAT_BOUTEILLE_SANS_NUMERO) {
+
+            return "Bouteille";
+        }
+
+        if($this->isSansContrat() && $this->identifiant == self::CONTRAT_VRAC_SANS_NUMERO) {
+
+            return "Vrac";
+        }
 
         return $this->getVrac()->getNumeroArchive();
     }
