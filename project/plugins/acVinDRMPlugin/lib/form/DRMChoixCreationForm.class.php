@@ -29,7 +29,11 @@ class DRMChoixCreationForm extends BaseForm {
     }
 
     public function getTypesCreation() {
-        return DRMClient::$typesCreationLibelles;
+        $choice_type_creation = array();
+        if(DRMConfiguration::getInstance()->getRepriseDonneesUrl()){
+          $choice_type_creation = array_merge(array(DRMClient::DRM_CREATION_DOCUMENTS => "Création d'une drm pré-remplie"),$choice_type_creation);
+        }
+        return array_merge($choice_type_creation, DRMClient::$typesCreationLibelles);
     }
 
 }

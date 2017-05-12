@@ -105,6 +105,29 @@ class drmActions extends drmGeneriqueActions {
             $this->creationDrmForm->bind($request->getParameter($this->creationDrmForm->getName()), $request->getFiles($this->creationDrmForm->getName()));
 
             switch ($choixCreation) {
+                case DRMClient::DRM_CREATION_DOCUMENTS :
+                  if(!DRMConfiguration::getInstance()->getRepriseDonneesUrl() || !sfConfig::get('app_url_reprise_donnees_drm')){
+                    throw new sfException("Ce choix n'est pas possible : il n'y a aucune url spécifié pour la reprise");
+                  }
+                  $url_reprise_donnees_drm = sfConfig::get('app_url_reprise_donnees_drm');
+                  $url_reprise_donnees_drm = str_replace(":identifiant",$identifiant,$url_reprise_donnees_drm);
+                  $url_reprise_donnees_drm = str_replace(":periode",$periode,$url_reprise_donnees_drm);
+
+                  $discr = date('YmdHis').'_'.uniqid();
+                  $md5file = md5($discr);
+                  $filename = 'import_'.$identifiant . '_' . $periode.'_'.$md5file.'.csv';
+                  $path = sfConfig::get('sf_data_dir') . '/upload/'.$filename;
+                  if ($stream = fopen($url_reprise_donnees_drm, 'r')) {
+                          // affiche toute la page, en commençant à la position 10
+                          $resultFile = file_put_contents($path, stream_get_contents($stream));
+
+                          fclose($stream);
+                      }
+                  if(!$resultFile){
+                    throw new sfException("Enregistrement du fichier EDI échoué");
+                  }
+                  return $this->redirect('drm_creation_fichier_edi',array('identifiant' => $identifiant,'periode' => $periode,'md5' => $md5file));
+                break;
                 case DRMClient::DRM_CREATION_EDI :
                     //if ($this->creationDrmForm->isValid()) {
                         $md5 = $this->creationDrmForm->getValue('file')->getMd5();
@@ -165,7 +188,9 @@ class drmActions extends drmGeneriqueActions {
         $this->drm->periode = $this->periode;
         $this->drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5, $this->drm);
+        $fileName = 'import_'.$this->drm->identifiant . '_' . $this->drm->periode.'_'.$this->md5.'.csv';
+        $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
+        $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
         $this->drmCsvEdi->importCSV();
 
         $this->redirect('drm_validation', $this->drm);

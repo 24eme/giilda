@@ -50,4 +50,9 @@ class DRMConfiguration {
 
         return $this->configuration['export_pays_fin'];
     }
+
+    public function getRepriseDonneesUrl() {
+
+        return $this->configuration['reprise_donnees_url'];
+    }
 }

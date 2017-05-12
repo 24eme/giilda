@@ -18,6 +18,12 @@
             <div class="ligne_form type_creation" id="type_creation_div_<?php echo $periode . '_' . $identifiant; ?>" >
                     <?php echo $drmCreationForm['type_creation']->renderError(); ?>
                     <ul class="list-unstyled">
+                      <?php if(DRMConfiguration::getInstance()->getRepriseDonneesUrl()): ?>
+                        <li class="col-xs-10 col-xs-offset-1">
+                          <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" value="<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" >Création d'une drm pré-remplie</label>
+                            <div class="pull-right"><?php echo getPointAideHtml('drm','creation_nouvelle') ?></div>
+                        </li>
+                      <?php endif; ?> 
                         <li class="col-xs-10 col-xs-offset-1">
                             <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" value="<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>">Création d'une drm vierge</label>
                               <div class="pull-right"><?php echo getPointAideHtml('drm','creation_nouvelle') ?></div>

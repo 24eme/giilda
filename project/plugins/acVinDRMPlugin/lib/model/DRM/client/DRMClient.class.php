@@ -29,6 +29,8 @@ class DRMClient extends acCouchdbClient {
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
+    const DRM_CREATION_DOCUMENTS = 'CREATION_DOCUMENTS';
+
     const DETAIL_EXPORT_PAYS_DEFAULT = 'inconnu';
     const TYPE_DRM_SUSPENDU = 'SUSPENDU';
     const TYPE_DRM_ACQUITTE = 'ACQUITTE';
@@ -36,6 +38,7 @@ class DRMClient extends acCouchdbClient {
     const CRD_TYPE_SUSPENDU = 'CRD_SUSPENDU';
     const CRD_TYPE_ACQUITTE = 'CRD_ACQUITTE';
     const CRD_TYPE_MIXTE = 'CRD_MIXTE';
+
 
     public static $types_libelles = array(DRM::DETAILS_KEY_SUSPENDU => 'Suspendu', DRM::DETAILS_KEY_ACQUITTE => 'Acquitté');
     public static $types_node_from_libelles = array(self::TYPE_DRM_SUSPENDU => DRM::DETAILS_KEY_SUSPENDU, self::TYPE_DRM_ACQUITTE => DRM::DETAILS_KEY_ACQUITTE);
