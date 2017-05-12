@@ -277,7 +277,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $confDetailMvt = $this->mouvements[$cat_mouvement][$type_mouvement];
 
                 if (!$just_check) {
-                    $drmDetails = $this->drm->addProduit($founded_produit->getHash());
+                    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM])]);
 
                     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
                     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
