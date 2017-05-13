@@ -60,4 +60,9 @@ class DRMConfiguration {
 
         return $this->configuration['sans_contrat_option'];
     }
+
+    public function getDelaiOuvertureTeledeclaration() {
+
+        return $this->configuration['delai_ouverture_teledeclaration'];
+    }
 }

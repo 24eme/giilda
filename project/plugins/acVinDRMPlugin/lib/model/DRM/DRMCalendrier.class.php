@@ -165,7 +165,7 @@ class DRMCalendrier {
 
     private function loadStatuts() {
         $this->statuts = array();
-        $lastPeriode = Date::addDelaiToDate('-1 month', null, 'Ym');
+        $lastPeriode = Date::addDelaiToDate(DRMConfiguration::getInstance()->getDelaiOuvertureTeledeclaration(), null, 'Ym');
         foreach ($this->etablissements as $etablissement) {
             $etbIdentifiant = $etablissement->identifiant;
             if (!array_key_exists($etbIdentifiant, $this->statuts)) {
