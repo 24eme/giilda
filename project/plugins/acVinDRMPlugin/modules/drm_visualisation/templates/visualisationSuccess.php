@@ -105,6 +105,7 @@
     <div class="col-xs-4 text-center">
       <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
         <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
+        <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 1)); ?>" class="btn btn-link">Télécharger le PDF Appellation</a>
     </div>
     <div class="col-xs-4 text-right">
     <?php if ($drm->isTeledeclare() && !$isTeledeclarationMode) : ?>
