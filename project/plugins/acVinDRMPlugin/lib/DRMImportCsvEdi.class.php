@@ -76,7 +76,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if($this->getCsvDoc()->hasErreurs()){
             $erreursRows = $this->getCsvDoc()->getErreurs();
             foreach ($erreursRows as $erreur) {
-              $erreurLevel = ($erreur->exist('level'))? CSVClient::$levelErrorsLibelle[$erreur->level] : "";
+              $erreurLevel = ($erreur->exist('level'))? CSVDRMClient::$levelErrorsLibelle[$erreur->level] : "";
               $csvErreurs[] = array($erreurLevel,"".$erreur->num_ligne,"".$erreur->csv_erreur,$erreur->diagnostic);
             }
           }
@@ -566,21 +566,21 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_TYPE]),
                                       "Choix possible type : " . implode(', ', self::$permitted_types),
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function createWrongNumeroCompteError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]),
                                       "Le numéro de compte est mal formatté : il doit être au format 12345601",
-                                      CSVClient::LEVEL_ERROR);
+                                      CSVDRMClient::LEVEL_ERROR);
         }
 
         private function otherNumeroCompteError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]),
                                       "Le numéro de compte n'est pas celui du ressortissant attendu",
-                                      CSVClient::LEVEL_ERROR);
+                                      CSVDRMClient::LEVEL_ERROR);
         }
 
 
@@ -588,21 +588,21 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_PERIODE]),
                                       "Format période : AAAAMM",
-                                      CSVClient::LEVEL_ERROR);
+                                      CSVDRMClient::LEVEL_ERROR);
         }
 
         private function otherPeriodeError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_PERIODE]),
                                       "La période spécifiée ne correspond pas à celle transmise",
-                                      CSVClient::LEVEL_ERROR);
+                                      CSVDRMClient::LEVEL_ERROR);
         }
 
         private function drmIsNotCreationEdiError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       'DRM existante',
                                       "Une DRM sur cette période existe déjà",
-                                      CSVClient::LEVEL_ERROR);
+                                      CSVDRMClient::LEVEL_ERROR);
         }
 
 
@@ -610,7 +610,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]),
                                       "Format numéro d'accise : FRXXXXXXXXXXX",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function productNotFoundError($num_ligne, $csvRow) {
@@ -619,84 +619,84 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       $libelles,
                                       "Le produit n'a pas été trouvé",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT],
                                       "Le catégorie de mouvement n'a pas été trouvé",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function typeMouvementNotFoundError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT],
                                       "Le type de mouvement n'a pas été trouvé",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function typeComplementNotFoundError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT],
                                       "Le type de complément doit être observations, tav ou premix",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function valueComplementVide($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT],
                                       "La valeur du complément doit être renseignée",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function exportPaysNotFoundError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_EXPORTPAYS],
                                       "Le pays d'export n'a pas été trouvé",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function contratIDNotFoundError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_CONTRATID],
                                       "L'id du contrat ne peut est vide ou n'a pas été trouvé",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function observationsEmptyError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       "Observations",
                                       "Les observations sont vides.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function sucreWrongFormatError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_QUANTITE],
                                       "La quantité de sucre est nulle ou possède un mauvais format.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function typeDocumentWrongFormatError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_TYPEANNEXE],
                                       "Le type de document d'annexe n'est pas connu.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function crdContenanceWrongFormatError ($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CRD_CENTILITRAGE],
                                       "La contenance de ces CRD n'est pas reconnu.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function crdCatWrongFormatError ($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CRD_CATEGORIE_KEY],
                                       "La catégorie de ces CRD n'est pas reconnu.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
 
@@ -704,34 +704,34 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CRD_TYPE_KEY],
                                       "Le type de ces CRD n'est pas reconnu.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function annexesTypeMvtWrongFormatError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_TYPEMVT],
                                       "Le type d'enregistrement des " . $csvRow[self::CSV_ANNEXE_TYPEANNEXE] . " doit être 'début' ou 'fin' .",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function annexesNumeroDocumentError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_TYPEANNEXE],
                                       "Le numéro de document ne peut pas être vide.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION],
                                       "La date est vide ou mal formattée.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est vide ou mal formatté.",
-                                      CSVClient::LEVEL_WARNING);
+                                      CSVDRMClient::LEVEL_WARNING);
         }
 
         private function createError($num_ligne, $erreur_csv, $raison, $level = null) {
