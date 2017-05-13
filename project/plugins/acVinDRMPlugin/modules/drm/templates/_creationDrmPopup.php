@@ -2,7 +2,7 @@
 <?php use_helper('DRM'); ?>
 <?php use_helper('Orthographe'); ?>
 <?php use_helper('PointsAides'); ?>
-<div id="drm_nouvelle_<?php echo $periode . '_' . $identifiant; ?>" class="modal fade " role="dialog">
+<div id="drm_nouvelle_<?php echo $periode . '_' . $identifiant; ?>" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <form action="<?php echo url_for('drm_choix_creation', array('identifiant' => $identifiant, 'periode' => $periode)); ?>" method="post" enctype="multipart/form-data">
  <div class="modal-content">
@@ -23,7 +23,7 @@
                           <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" value="<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_DOCUMENTS; ?>" >Création d'une drm pré-remplie</label>
                             <div class="pull-right"><?php echo getPointAideHtml('drm','creation_nouvelle') ?></div>
                         </li>
-                      <?php endif; ?> 
+                      <?php endif; ?>
                         <li class="col-xs-10 col-xs-offset-1">
                             <input type="radio" checked="checked" id="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" value="<?php echo DRMClient::DRM_CREATION_VIERGE; ?>" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_VIERGE; ?>">Création d'une drm vierge</label>
                               <div class="pull-right"><?php echo getPointAideHtml('drm','creation_nouvelle') ?></div>

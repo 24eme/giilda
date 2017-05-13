@@ -105,7 +105,11 @@ class MouvementsConsultationView extends acCouchdbView
 	if ($mouvement->vrac_numero) {
 	  $mouvement->numero_archive = $row->value[self::VALUE_TYPE_LIBELLE];
 	  if (strlen($mouvement->numero_archive) != 5) {
-	    $vrac = VracClient::getInstance()->find('VRAC-'.$mouvement->vrac_numero);
+          try {
+              $vrac = VracClient::getInstance()->find('VRAC-'.$mouvement->vrac_numero);
+          } catch (Exception $e) {
+              $vrac = VracClient::getInstance()->find('VRAC-'.$mouvement->vrac_numero, acCouchdbClient::HYDRATE_JSON);
+          }
       if($vrac){
         $mouvement->numero_archive = $vrac->numero_archive;
       }else{

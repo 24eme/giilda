@@ -13,7 +13,11 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
 
     public function getVrac() {
         if (is_null($this->vrac)) {
-            $this->vrac = VracClient::getInstance()->find($this->identifiant);
+            try {
+                $this->vrac = VracClient::getInstance()->find($this->identifiant);
+            } catch(Exception $e) {
+                $this->vrac = VracClient::getInstance()->find($this->identifiant, acCouchdbClient::HYDRATE_JSON);
+            }
         }
 
         return $this->vrac;
@@ -43,7 +47,7 @@ class DRMESDetailVrac extends BaseDRMESDetailVrac {
             return "Vrac";
         }
 
-        return $this->getVrac()->getNumeroArchive();
+        return $this->getVrac()->numero_archive;
     }
 
     public function setKey($k) {

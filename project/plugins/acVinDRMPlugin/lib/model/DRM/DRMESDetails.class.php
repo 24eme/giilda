@@ -104,8 +104,10 @@ class DRMESDetails extends BaseDRMESDetails {
             $mouvement->cvo = $this->getProduitDetail()->getCVOTaux();
             if(!$detail->isSansContrat()) {
                 $mouvement->vrac_numero = $detail->getVrac()->numero_contrat;
-                $mouvement->vrac_destinataire = $detail->getVrac()->acheteur->nom;
-                $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->vendeur_identifiant, $detail->getDocument()->getDate());
+                $mouvement->vrac_destinataire = (isset($detail->getVrac()->acheteur->nom)) ? $detail->getVrac()->acheteur->nom : $detail->getVrac()->acheteur->raison_sociale;
+                if($detail->getVrac() instanceof Vrac) {
+                    $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->vendeur_identifiant, $detail->getDocument()->getDate());
+                }
             }
         }
 
@@ -117,7 +119,7 @@ class DRMESDetails extends BaseDRMESDetails {
     public function createMouvementVracDestinataire($mouvement, $detail) {
         $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey() . '/' . $this->getTotalHash());
 
-        if (!$config->isVrac() || $detail->isSansContrat()) {
+        if (!$config->isVrac() || $detail->isSansContrat() || !$detail->getVrac() instanceof Vrac) {
 
             return null;
         }
@@ -137,7 +139,7 @@ class DRMESDetails extends BaseDRMESDetails {
     public function createMouvementVracIntermediaire($mouvement, $detail) {
         $config = $this->getProduitDetail()->getConfig()->get($this->getNoeud()->getKey() . '/' . $this->getTotalHash());
 
-        if (!$config->isVrac() || $detail->isSansContrat()) {
+        if (!$config->isVrac() || $detail->isSansContrat() || !$detail->getVrac() instanceof Vrac) {
             return null;
         }
 
