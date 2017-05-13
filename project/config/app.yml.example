@@ -5,6 +5,7 @@ all:
   observatoire_url: "https://observatoire_url"
   url_reprise_donnees_drm: "http://url_reprise_donnees_drm"
   url_header: "http://url_header"
+  url_nav: "http://url_nav"
   cas:
     domain: login.cas
     port: 443

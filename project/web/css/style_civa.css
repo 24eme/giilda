@@ -6,11 +6,17 @@ body > .navbar {
     background: transparent url("https://declaration.vinsalsace.pro/images/fonds/bg_header.png") repeat scroll 0px 0px;
 }
 
-#content > .container {
+#main {
     background: #fff;
-    padding-top: 20px;
-    padding-bottom: 20px;
     border: 1px solid #000;
+    width: 1000px;
+    padding-top: 0;
+    padding-bottom: 20px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#content > .container {
     width: 1000px;
 }
 
@@ -97,3 +103,40 @@ body > .navbar {
 
 #header #acces_directs ul li.admin a { color: #ff0000; }
 a.admin { color: #ff0000; }
+
+/**** NAV *****/
+
+#nav {
+    background: #f1f1f1;
+    padding-top: 15px;
+    margin-bottom: 20px;
+}
+
+#nav #onglets_majeurs {
+    display: block;
+    padding: 0 20px;
+}
+
+#nav #onglets_majeurs li {
+    display: inline-block;
+    background: #bcbdbc;
+    padding: 4px 15px;
+}
+
+#nav #onglets_majeurs li.ui-tabs-selected {
+    background: #ffa913;
+}
+
+#nav #onglets_majeurs li a {
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+#nav #onglets_majeurs li a:hover {
+    text-decoration: none;
+}
+
+#nav #onglets_majeurs li.ui-tabs-selected a {
+    color: #000;
+}
