@@ -287,6 +287,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
                         continue;
                     }
+                    if($csvRow[self::CSV_CAVE_VOLUME] == "") {
+                        continue;
+                    }
                     if ($confDetailMvt->hasDetails()) {
                         $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
