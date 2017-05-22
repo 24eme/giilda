@@ -11,7 +11,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
-	return $this->getCepage()->getConfig()->getLibelleFormat(array(), $format, $label_separator);
+	     return $this->getCepage()->getConfig()->getLibelleFormat(array(), $format, $label_separator);
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
