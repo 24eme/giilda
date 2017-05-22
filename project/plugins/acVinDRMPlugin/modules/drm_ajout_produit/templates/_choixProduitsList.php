@@ -8,7 +8,7 @@
                     <th style="width: 50%;">&nbsp;
                     </th>
                     <th style="width: 25%;">Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
-	            <th style="width: 25%;">Déclarer des mouvements de produits&nbsp;<br /> détenus en droits acquittés</th>
+	            <th style="width: 25%;">Déclarer des mouvements en droits acquittés</th>
  </tr>
             </thead>
             <tbody>
@@ -26,10 +26,10 @@
      <table id = "table_drm_choix_produit" class = "table_recap">
             <thead >
                 <tr>
-                    <th>&nbsp;
+                    <th style="width: 50%;">&nbsp;
                     </th>
                     <th>Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
-		    <th style="width: 25%;">Déclarer des mouvements de produits&nbsp;<br /> détenus en droits acquittés</th>
+		    <th style="width: 25%;">Déclarer des mouvements en droits acquittés</th>
                 </tr>
             </thead>
             <tbody class = "choix_produit_table_<?php echo $certifKey; ?>">

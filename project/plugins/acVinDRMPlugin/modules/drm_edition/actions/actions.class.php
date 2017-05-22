@@ -60,8 +60,8 @@ class drm_editionActions extends drmGeneriqueActions {
 
     public function executeUpdate(sfWebRequest $request) {
         $this->init();
-        $this->form = new DRMDetailForm($this->getRoute()->getDRMDetail());
 
+        $this->form = new DRMDetailForm($this->getRoute()->getDRMDetail());
         $this->form->bind($request->getParameter($this->form->getName()));
 
         if ($this->form->isValid()) {
@@ -71,7 +71,7 @@ class drm_editionActions extends drmGeneriqueActions {
                             "success" => true,
                             "content" => "",
                             "document" => array("id" => $this->drm->get('_id'),
-                            "revision" => $this->drm->get('_rev'))
+                                "revision" => $this->drm->get('_rev'))
                 )));
             } else {
                 $this->redirect('drm_edition', $this->config_lieu);
@@ -88,7 +88,7 @@ class drm_editionActions extends drmGeneriqueActions {
     public function executeProduitAjout(sfWebRequest $request) {
         $this->init();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
-        $this->form = new DRMProduitForm($this->drm, $this->drm->declaration->getConfig(), $this->isTeledeclarationMode);
+        $this->form = new DRMProduitForm($this->drm, $this->drm->declaration->getConfig(), $this->detailsKey, $this->isTeledeclarationMode);
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($this->form->isValid()) {
             $detail = $this->form->addProduit();
@@ -174,7 +174,11 @@ class drm_editionActions extends drmGeneriqueActions {
 
     private function loadFavoris() {
         $detail = $this->getRequest()->getParameter('details');
-        $this->favoris = $this->drm->getAllFavoris()->get($detail);
+        if(is_array($this->drm->getAllFavoris())){
+          $this->favoris = $this->drm->getAllFavoris();
+        }else{
+          $this->favoris = $this->drm->getAllFavoris()->get($detail);
+        }
     }
 
 }

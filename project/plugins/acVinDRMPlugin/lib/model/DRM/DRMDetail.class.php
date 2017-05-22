@@ -181,8 +181,6 @@ class DRMDetail extends BaseDRMDetail {
           $this->remove('observations');
         }
 
-
-
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
         if($this->stocks_fin->exist('revendique')){
@@ -371,6 +369,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function getMouvementsByNoeud($hash) {
         $mouvements = array();
+
         foreach ($this->get($hash) as $key => $volume) {
             if ($volume instanceof acCouchdbJson) {
 
@@ -384,6 +383,8 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->facture = 0;
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
+            $mouvement->type_drm = $this->getTypeDRM();
+            $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
             if ($this->getDocument()->isDRMNegociant() ) {
                     $mouvement->facturable = 0;
             }else{
@@ -403,6 +404,7 @@ class DRMDetail extends BaseDRMDetail {
             }
 
             $mouvement = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volume);
+
             if (!$mouvement) {
                 continue;
             }

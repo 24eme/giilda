@@ -225,7 +225,9 @@ var initFavoris = function () {
 }
 
 var initValidationDrmStockMvt = function () {
-    $('fieldset#validation_drm_mvts_stocks li.onglet').click(function () {
+    $('fieldset.validation_drm_tables').each(function(){
+      var idparent =  $(this).attr('id');
+      $(this).find('li.onglet').click(function () {
 
         var id = $(this).attr('id').replace('_onglet', '');
         if ($(this).children().is('a')) {
@@ -237,7 +239,7 @@ var initValidationDrmStockMvt = function () {
             });
         }
 
-        $('fieldset#validation_drm_mvts_stocks div.section_label_maj').each(function () {
+        $('fieldset#'+idparent+' div.section_label_maj').each(function () {
             $(this).hide();
             if ($(this).attr('id') == id) {
                 $(this).show();
@@ -245,6 +247,7 @@ var initValidationDrmStockMvt = function () {
         });
         initMsgAide();
     });
+  });
 }
 
 

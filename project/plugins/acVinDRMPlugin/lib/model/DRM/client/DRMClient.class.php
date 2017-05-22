@@ -34,6 +34,7 @@ class DRMClient extends acCouchdbClient {
     const TYPE_DRM_SUSPENDU = 'SUSPENDU';
     const TYPE_DRM_ACQUITTE = 'ACQUITTE';
 
+    public static $types_libelles = array(DRM::DETAILS_KEY_SUSPENDU => 'Suspendu', DRM::DETAILS_KEY_ACQUITTE => 'Acquitté');
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
     public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
@@ -584,19 +585,19 @@ class DRMClient extends acCouchdbClient {
 
 
     public function sortMouvementsForDRM($mouvements) {
-        $mouvementsSorted = array();
-        foreach ($mouvements as $mouvement) {
-          $type_drm = ($mouvement->exist("type_drm") && $mouvement->type_drm)? $mouvement->type_drm : "SUSPENDU";
-          if (!isset($mouvementsSorted[$type_drm])) {
-              $mouvementsSorted[$type_drm] = array();
+          $mouvementsSorted = array();
+          foreach ($mouvements as $mouvement) {
+            $type_drm = ($mouvement->type_drm)? $mouvement->type_drm : "SUSPENDU";
+            if (!isset($mouvementsSorted[$type_drm])) {
+                $mouvementsSorted[$type_drm] = array();
+            }
+            if (!array_key_exists($mouvement->produit_hash, $mouvementsSorted[$type_drm])) {
+                $mouvementsSorted[$type_drm][$mouvement->produit_hash] = array();
+            }
+              $mouvementsSorted[$type_drm][$mouvement->produit_hash][] = $mouvement;
           }
-          if (!array_key_exists($mouvement->produit_hash, $mouvementsSorted[$type_drm])) {
-              $mouvementsSorted[$type_drm][$mouvement->produit_hash] = array();
-          }
-            $mouvementsSorted[$type_drm][$mouvement->produit_hash][] = $mouvement;
-        }
-        return $mouvementsSorted;
-    }
+          return $mouvementsSorted;
+      }
 
 
 }

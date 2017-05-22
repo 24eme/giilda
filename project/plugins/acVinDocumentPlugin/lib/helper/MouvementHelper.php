@@ -2,7 +2,7 @@
 
 function mouvement_get_words($mouvements) {
     $words = array();
-        
+
     foreach($mouvements as $mouvement) {
         $words[mouvement_get_id($mouvement)] = mouvement_get_word($mouvement);
     }
@@ -22,6 +22,5 @@ function mouvement_get_word($mouvement) {
 }
 
 function mouvement_get_id($mouvement) {
-
     return str_replace("/", '-', $mouvement->id);
 }

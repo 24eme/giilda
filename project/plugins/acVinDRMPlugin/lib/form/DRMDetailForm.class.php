@@ -30,7 +30,7 @@ class DRMDetailForm extends acCouchdbObjectForm {
     }
 
     public function doUpdateObject($values) {
-    	parent::doUpdateObject($values);
+    		parent::doUpdateObject($values);
         $this->getObject()->getCepage()->add('no_movements',false);
         $this->getObject()->getCepage()->add('edited',true);
         $this->getObject()->getDocument()->update();

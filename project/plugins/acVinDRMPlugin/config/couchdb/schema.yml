@@ -451,6 +451,8 @@ DRM:
                         produit_hash: {  }
                         produit_libelle: {  }
                         type_hash: {  }
+                        type_drm: {  }
+                        type_drm_libelle: {  }
                         type_libelle: {  }
                         vrac_numero: {  }
                         vrac_destinataire: {  }

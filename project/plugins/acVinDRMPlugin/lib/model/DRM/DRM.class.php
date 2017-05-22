@@ -170,6 +170,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->declaration->getProduitsDetails($teledeclarationMode, $detailsKey);
     }
 
+    public function getDetailsByHash($hash_details_or_cepage){
+      if($this->exist($hash_details_or_cepage)){
+        $node_details_or_cepage = $this->get($hash_details_or_cepage);
+        if($node_details_or_cepage instanceof DRMCepage){
+          return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+        }elseif($node_details_or_cepage instanceof DRMDetail){
+          return $node_details_or_cepage;
+        }
+      }
+      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
+    }
+
     public function getProduitsWithCorrespondance($conf = null) {
 
         $hashesInversed = $conf->getCorrespondancesInverse();
@@ -709,27 +721,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function save() {
         $this->region = $this->getEtablissement()->region;
-        $listEntrees = $listSorties = null;
+        $listEntrees = $listSorties = array();
         $key_to_remove = array();
-        foreach ($this->getProduits() as $produit) {
-            foreach ($produit->getProduitsDetails($this->teledeclare) as $produit_hash => $detail) {
-                if (!$listEntrees && !$listSorties) {
-                    $listEntrees = array_keys($detail->getConfig()->getEntreesSorted());
-                    $listSorties = array_keys($detail->getConfig()->getSortiesSorted());
-                }
-                foreach ($detail->entrees as $keyEntree => $valueEntree) {
-                    if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
-                        $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
+        foreach ($this->getProduitsDetails($this->teledeclare) as $detail) {
+            if (!array_key_exists($detail->getConfig()->getHash(), $listEntrees) && !array_key_exists($detail->getConfig()->getHash(), $listSorties)) {
+                $listEntrees[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getEntreesSorted());
+                $listSorties[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getSortiesSorted());
+            }
+            foreach ($detail->entrees as $keyEntree => $valueEntree) {
+                if ($valueEntree && !in_array($keyEntree, $listEntrees[$detail->getConfig()->getHash()])) {
+                    $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
 
-                    }
                 }
-                foreach ($detail->sorties as $keySortie => $valueSortie) {
-                    if ($valueSortie instanceof DRMESDetails) {
-                        continue;
-                    }
-                    if ($valueSortie && !in_array($keySortie, $listSorties)) {
-                       $key_to_remove[] = $produit_hash.'/sorties/'.$keySortie;
-                    }
+            }
+            foreach ($detail->sorties as $keySortie => $valueSortie) {
+                if ($valueSortie instanceof DRMESDetails) {
+                    continue;
+                }
+                if ($valueSortie && !in_array($keySortie, $listSorties[$detail->getConfig()->getHash()])) {
+                   $key_to_remove[] = $detail->getHash().'/sorties/'.$keySortie;
                 }
             }
         }
@@ -1335,8 +1345,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $drm_default_favoris = $configuration->get('mvts_favoris');
         foreach ($configurationFields as $key => $value) {
-            if (!in_array(str_replace('/', '_', $key), $drm_default_favoris->toArray(0, 1))) {
-                unset($configurationFields[$key]);
+            $drm_default_favorisArr = $drm_default_favoris->toArray(0, 1);
+            if(preg_match('/^details/',array_shift($drm_default_favorisArr))){
+              if (!in_array(str_replace('/', '_', $key), $drm_default_favorisArr)) {
+                  unset($configurationFields[$key]);
+              }
+            }else{
+              if (!in_array(str_replace('details', '', str_replace('/', '_', $key)), $drm_default_favorisArr)) {
+                  unset($configurationFields[$key]);
+              }
             }
         }
         return $configurationFields;
@@ -1562,7 +1579,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasBeenTransferedToCiel() {
-      return ($this->exist('transmission_douane') && $this->transmission_douane->exit('xml') && $this->transmission_douane->success);
+      return ($this->exist('transmission_douane') && $this->transmission_douane->exist('xml') && $this->transmission_douane->success);
     }
 
     public function getTransmissionDate() {
