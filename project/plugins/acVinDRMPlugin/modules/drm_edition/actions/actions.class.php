@@ -88,19 +88,23 @@ class drm_editionActions extends drmGeneriqueActions {
     public function executeProduitAjout(sfWebRequest $request) {
         $this->init();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        if(!$this->detailsKey){
+          $this->detailsKey = DRM::DETAILS_KEY_SUSPENDU;
+        }
         $this->form = new DRMProduitForm($this->drm, $this->drm->declaration->getConfig(), $this->detailsKey, $this->isTeledeclarationMode);
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($this->form->isValid()) {
-            $detail = $this->form->addProduit();
+            $detail = $this->form->addProduit($this->detailsKey);
             $this->drm->save();
             if ($request->isXmlHttpRequest()) {
                 return $this->renderText(json_encode(array(
                             "success" => true,
                             "content" => $this->getComponent('drm_edition', 'itemForm', array('config' => $this->config,
                                 'detail' => $detail,
+                                'detailsKey' => $this->detailsKey,
                                 'active' => false,
                                 'drm' => $this->drm,
-                                'favoris' => $this->drm->getAllFavoris(),
+                                'favoris' => $this->drm->getAllFavoris()->get($this->detailsKey),
                                 'isTeledeclarationMode' => $this->isTeledeclarationMode)),
                             "produit" => array("old_hash" => $detail->getCepage()->getHash(), "hash" => $detail->getHash(), "libelle" => sprintf("%s (%s)", $detail->getLibelle("%format_libelle%"), $detail->getCepage()->getConfig()->getCodeProduit())),
                             "document" => array("id" => $this->drm->get('_id'),
@@ -173,12 +177,8 @@ class drm_editionActions extends drmGeneriqueActions {
     }
 
     private function loadFavoris() {
-        $detail = $this->getRequest()->getParameter('details');
-        if(is_array($this->drm->getAllFavoris())){
-          $this->favoris = $this->drm->getAllFavoris();
-        }else{
+      $detail = $this->getRequest()->getParameter('details');
           $this->favoris = $this->drm->getAllFavoris()->get($detail);
-        }
-    }
+      }
 
 }

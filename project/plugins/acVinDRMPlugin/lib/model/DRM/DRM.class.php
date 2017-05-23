@@ -11,6 +11,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     const DETAILS_KEY_SUSPENDU = 'details';
     const DETAILS_KEY_ACQUITTE = 'detailsACQUITTE';
 
+
     protected $mouvement_document = null;
     protected $version_document = null;
     protected $declarant_document = null;
@@ -24,6 +25,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function __clone() {
+        $this->uniformFavoris();
         parent::__clone();
         $this->initDocuments();
         $this->document_precedent = null;
@@ -1319,6 +1321,31 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN ADMINISTRATION ** */
 
     /**     * FAVORIS ** */
+
+    public function uniformFavoris(){
+      $needUniformisation = false;
+      $keys_to_remove = array();
+      if($this->exist('favoris') && $this->favoris){
+
+        foreach ($this->favoris as $key => $value) {
+          $needUniformisation = $needUniformisation || (!in_array($key,array(self::DETAILS_KEY_SUSPENDU,self::DETAILS_KEY_ACQUITTE)));
+          $keys_to_remove[] = $key;
+        }
+
+        if($needUniformisation){
+          foreach ($this->favoris as $key => $categories) {
+            foreach ($categories as $keyCat => $categorie) {
+              $this->favoris->getOrAdd(self::DETAILS_KEY_SUSPENDU)->getOrAdd($key)->add($keyCat,$categorie);
+            }
+          }
+
+          foreach ($keys_to_remove as $key_to_remove) {
+            $this->favoris->remove($key_to_remove);
+          }
+        }
+      }
+    }
+
     public function buildFavoris() {
         foreach ($this->drmDefaultFavoris() as $key => $value) {
             $keySplitted = explode('/', $key);
@@ -1345,15 +1372,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $drm_default_favoris = $configuration->get('mvts_favoris');
         foreach ($configurationFields as $key => $value) {
-            $drm_default_favorisArr = $drm_default_favoris->toArray(0, 1);
-            if(preg_match('/^details/',array_shift($drm_default_favorisArr))){
-              if (!in_array(str_replace('/', '_', $key), $drm_default_favorisArr)) {
-                  unset($configurationFields[$key]);
-              }
-            }else{
-              if (!in_array(str_replace('details', '', str_replace('/', '_', $key)), $drm_default_favorisArr)) {
-                  unset($configurationFields[$key]);
-              }
+            if (!in_array(str_replace('/', '_', $key), $drm_default_favoris->toArray(0, 1))) {
+                unset($configurationFields[$key]);
             }
         }
         return $configurationFields;
