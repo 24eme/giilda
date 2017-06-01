@@ -82,9 +82,10 @@ class DRMCsvEdi extends CsvFile {
 
     public function buildCountryList() {
         $countryList = ConfigurationClient::getInstance()->getCountryList();
+
         $match_array = array();
         foreach ($countryList as $keyUpper => $countryString) {
-            $match_array[$keyUpper . '_' . strtolower($keyUpper)] = $countryString;
+            $match_array[$keyUpper] = $countryString;
             $match_array[$countryString] = $countryString;
         }
         $this->countryList = array_merge($countryList, $match_array);
@@ -92,7 +93,7 @@ class DRMCsvEdi extends CsvFile {
 
     public function findPays($pays){
       foreach($this->countryList as $countryKey => $country){
-        if(KeyInflector::slugify($country) == KeyInflector::slugify($pays)) {
+        if(KeyInflector::slugify($country) == KeyInflector::slugify($pays) || KeyInflector::slugify($countryKey) == KeyInflector::slugify($pays)) {
           return $countryKey;
         }
       }
