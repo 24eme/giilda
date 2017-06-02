@@ -140,24 +140,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
          }
 
          public function updateAndControlCoheranceStocks() {
-             /*$stocks = array();
-             foreach($this->drm->getProduitsDetails() as $detail) {
-               $stocks[$detail->getHash()] = $detail->stocks_fin->final;
-             }*/
-
              $this->drm->update();
-
-             /*foreach($this->drm->getProduitsDetails() as $detail) {
-                 if(!array_key_exists($detail->getHash(), $stocks) || is_null($stocks[$detail->getHash()])) {
-                     continue;
-                 }
-
-                 if(round($stocks[$detail->getHash()], 2) == round($detail->stocks_fin->final, 2)) {
-                     continue;
-                 }
-                 $this->csvDoc->addErreur($this->createError(1, sprintf("%s %0.2f hl (CSV) / %0.2f hl (calculé)", $detail->produit_libelle, $stocks[$detail->getHash()], $detail->stocks_fin->final), "Le stock fin de mois du CSV différent du calculé"));
-             }*/
-
              if ($this->csvDoc->hasErreurs()) {
                  $this->csvDoc->setStatut(self::STATUT_WARNING);
                  $this->csvDoc->save();
@@ -250,6 +233,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         continue;
                     }
                     $founded_produit = $produit;
+                    $date = new DateTime($this->drm->getDate());
+                    if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
+                      $founded_produit = $produit->getProduitSiblingWithTaux($date);
+                    }
                 }
                 if (!$founded_produit) {
                     $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
