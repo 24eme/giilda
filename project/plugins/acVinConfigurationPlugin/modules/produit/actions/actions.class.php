@@ -21,7 +21,7 @@ class produitActions extends sfActions
 
         return $this->redirect('produits', array('date' => date('Y-m-d')));
       }
-
+      set_time_limit(0);
       $this->date = $request->getParameter('date');
       $this->config = ConfigurationClient::getConfiguration($this->date);
       $this->produits = $this->config->declaration->getProduits($this->date);
@@ -38,7 +38,7 @@ class produitActions extends sfActions
     $this->noeud = $this->produit->get($request_noeud);
 
   	$this->form = new ProduitDefinitionForm($this->noeud);
-  	
+
   	if ($request->isMethod(sfWebRequest::POST)) {
       $this->form->bind($request->getParameter($this->form->getName()));
   		if ($this->form->isValid()) {
@@ -47,7 +47,7 @@ class produitActions extends sfActions
 
         return $this->redirect('produits');
       }
-    } 
+    }
   }
 
   public function executeNouveau(sfWebRequest $request)
@@ -82,7 +82,7 @@ class produitActions extends sfActions
     unset($noeud_to_edit[0]);
 
     $hash = str_replace('/', '-', $hash);
-    
+
     return $this->redirect('produit_modification', array('noeud' => $noeud, 'hash' => $hash, 'noeud_to_edit' => implode("|", $noeud_to_edit)));
   }
 }
