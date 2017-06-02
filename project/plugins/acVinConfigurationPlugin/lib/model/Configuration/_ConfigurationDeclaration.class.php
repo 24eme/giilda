@@ -472,7 +472,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $this->departements = explode(',', $datas[ProduitCsvFile::CSV_PRODUIT_DEPARTEMENTS]);
     }
 
-    protected function setDroitDouaneCsv($datas, $code_applicatif) {
+    public function setDroitDouaneCsv($datas, $code_applicatif) {
 
         if (!array_key_exists(ProduitCsvFile::CSV_PRODUIT_DOUANE_NOEUD, $datas) || $code_applicatif != $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_NOEUD]) {
 
@@ -482,8 +482,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits = $this->getDroits('INTERPRO-' . strtolower($datas[ProduitCsvFile::CSV_PRODUIT_INTERPRO]));
         $date = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_DATE] : '1900-01-01';
         $taux = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) ? str_replace(',', '.', $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_TAXE]) : 0;
-        $code = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
-        $libelle = ($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
+
+        $issetCodeDouane = isset($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]);
+        $issetLibelleDouane = isset($datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]);
+
+        $code = ($issetCodeDouane && $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_CODE] : null;
+        $libelle = ($issetLibelleDouane && $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE]) ? $datas[ProduitCsvFile::CSV_PRODUIT_DOUANE_LIBELLE] : null;
 
         $currentDroit = null;
         foreach ($droits->douane as $droit) {
@@ -505,8 +509,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         $droits = $droits->douane->add();
         $droits->date = $date;
         $droits->taux = $taux;
-        $droits->code = $code;
-        $droits->libelle = $libelle;
+        if($issetCodeDouane){
+          $droits->code = $code;
+        }
+        if($issetLibelleDouane){
+          $droits->libelle = $libelle;
+        }
     }
 
     public function setDroitCvoCsv($datas, $code_applicatif) {
@@ -651,6 +659,22 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public function hasCepagesAutorises(){
       return false;
+    }
+
+    public function getProduitSiblingWithTaux($date = null){
+        if(!$date){
+          $date = date('Y-m-d');
+        }
+        if($this->getTauxCVO($date) == -1 && $this->getTauxDouane($date) == -1){
+          $produitsSibling = $this->getParent()->getParent()->getProduitsAll();
+          foreach ($produitsSibling as $produit) {
+            if($produit->getTauxCVO($date) != -1 || $this->getTauxDouane($date) != -1){
+                return $produit;
+            }
+          }
+          return $this->getParent()->getParent()->getProduitSiblingWithTaux($date);
+        }
+        return null;
     }
 
 }
