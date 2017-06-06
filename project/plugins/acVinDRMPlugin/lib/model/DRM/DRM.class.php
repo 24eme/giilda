@@ -267,8 +267,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$isTeledeclarationMode) {
             $tobedeleted = array();
             foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
-                $details->getCepage()->add('no_movements', false);
-                $details->getCepage()->add('edited', false);
+                $details->getCepage()->remove('no_movements');
+                $details->getCepage()->remove('edited');
+                $details->add('no_movements', false);
+                $details->add('edited', false);
                 if (!$details->getCepage()->getConfig()->isCVOActif($drm_suivante->getDate())) {
                     $tobedeleted[] = $details->getHash();
                 }
