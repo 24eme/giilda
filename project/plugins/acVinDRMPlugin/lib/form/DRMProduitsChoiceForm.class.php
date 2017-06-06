@@ -27,9 +27,9 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
         foreach ($this->_produits as $produit) {
           $disabled=array();
 
-            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
+            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => true)));
             $this->widgetSchema->setLabel('produit' . $produit->getHashForKey(), '');
-            $this->setValidator('produit' . $produit->getHashForKey(), new sfValidatorString(array('required' => false)));            
+            $this->setValidator('produit' . $produit->getHashForKey(), new sfValidatorString(array('required' => false)));
             if($this->_drm->getConfig()->declaration->hasAcquitte()){
               $this->setWidget('acquitte' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
               if(preg_match("/USAGESINDUSTRIELS/",$produit->getHashForKey())){
@@ -80,13 +80,9 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
         $this->all_checked = true;
         parent::updateDefaultsFromObject();
         foreach ($this->_produits as $produit) {
-
-              if (!$produit->getCepage()->exist('no_movements') || !$produit->getCepage()->no_movements) {
-                  $this->setDefault('produit' . $produit->getHashForKey(), true);
-              }
-              if(!$produit->exist('no_movements') || !$produit->get('no_movements')){
-                $this->setDefault('produit' . $produit->getHashForKey(), true);
-              }
+            if($produit->exist('no_movements') && $produit->get('no_movements')){
+                  $this->setDefault('produit' . $produit->getHashForKey(), false);
+            }
 
               if ($produit->getCepage()->exist(DRM::DETAILS_KEY_ACQUITTE)) {
                   $this->setDefault('acquitte' . $produit->getHashForKey(), true);

@@ -81,8 +81,5 @@ class DRMCepage extends BaseDRMCepage {
 
         return null;
     }
-
-    public function hasMovements(){
-        return !$this->exist('no_movements') || !$this->no_movements;
-    }
+    
 }
