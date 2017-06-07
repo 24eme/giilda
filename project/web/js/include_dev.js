@@ -58,8 +58,8 @@
 	$.fn.includeJS(jsPath, 'hamza_style.js');
         $.fn.includeJS(jsPath, 'societe.js');
         $.fn.includeJS(jsPath, 'etablissement.js');
-        $.fn.includeJS(jsPath, 'teledeclaration_vrac.js'); 
-        $.fn.includeJS(jsPath, 'teledeclaration_drm.js');         
+        $.fn.includeJS(jsPath, 'teledeclaration_vrac.js');
+        $.fn.includeJS(jsPath, 'teledeclaration_drm.js?201706071927');
         $.fn.includeJS(jsPath, 'produits.js');
 
 })(jQuery);
