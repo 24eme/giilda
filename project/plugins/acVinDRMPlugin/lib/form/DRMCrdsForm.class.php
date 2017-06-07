@@ -24,10 +24,10 @@ class DRMCrdsForm extends acCouchdbObjectForm {
             foreach ($crdAllGenre as $genre => $crds) {
                 foreach ($crds as $key => $crd) {
                     $keyWidgetsSuffixe = '_' . $regime . '_' . $key;
-                    if ($crd->stock_debut) 
+                    if ($crd->stock_debut)
                         $this->setWidget('stock_debut' . $keyWidgetsSuffixe, new sfWidgetFormInputHidden());
                     else
-                        $this->setWidget('stock_debut' . $keyWidgetsSuffixe, new sfWidgetFormInput());                        
+                        $this->setWidget('stock_debut' . $keyWidgetsSuffixe, new sfWidgetFormInput());
                     $this->setWidget('entrees_achats' . $keyWidgetsSuffixe, new sfWidgetFormInput());
                     $this->setWidget('entrees_retours' . $keyWidgetsSuffixe, new sfWidgetFormInput());
                     $this->setWidget('entrees_excedents' . $keyWidgetsSuffixe, new sfWidgetFormInput());
@@ -45,7 +45,7 @@ class DRMCrdsForm extends acCouchdbObjectForm {
                     $this->widgetSchema->setLabel('sorties_destructions' . $keyWidgetsSuffixe, 'Destructions');
                     $this->widgetSchema->setLabel('sorties_manquants' . $keyWidgetsSuffixe, 'Manquants');
 
-                    $this->setValidator('stock_debut' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
+                    $this->setValidator('stock_debut' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false)));
                     $this->setValidator('entrees_achats' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('entrees_retours' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
                     $this->setValidator('entrees_excedents' . $keyWidgetsSuffixe, new sfValidatorInteger(array('required' => false, 'min' => 0)));
