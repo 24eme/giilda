@@ -41,7 +41,8 @@ class drm_ediActions extends drmGeneriqueActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
-        $this->drm = DRMClient::getInstance()->createDoc($this->identifiant, $this->periode, true);
+
+        $this->drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
 
         $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $this->drm);
         $this->drmCsvEdi->importCSV(true);
