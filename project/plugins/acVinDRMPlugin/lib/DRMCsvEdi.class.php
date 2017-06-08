@@ -67,6 +67,7 @@ class DRMCsvEdi extends CsvFile {
     protected $drm = null;
     protected $csv = null;
     protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Mousseux', 'TRANQ' => 'Tranquille','DEFAUT' => 'Tranquille');
+    protected static $stocks_non_additionnables = array("stock_debut","stock_fin","stocks_debut","stocks_fin");
     protected static $genres_synonyme = array('FINESBULLES' => 'Mousseux',
                                               'FINES-BULLES' => 'Mousseux',
                                               'EFFERVESCENT' => 'Mousseux',
