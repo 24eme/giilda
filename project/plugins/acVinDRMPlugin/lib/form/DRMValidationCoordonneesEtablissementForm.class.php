@@ -117,6 +117,17 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
             $this->drm->declarant->raison_sociale_cautionneur = null;
         }
     }
-
+    
+    private function getCautionTypes() {
+        $cautionsType = array();
+        foreach (EtablissementClient::$caution_libelles as $key => $value) {
+          if($key == EtablissementClient::CAUTION_DISPENSE){
+            $cautionsType[0] = $value;
+          }else{
+            $cautionsType[1] = $value;
+          }
+        }
+        return $cautionsType;
+    }
 
 }
