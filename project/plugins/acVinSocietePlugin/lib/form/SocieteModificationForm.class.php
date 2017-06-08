@@ -69,6 +69,15 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         }
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
 
+        $this->setWidget('paiement_douane_moyen', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneMoyen())));
+        $this->setValidator('paiement_douane_moyen', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneMoyen())), array('required' => "Aucun moyen de paiement des droits douane n'est choisi")));
+        $this->widgetSchema->setLabel('paiement_douane_moyen', 'Moyen de paiement :');
+        
+        $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
+        $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'est choisie")));
+        $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement :');
+
+
         if (!$this->reduct_rights) {
             $this->setValidator('raison_sociale', new sfValidatorString(array('required' => true)));
             $this->setValidator('raison_sociale_abregee', new sfValidatorString(array('required' => false)));
@@ -117,7 +126,7 @@ class SocieteModificationForm extends acCouchdbObjectForm {
                 $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
             }
 
-            // if (!$this->getObject()->isNegoOrViti()){             
+            // if (!$this->getObject()->isNegoOrViti()){
             $this->setDefault('type_fournisseur', $this->getDefaultTypesFournisseur());
             // }
 
@@ -295,6 +304,14 @@ class SocieteModificationForm extends acCouchdbObjectForm {
         unset($this->validatorSchema[$key]);
         unset($this->embeddedForms[$key]);
         $this->enseignes->remove($key);
+    }
+
+    public function getPaiementDouaneFrequence() {
+        return DRMPaiement::$frequence_paiement_libelles;
+    }
+
+    public function getPaiementDouaneMoyen() {
+        return DRMPaiement::$moyens_paiement_libelles;
     }
 
 }

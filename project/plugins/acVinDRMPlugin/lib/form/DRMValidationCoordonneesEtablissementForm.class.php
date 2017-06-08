@@ -76,7 +76,7 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         if($this->coordonneesEtablissement->caution) {
             $this->setDefault('caution', $this->coordonneesEtablissement->caution);
         }
-        
+
         if ($this->drm->declarant->exist('raison_sociale_cautionneur')) {
             $this->setDefault('raison_sociale_cautionneur', $this->coordonneesEtablissement->raison_sociale_cautionneur);
         }
@@ -118,8 +118,5 @@ class DRMValidationCoordonneesEtablissementForm extends acCouchdbObjectForm {
         }
     }
 
-    private function getCautionTypes() {
-        return EtablissementClient::$caution_libelles;
-    }
 
 }
