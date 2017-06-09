@@ -150,7 +150,9 @@ class SocieteClient extends acCouchdbClient {
                 self::SUB_TYPE_NEGOCIANT => self::SUB_TYPE_NEGOCIANT,
                 self::SUB_TYPE_COURTIER => self::SUB_TYPE_COURTIER),
             self::TYPE_PRESSE => self::TYPE_PRESSE,
-            self::TYPE_PARTENAIRE => array(self::SUB_TYPE_INSTITUTION => self::SUB_TYPE_INSTITUTION,
+            self::TYPE_PARTENAIRE => array(
+                self::SUB_TYPE_DOUANE => self::SUB_TYPE_DOUANE,
+                self::SUB_TYPE_INSTITUTION => self::SUB_TYPE_INSTITUTION,
                 self::SUB_TYPE_HOTELRESTAURANT => self::SUB_TYPE_HOTELRESTAURANT,
                 self::SUB_TYPE_SYNDICAT => self::SUB_TYPE_SYNDICAT,
                 self::SUB_TYPE_AUTRE => self::SUB_TYPE_AUTRE));
