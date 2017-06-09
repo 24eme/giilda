@@ -234,9 +234,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
                     $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
                     $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
-
                     $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
-
                     if ($isEmptyArray){
                       if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
                       && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
@@ -244,6 +242,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         continue;
                       }
                     }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
+
+                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+                        continue;
+                    }elseif((count(array_diff($produitConfLibelleAOC, $csvLibelleProductArray))) && (count(array_diff($produitConfLibelleAOP, $csvLibelleProductArray)))
                         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
                         && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                         && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
@@ -317,7 +321,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     } else {
                         $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-                        $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
+                        if(in_array($cat_key,self::$stocks_non_additionnables)){
+                          $drmDetails->getOrAdd($cat_key)->add($type_key, $detailTotalVol);
+                        }else{
+                          $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
+                        }
                     }
                 } else {
                     if ($confDetailMvt->hasDetails()) {
@@ -758,6 +766,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function buildLibellesArrayWithRow($csvRow, $with_slugify = false) {
             $certification = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_CERTIFICATION]) : $csvRow[self::CSV_CAVE_CERTIFICATION];
             $genre = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_GENRE]) : $csvRow[self::CSV_CAVE_GENRE];
+            $this->uniformisationGenre($genre);
             $appellation = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_APPELLATION]) : $csvRow[self::CSV_CAVE_APPELLATION];
             $mention = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_MENTION]) : $csvRow[self::CSV_CAVE_MENTION];
             $lieu = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_LIEU]) : $csvRow[self::CSV_CAVE_LIEU];
@@ -777,6 +786,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
             }
             return $libelles;
+        }
+
+        private function uniformisationGenre(&$genre){
+          $gs = self::$genres_synonyme;
+          $gslug = $this->slugifyProduitArrayOrString($genre);
+          if(array_key_exists($gslug,$gs)){
+            $genre = $this->slugifyProduitArrayOrString($gs[$gslug]);
+          }
         }
 
         private function slugifyProduitArrayOrString($produitLibelles) {

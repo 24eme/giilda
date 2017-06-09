@@ -39,12 +39,12 @@ echo $societeForm->renderGlobalErrors();
             <?php endif; ?>
             <?php echo $societeForm['type_numero_compte_fournisseur']->render(); ?>
             <?php echo $societeForm['type_numero_compte_fournisseur']->renderError(); ?>
-        </div>                 
+        </div>
          <div class="form_ligne">
             <?php echo $societeForm['type_fournisseur']->renderLabel(null,array('class' => 'label_liste')); ?>
             <?php echo $societeForm['type_fournisseur']->render(); ?>
             <?php echo $societeForm['type_fournisseur']->renderError(); ?>
-             </div>          
+             </div>
         <div class="form_ligne">
 			<div class="form_colonne">
 				<?php echo $societeForm['siret']->renderLabel(); ?>
@@ -56,13 +56,13 @@ echo $societeForm->renderGlobalErrors();
 				<?php echo $societeForm['code_naf']->render(); ?>
 				<?php echo $societeForm['code_naf']->renderError(); ?>
 			</div>
-        </div> 
+        </div>
         <div class="form_ligne">
             <?php echo $societeForm['no_tva_intracommunautaire']->renderLabel(); ?>
             <?php echo $societeForm['no_tva_intracommunautaire']->render(); ?>
             <?php echo $societeForm['no_tva_intracommunautaire']->renderError(); ?>
-        </div> 
-    
+        </div>
+
         <div id="enseignes_list">
             <?php
             foreach ($societeForm['enseignes'] as $enseigneForm) {
@@ -72,6 +72,16 @@ echo $societeForm->renderGlobalErrors();
             <div class="form_ligne">
                 <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_non_appurement" href="#">Ajouter une enseigne</a>
             </div>
+        </div>
+        <div class="form_ligne">
+            <?php echo $societeForm['paiement_douane_moyen']->renderLabel(null,array('class' => 'label_liste')); ?>
+            <?php echo $societeForm['paiement_douane_moyen']->render(); ?>
+            <?php echo $societeForm['paiement_douane_moyen']->renderError(); ?>
+        </div>
+        <div class="form_ligne">
+            <?php echo $societeForm['paiement_douane_frequence']->renderLabel(null,array('class' => 'label_liste')); ?>
+            <?php echo $societeForm['paiement_douane_frequence']->render(); ?>
+            <?php echo $societeForm['paiement_douane_frequence']->renderError(); ?>
         </div>
     <div class="form_ligne">
         <?php echo $societeForm['commentaire']->renderLabel(); ?>
@@ -83,7 +93,7 @@ echo $societeForm->renderGlobalErrors();
 ?>
 
 <script type="text/javascript">
-    
+
     (function($)
     {
 
@@ -95,13 +105,13 @@ echo $societeForm->renderGlobalErrors();
 
         var callbackAddTemplate = function(bloc)
         {
-          
+
         }
 
-       
+
         var initCollectionAddTemplate = function(element, regexp_replace, callback)
         {
-       
+
             $(element).live('click', function()
             {
                 var bloc_html = $($(this).attr('data-template')).html().replace(regexp_replace, UUID.generate());
@@ -124,19 +134,19 @@ echo $societeForm->renderGlobalErrors();
                 return false;
             });
         }
-   
+
         var initCollectionDeleteTemplate = function()
         {
             $('.btn_supprimer_ligne_template').live('click',function()
             {
                 var element = $(this).attr('data-container');
                 $(this).parent(element).remove();
-   
+
                 return false;
             });
         }
     })(jQuery);
-   
-    
-    
+
+
+
 </script>
