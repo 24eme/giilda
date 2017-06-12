@@ -20,7 +20,7 @@ Ce fichier comporte les différentes colonnes suivantes :
 
 La dernière colonne indique le libellé complet du produit, le processus d'import ne tiendra pas compte de ce champs si les 7 champs d'identification sont remplis. Il sera utilisé que si une ambiguité ressort de l'exploitation de ces champs.
 
-En plus de ce catalogue, le CIVA met à disposition un référentiel produit organisé par colonne (un onglet par colonne) sur le modèle de ce qui a été mis à disposition pour les fichiers DR : [télécharger le référentiel «colonne»](https://declaration.vinsalsace.pro/documents/Fichier-op%C3%A9rateurs-reference_v1.xls)
+En plus de ce catalogue, le CIVA met à disposition un référentiel produit organisé par colonne (un onglet par colonne) sur le modèle de ce qui a été mis à disposition pour les fichiers DR : [télécharger le référentiel «colonne»](https://declaration.vinsalsace.pro/documents/Fichier-op%C3%A9rateurs-reference_v2.ods)
 
 Pour plus de détails sur l'exploitation de ces champs, voir la [section "identification du vin" de la Spécification générique DRM pour logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/#description-des-lignes-cave).
 
