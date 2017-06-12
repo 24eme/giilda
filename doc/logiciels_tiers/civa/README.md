@@ -38,6 +38,17 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 
 ## Suivi du projet chez les éditeurs de registres de cave
 
-| Nom de l'Éditeur | Prise de contact | Génération du fichier de transfert | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
+| Nom de l'Éditeur | Prise de contact | Génération du fichier de transfer | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
 |------------------|------------------|-----------------------------------|---------------------------------------|------------------------------------------------------|----------------------|
-| |  | |  |  |  |
+| chambre d'agriculture | Oui |  |  |  |  |
+| bsi-info              | Oui |  |  |  |  |
+| capvision             | Oui |  |  |  |  |
+| cegar                 | Oui |  |  |  |  |
+| cfg67                 | Oui |  |  |  |  |
+| graineinfo            | Oui |  |  |  |  |
+| idsystemes            | Oui |  |  |  |  |
+| info-log              | Oui |  |  |  |  |
+| ingeteldata           | Oui |  |  |  |  |
+| isagri                | Oui |  |  |  |  |
+| nsi-sadimo            | Oui |  |  |  |  |
+
