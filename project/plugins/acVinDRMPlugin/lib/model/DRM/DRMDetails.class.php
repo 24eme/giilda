@@ -10,6 +10,9 @@ class DRMDetails extends BaseDRMDetails {
         if($this->getDocument()->getConfig()->declaration->exist($this->getKey())){
           return $this->getDocument()->getConfig()->declaration->get($this->getKey());
         }
+        if($this->getDocument()->getConfig()->declaration->exist('details')){
+          return $this->getDocument()->getConfig()->declaration->get("details");
+        }
         return $this->getDocument()->getConfig()->declaration->get("detail");
     }
 
