@@ -604,7 +604,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function isNeant() {
-        return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT);
+        return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT) && !$this->declaration->hasMouvement();
     }
 
     public function isEnvoyee() {
