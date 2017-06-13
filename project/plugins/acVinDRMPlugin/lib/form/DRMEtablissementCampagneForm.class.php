@@ -1,9 +1,9 @@
 <?php
 class DRMEtablissementCampagneForm extends sfForm
 {
-    
+
   private $isTeledeclarationMode = false;
-  
+
   public function configure() {
     $list = $this->getChoiceCampagnes();
     $this->setWidgets(array(
@@ -17,20 +17,20 @@ class DRMEtablissementCampagneForm extends sfForm
 			    ));
     $this->widgetSchema->setNameFormat('etablissementcampagne[%s]');
   }
-    
+
   public function __construct($identifiantEtablissement, $defaultCampagne,$isTeledeclarationMode = false) {
     $this->etablissement_id = $identifiantEtablissement;
     $this->default_campagne = $defaultCampagne;
     $this->isTeledeclarationMode = $isTeledeclarationMode;
     return parent::__construct();
   }
-  
+
   private function getChoiceCampagnes() { 
-     
-      $campagnes = ($this->isTeledeclarationMode)? array( '2015-2016' => '2015-2016','2014-2015' => '2014-2015')
+
+      $campagnes = ($this->isTeledeclarationMode)? array( '2016-2017' => '2016-2017' , '2015-2016' => '2015-2016','2014-2015' => '2014-2015')
              : DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
-      
+
       return array_merge(array('-1' => 'les derniers mois'),$campagnes);
   }
-  
+
 }
