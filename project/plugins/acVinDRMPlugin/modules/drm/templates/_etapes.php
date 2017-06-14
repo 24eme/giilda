@@ -16,7 +16,8 @@
             <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Mvts Susp.</strong>
             <?php if ($past): ?></a><?php endif; ?>
     </li>
-    <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode) : ?>
+    <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode): ?>
+      <?php if ($drm->getConfig()->declaration->hasAcquitte()): ?>
       <?php $actif = ($etape_courante == DRMClient::ETAPE_SAISIE_ACQUITTE); ?>
       <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_SAISIE_ACQUITTE, DRMClient::$drm_etapes))); ?>
         <?php $isDouaneTypeAcquitte = $drm->isDouaneType(DRMClient::TYPE_DRM_ACQUITTE); ?>
@@ -25,6 +26,7 @@
                 <strong><?php echo $cpt_etape++; ?>.&nbsp;&nbsp;Mvts. Acq.</strong>
                 <?php if ($past): ?></a><?php endif; ?>
         </li>
+      <?php endif; ?>
         <?php $actif = ($etape_courante == DRMClient::ETAPE_CRD); ?>
         <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_CRD, DRMClient::$drm_etapes))); ?>
         <li class="<?php echo ($past) ? 'passe' : '' ?> <?php echo ($etape_courante == DRMClient::ETAPE_CRD) ? 'actif' : '' ?>">

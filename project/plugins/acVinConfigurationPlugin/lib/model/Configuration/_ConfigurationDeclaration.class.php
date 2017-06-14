@@ -672,4 +672,8 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return false;
     }
 
+    public function hasAcquitte(){
+      return $this->exist(DRM::DETAILS_KEY_ACQUITTE);
+    }
+
 }
