@@ -1451,16 +1451,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $config = $this->getConfig();
         $libelles_detail_ligne = $config->libelle_detail_ligne;
         $toRemove = array();
-        foreach ($libelles_detail_ligne as $catKey => $cat) {
-            foreach ($cat as $typeKey => $detail) {
-                if (!$config->declaration->detail->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
-                    $toRemove[] = $catKey . '/' . $typeKey;
+          foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
+            foreach ($typedetaillibelle as $catKey => $cat) {
+                foreach ($cat as $typeKey => $detail) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->exist($typeKey) || !$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
+                        $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
+                    }
                 }
             }
-        }
+          }
         foreach ($toRemove as $removeNode) {
-
-            $libelles_detail_ligne->remove($removeNode);
+          $libelles_detail_ligne->remove($removeNode);
         }
         return $libelles_detail_ligne;
     }
