@@ -28,7 +28,7 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_CEPAGE = 10;
     const CSV_CAVE_COMPLEMENT = 11;
     const CSV_CAVE_LIBELLE_COMPLET = 12;
-    const CSV_CAVE_TYPE_DRM = 13; # aujourd'hui tout en SUSPENDU
+    const CSV_CAVE_TYPE_DRM = 13;
 
     const CSV_CAVE_CATEGORIE_MOUVEMENT = 14;
     const CSV_CAVE_TYPE_MOUVEMENT = 15;

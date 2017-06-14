@@ -9,7 +9,7 @@ if (!isset($isTeledeclarationMode)) {
 $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
 ?>
 <p style="margin-top: 10px;"></p>
-<?php if (count($mouvementsByProduit) > 0): ?>
+<?php if (isset($mouvementsByProduit[$typeKey]) && count($mouvementsByProduit[$typeKey]) > 0): ?>
     <?php if (isset($hamza_style)) : ?>
         <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
             <div class="col-xs-12">
