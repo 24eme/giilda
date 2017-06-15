@@ -44,38 +44,37 @@
 				</balance-stocks>
 			</produit>
 <?php endforeach; ?>
-			<stockEpuise><?php echo (!$drm->declaration->total)? "true" : "false"; ?></stockEpuise>
+			<stockEpuise><?php echo (!$drm->getTotalStockSuspendu())? "true" : "false"; ?></stockEpuise>
 		</droits-suspendus>
-<?php if (false && $drm->hasExportableProduitsAcquittes()): ?>
+<?php if ($drm->hasExportableProduitsAcquittes()): ?>
 		<droits-acquittes>
-<?php foreach ($drm->getExportableProduits() as $produit): if (!$produit->getHasSaisieAcq()) { continue; } ?>
+<?php foreach ($drm->getProduitsDetails(true,DRM::DETAILS_KEY_ACQUITTE) as $produit):  ?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
 				<libelle-fiscal><?php echo formatCodeINAO($produit->getCodeDouane()) ?></libelle-fiscal>
 			<?php else: ?>
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
-			<?php endif; ?>
 <?php endif; ?>
 				<libelle-personnalise><?php echo trim(html_entity_decode($produit->getLibelle(), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
 <?php if ($produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
 <?php endif; ?>
-<?php if ($produit->getPremix()): ?>
+<?php if (false && $produit->getPremix()): ?>
 				<premix>true</premix>
 <?php endif; ?>
-<?php if ($produit->getObservations()): ?>
-				<observations><?php echo $produit->getObservations() ?></observations>
+<?php if ($produit->exist('observations')): ?>
+				<observations><?php echo $produit->get('observations'); ?></observations>
 <?php endif; ?>
+
 				<balance-stocks>
 <?php
 	$xml = details2XmlDouane($produit);
-	echo formatXml($xml, 5);
-?>
+	echo formatXml($xml, 5);?>
 				</balance-stocks>
 			</produit>
 <?php endforeach; ?>
-			<stockEpuise><?php echo (!$drm->getTotalStockAcq())? "true" : "false"; ?></stockEpuise>
+			<stockEpuise><?php echo (!$drm->getTotalStockAcquitte())? "true" : "false"; ?></stockEpuise>
     	</droits-acquittes>
 <?php endif; ?>
 <?php endif; ?>
