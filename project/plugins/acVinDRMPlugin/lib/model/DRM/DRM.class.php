@@ -1616,4 +1616,24 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       }
       return "";
     }
+
+    public function hasExportableProduitsAcquittes(){
+      return count($this->getProduitsDetails(true,self::DETAILS_KEY_ACQUITTE));
+    }
+
+    public function getTotalStockSuspendu(){
+      $total = 0.0;
+      foreach ($this->getProduitsDetails(true,self::DETAILS_KEY_SUSPENDU) as $produit) {
+        $total += $produit->getTotal();
+      }
+      return $total;
+    }
+
+    public function getTotalStockAcquitte(){
+      $total = 0.0;
+      foreach ($this->getProduitsDetails(true,self::DETAILS_KEY_ACQUITTE) as $produit) {
+        $total += $produit->getTotal();
+      }
+      return $total;
+    }
 }

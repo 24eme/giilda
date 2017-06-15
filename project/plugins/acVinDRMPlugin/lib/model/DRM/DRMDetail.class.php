@@ -521,4 +521,20 @@ class DRMDetail extends BaseDRMDetail {
       return preg_replace('/(\d{4})/', '\1', $d);
     }
 
+    public function isCodeDouaneAlcool(){
+      if(!$this->getCodeDouane()){
+        return false;
+      }
+      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
+        return false;
+      }
+      return true;
+    }
+    public function getTav(){
+      if(!$this->exist('tav')){
+       return false;
+      }
+      return $this->_get('tav');
+    }
+
 }
