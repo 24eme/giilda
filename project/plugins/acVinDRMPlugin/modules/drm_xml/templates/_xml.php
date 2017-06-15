@@ -55,6 +55,7 @@
 				<libelle-fiscal><?php echo formatCodeINAO($produit->getCodeDouane()) ?></libelle-fiscal>
 			<?php else: ?>
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
+			<?php endif; ?>
 <?php endif; ?>
 				<libelle-personnalise><?php echo trim(html_entity_decode($produit->getLibelle(), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
 <?php if ($produit->getTav()): ?>
