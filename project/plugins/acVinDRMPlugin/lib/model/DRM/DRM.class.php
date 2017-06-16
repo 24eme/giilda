@@ -537,6 +537,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE;
     }
 
+    public function isPaiementAnnuelleAndCumulNull() {
+      $cumulNull = true;
+      foreach ($this->droits->douane as $key => $node) {
+        if(is_null($node->cumul)){
+          $cumulNull = false;
+          break;
+        }
+      }
+
+      return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE && $cumulNull;
+    }
+
     public function getHumanDate() {
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
