@@ -25,7 +25,7 @@ TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT
 "suspendu","sorties","embouteillage"
 "suspendu","sorties","relogement"
 "suspendu","sorties","travailafacon"
-"suspendu","sorties","autresinternes"
+"suspendu","sorties","manipulations"
 "suspendu","sorties","vci"
 "suspendu","stocks_fin","final"
 "acquitte","stocks_debut","initial"
