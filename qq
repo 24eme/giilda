@@ -1,0 +1,61 @@
+[1mdiff --git a/project/plugins/acVinDRMPlugin/lib/controle/DRMValidation.class.php b/project/plugins/acVinDRMPlugin/lib/controle/DRMValidation.class.php[m
+[1mindex a26f211d..b15dc440 100644[m
+[1m--- a/project/plugins/acVinDRMPlugin/lib/controle/DRMValidation.class.php[m
+[1m+++ b/project/plugins/acVinDRMPlugin/lib/controle/DRMValidation.class.php[m
+[36m@@ -17,6 +17,8 @@[m [mclass DRMValidation extends DocumentValidation {[m
+             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");[m
+             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");[m
+         }[m
+[32m+[m[32m        $this->addControle('erreur', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");[m
+[32m+[m[32m        $this->addControle('erreur', 'paiement_annuelle_cumul_null', "Le cumul des droits douanier doit être saisi une première fois");[m
+         $this->addControle('vigilance', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");[m
+         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");[m
+         $this->addControle('vigilance', 'crd_negatif', "Le nombre de CRD ne dois pas être négatif");[m
+[36m@@ -25,7 +27,6 @@[m [mclass DRMValidation extends DocumentValidation {[m
+         $this->addControle('vigilance', 'no_accises_absent', "Le numéro d'accise n'a pas été renseigné");[m
+         $this->addControle('vigilance', 'caution_absent', "Le type de caution n'a pas été renseigné");[m
+         $this->addControle('vigilance', 'moyen_paiement_absent', "Le moyen de paiement aux douanes n'a pas été renseigné");[m
+[31m-        $this->addControle('vigilance', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");[m
+ [m
+         $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");[m
+     }[m
+[36m@@ -133,9 +134,15 @@[m [mclass DRMValidation extends DocumentValidation {[m
+             }[m
+ [m
+             if (!$this->document->societe->exist('paiement_douane_frequence') || !$this->document->societe->paiement_douane_frequence) {[m
+[31m-                $this->addPoint('vigilance', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));[m
+[32m+[m[32m                $this->addPoint('erreur', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));[m
+             }[m
+ [m
+[32m+[m
+[32m+[m[32m            if ($this->document->isPaiementAnnuelleAndCumulNull()) {[m
+[32m+[m[32m                $this->addPoint('erreur', 'paiement_annuelle_cumul_null', 'Veuillez enregistrer votre cumul annuel', $this->generateUrl('drm_annexes', $this->document));[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m
+             if (!$this->document->declarant->caution) {[m
+                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));[m
+             }[m
+[1mdiff --git a/project/plugins/acVinDRMPlugin/lib/model/DRM/DRM.class.php b/project/plugins/acVinDRMPlugin/lib/model/DRM/DRM.class.php[m
+[1mindex f33f4f05..841cabf7 100644[m
+[1m--- a/project/plugins/acVinDRMPlugin/lib/model/DRM/DRM.class.php[m
+[1m+++ b/project/plugins/acVinDRMPlugin/lib/model/DRM/DRM.class.php[m
+[36m@@ -537,6 +537,18 @@[m [mclass DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio[m
+         return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE;[m
+     }[m
+ [m
+[32m+[m[32m    public function isPaiementAnnuelleAndCumulNull() {[m
+[32m+[m[32m      $cumulNull = true;[m
+[32m+[m[32m      foreach ($this->droits->douane as $key => $node) {[m
+[32m+[m[32m        if(is_null($node->cumul)){[m
+[32m+[m[32m          $cumulNull = false;[m
+[32m+[m[32m          break;[m
+[32m+[m[32m        }[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE && $cumulNull;[m
+[32m+[m[32m    }[m
+[32m+[m
+     public function getHumanDate() {[m
+         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');[m
+ [m
