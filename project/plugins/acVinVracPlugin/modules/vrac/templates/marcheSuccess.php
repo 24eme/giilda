@@ -3,7 +3,7 @@
  * Description : Fichier php correspondant à la vue de vrac/XXXXXXXXXXX/marche
  * Formulaire d'enregistrement de la partie marche d'un contrat
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
+ * Version : 1.0.0
  * Derniere date de modification : ${date}
  */
 $contratNonSolde = ((!is_null($form->getObject()->valide->statut)) && ($form->getObject()->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
@@ -86,8 +86,8 @@ endforeach;
 </script>
 <section id="principal">
     <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 2,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
-    <div id="contenu_etape">  
-        <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche', $vrac) ?>">    
+    <div id="contenu_etape">
+        <form id="vrac_marche" method="post" action="<?php echo url_for('vrac_marche', $vrac) ?>">
 
             <?php echo $form->renderHiddenFields() ?>
             <?php echo $form->renderGlobalErrors() ?>
@@ -96,10 +96,10 @@ endforeach;
             <div id="marche">
 
                 <?php if (isset($form['attente_original'])): ?>
-                    <!--  Affichage des l'option original  -->
+                    <!--  Affichage des loption original  -->
                     <div id="original" class="original section_label_strong">
                         <?php echo $form['attente_original']->renderLabel() ?>
-                        <?php echo $form['attente_original']->render() ?>        
+                        <?php echo $form['attente_original']->render() ?>
                         <?php echo $form['attente_original']->renderError(); ?>
                     </div>
                 <?php endif; ?>
@@ -107,8 +107,8 @@ endforeach;
                 <!--  Affichage des transactions disponibles  -->
                 <div id="type_transaction" class="type_transaction section_label_maj">
                     <?php echo $form['type_transaction']->renderLabel() ?>
-                    <?php echo $form['type_transaction']->renderError(); ?>                    
-                    <?php echo $form['type_transaction']->render() ?>        
+                    <?php echo $form['type_transaction']->renderError(); ?>
+                    <?php echo $form['type_transaction']->render() ?>
                 </div>
 
                 <!--  Affichage des produits, des labels et du stock disponible  -->
@@ -130,11 +130,11 @@ endforeach;
                         <span>Supprimer Brouillon</span>
                     </a>
                 <?php endif; ?>
-                <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>     
+                <button class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
             </div>
         </form>
-    </div>      
-    <?php include_partial('popup_notices'); ?> 
+    </div>
+    <?php include_partial('popup_notices'); ?>
 </section>
 
 <?php
@@ -160,4 +160,4 @@ else:
 
     end_slot();
 endif;
-?>  
+?>
