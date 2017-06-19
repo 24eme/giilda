@@ -14,7 +14,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
 \end{Large}
 \end{center}
 
-<?php if ($drm->type_creation == DRMClient::DRM_CREATION_NEANT): ?>
+<?php if ($drm->isNeant()): ?>
     \begin{center}
     \begin{Large}
     \textbf{Aucun mouvement à déclarer ce mois-ci}

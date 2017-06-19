@@ -129,15 +129,13 @@ if (!isset($fromSociete))
 		    En attente de saisie par l'utilisateur
          <?php endif; ?> </form>
             </div>
-            <?php if($etablissement->exist('caution')): ?>
             <div class="form_ligne">
                 <label for="commentaire">
                     Caution :</label>
-                <?php echo ($etablissement->caution)? "Caution" : "Dispensé";
-                    echo ($etablissement->caution)? " / ".$etablissement->raison_sociale_cautionneur : '';
+                <?php echo ($etablissement->exist('caution') && $etablissement->caution) ? "Caution" : (($etablissement->exist('caution') && !is_null($etablissement->caution)) ? "Dispensé" : "Non défini");
+                    echo ($etablissement->exist('caution') && $etablissement->caution)? " / ".$etablissement->raison_sociale_cautionneur : '';
                  ?>
             </div>
-             <?php endif; ?>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
             <div class="form_ligne">
                 <label for="commentaire">

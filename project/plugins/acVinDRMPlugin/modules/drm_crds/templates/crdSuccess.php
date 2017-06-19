@@ -38,7 +38,7 @@
                                 </thead>
                                 <tbody class="drm_crds_list">
                                     <?php foreach ($crds as $crdKey => $crd): ?>
-                                        <tr class="crd_row" id="<?php echo $regime.'-'.$crdKey; ?>">
+                                        <tr class="crd_row" id="<?php echo $regime.'-'.str_replace(".", "", $crdKey); ?>">
                                             <td class="type_crd_col"><?php echo $crd->getShortLibelle(); ?></td>
                                             <td class="crds_debut_de_mois"><?php
                                                 if ($crd->stock_debut) {

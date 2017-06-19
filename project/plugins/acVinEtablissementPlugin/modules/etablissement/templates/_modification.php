@@ -96,16 +96,18 @@
 <?php echo $etablissementForm['no_accises']->render(); ?>
         <?php echo $etablissementForm['no_accises']->renderError(); ?>
     </div>
+    <?php if (!$etablissement->isCourtier()): ?>
     <div class="form_ligne">
         <?php echo $etablissementForm['caution']->renderLabel('Caution : ',array('class' => 'label_liste')); ?>
-<?php echo $etablissementForm['caution']->render(); ?>
+        <?php echo $etablissementForm['caution']->render(); ?>
         <?php echo $etablissementForm['caution']->renderError(); ?>
     </div>
     <div class="form_ligne">
         <?php echo $etablissementForm['raison_sociale_cautionneur']->renderLabel(); ?>
         <?php echo $etablissementForm['raison_sociale_cautionneur']->render(); ?>
         <?php echo $etablissementForm['raison_sociale_cautionneur']->renderError(); ?>
-    </div>
+    </div>    
+    <?php endif; ?>
 
 
 

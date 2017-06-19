@@ -256,6 +256,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($drm->getProduits() as $produit) {
             $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
 
+            if(!$produitConfig) {
+
+                continue;
+            }
+
             if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
 
                 continue;
@@ -576,6 +581,18 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE;
     }
 
+    public function isPaiementAnnuelleAndCumulNull() {
+      $cumulNull = true;
+      foreach ($this->droits->douane as $key => $node) {
+        if(is_null($node->cumul)){
+          $cumulNull = false;
+          break;
+        }
+      }
+
+      return $this->societe->exist('paiement_douane_frequence') && $this->societe->paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE && $cumulNull;
+    }
+
     public function getHumanDate() {
         setlocale(LC_TIME, 'fr_FR.utf8', 'fra');
 
@@ -643,7 +660,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function isNeant() {
-        return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT);
+        return $this->exist('type_creation') && ($this->type_creation == DRMClient::DRM_CREATION_NEANT) && !$this->declaration->hasMouvement();
     }
 
     public function isEnvoyee() {

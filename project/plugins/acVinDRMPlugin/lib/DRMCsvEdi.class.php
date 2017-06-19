@@ -67,6 +67,16 @@ class DRMCsvEdi extends CsvFile {
     protected $drm = null;
     protected $csv = null;
     protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Mousseux', 'TRANQ' => 'Tranquille','DEFAUT' => 'Tranquille');
+    protected static $stocks_non_additionnables = array("stock_debut","stock_fin","stocks_debut","stocks_fin");
+    protected static $genres_synonyme = array('FINESBULLES' => 'Mousseux',
+                                              'FINES-BULLES' => 'Mousseux',
+                                              'EFFERVESCENT' => 'Mousseux',
+                                              'MOUSSEUX' => 'Mousseux',
+                                              'MOU' => 'Mousseux',
+                                              'EFF' => 'Mousseux',
+                                              'TRANQ' => 'Tranquille',
+                                              'TRANQUILLE' => 'Tranquille',
+                                              'DEFAUT' => 'Tranquille');
     protected $type_annexes = array(self::TYPE_ANNEXE_NONAPUREMENT => 'Non Apurement', self::TYPE_ANNEXE_SUCRE => 'Sucre', self::TYPE_ANNEXE_OBSERVATIONS => 'Observations');
     protected static  $cat_crd_mvts = array("stock_debut","entrees","sorties","stock_fin");
     protected static  $type_crd_mvts = array("achats","retours","excedents","utilisations","destructions","manquants","fin","debut");
@@ -82,9 +92,10 @@ class DRMCsvEdi extends CsvFile {
 
     public function buildCountryList() {
         $countryList = ConfigurationClient::getInstance()->getCountryList();
+
         $match_array = array();
         foreach ($countryList as $keyUpper => $countryString) {
-            $match_array[$keyUpper . '_' . strtolower($keyUpper)] = $countryString;
+            $match_array[$keyUpper] = $countryString;
             $match_array[$countryString] = $countryString;
         }
         $this->countryList = array_merge($countryList, $match_array);
@@ -92,7 +103,7 @@ class DRMCsvEdi extends CsvFile {
 
     public function findPays($pays){
       foreach($this->countryList as $countryKey => $country){
-        if(KeyInflector::slugify($country) == KeyInflector::slugify($pays)) {
+        if(KeyInflector::slugify($country) == KeyInflector::slugify($pays) || KeyInflector::slugify($countryKey) == KeyInflector::slugify($pays)) {
           return $countryKey;
         }
       }
