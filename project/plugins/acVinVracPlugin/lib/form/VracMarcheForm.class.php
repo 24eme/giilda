@@ -36,11 +36,11 @@ class VracMarcheForm extends acCouchdbObjectForm {
             $this->setWidget('attente_original', new sfWidgetFormChoice(array('choices' => $originalArray, 'expanded' => true)));
             $this->setValidator('attente_original', new sfValidatorInteger(array('required' => true)));
             $this->getWidget('attente_original')->setLabel("En attente de l'original ?");
-
-            $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
-            $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
-            $this->getWidget('label')->setLabel("Label");
         }
+        
+        $this->setWidget('label', new sfWidgetFormChoice(array('choices' => $this->getLabels(), 'multiple' => true, 'expanded' => true)));
+        $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
+        $this->getWidget('label')->setLabel("Label");
 
         $this->setWidget('type_transaction', new sfWidgetFormChoice(array('choices' => $this->getTypesTransaction(), 'expanded' => true)));
 

@@ -589,11 +589,11 @@ class Vrac extends BaseVrac {
         $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
         return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_ACTIF));
     }
-    
+
     public function isProduitIGP() {
         return preg_match("/IGP_VALDELOIRE/", $this->produit);
     }
-    
+
 
     public function getQuantite() {
         switch ($this->type_transaction) {
@@ -809,7 +809,9 @@ class Vrac extends BaseVrac {
         return $etablissement->famille === $etb_type;
     }
 
-//    public function setDomaine($domaine) {
-//        $this->domaine = strtoupper(KeyInflector::unaccent($domaine));
-//    }
+    public function hasLabel($label)
+    {
+        return in_array($label,$this->getLabel()->toArray(0,1));
+
+    }
 }
