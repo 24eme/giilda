@@ -746,7 +746,6 @@ class vracActions extends sfActions {
         switch ($this->vrac->etape) {
             case 1:
                 return $this->redirect('vrac_soussigne', array('numero_contrat' => $this->vrac->numero_contrat));
-                break;
             case 2:
                 $this->redirect('vrac_marche', $this->vrac);
                 break;
