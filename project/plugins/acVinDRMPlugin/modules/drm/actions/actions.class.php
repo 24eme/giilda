@@ -95,7 +95,7 @@ class drmActions extends drmGeneriqueActions {
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($request->isMethod(sfWebRequest::POST)) {
             if (!$request->getParameter('drmChoixCreation')) {
-                new sfException("Le formulaire n'est pas valide");
+                throw new sfException("Le formulaire n'est pas valide");
             }
             $drmChoixCreation = $request->getParameter('drmChoixCreation');
             $choixCreation = $drmChoixCreation['type_creation'];

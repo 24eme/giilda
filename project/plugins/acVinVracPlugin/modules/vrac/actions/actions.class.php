@@ -833,7 +833,7 @@ class vracActions extends sfActions {
     private function initSocieteAndEtablissementPrincipal() {
         $this->compte = $this->getUser()->getCompte();
         if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
+            throw new sfException("Le compte $compte n'existe pas");
         }
         $this->societe = $this->compte->getSociete();
 
