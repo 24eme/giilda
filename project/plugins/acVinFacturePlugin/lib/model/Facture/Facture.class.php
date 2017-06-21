@@ -330,7 +330,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-                if(!preg_match('/^([0-9]+)_([a-z0-9]+)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
+                if(!preg_match('/^([0-9]+)_([a-z0-9]*)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
                     throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format !",$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]));
                 }
                 $identifiants_compte_analytique = explode('_',$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]);
@@ -367,7 +367,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         foreach ($originesTable as $origineFormatted) {
             $origineKeyValue = explode(':', $origineFormatted);
             if (count($origineKeyValue) != 2)
-                throw new Exception('Le mouvement est mal formé : %s', print_r($origineKeyValue));
+                throw new sfException('Le mouvement est mal formé : %s', print_r($origineKeyValue));
             $key = $origineKeyValue[0];
             $value = $origineKeyValue[1];
             if (!array_key_exists($key, $origines)) {

@@ -29,16 +29,7 @@ class societeActions extends sfCredentialActions {
     }
 
     public function executeIndex(sfWebRequest $request) {
-
         return $this->redirect('compte_search');
-        $this->contactsForm = new ContactsChoiceForm('INTERPRO-declaration');
-        $this->formUploadCSVNoCVO = new UploadCSVNoCVOForm();
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->contactsForm->bind($request->getParameter($this->contactsForm->getName()));
-            if ($this->contactsForm->isValid()) {
-                return $this->redirect('societe_contact_chosen', array('identifiant' => $this->contactsForm->getContact()));
-            }
-        }
     }
 
     public function executeContactChosen(sfWebRequest $request) {
@@ -133,25 +124,7 @@ class societeActions extends sfCredentialActions {
 
     public function executeSwitchStatus(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
-        $newStatus = "";
-        if($this->societe->isActif()){
-           $newStatus = SocieteClient::STATUT_SUSPENDU;
-        }
-        if($this->societe->isSuspendu()){
-           $newStatus = SocieteClient::STATUT_ACTIF;
-        }
-        foreach ($this->societe->contacts as $keyCompte => $compte) {
-            $contact = CompteClient::getInstance()->find($keyCompte);
-            $contact->setStatut($newStatus);
-            $contact->save();
-        }
-        foreach ($this->societe->etablissements as $keyEtablissement => $etablissement) {
-            $etablissement = EtablissementClient::getInstance()->find($keyEtablissement);
-            $etablissement->setStatut($newStatus);
-            $etablissement->save();
-        }
-        $this->societe->setStatut($newStatus);
-        $this->societe->save();
+        $this->societe->switchStatusAndSave();
         return $this->redirect('compte_visualisation', array('identifiant' => $this->societe->getMasterCompte()->identifiant));
     }
 

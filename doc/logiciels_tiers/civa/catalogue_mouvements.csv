@@ -1,29 +1,36 @@
-TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT
-suspendu,stocks_debut,initial
-suspendu,entrees,recolte
-suspendu,entrees,achatnoncrd
-suspendu,entrees,retourmarchandisetaxees
-suspendu,entrees,retourmarchandisenontaxees
-suspendu,entrees,retourmarchandisesanscvo
-suspendu,entrees,excedent
-suspendu,entrees,repli
-suspendu,sorties,ventefrancecrd
-suspendu,sorties,exporttaxe
-suspendu,sorties,export
-suspendu,sorties,vrac
-suspendu,sorties,distillationusageindustriel
-suspendu,sorties,consommationfamilialedegustation
-suspendu,sorties,repli
-suspendu,sorties,lies
-suspendu,sorties,destructionperte
-suspendu,sorties,temporaire
-suspendu,stocks_fin,final
-acquitte,stocks_debut,initial
-acquitte,entrees,recolte
-acquitte,entrees,reintegration
-acquitte,sorties,ventefrancecrd
-acquitte,sorties,ventefrancedsa
-acquitte,sorties,export
-acquitte,sorties,consommationfamilialedegustation
-acquitte,sorties,destructionperte
-acquitte,stocks_fin,final
+TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT,LIBELLE
+"suspendu","stocks_debut","initial","Initial"
+"suspendu","entrees","recolte","Récolte"
+"suspendu","entrees","achatnoncrd","Achat (Vrac/Blles nues)"
+"suspendu","entrees","retourmarchandisetaxees","Retour taxé et CVO"
+"suspendu","entrees","retourmarchandisenontaxees","Retour CVO non taxé"
+"suspendu","entrees","retourembouteillage","Retour embouteillage"
+"suspendu","entrees","retourrelogement","Retour de relogement"
+"suspendu","entrees","retourtravailafacon","Retour travail à façon"
+"suspendu","entrees","manipulations","Manipulations diverses"
+"suspendu","entrees","excedent","Excédents"
+"suspendu","entrees","vci","VCI"
+"suspendu","entrees","repli","Repli/déclassement"
+"suspendu","sorties","ventefrancecrd","Blles CRD ou DSA France"
+"suspendu","sorties","exporttaxe","Blles CRD Hors France"
+"suspendu","sorties","exoversutilisateurauto","Exo vers utilisateur autorisé"
+"suspendu","sorties","consommationfamilialedegustation","Dégustation propriété"
+"suspendu","sorties","repli","Repli/déclassement"
+"suspendu","sorties","lies","Lies"
+"suspendu","sorties","export","Blles susp. hors Alsace"
+"suspendu","sorties","vrac","Contrats Alsace"
+"suspendu","sorties","destructionperte","Pertes et manquants"
+"suspendu","sorties","embouteillage","Embouteillage"
+"suspendu","sorties","relogement","Relogement"
+"suspendu","sorties","travailafacon","Travail à façon"
+"suspendu","sorties","manipulations","Manipulations"
+"suspendu","sorties","vci","VCI"
+"suspendu","stocks_fin","final","Final"
+"acquitte","stocks_debut","initial","Initial"
+"acquitte","entrees","achat","Achats"
+"acquitte","entrees","reintegration","Réintégration"
+"acquitte","sorties","ventefrancecrd","Blles France"
+"acquitte","sorties","export","Blles Hors France"
+"acquitte","sorties","consommationfamilialedegustation","Dégustation"
+"acquitte","sorties","destructionperte","Pertes et manquants"
+"acquitte","stocks_fin","final","Final"

@@ -646,7 +646,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             return false;
         }
 
-        if ($type == ConfigurationDroits::DROIT_CVO) {
+        if ($type == ConfigurationDroits::DROIT_CVO || $type == ConfigurationDroits::DROIT_DOUANE) {
             return true;
         }
 
