@@ -10,3 +10,4 @@ all:
       reprise_donnees_url: true
       sans_contrat_option: true
       delai_ouverture_teledeclaration: "-6 month"
+      vrac_multi_produit: true

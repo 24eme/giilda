@@ -668,7 +668,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         if($this->getTauxCVO($date) == -1 && $this->getTauxDouane($date) == -1){
           $produitsSibling = $this->getParent()->getParent()->getProduitsAll();
           foreach ($produitsSibling as $produit) {
-            if($produit->getTauxCVO($date) != -1 || $this->getTauxDouane($date) != -1){
+            if($produit->getTauxCVO($date) != -1 || $produit->getTauxDouane($date) != -1){
                 return $produit;
             }
           }
@@ -677,4 +677,41 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return null;
     }
 
+
+    public function hasProduitsSibling($date = null){
+        if(!$date){
+          $date = date('Y-m-d');
+        }
+        if($this->getTauxCVO($date) == -1 && $this->getTauxDouane($date) == -1){
+          return false;
+        }
+
+        $produitsSibling = $this->getParent()->getParent()->getProduitsAll();
+          foreach ($produitsSibling as $produit) {
+            if($produit->getTauxCVO($date) == -1 && $produit->getTauxDouane($date) == -1){
+                return true;
+            }
+          }
+
+        return false;
+    }
+
+    public function getProduitsSiblingWithoutTaux($date = null){
+        $produitsHashes = array();
+        if(!$date){
+          $date = date('Y-m-d');
+        }
+        if($this->getTauxCVO($date) == -1 && $this->getTauxDouane($date) == -1){
+          return $produitsHashes;
+        }
+
+        $produitsSibling = $this->getParent()->getParent()->getProduitsAll();
+          foreach ($produitsSibling as $produit) {
+            if($produit->getTauxCVO($date) == -1 && $produit->getTauxDouane($date) == -1){
+                $produitsHashes[] = $produit->getHash();
+            }
+          }
+
+        return $produitsHashes;
+    }
 }

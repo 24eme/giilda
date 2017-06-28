@@ -65,4 +65,9 @@ class DRMConfiguration {
 
         return $this->configuration['delai_ouverture_teledeclaration'];
     }
+
+    public function isDRMVracMultiProduit() {
+
+        return $this->configuration['vrac_multi_produit'];
+    }
 }
