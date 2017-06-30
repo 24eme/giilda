@@ -14,11 +14,13 @@ class DRMDetailRoute extends DRMLieuRoute {
     
     protected function getObjectForParameters($parameters) {
         $config_lieu = parent::getObjectForParameters($parameters);
-        
+
+        $detailsKey = isset($parameters['details']) ? $parameters['details'] : DRM::DETAILS_KEY_SUSPENDU;
+
         $drm_detail = $this->getDRM()->get($config_lieu->getHash())
                                      ->couleurs->add($parameters['couleur'])
                                      ->cepages->add($parameters['cepage'])
-                                     ->details->get($parameters['detail']);
+                                     ->get($detailsKey)->get($parameters['detail']);
 
         return $drm_detail;
     }

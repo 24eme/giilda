@@ -55,11 +55,16 @@ keepaspectratio]{<?php echo realpath(dirname(__FILE__) . "/../../../../../web/da
 <?php include_partial('drm_pdf/generateEnteteTex', array('drm' => $drm, 'nbPages' => $nbPages)); ?>
 \begin{document}
 
-<?php if (!$drm->isValidee()): ?>    
+<?php if (!$drm->isValidee()): ?>
 \AddToShipoutPicture{\BackgroundPic}
 <?php endif; ?>
-<?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm, 'drmLatex' => $drmLatex)); ?>
+<?php if ($drm->getConfig()->declaration->hasAcquitte()): ?>
+  <?php foreach (DRMClient::$types_libelles as $typeDetailsNodes => $libelle) : ?>
+    <?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm,'drmLatex' => $drmLatex, 'detailsNodes' => $typeDetailsNodes, "libelleDetail" => $libelle)); ?>
+  <?php endforeach; ?>
+<?php else : ?>
+  <?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm,'drmLatex' => $drmLatex, 'detailsNodes' => DRM::DETAILS_KEY_SUSPENDU, "libelleDetail" => DRMClient::$types_libelles[DRM::DETAILS_KEY_SUSPENDU])); ?>
+<?php endif; ?>
 <?php include_partial('drm_pdf/generateCRDTex', array('drm' => $drm)); ?>
 <?php include_partial('drm_pdf/generateDroitsDouaneTex', array('drm' => $drm)); ?>
 \end{document}
-

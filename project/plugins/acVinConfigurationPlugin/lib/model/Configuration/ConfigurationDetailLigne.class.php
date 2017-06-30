@@ -27,23 +27,23 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     }
 
     public function getLibelle() {
-
-        return $this->getLibelleDetail()->libelle;
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getLibelleDetail($detail)->libelle;
     }
 
     public function getLibelleLong() {
-
-        return $this->getLibelleDetail()->libelle_long;
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getLibelleDetail($detail)->libelle_long;
     }
 
     public function getDescription() {
-
-        return $this->getLibelleDetail()->description;
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getLibelleDetail($detail)->description;
     }
 
     private function getLibelleDetail() {
-
-        return $this->getDocument()->libelle_detail_ligne->get($this->getParent()->getKey())->get($this->getKey());
+        $detail = $this->getparent()->getParent()->getKey();
+        return $this->getDocument()->libelle_detail_ligne->get($detail)->get($this->getParent()->getKey())->get($this->getKey());
     }
 
     public function isFavoris() {

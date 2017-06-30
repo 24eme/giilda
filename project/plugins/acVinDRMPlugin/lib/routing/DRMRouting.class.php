@@ -122,7 +122,11 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-
+        $r->prependRoute('drm_edition_details', new DRMRoute('/drm/:identifiant/edition/:periode_version/edition/:details', array('module' => 'drm_edition',
+            'action' => 'saisieMouvements'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
+            'type' => 'object',
+            'control' => array('edition'),
+        )));
 
         $r->prependRoute('drm_edition_detail', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/edition/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', array('module' => 'drm_edition',
             'action' => 'detail'), array('sf_method' => array('get')), array('model' => 'DRMDetail',
@@ -137,7 +141,7 @@ class DRMRouting {
             'control' => array('edition'),
         )));
 
-        $r->prependRoute('drm_edition_update', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/edition/update/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:detail', array('module' => 'drm_edition',
+        $r->prependRoute('drm_edition_update', new DRMDetailRoute('/drm/:identifiant/edition/:periode_version/edition/update/:certification/:genre/:appellation/:mention/:lieu/:couleur/:cepage/:details/:detail', array('module' => 'drm_edition',
             'action' => 'update'), array('sf_method' => array('post')), array('model' => 'DRMDetail',
             'type' => 'object',
             'control' => array('edition'),

@@ -18,7 +18,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     protected $_choices_produits = null;
 
     public function __construct(DRM $drm, $options = array(), $CSRFSecret = null) {
-        $this->_drm = $drm;        
+        $this->_drm = $drm;
         $this->_configurationCertifications = array();
         $this->_produitFilter = $options['produitFilter'];
         foreach (explode(',', $this->_produitFilter) as $certifKey) {
@@ -77,11 +77,11 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
         return $this->_choices_produits;
     }
 
-    public function doUpdateObject($values) { 
-        parent::doUpdateObject($values);     
-        
-        $this->_drm->addProduit($values['produit']);
+    public function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+
+        $this->_drm->addProduit($values['produit'],DRM::DETAILS_KEY_SUSPENDU);
         $this->_drm->save();
-    }    
+    }
 
 }

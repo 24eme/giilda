@@ -11,9 +11,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php $details = $drm->getProduitsDetails($isTeledeclarationMode); 
+		<?php $details = $drm->getProduitsDetails($isTeledeclarationMode, $typeDetailKey); 
 			  $i = 1;
-		foreach($details as $detail): 
+		foreach($details as $detail):
                 $i++; ?>
 				<tr <?php if($i%2!=0) echo ' class="alt"'; ?>>
 					<td><?php echo $detail->getLibelle(ESC_RAW) ?></td>
