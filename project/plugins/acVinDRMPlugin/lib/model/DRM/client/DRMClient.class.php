@@ -631,4 +631,18 @@ class DRMClient extends acCouchdbClient {
         return $mouvementsSorted;
     }
 
+    public function getAllRegimesCrdsChoices($libelleLong = false){
+      $crdsRegimesChoices = array();
+      $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles;
+
+      if($libelleLong){
+        $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles_longs;
+      }
+      $onlySuspendus = DRMConfiguration::getInstance()->isCrdOnlySuspendus();
+      if($onlySuspendus){
+        unset($crdsRegimesChoices[EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE]);
+      }
+      return $crdsRegimesChoices;
+    }
+
 }

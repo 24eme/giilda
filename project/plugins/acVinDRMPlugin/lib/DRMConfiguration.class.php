@@ -70,4 +70,9 @@ class DRMConfiguration {
 
         return $this->configuration['vrac_multi_produit'];
     }
+
+    public function isCrdOnlySuspendus() {
+
+        return $this->configuration['crd_only_suspendus'];
+    }
 }
