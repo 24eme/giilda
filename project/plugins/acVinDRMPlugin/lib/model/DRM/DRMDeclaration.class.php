@@ -48,18 +48,18 @@ class DRMDeclaration extends BaseDRMDeclaration {
         return false;
     }
 
-    public function getProduitsDetailsSorted($teledeclarationMode = false) {
+    public function getProduitsDetailsSorted($teledeclarationMode = false, $detailsKey = null) {
         $produits = array();
 
         foreach ($this->certifications as $certification) {
 
-            $produits = array_merge($produits, $certification->getProduitsDetailsSorted($teledeclarationMode));
+            $produits = array_merge($produits, $certification->getProduitsDetailsSorted($teledeclarationMode, $detailsKey));
         }
 
         return $produits;
     }
 
-    public function getProduitsDetailsByCertifications($isTeledeclarationMode = false) {
+    public function getProduitsDetailsByCertifications($isTeledeclarationMode = false, $detailsKey = null) {
         foreach ($this->getConfig()->getCertifications() as $certification) {
             if (!isset($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()])) {
                 $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()] = new stdClass();
@@ -70,7 +70,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
                 $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->certification_keys .= ','.$certification->getKey();
             }
            if ($this->getDocument()->exist($certification->getHash())) {
-                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits = array_merge($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits, $this->getDocument()->get($certification->getHash())->getProduitsDetailsSorted($isTeledeclarationMode));
+                $produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits = array_merge($produitsDetailsByCertifications[$certification->getHashWithoutInterpro()]->produits, $this->getDocument()->get($certification->getHash())->getProduitsDetailsSorted($isTeledeclarationMode, $detailsKey));
             }
         }
 

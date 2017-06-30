@@ -4,9 +4,10 @@
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $etablissement = $drm->getEtablissement();
+$drmTeledeclaree = $detail->getDocument()->teledeclare;
 ?>
 <div data-hash="<?php echo $detail->getHash() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited' : '' ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
-    <form action="<?php echo url_for('drm_edition_update', $form->getObject()) ?>" method="post">
+    <form action="<?php echo url_for('drm_edition_update', array('sf_subject' => $form->getObject(), 'details' => $detailsKey)) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
         <a href="#" class="col_curseur" data-curseur="<?php echo $form->getObject()->getKey() ?>"></a>
         <h2 class="titre_produit"><?php echo $form->getObject()->getLibelle("%format_libelle%") ?></h2>
@@ -16,7 +17,8 @@ $etablissement = $drm->getEtablissement();
                     <?php echo $form['total_debut_mois']->render(array('data-val-defaut' => sprintFloat($form->getObject()->total_debut_mois), 'class' => 'num num_float somme_groupe test')) ?>
                 </p>
                 <ul>
-                    <?php foreach ($form['stocks_debut'] as $key => $subform): ?>
+                    <?php foreach ($form['stocks_debut'] as $key => $subform):  ?>
+
                         <li class="<?php
                         if ($key == 'revendique')
                             echo "li_gris";
@@ -44,8 +46,10 @@ $etablissement = $drm->getEtablissement();
                 <ul>
                     <?php foreach ($form['entrees'] as $key => $subform): ?>
 
-                        <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?>
-                            <?php if ($favoris_entrees->exist($key)): ?>
+                        <?php
+                            if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
+                             if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)):
+                             if ($favoris_entrees->exist($key)): ?>
                                 <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
                                     <?php
                                     echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
@@ -62,9 +66,10 @@ $etablissement = $drm->getEtablissement();
 
                     </p>
                     <ul>
-                        <?php foreach ($form['entrees'] as $key => $subform): ?>
-                            <?php if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)): ?>
-                                <?php if (!$favoris_entrees->exist($key)): ?>
+                        <?php foreach ($form['entrees'] as $key => $subform):
+                                if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
+                                if ($detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement)):
+                               if (!$favoris_entrees->exist($key)): ?>
                                     <li class="<?php echo isVersionnerCssClass($form->getObject()->entrees, $key) ?>">
                                         <?php
                                         echo $form['entrees'][$key]->render(array('data-val-defaut' => $form['entrees'][$key]->getValue(),
@@ -83,9 +88,10 @@ $etablissement = $drm->getEtablissement();
                     <input type="text" value="<?php echoFloat($form->getObject()->total_sorties) ?>" class="num num_float somme_groupe somme_sorties" data-val-defaut="<?php echo $form->getObject()->total_sorties ?>" readonly="readonly" />
                 </p>
                 <ul>
-                    <?php foreach ($form['sorties'] as $key => $subform): ?>
-                        <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
-                            <?php if ($favoris_sorties->exist($key)): ?>
+                    <?php foreach ($form['sorties'] as $key => $subform):
+                      if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
+                        if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)):
+                           if ($favoris_sorties->exist($key)): ?>
                                 <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                     <?php if ($key == "vrac"):
                                         $isDisabled = (($detail->getCVOTaux() <= 0 ) && ($detail->getCertification()->getKey() != "IGP_VALDELOIRE")) || ($detail->getCertification()->getKey() == "AUTRES");
@@ -111,8 +117,9 @@ $etablissement = $drm->getEtablissement();
 
                     </p>
                     <ul>
-                        <?php foreach ($form['sorties'] as $key => $subform): ?>
-                            <?php if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
+                        <?php foreach ($form['sorties'] as $key => $subform):
+                            if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
+			      if ($detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement)): ?>
                                 <?php if (!$favoris_sorties->exist($key)): ?>
                                     <li class="<?php echo isVersionnerCssClass($form->getObject()->sorties, $key) ?>">
                                         <?php if ($key == "vrac"): ?>
@@ -143,7 +150,7 @@ $etablissement = $drm->getEtablissement();
                         echo isVersionnerCssClass($form->getObject()->stocks_fin, $key);
                         if ($key == 'revendique')
                             echo "li_gris";
-                        if ($key != 'revendique') {
+                        if ($key != 'revendique' && $key != 'final') {
                             echo ' itemcache';
                         }
                         ?>">

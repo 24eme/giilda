@@ -54,7 +54,13 @@ function multiArray2XML($preXML) {
 }
 
 function details2XmlDouane($detail) {
-	$confDetail = $detail->getConfig()->getDocument()->declaration->detail;
+	$detailKey = $detail->getParent()->getKey();
+	$confDetail = null;
+	if(!$detail->getConfig()->getDocument()->declaration->exist($detailKey)){
+		$confDetail = $detail->getConfig()->getDocument()->declaration->detail;
+	}else{
+		$confDetail = $detail->getConfig()->getDocument()->declaration->$detailKey;
+	}
   $preXML = array();
   foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {

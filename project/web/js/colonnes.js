@@ -409,7 +409,7 @@
                 if (!data.success) {
                     alert("Le formulaire n'a pas été sauvegardé car il comporte des erreurs");
 
-                    return;
+                    return data.content;
                 }
 
                 object.groupes.valider();

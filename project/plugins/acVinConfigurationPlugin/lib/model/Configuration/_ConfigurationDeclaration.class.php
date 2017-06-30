@@ -259,7 +259,6 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             $libelle = $this->getDocument()->formatLabelsLibelle($labels, $libelle, $label_separator);
             $this->libelle_format[$format] = trim($libelle);
         }
-
         return $this->libelle_format[$format];
     }
 
@@ -598,12 +597,11 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public abstract function getTypeNoeud();
 
-    public function getDetailConfiguration() {
+    public function getDetailConfiguration($key = 'details') {
         try {
             $parent_node = $this->getParentNode();
         } catch (Exception $e) {
-            return $this->getDetail();
-            ;
+            return $this->getDocument()->declaration->get($key);
         }
 
         $details = $this->getParentNode()->getDetailConfiguration();
@@ -672,6 +670,10 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
 
     public function hasCodes() {
         return false;
+    }
+
+    public function hasAcquitte(){
+      return $this->exist(DRM::DETAILS_KEY_ACQUITTE);
     }
 
 }

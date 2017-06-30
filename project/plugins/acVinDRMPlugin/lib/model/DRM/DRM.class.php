@@ -8,6 +8,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     const NOEUD_TEMPORAIRE = 'TMP';
     const DEFAULT_KEY = 'DEFAUT';
+    const DETAILS_KEY_SUSPENDU = 'details';
+    const DETAILS_KEY_ACQUITTE = 'detailsACQUITTE';
+
 
     protected $mouvement_document = null;
     protected $version_document = null;
@@ -22,6 +25,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function __clone() {
+        $this->uniformFavoris();
         parent::__clone();
         $this->initDocuments();
         $this->document_precedent = null;
@@ -35,6 +39,14 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->archivage_document = new ArchivageDocument($this);
     }
 
+    public function loadAllProduits() {
+    	$produits = $this->getConfigProduits(true);
+    	if (!is_null($produits)) {
+    		foreach ($produits as $hash => $produit) {
+    			$this->addProduit($hash, DRM::DETAILS_KEY_SUSPENDU);
+    		}
+    	}
+    }
 
     public function constructId() {
 
@@ -76,8 +88,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function changedToTeledeclare() {
-        $drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->getIdentifiant(), DRMClient::getInstance()->getPeriodePrecedente($this->periode));
-
+        $drmPrecedente = $this->getPrecedente();
         return $this->isTeledeclare() && $drmPrecedente && !$drmPrecedente->isTeledeclare();
     }
 
@@ -87,25 +98,29 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_set('periode', $periode);
     }
 
-    public function getProduit($hash, $labels = array()) {
+    public function getProduit($hash, $detailsKey, $labels = array()) {
         if (!$this->exist($hash)) {
 
             return false;
         }
 
-        return $this->get($hash)->details->getProduit($labels);
+        if(!$this->get($hash)->exist($detailsKey)) {
+
+            return false;
+        }
+        return $this->get($hash)->get($detailsKey)->getProduit($labels);
     }
 
-    public function addProduit($hash, $labels = array()) {
-        if ($p = $this->getProduit($hash, $labels)) {
-
+    public function addProduit($hash, $detailsKey, $labels = array()) {
+        if ($p = $this->getProduit($hash, $detailsKey, $labels)) {
             return $p;
         }
-
-        $detail = $this->getOrAdd($hash)->details->addProduit($labels);
+        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($labels);
         $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
 
-        return $detail;
+        $this->declaration->reorderByConf();
+
+        return $this->getProduit($hash, $detailsKey, $labels);
     }
 
     public function getDepartement() {
@@ -126,6 +141,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->declaration->getConfigProduits($teledeclarationMode);
     }
 
+    public function isDouaneType($douaneType) {
+        $keyNeeded = self::DETAILS_KEY_SUSPENDU;
+
+        if($douaneType == DRMClient::TYPE_DRM_ACQUITTE) {
+            $keyNeeded = self::DETAILS_KEY_ACQUITTE;
+        }
+
+        foreach($this->getProduits() as $produit) {
+            if($produit->exist($keyNeeded) && count($produit->get($keyNeeded)) > 0) {
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getConfigProduitsAuto() {
 
         return $this->declaration->getConfigProduitsAuto();
@@ -133,6 +165,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function getProduits() {
         return $this->declaration->getProduits();
+    }
+
+    public function getProduitsDetails($teledeclarationMode = false, $detailsKey = null) {
+
+        return $this->declaration->getProduitsDetails($teledeclarationMode, $detailsKey);
+    }
+
+    public function getDetailsByHash($hash_details_or_cepage){
+      if($this->exist($hash_details_or_cepage)){
+        $node_details_or_cepage = $this->get($hash_details_or_cepage);
+        if($node_details_or_cepage instanceof DRMCepage){
+          return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+        }elseif($node_details_or_cepage instanceof DRMDetail){
+          return $node_details_or_cepage;
+        }
+      }
+      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
     }
 
     public function getProduitsWithCorrespondance($conf = null) {
@@ -143,11 +192,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         exit;
         return $this->declaration->getProduitsWithCorrespondance();
-    }
-
-    public function getProduitsDetails($teledeclarationMode = false) {
-
-        return $this->declaration->getProduitsDetails($teledeclarationMode);
     }
 
     public function getDetailsAvecVrac() {
@@ -203,7 +247,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $this->addProduit($produitConfig->produit_hash);
+            $this->addProduit($produitConfig->produit_hash,self::DETAILS_KEY_SUSPENDU);
         }
     }
 
@@ -222,7 +266,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $this->addProduit($produitConfig->getHash());
+            $this->addProduit($produitConfig->getHash(), self::DETAILS_KEY_SUSPENDU);
         }
 
         foreach($drm->getAllCrds() as $regime => $crds) {
@@ -696,27 +740,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function save() {
         $this->region = $this->getEtablissement()->region;
-        $listEntrees = $listSorties = null;
+        $listEntrees = $listSorties = array();
         $key_to_remove = array();
-        foreach ($this->getProduits() as $produit) {
-            foreach ($produit->getProduitsDetails($this->teledeclare) as $produit_hash => $detail) {
-                if (!$listEntrees && !$listSorties) {
-                    $listEntrees = array_keys($detail->getConfig()->getEntreesSorted());
-                    $listSorties = array_keys($detail->getConfig()->getSortiesSorted());
-                }
-                foreach ($detail->entrees as $keyEntree => $valueEntree) {
-                    if ($valueEntree && !in_array($keyEntree, $listEntrees)) {
-                        $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
+        foreach ($this->getProduitsDetails($this->teledeclare) as $detail) {
+            if (!array_key_exists($detail->getConfig()->getHash(), $listEntrees) && !array_key_exists($detail->getConfig()->getHash(), $listSorties)) {
+                $listEntrees[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getEntreesSorted());
+                $listSorties[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getSortiesSorted());
+            }
+            foreach ($detail->entrees as $keyEntree => $valueEntree) {
+                if ($valueEntree && !in_array($keyEntree, $listEntrees[$detail->getConfig()->getHash()])) {
+                    $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
 
-                    }
                 }
-                foreach ($detail->sorties as $keySortie => $valueSortie) {
-                    if ($valueSortie instanceof DRMESDetails) {
-                        continue;
-                    }
-                    if ($valueSortie && !in_array($keySortie, $listSorties)) {
-                       $key_to_remove[] = $produit_hash.'/sorties/'.$keySortie;
-                    }
+            }
+            foreach ($detail->sorties as $keySortie => $valueSortie) {
+                if ($valueSortie instanceof DRMESDetails) {
+                    continue;
+                }
+                if ($valueSortie && !in_array($keySortie, $listSorties[$detail->getConfig()->getHash()])) {
+                   $key_to_remove[] = $detail->getHash().'/sorties/'.$keySortie;
                 }
             }
         }
@@ -1165,7 +1207,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function initProduitsAutres($isTeledeclarationMode){
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
-          $this->addProduit($hash);
+          $this->addProduit($hash,self::DETAILS_KEY_SUSPENDU);
         }
       }
     }
@@ -1296,10 +1338,35 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*     * * FIN ADMINISTRATION ** */
 
     /**     * FAVORIS ** */
+
+    public function uniformFavoris(){
+      $needUniformisation = false;
+      $keys_to_remove = array();
+      if($this->exist('favoris') && $this->favoris){
+
+        foreach ($this->favoris as $key => $value) {
+          $needUniformisation = $needUniformisation || (!in_array($key,array(self::DETAILS_KEY_SUSPENDU,self::DETAILS_KEY_ACQUITTE)));
+          $keys_to_remove[] = $key;
+        }
+
+        if($needUniformisation){
+          foreach ($this->favoris as $key => $categories) {
+            foreach ($categories as $keyCat => $categorie) {
+              $this->favoris->getOrAdd(self::DETAILS_KEY_SUSPENDU)->getOrAdd($key)->add($keyCat,$categorie);
+            }
+          }
+
+          foreach ($keys_to_remove as $key_to_remove) {
+            $this->favoris->remove($key_to_remove);
+          }
+        }
+      }
+    }
+
     public function buildFavoris() {
         foreach ($this->drmDefaultFavoris() as $key => $value) {
-            $keySplitted = split('/', $key);
-            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->add($keySplitted[1], $value);
+            $keySplitted = explode('/', $key);
+            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->getOrAdd($keySplitted[1])->add($keySplitted[2], $value);
         }
     }
 
@@ -1313,9 +1380,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function drmDefaultFavoris() {
         $configuration = $this->getConfig();
         $configurationFields = array();
-        foreach ($configuration->libelle_detail_ligne as $type => $libelles) {
-            foreach ($libelles as $libelleHash => $libelle) {
-                $configurationFields[$type . '/' . $libelleHash] = $libelle->libelle;
+        foreach ($configuration->libelle_detail_ligne as $typedetail => $detail) {
+            foreach ($detail as $type => $libelles) {
+                foreach ($libelles as $libelleHash => $libelle) {
+                    $configurationFields[$typedetail.'/'.$type . '/' . $libelleHash] = $libelle->libelle;
+                }
             }
         }
         $drm_default_favoris = $configuration->get('mvts_favoris');
@@ -1399,16 +1468,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $config = $this->getConfig();
         $libelles_detail_ligne = $config->libelle_detail_ligne;
         $toRemove = array();
-        foreach ($libelles_detail_ligne as $catKey => $cat) {
-            foreach ($cat as $typeKey => $detail) {
-                if (!$config->declaration->detail->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement())) {
-                    $toRemove[] = $catKey . '/' . $typeKey;
+          foreach ($libelles_detail_ligne as $typedetail => $typedetaillibelle) {
+            foreach ($typedetaillibelle as $catKey => $cat) {
+                foreach ($cat as $typeKey => $detail) {
+                    if (!$config->declaration->get($typedetail)->get($catKey)->exist($typeKey) || !$config->declaration->get($typedetail)->get($catKey)->get($typeKey)->isWritableForEtablissement($this->getEtablissement(), $this->teledeclare)) {
+                        $toRemove[] = $typedetail. '/' . $catKey . '/' . $typeKey;
+                    }
                 }
             }
-        }
+          }
         foreach ($toRemove as $removeNode) {
-
-            $libelles_detail_ligne->remove($removeNode);
+          $libelles_detail_ligne->remove($removeNode);
         }
         return $libelles_detail_ligne;
     }
@@ -1562,5 +1632,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
       }
       return "";
+    }
+
+    public function hasExportableProduitsAcquittes(){
+      return count($this->getProduitsDetails(true,self::DETAILS_KEY_ACQUITTE));
+    }
+
+    public function getTotalStockSuspendu(){
+      $total = 0.0;
+      foreach ($this->getProduitsDetails(true,self::DETAILS_KEY_SUSPENDU) as $produit) {
+        $total += $produit->getTotal();
+      }
+      return $total;
+    }
+
+    public function getTotalStockAcquitte(){
+      $total = 0.0;
+      foreach ($this->getProduitsDetails(true,self::DETAILS_KEY_ACQUITTE) as $produit) {
+        $total += $produit->getTotal();
+      }
+      return $total;
     }
 }

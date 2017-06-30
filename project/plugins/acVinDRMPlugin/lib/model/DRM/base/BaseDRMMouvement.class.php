@@ -1,7 +1,7 @@
 <?php
 /**
  * BaseDRMMouvement
- * 
+ *
  * Base model for DRMMouvement
 
  * @property string $categorie
@@ -56,14 +56,13 @@
  * @method string setDateVersion()
  * @method string getVersion()
  * @method string setVersion()
- 
  */
 
 abstract class BaseDRMMouvement extends Mouvement {
-                
+
     public function configureTree() {
        $this->_root_class_name = 'DRM';
        $this->_tree_class_name = 'DRMMouvement';
     }
-                
+
 }

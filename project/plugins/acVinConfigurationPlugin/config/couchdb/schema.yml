@@ -48,50 +48,54 @@ Configuration:
         type: collection
         definition:
           fields:
-            stocks_debut:
+            '*':
               type: collection
               definition:
                 fields:
-                  '*':
+                  stocks_debut:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
-            entrees:
-              type: collection
-              definition:
-                fields:
-                  '*':
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }
+                              libelle_long: {  }
+                              description: {  }
+                  entrees:
+                   type: collection
+                   definition:
+                     fields:
+                       '*':
+                         type: collection
+                         definition:
+                           fields:
+                             libelle: {  }
+                             libelle_long: {  }
+                             description: {  }
+                  sorties:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
-            sorties:
-              type: collection
-              definition:
-                fields:
-                  '*':
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }
+                              libelle_long: {  }
+                              description: {  }
+                  stocks_fin:
                     type: collection
                     definition:
                       fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
-            stocks_fin:
-              type: collection
-              definition:
-                fields:
-                  '*':
-                    type: collection
-                    definition:
-                      fields:
-                        libelle: {  }  
-                        libelle_long: {  }  
-                        description: {  }  
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              libelle: {  }
+                              libelle_long: {  }
+                              description: {  }
       alias:
         type: collection
         definition:
@@ -100,14 +104,14 @@ Configuration:
               type: array_collection
               definition:
                 fields:
-                  '*': {  }                  
+                  '*': {  }
       declaration:
         type: collection
         class: ConfigurationDeclaration
         inheritance: _ConfigurationDeclaration
         definition:
-          fields: 
-            detail:
+          fields:
+            *:
               required: false
               class: ConfigurationDetail
               type: collection
@@ -287,7 +291,7 @@ Configuration:
                                     code_produit: {  }
                                     code_comptable: {  }
                                     code_douane: {  }
-                                    detail:
+                                    '*':
                                       required: false
                                       class: ConfigurationDetail
                                       type: collection
@@ -654,7 +658,7 @@ Configuration:
                                                               definition:
                                                                 fields:
                                                                   '*': {  }
-                                                            detail:
+                                                            '*':
                                                               required: false
                                                               class: ConfigurationDetail
                                                               type: collection
@@ -804,7 +808,7 @@ Configuration:
                                                                           definition:
                                                                             fields:
                                                                               '*': {  }
-                                                                        detail:
+                                                                        '*':
                                                                           required: false
                                                                           class: ConfigurationDetail
                                                                           type: collection
@@ -955,7 +959,7 @@ Configuration:
                                                                                       definition:
                                                                                         fields:
                                                                                           '*': {  }
-                                                                                    detail:
+                                                                                    '*':
                                                                                       required: false
                                                                                       class: ConfigurationDetail
                                                                                       type: collection
@@ -1096,7 +1100,7 @@ Configuration:
                                                                                                                               taux: { type: float }
                                                                                                                               code: {  }
                                                                                                                               libelle: {  }
-                        detail:
+                        '*':
                           required: false
                           class: ConfigurationDetail
                           type: collection

@@ -4,13 +4,13 @@ use_helper('DRM');
 use_helper('Orthographe');
 use_helper('DRMPdf');
 use_helper('Display');
-$mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf();
-$mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
+$mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf($detailsNodes);
+$mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
 ?>
 
 \begin{center}
 \begin{Large}
-\textbf{DRM <?php echo getFrPeriodeElision($drm->periode); ?>}
+\textbf{DRM <?php echo $libelleDetail; ?> <?php echo getFrPeriodeElision($drm->periode); ?>}
 \end{Large}
 \end{center}
 
@@ -22,7 +22,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf();
     \end{center}
 <?php else: ?>
 
-    <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true) as $certification => $produitsDetailsByCertifications) : ?>
+    <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes) as $certification => $produitsDetailsByCertifications) : ?>
         <?php
         $libelleCertif = $produitsDetailsByCertifications->certification_libelle;
         $nb_produits = count($produitsDetailsByCertifications->produits);

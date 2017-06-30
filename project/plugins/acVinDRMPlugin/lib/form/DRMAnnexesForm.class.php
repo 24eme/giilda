@@ -159,6 +159,9 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
                 $droitsDouane = $this->drm->getOrAdd('droits')->getOrAdd('douane');
                 foreach ($this->drm->getProduits() as $produit) {
                     $genre = $produit->getConfig()->getGenre();
+                    if(!array_key_exists($genre->getKey(), DRMDroits::$correspondanceGenreKey)){
+                      continue;
+                    }
                     $genreKey = DRMDroits::$correspondanceGenreKey[$genre->getKey()];
                     $this->setDefault('cumul_' . $genreKey, $droitsDouane->getOrAdd($genreKey)->get('report'));
                 }
