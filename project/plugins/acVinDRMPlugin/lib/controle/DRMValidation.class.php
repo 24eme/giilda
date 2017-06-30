@@ -44,64 +44,62 @@ class DRMValidation extends DocumentValidation {
         $total_sorties_destructionperte = 0;
 
         $total_mouvement_absolu = 0;
-        foreach ($this->document->getProduitsDetails() as $detail) {
+        foreach (DRMClient::$types_node_from_libelles as $libelleDetail => $nodeKey) {
+          foreach ($this->document->getProduitsDetails($this->document->teledeclare, $nodeKey) as $detail) {
 
-            $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
+              $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
 
-            $entrees_excedents = ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0.0;
-            $entrees_retourmarchandisetaxees = ($detail->entrees->exist('retourmarchandisetaxees'))? $detail->entrees->retourmarchandisetaxees : 0.0;
-            $entrees_retourmarchandisesanscvo = ($detail->entrees->exist('retourmarchandisesanscvo'))? $detail->entrees->retourmarchandisesanscvo : 0.0;
-            $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
+              $entrees_excedents = ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0.0;
+              $entrees_retourmarchandisetaxees = ($detail->entrees->exist('retourmarchandisetaxees'))? $detail->entrees->retourmarchandisetaxees : 0.0;
+              $entrees_retourmarchandisesanscvo = ($detail->entrees->exist('retourmarchandisesanscvo'))? $detail->entrees->retourmarchandisesanscvo : 0.0;
+              $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
 
 
-            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_destructionperte;
-            if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
-            {
-              $produitLibelle = " pour le produit ".$detail->getLibelle();
-              if($entrees_excedents){
-                $this->addPoint('vigilance', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_destructionperte;
+              if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
+              {
+                $produitLibelle = " pour le produit ".$detail->getLibelle();
+                if($entrees_excedents){
+                  $this->addPoint('vigilance', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($entrees_retourmarchandisetaxees){
+                  $this->addPoint('vigilance', 'observations', "Entrée retour de marchandises taxées (".sprintf("%.2f",$entrees_retourmarchandisetaxees)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($entrees_retourmarchandisesanscvo){
+                  $this->addPoint('vigilance', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($sorties_destructionperte){
+                  $this->addPoint('vigilance', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
               }
-              if($entrees_retourmarchandisetaxees){
-                $this->addPoint('vigilance', 'observations', "Entrée retour de marchandises taxées (".sprintf("%.2f",$entrees_retourmarchandisetaxees)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+
+              if($detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
+                $total_entrees_replis += $detail->entrees->repli;
+                $total_sorties_replis += $detail->sorties->repli;
               }
-              if($entrees_retourmarchandisesanscvo){
-                $this->addPoint('vigilance', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+
+              $total_entrees_declassement += (!$detail->getConfig()->entrees->exist('declassement'))? 0 : $detail->entrees->declassement;
+              $total_sorties_declassement += (!$detail->getConfig()->sorties->exist('declassement'))? 0 :$detail->sorties->declassement;
+
+              $total_entrees_excedents += ($detail->entrees->exist('excedents')) ? $detail->entrees->excedents : 0;
+              $total_entrees_manipulation += ($detail->entrees->exist('manipulation')) ? $detail->entrees->manipulation : 0;
+
+              $total_sorties_destructionperte += ($detail->sorties->exist('destructionperte')) ? $detail->sorties->destructionperte : 0;
+
+              if ($detail->total < 0) {
+                  $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle().' ('.$libelleDetail.')', $this->generateUrl('drm_edition_details', array('sf_subject' => $this->document, 'details' => $nodeKey)));
               }
-              if($sorties_destructionperte){
-                $this->addPoint('vigilance', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              if (!$detail->getConfig()->entrees->exist('transfertsrecolte')) {
+                  break;
               }
-            }
 
-            if (!$detail->getConfig()->entrees->exist('declassement')) {
-                break;
-            }
-            if($detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
-              $total_entrees_replis += $detail->entrees->repli;
-              $total_sorties_replis += $detail->sorties->repli;
-            }
-
-            $total_entrees_declassement += $detail->entrees->declassement;
-            $total_sorties_declassement += $detail->sorties->declassement;
-
-            $total_entrees_excedents += ($detail->entrees->exist('excedents')) ? $detail->entrees->excedents : 0;
-            $total_entrees_manipulation += ($detail->entrees->exist('manipulation')) ? $detail->entrees->manipulation : 0;
-
-            $total_sorties_destructionperte += ($detail->sorties->exist('destructionperte')) ? $detail->sorties->destructionperte : 0;
-
-            if ($detail->total < 0) {
-                $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
-            }
-            if (!$detail->getConfig()->entrees->exist('transfertsrecolte')) {
-                break;
-            }
-
-            $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
-            $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
-            if($detail->total_revendique  > $detail->total){
-                $this->addPoint('vigilance', 'revendique_sup_initial', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
-            }
+              $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
+              $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
+              if($detail->total_revendique  > $detail->total){
+                  $this->addPoint('vigilance', 'revendique_sup_initial', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
+              }
+          }
         }
-
         $volumes_restant = array();
         if (!$this->isTeledeclarationDrm && !DRMConfiguration::getInstance()->isVracCreation()) {
             foreach ($this->document->getMouvementsCalculeByIdentifiant($this->document->identifiant, $this->isTeledeclarationDrm) as $mouvement) {
@@ -183,21 +181,23 @@ class DRMValidation extends DocumentValidation {
         }
 
         $sortiesDocAnnexes = array();
-        foreach ($this->document->getProduitsDetails($this->document->teledeclare,'details') as $detail) {
-            if (count($detail->sorties->export_details)) {
-                foreach ($detail->sorties->export_details as $paysCode => $export) {
-                    if ($export->numero_document) {
-                        $sortiesDocAnnexes[$export->type_document] = $export->numero_document;
-                    }
-                }
-            }
-            if ($detail->sorties->exist('vrac_details') && count($detail->sorties->vrac_details)) {
-                foreach ($detail->sorties->vrac_details as $num_vrac => $vrac) {
-                    if ($vrac->numero_document) {
-                        $sortiesDocAnnexes[$vrac->type_document] = $vrac->numero_document;
-                    }
-                }
-            }
+        foreach (DRMClient::$types_node_from_libelles as $nodeKey) {
+          foreach ($this->document->getProduitsDetails($this->document->teledeclare,$nodeKey) as $detail) {
+              if (count($detail->sorties->export_details)) {
+                  foreach ($detail->sorties->export_details as $paysCode => $export) {
+                      if ($export->numero_document) {
+                          $sortiesDocAnnexes[$export->type_document] = $export->numero_document;
+                      }
+                  }
+              }
+              if ($detail->sorties->exist('vrac_details') && count($detail->sorties->vrac_details)) {
+                  foreach ($detail->sorties->vrac_details as $num_vrac => $vrac) {
+                      if ($vrac->numero_document) {
+                          $sortiesDocAnnexes[$vrac->type_document] = $vrac->numero_document;
+                      }
+                  }
+              }
+          }
         }
         foreach ($sortiesDocAnnexes as $type_doc => $num) {
 
