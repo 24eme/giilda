@@ -136,6 +136,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request
      */
     public function executeNouvelle(sfWebRequest $request) {
+        set_time_limit(-1);
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $identifiant = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
@@ -270,7 +271,7 @@ class drmActions extends drmGeneriqueActions {
     public function executeModificationInfos(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
     }
-    
+
     public function executePaiementFrequenceFormAjax(sfWebRequest $request) {
         $this->forward404Unless($request->isXmlHttpRequest());
         $drm = $this->getRoute()->getDRM();
