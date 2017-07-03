@@ -25,8 +25,9 @@
 
         </thead>
         <tbody>
-            <?php foreach ($config->declaration->detail as $details): ?>
-                <?php foreach($config->declaration->detail->getDetailsSorted($details) as $detail): ?>
+          <?php foreach ($config->declaration->filter('details') as $configDetails): ?>
+              <?php foreach ($configDetails as $details): ?>
+                <?php foreach($config->declaration->details->getDetailsSorted($details) as $detail): ?>
                   <tr>
                     <td style="text-align:left;"><span style="<?php if($detail->mouvement_coefficient == -1): ?>color: #ff0000;<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>color: #0aaa25;<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
                     <td style="text-align:left;"><span title="<?php echo $detail->libelle_long ?>"><?php echo $detail->getLibelle() ?></span> <small style="color: #555; font-size: 11px;">(<?php echo $detail->getKey() ?>)</small></td>
@@ -39,6 +40,7 @@
                     <td><?php if($detail->readable): ?>R<?php endif; ?><?php if($detail->writable): ?>W<?php endif; ?></td>
                   </tr>
                 <?php endforeach; ?>
+              <?php endforeach; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
