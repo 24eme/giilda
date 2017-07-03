@@ -39,7 +39,7 @@
         </div>
         <div id="contenu_etape">
 
-            <form action="<?php echo url_for('drm_edition', array('sf_subject' => $formValidation->getObject(), 'details' => $detailsKey)) ?>" method="post" class="hasBrouillon">
+            <form action="<?php echo url_for('drm_edition_details', array('sf_subject' => $formValidation->getObject(), 'details' => $detailsKey)) ?>" method="post" class="hasBrouillon">
                 <div class="btn_etape">
                     <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) : url_for('drm_etablissement', $drm); ?>">
                         <span>Précédent</span>
