@@ -13,12 +13,12 @@ default:
     #robots:       index, follow
     #viewport:      width=device-width, initial-scale=1.0
 
-  stylesheets:    [compile.css]
+  stylesheets:    [compile.css?201708041127]
 
   javascripts:    [lib/jquery-1.7.2.min.js, lib/modernizr-2.js]
 
   has_layout:     true
   layout:         layout
-  
+
   components:
     colContacts: [societe, getInterlocuteurs]
