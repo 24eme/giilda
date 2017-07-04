@@ -41,7 +41,6 @@ class compte_teledeclarantActions extends sfActions {
             if ($this->form->isValid()) {
                 $this->getUser()->setAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, $this->form->getValue('compte')->_id);
 
-                //$this->redirect('compte_teledeclarant_creation');
                 return $this->redirect('compte_teledeclarant_cgu');
             }
         }
@@ -53,6 +52,11 @@ class compte_teledeclarantActions extends sfActions {
      * @param sfRequest $request A request object
      */
     public function executeCgu(sfWebRequest $request) {
+        if(!is_file(sfConfig::get('sf_app_dir').'/modules/compte_teledeclarant/templates/cguSuccess.php')) {
+
+            return $this->redirect("compte_teledeclarant_creation");
+        }
+
         if($request->isMethod(sfWebRequest::POST)) {
 
             return $this->redirect("compte_teledeclarant_creation");
@@ -119,7 +123,8 @@ class compte_teledeclarantActions extends sfActions {
                 } catch (Exception $e) {
                     $this->getUser()->setFlash('error', "Problème de configuration : l'email n'a pu être envoyé");
                 }
-                $this->redirectWithCredentials($this->compte->identifiant);
+
+                return $this->redirect('common_homepage');
             }
         }
     }
@@ -230,7 +235,8 @@ class compte_teledeclarantActions extends sfActions {
                 $this->form->save();
                 $this->getUser()->getAttributeHolder()->remove(self::SESSION_COMPTE_DOC_ID_OUBLIE);
                 $this->getUser()->signInOrigin($this->compte);
-                return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant));
+
+                return $this->redirect('common_homepage');
             }
         }
     }
@@ -254,18 +260,5 @@ class compte_teledeclarantActions extends sfActions {
         $this->getResponse()->setHttpHeader('Expires', '0');
         return $this->renderText(file_get_contents($path));
     }
-
-    protected function redirectWithCredentials($idCompte){
-             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM) && $this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
-             return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
-             }
-             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_VRAC)){
-                  return $this->redirect('vrac_societe', array('identifiant' => $idCompte));
-             }
-             if($this->getUser()->hasCredential(Roles::TELEDECLARATION_DRM)){
-                    return $this->redirect('drm_societe', array('identifiant' => $idCompte));
-             }
-            return $this->redirect("common_accueil_etablissement" ,array('identifiant' => $idCompte));
-     }
 
 }
