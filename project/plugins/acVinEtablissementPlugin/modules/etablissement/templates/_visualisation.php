@@ -133,7 +133,7 @@ if (!isset($fromSociete))
                 <label for="commentaire">
                     Caution :</label>
                 <?php echo ($etablissement->exist('caution') && $etablissement->caution) ? "Caution" : (($etablissement->exist('caution') && !is_null($etablissement->caution)) ? "Dispensé" : "Non défini");
-                    echo ($etablissement->exist('caution') && $etablissement->caution)? " / ".$etablissement->raison_sociale_cautionneur : '';
+                    echo ($etablissement->exist('caution') && $etablissement->caution && $etablissement->exist('raison_sociale_cautionneur'))? " / ".$etablissement->raison_sociale_cautionneur : '';
                  ?>
             </div>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
