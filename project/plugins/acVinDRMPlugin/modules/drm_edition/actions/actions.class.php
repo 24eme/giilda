@@ -162,10 +162,11 @@ class drm_editionActions extends drmGeneriqueActions {
 
     public function executeChoixFavoris(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
+        $details = (!$request->getParameter('details'))? 'details' : $request->getParameter('details');
         if (!$this->drm->exist('favoris')) {
             $this->drm->buildFavoris();
         }
-        $form = new DRMFavorisForm($this->drm);
+        $form = new DRMFavorisForm($this->drm, array('details' => $details));
         if ($request->isMethod(sfRequest::POST)) {
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
@@ -177,8 +178,8 @@ class drm_editionActions extends drmGeneriqueActions {
     }
 
     private function loadFavoris() {
-      $detail = $this->getRequest()->getParameter('details');
-          $this->favoris = $this->drm->getAllFavoris()->get($detail);
-      }
+        $detail = $this->getRequest()->getParameter('details');
+        $this->favoris = $this->drm->getAllFavoris()->get($detail);
+    }
 
 }
