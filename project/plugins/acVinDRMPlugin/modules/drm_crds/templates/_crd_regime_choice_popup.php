@@ -11,7 +11,7 @@ if (isset($retour) && ($retour == 'crds')) {
         <form action="<?php echo url_for('drm_choix_regime_crd', $args_url) ?>" method="post">
             <?php echo $crdRegimeForm->renderHiddenFields(); ?>
             <?php echo $crdRegimeForm->renderGlobalErrors(); ?>
-            <h2>Choisir un régime de CRD (Compte capsule)</h2>
+            <h2>DRM suspendue : choisir un régime de CRD (Compte capsule)</h2>
             <br/>
             <p><span class="error_list">Votre chais «&nbsp;<?php echo $drm->getEtablissement()->nom; ?>&nbsp;» ne possède actuellement aucun régime de CRD.</span>
             Il est nécessaire pour la suite de la saisie de choisir ici le régime CRD. Une fois choisi ce message n'apparaîtra plus. <br/>
@@ -24,7 +24,7 @@ if (isset($retour) && ($retour == 'crds')) {
             <?php echo $crdRegimeForm['crd_regime']->render(); ?>
             <br/>
             <div class="ligne_btn">
-                <button id="popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Valider ce choix de régime CRD</span></button>  
+                <button id="popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Valider ce choix de régime CRD</span></button>
             </div>
         </form>
     </div>
