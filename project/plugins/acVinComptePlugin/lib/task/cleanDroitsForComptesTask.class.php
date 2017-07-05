@@ -50,6 +50,7 @@ EOF;
             echo $this->green($compteId)." a subit un clean de ses droits\n";
             echo $this->green("nouveaux droits")." ".implode($compte->get("droits")->toArray(0,1),'|');
             echo "\n";
+            $compte->save();
           }
         }else{
 
@@ -63,6 +64,7 @@ EOF;
                     echo $this->green("nouveaux droits")." ".implode($compte->get("droits")->toArray(0,1),'|');
                     echo "\n";
                   }
+                  $compte->save();
                 }
             }
             echo "FIN\n";
