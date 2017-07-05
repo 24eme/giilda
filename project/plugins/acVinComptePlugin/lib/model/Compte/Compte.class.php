@@ -502,12 +502,22 @@ class Compte extends BaseCompte {
                     $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
                 }
             }
+            $compteDroitsArray = $compteDroits->toArray(0,1);
             if ($droit == Roles::DRM) {
+              if(!in_array(Roles::TELEDECLARATION_DRM, $compteDroitsArray)){
                 $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+              }
+            }
+            if ($droit == Roles::TELEDECLARATION_DRM_ACQUITTE) {
+                $compteDroits->add(Roles::TELEDECLARATION_DRM_ACQUITTE, Roles::TELEDECLARATION_DRM_ACQUITTE);
             }
             if ($droit == Roles::TELEDECLARATION_DOUANE) {
-                $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
-                $compteDroits->add(Roles::TELEDECLARATION_DOUANE, Roles::TELEDECLARATION_DOUANE);
+                if(!in_array(Roles::TELEDECLARATION_DRM, $compteDroitsArray)){
+                  $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
+                }
+                if(!in_array(Roles::TELEDECLARATION_DOUANE, $compteDroitsArray)){
+                  $compteDroits->add(Roles::TELEDECLARATION_DOUANE, Roles::TELEDECLARATION_DOUANE);
+                }
             }
 
         }

@@ -58,13 +58,17 @@ EOF;
             foreach ($rowsCompte as $compteView) {
                 $compte = CompteClient::getInstance()->find($compteView->id);
                 if($compte->isActif()){
+                  echo "*** traitement compte ".$compte->_id;
                   $clean = $compte->cleanDroits();
                   if($clean){
+                    echo "\n";
                     echo $this->green($compte->_id)." a subit un clean de ses droits\n";
                     echo $this->green("nouveaux droits")." ".implode($compte->get("droits")->toArray(0,1),'|');
                     echo "\n";
+                    $compte->save();
+                  }else{
+                    echo " *** ".$this->green("inchangé")."\n";
                   }
-                  $compte->save();
                 }
             }
             echo "FIN\n";
