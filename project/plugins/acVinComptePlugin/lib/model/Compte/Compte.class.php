@@ -456,6 +456,7 @@ class Compte extends BaseCompte {
             $acces_teledeclaration = true;
             $droits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
             $droits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
+            $droits->add(Roles::TELEDECLARATION_DRM_ACQUITTE, Roles::TELEDECLARATION_DRM_ACQUITTE);
         }
 
         if ($type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) {
@@ -517,6 +518,24 @@ class Compte extends BaseCompte {
 
     public function isTeledeclarationActive() {
         return ($this->exist('teledeclaration_active') && $this->teledeclaration_active);
+    }
+
+    public function cleanDroits(){
+      $compteDroits = $this->getOrAdd('droits');
+      $droitsToKeep = array();
+      $needToClean = false;
+      foreach ($compteDroits as $index => $compteDroit) {
+        if(!in_array($compteDroit,$droitsToKeep)){
+          $droitsToKeep[] = $compteDroit;
+        }else{
+          $needToClean = true;
+        }
+      }
+      if($needToClean){
+        $this->remove('droits');
+        $compteDroits = $this->add('droits',$droitsToKeep);
+      }
+      return $needToClean;
     }
 
 }
