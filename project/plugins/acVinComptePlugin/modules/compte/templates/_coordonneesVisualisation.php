@@ -104,7 +104,7 @@
         <div class="form_ligne">
             <ul>
                 <?php foreach ($compte->getDroits() as $droit) : ?>
-                    <li><?php echo $droit; ?></li>
+                    <li><?php echo Roles::$teledeclarationLibellesShort[$droit]; ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>

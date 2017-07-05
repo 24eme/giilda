@@ -124,7 +124,7 @@ if (!isset($fromSociete))
                     Régime de CRD :
                 </label>
          <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime) : ?>
-                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?> <input type="submit" value="Réinitialiser le regime CRD"/>
+                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?> <br/><br/><input type="submit" class="btn_majeur btn_nouveau" value="Réinitialiser le regime CRD pour les DRM suspendues"/>
          <?php else: ?>
 		    En attente de saisie par l'utilisateur
          <?php endif; ?> </form>
