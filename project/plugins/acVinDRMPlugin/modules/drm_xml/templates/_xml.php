@@ -17,7 +17,7 @@
 		<declaration-neant><?php echo ($drm->declaration->hasStockEpuise())? "true" : "false"; ?></declaration-neant>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
-<?php foreach ($drm->getProduitsDetails(true) as $produit): ?>
+<?php foreach ($drm->getProduitsDetails(true,DRM::DETAILS_KEY_SUSPENDU) as $produit): ?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
