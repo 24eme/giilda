@@ -9,7 +9,7 @@ if (!isset($isTeledeclarationMode)) {
 $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
 ?>
 <p style="margin-top: 10px;"></p>
-<?php if (isset($mouvementsByProduit[$typeKey]) && count($mouvementsByProduit[$typeKey]) > 0): ?>
+<?php  if (isset($mouvementsByProduit[$typeKey]) && count($mouvementsByProduit[$typeKey]) > 0): ?>
     <?php if (isset($hamza_style)) : ?>
         <div class="row" style="margin-top: 10px; margin-bottom: 10px;">
             <div class="col-xs-12">
@@ -34,7 +34,7 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
         <tbody>
             <?php $i = 1; ?>
             <?php foreach ($mouvementsByProduit[$typeKey] as $produit_hash => $mouvements):
-                $produitDetail = $drm->getDetailsByHash($produit_hash);
+                $produitDetail = $drm->getDetailsByHash($produit_hash,$typeDetailKey);
                 $produit_libelle = $produitDetail->getLibelle("%format_libelle%");
                 $libelleDoc = DRMClient::getInstance()->getLibelleFromId($drm->_id);
                 ?>
