@@ -49,12 +49,12 @@ Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
  \begin{small} \InterloireContact \\
  \end{small}
  \begin{large}
-\textbf{Signé électroniquement le <?php echo $drm->getEuValideDate();
+\textbf{<?php if($drm->isValidee()): ?>Signé électroniquement le <?php echo $drm->getEuValideDate();
 if ($drm->hasTransmissionDate()) {
   echo " et transmis aux douanes le ".$drm->getEuTransmissionDate();
 }
 
-  ?>}
+  ?><?php endif; ?>}
 \end{large}
  }
 

@@ -237,6 +237,10 @@ class Societe extends BaseSociete {
         return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
     }
 
+    public function hasDroitsAcquittes(){
+      return $this->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DRM_ACQUITTE);
+    }
+
     public function isActif() {
         return $this->exist('statut') && $this->statut === EtablissementClient::STATUT_ACTIF;
     }
@@ -335,7 +339,7 @@ class Societe extends BaseSociete {
         $this->synchroAndSaveEtablissement();
         $this->synchroAndSaveCompte();
         $this->changedCooperative = false;
-        $this->changedStatut = false;              
+        $this->changedStatut = false;
         return parent::save();
     }
 
