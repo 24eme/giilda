@@ -134,37 +134,42 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \fcolorbox{white}{white}{
 \hspace{-0.25cm}
 \begin{minipage}[t]{0.6\textwidth}
-\begin{tabular}{|C{170mm}|}			 	 
+\begin{tabular}{|C{170mm}|}
 \multicolumn{1}{|c|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{PARTIE RÉSERVÉE À L'ADMINISTRATION}}}}
-\\ 				 
-\hline   			
+\\
+\hline
 \multicolumn{1}{|l|}{\small{\underline{\textbf{RÉCEPTION}}}} \\
-\multicolumn{1}{|L{170mm}|}{\small{Date :~~~\dotfill\dotfill\dotfill ~~~~ N° :~~~\dotfill\dotfill\dotfill }} 
-\\ 	
-\hline 
+\multicolumn{1}{|L{170mm}|}{\small{Date :~~~\dotfill\dotfill\dotfill ~~~~ N° :~~~\dotfill\dotfill\dotfill }}
+\\
+\hline
 \multicolumn{1}{|l|}{\small{\underline{\textbf{PRISE EN RECETTE}}}} \\
-\multicolumn{1}{|L{170mm}|}{\small{Montant :~~~\dotfill\dotfill\dotfill\dotfill\dotfill\dotfill }} 
-\\ 	  			
-\multicolumn{1}{|L{170mm}|}{\small{Date :~~~\dotfill\dotfill\dotfill ~~~~ N° Caisse :~~~\dotfill\dotfill\dotfill }} \\ 
-\multicolumn{1}{|L{170mm}|}{\small{Dispense~:~$\square$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CL~:~$\square$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CE~:~$\square$~~~~~~~~~~~~}} 
-\\ 	
-\hline 
+\multicolumn{1}{|L{170mm}|}{\small{Montant :~~~\dotfill\dotfill\dotfill\dotfill\dotfill\dotfill }}
+\\
+\multicolumn{1}{|L{170mm}|}{\small{Date :~~~\dotfill\dotfill\dotfill ~~~~ N° Caisse :~~~\dotfill\dotfill\dotfill }} \\
+\multicolumn{1}{|L{170mm}|}{\small{Dispense~:~$\square$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CL~:~$\square$~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CE~:~$\square$~~~~~~~~~~~~}}
+\\
+\hline
 \multicolumn{1}{|L{170mm}|}{{\small{\underline{\textbf{VISA DU SERVICE DES DOUANES ET DROITS INDIRECTS}}}}} \\
 ~ \\ ~ \\ \hline
 \end{tabular}
 \end{minipage}
 
 \begin{minipage}[t]{0.4\textwidth}
-\begin{tabular}{|C{100mm}|}	
+\begin{tabular}{|C{100mm}|}
 \hline
 ~ \\
-\multicolumn{1}{|l|}{\small{\underline{\textbf{Fait}} : sur la plateforme <?php echo sfConfig::get('app_teledeclaration_url'); ?>}} \\	~ \\
-\multicolumn{1}{|l|}{\small{\underline{\textbf{Le}} : <?php echo $drm->getEuValideDate(); ?> }} \\	~ \\
-\hline  
-~ \\	
+<?php if($drm->isValidee()): ?>
+    \multicolumn{1}{|l|}{\small{\underline{\textbf{Fait}} : sur la plateforme <?php echo sfConfig::get('app_teledeclaration_url'); ?>}} \\	~ \\
+    \multicolumn{1}{|l|}{\small{\underline{\textbf{Le}} : <?php echo $drm->getEuValideDate(); ?> }} \\	~ \\
+<?php else: ?>
+    \multicolumn{1}{|l|}{} \\	~ \\
+    \multicolumn{1}{|l|}{} \\	~ \\
+<?php endif; ?>
+\hline
+~ \\
 \multicolumn{1}{|l|}{\small{\textbf{Moyen de paiement utilisé (en paiement <?php echo ($frequence_douane_moyen)? (DRMPaiement::$frequence_paiement_libelles[$frequence_douane_moyen]) : "Non renseigné" ; ?>) : }}} \\
 \multicolumn{1}{|L{70mm}|}{Numéraire~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_NUMERAIRE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Obligation cautionnée~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_OBLIGATION_CAUTIONNEES)? '\squareChecked' : '$\square$'; ?>
-} 
+}
 \\
 \multicolumn{1}{|L{70mm}|}{ Chèque~:~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_CHEQUE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Virement~:~~~~~~~~~~~~~~~~~~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_VIREMENT)? '\squareChecked' : '$\square$'; ?>
 }\\
