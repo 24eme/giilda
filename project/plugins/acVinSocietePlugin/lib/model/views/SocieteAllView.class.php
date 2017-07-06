@@ -23,11 +23,11 @@ class SocieteAllView extends acCouchdbView
       }
 
     public function findByInterproAndStatut($interpro, $statut, $typesocietes = array(), $q = null, $limit = null) {
-      try {
-	return $this->findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit);
-      }catch(Exception $e) {
-	return $this->findByInterproAndStatutVIEW($interpro, $statut, $typesocietes);
-      }
+       try {
+				 return $this->findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit);
+       }catch(Exception $e) {
+				 return $this->findByInterproAndStatutVIEW($interpro, $statut, $typesocietes);
+       }
     }
 
     private function findByInterproAndStatutELASTIC($interpro, $statut, $typesocietes, $q, $limit) {
@@ -57,27 +57,30 @@ class SocieteAllView extends acCouchdbView
 
       // Create the actual search object with some data.
       $q = new acElasticaQuery();
-      $q->setQuery($elasticaQueryString);
-      if ($limit)
-	$q->setLimit($limit);
-
+     	if ($limit){
+				$q->setLimit($limit);
+		 	}else{
+				$q->setLimit(null);
+			}
+			$q->setQuery($elasticaQueryString);
       //Search on the index.
       $res = $index->search($q);
       $viewres = $this->elasticRes2View($res);
+
       return $viewres;
     }
 
     private function elasticRes2View($results) {
       $res = array();
       foreach ($results->getResults() as $er) {
-	$r = $er->getData();
-	$e = new stdClass();
-	$e->id = $r['_id'];
-	$e->key = array($r['interpro'], $r['statut'], $r['type_societe'], $r['_id'], $r['raison_sociale'], $r['identifiant'], $r['siret'], $r['siege']['commune'], $r['siege']['code_postal']);
-	$e->value = null;
-	$res[] = $e;
+				$r = $er->getData();
+				$e = new stdClass();
+				$e->id = $r['_id'];
+				$e->key = array($r['interpro'], $r['statut'], $r['type_societe'], $r['_id'], $r['raison_sociale'], $r['identifiant'], $r['siret'], $r['siege']['commune'], $r['siege']['code_postal']);
+				$e->value = null;
+				$res[] = $e;
       }
-      return $res; 
+      return $res;
     }
 
     private function findByInterproAndStatutVIEW($interpro, $statut, $typesocietes = array()) {
@@ -105,7 +108,7 @@ class SocieteAllView extends acCouchdbView
         return $this->client->startkey(array($interpro,  SocieteClient::STATUT_ACTIF, $type, 'SOCIETE-000000', $raison_sociale))
                             ->endkey(array($interpro, SocieteClient::STATUT_ACTIF, $type, 'SOCIETE-999999', $raison_sociale, array()))
                             ->getView($this->design, $this->view)->rows;
-        
+
     }
 
     public function findByRaisonSocialeAndId($raison_sociale,$id) {
@@ -113,12 +116,12 @@ class SocieteAllView extends acCouchdbView
         return $this->client->startkey(array($interpro, $raison_sociale, $id))
                             ->endkey(array($interpro,  $raison_sociale, $id, array()))
                             ->getView($this->design, $this->view)->rows;
-        
+
     }
 
     public static function makeLibelle($datas) {
         $libelle = '';
-        
+
         if (isset($datas[self::KEY_RAISON_SOCIALE]) && $rs = $datas[self::KEY_RAISON_SOCIALE]) {
             if ($libelle) {
                 $libelle .= ' / ';
@@ -139,9 +142,9 @@ class SocieteAllView extends acCouchdbView
         $libelle .= ' (Société)';
         return trim($libelle);
     }
-    
+
         public function findBySociete($identifiant) {
-            
+
         $societe = $this->client->find($identifiant, acCouchdbClient::HYDRATE_JSON);
 
         if(!$societe) {
@@ -151,7 +154,7 @@ class SocieteAllView extends acCouchdbView
         return $this->client->startkey(array($societe->interpro, $societe->statut, $societe->type_societe, $societe->_id))
                             ->endkey(array($societe->interpro, $societe->statut, $societe->type_societe, $societe->_id, array()))
 			    ->getView($this->design, $this->view)->rows;
-        
+
     }
 
-}  
+}

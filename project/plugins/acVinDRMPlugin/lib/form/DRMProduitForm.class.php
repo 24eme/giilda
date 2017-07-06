@@ -1,6 +1,6 @@
 <?php
 
-class DRMProduitForm extends acCouchdbForm 
+class DRMProduitForm extends acCouchdbForm
 {
 	protected $_choices_produits;
     protected $_drm = null;
@@ -13,13 +13,13 @@ class DRMProduitForm extends acCouchdbForm
 		$this->_drm = $drm;
         $this->_interpro = $drm->getInterpro();
         $this->_config = $config;
-		$this->_detailsKey = $detailsKey;
+				$this->_detailsKey = $detailsKey;
         $this->_isTeledeclarationMode = $isTeledeclarationMode;
         $defaults = array();
         parent::__construct($drm, $defaults, $options, $CSRFSecret);
     }
-    
-    public function configure() 
+
+    public function configure()
     {
         $this->setWidgets(array(
             'hashref' => new sfWidgetFormChoice(array('choices' => $this->getChoices())),
@@ -78,7 +78,6 @@ class DRMProduitForm extends acCouchdbForm
         if (!$this->isValid()) {
             throw $this->getErrorSchema();
         }
-
         $detail = $this->_drm->addProduit($this->values['hashref'], $this->_detailsKey, array());
 
         return $detail;
