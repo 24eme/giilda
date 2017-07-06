@@ -57,7 +57,7 @@
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
 			<?php endif; ?>
 <?php endif; ?>
-				<libelle-personnalise><?php echo trim(html_entity_decode($produit->getLibelle(), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
+				<libelle-personnalise><?php echo trim(html_entity_decode((($produit->produit_libelle) ? $produit->produit_libelle : $produit->getLibelle('%format_libelle% %la%')), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
 <?php if ($produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
 <?php endif; ?>
