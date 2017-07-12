@@ -12,10 +12,10 @@ SV12:
       version: {  }
       region: { }
       numero_archive: {  }
-      declarant:        
+      declarant:
         type: collection
         definition:
-          fields:            
+          fields:
             nom: {  }
             raison_sociale: {  }
             cvi: {  }
@@ -27,7 +27,7 @@ SV12:
       totaux:
         type: collection
         definition:
-          fields:            
+          fields:
             volume_raisins: { type: float }
             volume_mouts: { type: float }
             volume_ecarts: { type: float }
@@ -85,6 +85,8 @@ SV12:
                         vrac_destinataire: {  }
                         detail_identifiant: {  }
                         detail_libelle: {  }
+                        type_drm: {  }
+                        type_drm_libelle: {  }
                         volume: { type: float }
                         cvo: { type: float }
                         region: {}
@@ -99,4 +101,3 @@ SV12:
           fields:
             date_saisie: {  }
             statut: {  }
-
