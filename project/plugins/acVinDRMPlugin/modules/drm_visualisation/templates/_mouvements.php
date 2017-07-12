@@ -6,7 +6,7 @@ use_helper('Mouvement');
 if (!isset($isTeledeclarationMode)) {
     $isTeledeclarationMode = false;
 }
-$hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
+$hasDontRevendique = false;
 ?>
 <p style="margin-top: 10px;"></p>
 <?php  if (isset($mouvementsByProduit[$typeKey]) && count($mouvementsByProduit[$typeKey]) > 0): ?>
