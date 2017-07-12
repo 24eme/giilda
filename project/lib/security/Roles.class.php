@@ -45,11 +45,15 @@ class Roles
       );
 
       public static $teledeclarationLibellesShort = array(
+        self::TELEDECLARATION => "Accès à la télédeclaration",
+        self::OBSERVATOIRE => "Accès à l'observatoire économique",
         self::TELEDECLARATION_VRAC => "Signature contrats",
         self::TELEDECLARATION_VRAC_CREATION => "Création contrats",
         self::TELEDECLARATION_DRM => "DRM",
         self::TELEDECLARATION_DRM_ACQUITTE => "DRM acquittée",
         self::TELEDECLARATION_DOUANE => "Transmission Ciel",
+        self::DRM => "DRM",
+        self::CONTRAT => "Contrat",
         );
 
     protected static $hierarchy = array(

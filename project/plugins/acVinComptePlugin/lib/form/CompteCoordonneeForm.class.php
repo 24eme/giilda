@@ -102,7 +102,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
 
     public function getDroits() {
 
-        return array(Roles::TELEDECLARATION_VRAC => "Contrat",Roles::TELEDECLARATION_VRAC_CREATION => "Contrat création",Roles::TELEDECLARATION_DRM => "DRM",Roles::TELEDECLARATION_DRM_ACQUITTE => 'DRM acquittée', Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
+        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM", Roles::TELEDECLARATION_DRM_ACQUITTE => "DRM Acquittée", Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
     }
 
     public function getCountryList() {
@@ -134,7 +134,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         if($this->compte->isEtablissementContact()){
             $this->compte->statut = $this->compte->getEtablissement()->statut;
         }
-        
+
         $this->object->getCouchdbDocument()->save();
     }
 
