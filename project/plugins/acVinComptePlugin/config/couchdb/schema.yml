@@ -69,3 +69,9 @@ Compte:
         definition:
           fields:
             '*': { }
+      delegation:
+        type: array_collection
+        required: false
+        definition:
+          fields:
+            '*': { }
