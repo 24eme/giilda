@@ -52,3 +52,13 @@ all:
     param:
       transport:
         class: Swift_MailTransport
+
+  storage:
+    class: sfSessionStorage
+    param:
+      session_name: giilda_civa_preprod
+
+  request:
+    class: sfWebRequest
+    param:
+      relative_url_root: /drm/

@@ -64,6 +64,10 @@ Etablissement:
        declaration_commune: { required: false }
        declaration_insee: { required: false }
        raison_sociale_cautionneur: { required: false }
+       date_modification: { required: false }
+       acheteur_raisin: { required: false }
+       ds_decembre: { required: false }
+       no_ds_negociant: { required: false }
        exploitant:
           type: collection
           required: false
@@ -107,4 +111,4 @@ Etablissement:
                    nom: {  }
                    adresse: {  }
                    commune: {  }
-                   code_postal: {  }      
+                   code_postal: {  }
