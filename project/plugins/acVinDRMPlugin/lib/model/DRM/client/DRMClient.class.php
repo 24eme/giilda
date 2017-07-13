@@ -516,6 +516,32 @@ class DRMClient extends acCouchdbClient {
         return elision($origineLibelle, $df);
     }
 
+    public function getVersionLibelleFromId($id) {
+        if (!$id) {
+            return null;
+        }
+        $drmSplited = explode('-', $id);
+        if(!isset($drmSplited[3]))
+        {
+          return "";
+        }
+        $version = $drmSplited[3];
+        $versionNum = substr($version, 1, 3);
+        return $versionNum;
+    }
+
+    public function getPeriodeFromId($id) {
+        if (!$id) {
+            return null;
+        }
+        $drmSplited = explode('-', $id);
+        if(!isset($drmSplited[2]))
+        {
+          return "";
+        }
+        return $drmSplited[2];
+    }
+
     public static function determineTypeDocument($numero_document) {
         if (preg_match('/^\d{3}$/', $numero_document)) {
             return self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;

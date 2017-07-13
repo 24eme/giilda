@@ -34,11 +34,15 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
         <tbody>
             <?php $i = 1; ?>
             <?php foreach ($mouvementsByProduit[$typeKey] as $produit_hash => $mouvements):
+                $mvts = $mouvements->getRawValue();
+                if(isset($mvts[0]) && $mvts[0]->doc_id){
+                  $drm = DRMClient::getInstance()->find($mvts[0]->doc_id);
+                }
                 $produitDetail = $drm->getDetailsByHash($produit_hash,$typeDetailKey);
                 $produit_libelle = $produitDetail->getLibelle("%format_libelle%");
                 $libelleDoc = DRMClient::getInstance()->getLibelleFromId($drm->_id);
                 ?>
-                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock début"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
+                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock début"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_stock_id($drm->_id.'/stock_debut') ?>" class="hamzastyle-item">
                     <td><?php echo $produitDetail->getTypeDRMLibelle() ?></td>
                     <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements_<?php echo $typeKey ?>&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
                     <td><strong>Stock début</strong></td>
@@ -49,7 +53,7 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                 </tr>
                 <?php foreach ($mouvements as $mouvement): ?>
                     <tr data-words='<?php echo json_encode(array_merge(array(strtolower($mouvement->produit_libelle), strtolower($mouvement->type_libelle), strtolower($mouvement->detail_libelle))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($mouvement) ?>" class="hamzastyle-item <?php echo ($mouvement->facturable && (!$isTeledeclarationMode || $visualisation)) ? " facturable" : ""; ?>">
-                        <td><?php echo $mouvement->type_drm_libelle ?></td>
+                        <td><?php  echo ($mouvement->type_drm_libelle)? $mouvement->type_drm_libelle : 'Suspendu' ?></td>
                         <td><a href="#tab=mouvements_<?php echo $typeKey ?>&filtre=<?php echo strtolower($produit_libelle); ?>"><?php if($drm->version): ?><small class="text-muted"><?php echo ($mouvement->version) ? $mouvement->version : "M00" ?></small> <?php endif; ?>
                           <?php echo $mouvement->produit_libelle; ?>
                         </a></td>
@@ -76,7 +80,7 @@ $hasDontRevendique = ConfigurationClient::getCurrent()->hasDontRevendique();
                       <?php if($hasDontRevendique): ?>  <td></td> <?php endif; ?>
                     </tr>
                 <?php endforeach; ?>
-                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock fin"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_get_id($drm->_id) ?>" class="hamzastyle-item">
+                <tr data-words='<?php echo json_encode(array_merge(array(strtolower($produit_libelle), strtolower("Stock fin"))), JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>' id="<?php echo mouvement_stock_id($drm->_id.'/stock_fin') ?>" class="hamzastyle-item">
                     <td><?php echo $produitDetail->getTypeDRMLibelle() ?></td>
                     <td><?php if($drm->version): ?><small class="text-muted"><?php echo $drm->version ?></small> <?php endif; ?><a href="#tab=mouvements&filtre=<?php echo strtolower($produit_libelle); ?>"><strong><?php echo $produit_libelle ?></strong></a></td>
                     <td><strong>Stock fin</strong></td>
