@@ -6,9 +6,9 @@ if (getenv("NODELETE")) {
     $t = new lime_test(0);
     exit(0);
 }
-$nbtest = 35;
+$nbtest = 36;
 if(($application == "bivc")){
-  $nbtest = 38;
+  $nbtest = 41;
 }
 
 $t = new lime_test($nbtest);
