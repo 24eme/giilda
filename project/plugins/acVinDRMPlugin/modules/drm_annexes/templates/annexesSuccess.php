@@ -124,6 +124,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                               </div>
                             </div>
                         </div>
+                        </div>
                         <div id="collapse_stats_europeenes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="drm_annexes_stats_europeenes">
                         <div class="panel-body">
                           <p><?php echo getPointAideText('drm','annexe_statistique_eur'); ?></p>
@@ -155,7 +156,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                           </table>
                         </div>
                     </div>
-                  </div>
                 </div>
               </div>
               <?php if($drm->hasObservations()): ?>
