@@ -640,7 +640,7 @@ class DRMClient extends acCouchdbClient {
       }
       $onlySuspendus = DRMConfiguration::getInstance()->isCrdOnlySuspendus();
       if($onlySuspendus){
-        unset($crdsRegimesChoices[EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE]);
+        $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles_longs_only_suspendu;
       }
       return $crdsRegimesChoices;
     }
