@@ -161,6 +161,10 @@ class drmActions extends drmGeneriqueActions {
         $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
         $this->drmCsvEdi->checkCSV();
 
+        if (!count($this->drmCsvEdi->getCsvDoc()->erreurs)) {
+          return $this->redirect(url_for('drm_creation_fichier_edi', array('periode' => $this->periode, 'md5' => $this->md5,'identifiant' => $this->identifiant)));
+        }
+
     }
 
         /**
