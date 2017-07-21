@@ -38,16 +38,16 @@
                       <li class="col-xs-10 col-xs-offset-1" >
                             <input type="radio" id="drmChoixCreation_type_creation_<?php  echo DRMClient::DRM_CREATION_EDI; ?>" value="CREATION_EDI" name="drmChoixCreation[type_creation]">&nbsp;<label for="drmChoixCreation_type_creation_<?php echo DRMClient::DRM_CREATION_EDI; ?>">Création depuis un logiciel tiers</label>
                             <div class="pull-right"><?php echo getPointAideHtml('drm','creation_edi') ?></div>
+                            <div style="display: none;" class="ligne_form" id="file_edi_div_<?php echo $periode . '_' . $identifiant; ?>">
+                              <span>
+                                  <?php echo $drmCreationForm['file']->renderError(); ?>
+                                  <?php echo $drmCreationForm['file']->renderLabel() ?>
+                                  <?php echo $drmCreationForm['file']->render(); ?>
+                              </span>
+                          </div>
                         </li>
                     </ul>
                 </div>
-              <div style="display: none;" class="ligne_form" id="file_edi_div_<?php echo $periode . '_' . $identifiant; ?>">
-                <span>
-                    <?php echo $drmCreationForm['file']->renderError(); ?>
-                    <?php echo $drmCreationForm['file']->renderLabel() ?>
-                    <?php echo $drmCreationForm['file']->render(); ?>
-                </span>
-            </div>
           </div>
         </div>
 

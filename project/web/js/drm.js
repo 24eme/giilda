@@ -295,7 +295,6 @@
 
         $('div.type_creation input').change(function () {
             var value = $(this).attr('value');
-            console. log(value);
             var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
 
             if (value == 'CREATION_EDI') {
