@@ -163,7 +163,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])) && !preg_match('/^[0-9]{10}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
                     $this->csvDoc->addErreur($this->createWrongNumeroCompteError($ligne_num, $csvRow));
                 }
                 if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
