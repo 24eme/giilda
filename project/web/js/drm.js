@@ -292,11 +292,10 @@
     };
 
     var initCreationDrmPopup = function () {
-        $('.popup_contenu a#drm_nouvelle_popup_close').click(function () {
-        });
 
-        $('.popup_creation_drm div.type_creation input').change(function () {
+        $('div.type_creation input').change(function () {
             var value = $(this).attr('value');
+            console. log(value);
             var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
 
             if (value == 'CREATION_EDI') {
