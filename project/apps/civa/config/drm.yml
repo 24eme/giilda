@@ -1,0 +1,13 @@
+all:
+  configuration:
+    drm:
+      negoce: true
+      details:
+        export_detail:
+          required: ["identifiant"]
+      export_pays_debut: { }
+      export_pays_fin: { "AUTRE": "Autres pays"}
+      reprise_donnees_url: true
+      sans_contrat_option: true
+      delai_ouverture_teledeclaration: "-6 month"
+      vrac_multi_produit: true

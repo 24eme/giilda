@@ -54,7 +54,13 @@ function multiArray2XML($preXML) {
 }
 
 function details2XmlDouane($detail) {
-	$confDetail = $detail->getConfig()->getDocument()->declaration->details;
+	$detailKey = $detail->getParent()->getKey();
+	$confDetail = null;
+	if(!$detail->getConfig()->getDocument()->declaration->exist($detailKey)){
+		$confDetail = $detail->getConfig()->getDocument()->declaration->details;
+	}else{
+		$confDetail = $detail->getConfig()->getDocument()->declaration->$detailKey;
+	}
         $preXML = array();
 		$keyForceDisplay = array();
 		foreach (array('stocks_debut', 'stocks_fin') as $type) {
@@ -68,7 +74,7 @@ function details2XmlDouane($detail) {
         foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 	  foreach ($detail->get($type) as $k => $v) {
 		if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
-                        $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
+                        $preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
 			if (preg_match('/replacement/', $confDetail->get($type)->get($k)->douane_cat)) {
 				$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth());
 				$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear());

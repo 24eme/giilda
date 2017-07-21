@@ -117,6 +117,8 @@
             initRaccourcis();
         }
 
+
+        initChoiceProduits();
         initCreationDrmPopup();
         initRegimeCrdsPopup();
         initCrds();
@@ -127,6 +129,17 @@
         initBoldSaisie();
         initAnnexes();
     });
+
+    var initChoiceProduits = function(){
+        $('.table_produit_body td.pointer').click(function() {
+            var checkbox = $(this).find('input[type=checkbox]');
+            checkbox.prop('checked',!checkbox.is(':checked'));
+        });
+
+        $('.table_produit_body td.pointer input[type=checkbox]').click(function(e) {
+            e.stopPropagation();
+        });
+    }
 
     var initAnnexes = function(){
 

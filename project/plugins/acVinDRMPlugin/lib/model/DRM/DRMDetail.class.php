@@ -191,7 +191,8 @@ class DRMDetail extends BaseDRMDetail {
         if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
           || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
-          || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)) {
+          || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)
+          || ($this->entrees->exist('cooperative') && $this->entrees->cooperative)) {
           $this->add('replacement_date',null);
         }else{
           $this->remove('replacement_date');
@@ -272,7 +273,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getContratsVracByHash($hash) {
-        return DRMClient::getInstance()->getContratsFromProduit($this->getDocument()->identifiant, $hash, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, VracClient::TYPE_TRANSACTION_VIN_VRAC));
+        return DRMClient::getInstance()->getContratsFromProduit($this->getDocument()->identifiant, $hash, array(VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, VracClient::TYPE_TRANSACTION_VIN_VRAC),$this->getDocument()->getDate());
     }
 
     public function isModifiedMother($key) {
@@ -422,7 +423,8 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function isEdited() {
-        return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
+
+        return $this->exist('edited') && $this->edited;
     }
 
     public function hasMovements() {
@@ -431,7 +433,7 @@ class DRMDetail extends BaseDRMDetail {
             return true;
         }
 
-        return $this->getCepage()->hasMovements();
+        return !$this->exist('no_movements') || !$this->no_movements;
     }
 
     public function updateDroitsDouanes() {

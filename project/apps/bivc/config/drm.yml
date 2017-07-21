@@ -9,3 +9,4 @@ all:
           creation: true
       export_pays_debut: { }
       export_pays_fin: { "AUTRE": "Autres pays"}
+      vrac_multi_produit: false
