@@ -122,7 +122,6 @@ class drmActions extends drmGeneriqueActions {
                 break;
                 case DRMClient::DRM_CREATION_EDI :
                     $md5 = $this->creationDrmForm->getValue('file')->getMd5();
-
                     return $this->redirect('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5));
 
                 case DRMClient::DRM_CREATION_VIERGE :
@@ -145,7 +144,8 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request
      */
     public function executeVerificationEdi(sfWebRequest $request) {
-
+        set_time_limit(0);
+        ini_set('memory_limit', '512M');
         $this->md5 = $request->getParameter('md5');
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
@@ -154,8 +154,9 @@ class drmActions extends drmGeneriqueActions {
         $this->drm->identifiant = $this->identifiant;
         $this->drm->periode = $this->periode;
         $this->drm->teledeclare = true;
-
-        $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $this->md5, $this->drm);
+        $fileName = 'import_'.$this->drm->identifiant . '_' . $this->drm->periode.'_'.$this->md5.'.csv';
+        
+        $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
         $this->drmCsvEdi->checkCSV();
 
     }
@@ -438,11 +439,11 @@ class drmActions extends drmGeneriqueActions {
 
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
     }
-    
+
     public function executeConventionCielPdf(sfWebRequest $request) {
 
 		$conventionCielPdf = $this->generateConventionCielPdf($this->getRoute()->getEtablissement());
-		
+
     	$response = $this->getResponse();
     	$response->setHttpHeader('Content-Type', 'application/pdf');
     	$response->setHttpHeader('Content-disposition', 'attachment; filename="' . basename($conventionCielPdf) . '"');
@@ -450,16 +451,16 @@ class drmActions extends drmGeneriqueActions {
     	$response->setHttpHeader('Pragma', '');
     	$response->setHttpHeader('Cache-Control', 'public');
     	$response->setHttpHeader('Expires', '0');
-    	 
+
     	return $this->renderText(file_get_contents($conventionCielPdf));
     }
-    
+
     protected function generateConventionCielPdf($etablissement) {
-    	
+
     	$compte = $etablissement->getSociete()->getMasterCompte();
     	$path = sfConfig::get('sf_data_dir').'/convention';
     	$filename = 'convention_ciel_'.$compte->identifiant.'.pdf';
-    	 
+
     	if (!file_exists($path.'/pdf/'.$filename)) {
     		$template = 'template_convention_'.sfConfig::get('app_teledeclaration_interpro').'.pdf';
     		if (!file_exists($path.'/'.$template)) {
@@ -473,7 +474,7 @@ class drmActions extends drmGeneriqueActions {
     			throw new sfException("Le pdf ".$filename." n'a pas pu être généré.");
     		}
     	}
-    	
+
     	return $path.'/pdf/'.$filename;
     }
 
