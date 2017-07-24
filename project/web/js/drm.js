@@ -304,7 +304,7 @@
             }
 
         });
-        $('.popup_creation_drm div.type_creation label').click(function () {
+        $('div.type_creation label').click(function () {
             $(this).siblings('input').click();
         });
 
