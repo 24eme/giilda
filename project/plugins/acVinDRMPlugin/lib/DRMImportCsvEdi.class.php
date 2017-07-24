@@ -213,7 +213,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function importMouvementsFromCSV($just_check = false) {
-            $all_produits = $this->configuration->declaration->getProduitsAll();
+            $all_produits = $this->configuration->declaration->getProduits(date("Y-m-d"));
 
             $num_ligne = 1;
             foreach ($this->getDocRows() as $csvRow) {
