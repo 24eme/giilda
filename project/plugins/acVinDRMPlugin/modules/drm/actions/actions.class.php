@@ -444,7 +444,7 @@ class drmActions extends drmGeneriqueActions {
     		}
     		$fdf = tempnam(sys_get_temp_dir(), 'CONVENTIONCIEL');
     		file_put_contents($fdf, utf8_decode($this->getPartial('common/fdfConvention', array('etablissement' => $etablissement))));
-    		exec('pdftk '.$path.'/'.$template.' fill_form '.$fdf.' output  '.$path.'/pdf/'.$filename.' flatten');
+    		exec('pdftk '.$path.'/'.$template.' fill_form '.$fdf.' output  /dev/stdout flatten |  gs -o '.$path.'/pdf/'.$filename.' -sDEVICE=pdfwrite -dEmbedAllFonts=true -sFONTPATH=\"/usr/share/fonts/truetype/freefont\" - ');
     		unlink($fdf);
     		if (!file_exists($path.'/pdf/'.$filename)) {
     			throw new sfException("Le pdf ".$filename." n'a pas pu être généré.");
