@@ -22,7 +22,7 @@
 /T (email)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->getMasterCompte()->nom ?>)
+/V ()
 /T (nom)
 >> 
 <<
@@ -54,7 +54,7 @@
 /T (isiret)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->getMasterCompte()->prenom ?>)
+/V ()
 /T (prenom)
 >> 
 <<
@@ -62,7 +62,7 @@
 /T (irs)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->getMasterCompte()->fonction ?>)
+/V ()
 /T (fonction)
 >> 
 <<
