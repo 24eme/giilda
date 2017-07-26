@@ -172,16 +172,22 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->declaration->getProduitsDetails($teledeclarationMode, $detailsKey);
     }
 
-    public function getDetailsByHash($hash_details_or_cepage){
+    public function getDetailsByHash($hash_details_or_cepage, $detailsKey = null){
       if($this->exist($hash_details_or_cepage)){
         $node_details_or_cepage = $this->get($hash_details_or_cepage);
         if($node_details_or_cepage instanceof DRMCepage){
-          return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+          if($detailsKey &&
+          in_array($detailsKey, array(self::DETAILS_KEY_SUSPENDU,self::DETAILS_KEY_ACQUITTE)) &&
+          $node_details_or_cepage->exist($detailsKey)){
+            return $node_details_or_cepage->get($detailsKey)->get(self::DEFAULT_KEY);
+          }else{
+            return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+          }
         }elseif($node_details_or_cepage instanceof DRMDetail){
           return $node_details_or_cepage;
         }
       }
-      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
+      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la $this->_id ");
     }
 
     public function getProduitsWithCorrespondance($conf = null) {
@@ -300,8 +306,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$isTeledeclarationMode) {
             $tobedeleted = array();
             foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
-                $details->getCepage()->add('no_movements', false);
-                $details->getCepage()->add('edited', false);
+                $details->getCepage()->remove('no_movements');
+                $details->getCepage()->remove('edited');
+                $details->add('no_movements', false);
+                $details->add('edited', false);
                 if (!$details->getCepage()->getConfig()->isCVOActif($drm_suivante->getDate())) {
                     $tobedeleted[] = $details->getHash();
                 }
@@ -1007,7 +1015,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details/.+)/' . $hash_match . '$|', $key, $match)) {
             $detail = $this->get($match[1]);
             if (!$drm->exist($detail->getHash())) {
-                $drm->addProduit($detail->getCepage()->getHash(), $detail->labels->toArray());
+                $drm->addProduit($detail->getCepage()->getHash(),DRMClient::$types_node_from_libelles[$detail->getTypeDRM()], $detail->labels->toArray());
             }
             $drm->get($detail->getHash())->set($hash_replication, $value);
         }
@@ -1073,6 +1081,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function getEtablissementObject() {
         return $this->getEtablissement();
+    }
+
+    public function hasEtablissementDroitsAcquittes() {
+        return $this->getEtablissement()->getSociete()->hasDroitsAcquittes();
     }
 
     public function isDRMNegociant() {

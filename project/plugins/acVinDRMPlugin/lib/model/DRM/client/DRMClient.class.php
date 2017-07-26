@@ -516,6 +516,32 @@ class DRMClient extends acCouchdbClient {
         return elision($origineLibelle, $df);
     }
 
+    public function getVersionLibelleFromId($id) {
+        if (!$id) {
+            return null;
+        }
+        $drmSplited = explode('-', $id);
+        if(!isset($drmSplited[3]))
+        {
+          return "";
+        }
+        $version = $drmSplited[3];
+        $versionNum = substr($version, 1, 3);
+        return $versionNum;
+    }
+
+    public function getPeriodeFromId($id) {
+        if (!$id) {
+            return null;
+        }
+        $drmSplited = explode('-', $id);
+        if(!isset($drmSplited[2]))
+        {
+          return "";
+        }
+        return $drmSplited[2];
+    }
+
     public static function determineTypeDocument($numero_document) {
         if (preg_match('/^\d{3}$/', $numero_document)) {
             return self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE;
@@ -567,7 +593,7 @@ class DRMClient extends acCouchdbClient {
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
           throw new sfException('mois not found');
       }
-      $mois = $m[1];
+      $mois = sprintf("%02d",$m[1]);
       if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
           throw new sfException('Annee not found');
       }

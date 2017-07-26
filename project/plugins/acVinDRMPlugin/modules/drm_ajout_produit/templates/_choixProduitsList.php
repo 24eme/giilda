@@ -7,9 +7,9 @@
                 <tr>
                     <th style="width: 50%;">&nbsp;
                     </th>
-                    <th style="width: 25%;">Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
-                    <?php if ($drm->getConfig()->declaration->hasAcquitte()): ?>
-	                     <th style="width: 25%;">Déclarer des mouvements en droits acquittés</th>
+                    <th style="width: 25%;">Produit à déclarer ce mois en droits suspendus&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
+                    <?php if ($drm->getConfig()->declaration->hasAcquitte() && $drm->hasEtablissementDroitsAcquittes()): ?>
+	                     <th style="width: 25%;">Produit à déclarer ce mois en droits acquittés</th>
                     <?php endif; ?>
                 </tr>
             </thead>
@@ -18,7 +18,7 @@
                     <tr>
                         <td style="text-align: left;"><?php echo $produit->getLibelle("%format_libelle%"); ?></td>
                         <td class="checkbox_table_cell"><?php echo $form['produit' . $produit->getHashForKey()]->render(); ?></td>
-                          <?php if ($drm->getConfig()->declaration->hasAcquitte()): ?>
+                          <?php if ($drm->getConfig()->declaration->hasAcquitte() && $drm->hasEtablissementDroitsAcquittes()): ?>
                     	       <td class="checkbox_table_cell"><?php echo $form['acquitte' . $produit->getHashForKey()]->render(); ?></td>
                          <?php endif; ?>
                     </tr>
@@ -32,9 +32,9 @@
                 <tr>
                     <th style="width: 50%;">&nbsp;
                     </th>
-                    <th>Produit à déclarer ce mois&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
-                    <?php if ($drm->getConfig()->declaration->hasAcquitte()): ?>
-		                    <th style="width: 25%;">Déclarer des mouvements en droits acquittés</th>
+                    <th>Produit à déclarer ce mois en droits suspendus&nbsp;<a href="" class="msg_aide_drm icon-msgaide" title="<?php echo getHelpMsgText('drm_produits_aide2'); ?>" style="float:right; padding: 0 10px 0 0;"></a></th>
+                    <?php if ($drm->getConfig()->declaration->hasAcquitte() && $drm->hasEtablissementDroitsAcquittes()): ?>
+		                    <th style="width: 25%;">Produit à déclarer ce mois en droits acquittés</th>
                     <?php endif; ?>
                 </tr>
             </thead>

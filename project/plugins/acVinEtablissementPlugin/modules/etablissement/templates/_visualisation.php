@@ -124,7 +124,7 @@ if (!isset($fromSociete))
                     Régime de CRD :
                 </label>
          <?php if ($etablissement->exist('crd_regime') && $etablissement->crd_regime) : ?>
-                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?> <input type="submit" value="Réinitialiser le regime CRD"/>
+                    <?php echo EtablissementClient::$regimes_crds_libelles[$etablissement->crd_regime]; ?> <br/><br/><input type="submit" class="btn_majeur btn_nouveau" value="Réinitialiser le regime CRD pour les DRM suspendues"/>
          <?php else: ?>
 		    En attente de saisie par l'utilisateur
          <?php endif; ?> </form>
@@ -133,7 +133,7 @@ if (!isset($fromSociete))
                 <label for="commentaire">
                     Caution :</label>
                 <?php echo ($etablissement->exist('caution') && $etablissement->caution) ? "Caution" : (($etablissement->exist('caution') && !is_null($etablissement->caution)) ? "Dispensé" : "Non défini");
-                    echo ($etablissement->exist('caution') && $etablissement->caution)? " / ".$etablissement->raison_sociale_cautionneur : '';
+                    echo ($etablissement->exist('caution') && $etablissement->caution && $etablissement->exist('raison_sociale_cautionneur'))? " / ".$etablissement->raison_sociale_cautionneur : '';
                  ?>
             </div>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
