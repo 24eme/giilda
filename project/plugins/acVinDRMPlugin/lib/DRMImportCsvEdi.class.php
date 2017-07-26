@@ -183,21 +183,33 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             }
         }
 
+
+
         private function checkImportMouvementsFromCSV() {
             return $this->importMouvementsFromCSV(true);
-        }
-
-        private function checkImportCrdsFromCSV() {
-            return $this->importCrdsFromCSV(true);
         }
 
         private function checkImportAnnexesFromCSV() {
             return $this->importAnnexesFromCSV(true);
         }
 
-        private function importMouvementsFromCSV($just_check = false) {
-            $all_produits = $this->configuration->declaration->getProduitsAll();
+        private function checkImportCrdsFromCSV() {
+            return $this->importCrdsFromCSV(true);
+        }
 
+        private function checkHorsRegionFromCSV() {
+          $etablissementObj = $this->drm->getEtablissementObject();
+          if ($etablissementObj->region == EtablissementClient::REGION_HORS_CVO) {
+            $this->csvDoc->addErreur($this->importHorsRegionError());
+          }
+        }
+
+        private function importMouvementsFromCSV($just_check = false) {
+                $aggregatedEdiList = null;
+                if(DRMConfiguration::getInstance()->hasAggregatedEdi()){
+                  $aggregatedEdiList = DRMConfiguration::getInstance()->getAggregatedEdi();
+                }
+                $all_produits = $this->configuration->declaration->getProduitsAll();
             $num_ligne = 1;
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CAVE)) {
@@ -235,7 +247,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $founded_produit = $produit;
                     $date = new DateTime($this->drm->getDate());
                     if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
-                      $founded_produit = $produit->getProduitSiblingWithTaux($date);
+
+                      if($aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
+                      && isset($aggregatedEdiList[0][$founded_produit->getHash()])){
+                        $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
+                      }else{
+                        $founded_produit = $produit->getProduitSiblingWithTaux($date);
+                      }
                     }
                 }
                 if (!$founded_produit) {
@@ -696,6 +714,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                       "Le type de ces CRD n'est pas reconnu.",
                                       CSVDRMClient::LEVEL_WARNING);
         }
+
+
+    private function importHorsRegionError() {
+    	return $this->createError(0, "Etablissemment", "Import DRM non permis pour les établissements hors région.");
+    }
 
         private function annexesTypeMvtWrongFormatError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,

@@ -11,3 +11,4 @@ all:
       export_pays_fin: { "AUTRE": "Autres pays"}
       vrac_multi_produit: false
       crd_only_suspendus: false
+      aggregate_edi: [ ]
