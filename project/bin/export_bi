@@ -13,10 +13,10 @@ echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SA
 
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code
 
-echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements.csv
+echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | grep -Ev "(AOC_HORSINTERLOIRE|IGP_VALDELOIRE|IGP_HORSVALDELOIRE|VINSSIG)" >> $TMP/export_bi_mouvements.csv
 
-echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements_igp.csv
+echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements_igp.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | grep -E "(IGP_VALDELOIRE|IGP_HORSVALDELOIRE)" >> $TMP/export_bi_mouvements_igp.csv
 
 
@@ -53,9 +53,9 @@ echo "\"En Compte\";"$ENTETE_MDVPLV > $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"VITICULTEUR";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Clients.csv
 cat  $TMP/export_bi_societes.csv | grep ';"NEGOCIANT";' | sed 's/^/\"En Compte\";/' >> $TMP/PLV_Clients.csv
 
-cat $TMP/PLV_Clients.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Clients.tmp.csv 
-cat $TMP/MDV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/MDV_Fournisseurs.tmp.csv 
-cat $TMP/PLV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Fournisseurs.tmp.csv 
+cat $TMP/PLV_Clients.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Clients.tmp.csv
+cat $TMP/MDV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/MDV_Fournisseurs.tmp.csv
+cat $TMP/PLV_Fournisseurs.csv | sed "s/\"ACTIF\"//g" > $TMP/PLV_Fournisseurs.tmp.csv
 
 cat $TMP/PLV_Clients.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' |  awk -F '";"' 'BEGIN { OFS="\";\"" } { $15=$15" |"$16; $16="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/PLV_Clients.csv
 cat $TMP/MDV_Fournisseurs.tmp.csv | sed 's/^SOCIETE/"SOCIETE"/' | sed 's/;;/;"";/g' | sed 's/;;/;"";/g' | awk -F '";"' 'BEGIN { OFS="\";\"" } { $16=$16" |"$17; $17="ASUPPRIMER"; print $0 }' | sed 's/;\"ASUPPRIMER\"*//g' | sed 's/|";/";/g' > $TMP/MDV_Fournisseurs.csv
