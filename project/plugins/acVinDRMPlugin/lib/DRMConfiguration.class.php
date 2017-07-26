@@ -75,4 +75,16 @@ class DRMConfiguration {
 
         return $this->configuration['crd_only_suspendus'];
     }
+
+    public function hasAggregatedEdi() {
+
+        return boolval($this->configuration['aggregate_edi']);
+    }
+
+    public function getAggregatedEdi() {
+
+        return $this->configuration['aggregate_edi'];
+    }
+
+
 }
