@@ -141,6 +141,16 @@ a.admin { color: #ff0000; }
     color: #000;
 }
 
+p a {
+    color: #000;
+    text-decoration: underline;
+}
+
+p a:hover, a:focus {
+    color: #000;
+    text-decoration: none;
+}
+
 /******* ETAPES DRM ***/
 ul.navbar-nav {
 	padding: 0 0 0 5px;
