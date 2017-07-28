@@ -85,4 +85,4 @@ if ($vrac->mandataire_exist) {
     \def\CONTRATGENERIQUEDOMAINE{Générique}
 <?php endif; ?>
 
-\def\CONTRATBIO{<?php echo ($vrac->hasLabel(VracClient::LABEL_AGRICULTURE_BIOLOGIQUE))? ' - Agriculture Biologique' : ''; ?>}
+\def\CONTRATBIO{<?php echo ($vrac->isBio())? ' - Agriculture Biologique (AB)' : ''; ?>}

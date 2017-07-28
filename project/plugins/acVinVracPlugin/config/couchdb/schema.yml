@@ -22,10 +22,10 @@ Vrac:
             telephone: {  }
 #Soussigné (Part 1)
       vendeur_identifiant: {  }
-      vendeur:        
+      vendeur:
         type: collection
         definition:
-          fields:            
+          fields:
             nom: {  }
             raison_sociale: {  }
             cvi: {  }
@@ -50,7 +50,7 @@ Vrac:
             code_postal: {   }
             region: {   }
       mandataire_exist: {   }
-      mandatant: 
+      mandatant:
         type: array_collection
         definition:
           fields:
@@ -122,10 +122,10 @@ Vrac:
 
       volume_propose: { type: float }
       volume_enleve: { type: float }
-      
+
       enlevement_date: {  }
       enlevement_frais_garde: { type: float }
-
+      bio_ecocert: {  }
       valide:
         type: collection
         definition:

@@ -637,4 +637,25 @@ $(document).ready(function()
         $(this).nettoyageChampsWithFourPrecision();
     });
 
+    $("div#signature_popup_content input#popup_validation_bio_ecocert").click(function(){
+         $("input#vrac_validation_bio_ecocert").prop( "checked", $(this).is(":checked"));
+         var dataHref =   $("a#signature_popup_confirm").attr('data-lien');
+         if($(this).is(":checked")){
+           $("a#signature_popup_confirm").attr('href',dataHref+"?popup_validation_bio_ecocert=true");
+         }else{
+             $("a#signature_popup_confirm").attr('href',dataHref);
+         }
+    });
+
+    $("div#signature_popup_content input#engagement_bio_ecocert").click(function(){
+
+        if($(this).is(":checked")){
+          $(".ecocert_confirmed").show();
+          $(".ecocert_not_confirmed").hide();
+        }else{
+          $(".ecocert_confirmed").hide();
+          $(".ecocert_not_confirmed").show();
+        }
+    });
+
 });
