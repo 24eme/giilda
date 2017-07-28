@@ -116,7 +116,7 @@ class drmActions extends drmGeneriqueActions {
                           fclose($stream);
                       }
                   if(!$resultFile){
-                    throw new sfException("Enregistrement du fichier EDI échoué");
+                    throw new sfException("Enregistrement du fichier EDI échoué : consulter l'url ".$url_reprise_donnees_drm);
                   }
                   return $this->redirect('drm_creation_fichier_edi',array('identifiant' => $identifiant,'periode' => $periode,'md5' => $md5file));
                 break;
