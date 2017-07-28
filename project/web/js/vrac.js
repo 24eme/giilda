@@ -649,7 +649,7 @@ $(document).ready(function()
 
     $("div#signature_popup_content input#engagement_bio_ecocert").click(function(){
 
-        if($(this).prop(":checked")){
+        if($(this).prop("checked")){
           $(".ecocert_confirmed").show();
           $(".ecocert_not_confirmed").hide();
         }else{
