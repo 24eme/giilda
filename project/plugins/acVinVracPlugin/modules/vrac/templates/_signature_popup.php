@@ -3,12 +3,12 @@
         <h2>Veuillez confirmer la signature du contrat </h2>
         <div class="ligne_btn">
           <?php if($vrac->isBio() && $etablissementPrincipal->isNegociant()): ?>
-            <input name="popup_validation_bio_ecocert" id="popup_validation_bio_ecocert" type="checkbox">
-            <label for="popup_validation_bio_ecocert">j'ai le certificat Ecocert du vendeur</label>
+            <input name="popup_validation_bio_ecocert" id="popup_validation_bio_ecocert" type="checkbox" style="margin:0; vertical-align: bottom;  position: relative; top: -1px">
+            <label for="popup_validation_bio_ecocert" style="font-weight:bold;" >&nbsp;j'ai le certificat Ecocert du vendeur</label>
           <?php endif; ?>
           <?php if($vrac->isBio() && $etablissementPrincipal->isViticulteur() && (!$vrac->hasBioEcocert())): ?>
-            <input name="engagement_bio_ecocert" id="engagement_bio_ecocert" type="checkbox">
-            <label for="engagement_bio_ecocert">Je m'engage à fournir à l'acheteur le certificat Ecocert</label>
+            <input name="engagement_bio_ecocert" id="engagement_bio_ecocert" type="checkbox" style="margin:0; vertical-align: bottom;  position: relative; top: -1px">
+            <label for="engagement_bio_ecocert" style="font-weight:bold;" >&nbsp;Je m'engage à fournir à l'acheteur le certificat Ecocert</label>
           <?php endif; ?>
         </div>
         <br/>
