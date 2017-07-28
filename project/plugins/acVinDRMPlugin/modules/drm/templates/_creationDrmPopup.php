@@ -66,9 +66,31 @@
                               </span>
                           </div>
                         </li>
+
+                        <?php if(DRMConfiguration::getInstance()->getRepriseDonneesUrl()): ?>
+                        <li class="row col-xs-10 col-xs-offset-1 loading-msg" style="display:none;">
+                          <div class="row">
+                            <div class="col-xs-1">
+                             <div class="loader"></div>
+                            </div>
+                            <div class="col-xs-11">
+                               <p>La génération de votre DRM est en cours. Merci de patienter.<br/><small>La procédure peut prendre 30 secondes</small></p>
+                            </div>
+                          </div>
+                        </li>
+                      <?php endif; ?>
                     </ul>
                 </div>
           </div>
+          <?php if(DRMConfiguration::getInstance()->getRepriseDonneesUrl()): ?>
+          <script type="text/javascript">
+            $("button#drm_nouvelle_popup_confirm").click(function(){
+              $("a#drm_nouvelle_popup_close").css("opacity","0.7");
+              $(this).attr("disabled","disabled");
+              $(".loading-msg").show();
+            });
+          </script>
+        <?php endif; ?>
         </div>
 
        <div class="modal-footer">
