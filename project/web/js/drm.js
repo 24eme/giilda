@@ -295,7 +295,7 @@
 
         $('div.type_creation input').change(function () {
             var value = $(this).attr('value');
-            var id_drm = $(this).parents('div').attr('id').replace('type_creation_div_', '');
+            var id_drm = $(this).parents('div.type_creation').attr('id').replace('type_creation_div_', '');
 
             if (value == 'CREATION_EDI') {
                 $('#file_edi_div_' + id_drm).show();
@@ -303,9 +303,6 @@
                 $('#file_edi_div_' + id_drm).hide();
             }
 
-        });
-        $('div.type_creation label').click(function () {
-            $(this).siblings('input').click();
         });
 
     };
