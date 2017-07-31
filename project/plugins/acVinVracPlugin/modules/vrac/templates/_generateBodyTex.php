@@ -78,8 +78,8 @@ A été conclu le marché suivant: \\
 \\
 
 \large{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} & \multicolumn{1}{c|}{\large{\CONTRATTYPE}} & \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} \\
-<?php if($vrac->isBio()): ?>
 ~ & ~ & ~ & ~ & ~ \\
+<?php if($vrac->isBio()): ?>
 \cline{1-1}
 ~ & ~ & ~ & ~ & ~ \\
 \multicolumn{1}{|l|}{\textit{~\CONTRATBIO}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
@@ -90,9 +90,6 @@ A été conclu le marché suivant: \\
 	\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
 	~ & ~ & ~ & ~ & ~ \\
 <?php endif; ?>
-
-~ & ~ & ~ & ~ & ~
-\\
 \hline
 \end{tabularx}
 \\

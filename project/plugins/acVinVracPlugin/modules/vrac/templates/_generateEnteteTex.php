@@ -85,4 +85,4 @@ if ($vrac->mandataire_exist) {
     \def\CONTRATGENERIQUEDOMAINE{}
 <?php endif; ?>
 
-\def\CONTRATBIO{<?php echo ($vrac->isBio())? ' - Agriculture Biologique (AB)' : ''; ?>}
+\def\CONTRATBIO{<?php echo ($vrac->isBio())? 'Agriculture Biologique (AB)' : ''; ?>}
