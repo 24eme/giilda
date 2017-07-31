@@ -146,7 +146,7 @@ function showRecapVolumePropose($vrac) {
 }
 
 function showRecapLabel($vrac) {
-    return ($vrac->hasLabel(VracClient::LABEL_AGRICULTURE_BIOLOGIQUE))? 'Agriculture Biologique' : '';
+    return ($vrac->hasLabel(VracClient::LABEL_AGRICULTURE_BIOLOGIQUE))? 'Agriculture Biologique (AB)' : '';
 }
 
 function showUnite($vrac) {

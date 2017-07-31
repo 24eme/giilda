@@ -3,7 +3,7 @@
  * Description : Fichier php correspondant à la vue de vrac/XXXXXXXXXXX/validation
  * Formulaire d'enregistrement de la partie validation d'un contrat donnant le récapitulatif
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
+ * Version : 1.0.0
  * Derniere date de modification : 28-05-12
  */
 use_helper('Vrac');
@@ -16,8 +16,8 @@ use_helper('Vrac');
 </script>
 
 <section id="principal">
-    <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>        
-    <div id="contenu_etape"> 
+    <?php include_partial('headerVrac', array('vrac' => $vrac, 'compte' => $compte, 'actif' => 4,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+    <div id="contenu_etape">
         <form id="vrac_validation" method="post" action="<?php echo url_for('vrac_validation', $vrac) ?>">
             <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
             <?php if ($isTeledeclarationMode): ?>
@@ -36,18 +36,23 @@ use_helper('Vrac');
                 <?php endif; ?>
                 <?php if ($validation->isValide()) : ?>
                     <?php if ($isTeledeclarationMode): ?>
+                      <?php if($vrac->isBio() && $etablissementPrincipal->isNegociant()): ?>
+                        <div style="display:none">
+                          <input name="vrac_validation_bio_ecocert" id="vrac_validation_bio_ecocert" type="checkbox">
+                        </div>
+                      <?php endif; ?>
                         <?php if ($signatureDemande): ?>
-                            <a id="signature_popup_haut" href="#signature_popup_content" class="btn_validation signature_popup"><span>Signer le contrat</span></a> 
+                            <a id="signature_popup_haut" href="#signature_popup_content" class="btn_validation signature_popup"><span>Signer le contrat</span></a>
                             <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal, 'validation' => true)); ?>
                         <?php endif; ?>
                     <?php else: ?>
-                        <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>  
+                        <a id="btn_validation" class="btn_validation"><span>Terminer la saisie</span></a>
                     <?php endif; ?>
                 <?php endif; ?>
-            </div> 
+            </div>
         </form>
     </div>
-    <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?>
 </section>
 <?php
 if ($isTeledeclarationMode):

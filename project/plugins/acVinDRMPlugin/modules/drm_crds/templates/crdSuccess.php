@@ -7,14 +7,14 @@
     <?php include_partial('drm/etapes', array('drm' => $drm, 'isTeledeclarationMode' => true, 'etape_courante' => DRMClient::ETAPE_CRD)); ?>
     <div id="application_drm">
         <div id="contenu_etape">
-            <div id="contenu_onglet">                    
+            <div id="contenu_onglet">
                 <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_crds_texte1'); ?></p>
                 <form id="form_crds" action="<?php echo url_for('drm_crd', $crdsForms->getObject()); ?>" method="post"  class="hasBrouillon" >
                     <?php echo $crdsForms->renderGlobalErrors(); ?>
                     <?php echo $crdsForms->renderHiddenFields(); ?>
                     <?php foreach ($allCrdsByRegimeAndByGenre as $regime => $crdAllGenre): ?>
                         <?php foreach ($crdAllGenre as $genre => $crds): ?>
-                            <h2>Stocks CRD de vins <?php echo EtablissementClient::$regimes_crds_libelles[$regime]; ?> <?php echo getLibelleForGenre($genre); ?></h2>                      
+                            <h2>Stocks CRD de vins <?php echo EtablissementClient::$regimes_crds_libelles[$regime]; ?> <?php echo getLibelleForGenre($genre); ?></h2>
                             <table id="table_drm_crds" class="table_recap">
                                 <thead >
                                     <tr>
@@ -41,7 +41,7 @@
                                         <tr class="crd_row" id="<?php echo $regime.'-'.str_replace(".", "", $crdKey); ?>">
                                             <td class="type_crd_col"><?php echo $crd->getShortLibelle(); ?></td>
                                             <td class="crds_debut_de_mois"><?php
-                                                if ($crd->stock_debut) {
+                                                if ($crd->stock_debut && !$isUsurpationMode) {
                                                     echo $crd->stock_debut;
                                                 } echo $crdsForms['stock_debut_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int'));
                                                 ?></td>
