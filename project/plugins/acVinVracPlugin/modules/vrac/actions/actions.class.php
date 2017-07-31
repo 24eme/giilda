@@ -334,6 +334,8 @@ class vracActions extends sfActions {
         }
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
         $this->vrac->signatureByEtb($this->etablissement_concerned);
+        $validation_bio = $request->getParameterHolder()->get("popup_validation_bio_ecocert");
+        $this->vrac->bio_ecocert = boolval($validation_bio);
         $this->vrac->save();
 
         if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE && sfConfig::get('app_vrac_teledeclaration_visa_automatique', true)) {
@@ -576,16 +578,20 @@ class vracActions extends sfActions {
         $this->vracs = VracClient::getInstance()->retrieveSimilaryContracts($this->vrac);
         $this->contratsSimilairesExist = (isset($this->vracs) && !$this->vracs && count($this->vracs) > 0);
         $this->validation = new VracValidation($this->vrac, $this->isTeledeclarationMode);
-
         if ($request->isMethod(sfWebRequest::POST)) {
             if ($this->validation->isValide()) {
                 $this->maj_etape(4);
                 $this->vrac->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
+                $validation_bio = $request->getParameterHolder()->get("vrac_validation_bio_ecocert");
+                $this->vrac->bio_ecocert = boolval($validation_bio);
+
+                } else {
+                    throw new sfException($this->form->renderGlobalErrors());
+                }
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
                 $this->redirect('vrac_visualisation', $this->vrac);
-            }
         }
     }
 

@@ -814,4 +814,15 @@ class Vrac extends BaseVrac {
         return in_array($label,$this->getLabel()->toArray(0,1));
 
     }
+
+    public function isBio()
+    {
+        return $this->hasLabel(VracClient::LABEL_AGRICULTURE_BIOLOGIQUE);
+
+    }
+
+    public function hasBioEcocert(){
+      return $this->exist("bio_ecocert") && $this->bio_ecocert;
+    }
+
 }
