@@ -100,11 +100,10 @@ A été conclu le marché suivant: \\
 <?php endif; ?>
 \\
 \textbf{\normalsize{\underline{Prix} :}} \CONTRATTYPEEXPLICATIONPRIX
+\textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, <?php if($isIGP): ?>conforme à l'Accord Interprofessionnel du C.I.V.D.L.<?php else : ?>conforme à l'art. III-2 de l'Accord Interprofessionnel<?php endif; ?>}
 <?php if(!$vrac->isDomaine() && !$vrac->isBio()): ?>
 \\
 <?php endif; ?>
-\textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, <?php if($isIGP): ?>conforme à l'Accord Interprofessionnel du C.I.V.D.L.<?php else : ?>conforme à l'art. III-2 de l'Accord Interprofessionnel<?php endif; ?>}
-\\
 \\
 <?php if($isIGP): ?>
 \\
