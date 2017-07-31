@@ -335,7 +335,7 @@ class vracActions extends sfActions {
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
         $this->vrac->signatureByEtb($this->etablissement_concerned);
         $validation_bio = $request->getParameterHolder()->get("popup_validation_bio_ecocert");
-        $this->vrac->bio_ecocert = boolval($validation_bio);
+        $this->vrac->add("bio_ecocert",boolval($validation_bio));
         $this->vrac->save();
 
         if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE && sfConfig::get('app_vrac_teledeclaration_visa_automatique', true)) {
