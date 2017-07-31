@@ -4,7 +4,7 @@
         <div class="ligne_btn">
           <?php if($vrac->isBio() && $etablissementPrincipal->isNegociant()): ?>
             <input name="popup_validation_bio_ecocert" id="popup_validation_bio_ecocert" type="checkbox" style="margin:0; vertical-align: bottom;  position: relative; top: -1px">
-            <label for="popup_validation_bio_ecocert" style="font-weight:bold;" >&nbsp;j'ai le certificat Ecocert du vendeur</label>
+            <label for="popup_validation_bio_ecocert" style="font-weight:bold;" >&nbsp;J'ai le certificat Ecocert du vendeur</label>
           <?php endif; ?>
           <?php if($vrac->isBio() && $etablissementPrincipal->isViticulteur() && (!$vrac->hasBioEcocert())): ?>
             <input name="engagement_bio_ecocert" id="engagement_bio_ecocert" type="checkbox" style="margin:0; vertical-align: bottom;  position: relative; top: -1px">
