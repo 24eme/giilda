@@ -81,16 +81,23 @@ A été conclu le marché suivant: \\
 ~ & ~ & ~ & ~ & ~ \\
 <?php if($vrac->isBio()): ?>
 \cline{1-1}
-\multicolumn{1}{|l|}{\textit{~\CONTRATBIO}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
+~ & ~ & ~ & ~ & ~ \\
+\multicolumn{1}{|l|}{\CONTRATBIO} & ~ & ~ & ~ & ~ \\
+~ & ~ & ~ & ~ & ~ \\
 <?php endif; ?>
 <?php if($vrac->isDomaine()): ?>
 	\cline{1-1}
-	\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
+	~ & ~ & ~ & ~ & ~ \\
+	\multicolumn{1}{|l|}{\textbf{Avec nom de domaine} utilisable par l’acheteur : } & ~ & ~ & ~ & ~ \\
+	\multicolumn{1}{|l|}{\CONTRATGENERIQUEDOMAINE} & ~ & ~ & ~ & ~ \\
+	~ & ~ & ~ & ~ & ~ \\
 <?php endif; ?>
 \hline
 \end{tabularx}
+<?php if(!$vrac->isDomaine() && !$vrac->isBio()): ?>
 \\
 \\
+<?php endif; ?>
 \\
 \textbf{\normalsize{\underline{Prix} :}} \CONTRATTYPEEXPLICATIONPRIX
 \\
