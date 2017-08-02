@@ -322,7 +322,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     } else {
                         $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-                        if($drmDetails->canSetStockDebutMois()){
+                        if($drmDetails->hasPrecedente()){
                           $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
                         }
                     }
