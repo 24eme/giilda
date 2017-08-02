@@ -1,0 +1,33 @@
+details;stocks_debut;instance;Revendication;Vin en instance de revendication;Vin en instance de revendication
+details;stocks_debut;revendique;Stock revendiqué dbt de mois;Stock revendiqué dbt de mois;Stock revendiqué dbt de mois
+details;entrees;achatcrd;Achat CRD;Achat de vin en CRD;Achat de vin en CRD
+details;entrees;achatnoncrd;Achat non CRD;Achat de vin non CRD;Achat de vin non CRD
+details;entrees;declassement;Déclassement;Déclassement;Déclassement
+details;entrees;regularisation;Régularisation;Régularisation;Régularisation
+details;entrees;transfertsinternes;Transfert interne;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre
+details;entrees;repli;Repli;Repli;Repli
+details;entrees;travailafacon;Travail à façon;Retour d'embouteillage, relogement, travail à façon, distillation à façon;Retour d'embouteillage, relogement, travail à façon, distillation à façon
+details;entrees;retourmarchandisenontaxees;Retour non taxé;Retour de marchandises non taxées;Retour de marchandises non taxées
+details;entrees;retourmarchandisetaxees;Retour déjà taxé;Retour de marchandises ayant déjà été taxées;Retour de marchandises ayant déjà été taxées
+details;entrees;transfertcomptamatierecession;Transfert externe;Transfert de comptabilité matière et cession;Transfert de comptabilité matière et cession
+details;entrees;vci;VCI;VCI;VCI
+details;entrees;revendique;Revendiqué;Volume revendiqué;Volume revendiqué
+details;sorties;ventefrancebibcrd;Bib CRD;Ventes en France de Bib sous CRD;Ventes en France de Bib sous CRD
+details;sorties;ventefrancebouteillecrd;Bouteilles CRD;Ventes en France de Bouteilles sous CRD;Ventes en France de Bouteilles sous CRD
+details;sorties;cession;Cession;Cession d'activité;Cession d'activité
+details;sorties;consommationfamilialedegustation;Conso. Familiale;Consomation familiale et dégustation;Consomation familiale et dégustation
+details;sorties;vrac;Contrat;Contrat de vin en vrac ou conditionné;Contrat de vin en vrac ou conditionné
+details;sorties;declassement;Déclassement;Déclassement;Déclassement
+details;sorties;destructionperte;Destruction/perte;Destruction et pertes;Destruction et pertes
+details;sorties;manquant;Manquant;Manquant;Manquant
+details;sorties;export;Export;Export;Export
+details;sorties;contrathorsinterpro;Contrats hors interloire;Contrats hors interloire;Contrats hors interloire
+details;sorties;transfertsinternes;Transfert interne;Transferts internes d'un chai à un autre;Transferts internes d'un chai à un autre
+details;sorties;repli;Repli;Repli;Repli
+details;sorties;travailafacon;Travail à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon;Sortie d'embouteillage, relogement, travail à façon, distillation à façon
+details;sorties;vci;VCI;VCI;VCI
+details;sorties;vracsanscontratacquitte;Vrac acquitté;Sortie de vrac sans contrat (acquitté);Sortie de vrac sans contrat (acquitté)
+details;sorties;vracsanscontratsuspendu;Vrac suspendu;Sortie de vrac sans contrat (suspendu);Sortie de vrac sans contrat (suspendu)
+details;sorties;distillationusageindustriel;Usages industr.;Distillation et usages industriels;Distillation et usages industriels
+details;stocks_fin;instance;En instance de revendication;En instance de revendication;En instance de revendication
+details;stocks_fin;revendique;Stock revendiqué fin de mois;Stock revendiqué fin de mois;Stock revendiqué fin de mois
