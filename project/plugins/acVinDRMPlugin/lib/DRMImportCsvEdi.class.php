@@ -289,7 +289,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     $cat_key = $confDetailMvt->getParent()->getKey();
                     $type_key = $confDetailMvt->getKey();
-                    if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
+                    if($cat_key == "stocks_debut" && $drmDetails->hasPrecedente()) {
                         continue;
                     }
                     if ($confDetailMvt->hasDetails()) {
@@ -322,9 +322,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     } else {
                         $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-                        if(!$drmDetails->hasPrecedente()){
-                          $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
-                        }
+                        $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
                     }
                 } else {
                     if ($confDetailMvt->hasDetails()) {
