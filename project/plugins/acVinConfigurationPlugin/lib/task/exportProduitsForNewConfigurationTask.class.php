@@ -1,6 +1,6 @@
 <?php
 
-class exportForNewConfigurationTask extends sfBaseTask
+class exportProduitsForNewConfigurationTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -17,7 +17,7 @@ class exportForNewConfigurationTask extends sfBaseTask
     ));
 
     $this->namespace        = 'export';
-    $this->name             = 'configuration-for-new';
+    $this->name             = 'produits-for-new-configuration';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
 The [exportCSVConfiguration|INFO] task does things.
@@ -131,7 +131,10 @@ EOF;
 
         $format_libelle = $produit->getFormatLibelleCalcule();
         $format_libelle_noeud = $cvo_node->getTypeNoeud();
-        $cepages_autorises = count($produit->getCepagesAutorises())? implode($produit->getCepagesAutorises(),"|") : "";
+        $cepages_autorises = "";
+        if(method_exists(get_class($produit),'getCepagesAutorises') && count($produit->getCepagesAutorises())){
+          $cepages_autorises = implode($produit->getCepagesAutorises(),"|") ;
+        }
 
         echo sprintf("%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n","declaration",$certificationLibelle,$certificationKey,
         $genreLibelle,$genreKey,
