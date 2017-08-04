@@ -112,11 +112,13 @@ class drmActions extends drmGeneriqueActions {
                   if ($stream = fopen($url_reprise_donnees_drm, 'r')) {
                           // affiche toute la page, en commençant à la position 10
                           $resultFile = file_put_contents($path, stream_get_contents($stream));
-
                           fclose($stream);
                       }
-                  if(!$resultFile){
+                  if(!$resultFile && !file_exists ($path)){
                     throw new sfException("Enregistrement du fichier EDI échoué : consulter l'url ".$url_reprise_donnees_drm);
+                  }
+                  if(!$resultFile && file_exists($path)){
+                    return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
                   }
                   return $this->redirect('drm_creation_fichier_edi',array('identifiant' => $identifiant,'periode' => $periode,'md5' => $md5file));
                 break;
