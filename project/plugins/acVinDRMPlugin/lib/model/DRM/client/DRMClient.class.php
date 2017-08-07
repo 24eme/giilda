@@ -237,7 +237,7 @@ class DRMClient extends acCouchdbClient {
 
         $this->getHistorique($identifiant, $periode)->reload();
 
-        $drm = $this->createDocByPeriode($identifiant, $periode);
+        $drm = $this->createDocByPeriode($identifiant, $periode,true);
         $drm->type_creation = DRMClient::DRM_CREATION_EDI;
         $drm->etape = self::ETAPE_VALIDATION_EDI;
         $drm->teledeclare = true;
@@ -444,7 +444,6 @@ class DRMClient extends acCouchdbClient {
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
         $prev_drm = $this->getHistorique($identifiant, $periode)->getPrevious($periode);
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
-
         if ($prev_drm) {
             return $prev_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         } elseif ($next_drm) {
