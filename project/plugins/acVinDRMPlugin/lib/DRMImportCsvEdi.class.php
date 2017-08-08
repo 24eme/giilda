@@ -398,7 +398,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $num_ligne = 1;
             $etablissementObj = $this->drm->getEtablissementObject();
 
-            $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
             $all_contenances_origine = sfConfig::get('app_vrac_contenances');
             $all_contenances = array();
             foreach ($all_contenances_origine as $contenance_key => $contenance) {
@@ -410,6 +409,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
+                $crd_regime = "";
+                $crd_regime_libelle = KeyInflector::slugify($csvRow[self::CSV_CRD_REGIME]);
+                if(array_key_exists($crd_regime_libelle,self::$regimes_crd)){
+                  $crd_regime = self::$regimes_crd[$crd_regime_libelle];
+                }
+                if(!$crd_regime){
+                  $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
+                }
+
                 $genre = KeyInflector::slugify($csvRow[self::CSV_CRD_GENRE]);
                 $couleur = KeyInflector::slugify($csvRow[self::CSV_CRD_COULEUR]);
                 $litrageLibelle = strtoupper(str_replace(" ","",str_replace(",",".",$csvRow[self::CSV_CRD_CENTILITRAGE])));
@@ -439,8 +447,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     $centilitrage = $all_contenances[$litrageLibelle] * 100000;
                     $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
+
                     $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
                     if (!$regimeNode->exist($keyNode)) {
+                        $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
                         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
                     }
                     $regimeNode->getOrAdd($keyNode)->$fieldNameCrd = intval($quantite);
