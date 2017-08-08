@@ -78,7 +78,7 @@ A été conclu le marché suivant: \\
 \\
 
 \large{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} & \multicolumn{1}{c|}{\large{\CONTRATTYPE}} & \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} \\
-~ & ~ & ~ & ~ & ~ \\
+~ & ~ & ~ & ~ \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
 <?php if($vrac->isBio()): ?>
 \cline{1-1}
 ~ & ~ & ~ & ~ & ~ \\
