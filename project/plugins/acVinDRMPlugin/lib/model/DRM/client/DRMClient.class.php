@@ -625,5 +625,10 @@ class DRMClient extends acCouchdbClient {
           return $mouvementsSorted;
       }
 
+      public function existOnePrecedente($identifiant, $periode, $version = null) {
+          $idPrecedente = 'DRM-' . $identifiant . '-' . $this->getPeriodePrecedente($this->buildPeriodeAndVersion($periode, $version));
+          return $this->find($idPrecedente);
+      }
+
 
 }
