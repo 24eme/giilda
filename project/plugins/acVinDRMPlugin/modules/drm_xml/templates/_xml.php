@@ -11,8 +11,8 @@
 <?php endif; ?>
 		</identification-declarant>
 		<periode>
-			<mois><?php echo $drm->getMois() ?></mois>
-			<annee><?php echo $drm->getAnnee() ?></annee>
+			<mois><?php echo ($drm->getMois() * 1) ?></mois>
+			<annee><?php echo ($drm->getAnnee() * 1) ?></annee>
 		</periode>
 		<declaration-neant><?php echo ($drm->declaration->hasStockEpuise())? "true" : "false"; ?></declaration-neant>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
