@@ -1,6 +1,6 @@
 # Création de DRM sur le portail du CIVA
 
-La création des DRM sur le potail du CIVA peut se faire de différentes façons.
+*La création des DRM sur le potail du CIVA peut se faire de différentes façons.*
 
 Ce document d'aide détaille les différentes règles mise en place pour la création des DRM.
 
@@ -10,10 +10,10 @@ Ces stratégies de reprise de données et pré-remplissage des différents mouve
 
 Dans l'interface, il y a 3 manières de créer une DRM :
 
-1. Création d'une drm **pré-remplie**
-2. Création d'une drm **à néant**
-3. Création depuis un **logiciel tiers**
-4. **L'import** d'une DRM depuis un **logiciel de cave**
+1. Création d'une drm [**pré-remplie**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#1-cr%C3%A9ation-dune-drm-pr%C3%A9-remplie)
+2. Création d'une drm [**à néant**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#2-cr%C3%A9ation-dune-drm-%C3%A0-n%C3%A9ant)
+3. Création depuis un [**logiciel tiers**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#3-cr%C3%A9ation-depuis-un-logiciel-tiers)
+4. **L'import** d'une DRM depuis un [**logiciel de cave**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#4-limport-dune-drm-depuis-un-logiciel-de-cave)
 
 # Cadre général de saisie et reprise des produits par historique
 
@@ -57,7 +57,7 @@ On ditinguera ici deux types de reprise :
 
 Il y a **trois déclarations** différentes donnant lieu à des reprises de données :
 #### A. Reprise depuis la DS
-Dans tout les cas de figure on reprend le "catalogue produits" de **la dernière DS** sauf si **la DR est plus récente** (voir 2.)
+Dans tout les cas de figure on reprend le "catalogue produits" de **la dernière DS** sauf si **la DR est plus récente** (voir [B.](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#b-reprise-depuis-la-dr))
 
 En **août** de chaque année le **stock début de mois** est pré-remplie par le stock entrée dans la DS.
 
@@ -73,7 +73,7 @@ On reprend le **volume enlevé** du contrat, cela donne lieu à un nouveau volum
 
 ** **
 
-Comme expliqué ci dessus (0) et pour tout ces cas de figures, s'il y a un **historique de DRM**, les **produits ajoutés** à la DRM **enrichierons** le catalogue déjà repris de l'historique.
+Comme expliqué ci dessus ([drm avec historique](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#il-ne-sagit-pas-de-la-premi%C3%A8re-drm-il-existe-une-drm-pr%C3%A9c%C3%A9dente-au-civa)) et pour tout ces cas de figures, s'il y a un **historique de DRM**, les **produits ajoutés** à la DRM **enrichierons** le catalogue déjà repris de l'historique.
 
 
 ## 2. Création d'une drm à néant
@@ -88,9 +88,9 @@ S'il existe une DRM précédente la liste des produits est reprise s'il reste du
 
 *La création d'une DRM avec un fichier issu de logiciel de cave permet d'insérer les produits et mouvements déjà saisie dans son logiciel.*
 
-Un exemple de fichier est disponible ici.
+Un exemple de fichier est disponible [ici](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/exemple_export_drm.csv).
 
-On différenciera au niveau des produits (lignes CAVE), deux types de lignes : **les lignes stocks** et les **lignes mouvements**.
+On différenciera au niveau des produits (lignes [CAVE](https://github.com/24eme/mutualisation-douane/tree/master/logiciels-tiers#description-des-lignes-cave)), deux types de lignes : **les lignes stocks** et les **lignes mouvements**.
 
 #### 1. les lignes stocks :
 
@@ -102,7 +102,7 @@ Le stock de fin n'est jamais repris tel quel car le stock de fin de mois est rec
 
 #### 2. les lignes mouvements :
 
-Elles sont toutes reprise depuis le fichier à partir du moment ou le produit a été trouvé et que ce mouvement possède le bon format (voir ).
+Elles sont toutes reprise depuis le fichier à partir du moment ou le produit a été trouvé et que ce mouvement possède le bon format (voir [les mouvements du CIVA](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/catalogue_mouvements.csv)).
 
 ## 4. L'import d'une DRM depuis un logiciel de cave
 
