@@ -72,10 +72,7 @@ On reprend **les produits des contrats** ayant été **enlevés au mois de la DR
 
 On reprend le **volume enlevé** du contrat, cela donne lieu à une nouvelle ligne dans les différentes **sorties contrats** du produit avec l'acheteur et la date d'enlèvement.
 
-** **
-
-Comme expliqué ci dessus ([drm avec historique](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#il-ne-sagit-pas-de-la-premi%C3%A8re-drm-il-existe-une-drm-pr%C3%A9c%C3%A9dente-au-civa)) et pour tout ces cas de figures, s'il y a un **historique de DRM**, les **produits ajoutés** à la DRM **enrichierons** le catalogue déjà repris de l'historique.
-
+> Comme expliqué ci dessus ([drm avec historique](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#il-ne-sagit-pas-de-la-premi%C3%A8re-drm-il-existe-une-drm-pr%C3%A9c%C3%A9dente-au-civa)) et pour tout ces cas de figures, s'il y a un **historique de DRM**, les **produits ajoutés** à la DRM **enrichierons** le catalogue déjà repris de l'historique.```
 
 ## 2. Création d'une drm à néant
 
