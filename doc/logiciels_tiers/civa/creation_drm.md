@@ -1,6 +1,6 @@
 # Création de DRM sur le portail du CIVA
 
-*La création des DRM sur le potail du CIVA peut se faire de différentes façons.*
+*La création des DRM sur le portail du CIVA peut se faire de différentes façons.*
 
 Ce document d'aide détaille les différentes règles mise en place pour la création des DRM.
 
@@ -13,7 +13,6 @@ Dans l'interface, il y a 3 manières de créer une DRM :
 1. Création d'une drm [**pré-remplie**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#1-cr%C3%A9ation-dune-drm-pr%C3%A9-remplie)
 2. Création d'une drm [**à néant**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#2-cr%C3%A9ation-dune-drm-%C3%A0-n%C3%A9ant)
 3. Création depuis un [**logiciel tiers**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#3-cr%C3%A9ation-depuis-un-logiciel-tiers)
-4. **L'import** d'une DRM depuis un [**logiciel de cave**](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#4-limport-dune-drm-depuis-un-logiciel-de-cave)
 
 # Cadre général de saisie et reprise des produits par historique
 
@@ -34,7 +33,7 @@ Ainsi son catalogue sera soit :
 
 La DRM aura déjà **les produits du mois précédent** si leurs **stocks** de fin et de début ne sont **pas à 0**.
 
-Les mêmes règles s'appliquent pour chacun des choix de création que pour la première DRM.
+Les mêmes règles s'appliquent que pour la première DRM pour la reprise des produits.
 
 Les potentiels produits issus de ces choix sont "ajoutés" au catalogue produits de la DRM s'il n'existe pas.
 
@@ -56,20 +55,22 @@ On ditinguera ici deux types de reprise :
  2. La reprise **"mouvements"** qui rappatrie certains volume de ces documents pour en faire des mouvements.
 
 Il y a **trois déclarations** différentes donnant lieu à des reprises de données :
+
+On reprend le catalogue produit du dernier document le plus récent entre la DR et la DS.
+
 #### A. Reprise depuis la DS
-Dans tout les cas de figure on reprend le "catalogue produits" de **la dernière DS** sauf si **la DR est plus récente** (voir [B.](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/creation_drm.md#b-reprise-depuis-la-dr))
 
 En **août** de chaque année le **stock début de mois** est pré-remplie par le stock entrée dans la DS.
 
 #### B. Reprise depuis la DR
-On reprend le catalogue produit de la **DR** au mois **d'octobre, novembre et décembre**
 
-Lors du **mois de novembre**, on remplie l'entrée **"récolte"** avec le volume revendiqué sur place saisie dans la DR  
+Le mois de validationde la DR, on remplie l'entrée **"récolte"** avec le volume revendiqué sur place saisie dans la DR  
 
 #### C. Reprise depuis les Contrats
+
 On reprend **les produits des contrats** ayant été **enlevés au mois de la DRM**.
 
-On reprend le **volume enlevé** du contrat, cela donne lieu à un nouveau volume  dans les différentes **sorties contrats** du produit avec le bon acheteur et la date d'enlèvement.
+On reprend le **volume enlevé** du contrat, cela donne lieu à une nouvelle ligne dans les différentes **sorties contrats** du produit avec l'acheteur et la date d'enlèvement.
 
 ** **
 
@@ -104,8 +105,3 @@ Le stock de fin n'est jamais repris tel quel car le stock de fin de mois est rec
 
 Elles sont toutes reprise depuis le fichier à partir du moment ou le produit a été trouvé et que ce mouvement possède le bon format (voir [les mouvements du CIVA](https://github.com/24eme/giilda/blob/master/doc/logiciels_tiers/civa/catalogue_mouvements.csv)).
 
-## 4. L'import d'une DRM depuis un logiciel de cave
-
-*L'import pourra se faire en mode **EDI** directement depuis le logiciel de cave.*
-
-L'implémentation de cette méthode est décrite ici.
