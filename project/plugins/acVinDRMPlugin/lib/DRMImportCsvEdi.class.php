@@ -289,7 +289,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     $cat_key = $confDetailMvt->getParent()->getKey();
                     $type_key = $confDetailMvt->getKey();
-                    if($cat_key == "stocks_debut" && DRMClient::getInstance()->existOnePrecedente($this->drm->identifiant,$this->drm->periode) && substr($drm->periode,4,2) != "08") {
+                    if($cat_key == "stocks_debut" && DRMClient::getInstance()->existOnePrecedente($this->drm->identifiant,$this->drm->periode) && substr($this->drm->periode,4,2) != "08") {
                         continue;
                     }
                     if ($confDetailMvt->hasDetails()) {
