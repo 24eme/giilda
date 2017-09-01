@@ -289,7 +289,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     $cat_key = $confDetailMvt->getParent()->getKey();
                     $type_key = $confDetailMvt->getKey();
-                    if($cat_key == "stocks_debut" && DRMClient::getInstance()->existOnePrecedente($this->drm->identifiant,$this->drm->periode)) {
+                    if($cat_key == "stocks_debut" && DRMClient::getInstance()->existOnePrecedente($this->drm->identifiant,$this->drm->periode) && substr($drm->periode,4,2) != "08") {
                         continue;
                     }
                     if ($confDetailMvt->hasDetails()) {
@@ -395,6 +395,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function importCrdsFromCSV($just_check = false) {
+            $this->drm->remove('crds');
+            $this->drm->add('crds');
             $num_ligne = 1;
             $etablissementObj = $this->drm->getEtablissementObject();
 
