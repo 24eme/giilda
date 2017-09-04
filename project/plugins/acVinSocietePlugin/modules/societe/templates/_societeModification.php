@@ -73,6 +73,7 @@ echo $societeForm->renderGlobalErrors();
                 <a class="btn_ajouter_ligne_template" data-container="#enseignes_list" data-template="#template_non_appurement" href="#">Ajouter une enseigne</a>
             </div>
         </div>
+      <?php if ($societeForm->getObject()->isNegoOrViti()) : ?>
         <div class="form_ligne">
             <?php echo $societeForm['paiement_douane_moyen']->renderLabel(null,array('class' => 'label_liste')); ?>
             <?php echo $societeForm['paiement_douane_moyen']->render(); ?>
@@ -83,6 +84,7 @@ echo $societeForm->renderGlobalErrors();
             <?php echo $societeForm['paiement_douane_frequence']->render(); ?>
             <?php echo $societeForm['paiement_douane_frequence']->renderError(); ?>
         </div>
+      <?php endif; ?>
     <div class="form_ligne">
         <?php echo $societeForm['commentaire']->renderLabel(); ?>
         <?php echo $societeForm['commentaire']->render(); ?>

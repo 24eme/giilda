@@ -9,7 +9,7 @@ class VracEtablissementCampagneForm extends sfForm {
     }
 
     public function configure() {
-        $list = VracClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
+        $list = ConfigurationClient::getInstance()->buildCampagneList(10);
         $this->setWidgets(array(
             'campagne' => new sfWidgetFormChoice(array('choices' => $list, 'default' => $this->default_campagne))
         ));

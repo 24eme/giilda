@@ -1,5 +1,5 @@
    <!-- #principal -->
-    <section id="principal"  class="sv12">
+    <section id="principal"  class="drm">
         <p id="fil_ariane"><strong>Page d'accueil</strong></p>
 
         <!-- #contenu_etape -->
@@ -12,7 +12,7 @@
                 <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
             </form>
 
-            <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
+            <?php include_partial('stocks/recap', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>            
             <?php include_component('stocks', 'mouvements', array('campagne' => $campagne, 'etablissement' => $etablissement)); ?>
         </section>
         <!-- fin #contenu_etape -->

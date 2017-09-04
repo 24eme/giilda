@@ -25,7 +25,7 @@ class stocksComponents extends sfComponents {
             if (!$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($date)) {
                 continue;
             }
-            
+
             if (!array_key_exists($mouvement->produit_hash, $this->recaps)) {
                 $this->recaps[$mouvement->produit_hash] = $this->initLigneRecapNegociant();
                 $this->recaps[$mouvement->produit_hash]['produit'] = $mouvement->produit_libelle;
@@ -61,12 +61,35 @@ class stocksComponents extends sfComponents {
     }
 
     protected function getMouvementsViticulteur() {
-        return DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
+      $natifs_mvts_viti = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
+
+      $sorted_mvts_viti = DRMClient::getInstance()->sortMouvementsForDRM($natifs_mvts_viti);
+      return $this->sortMvtsByDrmId($sorted_mvts_viti);
+
+
     }
 
     protected function getMouvementsNegociant() {
 
         return SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($this->etablissement->identifiant, $this->campagne);
+    }
+
+    protected function sortMvtsByDrmId($mvts_viti){
+      $sorted_mvts_viti_result = array();
+      foreach ($mvts_viti as $type_drm => $sort_mvts_viti) {
+        if(!array_key_exists($type_drm, $sorted_mvts_viti_result)){
+          $sorted_mvts_viti_result[$type_drm] =   array();
+        }
+        foreach ($sort_mvts_viti as $keyMvts => $mvts) {
+          foreach ($mvts as $keyMvt => $mvt) {
+            if(!array_key_exists($mvt->doc_id, $sorted_mvts_viti_result[$type_drm])){
+              $sorted_mvts_viti_result[$type_drm][$mvt->doc_id] =   array();
+            }
+            $sorted_mvts_viti_result[$type_drm][$mvt->doc_id][] = $mvt;
+          }
+        }
+      }
+      return $sorted_mvts_viti_result;
     }
 
 }

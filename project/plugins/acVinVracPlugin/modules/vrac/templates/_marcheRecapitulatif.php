@@ -3,7 +3,7 @@
  * Description : Fichier php correspondant à la vue partielle de /vrac/XXXXXXXXXXX/recapitulatif
  * Affichage du recapitulatif de la partie marche du contrat
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
+ * Version : 1.0.0
  * Derniere date de modification : 28-05-12
  */
 use_helper('Vrac');
@@ -46,7 +46,7 @@ $cpt = 0;
         <?php if ($vrac->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE) : ?>
             <div id="marche_recapitulatif_domaine" class="<?php echoClassLignesVisu($cpt); ?>">
                 <label>
-                    Domaine : 
+                    Domaine :
                 </label>
                 <span>
                     <?php echo $vrac->domaine; ?>
@@ -55,7 +55,7 @@ $cpt = 0;
         <?php else: ?>
             <div id="marche_recapitulatif_type" class="<?php echoClassLignesVisu($cpt); ?> ">
                 <label>
-                    Type : 
+                    Type :
                 </label>
                 <span>
                     <?php echo $vrac->categorie_vin; ?>
@@ -65,7 +65,7 @@ $cpt = 0;
     <?php else: ?>
         <div id="marche_recapitulatif_type" class="<?php echoClassLignesVisu($cpt); ?> ">
             <label>
-                Type : 
+                Type :
             </label>
             <span>
                 <?php echo $vrac->categorie_vin; ?>
@@ -75,7 +75,7 @@ $cpt = 0;
         <?php if ($vrac->categorie_vin == VracClient::CATEGORIE_VIN_DOMAINE) : ?>
             <div id="marche_recapitulatif_domaine" class="<?php echoClassLignesVisu($cpt); ?>">
                 <label>
-                    Domaine : 
+                    Domaine :
                 </label>
                 <span>
                     <?php echo $vrac->domaine; ?>
@@ -83,9 +83,21 @@ $cpt = 0;
             </div>
         <?php endif; ?>
     <?php endif; ?>
+    <?php if(count($vrac->getLabel())): ?>
+    <div id="marche_label" class="<?php echoClassLignesVisu($cpt); ?>">
+        <label>
+            Label:
+        </label>
+        <span>
+            <?php
+            echo showRecapLabel($vrac);
+            ?>
+        </span>
+    </div>
+      <?php endif; ?>
     <div id="marche_recapitulatif_volumePropose" class="<?php echoClassLignesVisu($cpt); ?>">
         <label>
-            Volumes proposés: 
+            Volumes proposés:
         </label>
         <span>
             <?php
@@ -100,7 +112,7 @@ $cpt = 0;
     <?php if (!$isTeledeclarationMode): ?>
         <div id="marche_recapitulatif_volumeEnleve" class="<?php echoClassLignesVisu($cpt); ?>">
             <label>
-                Volumes enlevé: 
+                Volumes enlevé:
             </label>
             <span>
                 <?php
@@ -111,7 +123,7 @@ $cpt = 0;
     <?php endif; ?>
     <div id="marche_recapitulatif_prixUnitaire" class="<?php echoClassLignesVisu($cpt); ?>">
         <label>
-            Prix unitaire: 
+            Prix unitaire:
         </label>
         <span>
             <?php echo showRecapPrixUnitaire($vrac); ?>
@@ -120,10 +132,9 @@ $cpt = 0;
     <?php if (!$isTeledeclarationMode): ?>
         <div id="marche_recapitulatif_prixTotal" class="<?php echoClassLignesVisu($cpt); ?>">
             <label>
-                Prix : 
+                Prix :
             </label>
             <span><?php echo showRecapPrixTotal($vrac); ?></span>
         </div>
     <?php endif; ?>
 </div>
-

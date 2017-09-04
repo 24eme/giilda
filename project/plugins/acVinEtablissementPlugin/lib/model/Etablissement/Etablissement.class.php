@@ -191,6 +191,10 @@ class Etablissement extends BaseEtablissement {
         return $this->getDroit()->has($droit);
     }
 
+    public function hasDroitsAcquittes(){
+      return $this->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DRM_ACQUITTE);
+    }
+
     public function getDroits() {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
@@ -282,7 +286,7 @@ class Etablissement extends BaseEtablissement {
             }
         }
 
-    
+
         parent::save();
 
         if (!$fromsociete) {

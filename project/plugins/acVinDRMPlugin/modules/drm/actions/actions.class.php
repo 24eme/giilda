@@ -136,6 +136,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request
      */
     public function executeNouvelle(sfWebRequest $request) {
+        set_time_limit(-1);
         $isTeledeclarationMode = $this->isTeledeclarationDrm();
         $identifiant = $request->getParameter('identifiant');
         $periode = $request->getParameter('periode');
@@ -269,21 +270,6 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeModificationInfos(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
-    }
-
-    public function executeDeclaratif(sfWebRequest $request) {
-        $this->drm = $this->getRoute()->getDRM();
-        $this->drm->setCurrentEtapeRouting('declaratif');
-        $this->form = new DRMDeclaratifForm($this->drm);
-        $this->hasFrequencePaiement = ($this->drm->declaratif->paiement->douane->frequence) ? true : false;
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $this->form->save();
-                $this->drm->setCurrentEtapeRouting('validation');
-                $this->redirect('drm_validation', $this->drm);
-            }
-        }
     }
 
     public function executePaiementFrequenceFormAjax(sfWebRequest $request) {

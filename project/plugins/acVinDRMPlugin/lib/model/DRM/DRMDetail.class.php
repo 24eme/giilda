@@ -11,8 +11,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getLibelle($format = "%format_libelle% <span class=\"labels\">%la%</span>", $label_separator = ", ") {
-
-        return $this->getCepage()->getConfig()->getLibelleFormat($this->labels->toArray(), $format, $label_separator);
+	     return $this->getCepage()->getConfig()->getLibelleFormat(array(), $format, $label_separator);
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
@@ -99,13 +98,23 @@ class DRMDetail extends BaseDRMDetail {
         return ($key) ? $key : DRM::DEFAULT_KEY;
     }
 
+    public function getTypeDRM() {
+
+        return $this->getParent()->getTypeDRM();
+    }
+
+    public function getTypeDRMLibelle() {
+
+        return $this->getParent()->getTypeDRMLibelle();
+    }
+
+
     public function getLabelsLibelle($format = "%la%", $label_separator = ", ") {
 
         return $this->getConfig()->getDocument()->formatLabelsLibelle($this->labels->toArray(), $format, $label_separator);
     }
 
     public function canSetStockDebutMois() {
-
        return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
     }
 
@@ -127,7 +136,7 @@ class DRMDetail extends BaseDRMDetail {
     protected function update($params = array()) {
         parent::update($params);
 
-        $this->total_debut_mois = $this->stocks_debut->revendique;
+        $this->total_debut_mois =   ($this->stocks_fin->exist('revendique'))? $this->stocks_debut->revendique : 0.0;
 
         if ($this->sorties->exist('vrac_details')) {
             $this->sorties->vrac = 0;
@@ -172,12 +181,11 @@ class DRMDetail extends BaseDRMDetail {
           $this->remove('observations');
         }
 
-
-
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
-
-        $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+        if($this->stocks_fin->exist('revendique')){
+          $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+        }
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
         }
@@ -190,7 +198,7 @@ class DRMDetail extends BaseDRMDetail {
 
         $this->cvo->volume_taxable = $this->total_facturable;
 
-        $this->total = $this->stocks_fin->revendique;
+        $this->total = ($this->stocks_fin->exist("revendique"))? $this->stocks_fin->revendique : 0.0;
         if($this->getConfig()->getDocument()->hasDontRevendique() && $this->stocks_fin->exist('dont_revendique')){
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }
@@ -203,8 +211,8 @@ class DRMDetail extends BaseDRMDetail {
             if (!$this->exist('observations')) {
               $this->add('observations',null);
             }
-        }else{
-          $this->remove('observations');
+        }elseif(!$hasobs){
+            $this->remove('observations');
         }
         if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
@@ -361,6 +369,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function getMouvementsByNoeud($hash) {
         $mouvements = array();
+
         foreach ($this->get($hash) as $key => $volume) {
             if ($volume instanceof acCouchdbJson) {
 
@@ -374,6 +383,8 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->facture = 0;
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
+            $mouvement->type_drm = $this->getTypeDRM();
+            $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
             if ($this->getDocument()->isDRMNegociant() ) {
                     $mouvement->facturable = 0;
             }else{
@@ -393,6 +404,7 @@ class DRMDetail extends BaseDRMDetail {
             }
 
             $mouvement = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volume);
+
             if (!$mouvement) {
                 continue;
             }
@@ -439,7 +451,8 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function isEdited() {
-        return $this->getCepage()->exist('edited') && $this->getCepage()->edited;
+
+        return $this->exist('edited') && $this->edited;
     }
 
     public function hasMovements() {
@@ -448,7 +461,7 @@ class DRMDetail extends BaseDRMDetail {
             return true;
         }
 
-        return $this->getCepage()->hasMovements();
+        return !$this->exist('no_movements') || !$this->no_movements;
     }
 
     public function updateDroitsDouanes() {
@@ -507,6 +520,22 @@ class DRMDetail extends BaseDRMDetail {
     public function getReplacementYear() {
       $d = $this->_get('replacement_date');
       return preg_replace('/(\d{4})/', '\1', $d);
+    }
+
+    public function isCodeDouaneAlcool(){
+      if(!$this->getCodeDouane()){
+        return false;
+      }
+      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
+        return false;
+      }
+      return true;
+    }
+    public function getTav(){
+      if(!$this->exist('tav')){
+       return false;
+      }
+      return $this->_get('tav');
     }
 
 }

@@ -81,6 +81,7 @@ all:
         services_operateurs:
          - {nom: 'prenom nom', telephone: 'Tél : 00 00 00 00 00', email: 'emaildenantes@nantes.fr'}
   vrac:
+    teledeclaration_visa_automatique: true
     contenances:
       "Bouteille 37,5 cl": 0.00375
       "Bouteille 50 cl": 0.005

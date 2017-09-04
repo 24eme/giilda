@@ -1,7 +1,7 @@
 <?php
 
 class ConfigurationClient extends acCouchdbClient {
-	
+
 	protected $configurations = array();
 
     protected $countries = null;
@@ -29,7 +29,7 @@ class ConfigurationClient extends acCouchdbClient {
 
 	/**
 	*
-	* @return CurrentClient 
+	* @return CurrentClient
 	*/
 	public static function getInstance() {
 
@@ -39,7 +39,7 @@ class ConfigurationClient extends acCouchdbClient {
 
 	/**
 	*
-	* @return Current 
+	* @return Current
 	*/
 	public static function getCurrent() {
 
@@ -47,7 +47,6 @@ class ConfigurationClient extends acCouchdbClient {
 	}
 
     public static function getConfiguration($date = null) {
-        
         return self::getInstance()->findConfiguration($date);
     }
 
@@ -83,14 +82,14 @@ class ConfigurationClient extends acCouchdbClient {
     public function findConfigurationForCache($id) {
         $configuration = $this->find($id);
         $configuration->prepareCache();
-        
+
         return $configuration;
     }
 
     public function cacheResetConfiguration() {
         CacheFunction::remove('model');
     }
-  
+
     public function getCampagneVinicole() {
         if(is_null($this->campagne_vinicole_manager)) {
 
@@ -111,26 +110,26 @@ class ConfigurationClient extends acCouchdbClient {
 
     public function buildCampagne($date) {
 
-        return $this->getCampagneVinicole()->getCampagneByDate($date); 
+        return $this->getCampagneVinicole()->getCampagneByDate($date);
     }
 
     public function getDateDebutCampagne($campagne) {
-        
-        return $this->getCampagneVinicole()->getDateDebutByCampagne($campagne); 
+
+        return $this->getCampagneVinicole()->getDateDebutByCampagne($campagne);
     }
 
     public function getDateFinCampagne($campagne) {
 
-        return $this->getCampagneVinicole()->getDateFinByCampagne($campagne); 
+        return $this->getCampagneVinicole()->getDateFinByCampagne($campagne);
     }
 
     public function getCurrentCampagne() {
 
-        return $this->getCampagneVinicole()->getCurrent(); 
+        return $this->getCampagneVinicole()->getCurrent();
     }
 
     public function getPreviousCampagne($campagne) {
-        
+
         return $this->getCampagneVinicole()->getPrevious($campagne);
     }
 
@@ -145,12 +144,12 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function getMois($periode) {
-        
+
         return preg_replace('/([0-9]{4})([0-9]{2})/', '$2', $periode);
     }
 
     public function getAnnee($periode) {
-        
+
         return preg_replace('/([0-9]{4})([0-9]{2})/', '$1', $periode);
     }
 
@@ -194,8 +193,21 @@ class ConfigurationClient extends acCouchdbClient {
         return date('Ym', strtotime(ConfigurationClient::getInstance()->getDateFinCampagne($campagne)));
     }
 
+		public function buildCampagneList($nb) {
+				$campagneArray = array();
+				$campagne = ConfigurationClient::getInstance()->getCurrentCampagne();
+				$campagneArray[$campagne] = $campagne;
+				$nb--;
+				while($nb){
+					$campagne = ConfigurationClient::getInstance()->getPreviousCampagne($campagne);
+					$campagneArray[$campagne] = $campagne;
+					$nb--;
+				}
+				return $campagneArray;
+    }
+
     public function buildCampagneByPeriode($periode) {
-      
+
         return $this->buildCampagne($this->buildDate($periode));
     }
 
@@ -207,7 +219,7 @@ class ConfigurationClient extends acCouchdbClient {
             $nextMonth = 1;
             $nextYear++;
         }
-      
+
         return $this->buildPeriode($nextYear, $nextMonth);
     }
 
@@ -219,10 +231,10 @@ class ConfigurationClient extends acCouchdbClient {
             $previousMonth = 12;
             $previousYear--;
         }
-      
+
         return $this->buildPeriode($previousYear, $previousMonth);
     }
-    
+
     public function getCurrentPeriode() {
 
         return date('Ym');
@@ -289,7 +301,7 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function formatLabelsLibelle($labels, $format = "%la%", $separator = ", ") {
-        
+
         return str_replace("%la%", implode($separator, $labels), $format);
     }
 
@@ -304,5 +316,5 @@ class ConfigurationClient extends acCouchdbClient {
 
         return $fork;
     }
-  
+
 }

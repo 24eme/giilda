@@ -63,7 +63,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setWidget('caution',  new sfWidgetFormChoice(array(
                 'expanded' => true,
                 'choices' => array(
-                    1 => "Oui",
+                    1 => "Caution",
                     0 => "Dispense",
                 ))));
             $this->widgetSchema->setLabel('caution', 'Caution');
@@ -204,7 +204,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
     }
 
     protected function getRecettesLocales() {
-        $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE));
+        $douanes = SocieteAllView::getInstance()->findByInterproAndStatut('INTERPRO-inter-loire', SocieteClient::STATUT_ACTIF, array(SocieteClient::SUB_TYPE_DOUANE), null, 400);
 
         $douanesList = array();
         foreach ($douanes as $key => $douane) {

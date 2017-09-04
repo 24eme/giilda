@@ -8,7 +8,7 @@ class DRMCepage extends BaseDRMCepage {
 
     public function getChildrenNode() {
 
-        return $this->details;
+        return $this->filter('^details');
     }
 
     public function getCouleur() {
@@ -21,12 +21,30 @@ class DRMCepage extends BaseDRMCepage {
         return array($this->getHash() => $this);
     }
 
-    public function getProduitsDetails($teledeclarationMode = false) {
+    public function addDetailsNoeud($detailsKey) {
+        if($detailsKey != DRM::DETAILS_KEY_ACQUITTE && $detailsKey != DRM::DETAILS_KEY_SUSPENDU) {
+
+            throw new sfException(sprintf("La clé détail %s n'est pas autorisé", $detailsKey));
+        }
+
+        return $this->add($detailsKey);
+    }
+
+    public function reorderByConf() {
+
+        return null;
+    }
+
+    public function getProduitsDetails($teledeclarationMode = false, $detailsKey = null) {
         $details = array();
-        foreach ($this->getChildrenNode() as $key => $item) {
-	    if ($teledeclarationMode || $this->getConfig()->isCVOActif($this->getDocument()->getDate())) {
-	            $details[$item->getHash()] = $item;
-	    }
+        foreach ($this->getChildrenNode() as $key => $items) {
+            if(!is_null($detailsKey) && $detailsKey != $key) {
+                continue;
+            }
+
+            foreach($items as $item) {
+                $details[$item->getHash()] = $item;
+            }
         }
 
         return $details;
@@ -40,7 +58,7 @@ class DRMCepage extends BaseDRMCepage {
 	}
 	return $inao;
     }
-	
+
     public function hasProduitDetailsWithStockNegatif() {
         foreach ($this->getProduitsDetails() as $detail) {
             if ($detail->total < 0) {
@@ -64,7 +82,4 @@ class DRMCepage extends BaseDRMCepage {
         return null;
     }
     
-    public function hasMovements(){
-        return !$this->exist('no_movements') || !$this->no_movements;
-    }
 }

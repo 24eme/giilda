@@ -16,7 +16,11 @@ class DRMValidation extends DocumentValidation {
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
+        }else{
+           $this->addControle('erreur', 'replacement_date_manquante', "Les dates de sorties des produits en replacement sont obligatoires");
         }
+        $this->addControle('erreur', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");
+        $this->addControle('erreur', 'paiement_annuelle_cumul_null', "Le cumul des droits douanier doit être saisi une première fois");
         $this->addControle('vigilance', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
         $this->addControle('vigilance', 'crd_negatif', "Le nombre de CRD ne dois pas être négatif");
@@ -25,7 +29,6 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'no_accises_absent', "Le numéro d'accise n'a pas été renseigné");
         $this->addControle('vigilance', 'caution_absent', "Le type de caution n'a pas été renseigné");
         $this->addControle('vigilance', 'moyen_paiement_absent', "Le moyen de paiement aux douanes n'a pas été renseigné");
-        $this->addControle('vigilance', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");
 
         $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");
     }
@@ -39,7 +42,7 @@ class DRMValidation extends DocumentValidation {
         $total_mouvement_absolu = 0;
         $drmTeledeclaree = $this->document->exist('teledeclare') && $this->document->teledeclare;
 
-        foreach ($this->document->getProduitsDetails($drmTeledeclaree) as $detail) {
+        foreach ($this->document->getProduitsDetails() as $detail) {
 
             $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
 
@@ -56,6 +59,8 @@ class DRMValidation extends DocumentValidation {
             if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
             {
               $this->addPoint('vigilance', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl), manipulation (".sprintf("%.2f",$entrees_manipulation)." hl), sortie manquant (".sprintf("%.2f",$sorties_destructionperte).") pour le produit ".$detail->getLibelle(), $this->generateUrl('drm_annexes', $this->document));
+            } elseif($detail->exist('observations') && !$detail->observations) {
+                $this->addPoint('vigilance', 'observations', "Les mouvements du produit ".$detail->getLibelle()." nécessitent une observation", $this->generateUrl('drm_annexes', $this->document));
             }
 
             if ($detail->total < 0) {
@@ -131,17 +136,32 @@ class DRMValidation extends DocumentValidation {
             }
 
             if (!$this->document->societe->exist('paiement_douane_frequence') || !$this->document->societe->paiement_douane_frequence) {
-                $this->addPoint('vigilance', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
+                $this->addPoint('erreur', 'frequence_paiement_absent', 'Veuillez enregistrer votre fréquence de paiement', $this->generateUrl('drm_validation_update_societe', $this->document));
             }
+
+
+            if ($this->document->isPaiementAnnuelleAndCumulNull()) {
+                $this->addPoint('erreur', 'paiement_annuelle_cumul_null', 'Veuillez enregistrer votre cumul annuel', $this->generateUrl('drm_annexes', $this->document));
+            }
+
 
             if (!$this->document->declarant->caution) {
                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
 
+            foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
+              if((($detail->entrees->exist('retourmarchandisesanscvo') && $detail->entrees->retourmarchandisesanscvo)
+                || ($detail->entrees->exist('retourmarchandisetaxees') && $detail->entrees->retourmarchandisetaxees)
+                || ($detail->entrees->exist('retourmarchandisenontaxees') && $detail->entrees->retourmarchandisenontaxees)
+                || ($detail->entrees->exist('transfertcomptamatierecession') && $detail->entrees->transfertcomptamatierecession)) && (!$detail->exist('replacement_date') || !$detail->replacement_date)){
+                  $this->addPoint('erreur', 'replacement_date_manquante', 'retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
+                  break;
+                }
+              }
         }
 
         $sortiesDocAnnexes = array();
-        foreach ($this->document->getProduitsDetails($drmTeledeclaree) as $detail) {
+        foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
             if (count($detail->sorties->export_details)) {
                 foreach ($detail->sorties->export_details as $paysCode => $export) {
                     if ($export->numero_document) {

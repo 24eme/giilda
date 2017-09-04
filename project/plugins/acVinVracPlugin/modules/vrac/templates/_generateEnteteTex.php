@@ -80,7 +80,9 @@ if ($vrac->mandataire_exist) {
 \def\CONTRATDATESIGNATUREACHETEUR{<?php echo getDateSignatureAcheteur($vrac); ?>}
 
 <?php if ($vrac->isDomaine()): ?>
-    \def\CONTRATGENERIQUEDOMAINE{Domaine <?php echo $vrac->domaine ?>}
+    \def\CONTRATGENERIQUEDOMAINE{<?php echo $vrac->domaine ?>}
 <?php else: ?>
-    \def\CONTRATGENERIQUEDOMAINE{Générique}
+    \def\CONTRATGENERIQUEDOMAINE{}
 <?php endif; ?>
+
+\def\CONTRATBIO{<?php echo ($vrac->isBio())? 'Agriculture Biologique (AB)' : ''; ?>}

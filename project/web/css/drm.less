@@ -1588,9 +1588,16 @@ a.lien_drm_supprimer{
     {
         li
         {
-            font-size: 9pt;
+            font-size: 10pt;
             width: 20%;
-            padding: 0 10px;
+            padding: 0 0px;
+
+        }
+        li.acquitte
+        {
+            font-size: 9pt;
+            width: 16%;
+            padding: 0 0px;
 
         }
         li > * {
@@ -1754,10 +1761,12 @@ a.lien_drm_supprimer{
 
         h2 { margin-top: 0; }
 
-        &#validation_drm_mvts_stocks,
+
+
+        &.validation_drm_tables, &#validation_drm_mvts_stocks,
         &#crds_drm { margin: 0; }
 
-        &#espace_drm, &#historique_drm, &#validation_drm_mvts_stocks{
+        &#espace_drm, &#historique_drm, &.validation_drm_tables, &#validation_drm_mvts_stocks{
             nav{
                 position: relative;
                 bottom: -1px;
