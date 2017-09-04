@@ -1,5 +1,5 @@
-<h2>Syntèse de la saisie des Mouvements</h2>
-<fieldset id="validation_drm_mvts_stocks"> 
+<h2>Synthèse de la saisie des Mouvements</h2>
+<fieldset id="validation_drm_mvts_stocks">
     <nav>
         <ul>
             <li class="actif onglet" id="drm_visualisation_stock_onglet"><span >Résumé des Stocks&nbsp;<span  style="display: inline-block;" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_validation_aide3'); ?>"></span></span></li>
