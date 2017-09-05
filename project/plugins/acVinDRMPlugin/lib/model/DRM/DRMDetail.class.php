@@ -354,7 +354,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function isSupprimable() {
 
-        return $this->hasStockEpuise() && !$this->getDocument()->hasVersion();
+        return $this->hasStockEpuise() && !$this->getDocument()->hasVersion() && ($this->getDocument()->periode != "201708");
     }
 
     public function hasMouvementCheck() {
