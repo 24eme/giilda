@@ -354,7 +354,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function isSupprimable() {
 
-        return $this->hasStockEpuise() && !$this->getDocument()->hasVersion();
+        return $this->hasStockEpuise() && !$this->getDocument()->hasVersion() && ($this->getDocument()->periode != "201708");
     }
 
     public function hasMouvementCheck() {
@@ -514,10 +514,12 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getReplacementMonth() {
+      if(!$this->exist('replacement_date')) return "";
       $d = $this->_get('replacement_date');
       return sprintf('%02d', preg_replace('/.*(-|\/)(\d{2})(-|\/).*/', '\2', $d));
     }
     public function getReplacementYear() {
+      if(!$this->exist('replacement_date')) return "";
       $d = $this->_get('replacement_date');
       return preg_replace('/(\d{4})/', '\1', $d);
     }

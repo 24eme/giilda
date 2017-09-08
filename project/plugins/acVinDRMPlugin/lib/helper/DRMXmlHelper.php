@@ -8,7 +8,7 @@ function noeudXml($produit, $noeud, &$xml, $exceptions = array()) {
 			$xml .= "</$key>";
 		} else {
 			$val = $produit->getTotalVolume($noeud);
-			if ($val) {
+			if ($val || $val === 0 || $val === 0.0) {
 				return (in_array($noeud->getKey(), $exceptions))? $val : sprintf("%01.02f", $val);
 			} else {
 				return (in_array($noeud->getKey(), array('stock-debut-periode', 'stock-fin-periode')))? 0 : null;
