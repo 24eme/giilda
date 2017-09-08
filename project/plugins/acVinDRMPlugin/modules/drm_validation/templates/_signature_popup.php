@@ -11,9 +11,6 @@
         <?php endif; ?>
 	    <p>Si vous décidez de transmettre le document par courrier postal ou par mail, n'oubliez pas que la DRM doit être signée manuellement pour être valable.</p>
         <?php if($compte->hasDroit("teledeclaration_douane")): ?>
-          <?php if($drm->crds->exist('COLLECTIFACQUITTE')): ?>
-            <p><strong>Les douanes n'ayant pas prévu le cas des sorties de CRD en régime acquitté, nous ne pouvons pas vous permettre de télé-transmettre votre DRM sur le portail des douanes pour le moment.</strong></p>
-          <?php else: ?>
           <p>
             <div class="ligne_form">
                 <span>
@@ -23,7 +20,7 @@
                 </span>
             </div>
           </p>
-        <?php endif; endif;?>
+        <?php endif;?>
             <div class="ligne_btn">
                 <a id="signature_drm_popup_close" class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
                 <a id="signature_drm_popup_confirm" class="btn_validation" ><span>Valider la DRM</span></a>
