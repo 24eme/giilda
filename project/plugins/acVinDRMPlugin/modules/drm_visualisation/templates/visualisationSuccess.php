@@ -88,7 +88,7 @@
 <?php if ($drm->exist('transmission_douane') && $drm->transmission_douane): ?>
 <div class="row">
   <div class="col-xs-12">
-    <h3>Transmission sur le portail proDou@ane</h3>
+    <h3>Transmission sur le portail proDou@ane <small>(<?php echo link_to('xml', 'drm_xml', $drm); ?>)</small></h3>
     <?php if ($drm->transmission_douane->success) : ?>
       <p>La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.</p>
     <?php else: ?>
