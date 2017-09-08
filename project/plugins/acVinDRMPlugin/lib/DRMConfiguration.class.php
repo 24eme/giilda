@@ -70,4 +70,25 @@ class DRMConfiguration {
 
         return $this->configuration['vrac_multi_produit'];
     }
+
+    public function isCrdOnlySuspendus() {
+
+        return $this->configuration['crd_only_suspendus'];
+    }
+
+    public function hasAggregatedEdi() {
+
+        return boolval($this->configuration['aggregate_edi']);
+    }
+
+    public function getAggregatedEdi() {
+
+        return $this->configuration['aggregate_edi'];
+    }
+
+    public function hasDeclassementIgp() {
+
+        return $this->configuration['declassement_igp'];
+    }
+
 }
