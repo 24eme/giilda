@@ -237,7 +237,7 @@ class DRMClient extends acCouchdbClient {
 
         $this->getHistorique($identifiant, $periode)->reload();
 
-        $drm = $this->createDocByPeriode($identifiant, $periode);
+        $drm = $this->createDocByPeriode($identifiant, $periode,true);
         $drm->type_creation = DRMClient::DRM_CREATION_EDI;
         $drm->etape = self::ETAPE_VALIDATION_EDI;
         $drm->teledeclare = true;
@@ -444,7 +444,6 @@ class DRMClient extends acCouchdbClient {
     public function createDocByPeriode($identifiant, $periode, $isTeledeclarationMode = false) {
         $prev_drm = $this->getHistorique($identifiant, $periode)->getPrevious($periode);
         $next_drm = $this->getHistorique($identifiant, $periode)->getNext($periode);
-
         if ($prev_drm) {
             return $prev_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         } elseif ($next_drm) {
@@ -593,7 +592,7 @@ class DRMClient extends acCouchdbClient {
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
           throw new sfException('mois not found');
       }
-      $mois = $m[1];
+      $mois = sprintf("%02d",$m[1]);
       if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
           throw new sfException('Annee not found');
       }
@@ -624,6 +623,11 @@ class DRMClient extends acCouchdbClient {
               $mouvementsSorted[$type_drm][$mouvement->produit_hash][] = $mouvement;
           }
           return $mouvementsSorted;
+      }
+
+      public function existOnePrecedente($identifiant, $periode, $version = null) {
+          $idPrecedente = 'DRM-' . $identifiant . '-' . $this->getPeriodePrecedente($this->buildPeriodeAndVersion($periode, $version));
+          return $this->find($idPrecedente);
       }
 
 

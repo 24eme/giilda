@@ -16,6 +16,8 @@ class DRMValidation extends DocumentValidation {
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
+        }else{
+           $this->addControle('erreur', 'replacement_date_manquante', "Les dates de sorties des produits en replacement sont obligatoires");
         }
         $this->addControle('erreur', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");
         $this->addControle('erreur', 'paiement_annuelle_cumul_null', "Le cumul des droits douanier doit être saisi une première fois");
@@ -147,6 +149,15 @@ class DRMValidation extends DocumentValidation {
                 $this->addPoint('vigilance', 'caution_absent', 'Veuillez enregistrer votre type de caution', $this->generateUrl('drm_validation_update_etablissement', $this->document));
             }
 
+            foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
+              if((($detail->entrees->exist('retourmarchandisesanscvo') && $detail->entrees->retourmarchandisesanscvo)
+                || ($detail->entrees->exist('retourmarchandisetaxees') && $detail->entrees->retourmarchandisetaxees)
+                || ($detail->entrees->exist('retourmarchandisenontaxees') && $detail->entrees->retourmarchandisenontaxees)
+                || ($detail->entrees->exist('transfertcomptamatierecession') && $detail->entrees->transfertcomptamatierecession)) && (!$detail->exist('replacement_date') || !$detail->replacement_date)){
+                  $this->addPoint('erreur', 'replacement_date_manquante', 'retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
+                  break;
+                }
+              }
         }
 
         $sortiesDocAnnexes = array();

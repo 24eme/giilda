@@ -43,6 +43,7 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CRD_COULEUR = 4;
     const CSV_CRD_GENRE = 5;
     const CSV_CRD_CENTILITRAGE = 6;
+    const CSV_CRD_REGIME = 13;
     const CSV_CRD_CATEGORIE_KEY = 14;
     const CSV_CRD_TYPE_KEY = 15;
     const CSV_CRD_QUANTITE = 16;
@@ -82,6 +83,12 @@ class DRMCsvEdi extends CsvFile {
     protected static  $type_crd_mvts = array("achats","retours","excedents","utilisations","destructions","manquants","fin","debut");
     protected static  $types_complement = array(self::COMPLEMENT_OBSERVATIONS, self::COMPLEMENT_TAV, self::COMPLEMENT_PREMIX);
 
+    protected static $regimes_crd = array("PERSONNALISE" => EtablissementClient::REGIME_CRD_PERSONNALISE,
+                                          "PERSONNALISES" => EtablissementClient::REGIME_CRD_PERSONNALISE,
+                                          "COLLECTIVE-ACQUITTE" => EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE,
+                                          "COLLECTIVES-ACQUITTES" => EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE,
+                                          "COLLECTIVE-SUSPENDU" => EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU,
+                                          "COLLECTIVES-SUSPENDUS" => EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU);
 
     public function __construct($file, DRM $drm = null) {
         $this->drm = $drm;

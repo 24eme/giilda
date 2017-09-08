@@ -78,17 +78,32 @@ A été conclu le marché suivant: \\
 \\
 
 \large{\CONTRATPRODUITLIBELLE} & \multicolumn{1}{c|}{\large{\CONTRATPRODUITMILLESIME}} & \multicolumn{1}{c|}{\large{\CONTRATTYPE}} & \multicolumn{1}{c|}{ \large{\CONTRATPRODUITQUANTITE~\normalsize{\CONTRATTYPEUNITE}}} & \multicolumn{1}{c|}{\large{\CONTRATPRIXUNITAIRE~\normalsize{\euro/\CONTRATTYPEUNITE}}} \\
-\multicolumn{1}{|l|}{\textit{\CONTRATGENERIQUEDOMAINE~\CONTRATBIO}} & ~ & ~ & \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
-~ & ~ & ~ & ~ & ~
-\\
+~ & ~ & ~ & ~ \multicolumn{1}{c|}{\small{\textit{<?php echo getContenancePdf($vrac); ?>}}} & ~ \\
+<?php if($vrac->isBio()): ?>
+\cline{1-1}
+~ & ~ & ~ & ~ & ~ \\
+\multicolumn{1}{|l|}{\CONTRATBIO} & ~ & ~ & ~ & ~ \\
+~ & ~ & ~ & ~ & ~ \\
+<?php endif; ?>
+<?php if($vrac->isDomaine()): ?>
+	\cline{1-1}
+	~ & ~ & ~ & ~ & ~ \\
+	\multicolumn{1}{|l|}{\textbf{Avec nom de domaine} utilisable par l’acheteur : } & ~ & ~ & ~ & ~ \\
+	\multicolumn{1}{|l|}{\CONTRATGENERIQUEDOMAINE} & ~ & ~ & ~ & ~ \\
+	~ & ~ & ~ & ~ & ~ \\
+<?php endif; ?>
 \hline
 \end{tabularx}
+<?php if(!$vrac->isDomaine() && !$vrac->isBio()): ?>
 \\
 \\
+<?php endif; ?>
 \\
 \textbf{\normalsize{\underline{Prix} :}} \CONTRATTYPEEXPLICATIONPRIX
 \\
-
+<?php if(!$vrac->isDomaine() && !$vrac->isBio()): ?>
+\\
+<?php endif; ?>
 \textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, <?php if($isIGP): ?>conforme à l'Accord Interprofessionnel du C.I.V.D.L.<?php else : ?>conforme à l'art. III-2 de l'Accord Interprofessionnel<?php endif; ?>}
 \\
 \\
