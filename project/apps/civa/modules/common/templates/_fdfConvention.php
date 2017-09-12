@@ -138,6 +138,14 @@
 /T (ea0)
 >> 
 <<
+/V (<?php echo $etablissement->no_accises ?>)
+/T (habea)
+>> 
+<<
+/V ()
+/T (hanompren)
+>> 
+<<
 /V (<?php echo $etablissement->getSociete()->siege->adresse.' '.$etablissement->getSociete()->siege->adresse_complementaire ?>)
 /T (rs_adresse)
 >> 
