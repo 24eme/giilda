@@ -23,25 +23,28 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
     /**
      *
      * @param string $key_or_hash
-     * @return mixed 
+     * @return mixed
      */
     public function get($key_or_hash) {
-        $obj_hash = new acCouchdbHash($key_or_hash);
-        if ($obj_hash->isAlone()) {
-            if (!$this->isArray() && $this->hasAccessor($obj_hash->getFirst())) {
-                $method = $this->getAccessor($obj_hash->getFirst());
+        //$obj_hash = new acCouchdbHash($key_or_hash);
+
+        $objHash = $this->getHashObject($key_or_hash);
+
+        if ($objHash["isAlone"]) {
+            if (!$this->isArray() && $this->hasAccessor($objHash["first"])) {
+                $method = $this->getAccessor($objHash["first"]);
                 return $this->$method();
             }
-            return $this->_get($obj_hash->getFirst());
+            return $this->_get($objHash["first"]);
         } else {
-            return $this->get($obj_hash->getFirst())->get($obj_hash->getAllWithoutFirst());
+            return $this->get($objHash["first"])->get($objHash["withoutFirst"]);
         }
     }
 
     /**
      *
      * @param string $key
-     * @return mixed 
+     * @return mixed
      */
     public function __get($key) {
         return $this->get($key);
@@ -50,33 +53,35 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
     /**
      *
      * @param string $key_or_hash
-     * @return mixed 
+     * @return mixed
      */
     public function getOrAdd($key_or_hash) {
-        $obj_hash = new acCouchdbHash($key_or_hash);
-        if ($obj_hash->isAlone()) {
-            return $this->add($obj_hash->getFirst());
+        $objHash = $this->getHashObject($key_or_hash);
+
+        if ($objHash["isAlone"]) {
+            return $this->add($objHash["first"]);
         }
-        return $this->add($obj_hash->getFirst())->getOrAdd($obj_hash->getAllWithoutFirst());
+        return $this->add($objHash["first"])->getOrAdd($objHash["withoutFirst"]);
     }
 
     public function set($key_or_hash, $value) {
-        $obj_hash = new acCouchdbHash($key_or_hash);
-        if ($obj_hash->isAlone()) {
-            if (!$this->isArray() && $this->hasMutator($obj_hash->getFirst())) {
-                $method = $this->getMutator($obj_hash->getFirst());
+        $objHash = $this->getHashObject($key_or_hash);
+
+        if ($objHash["isAlone"]) {
+            if (!$this->isArray() && $this->hasMutator($objHash["first"])) {
+                $method = $this->getMutator($objHash["first"]);
                 return $this->$method($value);
             }
-            return $this->_set($obj_hash->getFirst(), $value);
+            return $this->_set($objHash["first"], $value);
         } else {
-            return $this->get($obj_hash->getFirst())->set($obj_hash->getAllWithoutFirst(), $value);
+            return $this->get($obj_hash->getFirst())->set($objHash["withoutFirst"], $value);
         }
     }
 
     public function __set($key, $value) {
         return $this->set($key, $value);
     }
-    
+
     public function move($key_or_hash, $new_key_or_hash) {
         $object = $this->get($key_or_hash);
         if ($key_or_hash != $new_key_or_hash) {
@@ -253,7 +258,12 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
     			break;
     		}
 		}
-		return $previous;  
+		return $previous;
+    }
+
+    protected function getHashObject($key_or_hash) {
+
+        return acCouchdbHash::getResultArray($key_or_hash);
     }
 
     protected function loadAllData() {
