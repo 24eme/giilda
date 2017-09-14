@@ -50,6 +50,7 @@ abstract class acCouchdbJsonFields {
 
     private $_unloaded_data = null;
 
+    private $keysFormat = array();
     /**
      *
      * @var acCouchdbDocument 
@@ -248,7 +249,12 @@ abstract class acCouchdbJsonFields {
     }
 
     protected function formatFieldKey($key) {
-        return sfInflector::underscore($key);
+        if(!isset($this->keysFormat[$key])) {
+
+            $this->keysFormat[$key] = sfInflector::underscore($key);
+        }
+
+        return $this->keysFormat[$key];
     }
 
     protected function getModelAccessor() {
@@ -460,9 +466,7 @@ abstract class acCouchdbJsonFields {
     }
 
     private function hasFieldNormal($key) {
-        if (array_key_exists(strtolower($key), $this->_fields)) {
-            return true;
-        }
+
         return array_key_exists($this->formatFieldKey($key), $this->_fields);
     }
 
