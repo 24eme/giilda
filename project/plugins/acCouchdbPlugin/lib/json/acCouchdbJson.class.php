@@ -26,8 +26,6 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
      * @return mixed
      */
     public function get($key_or_hash) {
-        //$obj_hash = new acCouchdbHash($key_or_hash);
-
         $objHash = $this->getHashObject($key_or_hash);
 
         if ($objHash["w"] === null) {
@@ -78,7 +76,7 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
             return $this->_set($objHash["f"], $value);
         } else {
 
-            return $this->get($obj_hash->getFirst())->set($objHash["w"], $value);
+            return $this->get($objHash["f"])->set($objHash["w"], $value);
         }
     }
 
