@@ -43,7 +43,8 @@
                                             <td class="crds_debut_de_mois"><?php
                                                 if ($crd->stock_debut && !$isUsurpationMode) {
                                                     echo $crd->stock_debut;
-                                                } echo $crdsForms['stock_debut_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int'));
+                                                }
+                                                echo $crdsForms['stock_debut_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int'));
                                                 ?></td>
                                             <td class="crds_entreesAchats"><?php echo $crdsForms['entrees_achats_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int')); ?></td>
                                             <td class="crds_entreesRetours"><?php echo $crdsForms['entrees_retours_' . $regime . '_' . $crdKey]->render(array('class' => 'num_int')); ?></td>
