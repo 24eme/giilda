@@ -15,7 +15,7 @@ class DRMCrdsForm extends acCouchdbObjectForm {
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
         $this->crds = $this->drm->getAllCrdsByRegimeAndByGenre();
-        $this->isUsurpationMode = (array_key_exists($options,"isUsurpationMode"))? $options["isUsurpationMode"] : false;
+        $this->isUsurpationMode = (array_key_exists("isUsurpationMode",$options))? $options["isUsurpationMode"] : false;
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
