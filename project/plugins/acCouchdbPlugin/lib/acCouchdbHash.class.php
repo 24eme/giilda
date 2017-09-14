@@ -114,28 +114,17 @@ class acCouchdbHash {
     public static function getResultArray($hash) {
         if($hash && strpos($hash, '/') === false) {
             return array(
-                "first" => $hash,
-                "withoutFirst" => null,
-                "isAlone" => true,
+                "f" => $hash,
+                "w" => null
             );
         }
 
-        $tab_hash = explode('/', $hash);
-        $hashArray = array();
-        foreach ($tab_hash as $item) {
-            if (trim($item) != '') {
-                $hashArray[] = $item;
-            }
-        }
-
-        $isAlone = (count($hashArray) == 1);
-
+        $hashArray = array_filter(explode('/', $hash), 'strlen');
         $first = array_shift($hashArray);
 
         return array(
-            "first" => $first,
-            "withoutFirst" => implode('/', $hashArray),
-            "isAlone" => $isAlone,
+            "f" => $first,
+            "w" => (count($hashArray) > 0) ? implode('/', $hashArray) : null,
         );
     }
 
