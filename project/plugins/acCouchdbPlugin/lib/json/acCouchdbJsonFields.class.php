@@ -50,7 +50,6 @@ abstract class acCouchdbJsonFields {
 
     private $_unloaded_data = null;
 
-    private $keysFormat = array();
     /**
      *
      * @var acCouchdbDocument 
@@ -248,13 +247,13 @@ abstract class acCouchdbJsonFields {
         }
     }
 
-    protected function formatFieldKey($key) {
-        if(!isset($this->keysFormat[$key])) {
+    public static function formatFieldKey($key) {
+        if(!isset(acCouchdbManager::$keysFormat[$key])) {
 
-            $this->keysFormat[$key] = sfInflector::underscore($key);
+            acCouchdbManager::$keysFormat[$key] = sfInflector::underscore($key);
         }
 
-        return $this->keysFormat[$key];
+        return acCouchdbManager::$keysFormat[$key];
     }
 
     protected function getCouchdbManager() {
@@ -301,7 +300,7 @@ abstract class acCouchdbJsonFields {
             return false;
         }
 
-        $fieldName = $this->formatFieldKey($key);
+        $fieldName = self::formatFieldKey($key);
         $model_accessor = $this->getModelAccessor();
 
         if (array_key_exists($fieldName, $model_accessor) && is_null($model_accessor[$fieldName])) {
@@ -327,7 +326,7 @@ abstract class acCouchdbJsonFields {
             return false;
         }
 
-        $fieldName = $this->formatFieldKey($key);
+        $fieldName = self::formatFieldKey($key);
         $model_mutator = $this->getModelMutator();
 
         if (array_key_exists($fieldName, $model_mutator) && is_null($model_mutator[$fieldName])) {
@@ -403,7 +402,7 @@ abstract class acCouchdbJsonFields {
 
     private function getFieldNormal($key) {
         if ($this->_exist($key)) {
-            return $this->_fields[$this->formatFieldKey($key)];
+            return $this->_fields[self::formatFieldKey($key)];
         } else {
             throw new acCouchdbException(sprintf('field inexistant : %s (%s%s)', $key, $this->_definition_model, $this->getHash()));
         }
@@ -422,7 +421,7 @@ abstract class acCouchdbJsonFields {
             return $this->getField($key);
         }
         $name = $key;
-        $key = $this->formatFieldKey($key);
+        $key = self::formatFieldKey($key);
         // ajouter le hash et le document
         $field = $this->getDefinition()->get($key)->getDefaultValue($this->_document, $this->_hash . '/' . $name);
         $this->_fields[$key] = $field;
@@ -472,7 +471,7 @@ abstract class acCouchdbJsonFields {
         if ($this->isArray()) {
             $this->_fields[$key] = $data_or_object;
         } else {
-            $this->_fields[$this->formatFieldKey($key)] = $data_or_object;
+            $this->_fields[self::formatFieldKey($key)] = $data_or_object;
         }
         return $data_or_object;
     }
@@ -487,7 +486,7 @@ abstract class acCouchdbJsonFields {
 
     private function removeNormal($key) {
         if ($this->_exist($key)) {
-            unset($this->_fields[$this->formatFieldKey($key)]);
+            unset($this->_fields[self::formatFieldKey($key)]);
             return true;
         }
         return false;
@@ -502,7 +501,7 @@ abstract class acCouchdbJsonFields {
     }
 
     private function hasFieldNormal($key) {
-        $fieldKey = $this->formatFieldKey($key);
+        $fieldKey = self::formatFieldKey($key);
 
         return (isset($this->_fields[$fieldKey]) || array_key_exists($fieldKey, $this->_fields));
     }

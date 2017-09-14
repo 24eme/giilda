@@ -30,14 +30,14 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
 
         $objHash = $this->getHashObject($key_or_hash);
 
-        if ($objHash["isAlone"]) {
-            if (!$this->isArray() && $this->hasAccessor($objHash["first"])) {
-                $method = $this->getAccessor($objHash["first"]);
+        if ($objHash["w"] === null) {
+            if (!$this->isArray() && $method = $this->getAccessor($objHash["f"])) {
+
                 return $this->$method();
             }
-            return $this->_get($objHash["first"]);
+            return $this->_get($objHash["f"]);
         } else {
-            return $this->get($objHash["first"])->get($objHash["withoutFirst"]);
+            return $this->get($objHash["f"])->get($objHash["w"]);
         }
     }
 
@@ -58,23 +58,27 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
     public function getOrAdd($key_or_hash) {
         $objHash = $this->getHashObject($key_or_hash);
 
-        if ($objHash["isAlone"]) {
-            return $this->add($objHash["first"]);
+        if ($objHash["w"] === null) {
+
+            return $this->add($objHash["f"]);
         }
-        return $this->add($objHash["first"])->getOrAdd($objHash["withoutFirst"]);
+
+        return $this->add($objHash["f"])->getOrAdd($objHash["w"]);
     }
 
     public function set($key_or_hash, $value) {
         $objHash = $this->getHashObject($key_or_hash);
 
-        if ($objHash["isAlone"]) {
-            if (!$this->isArray() && $this->hasMutator($objHash["first"])) {
-                $method = $this->getMutator($objHash["first"]);
+        if ($objHash["w"] === null) {
+            if (!$this->isArray() && $method = $this->getMutator($objHash["f"])) {
+
                 return $this->$method($value);
             }
-            return $this->_set($objHash["first"], $value);
+
+            return $this->_set($objHash["f"], $value);
         } else {
-            return $this->get($obj_hash->getFirst())->set($objHash["withoutFirst"], $value);
+
+            return $this->get($obj_hash->getFirst())->set($objHash["w"], $value);
         }
     }
 
@@ -262,8 +266,16 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
     }
 
     protected function getHashObject($key_or_hash) {
+        if(!isset(acCouchdbManager::$hashObjects[$key_or_hash])) {
+            $hashObject = acCouchdbHash::getResultArray($key_or_hash);
+            if($hashObject["w"] !== null) {
+                acCouchdbManager::$hashObjects[$key_or_hash] = serialize($hashObject);
+            }
+        } else {
+            $hashObject = unserialize(acCouchdbManager::$hashObjects[$key_or_hash]);
+        }
 
-        return acCouchdbHash::getResultArray($key_or_hash);
+        return $hashObject;
     }
 
     protected function loadAllData() {
