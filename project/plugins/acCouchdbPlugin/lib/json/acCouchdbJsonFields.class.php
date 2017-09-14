@@ -257,46 +257,82 @@ abstract class acCouchdbJsonFields {
         return $this->keysFormat[$key];
     }
 
+    protected function getCouchdbManager() {
+
+        return acCouchdbManager::getInstance();
+    }
+
     protected function getModelAccessor() {
-        if (!isset(acCouchdbManager::getInstance()->_custom_accessors[$this->_definition_model][$this->_definition_hash])) {
-            acCouchdbManager::getInstance()->_custom_accessors[$this->_definition_model][$this->_definition_hash] = array();
+        $manager = $this->getCouchdbManager();
+        if (!isset($manager->_custom_accessors[$this->_definition_model])) {
+            $manager->_custom_accessors[$this->_definition_model][$this->_definition_hash] = array();
+
+            return array();
         }
-        return acCouchdbManager::getInstance()->_custom_accessors[$this->_definition_model][$this->_definition_hash];
+        $modelAccessor = $manager->_custom_accessors[$this->_definition_model];
+        if (!isset($modelAccessor[$this->_definition_hash])) {
+            $manager->_custom_accessors[$this->_definition_model][$this->_definition_hash] = array();
+
+            return array();
+        }
+
+        return $modelAccessor[$this->_definition_hash];
     }
 
     protected function getModelMutator() {
-        if (!isset(acCouchdbManager::getInstance()->_custom_mutators[$this->_definition_model][$this->_definition_hash])) {
-            acCouchdbManager::getInstance()->_custom_mutators[$this->_definition_model][$this->_definition_hash] = array();
+        $manager = $this->getCouchdbManager();
+        if (!isset($manager->_custom_mutators[$this->_definition_model])) {
+            $manager->_custom_mutators[$this->_definition_model][$this->_definition_hash] = array();
+
+            return array();
         }
-        return acCouchdbManager::getInstance()->_custom_mutators[$this->_definition_model][$this->_definition_hash];
+        $modelMutator = $manager->_custom_mutators[$this->_definition_model];
+        if (!isset($modelMutator[$this->_definition_hash])) {
+            $manager->_custom_mutators[$this->_definition_model][$this->_definition_hash] = array();
+
+            return array();
+        }
+
+        return $modelMutator[$this->_definition_hash];
     }
 
     protected function hasAccessor($key) {
+        if(!$this instanceof acCouchdbDocumentStorable) {
+            return false;
+        }
+
         $fieldName = $this->formatFieldKey($key);
         $model_accessor = $this->getModelAccessor();
 
         if (array_key_exists($fieldName, $model_accessor) && is_null($model_accessor[$fieldName])) {
             return false;
-        } elseif (array_key_exists($fieldName, $model_accessor) && !is_null($model_accessor[$fieldName])) {
+        } elseif (isset($model_accessor[$fieldName])) {
             return $model_accessor[$fieldName];
         } else {
             $accessor = 'get' . sfInflector::camelize($fieldName);
             if ($accessor != 'get' && method_exists($this, $accessor)) {
                 acCouchdbManager::getInstance()->_custom_accessors[$this->_definition_model][$this->_definition_hash][$fieldName] = $accessor;
+
                 return $accessor;
-            } else {
-                acCouchdbManager::getInstance()->_custom_accessors[$this->_definition_model][$this->_definition_hash][$fieldName] = null;
-                return false;
             }
+
+            acCouchdbManager::getInstance()->_custom_accessors[$this->_definition_model][$this->_definition_hash][$fieldName] = null;
+
+            return false;
         }
     }
 
     protected function hasMutator($key) {
+        if(!$this instanceof acCouchdbDocumentStorable) {
+            return false;
+        }
+
         $fieldName = $this->formatFieldKey($key);
         $model_mutator = $this->getModelMutator();
+
         if (array_key_exists($fieldName, $model_mutator) && is_null($model_mutator[$fieldName])) {
             return false;
-        } elseif (array_key_exists($fieldName, $model_mutator) && !is_null($model_mutator[$fieldName])) {
+        } elseif (isset($model_mutator[$fieldName])) {
             return $model_mutator[$fieldName];
         } else {
             $mutator = 'set' . sfInflector::camelize($fieldName);
@@ -466,8 +502,9 @@ abstract class acCouchdbJsonFields {
     }
 
     private function hasFieldNormal($key) {
+        $fieldKey = $this->formatFieldKey($key);
 
-        return array_key_exists($this->formatFieldKey($key), $this->_fields);
+        return (isset($this->_fields[$fieldKey]) || array_key_exists($fieldKey, $this->_fields));
     }
 
     private function hasFieldNumeric($key) {
