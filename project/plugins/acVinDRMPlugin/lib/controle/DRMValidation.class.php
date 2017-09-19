@@ -60,28 +60,28 @@ class DRMValidation extends DocumentValidation {
 
             $produitLibelle = " pour le produit ".$detail->getLibelle();
 
-            if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
-            {
-              if($entrees_excedents){
-                $this->addPoint('erreur', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
-              }
-              if($entrees_retourmarchandisetaxees){
-                $this->addPoint('erreur', 'observations', "Entrée retour de marchandises taxées (".sprintf("%.2f",$entrees_retourmarchandisetaxees)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
-              }
-              if ($entrees_retourmarchandiseacquitte) {
-                $this->addPoint('erreur', 'observations', "Entrée retour de marchandises acquittées (".sprintf("%.2f",$entrees_retourmarchandiseacquitte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
-              }
-              if($entrees_retourmarchandisesanscvo){
-                $this->addPoint('erreur', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
-              }
-              if($sorties_destructionperte){
-                $this->addPoint('erreur', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
-              }
-            }
             if ($this->isTeledeclarationDrm) {
-                if(($entrees_retourmarchandisetaxees + $entrees_retourmarchandiseacquitte + $entrees_retourmarchandisesanscvo) && (!$detail->exist('replacement_date') || !$detail->replacement_date)) {
-                  $this->addPoint('erreur', 'replacement_date', $produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              if($total_observations_obligatoires && (!$detail->exist('observations') || !$detail->observations))
+              {
+                if($entrees_excedents){
+                  $this->addPoint('erreur', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
+                if($entrees_retourmarchandisetaxees){
+                  $this->addPoint('erreur', 'observations', "Entrée retour de marchandises taxées (".sprintf("%.2f",$entrees_retourmarchandisetaxees)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if ($entrees_retourmarchandiseacquitte) {
+                  $this->addPoint('erreur', 'observations', "Entrée retour de marchandises acquittées (".sprintf("%.2f",$entrees_retourmarchandiseacquitte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($entrees_retourmarchandisesanscvo){
+                  $this->addPoint('erreur', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($sorties_destructionperte){
+                  $this->addPoint('erreur', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+              }
+              if(($entrees_retourmarchandisetaxees + $entrees_retourmarchandiseacquitte + $entrees_retourmarchandisesanscvo) && (!$detail->exist('replacement_date') || !$detail->replacement_date)) {
+                $this->addPoint('erreur', 'replacement_date', $produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+              }
             }
 
             if (!$detail->getConfig()->entrees->exist('declassement')) {
