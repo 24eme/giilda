@@ -14,7 +14,7 @@ $cpt = 0;
                 <?php if (!$isTeledeclarationMode): ?>
                 </a>
             <?php endif; ?>
-            <span><? echo ($vrac->valide->date_signature_vendeur) ? '' : ' (en attente de signature)'?></span>
+            <span><?php echo ($vrac->valide->date_signature_vendeur) ? '' : ' (en attente de signature)'; ?></span>
         </span>
     </div>
     <div id="soussigne_recapitulatif_acheteur" class="<?php echoClassLignesVisu($cpt); ?> <?php echoPictoSignatureFromObject($societe, $vrac, 'Acheteur', $template_validation); ?>">
@@ -26,7 +26,7 @@ $cpt = 0;
                 <?php if (!$isTeledeclarationMode): ?>
                 </a>
             <?php endif; ?>
-            <span><? echo ($vrac->valide->date_signature_acheteur) ? '' : ' (en attente de signature)'?></span>
+            <span><?php echo ($vrac->valide->date_signature_acheteur) ? '' : ' (en attente de signature)'; ?></span>
         </span>
     </div>
 
