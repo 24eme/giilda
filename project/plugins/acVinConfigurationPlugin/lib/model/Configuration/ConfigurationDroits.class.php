@@ -5,7 +5,7 @@
  */
 
 class ConfigurationDroits extends BaseConfigurationDroits {
-	
+
 	const CODE_CVO = 'CVO';
 	const CODE_DOUANE = 'DOUANE';
 	const LIBELLE_CVO = 'Cvo';
@@ -14,7 +14,7 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	const DROIT_DOUANE = 'douane';
 
 	protected $currentDroits = array();
-	
+
 	public function addDroit($date, $taux, $code, $libelle) {
 	  $value = $this->add();
 	  $value->date = $date;
@@ -22,12 +22,17 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 	  $value->code = $code;
 	  $value->libelle = $libelle;
 	}
-	
+
 	public function getCurrentDroit($date_cvo) {
 		if(array_key_exists($date_cvo, $this->currentDroits) && $this->currentDroits[$date_cvo]) {
 
 			return $this->currentDroits[$date_cvo];
 		}
+
+		if(array_key_exists($date_cvo, $this->currentDroits) && $this->currentDroits[$date_cvo] === false) {
+
+           throw new sfException('Aucun droit spécifié pour '.$this->getHash());
+       	}
 
 	  	$currentDroit = null;
 		  	foreach ($this as $configurationDroit) {
@@ -55,10 +60,10 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 			$this->currentDroits[$date_cvo] = $parent->interpro->getOrAdd($this->getInterpro()->getKey())->droits->getOrAdd($this->getKey())->getCurrentDroit($date_cvo);
 
 			return $this->currentDroits[$date_cvo];
-			
-		} catch (sfException $e) {
 
-				throw new sfException('Aucun droit spécifié pour '.$this->getHash());
+		} catch (sfException $e) {
+			$this->currentDroits[$date_cvo] = false;
+        	throw new sfException('Aucun droit spécifié pour '.$this->getHash());
 		}
 	}
 
@@ -76,7 +81,7 @@ class ConfigurationDroits extends BaseConfigurationDroits {
 			$this->add(null, $droit);
 		}
 	}
-	
+
 	public function getInterpro() {
 		return $this->getParent()->getParent();
 	}
