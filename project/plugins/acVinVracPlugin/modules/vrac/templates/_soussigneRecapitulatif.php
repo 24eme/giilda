@@ -11,9 +11,10 @@ $cpt = 0;
                 <?php endif; ?>
                 <?php echo $vrac->getVendeurObject()->getNom(); ?>
 
-                <?php if (!$isTeledeclarationMode): ?> 
+                <?php if (!$isTeledeclarationMode): ?>
                 </a>
             <?php endif; ?>
+            <span><? echo ($vrac->valide->date_signature_vendeur) ? '' : ' (en attente de signature)'?></span>
         </span>
     </div>
     <div id="soussigne_recapitulatif_acheteur" class="<?php echoClassLignesVisu($cpt); ?> <?php echoPictoSignatureFromObject($societe, $vrac, 'Acheteur', $template_validation); ?>">
@@ -25,16 +26,17 @@ $cpt = 0;
                 <?php if (!$isTeledeclarationMode): ?>
                 </a>
             <?php endif; ?>
+            <span><? echo ($vrac->valide->date_signature_acheteur) ? '' : ' (en attente de signature)'?></span>
         </span>
     </div>
-    
+
     <?php if (!$isTeledeclarationMode): ?>
         <div id="soussigne_recapitulatif_mandataire" class="<?php echoClassLignesVisu($cpt); ?>">
             <label>Contrat interne :</label>
             <span><?php echo ($vrac->interne) ? 'Oui' : 'Non'; ?></span>
         </div>
     <?php endif; ?>
-    
+
     <?php if ($vrac->mandataire_identifiant != null && $vrac->mandataire_exist): ?>
         <div id="soussigne_recapitulatif_mandataire" class="<?php echoClassLignesVisu($cpt); ?> <?php echoPictoSignatureFromObject($societe, $vrac, 'Courtier', $template_validation); ?>" >
             <label>Courtier&nbsp;:</label>
