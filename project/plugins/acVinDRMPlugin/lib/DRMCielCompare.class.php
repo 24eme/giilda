@@ -118,4 +118,30 @@ class DRMCielCompare
 		}
 		return $value;
 	}
+
+
+	    public function getFormattedXMLComparaison() {
+	      $str_arr = array();
+	      foreach ($this->getDiff() as $key => $value) {
+	        $keyArr = explode("/",$key);
+	        if(strpos($key,"{array}/produit/{array}")){
+	          $probleme = "[Problème de ".str_replace("-"," ",$keyArr[7])."]";
+	          $categorie = "concerne le(s) ".str_replace("-"," ",$keyArr[1]);
+	          $produit = "produit ".str_replace("_"," ",str_replace("-"," ",$keyArr[5]));
+	          $mvt = "".str_replace("-"," ",$keyArr[9]);
+	          $str_arr[$probleme." ".$categorie." ".$produit." ".$mvt] = (is_null($value))? "valeur nulle" : $value;
+	        }elseif(strpos($key,"{array}/compte-crd/{array}")){
+	          $probleme = "[Problème de ".str_replace("-"," ",$keyArr[1])."]";
+	          $capsule = "capsule : ".str_replace("_"," ",str_replace("-"," ",$keyArr[3]));
+	          $categorie = " ".str_replace("-"," ",$keyArr[7]);
+	          $mvt = "".str_replace("-"," ",$keyArr[9]);
+	          //$str_arr[$probleme." ".$capsule." ".$categorie." ".$mvt] = (is_null($value))? "valeur nulle" : $value;
+	          $str_arr["Une différence a été détecté dans le compte capsule"] = "";
+	        }else{
+	          $str_arr[$key] = $value;
+
+	        }
+	      }
+	      return $str_arr;
+	    }
 }
