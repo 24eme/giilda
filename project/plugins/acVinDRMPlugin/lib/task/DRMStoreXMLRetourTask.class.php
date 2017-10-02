@@ -32,7 +32,7 @@ EOF;
       // initialize the database connection
       $databaseManager = new sfDatabaseManager($this->configuration);
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-            
+
       if (!$options['drmid']) {
         try {
           $drm = DRMClient::storeXMLRetourFromURL($arguments['url'], $options['verbose'], $options['force-update']);
@@ -40,6 +40,7 @@ EOF;
             echo $drm->_id." retour xml attaché à la DRM \n";
             return 0;
           }else{
+            echo "L'xml d'url ".$arguments['url']." a déjà été attachée \n";
             return 1;
           }
         }catch(sfException $e) {
