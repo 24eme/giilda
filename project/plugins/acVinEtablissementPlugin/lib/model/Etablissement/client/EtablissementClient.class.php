@@ -30,7 +30,7 @@ class EtablissementClient extends acCouchdbClient {
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
     const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
-    
+
     const CAUTION_DISPENSE = 'DISPENSE';
     const CAUTION_CAUTION = 'CAUTION';
 
@@ -45,7 +45,7 @@ class EtablissementClient extends acCouchdbClient {
     public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
-    
+
     public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
         self::CAUTION_CAUTION => 'Caution');
 
@@ -105,7 +105,7 @@ class EtablissementClient extends acCouchdbClient {
      *
      * @param string $login
      * @param integer $hydrate
-     * @return Etablissement 
+     * @return Etablissement
      * @deprecated find()
      */
     public function retrieveById($id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
@@ -120,6 +120,15 @@ class EtablissementClient extends acCouchdbClient {
 
     public function findByCvi($cvi) {
         $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
+        if (!count($rows)) {
+            return null;
+        }
+
+        return $this->find($rows[0]->id);
+    }
+
+    public function findByNoAccise($accise) {
+        $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
 
         if (!count($rows)) {
             return null;
@@ -143,7 +152,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     /**
-     * 
+     *
      * @deprecated find()
      */
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {

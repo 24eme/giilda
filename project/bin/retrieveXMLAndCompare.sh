@@ -1,6 +1,8 @@
 #!/bin/bash
 
-curl -s http://10.222.223.1/reception_douanes/429164072/ | while read url ; do
+. $(dirname $0)/config.inc
+
+cat fic | while read url ; do
 	OUT=$(php5 symfony drm:storeXMLRetour $url $*)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
