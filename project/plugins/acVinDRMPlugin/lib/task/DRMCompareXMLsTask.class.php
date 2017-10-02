@@ -26,7 +26,6 @@ EOF;
   protected function execute($arguments = array(), $options = array())
   {
     sfProjectConfiguration::getActive()->loadHelpers("Partial");
-
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
@@ -34,16 +33,20 @@ EOF;
     $contextInstance = sfContext::createInstance($this->configuration);
 
     $drm = DRMClient::getInstance()->find($arguments['drmid']);
-
     if ($drm->areXMLIdentical()) {
-      echo $drm->_id." : XML are identical\n";
+      $drm->getOrAdd('transmission_douane')->add("coherente", true);
+      $drm->getOrAdd('transmission_douane')->add("diff",null);
+      echo $drm->_id." : XML sont identiques\n";
     }else{
-      echo $drm->_id." : XML are different :-(\n";
+      echo $drm->_id." : XML sont differents :-(\n";
+      $comp = $drm->getXMLComparison();
+      $drm->getOrAdd('transmission_douane')->add("coherente",false);
+      $drm->getOrAdd('transmission_douane')->add("diff", serialize($comp->getDiff()));
       if ($options['checking']) {
-        $comp = $drm->getXMLComparison();
         var_dump($comp->getDiff());
       }
     }
+     $drm->save();
 
   }
 

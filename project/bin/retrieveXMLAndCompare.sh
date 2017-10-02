@@ -1,9 +1,9 @@
 #!/bin/bash
 
-. bin/config.inc
+. $(dirname $0)/config.inc
 
-curl -s $URL_RETOUR_CFT | while read url ; do
-	OUT=$(php5 symfony $SYMFONY_ENV drm:storeXMLRetour $url $*)
+cat fic | while read url ; do
+	OUT=$(php5 symfony drm:storeXMLRetour $url $*)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
 	if test $RET -ne 1 ; then
