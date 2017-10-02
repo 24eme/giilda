@@ -37,16 +37,40 @@ EOF;
       $drm->getOrAdd('transmission_douane')->add("coherente", true);
       $drm->getOrAdd('transmission_douane')->add("diff",null);
       echo $drm->_id." : XML sont identiques\n";
+      $drm->save();
     }else{
-      echo $drm->_id." : XML sont differents :-(\n";
+      echo $drm->_id." : XML differents\n";
       $comp = $drm->getXMLComparison();
       $drm->getOrAdd('transmission_douane')->add("coherente",false);
       $drm->getOrAdd('transmission_douane')->add("diff", serialize($comp->getDiff()));
+      $drm->save();
+      try {
+        $drm_modificatrice = $drm->generateModificative();
+        $drm_modificatrice->save();
+      } catch (Exception $e) {
+        "Une DRM modificatrice est déjà ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $this->drm->identifiant))."\n \n";
+      }
+
+
+      // $mailManager = new DRMEmailManager($this->getMailer());
+      // $mailManager->setDRM($drm);
+      // $mailManager->sendMailDrmCielDiffs();
+
+        $diffArrStr = $comp->getFormattedXMLComparaison();
+        foreach ($diffArrStr as $key => $value) {
+            echo "      ".$key . " [" . $value . "]\n";
+        }
+        echo "      DRM modificatrice ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n \n";
+
+
       if ($options['checking']) {
-        var_dump($comp->getDiff());
+        echo "Différence trouvée : \n";
+        foreach ($comp->getDiff() as $key => $value) {
+          echo $key." : ".$value."\n";
+        }
       }
     }
-     $drm->save();
+
 
   }
 

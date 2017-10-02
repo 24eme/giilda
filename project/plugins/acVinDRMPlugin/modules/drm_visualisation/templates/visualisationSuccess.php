@@ -10,7 +10,7 @@
             </li>
             <li>
                 <strong>
-                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->isTeledeclareFacturee()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isTeledeclareNonFacturee()): ?>&nbsp;(non facturée)<?php endif; ?>
+                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->hasBeenTransferedToCiel()): ?>&nbsp;douane OK<?php endif; ?><?php if($drm->isTeledeclareFacturee()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isTeledeclareNonFacturee()): ?>&nbsp;(non facturée)<?php endif; ?>
                   <?php else : ?>Saisie sur Vinsi<?php endif; ?>
                 </label>
                     <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
