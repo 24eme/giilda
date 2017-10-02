@@ -119,8 +119,10 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
 }
 
 function getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
-    if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode))
-        return  '(Télédéclarée)';
+    if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode) && isTransmiseDouane($isTeledeclarationMode, $calendrier, $periode))
+        return  '(T douane OK)';
+    else if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode))
+        return  '(Téleclarée)';
     else if ($isTeledeclarationMode)
         return '';
     else {
@@ -140,6 +142,12 @@ function isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode,
     }
     return false;
 }
+
+
+function isTransmiseDouane($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
+  return $calendrier->getTransmise($periode, $etablissement);
+}
+
 
 function getEtatDRMHrefCalendrier($isTeledeclaration,$calendrier, $periode, $etablissement = false) {
     $etablissementId = ($etablissement) ? $etablissement->identifiant : $calendrier->getIdentifiant();
