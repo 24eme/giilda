@@ -14,8 +14,7 @@
 			<mois><?php echo $drm->getMois() ?></mois>
 			<annee><?php echo $drm->getAnnee() ?></annee>
 		</periode>
-<?php if(!$drm->periode == "201708"): ?><declaration-neant><?php echo ($drm->declaration->hasStockEpuise())? "true" : "false"; ?></declaration-neant><?php endif; ?>
-<?php if (!$drm->declaration->hasStockEpuise() && !$drm->periode == "201708"): ?>
+<?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
 <?php foreach ($drm->getProduitsDetails(true,DRM::DETAILS_KEY_SUSPENDU) as $produit): ?>
 			<produit>
