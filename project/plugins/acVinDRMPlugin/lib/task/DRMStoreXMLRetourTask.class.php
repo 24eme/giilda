@@ -37,10 +37,10 @@ EOF;
         try {
           $drm = DRMClient::storeXMLRetourFromURL($arguments['url'], $options['verbose'], $options['force-update']);
           if ($drm) { //Si pas $drm c'est qu'il y avait déjà le même XML
-            echo $drm->_id." retour xml attaché à la DRM \n";
+            echo $drm->_id." retour xml attaché à la DRM xml=".$arguments['url']." \n";
             return 0;
           }else{
-            echo "L'xml d'url ".$arguments['url']." a déjà été attachée \n";
+            echo "L'xml d'url ".$arguments['url']." a déjà été attaché \n";
             return 1;
           }
         }catch(sfException $e) {
