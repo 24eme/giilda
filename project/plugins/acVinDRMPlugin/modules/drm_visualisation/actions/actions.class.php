@@ -18,6 +18,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
 		      $this->drm = $this->getRoute()->getDRM();
 	        $this->initSocieteAndEtablissementPrincipal();
 	        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+          $this->isUsurpationMode = $this->isUsurpationMode();
 	        $this->no_link = false;
 	        if ($this->getUser()->hasOnlyCredentialDRM()) {
 	            $this->no_link = true;
