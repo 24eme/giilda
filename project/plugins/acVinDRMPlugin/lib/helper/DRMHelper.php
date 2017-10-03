@@ -114,7 +114,7 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
 
 function getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
     if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode) && isTransmiseDouane($isTeledeclarationMode, $calendrier, $periode))
-        return  '(T douane OK)';
+        return  '(T douane)';
     else if (isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode))
         return  '(Téleclarée)';
     else if ($isTeledeclarationMode)
@@ -138,7 +138,7 @@ function isTeledeclareeCalendrier($isTeledeclarationMode, $calendrier, $periode,
 }
 
 function isTransmiseDouane($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
-  return $calendrier->getTransmise($periode, $etablissement);  
+  return $calendrier->getTransmise($periode, $etablissement);
 }
 
 function getEtatDRMPictoCalendrier($isTeledeclaration, $calendrier, $periode, $etablissement = false) {
