@@ -92,7 +92,7 @@
         <table class="table_recap">
             <thead>
                 <tr>
-                    <th>Transmission sur le portail proDou@ne</th>
+                    <th>Transmission sur le portail proDou@ne (<a href="<?php echo url_for('drm_xml', $drm); ?>">XML transmis</a>)</th>
                 </tr>
             </thead>
             <tbody>
@@ -119,7 +119,7 @@
           <table class="table_recap">
             <thead >
                 <tr>
-                    <th><label style="float: left; padding : 0 10px;">Identification du problème rencontré</label></th>
+                    <th><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</label></th>
                     <th>Valeur proDou@ne</th>
                 </tr>
             </thead>

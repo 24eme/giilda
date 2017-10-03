@@ -263,6 +263,7 @@ class DRMRouting {
 
         $r->prependRoute('drm_xml', new DRMRoute('/drm/:identifiant/xml/:periode_version', array('module' => 'drm_xml', 'action' => 'print'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
 
+        $r->prependRoute('drm_retour', new DRMRoute('/drm/:identifiant/retour/:periode_version', array('module' => 'drm_xml', 'action' => 'retour'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
     }
 
 }
