@@ -126,7 +126,7 @@ class DRMCielCompare
 	        $keyArr = explode("/",$key);
 	        if(strpos($key,"{array}/produit/{array}")){
 	          $probleme = "[Problème de ".str_replace("-"," ",$keyArr[7])."]";
-	          $categorie = "concerne le(s) ".str_replace("-"," ",$keyArr[1]);
+	          $categorie = "".str_replace("-"," ",$keyArr[1]);
 	          $produit = "produit ".str_replace("_"," ",str_replace("-"," ",$keyArr[5]));
 	          $mvt = "".str_replace("-"," ",$keyArr[9]);
 	          $str_arr[$probleme." ".$categorie." ".$produit." ".$mvt] = (is_null($value))? "valeur nulle" : $value;

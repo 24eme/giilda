@@ -10,7 +10,7 @@
             </li>
             <li>
                 <strong>
-                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->hasBeenTransferedToCiel()): ?>&nbsp;douane OK<?php endif; ?><?php if($drm->isTeledeclareFacturee()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isTeledeclareNonFacturee()): ?>&nbsp;(non facturée)<?php endif; ?>
+                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->hasBeenTransferedToCiel()): ?>&nbsp;transmise<?php endif; ?><?php if($drm->transmission_douane->coherente): ?>&nbsp;- Douane OK<?php endif; ?><?php if($drm->isTeledeclareFacturee()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isTeledeclareNonFacturee()): ?>&nbsp;(non facturée)<?php endif; ?>
                   <?php else : ?>Saisie sur Vinsi<?php endif; ?>
                 </label>
                     <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
@@ -90,9 +90,9 @@
     <div id="contenu_onglet">
         <h2>Transmission Douane</h2>
         <table class="table_recap">
-            <thead >
+            <thead>
                 <tr>
-                    <th>Transmission sur le portail proDou@ane</th>
+                    <th>Transmission sur le portail proDou@ne</th>
                 </tr>
             </thead>
             <tbody>
@@ -103,8 +103,34 @@
     La transmission a échoué. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
 <?php endif; ?>
                 </td></tr>
+                <?php if (!$isTeledeclarationMode || $isUsurpationMode): ?>
+                  <?php if (is_null($drm->transmission_douane->coherente)) : ?>
+                    <tr><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
+                  <?php elseif($drm->transmission_douane->coherente): ?>
+                    <tr><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                  <?php else: ?>
+                    <tr><td>La DRM n'est pas <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                  <?php endif; ?>
+                <?php endif; ?>
             </tbody>
         </table>
+        <?php if ((!$isTeledeclarationMode || $isUsurpationMode) && ($drm->transmission_douane->coherente === false)): ?>
+          <br/>
+          <table class="table_recap">
+            <thead >
+                <tr>
+                    <th><label style="float: left; padding : 0 10px;">Identification du problème rencontré</label></th>
+                    <th>Valeur proDou@ne</th>
+                </tr>
+            </thead>
+          <tbody>
+          <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $valeur): ?>
+            <tr><td style="text-align: left; "><?php echo preg_replace('/(\[.+\]) (.+)/',"$1<br/>$2",$problemeSrc); ?></td>
+              <td><?php echo $valeur; ?></td></tr>
+          <?php endforeach; ?>
+          </tbody>
+        </table>
+        <?php endif; ?>
     </div>
     <br/>
     <?php endif; ?>
