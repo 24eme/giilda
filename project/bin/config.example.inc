@@ -30,5 +30,6 @@ SAMBA_BI_SHARE=
 SAMBA_BI_DIR=
 DEV_EMAILS="test@example.org test2@example.org"
 REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
+CIEL_URL_RETOURXML=http://10.10.10.10/reception_douanes/SIRENINTERPO/
 
 mkdir -p $TMP > /dev/null
