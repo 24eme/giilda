@@ -45,10 +45,15 @@ EOF;
       $drm->getOrAdd('transmission_douane')->add("diff", serialize($comp->getDiff()));
       $drm->save();
       try {
-        $drm_modificatrice = $drm->generateModificative();
-        $drm_modificatrice->save();
+        if($suivante = $drm->getSuivante()){
+          echo "      DRM modificatrice non ouverte : il existe une DRM Suivante $suivante->_id \n";
+        }else{
+          $drm_modificatrice = $drm->generateModificative();
+          $drm_modificatrice->save();
+          echo "      DRM modificatrice ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n";
+        }
       } catch (Exception $e) {
-        "Une DRM modificatrice est déjà ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $this->drm->identifiant))."\n \n";
+        echo "      Une DRM modificatrice est déjà ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n";
       }
 
 
@@ -60,7 +65,6 @@ EOF;
         foreach ($diffArrStr as $key => $value) {
             echo "      ".$key . " [" . $value . "]\n";
         }
-        echo "      DRM modificatrice ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n \n";
 
 
       if ($options['checking']) {
