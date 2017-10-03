@@ -88,13 +88,55 @@
 <?php if ($drm->exist('transmission_douane') && $drm->transmission_douane): ?>
 <div class="row">
   <div class="col-xs-12">
-    <h3>Transmission sur le portail proDou@ane <small>(<?php echo link_to('xml', 'drm_xml', $drm); ?>)</small></h3>
-    <?php if ($drm->transmission_douane->success) : ?>
-      <p>La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.</p>
-    <?php else: ?>
-      <p>La transmission a échouée. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».</p>
-    <?php endif; ?>
-<<<<<<< HEAD
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">Transmission et retour xml proDou@ane</h3>
+        </div>
+        <div class="panel-content>">
+          <div role="tabpanel" class="tab-pane active">
+          </div>
+          <div role="tabpanel" class="tab-pane">
+            <table class="table table-striped table-condensed">
+                <tbody>
+                  <tr>
+                      <td class="col-xs-4">Transmission <small>(<?php echo link_to('xml', 'drm_xml', $drm); ?>)</small></td>
+                      <td class="col-xs-8">
+                        <?php if ($drm->transmission_douane->success) : ?>
+                          La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
+                        <?php else: ?>
+                          La transmission a échouée. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
+                        <?php endif; ?>
+                      </td>
+                  </tr>
+                  <?php if (!$isTeledeclarationMode): ?>
+                    <?php if (is_null($drm->transmission_douane->coherente)) : ?>
+                      <tr><td>Retour XML</td><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
+                    <?php elseif($drm->transmission_douane->coherente): ?>
+                      <tr><td>Retour XML</td><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                    <?php else: ?>
+                      <tr><td>Retour XML</td><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
+                    <?php endif; ?>
+                  <?php endif; ?>
+                  <?php if ((!$isTeledeclarationMode) && ($drm->transmission_douane->coherente === false)): ?>
+                  <tr colspan="2">
+                      <td></td>
+                  </tr>
+                  <tr>
+                      <td><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</label></td>
+                      <td>Valeur proDou@ne</td>
+                  </tr>
+                  <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $valeur): ?>
+                  <tr>
+                    <td><?php echo preg_replace('/(\[.+\]) (.+)/',"$1<br/>$2",$problemeSrc); ?></td>
+                    <td><?php echo $valeur; ?></td>
+                  </tr>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+                </tbody>
+              </table>
+          </div>
+      </div>
+    </div>
   </div>
 </div>
 <?php endif; ?>
@@ -102,55 +144,6 @@
 <div class="row">
     <div class="col-xs-4">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace DRM</a>
-=======
-    <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
-    <br />
-    <?php if ($drm->exist('transmission_douane')) : ?>
-    <div id="contenu_onglet">
-        <h2>Transmission Douane</h2>
-        <table class="table_recap">
-            <thead>
-                <tr>
-                    <th>Transmission sur le portail proDou@ne</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>
-<?php if ($drm->transmission_douane->success) : ?>
-    La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
-<?php else: ?>
-    La transmission a échoué. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
-<?php endif; ?>
-                </td></tr>
-                <?php if (!$isTeledeclarationMode || $isUsurpationMode): ?>
-                  <?php if (is_null($drm->transmission_douane->coherente)) : ?>
-                    <tr><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
-                  <?php elseif($drm->transmission_douane->coherente): ?>
-                    <tr><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
-                  <?php else: ?>
-                    <tr><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
-                  <?php endif; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
-        <?php if ((!$isTeledeclarationMode || $isUsurpationMode) && ($drm->transmission_douane->coherente === false)): ?>
-          <br/>
-          <table class="table_recap">
-            <thead >
-                <tr>
-                    <th><label style="float: left; padding : 0 10px;">Identification du problème rencontré</label></th>
-                    <th>Valeur proDou@ne</th>
-                </tr>
-            </thead>
-          <tbody>
-          <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $valeur): ?>
-            <tr><td style="text-align: left; "><?php echo preg_replace('/(\[.+\]) (.+)/',"$1<br/>$2",$problemeSrc); ?></td>
-              <td><?php echo $valeur; ?></td></tr>
-          <?php endforeach; ?>
-          </tbody>
-        </table>
-        <?php endif; ?>
->>>>>>> e13d7e660... adaptation wording  avec le retour douane et présentation des diff
     </div>
     <div class="col-xs-4 text-center">
       <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
