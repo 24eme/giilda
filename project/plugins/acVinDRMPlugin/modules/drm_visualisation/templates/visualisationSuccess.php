@@ -109,7 +109,7 @@
                   <?php elseif($drm->transmission_douane->coherente): ?>
                     <tr><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
                   <?php else: ?>
-                    <tr><td>La DRM n'est pas <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                    <tr><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
                   <?php endif; ?>
                 <?php endif; ?>
             </tbody>
