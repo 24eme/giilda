@@ -18,10 +18,23 @@ class DRMCielCompare
 		}
 	}
 
+	public function sortAndPurgeNull($array){
+		$res = array();
+		foreach ($array as $key => $value) {
+			if(!is_null($value)){
+				$res[$key] = $value;
+			}
+		}
+		ksort($res);
+		return $res;
+	}
+
 	public function getDiff()
 	{
-		$arrIn = $this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlIn)));
-		$arrOut = $this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlOut)));
+
+		$arrIn = $this->sortAndPurgeNull($this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlIn))));
+		$arrOut = $this->sortAndPurgeNull($this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlOut))));
+
 
 		$diff = array();
 		foreach ($arrIn as $key => $value) {
@@ -37,6 +50,7 @@ class DRMCielCompare
 				$diff[$key] = null;
 			}
 		}
+
 		return $diff;
 	}
 
@@ -86,17 +100,31 @@ class DRMCielCompare
 					continue;
 				}
 				if (preg_match($patternCentilisation, $key) && preg_match('/@attributes/i', $key)) {
-					$newKeyCentilisation = $value;
+					if(preg_match('/\/volume$/i', $key)){
+						$newKeyCentilisation = $value;
+					}
+					if(preg_match('/\/volumePersonnalise/i', $key)){
+						$newKeyCentilisation .= $value;
+					}
+					if(preg_match('/\/bib/i', $key)){
+						$newKeyCentilisation .= $value;
+					}
 					continue;
 				}
 				$value = $this->cleanValue($value);
 				if (preg_match($patternProduit, $key)) {
 					$tmp = preg_replace($patternProduit, '/produit/{array}/'.$newKeyProduit.'/{array}/', $key);
 					$result[$tmp] = $value;
-				} elseif (preg_match($patternCrd, $key) || preg_match($patternCentilisation, $key)) {
-					$tmp = preg_replace($patternCrd, '/compte-crd/{array}/'.$newKeyCrd.'/{array}/', $key);
-					$tmp = preg_replace($patternCentilisation, '/centilisation/{array}/'.$newKeyCentilisation.'/{array}/', $tmp);
-					$result[$tmp] = $value;
+				}elseif (preg_match($patternCentilisation, $key)){
+				  if($value !== 0){
+						 $tmp = preg_replace($patternCrd, '/compte-crd/{array}/'.$newKeyCrd.'/{array}/', $key);
+						 $tmp = preg_replace($patternCentilisation, '/centilisation/{array}/'.$newKeyCentilisation.'/{array}/', $tmp);
+
+						 $result[$tmp] = $value;
+					 }
+				} elseif (preg_match($patternCrd, $key)){
+						$tmp = preg_replace($patternCrd, '/compte-crd/{array}/'.$newKeyCrd.'/{array}/', $key);
+						$result[$tmp] = $value;
 				} else {
 					$result[$key] = $value;
 				}
