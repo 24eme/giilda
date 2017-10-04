@@ -301,6 +301,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
         if ($is_just_the_next_periode) {
             $drm_suivante->precedente = $this->_id;
+            $drm_suivante->document_precedent = null;
         }
 
         if (!$isTeledeclarationMode) {
