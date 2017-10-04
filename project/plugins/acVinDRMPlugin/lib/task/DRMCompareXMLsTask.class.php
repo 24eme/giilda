@@ -29,8 +29,9 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
+    $routing = clone ProjectConfiguration::getAppRouting();
     $contextInstance = sfContext::createInstance($this->configuration);
+    $contextInstance->set('routing', $routing);
 
     $drm = DRMClient::getInstance()->find($arguments['drmid']);
     if ($drm->areXMLIdentical()) {
@@ -47,19 +48,16 @@ EOF;
       try {
         if($suivante = $drm->getSuivante()){
           echo "      DRM modificatrice non ouverte : il existe une DRM Suivante $suivante->_id \n";
+        }elseif(!$drm->transmission_douane->success){
+          echo "      DRM modificatrice non ouverte : la DRM n'a pas été transmise aux douanes\n";
         }else{
           $drm_modificatrice = $drm->generateModificative();
           $drm_modificatrice->save();
-          echo "      DRM modificatrice ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n";
+          echo "      DRM modificatrice ouverte : ".sfConfig::get('app_vinsi_url').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n";
         }
       } catch (Exception $e) {
-        echo "      Une DRM modificatrice est déjà ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n";
+        echo "      Une DRM modificatrice est déjà ouverte : ".sfConfig::get('app_vinsi_url').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant),true)."\n";
       }
-
-
-      // $mailManager = new DRMEmailManager($this->getMailer());
-      // $mailManager->setDRM($drm);
-      // $mailManager->sendMailDrmCielDiffs();
 
         $diffArrStr = $comp->getFormattedXMLComparaison();
         foreach ($diffArrStr as $key => $value) {
