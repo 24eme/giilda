@@ -62,7 +62,7 @@ class DRMCielCompare
 
 		$arrIn = $this->sortAndPurgeNull($this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlIn))));
 		$arrOut = $this->sortAndPurgeNull($this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlOut))));
-		
+
 		$diff = array();
 		foreach ($arrIn as $key => $value) {
 			if (!isset($arrOut[$key]) && $value) {
@@ -115,7 +115,7 @@ class DRMCielCompare
 					continue;
 				}
 				if (preg_match($patternProduit, $key) && preg_match('/libelle-personnalise/i', $key)) {
-					$newKeyProduit .= '_'.KeyInflector::slugify($value);
+					$newKeyProduit .= '_'.KeyInflector::slugifyCaseSensitive($value);
 					continue;
 				}
 				if (preg_match($patternCrd, $key) && preg_match('/categorie-fiscale-capsules/i', $key)) {
