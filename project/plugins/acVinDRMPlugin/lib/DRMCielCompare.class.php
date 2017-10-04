@@ -19,13 +19,41 @@ class DRMCielCompare
 	}
 
 	public function sortAndPurgeNull($array){
-		$res = array();
+		$nonnull = array();
 		foreach ($array as $key => $value) {
 			if(!is_null($value)){
-				$res[$key] = $value;
+				$nonnull[$key] = $value;
 			}
 		}
-		ksort($res);
+		ksort($nonnull);
+		$produits = array();
+		$res = array();
+		foreach($nonnull as $key => $value) {
+			if (!preg_match('/produit/', $key)) {
+				$res[$key] = $value;
+				continue;
+			}
+			if (preg_match('/produit\/\{array\}\/([A-Z0-9][^\/]+)\/\{array\}\/[a-z]/', $key, $m)) {
+				$idproduit = $m[1];
+			}else{
+				$idproduit = 'produit unique';
+			}
+			if(!array_key_exists($idproduit,$produits)){
+				$produits[$idproduit] = array();
+			}
+			$produits[$idproduit][$key] = $value;
+		}
+		foreach ($produits as $key => $produitArr) {
+			$somme_balance = 0;
+			foreach ($produitArr as $key_r => $value) {
+				if (preg_match('/balance-stocks/', $key_r)) {
+					$somme_balance += $value * 1;
+				 	}
+			}
+			if ($somme_balance) {
+		 			$res = array_merge($res, $produitArr);
+		 		}
+		}
 		return $res;
 	}
 
@@ -34,8 +62,7 @@ class DRMCielCompare
 
 		$arrIn = $this->sortAndPurgeNull($this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlIn))));
 		$arrOut = $this->sortAndPurgeNull($this->identifyKey($this->flattenArray($this->xmlToArray($this->xmlOut))));
-
-
+		
 		$diff = array();
 		foreach ($arrIn as $key => $value) {
 			if (!isset($arrOut[$key]) && $value) {
@@ -126,7 +153,7 @@ class DRMCielCompare
 						$tmp = preg_replace($patternCrd, '/compte-crd/{array}/'.$newKeyCrd.'/{array}/', $key);
 						$result[$tmp] = $value;
 				} else {
-					$result[$key] = $value;
+						$result[$key] = $value;
 				}
 			}
 		}
