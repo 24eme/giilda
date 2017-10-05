@@ -32,6 +32,6 @@ cat $LOGFILE | grep "n'a pas été trouvée" | sed -r 's/(.*)La DRM de (.+) (.+)
 
 echo -e "\n\n   Numéro d'accise mal référencé = "$NBNUMACCISEMALDRM" DRM correspondant à "$NBNUMACCISEMAL" accises :\n\n" >> $RAPPORTBODY;
 
-cat $LOGFILE | grep "Le numéro d'accise" | cut -d ":" -f 3 | sed "s/ Le numéro d'accise //" | sed "s/ ne correspond pas a celui de l'établissement (/;/g" | sed "s/ | /;/" | sed "s/)//" | sort | uniq | sed -r "s|(FR.+);(.+);(.*)|         $URLDRMINTERNE\2 \1 (obtenu des douanes) sur la plateforme : \3|g" >> $RAPPORTBODY;
+cat $LOGFILE | grep "Le numéro d'accise" | cut -d ":" -f 3 | sed "s/ Le numéro d'accise //" | sed "s/ ne correspond pas a celui de l'établissement (/;/g" | sed "s/ | /;/" | sed "s/)//" | sort | uniq | sed -r "s|(FR.+);(.+);(.*)|         $URLDRMINTERNE\2 \1 (obtenu des douanes) Accise référencée sur le portail de l'interpro  : \3|g" >> $RAPPORTBODY;
 
 cat $RAPPORTBODY  | iconv -t ISO-8859-1 | mail -s "[RAPPORT RETOUR DOUANE du $DATEFORMAT]" "adresse@adresse.com";
