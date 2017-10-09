@@ -90,16 +90,13 @@
   <div class="col-xs-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title text-center">Transmission et retour xml proDou@ane</h3>
+          <h3 class="panel-title text-center">Transmission proDou@ane</h3>
         </div>
         <div class="panel-content>">
-          <div role="tabpanel" class="tab-pane active">
-          </div>
-          <div role="tabpanel" class="tab-pane">
             <table class="table table-striped table-condensed">
                 <tbody>
                   <tr>
-                      <td class="col-xs-4">Transmission <small>(<?php echo link_to('xml', 'drm_xml', $drm); ?>)</small></td>
+                      <td class="col-xs-4">Transmission (<?php echo link_to('XML transmis', 'drm_xml', $drm); ?>)</td>
                       <td class="col-xs-8">
                         <?php if ($drm->transmission_douane->success) : ?>
                           La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
@@ -117,29 +114,42 @@
                       <tr><td>Retour XML</td><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
                     <?php endif; ?>
                   <?php endif; ?>
-                  <?php if ((!$isTeledeclarationMode) && ($drm->transmission_douane->coherente === false)): ?>
-                  <tr colspan="2">
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</label></td>
-                      <td>Valeur proDou@ne</td>
-                  </tr>
-                  <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $valeur): ?>
-                  <tr>
-                    <td><?php echo preg_replace('/(\[.+\]) (.+)/',"$1<br/>$2",$problemeSrc); ?></td>
-                    <td><?php echo $valeur; ?></td>
-                  </tr>
-                  <?php endforeach; ?>
-                <?php endif; ?>
                 </tbody>
               </table>
-          </div>
       </div>
     </div>
   </div>
 </div>
 <?php endif; ?>
+
+<?php if ((!$isTeledeclarationMode) && ($drm->transmission_douane->coherente === false)): ?>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">Rapport du retour XML proDou@ane</h3>
+        </div>
+        <div class="panel-content>">
+            <table class="table table-striped table-condensed">
+                <tbody>
+                  <tr>
+                    <td>Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</td>
+                    <td>Valeur proDou@ne</td>
+                  </tr>
+                <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $valeur): ?>
+                <tr>
+                  <td><?php echo preg_replace('/(\[.+\]) (.+)/',"$1 $2",$problemeSrc); ?></td>
+                  <td><?php echo $valeur; ?></td>
+                </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+      </div>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
 <br/><br/>
 <div class="row">
     <div class="col-xs-4">

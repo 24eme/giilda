@@ -13,7 +13,7 @@ curl -s $CIEL_URL_RETOURXML"/?from="$1 | sort -r | while read url ; do
 	DRM=$(echo $OUT | sed 's/ .*//')
 	echo $OUT
 	if test $RET -eq 0 ; then
-		php5 symfony $SYMFONY_ENV drm:compareXMLs $DRM
+		php5 symfony $SYMFONYTASKOPTIONS drm:compareXMLs $DRM
 	fi
   LAST=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g')
 done

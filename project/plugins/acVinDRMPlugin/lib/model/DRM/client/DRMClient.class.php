@@ -600,7 +600,7 @@ class DRMClient extends acCouchdbClient {
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
           throw new sfException("Mois non trouvé dans l'xml");
       }
-      $mois = $m[1];
+      $mois = sprintf('%02d',intval($m[1]));
       if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
           throw new sfException("Année non trouvé dans l'xml");
       }

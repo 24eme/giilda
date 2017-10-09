@@ -188,7 +188,7 @@ class DRMCielCompare
 	        }elseif(strpos($key,"{array}/compte-crd/{array}")){
 						$keyArr = explode("/",$key);
 	          $probleme = "[Problème de CRD ".str_replace(array("T_PERSONNALISEES","M_PERSONNALISEES"),array("TRANQ","MOUSSEUX"),$keyArr[3])."]";
-	          $origine = ucfirst($keyArr[5])." ".str_replace(array("-capsules"),array(""),$keyArr[7]);
+	          $origine = (isset($keyArr[5]))? ucfirst($keyArr[5])." ".str_replace(array("-capsules"),array(""),$keyArr[7]) : '';
 
 	          $mvt = (isset($keyArr[9]))? " ".str_replace(array("-capsules"),array(""),$keyArr[9]) : '';
 						$mvt .= (isset($keyArr[11]))? " ".$keyArr[11] : '';
