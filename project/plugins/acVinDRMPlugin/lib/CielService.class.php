@@ -90,6 +90,8 @@ class CielService
 		$this->storeXmlAsAttachement($drm, $xml);
 		$drm->add('transmission_douane')->add('xml', $cielResponse);
 		$drm->add('transmission_douane')->add('success', false);
+		$drm->add('transmission_douane')->add('diff', null);
+		$drm->add('transmission_douane')->add('coherente', null);
 		if (preg_match('/identifiant-declaration>([^<]*)<.*horodatage-depot>([^<]+)</', $cielResponse, $m)) {
 			$drm->add('transmission_douane')->add('success', true);
 			$drm->add('transmission_douane')->add('horodatage', $m[2]);
