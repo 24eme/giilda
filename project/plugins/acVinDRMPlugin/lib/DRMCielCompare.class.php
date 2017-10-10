@@ -133,9 +133,6 @@ class DRMCielCompare
 					if(preg_match('/\/volumePersonnalise/i', $key)){
 						$newKeyCentilisation .= $value;
 					}
-					if(preg_match('/\/bib/i', $key)){
-						$newKeyCentilisation .= $value;
-					}
 					continue;
 				}
 				$value = $this->cleanValue($value);
@@ -180,15 +177,16 @@ class DRMCielCompare
 	      foreach ($this->getDiff() as $key => $value) {
 	        $keyArr = explode("/",$key);
 	        if(strpos($key,"{array}/produit/{array}")){
-	          $probleme = "[Problème de ".str_replace("-"," ",$keyArr[7])." en ".str_replace("-"," ",$keyArr[1])."]";
+	          $probleme = "[Problème de ".((isset($keyArr[7]))? str_replace("-"," ",$keyArr[7]) : "???")." en ".str_replace("-"," ",$keyArr[1])."]";
 	          $produit = "".str_replace("_"," ",str_replace("-"," ",$keyArr[5]));
-	          $catMvt = "".str_replace(array("-periode"),array(""),$keyArr[9]);
+	          $catMvt = (isset($keyArr[9]))? "".str_replace(array("-periode"),array(""),$keyArr[9]) : "";
 						$mvt = (isset($keyArr[11]))? " ".str_replace("-"," ",$keyArr[11]) : '';
 	          $str_arr[$probleme." ".$produit." ".$catMvt.$mvt] = (is_null($value))? "valeur nulle" : $value;
 	        }elseif(strpos($key,"{array}/compte-crd/{array}")){
 						$keyArr = explode("/",$key);
 	          $probleme = "[Problème de CRD ".str_replace(array("T_PERSONNALISEES","M_PERSONNALISEES"),array("TRANQ","MOUSSEUX"),$keyArr[3])."]";
-	          $origine = (isset($keyArr[5]))? ucfirst($keyArr[5])." ".str_replace(array("-capsules"),array(""),$keyArr[7]) : '';
+	          $origine = (isset($keyArr[5]))? ucfirst($keyArr[5]) : "";
+						$origine .= (isset($keyArr[7]))? " ".str_replace(array("-capsules"),array(""),$keyArr[7]) : '';
 
 	          $mvt = (isset($keyArr[9]))? " ".str_replace(array("-capsules"),array(""),$keyArr[9]) : '';
 						$mvt .= (isset($keyArr[11]))? " ".$keyArr[11] : '';
