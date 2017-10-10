@@ -248,9 +248,15 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function getPrefixForRegion($region) {
-        $prefixs = array(self::REGION_TOURS => '1',
+        $prefixs = array(
+            self::REGION_TOURS => '1',
             self::REGION_ANGERS => '2',
-            self::REGION_NANTES => '3');
+            self::REGION_NANTES => '3',
+            self::REGION_CENTRE_AOP => '1',
+            self::REGION_CENTRE_IGP => '1',
+            self::REGION_PDL_IGP => '3',
+            self::REGION_PDL_AOP => '3'
+          );
         return $prefixs[$region];
     }
 
