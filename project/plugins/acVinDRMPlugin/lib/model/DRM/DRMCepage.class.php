@@ -75,11 +75,12 @@ class DRMCepage extends BaseDRMCepage {
     }
 
     public function cleanNoeuds() {
-        if (count($this->details) == 0) {
+        $nbdetailsACQUITTE = ($this->exist('detailsACQUITTE'))? count($this->detailsACQUITTE) : 0;
+        if ((count($this->details)+$nbdetailsACQUITTE) == 0 ) {
             return $this;
         }
 
         return null;
     }
-    
+
 }
