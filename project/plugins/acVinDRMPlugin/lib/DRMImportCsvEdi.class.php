@@ -216,6 +216,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $all_produits = $this->configuration->declaration->getProduits(date("Y-m-d"));
 
             $num_ligne = 1;
+            $stocksDebutModifies = array();
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CAVE)) {
                     $num_ligne++;
@@ -289,7 +290,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     $cat_key = $confDetailMvt->getParent()->getKey();
                     $type_key = $confDetailMvt->getKey();
-                    if($cat_key == "stocks_debut" && DRMClient::getInstance()->existOnePrecedente($this->drm->identifiant,$this->drm->periode) && substr($this->drm->periode,4,2) != "08") {
+                    if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
                         continue;
                     }
                     if ($confDetailMvt->hasDetails()) {
@@ -322,6 +323,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     } else {
                         $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
+			
+			if($cat_key == "stocks_debut" && !isset($stocksDebutModifies[$drmDetails->getHash()])) {
+                            $oldVolume = 0;
+                            $stocksDebutModifies[$drmDetails->getHash()] = true;
+                        }
+
                         $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
                     }
                 } else {
