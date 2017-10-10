@@ -36,9 +36,7 @@
             <?php include_partial('drm_visualisation/etablissement_infos', array('drm' => $drm, 'isModifiable' => false)); ?>
         </div>
     </div>
-
     <?php if (!$isTeledeclarationMode): ?>
-
         <?php if ($drm_suivante && $drm_suivante->isRectificative() && !$drm_suivante->isValidee()):
             ?>
             <div class="vigilance_list">
@@ -103,7 +101,7 @@
     La transmission a échoué. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
 <?php endif; ?>
                 </td></tr>
-                <?php if (!$isTeledeclarationMode || $isUsurpationMode): ?>
+                <?php if (!$isTeledeclarationMode): ?>
                   <?php if (is_null($drm->transmission_douane->coherente)) : ?>
                     <tr><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
                   <?php elseif($drm->transmission_douane->coherente): ?>
@@ -114,7 +112,7 @@
                 <?php endif; ?>
             </tbody>
         </table>
-        <?php if ((!$isTeledeclarationMode || $isUsurpationMode) && ($drm->transmission_douane->coherente === false)): ?>
+        <?php if ((!$isTeledeclarationMode) && ($drm->transmission_douane->coherente === false)): ?>
           <br/>
           <table class="table_recap">
             <thead >
