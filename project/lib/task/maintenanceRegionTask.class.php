@@ -61,7 +61,7 @@ EOF;
       }elseif(in_array($dep, array('72', '37', '41', '36', '45', '18', '58', '03', '63'))) {
         $preregion = 'CENTRE';
       }else{
-        if ($oldregion == EtablissementClient::REGION_HORSINTERLOIRE)
+        if ($oldregion == EtablissementClient::REGION_HORSINTERLOIRE || $oldregion == EtablissementClient::REGION_HORS_REGION)
           return EtablissementClient::REGION_HORS_REGION;
       }
       if (!$preregion) {
