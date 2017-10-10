@@ -32,8 +32,8 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
-    $doc = acCouchdbManager::getClient()->find($arguments['document_id']);
+    $this->document_id = $arguments['document_id'];
+    $doc = acCouchdbManager::getClient()->find($this->document_id);
     if (!$doc) {
       throw new sfException('document '.$arguments['document_id'].' not found');
     }
@@ -50,7 +50,7 @@ EOF;
       return ;
     }
     echo "Region changed for ".$doc->_id."\n";
-//    $doc->save();
+    $doc->save();
   }
 
   private function getNewRegion($oldregion, $codepostal) {
@@ -65,7 +65,7 @@ EOF;
           return EtablissementClient::REGION_HORS_REGION;
       }
       if (!$preregion) {
-        throw new sfExecption('Strange region from '.$codepostal.' - '.$oldregion);
+        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
       }
       $postregion = 'IGP';
       if ($oldregion != EtablissementClient::REGION_HORSINTERLOIRE) {
@@ -75,7 +75,7 @@ EOF;
           ($oldregion == 'TOURS' && $preregion != 'CENTRE') ||
           (($oldregion == 'NANTES' && $oldregion == 'ANGERS') && $preregion != 'PDL')
       ) {
-        throw new sfException('Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
+        throw new sfException($this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
       }
       return $preregion.'_'.$postregion;
   }
