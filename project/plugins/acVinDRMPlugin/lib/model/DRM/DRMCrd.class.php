@@ -23,7 +23,7 @@ class DRMCrd extends BaseDRMCrd {
     }
 
     public function isBib() {
-      if (preg_match('/BIB/i', $this->getType()) || 
+      if (preg_match('/BIB/i', $this->getType()) ||
 	  preg_match('/BIB/i', centilisation2douane($this->centilitrage, $this->detail_libelle)) ||
 	  preg_match('/BIB/i', $this->detail_libelle)) {
         return true;
