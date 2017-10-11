@@ -116,29 +116,29 @@ class VracConditionForm extends acCouchdbObjectForm {
 
     public function getCvoRepartition() {
         $repartition = VracClient::$cvo_repartition;
-        if ($this->getObject()->getAcheteurObject()->isInterLoire()) {
+        if ($this->getObject()->getAcheteurObject()->isInterLoire($this->getObject()->produit)) {
             return $repartition;
         }
-        unset($repartition['50']);
+        unset($repartition[VracClient::CVO_REPARTITION_100_NEGO]);
         return $repartition;
     }
 
     public function doUpdateObject($values) {
         if ($values['type_contrat'] == VracClient::TYPE_CONTRAT_SPOT)
             $values['prix_variable'] = 0;
-        
+
         $enlevement_date = $this->getObject()->exist('enlevement_date');
         $enlevement_frais_garde = $this->getObject()->exist('enlevement_frais_garde');
-        
+
         if($enlevement_date){
-                $enlevement_date = $this->getObject()->get('enlevement_date');                
+                $enlevement_date = $this->getObject()->get('enlevement_date');
         }
         if($enlevement_frais_garde){
-            $enlevement_frais_garde = $this->getObject()->get('enlevement_frais_garde');                
+            $enlevement_frais_garde = $this->getObject()->get('enlevement_frais_garde');
         }
-        
-        
-        parent::doUpdateObject($values);        
+
+
+        parent::doUpdateObject($values);
         if (!$this->isTeledeclarationMode && $this->getObject()->isTeledeclare()) {
             if($enlevement_date){
                 $this->getObject()->add('enlevement_date',$enlevement_date);

@@ -97,14 +97,7 @@ case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
 }
 
 function getRegion($region) {
-    switch ($region) {
-        case EtablissementClient::REGION_NANTES :
-        case EtablissementClient::REGION_HORSINTERLOIRE :
-        case EtablissementClient::REGION_ANGERS :
-        case EtablissementClient::REGION_TOURS :
-        default:
-            return 'Tours,';
-    }
+    return 'Tours,';
 }
 
 function printContact($relance) {
@@ -132,7 +125,7 @@ function printRappelLoi($type, $ar = false) {
             case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
                 echo 'Nous vous demandons de bien vouloir nous faire parvenir une copie de ces documents \\underline{\\textbf{sous un mois.}}\\\\\\\\A défaut, InterLoire sera dans l’obligation de procéder à une évaluation d’office du montant des cotisations dues  conformément à l’article~VI-5 de l’Accord interprofessionnel en vigueur.\\\\\\\\Nous restons à votre disposition pour toute information complémentaire que vous jugeriez nécessaire.\\\\\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
                 break;
-                
+
             default:
                 break;
         }

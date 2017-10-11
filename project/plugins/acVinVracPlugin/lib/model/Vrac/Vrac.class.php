@@ -291,7 +291,7 @@ class Vrac extends BaseVrac {
     }
 
     public function calculCvoRepartition() {
-        if (!$this->getAcheteurObject()->isInterLoire()) {
+        if (!$this->getAcheteurObject()->isInterLoire($this->produit)) {
 
             return VracClient::CVO_REPARTITION_100_VITI;
         }
@@ -343,7 +343,7 @@ class Vrac extends BaseVrac {
 
     public function getRepartitionCVOCoef($identifiant, $date_application = null) {
         if ($date_application && $date_application > '2015-12-31') {
-            $isAcheteurInterloire = $this->getAcheteurObject()->isInterLoire();
+            $isAcheteurInterloire = $this->getAcheteurObject()->isInterLoire($this->produit);
             if ($this->acheteur_identifiant == $identifiant) {
                 if ($isAcheteurInterloire) {
                     return 1.0;
@@ -480,7 +480,7 @@ class Vrac extends BaseVrac {
         if ($nego->isRegionIGPValDeLoire()) {
             return false;
         }
-        return !$nego->isInterLoire();
+        return !$nego->isInterLoire($this->produit);
     }
 
     public function isVitiRaisinsMoutsTypeVins() {

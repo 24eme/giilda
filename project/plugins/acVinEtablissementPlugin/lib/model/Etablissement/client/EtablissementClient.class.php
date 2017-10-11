@@ -10,6 +10,13 @@ class EtablissementClient extends acCouchdbClient {
     const REGION_ANGERS = 'ANGERS';
     const REGION_NANTES = 'NANTES';
     const REGION_HORSINTERLOIRE = 'HORS_INTERLOIRE';
+
+    const REGION_CENTRE_AOP = 'CENTRE_AOP';
+    const REGION_CENTRE_IGP = 'CENTRE_IGP';
+    const REGION_PDL_AOP = 'PDL_AOP';
+    const REGION_PDL_IGP = 'PDL_IGP';
+    const REGION_HORS_REGION = 'HORS_REGION';
+
     const RECETTE_LOCALE = 'RECETTE_LOCALE';
     const TYPE_DR_DRM = 'DRM';
     const TYPE_DR_DRA = 'DRA';
@@ -214,13 +221,14 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function getRegionsWithoutHorsInterLoire() {
-        return array(self::REGION_TOURS => self::REGION_TOURS,
-            self::REGION_ANGERS => self::REGION_ANGERS,
-            self::REGION_NANTES => self::REGION_NANTES);
+        return array(self::REGION_PDL_AOP => self::REGION_PDL_AOP,
+            self::REGION_PDL_IGP => self::REGION_PDL_IGP,
+            self::REGION_CENTRE_IGP => self::REGION_CENTRE_IGP,
+            self::REGION_CENTRE_AOP => self::REGION_CENTRE_AOP);
     }
 
     public static function getRegions() {
-        return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORSINTERLOIRE => self::REGION_HORSINTERLOIRE));
+        return array_merge(self::getRegionsWithoutHorsInterLoire(), array(self::REGION_HORS_REGION => self::REGION_HORS_REGION));
     }
 
     public static function getTypeDR() {
@@ -240,9 +248,15 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public static function getPrefixForRegion($region) {
-        $prefixs = array(self::REGION_TOURS => '1',
+        $prefixs = array(
+            self::REGION_TOURS => '1',
             self::REGION_ANGERS => '2',
-            self::REGION_NANTES => '3');
+            self::REGION_NANTES => '3',
+            self::REGION_CENTRE_AOP => '1',
+            self::REGION_CENTRE_IGP => '1',
+            self::REGION_PDL_IGP => '3',
+            self::REGION_PDL_AOP => '3'
+          );
         return $prefixs[$region];
     }
 
