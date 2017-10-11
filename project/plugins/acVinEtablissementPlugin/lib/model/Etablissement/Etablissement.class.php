@@ -426,7 +426,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function isRegionIGPValDeLoire() {
-        return ($this->siege->region != EtablissementClient::REGION_HORS_REGION);
+        return ($this->region != EtablissementClient::REGION_HORS_REGION);
     }
 
 }
