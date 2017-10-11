@@ -48,10 +48,10 @@ EOF;
     print $societe->siret.";";
     print $societe->statut.";";
     print $societe->date_modification.";";
-    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
-    print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
-    print $societe->email.";"; 
-    print "http://10.0.2.195/societe/".$societe->identifiant."/visualisation;";
+    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";";
+    print preg_replace('/[^\+0-9]/i', '', $societe->fax).";";
+    print $societe->email.";";
+    print sfConfig::get('app_vinsi_url')."/societe/".$societe->identifiant."/visualisation;";
     try {
       if ($isclient == self::ISCLIENT) {
 	print $societe->getRegionViticole(false);

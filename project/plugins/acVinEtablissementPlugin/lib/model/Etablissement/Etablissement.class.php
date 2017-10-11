@@ -199,8 +199,16 @@ class Etablissement extends BaseEtablissement {
         return EtablissementFamilles::getDroitsByFamilleAndSousFamille($this->famille, $this->sous_famille);
     }
 
-    public function isInterLoire() {
-        return ($this->region != EtablissementClient::REGION_HORSINTERLOIRE);
+    public function isInterLoire($produit) {
+        if (preg_match('/AOC_INTERLOIRE/', $produit)) {
+          return ( ($this->region == EtablissementClient::REGION_CENTRE_AOP) ||
+                   ($this->region == EtablissementClient::REGION_PDL_AOP) ||
+                   ($this->region == EtablissementClient::REGION_TOURS) ||
+                   ($this->region == EtablissementClient::REGION_NANTES) ||
+                   ($this->region == EtablissementClient::REGION_ANGERS)
+                 );
+        }
+        return (($this->region != EtablissementClient::REGION_HORSINTERLOIRE) && ($this->region != EtablissementClient::REGION_HORS_REGION));
     }
 
     protected function synchroRecetteLocale() {
@@ -418,7 +426,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function isRegionIGPValDeLoire() {
-        return in_array(substr($this->siege->code_postal, 0, 2), array('03', '18', '36', '37', '41', '44', '45', '49', '58', '63', '72', '79', '85', '86'));
+        return ($this->siege->region != EtablissementClient::REGION_HORS_REGION);
     }
 
 }

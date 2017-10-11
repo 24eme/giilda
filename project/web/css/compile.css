@@ -2186,6 +2186,7 @@ pre.commentaire {
   margin-bottom: 15px;
   display: inline-block;
   overflow: hidden;
+  width: 100%;
 }
 #recap_infos_header li:first-child span,
 #recap_infos_header li.odd span {
