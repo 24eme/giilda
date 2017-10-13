@@ -33,12 +33,15 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $this->document_id = $arguments['document_id'];
-    $drm = DRMClient::getInstance()->find($this->document_id);
-    $drmPrev = acCouchdbManager::getClient()->getPreviousDoc($drm->_id);
     $revision = null;
-    while($drmPrev) {
+    $revisionsInfos = acCouchdbManager::getClient()->getRevisions($this->document_id);
+    foreach($revisionsInfos as $revisionInfo) {
+        $drm = acCouchdbManager::getClient()->getPreviousDoc($this->document_id, $revisionInfo[0]);
+        if(!$drm) {
+            break;
+        }
         $ancienneRegionTrouve = false;
-        foreach($drmPrev->mouvements as $etablissement_id => $mouvements) {
+        foreach($drm->mouvements as $etablissement_id => $mouvements) {
             foreach($mouvements as $mouvement) {
                 if(in_array($mouvement->region, array("TOURS", "NANTES", "ANGERS"))) {
                     $ancienneRegionTrouve = true;
@@ -46,24 +49,19 @@ EOF;
             }
         }
         if($ancienneRegionTrouve) {
-            $revision = $drmPrev->_rev;
+            $revision = $drm->_rev;
             break;
-        }
-        try {
-            $drmPrev = acCouchdbManager::getClient()->getPreviousDoc($drm->_id);
-        } catch(Exception $e) {
-
-            $drmPrev = null;
         }
     }
 
+    $drm = DRMClient::getInstance()->find($this->document_id);
     if(!$revision || $drm->_rev == $revision) {
         echo "Le document $drm->_id n'a pas été rollbacké\n";
         return;
     }
-    acCouchdbManager::getClient()->rollBackDoc($drm, $revision);
+    $drm = acCouchdbManager::getClient()->rollBack($this->document_id, $revision);
 
-    echo "Le document $drm->_id a été rollbacké au contenu du doc de la revision $revision il est maintenant à la revision $drm->_rev \n";
+    echo "Le document $drm->_id a été rollbacké au contenu du doc de la revision $revision, il est maintenant à la revision $drm->_rev \n";
   }
 
 
