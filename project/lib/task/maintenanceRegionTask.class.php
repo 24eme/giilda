@@ -37,10 +37,11 @@ EOF;
     if (!$doc) {
       throw new sfException('document '.$arguments['document_id'].' not found');
     }
-    if ($doc->type == 'DRM') {
+    if (($doc->type == 'DRM') || ($doc->type == 'SV12') ) {
       $nregion = $this->getNewRegion($doc->region, $doc->declarant->code_postal);
       $doc->region = $nregion;
       $doc->declarant->region = $nregion;
+      $this->updateMouvements($doc);
     }elseif ($doc->type == 'Etablissement') {
       $doc->region = $this->getNewRegion($doc->region, $doc->siege->code_postal);
     }elseif( $doc->type == 'Vrac') {
@@ -49,7 +50,7 @@ EOF;
     }else{
       return ;
     }
-    echo "Region changed for ".$doc->_id."\n";
+    echo "Region changed for document ".$doc->_id."\n";
     $doc->save();
   }
 
@@ -65,7 +66,12 @@ EOF;
           return EtablissementClient::REGION_HORS_REGION;
       }
       if (!$preregion) {
-        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
+        //        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
+        if ($oldregion == 'TOURS') {
+          $pre_region = 'CENTRE';
+        }elseif($oldregion == 'NANTES' && $oldregion == 'ANGERS') {
+          $pre_region = 'PDL';
+        }
       }
       $postregion = 'IGP';
       if ($oldregion != EtablissementClient::REGION_HORSINTERLOIRE) {
@@ -75,9 +81,27 @@ EOF;
           ($oldregion == 'TOURS' && $preregion != 'CENTRE') ||
           (($oldregion == 'NANTES' && $oldregion == 'ANGERS') && $preregion != 'PDL')
       ) {
-        throw new sfException($this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
+        //throw new sfException($this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
+        echo $this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion."\n";
       }
+
       return $preregion.'_'.$postregion;
   }
+
+  private function updateMouvements($drm) {
+      foreach($drm->mouvements as $identite => $mvt){
+        if ($identite == $drm->identifiant) {
+          $region = $drm->region;
+        }else{
+          $etab = EtablissementClient::getInstance()->find($identite);
+          $region = $etab->region;
+        }
+        foreach($mvt as $k => $v) {
+          $v->region = $region;
+        }
+      }
+      echo "régions des mouvements modifiés : "$drm->_id."\n";
+  }
+
 
 }
