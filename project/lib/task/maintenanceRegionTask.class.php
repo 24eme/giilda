@@ -68,9 +68,9 @@ EOF;
       if (!$preregion) {
         //        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
         if ($oldregion == 'TOURS') {
-          $pre_region = 'CENTRE';
+          $preregion = 'CENTRE';
         }elseif($oldregion == 'NANTES' || $oldregion == 'ANGERS') {
-          $pre_region = 'PDL';
+          $preregion = 'PDL';
         }
       }
       $postregion = 'IGP';
