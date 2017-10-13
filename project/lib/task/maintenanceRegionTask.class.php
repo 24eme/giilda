@@ -33,7 +33,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $this->document_id = $arguments['document_id'];
-    $doc = acCouchdbManager::getClient()->find($this->document_id);
+    $doc = acCouchdbManager::getClient()->find($this->document_id, acCouchdbClient::HYDRATE_JSON);
     if (!$doc) {
       throw new sfException('document '.$arguments['document_id'].' not found');
     }
@@ -51,7 +51,7 @@ EOF;
       return ;
     }
     echo "Region changed for document ".$doc->_id."\n";
-    $doc->save();
+    acCouchdbManager::getClient()->storeDoc($doc);
   }
 
   private function getNewRegion($oldregion, $codepostal) {
@@ -100,7 +100,7 @@ EOF;
           $v->region = $region;
         }
       }
-      echo "régions des mouvements modifiés : "$drm->_id."\n";
+      echo "régions des mouvements modifiés : ".$drm->_id."\n";
   }
 
 
