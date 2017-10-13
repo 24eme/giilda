@@ -10,7 +10,7 @@ class maintenanceRollbackDRMRegionTask extends sfBaseTask
     ));
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
       // add your own options here
@@ -35,6 +35,7 @@ EOF;
     $this->document_id = $arguments['document_id'];
     $revision = null;
     $revisionsInfos = acCouchdbManager::getClient()->getRevisions($this->document_id);
+    $i=0;
     foreach($revisionsInfos as $revisionInfo) {
         $drm = acCouchdbManager::getClient()->getPreviousDoc($this->document_id, $revisionInfo[0]);
         if(!$drm) {
@@ -52,17 +53,17 @@ EOF;
             $revision = $drm->_rev;
             break;
         }
+	$i++;
     }
 
     $drm = DRMClient::getInstance()->find($this->document_id);
     if(!$revision || $drm->_rev == $revision) {
-        echo "Le document $drm->_id n'a pas été rollbacké\n";
+        echo "$i;Le document $drm->_id n'a pas été rollbacké\n";
         return;
     }
-    $drm = acCouchdbManager::getClient()->rollBack($this->document_id, $revision);
+    //$drm = acCouchdbManager::getClient()->rollBack($this->document_id, $revision);
 
-    echo "Le document $drm->_id a été rollbacké au contenu du doc de la revision $revision, il est maintenant à la revision $drm->_rev \n";
+    echo "$i;Le document $drm->_id a été rollbacké au contenu du doc de la revision $revision, il est maintenant à la revision $drm->_rev \n";
   }
-
 
 }
