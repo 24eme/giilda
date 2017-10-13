@@ -119,7 +119,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         if ($this->getObject()->getAcheteurObject()->isInterLoire($this->getObject()->produit)) {
             return $repartition;
         }
-        unset($repartition['50']);
+        unset($repartition[VracClient::CVO_REPARTITION_100_NEGO]);
         return $repartition;
     }
 
