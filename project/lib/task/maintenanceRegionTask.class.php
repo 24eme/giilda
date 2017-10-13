@@ -69,7 +69,7 @@ EOF;
         //        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
         if ($oldregion == 'TOURS') {
           $pre_region = 'CENTRE';
-        }elseif($oldregion == 'NANTES' && $oldregion == 'ANGERS') {
+        }elseif($oldregion == 'NANTES' || $oldregion == 'ANGERS') {
           $pre_region = 'PDL';
         }
       }
@@ -79,7 +79,7 @@ EOF;
       }
       if (
           ($oldregion == 'TOURS' && $preregion != 'CENTRE') ||
-          (($oldregion == 'NANTES' && $oldregion == 'ANGERS') && $preregion != 'PDL')
+          (($oldregion == 'NANTES' || $oldregion == 'ANGERS') && $preregion != 'PDL')
       ) {
         //throw new sfException($this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
         echo $this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion."\n";
