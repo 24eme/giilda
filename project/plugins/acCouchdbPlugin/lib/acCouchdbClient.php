@@ -217,22 +217,22 @@ class acCouchdbClient extends couchClient {
 
         $doc_to_roll_back->_rev = $ret->rev;
 
-        return $doc_to_roll_back;   
+        return $doc_to_roll_back;
     }
 
     public function rollBackDoc($doc, $revision = null) {
-        
-        $doc_to_roll_back = $this->getPreviousDoc($id, $revision);
+
+        $doc_to_roll_back = $this->getPreviousDoc($doc->_id, $revision);
         $doc_to_roll_back->_rev = $doc->_rev;
 
-        return $ret = $this->storeDoc($doc_to_roll_back);;   
+        return $ret = $this->storeDoc($doc_to_roll_back);;
     }
 
     public function getPreviousDoc($id, $revision = null) {
         if(!$revision) {
             $revision = "-1";
         }
-        
+
         if(!preg_match('/^[0-9]+-.+/', $revision)) {
             $revision = $this->findRevision($id, $revision);
         }
