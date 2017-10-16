@@ -42,7 +42,7 @@ EOF;
         // initialize the database connection
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-        throw new sfException('/!\ cette tache réécrit tous les mvt. Les statuts de facturation seront perdus même pour les DRM partiellement facturées.')
+        throw new sfException('/!\ cette tache réécrit tous les mvt. Les statuts de facturation seront perdus même pour les DRM partiellement facturées.');
         $drmId = $arguments['drm'];
         if(!$drmId){
             throw new sfException("L'identifiant d'une drm est necessaire");
