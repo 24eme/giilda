@@ -203,14 +203,12 @@ while(<STDIN>) {
 	print "0\n";
 	print "numéro tiers centrale d'achat : " if ($verbose);
 	print "\n";
-	print "collaborateur nom (VINSI : ".$field[18].") : " if ($verbose);
-	if ($field[18] eq 'NANTES') {
+	print "collaborateur nom (VINSI : régions ~ ".$field[18].") : " if ($verbose);
+	if ($field[18] =~ /PDL_/) {
 	    print "CL3\n";
-	}elsif ($field[18] eq 'ANGERS') {
-	    print "CL2\n";
-	}elsif ($field[18] eq 'TOURS') {
+	}elsif ($field[18] =~ /CENTRE_/) {
 	    print "CL1\n";
-	}elsif ($field[18] eq 'HORS_INTERLOIRE') {
+	}elsif ($field[18] =~ /HORS_/) {
 	    print "CL1\n";
 	}else {
 	    print "\n";
