@@ -42,7 +42,7 @@ EOF;
         // initialize the database connection
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-
+        throw new sfException('/!\ cette tache réécrit tous les mvt. Les statuts de facturation seront perdus même pour les DRM partiellement facturées.');
         $drmId = $arguments['drm'];
         if(!$drmId){
             throw new sfException("L'identifiant d'une drm est necessaire");
@@ -54,13 +54,13 @@ EOF;
         $drm = DRMClient::getInstance()->find($drmId);
         $drm->clearMouvements();
         $isTeleclare = $drm->isTeledeclare();
-        
+
         foreach ($drm->getProduits() as $hash => $produit){
             foreach ($produit->getProduitsDetails($isTeleclare) as $detail){
                 $detail->storeDroits();
             }
         }
-        
+
         $drm->generateMouvements();
         if($withDouane) {
 		$drm->generateDroitsDouanes();
