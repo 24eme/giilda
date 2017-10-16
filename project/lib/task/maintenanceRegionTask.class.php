@@ -55,6 +55,8 @@ EOF;
   }
 
   private function getNewRegion($oldregion, $codepostal) {
+      if ($oldregion == 'CENTRE_IGP' || $oldregion == 'CENTRE_AOP' || $oldregion == 'PDL_IGP' || $oldregion == 'PDL_AOP' || $oldregion == 'HORS_REGION')
+        return $oldregion;
       $dep = substr(sprintf('%05d', $codepostal), 0, 2);
       $preregion = '';
       if (in_array($dep, array('85', '44', '49', '79', '86'))) {
