@@ -33,14 +33,15 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $this->document_id = $arguments['document_id'];
-    $doc = acCouchdbManager::getClient()->find($this->document_id);
+    $doc = acCouchdbManager::getClient()->find($this->document_id, acCouchdbClient::HYDRATE_JSON);
     if (!$doc) {
       throw new sfException('document '.$arguments['document_id'].' not found');
     }
-    if ($doc->type == 'DRM') {
+    if (($doc->type == 'DRM') || ($doc->type == 'SV12') ) {
       $nregion = $this->getNewRegion($doc->region, $doc->declarant->code_postal);
       $doc->region = $nregion;
       $doc->declarant->region = $nregion;
+      $this->updateMouvements($doc);
     }elseif ($doc->type == 'Etablissement') {
       $doc->region = $this->getNewRegion($doc->region, $doc->siege->code_postal);
     }elseif( $doc->type == 'Vrac') {
@@ -49,11 +50,13 @@ EOF;
     }else{
       return ;
     }
-    echo "Region changed for ".$doc->_id."\n";
-    $doc->save();
+    echo "Region changed for document ".$doc->_id."\n";
+    acCouchdbManager::getClient()->storeDoc($doc);
   }
 
   private function getNewRegion($oldregion, $codepostal) {
+      if ($oldregion == 'CENTRE_IGP' || $oldregion == 'CENTRE_AOP' || $oldregion == 'PDL_IGP' || $oldregion == 'PDL_AOP' || $oldregion == 'HORS_REGION')
+        return $oldregion;
       $dep = substr(sprintf('%05d', $codepostal), 0, 2);
       $preregion = '';
       if (in_array($dep, array('85', '44', '49', '79', '86'))) {
@@ -65,7 +68,12 @@ EOF;
           return EtablissementClient::REGION_HORS_REGION;
       }
       if (!$preregion) {
-        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
+        //        throw new sfException($this->document_id.' : Strange region from '.$codepostal.' - '.$oldregion);
+        if ($oldregion == 'TOURS') {
+          $preregion = 'CENTRE';
+        }elseif($oldregion == 'NANTES' || $oldregion == 'ANGERS') {
+          $preregion = 'PDL';
+        }
       }
       $postregion = 'IGP';
       if ($oldregion != EtablissementClient::REGION_HORSINTERLOIRE) {
@@ -73,11 +81,29 @@ EOF;
       }
       if (
           ($oldregion == 'TOURS' && $preregion != 'CENTRE') ||
-          (($oldregion == 'NANTES' && $oldregion == 'ANGERS') && $preregion != 'PDL')
+          (($oldregion == 'NANTES' || $oldregion == 'ANGERS') && $preregion != 'PDL')
       ) {
-        throw new sfException($this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
+        //throw new sfException($this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion);
+        echo $this->document_id.' : Cas étrange : '.$codepostal.' - '.$oldregion.' => '.$preregion.'_'.$postregion."\n";
       }
+
       return $preregion.'_'.$postregion;
   }
+
+  private function updateMouvements($drm) {
+      foreach($drm->mouvements as $identite => $mvt){
+        if ($identite == $drm->identifiant) {
+          $region = $drm->region;
+        }else{
+          $etab = EtablissementClient::getInstance()->find($identite);
+          $region = $etab->region;
+        }
+        foreach($mvt as $k => $v) {
+          $v->region = $region;
+        }
+      }
+      echo "régions des mouvements modifiés : ".$drm->_id."\n";
+  }
+
 
 }
