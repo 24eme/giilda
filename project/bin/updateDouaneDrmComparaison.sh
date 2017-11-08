@@ -27,7 +27,7 @@ echo -e "   Opérateurs télédéclarant sur CIEL mais pas sur la plateforme = "
 echo -e "Détails des différences :\n\n" >> $RAPPORTBODY;
 
 echo -e "   DRM non transmises aux douanes : \n" >> $RAPPORTBODY;
-cat $LOGFILE | grep -C 1 "n'a pas été transmise aux douanes" | grep "XML differents" | cut -d ' ' -f 1 | sort | uniq | sed -r "s|(.*)|         $URLDRMINTERNE\1|g" >> $RAPPORTBODY;
+cat $LOGFILE | grep -C 1 "n'a pas été transmise aux douanes" | grep "XML differents" | cut -d ' ' -f 1 | sort | uniq | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/visualisation\/\2|" >> $RAPPORTBODY;
 
 echo -e "\n\n   DRM pour lesquelles une modificatrice devrai être ouverte : \n\n" >> $RAPPORTBODY;
 cat $LOGFILE | grep -C 1 "DRM modificatrice ouverte" | grep "XML differents" | cut -d ' ' -f 1 | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/visualisation\/\2|" >> $RAPPORTBODY;
