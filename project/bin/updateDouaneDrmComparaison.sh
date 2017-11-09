@@ -13,7 +13,7 @@ bash $(dirname $0)/retrieveXMLAndCompare.sh $DATEREQUETE > $LOGFILE
 
 RAPPORTBODY=$TMP"/retoursDouanes/retrieveXMLAndCompare_rapport_"$DATE".txt"
 NBXMLIDENTIQUES=`cat $LOGFILE | grep "XML sont identiques" | wc -l`
-NBXMLDIFFERENTS=`cat $LOGFILE | grep "XML differents" | wc -l`
+NBXMLDIFFERENTS=`cat $LOGFILE | grep -C 1 "XML differents" | sed "s|--|#|g" | tr "\n" " " | tr "#" "\n" | grep -v "il existe une DRM Suivante" | wc -l`
 NBXMLNONTRANSMIS=`cat $LOGFILE | grep -C 1 "n'a pas été transmise aux douanes" | grep "XML differents" | wc -l`
 
 NBDRMDOUANEABSENTE=`cat $LOGFILE | grep "n'a pas été trouvée" | wc -l`
