@@ -16,6 +16,10 @@ class ConfigurationDroit extends BaseConfigurationDroit {
             $taux = $taux * 1;
         }
 
+        if($taux === "")  {
+            $taux = null;
+        }
+
         return $this->_set('taux' ,$taux);
     }
 
