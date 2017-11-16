@@ -10,4 +10,13 @@ class ConfigurationDroit extends BaseConfigurationDroit {
 
         return $this->getParent()->getNoeud();
     }
+
+    public function setTaux($taux) {
+        if(!is_null($taux) && $taux !== "")  {
+            $taux = $taux * 1;
+        }
+
+        return $this->_set('taux' ,$taux);
+    }
+
 }
