@@ -586,10 +586,10 @@ class DRMClient extends acCouchdbClient {
           throw new sfException("Il n'y a ni numéro de CVI ni numéro d'agrément (Accise) dans l'xml");
       }
       if(isset($m[1])){
-        $etablissement = EtablissementClient::getInstance()->findByCvi($m[1]);
+        $etablissement = EtablissementClient::getInstance()->findByCvi($m[1],false);
       }
       if(!$etablissement && $aggrement){
-        $etablissement = EtablissementClient::getInstance()->findByNoAccise($aggrement);
+        $etablissement = EtablissementClient::getInstance()->findByNoAccise($aggrement,false);
       }
       if (!$etablissement) {
         $idebntifiantCVI = (isset($m[1]))? $m[1] : "VIDE";

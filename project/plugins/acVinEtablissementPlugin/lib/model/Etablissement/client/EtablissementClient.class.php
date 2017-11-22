@@ -125,20 +125,38 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
-    public function findByCvi($cvi) {
+    public function findByCvi($cvi,$withSuspendu = true) {
         $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
         if (!count($rows)) {
             return null;
+        }
+        if(!$withSuspendu){
+          foreach ($rows as $row) {
+            $etb = $this->find($rows[0]->id);
+            if(!$etb->isActif()){
+              continue;
+            }
+          }
+          return $etb;
         }
 
         return $this->find($rows[0]->id);
     }
 
-    public function findByNoAccise($accise) {
+    public function findByNoAccise($accise,$withSuspendu = true) {
         $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
 
         if (!count($rows)) {
             return null;
+        }
+        if(!$withSuspendu){
+          foreach ($rows as $row) {
+            $etb = $this->find($rows[0]->id);
+            if(!$etb->isActif()){
+              continue;
+            }
+          }
+          return $etb;
         }
 
         return $this->find($rows[0]->id);
