@@ -1359,9 +1359,11 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         if (!$this->exist('crds') || (!$this->crds)) {
             $this->add('crds');
         }
-        $regimeCrd = ($this->getEtablissement()->exist('crd_regime')) ? $this->getEtablissement()->crd_regime : null;
-        if ($regimeCrd) {
+        $regimesCrd = ($this->getEtablissement()->exist('crd_regime')) ? $this->getEtablissement()->getCrdRegimeArray() : null;
+        if ($regimesCrd) {
+          foreach ($regimesCrd as $regimeCrd) {
             $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
+          }
         }
     }
 
