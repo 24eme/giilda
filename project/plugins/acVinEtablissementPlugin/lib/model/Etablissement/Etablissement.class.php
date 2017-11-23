@@ -247,7 +247,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         if(VracConfiguration::getInstance()->getRegionDepartement() !== false) {
             $this->region = EtablissementClient::getInstance()->calculRegion($this);
         }
-        
+
         if($this->isNew()) {
             $societe->addEtablissement($this);
         }
@@ -374,6 +374,23 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
             return $this->_set('commentaire', $c . "\n" . $s);
         }
         return $this->_set('commentaire', $s);
+    }
+
+    public function getCrdRegimeArray(){
+      if(!$this->hasRegimeCrd()){
+        return null;
+      }
+      return explode(",",$this->crd_regime);
+    }
+
+    public function hasRegimeCollectifAcquitte(){
+      return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE, $this->getCrdRegimeArray());
+    }
+    public function hasRegimeCollectifSuspendu(){
+      return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU, $this->getCrdRegimeArray());
+    }
+    public function hasRegimePersonnalise(){
+      return in_array(EtablissementClient::REGIME_CRD_PERSONNALISE, $this->getCrdRegimeArray());
     }
 
     public function getNatureLibelle() {
