@@ -5,6 +5,7 @@ $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $etablissement = $drm->getEtablissement();
 $drmTeledeclaree = $detail->getDocument()->teledeclare;
+$isAcquitteMode = ($detailsKey == DRM::DETAILS_KEY_ACQUITTE);
 ?>
 <div data-hash="<?php echo $detail->getHash() ?>" class="col_recolte<?php if ($active): ?> col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited' : '' ?>" data-input-focus="#drm_detail_sorties_vracsanscontrat" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>">
     <form action="<?php echo url_for('drm_edition_update', array('sf_subject' => $form->getObject(), 'details' => $detailsKey)) ?>" method="post">
@@ -62,9 +63,11 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
                 </ul>
 
                 <div class="groupe p_gris" data-groupe-id="3">
+                  <?php if(!$isAcquitteMode): ?>
                     <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_entrees') ?> extendable">
 
                     </p>
+                  <?php endif; ?>
                     <ul>
                         <?php foreach ($form['entrees'] as $key => $subform):
                                 if (!$detail->getConfig()->isWritableForEtablissement('entrees', $key, $etablissement, $drmTeledeclaree)){ continue; }
@@ -113,9 +116,11 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
                 </ul>
 
                 <div class="groupe p_gris" data-groupe-id="5">
+                  <?php if(!$isAcquitteMode): ?>
                     <p class="<?php echo isVersionnerCssClass($form->getObject(), 'total_sorties') ?> extendable">
-
                     </p>
+                  <?php endif; ?>
+
                     <ul>
                         <?php foreach ($form['sorties'] as $key => $subform):
                             if (!$detail->getConfig()->isWritableForEtablissement('sorties', $key, $etablissement, $drmTeledeclaree)){ continue; }
