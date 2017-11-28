@@ -47,7 +47,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $this->embedForm('observationsProduits', $observations);
 
         $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
-        $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'a été choisie")));
+        $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'a été choisie")));
         $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement');
 
         $this->setWidget('quantite_sucre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
