@@ -15,17 +15,17 @@ class RevendicationRoute extends sfObjectRoute  {
 
 	protected function getObjectForParameters($parameters) {
 
-        if (in_array($parameters['odg'], $this->getOdgs())) {            
+        if (in_array($parameters['odg'], $this->getOdgs())) {
             $odg = $parameters['odg'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'odg', $parameters['odg']));
         }
-        
-        if (preg_match('/^[0-9]{4}-[0-9]{4}$/',$parameters['campagne'])) {            
+
+        if (preg_match('/^[0-9]{4}-[0-9]{4}$/',$parameters['campagne'])) {
             $campagne = $parameters['campagne'];
         } else {
             throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'campagne', $parameters['campagne']));
-        }       
+        }
 
         $this->revendication = RevendicationClient::getInstance()->findByOdgAndCampagne($odg,$campagne);
         if (!$this->revendication) {
@@ -34,7 +34,7 @@ class RevendicationRoute extends sfObjectRoute  {
         return $this->revendication;
     }
 
-    protected function doConvertObjectToArray($object) {  
+    protected function doConvertObjectToArray($object) {
         $parameters = array("odg" => $object->odg, "campagne" => $object->campagne);
         return $parameters;
     }
@@ -48,6 +48,6 @@ class RevendicationRoute extends sfObjectRoute  {
     }
 
     public function getOdgs() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterLoire(true);
     }
 }
