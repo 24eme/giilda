@@ -48,14 +48,14 @@ class RevendicationClient extends acCouchdbClient {
     }
 
     public function getParametersFromId($id) {
-      if (preg_match('/^REVENDICATION-([A-Z]*)-([0-9]{4}-[0-9]{4})$/', $id, $matches)) {
+      if (preg_match('/^REVENDICATION-([A-Z_]*)-([0-9]{4}-[0-9]{4})$/', $id, $matches)) {
         return array('odg' => $matches[1], 'campagne' => $matches[2]);
       }
       throw new sfException("$id is not a revendication ID");
     }
 
     public function getODGs() {
-        return EtablissementClient::getRegionsWithoutHorsInterLoire();
+        return EtablissementClient::getRegionsWithoutHorsInterLoire(true);
     }
 
     public function deleteRow($revendication, $identifiant, $produit, $row) {
@@ -76,8 +76,8 @@ class RevendicationClient extends acCouchdbClient {
         return $revendication->datas->$identifiant->produits->$produit;
     }
 
-    
-    public function deleteRevendication($revendication){   
+
+    public function deleteRevendication($revendication){
         $this->delete($revendication);
     }
 
@@ -110,7 +110,7 @@ class RevendicationClient extends acCouchdbClient {
       krsort($list);
       return $list;
     }
-    
+
     public function getCampagneFromRowDate($date){
       $annee = substr($date,0,4);
       $mois = substr($date,4,2);
@@ -130,5 +130,5 @@ class RevendicationClient extends acCouchdbClient {
         $result = substr($result, 0, strlen($result)-1);
         return $result;
     }
-    
+
 }

@@ -238,11 +238,18 @@ class EtablissementClient extends acCouchdbClient {
         return array(self::RECETTE_LOCALE => 'Recette locale');
     }
 
-    public static function getRegionsWithoutHorsInterLoire() {
-        return array(self::REGION_PDL_AOP => self::REGION_PDL_AOP,
-            self::REGION_PDL_IGP => self::REGION_PDL_IGP,
-            self::REGION_CENTRE_IGP => self::REGION_CENTRE_IGP,
-            self::REGION_CENTRE_AOP => self::REGION_CENTRE_AOP);
+    public static function getRegionsWithoutHorsInterLoire($with_old_region = false) {
+      $regions = array(self::REGION_PDL_AOP => self::REGION_PDL_AOP,
+          self::REGION_PDL_IGP => self::REGION_PDL_IGP,
+          self::REGION_CENTRE_IGP => self::REGION_CENTRE_IGP,
+          self::REGION_CENTRE_AOP => self::REGION_CENTRE_AOP);
+          if($with_old_region){
+            $old_regions = array(self::REGION_ANGERS => self::REGION_ANGERS,
+            self::REGION_TOURS => self::REGION_TOURS,
+            self::REGION_NANTES => self::REGION_NANTES);
+            $regions = array_merge($regions,$old_regions);
+          }
+        return $regions;
     }
 
     public static function getRegions() {
