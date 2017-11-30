@@ -3,6 +3,7 @@ use_helper('DRM');
 $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $etablissement = $drm->getEtablissement();
+$isAcquitteMode = ($detailsNodes->getKey() == DRM::DETAILS_KEY_ACQUITTE);
 ?>
 <div id="colonne_intitules" style="width: 210px">
     <form action="<?php echo url_for('drm_choix_favoris', array('identifiant' => $formFavoris->getObject()->getIdentifiant(),
@@ -40,7 +41,9 @@ $etablissement = $drm->getEtablissement();
             </ul>
 
             <div class="groupe no_favoris" data-groupe-id="3">
+              <?php if(!$isAcquitteMode): ?>
                 <p class="extendable">Autres entrées</p>
+              <?php endif; ?>
                 <ul style="display: none;">
                     <?php foreach ($detailsNodes->getEntreesSorted() as $key => $item): ?>
                         <?php if ($item->isWritableForEtablissement($etablissement)): ?>
@@ -76,7 +79,9 @@ $etablissement = $drm->getEtablissement();
                 <?php endforeach; ?>
             </ul>
             <div class="groupe no_favoris" data-groupe-id="5">
+              <?php if(!$isAcquitteMode): ?>
                 <p class="extendable">Autres sorties</p>
+              <?php endif; ?>
                 <ul style="display: none;">
                     <?php foreach ($detailsNodes->getSortiesSorted() as $key => $item): ?>
                         <?php if ($item->isWritableForEtablissement($etablissement)): ?>

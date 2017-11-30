@@ -170,44 +170,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                   </tbody>
             </table>
             <br/>
-            <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
-                <thead >
-                    <tr>
-                        <th colspan="2">Condition de paiement des douanes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide6'); ?>"  style="padding: 0 0 0 10px;"></a></th>
-                    </tr>
-                </thead>
-                <tbody class="drm_non_apurement" id="nonapurement_list">
-                    <tr>
-                        <td class="drm_quantite_sucre_label" style="width: 255px;">
-                            <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
-                        </td>
-                        <td class="drm_paiement_douane_frequence" style="height: 55px;">
-                            <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
-                            <?php echo $annexesForm['paiement_douane_frequence']->render(); ?>
-                        </td>
-                    </tr>
-                    <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
-                        <td>
-                            Cumul <b>début de mois</b> des droits douaniers (en €)
-                        </td>
-                        <td>
-                            <ul>
-
-                                <?php foreach ($drm->getAllGenres() as $genre): ?>
-                                  <?php if(isset($annexesForm['cumul_' . $genre])): ?>
-                                    <li style="padding: 10px;">
-                                        <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
-                                        <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
-                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
-                                    </li>
-                                  <?php endif; ?>
-                                <?php endforeach; ?>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <br/>
           </div>
     </div>
     <br/>
