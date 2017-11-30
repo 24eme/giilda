@@ -34,7 +34,7 @@ class Relance extends BaseRelance {
 
         $this->type_relance = $type_relance;
         $this->identifiant = $etb->identifiant;
-        $this->region = $etb->getSociete()->getRegionViticole();
+        $this->region = $etb->getSociete()->getRegionViticole(false);
         $this->reference = RelanceClient::getInstance()->getNextRef($this->identifiant, $this->type_relance, $this->date_creation);
         $this->_id = RelanceClient::getInstance()->buildId($this->identifiant, $this->type_relance, $this->reference);
     }
