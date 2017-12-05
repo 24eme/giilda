@@ -98,8 +98,9 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \multicolumn{1}{|l}{\small{\textbf{<?php echo $droitDouane->libelle; ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($droitDouane->getVolume()).' hl';  ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->taux.' €/hl'; ?>}}} &
-    \multicolumn{1}{|r|}{\small{.................\textbf{<?php echo "~€"; ?>}}} &
-    \multicolumn{1}{|r|}{.................\small{\textbf{<?php echo "~€"; ?>}}}
+    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->total).' €'; ?>}}} &
+    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->cumul).' €'; ?>}}}
+
     \\
     \hline
 <?php endforeach; ?>
@@ -107,17 +108,15 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 
 \vspace{0.5cm}
 
-<?php if($drm->quantite_sucre): ?>
 \begin{tabular}{|C{138mm}|C{138mm}|}
 \hline
 \multicolumn{2}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Information sur le sucre}}}} \\
 \hline
-\rowcolor{lightgray}\small{\textbf{Taux en quintaux}} & \rowcolor{white}\small{\textbf{<?php echo $drm->quantite_sucre ?>}} \\
+\rowcolor{lightgray}\small{\textbf{Taux de sucre}} & \rowcolor{white}\small{\textbf{\dotfill\dotfill\dotfill}} \\
 \hline
 \end{tabular}
 
 \vspace{0.5cm}
-<?php endif; ?>
 
 <?php if($hasObservations): ?>
 \begin{tabular}{|C{280mm}|}
