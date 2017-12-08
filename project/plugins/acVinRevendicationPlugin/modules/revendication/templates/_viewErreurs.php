@@ -87,7 +87,7 @@
                                 <?php echo $erreur->libelle_erreur; ?>
                             </p>
                             <p><?php echo str_replace('#', ';', $erreur->ligne); ?></p>
-                            <a style="margin-top: 5px;" href="<?php echo url_for('revendication_delete_line', array('odg' => $revendication->odg,'campagne' => $revendication->campagne,'num_ligne' => $erreur->num_ligne)); ?>" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
+                            <a style="margin-top: 5px;" href="<?php echo url_for('revendication_delete_line', array('odg' => $revendication->odg,'campagne' => $revendication->campagne,'num_ligne' => $erreur->num_ligne,'num_ca' => $erreur->numero_certification)); ?>" class="btn_majeur btn_annuler">Supprimer cette ligne</a>
                         </td>
                     </tr>
                     <?php
