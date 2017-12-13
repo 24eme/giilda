@@ -39,7 +39,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $alertes = AlerteHistoryView::getInstance()->getAllHistory();
+    $alertes = array_merge(AlerteHistoryView::getInstance()->findByTypeAndStatut("DRM_MANQUANTE","NOUVEAU"),AlerteHistoryView::getInstance()->findByTypeAndStatut("DRA_MANQUANTE","NOUVEAU"));
     foreach ($alertes as $a) {
     	if ($alerte = AlerteClient::getInstance()->find($a->id)) {
         if($alerte->isStatutNouveau() && $alerte->date_relance == "2018-01-08"){
