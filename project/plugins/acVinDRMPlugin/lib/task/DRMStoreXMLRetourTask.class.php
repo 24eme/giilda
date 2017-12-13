@@ -46,7 +46,7 @@ EOF;
         }catch(sfException $e) {
           if($e->getCode()){
             echo strstr($e->getMessage(), ' ',true)." Erreur ".$arguments['url']. " : " .strstr($e->getMessage(), ' ')."\n";
-            return 0;
+            return 1;
           }
           echo "Erreur ".$arguments['url']. " : " .$e->getMessage()."\n";
           return 200;
