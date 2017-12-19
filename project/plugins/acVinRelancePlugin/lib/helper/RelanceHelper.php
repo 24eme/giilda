@@ -110,7 +110,7 @@ function printContact($relance) {
 }
 
 function getServicesOperateurs($relance) {
-    return $relance->responsable_economique . "\\\\Responsable Economie et Etudes";
+    return "\\\\Responsable Economie et Etudes";
 }
 
 function printRappelLoi($type, $ar = false) {
