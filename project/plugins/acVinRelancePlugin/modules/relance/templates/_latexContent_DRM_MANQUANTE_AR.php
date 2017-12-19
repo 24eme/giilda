@@ -52,7 +52,7 @@ use_helper('Orthographe');
 \def\RELANCERAPPELLOI{<?php printRappelLoi($relance->type_relance); ?>}
 
 
-\def\RELANCEInterloireCONTACT{<?php echo sfConfig::get('app_relance_responsable_economique') ?><?php echo getServicesOperateurs($relance); ?>} 
+\def\RELANCEInterloireCONTACT{<?php echo sfConfig::get('app_relance_responsable_economique') ?><?php echo getServicesOperateurs($relance); ?>}
 
 
 \begin{document}
@@ -82,8 +82,6 @@ use_helper('Orthographe');
 
 \end{flushleft}
 
-\section*{}
-
 \RELANCEINTRO
 \begin{itemize}
  \setlength\itemsep{0mm}
@@ -96,8 +94,6 @@ use_helper('Orthographe');
 endforeach;
 ?>
 \end{itemize}
-
-\section*{}
 
 \RELANCERAPPELLOI
 
