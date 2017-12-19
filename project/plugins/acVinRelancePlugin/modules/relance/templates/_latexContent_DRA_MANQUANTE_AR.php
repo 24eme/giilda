@@ -83,8 +83,6 @@ use_helper('Orthographe');
 
 \end{flushleft}
 
-\section*{}
-
 \RELANCEINTRO
 \begin{itemize}
  \setlength\itemsep{0mm}
