@@ -47,7 +47,7 @@ use_helper('Orthographe');
 \def\RELANCEREF{\underline{\textbf{N/Réf : <?php echo substr($relance->identifiant, 0, 6);?>}}}
 
 \def\RELANCECONTACT{<?php printContact($relance);?>}
-\def\RELANCEINTRO{Madame, Monsieur, \\ \\ <?php echoIntroRelance($relance->type_relance);?>}
+\def\RELANCEINTRO{Madame, Monsieur, \\~\\ <?php echoIntroRelance($relance->type_relance);?>}
 
 \def\RELANCERAPPELLOI{<?php printRappelLoi($relance->type_relance); ?>}
 
@@ -80,7 +80,11 @@ use_helper('Orthographe');
 
 \end{flushleft}
 
+\begin{flushleft}
 \RELANCEINTRO
+\end{flushleft}
+
+
 \begin{itemize}
  \setlength\itemsep{0mm}
 <?php foreach($relance->verifications as $verification) : ?>
@@ -94,7 +98,9 @@ endforeach;
 ?>
 \end{itemize}
 
+\begin{flushleft}
 \RELANCERAPPELLOI
+\end{flushleft}
 
 \RELANCEInterloireCONTACT
 \end{document}
