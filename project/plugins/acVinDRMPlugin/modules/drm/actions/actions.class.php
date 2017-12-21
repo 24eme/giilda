@@ -133,7 +133,7 @@ class drmActions extends drmGeneriqueActions {
 
                 case DRMClient::DRM_CREATION_NEANT :
                     $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
-                    $drm->etape = DRMClient::ETAPE_VALIDATION;
+                    $drm->etape = DRMClient::ETAPE_CHOIX_PRODUITS;
                     $drm->type_creation = DRMClient::DRM_CREATION_NEANT;
                     $drm->save();
                     return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
@@ -186,6 +186,9 @@ class drmActions extends drmGeneriqueActions {
         $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
         $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
         $this->drmCsvEdi->importCSV();
+        
+        $this->drm->etape = DRMClient::ETAPE_CHOIX_PRODUITS;
+        $this->drm->save();
 
         $this->redirect('drm_choix_produit', $this->drm);
 
