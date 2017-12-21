@@ -475,7 +475,7 @@ class drmActions extends drmGeneriqueActions {
     			throw new sfException("Le template de convention ciel ".$path."/".$template." n'existe pas.");
     		}
     		$fdf = tempnam(sys_get_temp_dir(), 'CONVENTIONCIEL');
-    		file_put_contents($fdf, utf8_decode($this->getPartial('common/fdfConvention', array('etablissement' => $etablissement))));
+    		file_put_contents($fdf, sfOutputEscaper::unescape(utf8_decode($this->getPartial('common/fdfConvention', array('etablissement' => $etablissement)))));
     		exec('pdftk '.$path.'/'.$template.' fill_form '.$fdf.' output  /dev/stdout flatten |  gs -o '.$path.'/pdf/'.$filename.' -sDEVICE=pdfwrite -dEmbedAllFonts=true -sFONTPATH=/usr/share/fonts/truetype/freefont - ');
     		unlink($fdf);
     		if (!file_exists($path.'/pdf/'.$filename)) {
