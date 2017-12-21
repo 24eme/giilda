@@ -10,6 +10,7 @@ Compte:
       prenom: { }
       nom: { }
       mot_de_passe: { }
+      date_creation: { }
       nom_a_afficher: {}
       fonction: { }
       commentaire: { }
