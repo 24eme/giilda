@@ -74,7 +74,7 @@ class VracClient extends acCouchdbClient {
     public static $types_transaction_vins = array(self::TYPE_TRANSACTION_VIN_VRAC, self::TYPE_TRANSACTION_VIN_BOUTEILLE);
     public static $types_transaction_non_vins = array(self::TYPE_TRANSACTION_RAISINS, self::TYPE_TRANSACTION_MOUTS);
     public static $cvo_repartition = array(
-        //self::CVO_REPARTITION_50_50 => '50/50',
+        self::CVO_REPARTITION_50_50 => '50/50',
         self::CVO_REPARTITION_100_NEGO => '100% négociant',
         self::CVO_REPARTITION_100_VITI => '100% viticulteur',
         self::CVO_REPARTITION_0_VINAIGRERIE => 'Vinaigrerie');
