@@ -110,7 +110,7 @@ function printContact($relance) {
 }
 
 function getServicesOperateurs($relance) {
-    return $relance->responsable_economique . "\\\\Responsable Economie et Etudes";
+    return "\\\\Responsable Economie et Etudes";
 }
 
 function printRappelLoi($type, $ar = false) {
@@ -119,11 +119,11 @@ function printRappelLoi($type, $ar = false) {
         switch ($type) {
             case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE:
             case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE:
-                echo 'Nous vous remercions de bien vouloir nous faire parvenir une copie de ces documents dans les meilleurs délais. \\\\\\\\Ces éléments sont indispensables à l’Interprofession pour assurer le suivi des données statistiques des appellations. Ils permettent également de déterminer l’assiette d’évaluation des cotisations interprofessionnelles (cf Article II-3 Connaissance des sorties de chais de l’Accord interprofessionnel en vigueur). \\\\\\\\Nous restons à votre disposition pour toute information complémentaire que vous jugeriez nécessaire.\\\\\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
+                echo 'Nous vous remercions de bien vouloir nous faire parvenir une copie de ces documents dans les meilleurs délais. \\\\~\\\\Ces éléments sont indispensables à l’Interprofession pour assurer le suivi des données statistiques des appellations. Ils permettent également de déterminer l’assiette d’évaluation des cotisations interprofessionnelles (cf Article II-3 Connaissance des sorties de chais de l’Accord interprofessionnel en vigueur). \\\\Nous restons à votre disposition pour toute information complémentaire que vous jugeriez nécessaire.\\\\~\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
                 break;
             case RelanceClient::TYPE_RELANCE_DRM_MANQUANTE_AR:
             case RelanceClient::TYPE_RELANCE_DRA_MANQUANTE_AR:
-                echo 'Nous vous demandons de bien vouloir nous faire parvenir une copie de ces documents \\underline{\\textbf{sous un mois.}}\\\\\\\\A défaut, InterLoire sera dans l’obligation de procéder à une évaluation d’office du montant des cotisations dues  conformément à l’article~VI-5 de l’Accord interprofessionnel en vigueur.\\\\\\\\Nous restons à votre disposition pour toute information complémentaire que vous jugeriez nécessaire.\\\\\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
+                echo 'Nous vous demandons de bien vouloir nous faire parvenir une copie de ces documents \\underline{\\textbf{sous un mois.}}\\\\~\\\\A défaut, InterLoire sera dans l’obligation de procéder à une évaluation d’office du montant des cotisations dues  conformément à l’article~VI-4.2 de l’Accord interprofessionnel en vigueur.\\\\~\\\\Nous restons à votre disposition pour toute information complémentaire que vous jugeriez nécessaire.\\\\~\\\\Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expression de nos salutations distinguées.';
                 break;
 
             default:

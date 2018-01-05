@@ -42,17 +42,17 @@ use_helper('Orthographe');
 
 \def\RELANCEREGION{<?php echo getRegion($relance->region); ?>}
 \def\RELANCEDATE{le <?php echo format_date($relance->date_creation,'dd/MM/yyyy'); ?>}
-	
-\def\RELANCEOBJECT{\underline{\textbf{Objet : <?php echoTypeRelance($relance->type_relance); ?>}}}       
+
+\def\RELANCEOBJECT{\underline{\textbf{Objet : <?php echoTypeRelance($relance->type_relance); ?>}}}
 \def\RELANCEREF{\underline{\textbf{N/Réf : <?php echo substr($relance->identifiant, 0, 6);?>}}}
 
 \def\RELANCECONTACT{<?php printContact($relance);?>}
-\def\RELANCEINTRO{Madame, Monsieur, \\ \\ <?php echoIntroRelance($relance->type_relance);?>}
+\def\RELANCEINTRO{Madame, Monsieur, \\~\\ <?php echoIntroRelance($relance->type_relance);?>}
 
 \def\RELANCERAPPELLOI{<?php printRappelLoi($relance->type_relance); ?>}
 
 
-\def\RELANCEInterloireCONTACT{<?php echo getServicesOperateurs($relance); ?>} 
+\def\RELANCEInterloireCONTACT{<?php echo sfConfig::get('app_relance_responsable_economique') ?><?php echo getServicesOperateurs($relance); ?>}
 
 
 \begin{document}
@@ -61,9 +61,9 @@ use_helper('Orthographe');
 ~
 \end{minipage}
 \hfill
-\begin{minipage}[t]{0.4\textwidth}	
+\begin{minipage}[t]{0.4\textwidth}
 \vspace{2.5cm}
-\textbf{\RELANCECLIENTNOM \\}				
+\textbf{\RELANCECLIENTNOM \\}
 \RELANCECLIENTADRESSE \\
 \RELANCECLIENTCP ~ \RELANCECLIENTVILLE
 \\ \\ \\ \RELANCEREGION~\RELANCEDATE
@@ -82,28 +82,27 @@ use_helper('Orthographe');
 
 \end{flushleft}
 
-\section*{}
+\begin{flushleft}
+\RELANCEINTRO
+\end{flushleft}
 
-\RELANCEINTRO 
 \begin{itemize}
  \setlength\itemsep{0mm}
-<?php foreach($relance->verifications as $verification) : ?>    
-    <?php foreach($verification->lignes as $ligne): ?> 
+<?php foreach($relance->verifications as $verification) : ?>
+    <?php foreach($verification->lignes as $ligne): ?>
            \item Mois <?php echo elision("de",getLigne($ligne->explications)); ?>
-    <?php  endforeach; ?>  
+    <?php  endforeach; ?>
     <?php echo $verification->description_fin; ?>
-<?php    
+<?php
 endforeach;
 ?>
 \end{itemize}
-    
-\section*{}  
-            
-\RELANCERAPPELLOI 	
+
+\begin{flushleft}
+\RELANCERAPPELLOI
+\end{flushleft}
 
 \section*{}
 
-\RELANCEInterloireCONTACT 
+\RELANCEInterloireCONTACT
 \end{document}
-
-							

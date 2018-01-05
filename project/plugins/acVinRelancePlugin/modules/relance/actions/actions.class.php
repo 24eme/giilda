@@ -15,11 +15,11 @@ class relanceActions extends sfActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->relances = RelanceEtablissementView::getInstance()->findByEtablissement($this->etablissement); 
+        $this->relances = RelanceEtablissementView::getInstance()->findByEtablissement($this->etablissement);
         $this->alertesARelancer = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatut($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER);
     $this->alertesARelancerAR = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatut($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER_AR);
         }
-    
+
     public function executeGenererEtablissement(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->alertes_relance = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutSorted($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER);
@@ -30,7 +30,7 @@ class relanceActions extends sfActions {
         }
          $this->redirect('relance_etablissement', $this->etablissement);
     }
-    
+
         public function executeGenererArEtablissement(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->alertes_relance = AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutSorted($this->etablissement->identifiant, AlerteClient::STATUT_A_RELANCER_AR);
@@ -41,18 +41,20 @@ class relanceActions extends sfActions {
         }
          $this->redirect('relance_etablissement', $this->etablissement);
     }
-    
-    
-    
-    
+
+
+
+
    public function executeLatex(sfWebRequest $request) {
+        $this->setLayout(false);
         $this->relance = RelanceClient::getInstance()->find($request->getParameter('idrelance'));
         $this->forward404Unless($this->relance);
-	$latex = new RelanceLatex($this->relance);
-	$latex->echoWithHTTPHeader($request->getParameter('type'));
+	      $latex = new RelanceLatex($this->relance);
+	      $latex->echoWithHTTPHeader($request->getParameter('type'));
+        exit;
     }
 
-    
+
     public function executeGeneration(sfWebRequest $request) {
        $this->generationForm = new RelanceGenerationMasseForm();
        if ($request->isMethod(sfWebRequest::POST)) {
@@ -60,9 +62,9 @@ class relanceActions extends sfActions {
          if ($this->generationForm->isValid()) {
          $values = $this->generationForm->getValues();
 	  $generation = new Generation();
-           
+
           $date_relance = DATE::getIsoDateFromFrenchDate($values['date_relance']);
-          $generation->arguments->add('types_relance', $values['types_relance']);          
+          $generation->arguments->add('types_relance', $values['types_relance']);
           $generation->arguments->add('date_relance', $date_relance);
           $generation->type_document = GenerationClient::TYPE_DOCUMENT_RELANCE;
           $generation->save();
@@ -73,4 +75,3 @@ class relanceActions extends sfActions {
     }
 
 }
-

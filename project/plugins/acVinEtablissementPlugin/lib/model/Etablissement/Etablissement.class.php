@@ -421,6 +421,23 @@ class Etablissement extends BaseEtablissement {
         return $this->exist('crd_regime') && $this->crd_regime;
     }
 
+    public function getCrdRegimeArray(){
+      if(!$this->hasRegimeCrd()){
+        return null;
+      }
+      return explode(",",$this->crd_regime);
+    }
+
+    public function hasRegimeCollectifAcquitte(){
+      return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE, $this->getCrdRegimeArray());
+    }
+    public function hasRegimeCollectifSuspendu(){
+      return in_array(EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU, $this->getCrdRegimeArray());
+    }
+    public function hasRegimePersonnalise(){
+      return in_array(EtablissementClient::REGIME_CRD_PERSONNALISE, $this->getCrdRegimeArray());
+    }
+
     public function hasLegalSignature() {
         return $this->getSociete()->hasLegalSignature();
     }

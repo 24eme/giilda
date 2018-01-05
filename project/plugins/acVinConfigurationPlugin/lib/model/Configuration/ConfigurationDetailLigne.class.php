@@ -56,15 +56,17 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
             if(!$etb->exist('crd_regime')){
                 return false;
             }
-            if(($etb->crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($etb->crd_regime == EtablissementClient::REGIME_CRD_PERSONNALISE)){
+            if(!$etb->hasRegimeCollectifAcquitte()){
                 return false;
             }
+
         }
          if(($this->getKey() == "retourmarchandisetaxees") || ($this->getKey() == "ventefrancebibcrd") || ($this->getKey() == "ventefrancebouteillecrd")){
             if(!$etb->exist('crd_regime')){
                 return true;
             }
-            if(($etb->crd_regime != EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) && ($etb->crd_regime != EtablissementClient::REGIME_CRD_PERSONNALISE)){
+            if(!$etb->hasRegimeCollectifSuspendu() &&
+               !$etb->hasRegimePersonnalise()){
                 return false;
             }
         }

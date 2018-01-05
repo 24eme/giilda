@@ -7,10 +7,10 @@
  */
 
 /**
- * Description of class AlertesSetLastDateModificationTask
+ * Description of class AlertesSetDateARelancerTask
  * @author mathurin
  */
-class AlertesSetLastDateModificationTask extends sfBaseTask
+class AlertesSetDateARelancerTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -23,36 +23,31 @@ class AlertesSetLastDateModificationTask extends sfBaseTask
     ));
 
     $this->namespace        = 'alertes';
-    $this->name             = 'set-last-date-modification';
+    $this->name             = 'set-date-arelancer';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [setLastDateModificationAlertes|INFO] task does things.
+The [AlertesSetDateARelancer|INFO] task does things.
 Call it with:
 
   [php symfony generatePDF|INFO]
 EOF;
   }
-  
+
   protected function execute($arguments = array(), $options = array())
   {
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-    
-    $alertes = AlerteHistoryView::getInstance()->getAllHistory();
+
+    $alertes = array_merge(AlerteHistoryView::getInstance()->findByTypeAndStatut("DRM_MANQUANTE","NOUVEAU"),AlerteHistoryView::getInstance()->findByTypeAndStatut("DRA_MANQUANTE","NOUVEAU"));
     foreach ($alertes as $a) {
     	if ($alerte = AlerteClient::getInstance()->find($a->id)) {
-    		try {
-                        $date = $alerte->getStatut()->date;
-                        $alerte->add('date_dernier_statut', $date);
-    			$alerte->save();
-    			$this->logSection('alertes', $a->id.' updated successfully with date '.$date.'.');
-    		} catch (Exception $e) {
-    			$this->logSection('alertes', $a->id.' save failed.', null, 'ERROR');
-    		}
-    	} else {
-    		$this->logSection('alertes', $a->id.' document doesn\'t exist.', null, 'ERROR');
-    	}
+        if($alerte->isStatutNouveau() && $alerte->date_relance == "2018-01-08"){
+          echo $alerte->id_document." Alerte à relancer => nouvelle date ".$alerte->date_relance ." = 2017-01-01 \n";
+          $alerte->date_relance = "2017-01-01";
+          $alerte->save();
+        }
     }
   }
+}
 }

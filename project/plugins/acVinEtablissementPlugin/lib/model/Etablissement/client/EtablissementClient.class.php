@@ -125,20 +125,38 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
-    public function findByCvi($cvi) {
+    public function findByCvi($cvi,$withSuspendu = true) {
         $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
         if (!count($rows)) {
             return null;
+        }
+        if(!$withSuspendu){
+          foreach ($rows as $row) {
+            $etb = $this->find($rows[0]->id);
+            if(!$etb->isActif()){
+              continue;
+            }
+          }
+          return $etb;
         }
 
         return $this->find($rows[0]->id);
     }
 
-    public function findByNoAccise($accise) {
+    public function findByNoAccise($accise,$withSuspendu = true) {
         $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
 
         if (!count($rows)) {
             return null;
+        }
+        if(!$withSuspendu){
+          foreach ($rows as $row) {
+            $etb = $this->find($rows[0]->id);
+            if(!$etb->isActif()){
+              continue;
+            }
+          }
+          return $etb;
         }
 
         return $this->find($rows[0]->id);
@@ -220,11 +238,18 @@ class EtablissementClient extends acCouchdbClient {
         return array(self::RECETTE_LOCALE => 'Recette locale');
     }
 
-    public static function getRegionsWithoutHorsInterLoire() {
-        return array(self::REGION_PDL_AOP => self::REGION_PDL_AOP,
-            self::REGION_PDL_IGP => self::REGION_PDL_IGP,
-            self::REGION_CENTRE_IGP => self::REGION_CENTRE_IGP,
-            self::REGION_CENTRE_AOP => self::REGION_CENTRE_AOP);
+    public static function getRegionsWithoutHorsInterLoire($with_old_region = false) {
+      $regions = array(self::REGION_PDL_AOP => self::REGION_PDL_AOP,
+          self::REGION_PDL_IGP => self::REGION_PDL_IGP,
+          self::REGION_CENTRE_IGP => self::REGION_CENTRE_IGP,
+          self::REGION_CENTRE_AOP => self::REGION_CENTRE_AOP);
+          if($with_old_region){
+            $old_regions = array(self::REGION_ANGERS => self::REGION_ANGERS,
+            self::REGION_TOURS => self::REGION_TOURS,
+            self::REGION_NANTES => self::REGION_NANTES);
+            $regions = array_merge($regions,$old_regions);
+          }
+        return $regions;
     }
 
     public static function getRegions() {

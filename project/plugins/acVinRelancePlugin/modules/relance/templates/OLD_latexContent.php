@@ -39,10 +39,10 @@ use_helper('Display');
 
 \def\RELANCEREGION{<?php echo getRegion($relance->region); ?>}
 \def\RELANCEDATE{le <?php echo format_date($relance->date_creation,'dd/MM/yyyy'); ?>}
-	
-\def\RELANCEOBJECT{\underline{\textbf{Objet : <?php echoTypeRelance($relance->type_relance); ?>}}}       
+
+\def\RELANCEOBJECT{\underline{\textbf{Objet : <?php echoTypeRelance($relance->type_relance); ?>}}}
 \def\RELANCEREF{\underline{\textbf{N/Réf : <?php echo $relance->identifiant;?>}}}
-\def\RELANCEINTRO{Madame, Monsieur, \\ \\ <?php echoIntroRelance($relance->type_relance);?>}
+\def\RELANCEINTRO{Madame, Monsieur, \\~\\ <?php echoIntroRelance($relance->type_relance);?>}
 \def\RELANCEFORMULE{<?php printRelanceFormule($relance); ?>}
 
 \def\RELANCERAPPELLOI{Nous vous rappelons qu’en vertu de l’article V-4 de l’Accord interprofessionnel en vigueur, InterLoire a la possibilité~:\\
@@ -56,17 +56,17 @@ Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expressi
 
 \def\RELANCESIGNATURE{<?php echo $relance->responsable_financier; ?> \\ Responsable Administratif et Financier}
 
-\def\RELANCEInterloireCONTACT{Le service Transactions de <?php echo $relance->region;?> : \\ \\<?php echo getServicesOperateurs($relance); ?>} 
+\def\RELANCEInterloireCONTACT{Le service Transactions de <?php echo $relance->region;?> : \\ \\<?php echo getServicesOperateurs($relance); ?>}
 
 
 \begin{document}
 \begin{minipage}[t]{1\textwidth}
 \begin{minipage}[t]{0.40\textwidth}
-\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}	
+\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo.jpg"; ?>}
 \end{minipage}
 \hfill
-\begin{minipage}[t]{0.4\textwidth}	
-\textbf{\RELANCECLIENTNOM \\}				
+\begin{minipage}[t]{0.4\textwidth}
+\textbf{\RELANCECLIENTNOM \\}
 \textbf{\RELANCECLIENTADRESSE} \\
 \RELANCECLIENTCP ~ \RELANCECLIENTVILLE
 \\ \\ \\ \RELANCEREGION~\RELANCEDATE
@@ -80,63 +80,67 @@ Dans cette attente, nous vous prions d’agréer, Madame, Monsieur, l’expressi
 
 \hspace{1.5cm}
 
-\RELANCEINTRO \\
+\begin{flushleft}
+\RELANCEINTRO
+\end{flushleft}
+
+
 
 <?php foreach($relance->verifications as $verification) : ?>
     \section*{\small{$\bullet$ <?php echo $verification->titre; ?> \textit{(<?php echo $verification->refarticle; ?>)}}}
     <?php echo $verification->description; ?> \\
-    
+
     <?php if($verification->multiple):  ?>
         <?php if(count($verification->lignes) < GenerationRelancePDF::MAX_LIGNE_TABLEAUX): ?>
             \begin{center}
             \begin{tabularx}{\textwidth}{<?php echo getTableFormatVerification($verification); ?>}
         <?php echo getTableRowHead($verification->liste_champs); ?> \\
-        <?php foreach($verification->lignes as $ligne): ?> 
+        <?php foreach($verification->lignes as $ligne): ?>
             <?php echo getTableLigne($ligne->explications)?> \\
-        <?php endforeach; ?> 
-        \end{tabularx} 
+        <?php endforeach; ?>
+        \end{tabularx}
         \end{center}
-        
-        <?php else: 
+
+        <?php else:
             $nbPages = count($verification->lignes) / GenerationRelancePDF::MAX_LIGNE_TABLEAUX;
-            for($i=0; $i< $nbPages;$i++): 
-            $start_row = $i* GenerationRelancePDF::MAX_LIGNE_TABLEAUX; 
-            $end_row = ($i < $nbPages-1)? (($i+1)* GenerationRelancePDF::MAX_LIGNE_TABLEAUX) : (count($verification->lignes)); 
+            for($i=0; $i< $nbPages;$i++):
+            $start_row = $i* GenerationRelancePDF::MAX_LIGNE_TABLEAUX;
+            $end_row = ($i < $nbPages-1)? (($i+1)* GenerationRelancePDF::MAX_LIGNE_TABLEAUX) : (count($verification->lignes));
             ?>
             \begin{center}
             \begin{tabularx}{\textwidth}{<?php echo getTableFormatVerification($verification); ?>}
             <?php echo getTableRowHead($verification->liste_champs); ?> \\
-            <?php for($indice=$start_row;$indice<$end_row;$indice++): 
+            <?php for($indice=$start_row;$indice<$end_row;$indice++):
                     $ligne = $verification->lignes[$indice];
-                ?> 
+                ?>
                 <?php echo getTableLigne($ligne->explications)?> \\
-            <?php endfor; ?> 
-            \end{tabularx} 
-            \end{center}            
+            <?php endfor; ?>
+            \end{tabularx}
+            \end{center}
         <?php
             endfor;
-            endif; 
+            endif;
         else:
     ?>
-    <?php foreach($verification->lignes as $ligne): ?> 
+    <?php foreach($verification->lignes as $ligne): ?>
             <?php echo getLigne($ligne->explications); ?> \\
-    <?php  endforeach; ?>  
+    <?php  endforeach; ?>
     <?php
     endif;
     ?>
     <?php echo $verification->description_fin; ?>
-<?php    
+<?php
 endforeach;
 ?>
-    
-\section*{}  
-            
-\RELANCERAPPELLOI \\	
+
+\section*{}
+
+\begin{flushleft}
+\RELANCERAPPELLOI
+\end{flushleft}
 \\
 \RELANCESIGNATURE \\
 \section*{\small{\underline{Votre contact si nécessaire:}}}
 
-\RELANCEInterloireCONTACT 
+\RELANCEInterloireCONTACT
 \end{document}
-
-							

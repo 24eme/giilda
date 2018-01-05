@@ -52,7 +52,7 @@ class produitActions extends sfActions
 
   public function executeNouveau(sfWebRequest $request)
   {
-    throw new sfException("Edition de l'arbre produit désactivé pour le moment");
+    //throw new sfException("Edition de l'arbre produit désactivé pour le moment");
   	$this->interpro = InterproClient::getInstance()->find('INTERPRO-inter-loire');
   	$configuration = ConfigurationClient::getCurrent();
   	$this->form = new ProduitNouveauForm($configuration, $this->interpro->_id);

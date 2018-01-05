@@ -6,13 +6,19 @@ use_helper('DRMPdf');
 use_helper('Display');
 $mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf($detailsNodes);
 $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
-?>
 
+$nbProdByDetailsNode = 0;
+foreach ($drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes) as $certification => $produitsDetailsByCertifications) :
+  $nbProdByDetailsNode += count($produitsDetailsByCertifications->produits);
+endforeach;
+if($nbProdByDetailsNode): ?>
 \begin{center}
 \begin{Large}
 \textbf{DRM <?php echo $libelleDetail; ?> <?php echo getFrPeriodeElision($drm->periode); ?>}
+  \textbf{}
 \end{Large}
 \end{center}
+<?php endif; ?>
 
 <?php if ($drm->isNeant()): ?>
     \begin{center}

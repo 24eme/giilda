@@ -7,7 +7,7 @@ $droitsDouane = $drm->droits->douane;
 $paiement_douane_moyen = ($drm->societe->exist('paiement_douane_moyen'))? $drm->societe->paiement_douane_moyen : null;
 $frequence_douane_moyen = ($drm->societe->exist('paiement_douane_frequence'))? $drm->societe->paiement_douane_frequence : null;
 
-$hasAnnexes = $drm->hasAnnexes(); 
+$hasAnnexes = $drm->hasAnnexes();
 $hasNonApurement = $drm->exist('releve_non_apurement') && count($drm->releve_non_apurement);
 $limitNonAppurement = 4;
 if(!$hasAnnexes && $hasNonApurement){
@@ -25,53 +25,53 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \textbf{Documents douanier}
     \end{large}
     \end{center}
-   <?php endif; ?>   
-  <?php if ($hasAnnexes): ?>  
-    \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}			 	 
+   <?php endif; ?>
+  <?php if ($hasAnnexes): ?>
+    \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}
     \multicolumn{3}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Documents d'accompagnement}}}}
-    \\ 			 
-    \hline   			
-    \rowcolor{lightgray}		 
+    \\
+    \hline
+    \rowcolor{lightgray}
     \multicolumn{1}{|C{90mm}}{\small{\textbf{Type de document}}} &
     \multicolumn{1}{|C{90mm}}{\small{\textbf{Numéro début}}} &
-    \multicolumn{1}{|C{90mm}|}{\small{\textbf{Numéro fin}}} 
-    \\ 			 
-    \hline   			
+    \multicolumn{1}{|C{90mm}|}{\small{\textbf{Numéro fin}}}
+    \\
+    \hline
     <?php foreach ($drm->documents_annexes as $typeDoc => $numsDoc): ?>
 
         \multicolumn{1}{|l}{\small{\textbf{<?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?>}}} &
         \multicolumn{1}{|r}{\small{\textbf{<?php echo $numsDoc->debut; ?>}}} &
-        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $numsDoc->fin; ?>}}} 
-        \\ 			 
+        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $numsDoc->fin; ?>}}}
+        \\
         \hline
 
-    <?php endforeach; ?>  
+    <?php endforeach; ?>
     \end{tabular}
     \vspace{0.2cm}
-<?php endif; ?>  
+<?php endif; ?>
 <?php if ($hasNonApurement) : ?>
-    \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}			 	 
+    \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}
     \multicolumn{3}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Relevé de non apurement}}}}
-    \\ 			 
-    \hline   			
-    \rowcolor{lightgray}		 
+    \\
+    \hline
+    \rowcolor{lightgray}
     \multicolumn{1}{|C{90mm}}{\small{\textbf{Numéro de  document}}} &
     \multicolumn{1}{|C{90mm}}{\small{\textbf{Date d'expédition}}} &
-    \multicolumn{1}{|C{90mm}|}{\small{\textbf{Numéro d'accise destinataire}}} 
-    \\ 			 
-    \hline   			
+    \multicolumn{1}{|C{90mm}|}{\small{\textbf{Numéro d'accise destinataire}}}
+    \\
+    \hline
     <?php foreach ($drm->releve_non_apurement as $num_non_apurement => $non_apurement): ?>
 
         \multicolumn{1}{|l}{\small{\textbf{<?php echo $non_apurement->numero_document; ?>}}} &
         \multicolumn{1}{|r}{\small{\textbf{<?php echo $non_apurement->date_emission; ?>}}} &
-        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $non_apurement->numero_accise; ?>}}} 
-        \\ 			 
+        \multicolumn{1}{|r|}{\small{\textbf{<?php echo $non_apurement->numero_accise; ?>}}}
+        \\
         \hline
 
-    <?php endforeach; ?>  
+    <?php endforeach; ?>
     \end{tabular}
 <?php endif; ?>
-    
+
 <?php echo $douaneNewPage; ?>
 \vspace{0.5cm}
 \begin{center}
@@ -80,52 +80,51 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \end{large}
 \end{center}
 
-\begin{tabular}{C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}			 	 
+\begin{tabular}{C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}
 \multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
-\\ 			 
-\hline   			
-\rowcolor{lightgray}		 
+\\
+\hline
+\rowcolor{lightgray}
 \multicolumn{1}{|C{43mm}}{\small{\textbf{Code}}} &
 \multicolumn{1}{|C{43mm}}{\small{\textbf{Libellé}}} &
 \multicolumn{1}{|C{43mm}|}{\small{\textbf{Volume}}} &
 \multicolumn{1}{|C{43mm}|}{\small{\textbf{Taux}}} &
 \multicolumn{1}{|C{43mm}|}{\small{\textbf{Total}}} &
-\multicolumn{1}{|C{43mm}|}{\small{\textbf{Cumul}}} 
-\\ 			 
-\hline   			
+\multicolumn{1}{|C{43mm}|}{\small{\textbf{Cumul}}}
+\\
+\hline
 <?php foreach ($droitsDouane as $droitDouane): ?>
     \multicolumn{1}{|l}{\small{\textbf{<?php echo $droitDouane->code; ?>}}} &
     \multicolumn{1}{|l}{\small{\textbf{<?php echo $droitDouane->libelle; ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($droitDouane->getVolume()).' hl';  ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->taux.' €/hl'; ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->total).' €'; ?>}}} &
-    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->cumul).' €'; ?>}}} 
-    \\ 			 
+    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->cumul).' €'; ?>}}}
+
+    \\
     \hline
-<?php endforeach; ?>  
+<?php endforeach; ?>
 \end{tabular}
 
 \vspace{0.5cm}
 
-<?php if($drm->quantite_sucre): ?>
 \begin{tabular}{|C{138mm}|C{138mm}|}
 \hline
 \multicolumn{2}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Information sur le sucre}}}} \\
 \hline
-\rowcolor{lightgray}\small{\textbf{Taux en quintaux}} & \rowcolor{white}\small{\textbf{<?php echo $drm->quantite_sucre ?>}} \\
-\hline   
+\rowcolor{lightgray}\small{\textbf{Taux de sucre}} & \rowcolor{white}\small{\textbf{\dotfill\dotfill\dotfill}} \\
+\hline
 \end{tabular}
 
 \vspace{0.5cm}
-<?php endif; ?>
 
 <?php if($hasObservations): ?>
 \begin{tabular}{|C{280mm}|}
 \multicolumn{1}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Observations}}}}
-\\ 				 
-\hline   
+\\
+\hline
 \multicolumn{1}{|C{280mm}|}{<?php echo $drm->observations; ?>} \\
-\hline   
+\hline
 \end{tabular}
 
  \vspace{0.5cm}
