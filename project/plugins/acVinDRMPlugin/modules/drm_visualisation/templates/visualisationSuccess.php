@@ -117,14 +117,19 @@
           <table class="table_recap">
             <thead >
                 <tr>
-                    <th><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</label></th>
+                    <th colspan="3"><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</label></th>
                     <th>Valeur proDou@ne</th>
+                    <th>Valeur Interpro</th>
                 </tr>
             </thead>
           <tbody>
-          <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $valeur): ?>
-            <tr><td style="text-align: left; "><?php echo preg_replace('/(\[.+\]) (.+)/',"$1<br/>$2",$problemeSrc); ?></td>
-              <td><?php echo $valeur; ?></td></tr>
+          <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $values): ?>
+              <?php preg_match('/^(\[.+\]) (.+)((entree|sortie|stock).+)$/', $problemeSrc, $matches); ?>
+            <tr><td style="text-align: left; "><?php echo $matches[1]; ?></td>
+              <td style="text-align: left;"><?php echo $matches[2]; ?></td>
+              <td style="text-align: left;"><?php echo $matches[3]; ?></td>
+              <td><?php echo $values[0]; ?></td>
+              <td><?php echo $values[1]; ?></td></tr>
           <?php endforeach; ?>
           </tbody>
         </table>
