@@ -14,7 +14,7 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         parent::configure();
 
         $this->setWidget('siret', new sfWidgetFormInput());
-        $this->setValidator('siret', new sfValidatorString(array('required' => true)));
+        $this->setValidator('siret', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('siret', 'SIRET :');
 
         $this->setWidget('adresse', new sfWidgetFormInput());
