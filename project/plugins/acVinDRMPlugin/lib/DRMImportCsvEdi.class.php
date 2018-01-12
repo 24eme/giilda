@@ -323,7 +323,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     } else {
                         $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
-			
 			if($cat_key == "stocks_debut" && !isset($stocksDebutModifies[$drmDetails->getHash()])) {
                             $oldVolume = 0;
                             $stocksDebutModifies[$drmDetails->getHash()] = true;
