@@ -161,6 +161,9 @@ class Societe extends BaseSociete {
     }
 
     public function setStatut($s) {
+        if($this->getStatut() == $s){
+          return;
+        }
         $this->_set('statut', $s);
         foreach ($this->getEtablissementsObj() as $e) {
             $e->statut = $s;
