@@ -162,7 +162,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             $this->setDefault('enlevement_date', Date::francizeDate($this->getObject()->enlevement_date));
         }
         if (!$this->isTeledeclarationMode && !$this->getObject()->cvo_repartition) {
-            $this->setDefault('cvo_repartition', $this->getObject()->calculCvoRepartition());
+            $this->setDefault('cvo_repartition', VracClient::CVO_REPARTITION_100_NEGO);
         }
     }
 
