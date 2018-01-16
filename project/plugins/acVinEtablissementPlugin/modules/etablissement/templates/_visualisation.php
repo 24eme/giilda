@@ -142,6 +142,10 @@ if (!isset($fromSociete))
                     echo ($etablissement->exist('caution') && $etablissement->caution && $etablissement->exist('raison_sociale_cautionneur'))? " / ".$etablissement->raison_sociale_cautionneur : '';
                  ?>
             </div>
+            <div class="form_ligne">
+                <label>Email télédéclaration :</label>
+                <?php echo ($etablissement->exist('teledeclaration_email')) ? $etablissement->teledeclaration_email : ""; ?>
+            </div>
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
             <div class="form_ligne">
                 <label for="commentaire">
