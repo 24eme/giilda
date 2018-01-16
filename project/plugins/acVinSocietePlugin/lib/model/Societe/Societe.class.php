@@ -153,6 +153,9 @@ class Societe extends BaseSociete {
     }
 
     public function setCooperative($c) {
+        if(boolval($this->_get('cooperative')) == boolval($c)){
+          return;
+        }
         $this->_set('cooperative', $c);
         foreach ($this->getEtablissementsObj() as $e) {
             $e->cooperative = $c;
@@ -161,6 +164,9 @@ class Societe extends BaseSociete {
     }
 
     public function setStatut($s) {
+        if($this->getStatut() == $s){
+          return;
+        }
         $this->_set('statut', $s);
         foreach ($this->getEtablissementsObj() as $e) {
             $e->statut = $s;
@@ -298,7 +304,9 @@ class Societe extends BaseSociete {
         if (($this->changedCooperative) || ($this->changedStatut)) {
             foreach ($this->getEtablissementsObj() as $id => $e) {
                 $e->etablissement->cooperative = $this->cooperative;
-                $e->etablissement->statut = $this->statut;
+                if($this->changedStatut){
+                  $e->etablissement->statut = $this->statut;
+                }
                 $e->etablissement->save(true);
             }
         }
