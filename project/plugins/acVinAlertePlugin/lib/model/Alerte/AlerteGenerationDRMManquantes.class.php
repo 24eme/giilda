@@ -65,6 +65,11 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                 $alerte = AlerteClient::getInstance()->find($alerteView->id);
                 $drm = DRMClient::getInstance()->find($id_document);
                 $etablissement = EtablissementClient::getInstance()->find($alerte->identifiant);
+                if($alerte->date_dernier_statut === true){
+                  $alerte->date_dernier_statut = date('Y-m-d');
+                  $alerte->getStatut()->date = date('Y-m-d');
+                  $alerte = AlerteClient::getInstance()->find($alerte->_id);
+                }
                 if ($drm || ($etablissement->exclusion_drm == EtablissementClient::EXCLUSION_DRM_OUI)) {
                     // PASSAGE AU STATUT FERME
                     $alerte->updateStatut(AlerteClient::STATUT_FERME, AlerteClient::MESSAGE_AUTO_FERME, $this->getDate());
@@ -85,7 +90,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     $today = date('Y-m-d');
                     $relanceAr = Date::supEqual($relanceAr, $alerte->date_relance_ar);
                     if ($relanceAr) {
-                        $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $relanceAr);
+                        $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $today);
                         $alerte->save();
                         echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                     } else {
