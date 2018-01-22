@@ -25,7 +25,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         foreach ($etablissements as $etablissement) {
 
             foreach ($periodes as $periode) {
-                
+
                 $drm_id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);
                 if ($drm_id) {
                     echo $drm_id." traitement drm\n";
@@ -70,7 +70,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     }
                 } elseif ($alerte->isRelancableAR()) {
                     // PASSAGE AU STATUT A_RELANCER_AR
-                    $relanceAr = Date::supEqual($this->getDate(), $alerte->date_relance_ar);
+                    $relanceAr = Date::supEqual(date('Y-m-d'), $alerte->date_relance_ar);
                     if ($relanceAr) {
                         $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
                         $alerte->save();
@@ -142,15 +142,15 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     }
 
     public function creationsByDocumentsIds(array $documents_id, $document_type) {
-        
+
     }
 
     public function isInAlerte($document) {
-        
+
     }
 
     public function updatesByDocumentsIds(array $documents_id, $document_type) {
-        
+
     }
 
     public function getTypeRelance() {
