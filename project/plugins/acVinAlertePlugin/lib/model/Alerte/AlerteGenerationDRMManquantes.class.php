@@ -85,7 +85,7 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     $today = date('Y-m-d');
                     $relanceAr = Date::supEqual($relanceAr, $alerte->date_relance_ar);
                     if ($relanceAr) {
-                        $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $relanceAr);
+                        $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $today);
                         $alerte->save();
                         echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                     } else {
