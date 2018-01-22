@@ -26,11 +26,17 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
 
         $etablissements = $this->getEtablissementsByTypeDR(EtablissementClient::TYPE_DR_DRA);
         echo "etablissements définies\n";
-
+        $i=0;
         foreach ($etablissements as $etablissement) {
 
             foreach ($campagne_periode_arr as $campagne => $campagne_periode) {
-                sleep(0.1);
+              $i++;
+
+              if($i > 200) {
+                sleep(1);
+                $i = 0;
+              }
+
                 $dra = $this->isDraInCampagneArray($etablissement->identifiant, $campagne_periode);
                 if ($dra) {
                     continue;
@@ -51,8 +57,15 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
     }
 
     public function updates() {
+        $i=0;
         foreach ($this->getAlertesOpen() as $alerteView) {
-            sleep(0.1);
+
+            $i++;
+
+            if($i > 200) {
+              sleep(1);
+              $i = 0;
+            }
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
 
             $alerte = AlerteClient::getInstance()->find($alerteView->id);
@@ -75,9 +88,10 @@ class AlerteGenerationDRAManquante extends AlerteGenerationDRM {
                 }
             } elseif ($alerte->isRelancableAR()) {
                 // PASSAGE AU STATUT A_RELANCER_AR
-                $relanceAr = Date::supEqual(date('Y-m-d'), $alerte->date_relance_ar);
+                $today = date('Y-m-d');
+                $relanceAr = Date::supEqual($today, $alerte->date_relance_ar);
                 if ($relanceAr) {
-                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
+                    $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $today);
                     $alerte->save();
                     echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                 } else {

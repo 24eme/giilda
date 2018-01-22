@@ -22,10 +22,16 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
         $etablissements = $this->getEtablissementsByTypeDR(EtablissementClient::TYPE_DR_DRM);
         echo "etablissements définies\n";
 
+        $i=0;
         foreach ($etablissements as $etablissement) {
 
             foreach ($periodes as $periode) {
+              $i++;
 
+              if($i > 200) {
+                sleep(1);
+                $i = 0;
+              }
                 $drm_id = DRMClient::getInstance()->buildId($etablissement->identifiant, $periode);
                 if ($drm_id) {
                     echo $drm_id." traitement drm\n";
@@ -46,8 +52,14 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
     }
 
     public function updates() {
+        $i=0;
         foreach ($this->getAlertesOpen() as $alerteView) {
-            sleep(0.1);
+            $i++;
+
+            if($i > 200) {
+              sleep(1);
+              $i = 0;
+            }
             $id_document = $alerteView->key[AlerteHistoryView::KEY_ID_DOCUMENT_ALERTE];
             if ($id_document) {
                 $alerte = AlerteClient::getInstance()->find($alerteView->id);
@@ -70,9 +82,10 @@ class AlerteGenerationDRMManquantes extends AlerteGenerationDRM {
                     }
                 } elseif ($alerte->isRelancableAR()) {
                     // PASSAGE AU STATUT A_RELANCER_AR
-                    $relanceAr = Date::supEqual(date('Y-m-d'), $alerte->date_relance_ar);
+                    $today = date('Y-m-d');
+                    $relanceAr = Date::supEqual($relanceAr, $alerte->date_relance_ar);
                     if ($relanceAr) {
-                        $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $this->getDate());
+                        $alerte->updateStatut(AlerteClient::STATUT_A_RELANCER_AR, AlerteClient::MESSAGE_AUTO_RELANCE_AR, $relanceAr);
                         $alerte->save();
                         echo "L'ALERTE " . $alerte->_id . " passe au statut à relancer ar\n";
                     } else {
