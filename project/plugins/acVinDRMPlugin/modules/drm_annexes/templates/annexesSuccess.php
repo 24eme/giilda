@@ -28,12 +28,12 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                             </div>
                             <div class="col-xs-1 text-right">
                               <a role="button" >
-                                &nbsp;<span class="glyphicon<?php echo ($drm->hasAnnexes())? ' glyphicon-chevron-down' : ' glyphicon-chevron-right' ?>" style="padding-top: 4px;" ></span>
+                                &nbsp;<span class="glyphicon<?php echo (1 || $drm->hasAnnexes())? ' glyphicon-chevron-down' : ' glyphicon-chevron-right' ?>" style="padding-top: 4px;" ></span>
                               </a>
                             </div>
                           </div>
                         </div>
-                        <div id="collapse_documents" class="panel-collapse collapse<?php echo ($drm->hasAnnexes())? ' in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_documents">
+                        <div id="collapse_documents" class="panel-collapse collapse<?php echo (1 || $drm->hasAnnexes())? ' in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_documents">
                           <div class="panel-body">
                             <p><?php echo getPointAideText('drm','annexe_document_accompagnement'); ?></p>
                             <table id="table_drm_adminitration" class="table table-bordered table-striped">
