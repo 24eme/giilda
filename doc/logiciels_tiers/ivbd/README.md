@@ -36,8 +36,3 @@ Un exemple spécifique de DRM à importer pour le portail d'IVBD est disponible 
 
 Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 
-## Suivi du projet chez les éditeurs de registres de cave
-
-| Nom de l'Éditeur | Prise de contact | Génération du fichier de transfert | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
-|------------------|------------------|-----------------------------------|---------------------------------------|------------------------------------------------------|----------------------|
-| |  | |  |  |  |
