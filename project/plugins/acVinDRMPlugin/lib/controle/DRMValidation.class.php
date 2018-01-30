@@ -198,6 +198,7 @@ class DRMValidation extends DocumentValidation {
                 }
             }
         }
+      if ($this->isTeledeclarationDrm) {
         foreach ($vrac_liste as $idVrac => $vracNode) {
           $vracDoc = VracClient::getInstance()->find($idVrac);
           if($vracDoc->getVendeurIdentifiant() != $vracNode->getDocument()->getIdentifiant()){
@@ -212,6 +213,7 @@ class DRMValidation extends DocumentValidation {
             $this->addPoint('erreur', 'vrac_type_correct', $detail->getLibelle(), $this->generateUrl('drm_edition',$this->document));
           }
         }
+      }
     }
 
 }
