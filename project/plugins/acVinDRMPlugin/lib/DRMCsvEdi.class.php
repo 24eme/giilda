@@ -7,6 +7,7 @@ class DRMCsvEdi extends CsvFile {
     public $countryList = array();
 
     const STATUT_ERREUR = 'ERREUR';
+    const STATUT_ERROR = 'ERROR';
     const STATUT_VALIDE = 'VALIDE';
     const STATUT_WARNING = 'WARNING';
     const TYPE_CAVE = 'CAVE';
