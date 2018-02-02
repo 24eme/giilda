@@ -234,13 +234,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     if ($isEmptyArray){
                       if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                      && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                      && (strpos($libelleCompletConfAOC, $libelleCompletEnCsv) === false) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                       && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
                         continue;
                       }
                     }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
                         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                        && (strpos($libelleCompletConfAOC, $libelleCompletEnCsv) === false) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                         && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
                         continue;
                     }
@@ -298,7 +298,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     if ($confDetailMvt->hasDetails()) {
                         $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
-                        if ($type_key == 'export') {
+                        if ($type_key == 'export' || $confDetailMvt->getKey() == 'exporttaxe') {
                             $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
                             $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->getOrAdd($pays,null);
                             if ($detailNode->volume) {
@@ -329,7 +329,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                 } else {
                     if ($confDetailMvt->hasDetails()) {
-                        if ($confDetailMvt->getKey() == 'export') {
+                        if ($confDetailMvt->getKey() == 'export' || $confDetailMvt->getKey() == 'exporttaxe') {
                             $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
                               if (!$pays) {
                                 $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
@@ -350,13 +350,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                               $num_ligne++;
                               continue;
                             }
-                        }
-                        $vrac_id = $this->findContratDocId($csvRow);
-
-                        if(!$vrac_id) {
-                          $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
-                          $num_ligne++;
-                          continue;
                         }
                     }
                 }
