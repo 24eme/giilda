@@ -23,6 +23,12 @@ if($nbProdByDetailsNode): ?>
 <?php if ($drm->isNeant()): ?>
     \begin{center}
     \begin{Large}
+    \textbf{DRM <?php echo $libelleDetail; ?> <?php echo getFrPeriodeElision($drm->periode); ?>}
+      \textbf{}
+    \end{Large}
+    \end{center}
+    \begin{center}
+    \begin{Large}
     \textbf{Aucun mouvement à déclarer ce mois-ci}
     \end{Large}
     \end{center}

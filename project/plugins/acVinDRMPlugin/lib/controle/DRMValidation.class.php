@@ -18,6 +18,9 @@ class DRMValidation extends DocumentValidation {
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
         }else{
            $this->addControle('erreur', 'replacement_date_manquante', "Les dates de sorties des produits en replacement sont obligatoires");
+           $this->addControle('erreur', 'vrac_vendeur_correct', "Le contrat identifié n'est pas le bon contrat");
+           $this->addControle('erreur', 'vrac_produit_correct', "Le contrat identifié ne possède pas le même produit");
+           $this->addControle('erreur', 'vrac_type_correct', "Le contrat identifié n'est pas un contrat de raisin ou de moût");
         }
         $this->addControle('erreur', 'frequence_paiement_absent', "La fréquence de paiement aux douanes n'a pas été renseigné");
         $this->addControle('erreur', 'paiement_annuelle_cumul_null', "Le cumul des droits douanier doit être saisi une première fois");
@@ -161,6 +164,7 @@ class DRMValidation extends DocumentValidation {
         }
 
         $sortiesDocAnnexes = array();
+        $vrac_liste = array();
         foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
             if (count($detail->sorties->export_details)) {
                 foreach ($detail->sorties->export_details as $paysCode => $export) {
@@ -171,6 +175,7 @@ class DRMValidation extends DocumentValidation {
             }
             if (count($detail->sorties->vrac_details)) {
                 foreach ($detail->sorties->vrac_details as $num_vrac => $vrac) {
+                    $vrac_liste[$num_vrac] = $vrac;
                     if ($vrac->numero_document) {
                         $sortiesDocAnnexes[$vrac->type_document] = $vrac->numero_document;
                     }
@@ -193,6 +198,22 @@ class DRMValidation extends DocumentValidation {
                 }
             }
         }
+      if ($this->isTeledeclarationDrm) {
+        foreach ($vrac_liste as $idVrac => $vracNode) {
+          $vracDoc = VracClient::getInstance()->find($idVrac);
+          if($vracDoc->getVendeurIdentifiant() != $vracNode->getDocument()->getIdentifiant()){
+            $this->addPoint('erreur', 'vrac_vendeur_correct', $detail->getLibelle(), $this->generateUrl('drm_edition',$this->document));
+          }
+          if($vracNode->getProduitDetail()->getCepage()->getHash() != $vracDoc->getConfigProduit()->getHash()){
+            $this->addPoint('erreur', 'vrac_produit_correct', $detail->getLibelle(), $this->generateUrl('drm_edition',$this->document));
+          }
+          $isRaisinMout = (($vracDoc->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) ||
+                  ($vracDoc->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
+          if($isRaisinMout){
+            $this->addPoint('erreur', 'vrac_type_correct', $detail->getLibelle(), $this->generateUrl('drm_edition',$this->document));
+          }
+        }
+      }
     }
 
 }
