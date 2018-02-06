@@ -36,7 +36,7 @@ $csvDoc = $drmCsvEdi->getCsvDoc();
             <?php foreach ($csvDoc->erreurs as $erreur) : ?>
                 <tr>
                     <td><?php echo $erreur->num_ligne; ?></td>
-                    <td style="<?php echo ($csvDoc->statut == DRMCsvEdi::STATUT_ERREUR) ? "color: darkred;" : "color: goldenrod;"; ?>" ><?php echo $erreur->csv_erreur; ?></td>
+                    <td style="<?php echo ($csvDoc->statut == DRMCsvEdi::STATUT_ERROR) ? "color: darkred;" : "color: goldenrod;"; ?>" ><?php echo $erreur->csv_erreur; ?></td>
                     <td style="color: darkgray"><?php echo $erreur->diagnostic; ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -47,7 +47,7 @@ $csvDoc = $drmCsvEdi->getCsvDoc();
         <a class="btn_etape_prec" href="<?php echo url_for('drm_societe', array('identifiant' => $identifiant)); ?>">
             <span>Précédent</span>
         </a>
-        <?php if ($csvDoc->statut != DRMCsvEdi::STATUT_ERREUR): ?>
+        <?php if ($csvDoc->statut != DRMCsvEdi::STATUT_ERROR): ?>
             <a href="<?php echo url_for('drm_creation_fichier_edi', array('periode' => $periode, 'md5' => $md5, 'identifiant' => $identifiant)); ?>" class="btn_majeur btn_vert" style="float: right;">Importer la DRM</a>
         <?php endif; ?>
     </div>

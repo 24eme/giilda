@@ -98,8 +98,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         public function checkCSV() {
             $this->csvDoc->clearErreurs();
             $this->checkCSVIntegrity();
-            if ($this->csvDoc->hasErreurs()) {
-                $this->csvDoc->setStatut(self::STATUT_ERREUR);
+            if ($this->csvDoc->hasErreurs(self::STATUT_ERROR)) {
+                $this->csvDoc->setStatut(self::STATUT_ERROR);
                 $this->csvDoc->save();
                 return;
             }
@@ -109,8 +109,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $this->checkImportMouvementsFromCSV();
             // Check Crds
             $this->checkImportCrdsFromCSV();
-
-            if ($this->csvDoc->hasErreurs()) {
+            if ($this->csvDoc->hasErreurs(self::STATUT_ERROR)) {
+                $this->csvDoc->setStatut(self::STATUT_ERROR);
+                $this->csvDoc->save();
+                return;
+            }
+            if ($this->csvDoc->hasErreurs(self::STATUT_WARNING)) {
                 $this->csvDoc->setStatut(self::STATUT_WARNING);
                 $this->csvDoc->save();
                 return;
@@ -281,15 +285,36 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     continue;
                 }
                 $confDetailMvt = $this->mouvements[$detailNode][$cat_mouvement][$type_mouvement];
-
+                $cat_key = $confDetailMvt->getParent()->getKey();
+                $type_key = $confDetailMvt->getKey();
+                if ($confDetailMvt->hasDetails() && $type_key == 'vrac' || $type_key == 'contrat') {
+                  $identifiantContrat = $this->findContratDocId($csvRow);
+                  $vracObj = VracClient::getInstance()->find($identifiantContrat);
+                  if($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]){
+                    $this->csvDoc->addErreur($this->vracNotFoundError($num_ligne, $csvRow));
+                    $num_ligne++;
+                    continue;
+                  }
+                  if(preg_replace('/ /', "", $founded_produit->getLibelleFormat()) != preg_replace('/ /', "",$vracObj->getConfigProduit()->getLibelleFormat())){
+                    $this->csvDoc->addErreur($this->vracProduitNotConformError($num_ligne, $csvRow));
+                    $num_ligne++;
+                    continue;
+                  }
+                  $isRaisinMout = (($vracObj->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) ||
+                          ($vracObj->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
+                  if($isRaisinMout){
+                    $this->csvDoc->addErreur($this->vracTypeNotConformError($num_ligne, $csvRow));
+                    $num_ligne++;
+                    continue;
+                  }
+                }
                 if (!$just_check) {
                     $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))]);
 
                     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
                     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
 
-                    $cat_key = $confDetailMvt->getParent()->getKey();
-                    $type_key = $confDetailMvt->getKey();
+
                     if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
                         continue;
                     }
@@ -755,6 +780,27 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est vide ou mal formatté.",
                                       CSVClient::LEVEL_WARNING);
+        }
+
+        private function vracNotFoundError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      $csvRow[self::CSV_IDENTIFIANT],
+                                      "Le contrat n'a pas été trouvé",
+                                      CSVClient::LEVEL_ERROR);
+        }
+
+        private function vracTypeNotConformError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      $csvRow[self::CSV_CAVE_LIBELLE_COMPLET],
+                                      "Le contrat est un contrat de raisin ou de moût.",
+                                      CSVClient::LEVEL_ERROR);
+        }
+
+        private function vracProduitNotConformError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      $csvRow[self::CSV_CAVE_LIBELLE_COMPLET],
+                                      "Le produit du contrat n'est pas celui décrit.",
+                                      CSVClient::LEVEL_ERROR);
         }
 
         private function createError($num_ligne, $erreur_csv, $raison, $level = null) {
