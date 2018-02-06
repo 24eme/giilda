@@ -25,9 +25,9 @@ class DRMEtablissementCampagneForm extends sfForm
     return parent::__construct();
   }
 
-  private function getChoiceCampagnes() { 
+  private function getChoiceCampagnes() {
 
-      $campagnes = ($this->isTeledeclarationMode)? array( '2016-2017' => '2016-2017' , '2015-2016' => '2015-2016','2014-2015' => '2014-2015')
+      $campagnes = ($this->isTeledeclarationMode)? array('2017-2018' => '2017-2018' , '2016-2017' => '2016-2017' , '2015-2016' => '2015-2016','2014-2015' => '2014-2015')
              : DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
 
       return array_merge(array('-1' => 'les derniers mois'),$campagnes);
