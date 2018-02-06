@@ -13,9 +13,9 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('erreur', 'repli', "La somme des replis en entrée et en sortie n'est pas la même");
         $this->addControle('erreur', 'declassement', "La somme des déclassements en entrée et en sortie n'est pas la même");
         $this->addControle('erreur', 'regime_crd', "Le régime CRD n'a pas été rempli");
+        $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('erreur', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
-            $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
         }else{
            $this->addControle('erreur', 'replacement_date_manquante', "Les dates de sorties des produits en replacement sont obligatoires");
            $this->addControle('erreur', 'vrac_vendeur_correct', "Le contrat identifié n'est pas le bon contrat");
