@@ -6,11 +6,11 @@
 <<
 /Fields [
 <<
-/V (<?php echo $etablissement->getSociete()->siret ?>)
+/V (<?php echo $etablissement->siret ?>)
 /T (siret)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->siege->adresse.' '.$etablissement->getSociete()->siege->adresse_complementaire ?>)
+/V (<?php echo $etablissement->siege->adresse.' '.$etablissement->siege->adresse_complementaire ?>)
 /T (irs_adresse)
 >> 
 <<
@@ -18,7 +18,7 @@
 /T (interpro)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->getMasterCompte()->email ?>)
+/V (<?php echo ($etablissement->teledeclaration_email)? $etablissement->teledeclaration_email : $etablissement->getSociete()->getMasterCompte()->email ?>)
 /T (email)
 >> 
 <<
@@ -46,11 +46,11 @@
 /T (iea0)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->siege->code_postal.' '.$etablissement->getSociete()->siege->commune ?>)
+/V (<?php echo $etablissement->siege->code_postal.' '.$etablissement->siege->commune ?>)
 /T (irs_commune)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->siret ?>)
+/V (<?php echo $etablissement->siret ?>)
 /T (isiret)
 >> 
 <<
@@ -58,7 +58,7 @@
 /T (prenom)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->raison_sociale ?>)
+/V (<?php echo $etablissement->raison_sociale ?>)
 /T (irs)
 >> 
 <<
@@ -66,7 +66,7 @@
 /T (fonction)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->raison_sociale ?>)
+/V (<?php echo $etablissement->raison_sociale ?>)
 /T (rs)
 >> 
 <<
@@ -98,7 +98,7 @@
 /T (cvi3)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->siege->code_postal.' '.$etablissement->getSociete()->siege->commune ?>)
+/V (<?php echo $etablissement->siege->code_postal.' '.$etablissement->siege->commune ?>)
 /T (rs_commune)
 >> 
 <<
@@ -146,7 +146,7 @@
 /T (hanompren)
 >> 
 <<
-/V (<?php echo $etablissement->getSociete()->siege->adresse.' '.$etablissement->getSociete()->siege->adresse_complementaire ?>)
+/V (<?php echo $etablissement->siege->adresse.' '.$etablissement->siege->adresse_complementaire ?>)
 /T (rs_adresse)
 >> 
 <<

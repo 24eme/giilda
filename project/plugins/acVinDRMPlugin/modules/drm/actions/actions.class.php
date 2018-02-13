@@ -468,9 +468,8 @@ class drmActions extends drmGeneriqueActions {
 
     protected function generateConventionCielPdf($etablissement) {
 
-    	$compte = $etablissement->getSociete()->getMasterCompte();
     	$path = sfConfig::get('sf_data_dir').'/convention';
-    	$filename = 'convention_ciel_'.$compte->identifiant.'_'.$compte->_rev.'.pdf';
+    	$filename = 'convention_ciel_'.$etablissement->identifiant.'_'.$etablissement->_rev.'.pdf';
 
     	if (!file_exists($path.'/pdf/'.$filename)) {
     		$template = 'template_convention_'.sfConfig::get('app_teledeclaration_interpro').'.pdf';
