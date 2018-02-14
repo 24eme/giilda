@@ -73,8 +73,10 @@ class DRMValidation extends DocumentValidation {
                 }
               }
 
-              if($detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
+              if($detail->entrees->exist('repli')) {
                 $total_entrees_replis += $detail->entrees->repli;
+              }
+              if ($detail->sorties->exist('repli')){
                 $total_sorties_replis += $detail->sorties->repli;
               }
 
@@ -90,7 +92,7 @@ class DRMValidation extends DocumentValidation {
                   $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle().' ('.$libelleDetail.')', $this->generateUrl('drm_edition_details', array('sf_subject' => $this->document, 'details' => $nodeKey)));
               }
               if (!$detail->getConfig()->entrees->exist('transfertsrecolte')) {
-                  break;
+                  continue;
               }
 
               $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
