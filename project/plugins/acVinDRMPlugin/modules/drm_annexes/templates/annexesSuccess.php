@@ -28,12 +28,12 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                             </div>
                             <div class="col-xs-1 text-right">
                               <a role="button" >
-                                &nbsp;<span class="glyphicon  <?php echo ($drm->hasAnnexes())? 'glyphicon-chevron-down' : 'glyphicon-chevron-right' ?> " style="padding-top: 4px;" ></span>
+                                &nbsp;<span class="glyphicon<?php echo (1 || $drm->hasAnnexes())? ' glyphicon-chevron-down' : ' glyphicon-chevron-right' ?>" style="padding-top: 4px;" ></span>
                               </a>
                             </div>
                           </div>
                         </div>
-                        <div id="collapse_documents" class="panel-collapse collapse <?php echo ($drm->hasAnnexes())? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_documents">
+                        <div id="collapse_documents" class="panel-collapse collapse<?php echo (1 || $drm->hasAnnexes())? ' in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_documents">
                           <div class="panel-body">
                             <p><?php echo getPointAideText('drm','annexe_document_accompagnement'); ?></p>
                             <table id="table_drm_adminitration" class="table table-bordered table-striped">
@@ -46,6 +46,10 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                     </tr>
                                 </thead>
                                 <tbody class="drm_adminitration">
+                                        <tr>
+                                          <td style="vertical-align: middle;" class="drm_annexes_type">DAE</td>
+                                          <td colspan="3" style="text-align: center;"><b>Déclaration non nécessaire pour les documents életroniques réalisés sous Gamma</b></td>
+                                      </tr>
                                     <?php foreach ($annexesForm->getDocTypes() as $typeDoc): ?>
                                         <tr>
                                             <td style="vertical-align: middle;" class="drm_annexes_type"><?php echo DRMClient::$drm_documents_daccompagnement[$typeDoc]; ?><?php echo getPointAideHtml('drm','annexe_'.strtolower($typeDoc)) ?></td>
@@ -72,12 +76,12 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                             </div>
                             <div class="col-xs-1 text-right">
                               <a role="button">
-                                &nbsp;<span class="glyphicon  <?php echo (count($annexesForm['releve_non_apurement']))? 'glyphicon-chevron-down' : 'glyphicon-chevron-right' ?> " style="padding-top: 4px;" ></span>
+                                &nbsp;<span class="glyphicon <?php echo ($drm->hasReleveNonApurement())? ' glyphicon-chevron-down' : ' glyphicon-chevron-right' ?>" style="padding-top: 4px;" ></span>
                               </a>
                             </div>
                           </div>
                         </div>
-                        <div id="collapse_apurement" class="panel-collapse collapse <?php echo (count($annexesForm['releve_non_apurement']))? 'in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_apurement">
+                        <div id="collapse_apurement" class="panel-collapse collapse<?php echo ($drm->hasReleveNonApurement())? ' in' : '' ?>" role="tabpanel" aria-labelledby="drm_annexes_apurement">
                         <div class="panel-body">
                         <p><?php echo getPointAideText('drm','annexe_nonapurement'); ?><p/>
                           <table id="table_drm_non_apurement" class="table table-bordered table-striped">
@@ -180,23 +184,31 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         <table class="table table-bordered table-striped">
                             <thead >
                               <tr>
-                                  <th class="col-xs-5" >Produits</th>
-                                  <th class="col-xs-7" >Observations</th>
+                                  <th class="col-xs-4">Produits</th>
+                                  <th class="col-xs-8">Observations</th>
                               </tr>
                             </thead>
                             <tbody class="drm_non_apurement" id="nonapurement_list">
                                 <?php foreach ($annexesForm['observationsProduits'] as $formObservations): ?>
                                   <?php if(isset($formObservations['observations'])): ?>
                                   <tr>
-                                    <td class="col-xs-5" ><?php echo $formObservations['observations']->renderLabel() ?></td>
-                                    <td class="col-xs-7" >
+                                    <td class="col-xs-4" ><?php echo $formObservations['observations']->renderLabel() ?></td>
+                                    <td class="col-xs-8" >
+                                      <div class="row">
+                                          <div class="col-xs-12">
                                           <?php echo $formObservations['observations']->renderError() ?>
                                           <?php echo $formObservations['observations']->render(array("maxlength" => "250", "style" => "width: 95%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset; border-radius: 3px; border: 0px none; padding: 5px;", "rows" => "2")) ?><br/>
-                                          <?php if (isset($formObservations['replacement'])): ?>
-                                          <?php echo $formObservations['replacement']->renderError(); ?>
-                                          <?php echo $formObservations['replacement']->renderLabel(); ?>
-                                          <?php echo $formObservations['replacement']->render(); ?><br/>
+                                          </div>
+                                          <?php if (isset($formObservations['replacement_date'])): ?>
+                                            <div class="col-xs-6">
+                                            <?php echo $formObservations['replacement_date']->renderError(); ?>
+                                            <?php echo $formObservations['replacement_date']->renderLabel(); ?>
+                                            </div>
+                                            <div class="col-xs-5">
+                                            <?php echo $formObservations['replacement_date']->render(); ?><br/>
+                                            </div>
                                           <?php endif; ?>
+                                        </div>
                                         </td>
                                   </tr>
                                   <?php endif; ?>

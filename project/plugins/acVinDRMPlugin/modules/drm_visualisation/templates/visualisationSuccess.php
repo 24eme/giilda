@@ -88,15 +88,74 @@
 <?php if ($drm->exist('transmission_douane') && $drm->transmission_douane): ?>
 <div class="row">
   <div class="col-xs-12">
-    <h3>Transmission sur le portail proDou@ane</h3>
-    <?php if ($drm->transmission_douane->success) : ?>
-      <p>La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.</p>
-    <?php else: ?>
-      <p>La transmission a échouée. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».</p>
-    <?php endif; ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">Transmission proDou@ane</h3>
+        </div>
+        <div class="panel-content>">
+            <table class="table table-striped table-condensed">
+                <tbody>
+                  <tr>
+                      <td class="col-xs-4">Transmission (<?php echo link_to('XML transmis', 'drm_xml', $drm); ?>)</td>
+                      <td class="col-xs-8">
+                        <?php if ($drm->transmission_douane->success) : ?>
+                          La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
+                        <?php else: ?>
+                          La transmission a échouée. Le(s) message(s) d'erreur envoyé(s) par le portail des douanes sont :
+                          <ul><li> «&nbsp;<?php echo implode('&nbsp;»</li><li>«&nbsp;', explode('.', $drm->getTransmissionErreur())); ?>&nbsp;» </li></ul>.
+                        <?php endif; ?>
+                      </td>
+                  </tr>
+                  <?php if (!$isTeledeclarationMode): ?>
+                    <?php if (is_null($drm->transmission_douane->coherente)) : ?>
+                      <tr><td>Retour XML</td><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
+                    <?php elseif($drm->transmission_douane->coherente): ?>
+                      <tr><td>Retour XML</td><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                    <?php else: ?>
+                      <tr><td>Retour XML</td><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
+                    <?php endif; ?>
+                  <?php endif; ?>
+                </tbody>
+              </table>
+      </div>
+    </div>
   </div>
 </div>
 <?php endif; ?>
+
+<?php if (!$isTeledeclarationMode && $drm->exist('transmission_douane') && $drm->transmission_douane->coherente === false): ?>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title text-center">Rapport du retour XML proDou@ane</h3>
+        </div>
+        <div class="panel-content>">
+            <table class="table table-striped table-condensed">
+                <tbody>
+                  <tr>
+                    <td colspan="3">Identification du problème rencontré (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</td>
+                    <td>Valeur proDou@ne</td>
+                    <th>Valeur Interpro</th>
+                  </tr>
+                  <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $values): ?>
+                      <?php preg_match('/^(\[.+\]) (.+)((entree|sortie|stock).+)$/', $problemeSrc, $matches); ?>
+                    <tr>
+                      <td><?php echo $matches[1]; ?></td>
+                      <td><?php echo $matches[2]; ?></td>
+                      <td><?php echo $matches[3]; ?></td>
+                      <td><?php echo $values[0]; ?></td>
+                      <td><?php echo $values[1]; ?></td></tr>
+                  <?php endforeach; ?>
+                </tbody>
+            </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
+
 <br/><br/>
 <div class="row">
     <div class="col-xs-4">
@@ -117,6 +176,8 @@
     <?php if(isset($compte) && $compte && $compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
       <?php if (!$drm->transmission_douane->success) : ?>
         <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn btn-success" ><span>Transmettre la Drm sur CIEL</span></a>
+      <?php else: ?>
+        <a style="margin-left: 5px;" href="https://pro.douane.gouv.fr/" class="btn btn-success" ><span>Se rendre sur Pro Dou@ne</span></a>
       <?php endif; ?>
     <?php endif; ?>
   </div>

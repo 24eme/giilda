@@ -37,12 +37,17 @@ EOF;
         try {
           $drm = DRMClient::storeXMLRetourFromURL($arguments['url'], $options['verbose'], $options['force-update']);
           if ($drm) { //Si pas $drm c'est qu'il y avait déjà le même XML
-            echo $drm->_id." mis à jour avec la DRM de retour attachée\n";
+            echo $drm->_id." retour xml attaché à la DRM xml=".$arguments['url']." \n";
             return 0;
           }else{
+            echo "L'xml d'url ".$arguments['url']." a déjà été attaché \n";
             return 1;
           }
         }catch(sfException $e) {
+          if($e->getCode()){
+            echo strstr($e->getMessage(), ' ',true)." Erreur ".$arguments['url']. " : " .strstr($e->getMessage(), ' ')."\n";
+            return 1;
+          }
           echo "Erreur ".$arguments['url']. " : " .$e->getMessage()."\n";
           return 200;
         }
@@ -50,13 +55,13 @@ EOF;
 
       $drm = DRMClient::getInstance()->find($options['drmid']);
       if (!$drm) {
-        echo "ERROR: DRM ".$options['drmid']." not found\n";
+        echo "ERREUR: DRM ".$options['drmid']." non trouvée\n";
         return 201;
       }
       $drm->storeXMLRetour(file_get_contents($arguments['url']));
       echo $drm->_id." mis à jour avec la DRM de retour attachée\n";
       return 0;
-      
+
     }
 
 }
