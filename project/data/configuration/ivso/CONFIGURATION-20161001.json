@@ -374,6 +374,12 @@
                                            "taux": "3.77",
                                            "code": "L387",
                                            "libelle": "Vins Tranquilles"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "3.78",
+                                           "code": "DOUANE",
+                                           "libelle": "Douane"
                                        }
                                    ],
                                    "cvo": [
@@ -21422,6 +21428,12 @@
                                            "taux": "9.33",
                                            "code": "L385",
                                            "libelle": "Vins Mousseux"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "9.35",
+                                           "code": "L385",
+                                           "libelle": "Vins Mousseux"
                                        }
                                    ],
                                    "cvo": [
@@ -21680,6 +21692,12 @@
                                            "taux": "3.77",
                                            "code": "L387",
                                            "libelle": "Vins Tranquilles"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "3.78",
+                                           "code": "DOUANE",
+                                           "libelle": "Douane"
                                        }
                                    ],
                                    "cvo": [
@@ -25745,6 +25763,12 @@
                                            "taux": "9.33",
                                            "code": "L385",
                                            "libelle": "Vins Mousseux"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "9.35",
+                                           "code": "L385",
+                                           "libelle": "Vins Mousseux"
                                        }
                                    ],
                                    "cvo": [
@@ -26093,6 +26117,12 @@
                                            "taux": "3.77",
                                            "code": "L387",
                                            "libelle": "Vins Tranquilles"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "3.78",
+                                           "code": "DOUANE",
+                                           "libelle": "Douane"
                                        }
                                    ],
                                    "cvo": [
@@ -29323,6 +29353,12 @@
                                            "taux": "9.33",
                                            "code": "L385",
                                            "libelle": "Vins Mousseux"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "9.35",
+                                           "code": "L385",
+                                           "libelle": "Vins Mousseux"
                                        }
                                    ],
                                    "cvo": [
@@ -31572,7 +31608,7 @@
                        }
                    },
                    "PET": {
-                       "libelle": "Pétillants",
+                       "libelle": null,
                        "format_libelle": null,
                        "code": "PET",
                        "code_produit": null,
@@ -32228,6 +32264,12 @@
                                            "taux": "3.77",
                                            "code": "DOUANE",
                                            "libelle": "Douane"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "3.78",
+                                           "code": "DOUANE",
+                                           "libelle": "Douane"
                                        }
                                    ],
                                    "cvo": [
@@ -32518,6 +32560,12 @@
                                                    "taux": "9.33",
                                                    "code": "DOUANE",
                                                    "libelle": "Douane"
+                                               },
+                                               {
+                                                   "date": "2018-01-01",
+                                                   "taux": "9.35",
+                                                   "code": "L385",
+                                                   "libelle": "Vins Mousseux"
                                                }
                                            ],
                                            "cvo": [
