@@ -1,6 +1,5 @@
 {
    "_id": "CONFIGURATION-20161001",
-   "_rev": "55-c2184b493ae76643cc791eb7cfa69ccf,
    "type": "Configuration",
    "campagne": null,
    "labels": {
@@ -29619,7 +29618,7 @@
                                "droits": {
                                    "douane": [
                                        {
-                                           "date": "2017-01-01T00:00:00+01:00",
+                                           "date": "1900-01-01",
                                            "taux": 0,
                                            "code": "DOUANE",
                                            "libelle": "Douane"
@@ -30548,7 +30547,7 @@
                                        "droits": {
                                            "douane": [
                                                {
-                                                   "date": "1900-01-01T00:00:00+01:00",
+                                                   "date": "1900-01-01",
                                                    "taux": -1,
                                                    "code": "DOUANE",
                                                    "libelle": "Douane"
@@ -30642,12 +30641,7 @@
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
                                                                            "douane": [
-                                                                               {
-                                                                                   "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "0",
-                                                                                   "code": "DOUANE",
-                                                                                   "libelle": "Douane"
-                                                                               }
+
                                                                            ],
                                                                            "cvo": [
                                                                            ]
@@ -30693,12 +30687,6 @@
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
                                                                            "douane": [
-                                                                               {
-                                                                                   "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "0",
-                                                                                   "code": "DOUANE",
-                                                                                   "libelle": "Douane"
-                                                                               }
                                                                            ],
                                                                            "cvo": [
                                                                            ]
