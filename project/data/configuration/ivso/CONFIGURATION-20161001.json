@@ -1,5 +1,6 @@
 {
    "_id": "CONFIGURATION-20161001",
+   "_rev": "55-c2184b493ae76643cc791eb7cfa69ccf,
    "type": "Configuration",
    "campagne": null,
    "labels": {
@@ -29619,7 +29620,7 @@
                                    "douane": [
                                        {
                                            "date": "2017-01-01T00:00:00+01:00",
-                                           "taux": "0",
+                                           "taux": 0,
                                            "code": "DOUANE",
                                            "libelle": "Douane"
                                        }
@@ -30073,7 +30074,7 @@
                                            "douane": [
                                                {
                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                   "taux": "188.41",
+                                                   "taux": 0,
                                                    "code": "DOUANE",
                                                    "libelle": "Douane"
                                                }
@@ -30288,7 +30289,7 @@
                                            "douane": [
                                                {
                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                   "taux": "188.41",
+                                                   "taux": 0,
                                                    "code": "DOUANE",
                                                    "libelle": "Douane"
                                                }
@@ -30548,7 +30549,7 @@
                                            "douane": [
                                                {
                                                    "date": "1900-01-01T00:00:00+01:00",
-                                                   "taux": "-1",
+                                                   "taux": -1,
                                                    "code": "DOUANE",
                                                    "libelle": "Douane"
                                                }
@@ -30643,7 +30644,7 @@
                                                                            "douane": [
                                                                                {
                                                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "188.41",
+                                                                                   "taux": "0",
                                                                                    "code": "DOUANE",
                                                                                    "libelle": "Douane"
                                                                                }
@@ -30694,7 +30695,7 @@
                                                                            "douane": [
                                                                                {
                                                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "188.41",
+                                                                                   "taux": "0",
                                                                                    "code": "DOUANE",
                                                                                    "libelle": "Douane"
                                                                                }
@@ -30880,7 +30881,7 @@
                                                                            "douane": [
                                                                                {
                                                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "1737.27",
+                                                                                   "taux": 0,
                                                                                    "code": "DOUANE",
                                                                                    "libelle": "Douane"
                                                                                }
@@ -31005,7 +31006,7 @@
                                                                            "douane": [
                                                                                {
                                                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "1737.27",
+                                                                                   "taux": 0,
                                                                                    "code": "DOUANE",
                                                                                    "libelle": "Douane"
                                                                                }
@@ -31130,7 +31131,7 @@
                                                                            "douane": [
                                                                                {
                                                                                    "date": "2017-01-01T00:00:00+01:00",
-                                                                                   "taux": "1737.27",
+                                                                                   "taux": 0,
                                                                                    "code": "DOUANE",
                                                                                    "libelle": "Douane"
                                                                                }
@@ -31972,7 +31973,7 @@
                        }
                    },
                    "M1RES": {
-                       "libelle": "Matières premières",
+                       "libelle": null,
                        "format_libelle": null,
                        "code": "M1RES",
                        "code_produit": null,
@@ -32247,7 +32248,7 @@
                        }
                    },
                    "VETRANG": {
-                       "libelle": "Vins étrangers",
+                       "libelle": null,
                        "format_libelle": null,
                        "code": "VETRANG",
                        "code_produit": null,
