@@ -1,5 +1,6 @@
 {
    "_id": "CONFIGURATION-20170801",
+   "_rev": "21-d9aed934343ddd369f92066c3f96f901",
    "type": "Configuration",
    "campagne": null,
    "labels": {
@@ -122,9 +123,24 @@
                    "description": "Autres sorties replis et délassement"
                },
                "lies": {
-                   "libelle": "Lies",
-                   "libelle_long": "Autres sorties lies",
-                   "description": "Autres sorties lies"
+                   "libelle": "Lies et Bourbes",
+                   "libelle_long": "Autres sorties lies et bourbes",
+                   "description": "Autres sorties lies et bourbes"
+               },
+               "lies": {
+                   "libelle": "Lies et Bourbes",
+                   "libelle_long": "Autres sorties lies et bourbes",
+                   "description": "Autres sorties lies et bourbes"
+               },
+               "usageindustriel": {
+                   "libelle": "Usages industriel",
+                   "libelle_long": "DRA/DPLC blanc ou rouge et BFAV",
+                   "description": "DRA/DPLC blanc ou rouge et BFAV"
+               },
+               "rebeches": {
+                   "libelle": "Rebêches",
+                   "libelle_long": "Autres sorties rebêches",
+                   "description": "Autres sorties rebêches"
                },
                "export": {
                    "libelle": "Blles susp. hors Alsace",
@@ -15460,7 +15476,7 @@
            },
            "VINSSIG": {
                "libelle": null,
-               "format_libelle": "%c% %a% %l% %ce% %m%",
+               "format_libelle": "%a% %l% %ce% %m%",
                "code": "VINSSIG",
                "code_produit": null,
                "code_comptable": null,
@@ -15476,8 +15492,8 @@
                            ],
                            "cvo": [
                                {
-                                   "date": "2015-08-01",
-                                   "taux": "7.38",
+                                   "date": "1900-01-01",
+                                   "taux": "-1",
                                    "code": "CVO",
                                    "libelle": "Cvo"
                                }
@@ -15624,6 +15640,18 @@
                                                                "cepages_autorises": [
                                                                ],
                                                                "interpro": {
+                                                                   "INTERPRO-declaration": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                               {
+                                                                                   "date": "1900-01-01",
+                                                                                   "taux": "-1",
+                                                                                   "code": null,
+                                                                                   "libelle": null
+                                                                               }
+                                                                           ]
+                                                                       }
+                                                                   }
                                                                },
                                                                "attributs": {
                                                                    "no_dr": "1"
@@ -15639,6 +15667,18 @@
                                                                "cepages_autorises": [
                                                                ],
                                                                "interpro": {
+                                                                   "INTERPRO-declaration": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                               {
+                                                                                   "date": "1900-01-01",
+                                                                                   "taux": "-1",
+                                                                                   "code": null,
+                                                                                   "libelle": null
+                                                                               }
+                                                                           ]
+                                                                       }
+                                                                   }
                                                                },
                                                                "attributs": {
                                                                    "no_dr": "1"
@@ -15663,8 +15703,8 @@
                        }
                    },
                    "EFF": {
-                       "libelle": null,
-                       "format_libelle": null,
+                       "libelle": "Mousseux",
+                       "format_libelle": "%a% %g% %co%",
                        "code": "EFF",
                        "code_produit": null,
                        "code_comptable": null,
@@ -15733,8 +15773,8 @@
                                                "departements": [
                                                ],
                                                "couleurs": {
-                                                   "DEFAUT": {
-                                                       "libelle": null,
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
                                                        "format_libelle": null,
                                                        "code": null,
                                                        "code_produit": null,
@@ -15745,10 +15785,36 @@
                                                        "departements": [
                                                        ],
                                                        "cepages": {
-                                                           "MS": {
-                                                               "libelle": "Mousseux",
+                                                           "DEFAUT": {
+                                                               "libelle": null,
                                                                "format_libelle": null,
-                                                               "code": "MS",
+                                                               "code": "DEFAUT",
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4M999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": null,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": "DEFAUT",
                                                                "code_produit": null,
                                                                "code_comptable": null,
                                                                "code_douane": "4M999",
@@ -15769,10 +15835,10 @@
                    }
                }
            },
-           "AOC_HORSALSACE": {
-               "libelle": "AOC",
-               "format_libelle": null,
-               "code": "AOC_HORSALSACE",
+           "AOP_HORSALSACE": {
+               "libelle": "Vins AOP",
+               "format_libelle": "%c% %a% %co%",
+               "code": "AOP_HORSALSACE",
                "code_produit": null,
                "code_comptable": null,
                "code_douane": null,
@@ -15783,24 +15849,10 @@
                        "labels": [
                        ],
                        "droits": {
-                           "douane": [
-                               {
-                                   "date": "2015-08-01",
-                                   "taux": "9.33",
-                                   "code": "L385",
-                                   "libelle": "Vins Mousseux"
-                               },
-                               {
-                                   "date": "2018-01-01",
-                                   "taux": "9.35",
-                                   "code": "L385",
-                                   "libelle": "Vins Mousseux"
-                               }
-                           ],
                            "cvo": [
                                {
-                                   "date": "2015-08-01",
-                                   "taux": "0.0",
+                                   "date": "1900-01-01",
+                                   "taux": "-1",
                                    "code": "CVO",
                                    "libelle": "Cvo"
                                }
@@ -15809,6 +15861,403 @@
                    }
                },
                "genres": {
+                   "TRANQ": {
+                       "libelle": null,
+                       "format_libelle": null,
+                       "code": "TRANQ",
+                       "code_produit": null,
+                       "code_comptable": null,
+                       "code_douane": null,
+                       "interpro": {
+                           "INTERPRO-declaration": {
+                               "labels": [
+                               ],
+                               "droits": {
+                                   "douane": [
+                                       {
+                                           "date": "2015-08-01",
+                                           "taux": "3.77",
+                                           "code": "L387",
+                                           "libelle": "Vins Tranquilles"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "3.78",
+                                           "code": "L387",
+                                           "libelle": "Vins Tranquilles"
+                                       }
+                                   ]
+                               }
+                           }
+                       },
+                       "departements": [
+                       ],
+                       "appellations": {
+                           "DEFAUT": {
+                               "libelle": "France",
+                               "format_libelle": null,
+                               "code": "DEFAUT",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": "blanc",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": "rouge",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "rose",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "CEE": {
+                               "libelle": "CEE",
+                               "format_libelle": null,
+                               "code": "CEE",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": "blanc",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": "rouge",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "rose",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "HORSUE": {
+                               "libelle": "Hors UE",
+                               "format_libelle": null,
+                               "code": "HORSUE",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": "blanc",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": "rouge",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "rose",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           }
+                       }
+                   },
                    "EFF": {
                        "libelle": null,
                        "format_libelle": null,
@@ -15817,6 +16266,28 @@
                        "code_comptable": null,
                        "code_douane": null,
                        "interpro": {
+                           "INTERPRO-declaration": {
+                               "labels": [
+                               ],
+                               "droits": {
+                                   "douane": [
+                                       {
+                                           "date": "2015-08-01",
+                                           "taux": "9.33",
+                                           "code": "L385",
+                                           "libelle": "Vins Mousseux"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "9.35",
+                                           "code": "L385",
+                                           "libelle": "Vins Mousseux"
+                                       }
+                                   ],
+                                   "cvo": [
+                                   ]
+                               }
+                           }
                        },
                        "departements": [
                        ],
@@ -15894,304 +16365,6 @@
                    }
                }
            },
-           "AOP_HORSALSACE": {
-               "libelle": "Vins AOP",
-               "format_libelle": "%c% %a% %co%",
-               "code": "AOP_HORSALSACE",
-               "code_produit": null,
-               "code_comptable": null,
-               "code_douane": null,
-               "departements": [
-               ],
-               "interpro": {
-                   "INTERPRO-declaration": {
-                       "labels": [
-                       ],
-                       "droits": {
-                           "douane": [
-                               {
-                                   "date": "2015-08-01",
-                                   "taux": "3.77",
-                                   "code": "L387",
-                                   "libelle": "Vins Tranquilles"
-                               },
-                               {
-                                   "date": "2018-01-01",
-                                   "taux": "3.78",
-                                   "code": "L387",
-                                   "libelle": "Vins Tranquilles"
-                               }
-                           ],
-                           "cvo": [
-                               {
-                                   "date": "2015-08-01",
-                                   "taux": "0.0",
-                                   "code": "CVO",
-                                   "libelle": "Cvo"
-                               }
-                           ]
-                       }
-                   }
-               },
-               "genres": {
-                   "TRANQ": {
-                       "libelle": null,
-                       "format_libelle": null,
-                       "code": "TRANQ",
-                       "code_produit": null,
-                       "code_comptable": null,
-                       "code_douane": null,
-                       "interpro": {
-                       },
-                       "departements": [
-                       ],
-                       "appellations": {
-                           "DEFAUT": {
-                               "libelle": "France",
-                               "format_libelle": null,
-                               "code": "DEFAUT",
-                               "code_produit": null,
-                               "code_comptable": null,
-                               "code_douane": null,
-                               "densite": "1.3",
-                               "interpro": {
-                               },
-                               "departements": [
-                               ],
-                               "mentions": {
-                                   "DEFAUT": {
-                                       "libelle": null,
-                                       "format_libelle": null,
-                                       "code": null,
-                                       "code_produit": null,
-                                       "code_comptable": null,
-                                       "code_douane": null,
-                                       "interpro": {
-                                       },
-                                       "departements": [
-                                       ],
-                                       "lieux": {
-                                           "DEFAUT": {
-                                               "libelle": null,
-                                               "format_libelle": null,
-                                               "code": null,
-                                               "code_produit": null,
-                                               "code_comptable": null,
-                                               "code_douane": null,
-                                               "interpro": {
-                                               },
-                                               "departements": [
-                                               ],
-                                               "couleurs": {
-                                                   "blanc": {
-                                                       "libelle": "Blanc",
-                                                       "format_libelle": null,
-                                                       "code": "blanc",
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   },
-                                                   "rouge": {
-                                                       "libelle": "Rouge",
-                                                       "format_libelle": null,
-                                                       "code": "rouge",
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   },
-                                                   "rose": {
-                                                       "libelle": "Rosé",
-                                                       "format_libelle": null,
-                                                       "code": "rose",
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   }
-                                               }
-                                           }
-                                       }
-                                   }
-                               }
-                           },
-                           "CEE": {
-                               "libelle": "CEE",
-                               "format_libelle": null,
-                               "code": "CEE",
-                               "code_produit": null,
-                               "code_comptable": null,
-                               "code_douane": null,
-                               "densite": "1.3",
-                               "interpro": {
-                               },
-                               "departements": [
-                               ],
-                               "mentions": {
-                                   "DEFAUT": {
-                                       "libelle": null,
-                                       "format_libelle": null,
-                                       "code": null,
-                                       "code_produit": null,
-                                       "code_comptable": null,
-                                       "code_douane": null,
-                                       "interpro": {
-                                       },
-                                       "departements": [
-                                       ],
-                                       "lieux": {
-                                           "DEFAUT": {
-                                               "libelle": null,
-                                               "format_libelle": null,
-                                               "code": null,
-                                               "code_produit": null,
-                                               "code_comptable": null,
-                                               "code_douane": null,
-                                               "interpro": {
-                                               },
-                                               "departements": [
-                                               ],
-                                               "couleurs": {
-                                                   "blanc": {
-                                                       "libelle": "Blanc",
-                                                       "format_libelle": null,
-                                                       "code": "blanc",
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   },
-                                                   "rouge": {
-                                                       "libelle": "Rouge",
-                                                       "format_libelle": null,
-                                                       "code": "rouge",
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   },
-                                                   "rose": {
-                                                       "libelle": "Rosé",
-                                                       "format_libelle": null,
-                                                       "code": "rose",
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   }
-                                               }
-                                           }
-                                       }
-                                   }
-                               }
-                           }
-                       }
-                   }
-               }
-           },
            "IGP_HORSALSACE": {
                "libelle": "Vins à IGP",
                "format_libelle": "%c% %a% %co%",
@@ -16206,24 +16379,10 @@
                        "labels": [
                        ],
                        "droits": {
-                           "douane": [
-                               {
-                                   "date": "2015-08-01",
-                                   "taux": "3.77",
-                                   "code": "L387",
-                                   "libelle": "Vins Tranquilles"
-                               },
-                               {
-                                   "date": "2018-01-01",
-                                   "taux": "3.78",
-                                   "code": "L387",
-                                   "libelle": "Vins Tranquilles"
-                               }
-                           ],
                            "cvo": [
                                {
-                                   "date": "2015-08-01",
-                                   "taux": "0.0",
+                                   "date": "1900-01-01",
+                                   "taux": "-1",
                                    "code": "CVO",
                                    "libelle": "Cvo"
                                }
@@ -16240,6 +16399,26 @@
                        "code_comptable": null,
                        "code_douane": null,
                        "interpro": {
+                           "INTERPRO-declaration": {
+                               "labels": [
+                               ],
+                               "droits": {
+                                   "douane": [
+                                       {
+                                           "date": "2015-08-01",
+                                           "taux": "3.77",
+                                           "code": "L387",
+                                           "libelle": "Vins Tranquilles"
+                                       },
+                                       {
+                                           "date": "2018-01-01",
+                                           "taux": "3.78",
+                                           "code": "L387",
+                                           "libelle": "Vins Tranquilles"
+                                       }
+                                   ]
+                               }
+                           }
                        },
                        "departements": [
                        ],
@@ -16369,6 +16548,127 @@
                                "libelle": "CEE",
                                "format_libelle": null,
                                "code": "CEE",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": "blanc",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": "rouge",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "rose",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "HORSUE": {
+                               "libelle": "Hors UE",
+                               "format_libelle": null,
+                               "code": "HORSUE",
                                "code_produit": null,
                                "code_comptable": null,
                                "code_douane": null,
@@ -16506,22 +16806,16 @@
                        "droits": {
                            "douane": [
                                {
-                                   "date": "2015-08-01",
-                                   "taux": "3.77",
-                                   "code": "L387",
-                                   "libelle": "Vins Tranquilles"
-                               },
-                               {
-                                   "date": "2018-01-01",
-                                   "taux": "3.78",
-                                   "code": "L387",
-                                   "libelle": "Vins Tranquilles"
+                                   "date": "1900-01-01",
+                                   "taux": "0",
+                                   "code": null,
+                                   "libelle": null
                                }
                            ],
                            "cvo": [
                                {
-                                   "date": "2015-08-01",
-                                   "taux": "0.0",
+                                   "date": "1900-01-01",
+                                   "taux": "-1",
                                    "code": "CVO",
                                    "libelle": "Cvo"
                                }
@@ -16610,81 +16904,12 @@
                                        }
                                    }
                                }
-                           },
-                           "USAGESINDUSTRIELS": {
-                               "libelle": "Usages Industriels",
-                               "format_libelle": null,
-                               "code": "USAGESINDUSTRIELS",
-                               "code_produit": null,
-                               "code_comptable": null,
-                               "code_douane": null,
-                               "densite": "1.3",
-                               "interpro": {
-                               },
-                               "departements": [
-                               ],
-                               "mentions": {
-                                   "DEFAUT": {
-                                       "libelle": null,
-                                       "format_libelle": null,
-                                       "code": null,
-                                       "code_produit": null,
-                                       "code_comptable": null,
-                                       "code_douane": null,
-                                       "interpro": {
-                                       },
-                                       "departements": [
-                                       ],
-                                       "lieux": {
-                                           "DEFAUT": {
-                                               "libelle": null,
-                                               "format_libelle": null,
-                                               "code": null,
-                                               "code_produit": null,
-                                               "code_comptable": null,
-                                               "code_douane": null,
-                                               "interpro": {
-                                               },
-                                               "departements": [
-                                               ],
-                                               "couleurs": {
-                                                   "DEFAUT": {
-                                                       "libelle": null,
-                                                       "format_libelle": null,
-                                                       "code": null,
-                                                       "code_produit": null,
-                                                       "code_comptable": null,
-                                                       "code_douane": null,
-                                                       "interpro": {
-                                                       },
-                                                       "departements": [
-                                                       ],
-                                                       "cepages": {
-                                                           "DEFAUT": {
-                                                               "libelle": null,
-                                                               "format_libelle": null,
-                                                               "code": null,
-                                                               "code_produit": null,
-                                                               "code_comptable": null,
-                                                               "code_douane": null,
-                                                               "cepages_autorises": [
-                                                               ],
-                                                               "interpro": {
-                                                               }
-                                                           }
-                                                       }
-                                                   }
-                                               }
-                                           }
-                                       }
-                                   }
-                               }
                            }
                        }
                    },
                    "DEFAUT": {
                        "libelle": null,
-                       "format_libelle": null,
+                       "format_libelle": "%a% %co%",
                        "code": "DEFAUT",
                        "code_produit": null,
                        "code_comptable": null,
@@ -16695,7 +16920,7 @@
                        ],
                        "appellations": {
                            "DPLC": {
-                               "libelle": "DPLC",
+                               "libelle": "DRA/DPLC",
                                "format_libelle": null,
                                "code": "DPLC",
                                "code_produit": null,
@@ -16790,9 +17015,78 @@
                                }
                            },
                            "LIES": {
-                               "libelle": "Lies",
+                               "libelle": "Lies et Bourbes",
                                "format_libelle": null,
                                "code": "LIES",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "DEFAUT": {
+                                                       "libelle": null,
+                                                       "format_libelle": null,
+                                                       "code": null,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": null,
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "REBECHES": {
+                               "libelle": "Rebêches",
+                               "format_libelle": null,
+                               "code": "REBECHES",
                                "code_produit": null,
                                "code_comptable": null,
                                "code_douane": null,
@@ -16872,6 +17166,28 @@
                "departements": [
                ],
                "interpro": {
+                   "INTERPRO-declaration": {
+                       "labels": [
+                       ],
+                       "droits": {
+                           "douane": [
+                               {
+                                   "date": "1900-01-01",
+                                   "taux": "0",
+                                   "code": null,
+                                   "libelle": null
+                               }
+                           ],
+                           "cvo": [
+                               {
+                                   "date": "1900-01-01",
+                                   "taux": "-1",
+                                   "code": "CVO",
+                                   "libelle": "Cvo"
+                               }
+                           ]
+                       }
+                   }
                },
                "genres": {
                    "DEFAUT": {
@@ -16895,34 +17211,6 @@
                                "code_douane": null,
                                "densite": "1.3",
                                "interpro": {
-                                   "INTERPRO-declaration": {
-                                       "labels": [
-                                       ],
-                                       "droits": {
-                                           "douane": [
-                                               {
-                                                   "date": "2015-08-01",
-                                                   "taux": "3.77",
-                                                   "code": "L387",
-                                                   "libelle": "Vins Tranquilles"
-                                               },
-                                               {
-                                                   "date": "2018-01-01",
-                                                   "taux": "3.78",
-                                                   "code": "L387",
-                                                   "libelle": "Vins Tranquilles"
-                                               }
-                                           ],
-                                           "cvo": [
-                                               {
-                                                   "date": "2015-08-01",
-                                                   "taux": "-1",
-                                                   "code": "CVO",
-                                                   "libelle": "Cvo"
-                                               }
-                                           ]
-                                       }
-                                   }
                                },
                                "departements": [
                                ],
@@ -16992,34 +17280,6 @@
                                "code_douane": null,
                                "densite": "1.3",
                                "interpro": {
-                                   "INTERPRO-declaration": {
-                                       "labels": [
-                                       ],
-                                       "droits": {
-                                           "douane": [
-                                               {
-                                                   "date": "2015-08-01",
-                                                   "taux": "3.77",
-                                                   "code": "L387",
-                                                   "libelle": "Vins Tranquilles"
-                                               },
-                                               {
-                                                   "date": "2018-01-01",
-                                                   "taux": "3.78",
-                                                   "code": "L387",
-                                                   "libelle": "Vins Tranquilles"
-                                               }
-                                           ],
-                                           "cvo": [
-                                               {
-                                                   "date": "2015-08-01",
-                                                   "taux": "-1",
-                                                   "code": "CVO",
-                                                   "libelle": "Cvo"
-                                               }
-                                           ]
-                                       }
-                                   }
                                },
                                "departements": [
                                ],
@@ -17335,7 +17595,33 @@
                    "mouvement_coefficient": -1,
                    "facturable": 0,
                    "douane_type": "SUSPENDU",
-                   "douane_cat": "sorties-periode/sorties-sans-paiement/sorties-definitivess",
+                   "douane_cat": "sorties-periode/sorties-sans-paiement/sorties-definitives",
+                   "taxable_douane": 0
+               },
+               "rebeches": {
+                   "readable": 1,
+                   "writable": 1,
+                   "details": "",
+                   "revendique": 1,
+                   "restriction_lies": 0,
+                   "recolte": 1,
+                   "mouvement_coefficient": -1,
+                   "facturable": 0,
+                   "douane_type": "SUSPENDU",
+                   "douane_cat": "sorties-periode/sorties-sans-paiement-droits/autres-sorties",
+                   "taxable_douane": 0
+               },
+               "usageindustriel": {
+                   "readable": 1,
+                   "writable": 1,
+                   "details": "",
+                   "revendique": 1,
+                   "restriction_lies": 0,
+                   "recolte": 1,
+                   "mouvement_coefficient": -1,
+                   "facturable": 0,
+                   "douane_type": "SUSPENDU",
+                   "douane_cat": "sorties-periode/sorties-sans-paiement/sorties-definitives",
                    "taxable_douane": 0
                },
                "export": {
