@@ -32,6 +32,6 @@ Le catalogue des mouvements de DRM admis par le portail du BIVC  [Catalogue mouv
 
 ## Exemple complet de fichier d'import de DRM
 
-Un exemple spécifique de DRM à importer pour le portail du BIVC est disponible ici : [Exemple de fichier d'import pour le BIVC](exemple_export_drm.csv) .
+Un exemple spécifique de DRM à importer pour le portail du BIVC est disponible ici : [Exemple de fichier d'import pour le BIVC](exemple_export_drm.csv).
 
-Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
+Ce fichier reprend des spécificités décrites ci-dessus.
