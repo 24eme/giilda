@@ -1,4 +1,4 @@
-# Spécifications techniques de l'implémentation du format de DRM attendues sur le portail de BIVC
+# Spécifications techniques de l'implémentation du format de DRM attendues sur le portail du BIVC
 
 La spécification complète du format d'import attendu est détaillée ici : [Spécification générique du fichier d'import DRM pour logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/). Cette documentation "générique" est commune pour les portails déclaratifs du CIVA, du CIVP, d'Interloire, d'InterRhone, d'BIVC, d'IVSO et d'IVSE.
 
@@ -6,7 +6,7 @@ Cette page apporte un éclairage BIVC à la documentation générique. Elle perm
 
 ## Catalogue des produits spécifiques au portail du BIVC
 
-Le catalogue produit nécessaire aux imports de DRM pour BIVC est décrit dans le fichier suivant : [Catalogue produit](catalogue_produits.csv)
+Le catalogue produit nécessaire aux imports de DRM pour le BIVC est décrit dans le fichier suivant : [Catalogue produit](catalogue_produits.csv)
 
 Ce fichier comporte les différentes colonnes suivantes :
 
