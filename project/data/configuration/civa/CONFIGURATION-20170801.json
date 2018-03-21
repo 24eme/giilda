@@ -1,5 +1,6 @@
     {
        "_id": "CONFIGURATION-20170801",
+       "_rev": "13-211e9947f32efd21ce26856d577ba627",   
        "type": "Configuration",
        "campagne": null,
        "labels": {
@@ -15794,6 +15795,32 @@
                                                    "couleurs": {
                                                        "blanc": {
                                                            "libelle": "Blanc",
+                                                           "format_libelle": null,
+                                                           "code": null,
+                                                           "code_produit": null,
+                                                           "code_comptable": null,
+                                                           "code_douane": null,
+                                                           "interpro": {
+                                                           },
+                                                           "departements": [
+                                                           ],
+                                                           "cepages": {
+                                                               "DEFAUT": {
+                                                                   "libelle": null,
+                                                                   "format_libelle": null,
+                                                                   "code": "DEFAUT",
+                                                                   "code_produit": null,
+                                                                   "code_comptable": null,
+                                                                   "code_douane": "4M999",
+                                                                   "cepages_autorises": [
+                                                                   ],
+                                                                   "interpro": {
+                                                                   }
+                                                               }
+                                                           }
+                                                       },
+                                                       "rouge": {
+                                                           "libelle": "Rouge",
                                                            "format_libelle": null,
                                                            "code": null,
                                                            "code_produit": null,
