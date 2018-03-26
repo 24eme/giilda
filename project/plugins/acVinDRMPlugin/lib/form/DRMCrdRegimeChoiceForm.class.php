@@ -38,12 +38,17 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
     }
 
     public function getCRDRegimes() {
-        return EtablissementClient::$regimes_crds_libelles_longs;
+        $crdRegimes = EtablissementClient::$regimes_crds_libelles_longs;
+        
+        if(preg_match('/^PDL_/',$this->drm->getEtablissement()->region) && array_key_exists(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE,$crdRegimes)){
+            unset($crdRegimes[EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE]);
+        }
+        return $crdRegimes;
     }
 
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        $crd_regime = $values['crd_regime'];       
+        $crd_regime = $values['crd_regime'];
         $this->etablissement->add('crd_regime', $crd_regime);
         $this->etablissement->save();
         $this->drm->forceModified();
@@ -53,7 +58,7 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
                 $to_removes[$regime] = $crds;
             }
         }
-        
+
         foreach ($to_removes as $removeRegime => $crds) {
             $this->drm->getOrAdd('crds')->remove($removeRegime);
             $this->drm->getOrAdd('crds')->add($crd_regime, $crds);
