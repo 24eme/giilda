@@ -38,7 +38,9 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
     }
 
     public function getCRDRegimes() {
-        return DRMClient::getInstance()->getAllRegimesCrdsChoices(true);
+        $regimes = DRMClient::getInstance()->getAllRegimesCrdsChoices(true);
+	$regimes[EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU] = "CRD collectives ou Pas de CRD";
+	return $regimes;
     }
 
     public function doUpdateObject($values) {
