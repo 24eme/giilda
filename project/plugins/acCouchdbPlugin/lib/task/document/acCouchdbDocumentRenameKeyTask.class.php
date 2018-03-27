@@ -53,11 +53,8 @@ EOF;
 
     unset($doc->{$arguments['key']});
 
-    acCouchdbManager::getClient()->storeDoc($doc);
+    $result = acCouchdbManager::getClient()->storeDoc($doc);
 
-    $oldRev = $doc->_rev;
-    $doc = acCouchdbManager::getClient()->find($arguments['doc_id'], acCouchdbClient::HYDRATE_JSON);
-
-    echo "Le document ".$doc->_id."@".$oldRev." a été sauvé @".$doc->_rev." : la clé \"".$arguments['key']."\" a été renommé en \"". $arguments['new_key']."\"\n";
+    echo "Le document ".$doc->_id."@".$doc->_rev." a été sauvé @".$result->rev." : la clé \"".$arguments['key']."\" a été renommé en \"". $arguments['new_key']."\"\n";
   }
 }
