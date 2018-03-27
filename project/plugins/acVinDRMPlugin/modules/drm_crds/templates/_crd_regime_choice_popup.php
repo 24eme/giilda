@@ -20,7 +20,7 @@ $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
             <p><span class="text-danger">Votre chai «&nbsp;<?php echo $drm->getEtablissement()->nom; ?>&nbsp;» ne possède actuellement aucun régime de CRD.</span></p><br/>
             <p>Il est nécessaire pour la suite de la saisie de choisir ici le régime CRD. Une fois choisi ce message n'apparaîtra plus.</p><br/>
             <?php if(DRMConfiguration::getInstance()->isCrdOnlySuspendus()): ?>
-                 <p>Si vous utilisez des CRD personnalisées, cliquez sur «&nbsp;CRD personnalisées&nbsp;». Pour les autres cas ou si vous n'avez pas de CRD, sélectionnez «&nbsp;CRD collectives ou Pas de CRD&nbsp;»</p>
+                 <p>Si vous utilisez des CRD personnalisées, cliquez sur «&nbsp;CRD personnalisées&nbsp;».</p><p>Pour les autres cas ou si vous n'avez pas de CRD, sélectionnez «&nbsp;CRD collectives ou Pas de CRD&nbsp;»</p>
             <?php else : ?>
                <p>Si vous achetez des CRD Acquitées auprès de votre ODG (ou auprès d'un autre répartiteur), sélectionnez «&nbsp;banalisées acquittées&nbsp;». Si vous utilisez des CRD personnalisées, cliquez sur «&nbsp;personnalisé&nbsp;». Pour les autres cas, sélectionnez «&nbsp;banalisées suspendues&nbsp;»</p>
            <?php endif; ?>
