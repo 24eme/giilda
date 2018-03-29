@@ -169,6 +169,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return $l;
     }
 
+    public function getNbLignesAndDetails() {
+      $nb = 0;
+      foreach($this->lignes as $k => $l) {
+        $nb++;
+        $nb += count($l->details);
+      }
+      return $nb;
+    }
+
     static function triOrigineDate($ligne_0, $ligne_1) {
         return self::triDate("origine_date", $ligne_0, $ligne_1);
     }
