@@ -35,10 +35,14 @@ class GenerationFacturePDF extends GenerationPDF {
           $societe = SocieteClient::getInstance()->find($societeID);
           if (!$societe)
               throw new sfException($societeID . " unknown :(");
-          if ($arguments['modele'] == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO && !$societe->isNegociant()) {
-              continue;
+          $modele = $arguments['modele'];
+          if ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO) {
+              if (!$societe->isNegociant()) {
+                continue;
+              }
+              $modele = FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12;
           }
-          $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $arguments['modele'], $arguments['date_facturation'], $message_communication);
+          $facture = FactureClient::getInstance()->createDocFromMouvements($mouvementsSoc, $societe, $modele, $arguments['date_facturation'], $message_communication);
           $facture->save();
           $this->generation->somme += $facture->total_ht;
           $this->generation->documents->add($cpt, $facture->_id);
