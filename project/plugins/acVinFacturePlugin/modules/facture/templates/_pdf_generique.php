@@ -39,13 +39,20 @@ foreach ($facture->lignes as $type => $typeLignes) {
     \multicolumn{1}{r}{~}
     \\
     <?php
+    $nb_pages = 0;
     foreach ($typeLignes->details as $prodHash => $produit) {
         $line_nb++;
         include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
         //cas d'un besoin de changement de page
         if ($line_nb >= $lines_per_page) {
-            //on ajoute des blancs ?>
+            //on ajoute des blancs
+            ?>
             ~ & ~ & ~ & ~ &\\
+            ~ & ~ & ~ & \multicolumn{1}{r}{\textbf{.../...}} &\\
+            <?php for( ; $line_nb <= FactureLatex::MAX_LIGNES_PERPAGE - 1; $line_nb++):
+            ?>
+            ~ & ~ & ~ & ~ &\\
+          <?php endfor; ?>
                             \end{tabular}
                           };
             \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};

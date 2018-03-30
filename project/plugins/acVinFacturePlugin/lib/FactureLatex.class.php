@@ -24,9 +24,12 @@ class FactureLatex extends GenericLatex {
     return count($this->facture->getEcheancesPapillon());
   }
 
+  public function getNbLignesFooter() {
+    return self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $this->getNbLignesEcheancesPapillon();
+  }
+
   public function getNbLignes() {
-    return $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE + self::NB_LIGNES_REGLEMENT
-      + self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $this->getNbLignesEcheancesPapillon();
+    return $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE + self::NB_LIGNES_REGLEMENT + $this->getNbLignesFooter();
   }
 
   public function getNbPages() {
@@ -45,11 +48,11 @@ class FactureLatex extends GenericLatex {
   public function getLatexFileContents() {
     $total_lines_without_footer =  $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE;
     $total_pages_without_footer = floor($total_lines_without_footer / self::MAX_LIGNES_PERPAGE) + 1;
-    $lines_per_page = FactureLatex::MAX_LIGNES_PERPAGE;
+    $line_nb = FactureLatex::NB_LIGNES_ENTETE;
     if ($total_pages_without_footer == $this->getNbPages()) {
-      $line_nb = FactureLatex::NB_LIGNES_ENTETE;
+      $lines_per_page = FactureLatex::MAX_LIGNES_PERPAGE;
     }else{
-      $line_nb = FactureLatex::NB_LIGNES_ENTETE + $this->getNbLignes() - $total_lines_without_footer;
+      $lines_per_page = FactureLatex::MAX_LIGNES_PERPAGE - ($this->getNbLignes() - $total_lines_without_footer) / ($this->getNbPages() - 1);
     }
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial("facture/pdf_generique", array('facture' => $this->facture,
