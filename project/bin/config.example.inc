@@ -1,4 +1,5 @@
 PROJET=giilda
+PROJETURL=https://declaration.giilda.com/
 TMP=/tmp/giilda
 SYMFONYTASKOPTIONS="--application=generique --env=dev"
 WORKINGDIR=/home/giilda/project/
@@ -9,6 +10,7 @@ ELASTHOST=localhost
 ELASTPORT=9200
 ELASTBASE=giilda
 ELASTKIBANAINDEX=.kibana #ne pas changer
+COUCHDISTANTHOST=distantnode
 #PDFDIR=data/archive/
 #SAMBA_IP=xxx.xxx.xxx.xxx
 #SAMBA_SHAREDIR=aaaaa
