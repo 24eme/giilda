@@ -62,6 +62,8 @@
 
             var defaultValue = select.data('default');
 
+            var placeholder = select.data('placeholder');
+
             if (newValueAllowed) {
 
                 var newValueOption;
@@ -81,7 +83,12 @@
             var minLength = 0;
             var delay = (url_ajax) ? 500 : 200;
 
-            var input = this.input = $("<input type='text'>")
+            var inputIntxt = "<input type='text' ";
+            if(placeholder){
+                inputIntxt += "placeholder='"+placeholder+"' ";
+            }
+            inputIntxt+=" >";
+            var input = this.input = $(inputIntxt)
                     .insertAfter(select)
                     .val(value)
                     .autocomplete({
