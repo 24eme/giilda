@@ -106,10 +106,10 @@
             <?php
             include_component('global', 'navItem', array(
                 'libelle' => 'Contacts',
-                'prefix' => 'societe',
+                'prefix' => 'etablissement',
                 'route' => 'societe',
-                'route_etablissement' => 'societe_choose',
-                'etablissement' => null,
+                'route_etablissement' => 'etablissement_visualisation',
+                'etablissement' => $etablissement,
                 'target' => '_self'
             ))
             ?>
