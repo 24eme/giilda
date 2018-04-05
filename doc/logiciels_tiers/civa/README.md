@@ -20,7 +20,7 @@ Ce fichier comporte les différentes colonnes suivantes :
 
 La dernière colonne indique le libellé complet du produit, le processus d'import ne tiendra pas compte de ce champs si les 7 champs d'identification sont remplis. Il sera utilisé que si une ambiguité ressort de l'exploitation de ces champs.
 
-En plus de ce catalogue, le CIVA met à disposition un référentiel produit organisé par colonne (un onglet par colonne) sur le modèle de ce qui a été mis à disposition pour les fichiers DR : [télécharger le référentiel «colonne»](https://declaration.vinsalsace.pro/documents/Fichier-op%C3%A9rateurs-reference_v2.ods)
+En plus de ce catalogue, le CIVA met à disposition un référentiel produit organisé par colonne (un onglet par colonne) sur le modèle de ce qui a été mis à disposition pour les fichiers DR : [télécharger le référentiel «colonne»](https://declaration.vinsalsace.pro/documents/Fichier-op%C3%A9rateurs-reference_v3.ods)
 
 Pour plus de détails sur l'exploitation de ces champs, voir la [section "identification du vin" de la Spécification générique DRM pour logiciels tiers](https://github.com/24eme/mutualisation-douane/blob/master/logiciels-tiers/#description-des-lignes-cave).
 
@@ -40,17 +40,27 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 
 ## Suivi du projet chez les éditeurs de registres de cave
 
-| Nom de l'Éditeur | Prise de contact | Génération du fichier de transfer | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
+| Nom de l'Éditeur | Prise de contact | Génération du fichier de transfert | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
 |------------------|------------------|-----------------------------------|---------------------------------------|------------------------------------------------------|----------------------|
 | chambre d'agriculture | Oui |  |  |  |  |
 | bsi-info              | Oui |  |  |  |  |
 | capvision             | Oui |  |  |  |  |
 | cegar                 | Oui |  |  |  |  |
-| cfg67                 | Oui |  |  |  |  |
+| cfg67                 | Oui  | Oui  |  |  |  |
 | graineinfo            | Oui |  |  |  |  |
 | idsystemes            | Oui |  |  |  |  |
 | info-log              | Oui |  |  |  |  |
-| ingeteldata           | Oui |  |  |  |  |
-| isagri                | Oui |  |  |  |  |
+| ingeteldata           | Oui | Oui  |  |  |  |
+| isagri                | Oui | Oui |  |  |  |
 | nsi-sadimo            | Oui |  |  |  |  |
+| pac-informatique      | Oui |  |  |  |  |
+| solumatic             | Oui |  |  |  |  |
+| vinosoft              | Oui |  |  |  |  |
 
+## Création de DRM sur le portail du CIVA
+
+La création des DRM sur le potail du CIVA peut se faire de différentes façons.
+
+Le document d'aide [Création des DRM](creation_drm.md) détaille les différentes règles mise en place pour la création des DRM.
+
+Ces stratégies de reprise de données et pré-remplissage des différents mouvements sont susceptibles d'évoluer rapidement c'est pourquoi cette documentation est principalement diffuser à des fins de communication de la part du CIVA.  

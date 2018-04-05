@@ -17,7 +17,7 @@
 		<declaration-neant><?php echo ($drm->declaration->hasStockEpuise())? "true" : "false"; ?></declaration-neant>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
-<?php foreach ($drm->getProduitsDetails(true) as $produit): ?>
+<?php foreach ($drm->getProduitsDetails(true,DRM::DETAILS_KEY_SUSPENDU) as $produit): ?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
@@ -48,7 +48,7 @@
 		</droits-suspendus>
 <?php if ($drm->hasExportableProduitsAcquittes()): ?>
 		<droits-acquittes>
-<?php foreach ($drm->getProduitsDetails(true,DRM::DETAILS_KEY_ACQUITTE) as $produit):  ?>
+<?php foreach ($drm->getProduitsDetails(true,DRM::DETAILS_KEY_ACQUITTE) as $produit): ?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
@@ -57,7 +57,7 @@
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
 			<?php endif; ?>
 <?php endif; ?>
-				<libelle-personnalise><?php echo trim(html_entity_decode($produit->getLibelle(), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
+				<libelle-personnalise><?php echo trim(html_entity_decode((($produit->produit_libelle) ? $produit->produit_libelle : $produit->getLibelle('%format_libelle% %la%')), ENT_QUOTES | ENT_HTML401)) ?></libelle-personnalise>
 <?php if ($produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
 <?php endif; ?>
@@ -67,7 +67,6 @@
 <?php if ($produit->exist('observations')): ?>
 				<observations><?php echo $produit->get('observations'); ?></observations>
 <?php endif; ?>
-
 				<balance-stocks>
 <?php
 	$xml = details2XmlDouane($produit);
@@ -93,11 +92,11 @@
 <?php if ($crd->entrees_achats): ?>
 				<achats><?php echo $crd->entrees_achats ?></achats>
 <?php endif; ?>
-<?php if ($crd->entrees_excedents): ?>
-				<retours><?php echo $crd->entrees_excedents ?></retours>
-<?php endif; ?>
 <?php if ($crd->entrees_retours): ?>
-				<excedents><?php echo $crd->entrees_retours ?></excedents>
+				<retours><?php echo $crd->entrees_retours ?></retours>
+<?php endif; ?>
+<?php if ($crd->entrees_excedents): ?>
+				<excedents><?php echo $crd->entrees_excedents ?></excedents>
 <?php endif; ?>
         		</entrees-capsules>
 <?php endif; ?>
@@ -120,17 +119,17 @@
     	</compte-crd>
 <?php endforeach; endif;
 $documents_annexes = array();
-foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && is_int($v->debut) && is_int($v->fin))  :
+foreach($drm->documents_annexes as $k => $v): if ($k != 'DAE' && ($v->debut * 1) > 0 && ($v->fin * 1) > 0)  :
 	$documents_annexes[$k] = $v;
 endif; endforeach;
 if (count($documents_annexes)): ?>
     	<document-accompagnement>
 <?php foreach($documents_annexes as $k => $v): ?>
 	        <<?php echo documentAnnexeKey2XMLTag($k); ?>>
-        		<debut-periode><?php echo $v->debut ?></debut-periode>
-        		<fin-periode><?php echo $v->fin ?></fin-periode>
-                        <nombre-document-empreinte><?php echo $v->nb ?></nombre-document-empreinte>
-                </<?php echo documentAnnexeKey2XMLTag($k); ?>>
+        		<debut-periode><?php echo $v->debut * 1 ?></debut-periode>
+        		<fin-periode><?php echo $v->fin * 1 ?></fin-periode>
+            <nombre-document-empreinte><?php echo $v->nb ?></nombre-document-empreinte>
+          </<?php echo documentAnnexeKey2XMLTag($k); ?>>
 <?php endforeach; ?>
     	</document-accompagnement>
 <?php endif; ?>

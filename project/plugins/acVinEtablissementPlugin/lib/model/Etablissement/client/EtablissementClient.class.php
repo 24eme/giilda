@@ -57,6 +57,7 @@ class EtablissementClient extends acCouchdbClient {
         "07" => self::NATURE_INAO_SICA,
         "08" => self::NATURE_INAO_SOCIETE_COMMERCIALE,
         "09" => self::NATURE_INAO_AUTRE);
+
     public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
         self::CAUTION_CAUTION => 'Caution');
 
@@ -129,12 +130,29 @@ class EtablissementClient extends acCouchdbClient {
 
     public function findByCvi($cvi) {
         $rows = EtablissementFindByCviView::getInstance()->findByCvi(str_replace(' ', '', $cvi));
+        if (!count($rows)) {
+            return null;
+        }
+
+        return $this->find($rows[0]->id);
+    }
+
+    public function findByNoAccise($accise) {
+        $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
 
         if (!count($rows)) {
             return null;
         }
 
         return $this->find($rows[0]->id);
+    }
+
+    public function retrieveByName($name) {
+      $e = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-declaration', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_NEGOCIANT), $name, 1);
+      if (count($e) == 1){
+        return $this->find($e[0]->id);
+      }
+      return null;
     }
 
     public function getId($id_or_identifiant) {

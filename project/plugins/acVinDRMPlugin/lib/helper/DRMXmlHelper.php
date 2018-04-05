@@ -61,26 +61,26 @@ function details2XmlDouane($detail) {
 	}else{
 		$confDetail = $detail->getConfig()->getDocument()->declaration->$detailKey;
 	}
-        $preXML = array();
-		$keyForceDisplay = array();
-		foreach (array('stocks_debut', 'stocks_fin') as $type) {
-			foreach($confDetail->get($type) as $k => $v) {
-				if($confDetail->get($type)->get($k)->douane_cat) {
-					$keyForceDisplay[$type] = $k;
-					break;
+	$preXML = array();
+	$keyForceDisplay = array();
+	foreach (array('stocks_debut', 'stocks_fin') as $type) {
+		foreach($confDetail->get($type) as $k => $v) {
+			if($confDetail->get($type)->get($k)->douane_cat) {
+				$keyForceDisplay[$type] = $k;
+				break;
+			}
+		}
+	}
+	foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
+		foreach ($detail->get($type) as $k => $v) {
+			if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
+				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->douane_cat)) {
+					$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth());
+					$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear());
 				}
 			}
 		}
-        foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
-	  foreach ($detail->get($type) as $k => $v) {
-		if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
-                        $preXML = storeMultiArray($preXML, split('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
-			if (preg_match('/replacement/', $confDetail->get($type)->get($k)->douane_cat)) {
-				$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth());
-				$preXML = storeMultiArray($preXML, split('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear());
-			}
-		}
-	  }
 	}
 	return multiArray2XML($preXML);
 }
@@ -126,11 +126,11 @@ function drm2CrdCiel($drm) {
 }
 
 function crdGenre2CategorieFiscale($g) {
-	$crdGenre2CategorieFiscaleArray = array('TRANQ' => 'T', 'MOUSSEUX' => 'M');
+	$crdGenre2CategorieFiscaleArray = array(DRMClient::DRM_CRD_CATEGORIE_TRANQ => 'T', DRMClient::DRM_CRD_CATEGORIE_MOUSSEUX => 'M');
 	return $crdGenre2CategorieFiscaleArray[$g];
 }
 function crdType2TypeCapsule($t) {
-	$crdType2TypeCapsuleArray = array('COLLECTIFSUSPENDU'=>'COLLECTIVES_DROITS_SUSPENDUS', 'COLLECTIFACQUITTE' => 'COLLECTIVES_DROITS_ACQUITTES', 'PERSONNALISE'=>'PERSONNALISEES');
+	$crdType2TypeCapsuleArray = array(EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU=>'COLLECTIVES_DROITS_SUSPENDUS',  EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE=> 'COLLECTIVES_DROITS_ACQUITTES', EtablissementClient::REGIME_CRD_PERSONNALISE=>'PERSONNALISEES');
 	return $crdType2TypeCapsuleArray[$t];
 }
 function documentAnnexeKey2XMLTag($d) {

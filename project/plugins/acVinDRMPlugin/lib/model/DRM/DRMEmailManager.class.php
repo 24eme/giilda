@@ -72,6 +72,38 @@ L’application de télédéclaration de votre interprofession.";
         return true;
     }
 
+
+    public function sendMailDrmCielDiffs() {
+        $typeInfos = null;
+        $typeLibelle = null;
+        $mailsInterloire = sfConfig::get('app_teledeclaration_emails_interloire');
+
+        $subject = "[ Comparaison Ciel Vinsi ] - Drm différente pour ".$this->drm->declarant->nom." (".$this->drm->identifiant.") période : ".$this->drm->getPeriode();
+
+        $mess = "La DRM de ".$this->drm->declarant->nom." (".$this->drm->identifiant.") période:".$this->drm->getPeriode()." a été transmise sur CIEL et possède des différences avec celle d'Interloire. ";
+
+        $diffArrStr = $this->drm->getXMLComparison()->getFormattedXMLComparaison();
+        foreach ($diffArrStr as $key => $values) {
+            $mess .= $key . " [" . ((is_null($values[0])) ? "valeur nulle" : $values[0]) . "]
+";
+        }
+        $mess .= "
+        Une DRM modificatrice a été ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $this->drm->identifiant))."
+
+——
+
+L’application de télédéclaration des contrats d’InterLoire";
+
+        $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
+        try {
+          //  $this->getMailer()->send($message);
+        } catch (Exception $e) {
+            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
+            return null;
+        }
+        return true;
+    }
+
     public function sendMailValidation() {
 
         $etablissement = EtablissementClient::getInstance()->find($this->drm->identifiant);
@@ -85,12 +117,12 @@ La DRM " . getFrPeriodeElision($this->drm->periode) . " de " . $etablissement->n
 
 La version PDF de cette DRM est également disponible en pièce jointe dans ce mail.
 ";
-$mess .= ($transmission_douane)? "
+$mess .= (!$transmission_douane)? "
 Dans l'attente de votre acceptation du contrat de service douane, la DRM doit être signée manuellement avant transmission par mail ou courrier postal à votre service local douanier.
 " : "
 ";
 $mess .= "
-Pour toutes questions, veuillez contacter: le service économie de l'".$interpro." " . $contact->email . " .
+Pour toutes questions, veuillez contacter le service économie de ".$interpro." : " . $contact->email . " .
 
 --
 

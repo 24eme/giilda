@@ -187,10 +187,11 @@ class DRMDetail extends BaseDRMDetail {
         if (!$hasobs) {
           $this->remove('observations');
         }
-
+        
         if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
           || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
+          || ($this->entrees->exist('retourmarchandiseacquitte') && $this->entrees->retourmarchandiseacquitte)
           || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)
           || ($this->entrees->exist('cooperative') && $this->entrees->cooperative)) {
           $this->add('replacement_date',null);
@@ -409,6 +410,11 @@ class DRMDetail extends BaseDRMDetail {
         $mouvement->date = $this->getDocument()->getDate();
 
         return $mouvement;
+    }
+
+    public function isContratExterne() {
+
+        return !$this->getCVOTaux();
     }
 
     public function getCVOTaux() {

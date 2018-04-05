@@ -17,9 +17,11 @@ class DRMClient extends acCouchdbClient {
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
     const VALIDE_STATUS_VALIDEE_ENVOYEE = 'ENVOYEE';
     const VALIDE_STATUS_VALIDEE_RECUE = 'RECUE';
-    const DRM_VERT = 'VERT';
-    const DRM_BLEU = 'BLEU';
-    const DRM_LIEDEVIN = 'LIEDEVIN';
+    const DRM_CRD_VERT = 'VERT';
+    const DRM_CRD_BLEU = 'BLEU';
+    const DRM_CRD_LIEDEVIN = 'LIEDEVIN';
+    const DRM_CRD_CATEGORIE_TRANQ = 'TRANQ';
+    const DRM_CRD_CATEGORIE_MOUSSEUX = 'MOUSSEUX';
     const DRM_DOCUMENTACCOMPAGNEMENT_DAADAC = 'DAADAC';
     const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
     const DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC = 'DSADSAC';
@@ -40,7 +42,7 @@ class DRMClient extends acCouchdbClient {
     public static $types_libelles = array(DRM::DETAILS_KEY_SUSPENDU => 'Suspendu', DRM::DETAILS_KEY_ACQUITTE => 'Acquitté');
     public static $types_node_from_libelles = array(self::TYPE_DRM_SUSPENDU => DRM::DETAILS_KEY_SUSPENDU, self::TYPE_DRM_ACQUITTE => DRM::DETAILS_KEY_ACQUITTE);
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE_SUSPENDU, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION);
-    public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
+    public static $drm_crds_couleurs = array(self::DRM_CRD_VERT => 'Vert', self::DRM_CRD_BLEU => 'Bleu', self::DRM_CRD_LIEDEVIN => 'Lie de vin');
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
     public static $drm_documents_daccompagnement = array(
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DAC',
@@ -573,33 +575,49 @@ class DRMClient extends acCouchdbClient {
     public static function storeXMLRetourFromURL($url, $verbose = false, $allwaysreturndrm = false) {
       $xml = file_get_contents($url);
       if (!$xml) {
-          throw new sfException($url." empty");
+          throw new sfException($url." vide");
       }
-      if(!preg_match('/<numero-agrement>([^<]+)</', $xml, $m)){
-          throw new sfException('Accise not found');
+      $aggrement = array();
+      $etablissement = null;
+      $cvimatch = preg_match('/<numero-cvi>([^<]+)</', $xml, $m);
+      $aggrementmatch = preg_match('/<numero-agrement>([^<]+)</', $xml, $aggrement);
+      $aggrement = isset($aggrement[1])? $aggrement[1] : null;
+
+      if(!$cvimatch && !$aggrementmatch){
+          throw new sfException("Il n'y a ni numéro de CVI ni numéro d'agrément (Accise) dans l'xml");
       }
-      $etablissement = EtablissementClient::getInstance()->findByAccises($m[1]);
+      if(isset($m[1])){
+        $etablissement = EtablissementClient::getInstance()->findByCvi($m[1]);
+      }
+      if(!$etablissement && $aggrement){
+        $etablissement = EtablissementClient::getInstance()->findByNoAccise($aggrement);
+      }
       if (!$etablissement) {
-        throw new sfException('No Etablissement found for accises '.$m[1]);
+        $idebntifiantCVI = (isset($m[1]))? $m[1] : "VIDE";
+        throw new sfException("L'établissement n'a ni été trouvé par son CVI ".$idebntifiantCVI." ni par son numéro d'agrément ".$aggrement);
       }
-      if(preg_match('/<numero-cvi>([^<]+)</', $xml, $m)){
-        $m[1] = str_replace(' ', '', $m[1]);
-        if ($etablissement->cvi != $m[1]) {
-          throw new sfException('XML CVI '.$m[1].' doest not match etablissement\'s one ('.$etablissement->identifiant.' | '.$etablissement->cvi.')');
-        }
+      if ($aggrement && ($etablissement->no_accises != $aggrement)) {
+        throw new sfException("Le numéro d'accise ".$aggrement." ne correspond pas a celui de l'établissement (".$etablissement->identifiant." | ".$etablissement->no_accises.")");
       }
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
-          throw new sfException('mois not found');
+          throw new sfException("Mois non trouvé dans l'xml");
       }
-      $mois = $m[1];
+      $mois = sprintf('%02d',intval($m[1]));
       if(!preg_match('/<annee>([^<]+)</', $xml, $m)){
-          throw new sfException('Annee not found');
+          throw new sfException("Année non trouvé dans l'xml");
       }
       $annee = $m[1];
-      if ($verbose) echo "INFO: retrieve DRM for ".$etablissement->identifiant.' '.$annee.$mois."\n";
+      if ($verbose) echo "INFO: recherche de la DRM pour ".$etablissement->identifiant.' '.$annee.$mois."\n";
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
       if (!$drm->_id) {
-          throw new sfException("No DRM found for ".$etablissement->identifiant.' '.$annee.$mois);
+          $drm->etape = self::ETAPE_VALIDATION;
+          $drm->save();
+          $drm = DRMClient::getInstance()->find($drm->_id);
+          $drm->storeXMLRetour($xml);
+          $drm->getOrAdd('transmission_douane')->add("coherente", false);
+          $drm->getOrAdd('transmission_douane')->add("diff",null);
+          $drm->save();
+          throw new sfException($drm->_id." La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée",404);
       }
       if (!$drm->storeXMLRetour($xml) && !$allwaysreturndrm) {
         return null;
@@ -623,4 +641,80 @@ class DRMClient extends acCouchdbClient {
         return $mouvementsSorted;
     }
 
+    public static function convertCRDCouleur($s) {
+      switch (preg_replace('[ _]', '', strtoupper($s))) {
+        case self::DRM_CRD_BLEU:
+          return self::DRM_CRD_BLEU;
+        case self::DRM_CRD_VERT:
+        case '':
+          return self::DRM_CRD_VERT;
+        case self::DRM_CRD_LIEDEVIN:
+          return self::DRM_CRD_LIEDEVIN;
+      }
+      return '';
+    }
+
+    public static function convertCRDGenre($s) {
+      $s = strtoupper(KeyInflector::slugify($s));
+      if (preg_match('/^TRANQ/', $s)) {
+        return self::DRM_CRD_CATEGORIE_TRANQ;
+      }
+      if (preg_match('/^MOU/', $s)) {
+        return self::DRM_CRD_CATEGORIE_MOUSSEUX;
+      }
+      return '';
+    }
+    public static function convertCRDRegime($s) {
+      $s = strtoupper(KeyInflector::slugify($s));
+      if (preg_match('/PERSONNALISE/', $s)) {
+        return EtablissementClient::REGIME_CRD_PERSONNALISE;
+      }
+      if (preg_match('/ACQUIT/', $s)) {
+        return EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE;
+      }
+      if (preg_match('/SUSPEND/', $s)) {
+        return EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
+      }
+      return '';
+    }
+    public static function convertCRDLitrage($s) {
+      return VracConfiguration::slugifyContenances($s);
+    }
+    public static function convertCRDCategorie($s) {
+      $s = strtolower(KeyInflector::slugify($s));
+      if (preg_match('/^entr/', $s)) {
+        return 'entrees';
+      }
+      if (preg_match('/^sortie/', $s)) {
+        return 'sorties';
+      }
+      if (preg_match('/debut$/', $s)) {
+        return 'stock_debut';
+      }
+      if (preg_match('/fin$/', $s)) {
+        return 'stock_fin';
+      }
+    }
+    public static function convertCRDType($s) {
+      $s = strtolower(KeyInflector::slugify($s));
+      switch ($s) {
+        case "fin":
+            return "fin";
+        case "debut":
+            return "debut";
+        case "achats":
+            return "achats";
+        case "retours":
+            return "retours";
+        case "excedents":
+            return "excedents";
+        case "utilisations":
+            return "utilisations";
+        case "destructions":
+            return "destructions";
+        case "manquants":
+            return "manquants";
+      }
+      return '';
+    }
 }

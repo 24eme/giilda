@@ -1,4 +1,5 @@
 PROJET=giilda
+PROJETURL=https://declaration.giilda.com/
 TMP=/tmp/giilda
 SYMFONYTASKOPTIONS="--application=generique --env=dev"
 WORKINGDIR=/home/giilda/project/
@@ -9,6 +10,7 @@ ELASTHOST=localhost
 ELASTPORT=9200
 ELASTBASE=giilda
 ELASTKIBANAINDEX=.kibana #ne pas changer
+COUCHDISTANTHOST=distantnode
 #PDFDIR=data/archive/
 #SAMBA_IP=xxx.xxx.xxx.xxx
 #SAMBA_SHAREDIR=aaaaa
@@ -24,7 +26,8 @@ ELASTKIBANAINDEX=.kibana #ne pas changer
 #SAMBA_XLSOFT_SHARE=
 #SAMBA_XLSOFT_DIR=
 #DEV_EMAILS="test@example.org test2@example.org"
-#REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
 EXPORTDIR=MYDIR
-URL_RETOUR_CFT=http://10.222.XXX.X/reception_douanes/XXXXXXXXX/
+CIEL_URL_RETOURXML=http://10.10.10.10/reception_douanes/SIRENINTERPO/
+URLDRMINTERNE=http://url_interne_acces_drm
+
 mkdir -p $TMP > /dev/null
