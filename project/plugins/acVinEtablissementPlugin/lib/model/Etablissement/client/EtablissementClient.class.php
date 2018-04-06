@@ -140,7 +140,7 @@ class EtablissementClient extends acCouchdbClient {
     public function findAllByCvi($cvi) {
         $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
         if (!count($rows)) {
-            return null;
+            return array();
         }
         $etbs = array();
         foreach ($rows as $row) {
