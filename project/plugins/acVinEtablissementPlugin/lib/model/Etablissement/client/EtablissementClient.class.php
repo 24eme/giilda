@@ -148,8 +148,8 @@ class EtablissementClient extends acCouchdbClient {
         }
         return $etbs;
     }
-    
-    public function findByNoAccise($accise) {
+
+    public function findByNoAccise($accise,$withSuspendu = true) {
         $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
 
         if (!count($rows)) {
