@@ -289,24 +289,26 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $type_key = $confDetailMvt->getKey();
                 if ($confDetailMvt->hasDetails() && $type_key == 'vrac' || $type_key == 'contrat') {
                   $identifiantContrat = $this->findContratDocId($csvRow);
-                  $vracObj = VracClient::getInstance()->find($identifiantContrat);
-                  if($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]){
-                    $this->csvDoc->addErreur($this->vracNotFoundError($num_ligne, $csvRow));
-                    $num_ligne++;
-                    continue;
-                  }
-                  if(preg_replace('/ /', "", $founded_produit->getLibelleFormat()) != preg_replace('/ /', "",$vracObj->getConfigProduit()->getLibelleFormat())){
-                    $this->csvDoc->addErreur($this->vracProduitNotConformError($num_ligne, $csvRow));
-                    $num_ligne++;
-                    continue;
-                  }
-                  $isRaisinMout = (($vracObj->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) ||
-                          ($vracObj->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
-                  if($isRaisinMout){
-                    $this->csvDoc->addErreur($this->vracTypeNotConformError($num_ligne, $csvRow));
-                    $num_ligne++;
-                    continue;
-                  }
+                  if($identifiantContrat){
+                      $vracObj = VracClient::getInstance()->find($identifiantContrat);
+                      if($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]){
+                        $this->csvDoc->addErreur($this->vracNotFoundError($num_ligne, $csvRow));
+                        $num_ligne++;
+                        continue;
+                      }
+                      if(preg_replace('/ /', "", $founded_produit->getLibelleFormat()) != preg_replace('/ /', "",$vracObj->getConfigProduit()->getLibelleFormat())){
+                        $this->csvDoc->addErreur($this->vracProduitNotConformError($num_ligne, $csvRow));
+                        $num_ligne++;
+                        continue;
+                      }
+                      $isRaisinMout = (($vracObj->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) ||
+                              ($vracObj->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS));
+                      if($isRaisinMout){
+                        $this->csvDoc->addErreur($this->vracTypeNotConformError($num_ligne, $csvRow));
+                        $num_ligne++;
+                        continue;
+                      }
+                   }
                 }
                 if (!$just_check) {
                     $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))]);
