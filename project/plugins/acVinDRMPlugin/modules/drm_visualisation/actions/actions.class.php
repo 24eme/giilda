@@ -13,10 +13,12 @@
  */
 class drm_visualisationActions extends drmGeneriqueActions {
     public function executeReopen(sfWebRequest $request) {
-      $this->redirect403IfIsTeledeclaration();
+      if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+        $this->redirect403IfIsTeledeclaration();
+      }
       $drm = $this->getRoute()->getDRM();
       $this->redirect403Unless($drm->isTeledeclare());
-      $this->redirect403Unless(!$drm->isNonFactures());
+      $this->redirect403Unless($drm->isNonFactures());
       $drm->valide->date_saisie = null;
       $drm->valide->date_signee = null;
       $drm->save();
@@ -33,7 +35,7 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $this->hide_rectificative = $request->getParameter('hide_rectificative');
         $this->drm_suivante = $this->drm->getSuivante();
         $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
-        $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);      
+        $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
 
         $this->recapCvos = $this->recapCvos();
     }
