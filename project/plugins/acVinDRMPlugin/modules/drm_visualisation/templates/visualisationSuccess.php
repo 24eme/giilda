@@ -103,8 +103,8 @@
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Retour à mon espace DRM</a>
     </div>
     <div class="col-xs-4 text-center">
-      <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
         <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 1)); ?>" class="btn btn-link">Télécharger le PDF Appellation</a>
+        <?php echo getPointAideHtml('drm','visualisation_pdf'); ?>
     </div>
     <div class="col-xs-4 text-right">
     <?php if ($drm->isTeledeclare() && !$isTeledeclarationMode) : ?>
