@@ -169,7 +169,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
                 }
-                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
+                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && $this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
                   $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
                 if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
@@ -240,7 +240,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       }
                     }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
                         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                        && (strpos($libelleCompletConfAOC, $libelleCompletEnCsv) === false) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                        && $libelleCompletEnCsv && (strpos($libelleCompletConfAOC, $libelleCompletEnCsv) === false) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                         && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
                         continue;
                     }

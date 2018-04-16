@@ -95,6 +95,9 @@ class DRMCsvEdi extends CsvFile {
         if(KeyInflector::slugify($country) == KeyInflector::slugify($pays)) {
           return $countryKey;
         }
+        if($countryKey == $pays) {
+          return $countryKey;
+        }
       }
       return false;
     }
