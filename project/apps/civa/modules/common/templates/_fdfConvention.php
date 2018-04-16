@@ -22,6 +22,10 @@
 /T (email)
 >> 
 <<
+/V (<?php echo ($etablissement->teledeclaration_email)? $etablissement->teledeclaration_email : $etablissement->getSociete()->getMasterCompte()->email ?>)
+/T (iemail)
+>> 
+<<
 /V ()
 /T (nom)
 >> 
@@ -68,6 +72,9 @@
 <<
 /V (<?php echo $etablissement->getSociete()->getMasterCompte()->telephone_bureau ?>)
 /T (telephone)
+>> <<
+/V (<?php echo $etablissement->getSociete()->getMasterCompte()->telephone_bureau ?>)
+/T (itelephone)
 >> 
 <<
 /V (<?php echo $etablissement->siege->code_postal.' '.$etablissement->siege->commune ?>)
