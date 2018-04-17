@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. bin/config.inc
+. $(echo $0 | sed 's/[^\/]*$//')config.inc
 
 if [ "$(echo $COUCHTEST | grep -E _test$)" == "" ]
 then
@@ -17,6 +17,17 @@ then
     exit;
 fi
 
+PID_PATH=/tmp/$APPLICATION".integrationcontinue.pid"
+
+if test -e $PID_PATH; then
+    echo "Une instance tourne déjà $PID_PATH"
+exit 2;
+fi
+
+echo $$ > $PID_PATH
+
+mkdir -p $XMLTESTDIR 2> /dev/null
+
 git pull -f
 
 BRANCH=$(cat ../.git/HEAD | sed -r 's|^ref: refs/heads/||')
@@ -26,6 +37,7 @@ DATE=$(date +%Y%m%d%H%M%S)
 if [ "$(ls $XMLTESTDIR | grep $LASTCOMMIT | grep $APPLICATION)" != "" ] && [ "$FORCE" = "" ]
 then
     echo "Test déjà effectué sur le commit $LASTCOMMIT"
+    rm $PID_PATH
     exit;
 fi
 
@@ -44,6 +56,6 @@ done
 
 php symfony cc
 
-mkdir $XMLTESTDIR 2> /dev/null
-
 APPLICATION=$APPLICATION NODELETE=1 php symfony test:unit --xml=$XMLTESTDIR/"$DATE"_"$APPLICATION"_"$LASTCOMMIT"_"$BRANCH".xml
+
+rm $PID_PATH
