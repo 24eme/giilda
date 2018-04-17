@@ -33,15 +33,17 @@ curl -X DELETE $COUCHTEST
 curl -X PUT $COUCHTEST
 
 cd ..
-rm -rf .views/*
+make clean
 make
 cd -
 
 ls $WORKINGDIR/data/configuration/$APPLICATION | while read jsonFile
 do
-    curl -X POST -d @data/configuration/bivc/$jsonFile  -H "content-type: application/json" $COUCHTEST
+    curl -X POST -d @data/configuration/$APPLICATION/$jsonFile -H "content-type: application/json" $COUCHTEST
 done
 
 php symfony cc
+
+mkdir $XMLTESTDIR 2> /dev/null
 
 APPLICATION=$APPLICATION NODELETE=1 php symfony test:unit --xml=$XMLTESTDIR/"$DATE"_"$APPLICATION"_"$LASTCOMMIT"_"$BRANCH".xml
