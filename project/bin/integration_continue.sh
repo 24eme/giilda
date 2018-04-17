@@ -26,7 +26,7 @@ fi
 
 echo $$ > $PID_PATH
 
-mkdir -p $XMLTESTDIR 2> /dev/null
+mkdir $XMLTESTDIR 2> /dev/null
 
 git pull -f
 
@@ -56,6 +56,9 @@ done
 
 php symfony cc
 
-APPLICATION=$APPLICATION NODELETE=1 php symfony test:unit --xml=$XMLTESTDIR/"$DATE"_"$APPLICATION"_"$LASTCOMMIT"_"$BRANCH".xml
+XMLFILE=$XMLTESTDIR/"$DATE"_"$APPLICATION"_"$LASTCOMMIT"_"$BRANCH".xml
+
+APPLICATION=$APPLICATION NODELETE=1 php symfony test:unit --xml=$XMLFILE
+sed -i "s|$WORKINGDIR/||" $XMLFILE
 
 rm $PID_PATH

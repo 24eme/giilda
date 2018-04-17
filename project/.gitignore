@@ -16,4 +16,4 @@ web/*.log
 web/generation/*
 web/export/*
 web/sf
-web/test/xml
+web/statuts/xml

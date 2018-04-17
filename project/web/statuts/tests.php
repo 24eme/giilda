@@ -7,10 +7,11 @@ $tests = array();
 
 foreach($files as $file) {
     if(!preg_match('/^(.+)_(.+)_(.+)_(.+)\.xml/', $file, $matches)) {
-
         continue;
     }
-    $date = preg_replace('/^([0-9]{4})([0-9]{2}([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2}))', '\1-\2-\3 \4:\5:\6', $matches[1]);
+    $xml = new SimpleXMLElement(file_get_contents($directory."/xml/".$file));
+
+    $date = preg_replace('/^([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})$/', '\1-\2-\3 \4:\5:\6', $matches[1]);
     $application = $matches[2];
     $commit = $matches[3];
     $branch = $matches[4];
@@ -21,9 +22,13 @@ foreach($files as $file) {
     $test->commit = $commit;
     $test->branch = $branch;
     $test->file = $file;
+    $test->success = !$xml['failures'] && ! $xml['errors'];
+    $test->nb = $xml['tests']*1;
 
     $tests[$test->date->format('YmdHis')] = $test;
 }
+
+krsort($tests);
 
 ?>
 <!doctype html>
@@ -40,7 +45,7 @@ foreach($files as $file) {
 </head>
 <body>
     <div class="container" style="margin-top: 20px;">
-        <h2>Tests</h2>
+        <h2>Tests <img src="/statuts/tests.svg.php" /></h2>
         <table style="margin-top: 20px;" class="table table-bordered table-striped table-sm">
             <thead>
                 <tr>
@@ -48,17 +53,20 @@ foreach($files as $file) {
                     <th class="col-xs-4">Projet</th>
                     <th class="col-xs-4">Branche</th>
                     <th class="col-xs-4">Commit</th>
+                    <th class="col-xs-4">NB Tests</th>
                     <th class="col-xs-4">État</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach($tests as $test): ?>
-                <tr>
+                <tr class="">
                     <td><?php echo $test->date->format('d/m/Y H:i'); ?></td>
                     <td><?php echo $test->application; ?></td>
                     <td><?php echo $test->branch; ?></td>
                     <td><?php echo $test->commit; ?></td>
-                    <td><a href="/test/xml/<?php echo $test->file ?>">Voir</a></td>
+                    <td class="text-center"><?php echo $test->nb; ?></td>
+                    <td class="<?php if($test->success): ?>text-success<?php else: ?>text-danger<?php endif; ?>"><?php if($test->success): ?>Succès<?php else: ?>Échec<?php endif; ?></td>
+                    <td><a href="/statuts/xml/<?php echo $test->file ?>">Voir</a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
