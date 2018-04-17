@@ -4,7 +4,7 @@ $directory = dirname(__FILE__);
 $files = scandir($directory."/xml");
 rsort($files);
 $xml = new SimpleXMLElement(file_get_contents($directory."/xml/".$files[0]));
-$success = (!$xml->attributes['failures']*1 && !$xml->attributes['errors']*1);
+$success = (!$xml['failures']*1 && !$xml['errors']*1);
 ?>
 
 <?php if($success): ?>

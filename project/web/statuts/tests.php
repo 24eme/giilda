@@ -22,7 +22,7 @@ foreach($files as $file) {
     $test->commit = $commit;
     $test->branch = $branch;
     $test->file = $file;
-    $test->success = (!$xml->attributes['failures']*1 && !$xml->attributes['errors']*1);
+    $test->success = (!$xml['failures']*1 && !$xml['errors']*1);
     $test->nb = $xml['tests']*1;
 
     $tests[$test->date->format('YmdHis')] = $test;
