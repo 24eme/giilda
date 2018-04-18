@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(25);
+$t = new lime_test(26);
 
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
@@ -17,12 +17,33 @@ $paramFacturation =  array(
 );
 
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
+$viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
+foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
+  $drm = DRMClient::getInstance()->find($k);
+  $drm->delete(false);
+}
+
+$produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
+$produit_hash = array_shift($produits);
+$periode = date('Ym');
+$drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
+$details = $drm->addProduit($produit_hash, 'details');
+$details->stocks_debut->initial = 1000;
+$details->sorties->ventefrancecrd = 200;
+$drm->update();
+$drm->save();
+$drm->validate();
+$drm->save();
 
 $mouvementsFacture = array($societeViti->identifiant => FactureClient::getInstance()->getFacturationForSociete($societeViti));
 $mouvementsFacture = FactureClient::getInstance()->filterWithParameters($mouvementsFacture, $paramFacturation);
 $prixHt = 0.0;
+$nbmvt = 0;
+if(isset($mouvementsFacture[$societeViti->identifiant])) {
 foreach ($mouvementsFacture[$societeViti->identifiant] as $mvt) {
   $prixHt += $mvt->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mvt->value[MouvementfactureFacturationView::VALUE_CVO];
+  $nbmvt++;
+}
 }
 $prixHt = $prixHt * -1;
 $prixTaxe = $prixHt * 0.2;
@@ -34,6 +55,8 @@ $facture->save();
 $t->ok($facture, "La facture est créée");
 
 $t->is($facture->identifiant, $societeViti->identifiant, "La facture appartient à la société demandé");
+
+$t->ok($facture->emetteur->adresse, "L'adresse de l'emetteur est rempli");
 
 $t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
 $t->is($facture->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC."  €");
@@ -54,7 +77,7 @@ foreach($facture->lignes as $lignes) {
 
 $t->ok(!$doublons, "Aucune ligne (par libellé) en doublon");
 
-$t->is($nbLignes, 2, "La facture à 2 lignes");
+$t->is($nbLignes, $nbmvt, "La facture à ".$nbmvt." lignes");
 
 if($application == "ivbd") {
     $t->is($facture->campagne, (date('Y')+1)."", "La campagne est de la facture est sur l'année viticole");
