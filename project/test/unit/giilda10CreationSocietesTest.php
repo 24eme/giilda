@@ -6,13 +6,15 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
     if (preg_match('/SOCIETE-([^ ]*)/', implode(' ', array_values($v->value)), $m)) {
       $soc = SocieteClient::getInstance()->findByIdentifiantSociete($m[1]);
       foreach($soc->getEtablissementsObj() as $k => $etabl) {
-          foreach (VracClient::getInstance()->retrieveBySoussigne($etabl->etablissement->identifiant)->rows as $k => $vrac) {
-            $vrac_obj = VracClient::getInstance()->find($vrac->id);
-            $vrac_obj->delete();
-          }
-          foreach (DRMClient::getInstance()->viewByIdentifiant($etabl->etablissement->identifiant) as $id => $drm) {
-            $drm = DRMClient::getInstance()->find($id);
-            $drm->delete(false);
+          if ($etabl->etablissement) {
+            foreach (VracClient::getInstance()->retrieveBySoussigne($etabl->etablissement->identifiant)->rows as $k => $vrac) {
+              $vrac_obj = VracClient::getInstance()->find($vrac->id);
+              $vrac_obj->delete();
+            }
+            foreach (DRMClient::getInstance()->viewByIdentifiant($etabl->etablissement->identifiant) as $id => $drm) {
+              $drm = DRMClient::getInstance()->find($id);
+              $drm->delete(false);
+            }
           }
       }
       $soc->delete();
@@ -41,6 +43,18 @@ $compteviti->addTag('test', 'test');
 $compteviti->addTag('test', 'test_viti');
 $compteviti->save();
 $t->is($compteviti->tags->automatique->toArray(true, false), array('societe', 'ressortissant'), "Création de société viti crée un compte du même type");
+
+$societeviti = SocieteClient::getInstance()->createSociete("société viti test 2", SocieteClient::TYPE_OPERATEUR);
+$societeviti->pays = "FR";
+$societeviti->code_postal = $codePostalRegion;
+$societeviti->commune = "Neuilly sur seine";
+$societeviti->insee = "94512";
+$societeviti->save();
+$id = $societeviti->getidentifiant();
+$compteviti = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$compteviti->addTag('test', 'test');
+$compteviti->addTag('test', 'test_viti_2');
+$compteviti->save();
 
 $societenegocvo = SocieteClient::getInstance()->createSociete("société négo de la région test", SocieteClient::TYPE_OPERATEUR);
 $societenegocvo->pays = "FR";
