@@ -38,6 +38,7 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
     }
 
     public function addProduit($produit_hash) {
+
         $code_douane = $this->getDocument()->getConfig()->get($produit_hash)->getCodeDouane(true);
         $libelle = $this->getDocument()->getConfig()->get($produit_hash)->getLibelleFormat(array(), "%format_libelle%");
 

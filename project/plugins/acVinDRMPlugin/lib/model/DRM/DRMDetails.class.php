@@ -16,8 +16,12 @@ class DRMDetails extends BaseDRMDetails {
         return $this->getDocument()->getConfig()->declaration->get("detail");
     }
 
-    public function getProduit($labels = array()) {
-        $slug = $this->slugifyLabels($labels);
+    public function getProduit($denomination_complementaire = null) {
+
+        $slug = DRM::DEFAULT_KEY;
+        if($denomination_complementaire){
+          $slug = $this->createSHA1Denom($denomination_complementaire);
+        }
         if (!$this->exist($slug)) {
 
             return false;
@@ -52,10 +56,15 @@ public function getTypeDRMLibelle() {
     return null;
 }
 
-    public function addProduit($labels = array()) {
-        $detail = $this->add($this->slugifyLabels($labels));
-        $detail->labels = $labels;
-        $detail->code_inao = $this->getParent()->getConfig()->getCodeDouane();
+public function addProduit($denomination_complementaire = null) {
+        $detailDefaultKey = DRM::DEFAULT_KEY;
+        $detail = null;
+        if($denomination_complementaire){
+          $detail = $this->add($this->createSHA1Denom($denomination_complementaire));
+          $detail->denomination_complementaire = $denomination_complementaire;
+        }else{
+          $detail = $this->add($detailDefaultKey);
+        }
         foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
             foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
                 $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
@@ -68,19 +77,12 @@ public function getTypeDRMLibelle() {
         return $detail;
     }
 
-    protected function slugifyLabels($labels) {
 
-        return KeyInflector::slugify($this->getLabelKeyFromArray($labels));
-    }
-
-    protected function getLabelKeyFromArray($labels) {
-        $key = null;
-        if ($labels && is_array($labels) && count($labels) > 0) {
-            sort($labels);
-            $key = implode('-', $labels);
-        }
-
-        return ($key) ? $key : DRM::DEFAULT_KEY;
+    public function createSHA1Denom($denomination_complementaire){
+      $denomSlugified = KeyInflector::slugify($denomination_complementaire);
+      $completeHash = $this->getHash().'/'.$denomSlugified;
+      $sha1 = hash("sha1",$completeHash);
+      return substr($sha1,0,7);
     }
 
 }

@@ -14,8 +14,8 @@
 class drm_visualisationActions extends drmGeneriqueActions {
 
     public function executeVisualisation(sfWebRequest $request) {
-	//  try {
-		      $this->drm = $this->getRoute()->getDRM();
+
+		    $this->drm = $this->getRoute()->getDRM();
 	        $this->initSocieteAndEtablissementPrincipal();
 	        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
           $this->isUsurpationMode = $this->isUsurpationMode();
@@ -25,14 +25,10 @@ class drm_visualisationActions extends drmGeneriqueActions {
 	        }
 	        $this->hide_rectificative = $request->getParameter('hide_rectificative');
 	        $this->drm_suivante = $this->drm->getSuivante();
-          $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
+            $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
 
-          $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
+            $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
 	        $this->recapCvo = DRMClient::recapCvo($this->mouvements);
-	// }catch(sfException $e) {
-	// 	$this->getUser()->setFlash("notice", 'Impossible de visualiser une DRM non validée');
-	// 	return $this->redirect('drm_etablissement', array('identifiant' => $request->getParameter('identifiant')));
-	// }
     }
 
 }
