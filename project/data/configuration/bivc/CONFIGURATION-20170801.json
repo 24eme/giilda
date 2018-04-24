@@ -1432,7 +1432,7 @@
         }
       },
       "AOC_INTERLOIRE": {
-        "libelle": "AOC Interloire",
+        "libelle": "Autre AOC",
         "format_libelle": "%g% %a% %l% %m%",
         "code": "AOC_INTERLOIRE",
         "code_produit": null,
@@ -4052,10 +4052,10 @@
           }
         }
       },
-      "AOC_HORSINTERLOIRE": {
+      "AOC_HORSBIVC": {
         "libelle": "Autre AOC",
         "format_libelle": "%g% %a% %l% %co% %m%",
-        "code": "AOC_HORSINTERLOIRE",
+        "code": "AOC_HORSBIVC",
         "code_produit": null,
         "code_comptable": null,
         "code_douane": null,
