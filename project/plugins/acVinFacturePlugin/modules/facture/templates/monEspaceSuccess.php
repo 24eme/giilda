@@ -1,6 +1,6 @@
 <?php
 use_helper('Float');
-?>    
+?>
 <!-- #principal -->
 <section id="principal">
     <p id="fil_ariane"><a href="<?php echo url_for('facture') ?>">Page d'accueil</a> &gt; <strong><?php echo $societe->raison_sociale ?></strong></p>
@@ -37,7 +37,7 @@ end_slot();
 ?>
 
 <script type="text/javascript">
-    
+
     $(document).ready( function()
     {
         $('#generation_facture').bind('click', function()
@@ -46,6 +46,5 @@ end_slot();
 	    return false;
         });
     });
-    
-</script>
 
+</script>

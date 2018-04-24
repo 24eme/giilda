@@ -15,7 +15,8 @@ function getAdresseInterloire() {
 function getDrmContact($drm) {
     $infosInterloire = getInfosInterloire();
     $infosInterloireRegion = $infosInterloire[$drm->region];
-    $drmContact = "Votre contact : " . $infosInterloireRegion['nom'] . ' - Tél: ' . $infosInterloireRegion['telephone'];
+    $nom = (array_key_exists('nom',$infosInterloireRegion))? $infosInterloireRegion['nom'] : '';
+    $drmContact = "Votre contact : " . $nom . ' - Tél: ' . $infosInterloireRegion['telephone'];
     $drmContact .= '\\\\ Email : ' . $infosInterloireRegion['email'];
     return $drmContact;
 }
