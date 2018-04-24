@@ -6,7 +6,7 @@ class DSLatex extends GenericLatex {
   const MAX_LIGNE_TEMPLATE_ONEPAGE = 35;
   const DS_OUTPUT_TYPE_PDF = 'pdf';
   const DS_OUTPUT_TYPE_LATEX = 'latex';
-  
+
 
   function __construct(DS $d, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
@@ -14,14 +14,18 @@ class DSLatex extends GenericLatex {
   }
 
   public function getNbPages() {
-    return 1;
+      $nb_rows = 0;
+          foreach ($this->ds->declarations as $decl) {
+         if($decl->hasElaboration()){ $nb_rows += 2 ;}else{ $nb_rows ++; }
+      }
+      return ceil($nb_rows / self::MAX_LIGNE_TEMPLATE_ONEPAGE);
   }
-  
+
   public function getLatexFileNameWithoutExtention() {
     return $this->getTEXWorkingDir().$this->ds->identifiant.'_'.$this->ds->periode.'_'.$this->ds->_rev;
   }
 
-  
+
   public function getLatexFileContents() {
     return html_entity_decode(htmlspecialchars_decode(
 						      get_partial('ds/generateTex', array('ds' => $this->ds,
