@@ -41,7 +41,11 @@
 				?>
 				<tr>
 					<td><?php echo $form[$hash]->renderLabel() ?></td>
-					<td<?php if ($drm->get($hash)->hasLibelleModified()): ?> class="has-warning"<?php endif; ?>><?php echo $form[$hash]->render(array('class' => 'form-control')) ?><?php echo $form[$hash]->renderError() ?></td>
+					<?php if ($drm->get($hash)->hasLibelleModified()): ?>
+					<td class="has-warning"><?php echo $form[$hash]->render(array('class' => 'form-control')) ?><?php echo $form[$hash]->renderError() ?></td>
+					<?php else: ?>
+					<td><?php echo $form[$hash]->render(array('class' => 'form-control', 'placeholder' => strip_tags(trim($form[$hash]->renderLabel())))) ?><?php echo $form[$hash]->renderError() ?></td>
+					<?php endif; ?>
 				</tr>
 				<?php endif; endforeach; ?>
 		</tbody>
@@ -68,16 +72,21 @@
 				?>
 				<tr>
 					<td><?php echo $form[$hash]->renderLabel() ?></td>
-					<td<?php if ($drm->get($hash)->hasLibelleModified()): ?> class="has-warning"<?php endif; ?>><?php echo $form[$hash]->render(array('class' => 'form-control')) ?><?php echo $form[$hash]->renderError() ?></td>
+					<?php if ($drm->get($hash)->hasLibelleModified()): ?>
+					<td class="has-warning"><?php echo $form[$hash]->render(array('class' => 'form-control')) ?><?php echo $form[$hash]->renderError() ?></td>
+					<?php else: ?>
+					<td><?php echo $form[$hash]->render(array('class' => 'form-control', 'placeholder' => strip_tags(trim($form[$hash]->renderLabel())))) ?><?php echo $form[$hash]->renderError() ?></td>
+					<?php endif; ?>
 				</tr>
 				<?php endif; endforeach; ?>
 		</tbody>
 	</table>
     <?php endif; ?>
+
 	</div>
 </fieldset>
     <div class="btn_etape">
-        	<a tabindex="-1" href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+        	<a tabindex="-1" href="<?php echo url_for('drm_visualisation', $drm) ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
         	<button type="submit" class="btn_etape_suiv"><span>Valider</span></button>
      </div>
 

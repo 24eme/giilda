@@ -50,11 +50,7 @@ class drm_editionActions extends drmGeneriqueActions {
     public function executeLibelles(sfWebRequest $request) {
     	$this->isTeledeclarationMode = $this->isTeledeclarationDrm();
     	$this->init();
-    	$actionPermitted = false;
-    	if ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN) || $this->isUsurpationMode()) {
-    		$actionPermitted = true;
-    	}
-    	if (!$actionPermitted) {
+    	if ($this->isTeledeclarationMode || !$this->drm->exist('transmission_douane') || !$this->drm->transmission_douane) {
     		$this->redirect404();
     	}
 
