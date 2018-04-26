@@ -242,4 +242,4 @@ $t->ok($volumeOK, "Vérification de la colonne volume");
 $t->ok($exportOK, "Vérification de la colonne export");
 $t->ok($contratOK, "Vérification de la colonne contrat");
 $t->is($nbMouvements, count($drm->mouvements->get($drm->identifiant)), "Tous les mouvements sont présents dans le csv");
-$t->ok($nbStocks > count($drm->getProduitsDetails())*2 && $nbStocks % 2 == 0, "Les lignes de stocks sont toutes présentes");
+$t->ok($nbStocks >= count($drm->getProduitsDetails())*2 && $nbStocks % 2 == 0, "Les lignes de stocks sont toutes présentes");
