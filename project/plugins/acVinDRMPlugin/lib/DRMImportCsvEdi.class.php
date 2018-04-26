@@ -137,7 +137,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                 $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
             }
-            if (!preg_match('/^FR0[0-9]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
+            if (!preg_match('/^FR0[0-9A-Z]{10}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                 //$this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
             }
             $ligne_num++;
@@ -443,7 +443,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $num_ligne++;
                         break;
                     }
-                    if (!preg_match('/^FR0[0-9]{10}$/', $numero_accise)) {
+                    if (!preg_match('/^FR0[0-9A-Z]{10}$/', $numero_accise)) {
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow));
                         }
