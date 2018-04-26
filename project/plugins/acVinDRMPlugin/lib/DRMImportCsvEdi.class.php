@@ -359,7 +359,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             }
             $genre = DRMClient::convertCRDGenre($csvRow[self::CSV_CRD_GENRE]);
             $couleur = DRMClient::convertCRDCouleur($csvRow[self::CSV_CRD_COULEUR]);
-            $litrageLibelle = DRMClient::convertCRDLitrage($csvRow[self::CSV_CRD_CENTILITRAGE]);
+            $litrageKey = DRMClient::convertCRDLitrage($csvRow[self::CSV_CRD_CENTILITRAGE]);
 
             $crd_regime = DRMClient::convertCRDRegime($csvRow[self::CSV_CRD_REGIME]);
             $categorie_key = DRMClient::convertCRDCategorie($csvRow[self::CSV_CRD_CATEGORIE_KEY]);
@@ -370,7 +370,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if ($categorie_key != "stock_debut" && $categorie_key != "stock_fin") {
                 $fieldNameCrd.="_" . $type_key;
             }
-            if (!isset($all_contenances[$litrageLibelle]))  {
+            if (!isset($all_contenances[$litrageKey]))  {
               $this->csvDoc->addErreur($this->centiCRDNotFoundError($num_ligne, $csvRow));
               $num_ligne++;
               continue;
@@ -401,7 +401,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               continue;
             }
             if (!$just_check) {
-                $centilitrage = $all_contenances[$litrageLibelle] * 100000;
+                $centilitrage = $all_contenances[$litrageKey] * 100000;
+                $litrageLibelle = DRMClient::getInstance()->getLibelleCRD($litrageKey);
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
                 $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
                 if (!$regimeNode->exist($keyNode)) {
