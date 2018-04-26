@@ -4,7 +4,7 @@ PRODUIT=$1
 EXPORT_PATH=$2
 
 if ! test "$PRODUIT"; then
-    echo "Il manque l'identifiant de l'etablissement en 1er argument"
+    echo "Il manque le nom du produit à filtrer en 1er argument"
     exit;
 fi
 
