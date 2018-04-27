@@ -9,7 +9,7 @@ abstract class Mouvement extends acCouchdbDocumentTree
     public function setProduitHash($value) {
         $this->_set('produit_hash',  $value);
         if(!$this->produit_libelle){
-          $this->produit_libelle = $this->getProduitConfig()->getLibelleFormat($denomination_complementaire, "%format_libelle%");
+          $this->produit_libelle = $this->getProduitConfig()->getLibelleFormat();
         }
     }
 
@@ -26,11 +26,11 @@ abstract class Mouvement extends acCouchdbDocumentTree
     public function getMD5Key() {
         $key = $this->getDocument()->identifiant . $this->produit_hash . $this->type_hash . $this->detail_identifiant;
         $key.= uniqid();
-        
+
         return md5($key);
     }
 
-    public function isFacturable() {        
+    public function isFacturable() {
         return $this->facturable;
     }
 
@@ -96,12 +96,12 @@ abstract class Mouvement extends acCouchdbDocumentTree
 
        return $this->getDocument()->getConfig()->get($this->produit_hash);
     }
-    
+
     public function getDocId() {
 
         return $this->getDocument()->_id;
     }
-   
+
 
     public function getId() {
 
