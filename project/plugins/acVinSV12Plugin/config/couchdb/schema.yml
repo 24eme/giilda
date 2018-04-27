@@ -78,6 +78,7 @@ SV12:
                       fields:
                         categorie: {  }
                         produit_hash: {  }
+                        denomination_complementaire: { }
                         produit_libelle: {  }
                         type_hash: {  }
                         type_libelle: {  }
