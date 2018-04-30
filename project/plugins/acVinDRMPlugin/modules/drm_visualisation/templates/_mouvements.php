@@ -35,9 +35,7 @@ $hasDontRevendique = false;
             <?php $i = 1; ?>
             <?php foreach ($mouvementsByProduit[$typeKey] as $produit_hash => $mouvements):
                 $mvts = $mouvements->getRawValue();
-                if(isset($mvts[0]) && $mvts[0]->doc_id){
-                  $drm = DRMClient::getInstance()->find($mvts[0]->doc_id);
-                }
+
                 $produitDetail = $drm->getDetailsByHash($produit_hash);
                 $produit_libelle = $produitDetail->getLibelle("%format_libelle%");
                 $libelleDoc = DRMClient::getInstance()->getLibelleFromId($drm->_id);
