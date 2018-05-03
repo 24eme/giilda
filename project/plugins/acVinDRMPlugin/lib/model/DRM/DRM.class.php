@@ -1640,7 +1640,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       if($this->exist($hash_details_or_cepage)){
         $node_details_or_cepage = $this->get($hash_details_or_cepage);
         if($node_details_or_cepage instanceof DRMCepage){
-          return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
+          return $node_details_or_cepage->getDetails()->getOrAdd(self::DEFAULT_KEY);
         }elseif($node_details_or_cepage instanceof DRMDetail){
           return $node_details_or_cepage;
         }
