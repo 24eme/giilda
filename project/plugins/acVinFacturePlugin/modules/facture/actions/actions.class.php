@@ -1,6 +1,6 @@
 <?php
 class factureActions extends sfActions {
-    
+
   public function executeIndex(sfWebRequest $request) {
       $this->form = new FactureSocieteChoiceForm('INTERPRO-inter-loire');
       $this->generationForm = new FactureGenerationMasseForm();
@@ -12,7 +12,7 @@ class factureActions extends sfActions {
 	 }
        }
     }
-        
+
    public function executeGeneration(sfWebRequest $request) {
         $this->generationForm = new FactureGenerationMasseForm();
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -20,7 +20,7 @@ class factureActions extends sfActions {
             $values = $this->generationForm->getValues();
             if ($this->generationForm->isValid()) {
 	              $generation = new Generation();
-           
+
                 $date_facturation = DATE::getIsoDateFromFrenchDate($values['date_facturation']);
                 $date_mouvement = DATE::getIsoDateFromFrenchDate($values['date_mouvement']);
                 $message_communication = $values['message_communication'];
@@ -42,18 +42,18 @@ class factureActions extends sfActions {
 
        return $this->redirect('generation_view', array('type_document' => $generation->type_document,'date_emission' => $generation->date_emission));
     }
-       
+
    public function executeEtablissement(sfWebRequest $request) {
      return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
    }
-    
-    public function executeMonEspace(sfWebRequest $resquest) {        
+
+    public function executeMonEspace(sfWebRequest $resquest) {
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
         $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
     }
-    
+
     public function executeDefacturer(sfWebRequest $resquest) {
         $this->facture = $this->getRoute()->getFacture();
         if(!$this->facture->hasAvoir()){
@@ -64,6 +64,7 @@ class factureActions extends sfActions {
 
 
     public function executeGenerer(sfWebRequest $request) {
+
         $parameters = $request->getParameter('facture_generation');
         $date_facturation = (!isset($parameters['date_facturation']))? null : DATE::getIsoDateFromFrenchDate($parameters['date_facturation']);
         $message_communication = (!isset($parameters['message_communication']))? null : $parameters['message_communication'];
@@ -71,11 +72,11 @@ class factureActions extends sfActions {
         if(!isset($parameters['type_document']) || !$parameters['type_document'] || $parameters['type_document'] == FactureGenerationMasseForm::TYPE_DOCUMENT_TOUS) {
           unset($parameters['type_document']);
         }
-        
+
         $this->societe = $this->getRoute()->getSociete();
 
-        $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));        
-        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);   
+        $mouvementsBySoc = array($this->societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($this->societe));
+        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);
         if($mouvementsBySoc)
         {
             $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc,$date_facturation, $message_communication);
@@ -99,7 +100,7 @@ class factureActions extends sfActions {
     }
 
     public function executeLatex(sfWebRequest $request) {
-        
+
         $this->setLayout(false);
         $this->facture = FactureClient::getInstance()->find($request->getParameter('identifiant'));
         $this->forward404Unless($this->facture);
@@ -107,9 +108,9 @@ class factureActions extends sfActions {
 	$latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
-    
+
     private function getLatexTmpPath() {
         return "/tmp/";
     }
-    
+
 }
