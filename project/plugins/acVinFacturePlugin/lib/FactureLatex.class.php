@@ -4,30 +4,16 @@ class FactureLatex extends GenericLatex {
 
   private $facture = null;
 
-  const MAX_LIGNES_PERPAGE = 50;
-  //Entête première page
-  const NB_LIGNES_ENTETE = 8;
-  //bloc total  + TVA
-  const NB_LIGNES_REGLEMENT = 15;
-  //papillon de règlement
-  const NB_LIGNES_PAPILLONS_FIXE = 2;
-  const NB_LIGNES_PAPILLONS_PAR_ECHEANCE = 4;
+  const MAX_LIGNES_PERPAGE = 28;
 
   function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
     $this->facture = $f;
   }
 
-  public function getNbLignesEcheancesPapillon() {
-    return count($this->facture->getEcheancesPapillon());
-  }
-
-  public function getNbLignesFooter() {
-    return self::NB_LIGNES_PAPILLONS_FIXE + self::NB_LIGNES_PAPILLONS_PAR_ECHEANCE * $this->getNbLignesEcheancesPapillon();
-  }
 
   public function getNbLignes() {
-    return $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE + self::NB_LIGNES_REGLEMENT + $this->getNbLignesFooter();
+    return $this->facture->getNbLignesAndDetails();
   }
 
   public function getNbPages() {
@@ -44,24 +30,12 @@ class FactureLatex extends GenericLatex {
 
 
   public function getLatexFileContents() {
-    $total_lines_without_footer =  $this->facture->getNbLignesAndDetails() + self::NB_LIGNES_ENTETE;
-    $total_pages_without_footer = floor($total_lines_without_footer / self::MAX_LIGNES_PERPAGE) + 1;
-    $line_nb = FactureLatex::NB_LIGNES_ENTETE;
-    if ($total_pages_without_footer == $this->getNbPages()) {
-      $lines_per_page = FactureLatex::MAX_LIGNES_PERPAGE;
-    }else{
-      $lines_per_page = FactureLatex::MAX_LIGNES_PERPAGE - ($this->getNbLignes() - $total_lines_without_footer) / ($this->getNbPages() - 1);
-    }
     return html_entity_decode(htmlspecialchars_decode(
 
 		get_partial("facture/pdf_generique", array('facture' => $this->facture,
 						'total_pages' => $this->getNbPages(),
-                        'total_lines' => $this->getNbLignes(),
-                        'lines_per_page' => $lines_per_page,
-                        'total_lines_footer' => $this->getNbLignes() - $total_lines_without_footer,
-                        'line_nb' => $line_nb,
-                        'page_nb' => 1,
-                        'nb_echeances' => $this->getNbLignesEcheancesPapillon()
+                        'lines_per_page' => self::MAX_LIGNES_PERPAGE,
+                        'page_nb' => 1
                         ))
 						      , HTML_ENTITIES));
   }
