@@ -88,6 +88,9 @@
               $("a#drm_nouvelle_popup_close").css("opacity","0.7");
               $(this).attr("disabled","disabled");
               $(".loading-msg").show();
+              $(this).parents('form').submit();
+
+              return false;
             });
           </script>
         <?php endif; ?>
