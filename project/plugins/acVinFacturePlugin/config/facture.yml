@@ -1,0 +1,25 @@
+all:
+  configuration:
+    facture:
+      prefix_sage: "VEN"
+      prefix_sage_divers: null
+      tva_compte: "44570100"
+      defaut_compte: null
+      type_cvo:
+        identifiant_prefix: "1"
+      type_libre:
+        identifiant_prefix: "1"
+      idcontrat: "ID"
+      stockage_code_produit: "code_compte"
+      prefix_code_comptable: ""
+      pdf_produit: false
+      pdf_nom_ref_client: "nom de reference"
+      pdf_nom_taux: "Taux"
+      pdf_display_code_comptable: true
+      echeance: "+30 days"
+      sans_categories: false
+      exercice: "comptable"
+      taux_tva:
+          19700101: 19.6
+          20140101: 20.0
+      export_shell: false

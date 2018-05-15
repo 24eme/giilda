@@ -123,7 +123,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
-        $nb += count($l->details);
+        $nb += count($l);
       }
       return $nb;
     }
@@ -296,6 +296,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             throw new sfException("Le contrat de numéro $l->contrat_identifiant n'est pas valide.");
         return ($contrat->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
     }
+
 
     public function createOrUpdateEcheanceC($ligne) {
         $ligne->echeance_code = 'C';

@@ -1,31 +1,27 @@
 <?php
 $prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
-$titre_type_facture = "Cotisation interprofessionnelle";
+$titre_type_facture = "";
 $qt_libelle = "Volume \\tiny{en hl}";
-if($facture->hasArgument(FactureClient::TYPE_FACTURE_MOUVEMENT_DIVERS)){
-    $qt_libelle = "Quantité";
-    $prix_u_libelle = "Prix U.";
-    $titre_type_facture = "";
-}
 $avoir = ($facture->total_ht <= 0);
-include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => $titre_type_facture, 'ressortissant' => $facture->declarant));
+include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => $titre_type_facture, 'ressortissant' => $facture->declarant, 'total_pages' => $total_pages));
 include_partial('facture/pdf_facture_def', array('facture' => $facture));
 include_partial('facture/pdf_generique_entete', array('facture' => $facture, 'avoir' => $avoir));
 ?>
 \centering
 \fontsize{8}{10}\selectfont
     \begin{tikzpicture}
-		\node[inner sep=1pt] (tab1){
+        \node[inner sep=1pt] (tab1){
                         \renewcommand{\arraystretch}{1.2}
-			\begin{tabular}{p{120mm} |p{20mm}|p{12mm}|p{24mm}p{0mm}}
-  			\rowcolor{lightgray}
+            \begin{tabular}{p{125mm} |p{12mm}|p{12mm}|p{18mm}|p{6mm}p{0mm}}
+            \rowcolor{lightgray}
                         \centering \small{\textbf{Libellé}} &
-   			\centering \small{\textbf{<?php echo $qt_libelle; ?>}} &
+            \centering \small{\textbf{<?php echo $qt_libelle; ?>}} &
                         \centering \small{\textbf{<?php echo $prix_u_libelle; ?>}} &
-   			\centering \small{\textbf{Montant HT \tiny{en \texteuro{}}}} &
-   			 \\
-  			\hline
-                      ~ & ~ & ~ & ~ &\\
+            \centering \small{\textbf{Montant HT en \texteuro{}}} &
+            \centering \small{\textbf{Code Ech.}} &
+             \\
+            \hline
+                        ~ & ~ & ~ & ~ & ~ &\\
 
 <?php
 
@@ -33,14 +29,10 @@ include_partial('facture/pdf_generique_entete', array('facture' => $facture, 'av
 foreach ($facture->lignes as $type => $typeLignes) {
   $line_nb++;
 ?>
-    \small{\textbf{<?php echo $typeLignes->getLibellePrincipal(); ?>}<?php if($typeLignes->getLibelleSecondaire()): ?> <?php echo $typeLignes->getLibelleSecondaire(); ?><?php endif; ?>} &
-    \multicolumn{1}{r|}{~} &
-    \multicolumn{1}{r|}{~} &
-    \multicolumn{1}{r}{~}
-    \\
+    \textbf{\large{<?php echo FactureClient::getInstance()->getTypeLignePdfLibelle($type); ?>}} & ~ & ~ & ~ & ~ & \\
     <?php
     $nb_pages = 0;
-    foreach ($typeLignes->details as $prodHash => $produit) {
+    foreach ($typeLignes as $prodHash => $produit) {
         $line_nb++;
         include_partial('facture/pdf_generique_tableRow', array('produit' => $produit->getRawValue(), 'facture' => $facture));
         //cas d'un besoin de changement de page
@@ -48,12 +40,17 @@ foreach ($facture->lignes as $type => $typeLignes) {
             //on ajoute des blancs
             ?>
             ~ & ~ & ~ & ~ &\\
-            ~ & ~ & ~ & \multicolumn{1}{r}{\textbf{.../...}} &\\
             <?php for( ; $line_nb <= FactureLatex::MAX_LIGNES_PERPAGE - 1; $line_nb++):
             ?>
             ~ & ~ & ~ & ~ &\\
           <?php endfor; ?>
-          ~ & ~ & ~ & ~ &\\
+          <?php
+          if(!$avoir){
+              echo "\multicolumn{6}{c}{Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\\\ ";
+              echo "\multicolumn{6}{c}{Indemnité forfaitaire pour frais de recouvrement: 40~\\texteuro{}} \\\\ ";
+          }
+            ?>
+            ~ & ~ & ~ & ~ &\\
                             \end{tabular}
                           };
             \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};
@@ -68,15 +65,16 @@ foreach ($facture->lignes as $type => $typeLignes) {
                 \begin{tikzpicture}
             		\node[inner sep=1pt] (tab1){
                                     \renewcommand{\arraystretch}{1.2}
-            			\begin{tabular}{p{120mm} |p{20mm}|p{12mm}|p{24mm}p{0mm}}
+            			\begin{tabular}{p{125mm} |p{12mm}|p{12mm}|p{18mm}|p{6mm}p{0mm}}
               			\rowcolor{lightgray}
                                     \centering \small{\textbf{Libellé}} &
                			\centering \small{\textbf{<?php echo $qt_libelle; ?>}} &
                                     \centering \small{\textbf{<?php echo $prix_u_libelle; ?>}} &
-               			\centering \small{\textbf{Montant HT \tiny{en \texteuro{}}}} &
+               			\centering \small{\textbf{Montant HT en \texteuro{}}} &
+               			\centering \small{\textbf{Code Ech.}} &
                			 \\
               			\hline
-                                  ~ & ~ & ~ & ~ &\\
+                                    ~ & ~ & ~ & ~ & ~ &\\
             <?php
             $nb_pages++;
             $line_nb = 0;
@@ -89,13 +87,21 @@ for($i=0; $i<$nb_blank;$i++):
     ?>
 ~ & ~ & ~ & ~ &\\
 <?php endfor; ?>
+<?php
+if(!$avoir){
+    echo "\multicolumn{6}{c}{Aucun escompte n'est prévu pour paiement anticipé. Pénalités de retard : 3 fois le taux d'intér\^{e}t légal} \\\\ ";
+    echo "\multicolumn{6}{c}{Indemnité forfaitaire pour frais de recouvrement: 40~\\texteuro{}} \\\\ ";
+}
+  ?>
+  ~ & ~ & ~ & ~ &\\
     \end{tabular}
   };
     \node[draw=gray, inner sep=-2pt, rounded corners=3pt, line width=2pt, fit=(tab1.north west) (tab1.north east) (tab1.south east) (tab1.south west)] {};
 \end{tikzpicture}
 <?php
-include_partial('facture/pdf_generique_reglement', array('facture' => $facture));
-if ($nb_echeances && !$avoir)
-    include_partial('facture/pdf_generique_echeances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
+include_partial('facture/pdf_generique_reglement', array('facture' => $facture, 'avoir' => $avoir));
+
+if (!$avoir)
+    include_partial('facture/pdf_generique_echeances', array('echeances' => $facture->echeances));
 ?>
 \end{document}
