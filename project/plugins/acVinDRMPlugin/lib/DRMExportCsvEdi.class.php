@@ -52,7 +52,7 @@ class DRMExportCsvEdi extends DRMCsvEdi {
         if($produitDetail instanceof DSDetail){
           $libelle = "";
         }else{
-          $libelle = $produitDetail->getLibelle("%format_libelle%");
+          $libelle = $produitDetail->getLibelle("%format_libelle%") . " (".$produitDetail->getCodeDouane().")";
         }
         $type_drm = ($produitDetail->getParent()->getKey() == 'details')? 'suspendu' : 'acquitte';
         if($force_type_drm){
