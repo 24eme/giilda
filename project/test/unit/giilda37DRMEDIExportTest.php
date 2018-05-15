@@ -158,7 +158,7 @@ foreach(explode("\n", $csv) as $line) {
         $denominationOK = false;
     }
 
-    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_LIBELLE_PRODUIT] != $produit1->getLibelleFormat()) {
+    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_LIBELLE_PRODUIT] != $produit1->getLibelleFormat() . " (".$produit1->getCodeDouane().")") {
         $libelleOK = false;
     }
 
