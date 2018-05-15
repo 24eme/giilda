@@ -15,6 +15,11 @@ class FactureClient extends acCouchdbClient {
     const STATUT_REDRESSEE = 'redressee';
     const STATUT_NONREDRESSABLE = 'non redressable';
 
+    const TYPE_FACTURE_MOUVEMENT_DRM = "MOUVEMENTS_DRM";
+    const TYPE_FACTURE_MOUVEMENT_SV12 = "MOUVEMENTS_SV12";
+    const TYPE_FACTURE_MOUVEMENT_SV12_NEGO = "MOUVEMENTS_SV12_NEGO";
+    const TYPE_FACTURE_MOUVEMENT_DIVERS = "MOUVEMENTS_DIVERS";
+
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12);
 
     public static function getInstance() {
@@ -113,7 +118,7 @@ class FactureClient extends acCouchdbClient {
           $date_mouvement = Date::getIsoDateFromFrenchDate($parameters['date_mouvement']);
           foreach ($mouvementsBySoc as $identifiant => $mouvements) {
               foreach ($mouvements as $key => $mouvement) {
-                      $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);                      
+                      $farDateMvt = $this->getGreatestDate($mouvement->value[MouvementfactureFacturationView::VALUE_DATE]);
                       if(Date::sup($farDateMvt,$date_mouvement)) {
   		                    unset($mouvements[$key]);
                           $mouvementsBySoc[$identifiant] = $mouvements;
