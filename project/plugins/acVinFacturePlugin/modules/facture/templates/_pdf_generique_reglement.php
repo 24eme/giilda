@@ -27,6 +27,8 @@ use_helper('Float');
             \node[inner sep=1pt] (tab2){
                     \begin{tabular}{>{\columncolor{lightgray}} l | p{22mm}}
 
+                    ~ & ~ \\
+
                     \centering \small{\textbf{Montant HT}} &
                     \multicolumn{1}{r}{\small{<?php echoArialFloat($facture->total_ht); ?>~\texteuro{}}} \\
 
