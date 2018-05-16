@@ -84,7 +84,7 @@ use_helper('Display');
 		  echo "page~\\thepage~/~\\NBPAGES\n";
 			echo "\\end{flushright}\n\n";
 			echo "\\begin{center}\n";
-		 	echo "\\large{\\textbf{\\PdfTitre}} \\\\";
+		 	echo "\\large{\\textbf{\\PdfTitre}} \\";
 			echo "\\end{center}\n\n";
 	  }
 	}
