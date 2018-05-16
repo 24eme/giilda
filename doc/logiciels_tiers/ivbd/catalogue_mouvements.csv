@@ -17,7 +17,7 @@ suspendu,entrees,retourmarchandisenontaxees,entrees-periode/achats-reintegration
 suspendu,entrees,achatcrd,entrees-periode/achats-reintegrations
 suspendu,entrees,achatnoncrd,entrees-periode/achats-reintegrations
 suspendu,entrees,regularisation,entrees-periode/autres-entrees
-suspendu,sorties,vrac,sorties-periode/sorties-sans-paiement-droits/sorties-definitives
+suspendu,sorties,contrat,sorties-periode/sorties-sans-paiement-droits/sorties-definitives
 suspendu,sorties,vracsanscontratsuspendu,sorties-periode/sorties-sans-paiement-droits/sorties-definitives
 suspendu,sorties,apportgroupement,sorties-periode/sorties-sans-paiement-droits/autres-sorties
 suspendu,sorties,export,sorties-periode/sorties-sans-paiement-droits/sorties-definitives
