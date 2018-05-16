@@ -4,7 +4,7 @@ class FactureLatex extends GenericLatex {
 
   private $facture = null;
 
-  const MAX_LIGNES_PERPAGE = 28;
+  const MAX_LIGNES_PERPAGE = 27;
 
   function __construct(Facture $f, $config = null) {
     sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
