@@ -3,7 +3,7 @@ $prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
 $titre_type_facture = "";
 $qt_libelle = "Volume \\tiny{en hl}";
 $avoir = ($facture->total_ht <= 0);
-include_partial('facture/pdf_generique_prelatex', array('pdf_titre' => $titre_type_facture, 'ressortissant' => $facture->declarant, 'total_pages' => $total_pages));
+include_partial('facture/pdf_generique_prelatex', array('facture' => $facture, 'pdf_titre' => $titre_type_facture, 'ressortissant' => $facture->declarant, 'total_pages' => $total_pages));
 include_partial('facture/pdf_facture_def', array('facture' => $facture));
 include_partial('facture/pdf_generique_entete', array('facture' => $facture, 'avoir' => $avoir));
 ?>
