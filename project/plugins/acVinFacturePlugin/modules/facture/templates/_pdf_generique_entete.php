@@ -79,11 +79,11 @@ use_helper('Display');
 			pdf_newpage_entete();
 		}
 		function pdf_newpage_entete() {
-            echo "\\vspace{0.5cm}\n";
+          echo "\\vspace{0.5cm}\n";
 			echo "\\fontsize{8}{10}\\selectfont\n";
 		  echo "\\begin{flushright}\n";
 		  echo "page~\\thepage~/~\\NBPAGES\n";
-			echo "\\end{flushright}\n\n";";
+			echo "\\end{flushright}\n\n";
 	  }
 	}
 pdf_newpage_entete();
