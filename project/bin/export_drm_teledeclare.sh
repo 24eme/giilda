@@ -25,7 +25,7 @@ fi
 echo -n > $LISTDRMFILE
 
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_changes?since=$NUMEROSEQUENCE > $CHANGESFILE
-LASTNUMEROSEQUENCE=$(grep "last_seq" $TMP/changes | sed 's/"last_seq"://' | sed 's/}//')
+LASTNUMEROSEQUENCE=$(grep "last_seq" $CHANGESFILE | sed 's/"last_seq"://' | sed 's/}//')
 
 cat $CHANGESFILE | grep "\"DRM-" | cut -d "," -f 2 | sed 's/"id":"//' | sed 's/"//' | while read id
 do
@@ -63,6 +63,6 @@ foreach(\$files as \$file) {
 		continue;
 	}
 
-	echo \"http://\".\$_SERVER['HTTP_HOST'].\$_SERVER['REQUEST_URI'].\$file.\"\n\";
+    echo \"http\".((isset(\$_SERVEUR['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].str_replace(\"list.php\", \"\", \$_SERVER['REQUEST_URI']).\$file.\"\n\";
 }
-" > $EXPORT_PATH/index.php
+" > $EXPORT_PATH/list.php
