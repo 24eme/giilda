@@ -1,4 +1,6 @@
-<?php use_helper('Display'); ?>
+<?php use_helper('Display');
+$coordonneesBancaires = $facture->getCoordonneesBancaire();
+ ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
 \usepackage[english]{babel}
@@ -39,18 +41,13 @@
 \def\NBPAGES{<?php echo $total_pages; ?>}
 
 \def\PdfTitre{<?php echo $pdf_titre; ?>}
-\def\NomInterpro{<?php echo sfConfig::get('facture_configuration_facture', array('pdf_nom_interpro'=>''))['pdf_nom_interpro']; ?>}
-\def\InterproAdresse{ <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['adresse']; ?>\\
-		       <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['code_postal']." ".sfConfig::get('app_configuration_facture')['emetteur_libre']['ville']; ?> }
-\def\InterproContact{\\ <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['telephone']; ?>
-                                                    \\ Email : <?php echo sfConfig::get('app_configuration_facture')['emetteur_libre']['email']; ?>
 										}
-\def\InterproSIRET{<?php echo sfConfig::get('app_configuration_facture')['infos_interpro']['siret']; ?>}
-\def\InterproAPE{<?php echo sfConfig::get('app_configuration_facture')['infos_interpro']['ape']; ?>}
-\def\InterproTVAIntracomm{<?php echo sfConfig::get('app_configuration_facture')['infos_interpro']['tva_intracom']; ?>}
-\def\InterproBANQUE{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['banque']; ?>}
-\def\InterproBIC{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['bic']; ?>}
-\def\InterproIBAN{<?php echo sfConfig::get('app_configuration_facture')['coordonnees_bancaire']['iban']; ?>}
+\def\InterproSIRET{<?php echo $coordonneesBancaires->siret; ?>}
+\def\InterproAPE{<?php echo $coordonneesBancaires->codeApe; ?>}
+\def\InterproTVAIntracomm{<?php echo $coordonneesBancaires->tvaIntracom; ?>}
+\def\InterproBANQUE{<?php echo $coordonneesBancaires->banque; ?>}
+\def\InterproBIC{<?php echo $coordonneesBancaires->bic; ?>}
+\def\InterproIBAN{<?php echo echo $coordonneesBancaires->iban; ?>}
 
 \def\RessortissantNom{<?php $nom = ($ressortissant->raison_sociale == '')? $ressortissant->nom : html_entity_decode($ressortissant->raison_sociale);
                             echo display_latex_string($nom,';',40);

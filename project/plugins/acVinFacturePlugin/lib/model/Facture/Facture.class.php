@@ -47,6 +47,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
         $coordonneesBancaires->bic = ' AGRIFRPP894';
         $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
+        $coordonneesBancaires->siret = ' 429 164 072 00143';
+        $coordonneesBancaires->codeApe = ' APE 9499 Z';
+        $coordonneesBancaires->tvaIntracom = ' FR 73 429164072';
         return $coordonneesBancaires;
     }
 
