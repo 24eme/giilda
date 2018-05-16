@@ -2,7 +2,6 @@
 use_helper('Date');
 use_helper('Display');
 
-$coordonneesBancaires = $facture->getCoordonneesBancaire();
 ?>
 \def\InterproAdresse{<?php echo $facture->emetteur->adresse; ?> \\
 		       <?php echo $facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?> - France}
