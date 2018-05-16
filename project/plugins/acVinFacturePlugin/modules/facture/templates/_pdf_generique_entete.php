@@ -19,7 +19,7 @@ use_helper('Display');
 \begin{minipage}[t]{0.5\textwidth}
 	\begin{flushleft}
 
-	\textbf{<?php echo ($avoir)? 'AVOIR' : 'FACTURE'; ?>} <?php if($facture->numero_interloire): ?>\small{(Facture n°~<?php echo $facture->numero_interloire ?>)}<?php endif; ?> \\
+	\textbf{<?php echo ($avoir)? 'AVOIR' : 'FACTURE'; ?>} \\
 	\vspace{0.2cm}
 	\begin{tikzpicture}
 		\node[inner sep=1pt] (tab0){
@@ -79,13 +79,11 @@ use_helper('Display');
 			pdf_newpage_entete();
 		}
 		function pdf_newpage_entete() {
+          echo "\\vspace{0.5cm}\n";
 			echo "\\fontsize{8}{10}\\selectfont\n";
 		  echo "\\begin{flushright}\n";
 		  echo "page~\\thepage~/~\\NBPAGES\n";
 			echo "\\end{flushright}\n\n";
-			echo "\\begin{center}\n";
-		 	echo "\\large{\\textbf{\\PdfTitre}} \\\\";
-			echo "\\end{center}\n\n";
 	  }
 	}
 pdf_newpage_entete();
