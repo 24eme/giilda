@@ -47,7 +47,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \def\InterproTVAIntracomm{<?php echo $coordonneesBancaires->tvaIntracom; ?>}
 \def\InterproBANQUE{<?php echo $coordonneesBancaires->banque; ?>}
 \def\InterproBIC{<?php echo $coordonneesBancaires->bic; ?>}
-\def\InterproIBAN{<?php echo echo $coordonneesBancaires->iban; ?>}
+\def\InterproIBAN{<?php echo $coordonneesBancaires->iban; ?>}
 
 \def\RessortissantNom{<?php $nom = ($ressortissant->raison_sociale == '')? $ressortissant->nom : html_entity_decode($ressortissant->raison_sociale);
                             echo display_latex_string($nom,';',40);
