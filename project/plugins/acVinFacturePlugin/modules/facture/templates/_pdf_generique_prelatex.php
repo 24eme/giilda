@@ -41,7 +41,7 @@ $coordonneesBancaires = $facture->getCoordonneesBancaire();
 \def\NBPAGES{<?php echo $total_pages; ?>}
 
 \def\PdfTitre{<?php echo $pdf_titre; ?>}
-										}
+\def\NomInterpro{Interloire}										}
 \def\InterproSIRET{<?php echo $coordonneesBancaires->siret; ?>}
 \def\InterproAPE{<?php echo $coordonneesBancaires->codeApe; ?>}
 \def\InterproTVAIntracomm{<?php echo $coordonneesBancaires->tvaIntracom; ?>}
