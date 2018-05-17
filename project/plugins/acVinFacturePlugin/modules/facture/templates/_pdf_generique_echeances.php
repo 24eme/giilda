@@ -31,6 +31,7 @@ Echéances (hors régularisation) : A = à 60 jours fin de mois, B = au 31/03 et
                 \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
                 \centering \small{\FactureRefClient~/~\FactureNum} &
                 \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
+                \multicolumn{4}{|c|}{ ~ } & \CutlnPapillon 
         <?php endforeach; ?>
 
 \end{tabular}
