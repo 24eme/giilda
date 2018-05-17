@@ -13,7 +13,7 @@ all:
       stockage_code_produit: "identifiant_analytique"
       pdf_produit: false
       pdf_nom_ref_client: "REF CLIENT"
-      pdf_nom_taux: "Taux"
+      pdf_nom_taux: "Taux en \texteuro{}/hl"
       pdf_display_code_comptable: true
       echeance: "+30 days"
       exercice: "viticole"
