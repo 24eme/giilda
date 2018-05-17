@@ -7,7 +7,7 @@ $totalPrixDroitCvo = 0;
 $totalVolumeDroitsCvo = 0;
 $totalVolumeReintegration = 0;
 $cvoTotal = 0;
-$$nbMvtsFacturable = 0;
+$nbMvtsFacturable = 0;
 
 if ($drm->mouvements->exist($drm->identifiant)) {
 	foreach ($drm->mouvements->get($drm->identifiant) as $mouvement) {
