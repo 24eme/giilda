@@ -63,6 +63,6 @@ foreach(\$files as \$file) {
 		continue;
 	}
 
-    echo \"http\".((isset(\$_SERVEUR['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].str_replace(\"list.php\", \"\", \$_SERVER['REQUEST_URI']).\$file.\"\n\";
+    echo \"http\".((isset(\$_SERVER['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].str_replace(\"list.php\", \"\", \$_SERVER['REQUEST_URI']).\$file.\"\n\";
 }
 " > $EXPORT_PATH/list.php
