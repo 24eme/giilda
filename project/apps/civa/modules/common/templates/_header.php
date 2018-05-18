@@ -1,12 +1,13 @@
 
-<?php $isAdmin = $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN); ?>
+<?php $isAdmin = ($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN) || $sf_user->isUsurpationCompte()); ?>
 <?php $compteOrigine = $sf_user->getCompte()->login; ?>
 <?php $compte = null; ?>
 <?php if($sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceEtablissementRoute): $compte = $sf_request->getAttribute('sf_route')->getEtablissement()->getMasterCompte()->identifiant;  endif; ?>
 <?php if(!$compte && $sf_request->getAttribute('sf_route')->getRawValue() instanceof InterfaceSocieteRoute): $compte = $sf_request->getAttribute('sf_route')->getSociete()->getMasterCompte()->identifiant; endif; ?>
 
 <?php if($compte && $isAdmin): ?>
-<?php $sf_user->usurpationOn($compte); ?>
+<?php $sf_user->usurpationOff(); ?>
+<?php $sf_user->usurpationOn($compte, null); ?>
 <?php endif; ?>
 
 <?php echo file_get_contents(sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine); ?>
