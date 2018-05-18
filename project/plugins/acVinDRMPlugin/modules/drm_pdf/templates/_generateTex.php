@@ -53,7 +53,7 @@ keepaspectratio]{<?php echo realpath(dirname(__FILE__) . "/../../../../../web/da
 
 
 <?php include_partial('drm_pdf/generateEnteteTex', array('drm' => $drm, 'nbPages' => $nbPages)); ?>
-\begin{document}
+\begin{document}{~}
 
 <?php if (!$drm->isValidee()): ?>
 \AddToShipoutPicture{\BackgroundPic}
