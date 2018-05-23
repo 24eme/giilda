@@ -384,7 +384,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       $value = boolval($valeur_complement);
                       break;
                   }
-                  $drmDetails = $this->drm->addProduit($founded_produit->getHash());
+		  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM])]);
                   $field = strtolower($type_complement);
                   $drmDetails->add($field, $value);
                 }
@@ -754,8 +754,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if($vrac = VracClient::getInstance()->findByNumContrat("VRAC-".KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRATID]), acCouchdbClient::HYDRATE_JSON)) {
               return $vrac->_id;
           }
+	          $v = VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID], 2);
+          if(!$v){
+              $v = VracClient::getInstance()->findDocIdByNumArchive('UNIQUE', $csvRow[self::CSV_CAVE_CONTRATID], 2);
+          }
+          return $v;
 
-          return VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID], 2);
         }
 
         /**
