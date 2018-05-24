@@ -58,11 +58,25 @@ header(\"Content-Type: text/plain\");
 \$files = scandir(dirname(__FILE__));
 rsort(\$files);
 
+\$date = null;
+
+if(isset(\$_GET['date'])) {
+    \$date = str_replace('-', '', \$_GET['date']);
+}
+
 foreach(\$files as \$file) {
 	if(!preg_match('/.csv$/', \$file)) {
 		continue;
 	}
 
-    echo \"http\".((isset(\$_SERVER['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].str_replace(\"list.php\", \"\", \$_SERVER['REQUEST_URI']).\$file.\"\n\";
+    preg_match('/^([0-9]+)_/', \$file, \$matches);
+
+    \$fileDate = \$matches[1];
+
+    if(\$date && \$fileDate < \$date) {
+        continue;
+    }
+
+    echo \"http\".((isset(\$_SERVER['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].preg_replace(\"|list\.php.*$|\", \"\", \$_SERVER['REQUEST_URI']).\$file.\"\n\";
 }
 " > $EXPORT_PATH/list.php
