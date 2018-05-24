@@ -79,14 +79,13 @@ foreach(explode("\n", $csv) as $line) {
         continue;
     }
     $data = str_getcsv($line, ";");
-
     $nblignes += 1;
 
     if(!in_array($data[DRMCsvEdi::CSV_TYPE], array("CAVE", "CRD", "ANNEXE"))) {
         $typeOK = false;
     }
 
-    if($data[DRMCsvEdi::CSV_IDENTIFIANT] != $viti->identifiant) {
+    if($data[DRMCsvEdi::CSV_IDENTIFIANT] != $viti->identifiant.' ('.$viti->cvi.')') {
         $identifiantOK = false;
     }
 
