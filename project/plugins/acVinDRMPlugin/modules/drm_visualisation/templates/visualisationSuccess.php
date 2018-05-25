@@ -69,7 +69,6 @@
         <?php endif; ?>
     <?php endif; ?>
     <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)) ?>
-
     <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)) ?>
 
     <?php if (!$isTeledeclarationMode): ?>
@@ -108,6 +107,7 @@
                     <tr><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
                   <?php else: ?>
                     <tr><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
+
                   <?php endif; ?>
                 <?php endif; ?>
             </tbody>

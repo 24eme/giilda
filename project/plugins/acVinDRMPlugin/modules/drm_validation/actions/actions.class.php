@@ -54,6 +54,7 @@ class drm_validationActions extends drmGeneriqueActions {
           $this->produits[] = $d;
       }
 
+      $this->isUsurpationMode = $this->isUsurpationMode();
       $this->form = new DRMValidationCommentaireForm($this->drm);
 
       if (!$request->isMethod(sfWebRequest::POST)) {
