@@ -30,6 +30,11 @@
 
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false, 'mouvementsByProduit' => $mouvementsByProduit, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)); ?>
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false, 'mouvementsByProduit' => $mouvementsByProduit, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)); ?>
+
+      		<?php if (!$isTeledeclarationMode && $drm->exist('transmission_douane') && $drm->transmission_douane): ?>
+            <br/>
+            <a class="btn_majeur" href="<?php echo url_for('drm_edition_libelles', $drm) ?>">Modifier les libellés produits</a>
+            <?php endif; ?>
             <?php if ($isTeledeclarationMode): ?>
                 <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)); ?>
                 <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>
