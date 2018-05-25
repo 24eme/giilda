@@ -86,7 +86,7 @@
 	</div>
 </fieldset>
     <div class="btn_etape">
-        	<a tabindex="-1" href="<?php echo url_for('drm_visualisation', $drm) ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
+        	<a tabindex="-1" href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_etape_prec"><span>Etape précédente</span></a>
         	<button type="submit" class="btn_etape_suiv"><span>Valider</span></button>
      </div>
 
