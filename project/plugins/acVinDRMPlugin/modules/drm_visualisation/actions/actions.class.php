@@ -61,8 +61,8 @@ class drm_visualisationActions extends drmGeneriqueActions {
                 $recapCvos[$version]->version = $version;
             }
             if ($mouvement->facturable) {
-                $recapCvos[$version]->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
-                $recapCvos["TOTAL"]->totalPrixDroitCvo += $mouvement->volume * -1 * $mouvement->cvo;
+                $recapCvos[$version]->totalPrixDroitCvo += $mouvement->getPrixHt();
+                $recapCvos["TOTAL"]->totalPrixDroitCvo += $mouvement->getPrixHt();
                 $recapCvos[$version]->totalVolumeDroitsCvo += $mouvement->volume * -1;
                 $recapCvos["TOTAL"]->totalVolumeDroitsCvo += $mouvement->volume * -1;
             }

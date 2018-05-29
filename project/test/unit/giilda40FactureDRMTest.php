@@ -37,6 +37,7 @@ $drm->save();
 
 $mouvementsFacture = array($societeViti->identifiant => FactureClient::getInstance()->getFacturationForSociete($societeViti));
 $mouvementsFacture = FactureClient::getInstance()->filterWithParameters($mouvementsFacture, $paramFacturation);
+
 $prixHt = 0.0;
 $nbmvt = 0;
 if(isset($mouvementsFacture[$societeViti->identifiant])) {

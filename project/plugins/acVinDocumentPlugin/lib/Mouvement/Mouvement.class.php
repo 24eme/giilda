@@ -120,4 +120,25 @@ abstract class Mouvement extends acCouchdbDocumentTree
 
         return $this->detail_libelle;
     }
+
+    public function getQuantite() {
+
+        return self::getQuantiteCalcul($this->volume, $this->facturable);
+    }
+
+    public function getPrixHt() {
+
+        return self::getPrixHtCalcul($this->volume, $this->facturable, $this->cvo);
+    }
+
+    public static function getPrixHtCalcul($volume, $facturable, $cvo) {
+
+        return self::getQuantiteCalcul($volume, $facturable) * $cvo;
+    }
+
+    public static function getQuantiteCalcul($volume, $facturable) {
+
+        return $volume * -1 * $facturable;
+
+    }
 }

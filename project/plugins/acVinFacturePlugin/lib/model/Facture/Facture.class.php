@@ -200,42 +200,6 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($ligne_0->{$champ} > $ligne_1->{$champ}) ? -1 : +1;
     }
 
-// PLUS UTILISE => TEMPLATES
-    public function storeLignesFromTemplate($cotisations) {
-        foreach ($cotisations as $key => $cotisation) {
-            $ligne = $this->lignes->add($key);
-            $ligne->libelle = $cotisation["libelle"];
-            $ligne->produit_identifiant_analytique = $cotisation["code_comptable"];
-            $ligne->origine_mouvements = $cotisation["origines"];
-            $total = 0;
-            $totalTva = 0;
-            foreach ($cotisation["details"] as $detail) {
-                $d = $ligne->details->add();
-                $d->libelle = $detail["libelle"];
-                $d->quantite = $detail["quantite"];
-                $d->prix_unitaire = $detail["prix"];
-                $d->taux_tva = $detail["taux"];
-                $d->montant_tva = $detail["tva"];
-                $d->montant_ht = $detail["total"];
-                $total += $detail["total"];
-                $totalTva += $detail["tva"];
-            }
-
-            $totalTva = round($totalTva, 2);
-            $total = round($total, 2);
-
-            $ligne->updateTotaux();
-
-            if ($totalTva != $ligne->montant_tva) {
-                throw new sfException("Incohérence");
-            }
-
-            if ($total != $ligne->montant_ht) {
-                throw new sfException("Incohérence");
-            }
-        }
-    }
-
     public function storeLignesFromMouvements($mvts, $famille, $modele) {
         foreach ($mvts as $ligneByType) {
             if (isset($this->config_sortie_array['vrac']) && $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE] == $this->config_sortie_array['vrac']) {
@@ -310,7 +274,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail = $ligne->getOrAdd('details')->add();
                     $detail->libelle = $produit_libelle;
                     $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-                    $detail->quantite = ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
+                    $detail->quantite = Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->key[MouvementfactureFacturationView::KEYS_FACTURABLE]);
                     $detail->taux_tva = 0.2;
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
                 } else {
@@ -326,7 +290,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                         $detail->taux_tva = 0.2;
                     }
-                    $detail->quantite += ($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1);
+                    $detail->quantite += Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->key[MouvementfactureFacturationView::KEYS_FACTURABLE]);
                 }
                 $produit_configuration = null;
                 if($this->configuration->exist($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
@@ -341,7 +305,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();
-                $detail->quantite = $ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME] * -1;
+                $detail->quantite = Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->key[MouvementfactureFacturationView::KEYS_FACTURABLE]);
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
                 $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
                 if(!preg_match('/^([0-9]+)_([a-z0-9]*)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
