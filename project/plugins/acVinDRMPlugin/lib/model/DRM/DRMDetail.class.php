@@ -374,7 +374,8 @@ class DRMDetail extends BaseDRMDetail {
             }
 
             if($this->getDocument()->isDrmNegoce() && $hash . "/" . $key == "entrees/recolte") {
-                $mouvement->facturable = -1;
+                $mouvement->facturable = 1;
+                $mouvement->add('coefficient_facturation', 1);
             }
 
             $mouvement->version = $this->getDocument()->getVersion();

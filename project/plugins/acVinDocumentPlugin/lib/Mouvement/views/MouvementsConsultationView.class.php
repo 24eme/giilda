@@ -25,6 +25,9 @@ class MouvementsConsultationView extends acCouchdbView
     const VALUE_CVO = 9;
     const VALUE_FACTURABLE = 10;
     const VALUE_MOUVEMENT_ID = 11;
+    const VALUE_PAYS = 12;
+    const VALUE_FACTURE = 13;
+    const VALUE_COEFFICIENT_FACTURATION = 14;
 
     public static $types_document = array("DRM", "SV12");
 
@@ -101,6 +104,12 @@ class MouvementsConsultationView extends acCouchdbView
         $mouvement->vrac_destinataire =  $row->value[self::VALUE_VRAC_DESTINATAIRE];
         $mouvement->cvo =  $row->value[self::VALUE_CVO];
         $mouvement->facturable =  $row->value[self::VALUE_FACTURABLE];
+        $mouvement->facture =  $row->value[self::VALUE_FACTURE];
+        $mouvement->coefficient_facturation = Mouvement::DEFAULT_COEFFICIENT_FACTURATION;
+
+        if(isset($row->value[self::VALUE_COEFFICIENT_FACTURATION]) && $row->value[self::VALUE_COEFFICIENT_FACTURATION]) {
+            $mouvement->coefficient_facturation = $row->value[self::VALUE_COEFFICIENT_FACTURATION];
+        }
         $mouvement->id = $row->value[self::VALUE_MOUVEMENT_ID];
 	if ($mouvement->vrac_numero) {
 	  $mouvement->numero_archive = $row->value[self::VALUE_TYPE_LIBELLE];

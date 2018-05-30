@@ -273,8 +273,8 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 if ($transacteur) {
                     $detail = $ligne->getOrAdd('details')->add();
                     $detail->libelle = $produit_libelle;
-                    $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
-                    $detail->quantite = Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->key[MouvementfactureFacturationView::KEYS_FACTURABLE]);
+                    $detail->prix_unitaire = Mouvement::getPrixUnitaireCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_CVO]);
+                    $detail->quantite = Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->value[MouvementfactureFacturationView::VALUE_COEFFICIENT_FACTURATION]);
                     $detail->taux_tva = 0.2;
                     $detail->origine_type = $this->createOrigine($transacteur, $famille, $ligneByType);
                 } else {
@@ -287,10 +287,10 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail = $ligne->getOrAdd('details')->add();
                         $detail->quantite = 0;
                         $detail->libelle = $produit_libelle;
-                        $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                        $detail->prix_unitaire = Mouvement::getPrixUnitaireCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_CVO]);
                         $detail->taux_tva = 0.2;
                     }
-                    $detail->quantite += Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->key[MouvementfactureFacturationView::KEYS_FACTURABLE]);
+                    $detail->quantite += Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->value[MouvementfactureFacturationView::VALUE_COEFFICIENT_FACTURATION]);
                 }
                 $produit_configuration = null;
                 if($this->configuration->exist($ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
@@ -305,9 +305,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             }
             elseif ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE) {
                 $detail = $ligne->getOrAdd('details')->add();
-                $detail->quantite = Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->key[MouvementfactureFacturationView::KEYS_FACTURABLE]);
+                $detail->quantite = Mouvement::getQuantiteCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_VOLUME], $ligneByType->value[MouvementfactureFacturationView::VALUE_COEFFICIENT_FACTURATION]);
                 $detail->libelle = $ligneByType->value[MouvementfactureFacturationView::VALUE_TYPE_LIBELLE];
-                $detail->prix_unitaire = $ligneByType->value[MouvementfactureFacturationView::VALUE_CVO];
+                $detail->prix_unitaire = Mouvement::getPrixUnitaireCalcul($ligneByType->value[MouvementfactureFacturationView::VALUE_CVO]);
                 if(!preg_match('/^([0-9]+)_([a-z0-9]*)$/', $ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID])){
                     throw new sfException(sprintf("L'identifiant analytique (composé) %s n'a pas le bon format !",$ligneByType->key[MouvementfactureFacturationView::KEYS_PRODUIT_ID]));
                 }

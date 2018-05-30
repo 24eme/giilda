@@ -41,7 +41,7 @@ class DRMCalendrier {
         if($this->isTeledeclarationMode) {
             foreach ($this->etablissement->getSociete()->getEtablissementsObj(!$isTeledeclarationMode) as $e)  {
                 if(!in_array($e->etablissement->famille,$famillesArray)) {
-                    continue;
+                    //continue;
                 }
 
                 $this->etablissements[] = $e->etablissement;

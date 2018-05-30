@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(26);
+$t = new lime_test(28);
 
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
@@ -148,3 +148,30 @@ if($application == 'ivso'){
 }else{
   $t->is(1, 1, "Pas de test sur la structure latex");
 }
+
+$t->comment("Facturation d'une DRM négo");
+
+$societeNego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getSociete();
+$nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
+
+foreach(DRMClient::getInstance()->viewByIdentifiant($nego->identifiant) as $k => $v) {
+  $drm = DRMClient::getInstance()->find($k);
+  $drm->delete(false);
+}
+
+$drm = DRMClient::getInstance()->createDoc($nego->identifiant, $periode, true);
+$drm->save();
+
+$details = $drm->addProduit($produit_hash, 'details');
+$details->entrees->recolte = 100;
+$drm->update();
+$drm->validate();
+$drm->save();
+
+$prixHt = $details->entrees->recolte * $details->getCVOTaux();
+
+$facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeNego, $paramFacturation);
+$facture->save();
+$t->ok($facture, "La facture est créée");
+
+$t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");

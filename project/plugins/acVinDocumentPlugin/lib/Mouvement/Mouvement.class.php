@@ -5,6 +5,7 @@ abstract class Mouvement extends acCouchdbDocumentTree
     const TYPE_HASH_CONTRAT_VRAC = 'vrac_details';
     const TYPE_HASH_CONTRAT_RAISIN = VracClient::TYPE_TRANSACTION_RAISINS;
     const TYPE_HASH_CONTRAT_MOUT = VracClient::TYPE_TRANSACTION_MOUTS;
+    const DEFAULT_COEFFICIENT_FACTURATION = -1;
 
     public function setProduitHash($value) {
         $this->_set('produit_hash',  $value);
@@ -121,24 +122,44 @@ abstract class Mouvement extends acCouchdbDocumentTree
         return $this->detail_libelle;
     }
 
+    public function getCoefficientFacturation() {
+        if($this->exist('coefficient_facturation') && $this->_get('coefficient_facturation')) {
+
+            return $this->_get('coefficient_facturation');
+        }
+
+        return self::DEFAULT_COEFFICIENT_FACTURATION;
+    }
+
+    public function getPrixUnitaire() {
+
+        return self::getPrixUnitaireCalcul($cvo);
+    }
+
     public function getQuantite() {
 
-        return self::getQuantiteCalcul($this->volume, $this->facturable);
+        return self::getQuantiteCalcul($this->volume, $this->coefficient_facturation);
     }
 
     public function getPrixHt() {
 
-        return self::getPrixHtCalcul($this->volume, $this->facturable, $this->cvo);
+        return self::getPrixHtCalcul($this->volume, $this->coefficient_facturation, $this->cvo);
     }
 
-    public static function getPrixHtCalcul($volume, $facturable, $cvo) {
+    public static function getPrixHtCalcul($volume, $coeffecientFacturation, $cvo) {
 
-        return self::getQuantiteCalcul($volume, $facturable) * $cvo;
+        return self::getPrixUnitaireCalcul($cvo) * self::getQuantiteCalcul($volume, $coeffecientFacturation);
     }
 
-    public static function getQuantiteCalcul($volume, $facturable) {
 
-        return $volume * -1 * $facturable;
+    public static function getPrixUnitaireCalcul($cvo) {
+
+        return $cvo;
+    }
+
+    public static function getQuantiteCalcul($volume, $coeffecientFacturation) {
+
+        return $volume * $coeffecientFacturation;
 
     }
 }
