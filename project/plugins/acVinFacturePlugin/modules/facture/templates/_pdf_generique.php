@@ -40,7 +40,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
             //on ajoute des blancs
             ?>
             ~ & ~ & ~ & ~ &\\
-            <?php for( ; $line_nb <= FactureLatex::MAX_LIGNES_PERPAGE - 1; $line_nb++):
+            <?php for( ; $line_nb <= $lines_per_page - 1; $line_nb++):
             ?>
             ~ & ~ & ~ & ~ &\\
           <?php endfor; ?>
@@ -82,7 +82,7 @@ foreach ($facture->lignes as $type => $typeLignes) {
     }
 }
 
-$nb_blank = FactureLatex::MAX_LIGNES_PERPAGE - $line_nb - $total_lines_footer;
+$nb_blank = $lines_per_page - $line_nb - $total_lines_footer;
 for($i=0; $i<$nb_blank;$i++):
     ?>
 ~ & ~ & ~ & ~ &\\
