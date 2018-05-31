@@ -34,7 +34,7 @@ class FactureLatex extends GenericLatex {
 
 		get_partial("facture/pdf_generique", array('facture' => $this->facture,
 						'total_pages' => $this->getNbPages(),
-                        'lines_per_page' => self::MAX_LIGNES_PERPAGE,
+                        'lines_per_page' => $this->getCalculatedMaxLignesPerPage(),
                         'page_nb' => 1
                         ))
 						      , HTML_ENTITIES));
@@ -47,6 +47,18 @@ class FactureLatex extends GenericLatex {
 
   public function getPublicFileName($extention = '.pdf') {
     return $this->getFileNameWithoutExtention().$extention;
+  }
+
+  public function getNbLignesEcheancesPapillon() {
+    return count($this->facture->getEcheances());
+  }
+
+  public function getCalculatedMaxLignesPerPage(){
+      $nbPapillons = $this->getNbLignesEcheancesPapillon();
+      if($nbPapillons <= 1){
+          return self::MAX_LIGNES_PERPAGE;
+      }
+      return self::MAX_LIGNES_PERPAGE - (3 * ($nbPapillons-1));
   }
 
 }
