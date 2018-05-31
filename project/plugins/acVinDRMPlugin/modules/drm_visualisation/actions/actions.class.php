@@ -37,5 +37,4 @@ class drm_visualisationActions extends drmGeneriqueActions {
         $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
         $this->recapCvos = DRMClient::getInstance()->getRecapCvosByMouvements($this->mouvements);
     }
-
 }

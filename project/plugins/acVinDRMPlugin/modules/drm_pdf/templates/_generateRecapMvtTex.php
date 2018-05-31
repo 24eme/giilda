@@ -6,9 +6,11 @@ use_helper('DRMPdf');
 use_helper('Display');
 $mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf($detailsNodes);
 $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
+$newPage = false;
 ?>
 
 <?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes) as $certification => $produitsDetailsByCertifications) : ?>
+
     <?php
     $libelleCertif = $produitsDetailsByCertifications->certification_libelle;
     $nb_produits = count($produitsDetailsByCertifications->produits);
@@ -44,6 +46,18 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
             $nb_produits_displayed++;
         }
         ?>
+        
+        <?php if ($newPage): ?>
+          \newpage
+          <?php $newPage = false; ?>
+        <?php endif; ?>
+        
+		  \begin{center}
+		  \begin{large}
+		  \textbf{Mouvements <?php echo $libelleDetail ?>s}
+		  \end{large}
+		  \end{center}
+		  
 
         <?php
         /*
@@ -66,7 +80,7 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
         <?php
         foreach ($produits_for_page as $counter => $produit):
             ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo $produit->getLibelle(); ?>}}}}
+            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($produit->getLibelle()); ?>}}}}
             <?php echo ($counter < count($produits_for_page) -1 ) ? "&" : ''; ?>
         <?php endforeach; ?>
         \\
@@ -168,9 +182,9 @@ $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
         \\
         \hline
         \end{tabular}
-        <?php if (($nb_pages > 1) && (($nb_pages - 1) == $index_page)) : ?>
-            \newpage
-        <?php endif; ?>
+        
+        <?php if (($nb_pages > 1) && (($nb_pages - 1) == $index_page)) $newPage = true; ?>
     <?php endfor; ?>
+    <?php $newPage = true; ?>
 <?php endforeach; ?>
 \newpage
