@@ -42,6 +42,8 @@ class DRMDetailVracItemForm extends DRMESDetailsItemForm {
             }
         }
 
+        $optionsSansContrat = array();
+
         if(DRMConfiguration::getInstance()->hasSansContratOption()) {
             $optionsSansContrat = array(DRMESDetailVrac::CONTRAT_VRAC_SANS_NUMERO => "Contrat Vrac (Sans le numéro)", DRMESDetailVrac::CONTRAT_BOUTEILLE_SANS_NUMERO => "Contrat Bouteille (Sans le numéro)");
         }

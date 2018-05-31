@@ -133,7 +133,7 @@ class drmActions extends drmGeneriqueActions {
 
                 case DRMClient::DRM_CREATION_NEANT :
                     $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
-                    $drm->etape = DRMClient::ETAPE_VALIDATION
+                    $drm->etape = DRMClient::ETAPE_VALIDATION;
                     $drm->type_creation = DRMClient::DRM_CREATION_NEANT;
                     $drm->save();
                     return $this->redirect('drm_validation', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
@@ -271,7 +271,7 @@ class drmActions extends drmGeneriqueActions {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
         $hasDrmRight = ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR) && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR);
-        
+
         if(DRMConfiguration::getInstance()->isDRMNegoce()){
             $hasDrmRight = $hasDrmRight && (($this->etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT) && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_COOPERATIVE));
         }

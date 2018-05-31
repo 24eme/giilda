@@ -107,7 +107,7 @@ class DRMESDetails extends BaseDRMESDetails {
             $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $detail->getVrac()->getRepartitionCVOCoef($detail->getVrac()->vendeur_identifiant, $detail->getDocument()->getDate());
         }
 
-        if ($config->isVrac() && $this->getProduitDetail()->isSansContrat()) {
+        if ($config->isVrac() && $detail->isSansContrat()) {
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_PRODUIT_TYPE_VINS;
             $mouvement->vrac_numero = null;
             $mouvement->vrac_destinataire = null;

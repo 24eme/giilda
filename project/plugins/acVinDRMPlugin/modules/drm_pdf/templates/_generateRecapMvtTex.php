@@ -46,18 +46,11 @@ $newPage = false;
             $nb_produits_displayed++;
         }
         ?>
-        
+
         <?php if ($newPage): ?>
           \newpage
           <?php $newPage = false; ?>
         <?php endif; ?>
-        
-		  \begin{center}
-		  \begin{large}
-		  \textbf{Mouvements <?php echo $libelleDetail ?>s}
-		  \end{large}
-		  \end{center}
-		  
 
         <?php
         /*
@@ -182,7 +175,7 @@ $newPage = false;
         \\
         \hline
         \end{tabular}
-        
+
         <?php if (($nb_pages > 1) && (($nb_pages - 1) == $index_page)) $newPage = true; ?>
     <?php endfor; ?>
     <?php $newPage = true; ?>
