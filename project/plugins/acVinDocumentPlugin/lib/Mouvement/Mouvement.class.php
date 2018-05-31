@@ -82,9 +82,13 @@ abstract class Mouvement extends acCouchdbDocumentTree
         if (!$this->isVrac()) {
             return null;
         }
+        $vrac = null;
+        try {
+            $vrac = VracClient::getInstance()->findByNumContrat($this->vrac_numero);
+        } catch(Exception $e) {
 
-        $vrac = VracClient::getInstance()->findByNumContrat($this->vrac_numero);
-
+            return null;
+        }
         if (!$vrac) {
 
             throw new sfException(sprintf("Le contrat '%s' n'a pas été trouvé", $this->vrac_numero));
