@@ -6,6 +6,8 @@ class DRMCsvEdi extends CsvFile {
     public $statut = null;
     public $countryList = array();
 
+    public static $countryTermsList = array('HK' => array('Hong Kong'));
+
     const STATUT_ERREUR = 'ERREUR';
     const STATUT_ERROR = 'ERROR';
     const STATUT_VALIDE = 'VALIDE';
@@ -68,7 +70,8 @@ class DRMCsvEdi extends CsvFile {
     protected static $permitted_annexes_type_mouvements = array('DEBUT', 'FIN');
     protected $drm = null;
     protected $csv = null;
-    protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Mousseux', 'TRANQ' => 'Tranquille','DEFAUT' => 'Tranquille');
+
+    protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Mousseux', 'TRANQ' => 'Tranquille','DEFAUT' => 'Tranquille','VCI' => 'VCI');
     protected static $stocks_non_additionnables = array("stock_debut","stock_fin","stocks_debut","stocks_fin");
     protected static $genres_synonyme = array('FINESBULLES' => 'Mousseux',
                                               'FINES-BULLES' => 'Mousseux',
@@ -114,6 +117,13 @@ class DRMCsvEdi extends CsvFile {
         if(KeyInflector::slugify($country) == KeyInflector::slugify($pays) || KeyInflector::slugify($countryKey) == KeyInflector::slugify($pays)) {
           return $countryKey;
         }
+      }
+      foreach (self::$countryTermsList as $countryKey => $countriesSynArr) {
+         foreach ($countriesSynArr as $countrieSyn) {
+             if(KeyInflector::slugify($countrieSyn) == KeyInflector::slugify($pays)) {
+               return $countryKey;
+             }
+         }
       }
       return false;
     }

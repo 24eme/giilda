@@ -47,6 +47,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
         $coordonneesBancaires->bic = ' AGRIFRPP894';
         $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
+        $coordonneesBancaires->siret = ' 429 164 072 00143';
+        $coordonneesBancaires->codeApe = ' APE 9499 Z';
+        $coordonneesBancaires->tvaIntracom = ' FR 73 429164072';
         return $coordonneesBancaires;
     }
 
@@ -117,6 +120,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $l = $this->_get('lignes')->toArray();
         usort($l, 'Facture::triOrigineDate');
         return $l;
+    }
+
+    public function getNbLignesAndDetails() {
+      $nb = 0;
+      foreach($this->lignes as $k => $l) {
+        $nb++;
+        $nb += count($l);
+      }
+      return $nb;
     }
 
     static function triOrigineDate($ligne_0, $ligne_1) {
@@ -287,6 +299,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             throw new sfException("Le contrat de numéro $l->contrat_identifiant n'est pas valide.");
         return ($contrat->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
     }
+
 
     public function createOrUpdateEcheanceC($ligne) {
         $ligne->echeance_code = 'C';
