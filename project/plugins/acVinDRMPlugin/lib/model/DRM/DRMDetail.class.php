@@ -424,7 +424,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function isContratExterne() {
 
-        return !$this->getCVOTaux();
+        return $this->getCVOTaux() <= 0;
     }
 
     public function getCVOTaux() {

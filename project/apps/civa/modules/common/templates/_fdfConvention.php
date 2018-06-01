@@ -1,62 +1,62 @@
 %FDF-1.2
 %âãÏÓ
-1 0 obj 
+1 0 obj
 <<
-/FDF 
+/FDF
 <<
 /Fields [
 <<
-/V (<?php echo $etablissement->siret ?>)
+/V (<?php echo ($etablissement->exist('siret')) ? $etablissement->siret : $etablissement->getSociete()->siret  ?>)
 /T (siret)
->> 
+>>
 <<
 /V (<?php echo $etablissement->siege->adresse.' '.$etablissement->siege->adresse_complementaire ?>)
 /T (iadresse)
->> 
+>>
 <<
 /V (CIVA)
 /T (interpro)
->> 
+>>
 <<
 /V (<?php echo ($etablissement->teledeclaration_email)? $etablissement->teledeclaration_email : $etablissement->getSociete()->getMasterCompte()->email ?>)
 /T (email)
->> 
+>>
 <<
 /V (<?php echo ($etablissement->teledeclaration_email)? $etablissement->teledeclaration_email : $etablissement->getSociete()->getMasterCompte()->email ?>)
 /T (iemail)
->> 
+>>
 <<
 /V ()
 /T (nom)
->> 
+>>
 <<
 /V (<?php echo $etablissement->no_accises ?>)
 /T (iea1)
->> 
+>>
 <<
 /V (<?php echo $etablissement->siege->code_postal.' '.$etablissement->siege->commune ?>)
 /T (icommune)
->> 
+>>
 <<
-/V (<?php echo $etablissement->siret ?>)
+/V (<?php echo ($etablissement->exist('siret')) ? $etablissement->siret : $etablissement->getSociete()->siret  ?>)
 /T (isiret)
->> 
+>>
 <<
 /V ()
 /T (prenom)
->> 
+>>
 <<
 /V ()
 /T (signemail)
->> 
+>>
 <<
 /V ()
 /T (signtelephone)
->> 
+>>
 <<
 /V ()
 /T (faita)
->> 
+>>
 <<
 /V ()
 /T (faitle)

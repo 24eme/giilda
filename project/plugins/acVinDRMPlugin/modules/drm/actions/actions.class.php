@@ -473,7 +473,7 @@ class drmActions extends drmGeneriqueActions {
     	$filename = 'convention_ciel_'.$etablissement->identifiant.'_'.$etablissement->_rev.'.pdf';
 
     	if (!file_exists($path.'/pdf/'.$filename)) {
-    		$template = 'template_convention_'.sfConfig::get('app_teledeclaration_interpro').'.pdf';
+    		$template = 'template_convention_'.sfConfig::get('sf_app').'.pdf';
     		if (!file_exists($path.'/'.$template)) {
     			throw new sfException("Le template de convention ciel ".$path."/".$template." n'existe pas.");
     		}
