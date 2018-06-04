@@ -225,13 +225,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                     if ($isEmptyArray){
                       if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                      && (strpos($libelleCompletConfAOC, $libelleCompletEnCsv) === false) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                      && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                       && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
                         continue;
                       }
                     }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
                         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                        && $libelleCompletEnCsv && (strpos($libelleCompletConfAOC, $libelleCompletEnCsv) === false) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
                         && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
                         continue;
                     }
@@ -258,6 +258,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
             if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
                     $this->importComplementMvt($csvRow,$founded_produit,$just_check);
+                    $num_ligne++;
                     continue;
            }
 
@@ -288,11 +289,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $cat_key = $confDetailMvt->getParent()->getKey();
                 $type_key = $confDetailMvt->getKey();
                 if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
-
+                    $num_ligne++;
                     continue;
                 }
                 if($csvRow[self::CSV_CAVE_VOLUME] == "") {
-                        continue;
+                    $num_ligne++;
+                    continue;
                 }
                 if ($confDetailMvt->hasDetails()) {
                    $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
