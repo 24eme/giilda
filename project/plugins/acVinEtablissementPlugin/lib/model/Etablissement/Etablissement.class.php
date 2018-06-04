@@ -205,45 +205,58 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         }
     }
 
+    public function isSynchroAutoActive() {
+
+        return sfConfig::get('app_etablissement_syncho', true);
+    }
+
     public function save() {
         $societe = $this->getSociete();
-        if(!$this->getCompte()){
-            $this->compte = $societe->getMasterCompte()->_id;
-        }
+        $this->add('date_modification', date('Y-m-d'));
 
-
-        if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
-            if ($this->isSameCompteThanSociete()) {
-                $compte = $societe->createCompteFromEtablissement($this);
-                $compte->addOrigine($this->_id);
-            } else {
-                $compte = $this->getMasterCompte();
+        if($this->isSynchroAutoActive()) {
+            if(!$this->getCompte()){
+                $this->setCompte($this->getSociete()->getMasterCompte()->_id);
             }
-
-            $this->pushContactAndAdresseTo($compte);
-
-            $compte->id_societe = $this->getSociete()->_id;
-            $compte->nom = $this->nom;
-
-            $this->compte = $compte->_id;
-        } else if(!$this->isSameCompteThanSociete()){
-            $compteEtablissement = $this->getMasterCompte();
-            $compteSociete = $this->getSociete()->getMasterCompte();
-
-            $this->compte = $compteSociete->_id;
-            $this->getSociete()->removeContact($compteEtablissement->_id);
-            $compteEtablissement = $this->compte;
         }
 
-        if($this->isSameAdresseThanSociete()) {
-            $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
-        }
-        if($this->isSameContactThanSociete()) {
-            $this->pullContactFrom($this->getSociete()->getMasterCompte());
-        }
+        if($this->isSynchroAutoActive()) {
+    		if(!$this->isSameAdresseThanSociete() || !$this->isSameContactThanSociete()){
+    		    if ($this->isSameCompteThanSociete()) {
+    		        $compte = $societe->createCompteFromEtablissement($this);
+    		        $compte->addOrigine($this->_id);
+    		    } else {
+    		        $compte = $this->getMasterCompte();
+    		    }
+
+    		    $this->pushContactAndAdresseTo($compte);
+
+    		    $compte->id_societe = $this->getSociete()->_id;
+    		    $compte->nom = $this->nom;
+
+    		    $this->compte = $compte->_id;
+    		} else if(!$this->isSameCompteThanSociete()){
+    		    $compteEtablissement = $this->getMasterCompte();
+    		    $compteSociete = $this->getSociete()->getMasterCompte();
+
+    		    $this->compte = $compteSociete->_id;
+    		    $this->getSociete()->removeContact($compteEtablissement->_id);
+    		    $compteEtablissement = $this->compte;
+    		}
+
+    		if($this->isSameAdresseThanSociete()) {
+    		    $this->pullAdresseFrom($this->getSociete()->getMasterCompte());
+    		}
+    		if($this->isSameContactThanSociete()) {
+    		    $this->pullContactFrom($this->getSociete()->getMasterCompte());
+    		}
+
+            $this->raison_sociale = $societe->raison_sociale;
+	    }
+
         $this->initFamille();
-        $this->raison_sociale = $societe->raison_sociale;
         $this->interpro = "INTERPRO-declaration";
+
         if(VracConfiguration::getInstance()->getRegionDepartement() !== false) {
             $this->region = EtablissementClient::getInstance()->calculRegion($this);
         }
@@ -254,11 +267,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
         parent::save();
 
-        $societe->save();
+	if($this->isSynchroAutoActive()) {
+        	$societe->save();
 
-        if(!$this->isSameCompteThanSociete()) {
-            $compte->save();
-        }
+	}
+
+	if($this->isSynchroAutoActive() && !$this->isSameCompteThanSociete()) {
+    		$compte->save();
+	}
+
     }
 
     public function delete() {
