@@ -219,7 +219,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
                     $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
                     $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
-                    $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
+                    $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_PRODUIT]);
 
                     $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
 
