@@ -207,7 +207,7 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
 
     public function isSynchroAutoActive() {
 
-        return sfConfig::get('app_etablissement_syncho', true);
+        return sfConfig::get('app_compte_synchro', true);
     }
 
     public function save() {
