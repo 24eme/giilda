@@ -223,6 +223,7 @@ DRM:
                                                                                                           fields:
                                                                                                             no_movements: { required: false }
                                                                                                             edited: { required: false }
+                                                                                                            denomination_complementaire: { }
                                                                                                             pas_de_mouvement_check: { type: integer }
                                                                                                             total_debut_mois: { type: float }
                                                                                                             total_entrees: { type: float }
@@ -450,6 +451,7 @@ DRM:
                     definition:
                       fields:
                         categorie: {  }
+                        denomination_complementaire: {  }
                         produit_hash: {  }
                         produit_libelle: {  }
                         type_hash: {  }
@@ -547,7 +549,7 @@ DRM:
             'success': boolean
             'horodatage': string
             'id_declaration': string
-            'coherente': { }
+            'coherente': boolean
             diff: { required: false }
 CSV:
   definition:

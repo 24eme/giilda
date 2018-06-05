@@ -30,14 +30,17 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
 
     public function configure() {
         $this->setWidgets(array(
-            'produit' => new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits()))
+            'produit' => new sfWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getProduits())),
+            'denomination_complementaire' => new sfWidgetFormInput()
         ));
         $this->widgetSchema->setLabels(array(
-            'produit' => 'Produit : '
+            'produit' => 'Produit : ',
+            'denomination_complementaire' => "Dénomination : "
         ));
 
         $this->setValidators(array(
             'produit' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits())), array('required' => "Aucun produit n'a été saisi !")),
+            'denomination_complementaire' => new sfValidatorString(array('required' => false)),
         ));
 
         $this->widgetSchema->setNameFormat('add_produit_' . $this->_produitFilter . '[%s]');
@@ -80,7 +83,11 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
 
-        $this->_drm->addProduit($values['produit'],DRM::DETAILS_KEY_SUSPENDU);
+        $denomination_complementaire = null;
+        if(isset($values["denomination_complementaire"]) && $values["denomination_complementaire"]){
+          $denomination_complementaire = $values["denomination_complementaire"];
+        }
+        $this->_drm->addProduit($values['produit'], DRM::DETAILS_KEY_SUSPENDU,$denomination_complementaire);
         $this->_drm->save();
     }
 

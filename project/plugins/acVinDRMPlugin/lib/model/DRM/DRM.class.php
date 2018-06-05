@@ -98,7 +98,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->_set('periode', $periode);
     }
 
-    public function getProduit($hash, $detailsKey, $labels = array()) {
+    public function getProduit($hash, $detailsKey, $denomination_complementaire = null) {
         if (!$this->exist($hash)) {
 
             return false;
@@ -108,19 +108,22 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             return false;
         }
-        return $this->get($hash)->get($detailsKey)->getProduit($labels);
+
+        return $this->get($hash)->get($detailsKey)->getProduit($denomination_complementaire);
     }
 
-    public function addProduit($hash, $detailsKey, $labels = array()) {
-        if ($p = $this->getProduit($hash, $detailsKey, $labels)) {
+    public function addProduit($hash, $detailsKey, $denomination_complementaire = null) {
+        $p = $this->getProduit($hash, $detailsKey, $denomination_complementaire);
+        if ($p) {
             return $p;
         }
-        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($labels);
-        $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle% %la%");
+        $detail = $this->getOrAdd($hash)->addDetailsNoeud($detailsKey)->addProduit($denomination_complementaire);
+        $detail->produit_libelle = $detail->getLibelle($format = "%format_libelle%");
 
         $this->declaration->reorderByConf();
 
-        return $this->getProduit($hash, $detailsKey, $labels);
+        $h = $this->getProduit($hash, $detailsKey, $denomination_complementaire);
+        return $h;
     }
 
     public function getDepartement() {
@@ -172,23 +175,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->declaration->getProduitsDetails($teledeclarationMode, $detailsKey);
     }
 
-    public function getDetailsByHash($hash_details_or_cepage, $detailsKey = null){
-      if($this->exist($hash_details_or_cepage)){
-        $node_details_or_cepage = $this->get($hash_details_or_cepage);
-        if($node_details_or_cepage instanceof DRMCepage){
-          if($detailsKey &&
-          in_array($detailsKey, array(self::DETAILS_KEY_SUSPENDU,self::DETAILS_KEY_ACQUITTE)) &&
-          $node_details_or_cepage->exist($detailsKey)){
-            return $node_details_or_cepage->get($detailsKey)->get(self::DEFAULT_KEY);
-          }else{
-            return $node_details_or_cepage->getDetails()->get(self::DEFAULT_KEY);
-          }
-        }elseif($node_details_or_cepage instanceof DRMDetail){
-          return $node_details_or_cepage;
-        }
-      }
-      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la $this->_id ");
-    }
 
     public function getProduitsWithCorrespondance($conf = null) {
 
@@ -539,15 +525,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
             if (!$mouvement->isVrac()) {
-
                 continue;
             }
-
             $vrac = $mouvement->getVrac();
-            $vrac->enleverVolume($mouvement->volume * -1);
             $vracs[$vrac->numero_contrat] = $vrac;
         }
-
+        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
+            if (!$mouvement->isVrac()) {
+                continue;
+            }
+            $vracs[$mouvement->getVrac()->numero_contrat]->enleverVolume($mouvement->volume * -1);
+        }
         foreach ($vracs as $vrac) {
             $vrac->save();
         }
@@ -1647,6 +1635,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return preg_replace('/<[^>]*>/', '', $this->transmission_douane->xml);
       }
       return "";
+    }
+    public function getDetailsByHash($hash_details_or_cepage){
+      if($this->exist($hash_details_or_cepage)){
+        $node_details_or_cepage = $this->get($hash_details_or_cepage);
+        if($node_details_or_cepage instanceof DRMCepage){
+          return $node_details_or_cepage->getDetails()->getOrAdd(self::DEFAULT_KEY);
+        }elseif($node_details_or_cepage instanceof DRMDetail){
+          return $node_details_or_cepage;
+        }
+      }
+      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
     }
 
     public function hasExportableProduitsAcquittes(){

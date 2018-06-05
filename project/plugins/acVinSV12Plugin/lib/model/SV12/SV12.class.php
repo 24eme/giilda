@@ -137,7 +137,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $contratObj = new stdClass();
         $contratObj->contrat_numero = $num_contrat;
         $contratObj->contrat_type = $contrat[VracClient::VRAC_VIEW_TYPEPRODUIT];
-        $contratObj->produit_libelle = $this->getConfig()->get($contrat[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat(array(), "%format_libelle% %la%");
+        $contratObj->produit_libelle = $this->getConfig()->get($contrat[VracClient::VRAC_VIEW_PRODUIT_ID])->getLibelleFormat();
         $contratObj->produit_hash = $contrat[VracClient::VRAC_VIEW_PRODUIT_ID];
         $contratObj->vendeur_identifiant = $contrat[VracClient::VRAC_VIEW_VENDEUR_ID];
         $contratObj->vendeur_nom = $contrat[VracClient::VRAC_VIEW_VENDEUR_NOM];

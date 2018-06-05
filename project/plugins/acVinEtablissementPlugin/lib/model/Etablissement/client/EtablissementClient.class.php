@@ -132,7 +132,7 @@ class EtablissementClient extends acCouchdbClient {
         }
         if(!$withSuspendu){
           foreach ($rows as $row) {
-            $etb = $this->find($rows[0]->id);
+            $etb = $this->find($row->id);
             if(!$etb->isActif()){
               continue;
             }
@@ -141,6 +141,18 @@ class EtablissementClient extends acCouchdbClient {
         }
 
         return $this->find($rows[0]->id);
+    }
+
+    public function findAllByCvi($cvi) {
+        $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
+        if (!count($rows)) {
+            return array();
+        }
+        $etbs = array();
+        foreach ($rows as $row) {
+            $etbs[$row->id] = $this->find($row->id);
+        }
+        return $etbs;
     }
 
     public function findByNoAccise($accise,$withSuspendu = true) {

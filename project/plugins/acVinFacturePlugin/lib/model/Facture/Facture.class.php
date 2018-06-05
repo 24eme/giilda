@@ -47,6 +47,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $coordonneesBancaires->banque = 'Crédit Agricole Touraine Poitou';
         $coordonneesBancaires->bic = ' AGRIFRPP894';
         $coordonneesBancaires->iban = ' FR76~1940~6370~1579~1722~5300~105';
+        $coordonneesBancaires->siret = ' 429 164 072 00143';
+        $coordonneesBancaires->codeApe = ' APE 9499 Z';
+        $coordonneesBancaires->tvaIntracom = ' FR 73 429164072';
         return $coordonneesBancaires;
     }
 
@@ -117,6 +120,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $l = $this->_get('lignes')->toArray();
         usort($l, 'Facture::triOrigineDate');
         return $l;
+    }
+
+    public function getNbLignesAndDetails() {
+      $nb = 0;
+      foreach($this->lignes as $k => $l) {
+        $nb++;
+        $nb += count($l);
+      }
+      return $nb;
     }
 
     static function triOrigineDate($ligne_0, $ligne_1) {
@@ -288,6 +300,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return ($contrat->type_contrat == VracClient::TYPE_CONTRAT_PLURIANNUEL);
     }
 
+
     public function createOrUpdateEcheanceC($ligne) {
         $ligne->echeance_code = 'C';
         $date = str_replace('-', '', $this->date_facturation);
@@ -303,14 +316,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return;
         }
 
-        //if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}              
+        //if(01/04/N < date < 31/05/N)   { 50% au 30/06/N et 50% 30/09/N}
         if ($date < $d2) {
             $this->updateEcheance('C', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht * 0.5);
             return;
         }
 
-        //if(30/06/N < date < 30/09/N) { 100% 30/09/N } 
+        //if(30/06/N < date < 30/09/N) { 100% 30/09/N }
         if ($date < $d3) {
             $this->updateEcheance('C', date('Y') . '-09-30', $ligne->montant_ht);
             return;
@@ -325,14 +338,14 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $date = str_replace('-', '', $this->date_facturation);
 
         $d1 = date('Y') . '0331'; // 31/03/N
-        $d2 = date('Y') . '0630'; // 30/06/N  
+        $d2 = date('Y') . '0630'; // 30/06/N
         //if( date < 31/03/N) { 50% 31/03/N 50% 30/06/N}
         if ($date < $d1) {
             $this->updateEcheance('B', date('Y') . '-03-31', $ligne->montant_ht * 0.5);
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht * 0.5);
             return;
         }
-        //if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }              
+        //if(01/04/N <= date < 30/06/N)   { 100% au 30/06 }
         if ($date < $d2) {
             $this->updateEcheance('B', date('Y') . '-06-30', $ligne->montant_ht);
             return;
@@ -537,6 +550,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function setDateFacturation($d) {
 	    if (!preg_match('/^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]$/', $d)) {
+            $m = array();
+            if (!preg_match('/^[0-9][0-9]\/[0-9][0-9]\/[0-9][0-9][0-9][0-9]$/', $d,$m)) {
+                var_dump($m); exit;
+    		    throw new sfException("Mauvais format de date");
+    	    }
 		    throw new sfException("Mauvais format de date");
 	    }
 	    return $this->_set('date_facturation', $d);
