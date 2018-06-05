@@ -78,8 +78,8 @@ foreach ($facture->lignes as $type => $typeLignes) {
 }
 
 $nb_blank = FactureLatex::MAX_LIGNES_PERPAGE - $line_nb - $total_lines_footer;
-echo "~ & ~ & ~ & ~ &\\\\";
-for($i=0; $i < $nb_blank;$i++):
+
+for($i=0; $i<$nb_blank;$i++):
     ?>
 ~ & ~ & ~ & ~ &\\
 <?php endfor; ?>
