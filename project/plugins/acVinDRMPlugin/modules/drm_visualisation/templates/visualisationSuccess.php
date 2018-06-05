@@ -65,6 +65,8 @@
 
         <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)) ?>
         <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)) ?>
+    	
+      	
     </div>
 </div>
 
@@ -90,7 +92,7 @@
   <div class="col-xs-12">
     <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title text-center">Transmission proDou@ane</h3>
+          <h3 class="panel-title text-center"<?php if (!$isTeledeclarationMode): ?> style="padding: 0 0 5px 0;"<?php endif; ?>>Transmission proDou@ane <?php if (!$isTeledeclarationMode): ?><a class="btn btn-warning btn-xs pull-right" href="<?php echo url_for('drm_edition_libelles', $drm) ?>">Modifier les libellés prodouane</a><?php endif; ?></h3>
         </div>
         <div class="panel-content>">
             <table class="table table-striped table-condensed">
@@ -170,7 +172,7 @@
         <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
     </div>
     <div class="col-xs-4 text-right">
-    <?php if ($drm->isTeledeclare() && !$isTeledeclarationMode) : ?>
+    <?php if ($drm->isTeledeclare() && (!$isTeledeclarationMode || ($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)))) : ?>
           <?php if ($drm->isNonFactures()): ?>
           <a href="<?php echo url_for('drm_reopen', $drm); ?>" class="btn btn-warning">Reouvrir la DRM</a>
           <?php else: ?>
@@ -184,5 +186,5 @@
         <a style="margin-left: 5px;" href="https://pro.douane.gouv.fr/" class="btn btn-success" ><span>Se rendre sur Pro Dou@ne</span></a>
       <?php endif; ?>
     <?php endif; ?>
-  </div>
+    </div>
 </div>

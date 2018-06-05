@@ -13,6 +13,7 @@
                          <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu()) ? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu()) ? 'javascript:void(0)' : url_for('etablissement_modification', $etablissement); ?>">Editer</a></li>
                          <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu())? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu())? 'javascript:void(0)' : url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>">Suspendre</a></li>
                          <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isActif())? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isActif())? 'javascript:void(0)' : url_for('etablissement_switch_statut', array('identifiant' => $etablissement->identifiant)); ?>">Activer</a></li>
+                         <li<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu() || !$etablissement->exist('crd_regime') || !$etablissement->crd_regime)? ' class="disabled"' : ''; ?>><a href="<?php echo ($etablissement->getSociete()->isSuspendu() || $etablissement->isSuspendu() || !$etablissement->exist('crd_regime') || !$etablissement->crd_regime)? 'javascript:void(0)' : url_for('etablissement_reinit_crd', array('identifiant' => $etablissement->identifiant)); ?>">Réinitialiser régime CRD</a></li>
                        </ul>
             </div></div>
         </div>
@@ -83,9 +84,15 @@
                 <li>Carte professionnelle : <?php echo $etablissement->carte_pro; ?></li>
             <?php endif; ?>
             <li>Région : <?php echo $etablissement->region; ?></li>
-            <?php if ($etablissement->exist('crd_regime')): ?>
-                <li>Régime CRD : <?php echo $etablissement->crd_regime; ?></li>
-            <?php endif; ?>
+            <?php if ($etablissement->exist('crd_regime') && $etablissement->getCrdRegimeArray()) : ?>
+                <li>Régime CRD :&nbsp;
+                   <?php foreach ($etablissement->getCrdRegimeArray() as $crd_regime):
+                       echo EtablissementClient::$regimes_crds_libelles[$crd_regime].'&nbsp;&nbsp;';
+                    ?>
+                   <br/>
+               <?php endforeach ?>
+               </li>
+           <?php endif; ?>
         </ul>
 
         <?php if ($etablissement->commentaire) : ?>

@@ -26,6 +26,7 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_LIEU = 8;
     const CSV_CAVE_COULEUR = 9;
     const CSV_CAVE_CEPAGE = 10;
+    const CSV_CAVE_LIBELLE_COMPLEMENTAIRE = 11;
     const CSV_CAVE_LIBELLE_PRODUIT = 12;
     const CSV_CAVE_TYPE_DRM = 13;
     const CSV_CAVE_CATEGORIE_MOUVEMENT = 14;
@@ -57,6 +58,11 @@ class DRMCsvEdi extends CsvFile {
     const CSV_ANNEXE_NONAPUREMENTACCISEDEST = 18;
     const CSV_ANNEXE_NUMERODOCUMENT = 19;
     const CSV_ANNEXE_OBSERVATION = 20;
+
+    const COMPLEMENT = "COMPLEMENT";
+    const COMPLEMENT_OBSERVATIONS = "OBSERVATIONS";
+    const COMPLEMENT_TAV = "TAV";
+    const COMPLEMENT_PREMIX = "PREMIX";
 
     protected static $permitted_types = array(self::TYPE_CAVE,
         self::TYPE_CRD,
