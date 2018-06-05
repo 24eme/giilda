@@ -81,7 +81,7 @@ $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 \end{large}
 \end{center}
 \begin{tabular}{C{43mm} |C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}
-\multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
+\multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation (des vins tranquilles et mousseux uniquement)}}}}
 \\
 \hline
 \rowcolor{lightgray}
