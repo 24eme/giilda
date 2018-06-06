@@ -430,12 +430,23 @@ class Vrac extends BaseVrac {
         return $this->numero_contrat;
     }
 
-    public function enleverVolume($vol) {
-        $this->volume_enleve += $vol;
-
-        if ($this->volume_enleve < 0) {
-
-            throw new sfException(sprintf("Suite à un enlevement le volume enleve sur le contrat '%s' est négatif, ce n'est pas normal !", $this->get('_id')));
+    public function updateVolumesEnleves() {
+        $this->volume_enleve = 0;
+        $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->vendeur_identifiant, $this->campagne);
+        $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->acheteur_identifiant, $this->campagne);
+        foreach ($mvts_drm as $key => $mvt) {
+            $pos = strpos($mvt->produit_hash, $this->produit);
+            if($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id){
+                $volume_enleve = $mvt->volume * -1;
+                $this->volume_enleve += $volume_enleve;
+            }
+        }
+        foreach ($mvts_sv12 as $key => $mvt) {
+            $pos = strpos($mvt->produit_hash, $this->produit);
+            if($pos !== false && $mvt->detail_identifiant == $this->_id){
+                $volume_enleve = $mvt->volume * -1;
+                $this->volume_enleve += $volume_enleve;
+            }
         }
 
         if ($this->volume_propose * 0.9 <= $this->volume_enleve) {
@@ -444,6 +455,7 @@ class Vrac extends BaseVrac {
             $this->desolder();
         }
     }
+
 
     public function isSolde() {
         return $this->valide->statut == VracClient::STATUS_CONTRAT_SOLDE;

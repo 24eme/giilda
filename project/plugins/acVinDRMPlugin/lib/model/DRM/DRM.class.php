@@ -472,9 +472,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->archivage_document->archiver();
         }
 
-        if (!isset($options['no_vracs']) || !$options['no_vracs']) {
-            $this->updateVracs();
-        }
         if (!isset($options['validation_step']) || !$options['validation_step']) {
             if ($this->getSuivante() && $this->isSuivanteCoherente()) {
                 $this->getSuivante()->precedente = $this->get('_id');
@@ -511,10 +508,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function updateVracs() {
-        if (!$this->isValidee()) {
-
-            throw new sfException("La DRM doit être validée pour pouvoir enlever les volumes des contrats vracs");
-        }
 
         $vracs = array();
 
@@ -534,7 +527,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             if (!$mouvement->isVrac()) {
                 continue;
             }
-            $vracs[$mouvement->getVrac()->numero_contrat]->enleverVolume($mouvement->volume * -1);
+            $vracs[$mouvement->getVrac()->numero_contrat]->updateVolumesEnleves();
         }
         foreach ($vracs as $vrac) {
             $vrac->save();
