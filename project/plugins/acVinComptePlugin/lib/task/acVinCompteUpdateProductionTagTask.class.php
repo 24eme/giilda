@@ -82,7 +82,7 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
                 }
                 $tags['produit'][$produit_libelle] = 1;
                 if ($m->detail_libelle && preg_match("/Export/", $m->type_libelle)) {
-                    $tags['export'][$m->detail_libelle] = 1;
+                    $tags['export'][$this->replaceAccents($m->detail_libelle)] = 1;
                 }
             }
             $contratDomaines = VracDomainesView::getInstance()->findDomainesByVendeur(str_replace('ETABLISSEMENT-', '', $id));
