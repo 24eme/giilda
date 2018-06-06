@@ -137,6 +137,8 @@ class acVinCompteUpdateProductionTagTask extends sfBaseTask {
     public function getProduitLibelle($hash) {
         $configuration = ConfigurationClient::getInstance()->getCurrent();
 
+        $hash = preg_replace('|^(.*)/details[a-zA-Z0-9]*/[a-zA-Z0-9]+$|', '\1', $hash);
+
         if(!$configuration->exist($hash)) {
             echo "Hash non trouvé :".$hash."\n";
             return null;
