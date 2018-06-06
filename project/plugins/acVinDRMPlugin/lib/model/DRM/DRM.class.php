@@ -512,6 +512,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function devalidate(){
+        if($this->isFacture()) {
+            throw new sfException("La DRM est validée");
+        }
       $this->valide->date_saisie = null;
       $this->valide->date_signee = null;
       $this->deleteVracs();
