@@ -66,7 +66,7 @@ class FactureLigne extends BaseFactureLigne {
     public function getConfProduit() {
         $produitHash = $this->produit_hash;
         $m = array();
-        if(preg_match('/(.*)\/details[a-zA-Z0-9]+\/[a-zA-Z0-9]+$/',$produitHash,$m)){
+        if(preg_match('/(.*)\/details[a-zA-Z0-9]*\/[a-zA-Z0-9]+$/',$produitHash,$m)){
             $produitHash = $m[1];
         }
         return $this->getConf()->get($produitHash);
