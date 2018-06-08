@@ -146,32 +146,33 @@ abstract class Mouvement extends acCouchdbDocumentTree
 
     public function getQuantite() {
         if($this->exist('quantite')) {
-
-            return $this->_get('quantite');
+            $quantite = $this->_get('quantite');
+        } else {
+            $quantite = $this->volume;
         }
 
-        return self::getQuantiteCalcul($this->volume, $this->coefficient_facturation);
+        return self::getQuantiteCalcul($quantite, $this->getCoefficientFacturation());
     }
 
     public function getPrixHt() {
 
-        return self::getPrixHtCalcul($this->volume, $this->coefficient_facturation, $this->cvo);
+        return self::getPrixHtCalcul($this->getQuantite(), $this->getCoefficientFacturation(), $this->getPrixUnitaire());
     }
 
-    public static function getPrixHtCalcul($volume, $coeffecientFacturation, $cvo) {
+    public static function getPrixHtCalcul($quantite, $coeffecientFacturation, $prixUnitaire) {
 
-        return self::getPrixUnitaireCalcul($cvo) * self::getQuantiteCalcul($volume, $coeffecientFacturation);
+        return self::getPrixUnitaireCalcul($prixUnitaire) * self::getQuantiteCalcul($quantite, $coeffecientFacturation);
     }
 
 
-    public static function getPrixUnitaireCalcul($cvo) {
+    public static function getPrixUnitaireCalcul($prix_unitaire) {
 
-        return $cvo;
+        return $prix_unitaire;
     }
 
-    public static function getQuantiteCalcul($volume, $coeffecientFacturation) {
+    public static function getQuantiteCalcul($quantite, $coeffecientFacturation) {
 
-        return $volume * $coeffecientFacturation;
+        return $quantite * $coeffecientFacturation;
 
     }
 }
