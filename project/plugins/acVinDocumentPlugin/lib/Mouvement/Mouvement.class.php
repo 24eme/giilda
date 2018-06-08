@@ -141,38 +141,38 @@ abstract class Mouvement extends acCouchdbDocumentTree
             return $this->_get('prix_unitaire');
         }
 
-        return self::getPrixUnitaireCalcul($cvo);
+        return self::getPrixUnitaireCalcul($this->cvo);
     }
 
     public function getQuantite() {
         if($this->exist('quantite')) {
-            $quantite = $this->_get('quantite');
+            $quantiteInverse = $this->_get('quantite');
         } else {
-            $quantite = $this->volume;
+            $quantiteInverse = $this->volume;
         }
 
-        return self::getQuantiteCalcul($quantite, $this->getCoefficientFacturation());
+        return self::getQuantiteCalcul($quantiteInverse, $this->getCoefficientFacturation());
     }
 
     public function getPrixHt() {
 
-        return self::getPrixHtCalcul($this->getQuantite(), $this->getCoefficientFacturation(), $this->getPrixUnitaire());
+        return self::getPrixHtCalcul($this->getQuantite(), $this->getPrixUnitaire());
     }
 
-    public static function getPrixHtCalcul($quantite, $coeffecientFacturation, $prixUnitaire) {
+    public static function getPrixHtCalcul($quantite, $prixUnitaire) {
 
-        return self::getPrixUnitaireCalcul($prixUnitaire) * self::getQuantiteCalcul($quantite, $coeffecientFacturation);
+        return $prixUnitaire * $quantite;
     }
 
 
-    public static function getPrixUnitaireCalcul($prix_unitaire) {
+    public static function getPrixUnitaireCalcul($prixUnitaire) {
 
-        return $prix_unitaire;
+        return $prixUnitaire;
     }
 
-    public static function getQuantiteCalcul($quantite, $coeffecientFacturation) {
+    public static function getQuantiteCalcul($quantiteInverse, $coeffecientFacturation) {
 
-        return $quantite * $coeffecientFacturation;
+        return $quantiteInverse * $coeffecientFacturation;
 
     }
 }
