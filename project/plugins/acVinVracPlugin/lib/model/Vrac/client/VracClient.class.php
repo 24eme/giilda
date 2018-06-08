@@ -578,7 +578,7 @@ class VracClient extends acCouchdbClient {
             $result.= $vrac->produit_libelle . ';';
             $result.= str_replace('.', ',', $quantite) . ';';
             $result.= str_replace('.', ',', $vrac->prix_unitaire) . ';';
-            $result.= str_replace($vrac->millesime) . ';';
+            $result.= $vrac->millesime . ';';
 
             $result.= $vrac->valide->statut . ';';
             $result.= $vrac->type_transaction . ';';
