@@ -360,6 +360,9 @@ class DRMDetail extends BaseDRMDetail {
             if (!$this->getConfig()->exist($hash . "/" . $key)) {
                 continue;
             }
+
+            $config = $this->getConfig()->get($hash . '/' . $key);
+
             $mouvement = DRMMouvement::freeInstance($this->getDocument());
             $mouvement->produit_libelle = $this->getLibelle();
             $mouvement->produit_hash = $this->getHash(); //WARNING : ceci change tout je pense
@@ -368,12 +371,13 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->facture = 0;
             $mouvement->region = $this->getDocument()->region;
             $mouvement->cvo = $this->getCVOTaux();
-            $mouvement->facturable = ($this->getConfig()->get($hash . "/" . $key)->facturable && $mouvement->cvo > 0) ? 1 : 0;
+            $mouvement->facturable = ($config->facturable && $mouvement->cvo > 0) ? 1 : 0;
+
             if($this->getDocument()->isDrmNegoce()){
                 $mouvement->facturable = 0;
             }
 
-            if($this->getDocument()->isDrmNegoce() && $hash . "/" . $key == "entrees/recolte") {
+            if($this->getDocument()->isDrmNegoce() && $config->isFacturableNegociant()) {
                 $mouvement->facturable = 1;
                 $mouvement->add('coefficient_facturation', 1);
             }
@@ -387,18 +391,19 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
 
-            if($this->getDocument()->isDrmNegoce() && $hash . "/" . $key == "entrees/recolte") {
+            if($this->getDocument()->isDrmNegoce() && $mouvement->facturable && DRMConfiguration::getInstance()->isMouvementDivisable() &&  $volume * $config->mouvement_coefficient > DRMConfiguration::getInstance()->getMouvementDivisableSeuil() ) {
+                $nbDivision = DRMConfiguration::getInstance()->getMouvementDivisableNbMonth();
                 $date = new DateTime($this->getDocument()->getDate());
-                $volumePart = round($volume / 12, 4);
+                $volumePart = round($volume / $nbDivision, 4);
                 $volumeTotal = $volume;
-                for($i=1; $i <= 12; $i++) {
+                for($i=1; $i <= $nbDivision; $i++) {
                     $mouvementPart = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volumePart, $date->format('Y-m-d'));
                     $date->modify("last day of next month");
                     if (!$mouvementPart) {
                         continue;
                     }
                     $volumeTotal = $volumeTotal - $volumePart;
-                    if($i == 12 && $volumeTotal) {
+                    if($i == $nbDivision && $volumeTotal) {
                         $mouvementPart->volume += $volumeTotal;
                     }
 

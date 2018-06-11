@@ -2,12 +2,21 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$conf = ConfigurationClient::getCurrent();
+$conf = ConfigurationClient::getInstance()->getCurrent();
 
-$t = new lime_test(8 + 2*12);
+$hasCVONegociant = false;
+foreach ($conf->declaration->filter('details') as $configDetails) {
+    foreach ($configDetails as $details) {
+        foreach($conf->declaration->details->getDetailsSorted($details) as $detail) {
+            if($detail->isFacturableNegociant()) {
+                $hasCVONegociant = true;
+            }
+        }
+    }
+}
 
 $nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
-$produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
+$produits = array_keys($conf->getProduits());
 $produit_hash = array_shift($produits);
 $periode = date('Ym');
 
@@ -15,6 +24,33 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($nego->identifiant) as $k =>
   $drm = DRMClient::getInstance()->find($k);
   $drm->delete(false);
 }
+
+if(!$hasCVONegociant) {
+    $t = new lime_test(2);
+
+    $t->comment("DRM Négociant non facture");
+
+    $drm = DRMClient::getInstance()->createDoc($nego->identifiant, $periode, true);
+    $drm->save();
+
+    $t->ok($drm->isDRMNegoce(), "C'est une DRM Négoce");
+
+    $details = $drm->addProduit($produit_hash, 'details');
+    $details->entrees->recolte = 100;
+    $details->sorties->ventefrancecrd = 100;
+
+    $drm->update();
+    $drm->validate();
+    $drm->save();
+
+    $recapCvos = DRMClient::getInstance()->getRecapCvos($drm->identifiant, $drm->periode);
+
+    $t->is(round($recapCvos["TOTAL"]->totalVolumeDroitsCvo, 4), 0, "Aucun volume n'est facturable");
+
+    exit;
+}
+
+$t = new lime_test(9 + 2*12);
 
 $t->comment("DRM Négociant avec récolte");
 
@@ -25,12 +61,15 @@ $t->ok($drm->isDRMNegoce(), "C'est une DRM Négoce");
 
 $details = $drm->addProduit($produit_hash, 'details');
 $details->entrees->recolte = 100;
+$details->sorties->ventefrancecrd = 100;
+$details->sorties->destructionperte = 5;
 
 $drm->update();
 $drm->validate();
 $drm->save();
 
 $nbMouvementEntreeRecolte = 0;
+$nbMouvementSortieDestructionPerte = 0;
 $volumeTotal = 0;
 $prixTotal = 0;
 $facturable = true;
@@ -52,9 +91,16 @@ foreach($drm->mouvements->get($nego->identifiant) as $mouvement) {
         $t->is($mouvement->date, $dateMouvement->format('Y-m-d'), "La date du mouvement est ".$dateMouvement->format('Y-m-d'));
         $dateMouvement = $dateMouvement->modify("last day of next month");
     }
+
+    if($mouvement->type_hash == "sorties/destructionperte") {
+        $nbMouvementSortieDestructionPerte += 1;
+    }
 }
 
-$t->is($nbMouvementEntreeRecolte, 12, "Les mouvements de recolté on été scindé en 12");
+
+
+$t->is($nbMouvementEntreeRecolte, DRMConfiguration::getInstance()->getMouvementDivisableNbMonth(), "Les mouvements de recolté on été scindé en ".DRMConfiguration::getInstance()->getMouvementDivisableNbMonth());
+$t->is($nbMouvementSortieDestructionPerte, 1, "1 seul mouvement de destruction perte");
 $t->ok($facturable, "Tous les mouvements sont factruables");
 $t->is($coefficientFacturation, 1, "Le coefficient de facturation de tous les mouvements est 1");
 $t->is($volumeTotal, $details->entrees->recolte, "L'ensemble des mouvements couvrent le volume total d'entrée récolte");
@@ -62,5 +108,5 @@ $t->is($prixTotal, $details->entrees->recolte * $details->getCVOTaux(), "Le prix
 
 $recapCvos = DRMClient::getInstance()->getRecapCvos($drm->identifiant, $drm->periode);
 
-$t->is(round($recapCvos["TOTAL"]->totalVolumeDroitsCvo, 4), $details->entrees->recolte, "Le volume du recap CVO est de ".$details->entrees->recolte);
-$t->is($recapCvos["TOTAL"]->totalPrixDroitCvo, $details->entrees->recolte * $details->getCVOTaux(), "Le prix Ht de la du récap CVO est OK");
+$t->is(round($recapCvos["TOTAL"]->totalVolumeDroitsCvo, 4), $details->entrees->recolte - $details->sorties->destructionperte, "Le volume du recap CVO est de ".$details->entrees->recolte);
+$t->is(round($recapCvos["TOTAL"]->totalPrixDroitCvo, 4), ($details->entrees->recolte - $details->sorties->destructionperte) * $details->getCVOTaux(), "Le prix Ht de la du récap CVO est OK");
