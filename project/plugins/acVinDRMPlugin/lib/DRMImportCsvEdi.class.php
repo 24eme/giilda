@@ -399,13 +399,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if(!in_array($type_complement, self::$types_complement)){
                   $this->csvDoc->addErreur($this->typeComplementNotFoundError($num_ligne, $csvRow));
                   $num_ligne++;
-                  continue;
+                  return;
                 }
                 $valeur_complement = $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT];
                 if(!$valeur_complement){
                   $this->csvDoc->addErreur($this->valueComplementVide($num_ligne, $csvRow));
                   $num_ligne++;
-                  continue;
+                  return;
                 }
                 if(!$just_check){
                   $valeur_complement = $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT];
