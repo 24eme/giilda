@@ -387,6 +387,26 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
 
+            if($this->getDocument()->isDrmNegoce() && $hash . "/" . $key == "entrees/recolte") {
+                $date = new DateTime($this->getDocument()->getDate());
+                $volumePart = round($volume / 12, 4);
+                $volumeTotal = $volume;
+                for($i=1; $i <= 12; $i++) {
+                    $mouvementPart = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volumePart, $date->format('Y-m-d'));
+                    $date->modify("last day of next month");
+                    if (!$mouvementPart) {
+                        continue;
+                    }
+                    $volumeTotal = $volumeTotal - $volumePart;
+                    if($i == 12 && $volumeTotal) {
+                        $mouvementPart->volume += $volumeTotal;
+                    }
+
+                    $mouvements[$this->getDocument()->getIdentifiant()][$mouvementPart->getMD5Key()] = $mouvementPart;
+                }
+                continue;
+            }
+
             $mouvement = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volume);
             if (!$mouvement) {
                 continue;
@@ -398,7 +418,7 @@ class DRMDetail extends BaseDRMDetail {
         return $mouvements;
     }
 
-    public function createMouvement($mouvement, $hash, $volume) {
+    public function createMouvement($mouvement, $hash, $volume, $date = null) {
         if ($this->getDocument()->hasVersion() && !$this->getDocument()->isModifiedMother($this, $hash)) {
             return null;
         }
@@ -413,11 +433,14 @@ class DRMDetail extends BaseDRMDetail {
         if ($volume == 0) {
             return null;
         }
-
+        if(!$date) {
+            $date = $this->getDocument()->getDate();
+        }
         $mouvement->type_hash = $hash;
         $mouvement->type_libelle = $config->getLibelle();
         $mouvement->volume = $volume;
-        $mouvement->date = $this->getDocument()->getDate();
+
+        $mouvement->date = $date;
 
         return $mouvement;
     }
