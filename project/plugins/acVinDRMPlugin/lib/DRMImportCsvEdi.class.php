@@ -115,7 +115,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
     public function updateAndControlCoheranceStocks() {
         $this->drm->update();
-
+        $this->drm->updateStockFinDeMoisAllCrds();
         if ($this->csvDoc->hasErreurs()) {
             $this->csvDoc->setStatut(self::STATUT_WARNING);
             $this->csvDoc->save();
@@ -473,7 +473,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!$regimeNode->exist($keyNode)) {
                     $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
                 }
-                $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
+                if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null) {
+                    $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
+                }
                 $num_ligne++;
             }
         }
