@@ -4,9 +4,10 @@ function revendication_get_words($revendications) {
     $words = array();
 
     foreach($revendications as $revendication) {
+        //var_dump(revendication_get_id($revendication));
         $words[revendication_get_id($revendication)] = revendication_get_word($revendication);
     }
-
+ //exit;
     return $words;
 }
 
@@ -23,6 +24,6 @@ function revendication_get_word($revendication) {
 
 function revendication_get_id($revendication) {
 
-    return $revendication->etablissement_identifiant."_".$revendication->code_douane."_".$revendication->ligne_identifiant;
+    return $revendication->etablissement_identifiant."_".str_replace(" ",'',$revendication->code_douane)."_".$revendication->ligne_identifiant;
 
 }
