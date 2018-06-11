@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(30);
+$t = new lime_test(32);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
 $produit1_hash = array_shift($produits);
@@ -92,9 +92,10 @@ $tmpfname = tempnam("/tmp", "DRM_");
 $t->comment("Création d'une DRM avec des produits avec code douane via EDI ".$viti->identifiant);
 $temp = fopen($tmpfname, "w");
 fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,951.4625,,,,,,\n");
+fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,entrees,retourmarchandisetaxees,1,2017-12-20,,,,,\n");
 fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,ventefrancecrd,4.62,,,,,,\n");
 fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,export,1.89,PAYS-BAS,,,,,\n");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,export,0.9525,BELGIQUE,,,,,\n");
+fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,export,1.9525,BELGIQUE,,,,,\n");
 fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,944,,,,,,\n");
 fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,14742,,,,\n");
 fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75 cl,,,,,,,collectif suspendu,sorties,utilisations,3118,,,,\n");
@@ -111,6 +112,9 @@ if ($import->getCsvDoc()->hasErreurs()) {
 }
 $t->ok($import->importCSV(),"Import de la DRM");
 $t->is($drm2->getProduit($produit1_hash, 'details')->get('stocks_fin/final'), 944, "le stock find est celui attendu");
+$t->is($drm2->getProduit($produit1_hash, 'details')->get('entrees/retourmarchandisetaxees'), 1, "retour a le bon volume");
+$t->is($drm2->getProduit($produit1_hash, 'details')->replacement_date, '20/12/2017', "Date de replacement conservée");
+
 $t->is($drm2->crds->COLLECTIFSUSPENDU->get('TRANQ-VERT-750')->stock_fin, 11624, "stock debut 75 cl OK");
 $drm2->validate();
 unlink($tmpfname);

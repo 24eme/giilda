@@ -296,6 +296,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
+
+                if (preg_match('/^2\d\d\d-\d\d-\d\d$/', $csvRow[self::CSV_CAVE_EXPORTPAYS])) {
+                  $drmDetails->add("replacement_date", $csvRow[self::CSV_CAVE_EXPORTPAYS]);
+                  $drmDetails->add('observations', $type_key);
+                }
+
                 if ($confDetailMvt->hasDetails()) {
                    $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
