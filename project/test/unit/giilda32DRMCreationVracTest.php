@@ -71,10 +71,13 @@ $t->is($contrat->type_transaction, VracClient::TYPE_TRANSACTION_VIN_VRAC, "Une s
 
 $mvts_viti = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete());
 $mvts_nego = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($nego->getSociete());
+$mvt_viti = end($mvts_viti);
+$mvt_nego = end($mvts_nego);
+
 $t->is(count($mvts_viti) - $nb_mvts_viti_init, 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du viti");
 $t->is(count($mvts_nego) - $nb_mvts_nego_init, 1, $drm->_id." : on retrouve le mouvement facturable dans la vue facture du négo");
-$t->is($mvts_nego[0]->volume * $mvts_nego[0]->cvo, $mvts_viti[0]->volume * $mvts_viti[0]->cvo, $drm->_id." : la cvo est partagée entre le viti et le nego");
-$t->isnt($mvts_viti[0]->detail_libelle, null, $drm->_id." : le mouvement a un detail_libelle");
+$t->is($mvt_nego->quantite * $mvt_nego->prix_unitaire, $mvt_viti->quantite * $mvt_viti->prix_unitaire, $drm->_id." : la cvo est partagée entre le viti et le nego");
+$t->isnt(current($mvts_viti)->detail_libelle, null, $drm->_id." : le mouvement a un detail_libelle");
 
 $drm_mod = $drm->generateModificative();
 $creationvrac2 = $drm_mod->getProduit($produit_hash, 'details')->sorties->creationvrac_details->get($creationvrac->getKey());
