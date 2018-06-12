@@ -3,7 +3,20 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(28);
+$conf = ConfigurationClient::getInstance()->getCurrent();
+
+$hasCVONegociant = false;
+foreach ($conf->declaration->filter('details') as $configDetails) {
+    foreach ($configDetails as $details) {
+        foreach($conf->declaration->details->getDetailsSorted($details) as $detail) {
+            if($detail->isFacturableNegociant()) {
+                $hasCVONegociant = true;
+            }
+        }
+    }
+}
+
+$t = new lime_test(29);
 
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
@@ -23,7 +36,7 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k =>
   $drm->delete(false);
 }
 
-$produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
+$produits = array_keys($conf->getProduits());
 $produit_hash = array_shift($produits);
 $periode = date('Ym');
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
@@ -42,11 +55,11 @@ $prixHt = 0.0;
 $nbmvt = 0;
 if(isset($mouvementsFacture[$societeViti->identifiant])) {
 foreach ($mouvementsFacture[$societeViti->identifiant] as $mvt) {
-  $prixHt += $mvt->value[MouvementfactureFacturationView::VALUE_VOLUME] * $mvt->value[MouvementfactureFacturationView::VALUE_CVO];
+  $prixHt += $mvt->prix_ht;
   $nbmvt++;
 }
 }
-$prixHt = $prixHt * -1;
+$prixHt = $prixHt;
 $prixTaxe = $prixHt * 0.2;
 $prixTTC = $prixHt+$prixTaxe;
 
@@ -149,6 +162,18 @@ if($application == 'ivso' && false) {
   $t->is(1, 1, "Pas de test sur la structure latex");
 }
 
+$t->comment("Facturation createOrigine");
+
+$mouvement = new stdClass();
+$mouvement->origine = FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM;
+$mouvement->vrac_destinataire = "Test destinaire";
+$mouvement->detail_libelle = "000001";
+$mouvement->vrac_destinataire = date('Ymd')."000001";
+
+$origine = (FactureConfiguration::getInstance()->isPdfProduitFirst()) ? "Contrat ".$mouvement->vrac_destinataire : "Contrat n° ".$mouvement->detail_libelle." (".$mouvement->vrac_destinataire.") ";
+
+$t->is(MouvementfactureFacturationView::getInstance()->createOrigine(SocieteClient::TYPE_OPERATEUR, $mouvement), $origine, "Le calcule de l'origine est correct");
+
 $t->comment("Facturation d'une DRM négo");
 
 $societeNego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getSociete();
@@ -159,6 +184,7 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($nego->identifiant) as $k =>
   $drm->delete(false);
 }
 
+
 $drm = DRMClient::getInstance()->createDoc($nego->identifiant, $periode, true);
 $drm->save();
 
@@ -168,10 +194,15 @@ $drm->update();
 $drm->validate();
 $drm->save();
 
-$prixHt = $details->entrees->recolte * $details->getCVOTaux();
+$prixHt = round($details->entrees->recolte / 12, 4) * $details->getCVOTaux();
 
+$paramFacturation["date_mouvement"] = preg_replace("/([0-9]{4})([0-9]{2})/", '\1-\2-31', $periode);
 $facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeNego, $paramFacturation);
-$facture->save();
-$t->ok($facture, "La facture est créée");
 
-$t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
+if($hasCVONegociant) {
+    $t->ok($facture, "La facture est créée");
+    $t->is($facture->total_ht, round($prixHt, 4), "Le total HT est de ".$prixHt." €");
+} else {
+    $t->ok(!$facture, "La facture n'est pas créée");
+    $t->pass("Rien à facturer");
+}

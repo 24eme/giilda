@@ -500,9 +500,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->archivage_document->archiver();
         }
 
-        if (!isset($options['no_vracs']) || !$options['no_vracs']) {
-            $this->updateVracs();
-        }
         if (!isset($options['validation_step']) || !$options['validation_step']) {
             if ($this->getSuivante() && $this->isSuivanteCoherente()) {
                 $this->getSuivante()->precedente = $this->get('_id');
@@ -539,11 +536,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    private function updateVracs() {
-        if (!$this->isValidee()) {
 
-            throw new sfException("La DRM doit être validée pour pouvoir enlever les volumes des contrats vracs");
-        }
+    public function updateVracs() {
 
         $vracs = array();
 
@@ -554,23 +548,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
             if (!$mouvement->isVrac()) {
-
                 continue;
             }
-
             $vrac = $mouvement->getVrac();
-            if(!$vrac) {
+            $vracs[$vrac->numero_contrat] = $vrac;
+        }
+        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
+            if (!$mouvement->isVrac()) {
                 continue;
             }
-            $vrac->enleverVolume($mouvement->volume * -1);
-            if ($mouvement->type_hash == 'creationvrac_details' && ($vrac->volume_enleve == 0)) {
-                $vrac->delete();
-            }else {
-              $vracs[$vrac->numero_contrat] = $vrac;
-            }
-
+            $vracs[$mouvement->getVrac()->numero_contrat]->updateVolumesEnleves();
         }
-
         foreach ($vracs as $vrac) {
             $vrac->save();
         }
