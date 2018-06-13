@@ -542,7 +542,7 @@ class Vrac extends BaseVrac {
         $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->acheteur_identifiant, $this->campagne);
         foreach ($mvts_drm as $key => $mvt) {
             $pos = strpos($mvt->produit_hash, $this->produit);
-            if($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id){
+            if(($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id) || (preg_match("/^creationvrac/",$mvt->type_hash) && ($pos !== false) && ("VRAC-".$mvt->vrac_numero == $this->_id))){                
                 $volume_enleve = $mvt->volume * -1;
                 $this->volume_enleve += $volume_enleve;
             }
