@@ -78,7 +78,7 @@ use_helper('Vrac');
 
             <?php endif; ?>
 
-            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+            <?php include_partial('showContrat', array('vrac' => $vrac, 'societe' => $societe, 'isTeledeclarationMode' => $isTeledeclarationMode, 'enlevements' => $enlevements)); ?>
             <div class="ligne_btn">
                 <?php if ($vrac->isVise() && ($isTeledeclare)): ?>
                     <div class="txt_centre">

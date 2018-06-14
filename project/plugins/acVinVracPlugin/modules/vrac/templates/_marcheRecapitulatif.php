@@ -116,8 +116,9 @@ $cpt = 0;
             </label>
             <span>
                 <?php
-                echo (is_null($vrac->volume_enleve)) ? '0 hl' : ($vrac->volume_enleve . ' hl');
+                echo (is_null($vrac->volume_enleve)) ? '0.00 hl' : (sprintf('%01.02f',$vrac->volume_enleve) . ' hl');
                 ?>
+                <a href="<?php echo url_for('vrac_updateVolumeEnleve',$vrac); ?>" class="btn_majeur btn_orange f_right" style="height:20px; line-height: 20px; margin-right: 10px;">Re-calculer enlèvements</a>
             </span>
         </div>
     <?php endif; ?>
