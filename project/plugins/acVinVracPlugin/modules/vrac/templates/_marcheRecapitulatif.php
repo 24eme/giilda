@@ -104,7 +104,7 @@ $cpt = 0;
             </label>
             <span>
                 <?php
-                echo (is_null($vrac->volume_enleve)) ? '0.00 hl' : (sprintf('%02d',$vrac->volume_enleve) . ' hl');
+                echo (is_null($vrac->volume_enleve)) ? '0.00 hl' : (sprintf('%01.02f',$vrac->volume_enleve) . ' hl');
                 ?>
             </span>
         </div>
