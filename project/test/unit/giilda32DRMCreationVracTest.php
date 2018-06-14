@@ -62,6 +62,7 @@ $t->is($drm->getProduit($produit_hash, 'details')->get('stocks_fin/final'), 900,
 
 $drm->validate();
 $drm->save();
+$drm->updateVracs();
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows), 1, $drm->_id." : Un contrat vrac pour le viti");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego->identifiant)->rows), 1, $drm->_id." : Un contrat vrac pour le nego");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego_horsregion->identifiant)->rows), 0, $drm->_id." : Pas de vrac pour le nego hors région");
@@ -87,6 +88,7 @@ $drm_mod->save();
 $t->is($creationvrac2->acheteur, $creationvrac2->getVrac()->acheteur_identifiant, $drm_mod->_id." : L'acheteur stocké est le même que l'acheteur du contrat");
 $drm_mod->validate();
 $drm_mod->save();
+$drm_mod->updateVracs();
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows), 1, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac ne change rien pour le viti");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego->identifiant)->rows), 0, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac supprime le vrac pour le nego");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego_horsregion->identifiant)->rows), 1, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac le lie avec le nego hors région");
@@ -105,6 +107,7 @@ $drm_mod->getProduit($produit_hash, 'details')->sorties->add('creationvrac_detai
 $drm_mod->update();
 $drm_mod->validate();
 $drm_mod->save();
+$drm_mod->updateVracs();
 
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows), 0, $drm_mod->_id." : la suppression du mouvement de vrac supprime le vrac pour le viti");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego->identifiant)->rows), 0, $drm_mod->_id." : la suppression du mouvement de vrac supprime le vrac pour le nego");
@@ -130,6 +133,7 @@ $drm_mod->save();
 
 $drm_mod->validate();
 $drm_mod->save();
+$drm_mod->updateVracs();
 
 $mvts = VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows;
 $t->is(count($mvts), 1, $drm_mod->_id." : on retrouve bien un mouvement pour le viti");
@@ -156,6 +160,7 @@ $drmHistorique->update();
 $drmHistorique->save();
 $drmHistorique->validate();
 $drmHistorique->save();
+$drmHistorique->updateVracs();
 
 $mvts_viti = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($viti->getSociete());
 $mvtVrac = array_shift($mvts_viti);

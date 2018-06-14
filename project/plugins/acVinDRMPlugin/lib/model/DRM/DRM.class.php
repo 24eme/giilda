@@ -479,6 +479,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $this->update();
         $this->storeIdentifiant($options);
+
         if (!isset($options['validation_step']) || !$options['validation_step']) {
             $this->storeDates();
         }
@@ -536,6 +537,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function removeOldVracs(){
+        $vracs = array();
+
+        if (!$this->getMouvements()->exist($this->identifiant)) {
+
+            return;
+        }
+
+        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
+            if (!$mouvement->isVrac()) {
+                continue;
+            }
+            $vrac = $mouvement->getVrac();
+            if ($mouvement->type_hash == 'creationvrac_details' && ($vrac->volume_enleve == 0)) {
+                $vrac->delete();
+            }
+        }
+    }
+
 
     public function updateVracs() {
 
@@ -551,17 +571,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
             $vrac = $mouvement->getVrac();
+            $vrac->updateVolumesEnleves();
             $vracs[$vrac->numero_contrat] = $vrac;
         }
-        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
-            if (!$mouvement->isVrac()) {
-                continue;
-            }
-            $vracs[$mouvement->getVrac()->numero_contrat]->updateVolumesEnleves();
-        }
+
         foreach ($vracs as $vrac) {
             $vrac->save();
         }
+
+        $this->removeOldVracs();
     }
 
     private function creationVracs() {
@@ -570,7 +588,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             throw new sfException("La DRM doit être validée pour pouvoir créer les contrats vracs à partir des sorties vracs");
         }
         foreach ($this->getDetailsAvecCreationVracs() as $details) {
-            foreach ($details as $keyVrac => $vracCreation) {
+            foreach ($details as $keyVrac => $vracCreation) {   
               $newVrac = $vracCreation->getVrac();
               $newVrac->createVisa();
 
