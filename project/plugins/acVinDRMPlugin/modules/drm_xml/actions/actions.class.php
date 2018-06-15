@@ -56,8 +56,13 @@ class drm_xmlActions extends drmGeneriqueActions {
     if(!$pathScript){
         throw new sfException("Le script de mis à jour n'existe pas");
     }
-    $retour = exec('bash '.$pathScript);
-    var_dump($retour); exit;
+    $dateRequete = ConfigurationClient::getInstance()->buildDate(ConfigurationClient::getInstance()->getPeriodePrecedente($this->drm->periode));
+    $periode = $this->drm->periode;
+    $etb = $this->drm->getEtablissement();
+    $numeroAccise = $etb->getNoAccises();
+    $cvi = $etb->getCvi();
+    $cmd = 'bash '.$pathScript." ".$dateRequete." ".$periode." ".$numeroAccise." ".$cvi;
+    $retour = exec($cmd);
     return $this->redirect('drm_visualisation', $this->drm);
   }
 
