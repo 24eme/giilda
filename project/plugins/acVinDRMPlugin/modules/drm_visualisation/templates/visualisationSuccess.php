@@ -128,7 +128,14 @@
   </div>
 </div>
 <?php endif; ?>
-
+<?php if(!$isTeledeclarationMode) : ?>
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn btn-default" >Rafraîchir le retour douane</a>
+    </div>
+</div>
+<br/>
+<?php endif ?>
 <?php if (!$isTeledeclarationMode && $drm->exist('transmission_douane') && $drm->transmission_douane->coherente === false): ?>
 <div class="row">
   <div class="col-xs-12">
@@ -155,7 +162,6 @@
                   <?php endforeach; ?>
                 </tbody>
             </table>
-
       </div>
     </div>
   </div>
