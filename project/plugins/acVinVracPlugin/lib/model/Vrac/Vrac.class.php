@@ -432,8 +432,8 @@ class Vrac extends BaseVrac {
 
     public function updateVolumesEnleves() {
         $this->volume_enleve = 0;
-        $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->vendeur_identifiant, $this->campagne);
-        $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->acheteur_identifiant, $this->campagne);
+        $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->vendeur_identifiant);
+        $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->acheteur_identifiant);
         foreach ($mvts_drm as $key => $mvt) {
             $pos = strpos($mvt->produit_hash, $this->produit);
             if($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id){

@@ -612,7 +612,7 @@ class vracActions extends sfActions {
         $this->redirect403IsInVracAndNotAllowedToSee();
 
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
-
+        $this->enlevements = VracClient::getInstance()->buildEnlevements($this->vrac);
         if ($this->isTeledeclarationMode) {
             $this->isProprietaire = $this->isTeledeclarationMode && $this->vrac->exist('createur_identifiant') && $this->vrac->createur_identifiant && ($this->societe->identifiant == substr($this->vrac->createur_identifiant, 0, 6));
         }
@@ -705,6 +705,14 @@ class vracActions extends sfActions {
                 $this->redirect('vrac_visualisation', $this->vrac);
             }
         }
+    }
+
+    public function executeUpdateVolumeEnleve(sfWebRequest $request) {
+        $this->vrac = VracClient::getInstance()->findByNumContrat($request['numero_contrat']);
+        $this->redirect403IfIsTeledeclaration();
+        $this->vrac->updateVolumesEnleves();
+        $this->vrac->save();
+        $this->redirect('vrac_visualisation', $this->vrac);
     }
 
     private function createCsvFilename($request) {
