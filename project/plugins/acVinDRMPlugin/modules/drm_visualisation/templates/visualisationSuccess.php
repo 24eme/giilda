@@ -112,6 +112,11 @@
                 <?php endif; ?>
             </tbody>
         </table>
+        <?php if(!$isTeledeclarationMode) : ?>
+            <div id="btn_etape_dr" style="text-align: center;">
+                <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur center" >Rafraîchir le retour douane</a>
+            </div>
+        <?php endif ?>
         <?php if ((!$isTeledeclarationMode) && ($drm->transmission_douane->coherente === false)): ?>
           <br/>
           <table class="table_recap">
