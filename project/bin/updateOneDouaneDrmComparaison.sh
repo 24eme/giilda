@@ -53,8 +53,8 @@ if ! test $URLFOUND ; then
 fi
 URLFOUND=$(cat $TMP"/majDrmUrl");
 echo "url:"$URLFOUND;
-
 if test $URLFOUND ; then
+    cd $WORKINGDIR;
     OUT=$(php5 symfony drm:storeXMLRetour $URLFOUND)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
@@ -63,3 +63,5 @@ if test $URLFOUND ; then
 		php5 symfony drm:compareXMLs $DRM
 	fi
 fi
+
+echo "" > $TMP"/majDrmUrl";
