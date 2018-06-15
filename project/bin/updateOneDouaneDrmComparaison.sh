@@ -54,7 +54,7 @@ fi
 URLFOUND=$(cat $TMP"/majDrmUrl");
 echo "url:"$URLFOUND;
 
-if ! test $URLFOUND ; then
+if test $URLFOUND ; then
     OUT=$(php5 symfony drm:storeXMLRetour $URLFOUND)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
