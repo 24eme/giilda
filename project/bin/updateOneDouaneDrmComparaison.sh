@@ -8,7 +8,7 @@ CVI=$4
 
 APPLICATION=$(echo $SYMFONYTASKOPTIONS | sed -r 's|--application=(.+) (.*)|\1|');
 LAST=""
-PATHFILETMP="./cache/"$APPLICATION"/prod/majDrmUrl";
+PATHFILETMP=$WORKINGDIR"/cache/"$APPLICATION"/prod/majDrmUrl";
 
 echo "" > $PATHFILETMP;
 
