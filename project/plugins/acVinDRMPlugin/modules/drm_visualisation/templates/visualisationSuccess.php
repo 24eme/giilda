@@ -102,21 +102,26 @@
                 </td></tr>
                 <?php if (!$isTeledeclarationMode): ?>
                   <?php if (is_null($drm->transmission_douane->coherente)) : ?>
-                    <tr><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
+                    <tr><td>Aucun retour de la part de proDou@ne n'a été effectué
+                    <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur" style="line-height: 20px; font-size:10px; float:right;" >Rafraîchir le retour douane</a>
+                    </td></tr>
                   <?php elseif($drm->transmission_douane->coherente): ?>
-                    <tr><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                    <tr>
+                        <td>La DRM est <strong>conforme</strong> à celle de proDou@ne
+                        <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:10px; float:right;" >Rafraîchir le retour douane</a>
+                        </td>
+                    </tr>
                   <?php else: ?>
-                    <tr><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
+                    <tr>
+                        <td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne
+œ                       <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:10px; float:right;" >Rafraîchir le retour douane</a>
+                        </td>
+                    </tr>
 
                   <?php endif; ?>
                 <?php endif; ?>
             </tbody>
         </table>
-        <?php if(!$isTeledeclarationMode) : ?>
-            <div id="btn_etape_dr" style="text-align: center;">
-                <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur center" >Rafraîchir le retour douane</a>
-            </div>
-        <?php endif ?>
         <?php if ((!$isTeledeclarationMode) && ($drm->transmission_douane->coherente === false)): ?>
           <br/>
           <table class="table_recap">
