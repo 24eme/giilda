@@ -36,9 +36,10 @@ class DRMConfiguration {
 
         return boolval($this->configuration['details']['vrac_detail']['creation']);
     }
-    public function isDRMNegoce() {
 
-        return boolval($this->configuration['negoce']);
+    public function getFamilles() {
+
+        return $this->configuration['familles'];
     }
 
     public function getExportPaysDebut() {
@@ -99,6 +100,21 @@ class DRMConfiguration {
     public function isPdfCvo() {
 
         return $this->configuration['pdf_cvo'];
+    }
+
+    public function isMouvementDivisable() {
+
+        return $this->getMouvementDivisableSeuil() !== false;
+    }
+
+    public function getMouvementDivisableSeuil() {
+
+        return $this->configuration['mouvement_divisable_seuil'];
+    }
+
+    public function getMouvementDivisableNbMonth() {
+
+        return $this->configuration['mouvement_divisable_nb_month'];
     }
 
 }

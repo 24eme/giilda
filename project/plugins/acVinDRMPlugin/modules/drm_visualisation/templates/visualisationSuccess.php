@@ -65,8 +65,8 @@
 
         <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)) ?>
         <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)) ?>
-    	
-      	
+
+
     </div>
 </div>
 
@@ -116,9 +116,16 @@
                     <?php if (is_null($drm->transmission_douane->coherente)) : ?>
                       <tr><td>Retour XML</td><td>Aucun retour de la part de proDou@ne n'a été effectué</td></tr>
                     <?php elseif($drm->transmission_douane->coherente): ?>
-                      <tr><td>Retour XML (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</td><td>La DRM est <strong>conforme</strong> à celle de proDou@ne</td></tr>
+                      <tr><td>Retour XML (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</td><td>La DRM est <strong>conforme</strong> à celle de proDou@ne
+                              <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="pull-right btn btn-xs btn-default" ><span class="glyphicon glyphicon-repeat"></span>&nbsp;Rafraîchir le retour douane</a>
+                          </td>
+                      </tr>
                     <?php else: ?>
-                      <tr><td>Retour XML (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</td><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne</td></tr>
+                      <tr>
+                          <td>Retour XML (<a href="<?php echo url_for('drm_retour', $drm); ?>">XML reçu</a>)</td><td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne
+                              <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="pull-right btn btn-xs btn-default" ><span class="glyphicon glyphicon-repeat"></span>&nbsp;Rafraîchir le retour douane</a>
+                          </td>
+                      </tr>
                     <?php endif; ?>
                   <?php endif; ?>
                 </tbody>
@@ -128,7 +135,6 @@
   </div>
 </div>
 <?php endif; ?>
-
 <?php if (!$isTeledeclarationMode && $drm->exist('transmission_douane') && $drm->transmission_douane->coherente === false): ?>
 <div class="row">
   <div class="col-xs-12">
@@ -155,7 +161,6 @@
                   <?php endforeach; ?>
                 </tbody>
             </table>
-
       </div>
     </div>
   </div>
@@ -172,13 +177,6 @@
         <a href="<?php echo url_for('drm_pdf', array('identifiant' => $drm->getIdentifiant(), 'periode_version' => $drm->getPeriodeAndVersion(), 'appellation' => 0)); ?>" class="btn btn-success">Télécharger le PDF</a>
     </div>
     <div class="col-xs-4 text-right">
-    <?php if ($drm->isTeledeclare() && (!$isTeledeclarationMode || ($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)))) : ?>
-          <?php if ($drm->isNonFactures()): ?>
-          <a href="<?php echo url_for('drm_reopen', $drm); ?>" class="btn btn-warning">Reouvrir la DRM</a>
-          <?php else: ?>
-          <span>DRM Facturée (pas réouvrable)</span>
-          <?php endif; ?>
-    <?php endif; ?>
     <?php if(isset($compte) && $compte && $compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
       <?php if (!$drm->transmission_douane->success) : ?>
         <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn btn-success" ><span>Transmettre la Drm sur CIEL</span></a>

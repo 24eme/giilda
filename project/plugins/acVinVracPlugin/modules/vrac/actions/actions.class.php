@@ -169,7 +169,7 @@ class vracActions extends sfActions {
 
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
-        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal, true);
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissementPrincipal);
     }
 
     public function executeHistory(sfWebRequest $request) {
@@ -194,7 +194,7 @@ class vracActions extends sfActions {
         $this->form = new VracHistoryRechercheForm($this->societe, $this->etablissement, $this->campagne, $this->statut);
         $this->contratsByCampagneEtablissementAndStatut = new stdClass();
         $this->contratsByCampagneEtablissementAndStatut->rows = array();
-        $this->contratsByCampagneEtablissementAndStatut->rows = VracClient::getInstance()->retrieveByCampagneSocieteAndStatut($this->campagne,$this->societe,  $this->etablissement, $this->statut,true);
+        $this->contratsByCampagneEtablissementAndStatut->rows = VracClient::getInstance()->retrieveByCampagneSocieteAndStatut($this->campagne,$this->societe, $this->etablissement, $this->statut);
 
     }
 
@@ -632,6 +632,14 @@ class vracActions extends sfActions {
                 $this->redirect('vrac_visualisation', $this->vrac);
             }
         }
+    }
+
+    public function executeUpdateVolumeEnleve(sfWebRequest $request) {
+        $this->vrac = VracClient::getInstance()->findByNumContrat($request['numero_contrat']);
+        $this->redirect403IfIsTeledeclaration();
+        $this->vrac->updateVolumesEnleves();
+        $this->vrac->save();
+        $this->redirect('vrac_visualisation', $this->vrac);
     }
 
     private function createCsvFilename($request) {

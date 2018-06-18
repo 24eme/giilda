@@ -24,6 +24,11 @@ abstract class Mouvement extends acCouchdbDocumentTree
         $this->facture = 0;
     }
 
+    public function getEtablissementIdentifiant() {
+
+        return $this->getParent()->getKey();
+    }
+
     public function getMD5Key() {
         $key = $this->getDocument()->identifiant . $this->produit_hash . $this->type_hash . $this->detail_identifiant;
         $key.= uniqid();
@@ -136,34 +141,26 @@ abstract class Mouvement extends acCouchdbDocumentTree
     }
 
     public function getPrixUnitaire() {
+        if($this->exist('prix_unitaire')) {
 
-        return self::getPrixUnitaireCalcul($cvo);
+            return $this->_get('prix_unitaire');
+        }
+
+        return $this->cvo;
     }
 
     public function getQuantite() {
+        if($this->exist('quantite')) {
 
-        return self::getQuantiteCalcul($this->volume, $this->coefficient_facturation);
+            return $this->_get('quantite');
+        }
+
+        return $this->volume * $this->getCoefficientFacturation();
     }
 
     public function getPrixHt() {
 
-        return self::getPrixHtCalcul($this->volume, $this->coefficient_facturation, $this->cvo);
+        return $this->getQuantite() * $this->getPrixUnitaire();
     }
 
-    public static function getPrixHtCalcul($volume, $coeffecientFacturation, $cvo) {
-
-        return self::getPrixUnitaireCalcul($cvo) * self::getQuantiteCalcul($volume, $coeffecientFacturation);
-    }
-
-
-    public static function getPrixUnitaireCalcul($cvo) {
-
-        return $cvo;
-    }
-
-    public static function getQuantiteCalcul($volume, $coeffecientFacturation) {
-
-        return $volume * $coeffecientFacturation;
-
-    }
 }

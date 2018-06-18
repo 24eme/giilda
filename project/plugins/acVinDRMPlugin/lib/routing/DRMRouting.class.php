@@ -123,13 +123,6 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('valid'))));
 
-            $r->prependRoute('drm_reopen', new DRMRoute('/drm/:identifiant/reopen/:periode_version/:hide_rectificative',
-                array('module' => 'drm_visualisation',
-                'action' => 'reopen',
-                'hide_rectificative' => "-1"), array('sf_method' => array('get')), array('model' => 'DRM',
-                'type' => 'object',
-                'control' => array('valid'))));
-
         $r->prependRoute('drm_edition', new DRMRoute('/drm/:identifiant/edition/:periode_version/edition', array('module' => 'drm_edition',
             'action' => 'saisieMouvements'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object',
@@ -292,6 +285,10 @@ class DRMRouting {
         				'type' => 'object')
         		));
         $r->prependRoute('drm_retour', new DRMRoute('/drm/:identifiant/retour/:periode_version', array('module' => 'drm_xml', 'action' => 'retour'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
+
+        $r->prependRoute('drm_retour_refresh', new DRMRoute('/drm/:identifiant/maj-retour/:periode_version', array('module' => 'drm_xml', 'action' => 'retourRefresh'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
+
+
     }
 
 }

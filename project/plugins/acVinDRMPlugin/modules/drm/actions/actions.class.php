@@ -270,13 +270,9 @@ class drmActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
-        $hasDrmRight = ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR_VINIFICATEUR) && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_PRODUCTEUR);
 
-        if(DRMConfiguration::getInstance()->isDRMNegoce()){
-            $hasDrmRight = $hasDrmRight && (($this->etablissement->famille != EtablissementFamilles::FAMILLE_NEGOCIANT) && ($this->etablissement->famille != EtablissementFamilles::FAMILLE_COOPERATIVE));
-        }
-        if ($hasDrmRight){
-          throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
+        if(!in_array($this->etablissement->famille, DRMConfiguration::getInstance()->getFamilles())) {
+            throw new sfException("L'établissement sélectionné ne déclare pas de DRM");
         }
 
         $this->campagne = $request->getParameter('campagne');
@@ -392,6 +388,10 @@ class drmActions extends drmGeneriqueActions {
     }
 
     public function executeReouvrir(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
+        $drm = $this->getRoute()->getDRM();
+        $this->redirect403Unless($drm->isTeledeclareNonFacturee());
+
         $drm = $this->getRoute()->getDRM();
         $drm->devalidate();
         $drm->save();
