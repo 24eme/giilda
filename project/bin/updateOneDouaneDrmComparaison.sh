@@ -6,9 +6,9 @@ PERIODE=$2
 NUMEROACCISE=$3
 CVI=$4
 
-
+PATHFILETMP=$WORKINGDIR"/cache/vinsdeloire/prod/majDrmUrl";
 LAST=""
-echo "" > $TMP"/majDrmUrl";
+echo "" > $PATHFILETMP;
 
 curl -s $CIEL_URL_RETOURXML"/?from="$DATEREQUETE | sort -r | while read url ; do
   CURRENT=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g');
@@ -22,14 +22,14 @@ curl -s $CIEL_URL_RETOURXML"/?from="$DATEREQUETE | sort -r | while read url ; do
         ANNEE=$(echo $CONTENTDRM | sed -r 's|.+<annee>([0-9]+)</annee>.+|\1|');
         PERIODELOCAL=$ANNEE""$MOIS;
         if [ "$PERIODE" == "$PERIODELOCAL" ] ; then
-            echo $url > $TMP"/majDrmUrl";
+            echo $url > $PATHFILETMP;
             break;
         fi
     fi
   LAST=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g')
 done
 
-URLFOUND=$(cat $TMP"/majDrmUrl");
+URLFOUND=$(cat $PATHFILETMP);
 if ! test $URLFOUND ; then
     curl -s $CIEL_URL_RETOURXML"/?from="$DATEREQUETE | sort -r | while read url ; do
       CURRENT=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g');
@@ -44,14 +44,14 @@ if ! test $URLFOUND ; then
           ANNEE=$(echo $CONTENTDRM | sed -r 's|.+<annee>([0-9]+)</annee>.+|\1|');
           PERIODELOCAL=$ANNEE""$MOIS;
           if [ "$PERIODE" == "$PERIODELOCAL" ] ; then
-                echo $url > $TMP"/majDrmUrl";
+                echo $url > $PATHFILETMP;
                 break;
           fi
       fi
       LAST=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g')
     done
 fi
-URLFOUND=$(cat $TMP"/majDrmUrl");
+URLFOUND=$(cat $PATHFILETMP);
 echo "url:"$URLFOUND;
 if test $URLFOUND ; then
     cd $WORKINGDIR;
@@ -64,4 +64,4 @@ if test $URLFOUND ; then
 	fi
 fi
 
-echo "" > $TMP"/majDrmUrl";
+echo "" > $PATHFILETMP;
