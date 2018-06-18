@@ -1,6 +1,6 @@
 @import 'fonts.css';
 @import 'fancybox.css';
-@import 'jquery.ui/jquery.ui.theme.css';
+@import 'jquery.ui/jquery.ui.theme.css?20180517';
 @import 'jquery.ui/jquery.ui.datepicker.css';
 /*---------------------------------------------------
 		LESS Elements 0.4
@@ -2501,7 +2501,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   top: 0;
   height: 47px;
   width: 21px;
-  background: url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat;
+  /*                background: url(../images/fonds/bg_rail_etapes.png) 0 0 no-repeat; */
   content: '';
 }
 #rail_etapes li + li {
