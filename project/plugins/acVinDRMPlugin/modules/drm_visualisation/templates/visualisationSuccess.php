@@ -114,7 +114,7 @@
                   <?php else: ?>
                     <tr>
                         <td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne
-œ                       <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:10px; float:right;" >Rafraîchir le retour douane</a>
+                       <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:10px; float:right;" >Rafraîchir le retour douane</a>
                         </td>
                     </tr>
 
