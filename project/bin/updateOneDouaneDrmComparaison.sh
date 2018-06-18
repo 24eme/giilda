@@ -55,12 +55,12 @@ URLFOUND=$(cat $TMP"/majDrmUrl");
 echo "url:"$URLFOUND;
 if test $URLFOUND ; then
     cd $WORKINGDIR;
-    OUT=$(php5 symfony drm:storeXMLRetour $URLFOUND)
+    OUT=$(php5 symfony $SYMFONYTASKOPTIONS drm:storeXMLRetour $URLFOUND)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
 	echo $OUT
 	if test $RET -eq 0 ; then
-		php5 symfony drm:compareXMLs $DRM
+		php5 symfony $SYMFONYTASKOPTIONS drm:compareXMLs $DRM
 	fi
 fi
 
