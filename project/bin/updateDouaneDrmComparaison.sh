@@ -35,12 +35,15 @@ echo -e "Détails des différences :\n\n" >> $RAPPORTBODY;
 echo -e "   DRM non transmises aux douanes : \n" >> $RAPPORTBODY;
 cat $LOGFILE | grep -C 1 "n'a pas été transmise aux douanes" | grep "XML differents" | cut -d ' ' -f 1 | sort | uniq | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/visualisation\/\2|" >> $RAPPORTBODY;
 
-echo -e "\n\n   DRM pour lesquelles une modificatrice devrai être ouverte : \n\n" >> $RAPPORTBODY;
-cat $LOGFILE | grep -C 1 "DRM modificatrice ouverte" | grep "XML differents" | cut -d ' ' -f 1 | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/visualisation\/\2|" >> $RAPPORTBODY;
+echo -e "\n\n   DRM pour lesquelles une modificatrice a été ouverte : \n\n" >> $RAPPORTBODY;
+cat $LOGFILE | grep -C 1 "DRM modificatrice ouverte" | grep "XML differents" | cut -d ' ' -f 1 | sed -r "s|DRM-([0-9]+)-([0-9]+)(-M[0-9])?|         $URLDRMINTERNE\1\/visualisation\/\2/\3|" >> $RAPPORTBODY;
 
-echo -e "\n\nOpérateurs connus télédéclarants sur CIEL mais pas sur la plateforme. Liste des Identifiants impacté par ce cas :\n\n" >> $RAPPORTBODY;
+echo -e "\n\n   DRM qui sont ouvertes et dont une version $APPLICATION validée est différente de celle de CIEL : \n\n" >> $RAPPORTBODY;
+cat $LOGFILE | grep -C 1 "Une DRM modificatrice est déjà ouverte" | grep "XML differents" | cut -d ' ' -f 1 | sed -r "s|DRM-([0-9]+)-([0-9]+)(-M[0-9])?|         $URLDRMINTERNE\1\/visualisation\/\2/\3|" >> $RAPPORTBODY;
 
-cat $LOGFILE | grep "n'a pas été trouvée" | sed -r 's/(.*)La DRM de (.+) (.+)/\2/g' | cut -d ' ' -f 1 | sort | uniq | sed -r "s|(.*)|         $URLDRMINTERNE\1|g" >> $RAPPORTBODY;
+echo -e "\n\nOpérateurs connus télédéclarants sur CIEL mais pas sur la plateforme. DRM puvertes avec le retour douane pour ces opérateurs :\n\n" >> $RAPPORTBODY;
+
+cat $LOGFILE | grep "n'a pas été trouvée" | sed -r 's/(.*)La DRM de (.+) (.+)/DRM-\2-\3/g' | sort | uniq | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/validation\/\2|g" >> $RAPPORTBODY;
 
 echo -e "\n\nAvaries : Numéros d'accise mal référencés = "$NBNUMACCISEMALDRM" DRM correspondant à "$NBNUMACCISEMAL" accises :\n\n" >> $RAPPORTBODY;
 

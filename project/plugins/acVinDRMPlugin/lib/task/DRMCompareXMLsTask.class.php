@@ -52,8 +52,8 @@ EOF;
         }elseif(!$drm->transmission_douane->success){
           echo "      DRM modificatrice non ouverte : la DRM n'a pas été transmise aux douanes\n";
         }else{
-          //$drm_modificatrice = $drm->generateModificative();
-          //$drm_modificatrice->save();
+          $drm_modificatrice = $drm->generateModificative();
+          $drm_modificatrice->save();
           echo "      DRM modificatrice ouverte : ".sfConfig::get('app_vinsi_url').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $drm->identifiant))."\n";
         }
       } catch (Exception $e) {
