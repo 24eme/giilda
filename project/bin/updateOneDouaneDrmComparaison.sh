@@ -1,7 +1,7 @@
 #!/bin/bash
 . $(dirname $0)/config.inc
 
-DATEREQUETE=$1
+DATEREQUETE=$(cat $WORKINGDIR"/data/dateDrmDouane");
 PERIODE=$2
 NUMEROACCISE=$3
 CVI=$4
