@@ -31,6 +31,7 @@ class DRMClient extends acCouchdbClient {
     const DRM_CREATION_EDI = 'CREATION_EDI';
     const DRM_CREATION_VIERGE = 'CREATION_VIERGE';
     const DRM_CREATION_NEANT = 'CREATION_NEANT';
+    const DRM_CREATION_AUTO = 'CREATION_AUTO';
     const TYPE_DRM_SUSPENDU = 'SUSPENDU';
     const TYPE_DRM_ACQUITTE = 'ACQUITTE';
 
@@ -623,8 +624,9 @@ class DRMClient extends acCouchdbClient {
       if ($verbose) echo "INFO: recherche de la DRM pour ".$etablissement->identifiant.' '.$annee.$mois."\n";
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
       if (!$drm->_id) {
-          echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée";
+          echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée\n";
           $drm->setEtape(self::ETAPE_VALIDATION);
+          $drm->type_creation = self::DRM_CREATION_AUTO;
           if($drm->hasPrecedente() && $drm->getPrecedente()->isTeledeclare()){
               $drm->teledeclare = true;
           }
