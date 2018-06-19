@@ -41,7 +41,9 @@ echo -e "\n\n   DRM pour lesquelles une modificatrice devrai être ouverte : \n\
 
 cat $LOGFILE | grep -C 1 "DRM modificatrice ouverte" | grep "XML differents" | cut -d ' ' -f 1 | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/visualisation\/\2|" >> $RAPPORTBODY;
 
-echo -e "\n\nOpérateurs connus télédéclarants sur CIEL mais pas sur la plateforme. Liste des Identifiants impacté par ce cas :\n\n" >> $RAPPORTBODY;
+
+echo -e "\n\nOpérateurs connus télédéclarants sur CIEL mais pas sur la plateforme. DRM ouvertes avec le retour douane pour ces opérateurs :\n\n" >> $RAPPORTBODY;
+
 
 cat $LOGFILE | grep "n'a pas été trouvée" | sed -r "s/(.*)La DRM de (.+) (.+) n'a pas été trouvée(.+)/DRM-\2-\3/g" | sort | uniq | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1\/edition\/\2\/validation|g" >> $RAPPORTBODY;
 
