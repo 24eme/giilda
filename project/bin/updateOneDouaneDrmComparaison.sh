@@ -6,7 +6,10 @@ PERIODE=$2
 NUMEROACCISE=$3
 CVI=$4
 
-PATHFILETMP=$WORKINGDIR"/cache/vinsdeloire/prod/majDrmUrl";
+
+APPLICATION=$(echo $SYMFONYTASKOPTIONS | sed -r 's|--application=(.+) (.*)|\1|');
+PATHFILETMP=$WORKINGDIR"/cache/"$APPLICATION"/prod/majDrmUrl";
+
 LAST=""
 echo "" > $PATHFILETMP;
 
@@ -55,7 +58,7 @@ URLFOUND=$(cat $PATHFILETMP);
 echo "url:"$URLFOUND;
 if test $URLFOUND ; then
     cd $WORKINGDIR;
-    OUT=$(php5 symfony drm:storeXMLRetour $URLFOUND)
+    OUT=$(php5 symfony $SYMFONYTASKOPTIONS drm:storeXMLRetour --force-update="1" $URLFOUND)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
 	echo $OUT
