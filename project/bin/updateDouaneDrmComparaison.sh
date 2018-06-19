@@ -55,4 +55,9 @@ cat $RAPPORTBODY  | iconv -t ISO-8859-1 | mail -s "[RAPPORT RETOUR DOUANE de $AP
 echo $(date +%Y-%m-%d) > $FILEDATE
 =======
 cat $RAPPORTBODY  | iconv -t ISO-8859-1 | mail -s "[RAPPORT RETOUR DOUANE de $APPLICATION du $DATEFORMAT]" $MAILRETOURDOUANE;
+<<<<<<< HEAD
 >>>>>>> 4ee021330... maj de la config et date du retour douane
+=======
+
+echo $(date +%Y-%m-%d) > $FILEDATE
+>>>>>>> be1038460... update douane daté
