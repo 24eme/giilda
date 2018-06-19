@@ -55,7 +55,7 @@ URLFOUND=$(cat $PATHFILETMP);
 echo "url:"$URLFOUND;
 if test $URLFOUND ; then
     cd $WORKINGDIR;
-    OUT=$(php5 symfony drm:storeXMLRetour $URLFOUND)
+    OUT=$(php5 symfony drm:storeXMLRetour --force-update="1" $URLFOUND)
 	RET=$?
 	DRM=$(echo $OUT | sed 's/ .*//')
 	echo $OUT
