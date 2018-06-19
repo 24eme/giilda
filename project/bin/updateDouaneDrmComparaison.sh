@@ -51,5 +51,5 @@ cat $LOGFILE | grep "Le numéro d'accise" | cut -d ":" -f 3 | sed "s/ Le numéro
 
 
 cat $RAPPORTBODY  | iconv -t ISO-8859-1 | mail -s "[RAPPORT RETOUR DOUANE de $APPLICATION du $DATEFORMAT]" $MAILRETOURDOUANE;
-
+    
 echo $(date +%Y-%m-%d) > $FILEDATE

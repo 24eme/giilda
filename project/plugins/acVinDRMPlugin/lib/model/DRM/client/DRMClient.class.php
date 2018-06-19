@@ -632,14 +632,12 @@ class DRMClient extends acCouchdbClient {
       if ($verbose) echo "INFO: recherche de la DRM pour ".$etablissement->identifiant.' '.$annee.$mois."\n";
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
       if (!$drm->_id) {
-          $drm->etape = self::ETAPE_VALIDATION;
+          echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée";
+          $drm->setEtape(self::ETAPE_VALIDATION);
+          if($drm->hasPrecedente() && $drm->getPrecedente()->isTeledeclare()){
+              $drm->teledeclare = true;
+          }
           $drm->save();
-          $drm = DRMClient::getInstance()->find($drm->_id);
-          $drm->storeXMLRetour($xml);
-          $drm->getOrAdd('transmission_douane')->add("coherente", false);
-          $drm->getOrAdd('transmission_douane')->add("diff",null);
-          $drm->save();
-          throw new sfException($drm->_id." La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée",404);
       }
       if (!$drm->storeXMLRetour($xml) && !$allwaysreturndrm) {
         return null;
