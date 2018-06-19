@@ -627,7 +627,7 @@ class DRMClient extends acCouchdbClient {
           echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée\n";
           $drm->setEtape(self::ETAPE_VALIDATION);
           $drm->type_creation = self::DRM_CREATION_AUTO;
-          $drm->add('transmission_douane')->add("xml", "");
+          $drm->add('transmission_douane')->add("xml", "généré automatiquement");
           $drm->add('transmission_douane')->add('success', false);
           $drm->add('transmission_douane')->add('horodatage', null);
           $drm->add('transmission_douane')->add('id_declaration', null);
