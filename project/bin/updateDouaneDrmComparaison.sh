@@ -15,7 +15,7 @@ DATEFORMAT=`date '+%Y-%m-%d %H:%M:%S'`
 mkdir -p $TMP"/retoursDouanes" > /dev/null
 LOGFILE=$TMP"/retoursDouanes/retrieveXMLAndCompare_"$DATE".log"
 
-bash $(dirname $0)/retrieveXMLAndCompare.sh $SYMFONYTASKOPTIONS $DATEREQUETE > $LOGFILE
+bash $(dirname $0)/retrieveXMLAndCompare.sh $DATEREQUETE > $LOGFILE
 
 
 RAPPORTBODY=$TMP"/retoursDouanes/retrieveXMLAndCompare_rapport_"$DATE".txt"
