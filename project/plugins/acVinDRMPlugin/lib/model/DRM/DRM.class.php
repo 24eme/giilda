@@ -1544,6 +1544,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
     }
 
+    public function isCreationAuto(){
+      return $this->type_creation == DRMClient::DRM_CREATION_AUTO;
+    }
+
     public function getXML() {
       if (!function_exists('get_partial')) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
