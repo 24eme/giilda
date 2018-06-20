@@ -48,12 +48,19 @@ La transmission a échoué. Le message d'erreur envoyé par le portail des douan
         </thead>
       <tbody>
       <?php foreach ($drm->getXMLComparison()->getFormattedXMLComparaison() as $problemeSrc => $values): ?>
-          <?php preg_match('/^(\[.+\]) (.+)((entree|sortie|stock).+)$/', $problemeSrc, $matches); ?>
-        <tr><td style="text-align: left; "><?php echo $matches[1]; ?></td>
+          <?php if(preg_match('/^(\[.+\]) (.+)((entree|sortie|stock).+)$/', $problemeSrc, $matches)): ?>
+        <tr>
+          <td style="text-align: left; "><?php echo $matches[1]; ?></td>
           <td style="text-align: left;"><?php echo $matches[2]; ?></td>
           <td style="text-align: left;"><?php echo $matches[3]; ?></td>
           <td><?php echo $values[0]; ?></td>
-          <td><?php echo $values[1]; ?></td></tr>
+          <td><?php echo $values[1]; ?></td>
+        </tr>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" ><?php echo $problemeSrc; ?></td>
+            </tr>
+        <?php endif; ?>
       <?php endforeach; ?>
       </tbody>
     </table>
