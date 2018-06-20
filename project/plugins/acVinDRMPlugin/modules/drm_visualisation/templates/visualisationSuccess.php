@@ -63,7 +63,7 @@
         <?php if (!$drm->isMaster()): ?>
             <div id="points_vigilance">
                 <ul>
-                    <li class="warning">Ce n'est pas la <a href="<?php echo ($drm->getMaster()->isValidee)? url_for('drm_visualisation', $drm->getMaster()) :  url_for('drm_redirect_etape', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif n'est donc pas à jour.</a></li>
+                    <li class="warning">Ce n'est pas la <a href="<?php echo ($drm->getMaster()->isValidee())? url_for('drm_visualisation', $drm->getMaster()) :  url_for('drm_redirect_etape', $drm->getMaster()) ?>">dernière version</a> de la DRM, le tableau récapitulatif n'est donc pas à jour.</a></li>
                 </ul>
             </div>
         <?php endif; ?>
