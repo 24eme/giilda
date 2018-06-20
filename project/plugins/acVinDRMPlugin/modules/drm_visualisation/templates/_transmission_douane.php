@@ -58,7 +58,9 @@ La transmission a échoué. Le message d'erreur envoyé par le portail des douan
         </tr>
         <?php else: ?>
             <tr>
-                <td colspan="5" ><?php echo $problemeSrc; ?></td>
+                <td colspan="3" ><?php echo $problemeSrc; ?></td>
+                <td><?php echo $values[0]; ?></td>
+                <td><?php echo $values[1]; ?></td>
             </tr>
         <?php endif; ?>
       <?php endforeach; ?>
