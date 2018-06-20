@@ -5,7 +5,7 @@
 FILEDATE=$WORKINGDIR"/data/dateDrmDouane";
 
 if [ ! -f $FILEDATE ];then
-    echo "2016-01-01" > $FILEDATE
+    echo "2017-08-01" > $FILEDATE
 fi;
 APPLICATION=$(echo $SYMFONYTASKOPTIONS | sed -r 's|(.+)application=(.+)\ (.+)|\2|');
 
