@@ -49,6 +49,10 @@
                     <?php echo $form['commentaire']->renderError(); ?>
                     <?php echo $form['commentaire']->render(); ?>
                 <?php endif; ?>
+
+                <?php if ($drm->exist('transmission_douane') && !$isTeledeclarationMode && $drm->isCreationAuto()) : ?>
+                <?php include_partial('drm_visualisation/transmission_douane', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+                <?php endif; ?>
                 <div class="btn_etape">
                     <a class="btn_etape_prec" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_annexes', $drm) : url_for('drm_edition', $drm); ?>">
                         <span>Précédent</span>

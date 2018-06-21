@@ -3,6 +3,7 @@ REDMINE_USER=utilisateur
 REDMINE_PASS=***********
 PROJET=MONPROJET
 TMP=/tmp
+SYMFONYTASKOPTIONS="--application=xxxxx --env=prod"
 WORKINGDIR=/home/vinsi
 COUCHHOST=localhost
 COUCHPORT=5984
@@ -32,5 +33,10 @@ DEV_EMAILS="test@example.org test2@example.org"
 REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
 CIEL_URL_RETOURXML=http://10.10.10.10/reception_douanes/SIRENINTERPO/
 URLDRMINTERNE=http://url_interne_acces_drm
+
+#Retour douane
+CIEL_URL_RETOURXML=""
+EMAILS_RETOURXML=""
+URLDRMINTERNE=http://urlinterpro/drm/
 
 mkdir -p $TMP > /dev/null
