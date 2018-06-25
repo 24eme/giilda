@@ -432,20 +432,37 @@ class Vrac extends BaseVrac {
 
     public function updateVolumesEnleves() {
         $this->volume_enleve = 0;
-        $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->vendeur_identifiant);
-        $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->acheteur_identifiant);
-        foreach ($mvts_drm as $key => $mvt) {
-            $pos = strpos($mvt->produit_hash, $this->produit);
-            if($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id){
-                $volume_enleve = $mvt->volume * -1;
-                $this->volume_enleve += $volume_enleve;
-            }
+        $dateVrac = $this->getDateSignature("Y-m-d");
+
+        $campagneArray = array();
+        $cfClient = ConfigurationClient::getInstance();
+        $campagne = $cfClient->buildCampagne($dateVrac);
+        $campagneArray[$campagne] = $campagne;
+        $currentCampagne = $cfClient->buildCampagne(date("Y-m-d"));
+        while($campagne != $currentCampagne){
+            $campagne = $cfClient->getNextCampagne($campagne);
+            $campagneArray[$campagne] = $campagne;
         }
-        foreach ($mvts_sv12 as $key => $mvt) {
-            $pos = strpos($mvt->produit_hash, $this->produit);
-            if($pos !== false && $mvt->detail_identifiant == $this->_id){
-                $volume_enleve = $mvt->volume * -1;
-                $this->volume_enleve += $volume_enleve;
+
+        foreach ($campagneArray as $campagne) {
+            if(($this->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC) || ($this->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE)){
+                $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->vendeur_identifiant,$campagne);
+                foreach ($mvts_drm as $key => $mvt) {
+                    $pos = strpos($mvt->produit_hash, $this->produit);
+                    if($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id){
+                        $volume_enleve = $mvt->volume * -1;
+                        $this->volume_enleve += $volume_enleve;
+                    }
+                }
+            }elseif(($this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) || ($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS)){
+                $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($this->acheteur_identifiant,$campagne);
+                foreach ($mvts_sv12 as $key => $mvt) {
+                    $pos = strpos($mvt->produit_hash, $this->produit);
+                    if($pos !== false && $mvt->detail_identifiant == $this->_id){
+                        $volume_enleve = $mvt->volume * -1;
+                        $this->volume_enleve += $volume_enleve;
+                    }
+                }
             }
         }
 
