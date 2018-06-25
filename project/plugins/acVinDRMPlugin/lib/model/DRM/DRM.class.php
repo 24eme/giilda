@@ -515,23 +515,25 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
             return;
         }
-
         foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
             if (!$mouvement->isVrac()) {
                 continue;
             }
             $vrac = $mouvement->getVrac();
-            $vracs[$vrac->numero_contrat] = $vrac;
+            $vracs[$vrac->_id] = $vrac;
         }
-        foreach ($this->getMouvements()->get($this->identifiant) as $cle_mouvement => $mouvement) {
-            if (!$mouvement->isVrac()) {
-                continue;
-            }
-            $vracs[$mouvement->getVrac()->numero_contrat]->updateVolumesEnleves();
-        }
+
+        $nbContrats = 0;
         foreach ($vracs as $vrac) {
+            $vrac->updateVolumesEnleves();
             $vrac->save();
+            $nbContrats++;
+            if($nbContrats > 3){
+                sleep(0.5);
+                $nbContrats = 0;
+            }
         }
+
     }
 
     public function setInterpros() {
