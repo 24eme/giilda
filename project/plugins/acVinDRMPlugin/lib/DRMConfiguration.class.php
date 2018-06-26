@@ -117,4 +117,9 @@ class DRMConfiguration {
         return $this->configuration['mouvement_divisable_nb_month'];
     }
 
+    public function getDefaultCrds() {
+
+        return $this->configuration['defaults_crds_nodes'];
+    }
+
 }
