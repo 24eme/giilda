@@ -122,4 +122,8 @@ class DRMConfiguration {
         return $this->configuration['defaults_crds_nodes'];
     }
 
+    public function isProduitAutoChecked(){
+        return boolval($this->configuration['default_auto_checked']);
+    }
+
 }
