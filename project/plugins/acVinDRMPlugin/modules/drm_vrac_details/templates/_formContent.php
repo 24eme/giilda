@@ -1,3 +1,4 @@
+<?php use_helper('DRM'); ?>
 <?php
 echo $form->renderHiddenFields();
 echo $form->renderGlobalErrors();
