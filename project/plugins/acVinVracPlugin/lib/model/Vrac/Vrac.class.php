@@ -212,6 +212,10 @@ class Vrac extends BaseVrac {
 
     public function setDateCampagne($d) {
         $this->setDate('date_campagne', $d);
+        if($this->numero_archive && $this->campagne) {
+
+            return;
+        }
         $this->campagne = VracClient::getInstance()->buildCampagne($this->getDateCampagne('Y-m-d'));
     }
 
