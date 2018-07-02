@@ -16,7 +16,7 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
-$t = new lime_test(30);
+$t = new lime_test(31);
 
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
