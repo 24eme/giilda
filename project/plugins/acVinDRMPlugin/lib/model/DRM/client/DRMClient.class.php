@@ -592,7 +592,7 @@ class DRMClient extends acCouchdbClient {
         foreach ($etbs as $id => $etb) {
             if($etb->isActif() && $aggrement){
                 $etbaggrement = EtablissementClient::getInstance()->findByNoAccise($aggrement,false);
-                if($etbaggrement->_id == $etb->_id){
+                if($etbaggrement && $etbaggrement->_id == $etb->_id){
                     $etablissement = $etb;
                     break;
                 }
