@@ -49,6 +49,11 @@ $drm->validate();
 $drm->save();
 
 $mouvementsFactureMasse = FactureClient::getInstance()->getMouvementsNonFacturesBySoc(FactureClient::getInstance()->getMouvementsForMasse(null));
+$mouvementsFactureMasse = FactureClient::getInstance()->filterWithParameters($mouvementsFactureMasse, array_merge($paramFacturation, array('seuil' => 999999)));
+
+$t->is(count($mouvementsFactureMasse), 0, "Avec un seuil à 99999 aucune société à facturer");
+
+$mouvementsFactureMasse = FactureClient::getInstance()->getMouvementsNonFacturesBySoc(FactureClient::getInstance()->getMouvementsForMasse(null));
 $mouvementsFactureMasse = FactureClient::getInstance()->filterWithParameters($mouvementsFactureMasse, $paramFacturation);
 
 $mouvementsFacture = array($societeViti->identifiant => FactureClient::getInstance()->getFacturationForSociete($societeViti));
