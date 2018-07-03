@@ -28,6 +28,17 @@ class DRMDeclaration extends BaseDRMDeclaration {
                 $detail->delete();
                 $delete = true;
             }
+            $nodesToRemove = array();
+            if ($detail->sorties->exist('vrac_details')) {
+                foreach ($detail->sorties->vrac_details as $idVrac => $value) {
+                    if(!preg_match('/^VRAC-/',$idVrac)){
+                        $nodesToRemove[$idVrac] = $idVrac;
+                    }
+                }
+            }
+            foreach ($nodesToRemove as $toRemove) {
+                $detail->sorties->vrac_details->remove($toRemove);
+            }
         }
 
         if ($delete) {
