@@ -33,21 +33,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    $oldSoc = SocieteClient::getInstance()->find("SOCIETE-001380");
-    if($oldSoc){
-        acCouchdbManager::getClient()->delete($oldSoc);
-    }
-    $oldCompte = CompteClient::getInstance()->find("COMPTE-00138001");
-    if($oldCompte){
-        acCouchdbManager::getClient()->delete($oldCompte);
-    }
-    $oldEtablissement = EtablissementClient::getInstance()->find("ETABLISSEMENT-00138001");
-    if($oldEtablissement){
-        acCouchdbManager::getClient()->delete($oldEtablissement);
-    }
-
-
-    if(!isset($arguments['raisonSociale']) || !isset($arguments['motDePasse'])){
+    if(!isset($arguments['raisonSociale']) || !isset($arguments['email']) || !isset($arguments['motDePasse'])){
         throw new sfException("php symfony maintenanceCompteStatut --application=\"xxxx\" raisonSociale monMotDePasse email");
 
     }
