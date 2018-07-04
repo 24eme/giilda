@@ -54,10 +54,12 @@ EOF;
 
     $compte = $societe->getMasterCompte();
     $compte->commentaire = "Compte fictif créer à la demande de ".$raisonSociale." pour effectuer des tests (".date('d/m/Y').")";
+    $compte->add('droits',array("teledeclaration",  "teledeclaration_drm"));
     $compte->save();
 
     $etb = $societe->createEtablissement(EtablissementFamilles::FAMILLE_PRODUCTEUR);
     $etb->no_accises = "FR1122334455123";
+    $etb->nom = "Chai de ".$raisonSociale;
     $etb->save();
     echo "$societe->_id : $raisonSociale créée : $compte->mot_de_passe\n";
 
