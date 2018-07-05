@@ -16,7 +16,7 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
-$t = new lime_test(29);
+$t = new lime_test(31);
 
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
@@ -48,8 +48,18 @@ $drm->save();
 $drm->validate();
 $drm->save();
 
+$mouvementsFactureMasse = FactureClient::getInstance()->getMouvementsNonFacturesBySoc(FactureClient::getInstance()->getMouvementsForMasse(null));
+$mouvementsFactureMasse = FactureClient::getInstance()->filterWithParameters($mouvementsFactureMasse, array_merge($paramFacturation, array('seuil' => 999999)));
+
+$t->is(count($mouvementsFactureMasse), 0, "Avec un seuil à 99999 aucune société à facturer");
+
+$mouvementsFactureMasse = FactureClient::getInstance()->getMouvementsNonFacturesBySoc(FactureClient::getInstance()->getMouvementsForMasse(null));
+$mouvementsFactureMasse = FactureClient::getInstance()->filterWithParameters($mouvementsFactureMasse, $paramFacturation);
+
 $mouvementsFacture = array($societeViti->identifiant => FactureClient::getInstance()->getFacturationForSociete($societeViti));
 $mouvementsFacture = FactureClient::getInstance()->filterWithParameters($mouvementsFacture, $paramFacturation);
+
+$t->is(json_encode($mouvementsFactureMasse[$societeViti->identifiant]), json_encode($mouvementsFacture[$societeViti->identifiant]), "La méthode récupération massive des mouvements est ok");
 
 $prixHt = 0.0;
 $nbmvt = 0;

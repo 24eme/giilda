@@ -165,18 +165,21 @@ class FactureClient extends acCouchdbClient {
         foreach ($regions as $region) {
             $mouvementsByRegions = array_merge(MouvementfactureFacturationView::getInstance()->getMouvementsFacturablesByRegions(0, 1, $region, $this->getReduceLevelForFacturation()), $mouvementsByRegions);
         }
+
+        ksort($mouvementsByRegions);
+
         return $mouvementsByRegions;
     }
 
     public function getMouvementsNonFacturesBySoc($mouvements) {
         $generationFactures = array();
-        foreach ($mouvements as $mouvement) {
+        foreach ($mouvements as $key => $mouvement) {
             $societe_id = substr($mouvement->etablissement_identifiant, 0, -2);
             if (isset($generationFactures[$societe_id])) {
-                $generationFactures[$societe_id][] = $mouvement;
+                $generationFactures[$societe_id][$key] = $mouvement;
             } else {
                 $generationFactures[$societe_id] = array();
-                $generationFactures[$societe_id][] = $mouvement;
+                $generationFactures[$societe_id][$key] = $mouvement;
             }
         }
         return $generationFactures;
@@ -225,13 +228,11 @@ class FactureClient extends acCouchdbClient {
                 }
                 $somme += $prix;
             }
-            $somme = $somme * -1;
             $somme = $this->ttc($somme);
 
             if (count($mouvementsBySoc[$identifiant]) == 0) {
                 $mouvementsBySoc[$identifiant] = null;
             }
-
             if (isset($parameters['seuil']) && $parameters['seuil']) {
                 if (($somme < $parameters['seuil']) && ($somme >= 0)) {
                     $mouvementsBySoc[$identifiant] = null;
