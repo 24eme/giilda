@@ -42,7 +42,7 @@ EOF;
                 if(!preg_match("/Contrat n° DRM/", $detail->origine_type)) {
                     continue;
                 }
-                echo $detail->origine_type."\n";
+                $finded = false;
                 foreach($ligne->getMouvements() as $mouvement) {
                     if($mouvement->volume != $detail->quantite*-1 || !$mouvement->detail_libelle) {
                         continue;
@@ -52,19 +52,21 @@ EOF;
                     }else{
                         $idContrat = $mouvement->detail_libelle;
                     }
+		    $finded=true;
                     $detail->origine_type
  = preg_replace("/Contrat n° DRM-[0-9]+-[0-9]+/", "Contrat n° ".$idContrat, $detail->origine_type);
                     $i++;
                     echo $detail->origine_type."\n";
 ;
                 }
+		if(!$finded) {
+			echo $detail->origine_type." ".$facture->_id."\n";
+		}
             }
         }
 
         if($i > 0) {
             echo "La ".$facture->_id." a été réécrite\n";
-        } else {
-            echo "La ".$facture->_id." n'a pas été réécrite\n";
         }
 
         $facture->save();
