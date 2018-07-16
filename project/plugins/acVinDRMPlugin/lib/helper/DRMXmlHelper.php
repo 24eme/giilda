@@ -173,3 +173,62 @@ function centilisation2Douane($c, $libelle) {
 		}
 		return "AUTRE";
 }
+
+
+function xmlGetNodesToTable($flatXmlNodes){
+	$str = "";
+	foreach ($flatXmlNodes as $key => $value) {
+		if($value === NULL){ continue; }
+		if(preg_match("/^produit$/",$key)){
+			$str .="<tr><td colspan='2' style='background-color: #ecebeb;font-size: 13px;padding: 5px 0;vertical-align: middle;'>".$value."</td></tr>";
+		}elseif(preg_match("/^categorie-fiscale-capsules$/",$key) || preg_match("/^type-capsule$/",$key)){
+			$str .="<tr><td  style=' min-width:400px;max-width:400px; background-color: #ecebeb;font-size: 13px; text-align: left;'>".str_ireplace("/"," => ",preg_replace("/\/[0-9]+\//"," => ",$key))."</td>"
+			."<td  >".$value."</td></tr>";
+		}else{
+			$str .="<tr><td  style='min-width:400px;max-width:400px; text-align: left;'>".str_ireplace("/"," => ",preg_replace("/\/[0-9]+\//"," => ",$key))."</td>"
+			."<td  >".$value."</td></tr>";
+		}
+	}
+	return $str;
+}
+
+function xmlProduitsToTable($flatXml,$reg){
+	$produits = array();
+	foreach ($flatXml as $key => $value) {
+		if(preg_match("/^$reg\/produit\/[0-9]+\//",$key)){
+			$match = array();
+			preg_match("/($reg\/produit\/[0-9]+\/)(.*)/",$key,$match);
+			$radix = $match[1];
+			if(!array_key_exists($radix,$produits)){
+				$produits[$radix] = array();
+				$produits[$radix]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$flatXml[$radix."code-inao"].")";
+			}
+			if(!preg_match("/libelle-personnalise/",$key) && !preg_match("/code-inao/",$key)){
+				$produits[$radix][str_ireplace($radix,"",$key)] = $value;
+			}
+		}
+	}
+	$str = "";
+	foreach ($produits as $rad => $produit) {
+		$str.= xmlGetNodesToTable($produit);
+	}
+
+	return $str;
+}
+
+function xmlPartOfToTable($flatXml,$regexs = array(),$withRemove = false){
+	$partOfFlatXml = array();
+	foreach ($flatXml as $key => $value) {
+		foreach ($regexs as $reg) {
+			if(preg_match("/^$reg/",$key)){
+				$newKey = $key;
+				if($withRemove) $newKey = str_ireplace($reg."/","",$key);
+				if($reg != "compte-crd" || $value){
+					$partOfFlatXml[$newKey] = $value;
+
+				}
+			}
+		}
+	}
+	return xmlGetNodesToTable($partOfFlatXml);
+}
