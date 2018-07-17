@@ -201,4 +201,17 @@ class DRMCielCompare
 		  krsort($str_arr);
 	      return $str_arr;
 	    }
+
+
+		public function xmlInToArray()
+		{
+			$properFlattenXml = array();
+			$flattenXml = $this->flattenArray($this->xmlToArray($this->xmlIn));
+			foreach ($flattenXml as $key => $value) {
+				if(preg_match("/_declaration-recapitulative_{array}\//",$key)){
+					$properFlattenXml[str_ireplace(array("_declaration-recapitulative_{array}/","/{array}/"),array("","/"),$key)] = $value;
+				}
+			}
+			return $properFlattenXml;
+		}
 }
