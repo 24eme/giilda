@@ -36,7 +36,7 @@ use_helper("DRMXml");
 
 <table class="table_recap">
     <tbody>
-          <?php echo xmlPartOfToTable($xml_table,array("compte-crd"),true); ?>
+          <?php echo xmlCrdsToTable($xml_table,"compte-crd"); ?>
     </tbody>
 </table>
 
