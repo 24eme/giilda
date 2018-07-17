@@ -838,27 +838,18 @@ class VracClient extends acCouchdbClient {
     public function buildEnlevements($vrac) {
 
         $enlevements = array();
-        $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($vrac->vendeur_identifiant);
-        $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissement($vrac->acheteur_identifiant);
-        foreach ($mvts_drm as $key => $mvt) {
-            $pos = strpos($mvt->produit_hash, $vrac->produit);
-            if($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $vrac->_id){
+        $mvts = $vrac->getMouvementsFromDrmOrSV12ImpactVolumeEnleve();
+        foreach ($mvts as $key => $mvt) {
                 $enlevements[$mvt->doc_id] = new stdClass();
                 $enlevements[$mvt->doc_id]->doc_id = $mvt->doc_id;
                 $enlevements[$mvt->doc_id]->type = $mvt->type;
-                $enlevements[$mvt->doc_id]->periode = preg_replace('/DRM-([0-9]+)-/','',$mvt->doc_id);
+                if($mvt->type == "DRM"){
+                    $enlevements[$mvt->doc_id]->periode = preg_replace('/DRM-([0-9]+)-/','',$mvt->doc_id);
+                }else{
+                    $enlevements[$mvt->doc_id]->periode = preg_replace('/(-M[0-9]+)/','',preg_replace('/SV12-([0-9]+)-/','',$mvt->doc_id));
+                }
                 $enlevements[$mvt->doc_id]->volume = $mvt->volume * -1;
-            }
-        }
-        foreach ($mvts_sv12 as $key => $mvt) {
-            $pos = strpos($mvt->produit_hash, $vrac->produit);
-            if($pos !== false && $mvt->detail_identifiant == $vrac->_id){
-                $enlevements[$mvt->doc_id] = new stdClass();
-                $enlevements[$mvt->doc_id]->type = $mvt->type;
-                $enlevements[$mvt->doc_id]->doc_id = $mvt->doc_id;
-                $enlevements[$mvt->doc_id]->periode = preg_replace('/(-M[0-9]+)/','',preg_replace('/SV12-([0-9]+)-/','',$mvt->doc_id));
-                $enlevements[$mvt->doc_id]->volume = $mvt->volume * -1;
-            }
+
         }
 
         return $enlevements;
