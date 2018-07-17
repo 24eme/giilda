@@ -202,7 +202,7 @@ function xmlProduitsToTable($flatXml,$reg){
 			$match = array();
 			preg_match("/($reg\/produit\/[0-9]+\/)(.*)/",$key,$match);
 			$radix = $match[1];
-			$inaoKey = $flatXml[$radix."code-inao"]
+			$inaoKey = $flatXml[$radix."code-inao"];
 			if(!array_key_exists($inaoKey,$produits)){
 				$produits[$inaoKey] = array();
 				$produits[$inaoKey]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$flatXml[$radix."code-inao"].")";
