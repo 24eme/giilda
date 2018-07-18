@@ -189,7 +189,7 @@ function xmlGetNodesToTable($flatXmlNodes){
 	foreach ($flatXmlNodes as $key => $value) {
 		if($value === NULL){ continue; }
 		if(preg_match("/^produit|volume$/",$key)){
-			$str .="<tr><td colspan='2' class='text-center'><strong>".$value."</strong></td></tr>";
+			$str .="<tr><td colspan='2' class=''><strong>".$value."</strong></td></tr>";
 
 		}elseif(preg_match("/^categorie-fiscale-capsules$/",$key) || preg_match("/^type-capsule$/",$key)){
 			$str .="<tr><td class='text-center'><strong>".str_ireplace("/"," => ",preg_replace("/\/[0-9]+\//"," => ",$key))."</strong></td>"
@@ -206,13 +206,16 @@ function xmlProduitsToTable($flatXml,$reg){
 	$produits = array();
 	foreach ($flatXml as $key => $value) {
 		if(preg_match("/^$reg\/produit\/[0-9]+\//",$key)){
+			$oneNode = true;
 			$match = array();
 			preg_match("/($reg\/produit\/[0-9]+\/)(.*)/",$key,$match);
 			$radix = $match[1];
-			$inaoKey = $flatXml[$radix."code-inao"];
+			$inaoCode = isset($flatXml[$radix."code-inao"])? $flatXml[$radix."code-inao"] : $flatXml[$radix."libelle-fiscal"];
+			$inaoKey = $radix.$inaoCode;
+
 			if(!array_key_exists($inaoKey,$produits)){
 				$produits[$inaoKey] = array();
-				$produits[$inaoKey]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$flatXml[$radix."code-inao"].")";
+				$produits[$inaoKey]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$inaoCode.")";
 			}
 			if(!preg_match("/libelle-personnalise/",$key) && !preg_match("/code-inao/",$key)){
 				$produits[$inaoKey][str_ireplace($radix,"",$key)] = $value;
@@ -223,7 +226,9 @@ function xmlProduitsToTable($flatXml,$reg){
 	foreach ($produits as $inaoKey => $produit) {
 		$str.= xmlGetNodesToTable($produit);
 	}
-
+	if(!count($produits)){
+		$str.= xmlGetNodesToTable("Pas de noeud");
+	}
 	return $str;
 }
 
@@ -263,7 +268,9 @@ function xmlCrdsToTable($flatXml,$reg){
 			$str.= xmlGetNodesToTable($crdVol);
 		}
 	}
-
+	if(!count($crds)){
+		$str.= xmlGetNodesToTable("Pas de noeud");
+	}
 	return $str;
 }
 
