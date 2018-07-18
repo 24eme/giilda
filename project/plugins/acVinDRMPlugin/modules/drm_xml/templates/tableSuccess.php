@@ -3,7 +3,21 @@ use_helper("DRMXml");
 ?>
 <div id="principal">
     <?php include_partial('drm/header', array('drm' => $drm)); ?>
-    <h2>Visualisation de l'xml <?php if($retour) : ?>Douane <?php else: ?>transmis par la plateforme <?php endif; ?><a class="btn_majeur" href="<?php if($retour) : echo url_for('drm_retour', $drm); else: echo url_for('drm_xml', $drm); endif; ?>">XML brut</a></h2>
+
+    <h2>Visualisation de l'XML <?php if($retour) : ?>reçu Douane <?php else: ?>transmis <?php endif; ?><a style="text-decoration: underline;
+    font-size: 8pt;" href="<?php if($retour) : echo url_for('drm_retour', $drm); else: echo url_for('drm_xml', $drm); endif; ?>"><small>(fichier XML brut)</small></a>
+        <a class="btn_majeur" style="float:right;" href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => intval(!$retour))); ?>"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;<?php if(!$retour) : ?> XML reçu Douane <?php else: ?> XML transmis <?php endif; ?></a>
+    </h2>
+
+    <?php if(!count($xml_table)): ?>
+        <table class="table_recap">
+        <thead>
+            <tr>
+                <th colspan="8"><h4>Absense de l'XML</h4></th>
+            </tr>
+        </thead>
+    </table>
+    <?php else: ?>
       <table class="table_recap">
         <thead>
             <tr>
@@ -39,6 +53,7 @@ use_helper("DRMXml");
           <?php echo xmlCrdsToTable($xml_table,"compte-crd"); ?>
     </tbody>
 </table>
+<?php endif; ?>
 
 <div id="btn_etape_dr">
     <a href="<?php echo url_for('drm_visualisation', $drm); ?>" class="btn_etape_prec"><span>Retour à la visualisation de la DRM</span></a>

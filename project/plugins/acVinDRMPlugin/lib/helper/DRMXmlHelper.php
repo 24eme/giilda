@@ -184,6 +184,7 @@ function xmlGetNodesToTable($flatXmlNodes){
 		if($value === NULL){ continue; }
 		if(preg_match("/^(produit|volume)$/",$key)){
 			$str .="<tr><td colspan='2' style='background-color: #ecebeb;font-size: 13px;padding: 5px 0;vertical-align: middle; font-weight:bold;'>".$value."</td></tr>";
+
 		}elseif(preg_match("/^categorie-fiscale-capsules$/",$key) || preg_match("/^type-capsule$/",$key)){
 			$str .="<tr><td  style=' min-width:400px;max-width:400px; background-color: #ecebeb;font-size: 13px; text-align: left;'>".str_ireplace("/"," => ",preg_replace("/\/[0-9]+\//"," => ",$key))."</td>"
 			."<td  >".$value."</td></tr>";
@@ -199,13 +200,16 @@ function xmlProduitsToTable($flatXml,$reg){
 	$produits = array();
 	foreach ($flatXml as $key => $value) {
 		if(preg_match("/^$reg\/produit\/[0-9]+\//",$key)){
+			$oneNode = true;
 			$match = array();
 			preg_match("/($reg\/produit\/[0-9]+\/)(.*)/",$key,$match);
 			$radix = $match[1];
-			$inaoKey = $flatXml[$radix."code-inao"];
+			$inaoCode = isset($flatXml[$radix."code-inao"])? $flatXml[$radix."code-inao"] : $flatXml[$radix."libelle-fiscal"];
+			$inaoKey = $radix.$inaoCode;
+
 			if(!array_key_exists($inaoKey,$produits)){
 				$produits[$inaoKey] = array();
-				$produits[$inaoKey]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$flatXml[$radix."code-inao"].")";
+				$produits[$inaoKey]["produit"] = $flatXml[$radix."libelle-personnalise"]." (".$inaoCode.")";
 			}
 			if(!preg_match("/libelle-personnalise/",$key) && !preg_match("/code-inao/",$key)){
 				$produits[$inaoKey][str_ireplace($radix,"",$key)] = $value;
@@ -216,7 +220,9 @@ function xmlProduitsToTable($flatXml,$reg){
 	foreach ($produits as $inaoKey => $produit) {
 		$str.= xmlGetNodesToTable($produit);
 	}
-
+	if(!count($produits)){
+		$str.= xmlGetNodesToTable("Pas de noeud");
+	}
 	return $str;
 }
 
@@ -256,7 +262,9 @@ function xmlCrdsToTable($flatXml,$reg){
 			$str.= xmlGetNodesToTable($crdVol);
 		}
 	}
-
+	if(!count($crds)){
+		$str.= xmlGetNodesToTable("Pas de noeud");
+	}
 	return $str;
 }
 
