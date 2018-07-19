@@ -113,7 +113,7 @@ class DAENouveauForm extends acCouchdbObjectForm
 
     protected function updateDefaultsFromObject() {
     	parent::updateDefaultsFromObject();
-    	if ($this->isNew()) {
+    	if ($this->getObject()->isNew()) {
 	        $defaults = $this->getDefaults();
 	        $defaults['conditionnement_key'] = 'vrac'; 
 	        $this->setDefaults($defaults);

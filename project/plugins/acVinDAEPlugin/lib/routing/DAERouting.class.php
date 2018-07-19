@@ -24,6 +24,12 @@ class DAERouting {
             'action' => 'nouveau'), array('sf_method' => array('get', 'post')), array('model' => 'Etablissement',
             'type' => 'object')));
 
+        $r->prependRoute('dae_export', new EtablissementRoute('/dae/:identifiant/export', array('module' => 'dae',
+                    'action' => 'export'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Etablissement',
+                            'type' => 'object')));
+
         
 
     }
