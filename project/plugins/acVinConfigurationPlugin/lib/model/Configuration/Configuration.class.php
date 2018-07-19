@@ -16,6 +16,11 @@ class Configuration extends BaseConfiguration {
         $this->set('_id', "CONFIGURATION");
     }
 
+    public function getLabels($interpro = null) {
+
+        return $this->labels;
+    }
+
     public function getProduits() {
 
         return $this->declaration->getProduits();
