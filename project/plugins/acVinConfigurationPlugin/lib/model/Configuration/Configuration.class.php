@@ -18,7 +18,7 @@ class Configuration extends BaseConfiguration {
 
     public function getLabels($interpro = null) {
 
-        return $this->labels;
+        return $this->_get('labels');
     }
 
     public function getProduits() {
