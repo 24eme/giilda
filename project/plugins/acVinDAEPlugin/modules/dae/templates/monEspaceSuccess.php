@@ -12,13 +12,13 @@
     </div>
 </div>
 
-<h1>Déclaration des activités mensuelle</h1>
+<h1>Expérimentation des données de commercialisation</h1>
 
 
     <div class="col-xs-12">
         <div class="row">
         	<h4>
-        		Liste des flux de <strong><?php echo ucfirst(format_date($periode->format('Y-m-d'), 'MMMM yyyy', 'fr_FR')) ?></strong>
+        		Liste des ventes de <strong><?php echo ucfirst(format_date($periode->format('Y-m-d'), 'MMMM yyyy', 'fr_FR')) ?></strong>
 	            <form class="form-inline pull-right" method="get">
 	            	<?php echo $formCampagne->renderGlobalErrors() ?>
 	                <?php echo $formCampagne->renderHiddenFields() ?>
