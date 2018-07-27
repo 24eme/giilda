@@ -25,6 +25,7 @@ class ProjectConfiguration extends sfProjectConfiguration
         $this->enablePlugins('acVinGenerationPlugin');
         $this->enablePlugins('acVinDocumentPlugin');
         $this->enablePlugins('acVinDSPlugin');
+        $this->enablePlugins('acVinDAEPlugin');
         $this->enablePlugins('acVinRevendicationPlugin');
         $this->enablePlugins('acVinAlertePlugin');
         $this->enablePlugins('acVinSocietePlugin');
@@ -38,6 +39,7 @@ class ProjectConfiguration extends sfProjectConfiguration
         $this->enablePlugins('acCASPlugin');
         $this->enablePlugins('acElasticaPlugin');
         $this->enablePlugins('StatistiquePlugin');
+        $this->enablePlugins('acVinFichierPlugin');
 
         $this->dispatcher->connect('application.throw_exception', array('acError500', 'handleException'));
   	}
