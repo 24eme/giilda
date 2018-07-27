@@ -56,6 +56,16 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     
     public function calculateDatas()
     {
+    	if (preg_match('/CL_/', $this->contenance_key)) {
+    		$this->conditionnement_key = 'BOUTEILLE';
+    		$this->conditionnement_libelle = 'Bouteille';
+    	} elseif (preg_match('/BIB_/', $this->contenance_key)) {
+    		$this->conditionnement_key = 'BIB';
+    		$this->conditionnement_libelle = 'Bib';
+    	} else {
+    		$this->conditionnement_key = 'HL';
+    		$this->conditionnement_libelle = 'Hectolitre';
+    	}
     	$this->contenance_hl = $this->getContenanceHl();
     	$this->volume_hl = round($this->contenance_hl * $this->quantite, 2);
     	$this->prix_hl = round($this->prix_unitaire / $this->contenance_hl, 2);

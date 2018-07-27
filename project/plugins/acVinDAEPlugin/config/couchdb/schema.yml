@@ -32,6 +32,8 @@ DAE:
       type_acheteur_libelle: {  }
       destination_key: {  }
       destination_libelle: {  }
+      conditionnement_key: {  }
+      conditionnement_libelle: {  }
       contenance_key: {  }
       contenance_hl: {  }
       contenance_libelle: {  }

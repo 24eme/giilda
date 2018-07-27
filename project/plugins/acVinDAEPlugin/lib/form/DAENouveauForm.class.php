@@ -7,7 +7,6 @@ class DAENouveauForm extends acCouchdbObjectForm
     protected $_choices_millesimes;
     protected $_choices_types;
     protected $_choices_destinations;
-    protected $_choices_conditionnements;
     protected $_choices_contenances;
 
     public function configure() {
@@ -132,7 +131,6 @@ class DAENouveauForm extends acCouchdbObjectForm
     	$labels = $this->getLabels();
     	$types = $this->getTypes();
     	$destinations = $this->getDestinations();
-    	$conditionnements = $this->getConditionnements();
     	$contenances = $this->getContenances();
     	
     	$values['produit_libelle'] = (isset($produits[$values['produit_key']]))? $produits[$values['produit_key']] : null;
