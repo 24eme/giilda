@@ -35,14 +35,12 @@ class PieceAllView extends acCouchdbView
     	$visibles = array_reverse($this->client
     			->startkey(array_merge(array(1), $start))
     			->endkey(array_merge(array(1), $end))
-    			->reduce(false)
     			->getView($this->design, $this->view)->rows);
     	$nonVisibles = array();
     	if ($allVisibilite) {
     		$nonVisibles = array_reverse($this->client
     				->startkey(array_merge(array(0), $start))
     				->endkey(array_merge(array(0), $end))
-    				->reduce(false)
     				->getView($this->design, $this->view)->rows);
     	}
         return array_merge($nonVisibles, $visibles);
