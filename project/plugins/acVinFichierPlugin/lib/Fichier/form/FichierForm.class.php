@@ -46,7 +46,6 @@ class FichierForm extends BaseForm
     }
 
     public function save() {
-
     	$file = $this->getValue('file');
     	if (!$file && $this->fichier->isNew()) {
     		throw new sfException("Une erreur lors de l'upload est survenue");
@@ -54,10 +53,15 @@ class FichierForm extends BaseForm
     	if ($file && !$file->isSaved()) {
     		$file->save();
     	}
-
-    	$this->fichier->setLibelle($this->getValue('libelle'));
-    	$this->fichier->setDateDepot($this->getValue('date_depot'));
-    	$this->fichier->setVisibilite(($this->getValue('visibilite'))? 1 : 0);
+		if ($this->getValue('libelle') !== null) {
+    		$this->fichier->setLibelle($this->getValue('libelle'));
+		}
+		if ($this->getValue('date_depot') !== null) {
+    		$this->fichier->setDateDepot($this->getValue('date_depot'));
+		}
+		if ($this->getValue('visibilite') !== null) {
+    		$this->fichier->setVisibilite(($this->getValue('visibilite'))? 1 : 0);
+		}
     	$isNew = false;
     	if ($this->fichier->isNew()) {
     		$this->fichier->save();
