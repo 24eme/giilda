@@ -19,6 +19,10 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     }
 
 
+    public function getProduitObject() {
+    	return $this->getConfig()->getProduit($this->produit_key);
+    }
+
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
     }
