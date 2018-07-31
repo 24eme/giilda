@@ -26,20 +26,21 @@ class daeActions extends sfActions {
     public function executeNouveau(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
+
         $this->withlast = $request->getParameter('withlast', null);
         $this->last = null;
         
         if ($this->withlast) {
         	$this->last = DAEClient::getInstance()->findLastByIdentifiantDate($this->etablissement->getIdentifiant(), $this->periode->format('Ymd'));
         }
-        
+
         $this->dae = ($id = $request->getParameter('id'))? DAEClient::getInstance()->find($id) : DAEClient::getInstance()->createSimpleDAE($this->etablissement->getIdentifiant(), $this->periode->format('Y-m-d'));
         if ($this->last && !$request->getParameter('id')) {
         	$this->dae->initByDae($this->last);
         }
         
         $this->form = new DAENouveauForm($this->dae);
-        
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -53,27 +54,21 @@ class daeActions extends sfActions {
     	$etablissement = $this->getRoute()->getEtablissement();
     	$daes = DAEClient::getInstance()->findByIdentifiant($etablissement->identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
     	$csv = null;
-    	foreach ($daes as $id => $dae) {
-    		$dae->produit_key = $this->explodeProduct($dae->produit_key);
-    		$datas = acCouchdbToolsJson::json2FlatenArray($dae, null, '_');
-    		unset($datas['__id'],$datas['__rev'], $datas['_type']);
-    		if (!$csv) {
-    			$csv = $this->cleanCsvLine(implode(';', array_keys($datas)));
-    			$csv .= "\n";
-    		}
-    		$csv .= str_replace('.', ',', implode(';', $datas));
-    		$csv .= "\n";
-    	}
+
+        $export = new DAEExportCsvEdi($daes);
+
+        $csv = $export->exportEDI();
+
     	$this->response->setContentType('text/csv');
     	$this->response->setHttpHeader('md5', md5($csv));
-    	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=dae.csv");
+    	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$etablissement->identifiant.".csv");
     	return $this->renderText($csv);
     }
-    
+
     protected function cleanCsvLine($line) {
     	return str_replace('/', '_',  $line);
     }
-    
+
     protected function explodeProduct($hash) {
     	if (!preg_match('/^\/declaration\/certifications\/([a-zA-Z0-9]+)\/genres\/([a-zA-Z0-9]+)\/appellations\/([a-zA-Z0-9]+)\/mentions\/([a-zA-Z0-9]+)\/lieux\/([a-zA-Z0-9]+)\/couleurs\/([a-zA-Z0-9]+)\/cepages\/([a-zA-Z0-9]+)$/', $hash, $m)) {
     		$m = array(null,null,null,null,null,null,null,null);
