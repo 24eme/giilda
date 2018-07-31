@@ -249,7 +249,7 @@ function xmlCrdsToTable($flatXml,$reg){
 						$crds[$radix][$c_key] = array();
 						$crds[$radix][$c_key]['volume'] = $c_key;
 					}
-					if(!preg_match("/@attributes\/volume/",$key) && $value){
+					if(!preg_match("/@attributes\/volume$/",$key) && $value){
 					$crds[$radix][$c_key][preg_replace("/$p_rad/","",$key)] = $value;
 					}
 				}
