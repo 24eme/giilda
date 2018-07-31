@@ -1,4 +1,4 @@
-<table  class="table table-striped" style="margin-top: 20px;">
+<table  class="table table-striped table-filter">
 	<thead>
 		<tr>
 			<th>Produit</th>
