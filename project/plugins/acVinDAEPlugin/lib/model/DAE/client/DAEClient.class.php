@@ -12,6 +12,7 @@ class DAEClient extends acCouchdbClient {
         $dae = new DAE();
         $dae->setIdentifiant($identifiant);
         $dae->setDate($date);
+        $dae->setDateSaisie(date('Y-m-d'));
         $dae->setProduitHash($produit);
         $dae->setTypeAcheteur($type_acheteur);
         $dae->setDestination($destination);
@@ -31,6 +32,7 @@ class DAEClient extends acCouchdbClient {
         $dae = new DAE();
         $dae->setIdentifiant($identifiant);
         $dae->setDate($date);
+        $dae->setDateSaisie(date('Y-m-d'));
         $dae->storeDeclarant();
         return $dae;
     }
@@ -51,6 +53,17 @@ class DAEClient extends acCouchdbClient {
             }
         }
         return sprintf("%03d", $last_num + 1);
+    }
+
+    public function findLastByIdentifiantDate($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
+    	if (!preg_match('/^[0-9]{8}$/', $date)) {
+    		throw new sfException('date not valid');
+    	}
+    	$num = $this->getNextIdentifiantForEtablissementAndDay($identifiant, $date);
+    	if ($num < 2) {
+    		return null;
+    	}
+    	return $this->find('DAE-' . $identifiant . '-'. $date .'-' . sprintf("%03d", $num - 1));
     }
 
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){

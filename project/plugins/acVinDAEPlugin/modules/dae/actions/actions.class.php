@@ -26,15 +26,25 @@ class daeActions extends sfActions {
     public function executeNouveau(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
+        $this->withlast = $request->getParameter('withlast', null);
+        $this->last = null;
+        
+        if ($this->withlast) {
+        	$this->last = DAEClient::getInstance()->findLastByIdentifiantDate($this->etablissement->getIdentifiant(), $this->periode->format('Ymd'));
+        }
         
         $this->dae = ($id = $request->getParameter('id'))? DAEClient::getInstance()->find($id) : DAEClient::getInstance()->createSimpleDAE($this->etablissement->getIdentifiant(), $this->periode->format('Y-m-d'));
+        if ($this->last && !$request->getParameter('id')) {
+        	$this->dae->initByDae($this->last);
+        }
+        
         $this->form = new DAENouveauForm($this->dae);
         
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->dae = $this->form->save();
-                return $this->redirect('dae_etablissement', $this->dae);
+                return ($this->withlast)?  $this->redirect('dae_nouveau', array('sf_subject' => $this->etablissement, 'periode' => $this->periode->format('Y-m-d'), 'withlast' => 1)) : $this->redirect('dae_etablissement', $this->dae);
             }
         }
     }
