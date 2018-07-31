@@ -3,6 +3,7 @@ use_helper('Date');
 use_helper('Display');
 $pointille = ' . . . . . . . . . . . . . . . . . . . . . . . . . .';
 $coordonneesInterLoire = $ds->getCoordonneesIL();
+$path_logo = realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_ir_new.jpg";
 ?>
 \documentclass[a4paper,8pt]{article}
 \usepackage{geometry} % paper=a4paper
@@ -81,7 +82,7 @@ echo ($nom) ? cut_latex_string($nom,35) : $pointille;
 \hfill
 \begin{minipage}[t]{0.39\textwidth}
 \begin{flushright}
-\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_ir_new.jpg"; ?>}
+\includegraphics[scale=0.8]{<?php echo $path_logo; ?>}
 \end{flushright}
 \end{minipage}
 \bigskip
@@ -218,7 +219,7 @@ foreach ($ds->declarations as $declaration) :
 \hfill
 \begin{minipage}[t]{0.39\textwidth}
 \begin{flushright}
-\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}
+\includegraphics[scale=0.8]{<?php echo $path_logo; ?>}
 \end{flushright}
 \end{minipage}
 \bigskip
