@@ -70,7 +70,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             'vendeur_identifiant' => 'Sélectionner un vendeur :',
             'acheteur_famille' => '',
             'acheteur_identifiant' => 'Sélectionner un acheteur :',
-            'interne' => 'Cocher si le contrat est interne',
+            'interne' => "Cochez si les entreprises de l'acheteur et du vendeur liées au sens de l’art. III-1 de l’accord interprofessionnel",
             'mandataire_identifiant' => 'Sélectionner un courtier :',
             'mandataire_exist' => "Décocher s'il n'y a pas de courtier",
             'mandatant' => 'Mandaté par : '
