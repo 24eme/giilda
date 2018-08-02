@@ -152,6 +152,13 @@ endif;
                 </div>
             </div>
 
+            <div id="interne" class="block_overlay">
+
+                <?php echo $form['interne']->render(); ?>
+                <?php echo $form['interne']->renderLabel(); ?>
+                <?php echo $form['interne']->renderError(); ?>
+            </div>
+
             <!--  Affichage des courtiers disponibles  -->
             <?php if ($isTeledeclarationMode): ?>
                 <?php if (!$isAcheteurResponsable): ?>
