@@ -56,7 +56,9 @@ class DAEExportCsvEdi extends DAECsvEdi {
     }
 
     private function createDeclarantEdi($dae) {
-        return $dae->date.";".$dae->identifiant.";".$this->etablissement->no_accises.";".$dae->declarant->nom.";FAMILLE; SOUS FAMILLE; DPT;";
+        $etb = $this->getEtablissement($dae);
+        $cp = ($etb->siege->code_postal)? preg_replace("/([0-9]{2})[0-9]{3}/","$1",$etb->siege->code_postal) : "";
+        return $dae->date.";".$dae->identifiant.";".$this->etablissement->no_accises.";".$dae->declarant->nom.";".$etb->famille.";".$etb->sous_famille.";".$cp.";";
     }
 
     private function createProduitEdi($dae) {
@@ -88,13 +90,13 @@ class DAEExportCsvEdi extends DAECsvEdi {
         .$dae->nom_acheteur.";"
         .$dae->type_acheteur_libelle.";"
         .$dae->destination_libelle.";"
-        .$dae->contenance_libelle.";"
         .$dae->conditionnement_libelle.";"
-        .($dae->contenance_hl*1000).";"
+        .$dae->contenance_libelle.";"
+        .($dae->contenance_hl*100).";"
         .$dae->quantite.";"
         .$dae->prix_unitaire.";"
-        ."qtt hl".";"
-        ."prix hl";
+        .$dae->volume_hl.";"
+        .$dae->prix_hl;
     }
 
 }

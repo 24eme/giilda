@@ -45,7 +45,7 @@
 
 	<div class="col-xs-6">
         <div class="row text-right">
-        	<a class="btn btn-default" href="<?php echo url_for('dae_upload_fichier_edi', array('identifiant' => $etablissement->identifiant, 'periode' => $periode->format('Y-m-d'), 'md5' => "0")); ?>"><span class="glyphicon glyphicon-download-alt"></span> Importer</a>
+        	<a class="btn btn-default" href="<?php echo url_for('dae_upload_fichier_edi', array('identifiant' => $etablissement->identifiant, 'periode' => $periode->format('Y-m'), 'md5' => "0")); ?>"><span class="glyphicon glyphicon-download-alt"></span> Importer</a>
         </div>
     </div>
 	<div class="col-xs-6">

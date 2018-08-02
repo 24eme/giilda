@@ -16,14 +16,15 @@
         	<div class="panel-heading"><h4 class="panel-title">Téléversement de fichier de DAEs</h4></div>
         	<div class="panel-body">
 			    <div class="form-group">
-                    <?php echo $form['file']->renderError(); ?>
-                    <?php echo $form['file']->renderLabel() ?>
-                    <?php echo $form['file']->render(array('class' => 'drmChoixCreation_file')); ?>
+					<div class="row>">
+						<div class="col-xs-6">
+		                    <?php echo $form['file']->renderError(); ?>
+		                    <?php echo $form['file']->renderLabel() ?>
+		                    <?php echo $form['file']->render(array('class' => 'drmChoixCreation_file')); ?></div>
+						</div>
+
+	                    <div class="col-xs-6 text-right"><button id="btn_valider" type="submit" class="btn btn-success">Valider</button></div>
 			    </div>
-                <div class="row>">
-                    <div class="col-xs-6"><a href="<?php echo url_for('dae_etablissement', array('identifiant' => $etablissement->identifiant)) ?>" class="btn btn-default">Annuler</a></div>
-                    <div class="col-xs-6 text-right"><button id="btn_valider" type="submit" class="btn btn-success">Téléverser</button></div>
-                </div>
 			</div>
 		</div>
     </form>

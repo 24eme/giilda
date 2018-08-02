@@ -29,7 +29,7 @@ class daeActions extends sfActions {
 
         $this->withlast = $request->getParameter('withlast', null);
         $this->last = null;
-        
+
         if ($this->withlast) {
         	$this->last = DAEClient::getInstance()->findLastByIdentifiantDate($this->etablissement->getIdentifiant(), $this->periode->format('Ymd'));
         }
@@ -38,7 +38,7 @@ class daeActions extends sfActions {
         if ($this->last && !$request->getParameter('id')) {
         	$this->dae->initByDae($this->last);
         }
-        
+
         $this->form = new DAENouveauForm($this->dae);
 
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -123,7 +123,7 @@ class daeActions extends sfActions {
         $this->daeCsvEdi->importCSV();
 
 
-        $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant, "periode" => $this->periode));
+        $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant, "periode" => preg_replace("/([0-9]{4})([0-9]{2})/","$1-$2",$this->periode)));
 
     }
 

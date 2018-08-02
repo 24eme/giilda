@@ -19,15 +19,19 @@ class DAEImportCsvEdi extends DAECsvEdi {
     protected $csvDoc = null;
     protected $file = null;
     protected $identifiant = null;
+    protected $contenances = array();
+    protected $countryListInverted = null;
 
-      public function __construct($file = null, $identifiant ,$periode) {
+    public function __construct($file = null, $identifiant ,$periode) {
             $this->identifiant = $identifiant;
             $this->file = $file;
             if(is_null($this->csvDoc)) {
                 $this->csvDoc = CSVDAEClient::getInstance()->createOrFindDocFromDAES($file, $identifiant ,$periode);
             }
+            $this->contenances =  array_flip(array_merge(array('HL' => 'HL'), VracConfiguration::getInstance()->getContenances()));
             parent::__construct($file, array());
-        }
+            $this->countryListInverted = array_flip($this->countryList);
+    }
 
     public function getDaes(){
           return $this->daes;
@@ -220,14 +224,39 @@ class DAEImportCsvEdi extends DAECsvEdi {
 
 
         $dae = DAEClient::getInstance()->createSimpleDAE($identifiant,$date);
+
         $dae->produit_key = $produit->getHash();
         $dae->produit_libelle = $produit->getLibelleFormat();
-        $dae->type_acheteur_key = $csvRow[self::CSV_ACHETEUR_TYPE];
+        $dae->no_accises_acheteur = $csvRow[self::CSV_ACHETEUR_NUMACCISE];
+        $dae->nom_acheteur = $csvRow[self::CSV_ACHETEUR_NOM];
+        $type_acheteur_libelle = $csvRow[self::CSV_ACHETEUR_TYPE];
+        $types = array_flip($dae->getTypes());
+
+        $dae->type_acheteur_key = $types[$type_acheteur_libelle];
+        $dae->type_acheteur_libelle = $type_acheteur_libelle;
+
         $dae->destination_key = $csvRow[self::CSV_PAYS_NOM];
         $dae->millesime = $csvRow[self::CSV_PRODUIT_MILLESIME];
-        $dae->contenance_key = $csvRow[self::CSV_CONTENANCE_CONDITIONNEMENT];
-        $dae->quantite = $csvRow[self::CSV_QUANTITE_CONDITIONNEMENT];
-        $dae->prix_hl = $csvRow[self::CSV_PRIX_UNITAIRE];
+
+
+
+        $dae->conditionnement_libelle = $csvRow[self::CSV_LIBELLE_CONDITIONNEMENT];
+
+        $dae->contenance_libelle = $csvRow[self::CSV_LIBELLE_CONDITIONNEMENT];
+        $dae->contenance_key = $this->contenances[$dae->contenance_libelle];
+
+
+        $labels = array_flip($dae->getLabels());
+        $dae->label_libelle = $csvRow[self::CSV_PRODUIT_LABEL];
+        $dae->label_key = $labels[$dae->label_libelle];
+
+
+        $dae->destination_libelle = $csvRow[self::CSV_PAYS_NOM];
+        $dae->destination_key = $this->countryListInverted[$dae->destination_libelle];
+
+
+        $dae->quantite = $this->convertNumber($csvRow[self::CSV_QUANTITE_CONDITIONNEMENT]);
+        $dae->prix_unitaire = $this->convertNumber($csvRow[self::CSV_PRIX_UNITAIRE]);
         $dae->calculateDatas();
         return $dae;
     }
