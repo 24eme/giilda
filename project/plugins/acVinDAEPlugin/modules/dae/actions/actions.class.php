@@ -39,9 +39,9 @@ class daeActions extends sfActions {
         }
     }
 
-    public function executeExport(sfWebRequest $request) {
-    	$etablissement = $this->getRoute()->getEtablissement();
-    	$daes = DAEClient::getInstance()->findByIdentifiant($etablissement->identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
+    public function executeExportEdi(sfWebRequest $request) {
+    	$this->etablissement = $this->getRoute()->getEtablissement();
+    	$daes = DAEClient::getInstance()->findByIdentifiant($this->etablissement->identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
     	$csv = null;
 
         $export = new DAEExportCsvEdi($daes);
@@ -50,8 +50,70 @@ class daeActions extends sfActions {
 
     	$this->response->setContentType('text/csv');
     	$this->response->setHttpHeader('md5', md5($csv));
-    	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$etablissement->identifiant.".csv");
+    	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$this->etablissement->identifiant.".csv");
     	return $this->renderText($csv);
+    }
+
+    /**
+     *
+     * @param sfWebRequest $request
+     */
+    public function executeUploadEdi(sfWebRequest $request) {
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->md5 = $request->getParameter('md5',null);
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = str_ireplace('-','',$request->getParameter('periode'));
+        $path =  null;
+        if($this->md5){
+            $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode.'_'.$this->md5.'.csv';
+            $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
+        }
+
+        $this->daeCsvEdi = new DAEImportCsvEdi($path, $this->identifiant, $this->periode);
+        $this->daeCsvEdi->checkCSV();
+
+        $this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
+        $this->hasCsvAttachement = $this->daeCsvEdi->getCsvDoc()->hasCsvAttachement();
+
+        $this->form = new DAESCSVUploadForm(array(), array('identifiant' => $this->identifiant,'periode' => $this->periode));
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->md5 = $this->form->getValue('file')->getMd5();
+                $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode.'_'.$this->md5.'.csv';
+                rename(sfConfig::get('sf_data_dir') . '/upload/'.$this->md5,  sfConfig::get('sf_data_dir') . '/upload/'.$fileName);
+                return $this->redirect('dae_upload_fichier_edi', array('md5' => $this->md5,'identifiant' => $this->identifiant,'periode' => $this->periode));
+            }
+        }
+
+        if ($this->md5 && !count($this->erreurs) && $this->hasCsvAttachement) {
+          return $this->redirect('dae_creation_fichier_edi', array('md5' => $this->md5,'identifiant' => $this->identifiant,'periode' => $this->periode));
+        }
+    }
+
+        /**
+     *
+     * @param sfWebRequest $request
+     */
+    public function executeCreationEdi(sfWebRequest $request) {
+        set_time_limit(0);
+        ini_set('memory_limit', '512M');
+        $this->md5 = $request->getParameter('md5',null);
+        $this->identifiant = $request->getParameter('identifiant');
+        $this->periode = str_ireplace('-','',$request->getParameter('periode'));
+
+        $path =  null;
+        if($this->md5){
+            $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode.'_'.$this->md5.'.csv';
+            $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
+        }
+
+        $this->daeCsvEdi = new DAEImportCsvEdi($path, $this->identifiant,$this->periode);
+        $this->daeCsvEdi->importCSV();
+
+
+        $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant, "periode" => $this->periode));
+
     }
 
     protected function cleanCsvLine($line) {

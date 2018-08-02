@@ -1,10 +1,6 @@
 <?php use_helper('Date'); ?>
 <?php include_partial('dae/preTemplate'); ?>
-<ol class="breadcrumb">
-    <li><a href="<?php echo url_for('dae') ?>">Activités mensuelle</a></li>
-    <li><a href="<?php echo url_for('dae_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
-    <li><a href="<?php echo url_for('dae_etablissement', array('identifiant' => $etablissement->identifiant)) ?>" class="active">XX</a></li>
-</ol>
+<?php include_partial('dae/breadcrum', array('etablissement' => $etablissement)); ?>
 
 <div class="row">
     <div class="col-xs-12" id="daeFormEtablissement">
@@ -34,10 +30,10 @@
         	<?php include_partial('dae/recap', array('etablissement' => $etablissement, 'periode' => $periode, 'daes' => $daes)); ?>
         </div>
     </div>
-    
+
 	<div class="col-xs-6">
         <div class="row text-right">
-        	<a class="btn btn-default" href="#"><span class="glyphicon glyphicon-download-alt"></span> Importer</a>
+        	<a class="btn btn-default" href="<?php echo url_for('dae_upload_fichier_edi', array('identifiant' => $etablissement->identifiant, 'periode' => $periode->format('Y-m-d'), 'md5' => "0")); ?>"><span class="glyphicon glyphicon-download-alt"></span> Importer</a>
         </div>
     </div>
 	<div class="col-xs-6">
