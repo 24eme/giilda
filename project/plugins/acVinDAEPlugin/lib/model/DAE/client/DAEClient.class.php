@@ -94,6 +94,8 @@ class DAEClient extends acCouchdbClient {
     		if ($d = $r->getDateObject())
     			$list[$d->format('Y-m')] = $r->getLiteralPeriode();
     	}
+    	sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    	$list[date('Y-m')] = ucfirst(format_date(date('Y-m-d'), 'MMMM yyyy', 'fr_FR'));
     	krsort($list);
     	return $list;
     }
