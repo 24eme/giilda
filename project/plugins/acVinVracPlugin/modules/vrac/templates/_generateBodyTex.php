@@ -3,15 +3,15 @@ $isIGP = $vrac->isProduitIGP(); ?>
 \begin{tabularx}{\textwidth}{|X|X|p{35mm}p{15mm}|}
 	\hline
 	~ & ~ & ~ & ~ \\
-<?php if($isIGP): ?>\textbf{\VINIGPCOORDONNEESTITRE} <?php else: ?>\textbf{\INTERLOIRECOORDONNEESTITRE} <?php endif; ?>& \multirow{7}{*}{
-<?php if($isIGP): ?>~~~~~~~~~~~~~~ \includegraphics[scale=1.0]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/vinIGP_logo.jpg"; ?>}<?php else: ?>\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>}<?php endif; ?>} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
-<?php if($isIGP): ?>\VINIGPCOORDONNEESADRESSE <?php else: ?> \INTERLOIRECOORDONNEESADRESSE <?php endif; ?> & ~ & ~ & ~ \\
-<?php if($isIGP): ?>\VINIGPCOORDONNEESCPVILLE <?php else: ?> \INTERLOIRECOORDONNEESCPVILLE <?php endif; ?>  & ~  & \multicolumn{2}{c|}{\textbf{\LARGE{\CONTRATNUMENREGISTREMENT}}} \\
-    <?php if($isIGP): ?>\small{\VINIGPCOORDONNEESTELEPHONE} <?php else: ?>\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} <?php endif; ?>& ~ & ~ & ~ \\
-<?php if($isIGP): ?>~<?php else: ?>\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU} <?php endif; ?> & ~ & ~ & ~  \\
-<?php if($isIGP): ?>~<?php else: ?>\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS} <?php endif; ?> & ~ & ~ & ~ \\
-<?php if($isIGP): ?>\small{\VINIGPCOORDONNEESFAX}<?php else: ?>\small{\INTERLOIRECOORDONNEESFAX} <?php endif; ?> & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE}} \\
-<?php if($isIGP): ?>\small{\VINIGPCOORDONNEESEMAIL}<?php else: ?>\small{\INTERLOIRECOORDONNEESEMAIL} <?php endif; ?> & ~ & ~ & ~ \\
+\textbf{\INTERLOIRECOORDONNEESTITRE}& \multirow{7}{*}{
+\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>}} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
+\INTERLOIRECOORDONNEESADRESSE  & ~ & ~ & ~ \\
+\INTERLOIRECOORDONNEESCPVILLE   & ~  & \multicolumn{2}{c|}{\textbf{\LARGE{\CONTRATNUMENREGISTREMENT}}} \\
+\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & ~ & ~ \\
+\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONEANJOU}  & ~ & ~ & ~  \\
+\textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONETOURS}  & ~ & ~ & ~ \\
+\small{\INTERLOIRECOORDONNEESFAX}  & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE}} \\
+\small{\INTERLOIRECOORDONNEESEMAIL}  & ~ & ~ & ~ \\
 	\hline
 \end{tabularx}
 \vspace{0.4cm}

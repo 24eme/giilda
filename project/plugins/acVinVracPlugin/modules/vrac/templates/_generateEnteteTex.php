@@ -5,8 +5,8 @@ use_helper('Display');
 ?>
 
 
-\def\INTERLOIRECOORDONNEESTITRE{<?php echo "Interprofession des Vins du Val de Loire"; ?>}
-\def\INTERLOIRECOORDONNEESADRESSE{<?php echo "InterLoire - 62, rue Blaise Pascal - CS 61921"; ?>}
+\def\INTERLOIRECOORDONNEESTITRE{<?php echo "InterLoire"; ?>}
+\def\INTERLOIRECOORDONNEESADRESSE{<?php echo "62, rue Blaise Pascal - CS 61921"; ?>}
 \def\INTERLOIRECOORDONNEESCPVILLE{<?php echo "37019 TOURS CEDEX 1"; ?>}
 \def\INTERLOIRECOORDONNEESTELEPHONENANTES{<?php echo "Vignoble Nantais : Tél. 02 47 60 55 15"; ?>}
 \def\INTERLOIRECOORDONNEESTELEPHONEANJOU{<?php echo "Vignoble Anjou-Saumur : Tél. 02 47 60 55 36"; ?>}
