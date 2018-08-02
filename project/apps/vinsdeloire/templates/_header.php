@@ -18,7 +18,7 @@
 
         <h1 class="logo_civdl">
             <a title="CIVDL - Retour à l'accueil" href="<?php echo url_for('homepage') ?>">
-                <img src="/data/vinIGP_logo.jpg" alt="" />
+                <img src="/data/logo_vrac_pdf.jpg" alt="" />
             </a>
         </h1>
         <div id="actions_utilsateur">
