@@ -14,7 +14,7 @@
 		    echo $form->renderGlobalErrors();
 	    ?>
 		<div class="panel panel-default">
-        	<div class="panel-heading"><h4 class="panel-title">Client</h4></div>
+        	<div class="panel-heading"><h4 class="panel-title">Clients</h4></div>
         	<div class="panel-body">
 			    <div class="form-group">
 				    <?php echo $form['type_acheteur_key']->renderError(); ?>
@@ -33,7 +33,7 @@
 			    	<a class="collapsed" role="button" data-toggle="collapse" href="javascript:void(0)" aria-expanded="false" aria-controls="clientDetails"><span class="glyphicon glyphicon-chevron-down"></span> détailler le client</a>
 			    </div>
 
-			    <div class="form-group collapse" id="clientDetails"<?php if ($form['no_accises_acheteur']->hasError() || $form['nom_acheteur']->hasError()): ?> style="display: block;"<?php endif; ?>>
+			    <div class="form-group collapse" id="clientDetails"<?php if ($form['no_accises_acheteur']->hasError() || $form['nom_acheteur']->hasError() || $dae->nom_acheteur || $dae->no_accises_acheteur): ?> style="display: block;"<?php endif; ?>>
 			    	<p>&nbsp;</p>
 			    	<?php echo $form['no_accises_acheteur']->renderError(); ?>
 			    	<?php echo $form['nom_acheteur']->renderError(); ?>
@@ -113,8 +113,8 @@
 			    </div>
 		    </div>
 
-		    <p class="text-right"><button id="btn_valider" type="submit" class="btn btn-warning btn-sm">Valider & nouveau produit</button></p>
-
+		    <p class="text-center"><button id="btn_valider" type="submit" class="btn btn-warning btn-sm" name="withlast" value="1">Valider & nouveau produit</button></p>
+			
 			</div>
 		</div>
 

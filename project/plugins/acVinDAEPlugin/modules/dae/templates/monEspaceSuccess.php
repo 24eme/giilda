@@ -26,6 +26,18 @@
 	            </form>
             </h4>
         </div>
+
+        <p>&nbsp;</p>
+
+        <div class="row form-horizontal">
+        	<div class="form-group">
+        		<label class="col-xs-1 control-label" for="quickfind">Filtres</label>
+        		<div class="col-xs-5">
+	        		<input type="text" id="quickfind" class="input-sm form-control" placeholder="Filtrer les ventes" />
+	        	</div>
+	        </div>
+    	</div>
+
         <div class="row">
         	<?php include_partial('dae/recap', array('etablissement' => $etablissement, 'periode' => $periode, 'daes' => $daes)); ?>
         </div>
@@ -42,4 +54,9 @@
 		</div>
 	</div>
 
+
+	<script type="text/javascript">
+	$('.table-filter').tableFilter({additionalFilterTriggers: [$('#quickfind')]});
+	</script>
+<?php use_javascript('lib/picnet.table.filter.min.js') ?>
 <?php include_partial('dae/postTemplate'); ?>
