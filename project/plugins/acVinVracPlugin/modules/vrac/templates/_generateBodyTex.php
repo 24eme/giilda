@@ -59,6 +59,7 @@ $isIGP = $vrac->isProduitIGP(); ?>
 \end{tabularx}
 \end{minipage}
 \end{multicols}
+Les entreprises sont liées au sens de l’art. III-1 de l’accord interprofessionnel :~~~~OUI~ <?php echo getCheckBoxe($vrac->interne)?> ~~~NON~ <?php echo getCheckBoxe(!$vrac->interne)?>
 
 <?php if($vrac->exist('mandataire_exist') && $vrac->mandataire_exist): ?>
 Par l'entremise de \CONTRATCOURTIERNOM, Courtier en vins\CONTRATCOURTIERCARTEPRO \\
