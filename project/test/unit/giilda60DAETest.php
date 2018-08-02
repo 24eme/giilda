@@ -5,9 +5,7 @@ sfContext::createInstance($configuration);
 
 $conf = ConfigurationClient::getInstance()->getCurrent();
 
-
-$t = new lime_test(3);
-
+$t = new lime_test(2);
 
 $t->comment("Création d'un DAE pour un viti");
 
@@ -30,22 +28,21 @@ foreach(ConfigurationClient::getInstance()->getCurrent()->getProduits() as $prod
 }
 $periode = date('Ym');
 
-
 $type_acheteur = DAEClient::ACHETEUR_TYPE_IMPORTATEUR;
+$date = date('Y-m-d');
 $destination = "France";
 $millesime = "2016";
 $volume = 36.15;
 $contenant = 'Bouteille 37cl';
 $prix_ht = 250.25;
 $label = "Chimique";
+$id = 'DAE-'.$identifiant.'-'.str_replace('-', '', $date).'-001';
 
-$dae = DAEClient::getInstance()->createDAE($identifiant,$dateSortie,$produit_hash,$type_acheteur,$destination,$millesime,$volume,$contenant,$prix_ht,$label);
+$dae = DAEClient::getInstance()->createSimpleDAE($identifiant, $date);
 $dae->save();
 
-$daes = DAEClient::getInstance()->findByIdentifiantAndDate($identifiant,$dateSortie)->getDatas();
+$t->is($dae->_id, $id, "L'id du doc est $id");
 
-$t->is(count($daes), 1, "Un DAE a été enregistré pour $identifiant");
-$dae_h = array_shift($daes);
-$t->is($dae_h->_id, "DAE-".$identifiant."-".str_ireplace("-",'',$dateSortie)."-001", "Le DAE a bien pour identifiant DAE-".$identifiant."-".$dateSortie."-001");
+$dae = DAEClient::getInstance()->findLastByIdentifiantDate($identifiant, date('Ymd'));
 
-$t->is($dae_h->produit_hash, $produit_hash, "Le produit enregistré est bien X");
+$t->is($dae->_id, $id, "Le dernier DAE est bien récupéré par rapport à la date du jour");
