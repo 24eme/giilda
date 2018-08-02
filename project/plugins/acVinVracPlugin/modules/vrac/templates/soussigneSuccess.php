@@ -187,14 +187,7 @@ endif;
                 <?php endif; ?>
             <?php else: ?>
 
-                <div id="interne" class="block_overlay">            
-
-                    <?php echo $form['interne']->render(); ?>
-                    <?php echo $form['interne']->renderLabel(); ?>
-                    <?php echo $form['interne']->renderError(); ?>
-                </div>
-
-                <div id="has_mandataire" class="block_overlay">            
+                <div id="has_mandataire" class="block_overlay">
                     <?php echo $form['mandataire_exist']->render(); ?>
                     <?php echo $form['mandataire_exist']->renderLabel(); ?>
                     <?php echo $form['mandataire_exist']->renderError(); ?>
