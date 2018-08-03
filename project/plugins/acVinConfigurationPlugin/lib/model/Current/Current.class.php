@@ -6,27 +6,14 @@
 
 class Current extends BaseCurrent {
 
-    protected $saltToken = null;
-
     public function __construct() {
         parent::__construct();
         $this->set('_id', 'CURRENT');
-        $this->saltToken = uniqid().rand();
     }
 
     public function getPeriode()
     {
     	return date('Y-m');
-    }
-
-    public function getSaltToken() {
-
-        return $this->saltToken;
-    }
-
-    public function anonymisation($value) {
-
-        return hash("ripemd128", $value.$this->getSaltToken());
     }
 
     public function getConfigurationId($date) {
