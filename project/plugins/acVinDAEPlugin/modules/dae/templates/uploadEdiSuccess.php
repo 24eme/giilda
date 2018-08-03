@@ -1,37 +1,41 @@
 <?php use_helper('Date'); ?>
+<?php include_partial('dae/preTemplate'); ?>
 <?php include_partial('dae/breadcrum', array('etablissement' => $etablissement)); ?>
 
 <div class="col-md-12">
 
-	<h4></strong></h4>
+	<h4>Import des ventes de <strong><?php echo ucfirst(format_date($periode->format('Y-m-d'), 'MMMM yyyy', 'fr_FR')) ?></strong></h4>
 
 	<div class="col-md-12" style="margin-top: 20px;">
 
-	<form action="<?php echo url_for('dae_upload_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode,'md5' => "0")); ?>" method="post" enctype="multipart/form-data">
+	<form class="form-horizontal" action="<?php echo url_for('dae_upload_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode->format('Y-m-d'),'md5' => "0")); ?>" method="post" enctype="multipart/form-data">
 		<?php
 		    echo $form->renderHiddenFields();
 		    echo $form->renderGlobalErrors();
 	    ?>
 		<div class="panel panel-default">
-        	<div class="panel-heading"><h4 class="panel-title">Téléversement de fichier de DAEs</h4></div>
+        	<div class="panel-heading"><h4 class="panel-title">Import depuis votre logiciel (DTI+)</h4></div>
         	<div class="panel-body">
-			    <div class="form-group">
-					<div class="row>">
-						<div class="col-xs-6">
-		                    <?php echo $form['file']->renderError(); ?>
-		                    <?php echo $form['file']->renderLabel() ?>
-		                    <?php echo $form['file']->render(array('class' => 'drmChoixCreation_file')); ?></div>
-						</div>
-
-	                    <div class="col-xs-6 text-right"><button id="btn_valider" type="submit" class="btn btn-success">Valider</button></div>
-			    </div>
+				<div class="form-group <?php if($form['file']->hasError()): ?>has-error<?php endif; ?>">
+					<?php echo $form['file']->renderError() ?>
+					<?php echo $form['file']->renderLabel(null, array("class" => "col-xs-2 control-label")); ?>
+					<div class="col-xs-5">
+						<?php echo $form['file']->render() ?>
+					</div>
+				</div>
 			</div>
 		</div>
+		<div class="col-xs-6"><a href="<?php echo url_for('dsnegoce_mon_espace', $etablissement) ?>" class="btn btn-default">Annuler</a></div>
+		<div class="col-xs-6 text-right"><button id="btn_valider" type="submit" class="btn btn-success">Importer vos ventes</button></div>
     </form>
+    
+    </div>
+    
+    <?php if ($md5 && count($erreurs) > 0): ?>
+    	<p>&nbsp;</p>
+    	<h4>Erreurs</h4>
 
-	<div class="panel panel-default">
-        	<div class="panel-heading"><h4 class="panel-title">Problèmes recensés</h4></div>
-        	<div class="panel-body">
+		<div class="col-md-12" style="margin-top: 20px;">
 				<table class="table table-bordered table-condensed table-striped">
 					<thead>
 						<tr>
@@ -50,17 +54,8 @@
 					<?php endforeach; ?>
 					</tbody>
 				</table>
-		            <a href="<?php echo url_for('dae_creation_fichier_edi', array('periode' => $periode, 'md5' => $md5,'identifiant' => $identifiant)); ?>" class="btn btn-success" style="float: right;" <?php echo ($daeCsvEdi->getCsvDoc()->hasCsvAttachement() && $daeCsvEdi->getCsvDoc()->getStatut() != DAECsvEdi::STATUT_ERREUR)? '' : 'disabled="disabled"'; ?> >Importer les DAE</a>
-
-			</div>
-    </div>
-
-
-
-
-
-
-	</div>
+		</div>
+    <?php endif; ?>
 
 </div>
 <?php include_partial('dae/postTemplate'); ?>

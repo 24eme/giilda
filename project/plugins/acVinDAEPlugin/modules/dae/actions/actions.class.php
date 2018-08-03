@@ -64,86 +64,51 @@ class daeActions extends sfActions {
     	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$this->etablissement->identifiant.".csv");
     	return $this->renderText($csv);
     }
-
-    /**
-     *
-     * @param sfWebRequest $request
-     */
+    
     public function executeUploadEdi(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->md5 = $request->getParameter('md5',null);
         $this->identifiant = $request->getParameter('identifiant');
-        $this->periode = str_ireplace('-','',$request->getParameter('periode'));
+        $this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
         $path =  null;
         if($this->md5){
-            $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode.'_'.$this->md5.'.csv';
+            $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode->format('Y-m-d').'_'.$this->md5.'.csv';
             $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
         }
-
-        $this->daeCsvEdi = new DAEImportCsvEdi($path, $this->identifiant, $this->periode);
+        $this->daeCsvEdi = new DAEImportCsvEdi($path, $this->identifiant, $this->periode->format('Y-m-d'));
         $this->daeCsvEdi->checkCSV();
-
         $this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
         $this->hasCsvAttachement = $this->daeCsvEdi->getCsvDoc()->hasCsvAttachement();
 
-        $this->form = new DAESCSVUploadForm(array(), array('identifiant' => $this->identifiant,'periode' => $this->periode));
+        $this->form = new DAESCSVUploadForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->md5 = $this->form->getValue('file')->getMd5();
-                $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode.'_'.$this->md5.'.csv';
+                $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode->format('Y-m-d').'_'.$this->md5.'.csv';
                 rename(sfConfig::get('sf_data_dir') . '/upload/'.$this->md5,  sfConfig::get('sf_data_dir') . '/upload/'.$fileName);
-                return $this->redirect('dae_upload_fichier_edi', array('md5' => $this->md5,'identifiant' => $this->identifiant,'periode' => $this->periode));
+                return $this->redirect('dae_upload_fichier_edi', array('md5' => $this->md5,'identifiant' => $this->identifiant,'periode' => $this->periode->format('Y-m-d')));
             }
         }
-
         if ($this->md5 && !count($this->erreurs) && $this->hasCsvAttachement) {
-          return $this->redirect('dae_creation_fichier_edi', array('md5' => $this->md5,'identifiant' => $this->identifiant,'periode' => $this->periode));
+          return $this->redirect('dae_creation_fichier_edi', array('md5' => $this->md5,'identifiant' => $this->identifiant,'periode' => $this->periode->format('Y-m-d')));
         }
     }
-
-        /**
-     *
-     * @param sfWebRequest $request
-     */
+    
     public function executeCreationEdi(sfWebRequest $request) {
         set_time_limit(0);
         ini_set('memory_limit', '512M');
-        $this->md5 = $request->getParameter('md5',null);
+        $this->md5 = $request->getParameter('md5', null);
         $this->identifiant = $request->getParameter('identifiant');
-        $this->periode = str_ireplace('-','',$request->getParameter('periode'));
-
+        $this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
         $path =  null;
         if($this->md5){
-            $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode.'_'.$this->md5.'.csv';
+            $fileName = 'import_daes_'.$this->identifiant . '_' . $this->periode->format('Y-m-d').'_'.$this->md5.'.csv';
             $path = sfConfig::get('sf_data_dir') . '/upload/' . $fileName;
         }
-
-        $this->daeCsvEdi = new DAEImportCsvEdi($path, $this->identifiant,$this->periode);
+        $this->daeCsvEdi = new DAEImportCsvEdi($path, $this->identifiant, $this->periode->format('Y-m-d'));
         $this->daeCsvEdi->importCSV();
-
-
-        $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant, "periode" => preg_replace("/([0-9]{4})([0-9]{2})/","$1-$2",$this->periode)));
-
-    }
-
-    protected function cleanCsvLine($line) {
-    	return str_replace('/', '_',  $line);
-    }
-
-    protected function explodeProduct($hash) {
-    	if (!preg_match('/^\/declaration\/certifications\/([a-zA-Z0-9]+)\/genres\/([a-zA-Z0-9]+)\/appellations\/([a-zA-Z0-9]+)\/mentions\/([a-zA-Z0-9]+)\/lieux\/([a-zA-Z0-9]+)\/couleurs\/([a-zA-Z0-9]+)\/cepages\/([a-zA-Z0-9]+)$/', $hash, $m)) {
-    		$m = array(null,null,null,null,null,null,null,null);
-    	}
-    	$product = new stdClass();
-    	$product->certification = ($m[1] != 'DEFAUT')? $m[1] : null;
-    	$product->genre = ($m[2] != 'DEFAUT')? $m[2] : null;
-    	$product->appellation = ($m[3] != 'DEFAUT')? $m[3] : null;
-    	$product->mention = ($m[4] != 'DEFAUT')? $m[4] : null;
-    	$product->lieu = ($m[5] != 'DEFAUT')? $m[5] : null;
-    	$product->couleur = ($m[6] != 'DEFAUT')? $m[6] : null;
-    	$product->cepage = ($m[7] != 'DEFAUT')? $m[7] : null;
-    	return $product;
+        $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant, "periode" => $this->periode->format('Y-m-d')));
     }
 
 }
