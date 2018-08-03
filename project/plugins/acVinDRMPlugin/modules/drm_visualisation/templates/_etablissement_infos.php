@@ -17,17 +17,6 @@
             <?php echo $drm->declarant->adresse; ?>, <?php echo $drm->declarant->code_postal; ?> <?php echo $drm->declarant->commune; ?><br />
         <?php endif; ?>
         <br />
-        <?php
-          $caution = 'Non défini';
-          $organismeCautionneur = null;
-          if($drm->declarant->exist('caution') && $drm->declarant->caution){
-             $caution = EtablissementClient::$caution_libelles[$drm->declarant->caution];
-             if($drm->declarant->caution == EtablissementClient::CAUTION_CAUTION){
-                $organismeCautionneur = $drm->declarant->raison_sociale_cautionneur;
-             }
-          }
-        ?>
-        <strong>Caution :</strong> <?php echo $caution ?> <?php if($organismeCautionneur): ?>(<?php echo $organismeCautionneur ?>)<?php endif; ?><br />
         <?php if ($isModifiable): ?>
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_validation_update_etablissement', $drm); ?>" class="btn_majeur btn_modifier" style="float: right;" id="drm_validation_etablissement_info_btn"><span>modifier</span></a>

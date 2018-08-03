@@ -55,22 +55,9 @@
                 <?php echo $form['fax']->renderLabel(); ?>
                 <?php echo $form['fax']->render(); ?>
             </div>
-            <div class="ligne_form">
-                <strong>Paiements douane :</strong>  
-            </div>
-            <div class="ligne_form update_form_radio_list">
-                <?php echo $form['paiement_douane_frequence']->renderError(); ?>
-                <?php echo $form['paiement_douane_frequence']->renderLabel(); ?>
-                <?php echo $form['paiement_douane_frequence']->render(); ?>
-            </div>
-            <div class="ligne_form update_form_radio_list">
-                <?php echo $form['paiement_douane_moyen']->renderError(); ?>
-                <?php echo $form['paiement_douane_moyen']->renderLabel(); ?>
-                <?php echo $form['paiement_douane_moyen']->render(); ?>
-            </div>
             <div id="btn_etape_dr">
                 <a href="<?php echo url_for('drm_validation', $drm) ?>" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_societe_annuler_btn"><span>annuler</span></a>
-                <button type="submit" class="btn_majeur btn_valider" id="drm_validation_societe_valider_btn" style="float: right;"><span>Valider</span></button> 
+                <button type="submit" class="btn_majeur btn_valider" id="drm_validation_societe_valider_btn" style="float: right;"><span>Valider</span></button>
             </div>
         </form>
     </div>
