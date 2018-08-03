@@ -8,10 +8,10 @@ echo $form->renderGlobalErrors();
         <tr>
             <th>Produit</th>
             <th>Numéro contrat&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide1'); ?>"  style="float: right; padding: 0 10px 0 0;"></a></th>
-            <th>Volumes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide2'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>            
+            <th>Volumes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide2'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
             <?php if ($isTeledeclarationMode): ?>
-                <th>Type de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide3'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th>
-                <th>Numéro de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide4'); ?>" style="float: right; padding: 0 10px 0 0;"></a></th> 
+                <th>Type de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide3'); ?>" style="float: right; padding: 0 10px 0 0;"></a><br/>(facultatif)</th>
+                <th>Numéro de document&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_mouvements_detail_contrat_aide4'); ?>" style="float: right; padding: 0 10px 0 0;"></a><br/>(facultatif)</th> 
             <?php endif; ?>
             <th></th>
         </tr>
