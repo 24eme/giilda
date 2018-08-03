@@ -4,6 +4,7 @@ class daeActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
+        $this->cm = new CampagneManager('08-01');
         $this->formCampagne($request, 'dae_etablissement');
         $this->daes = DAEClient::getInstance()->findByIdentifiantPeriode($this->etablissement->identifiant, $this->periode->format('Ym'))->getDatas();
     }
