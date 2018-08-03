@@ -58,7 +58,7 @@ class DAEExportCsvEdi extends DAECsvEdi {
     private function createDeclarantEdi($dae) {
         $etb = $this->getEtablissement($dae);
         $cp = ($etb->siege->code_postal)? preg_replace("/([0-9]{2})[0-9]{3}/","$1",$etb->siege->code_postal) : "";
-        return $dae->date.";".$dae->identifiant.";".$this->etablissement->no_accises.";".$dae->declarant->nom.";".$etb->famille.";".$etb->sous_famille.";".$cp.";";
+        return $dae->date.";".$dae->identifiant.";".CurrentClient::getCurrent()->anonymisation($this->etablissement->no_accises).";".CurrentClient::getCurrent()->anonymisation($dae->declarant->nom).";".$etb->famille.";".$etb->sous_famille.";".$cp.";";
     }
 
     private function createProduitEdi($dae) {
@@ -86,8 +86,8 @@ class DAEExportCsvEdi extends DAECsvEdi {
     }
 
     private function createCommercialisationEdi($dae){
-        return $dae->no_accises_acheteur.";"
-        .$dae->nom_acheteur.";"
+        return CurrentClient::getCurrent()->anonymisation($dae->no_accises_acheteur).";"
+        .CurrentClient::getCurrent()->anonymisation($dae->nom_acheteur).";"
         .$dae->type_acheteur_libelle.";"
         .$dae->destination_libelle.";"
         .$dae->conditionnement_libelle.";"
