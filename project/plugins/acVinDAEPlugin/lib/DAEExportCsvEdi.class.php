@@ -58,7 +58,7 @@ class DAEExportCsvEdi extends DAECsvEdi {
     private function createDeclarantEdi($dae) {
         $etb = $this->getEtablissement($dae);
         $cp = ($etb->siege->code_postal)? preg_replace("/([0-9]{2})[0-9]{3}/","$1",$etb->siege->code_postal) : "";
-        return $dae->date.";".$dae->identifiant.";".ConfigurationClient::getInstance()->anonymisation($this->etablissement->no_accises).";".ConfigurationClient::getInstance()->anonymisation($dae->declarant->nom).";".$etb->famille.";".$etb->sous_famille.";".$cp.";";
+        return $dae->date.";".ConfigurationClient::getInstance()->anonymisation($dae->identifiant).";".ConfigurationClient::getInstance()->anonymisation($this->etablissement->no_accises).";".ConfigurationClient::getInstance()->anonymisation($dae->declarant->nom).";".$etb->famille.";".$etb->sous_famille.";".$cp.";";
     }
 
     private function createProduitEdi($dae) {
