@@ -69,6 +69,8 @@
             </div>
   </div>
           </div>
+<?php if (false) : //ON désactive les stats européennes   ?>
+<!--
           <br/>
           <div class="table-condensable ">
           <div class="drm_statistiques_toggle" style="cursor:pointer;">
@@ -100,6 +102,8 @@
                 </table>
               </div>
 </div>
+-->
+<?php endif; //ON désactive les stats européennes   ?>
             <br/>
 <?php if($drm->hasObservations()): ?>
             <div class="table-condensable ">
