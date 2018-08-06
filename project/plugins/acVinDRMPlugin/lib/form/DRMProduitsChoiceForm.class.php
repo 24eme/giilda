@@ -26,12 +26,11 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
     public function configure() {
         foreach ($this->_produits as $produit) {
           $disabled=array();
-
             $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => true)));
             $this->widgetSchema->setLabel('produit' . $produit->getHashForKey(), '');
             $this->setValidator('produit' . $produit->getHashForKey(), new sfValidatorString(array('required' => false)));
             if($this->_drm->getConfig()->declaration->hasAcquitte()){
-              $this->setWidget('acquitte' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => false)));
+              $this->setWidget('acquitte' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => true)));
               if(preg_match("/USAGESINDUSTRIELS/",$produit->getHashForKey())){
                 $this->getWidget('acquitte' . $produit->getHashForKey())->setAttribute('disabled', 'disabled');
               }
@@ -55,17 +54,19 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
             }
             if (preg_match('/^acquitte(.*)/', $key, $matches)) {
                 $key = str_replace('-', '/', $matches[1]);
+
                 if ($value) {
 
                   $denomination_complementaire = null;
                   if($this->_drm->get($key)->exist("denomination_complementaire") && $this->_drm->get($key)->get("denomination_complementaire")){
                     $denomination_complementaire = $this->_drm->get($key)->get("denomination_complementaire");
                   }
-                	$this->_drm->addProduit($this->_drm->get($key)->getCepage()->getHash(), DRM::DETAILS_KEY_ACQUITTE, $denomination_complementaire);
-                } else {
-                	if ($this->_drm->get($key)->getCepage()->exist(DRM::DETAILS_KEY_ACQUITTE)) {
-                		$this->_drm->get($key)->getCepage()->remove(DRM::DETAILS_KEY_ACQUITTE);
-                	}
+                  $p =	$this->_drm->addProduit($this->_drm->get($key)->getCepage()->getHash(), DRM::DETAILS_KEY_ACQUITTE, $denomination_complementaire);
+                }
+
+                $hashAcquitte = str_replace(DRM::DETAILS_KEY_SUSPENDU, DRM::DETAILS_KEY_ACQUITTE, $key);
+                if($this->_drm->exist($hashAcquitte)) {
+                    $this->_drm->get($hashAcquitte)->add('no_movements', ! $value);
                 }
             }
         }
@@ -78,10 +79,10 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
         foreach ($this->_produits as $produit) {
             if($produit->exist('no_movements') && $produit->get('no_movements')){
                   $this->setDefault('produit' . $produit->getHashForKey(), false);
-            }
-
-              if ($produit->getCepage()->exist(DRM::DETAILS_KEY_ACQUITTE)) {
-                  $this->setDefault('acquitte' . $produit->getHashForKey(), true);
+              }
+              $hashAcquitte = str_replace(DRM::DETAILS_KEY_SUSPENDU, DRM::DETAILS_KEY_ACQUITTE, $produit->getHash());
+              if (!$this->_drm->exist($hashAcquitte) || ($this->_drm->get($hashAcquitte)->exist('no_movements') && $this->_drm->get($hashAcquitte)->get('no_movements'))) {
+                  $this->setDefault('acquitte' . $produit->getHashForKey(), false);
               }
           }
     }
