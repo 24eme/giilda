@@ -93,6 +93,11 @@
                    "libelle": "Repli/déclassement",
                    "libelle_long": "Repli/déclassement",
                    "description": "Repli/déclassement"
+               },
+               "autre": {
+                   "libelle": "Autres",
+                   "libelle_long": "Autres",
+                   "description": ""
                }
            },
            "sorties": {
@@ -142,9 +147,14 @@
                    "description": "Sorties en suspension hors France"
                },
                "vrac": {
-                   "libelle": "Contrats Alsace",
+                   "libelle": "Contrats Vrac",
                    "libelle_long": "Sorties en suspension vrac",
                    "description": "Sorties en suspension contrats d’Alsace"
+               },
+               "bouteillenue": {
+                   "libelle": "Contrats Bouteilles",
+                   "libelle_long": "Contrats bouteilles nues",
+                   "description": ""
                },
                "destructionperte": {
                    "libelle": "Pertes et manquants",
@@ -175,6 +185,11 @@
                    "libelle": "VCI",
                    "libelle_long": "VCI",
                    "description": "VCI"
+               },
+               "autre": {
+                   "libelle": "Autres",
+                   "libelle_long": "Autres",
+                   "description": ""
                }
            },
            "stocks_fin": {
@@ -15899,6 +15914,248 @@
                                    "exclude_total": "1",
                                    "no_vtsgn": "1"
                                }
+                           },
+                           "CEE": {
+                               "libelle": "CEE",
+                               "format_libelle": "%c% %a% %co%",
+                               "code": "CEE",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": "blanc",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4B999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": "rouge",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4R999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "rose",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4S999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "HORSUE": {
+                               "libelle": "Hors UE",
+                               "format_libelle": "%c% %a% %co%",
+                               "code": "HORSUE",
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": "blanc",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4B999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": "rouge",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4R999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "rose",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "4S999",
+                                                               "cepages_autorises": [
+                                                               ],
+                                                               "interpro": {
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
                            }
                        }
                    },
@@ -17743,6 +18000,19 @@
                    "douane_type": "SUSPENDU",
                    "douane_cat": "entrees-periode/mouvements-internes/replis-declassement-transfert-changement-appellation",
                    "taxable_douane": 0
+               },
+               "autre": {
+                   "readable": 1,
+                   "writable": 1,
+                   "details": "",
+                   "revendique": 1,
+                   "restriction_lies": 0,
+                   "recolte": 1,
+                   "mouvement_coefficient": 1,
+                   "facturable": 0,
+                   "douane_type": "SUSPENDU",
+                   "douane_cat": "entrees-periode/autres-entrees",
+                   "taxable_douane": 0
                }
            },
            "sorties": {
@@ -17876,6 +18146,19 @@
                    "douane_cat": "sorties-periode/sorties-sans-paiement-droits/sorties-definitives",
                    "taxable_douane": 0
                },
+               "bouteillenue": {
+                   "readable": 1,
+                   "writable": 1,
+                   "details": "VRAC",
+                   "revendique": 1,
+                   "restriction_lies": 1,
+                   "recolte": 1,
+                   "mouvement_coefficient": -1,
+                   "facturable": 0,
+                   "douane_type": "SUSPENDU",
+                   "douane_cat": "sorties-periode/sorties-sans-paiement-droits/sorties-definitives",
+                   "taxable_douane": 0
+               },
                "destructionperte": {
                    "readable": 1,
                    "writable": 1,
@@ -17952,6 +18235,19 @@
                    "facturable": 0,
                    "douane_type": "SUSPENDU",
                    "douane_cat": "sorties-periode/sorties-sans-paiement-droits/mouvements-internes/revendication-vci",
+                   "taxable_douane": 0
+               },
+               "autre": {
+                   "readable": 1,
+                   "writable": 1,
+                   "details": "",
+                   "revendique": 1,
+                   "restriction_lies": 0,
+                   "recolte": 1,
+                   "mouvement_coefficient": -1,
+                   "facturable": 0,
+                   "douane_type": "SUSPENDU",
+                   "douane_cat": "sorties-periode/sorties-sans-paiement-droits/autres-sorties",
                    "taxable_douane": 0
                }
            },
