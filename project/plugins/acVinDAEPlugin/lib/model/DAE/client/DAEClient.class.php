@@ -8,22 +8,6 @@ class DAEClient extends acCouchdbClient {
         return acCouchdbManager::getClient("DAE");
     }
 
-    public function createDAE($identifiant, $date,$produit,$type_acheteur,$destination,$millesime,$volume,$contenant,$prix_ht,$label) {
-        $dae = new DAE();
-        $dae->setIdentifiant($identifiant);
-        $dae->setDate($date);
-        $dae->setProduitHash($produit);
-        $dae->setTypeAcheteur($type_acheteur);
-        $dae->setDestination($destination);
-        $dae->setMillesime($millesime);
-        $dae->setVolume($volume);
-        $dae->setContenance($contenant);
-        $dae->setPrixHl($prix_ht);
-        $dae->setLabel($label);
-        $dae->storeDeclarant();
-        return $dae;
-    }
-
     public function createSimpleDAE($identifiant, $date = null) {
     	if (!$date) {
     		$date = date('Y-m-d');
@@ -31,6 +15,7 @@ class DAEClient extends acCouchdbClient {
         $dae = new DAE();
         $dae->setIdentifiant($identifiant);
         $dae->setDate($date);
+        $dae->setDateSaisie(date('Y-m-d'));
         $dae->storeDeclarant();
         return $dae;
     }
@@ -51,6 +36,18 @@ class DAEClient extends acCouchdbClient {
             }
         }
         return sprintf("%03d", $last_num + 1);
+    }
+
+    public function findLastByIdentifiantDate($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
+        $date = str_replace("-", "", $date);
+    	if (!preg_match('/^[0-9]{8}$/', $date)) {
+    		throw new sfException('date not valid');
+    	}
+    	$num = $this->getNextIdentifiantForEtablissementAndDay($identifiant, $date);
+    	if ($num < 2) {
+    		return null;
+    	}
+    	return $this->find('DAE-' . $identifiant . '-'. $date .'-' . sprintf("%03d", $num - 1));
     }
 
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
@@ -81,6 +78,8 @@ class DAEClient extends acCouchdbClient {
     		if ($d = $r->getDateObject())
     			$list[$d->format('Y-m')] = $r->getLiteralPeriode();
     	}
+    	sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
+    	$list[date('Y-m')] = ucfirst(format_date(date('Y-m-d'), 'MMMM yyyy', 'fr_FR'));
     	krsort($list);
     	return $list;
     }
