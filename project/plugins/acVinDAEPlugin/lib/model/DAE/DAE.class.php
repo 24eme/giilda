@@ -50,7 +50,8 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     }
     
     public function getTypes() {
-    	return array('IMPORTATEUR' => 'Importateur', 'NEGOCIANT_REGION' => 'Négociant/Union Vallée du Rhône', 'NEGOCIANT_HORS_REGION' => 'Négociant hors région', 'GD' => 'Grande Distribution', 'DISCOUNT' => 'Hard Discount', 'GROSSISTE' => 'Grossiste-CHR', 'CAVISTE' => 'Caviste', 'VD' => 'Vente directe', 'AUTRE' => 'Autre');
+
+        return DAEClient::$types;
     }
     
     public function getContenances() {

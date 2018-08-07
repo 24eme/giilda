@@ -4,6 +4,8 @@ class DAEClient extends acCouchdbClient {
 
     const ACHETEUR_TYPE_IMPORTATEUR = "IMPORTATEUR";
 
+    public static $types = array('IMPORTATEUR' => 'Importateur', 'NEGOCIANT_REGION' => 'Négociant/Union Vallée du Rhône', 'NEGOCIANT_HORS_REGION' => 'Négociant hors région', 'GD' => 'Grande Distribution', 'DISCOUNT' => 'Hard Discount', 'GROSSISTE' => 'Grossiste-CHR', 'CAVISTE' => 'Caviste', 'VD' => 'Vente directe', 'AUTRE' => 'Autre');
+
     public static function getInstance() {
         return acCouchdbManager::getClient("DAE");
     }

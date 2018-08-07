@@ -5,7 +5,7 @@ sfContext::createInstance($configuration);
 
 $conf = ConfigurationClient::getInstance()->getCurrent();
 
-$t = new lime_test(11);
+$t = new lime_test(13);
 
 $t->comment("Création d'un DAE pour un viti");
 
@@ -17,6 +17,14 @@ $daesViti = DAEClient::getInstance()->findByIdentifiant($identifiant);
 foreach ($daesViti as $dae) {
     $d = DAEClient::getInstance()->find($dae->_id);
     $d->delete();
+}
+foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
+  $drm = DRMClient::getInstance()->find($k);
+  $drm->delete(false);
+}
+foreach (VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows as $k => $vrac) {
+    $vrac_obj = VracClient::getInstance()->find($vrac->id);
+    $vrac_obj->delete();
 }
 
 $dateSortie = date('Y-m-d');
@@ -81,4 +89,45 @@ $dae = DAEClient::getInstance()->findLastByIdentifiantDate($identifiant, $date);
 
 $t->is($dae->_id, $id, "Le dernier DAE est bien récupéré par rapport à la date du jour");
 
-$export = new DAEExportCsvEdi(array($dae));
+$t->comment("Export des commercialisation");
+
+$vrac = new Vrac();
+$etablissementcourtier = $societecourtier = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_courtier')->getEtablissement();
+$vrac->initCreateur($etablissementcourtier->getIdentifiant());
+$vrac->teledeclare = false;
+$vrac->acheteur_identifiant = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement()->getIdentifiant();
+$vrac->vendeur_identifiant =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement()->getIdentifiant();
+$vrac->setProduit($produit_hash);
+$vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
+$vrac->jus_quantite = 100;
+$vrac->prix_initial_unitaire = 70;
+$vrac->validate();
+$vrac->save();
+
+$drm = DRMClient::getInstance()->createDoc($viti->identifiant, (new DateTime())->modify('-1 month')->format('Ym'));
+$drm->save();
+$details = $drm->addProduit($produit_hash, 'details');
+$details->stocks_debut->initial = 1000;
+$contrat = DRMESDetailVrac::freeInstance($drm);
+$contrat->identifiant = $vrac->_id;
+$contrat->volume = 100;
+$contrat = $details->sorties->vrac_details->addDetail($contrat);
+$drm->save();
+$drm->validate();
+$drm->save();
+
+$mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($viti->identifiant);
+
+$export = new DAEExportCsv();
+
+
+foreach($mouvements as $mouvement) {
+    if(!$mouvement->vrac_numero) {
+        continue;
+    }
+    // echo $export->exportMouvementDRMContrat($mouvement);
+    $t->ok($export->exportMouvementDRMContrat($mouvement), "Il y a bien une ligne de CSV pour le contrat vrac");
+}
+
+// echo $export->exportDAE($dae);
+$t->ok($export->exportDAE($dae), "Il y a bien une ligne de CSV pour le DAE");
