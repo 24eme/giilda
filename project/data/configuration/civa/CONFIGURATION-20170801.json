@@ -14,6 +14,7 @@
        "details_sorties_consommationfamilialedegustation": "details_sorties_consommationfamilialedegustation",
        "details_sorties_ventefrancecrd": "details_sorties_ventefrancecrd",
        "details_sorties_vrac": "details_sorties_vrac",
+       "details_sorties_bouteillenue": "details_sorties_bouteillenue",
        "details_sorties_exporttaxe": "details_sorties_exporttaxe",
        "detailsACQUITTE_entrees_achat": "detailsACQUITTE_entrees_achat",
        "detailsACQUITTE_entrees_reintegration": "detailsACQUITTE_entrees_reintegration",
@@ -147,12 +148,12 @@
                    "description": "Sorties en suspension hors France"
                },
                "vrac": {
-                   "libelle": "Contrats Vrac",
+                   "libelle": "Contrat Vrac",
                    "libelle_long": "Sorties en suspension vrac",
                    "description": "Sorties en suspension contrats d’Alsace"
                },
                "bouteillenue": {
-                   "libelle": "Contrats Bouteilles",
+                   "libelle": "Contrat Bouteille",
                    "libelle_long": "Contrats bouteilles nues",
                    "description": ""
                },
