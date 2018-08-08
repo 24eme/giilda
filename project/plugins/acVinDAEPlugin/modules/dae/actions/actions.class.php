@@ -56,16 +56,16 @@ class daeActions extends sfActions {
     	$daes = DAEClient::getInstance()->findByIdentifiant($this->etablissement->identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
     	$csv = null;
 
-        $export = new DAEExportCsvEdi($daes);
+        $export = new DAEExportCsv();
 
-        $csv = $export->exportEDI();
+        $csv = $export->exportEtablissement($this->etablissement->identifiant);
 
     	$this->response->setContentType('text/csv');
     	$this->response->setHttpHeader('md5', md5($csv));
     	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$this->etablissement->identifiant.".csv");
     	return $this->renderText($csv);
     }
-    
+
     public function executeUploadEdi(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->md5 = $request->getParameter('md5',null);

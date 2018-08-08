@@ -5,7 +5,7 @@ sfContext::createInstance($configuration);
 
 $conf = ConfigurationClient::getInstance()->getCurrent();
 
-$t = new lime_test(13);
+$t = new lime_test(14);
 
 $t->comment("Création d'un DAE pour un viti");
 
@@ -116,11 +116,11 @@ $drm->save();
 $drm->validate();
 $drm->save();
 
-$mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($viti->identifiant);
-
 $export = new DAEExportCsv();
 
+$t->is(count(explode("\n", $export->exportEtablissement($identifiant))), 4, "Le csv complet de l'établissement contient 3 lignes");
 
+$mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($viti->identifiant);
 foreach($mouvements as $mouvement) {
     if(!$mouvement->vrac_numero) {
         continue;

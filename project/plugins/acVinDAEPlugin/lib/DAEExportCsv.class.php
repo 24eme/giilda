@@ -22,9 +22,33 @@ class DAEExportCsv {
         return "#date de la commercialisation;identifiant declarvins du déclarant;numéro d'accises du déclarant;nom du déclarant;stat famille;stat sous famille;stat département;code ou nom de la certification du vin;nom ou code du genre du vin;nom ou code du appellation du vin;nom ou code du mention du vin;nom ou code du lieu du vin;nom ou code du couleur du vin;nom ou code du cépage du vin;Le complément du vin;Le libellé personnalisé du vin;label du produit;mention de domaine ou château revendiqué;millésime;n° accise de l'acheteur;nom acheteur;type acheteur;nom du pays de destination;type de conditionnement;libellé conditionnement;contenance conditionnement en litres;quantité de conditionnement;prix unitaire;stat qtt hl;stat prix hl\n";
     }
 
+    public function exportEtablissement($identifiant) {
+        $csv = array();
+        $daes = DAEClient::getInstance()->findByIdentifiant($identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
+
+        foreach($daes as $dae) {
+            $line = $this->exportDAE($dae);
+            $csv[$line] = $line;
+        }
+
+        $mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($identifiant);
+        foreach($mouvements as $mouvement) {
+            if(!$mouvement->vrac_numero) {
+                continue;
+            }
+
+            $line = $this->exportMouvementDRMContrat($mouvement);
+            $csv[$line] = $line;
+        }
+
+        krsort($csv);
+
+        return $this->getHeaderEdi().implode("", $csv);
+    }
+
     public function exportDAE($dae) {
         $cp = ($dae->declarant->code_postal)? preg_replace("/([0-9]{2})[0-9]{3}/","$1",$dae->declarant->code_postal) : "";
-        $produit = $dae->getProduitObject();
+        $produit = ConfigurationClient::getConfiguration($dae->date)->get($dae->produit_key);
         $complement = "";
 
         return $dae->date.";".
