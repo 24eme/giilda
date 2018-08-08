@@ -410,22 +410,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -446,22 +431,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -482,22 +452,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -518,22 +473,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -554,22 +494,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -590,22 +515,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -627,22 +537,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -662,22 +557,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -697,22 +577,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -732,22 +597,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -767,22 +617,7 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
+
                                                                        }
                                                                    }
                                                                },
@@ -1089,22 +924,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
@@ -1124,22 +943,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
@@ -1159,22 +962,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
@@ -1194,22 +981,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
@@ -1229,22 +1000,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
@@ -1264,22 +1019,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
@@ -1300,22 +1039,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                }
@@ -1332,22 +1055,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                }
@@ -1364,22 +1071,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                }
@@ -1396,22 +1087,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                }
@@ -1428,22 +1103,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                }
@@ -1493,22 +1152,6 @@
                                                                "interpro": {
                                                                    "INTERPRO-declaration": {
                                                                        "droits": {
-                                                                           "douane": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": null,
-                                                                                   "libelle": null
-                                                                               }
-                                                                           ],
-                                                                           "cvo": [
-                                                                               {
-                                                                                   "date": "1900-01-01",
-                                                                                   "taux": "-1",
-                                                                                   "code": "CVO",
-                                                                                   "libelle": "Cvo"
-                                                                               }
-                                                                           ]
                                                                        }
                                                                    }
                                                                },
