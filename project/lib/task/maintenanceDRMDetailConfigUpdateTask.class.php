@@ -36,9 +36,9 @@ class maintenanceDRMDetailConfigUpdateTask extends sfBaseTask
         foreach($drm->getProduitsDetails() as $detail) {
             foreach ($detail->getParent()->getConfigDetails() as $detailConfigCat => $detailConfig) {
                 foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
-                    $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey, null);
+                    $detail->getOrAdd($detailConfigCat)->add($detailConfigKey);
                     if ($detailConfigNode->hasDetails()) {
-                        $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey . "_details", null);
+                        $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey . "_details");
                     }
                 }
             }
