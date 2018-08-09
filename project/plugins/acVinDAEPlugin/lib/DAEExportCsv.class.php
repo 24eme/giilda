@@ -22,16 +22,16 @@ class DAEExportCsv {
         return "#date de la commercialisation;identifiant declarvins du déclarant;numéro d'accises du déclarant;nom du déclarant;stat famille;stat sous famille;stat département;code ou nom de la certification du vin;nom ou code du genre du vin;nom ou code du appellation du vin;nom ou code du mention du vin;nom ou code du lieu du vin;nom ou code du couleur du vin;nom ou code du cépage du vin;Le complément du vin;Le libellé personnalisé du vin;label du produit;mention de domaine ou château revendiqué;millésime;n° accise de l'acheteur;nom acheteur;type acheteur;nom du pays de destination;type de conditionnement;libellé conditionnement;contenance conditionnement en litres;quantité de conditionnement;prix unitaire;stat qtt hl;stat prix hl\n";
     }
 
-    public function exportEtablissement($identifiant) {
+    public function exportByEtablissementAndCampagne($identifiant, $campagne) {
         $csv = array();
-        $daes = DAEClient::getInstance()->findByIdentifiant($identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
+        $daes = DAEClient::getInstance()->findByIdentifiantCampagne($identifiant, $campagne, acCouchdbClient::HYDRATE_JSON)->getDatas();
 
         foreach($daes as $dae) {
             $line = $this->exportDAE($dae);
             $csv[$line] = $line;
         }
 
-        $mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($identifiant);
+        $mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndCampagne($identifiant, $campagne);
         foreach($mouvements as $mouvement) {
             if(!$mouvement->vrac_numero) {
                 continue;

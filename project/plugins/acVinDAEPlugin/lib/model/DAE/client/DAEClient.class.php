@@ -56,6 +56,11 @@ class DAEClient extends acCouchdbClient {
         return $this->startkey('DAE-' . $identifiant . '-00000000-000')->endkey('DAE-' . $identifiant . '-99999999-999')->execute($hydrate);
     }
 
+    public function findByIdentifiantCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
+
+        return $this->startkey('DAE-' . $identifiant . '-'. str_replace("-", "", ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)) .'-000')->endkey('DAE-' . $identifiant . '-'.str_replace("-", "", ConfigurationClient::getInstance()->getDateFinCampagne($campagne)) . '99-999')->execute($hydrate);
+    }
+
     public function findByIdentifiantPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
     	if (!preg_match('/^[0-9]{6}$/', $periode)) {
     		throw new sfException('periode not valid');

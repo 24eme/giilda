@@ -4,7 +4,7 @@ class daeActions extends sfActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
-        $this->cm = new CampagneManager('08-01');
+        $this->campagne = ConfigurationClient::getInstance()->buildCampagne($this->periode->format('Y-m-d'));
         $this->formCampagne($request, 'dae_etablissement');
         $this->daes = DAEClient::getInstance()->findByIdentifiantPeriode($this->etablissement->identifiant, $this->periode->format('Ym'))->getDatas();
     }
@@ -53,16 +53,15 @@ class daeActions extends sfActions {
 
     public function executeExportEdi(sfWebRequest $request) {
     	$this->etablissement = $this->getRoute()->getEtablissement();
-    	$daes = DAEClient::getInstance()->findByIdentifiant($this->etablissement->identifiant, acCouchdbClient::HYDRATE_JSON)->getDatas();
-    	$csv = null;
+        $this->campagne = $request->getParameter('campagne');
 
         $export = new DAEExportCsv();
 
-        $csv = $export->exportEtablissement($this->etablissement->identifiant);
+        $csv = $export->exportByEtablissementAndCampagne($this->etablissement->identifiant, $this->campagne);
 
     	$this->response->setContentType('text/csv');
     	$this->response->setHttpHeader('md5', md5($csv));
-    	$this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$this->etablissement->identifiant.".csv");
+        $this->response->setHttpHeader('Content-Disposition', "attachment; filename=DAE-".$this->etablissement->identifiant."-".$this->campagne.".csv");
     	return $this->renderText($csv);
     }
 
