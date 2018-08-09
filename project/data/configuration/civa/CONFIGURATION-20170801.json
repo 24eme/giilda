@@ -9,13 +9,13 @@
    "droits": {
    },
    "mvts_favoris": {
-       "details_entrees_recolte": "details_entrees_recolte",
        "details_entrees_achatnoncrd": "details_entrees_achatnoncrd",
        "details_sorties_consommationfamilialedegustation": "details_sorties_consommationfamilialedegustation",
        "details_sorties_ventefrancecrd": "details_sorties_ventefrancecrd",
        "details_sorties_vrac": "details_sorties_vrac",
        "details_sorties_bouteillenue": "details_sorties_bouteillenue",
        "details_sorties_exporttaxe": "details_sorties_exporttaxe",
+       "details_sorties_export": "details_sorties_export",
        "detailsACQUITTE_entrees_achat": "detailsACQUITTE_entrees_achat",
        "detailsACQUITTE_entrees_reintegration": "detailsACQUITTE_entrees_reintegration",
        "detailsACQUITTE_sorties_ventefrancecrd": "detailsACQUITTE_sorties_ventefrancecrd",
@@ -17622,7 +17622,7 @@
                    "restriction_lies": 0,
                    "recolte": 1,
                    "mouvement_coefficient": 1,
-                   "facturable": 1,
+                   "facturable": 0,
                    "douane_type": "SUSPENDU",
                    "douane_cat": "entrees-periode/autres-entrees",
                    "taxable_douane": 0
