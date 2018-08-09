@@ -50,7 +50,7 @@ function getArialNumber($number) {
 }
 
 
-function sprintDroitDouane($float) {
+function sprintInt($float) {
     if (is_null($float))
         $float = 0;
     return round($float);

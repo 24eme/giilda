@@ -38,7 +38,7 @@
                             ?></td>
         <?php endif; ?>
                         <td class="text-right"><?php
-                            echoFloat($recapCvo->totalPrixDroitCvo);
+                            echoFloat($recapCvo->totalPrixDroitCvo, 2);
                             echo " €";
                             ?></td>
                     </tr>
@@ -77,12 +77,12 @@
                                 echo " €/hl";
                                 ?></td>
                             <td><?php
-                                echoFloat($droitDouane->total);
+                                sprintInt($droitDouane->total);
                                 echo " €";
                                 ?></td>
                                 <?php if ($drm->isPaiementAnnualise()): ?>
                             <td><?php
-                                echoFloat($droitDouane->cumul);
+                                sprintInt($droitDouane->cumul);
                                 echo " €";
                                 ?></td>
             <?php endif; ?>
