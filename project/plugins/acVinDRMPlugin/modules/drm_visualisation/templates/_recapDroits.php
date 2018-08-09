@@ -29,17 +29,17 @@
                         <td><?php if($recapCvo->version): ?><small class="text-muted"><?php echo $recapCvo->version ?></small> <?php endif; ?>CVO<?php echo ($recapCvo->version)? '' : ' Totale'; ?></td>
                         <td class="text-right"><?php
                             echoFloat($recapCvo->totalVolumeDroitsCvo);
-                            echo " hl";
+                            echo "&nbsp;hl";
                             ?></td>
         <?php if($recapCvo->totalVolumeReintegration) : ?>
                         <td class="text-right"><?php
                             echoFloat($recapCvo->totalVolumeReintegration);
-                            echo " hl";
+                            echo "&nbsp;hl";
                             ?></td>
         <?php endif; ?>
                         <td class="text-right"><?php
-                            echo formatFloat($recapCvo->totalPrixDroitCvo, 2);
-                            echo " €";
+                            echo formatFloat($recapCvo->totalPrixDroitCvo, 2, 2);
+                            echo "&nbsp;€";
                             ?></td>
                     </tr>
                 <?php endforeach; ?>
@@ -74,16 +74,16 @@
                             <td><?php echoFloat($droitDouane->volume_taxe - $droitDouane->volume_reintegre); echo " hl" ?></td>
                             <td><?php
                                 echoFloat($droitDouane->taux);
-                                echo " €/hl";
+                                echo "&nbsp;€/hl";
                                 ?></td>
                             <td><?php
                                 echo sprintInt($droitDouane->total);
-                                echo " €";
+                                echo "&nbsp;€";
                                 ?></td>
                                 <?php if ($drm->isPaiementAnnualise()): ?>
                             <td><?php
                                 echo sprintInt($droitDouane->cumul);
-                                echo " €";
+                                echo "&nbsp;€";
                                 ?></td>
             <?php endif; ?>
                         </tr>
