@@ -5,7 +5,7 @@ sfContext::createInstance($configuration);
 
 $conf = ConfigurationClient::getInstance()->getCurrent();
 
-$t = new lime_test(13);
+$t = new lime_test(14);
 
 $t->comment("Création d'un DAE pour un viti");
 
@@ -91,36 +91,49 @@ $t->is($dae->_id, $id, "Le dernier DAE est bien récupéré par rapport à la da
 
 $t->comment("Export des commercialisation");
 
-$vrac = new Vrac();
-$etablissementcourtier = $societecourtier = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_courtier')->getEtablissement();
-$vrac->initCreateur($etablissementcourtier->getIdentifiant());
-$vrac->teledeclare = false;
-$vrac->acheteur_identifiant = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement()->getIdentifiant();
-$vrac->vendeur_identifiant =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement()->getIdentifiant();
-$vrac->setProduit($produit_hash);
-$vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
-$vrac->jus_quantite = 100;
-$vrac->prix_initial_unitaire = 70;
-$vrac->validate();
-$vrac->save();
+if ($conf->declaration->exist('details/sorties/vrac') && $conf->declaration->get('details/sorties/vrac')->details == "VRAC") {
+    $vrac = new Vrac();
+    $etablissementcourtier = $societecourtier = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_courtier')->getEtablissement();
+    $vrac->initCreateur($etablissementcourtier->getIdentifiant());
+    $vrac->teledeclare = false;
+    $vrac->acheteur_identifiant = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement()->getIdentifiant();
+    $vrac->vendeur_identifiant =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement()->getIdentifiant();
+    $vrac->setProduit($produit_hash);
+    $vrac->type_transaction = VracClient::TYPE_TRANSACTION_VIN_VRAC;
+    $vrac->jus_quantite = 100;
+    $vrac->prix_initial_unitaire = 70;
+    $vrac->validate();
+    $vrac->save();
+}
 
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, (new DateTime())->modify('-1 month')->format('Ym'));
 $drm->save();
 $details = $drm->addProduit($produit_hash, 'details');
 $details->stocks_debut->initial = 1000;
-$contrat = DRMESDetailVrac::freeInstance($drm);
-$contrat->identifiant = $vrac->_id;
-$contrat->volume = 100;
-$contrat = $details->sorties->vrac_details->addDetail($contrat);
+
+if ($conf->declaration->exist('details/sorties/vrac') && $conf->declaration->get('details/sorties/vrac')->details == "VRAC") {
+    $contrat = DRMESDetailVrac::freeInstance($drm);
+    $contrat->identifiant = $vrac->_id;
+    $contrat->volume = 100;
+    $details->sorties->vrac_details->addDetail($contrat);
+} elseif($conf->declaration->exist('details/sorties/creationvrac') && $conf->declaration->get('details/sorties/creationvrac')->details == "CREATIONVRAC") {
+    $creationvrac = DRMESDetailCreationVrac::freeInstance($drm);
+    $creationvrac->volume = 100;
+    $creationvrac->prixhl = 70;
+    $creationvrac->acheteur = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement()->getIdentifiant();
+    $creationvrac->type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC;
+    $details->sorties->creationvrac_details->addDetail($creationvrac);
+}
+
 $drm->save();
 $drm->validate();
 $drm->save();
 
-$mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($viti->identifiant);
-
 $export = new DAEExportCsv();
 
+$t->is(count(explode("\n", $export->exportByEtablissementAndCampagne($identifiant, ConfigurationClient::getInstance()->buildCampagne($dae->date)))), 4, "Le csv complet de l'établissement contient 3 lignes");
 
+$mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($viti->identifiant);
 foreach($mouvements as $mouvement) {
     if(!$mouvement->vrac_numero) {
         continue;

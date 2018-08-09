@@ -12,7 +12,7 @@
 
 
     <div class="col-xs-12">
-    	<div class="row"><a class="btn btn-sm btn-default pull-right" href="<?php echo url_for('dae_export_edi', $etablissement) ?>"><span class=" glyphicon glyphicon-cloud-download"></span> Export des ventes <?php echo $cm->getCurrent() ?></a></div>
+    	<div class="row"><a class="btn btn-sm btn-default pull-right" href="<?php echo url_for('dae_export_edi', array('sf_subject' => $etablissement, 'campagne' => $campagne)) ?>"><span class=" glyphicon glyphicon-cloud-download"></span> Export des ventes <?php echo $campagne ?></a></div>
         <div class="row">
         	<h4>
         		Liste des ventes de <strong><?php echo ucfirst(format_date($periode->format('Y-m-d'), 'MMMM yyyy', 'fr_FR')) ?></strong>
