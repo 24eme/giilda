@@ -116,6 +116,7 @@ $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 <?php if(DRMConfiguration::getInstance()->isPdfCvo()): ?>
 <?php include_partial('drm_pdf/generateCvoTex', array('drm' => $drm)); ?>
 <?php endif; ?>
+<?php if(false): ?>
 \fcolorbox{white}{white}{
 \hspace{-0.25cm}
 \begin{minipage}[t]{0.6\textwidth}
@@ -163,3 +164,4 @@ $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 \end{tabular}
 \end{minipage}
 }
+<?php endif; ?>
