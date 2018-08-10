@@ -20,7 +20,7 @@
         <?php if($recapCvos["TOTAL"]->totalVolumeReintegration) : ?>
                         <th class="text-right">Volumes réintégrés</th>
         <?php endif; ?>
-                        <th class="text-right">Montant<?php echo getPointAideHtml('drm','visualisation_cvo_montant'); ?></th>
+                        <th class="text-right">Montant HT<?php echo getPointAideHtml('drm','visualisation_cvo_montant'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
