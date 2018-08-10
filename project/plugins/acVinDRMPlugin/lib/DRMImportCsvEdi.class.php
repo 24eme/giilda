@@ -20,7 +20,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
-            $this->initConf($drm);
             if($this->fromEdi){
               parent::__construct($file, $drm);
               $drmInfos = $this->getDRMInfosFromFile();
@@ -36,6 +35,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
             }
 
+            $this->initConf($drm);
             if(is_null($this->csvDoc)) {
                 $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
             }
