@@ -32,8 +32,8 @@ $cpt = 0;
 
     <?php if (!$isTeledeclarationMode): ?>
         <div id="soussigne_recapitulatif_mandataire" class="<?php echoClassLignesVisu($cpt); ?>">
-            <label>Contrat interne :</label>
-            <span><?php echo ($vrac->interne) ? 'Oui' : 'Non'; ?></span>
+            <label>Entreprises liées :</label>
+            <span><?php echo ($vrac->interne) ? 'Oui </small>(au sens de l’art. III-1 de l’accord interprofessionnel)</small>' : 'Non'; ?></span>
         </div>
     <?php endif; ?>
 
