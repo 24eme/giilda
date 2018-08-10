@@ -7,6 +7,7 @@ DAE:
       type: {}
       identifiant: {  }
       date: {  }
+      date_saisie: {  }
       declarant:
         type: collection
         definition:
@@ -19,12 +20,61 @@ DAE:
             commune: {  }
             code_postal: {   }
             region: {  }
-      produit_hash: {  }
-      label: {  }
+            famille: {  }
+            sous_famille: {  }
+      produit_key: {  }
+      produit_libelle: {  }
+      label_key: {  }
+      label_libelle: {  }
+      mention_key: {  }
+      mention_libelle: {  }
       millesime: {  }
-      type_acheteur: {  }
-      destination: {  }
-      volume: {  }
+      no_accises_acheteur: {   }
+      nom_acheteur: {   }
+      type_acheteur_key: {  }
+      type_acheteur_libelle: {  }
+      destination_key: {  }
+      destination_libelle: {  }
+      conditionnement_key: {  }
+      conditionnement_libelle: {  }
+      contenance_key: {  }
+      contenance_hl: {  }
+      contenance_libelle: {  }
+      quantite: {  }
+      prix_unitaire: {  }
       volume_hl: {  }
-      contenance: {  }
-      prix_ht: {  }
+      prix_hl: {  }
+
+CSVDAE:
+  definition:
+    fields:
+      _id: {  }
+      _rev: {  }
+      type: {  }
+      _attachments:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  content_type: { }
+                  revpos: { }
+                  length: { }
+                  stub: { }
+                  digest: { }
+      identifiant: {  }
+      periode: {  }
+      statut: {  }
+      erreurs:
+        type: collection
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  num_ligne: { type: integer }
+                  csv_erreur: { }
+                  diagnostic: { }

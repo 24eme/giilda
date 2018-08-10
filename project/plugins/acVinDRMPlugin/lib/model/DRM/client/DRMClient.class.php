@@ -671,7 +671,7 @@ class DRMClient extends acCouchdbClient {
     }
 
     public static function convertCRDCouleur($s) {
-      switch (preg_replace('[ _]', '', strtoupper($s))) {
+      switch (preg_replace('/[\s_]/', '', strtoupper($s))) {
         case self::DRM_CRD_BLEU:
           return self::DRM_CRD_BLEU;
         case self::DRM_CRD_VERT:
@@ -783,7 +783,7 @@ class DRMClient extends acCouchdbClient {
                 $recapCvos[$version]->totalPrixDroitCvo += $mouvement->prix_ht;
                 $recapCvos["TOTAL"]->totalPrixDroitCvo +=  $mouvement->prix_ht;
             }
-            if ($mouvement->type_hash == 'entrees/reintegration') {
+            if ($mouvement->type_hash == 'entrees/reintegration' && $mouvement->facturable) {
                 $recapCvos[$version]->totalVolumeReintegration += $mouvement->volume;
                 $recapCvos["TOTAL"]->totalVolumeReintegration += $mouvement->volume;
             }
