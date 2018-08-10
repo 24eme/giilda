@@ -38,7 +38,7 @@ if ($drm->mouvements->exist($drm->identifiant)) {
 \multicolumn{1}{|C{43mm}|}{\small{\textbf{Réintégré}}} &
 <?php endif; ?>
 \multicolumn{1}{|C{43mm}|}{\small{\textbf{Taux}}} &
-\multicolumn{1}{|C{43mm}|}{\small{\textbf{Total}}}
+\multicolumn{1}{|C{43mm}|}{\small{\textbf{Total~HT}}}
 \\
 \hline
 \multicolumn{1}{|l}{\small{\textbf{CVO Totale}}} &
