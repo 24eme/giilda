@@ -32,7 +32,7 @@ Adresse compta matière : \textbf{\DRMAdresseComptaMatiere} \\
 ~ \\
 }
 
-\rhead{\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}  \\
+\rhead{\includegraphics[scale=0.25]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_ir_drm.jpg"; ?>}  \\
 \vspace{-2cm}
 \InterloireAdresse \\
  \begin{small} \InterloireContact \\
