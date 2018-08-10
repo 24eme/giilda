@@ -455,7 +455,7 @@ class Vrac extends BaseVrac {
         $campagneArray = array();
         $cfClient = ConfigurationClient::getInstance();
         $dateVrac = $this->getDateCampagne("Y-m-d");
-        $campagne = $cfClient->buildCampagne($dateVrac);
+        $campagne = $cfClient->getPreviousCampagne($cfClient->buildCampagne($dateVrac));
         $campagneArray[$campagne] = $campagne;
         $currentCampagne = $cfClient->buildCampagne(date("Y-m-d"));
         while($campagne <= $currentCampagne){
