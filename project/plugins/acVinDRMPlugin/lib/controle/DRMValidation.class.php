@@ -52,9 +52,12 @@ class DRMValidation extends DocumentValidation {
             $entrees_retourmarchandisetaxees = ($detail->entrees->exist('retourmarchandisetaxees'))? $detail->entrees->retourmarchandisetaxees : 0.0;
             $entrees_retourmarchandiseacquitte = ($detail->entrees->exist('retourmarchandiseacquitte'))? $detail->entrees->retourmarchandiseacquitte : 0.0;
             $entrees_retourmarchandisesanscvo = ($detail->entrees->exist('retourmarchandisesanscvo'))? $detail->entrees->retourmarchandisesanscvo : 0.0;
-            $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
+            $entrees_autre = ($detail->entrees->exist('autre'))? $detail->entrees->autre : 0.0;
 
-            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_destructionperte;
+            $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
+            $sorties_autre = ($detail->sorties->exist('autre'))? $detail->sorties->autre : 0.0;
+
+            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_destructionperte + $entrees_autre + $sorties_autre;
 
             $produitLibelle = " pour le produit ".$detail->getLibelle();
 
@@ -75,6 +78,12 @@ class DRMValidation extends DocumentValidation {
                 }
                 if($sorties_destructionperte){
                   $this->addPoint('erreur', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($entrees_autre){
+                  $this->addPoint('erreur', 'observations', "Entrée autre (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                }
+                if($sorties_autre){
+                  $this->addPoint('erreur', 'observations', "Sortie autre (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
               }
               if(($entrees_retourmarchandisetaxees + $entrees_retourmarchandiseacquitte + $entrees_retourmarchandisesanscvo) && (!$detail->exist('replacement_date') || !$detail->replacement_date)) {
