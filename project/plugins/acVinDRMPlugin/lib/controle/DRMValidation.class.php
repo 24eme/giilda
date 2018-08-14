@@ -95,7 +95,7 @@ class DRMValidation extends DocumentValidation {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
             }
 
-            if (!$detail->getConfig()->entrees->exist('declassement')) {
+            if (!$detail->getConfig()->entrees->exist('declassement') && !$detail->getConfig()->entrees->exist('repli')) {
                 continue;
             }
             if($detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
