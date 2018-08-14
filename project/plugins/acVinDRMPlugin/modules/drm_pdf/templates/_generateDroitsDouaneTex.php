@@ -48,7 +48,8 @@ $interpro = strtoupper(sfConfig::get('app_teledeclaration_interpro'));
 
     <?php endforeach; ?>
     \end{tabular}
-    \vspace{0.2cm}
+    \\~\\~\\~
+    \hspace{1cm}
 <?php endif; ?>
 <?php if ($hasNonApurement) : ?>
     \begin{tabular}{C{90mm} |C{90mm}|C{90mm}|}
