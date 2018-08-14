@@ -95,16 +95,14 @@ class DRMValidation extends DocumentValidation {
                 $this->addPoint('vigilance', 'total_negatif', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
             }
 
-            if (!$detail->getConfig()->entrees->exist('declassement') && !$detail->getConfig()->entrees->exist('repli')) {
-                continue;
+            if($detail->getConfig()->entrees->exist('repli') && $detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
+                  $total_entrees_replis += $detail->entrees->repli;
+                  $total_sorties_replis += $detail->sorties->repli;
             }
-            if($detail->entrees->exist('repli') && $detail->sorties->exist('repli')){
-              $total_entrees_replis += $detail->entrees->repli;
-              $total_sorties_replis += $detail->sorties->repli;
+            if($detail->getConfig()->entrees->exist('declassement')){
+                $total_entrees_declassement += $detail->entrees->declassement;
+                $total_sorties_declassement += $detail->sorties->declassement;
             }
-
-            $total_entrees_declassement += $detail->entrees->declassement;
-            $total_sorties_declassement += $detail->sorties->declassement;
 
             $total_entrees_excedents += ($detail->entrees->exist('excedents')) ? $detail->entrees->excedents : 0;
             $total_entrees_manipulation += ($detail->entrees->exist('manipulation')) ? $detail->entrees->manipulation : 0;
