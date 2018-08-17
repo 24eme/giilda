@@ -62,7 +62,17 @@ class drmGeneriqueActions extends sfActions {
         $this->detail = $this->getRoute()->getDRMDetail();
         if($request->getParameter('acquitte')){
             $keyDetail = $this->detail->getKey();
-            $this->detail = $this->detail->getparent()->getparent()->get(DRM::DETAILS_KEY_ACQUITTE)->get($keyDetail);
+            if($keyDetail == "DEFAUT"){
+                $this->detail = $this->detail->getparent()->getparent()->get(DRM::DETAILS_KEY_ACQUITTE)->get($keyDetail);
+            }else{
+                $denom = $this->detail->denomination_complementaire;
+                foreach ($this->detail->getparent()->getparent()->get(DRM::DETAILS_KEY_ACQUITTE) as $d_a) {
+                    if($d_a->denomination_complementaire == $denom){
+                        $this->detail = $d_a;
+                        break;
+                    }
+                }
+            }
         }
         $this->drm = $this->detail->getDocument();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
