@@ -5,6 +5,7 @@ $favoris_entrees = $favoris->entrees;
 $favoris_sorties = $favoris->sorties;
 $tabindex = $numProduit * 100 ;
 $drmTeledeclaree = $detail->getDocument()->teledeclare;
+$isAcquitteUrl = ($detail->getParent()->getTypeDRM() == DRMClient::TYPE_DRM_ACQUITTE)? "?acquitte=1" : "";
 ?>
 <div class="pull-left" style="width: 150px;">
     <div data-hash="<?php echo $detail->getHash() ?>"  class="panel panel-default col_recolte<?php if ($active): ?> active col_active<?php endif; ?> <?php echo ($detail->isEdited()) ? 'col_edited panel-success' : '' ?>" data-input-focus="<?php echo $tabindex; ?>" data-cssclass-rectif="<?php echo ($form->getObject()->getDocument()->isRectificative()) ? VersionnerCssClass() : '' ?>" style="margin-right: 10px;">
@@ -134,7 +135,7 @@ $drmTeledeclaree = $detail->getDocument()->teledeclare;
                                             <span class="input-group-btn">
                                                 <a id="lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" data-toggle="modal" data-remote="false" data-target="#ajax-modal" href="<?php
                                                 echo url_for("drm_".strtolower($form->getObject()->sorties->getConfig()->get($key)->getDetails())."_details",
-                                                array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)) ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
+                                                array('sf_subject' => $form->getObject(), 'cat_key' => 'sorties', 'key' => $key)).$isAcquitteUrl ?>" class="btn btn-default btn-xs click-on-space-key" type="button" tabindex="<?php echo $tabindex; ?>"><span class="glyphicon glyphicon-list-alt"></span></a>
                                             </span>
                                             <input type="text" id="input_sorties_<?php echo $key ?>_<?php echo $detail->getHashForKey() ?>" data-hash="<?php echo $detail->getHash() ?>" data-pointer="#lien_sorties_<?php echo $key ?>_details_<?php echo $detail->getHashForKey() ?>" class="btn_detail pointer input-float somme_detail bold_on_blur drm_input_details form-control no-state text-right <?php echo $class; ?>"
                                             readonly="readonly" value="<?php echoFloat($detail->sorties->get($key)); ?>" tabindex="-1" />
