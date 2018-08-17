@@ -60,6 +60,10 @@ class drmGeneriqueActions extends sfActions {
 
     protected function processProduitDetails($request, $formClass) {
         $this->detail = $this->getRoute()->getDRMDetail();
+        if($request->getParameter('acquitte')){
+            $keyDetail = $this->detail->getKey();
+            $this->detail = $this->detail->getparent()->getparent()->get(DRM::DETAILS_KEY_ACQUITTE)->get($keyDetail);
+        }
         $this->drm = $this->detail->getDocument();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->catKey = $request->getParameter('cat_key');
