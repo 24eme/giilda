@@ -59,21 +59,7 @@ class drmGeneriqueActions extends sfActions {
     }
 
     protected function processProduitDetails($request, $formClass) {
-        $this->detail = $this->getRoute()->getDRMDetail();
-        if($request->getParameter('acquitte')){
-            $keyDetail = $this->detail->getKey();
-            if($keyDetail == "DEFAUT"){
-                $this->detail = $this->detail->getparent()->getparent()->get(DRM::DETAILS_KEY_ACQUITTE)->get($keyDetail);
-            }else{
-                $denom = $this->detail->denomination_complementaire;
-                foreach ($this->detail->getparent()->getparent()->get(DRM::DETAILS_KEY_ACQUITTE) as $d_a) {
-                    if($d_a->denomination_complementaire == $denom){
-                        $this->detail = $d_a;
-                        break;
-                    }
-                }
-            }
-        }
+        $this->detail = $this->getRoute()->getDRMDetail();        
         $this->drm = $this->detail->getDocument();
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->catKey = $request->getParameter('cat_key');
