@@ -1,14 +1,6 @@
 <?php
 use_helper('DRMPdf');
 use_helper('Display');
-$caution = 'Non défini';
-$organismeCautionneur = null;
-if($drm->declarant->caution){
-   $caution = EtablissementClient::$caution_libelles[$drm->declarant->caution];
-   if($drm->declarant->caution == EtablissementClient::CAUTION_CAUTION){
-       $organismeCautionneur = $drm->declarant->raison_sociale_cautionneur;
-   }
-}
 ?>
 
 \def\InterloireAdresse{<?php echo getAdresseInterloire(); ?>}
@@ -37,13 +29,10 @@ Adresse du siège de l’Entrepôt : \textbf{\DRMAdresseChai} \\
 Numéro Interloire : \textbf{\DRMIdentifiantIL}~~~CVI : \textbf{\DRMCvi}~~~Siret : \textbf{\DRMSiret} \\
 Numéro d'Accise : \textbf{\DRMNumAccise} \\
 Adresse compta matière : \textbf{\DRMAdresseComptaMatiere} \\
-Caution : \textbf{<?php echo $caution; ?>} \\
-<?php if($organismeCautionneur): ?>
-Organisme cautionneur : \textbf{<?php echo $organismeCautionneur; ?>} \\
-<?php endif; ?>
- }
+~ \\
+}
 
-\rhead{\includegraphics[scale=1]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_new.jpg"; ?>}  \\
+\rhead{\includegraphics[scale=0.25]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_ir_drm.jpg"; ?>}  \\
 \vspace{-2cm}
 \InterloireAdresse \\
  \begin{small} \InterloireContact \\

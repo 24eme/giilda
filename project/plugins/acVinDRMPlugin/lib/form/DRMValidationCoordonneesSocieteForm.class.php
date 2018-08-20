@@ -41,14 +41,6 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         $this->setValidator('fax', new sfValidatorString(array('required' => false)));
         $this->widgetSchema->setLabel('fax', 'Fax :');
 
-        $this->setWidget('paiement_douane_frequence', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneFrequence())));
-        $this->setValidator('paiement_douane_frequence', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneFrequence())), array('required' => "Aucune fréquence de paiement des droits douane n'est choisie")));
-        $this->widgetSchema->setLabel('paiement_douane_frequence', 'Fréquence de paiement :');
-
-        $this->setWidget('paiement_douane_moyen', new sfWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getPaiementDouaneMoyen())));
-        $this->setValidator('paiement_douane_moyen', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getPaiementDouaneMoyen())), array('required' => "Aucun moyen de paiement des droits douane n'est choisi")));
-        $this->widgetSchema->setLabel('paiement_douane_moyen', 'Moyen de paiement :');
-
         $this->widgetSchema->setNameFormat('drm_validation_coordonnees_societe[%s]');
     }
 

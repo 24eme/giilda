@@ -166,12 +166,9 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 <?php endif; ?>
 \hline
 ~ \\
-\multicolumn{1}{|l|}{\small{\textbf{Moyen de paiement utilisé (en paiement <?php echo ($frequence_douane_moyen)? (DRMPaiement::$frequence_paiement_libelles[$frequence_douane_moyen]) : "Non renseigné" ; ?>) : }}} \\
-\multicolumn{1}{|L{70mm}|}{Numéraire~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_NUMERAIRE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Obligation cautionnée~:~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_OBLIGATION_CAUTIONNEES)? '\squareChecked' : '$\square$'; ?>
-}
-\\
-\multicolumn{1}{|L{70mm}|}{ Chèque~:~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_CHEQUE)? '\squareChecked' : '$\square$'; ?>~~~~~~~~Virement~:~~~~~~~~~~~~~~~~~~~~~~~<?php echo ($paiement_douane_moyen == DRMPaiement::MOYEN_VIREMENT)? '\squareChecked' : '$\square$'; ?>
-}\\
+~ \\
+~ \\
+~ \\
 ~ \\
 \hline
 \end{tabular}
