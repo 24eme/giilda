@@ -1,6 +1,3 @@
-<?php
-$paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $societe->paiement_douane_frequence : null;
-?>
 <div id="contenu_etape">
     <div id="contenu_onglet">
         <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_annexes_texte1'); ?></p>
@@ -72,6 +69,8 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
             </div>
   </div>
           </div>
+<?php if (false) : //ON désactive les stats européennes   ?>
+<!--
           <br/>
           <div class="table-condensable ">
           <div class="drm_statistiques_toggle" style="cursor:pointer;">
@@ -103,6 +102,8 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                 </table>
               </div>
 </div>
+-->
+<?php endif; //ON désactive les stats européennes   ?>
             <br/>
 <?php if($drm->hasObservations()): ?>
             <div class="table-condensable ">
@@ -143,52 +144,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
             </div>
   <br/>
 <?php endif; ?>
-
-<div class="table-condensable ">
-<div class="drm_informations_toggle" style="cursor:pointer;">
-    <p class="extendable ouvert"></p>
-    <h2>Informations Douanières</h2>
-</div>
-<div class="drm_informations_content_togglable" style="padding: 0px 10px 10px; display: block;" >
-    <table id="table_drm_complement_informations_paiement_douane" class="table_recap table_drm_annexes">
-                <thead >
-                    <tr>
-                        <th colspan="2">Condition de paiement des douanes&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_aide6'); ?>"  style="padding: 0 0 0 10px;"></a></th>
-                    </tr>
-                </thead>
-                <tbody class="drm_non_apurement" id="nonapurement_list">
-                    <tr>
-                        <td class="drm_quantite_sucre_label" style="width: 255px;">
-                            <?php echo $annexesForm['paiement_douane_frequence']->renderLabel(); ?>
-                        </td>
-                        <td class="drm_paiement_douane_frequence" style="height: 55px;">
-                            <?php echo $annexesForm['paiement_douane_frequence']->renderError(); ?>
-                            <?php echo $annexesForm['paiement_douane_frequence']->render(); ?>
-                        </td>
-                    </tr>
-                    <tr  class="drm_paiement_douane_cumul" <?php echo ($paiement_douane_frequence && ($paiement_douane_frequence == DRMPaiement::FREQUENCE_ANNUELLE)) ? '' : 'style="display:none;"'; ?>  >
-                        <td>
-                            Cumul <b>début de mois</b> des droits douaniers (en €)
-                        </td>
-                        <td>
-                            <ul>
-
-                                <?php foreach ($drm->getAllGenres() as $genre): ?>
-                                  <?php if(isset($annexesForm['cumul_' . $genre])): ?>
-                                    <li style="padding: 10px;">
-                                        <?php echo $annexesForm['cumul_' . $genre]->renderLabel(); ?>
-                                        <?php echo $annexesForm['cumul_' . $genre]->renderError(); ?>
-                                        <?php echo $annexesForm['cumul_' . $genre]->render(); ?>
-                                    </li>
-                                  <?php endif; ?>
-                                <?php endforeach; ?>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-          </div>
-          </div>
             <br/>
             <div class = "btn_etape">
                 <a class = "btn_etape_prec" href = "<?php echo url_for('drm_crd', $drm); ?>">
