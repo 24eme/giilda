@@ -105,7 +105,7 @@ class DRMESDetails extends BaseDRMESDetails {
             $mouvement->vrac_numero = $vrac->numero_contrat;
             if($vrac instanceof stdClass){
                 $mouvement->vrac_destinataire = $vrac->acheteur->raison_sociale;
-                $mouvement->cvo = $this->getProduitDetail()->getCVOTaux();
+                $mouvement->cvo = 0;
             }else{
                 $mouvement->vrac_destinataire = $vrac->acheteur->nom;
                 $mouvement->cvo = $this->getProduitDetail()->getCVOTaux() * $vrac->getRepartitionCVOCoef($vrac->vendeur_identifiant, $detail->getDocument()->getDate());
