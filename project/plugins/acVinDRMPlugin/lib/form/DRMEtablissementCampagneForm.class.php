@@ -27,7 +27,7 @@ class DRMEtablissementCampagneForm extends BaseForm {
 
     private function getChoiceCampagnes() {
         $campagnes = DRMClient::getInstance()->listCampagneByEtablissementId($this->etablissement_id);
-        if($this->isTeledeclarationMode) {
+        if($this->isTeledeclarationMode && !if(DRMConfiguration::getInstance()->isCampagneListeMinimale())){
             $campagnes = array();
             $currentCampagne = ConfigurationClient::getInstance()->getCurrentCampagne();
             $campages[$currentCampagne] = $currentCampagne;
