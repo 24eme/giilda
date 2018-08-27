@@ -264,7 +264,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
             }
 
-            if($founded_produit && !$founded_produit->isActif($this->drm->getDate())){
+            if($founded_produit && !$founded_produit->isDouaneActif($this->drm->getDate()) && !$founded_produit->isCVOActif($this->drm->getDate())) {
                 $founded_produit = null;
             }
 
