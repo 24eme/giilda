@@ -1,0 +1,1 @@
+<?php include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm,'drmLatex' => $drmLatex, 'detailsNodes' => 'details', "libelleDetail" => null, 'data' => $drm->declaration->getProduitsDetailsAggregateByAppellation(true, 'details'))); ?>

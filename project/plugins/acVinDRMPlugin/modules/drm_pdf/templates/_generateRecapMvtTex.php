@@ -7,9 +7,12 @@ use_helper('Display');
 $mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf($detailsNodes);
 $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
 $newPage = false;
+if(!isset($data)) {
+    $data = $drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes);
+}
 ?>
 
-<?php foreach ($drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes) as $certification => $produitsDetailsByCertifications) : ?>
+<?php foreach ($data as $certification => $produitsDetailsByCertifications) : ?>
 
     <?php
     $libelleCertif = $produitsDetailsByCertifications->certification_libelle;
@@ -73,7 +76,7 @@ $newPage = false;
         <?php
         foreach ($produits_for_page as $counter => $produit):
             ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($produit->getLibelle()); ?>}}}}
+            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($produit->libelle); ?>}}}}
             <?php echo ($counter < count($produits_for_page) -1 ) ? "&" : ''; ?>
         <?php endforeach; ?>
         \\
@@ -104,7 +107,7 @@ $newPage = false;
 
             \multicolumn{1}{|l|}{  \small{<?php echo $entree->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
-                \multicolumn{1}{r|}{ \small{<?php echoFloatWithHl(($produit->entrees->exist($entreeKey)) ? $produit->entrees->$entreeKey : null) ; ?>}}
+                \multicolumn{1}{r|}{ \small{<?php echoFloatWithHl((($produit->entrees instanceof acCouchdbJson && $produit->entrees->exist($entreeKey)) || isset($produit->entrees->$entreeKey)) ? $produit->entrees->$entreeKey : null) ; ?>}}
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>
             \\
@@ -137,7 +140,7 @@ $newPage = false;
 
             \multicolumn{1}{|l|}{  \small{<?php echo $sortie->libelle; ?>} } &
             <?php foreach ($produits_for_page as $counter => $produit): ?>
-                \multicolumn{1}{r|}{  \small{\color{black}{<?php echoFloatWithHl(($produit->sorties->exist($sortieKey)) ? $produit->sorties->$sortieKey : null); ?>}}}
+                \multicolumn{1}{r|}{  \small{\color{black}{<?php echoFloatWithHl((($produit->sorties instanceof acCouchdbJson && $produit->sorties->exist($sortieKey)) || isset($produit->sorties->$sortieKey)) ? $produit->sorties->$sortieKey : null); ?>}}}
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>
             \\
