@@ -10,6 +10,9 @@ $newPage = false;
 if(!isset($data)) {
     $data = $drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes);
 }
+if(!isset($tabTitle)) {
+    $tabTitle = "Produits";
+}
 ?>
 
 <?php foreach ($data as $certification => $produitsDetailsByCertifications) : ?>
@@ -71,7 +74,7 @@ if(!isset($data)) {
         \cline{2-<?php echo $maxCol-1; ?>}
 
         \begin{large}
-        \textbf{Produits <?php echo $libelleCertif; ?>}
+        \textbf{<?php echo $tabTitle ?> <?php echo $libelleCertif; ?>}
         \end{large} &
         <?php
         foreach ($produits_for_page as $counter => $produit):

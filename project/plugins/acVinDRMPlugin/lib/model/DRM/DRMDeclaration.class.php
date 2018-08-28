@@ -81,7 +81,7 @@ class DRMDeclaration extends BaseDRMDeclaration {
         $recap = array();
         foreach ($this->certifications as $certification) {
             $recap[$certification->getHash()] = new stdClass();
-            $recap[$certification->getHash()]->certification_libelle = $certification->getLibelle();
+            $recap[$certification->getHash()]->certification_libelle = $certification->getConfig()->getLibelle();
             $recap[$certification->getHash()]->produits = array();
             foreach ($certification->genres as $genre) {
                 foreach ($genre->appellations as $appellation) {
