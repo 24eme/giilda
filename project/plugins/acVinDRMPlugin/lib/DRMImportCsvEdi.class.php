@@ -775,7 +775,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $libellesSlugified[] = strtoupper(KeyInflector::slugify($libelle));
         }
         $genreKey = $produit->getGenre()->getKey();
-        $genreLibelle = self::$genres[$genreKey];
+        if(isset(self::$genres[$genreKey])) {
+            $genreLibelle = self::$genres[$genreKey];
+        } else {
+            $genreLibelle = null;
+        }
         $libellesSlugified[1] = strtoupper(KeyInflector::slugify($genreLibelle));
         if(($libellesSlugified[0] == "AOC") && $withAOP){
             $libellesSlugified[0]="AOP";
