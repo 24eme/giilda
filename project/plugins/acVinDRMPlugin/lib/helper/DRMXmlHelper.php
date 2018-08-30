@@ -148,7 +148,7 @@ function centilisation2Douane($c, $libelle) {
 			'0.050000' => 'BIB_500',
 			'0.080000' => 'BIB_800',
 			'0.100000' => 'BIB_1000');
-		if ($ret = $bib[sprintf('%.f', $c)]) {
+		if (isset($bib[sprintf('%.f', $c)]) && $ret = $bib[sprintf('%.f', $c)]) {
 			return $ret;
 		}
 		return "AUTRE";
@@ -168,7 +168,7 @@ function centilisation2Douane($c, $libelle) {
 		'0.015000' => 'CL_150',
 		'0.017500' => 'CL_175',
 		'0.020000' => 'CL_200');
-		if ($ret = $bouteilles[sprintf('%.f', $c)]) {
+		if (isset($bouteilles[sprintf('%.f', $c)]) && $ret = $bouteilles[sprintf('%.f', $c)]) {
 			return $ret;
 		}
 		return "AUTRE";
@@ -283,4 +283,34 @@ function xmlPartOfToTable($flatXml,$regexs = array(),$withRemove = false){
 		}
 	}
 	return xmlGetNodesToTable($partOfFlatXml);
+}
+
+function xmlProduitLibelle($produit) {
+	return trim(html_entity_decode((($produit->produit_libelle) ? $produit->produit_libelle : $produit->getLibelle('%format_libelle% %la%')), ENT_QUOTES | ENT_HTML401));
+}
+
+function xmlGetProduitsDetails($drm, $bool, $suspendu_acquitte) {
+	$produits = array();
+	$produits_faits = array();
+	foreach ($drm->getProduitsDetails($bool, $suspendu_acquitte) as $produit) {
+		$produit_libelle = xmlProduitLibelle($produit);
+		if (isset($produits_faits[$produit_libelle])) {
+			continue;
+		}
+		$produits_faits[$produit_libelle] = $produit_libelle;
+		$produits[] = $produit;
+	}
+	if (preg_match('/08$/', $drm->periode)) {
+		$drm_juillet = DRMClient::getInstance()->find(preg_replace('/08$/', '07', $drm->_id));
+		$drm_juillet->init(array("keepStock" => false));
+		foreach ($drm_juillet->getProduitsDetails($bool, $suspendu_acquitte) as $produit) {
+			$produit_libelle = xmlProduitLibelle($produit);
+			if (isset($produits_faits[$produit_libelle])) {
+				continue;
+			}
+			$produits_faits[$produit_libelle] = $produit_libelle;
+			$produits[] = $produit;
+		}
+	}
+	return $produits;
 }
