@@ -33,8 +33,10 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     	return ConfigurationClient::getConfiguration($date);
     }
     
-    public function getProduitsConfig() {
-    	$date = (!$this->date) ? date('Y-m-d') : $this->date;
+    public function getProduitsConfig($date = null) {
+    	if (!$date || !preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
+    		$date = (!$this->date) ? date('Y-m-d') : $this->date;
+    	}
     
     	return $this->getConfig()->formatProduits($date, "%format_libelle%", array());
     }
@@ -48,7 +50,12 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     }
     
     public function getTypes() {
-    	return array('IMPORTATEUR' => 'Importateur', 'NEGOCIANT_REGION' => 'Négociant/Union Vallée du Rhône', 'NEGOCIANT_HORS_REGION' => 'Négociant hors région', 'GD' => 'Grande Distribution', 'DISCOUNT' => 'Hard Discount', 'GROSSISTE' => 'Grossiste-CHR', 'CAVISTE' => 'Caviste', 'VD' => 'Vente directe', 'AUTRE' => 'Autre');
+
+        return DAEClient::$types;
+    }
+    
+    public function getContenances() {
+    	return array_merge(array('HL' => 'HL'), VracConfiguration::getInstance()->getContenances());
     }
     
     public function getDateObject()

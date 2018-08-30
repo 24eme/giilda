@@ -173,7 +173,7 @@ class DRMDetail extends BaseDRMDetail {
             if (preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations')) {
-                  $this->add('observations',$entree);
+                  $this->add('observations'," ");
                 }
             }
           }
@@ -183,7 +183,7 @@ class DRMDetail extends BaseDRMDetail {
             if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations')) {
-                  $this->add('observations',$sortie);
+                  $this->add('observations'," ");
                 }
             }
           }
@@ -486,7 +486,6 @@ class DRMDetail extends BaseDRMDetail {
         $genreKey = $this->getGenre()->getKey();
 
         foreach ($this->getEntrees() as $entreeKey => $entree) {
-            $entreeKey = str_replace('_details', '', $entreeKey);
             if (!$this->getConfig()->exist('entrees/' . $entreeKey)) {
                 continue;
             }
@@ -498,15 +497,11 @@ class DRMDetail extends BaseDRMDetail {
             }
         }
         foreach ($this->getSorties() as $sortieKey => $sortie) {
-
-            $sortieKey = str_replace('_details', '', $sortieKey);
             if (!$this->getConfig()->exist('sorties/' . $sortieKey)) {
                 continue;
             }
             $sortieConf = $this->getConfig()->get('sorties/' . $sortieKey);
-
             $sortieDrm = $this->get('sorties/' . $sortieKey);
-
 
             if ($sortieConf->taxable_douane && $sortieDrm && $sortieDrm > 0) {
                 $droitsNode->updateDroitDouane($genreKey, $cepageConfig, $sortieDrm, false);

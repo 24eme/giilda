@@ -32,7 +32,7 @@ function getFrPeriodeElision($periode) {
     $annee = substr($periode, 0, 4);
     $mois = substr($periode, 4, 2);
     $date = $annee . '-' . $mois . '-01';
-    return elision('de', ucfirst(format_date($date, "MMMM", "fr_FR"))) . ' ' . $annee;
+    return elision('de', format_date($date, "MMMM", "fr_FR")) . ' ' . $annee;
 }
 
 function getNumberOfFirstProduitWithMovements($produits) {
@@ -105,6 +105,9 @@ function getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $et
     }
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
+    }
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE_BLOQUEE) {
+        return "Saisie impossible";
     }
     if ($isTeledeclarationMode) {
         return 'Saisie interne';
@@ -202,6 +205,10 @@ function getEtatDRMLibelleCalendrier($isTeledeclarationMode, $calendrier, $perio
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
 
         return !$picto ? 'A créer': '<span class="glyphicon glyphicon-plus"></span>';
+    }
+    if ($statut == DRMCalendrier::STATUT_NOUVELLE_BLOQUEE) {
+
+        return !$picto ? "Une DRM est en cours d'édition": '<span style="opacity: 0.5;" class="glyphicon glyphicon-ban-circle"></span>';
     }
 
     return $statut;

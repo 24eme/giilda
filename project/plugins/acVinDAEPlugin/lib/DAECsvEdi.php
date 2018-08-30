@@ -47,11 +47,7 @@ class DAECsvEdi extends CsvFile {
     protected $daes = null;
     protected $csv = null;
 
-
-    protected static $genres = array('MOU' => 'Mousseux', 'EFF' => 'Effervescent', 'TRANQ' => 'Tranquille');
-
-    public function __construct($file, $daes = array()) {
-        $this->daes = $daes;
+    public function __construct($file) {
         $this->buildCountryList();
         parent::__construct($file);
     }

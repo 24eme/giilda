@@ -113,7 +113,7 @@ class DAENouveauForm extends acCouchdbObjectForm
 
     public function getContenances() {
         if (is_null($this->_choices_contenances)) {
-            $this->_choices_contenances = array_merge(array('HL' => 'HL'), VracConfiguration::getInstance()->getContenances());
+            $this->_choices_contenances = $this->getObject()->getContenances();
         }
         return $this->_choices_contenances;
     }

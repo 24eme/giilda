@@ -9,16 +9,21 @@
         <?php foreach ($calendrier->getEtablissements() as $etb): ?>
             <div id="calendrier_item_<?php echo $periode ?>_<?php echo $etb->identifiant ?>" style="<?php if($multiEtablissement): ?>display: none;<?php endif; ?>">
                 <div class="text-center">
-                    <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
+                    <p class="etablissement_nom"><?php echo $etb->nom; ?></p>
+                    <p class="etablissement_identifiant"><?php echo $etb->identifiant; ?></p>
                     <p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?></span>&nbsp;<?php echo getPointAideHtml('drm','etats') ?><br/>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
                     <?php $lien = getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?>
+                    <?php if ($lien) : ?>
                     <a <?php if(preg_match("/^#/", $lien)): ?>data-toggle="modal"<?php endif; ?>
                         href="<?php echo $lien ?>"
                         class="btn <?php echo getClassButtonEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?> btn-block <?php echo (!$multiEtablissement && $lastDrmToCompleteAndToStart->getRawValue()->periode == $periode)? ' to_autofocus ' : ''; ?>
-                        <?php if (!$lien) : ?>invisible<?php endif; ?>"
+                        "
                     >
                         <?php echo getEtatDRMLibelleCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb, false); ?>
                     </a>
+                    <?php else: ?>
+                        <i class="btn disabled btn-block"><?php echo getEtatDRMLibelleCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb, false); ?></i>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php if($multiEtablissement): ?>
