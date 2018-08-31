@@ -556,6 +556,9 @@ class vracActions extends sfActions {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
 
+        if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE && ! $this->isTeledeclarationMode &&  $this->vrac->teledeclare) {
+          return $this->redirect('vrac_visualisation', $this->vrac);
+        }
 
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
@@ -570,8 +573,6 @@ class vracActions extends sfActions {
 
             $this->etablissementPrincipal = EtablissementClient::getInstance()->retrieveById($this->vrac->createur_identifiant);
         }
-
-
         $this->redirect403IfIsNotTeledeclarationAndNotResponsable();
 
         $this->contratNonSolde = ((!is_null($this->vrac->valide->statut)) && ($this->vrac->valide->statut != VracClient::STATUS_CONTRAT_SOLDE));
