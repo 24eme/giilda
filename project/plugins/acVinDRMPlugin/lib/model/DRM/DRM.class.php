@@ -1201,7 +1201,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function initProduitsAutres($isTeledeclarationMode){
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
-        if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
+        if(preg_match("|/declaration/certifications/AUTRES/|",$hash)){
           $this->addProduit($hash,self::DETAILS_KEY_SUSPENDU);
         }
       }
