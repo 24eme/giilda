@@ -1,6 +1,5 @@
 {
    "_id": "CONFIGURATION-20170801",
-   "_rev": "38-72f6b6de80584b320cfb0cab2b962eaf",
    "type": "Configuration",
    "campagne": null,
    "labels": {
@@ -1717,7 +1716,7 @@
                                                                "code": "KL",
                                                                "code_produit": null,
                                                                "code_comptable": null,
-                                                               "code_douane": "1B054S 1",
+                                                               "code_douane": "1B054S",
                                                                "cepages_autorises": [
                                                                ],
                                                                "interpro": {
