@@ -1,4 +1,4 @@
-certification ,genre ,appellation ,mention ,lieu,couleur,cepage,libelle complet
+certification,genre,appellation,mention,lieu,couleur,cepage,libelle complet
 AOP,Tranquille,Anjou,,,Blanc,,Anjou Blanc
 AOP,Tranquille,Anjou,,,Rouge,Gamay,Anjou Gamay
 AOP,Tranquille,Anjou,,,Rouge,,Anjou Rouge
@@ -74,6 +74,7 @@ AOP,Tranquille,St Nicolas de Bourgueil,,,Rouge,Cabernet Franc,St Nicolas de Bour
 AOP,Tranquille,St Nicolas de Bourgueil,,,Rosé,Cabernet Franc,St Nicolas de Bourgueil Rosé
 AOP,Tranquille,Touraine,,,Blanc,,Touraine Blanc
 AOP,Tranquille,Touraine,,,Rouge,,Touraine Rouge
+AOP,Tranquille,Touraine,,,Rouge,Gamay,Touraine Rouge Gamay
 AOP,Tranquille,Touraine,,,Rosé,,Touraine Rosé
 AOP,Tranquille,Touraine,,Amboise,Blanc,Chenin,Touraine Amboise Blanc
 AOP,Tranquille,Touraine,,Amboise,Rouge,,Touraine Amboise Rouge
@@ -138,16 +139,22 @@ AOP,Tranquille,Orléans,,,Blanc,,Orléans Blanc
 AOP,Tranquille,Orléans,,,Rouge,,Orléans Rouge
 AOP,Tranquille,Orléans,,,Rosé,,Orléans Rosé
 AOP,Tranquille,Orléans,,Cléry,Rouge,,Orléans Cléry
+AOP,Tranquille,Cour-Cheverny,,,Blanc,,Cour-Cheverny
 AOP,Tranquille,Saint Pourçain,,,Blanc,,Saint Pourçain Blanc
 AOP,Tranquille,Saint Pourçain,,,Rouge,,Saint Pourçain Rouge
 AOP,Tranquille,Saint Pourçain,,,Rosé,,Saint Pourçain Rosé
 AOP,Tranquille,Alsace grand cru,SGN,(SCHLOSSBERG),Blanc,(RIESLING),Alsace grand cru Blanc SGN
 AOP,Tranquille,Alsace grand cru,SGN,(SCHBG),Blanc,Riesling,Alsace grand cru Blanc SGN Riesling
 AOP,Tranquille,Gaillac,,,Rouge,,Gaillac Rouge
-AOP,Tranquille,AOP autres que celles du Val de Loire Tranquilles,,,,,AOP autres que celles du Val de Loire Tranquilles
+AOP,Tranquille,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire
+AOP,Tranquille,Bordeaux supérieur,,,Rouge,,Bordeaux supérieur Rouge
+AOP,Tranquille,Côtes du Rhône Villages,,,Rouge,,Côtes du Rhône Villages Rouge
+AOP,Tranquille,Côtes du Rhône Villages,,,Blanc,,Côtes du Rhône Villages Blanc
+AOP,Tranquille,Côtes de Provence,,,Rouge,,Côtes de Provence Rouge
+AOP,Tranquille,Coteaux d'Aix-en-Provence,,,Rosé,,Coteaux d'Aix-en-Provence Rosé
 AOP,Mousseux,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire Mousseux
 AOP,Mousseux,Montlouis sur Loire,Pétillant,,Blanc,Chenin,Montlouis sur Loire Pétillant
-AOP,Mousseux,AOP Autres que celles du Val de Loire,,,,,AOP Autres que celles du Val de Loire Mousseux
+AOP,Mousseux,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire Mousseux
 AOP,VCI,Bourgueil,,,Rouge,,VCI Bourgueil Rouge
 AOP,Tranquille,Châteaumeillant,,,Rouge,,Châteaumeillant Rouge
 AOP,Tranquille,Châteaumeillant,,,Rosé,,Châteaumeillant Rosé
@@ -215,16 +222,18 @@ IGP,Tranquille,Côteaux de Tannay,,,Rosé,,IGP Côteaux de Tannay Rosé
 IGP,Tranquille,Oc,,,Blanc,,IGP Oc Blanc
 IGP,Tranquille,Oc,,,Rosé,,IGP Oc Rosé
 IGP,Tranquille,Oc,,,Rouge,,IGP Oc Rouge
-IGP,Tranquille,Autres vins tranquilles que celles du Val de Loire,,,,,IGP Autres vins tranquilles que celles du Val de Loire
-IGP,Mousseux,Autres vins effervescents que celles du Val de Loire,,,,,IGP Autres vins effervescents que celles du Val de Loire
+IGP,Tranquille,Autres que celles du Val de Loire,,,,,IGP Autres que celles du Val de Loire
+IGP,Tranquille,Calvados,,,Blanc,,IGP Calvados Blanc
+IGP,Tranquille,Calvados,,,Rouge,,IGP Calvados Rouge
+IGP,Mousseux,IGP mousseux,,,,,IGP IGP mousseux
 Autres vins,Tranquille,Vins sans IG,,,Blanc,,Vins sans IG Blanc
 Autres vins,Tranquille,Vins sans IG,,,Rouge,,Vins sans IG Rouge
 Autres vins,Tranquille,Vins sans IG,,,Rosé,,Vins sans IG Rosé
-Autres vins,Tranquille,Vins Tranquilles Etrangers,,,,,Vins Tranquilles Etrangers
+Autres vins,Tranquille,Vins tranquilles étrangers,,,,,Vins tranquilles étrangers
 Autres vins,Mousseux,Vins sans IG,,,Blanc,,Vins sans IG Mousseux Blanc
 Autres vins,Mousseux,Vins sans IG,,,Rouge,,Vins sans IG Mousseux Rouge
 Autres vins,Mousseux,Vins sans IG,,,Rosé,,Vins sans IG Mousseux Rosé
-Autres vins,Mousseux,Vins Etrangers,,,,,Vins Etrangers Mousseux
+Autres vins,Mousseux,Vins mousseux étrangers,,,,,Vins mousseux étrangers
 Autres alcools,,"Bière > 2,8°",,,,,"Bière > 2,8°"
 Autres alcools,,"Bière < 2,8°",,,,,"Bière < 2,8°"
 Autres alcools,,"Cidres, Poirés",,,,,"Cidres, Poirés"
