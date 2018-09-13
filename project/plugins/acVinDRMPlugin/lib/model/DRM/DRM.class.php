@@ -1606,6 +1606,42 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*
     * Fin Observations
     */
+
+
+    /**
+    * Tavs
+    */
+    public function addTavProduit($hash, $tav)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->add("tav",$tav);
+      }
+    }
+
+    public function hasTavs(){
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('tav')){
+          return true;
+        }
+      }
+        return false;
+    }
+
+    public function getTavsArray(){
+      $tavs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+
+        if($detail->exist('tav') && $detail->get('tav')){
+          $tavs[$detail->getLibelle().' ('.$detail->getTypeDRMLibelle().')'] = $detail->get('tav');
+        }
+      }
+      return $tavs;
+    }
+    /**
+    * Fin Tavs
+    */
+
     public function areXMLIdentical() {
       $comp = $this->getXMLComparison();
       return !$comp->hasDiff();
