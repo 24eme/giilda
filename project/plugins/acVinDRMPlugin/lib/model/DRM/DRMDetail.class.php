@@ -12,7 +12,7 @@ class DRMDetail extends BaseDRMDetail {
 
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
-        return $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator);
+        return str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
@@ -24,7 +24,7 @@ class DRMDetail extends BaseDRMDetail {
 
         return $this->getCepage()->getConfig()->getCodeProduit();
     }
-    
+
     public function hasLibelleModified() {
     	return ($this->produit_libelle && $this->produit_libelle !== $this->getLibelle())? true : false;
     }
