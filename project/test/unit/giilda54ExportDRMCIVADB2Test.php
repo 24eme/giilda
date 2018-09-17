@@ -19,36 +19,61 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k =>
   $csv->delete(false);
 }
 
-$preLigneCSV = "CAVE;".$periode.";".$viti->identifiant.";";
+$preLigneCaveCSV = "CAVE;".$periode.";".$viti->identifiant.";";
+$preLigneCRDCSV = "CRD;".$periode.";".$viti->identifiant.";";
 
 $csv = <<<EOF
-$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;entrees;recolte;20;;;
-$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;sorties;export;10;DE;;
-$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_fin;final;90;;;
-$preLigneCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;stocks_fin;final;110;;;
-$preLigneCSV;AOC;;AOC Alsace Communale;;Côte de Rouffach;Rouge;Pinot Noir;;AOC Alsace Communale Côte de Rouffach Pinot Noir (1R057S);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace Communale;;Côte de Rouffach;Rouge;Pinot Noir;;AOC Alsace Communale Côte de Rouffach Pinot Noir (1R057S);suspendu;entrees;recolte;20;;;
-$preLigneCSV;AOC;;AOC Alsace Communale;;Côte de Rouffach;Rouge;Pinot Noir;;AOC Alsace Communale Côte de Rouffach Pinot Noir (1R057S);suspendu;stocks_fin;final;110;;;
-$preLigneCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;stocks_fin;final;110;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;sorties;export;10;ES;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_fin;final;100;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;sorties;export;10;ES;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_fin;final;100;;;
-$preLigneCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;stocks_fin;final;110;;;
-$preLigneCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;stocks_debut;initial;100;;;
-$preLigneCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;stocks_fin;final;110;;;
+$preLigneCaveCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;entrees;recolte;20;;;
+$preLigneCaveCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;sorties;export;10;DE;;
+$preLigneCaveCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_fin;final;90;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;stocks_fin;final;110;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Communale;;Côte de Rouffach;Rouge;Pinot Noir;;AOC Alsace Communale Côte de Rouffach Pinot Noir (1R057S);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Communale;;Côte de Rouffach;Rouge;Pinot Noir;;AOC Alsace Communale Côte de Rouffach Pinot Noir (1R057S);suspendu;entrees;recolte;20;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Communale;;Côte de Rouffach;Rouge;Pinot Noir;;AOC Alsace Communale Côte de Rouffach Pinot Noir (1R057S);suspendu;stocks_fin;final;110;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;stocks_fin;final;110;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;sorties;export;10;ES;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_fin;final;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;sorties;export;10;ES;;
+$preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_fin;final;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;stocks_fin;final;110;;;
+$preLigneCaveCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;stocks_debut;initial;100;;;
+$preLigneCaveCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;stocks_fin;final;110;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;stock_debut;debut;100;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;achats;3;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;retours;2;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;excedents;1;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;sorties;utilisations;3;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;sorties;destructions;2;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;sorties;manquants;1;;;
+$preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;stock_fin;fin;100;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;stock_debut;debut;100;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;achats;3;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;retours;2;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;excedents;1;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;sorties;utilisations;3;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;sorties;destructions;2;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;sorties;manquants;1;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 75 cl;;;;;;;Banalisées suspendues;stock_fin;fin;100;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;stock_debut;debut;100;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;entrees;achats;3;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;entrees;retours;2;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;entrees;excedents;1;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;sorties;utilisations;3;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;sorties;destructions;2;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;sorties;manquants;1;;;
+$preLigneCRDCSV;Bleu;MOUSSEUX;Bouteille 37,5 cl;;;;;;;Banalisées suspendues;stock_fin;fin;100;;;
 EOF;
 
 $tmpfname = tempnam("/tmp", "DRM_");
@@ -162,12 +187,16 @@ function convertPaysDB2($code, $paysDB2) {
 
 $db2 = array();
 $db2Export = array();
+$db2CRD = array();
+$drms = array();
 
 foreach($mouvements as $mouvement) {
-    print_r($mouvement);
     $produit = convertProduitDB2($mouvement->produit_hash);
     $mouvementType = convertMouvementDB2($mouvement->type_hash, $correspondances);
     $identifiantPeriode = $drm->identifiant."-".$drm->periode;
+    if(!isset($drms[$identifiantPeriode]) || $drms[$identifiantPeriode]->_id < $drm->_id) {
+        $drms[$identifiantPeriode] = DRMClient::getInstance()->find($drm->_id, acCouchdbClient::HYDRATE_JSON);
+    }
     if(!$produit) {
         continue;
     }
@@ -195,11 +224,40 @@ foreach($mouvements as $mouvement) {
 
     $db2[$identifiantPeriode][$produit][$mouvementType] += $mouvement->volume;
     ksort($db2[$identifiantPeriode][$produit]);
-
     //print_r($mouvement->toArray(true, false));
 }
+
+foreach($drms as $drm) {
+    $identifiantPeriode = $drm->identifiant."-".$drm->periode;
+    foreach($drm->crds as $regimes) {
+        foreach($regimes as $ligne) {
+            $centilisation = str_replace(".", ",", ($ligne->centilitrage*10000));
+            if(!isset($db2CRD[$identifiantPeriode][$centilisation])) {
+                $db2CRD[$identifiantPeriode][$centilisation]["08.UTILISATION/VERT"] = 0;
+                $db2CRD[$identifiantPeriode][$centilisation]["09.UTILISATION/BLEU"] = 0;
+                $db2CRD[$identifiantPeriode][$centilisation]["10.DESTRUCTION/VERT"] = 0;
+                $db2CRD[$identifiantPeriode][$centilisation]["11.DESTRUCTION/BLEU"] = 0;
+            }
+            if($ligne->couleur == "VERT" && $ligne->sorties_utilisations) {
+                $db2CRD[$identifiantPeriode][$centilisation]["08.UTILISATION/VERT"] += $ligne->sorties_utilisations;
+            }
+            if($ligne->couleur == "VERT" && $ligne->sorties_destructions) {
+                $db2CRD[$identifiantPeriode][$centilisation]["10.DESTRUCTION/VERT"] += $ligne->sorties_destructions;
+            }
+            if($ligne->couleur == "BLEU" && $ligne->sorties_utilisations) {
+                $db2CRD[$identifiantPeriode][$centilisation]["09.UTILISATION/BLEU"] += $ligne->sorties_utilisations;
+            }
+            if($ligne->couleur == "BLEU" && $ligne->sorties_destructions) {
+                $db2CRD[$identifiantPeriode][$centilisation]["11.DESTRUCTION/BLEU"] += $ligne->sorties_destructions;
+            }
+        }
+        krsort($db2CRD[$identifiantPeriode]);
+    }
+}
+
 print_r($db2);
 print_r($db2Export);
+print_r($db2CRD);
 
 foreach($db2 as $identifiantPeriode => $volumes) {
     $parts = explode("-", $identifiantPeriode);
@@ -217,7 +275,7 @@ foreach($db2 as $identifiantPeriode => $volumes) {
                 echo ",".$volume;
             }
         }
-        echo ",20180901,\"TELDECLARATION\"\n";
+        echo ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\"\n";
     }
 }
 
@@ -235,7 +293,22 @@ foreach($db2Export as $identifiantPeriode => $infos) {
             }
             echo ",".$volume*-1;
         }
-        echo ",20180901,\"TELDECLARATION\"\n";
+        echo ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\"\n";
+        $compteur++;
+    }
+}
+
+foreach($db2CRD as $identifiantPeriode => $centilisations) {
+    $parts = explode("-", $identifiantPeriode);
+    $identifiant = $parts[0];
+    $periode = $parts[1];
+    $compteur = 1;
+    foreach($centilisations as $centilisation => $sorties) {
+        echo "07.DRMCRD:".substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0,".$compteur.",\"".$centilisation."\"";
+        foreach($sorties as $sortie) {
+            echo ",".$sortie;
+        }
+        echo ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\"\n";
         $compteur++;
     }
 }
