@@ -23,7 +23,8 @@ $preLigneCSV = "CAVE;".$periode.";".$viti->identifiant.";";
 $csv = <<<EOF
 $preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_debut;initial;100;;;
 $preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;entrees;recolte;20;;;
-$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_fin;final;110;;;
+$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;sorties;export;10;DE;;
+$preLigneCSV;AOC;;AOC Alsace blanc;;;;Chasselas;;AOC Alsace blanc Chasselas (1B001S 5);suspendu;stocks_fin;final;90;;;
 $preLigneCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;stocks_debut;initial;100;;;
 $preLigneCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;entrees;recolte;10;;;
 $preLigneCSV;AOC;;AOC Alsace Lieu-dit;;;Blanc;Riesling;;AOC Alsace Lieu-dit Riesling (1B070S04);suspendu;stocks_fin;final;110;;;
@@ -35,10 +36,12 @@ $preLigneCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsa
 $preLigneCSV;AOC;;AOC Alsace Communale;;Vallée Noble;Blanc;Pinot Gris;;AOC Alsace Communale Vallée Noble Pinot Gris (1B062S03);suspendu;stocks_fin;final;110;;;
 $preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_debut;initial;100;;;
 $preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_fin;final;110;;;
+$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;sorties;export;10;ES;;
+$preLigneCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Grand Cru Sommerberg Riesling (1B039S 4);suspendu;stocks_fin;final;100;;;
 $preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_debut;initial;100;;;
 $preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;entrees;recolte;10;;;
-$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_fin;final;110;;;
+$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;sorties;export;10;ES;;
+$preLigneCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;stocks_fin;final;100;;;
 $preLigneCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;stocks_debut;initial;100;;;
 $preLigneCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;entrees;recolte;10;;;
 $preLigneCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;stocks_fin;final;110;;;
@@ -75,6 +78,8 @@ $drm = DRMClient::getInstance()->find('DRM-'.$viti->identifiant.'-'.$periode);
 
 $mouvements = $drm->mouvements->get($viti->identifiant);
 
+$produitsDB2 = array("01.BLANC", "02.ROUGE", "03.GRDCRU", "04.CREMANT");
+
 $correspondances = array(
     "entrees/recolte"                    => "01.DRMDEM/06.Entrées",
     "entrees/achatnoncrd"                => "01.DRMDEM/10.Achats vrac + bouteilles sans CRD (Propriété)",
@@ -85,14 +90,32 @@ $correspondances = array(
     "sorties/vracsanscontratsuspendu"    => "02.DRMDSS/06.B - Hors région Alsace (UE - pays tiers ou autre EA en France)",
     "sorties/vrac"                       => "02.DRMDSS/10.C - Vrac",
     "sorties/bouteillenue"               => "02.DRMDSS/14.D - Expeditions en Alsace en bouteilles",
-    "sorties/"                           => "03.DRMDSE/06.I - Vers un utilisateur autorisé",
-    "sorties/"                           => "03.DRMDSE/10.J - Dégustations à la propriété",
-    "sorties/"                           => "04.DRMDS0/06.K - Replis",
-    "sorties/"                           => "04.DRMDSO/10.L - Lies",
-    "sorties/"                           => "05.DRMDSA/06.A - (75 cl) CRD ou DS/DSAC France",
-    "sorties/"                           => "05.DRMDSA/10.A - CRD ou DS/DSAC France",
-    "sorties/"                           => "05.DRMDSA/14.A bis - DSA/DSAC Hors France Métropolitaine",
+    "sorties/0"                          => "03.DRMDSE/06.I - Vers un utilisateur autorisé",
+    "sorties/1"                          => "03.DRMDSE/10.J - Dégustations à la propriété",
+    "sorties/2"                          => "04.DRMDSO/06.K - Replis",
+    "sorties/3"                          => "04.DRMDSO/10.L - Lies",
+    "sorties/4"                          => "05.DRMDSA/06.A - (75 cl) CRD ou DS/DSAC France",
+    "sorties/5"                          => "05.DRMDSA/10.A - CRD ou DS/DSAC France",
+    "sorties/6"                          => "05.DRMDSA/14.A bis - DSA/DSAC Hors France Métropolitaine",
 );
+
+$paysDB2 = array(
+    "FR" => "001", "NL" => "003", "DE" => "004", "IT" => "005", "GB" => "006", "IE" => "007", "DK" => "008", "GR" => "009", "PT" => "010", "ES" => "011", "BE" => "017", "LU" => "018", "IS" => "024", "NO" => "028", "SE" => "030", "FI" => "032", "LI" => "037", "AT" => "038", "CH" => "039", "AD" => "043", "GI" => "044", "MT" => "046", "TR" => "052", "EE" => "053", "LV" => "054", "LT" => "055", "PL" => "060", "CZ" => "061", "SK" => "063", "HU" => "064", "RO" => "066", "BG" => "068", "AL" => "070", "UA" => "072", "BY" => "073", "MD" => "074", "RU" => "075", "GE" => "076", "AM" => "077", "AZ" => "078", "KZ" => "079", "TM" => "080", "UZ" => "081", "TJ" => "082", "KG" => "083", "SI" => "091", "HR" => "092", "BA" => "093", "RS" => "094", "ME" => "095", "MK" => "096", "MA" => "204", "DZ" => "208", "TN" => "212", "LY" => "216", "EG" => "220", "SD" => "224", "MR" => "228", "ML" => "232", "BF" => "236", "NE" => "240", "TD" => "244", "SN" => "248", "GM" => "252", "GN" => "260", "SL" => "264", "LR" => "268", "CI" => "272", "GH" => "276", "TG" => "280", "BJ" => "284", "NG" => "288", "CM" => "302", "CF" => "306", "GQ" => "310", "GA" => "314", "CG" => "318", "RW" => "324", "BI" => "328", "AO" => "330", "ET" => "334", "DJ" => "338", "SO" => "342", "KE" => "346", "UG" => "350", "TZ" => "352", "SC" => "355", "MG" => "370", "RE" => "372", "MU" => "373", "KM" => "375", "YT" => "377", "ZM" => "378", "ZA" => "388", "NA" => "389", "BW" => "391", "US" => "400", "CA" => "404", "GL" => "406", "PM" => "408", "MX" => "412", "BM" => "413", "GT" => "416", "BZ" => "421", "HN" => "424", "SV" => "428", "NI" => "432", "CR" => "436", "PA" => "442", "AI" => "446", "CU" => "448", "KN" => "449", "HT" => "452", "BS" => "453", "TC" => "454", "DO" => "456", "VI" => "457", "GP" => "458", "AG" => "459", "DM" => "460", "MQ" => "462", "KY" => "463", "JM" => "464", "LC" => "465", "VC" => "467", "VG" => "468", "BB" => "469", "MS" => "470", "TT" => "472", "AW" => "474", "AN" => "478", "CO" => "480", "VE" => "484", "SR" => "492", "GF" => "496", "MF" => "499", "EC" => "500", "PE" => "504", "BR" => "508", "CL" => "512", "BO" => "516", "PY" => "520", "UY" => "524", "AR" => "528", "CY" => "600", "LB" => "604", "SY" => "608", "IQ" => "612", "IR" => "616", "IL" => "624", "JO" => "628", "SA" => "632", "BH" => "640", "QA" => "644", "AE" => "647", "OM" => "649", "YE" => "653", "PK" => "662", "IN" => "664", "BD" => "666", "MV" => "667", "LK" => "669", "NP" => "672", "MM" => "676", "TH" => "680", "LA" => "684", "VN" => "690", "KH" => "696", "ID" => "700", "MY" => "701", "SG" => "706", "PH" => "708", "MN" => "716", "CN" => "720", "BT" => "721", "KR" => "728", "JP" => "732", "TW" => "736", "HK" => "740", "MO" => "743", "AU" => "800", "PG" => "801", "NZ" => "804", "SB" => "806", "NC" => "809", "AS" => "810", "WF" => "811", "VU" => "816", "WS" => "819", "PF" => "822", "AUTRE" => "999",
+);
+
+$structure = array();
+
+foreach($correspondances as $item) {
+    $parts = explode("/", $item);
+    $file = $parts[0];
+    $volumeType = $parts[1];
+
+    if(!isset($structure[$file])) {
+        $structure[$file] = array();
+    }
+
+    $structure[$file][$volumeType] = $produitsDB2;
+}
 
 function convertProduitDB2($hash) {
     if(!preg_match('#/AOC_ALSACE#', $hash)) {
@@ -127,14 +150,34 @@ function convertMouvementDB2($typeHash, $correspondances) {
     return $correspondances[$typeHash];
 }
 
+function convertPaysDB2($code, $paysDB2) {
+    if(!isset($paysDB2[$code])) {
+
+        $code = "AUTRE";
+    }
+
+    return $paysDB2[$code];
+}
+
 $db2 = array();
+$db2Export = array();
 
 foreach($mouvements as $mouvement) {
+    print_r($mouvement);
     $produit = convertProduitDB2($mouvement->produit_hash);
     $mouvementType = convertMouvementDB2($mouvement->type_hash, $correspondances);
     $identifiantPeriode = $drm->identifiant."-".$drm->periode;
     if(!$produit) {
         continue;
+    }
+    if(preg_match("/export/", $mouvement->type_hash) && $mouvement->detail_identifiant) {
+        $pays = convertPaysDB2($mouvement->detail_identifiant, $paysDB2);
+        if(!isset($db2Export[$identifiantPeriode][$pays][$produit])) {
+            $db2Export[$identifiantPeriode][$pays][$produit] = 0;
+        }
+        $db2Export[$identifiantPeriode][$pays][$produit] += $mouvement->volume;
+        ksort($db2Export[$identifiantPeriode]);
+        ksort($db2Export[$identifiantPeriode][$pays]);
     }
     if(!$mouvementType) {
         continue;
@@ -152,7 +195,46 @@ foreach($mouvements as $mouvement) {
     $db2[$identifiantPeriode][$produit][$mouvementType] += $mouvement->volume;
     ksort($db2[$identifiantPeriode][$produit]);
 
-    print_r($mouvement->toArray(true, false));
+    //print_r($mouvement->toArray(true, false));
+}
+print_r($db2);
+print_r($db2Export);
+
+foreach($db2 as $identifiantPeriode => $volumes) {
+    $parts = explode("-", $identifiantPeriode);
+    $identifiant = $parts[0];
+    $periode = $parts[1];
+    foreach($structure as $file => $infos) {
+        echo $file.":";
+        echo substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0";
+        foreach($infos as $mouvementType => $produits) {
+            foreach($produits as $produit) {
+                $volume = 0;
+                if(isset($volumes[$produit][$file."/".$mouvementType])) {
+                    $volume = $volumes[$produit][$file."/".$mouvementType];
+                }
+                echo ",".$volume;
+            }
+        }
+        echo ",20180901,\"TELDECLARATION\"\n";
+    }
 }
 
-print_r($db2);
+foreach($db2Export as $identifiantPeriode => $infos) {
+    $parts = explode("-", $identifiantPeriode);
+    $identifiant = $parts[0];
+    $periode = $parts[1];
+    $compteur = 1;
+    foreach($infos as $pays => $produits) {
+        echo "06.DRMAX:".substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0,".$compteur.",".$pays*1;
+        foreach($produitsDB2 as $produit) {
+            $volume = 0;
+            if(isset($produits[$produit])) {
+                $volume = $produits[$produit];
+            }
+            echo ",".$volume*-1;
+        }
+        echo ",20180901,\"TELDECLARATION\"\n";
+        $compteur++;
+    }
+}
