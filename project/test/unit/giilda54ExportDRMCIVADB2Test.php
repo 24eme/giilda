@@ -3,7 +3,8 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
 if($application != "civa") {
-    exit;
+    $t = new lime_test(0);
+    exit(0);
 }
 
 $viti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
