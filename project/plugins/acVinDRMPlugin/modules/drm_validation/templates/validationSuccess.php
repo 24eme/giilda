@@ -19,7 +19,7 @@
                 <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_validation_texte1'); ?></p>
                 <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>
-            <?php if (!$isTeledeclarationMode && $drm->isCreationAuto() && !$drm->getMother()->isCreationAuto()): ?>
+            <?php if (!$isTeledeclarationMode && $drm->isCreationAuto() && $drm->getMother() && !$drm->getMother()->isCreationAuto()): ?>
                 <fieldset id="points_vigilance">
                     <ul>
                         <li class="warning">Cette DRM a été ouverte automatiquement car elle présente des différences avec celle de proDou@ne.<br/>
