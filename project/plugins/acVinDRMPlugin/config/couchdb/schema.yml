@@ -236,6 +236,7 @@ DRM:
                                                                                                             code_inao: { }
                                                                                                             replacement_date: { required: false }
                                                                                                             observations: { required: false }
+                                                                                                            tav: { required: false }
                                                                                                             labels:
                                                                                                               type: array_collection
                                                                                                               definition:

@@ -38,6 +38,7 @@ drm:
   drm_annexes_texte1: "Cette étape vous permet d’effectuer des déclarations annexes à la DRM."
   drm_annexes_texte2: "Listez les documents d’accompagnement utilisés au cours du mois."
   drm_annexes_texte3: "Listez les documents non apurés."
+  drm_annexes_texte4: "Veuillez indiquer ci dessous vos TAV pour l'ensemble de vos alcools."
   drm_annexes_aide1: "Pour chacun des types de documents, notez le numéro de début et le numéro de fin de la série de documents.<br/>Si les numéros ont été renseignés lors de l’étape 2 de la déclaration, ils apparaissent automatiquement"
   drm_annexes_aide2: "Indiquez le numéro des documents non apurés. Ajoutez autant de lignes qu’il y a de documents non apurés."
   drm_annexes_aide3: "Renseignez la date d’expédition en utilisant le calendrier."
