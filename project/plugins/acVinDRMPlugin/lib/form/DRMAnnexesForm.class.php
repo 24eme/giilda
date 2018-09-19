@@ -46,6 +46,8 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $observations = new DRMObservationsCollectionForm($this->drm);
         $this->embedForm('observationsProduits', $observations);
 
+        $tavs = new DRMTavsCollectionForm($this->drm);
+        $this->embedForm('tavsProduits', $tavs);
 
         $this->setWidget('quantite_sucre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
         $this->widgetSchema->setLabel('quantite_sucre', 'Quantités de sucre (en quintaux)');
@@ -86,7 +88,7 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
             $this->drm->getOrAdd('documents_annexes')->getOrAdd($docType)->nb = $values[$docType . '_nb'];
         }
         foreach ($this->getEmbeddedForms() as $key => $releveNonApurementForm) {
-          if($key!="observationsProduits"){
+          if($key!="observationsProduits" && $key!="tavsProduits"){
             $releveNonApurementForm->updateObject($values[$key]);
             }
         }
@@ -105,6 +107,11 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
             if (isset($observation['replacement_date'])) {
               $this->drm->addReplacementDateProduit($hash, $observation['replacement_date']);
             }
+          }
+        }
+        if ($tavs = $values['tavsProduits']) {
+          foreach ($tavs as $hash => $tav) {
+            $this->drm->addTavProduit($hash, $tav['tav']);
           }
         }
         $this->drm->etape = DRMClient::ETAPE_VALIDATION;

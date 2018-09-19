@@ -86,3 +86,29 @@
 
     </table>
 <?php endif; ?>
+<?php if($drm->hasTavs()): ?>
+    <br/>
+    <h2>TAV enregistrés</h2>
+    <table id="table_drm_tavs" class="table_recap">
+        <thead >
+            <tr>
+                <th>Produits</th><th>Tav</th>
+            </tr>
+        </thead>
+        <tbody class="drm_tavs" id="tavs_list">
+            <?php
+            foreach ($drm->getTavsArray() as $produitLibelle => $tav):
+                ?>
+            <tr>
+                <td class="drm_produit_tavs">
+                    <?php echo $produitLibelle; ?>
+                </td>
+                <td class="drm_volume_tavs">
+                    <?php echoFloat($tav); ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+
+    </table>
+<?php endif; ?>

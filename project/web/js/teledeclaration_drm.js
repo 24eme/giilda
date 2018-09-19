@@ -313,6 +313,7 @@ var initAnnexes = function () {
     genericTogglableSection("apurement");
     genericTogglableSection("statistiques");
     genericTogglableSection("observations");
+    genericTogglableSection("tavs");
     genericTogglableSection("informations");
 }
 
