@@ -89,7 +89,7 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \multicolumn{1}{|C{52mm}}{\small{\textbf{Libellé}}} &
 \multicolumn{1}{|C{52mm}|}{\small{\textbf{Volume}}} &
 \multicolumn{1}{|C{52mm}|}{\small{\textbf{Taux}}} &
-\multicolumn{1}{|C{52mm}|}{\small{\textbf{Total}}}
+\multicolumn{1}{|C{52mm}|}{\small{\textbf{Total du mois}}}
 \\
 \hline
 <?php foreach ($droitsDouane as $droitDouane): ?>
