@@ -11312,6 +11312,12 @@
                                                                            "douane": [
                                                                            ],
                                                                            "cvo": [
+                                                                               {
+                                                                                   "date": "1900-01-01T00:00:00+01:00",
+                                                                                   "taux": -1,
+                                                                                   "code": "CVO",
+                                                                                   "libelle": "Cvo"
+                                                                               }
                                                                            ]
                                                                        },
                                                                        "produit_non_interpro": false
@@ -11924,6 +11930,516 @@
                                                                "code_produit": null,
                                                                "code_comptable": null,
                                                                "code_douane": "VT_IG_AOP",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                           ],
+                                                                           "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "BDXSUP": {
+                               "libelle": "Bordeaux supérieur",
+                               "format_libelle": null,
+                               "code": null,
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": null,
+                               "interpro": {
+                                   "INTERPRO-inter-loire": {
+                                       "labels": [
+                                       ],
+                                       "droits": {
+                                           "douane": [
+                                           ],
+                                           "cvo": [
+                                           ]
+                                       }
+                                   }
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                           "INTERPRO-inter-loire": {
+                                               "labels": [
+                                               ],
+                                               "droits": {
+                                                   "douane": [
+                                                   ],
+                                                   "cvo": [
+                                                   ]
+                                               }
+                                           }
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                                   "INTERPRO-inter-loire": {
+                                                       "labels": [
+                                                       ],
+                                                       "droits": {
+                                                           "douane": [
+                                                           ],
+                                                           "cvo": [
+                                                           ]
+                                                       }
+                                                   }
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": 1,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "1R105S2",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                           ],
+                                                                           "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "CDRVIL": {
+                               "libelle": "Côtes du Rhône Villages",
+                               "format_libelle": null,
+                               "code": null,
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                                   "INTERPRO-inter-loire": {
+                                       "labels": [
+                                       ],
+                                       "droits": {
+                                           "douane": [
+                                           ],
+                                           "cvo": [
+                                           ]
+                                       },
+                                       "produit_non_interpro": false
+                                   }
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                           "INTERPRO-inter-loire": {
+                                               "labels": [
+                                               ],
+                                               "droits": {
+                                                   "douane": [
+                                                   ],
+                                                   "cvo": [
+                                                   ]
+                                               }
+                                           }
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                                   "INTERPRO-inter-loire": {
+                                                       "labels": [
+                                                       ],
+                                                       "droits": {
+                                                           "douane": [
+                                                           ],
+                                                           "cvo": [
+                                                           ]
+                                                       }
+                                                   }
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": 1,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "1R531",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                           ],
+                                                                           "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": 3,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "1B531",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                           ],
+                                                                           "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "CPRO": {
+                               "libelle": "Côtes de Provence",
+                               "format_libelle": null,
+                               "code": null,
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                                   "INTERPRO-inter-loire": {
+                                       "labels": [
+                                       ],
+                                       "droits": {
+                                           "douane": [
+                                           ],
+                                           "cvo": [
+                                           ]
+                                       },
+                                       "produit_non_interpro": false
+                                   }
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                           "INTERPRO-inter-loire": {
+                                               "labels": [
+                                               ],
+                                               "droits": {
+                                                   "douane": [
+                                                   ],
+                                                   "cvo": [
+                                                   ]
+                                               }
+                                           }
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                                   "INTERPRO-inter-loire": {
+                                                       "labels": [
+                                                       ],
+                                                       "droits": {
+                                                           "douane": [
+                                                           ],
+                                                           "cvo": [
+                                                           ]
+                                                       }
+                                                   }
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": 1,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "1R582S",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                           ],
+                                                                           "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "CAIX": {
+                               "libelle": "Coteaux d'Aix-en-Provence",
+                               "format_libelle": null,
+                               "code": null,
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                                   "INTERPRO-inter-loire": {
+                                       "labels": [
+                                       ],
+                                       "droits": {
+                                           "douane": [
+                                           ],
+                                           "cvo": [
+                                           ]
+                                       },
+                                       "produit_non_interpro": false
+                                   }
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                           "INTERPRO-inter-loire": {
+                                               "labels": [
+                                               ],
+                                               "droits": {
+                                                   "douane": [
+                                                   ],
+                                                   "cvo": [
+                                                   ]
+                                               }
+                                           }
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                                   "INTERPRO-inter-loire": {
+                                                       "labels": [
+                                                       ],
+                                                       "droits": {
+                                                           "douane": [
+                                                           ],
+                                                           "cvo": [
+                                                           ]
+                                                       }
+                                                   }
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "rose": {
+                                                       "libelle": "Rosé",
+                                                       "format_libelle": null,
+                                                       "code": "2",
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "1S579S",
                                                                "interpro": {
                                                                    "INTERPRO-inter-loire": {
                                                                        "droits": {
@@ -16040,6 +16556,164 @@
                                                                            "douane": [
                                                                            ],
                                                                            "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   }
+                                               }
+                                           }
+                                       }
+                                   }
+                               }
+                           },
+                           "CALV": {
+                               "libelle": "Calvados",
+                               "format_libelle": null,
+                               "code": null,
+                               "code_produit": null,
+                               "code_comptable": null,
+                               "code_douane": null,
+                               "densite": "1.3",
+                               "interpro": {
+                                   "INTERPRO-inter-loire": {
+                                       "labels": [
+                                       ],
+                                       "droits": {
+                                           "douane": [
+                                           ],
+                                           "cvo": [
+                                           ]
+                                       },
+                                       "produit_non_interpro": false
+                                   }
+                               },
+                               "departements": [
+                               ],
+                               "mentions": {
+                                   "DEFAUT": {
+                                       "libelle": null,
+                                       "format_libelle": null,
+                                       "code": null,
+                                       "code_produit": null,
+                                       "code_comptable": null,
+                                       "code_douane": null,
+                                       "interpro": {
+                                           "INTERPRO-inter-loire": {
+                                               "labels": [
+                                               ],
+                                               "droits": {
+                                                   "douane": [
+                                                   ],
+                                                   "cvo": [
+                                                   ]
+                                               }
+                                           }
+                                       },
+                                       "departements": [
+                                       ],
+                                       "lieux": {
+                                           "DEFAUT": {
+                                               "libelle": null,
+                                               "format_libelle": null,
+                                               "code": null,
+                                               "code_produit": null,
+                                               "code_comptable": null,
+                                               "code_douane": null,
+                                               "interpro": {
+                                                   "INTERPRO-inter-loire": {
+                                                       "labels": [
+                                                       ],
+                                                       "droits": {
+                                                           "douane": [
+                                                           ],
+                                                           "cvo": [
+                                                           ]
+                                                       }
+                                                   }
+                                               },
+                                               "departements": [
+                                               ],
+                                               "couleurs": {
+                                                   "blanc": {
+                                                       "libelle": "Blanc",
+                                                       "format_libelle": null,
+                                                       "code": 3,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "3B141",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
+                                                                           ],
+                                                                           "cvo": [
+                                                                           ]
+                                                                       },
+                                                                       "produit_non_interpro": false
+                                                                   }
+                                                               }
+                                                           }
+                                                       }
+                                                   },
+                                                   "rouge": {
+                                                       "libelle": "Rouge",
+                                                       "format_libelle": null,
+                                                       "code": 1,
+                                                       "code_produit": null,
+                                                       "code_comptable": null,
+                                                       "code_douane": null,
+                                                       "interpro": {
+                                                           "INTERPRO-inter-loire": {
+                                                               "labels": [
+                                                               ],
+                                                               "droits": {
+                                                                   "douane": [
+                                                                   ],
+                                                                   "cvo": [
+                                                                   ]
+                                                               }
+                                                           }
+                                                       },
+                                                       "departements": [
+                                                       ],
+                                                       "cepages": {
+                                                           "DEFAUT": {
+                                                               "libelle": null,
+                                                               "format_libelle": null,
+                                                               "code": null,
+                                                               "code_produit": null,
+                                                               "code_comptable": null,
+                                                               "code_douane": "3R141",
+                                                               "interpro": {
+                                                                   "INTERPRO-inter-loire": {
+                                                                       "droits": {
+                                                                           "douane": [
                                                                            ]
                                                                        },
                                                                        "produit_non_interpro": false
