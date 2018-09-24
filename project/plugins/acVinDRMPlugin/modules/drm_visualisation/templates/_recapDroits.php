@@ -1,9 +1,8 @@
 <?php use_helper('Float'); ?>
 <?php if ($isTeledeclarationMode) : ?>
-<h2>DROITS ET COTISATIONS</h2>
 <?php endif; ?>
 <div id="contenu_onglet">
-    <h2>CVO</h2>
+    <h2>Cotisation interprofessionnelle</h2>
     <table id="table_drm_cvo_recap" class="table_recap">
         <thead >
             <tr>
