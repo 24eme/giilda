@@ -26,7 +26,8 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
     public function configure() {
         foreach ($this->_produits as $produit) {
           $disabled=array();
-            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => true)));
+            $default = ($produit->getCertification()->getKey() != "AUTRES");
+            $this->setWidget('produit' . $produit->getHashForKey(), new sfWidgetFormInputCheckbox(array('value_attribute_value' => '1', 'default' => $default)));
             $this->widgetSchema->setLabel('produit' . $produit->getHashForKey(), '');
             $this->setValidator('produit' . $produit->getHashForKey(), new sfValidatorString(array('required' => false)));
             if($this->_drm->getConfig()->declaration->hasAcquitte()){
