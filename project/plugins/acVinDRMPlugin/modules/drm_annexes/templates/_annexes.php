@@ -7,7 +7,7 @@
           <div class="table-condensable">
         <div class="drm_annexes_toggle" style="cursor:pointer;">
           <p class="extendable <?php echo ($drm->hasAnnexes())? 'ouvert' : '' ?>"></p>
-          <h2>Déclaration des documents d'accompagnement</h2>
+          <h2>Déclaration des documents d'accompagnement (facultatif)</h2>
         </div>
         <div <?php echo ($drm->hasAnnexes())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_annexes_content_togglable" >
         <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
