@@ -61,4 +61,6 @@ $entete .='}';
 
 \end{tabular}
 
+\newpage
+
 <?php endif; ?>
