@@ -12,7 +12,7 @@ use_helper('Display');
          SIRET~\InterproSIRET ~-~\InterproAPE ~- TVA~Intracommunutaire~\InterproTVAIntracomm
 \end{tiny}
  }
-\rhead{\includegraphics[scale=0.9]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images")."/logo_". sfConfig::get('sf_app').".png"; ?>}}
+\rhead{\includegraphics[scale=0.35]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf2.jpg"; ?>}}
 \begin{document}
 <?php if (isset($facture) && isset($avoir)) : ?>
 \noindent{
