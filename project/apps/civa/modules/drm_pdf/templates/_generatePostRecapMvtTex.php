@@ -10,7 +10,7 @@ if(isset($dataGlobal['/declaration/certifications/AOC_ALSACE'])) {
 
 include_partial('drm_pdf/generateRecapMvtTex', array('drm' => $drm,'drmLatex' => $drmLatex, 'detailsNodes' => 'details', "libelleDetail" => null, 'data' => $data, 'tabTitle' => 'Récapitulatif')); ?>
 
-<?php $dataExport = $drm->declaration->getMouvementsAggregateByAppellation('export_details', '/declaration/certifications/AOC_ALSACE')->getRawValue(); ?>
+<?php $dataExport = $drm->declaration->getMouvementsAggregateByAppellation('export.*_details', '/declaration/certifications/AOC_ALSACE')->getRawValue(); ?>
 
 <?php
 $produits = array();
