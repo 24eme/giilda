@@ -4,7 +4,7 @@ $isIGP = $vrac->isProduitIGP(); ?>
 	\hline
 	~ & ~ & ~ & ~ \\
 \textbf{\INTERLOIRECOORDONNEESTITRE}& \multirow{7}{*}{
-\includegraphics[scale=0.8]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf.jpg"; ?>}} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
+\includegraphics[scale=0.28]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf2.jpg"; ?>}} & \multicolumn{2}{c|}{Numéro d'enregistrement} \\
 \INTERLOIRECOORDONNEESADRESSE  & ~ & ~ & ~ \\
 \INTERLOIRECOORDONNEESCPVILLE   & ~  & \multicolumn{2}{c|}{\textbf{\LARGE{\CONTRATNUMENREGISTREMENT}}} \\
 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONENANTES} & ~ & ~ & ~ \\
