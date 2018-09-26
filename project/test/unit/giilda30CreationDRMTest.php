@@ -272,9 +272,9 @@ foreach ($mvts_sorted as $type_mvt_drm => $mvts_grouped) {
   foreach ($mvts_grouped as $hash_produit => $mvts) {
     foreach ($mvts as $key => $mvt) {
       if(!$cpt){
-        $t->is($mvt->produit_libelle, $denomComplLibelle, $drmNext->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
+          $t->is($mvt->produit_libelle, $baseLibelle, $drmNext->_id." : le libelle du mvt du produit est bien $baseLibelle");
       }else{
-        $t->is($mvt->produit_libelle, $baseLibelle, $drmNext->_id." : le libelle du mvt du produit est bien $baseLibelle");
+          $t->is($mvt->produit_libelle, $denomComplLibelle, $drmNext->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
       }
       $cpt++;
     }
