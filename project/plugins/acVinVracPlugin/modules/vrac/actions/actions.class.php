@@ -506,7 +506,13 @@ class vracActions extends sfActions {
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
-
+                if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE && VracConfiguration::getInstance()->getTeledeclarationVisaAutomatique() && $this->isTeledeclarationMode) {
+                    $vracEmailManager = new VracEmailManager($this->getMailer());
+                    $vracEmailManager->setVrac($this->vrac);
+                    $vracEmailManager->sendMailContratVise();
+                    $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
+                    $this->vrac->save();
+                }
                 $this->redirect('vrac_visualisation', $this->vrac);
             }
         }
