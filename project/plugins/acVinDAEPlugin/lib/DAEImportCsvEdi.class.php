@@ -214,7 +214,8 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->nom_acheteur = trim($csvRow[self::CSV_ACHETEUR_NOM]);
         
         $dae->type_acheteur_key = trim($csvRow[self::CSV_ACHETEUR_TYPE]);
-        $dae->type_acheteur_libelle = $this->dae->getTypes()[$dae->type_acheteur_key];
+        $types = $this->dae->getTypes();
+        $dae->type_acheteur_libelle = $types[$dae->type_acheteur_key];
         
         $dae->destination_key = trim($csvRow[self::CSV_PAYS_NOM]);
         $dae->destination_libelle = $this->countryList[$dae->destination_key];
@@ -225,10 +226,12 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->contenance_libelle = $this->dae->getContenances()[$dae->contenance_key];
         
         $dae->label_key = trim($csvRow[self::CSV_PRODUIT_LABEL]);
-        $dae->label_libelle = $this->dae->getLabels()[$dae->label_key];
+        $labels = $this->dae->getLabels();
+        $dae->label_libelle = $labels[$dae->label_key];
         
         $dae->mention_key = trim($csvRow[self::CSV_PRODUIT_DOMAINE]);
-        $dae->mention_libelle = $this->dae->getMentions()[$dae->mention_key];
+        $mentions = $this->dae->getMentions();
+        $dae->mention_libelle = $mentions[$dae->mention_key];
         
         $dae->quantite = $this->convertNumber($csvRow[self::CSV_QUANTITE_CONDITIONNEMENT]);
         $dae->prix_unitaire = $this->convertNumber($csvRow[self::CSV_PRIX_UNITAIRE]);
