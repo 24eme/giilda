@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
@@ -29,8 +29,7 @@ $t->is(count($messages), 2, "L'envoi compte 2 messages");
 
 @mkdir(sfConfig::get('sf_test_dir')."/output");
 file_put_contents(sfConfig::get('sf_test_dir')."/output/email_drm_validation_teldeclaration.eml", $messages[0]);
-
-$t->ok(strpos($messages[0], "de INTERPRO : test_from_mail@mail") !== false, "Les infos de contact dans le mail sont bonnes");
+$t->ok(strpos($messages[0], "de INTERPRO : test_from_mail@ma") !== false, "Les infos de contact dans le mail sont bonnes");
 
 $t->ok($messages[0] instanceof Swift_Mime_SimpleMessage, "Mail généré : ".sfConfig::get('sf_test_dir')."/output/email_drm_validation_teldeclaration.eml");
 
