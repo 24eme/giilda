@@ -223,7 +223,8 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->millesime = trim($csvRow[self::CSV_PRODUIT_MILLESIME]);
         
         $dae->contenance_key = trim($csvRow[self::CSV_LIBELLE_CONDITIONNEMENT]);
-        $dae->contenance_libelle = $this->dae->getContenances()[$dae->contenance_key];
+        $contenances = $this->dae->getContenances();
+        $dae->contenance_libelle = $contenances[$dae->contenance_key];
         
         $dae->label_key = trim($csvRow[self::CSV_PRODUIT_LABEL]);
         $labels = $this->dae->getLabels();
