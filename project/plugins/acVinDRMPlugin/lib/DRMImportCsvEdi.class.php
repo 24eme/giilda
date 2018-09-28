@@ -536,7 +536,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $num_ligne++;
                         break;
                     }
-                    if (!preg_match('/^FR0[0-9A-Z]{10}$/', $numero_accise)) {
+                    if (!preg_match('/^[A-Z]{2}[0-9A-Z]{11}$/', $numero_accise)) {
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow));
                         }

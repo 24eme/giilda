@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd $(dirname $0)/..
+BASEDIRE=$(pwd)
+
 . bin/config.inc
 . bin/import_functions.inc
 
@@ -71,4 +74,10 @@ sed -i 's/T[0-9]+[0-9:+GMT]+;/;/g' export_bi_contrats.csv
 if test "$SAMBA_XLSOFT_IP" && test "$SAMBA_XLSOFT_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_XLSOFT_DIR" ; then
     smbclient //$SAMBA_XLSOFT_IP/$SAMBA_XLSOFT_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_XLSOFT_DIR ; put export_bi_mouvements.csv ; put export_bi_contrats.csv; put export_bi_dss.csv ; put export_bi_revendiques.csv ; put export_bi_etablissements.csv ; put export_bi_societes.csv ; put MDV_Fournisseurs.csv ; put PLV_Fournisseurs.csv ; put PLV_Clients.csv ; put export_bi_drm.csv"
 fi
+
+if test "$METABASE_SQLITE"; then
+    python $BASEDIR"/csv2sql.py" $METABASE_SQLITE".tmp"
+    mv $METABASE_SQLITE".tmp" $METABASE_SQLITE
+fi
+
 cd -

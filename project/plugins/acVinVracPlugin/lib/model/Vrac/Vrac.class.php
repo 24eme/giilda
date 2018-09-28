@@ -912,6 +912,7 @@ class Vrac extends BaseVrac {
     public function autoSignIfIsIntern(){
         if($this->getVendeurObject()->getSociete() == $this->getAcheteurObject()->getSociete()){
             $this->signatureByEtb($this->getVendeurObject());
+            $this->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
         }
     }
 

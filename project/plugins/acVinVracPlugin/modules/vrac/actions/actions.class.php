@@ -506,13 +506,6 @@ class vracActions extends sfActions {
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);
-                if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE && VracConfiguration::getInstance()->getTeledeclarationVisaAutomatique() && $this->isTeledeclarationMode) {
-                    $vracEmailManager = new VracEmailManager($this->getMailer());
-                    $vracEmailManager->setVrac($this->vrac);
-                    $vracEmailManager->sendMailContratVise();
-                    $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
-                    $this->vrac->save();
-                }
                 $this->redirect('vrac_visualisation', $this->vrac);
             }
         }
@@ -795,7 +788,7 @@ class vracActions extends sfActions {
 
     private function postValidateActions() {
         if ($this->vrac->isTeledeclare() &&
-                ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)) {
+                ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) || ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)) {
             if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
                 throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
             }
