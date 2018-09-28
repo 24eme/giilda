@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd $(dirname $0)/..
-BASEDIRE=$(pwd)
+BASEDIR=$(pwd)
 
 . bin/config.inc
 . bin/import_functions.inc
@@ -76,7 +76,7 @@ if test "$SAMBA_XLSOFT_IP" && test "$SAMBA_XLSOFT_SHARE" && test "$SAMBA_AUTH" &
 fi
 
 if test "$METABASE_SQLITE"; then
-    python $BASEDIR"/csv2sql.py" $METABASE_SQLITE".tmp"
+    python $BASEDIR"/bin/csv2sql.py" $METABASE_SQLITE".tmp"
     mv $METABASE_SQLITE".tmp" $METABASE_SQLITE
 fi
 
