@@ -788,7 +788,7 @@ class vracActions extends sfActions {
 
     private function postValidateActions() {
         if ($this->vrac->isTeledeclare()){
-            if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE)) {
+            if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
                 if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
                     throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
                 }
