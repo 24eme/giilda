@@ -272,7 +272,6 @@ $baseLibelleFound = false;
 $denomComplLibelleFound = false;
 foreach ($mvts_sorted as $type_mvt_drm => $mvts_grouped) {
   foreach ($mvts_grouped as $hash_produit => $mvts) {
-      var_dump(array_search($baseLibelle, array_column($mvts, 'produit_libelle')));
     foreach ($mvts as $key => $mvt) {
         if($mvt->produit_libelle == $baseLibelle){
             $baseLibelleFound = true;
