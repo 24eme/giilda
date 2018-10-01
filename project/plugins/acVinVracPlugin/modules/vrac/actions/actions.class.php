@@ -787,15 +787,18 @@ class vracActions extends sfActions {
     }
 
     private function postValidateActions() {
-        if ($this->vrac->isTeledeclare() &&
-                ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) || ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)) {
-            if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
-                throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
+        if ($this->vrac->isTeledeclare()){
+            if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
+                if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
+                    throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
+                }
             }
-            $mailManager = new VracEmailManager($this->getMailer());
-            $mailManager->setVrac($this->vrac);
-            if (!$this->isUsurpationMode() && $this->isTeledeclarationVrac()) {
-                $mailManager->sendMailAttenteSignature();
+            if(($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) || ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_NONSOLDE)){
+                $mailManager = new VracEmailManager($this->getMailer());
+                $mailManager->setVrac($this->vrac);
+                if (!$this->isUsurpationMode() && $this->isTeledeclarationVrac()) {
+                    $mailManager->sendMailAttenteSignature();
+                }
             }
         }
     }
