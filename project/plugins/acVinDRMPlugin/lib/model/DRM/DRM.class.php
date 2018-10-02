@@ -233,13 +233,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function generateByDS(DS $ds) {
         $this->identifiant = $ds->identifiant;
         foreach ($ds->declarations as $produit) {
-            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
+            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->produit_hash);
             if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
 
                 continue;
             }
 
-            $this->addProduit($produitConfig->produit_hash,self::DETAILS_KEY_SUSPENDU);
+            $this->addProduit($produitConfig->getHash(),self::DETAILS_KEY_SUSPENDU);
         }
     }
 
