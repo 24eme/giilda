@@ -19,6 +19,14 @@
                 <p class="choix_produit_explication"><?php echo getHelpMsgText('drm_validation_texte1'); ?></p>
                 <?php include_partial('drm_validation/coordonnees_operateurs', array('drm' => $drm, 'validationCoordonneesSocieteForm' => $validationCoordonneesSocieteForm, 'validationCoordonneesEtablissementForm' => $validationCoordonneesEtablissementForm)); ?>
             <?php endif; ?>
+            <?php if (!$isTeledeclarationMode && $drm->isCreationAuto() && $drm->getMother() && !$drm->getMother()->isCreationAuto()): ?>
+                <fieldset id="points_vigilance">
+                    <ul>
+                        <li class="warning">Cette DRM a été ouverte automatiquement car elle présente des différences avec celle de proDou@ne.<br/>
+                            DRM présentant les différences : <a href="<?php echo url_for('drm_visualisation', $drm->getMother()) ?>">Version précédente</a></li>
+                    </ul>
+                </fieldset>
+            <?php endif; ?>
             <?php if ($drm->isCreationEdi()): ?>
               <div style="padding-bottom: 20px">
                 <p>Cette DRM a été importée par un logiciel tiers</p>
@@ -31,7 +39,7 @@
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false, 'mouvementsByProduit' => $mouvementsByProduit, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)); ?>
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false, 'mouvementsByProduit' => $mouvementsByProduit, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)); ?>
 
-      		<?php if (!$isTeledeclarationMode && $drm->exist('transmission_douane') && $drm->transmission_douane): ?>
+      		<?php if (!$isTeledeclarationMode && $drm->teledeclare): ?>
             <br/>
             <a class="btn_majeur" href="<?php echo url_for('drm_edition_libelles', $drm) ?>">Modifier les libellés produits</a>
             <?php endif; ?>

@@ -245,16 +245,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function generateByDRM(DRM $drm, $teledeclarationMode = false) {
 
-        foreach ($drm->getProduits() as $produit) {
-            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produit->hash);
-
-            if(!$produitConfig) {
-
+        foreach ($drm->getProduitsDetails() as $produit) {
+            $produitCepage = $produit->getCepage();
+            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produitCepage->getHash());
+            if (!$produitConfig || !$produitConfig->isActif($this->getDate())) {
                 continue;
             }
 
             if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
-
+            $p = $this->addProduit($produitConfig->getHash(), DRM::DETAILS_KEY_SUSPENDU,$produit->denomination_complementaire);
                 continue;
             }
 
@@ -1201,7 +1200,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function initProduitsAutres($isTeledeclarationMode){
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
-        if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
+        if(preg_match("|/declaration/certifications/AUTRES/|",$hash)){
           $this->addProduit($hash,self::DETAILS_KEY_SUSPENDU);
         }
       }
@@ -1606,6 +1605,42 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     /*
     * Fin Observations
     */
+
+
+    /**
+    * Tavs
+    */
+    public function addTavProduit($hash, $tav)
+    {
+      if ($this->exist($hash)) {
+        $produit = $this->get($hash);
+        $produit->add("tav",$tav);
+      }
+    }
+
+    public function hasTavs(){
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+        if($detail->exist('tav')){
+          return true;
+        }
+      }
+        return false;
+    }
+
+    public function getTavsArray(){
+      $tavs = array();
+      foreach ($this->getProduitsDetails($this->teledeclare) as $hash => $detail) {
+
+        if($detail->exist('tav') && $detail->get('tav')){
+          $tavs[$detail->getLibelle().' ('.$detail->getTypeDRMLibelle().')'] = $detail->get('tav');
+        }
+      }
+      return $tavs;
+    }
+    /**
+    * Fin Tavs
+    */
+
     public function areXMLIdentical() {
       $comp = $this->getXMLComparison();
       return !$comp->hasDiff();

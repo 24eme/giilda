@@ -21,7 +21,7 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
             if (preg_match('/VINSSIG/', $certif) && ($key == 'declassement')) {
                 $disabled = true;
             }
-            if (preg_match('/AUTRES/', $certif) && ($key != 'usageindustriel') && ($key != 'destructionperte') && ($key != 'manquant') && ($key != 'vracsanscontrat')) {
+            if (($certif == 'AUTRES') && ($key != 'usageindustriel') && ($key != 'destructionperte') && ($key != 'manquant') && ($key != 'vracsanscontrat')) {
                 $disabled = true;
             }
 

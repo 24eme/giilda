@@ -437,7 +437,7 @@ class Vrac extends BaseVrac {
     public function updateVolumesEnleves() {
         $this->volume_enleve = 0;
         $mvts = $this->getMouvementsFromDrmOrSV12ImpactVolumeEnleve();
-
+    //    var_dump($mvts); exit;
         foreach ($mvts as $mvt) {
             $volume_enleve = $mvt->volume * -1;
             $this->volume_enleve += $volume_enleve;
@@ -454,8 +454,8 @@ class Vrac extends BaseVrac {
         $mvts = array();
         $campagneArray = array();
         $cfClient = ConfigurationClient::getInstance();
-        $dateVrac = $this->getDateSignature("Y-m-d");
-        $campagne = $cfClient->buildCampagne($dateVrac);
+        $dateVrac = $this->getDateCampagne("Y-m-d");
+        $campagne = $cfClient->getPreviousCampagne($cfClient->buildCampagne($dateVrac));
         $campagneArray[$campagne] = $campagne;
         $currentCampagne = $cfClient->buildCampagne(date("Y-m-d"));
         while($campagne <= $currentCampagne){

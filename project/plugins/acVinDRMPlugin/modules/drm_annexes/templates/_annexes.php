@@ -7,7 +7,7 @@
           <div class="table-condensable">
         <div class="drm_annexes_toggle" style="cursor:pointer;">
           <p class="extendable <?php echo ($drm->hasAnnexes())? 'ouvert' : '' ?>"></p>
-          <h2>Déclaration des documents d'accompagnement</h2>
+          <h2>Déclaration des documents d'accompagnement (facultatif)</h2>
         </div>
         <div <?php echo ($drm->hasAnnexes())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_annexes_content_togglable" >
         <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
@@ -69,41 +69,6 @@
             </div>
   </div>
           </div>
-<?php if (false) : //ON désactive les stats européennes   ?>
-<!--
-          <br/>
-          <div class="table-condensable ">
-          <div class="drm_statistiques_toggle" style="cursor:pointer;">
-              <p class="extendable ouvert"></p>
-            <h2>Statistiques européennes</h2>
-          </div>
-<div style="padding: 0px 10px 10px 10px;" class="drm_statistiques_content_togglable" >
-    <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
-        <thead>
-                    <tr>
-                      <th style=" width: auto;"></th>
-                      <th>Volume</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><?php echo $annexesForm['statistiques_jus']->renderLabel() ?></td>
-                      <td><?php echo $annexesForm['statistiques_jus']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_jus']->renderError() ?></td>
-                    </tr>
-                    <tr>
-                      <td><?php echo $annexesForm['statistiques_mcr']->renderLabel() ?></td>
-                      <td><?php echo $annexesForm['statistiques_mcr']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_mcr']->renderError() ?></td>
-                    </tr>
-                    <tr>
-                      <td><?php echo $annexesForm['statistiques_vinaigre']->renderLabel() ?></td>
-                      <td><?php echo $annexesForm['statistiques_vinaigre']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_vinaigre']->renderError() ?></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-</div>
--->
-<?php endif; //ON désactive les stats européennes   ?>
             <br/>
 <?php if($drm->hasObservations()): ?>
             <div class="table-condensable ">
@@ -144,6 +109,37 @@
             </div>
   <br/>
 <?php endif; ?>
+        <br/>
+<?php if(count($annexesForm['tavsProduits'])): ?>
+<div class="table-condensable ">
+    <div class="drm_tavs_toggle" style="cursor:pointer;">
+        <p class="extendable ouvert"></p>
+        <h2>TAV - Taux d'alcool volumique<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_annexes_texte4'); ?>"  style="padding: 0 0 0 10px;"></a></h2>
+    </div>
+    <div style="padding: 0px 10px 10px 10px;" class="drm_tavs_content_togglable" >
+                    <table id="table_drm_tavs" class="table_recap table_drm_annexes">
+                      <thead>
+                                  <tr>
+                                    <th style=" width: auto;">Produits&nbsp;</th>
+                                    <th>TAV</th>
+                                  </tr>
+                                </thead>
+                    <?php foreach ($annexesForm['tavsProduits'] as $formTavs): ?>
+                      <?php if(isset($formTavs['tav'])): ?>
+                      <tr>
+                        <td><?php echo $formTavs['tav']->renderLabel() ?></td>
+                        <td>
+                              <?php echo $formTavs['tav']->renderError() ?>
+                              <?php echo $formTavs['tav']->render() ?>
+                        </td>
+                        </tr>
+                      <?php endif; ?>
+                      <?php endforeach; ?>
+                      </table>
+        </div>
+  </div>
+<?php endif; ?>
+
             <br/>
             <div class = "btn_etape">
                 <a class = "btn_etape_prec" href = "<?php echo url_for('drm_crd', $drm); ?>">

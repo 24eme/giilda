@@ -20,7 +20,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
-            $this->initConf($drm);
             if($this->fromEdi){
               parent::__construct($file, $drm);
               $drmInfos = $this->getDRMInfosFromFile();
@@ -36,6 +35,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
             }
 
+            $this->initConf($drm);
             if(is_null($this->csvDoc)) {
                 $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
             }
@@ -243,6 +243,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
                     $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
                     $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
+
                     $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
                     if ($isEmptyArray){
                       if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
@@ -884,8 +885,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $genreKey = $produit->getGenre()->getKey();
             $genreLibelle = self::$genres[$genreKey];
             $libellesSlugified[1] = strtoupper(KeyInflector::slugify($genreLibelle));
-            if(($libellesSlugified[0] == "AOC") && $withAOP){
-                $libellesSlugified[0]="AOP";
+            if($withAOP){
+                if(($libellesSlugified[0] == "AOC")){
+                    $libellesSlugified[0]="AOP";
+                }
+            }else{
+                if(($libellesSlugified[0] == "AOP")){
+                    $libellesSlugified[0]="AOC";
+                }
             }
             foreach ($libellesSlugified as $key => $libelle) {
                 if (!$libelle) {

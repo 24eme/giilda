@@ -80,17 +80,16 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
 \end{large}
 \end{center}
 
-\begin{tabular}{C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|C{43mm}|}
-\multicolumn{6}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
+\begin{tabular}{C{52mm}|C{52mm}|C{52mm}|C{52mm}|C{52mm}|}
+\multicolumn{5}{|c}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Droits de circulation}}}}
 \\
 \hline
 \rowcolor{lightgray}
-\multicolumn{1}{|C{43mm}}{\small{\textbf{Code}}} &
-\multicolumn{1}{|C{43mm}}{\small{\textbf{Libellé}}} &
-\multicolumn{1}{|C{43mm}|}{\small{\textbf{Volume}}} &
-\multicolumn{1}{|C{43mm}|}{\small{\textbf{Taux}}} &
-\multicolumn{1}{|C{43mm}|}{\small{\textbf{Total}}} &
-\multicolumn{1}{|C{43mm}|}{\small{\textbf{Cumul}}}
+\multicolumn{1}{|C{52mm}}{\small{\textbf{Code}}} &
+\multicolumn{1}{|C{52mm}}{\small{\textbf{Libellé}}} &
+\multicolumn{1}{|C{52mm}|}{\small{\textbf{Volume}}} &
+\multicolumn{1}{|C{52mm}|}{\small{\textbf{Taux}}} &
+\multicolumn{1}{|C{52mm}|}{\small{\textbf{Total du mois}}}
 \\
 \hline
 <?php foreach ($droitsDouane as $droitDouane): ?>
@@ -98,22 +97,11 @@ $hasObservations = $drm->exist('observations') && $drm->observations;
     \multicolumn{1}{|l}{\small{\textbf{<?php echo $droitDouane->libelle; ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintFloat($droitDouane->getVolume()).' hl';  ?>}}} &
     \multicolumn{1}{|r|}{\small{\textbf{<?php echo $droitDouane->taux.' €/hl'; ?>}}} &
-    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->total).' €'; ?>}}} &
-    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->cumul).' €'; ?>}}}
+    \multicolumn{1}{|r|}{\small{\textbf{<?php echo sprintDroitDouane($droitDouane->total).' €'; ?>}}}
 
     \\
     \hline
 <?php endforeach; ?>
-\end{tabular}
-
-\vspace{0.5cm}
-
-\begin{tabular}{|C{138mm}|C{138mm}|}
-\hline
-\multicolumn{2}{|C{280mm}|}{\cellcolor[gray]{0.3}\small{\color{white}{\textbf{Information sur le sucre}}}} \\
-\hline
-\rowcolor{lightgray}\small{\textbf{Taux de sucre}} & \rowcolor{white}\small{\textbf{\dotfill\dotfill\dotfill}} \\
-\hline
 \end{tabular}
 
 \vspace{0.5cm}
