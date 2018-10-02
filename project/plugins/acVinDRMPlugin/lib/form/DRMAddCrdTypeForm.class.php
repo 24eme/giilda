@@ -60,6 +60,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $stock_debut = $values['stock_debut_' . $regime];
             if ($genre && $couleur && $litrage) {
                 $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $litrage_libelle, $stock_debut);
+            }
         }
         $this->drm->save();
     }
