@@ -1184,7 +1184,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function initCrds() {
         $toRemoves = array();
         $allCrdsByRegimeAndByGenre = $this->getAllCrdsByRegimeAndByGenre();
-
         foreach ($allCrdsByRegimeAndByGenre as $regime => $allCrdsByRegime) {
             foreach ($allCrdsByRegime as $genre => $crdsByRegime) {
                 foreach ($crdsByRegime as $key => $crd) {

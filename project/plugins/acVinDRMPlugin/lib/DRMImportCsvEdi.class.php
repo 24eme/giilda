@@ -490,7 +490,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 } else {
                     if(!array_key_exists($litrageLibelle,$all_contenances)){ continue; }
 
-                    $centilitrage = $all_contenances[$litrageLibelle] * 100000;
+                    $centilitrage = $all_contenances[$litrageLibelle];
                     $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
 
                     $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
