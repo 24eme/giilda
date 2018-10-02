@@ -12,13 +12,13 @@ class DRMCrds extends BaseDRMCrds {
         return "";
     }
 
-    public function getOrAddCrdNode($genre, $couleur, $litrage, $libelle = null, $stock_debut = null, $litrageInHl = false) {
-        $crd = $this->add($this->constructKey($genre, $couleur, $litrage, $libelle));
-        if(!$litrageInHl) {
-            $crd->centilitrage = $litrage / self::FACTLITRAGE;
-        } else {
-            $crd->centilitrage = $litrage;
-        }
+
+    public function getOrAddCrdNode($genre, $couleur, $contenanceEnHl, $libelle = null, $stock_debut = null) {
+
+        $crd = $this->add($this->constructKey($genre, $couleur, $contenanceEnHl, $libelle));
+
+        $crd->setContenance($contenanceEnHl);
+
         $crd->couleur = $couleur;
         $crd->genre = $genre;
         $crd->stock_debut = 0;
@@ -31,14 +31,16 @@ class DRMCrds extends BaseDRMCrds {
         }else{
           $crd->detail_libelle = array_search($crd->centilitrage, $contenances);
         }
-        $this->constructKey($genre, $couleur, $litrage, $crd->detail_libelle);
+
+        $this->constructKey($genre, $couleur, $contenanceEnHl, $crd->detail_libelle);
+        return $crd;
     }
 
-    public function constructKey($genre, $couleur, $litrage, $libelle = null) {
+    public function constructKey($genre, $couleur, $contenanceEnHl, $libelle = null) {
         if ($libelle && preg_match('/bib/i', $libelle)) {
-          return $genre . '-' . $couleur . '-BIB' . $litrage;
+          return $genre . '-' . $couleur . '-BIB' . ($contenanceEnHl*self::FACTLITRAGE);
         }
-        return $genre . '-' . $couleur . '-' . $litrage;
+        return $genre . '-' . $couleur . '-' . ($contenanceEnHl*self::FACTLITRAGE);
     }
 
     public function udpateStocksFinDeMois() {
@@ -56,13 +58,17 @@ class DRMCrds extends BaseDRMCrds {
             return;
         }
         $contenances = sfConfig::get('app_vrac_contenances');
-        $contenance75 = $contenances['Bouteille 75 cl'] * self::FACTLITRAGE;
+        $contenanceDefault = $contenances['Bouteille 75 cl'];
+
+        $default_crds_config = DRMConfiguration::getInstance()->getDefaultCrds();
 
         foreach ($genres as $genre) {
-            $this->getOrAddCrdNode($genre, DRMClient::DRM_VERT, $contenance75);
-            $this->getOrAddCrdNode($genre, DRMClient::DRM_BLEU, $contenance75);
-            $this->getOrAddCrdNode($genre, DRMClient::DRM_LIEDEVIN, $contenance75);
+            $this->getOrAddCrdNode($genre, DRMClient::DRM_VERT, $contenanceDefault);
+            $this->getOrAddCrdNode($genre, DRMClient::DRM_BLEU, $contenanceDefault);
+            $this->getOrAddCrdNode($genre, DRMClient::DRM_LIEDEVIN, $contenanceDefault);
         }
     }
+
+
 
 }
