@@ -51,16 +51,15 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        foreach ($this->regimeCrds as $regime) {
-            $couleur = $values['couleur_crd_' . $regime];
-            $litrage_libelle = $values['litrage_crd_' . $regime];
-            $contenances = sfConfig::get('app_vrac_contenances');
-            $litrage = $contenances[$litrage_libelle];
-            $genre = $values['genre_crd_' . $regime];
-            $stock_debut = $values['stock_debut_' . $regime];
-            if ($genre && $couleur && $litrage) {
+        $regime = $values['regime'];
+        $couleur = $values['couleur_crd_' . $regime];
+        $litrage_libelle = $values['litrage_crd_' . $regime];
+        $contenances = sfConfig::get('app_vrac_contenances');
+        $litrage = $contenances[$litrage_libelle];
+        $genre = $values['genre_crd_' . $regime];
+        $stock_debut = $values['stock_debut_' . $regime];
+        if ($genre && $couleur && $litrage) {
                 $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $litrage_libelle, $stock_debut);
-            }
         }
         $this->drm->save();
     }
