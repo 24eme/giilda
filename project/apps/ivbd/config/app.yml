@@ -138,7 +138,7 @@ all:
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'ventefrancecrd', 'vrac_details']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'vrac_details']
             aggs:
               totaux_france:
                 sum_bucket:
@@ -179,7 +179,7 @@ all:
                       france:
                         filter:
                           term:
-                            doc.mouvements.type_hash: 'ventefrancecrd'
+                            doc.mouvements.type_hash: 'sorties/ventefrancecrd'
                         aggs:
                           agg_column:
                             sum:
@@ -214,10 +214,14 @@ all:
           libelle: "Sorties de l'appellation"
           index: "DRMMVT"
           hashkeysize: 2
+          query_filters:
+            range:
+              'doc.mouvements.cvo':
+                gt: 0
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'ventefrancecrd', 'vrac_details']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'vrac_details']
             aggs:
               totaux_france:
                 sum_bucket:
@@ -244,7 +248,7 @@ all:
                       buckets_path: "agg_line>export>agg_column"
                   total_negoce:
                     sum_bucket:
-                      buckets_path: "agg_line>negoce>agg_column"
+                      buckets_path: "agg_line>negoce>agg_column>agg_column"
                   total_total:
                     sum_bucket:
                       buckets_path: "agg_line>total"
@@ -257,7 +261,7 @@ all:
                       france:
                         filter:
                           term:
-                            doc.mouvements.type_hash: 'ventefrancecrd'
+                            doc.mouvements.type_hash: 'sorties/ventefrancecrd'
                         aggs:
                           agg_column:
                             sum:
@@ -278,15 +282,20 @@ all:
                             doc.mouvements.type_hash: 'vrac_details'
                         aggs:
                           agg_column:
-                            sum:
-                              field: 'doc.mouvements.volume'
-                              script: '_value * -1'
+                            filter:
+                              term:
+                                doc.mouvements.region_destinataire: 'REGION_HORS_CVO'
+                            aggs:
+                              agg_column:
+                                sum:
+                                  field: 'doc.mouvements.volume'
+                                  script: '_value * -1'
                       total:
                         bucket_script:
                           buckets_path:
                             france_sum: "france>agg_column"
                             export_sum: "export>agg_column"
-                            negoce_sum: "negoce>agg_column"
+                            negoce_sum: "negoce>agg_column>agg_column"
                           script: "france_sum + export_sum + negoce_sum"
         prix:
           libelle: "Prix moyen de vente"
