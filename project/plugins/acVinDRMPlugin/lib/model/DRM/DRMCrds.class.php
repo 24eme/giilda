@@ -60,8 +60,6 @@ class DRMCrds extends BaseDRMCrds {
         $contenances = sfConfig::get('app_vrac_contenances');
         $contenanceDefault = $contenances['Bouteille 75 cl'];
 
-        $default_crds_config = DRMConfiguration::getInstance()->getDefaultCrds();
-
         foreach ($genres as $genre) {
             $this->getOrAddCrdNode($genre, DRMClient::DRM_VERT, $contenanceDefault);
             $this->getOrAddCrdNode($genre, DRMClient::DRM_BLEU, $contenanceDefault);
