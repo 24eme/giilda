@@ -138,7 +138,7 @@ all:
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'ventefrancecrd', 'vrac_details']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'vrac_details']
             aggs:
               totaux_france:
                 sum_bucket:
@@ -179,7 +179,7 @@ all:
                       france:
                         filter:
                           term:
-                            doc.mouvements.type_hash: 'ventefrancecrd'
+                            doc.mouvements.type_hash: 'sorties/ventefrancecrd'
                         aggs:
                           agg_column:
                             sum:
@@ -217,7 +217,7 @@ all:
           aggregation:
             filter:
               terms:
-                doc.mouvements.type_hash: ['export_details', 'ventefrancecrd', 'vrac_details']
+                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'vrac_details']
             aggs:
               totaux_france:
                 sum_bucket:
@@ -257,7 +257,7 @@ all:
                       france:
                         filter:
                           term:
-                            doc.mouvements.type_hash: 'ventefrancecrd'
+                            doc.mouvements.type_hash: 'sorties/sorties/ventefrancecrd'
                         aggs:
                           agg_column:
                             sum:
