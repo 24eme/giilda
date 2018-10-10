@@ -383,6 +383,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     }
                     if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
+                        if ($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
+                            $num_ligne++;
+                            continue;
+                        }
+
                         if (!$csvRow[self::CSV_CAVE_CONTRATID]) {
                             $this->csvDoc->addErreur($this->contratIDEmptyError($num_ligne, $csvRow));
                             $num_ligne++;
@@ -491,7 +496,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               continue;
             }
             if (!$just_check) {
-                $centilitrage = $all_contenances[$litrageKey] * 100000;
+                $centilitrage = $all_contenances[$litrageKey];
                 $litrageLibelle = DRMClient::getInstance()->getLibelleCRD($litrageKey);
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
                 $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
@@ -609,6 +614,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function findContratDocId($csvRow) {
+        if($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
+
+            return DRMESDetailVrac::CONTRAT_SANS_NUMERO;
+        }
+
         if($vrac = VracClient::getInstance()->findByNumContrat($csvRow[self::CSV_CAVE_CONTRATID], acCouchdbClient::HYDRATE_JSON)) {
 
             return $vrac->_id;
