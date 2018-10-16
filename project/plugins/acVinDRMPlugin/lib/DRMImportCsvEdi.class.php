@@ -383,6 +383,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     }
                     if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
+                        if ($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
+                            $num_ligne++;
+                            continue;
+                        }
+
                         if (!$csvRow[self::CSV_CAVE_CONTRATID]) {
                             $this->csvDoc->addErreur($this->contratIDEmptyError($num_ligne, $csvRow));
                             $num_ligne++;
@@ -519,7 +524,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 case self::TYPE_ANNEXE_NONAPUREMENT:
                     $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
                     $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
-                    $dt = DateTime::createFromFormat("d-m-Y", $date_emission);
+                    $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
 
                     $numero_accise = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST]);
                     if (!$numero_document) {
@@ -557,7 +562,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
                     $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
                     $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
-                    $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_QUANTITE]);
+                    $numDocument = KeyInflector::slugify(($csvRow[self::CSV_ANNEXE_QUANTITE]) ? $csvRow[self::CSV_ANNEXE_QUANTITE] :  $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
                     if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->annexesTypeMvtWrongFormatError($num_ligne, $csvRow));
@@ -609,6 +614,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function findContratDocId($csvRow) {
+        if($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
+
+            return DRMESDetailVrac::CONTRAT_SANS_NUMERO;
+        }
+
         if($vrac = VracClient::getInstance()->findByNumContrat($csvRow[self::CSV_CAVE_CONTRATID], acCouchdbClient::HYDRATE_JSON)) {
 
             return $vrac->_id;
