@@ -81,6 +81,7 @@ Les codes ou libellés peuvent être renseignés dans le fichier mais l'utilisat
 
 | Code                  | Libellé                                      |
 |-----------------------|----------------------------------------------|
+| CHR                   | Café / Hôtel / Restaurant                    |
 | IMPORTATEUR           | Importateur                                  |
 | NEGOCIANT_REGION      | Négociant/Union Vallée du Rhône              |
 | NEGOCIANT_HORS_REGION | Négociant hors région                        |
@@ -88,9 +89,11 @@ Les codes ou libellés peuvent être renseignés dans le fichier mais l'utilisat
 | DISCOUNT              | Hard Discount  (LIDL, ALDI, Leader Price...) |
 | GROSSISTE             | Grossiste-CHR                                |
 | CAVISTE               | Caviste                                      |
-| VSITE                 | Vente sur site                               |
+| VPLACE                | Vente sur place                              |
 | VSALON                | Vente sur salon                              |
 | VNET                  | Vente par correspondance / internet          |
+| ON_TRADE              | Export on trade                              |
+| OFF_TRADE             | Export off trade                             |
 | AUTRE                 | Autre                                        |
 
 #### Labels
