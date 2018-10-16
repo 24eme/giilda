@@ -524,7 +524,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 case self::TYPE_ANNEXE_NONAPUREMENT:
                     $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
                     $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
-                    $dt = DateTime::createFromFormat("d-m-Y", $date_emission);
+                    $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
 
                     $numero_accise = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST]);
                     if (!$numero_document) {
@@ -562,7 +562,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
                     $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
                     $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
-                    $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_QUANTITE]);
+                    $numDocument = KeyInflector::slugify(($csvRow[self::CSV_ANNEXE_QUANTITE]) ? $csvRow[self::CSV_ANNEXE_QUANTITE] :  $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
                     if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->annexesTypeMvtWrongFormatError($num_ligne, $csvRow));
