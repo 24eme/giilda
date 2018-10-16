@@ -258,9 +258,30 @@ class DAEImportCsvEdi extends DAECsvEdi
  	
  	private function getHashProduit($datas)
  	{
- 		if (!$this->getKey($datas[self::CSV_PRODUIT_CERTIFICATION]) && !$this->getKey($datas[self::CSV_PRODUIT_APPELLATION])) {
- 			return null;
- 		}
+    	if (
+    			!$this->getKey($datas[self::CSV_PRODUIT_CERTIFICATION]) &&
+    			!$this->getKey($datas[self::CSV_PRODUIT_GENRE]) &&
+    			!$this->getKey($datas[self::CSV_PRODUIT_APPELLATION]) &&
+    			!$this->getKey($datas[self::CSV_PRODUIT_MENTION]) &&
+    			!$this->getKey($datas[self::CSV_PRODUIT_LIEU]) &&
+    			!$this->couleurKeyToCode($datas[self::CSV_PRODUIT_COULEUR], false) && 
+    			!$this->getKey($datas[self::CSV_PRODUIT_CEPAGE])
+    		) {
+    		return null;
+    	}
+    	$libelles = explode(' ', $datas[self::CSV_PRODUIT_LIBELLE_PERSONNALISE]);
+    	foreach ($libelles as $k => $libelle) {
+    		$libelles[$k] = $this->getKey($libelle);
+    	}
+ 		if (
+ 				$libelles && (
+    			in_array($this->getKey($datas[self::CSV_PRODUIT_GENRE]), $libelles) ||
+ 				in_array($this->getKey($datas[self::CSV_PRODUIT_APPELLATION]), $libelles) ||
+ 				in_array($this->getKey($datas[self::CSV_PRODUIT_LIEU]), $libelles) ||
+ 				in_array($this->getKey($datas[self::CSV_PRODUIT_CEPAGE]), $libelles))
+    		) {
+    		return null;
+    	}
  		$hash = 'declaration/certifications/'.$this->getKey($datas[self::CSV_PRODUIT_CERTIFICATION]).
  		'/genres/'.$this->getKey($datas[self::CSV_PRODUIT_GENRE], true).
  		'/appellations/'.$this->getKey($datas[self::CSV_PRODUIT_APPELLATION], true).
@@ -273,10 +294,10 @@ class DAEImportCsvEdi extends DAECsvEdi
  	 
  	private function getKey($key, $withDefault = false)
  	{
+ 		$$key = trim($key);
  		if ($key == " " || !$key) {
  			$key = null;
  		}
- 		$key = strtoupper($key);
  		if ($withDefault) {
  			return ($key)? $key : ConfigurationProduit::DEFAULT_KEY;
  		} else {
@@ -284,11 +305,14 @@ class DAEImportCsvEdi extends DAECsvEdi
  		}
  	}
     
-    private function couleurKeyToCode($key)
+    private function couleurKeyToCode($key, $withDefault = true)
     {
     	$key = strtolower($key);
     	if (preg_match('/^ros.+$/', $key)) {
     		$key = 'rose';
+    	}
+    	if (!$withDefault && ($key == " " || !$key)) {
+    		return null;
     	}
     	$correspondances = array(1 => "rouge",
     			2 => "rose",
