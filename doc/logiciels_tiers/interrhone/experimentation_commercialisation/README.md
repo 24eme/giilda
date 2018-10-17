@@ -55,20 +55,21 @@ la description du produit sujet à commercialisation se fait sous le même forma
  - Q (colonne n°17) : label du produit : "conventionnel", "biologique", ... (champ facultatif)
  - R (colonne n°18) : mention de domaine ou château revendiqué ("domaine", "château" ou vide)
  - S (colonne n°19) : millésime (au format AAAA) (champ facultatif)
+ - T (colonne n°20) : primeur (boolean : 0 ou 1) (champ facultatif)
 
 ### section commercialisation
 
- - T (colonne n°20) : n° accise de l'acheteur (champ facultatif)
- - U (colonne n°21) : nom acheteur (champ facultatif)
- - V (colonne n°22) : type acheteur ("Importateur", "Négociant région" ou "Négociant/Union Vallée du Rhône", négociant hors région, "GD" ou "Grande Distribution", "Discount", "Grossiste", "Caviste", "VD" ou "Vente directe", "Autre", ...)
- - W (colonne n°23) : nom du pays de destination ou son code ISO 3166
- - X (colonne n°24) : type de conditionnement (VRAC ou HL, Bouteille, BIB)
- - Y (colonne n°25) : libellé conditionnement
- - Z (colonne n°26) : contenance conditionnement en litres
- - AA (colonne n°27) : quantité de conditionnement (en nombre de bib, de bouteille ou, pour le vrac, en hl)
- - AB (colonne n°28) : prix unitaire (prix en € par bouteille, bib ou hl)
- - AC (colonne n°29) : champ réservé (stat qtt hl)
- - AD (colonne n°30) : champ réservé (stat prix hl)
+ - U (colonne n°21) : n° accise de l'acheteur (champ facultatif)
+ - V (colonne n°22) : nom acheteur (champ facultatif)
+ - W (colonne n°23) : type acheteur ("Importateur", "Négociant région" ou "Négociant/Union Vallée du Rhône", négociant hors région, "GD" ou "Grande Distribution", "Discount", "Grossiste", "Caviste", "VD" ou "Vente directe", "Autre", ...)
+ - X (colonne n°24) : nom du pays de destination ou son code ISO 3166
+ - Y (colonne n°25) : type de conditionnement (VRAC ou HL, Bouteille, BIB)
+ - Z (colonne n°26) : libellé conditionnement
+ - AA (colonne n°27) : contenance conditionnement en litres
+ - AB (colonne n°28) : quantité de conditionnement (en nombre de bib, de bouteille ou, pour le vrac, en hl)
+ - AC (colonne n°29) : prix unitaire (prix en € par bouteille, bib ou hl)
+ - AD (colonne n°30) : champ réservé (stat qtt hl)
+ - AE (colonne n°31) : champ réservé (stat prix hl)
 
 Il est possible de déclarer en une seule ligne plusieurs commercialisations.
 
