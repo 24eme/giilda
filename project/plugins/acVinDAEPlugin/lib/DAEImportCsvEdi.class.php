@@ -179,7 +179,7 @@ class DAEImportCsvEdi extends DAECsvEdi
     private function checkCSVIntegrity() {
         $ligne_num = 1;
         foreach ($this->getDocRows() as $csvRow) {
-            if(count($csvRow) != 30){
+            if(count($csvRow) != 31){
               $this->csvDoc->addErreur($this->createWrongFormatFieldCountError($ligne_num, $csvRow));
               $ligne_num++;
               continue;
@@ -233,6 +233,9 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->mention_key = trim($csvRow[self::CSV_PRODUIT_DOMAINE]);
         $mentions = $this->dae->getMentions();
         $dae->mention_libelle = $mentions[$dae->mention_key];
+        
+        $primeur = trim($csvRow[self::CSV_PRODUIT_PRIMEUR]);
+        $dae->primeur = (!$primeur)? 0 : 1;
         
         $dae->quantite = $this->convertNumber($csvRow[self::CSV_QUANTITE_CONDITIONNEMENT]);
         $dae->prix_unitaire = $this->convertNumber($csvRow[self::CSV_PRIX_UNITAIRE]);
