@@ -741,6 +741,11 @@ class Vrac extends BaseVrac {
                     $this->valide->_add('date_signature_acheteur', date('Y-m-d H:i:s'));
                 }
                 break;
+            case 'mandataire' :
+                if ($etb->identifiant == $this->mandataire_identifiant) {
+                    $this->valide->_add('date_signature_courtier', date('Y-m-d H:i:s'));
+                }
+                break;
         }
         return $this->updateStatutForSignatures();
     }
