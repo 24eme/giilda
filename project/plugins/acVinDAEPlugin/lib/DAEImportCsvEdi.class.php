@@ -272,7 +272,8 @@ class DAEImportCsvEdi extends DAECsvEdi
     		) {
     		return null;
     	}
-    	$libelles = explode(' ', $datas[self::CSV_PRODUIT_LIBELLE_PERSONNALISE]);
+    	$libelle = trim($datas[self::CSV_PRODUIT_LIBELLE_PERSONNALISE]);
+    	$libelles = ($libelle)? explode(' ', $libelle) : array();
     	foreach ($libelles as $k => $libelle) {
     		$libelles[$k] = $this->getKey($libelle);
     	}
