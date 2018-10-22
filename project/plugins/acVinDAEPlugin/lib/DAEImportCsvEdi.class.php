@@ -272,20 +272,6 @@ class DAEImportCsvEdi extends DAECsvEdi
     		) {
     		return null;
     	}
-    	$libelle = trim($datas[self::CSV_PRODUIT_LIBELLE_PERSONNALISE]);
-    	$libelles = ($libelle)? explode(' ', $libelle) : array();
-    	foreach ($libelles as $k => $libelle) {
-    		$libelles[$k] = $this->getKey($libelle);
-    	}
- 		if (
- 				$libelles && (
-    			in_array($this->getKey($datas[self::CSV_PRODUIT_GENRE]), $libelles) ||
- 				in_array($this->getKey($datas[self::CSV_PRODUIT_APPELLATION]), $libelles) ||
- 				in_array($this->getKey($datas[self::CSV_PRODUIT_LIEU]), $libelles) ||
- 				in_array($this->getKey($datas[self::CSV_PRODUIT_CEPAGE]), $libelles))
-    		) {
-    		return null;
-    	}
  		$hash = 'declaration/certifications/'.$this->getKey($datas[self::CSV_PRODUIT_CERTIFICATION]).
  		'/genres/'.$this->getKey($datas[self::CSV_PRODUIT_GENRE], true).
  		'/appellations/'.$this->getKey($datas[self::CSV_PRODUIT_APPELLATION], true).
