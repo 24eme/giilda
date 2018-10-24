@@ -78,15 +78,15 @@ echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUS
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/CDL\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Anjou Coteaux de la Loire Blanc Chenin"/' >> $TMP/sed_produit_libelle.tmp
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV\/mentions\/DEFAUT\/lieux\/CDS\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Savennières Coulée de Serrant"/' >> $TMP/sed_produit_libelle.tmp
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAVCDS\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Savennières Coulée de Serrant"/' >> $TMP/sed_produit_libelle.tmp
-echo 's/;\("\/declaration\/certifications\/AOC\/genres\/EFF\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Saumur Fines bulles Rosé"/' >> $TMP/sed_produit_libelle.tmp 
+echo 's/;\("\/declaration\/certifications\/AOC\/genres\/EFF\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Saumur Fines bulles Rosé"/' >> $TMP/sed_produit_libelle.tmp
 cat $TMP/sed_produit_libelle.tmp > $TMP/sed_produit_libelle
 
 cat $TMP/sed_produit_libelle.tmp | sed 's|\\\/AOC\\\/|\\\/AOC_INTERLOIRE\\\/|g' >> $TMP/sed_produit_libelle
 
 #cat $TMP/export_bi_dss.csv | awk -F ";" ' { print $4";"$13 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' | sed 's/\/AOC/\/AOC_INTERLOIRE/g' >> $TMP/sed_produit_libelle
-#echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Anjou Fines bulles Rosé"/' >> $TMP/sed_produit_libelle 
-#echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/CLO\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Crémant de Loire Rosé"/' >> $TMP/sed_produit_libelle 
-#echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/TOU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Touraine Fines bulles Rosé"/' >> $TMP/sed_produit_libelle 
+#echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Anjou Fines bulles Rosé"/' >> $TMP/sed_produit_libelle
+#echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/CLO\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Crémant de Loire Rosé"/' >> $TMP/sed_produit_libelle
+#echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/EFF\/appellations\/TOU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Touraine Fines bulles Rosé"/' >> $TMP/sed_produit_libelle
 #echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/TRANQ\/appellations\/ANJ\/mentions\/DEFAUT\/lieux\/CDL\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Anjou Coteaux de la Loire Blanc Chenin"/' >> $TMP/sed_produit_libelle
 
 cat $TMP/sed_produit_libelle | sort -u -t ";" -k2,2 | uniq > $TMP/sed_produit_libelle.tmp
@@ -107,5 +107,7 @@ cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7
 
 cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
 cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss.csv
+
+cat $TMP/export_bi_dss.csv | grep -E '("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018")' > $TMP/export_bi_dss_short.csv
 
 echo "FIN"
