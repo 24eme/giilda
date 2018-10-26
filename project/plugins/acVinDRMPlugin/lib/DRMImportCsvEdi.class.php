@@ -184,7 +184,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         $num_ligne = 1;
         foreach ($this->getDocRows() as $csvRow) {
-            if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CAVE)) {
+            if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
                 $num_ligne++;
                 continue;
             }
