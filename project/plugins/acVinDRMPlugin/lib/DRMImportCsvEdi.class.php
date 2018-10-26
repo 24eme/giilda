@@ -624,6 +624,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $vrac->_id;
         }
 
+        if($vrac = VracClient::getInstance()->findDocIdByNumArchive("UNIQUE", $csvRow[self::CSV_CAVE_CONTRATID])) {
+
+            return $vrac->_id;
+        }
+
         return VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID], 2);
     }
 
