@@ -134,6 +134,7 @@ Les codes ou libellés peuvent être renseignés dans le fichier mais l'utilisat
 | CL_25           | Bouteille 25 cL    |
 | CL_35           | Bouteille 35 cL    |
 | CL_37_5         | Bouteille 37.5 cL  |
+| CL_50           | Bouteille 50 cL    |
 | CL_60           | Bouteille 60 cL    |
 | CL_62           | Bouteille 62 cL    |
 | CL_70           | Bouteille 70 cL    |
