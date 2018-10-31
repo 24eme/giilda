@@ -10,7 +10,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks | sed -f
 
 # II - Récupération des DRMs et réduction de fichiers
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DRM;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' > $TMP/export_bi_drm_stock.csv
-cat $TMP/export_bi_drm_stock.csv | awk -F ";" ' substr($5,2,4) >= 2014  { print }' | grep -Ev "(AOC_HORSINTERLOIRE|IGP_VALDELOIRE|IGP_HORSVALDELOIRE|VINSSIG)" > $TMP/export_bi_drm_stock_campagne_filtered.csv
+cat $TMP/export_bi_drm_stock.csv | awk -F ";" ' substr($5,2,4) >= 2014  { print }' | grep -Ev "(AOC_HORSINTERLOIRE|AOC_BIVC|IGP_HORSVALDELOIRE|VINSSIG)" > $TMP/export_bi_drm_stock_campagne_filtered.csv
 
 # Récupération des plus hautes modificatrices
 
