@@ -625,6 +625,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     }
 
     private function findContratDocId($csvRow) {
+        $csvRow[self::CSV_CAVE_CONTRATID] = str_replace("-", "", $csvRow[self::CSV_CAVE_CONTRATID]);
         if($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
 
             return DRMESDetailVrac::CONTRAT_SANS_NUMERO;

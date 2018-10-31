@@ -139,4 +139,8 @@ class DRMConfiguration {
         return $this->configuration['campagne_liste_minimale'];
     }
 
+    public function getNbExtraPDFPages() {
+      return $this->configuration['nb_extra_pdf_pages'];
+    }
+
 }
