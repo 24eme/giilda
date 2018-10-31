@@ -107,6 +107,6 @@ cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7
 cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
 cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss.csv
 
-cat $TMP/export_bi_dss.csv | grep -E '("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018")' > $TMP/export_bi_dss_short.csv
+cat $TMP/export_bi_dss.csv | grep -E '("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019")' > $TMP/export_bi_dss_short.csv
 
 echo "FIN"
