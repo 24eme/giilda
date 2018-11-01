@@ -206,6 +206,9 @@ class ExportMouvementsDRMDB2
             if(!isset($drm->crds)) {
                 continue;
             }
+            if(!isset($db2[$identifiantPeriode])) {
+                $db2[$identifiantPeriode] = array();
+            }
             foreach($drm->crds as $regimes) {
                 foreach($regimes as $ligne) {
                     $centilisation = str_replace(".", ",", ($ligne->centilitrage*10000));
