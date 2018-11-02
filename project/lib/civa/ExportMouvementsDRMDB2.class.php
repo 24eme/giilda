@@ -73,7 +73,7 @@ class ExportMouvementsDRMDB2
             $identifiant = $parts[0];
             $periode = $parts[1];
             foreach($this->structure as $file => $infos) {
-                $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0";
+                $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".str_replace("C", "", $identifiant).",,0";
                 foreach($infos as $mouvementType => $produits) {
                     foreach($produits as $produit) {
                         $volume = 0;
@@ -83,7 +83,7 @@ class ExportMouvementsDRMDB2
                         $ligne .= ",".$volume;
                     }
                 }
-                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\"";
+                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\"";
                 $csv[$file][] = $ligne;
             }
         }
@@ -94,7 +94,7 @@ class ExportMouvementsDRMDB2
             $periode = $parts[1];
             $compteur = 1;
             foreach($infos as $pays => $produits) {
-                $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0,".$compteur.",".$pays*1;
+                $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".str_replace("C", "", $identifiant).",,0,".$compteur.",".$pays*1;
                 foreach($this->produits as $produit) {
                     $volume = 0;
                     if(isset($produits[$produit])) {
@@ -102,7 +102,7 @@ class ExportMouvementsDRMDB2
                     }
                     $ligne .= ",".$volume;
                 }
-                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\"";
+                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\"";
 
                 $csv["06.DRMAX"][] = $ligne;
                 $compteur++;
@@ -115,11 +115,11 @@ class ExportMouvementsDRMDB2
             $periode = $parts[1];
             $compteur = 1;
             foreach($centilisations as $centilisation => $sorties) {
-                $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0,".$compteur.",\"".$centilisation."\"";
+                $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".str_replace("C", "", $identifiant).",,0,".$compteur.",\"".$centilisation."\"";
                 foreach($sorties as $sortie) {
                     $ligne .= ",".$sortie;
                 }
-                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\"";
+                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\"";
 
                 $csv["07.DRMCRD"][] = $ligne;
                 $compteur++;
@@ -133,7 +133,7 @@ class ExportMouvementsDRMDB2
             $total["tva"] = $total["prix_ht"] * 0.20;
             $total["prix_ttc"] = $total["prix_ht"] + $total["tva"];
 
-            $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".$identifiant.",,0,\"\",0,0,0,".$total["prix_ht"].",".$total["tva"].",".$total["prix_ttc"].",".$total["quantite"].",".$total["prix_ttc"];
+            $ligne = substr($periode, 0, 4).",".substr($periode, 4, 2).",".str_replace("C", "", $identifiant).",,0,\"\",0,0,0,".$total["prix_ht"].",".$total["tva"].",".$total["prix_ttc"].",".$total["quantite"].",".$total["prix_ttc"];
             foreach($this->structure as $file => $infos) {
                 foreach($this->produits as $produit) {
                     $volume = 0;
@@ -144,7 +144,7 @@ class ExportMouvementsDRMDB2
                 }
             }
 
-            $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELDECLARATION\",\"\",\"\",0,0,0,0,0";
+            $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\",\"\",\"\",0,0,0,0,0";
 
             $csv["08.DRMENT"][] = $ligne;
         }
