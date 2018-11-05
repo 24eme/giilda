@@ -130,7 +130,7 @@ class ExportMouvementsDRMDB2
             $parts = explode("-", $identifiantPeriode);
             $identifiant = $parts[0];
             $periode = $parts[1];
-            $total["prix_ht"] = floor($total["prix_ht"] * 100) / 100;
+            $total["prix_ht"] = floor(round($total["prix_ht"], 4) * 100) / 100;
             $total["tva"] = round($total["prix_ht"] * 0.20, 2);
             $total["prix_ttc"] = $total["prix_ht"] + $total["tva"];
 
