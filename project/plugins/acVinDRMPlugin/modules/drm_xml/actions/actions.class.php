@@ -75,8 +75,8 @@ class drm_xmlActions extends drmGeneriqueActions {
       $this->retour = $request->getParameter('retour',null);
       $this->xml = $this->drm->getXML();
 
-      if($this->retour && html_entity_decode($this->drm->getXMLRetour())){
-          $this->xml = html_entity_decode($this->drm->getXMLRetour());
+      if($this->retour && $this->drm->getXMLRetour()){
+          $this->xml = $this->drm->getXMLRetour();
       }
 
       $compare = new DRMCielCompare($this->xml, null);
