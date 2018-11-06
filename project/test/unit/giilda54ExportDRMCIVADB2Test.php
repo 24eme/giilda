@@ -37,6 +37,7 @@ $preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;;Sommerberg;;Riesling;;AOC Alsace Gra
 $preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;entrees;recolte;10;;;
 $preLigneCaveCSV;AOC;;AOC Alsace Grand Cru;VT;Sommerberg;;Pinot Gris;;AOC Alsace Grand Cru Sommerberg Pinot Gris VT (1B039D13);suspendu;sorties;export;10;ES;;
 $preLigneCaveCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;entrees;recolte;10;;;
+$preLigneCaveCSV;AOC;;AOC Alsace Pinot noir;;;;Pinot Noir Rosé;;AOC Alsace Pinot noir (1S001S 1);suspendu;entrees;repli;10;;;
 $preLigneCaveCSV;AOC;;AOC Crémant d'Alsace;;;;Blanc;;AOC Crémant d'Alsace Blanc (1B001M00);suspendu;entrees;recolte;10;;;
 $preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;stock_debut;debut;100;;;
 $preLigneCRDCSV;Vert;TRANQ;Bouteille 75 cl;;;;;;;Banalisées suspendues;entrees;achats;3;;;
@@ -116,4 +117,4 @@ $t->is(count($csv["07.DRMCRD"]), 2, "2 lignes pour les CRDS");
 $t->is(count($csv["08.DRMENT"]), 1, "Une seul ligne pour le récap");
 $t->is($csv["08.DRMENT"][0], substr($periode,0,4).",".substr($periode,4,2).",".$viti->identifiant.",,0,\"\",0,0,0,221.4,44.28,265.68,30,265.68,40,30,20,10,0,0,0,0,10,0,20,0,0,0,0,0,0,0,0,0,".$dateFinMois.",".$date.",\"TELEDECLARATION\",\"\",\"\",,0.75,0.38,0,0", "Le recap est bien reporté");
 
-$t->is(count($csv["09.ORIGINES"]), 11, "11 lignes de mouvements");
+$t->is(count($csv["09.ORIGINES"]), 12, "12 lignes de mouvements");

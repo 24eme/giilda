@@ -184,6 +184,10 @@ class ExportMouvementsDRMDB2
                 $db2[$identifiantPeriode][$produit][$mouvementType] = 0;
             }
 
+            if($mouvementType == "01.DRMDEM/26.Replis" && $produit != "01.BLANC") {
+                continue;
+            }
+
             $db2[$identifiantPeriode][$produit][$mouvementType] += $mouvement->quantite * ((preg_match('/entrees/', $mouvement->type_hash)) ? -1 : 1);
             ksort($db2[$identifiantPeriode][$produit]);
         }
@@ -255,7 +259,14 @@ class ExportMouvementsDRMDB2
         foreach($mouvements as $mouvement) {
             $produit = $this->convertProduit($mouvement->produit_hash);
             $file = $this->convertFile($mouvement->type_hash);
+            $mouvementType = $this->convertMouvement($mouvement->type_hash);
+
+            if($mouvementType == "01.DRMDEM/26.Replis" && $produit != "01.BLANC") {
+                continue;
+            }
+
             $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
+
             if(!isset($db2[$identifiantPeriode])) {
                 $db2[$identifiantPeriode] = array("prix_ht" => 0, "quantite" => 0, "crd_tranq_utilisation" => 0, "crd_mousseux_utilisation" => 0);
             }
