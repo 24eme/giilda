@@ -185,7 +185,7 @@ class DRMDetail extends BaseDRMDetail {
                 $hasobs = true;
                 if (!$this->exist('observations') || ! $this->observations) {
                     $this->add('observations');
-                    $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($entree)->libelle_long : "";
+                    $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
                 }
             }
           }
