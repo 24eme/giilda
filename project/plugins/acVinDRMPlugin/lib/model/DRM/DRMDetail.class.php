@@ -215,7 +215,7 @@ class DRMDetail extends BaseDRMDetail {
         if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
           || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
-          || ($this->entrees->exist('retourmarchandisetaxeesacquitte') && $this->entrees->retourmarchandisenontaxees)
+          || ($this->entrees->exist('retourmarchandisetaxeesacquitte') && $this->entrees->retourmarchandisetaxeesacquitte)
           || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)) {
             if (!$this->exist('replacement_date')) {
               $this->add('replacement_date',null);
