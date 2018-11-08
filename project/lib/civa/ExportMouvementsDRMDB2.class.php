@@ -76,7 +76,7 @@ class ExportMouvementsDRMDB2
             $identifiant = $parts[0];
             $periode = $parts[1];
             foreach($this->structure as $file => $infos) {
-                $ligne = substr($periode, 0, 4).",".(substr($periode, 4, 2)*1).",".str_replace("C", "", $identifiant).",,0";
+                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0";
                 foreach($infos as $mouvementType => $produits) {
                     foreach($produits as $produit) {
                         if($file."/".$mouvementType == "01.DRMDEM/26.Replis" && $produit != "01.BLANC") {
@@ -86,10 +86,10 @@ class ExportMouvementsDRMDB2
                         if(isset($volumes[$produit][$file."/".$mouvementType])) {
                             $volume = $volumes[$produit][$file."/".$mouvementType];
                         }
-                        $ligne .= ",".$volume;
+                        $ligne .= ";".$volume;
                     }
                 }
-                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\"";
+                $ligne .= ";".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).";\"TELEDECLARATION\"";
                 $csv[$file][] = $ligne;
             }
         }
@@ -100,15 +100,15 @@ class ExportMouvementsDRMDB2
             $periode = $parts[1];
             $compteur = 1;
             foreach($infos as $pays => $produits) {
-                $ligne = substr($periode, 0, 4).",".(substr($periode, 4, 2)*1).",".str_replace("C", "", $identifiant).",,0,".$compteur.",".$pays*1;
+                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0;".$compteur.";".$pays*1;
                 foreach($this->produitsExport as $produit) {
                     $volume = 0;
                     if(isset($produits[$produit])) {
                         $volume = $produits[$produit];
                     }
-                    $ligne .= ",".$volume;
+                    $ligne .= ";".$volume;
                 }
-                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\"";
+                $ligne .= ";".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).";\"TELEDECLARATION\"";
 
                 $csv["06.DRMAX"][] = $ligne;
                 $compteur++;
@@ -121,11 +121,11 @@ class ExportMouvementsDRMDB2
             $periode = $parts[1];
             $compteur = 1;
             foreach($centilisations as $centilisation => $sorties) {
-                $ligne = substr($periode, 0, 4).",".(substr($periode, 4, 2)*1).",".str_replace("C", "", $identifiant).",,0,".$compteur.",\"".$centilisation."\"";
+                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0;".$compteur.";\"".$centilisation."\"";
                 foreach($sorties as $sortie) {
-                    $ligne .= ",".$sortie;
+                    $ligne .= ";".$sortie;
                 }
-                $ligne .= ",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\"";
+                $ligne .= ";".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).";\"TELEDECLARATION\"";
 
                 $csv["07.DRMCRD"][] = $ligne;
                 $compteur++;
@@ -142,21 +142,21 @@ class ExportMouvementsDRMDB2
             $total["tva"] = round($total["prix_ht"] * 0.20, 2);
             $total["prix_ttc"] = $total["prix_ht"] + $total["tva"];
 
-            $ligne = substr($periode, 0, 4).",".(substr($periode, 4, 2)*1).",".str_replace("C", "", $identifiant).",,0,\"\",0,0,0,".$total["prix_ht"].",".$total["tva"].",".$total["prix_ttc"].",".$total["quantite"].",".$total["prix_ttc"];
+            $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0;\"\";0;0;0;".$total["prix_ht"].";".$total["tva"].";".$total["prix_ttc"].";".$total["quantite"].";".$total["prix_ttc"];
             foreach($this->structure as $file => $infos) {
                 foreach($this->produits as $produit) {
                     $volume = 0;
                     if(isset($total[$file][$produit])) {
                         $volume = $total[$file][$produit];
                     }
-                    $ligne .= ",".$volume;
+                    $ligne .= ";".$volume;
                 }
             }
 
             $dateStock = new DateTime($annee."-".$mois."-01");
             $dateStock->modify('last day of this month');
 
-            $ligne .= ",".$dateStock->format('Ymd').",".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).",\"TELEDECLARATION\",\"\",\"\",,".round($total['crd_tranq_utilisation'], 2).",".round($total['crd_mousseux_utilisation'], 2).",0,0";
+            $ligne .= ";".$dateStock->format('Ymd').";".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).";\"TELEDECLARATION\";\"\";\"\";;".round($total['crd_tranq_utilisation'], 2).";".round($total['crd_mousseux_utilisation'], 2).";0;0";
 
             $csv["08.DRMENT"][] = $ligne;
         }
