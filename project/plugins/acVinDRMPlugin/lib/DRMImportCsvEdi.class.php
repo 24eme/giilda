@@ -464,8 +464,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
                 }
 
-                $genre = KeyInflector::slugify($csvRow[self::CSV_CRD_GENRE]);
-                $couleur = KeyInflector::slugify($csvRow[self::CSV_CRD_COULEUR]);
+                $genre = $this->convertGenre($csvRow[self::CSV_CRD_GENRE]);
+                $couleur = $this->convertCouleur($csvRow[self::CSV_CRD_COULEUR]);
                 $litrageLibelle = strtoupper(str_replace(" ","",str_replace(",",".",$csvRow[self::CSV_CRD_CENTILITRAGE])));
                 $categorie_key = $csvRow[self::CSV_CRD_CATEGORIE_KEY];
                 $type_key = $csvRow[self::CSV_CRD_TYPE_KEY];
@@ -505,6 +505,31 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                 }
             }
+        }
+
+        private function convertGenre($g){
+          $g = KeyInflector::slugify($g);
+          if (preg_match('/TRANQ/', $g)) {
+            return 'TRANQ';
+          }
+          if (preg_match('/MOUS/', $g)) {
+            return 'MOUSSEUX';
+          }
+          return null;
+        }
+
+        private function convertCouleur($c){
+          $c = KeyInflector::slugify($c);
+          if (preg_match('/BLEU/', $c)) {
+            return 'BLEU';
+          }
+          if (preg_match('/VERT/', $c)) {
+            return 'VERT';
+          }
+          if (preg_match('/LIE/', $c)) {
+            return 'LIE-DE-VIN';
+          }
+          return null;
         }
 
         private function importAnnexesFromCSV($just_check = false) {
