@@ -116,9 +116,7 @@ class DRMValidation extends DocumentValidation {
             if ($detail->getConfig()->sorties->exist('transfertsrecolte') && $detail->sorties->exist('transfertsrecolte')) {
               $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
             }
-            if ($detail->getConfig()->sorties->exist('manipulationssoutirages') && $detail->sorties->exist('manipulationssoutirages')) {
-              $total_sorties_transfert_appellation += $detail->sorties->manipulationssoutirages;
-            }
+
             if($detail->total_revendique  > $detail->total){
                 $this->addPoint('vigilance', 'revendique_sup_initial', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
             }
