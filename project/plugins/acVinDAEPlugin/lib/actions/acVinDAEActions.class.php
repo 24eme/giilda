@@ -82,8 +82,8 @@ class acVinDAEActions extends sfActions
 				$this->daeCsvEdi = new DAEImportCsvEdi($file, $this->identifiant, $this->periode->format('Y-m-d'));
 				$this->daeCsvEdi->checkCSV();
 				
-				if($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
-					$this->erreurs = $drmCsvEdi->getCsvDoc()->erreurs;
+				if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+					$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
 				} else {
 					return $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant));
 				}
