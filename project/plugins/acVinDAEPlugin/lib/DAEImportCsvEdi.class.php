@@ -59,30 +59,20 @@ class DAEImportCsvEdi extends DAECsvEdi
 	}
 
     public function checkCSV() {
-        $this->csvDoc->clearErreurs();
-        $this->checkCSVIntegrity();
-        if ($this->csvDoc->hasErreurs()) {
-            $this->csvDoc->setStatut(self::STATUT_ERREUR);
-            $this->csvDoc->save();
-            return;
-        }
-        $this->checkRowsFromCSV();
-        if ($this->csvDoc->hasErreurs()) {
-            $this->csvDoc->setStatut(self::STATUT_ERREUR);
-            $this->csvDoc->save();
-            return false;
-        }
-        $this->csvDoc->setStatut(self::STATUT_VALIDE);
-        $this->csvDoc->save();
+    	$this->csvDoc->clearErreurs();
+    	$this->checkCSVIntegrity();
+    	if ($this->csvDoc->hasErreurs()) {
+    		$this->csvDoc->setStatut(self::STATUT_ERREUR);
+    		$this->csvDoc->save();
+    		return;
+    	}
+    	$this->csvDoc->setStatut(self::STATUT_VALIDE);
+    	$this->csvDoc->save();
         return true;
     }
 
     public function importCSV() {
         return $this->importDaesFromCSV();
-    }
-
-    private function checkRowsFromCSV() {
-        return $this->importDaesFromCSV(true);
     }
 
     private function importDaesFromCSV($just_check = false) {

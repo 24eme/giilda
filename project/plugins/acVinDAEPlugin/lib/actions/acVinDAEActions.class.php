@@ -85,7 +85,15 @@ class acVinDAEActions extends sfActions
 				if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
 					$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
 				} else {
-					return $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant));
+					
+					$this->daeCsvEdi->importCsv();
+					
+					if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+						$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
+					} else {
+						$this->getUser()->setFlash('notice', 'Vos ventes ont bien été importées');
+						return $this->redirect('dae_etablissement', array('identifiant' => $this->identifiant));
+					}
 				}
 			}
 			
