@@ -66,7 +66,7 @@ class acVinDAEActions extends sfActions
 	}
 	
 	public function executeUploadEdi(sfWebRequest $request) {
-  		set_time_limit(120);
+  		set_time_limit(300);
 		$this->etablissement = $this->getRoute()->getEtablissement();
 		$this->identifiant = $request->getParameter('identifiant');
 		$this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
