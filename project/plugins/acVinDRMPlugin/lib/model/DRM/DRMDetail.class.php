@@ -170,7 +170,7 @@ class DRMDetail extends BaseDRMDetail {
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
           if ($this->getConfig()->get('entrees')->exist($entree)){
-            if ($this->getTypeDRM() == DRM::DETAILS_KEY_SUSPENDU && preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
+            if (preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations') || ! $this->observations) {
                   $this->add('observations');
@@ -181,7 +181,7 @@ class DRMDetail extends BaseDRMDetail {
         }
         foreach($this->sorties as $sortie => $v) {
           if ($this->getConfig()->get('sorties')->exist($sortie)){
-            if ($this->getTypeDRM() == DRM::DETAILS_KEY_SUSPENDU && !preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
+            if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations') || ! $this->observations) {
                     $this->add('observations');
@@ -534,7 +534,7 @@ class DRMDetail extends BaseDRMDetail {
       if(!$this->getCodeDouane()){
         return false;
       }
-      if(preg_match('/^(VT|VM|[0-9]{1})/', $this->getCodeDouane())){
+      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
         return false;
       }
       return true;
