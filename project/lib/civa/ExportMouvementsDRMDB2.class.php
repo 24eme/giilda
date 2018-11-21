@@ -138,7 +138,7 @@ class ExportMouvementsDRMDB2
             $periode = $parts[1];
             $annee = substr($periode, 0, 4);
             $mois = substr($periode, 4, 2);
-            $total["prix_ht"] = round($total["prix_ht"], 2);
+            $total["prix_ht"] = floor(($total["prix_ht"] * 100)) / 100;
             $total["tva"] = round($total["prix_ht"] * 0.20, 2);
             $total["prix_ttc"] = $total["prix_ht"] + $total["tva"];
 
