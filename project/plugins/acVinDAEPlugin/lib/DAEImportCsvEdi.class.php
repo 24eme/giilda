@@ -22,8 +22,9 @@ class DAEImportCsvEdi extends DAECsvEdi
     public function __construct($file = null, $identifiant ,$periode) {
             $this->identifiant = $identifiant;
             $this->file = $file;
+            $this->csvDoc = CSVDAEClient::getInstance()->find(CSVDAEClient::getInstance()->buildId($identifiant ,$periode));
             if(is_null($this->csvDoc)) {
-                $this->csvDoc = CSVDAEClient::getInstance()->createOrFindDocFromDAES($file, $identifiant ,$periode);
+            	$this->csvDoc = CSVDAEClient::getInstance()->createOrFindDocFromDAES($file, $identifiant ,$periode);
             }
             $this->dae = new DAE();
             parent::__construct($file, array());
@@ -54,41 +55,24 @@ class DAEImportCsvEdi extends DAECsvEdi
 	}
 
 	public function getDocRows() {
-		if($this->file){
-        	return $this->getCsv();
-        }
-        if($this->csvDoc->hasCsvAttachement()){
-        	$csvFile = new CsvFile($this->csvDoc->getAttachmentUri($this->csvDoc->getFileName()));
-            return $csvFile->getCsv();
-        }
-        return array();
+		return $this->getCsv($this->csvDoc->getFileContent());
 	}
 
     public function checkCSV() {
-        $this->csvDoc->clearErreurs();
-        $this->checkCSVIntegrity();
-        if ($this->csvDoc->hasErreurs()) {
-            $this->csvDoc->setStatut(self::STATUT_ERREUR);
-            $this->csvDoc->save();
-            return;
-        }
-        $this->checkRowsFromCSV();
-        if ($this->csvDoc->hasErreurs()) {
-            $this->csvDoc->setStatut(self::STATUT_ERREUR);
-            $this->csvDoc->save();
-            return false;
-        }
-        $this->csvDoc->setStatut(self::STATUT_VALIDE);
-        $this->csvDoc->save();
+    	$this->csvDoc->clearErreurs();
+    	$this->checkCSVIntegrity();
+    	if ($this->csvDoc->hasErreurs()) {
+    		$this->csvDoc->setStatut(self::STATUT_ERREUR);
+    		$this->csvDoc->save();
+    		return;
+    	}
+    	$this->csvDoc->setStatut(self::STATUT_VALIDE);
+    	$this->csvDoc->save();
         return true;
     }
 
     public function importCSV() {
         return $this->importDaesFromCSV();
-    }
-
-    private function checkRowsFromCSV() {
-        return $this->importDaesFromCSV(true);
     }
 
     private function importDaesFromCSV($just_check = false) {
@@ -151,24 +135,22 @@ class DAEImportCsvEdi extends DAECsvEdi
     
     private function getItemKey($items, $value) {
     	$length = strlen($value);
+    	$value = trim($value);
     	foreach ($items as $k => $v) {
-    		if (preg_match('/'.trim($value).'/i', $k)) {
+    		if ($value == $k || $value == $v) {
+    			return $k;
+    		}
+    		if (preg_match('/'.$value.'/i', $k)) {
     			return $k;
     		}
     		if (preg_match('/'.KeyInflector::slugify($value).'/i', KeyInflector::slugify($k))) {
     			return $k;
     		}
-	    	if (preg_match('/'.str_replace(' ', '', $value).'/i', str_replace(' ', '', $k))) {
-	    		return $k;
-	    	}
     		if ($length > 3) {
-	    		if (preg_match('/'.trim($value).'/i', $v)) {
+	    		if (preg_match('/'.$value.'/i', $v)) {
 	    			return $k;
 	    		}
 	    		if (preg_match('/'.KeyInflector::slugify($value).'/i', KeyInflector::slugify($v))) {
-	    			return $k;
-	    		}
-	    		if (preg_match('/'.str_replace(' ', '', $value).'/i', str_replace(' ', '', $v))) {
 	    			return $k;
 	    		}
     		}
