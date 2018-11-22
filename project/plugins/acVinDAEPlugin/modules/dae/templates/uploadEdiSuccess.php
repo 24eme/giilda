@@ -31,7 +31,7 @@
     
     </div>
     
-    <?php if ($md5 && count($erreurs) > 0): ?>
+    <?php if (count($erreurs) > 0): ?>
     	<p>&nbsp;</p>
     	<h4>Erreurs</h4>
 
