@@ -82,13 +82,13 @@ class acVinDAEActions extends sfActions
 				$this->daeCsvEdi = new DAEImportCsvEdi($file, $this->identifiant, $this->periode->format('Y-m-d'));
 				$this->daeCsvEdi->checkCSV();
 				
-				if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+				if($this->daeCsvEdi->getCsvDoc()->hasErreurs()) {
 					$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
 				} else {
 					
 					$this->daeCsvEdi->importCsv();
 					
-					if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+					if($this->daeCsvEdi->getCsvDoc()->hasErreurs()) {
 						$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
 					} else {
 						$this->getUser()->setFlash('notice', 'Vos ventes ont bien été importées');
