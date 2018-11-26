@@ -72,7 +72,6 @@ class acVinDAEActions extends sfActions
 		$this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
 		$this->erreurs = array();
 		$this->form = new DAESCSVUploadForm();
-		$files = array();
 		if ($request->isMethod(sfWebRequest::POST)) {
 			$this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
 			if ($this->form->isValid()) {
@@ -98,12 +97,12 @@ class acVinDAEActions extends sfActions
 			}
 			
 			if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
-				return $this->fileErrorUploadEdi($path, $files, $this->etablissement, $this->periode);
+				return $this->fileErrorUploadEdi($file, $this->etablissement, $this->periode);
 			}
 		}
 	}
 	
-	public function fileErrorUploadEdi($file, $files, $etablissement, $periode) {
+	public function fileErrorUploadEdi($file, $etablissement, $periode) {
 		return;
 	}
 	
