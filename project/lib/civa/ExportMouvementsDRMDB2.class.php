@@ -63,20 +63,26 @@ class ExportMouvementsDRMDB2
         }
 
         $db2Mouvements = $this->aggregateMouvements($mouvements);
-
-
         $db2MouvementsExport = $this->aggregateMouvementsExport($mouvements);
         $db2CRD = $this->aggregateCRD($drms);
         $db2Total = $this->aggregateTotal($mouvements, $db2CRD);
+
+        $db2Identifiants = array();
+        foreach($db2Total as $identifiantPeriode => $null) {
+            $parts = explode("-", $identifiantPeriode);
+            $identifiant = $parts[0];
+
+            $db2Identifiants[$identifiantPeriode] = EtablissementClient::getInstance()->find("ETABLISSEMENT-".$identifiant, acCouchdbClient::HYDRATE_JSON)->num_interne;
+        }
 
         $csv = array();
 
         foreach($db2Mouvements as $identifiantPeriode => $volumes) {
             $parts = explode("-", $identifiantPeriode);
-            $identifiant = $parts[0];
+            $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             foreach($this->structure as $file => $infos) {
-                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0";
+                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";" . $identifiant .";;0";
                 foreach($infos as $mouvementType => $produits) {
                     foreach($produits as $produit) {
                         if($file."/".$mouvementType == "01.DRMDEM/26.Replis" && $produit != "01.BLANC") {
@@ -96,11 +102,11 @@ class ExportMouvementsDRMDB2
 
         foreach($db2MouvementsExport as $identifiantPeriode => $infos) {
             $parts = explode("-", $identifiantPeriode);
-            $identifiant = $parts[0];
+            $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             $compteur = 1;
             foreach($infos as $pays => $produits) {
-                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0;".$compteur.";".$pays*1;
+                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";". $identifiant .";;0;".$compteur.";".$pays*1;
                 foreach($this->produitsExport as $produit) {
                     $volume = 0;
                     if(isset($produits[$produit])) {
@@ -117,11 +123,11 @@ class ExportMouvementsDRMDB2
 
         foreach($db2CRD as $identifiantPeriode => $centilisations) {
             $parts = explode("-", $identifiantPeriode);
-            $identifiant = $parts[0];
+            $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             $compteur = 1;
             foreach($centilisations as $centilisation => $sorties) {
-                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0;".$compteur.";\"".$centilisation."\"";
+                $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";". $identifiant.";;0;".$compteur.";\"".$centilisation."\"";
                 foreach($sorties as $sortie) {
                     $ligne .= ";".$sortie;
                 }
@@ -134,7 +140,7 @@ class ExportMouvementsDRMDB2
 
         foreach($db2Total as $identifiantPeriode => $total) {
             $parts = explode("-", $identifiantPeriode);
-            $identifiant = $parts[0];
+            $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             $annee = substr($periode, 0, 4);
             $mois = substr($periode, 4, 2);
@@ -142,7 +148,8 @@ class ExportMouvementsDRMDB2
             $total["tva"] = round($total["prix_ht"] * 0.20, 2);
             $total["prix_ttc"] = $total["prix_ht"] + $total["tva"];
 
-            $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";".str_replace("C", "", $identifiant).";;0;\"\";0;0;0;".$total["prix_ht"].";".$total["tva"].";".$total["prix_ttc"].";".$total["quantite"].";".$total["prix_ttc"];
+            $ligne = substr($periode, 0, 4).";".(substr($periode, 4, 2)*1).";". $identifiant.";;0;\"\";0;0;0;".$total["prix_ht"].";".$total["tva"].";".$total["prix_ttc"].";".$total["quantite"].";".$total["prix_ttc"];
+
             foreach($this->structure as $file => $infos) {
                 foreach($this->produits as $produit) {
                     $volume = 0;
