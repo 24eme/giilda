@@ -54,8 +54,8 @@ all:
                           script: '_value * -1'
                   blanc_sec:
                     filter:
-                      wildcard:
-                        doc.mouvements.produit_hash: '*blanc_sec*'
+                      term:
+                        doc.mouvements.couleur: 'blanc_sec'
                     aggs:
                       agg_column:
                         sum:
