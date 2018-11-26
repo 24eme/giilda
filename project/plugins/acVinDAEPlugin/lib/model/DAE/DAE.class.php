@@ -89,6 +89,7 @@ class DAE extends BaseDAE implements InterfaceDeclarantDocument {
     			'BIB_100' => 'Bag In Box 1 L',
     			'BIB_150' => 'Bag In Box 1.5 L',
     			'BIB_200' => 'Bag In Box 2 L',
+    			'BIB_225' => 'Bag In Box 2.25 L',
     			'BIB_300' => 'Bag In Box 3 L',
     			'BIB_400' => 'Bag In Box 4 L',
     			'BIB_500' => 'Bag In Box 5 L',
