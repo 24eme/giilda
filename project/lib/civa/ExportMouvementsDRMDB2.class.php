@@ -18,8 +18,8 @@ class ExportMouvementsDRMDB2
         "exporttaxe_details"                 => "02.DRMDSA/14.A bis - DSA-DSAC Hors France Métropolitaine",
         "sorties/vracsanscontratsuspendu"    => "03.DRMDSS/06.B - Hors région Alsace (UE - pays tiers ou autre EA en France)",
         "export_details"                     => "03.DRMDSS/06.B - Hors région Alsace (UE - pays tiers ou autre EA en France)",
-        "sorties/vrac"                       => "03.DRMDSS/10.C - Vrac",
-        "sorties/bouteillenue"               => "03.DRMDSS/14.D - Expeditions en Alsace en bouteilles",
+        "vrac_details"                       => "03.DRMDSS/10.C - Vrac",
+        "bouteillenue_details"               => "03.DRMDSS/14.D - Expeditions en Alsace en bouteilles",
         "sorties/exoversutilisateurauto"     => "04.DRMDSE/06.I - Vers un utilisateur autorisé",
         "sorties/consommationfamilialedegustation" => "04.DRMDSE/10.J - Dégustations à la propriété",
         "sorties/repli"                      => "05.DRMDSO/06.K - Replis",
@@ -92,7 +92,7 @@ class ExportMouvementsDRMDB2
                         if(isset($volumes[$produit][$file."/".$mouvementType])) {
                             $volume = $volumes[$produit][$file."/".$mouvementType];
                         }
-                        $ligne .= ";".$volume;
+                        $ligne .= ";".round($volume, 2);
                     }
                 }
                 $ligne .= ";".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).";\"TELEDECLARATION\"";
@@ -112,7 +112,7 @@ class ExportMouvementsDRMDB2
                     if(isset($produits[$produit])) {
                         $volume = $produits[$produit];
                     }
-                    $ligne .= ";".$volume;
+                    $ligne .= ";".round($volume, 2);
                 }
                 $ligne .= ";".str_replace("-", "", $drms[$identifiantPeriode]->valide->date_signee).";\"TELEDECLARATION\"";
 
@@ -156,7 +156,7 @@ class ExportMouvementsDRMDB2
                     if(isset($total[$file][$produit])) {
                         $volume = $total[$file][$produit];
                     }
-                    $ligne .= ";".$volume;
+                    $ligne .= ";".round($volume, 2);
                 }
             }
 
