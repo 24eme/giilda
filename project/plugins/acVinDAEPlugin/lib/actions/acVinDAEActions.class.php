@@ -46,7 +46,7 @@ class acVinDAEActions extends sfActions
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$this->dae = $this->form->save();
-				return ($this->withlast)?  $this->redirect('dae_nouveau', array('sf_subject' => $this->etablissement, 'periode' => $this->periode->format('Y-m-d'), 'withlast' => 1)) : $this->redirect('dae_etablissement', $this->dae);
+				return ($this->withlast)?  $this->redirect('dae_nouveau', array('sf_subject' => $this->etablissement, 'periode' => $this->dae->date, 'withlast' => 1)) : $this->redirect('dae_etablissement', array('identifiant' => $this->dae->identifiant, 'periode' => $this->dae->date));
 			}
 		}
 	}

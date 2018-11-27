@@ -231,9 +231,15 @@ class DAEImportCsvEdi extends DAECsvEdi
             $num_ligne++;
         }
         if (!$just_check && !$hasErrors) {
+        	$numeros = array();
+        	$daeClient = DAEClient::getInstance();
         	foreach ($daes as $dae) {
-        		$dae->_id = 'DAE-' . $dae->identifiant . '-' . str_replace('-','',$dae->date)."-".DAEClient::getInstance()->getNextIdentifiantForEtablissementAndDay($dae->identifiant, $dae->date);
+        		if (!isset($numeros[$dae->identifiant.'_'.$dae->date])) {
+        			$numeros[$dae->identifiant.'_'.$dae->date] = $daeClient->getNextIdentifiantForEtablissementAndDay($dae->identifiant, $dae->date);
+        		}
+        		$dae->_id = 'DAE-' . $dae->identifiant . '-' . str_replace('-','',$dae->date)."-".$numeros[$dae->identifiant.'_'.$dae->date];
         		$this->client->storeDoc($dae);
+        		$numeros[$dae->identifiant.'_'.$dae->date] = $numeros[$dae->identifiant.'_'.$dae->date] + 1;
         	}
         	return count($daes);
         }
