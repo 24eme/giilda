@@ -45,3 +45,4 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 | Dune Informatique| Oui |  |  |  |  |
 | Cer France       | Oui |  |  |  |  |
 | Vinosoft         | Oui |  |  |  |  |
+| EBC         | Oui |  |  |  |  |
