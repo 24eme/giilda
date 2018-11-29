@@ -109,6 +109,7 @@ all:
         stocks:
           libelle: "Stocks"
           index: "DRMMVT"
+          hashkeysize: 2
           aggregation:
             filter:
               term:
