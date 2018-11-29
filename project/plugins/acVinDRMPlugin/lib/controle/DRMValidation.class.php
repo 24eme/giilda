@@ -53,10 +53,10 @@ class DRMValidation extends DocumentValidation {
             $entrees_retourmarchandisesanscvo = ($detail->entrees->exist('retourmarchandisesanscvo'))? $detail->entrees->retourmarchandisesanscvo : 0.0;
             $entrees_autre = ($detail->entrees->exist('autre'))? $detail->entrees->autre : 0.0;
 
-            $sorties_destructionperte = ($detail->sorties->exist('destructionperte'))? $detail->sorties->destructionperte : 0.0;
+            $sorties_manquants = ($detail->sorties->exist('manquants'))? $detail->sorties->manquants : 0.0;
             $sorties_autre = ($detail->sorties->exist('autre'))? $detail->sorties->autre : 0.0;
 
-            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_destructionperte + $entrees_autre + $sorties_autre;
+            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_manquants + $entrees_autre + $sorties_autre;
 
             $produitLibelle = " pour le produit ".$detail->getLibelle();
 
@@ -75,7 +75,7 @@ class DRMValidation extends DocumentValidation {
                 if($entrees_retourmarchandisesanscvo){
                   $this->addPoint('erreur', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
-                if($sorties_destructionperte){
+                if($sorties_manquants){
                   $this->addPoint('erreur', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
                 if($entrees_autre){
