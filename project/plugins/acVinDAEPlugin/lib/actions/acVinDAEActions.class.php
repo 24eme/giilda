@@ -46,7 +46,7 @@ class acVinDAEActions extends sfActions
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$this->dae = $this->form->save();
-				return ($this->withlast)?  $this->redirect('dae_nouveau', array('sf_subject' => $this->etablissement, 'periode' => $this->periode->format('Y-m-d'), 'withlast' => 1)) : $this->redirect('dae_etablissement', $this->dae);
+				return ($this->withlast)?  $this->redirect('dae_nouveau', array('sf_subject' => $this->etablissement, 'periode' => $this->dae->date, 'withlast' => 1)) : $this->redirect('dae_etablissement', array('identifiant' => $this->dae->identifiant, 'periode' => $this->dae->date));
 			}
 		}
 	}
@@ -72,7 +72,6 @@ class acVinDAEActions extends sfActions
 		$this->periode = new DateTime($request->getParameter('periode', date('Y-m-d')));
 		$this->erreurs = array();
 		$this->form = new DAESCSVUploadForm();
-		$files = array();
 		if ($request->isMethod(sfWebRequest::POST)) {
 			$this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
 			if ($this->form->isValid()) {
@@ -82,13 +81,13 @@ class acVinDAEActions extends sfActions
 				$this->daeCsvEdi = new DAEImportCsvEdi($file, $this->identifiant, $this->periode->format('Y-m-d'));
 				$this->daeCsvEdi->checkCSV();
 				
-				if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+				if($this->daeCsvEdi->getCsvDoc()->hasErreurs()) {
 					$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
 				} else {
 					
 					$this->daeCsvEdi->importCsv();
 					
-					if($this->daeCsvEdi->getCsvDoc()->getStatut() != "VALIDE") {
+					if($this->daeCsvEdi->getCsvDoc()->hasErreurs()) {
 						$this->erreurs = $this->daeCsvEdi->getCsvDoc()->erreurs;
 					} else {
 						$this->getUser()->setFlash('notice', 'Vos ventes ont bien été importées');
@@ -98,12 +97,12 @@ class acVinDAEActions extends sfActions
 			}
 			
 			if (!$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
-				return $this->fileErrorUploadEdi($path, $files, $this->etablissement, $this->periode);
+				return $this->fileErrorUploadEdi($file, $this->etablissement, $this->periode);
 			}
 		}
 	}
 	
-	public function fileErrorUploadEdi($file, $files, $etablissement, $periode) {
+	public function fileErrorUploadEdi($file, $etablissement, $periode) {
 		return;
 	}
 	
