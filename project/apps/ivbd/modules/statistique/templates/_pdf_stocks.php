@@ -53,12 +53,14 @@ $appellations = (isset($options['appellations']) && count($options['appellations
 
 \begin{table}[ht!]
 <?php if ($compare): ?>
-
-
+\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth}| >{\raggedleft}p{0.08\linewidth} | }
+\hline
+\rowcolor{gray!40} \textbf{Article} & \multicolumn{1}{c |}{\textbf{Catégorie}} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Stock initial N-1}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Mouvements N-1}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} & \multicolumn{1}{c |}{\textbf{Stock Fin N-1}} \tabularnewline \hline
 <?php else : ?>
 \begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 \hline
-\rowcolor{gray!40} \textbf{Article} & \multicolumn{1}{c |}{\textbf{Catégorie}} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Stock actuel}} & \multicolumn{1}{c |}{\textbf{Total mouvements}} \tabularnewline \hline
+\rowcolor{gray!40} \textbf{Article} & \multicolumn{1}{c |}{\textbf{Catégorie}} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} \tabularnewline \hline
+<?php endif; ?>
 <?php
 	$i = 1;
 	$page = null;
@@ -80,10 +82,18 @@ $appellations = (isset($options['appellations']) && count($options['appellations
 \clearpage
 \pagestyle{fstyle}
 \begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
+<?php if ($compare): ?>
+\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth}| >{\raggedleft}p{0.08\linewidth} | }
+<?php else : ?>
+	\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
+<?php endif; ?>
 	<?php if ($newSection): ?>
 	\hline
-	\rowcolor{gray!40} \textbf{Article} & \multicolumn{1}{c |}{\textbf{Catégorie}} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Stock actuel}} & \multicolumn{1}{c |}{\textbf{Total mouvements}} \tabularnewline
+	<?php if ($compare): ?>
+		\rowcolor{gray!40} \textbf{Article} & \multicolumn{1}{c |}{\textbf{Catégorie}} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Stock initial N-1}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Mouvements N-1}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} & \multicolumn{1}{c |}{\textbf{Stock Fin N-1}} \tabularnewline \hline
+	<?php else : ?>
+		\rowcolor{gray!40} \textbf{Article} & \multicolumn{1}{c |}{\textbf{Catégorie}} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} \tabularnewline
+	<?php endif; ?>
 	<?php endif; ?>
 	\hline
 <?php $i=($newSection)? 1 : 0;
@@ -92,15 +102,17 @@ $i++;
 $page = $current;
 endif; ?>
 <?php if (preg_match('/total/i', $current)): ?>\hline<?php endif; ?>
-<?php if ($isTotal): ?>\rowcolor{gray!40} <?php endif;
-if (preg_match('/total/i', $current)) {unset($values[1]); echo 'TOTAL général & '; }
-
-echo implode(' & ', $values);
+<?php
+foreach ($values as $key => $value) {
+	if ($isTotal): ?> \textbf{<?php endif;
+		echo $value;
+	if ($isTotal): ?>}<?php endif;
+	if($key < count($values) -1 ) echo "&";
+}
 
 ?> \tabularnewline \hline
 <?php  endforeach;?>
 \end{tabularx}
-<?php endif; ?>
 \end{table}
 
 \end{document}

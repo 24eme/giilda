@@ -20,8 +20,8 @@ if ($lastPeriode) {
 					unset($lastPeriode[$key]);
 			} else {
 					foreach ($values as $k => $v) {
-						$csv .= $values[$k];
-						$csv .=  ($k == count($values) - 1)? "\n" : ';;';
+						$csv .= $values[$k].";";
+						$csv .=  ($k == count($values) - 1)? "\n" : ';';
 					}
 			}
 	}
@@ -68,6 +68,6 @@ if ($lastPeriode) {
 			  $csv .= $produitCepageLibelle.';TOTAL;'.$totalStockInitial.';'.$totalTotal.";".$totalStockFinal."\n";
 			}
 		}
-		$csv .= 'TOTAL;;'.$tStockInitial.';'.$tTotal.";".$tStockFinal."\n";
+		$csv .= 'TOTAL;appelations;'.$tStockInitial.';'.$tTotal.";".$tStockFinal."\n";
 }
 echo $csv;
