@@ -10,14 +10,14 @@
  * @author mathurin
  */
 class GenerationRelancePDF extends GenerationPDF {
-    
+
     const MAX_LIGNE_TABLEAUX = 41;
 
     function __construct(Generation $g, $config = null, $options = null) {
         parent::__construct($g, $config, $options);
     }
 
-    public function preGeneratePDF() {        
+    public function preGeneratePDF() {
         parent::preGeneratePDF();
         $arguments = $this->generation->arguments->toArray();
         $id_gen = $this->generation->_id;
@@ -43,19 +43,29 @@ class GenerationRelancePDF extends GenerationPDF {
             $alertes_relancables = array();
             foreach ($types_relance as $type_relance) {
                 $alertes_relancables = array_merge($alertes_relancables,AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutAndTypeRelance($etb_id, AlerteClient::STATUT_A_RELANCER, $type_relance));
-                $alertes_relancables = array_merge($alertes_relancables,AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutAndTypeRelance($etb_id, AlerteClient::STATUT_A_RELANCER_AR, $type_relance));  
+                $alertes_relancables = array_merge($alertes_relancables,AlerteRelanceView::getInstance()->getRechercheByEtablissementAndStatutAndTypeRelance($etb_id, AlerteClient::STATUT_A_RELANCER_AR, $type_relance));
             }
             if(!count($alertes_relancables)){
                 continue;
             }
-             
+            $alertes_relancables_tmp = array();
+
+           foreach($alertes_relancables as $a){
+             // TODO : a changer en 2018-2019 pour la dernière fois
+               if($a->key[AlerteRelanceView::KEY_CAMPAGNE] == "2017-2018"){
+                       $alertes_relancables_tmp[$a->id] = $a;
+               }
+           }
+           $alertes_relancables = $alertes_relancables_tmp;
+
+
             $alertes_relancables_sorted = AlerteRelanceView::getInstance()->sortAlertesForRelances($alertes_relancables);
             if (count($alertes_relancables_sorted)) {
                 foreach ($alertes_relancables_sorted as $type_relance => $alertes_relances_type) {
                             $relance = RelanceClient::getInstance()->createDoc($type_relance,$alertes_relances_type, $etb, $date_relance);
 
                             $relance->save();
-                            $this->generation->add('documents')->add($cpt, $relance->_id);  
+                            $this->generation->add('documents')->add($cpt, $relance->_id);
                             $cpt++;
                 }
             }
