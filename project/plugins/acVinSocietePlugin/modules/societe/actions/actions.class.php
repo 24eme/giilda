@@ -59,13 +59,13 @@ class societeActions extends sfCredentialActions {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $values = $this->form->getValues();
-                $this->redirect('societe_creation_doublon', array('type' => $values['type'], 'raison_sociale' => $values['raison_sociale']));
+                $this->redirect('societe_creation_doublon', array('type' => $values['type'], 'raison_sociale' => urlencode($values['raison_sociale'])));
             }
         }
     }
 
     public function executeCreationSocieteDoublon(sfWebRequest $request) {
-        $this->raison_sociale = $request->getParameter('raison_sociale', false);
+        $this->raison_sociale = urldecode($request->getParameter('raison_sociale', false));
         $this->type = $request->getParameter('type', false);
         $this->societesDoublons = SocieteClient::getInstance()->getSocietesWithTypeAndRaisonSociale($this->type, $this->raison_sociale);
 
