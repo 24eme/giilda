@@ -16,7 +16,7 @@
 		</periode>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
-<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_SUSPENDU) as $produit):	?>
+<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_SUSPENDU) as $produit): if ($produit->getCodeDouane() != '1R707S' && $produit->getCodeDouane() != '1S707S') :	?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
@@ -42,12 +42,12 @@
 ?>
 				</balance-stocks>
 			</produit>
-<?php endforeach; ?>
+<?php endif; endforeach; ?>
 			<stockEpuise>false</stockEpuise>
 		</droits-suspendus>
 <?php if ($drm->hasExportableProduitsAcquittes()): ?>
 		<droits-acquittes>
-<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_ACQUITTE) as $produit): ?>
+<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_ACQUITTE) as $produit):  ?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
