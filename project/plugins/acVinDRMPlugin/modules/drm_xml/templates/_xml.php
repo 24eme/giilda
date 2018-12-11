@@ -86,7 +86,7 @@
                 <centilisation volume="<?php echo centilisation2douane($crd->centilitrage, $crd->detail_libelle); ?>"<?php
  									if (centilisation2douane($crd->centilitrage, $crd->detail_libelle) == 'AUTRE') : ?> volumePersonnalise="<?php printf('%.01lf', $crd->centilitrage * 10000);
 									?>" bib="<?php echo ($crd->isBib()) ? 'true' : 'false' ; ?>"<?php endif; ?>>
-        		<stock-debut-periode><?php echo $crd->stock_debut ?></stock-debut-periode>
+        		<stock-debut-periode><?php echo ($crd->stock_debut)? $crd->stock_debut : 0; ?></stock-debut-periode>
 <?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours): ?>
         		<entrees-capsules>
 <?php if ($crd->entrees_achats): ?>
