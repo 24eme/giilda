@@ -16,7 +16,7 @@
 		</periode>
 <?php if (!$drm->declaration->hasStockEpuise()): ?>
 		<droits-suspendus>
-<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_SUSPENDU) as $produit):	?>
+<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_SUSPENDU) as $produit): if ($produit->getCodeDouane() != '1R707S' && $produit->getCodeDouane() != '1S707S') :	?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
@@ -42,12 +42,12 @@
 ?>
 				</balance-stocks>
 			</produit>
-<?php endforeach; ?>
+<?php endif; endforeach; ?>
 			<stockEpuise>false</stockEpuise>
 		</droits-suspendus>
 <?php if ($drm->hasExportableProduitsAcquittes()): ?>
 		<droits-acquittes>
-<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_ACQUITTE) as $produit): ?>
+<?php foreach (xmlGetProduitsDetails($drm, true, DRM::DETAILS_KEY_ACQUITTE) as $produit):  ?>
 			<produit>
 <?php if ($produit->getCodeDouane()): ?>
 			<?php if($produit->isCodeDouaneAlcool()): ?>
@@ -86,7 +86,7 @@
                 <centilisation volume="<?php echo centilisation2douane($crd->centilitrage, $crd->detail_libelle); ?>"<?php
  									if (centilisation2douane($crd->centilitrage, $crd->detail_libelle) == 'AUTRE') : ?> volumePersonnalise="<?php printf('%.01lf', $crd->centilitrage * 10000);
 									?>" bib="<?php echo ($crd->isBib()) ? 'true' : 'false' ; ?>"<?php endif; ?>>
-        		<stock-debut-periode><?php echo $crd->stock_debut ?></stock-debut-periode>
+        		<stock-debut-periode><?php echo ($crd->stock_debut)? $crd->stock_debut : 0; ?></stock-debut-periode>
 <?php if ($crd->entrees_achats || $crd->entrees_excedents || $crd->entrees_retours): ?>
         		<entrees-capsules>
 <?php if ($crd->entrees_achats): ?>
