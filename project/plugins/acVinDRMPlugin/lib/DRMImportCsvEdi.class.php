@@ -381,7 +381,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $creationvrac->prixhl = floatval($csvRow[self::CSV_CAVE_CONTRAT_PRIXHL]);
                     $nego = EtablissementClient::getInstance()->findByNoAccise($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]);
                     if (!$nego) {
-                      $nego = EtablissementClient::getInstance()->retrieveByName($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]);
+                      $nego = EtablissementClient::getInstance()->retrieveByName(str_replace(".", "", $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]));
                     }
                     $creationvrac->acheteur = $nego->identifiant;
                     $creationvrac->type_contrat = ($type_key == 'creationvrac')? VracClient::TYPE_TRANSACTION_VIN_VRAC : VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
