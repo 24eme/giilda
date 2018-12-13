@@ -183,6 +183,7 @@ class DAEImportCsvEdi extends DAECsvEdi
         $num_ligne = 1;
         $daes = array();
         $hasErrors = false;
+        $nbDaes = 0;
         foreach ($this->getDocRows() as $csvRow) {
         	$founded_produit = $this->identifyProduct($csvRow);
         	if (!$founded_produit) {
@@ -228,16 +229,25 @@ class DAEImportCsvEdi extends DAECsvEdi
             if (!$just_check && !$hasErrors) {
                 $daes[] = $this->createDae($csvRow, $founded_produit);
             }
+            if (!$hasErrors) {
+            	$nbDaes++;
+            }
             $num_ligne++;
         }
         if (!$just_check && !$hasErrors) {
+        	$numeros = array();
+        	$daeClient = DAEClient::getInstance();
         	foreach ($daes as $dae) {
-        		$dae->_id = 'DAE-' . $dae->identifiant . '-' . str_replace('-','',$dae->date)."-".DAEClient::getInstance()->getNextIdentifiantForEtablissementAndDay($dae->identifiant, $dae->date);
+        		if (!isset($numeros[$dae->identifiant.'_'.$dae->date])) {
+        			$numeros[$dae->identifiant.'_'.$dae->date] = $daeClient->getNextIdentifiantForEtablissementAndDay($dae->identifiant, $dae->date);
+        		}
+        		$dae->_id = 'DAE-' . $dae->identifiant . '-' . str_replace('-','',$dae->date)."-".$numeros[$dae->identifiant.'_'.$dae->date];
         		$this->client->storeDoc($dae);
+        		$numeros[$dae->identifiant.'_'.$dae->date] = sprintf("%05d", $numeros[$dae->identifiant.'_'.$dae->date] + 1);
         	}
         	return count($daes);
         }
-        return 0;
+        return (!$just_check)? 0 : $nbDaes;
     }
     
     private function getItemKey($items, $value) {
@@ -326,6 +336,7 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->identifiant = $this->identifiant;
         $dae->date = $date;
         $dae->date_saisie = date('Y-m-d');
+        $dae->type = 'DAE';
         
         if ($this->etablissement) {
 	        $dae->declarant->nom = null;
@@ -343,6 +354,8 @@ class DAEImportCsvEdi extends DAECsvEdi
 	        $dae->declarant->commune = $this->etablissement->siege->commune;
 	        $dae->declarant->code_postal = $this->etablissement->siege->code_postal;
 	        $dae->declarant->region = $this->etablissement->getRegion();
+	        $dae->declarant->famille = $this->etablissement->famille;
+	        $dae->declarant->sous_famille = $this->etablissement->sous_famille;
         }
         
         $this->dates[$date] = $date;
