@@ -3,7 +3,7 @@ use_helper('Statistique');
 use_helper('IvbdStatistique');
 
 if ($lastPeriode) {
-	$csv = "Pays;Blanc N-1;Blanc;Blanc %;Rosé N-1;Rosé;Rosé %;Rouge N-1;Rouge;Rouge %;TOTAL N-1;TOTAL;TOTAL %\n";
+	$csv = "Pays;Blanc N-1;Blanc;Blanc %;Blanc Sec N-1;Blanc Sec;Blanc Sec %;Blanc Moelleux N-1;Blanc Moelleux;Blanc Moelleux %;Blanc Doux N-1;Blanc Doux;Blanc Doux %;Rosé N-1;Rosé;Rosé %;Rouge N-1;Rouge;Rouge %;TOTAL N-1;TOTAL;TOTAL %\n";
 	$result = $result->getRawValue();
 	$lastPeriode = $lastPeriode->getRawValue();
 	$resultKeys = array_keys($result);
@@ -18,17 +18,29 @@ if ($lastPeriode) {
 			foreach ($lastPeriode as $subkey => $subvalues) {
 				$subtabKey = explode('/', $subkey);
 				if (!in_array($subtabKey[0], $resultPartKeys)) {
-					$csv .= $subtabKey[0].';'.$subvalues[0].';'.null.';'.getEvol($subvalues[0], 0).';'.$subvalues[1].';'.null.';'.getEvol($subvalues[1], 0).';'.$subvalues[2].';'.null.';'.getEvol($subvalues[2], 0).';'.$subvalues[3].';'.null.';'.getEvol($subvalues[3], 0)."\n";
+					$csv .= $subtabKey[0].';';
+					foreach ($subvalues as $subvalueskey => $subvaluesVal) {
+						$csv .= $subvalues[$subvalueskey].';'.null.';'.getEvol($subvalues[$subvalueskey], 0);
+						$csv .= ($subvalueskey == count($subvalues) - 1)? "\n" : ';';
+					}
 				}
 			}
 		}
 		if (isset($lastPeriode[$key])) {
-			if ($lastPeriode[$key][3] || $values[3]) {
-				$csv .= $tabKey[0].';'.$lastPeriode[$key][0].';'.$values[0].';'.getEvol($lastPeriode[$key][0], $values[0]).';'.$lastPeriode[$key][1].';'.$values[1].';'.getEvol($lastPeriode[$key][1], $values[1]).';'.$lastPeriode[$key][2].';'.$values[2].';'.getEvol($lastPeriode[$key][2], $values[2]).';'.$lastPeriode[$key][3].';'.$values[3].';'.getEvol($lastPeriode[$key][3], $values[3])."\n";
+			if ($lastPeriode[$key][6] || $values[6]) {
+				$csv .= $tabKey[0].';';
+				foreach ($lastPeriode[$key] as $lastPeriodeCaseKey => $lastPeriodeCaseValue) {
+					$csv .= $lastPeriode[$key][$lastPeriodeCaseKey].';'.$values[$lastPeriodeCaseKey].';'.getEvol($lastPeriode[$key][$lastPeriodeCaseKey], $values[$lastPeriodeCaseKey]);
+					$csv .=  ($lastPeriodeCaseKey == count($lastPeriode[$key]) - 1)? "\n" : ';'; //.';'.$lastPeriode[$key][1].';'.$values[1].';'.getEvol($lastPeriode[$key][1], $values[1]).';'.$lastPeriode[$key][2].';'.$values[2].';'.getEvol($lastPeriode[$key][2], $values[2]).';'.$lastPeriode[$key][3].';'.$values[3].';'.getEvol($lastPeriode[$key][3], $values[3])."\n";
+				}
 			}
 		} else {
-			if ($values[3]) {
-				$csv .= $tabKey[0].';'.null.';'.$values[0].';'.getEvol(0, $values[0]).';'.null.';'.$values[1].';'.getEvol(0, $values[1]).';'.null.';'.$values[2].';'.getEvol(0, $values[2]).';'.null.';'.$values[3].';'.getEvol(0, $values[3])."\n";
+			if ($values[6]) {
+				$csv .= $tabKey[0].';'.null.';';
+				foreach ($values as $k => $v) {
+					$csv .= $values[$k].';'.getEvol(0, $values[$k]).';'.null;
+					$csv .=  ($k == count($values) - 1)? "\n" : ';';
+				}
 			}
 		}
 	}

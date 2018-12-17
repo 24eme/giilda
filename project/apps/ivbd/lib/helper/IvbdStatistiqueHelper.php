@@ -10,6 +10,12 @@ function getAppellationLibelle($key)
 	return ' ';
 }
 
+function getProduitLibelle($key)
+{
+	$item = ConfigurationClient::getCurrent()->get($key);
+	return $item->getLibelleFormat();	
+}
+
 function getFamilleLibelle($key)
 {
 	$familles = EtablissementFamilles::getFamilles();

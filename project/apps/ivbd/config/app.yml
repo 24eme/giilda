@@ -190,7 +190,6 @@ all:
                 sum_bucket:
                   buckets_path: "agg_page>total_total"
               agg_page:
-              agg_page:
                 terms:
                   size: 0,
                   field: 'doc.mouvements.appellation'
@@ -247,160 +246,61 @@ all:
                             export_sum: "export>agg_column"
                             negoce_sum: "negoce>agg_column"
                           script: "france_sum + export_sum + negoce_sum"
-        sorties_appellation:
-          libelle: "Sorties de l'appellation"
-          index: "DRMMVT"
-          hashkeysize: 2
-          query_filters:
-            range:
-              'doc.mouvements.cvo':
-                gt: 0
-          aggregation:
-            filter:
-              terms:
-                doc.mouvements.type_hash: ['export_details', 'sorties/ventefrancecrd', 'vrac_details']
-            aggs:
-              totaux_france:
-                sum_bucket:
-                  buckets_path: "agg_page>total_france"
-              totaux_export:
-                sum_bucket:
-                  buckets_path: "agg_page>total_export"
-              totaux_negoce:
-                sum_bucket:
-                  buckets_path: "agg_page>total_negoce"
-              totaux_total:
-                sum_bucket:
-                  buckets_path: "agg_page>total_total"
-              agg_page:
-                terms:
-                  size: 0,
-                  field: 'doc.mouvements.appellation'
-                aggs:
-                  total_france:
-                    sum_bucket:
-                      buckets_path: "agg_line>france>agg_column"
-                  total_export:
-                    sum_bucket:
-                      buckets_path: "agg_line>export>agg_column"
-                  total_negoce:
-                    sum_bucket:
-                      buckets_path: "agg_line>negoce>agg_column>agg_column"
-                  total_total:
-                    sum_bucket:
-                      buckets_path: "agg_line>total"
-                  agg_line:
-                    terms:
-                      size: 0,
-                      field: 'doc.mouvements.couleur'
-                      "order" : { "_term" : "asc" }
-                    aggs:
-                      france:
-                        filter:
-                          term:
-                            doc.mouvements.type_hash: 'sorties/ventefrancecrd'
-                        aggs:
-                          agg_column:
-                            sum:
-                              field: 'doc.mouvements.volume'
-                              script: '_value * -1'
-                      export:
-                        filter:
-                          term:
-                            doc.mouvements.type_hash: 'export_details'
-                        aggs:
-                          agg_column:
-                            sum:
-                              field: 'doc.mouvements.volume'
-                              script: '_value * -1'
-                      negoce:
-                        filter:
-                          term:
-                            doc.mouvements.type_hash: 'vrac_details'
-                        aggs:
-                          agg_column:
-                            filter:
-                              term:
-                                doc.mouvements.region_destinataire: 'REGION_HORS_CVO'
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.mouvements.volume'
-                                  script: '_value * -1'
-                      total:
-                        bucket_script:
-                          buckets_path:
-                            france_sum: "france>agg_column"
-                            export_sum: "export>agg_column"
-                            negoce_sum: "negoce>agg_column>agg_column"
-                          script: "france_sum + export_sum + negoce_sum"
         prix:
-          libelle: "Prix moyen de vente"
+          libelle: "Contrats (vrac ou bouteille)"
           index: "VRAC"
           aggregation:
             filter:
               term:
                 type: 'vrac'
             aggs:
-              agg_page:
-                terms:
-                  size: 0,
-                  field: 'doc.type_transaction'
-                aggs:
                   agg_page:
                     terms:
                       size: 0,
-                      field: 'doc.appellation'
+                      field: 'doc.type_transaction'
                     aggs:
-                      total_sans_prix:
-                        sum_bucket:
-                          buckets_path: "agg_line>vol_sans_prix>agg_column"
-                      total_avec_prix:
-                        sum_bucket:
-                          buckets_path: "agg_line>vol_avec_prix>agg_column"
-                      total_ca:
-                        sum_bucket:
-                          buckets_path: "agg_line>ca>agg_column"
-                      total_moyenne:
-                        avg_bucket:
-                          buckets_path: "agg_line>moyenne"
-                      agg_line:
+                      agg_page:
                         terms:
-                          field: 'doc.couleur'
+                          size: 0,
+                          field: 'doc.produit'
                         aggs:
-                          vol_avec_prix:
-                            filter:
-                              range:
-                                "doc.prix_initial_unitaire_hl":
-                                  gt: 0
+                          total_prix:
+                            sum_bucket:
+                              buckets_path: "agg_line>vol_prix>agg_column"
+                          total_ca:
+                            sum_bucket:
+                              buckets_path: "agg_line>ca>agg_column"
+                          total_moyenne:
+                            avg_bucket:
+                              buckets_path: "agg_line>moyenne"
+                          agg_line:
+                            terms:
+                              field: 'doc.millesime'
                             aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.volume_propose'
-                          vol_sans_prix:
-                            filter:
-                              range:
-                                "doc.prix_initial_unitaire_hl":
-                                  lte: 0
-                            aggs:
-                              agg_column:
-                                sum:
-                                  field: 'doc.volume_propose'
-                          ca:
-                            filter:
-                              range:
-                                "doc.prix_initial_unitaire_hl":
-                                  gt: 0
-                            aggs:
-                              agg_column:
-                                sum:
-                                  script: "doc['doc.volume_propose'].value * doc['doc.prix_initial_unitaire_hl'].value"
-                          moyenne:
-                            bucket_script:
-                              buckets_path:
-                                vol_avec_prix_sum: "vol_avec_prix>agg_column"
-                                ca_sum: "ca>agg_column"
-                              script: "ca_sum / vol_avec_prix_sum / 100"
+                              vol_prix:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.volume_propose'
+                              ca:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      script: "doc['doc.volume_propose'].value * doc['doc.prix_initial_unitaire_hl'].value"
+                              moyenne:
+                                bucket_script:
+                                  buckets_path:
+                                    vol_prix_sum: "vol_prix>agg_column"
+                                    ca_sum: "ca>agg_column"
+                                  script: "ca_sum / vol_prix_sum / 225"
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20
