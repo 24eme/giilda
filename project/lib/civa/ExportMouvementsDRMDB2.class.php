@@ -44,10 +44,6 @@ class ExportMouvementsDRMDB2
                 unset($mouvements[$key]);
                 continue;
             }
-            if($mouvement->type_drm != "SUSPENDU") {
-                unset($mouvements[$key]);
-                continue;
-            }
             if(!preg_match("/".$mouvement->etablissement_identifiant."/", $mouvement->id_doc)) {
                 unset($mouvements[$key]);
                 continue;
@@ -178,6 +174,9 @@ class ExportMouvementsDRMDB2
     protected function aggregateMouvements($mouvements) {
         $db2 = array();
         foreach($mouvements as $mouvement) {
+            if($mouvement->type_drm != "SUSPENDU") {
+                continue;
+            }
             $produit = $this->convertProduit($mouvement->produit_hash);
             $mouvementType = $this->convertMouvement($mouvement->type_hash);
             $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
@@ -267,6 +266,9 @@ class ExportMouvementsDRMDB2
         $db2 = array();
 
         foreach($mouvements as $mouvement) {
+            if($mouvement->type_drm != "SUSPENDU") {
+                continue;
+            }
             $produit = $this->convertProduit($mouvement->produit_hash);
             $file = $this->convertFile($mouvement->type_hash);
             $mouvementType = $this->convertMouvement($mouvement->type_hash);
