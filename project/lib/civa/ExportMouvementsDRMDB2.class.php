@@ -237,6 +237,9 @@ class ExportMouvementsDRMDB2
                     if(!$ligne->sorties_utilisations) {
                         continue;
                     }
+                    if(!preg_match('/Bouteille/i', $ligne->detail_libelle)) {
+                        continue;
+                    }
                     if($ligne->couleur == "BLEU") {
                         continue;
                     }
