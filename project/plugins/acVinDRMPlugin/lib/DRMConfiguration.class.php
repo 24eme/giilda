@@ -150,4 +150,14 @@ class DRMConfiguration {
         return $this->configuration['observations_auto'];
     }
 
+    public function isMouvementVideNeant() {
+
+        return $this->configuration['mouvement_vide_neant'];
+    }
+
+    public function isNegociantFacturable() {
+
+        return $this->configuration['negociant_facturable'];
+    }
+
 }
