@@ -1132,9 +1132,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->getEtablissement();
     }
 
+    public function isFacturable() {
+        if($this->isDRMNegociant() && !DRMConfiguration::getInstance()->isNegociantFacturable()) {
+
+            return false;
+        }
+
+
+        return true;
+    }
+
     public function isDRMNegociant() {
 
-           return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
+        return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
 
     public function getFamille() {
@@ -1712,12 +1722,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         return $libelles_detail_ligne;
     }
-
-    public function isDrmNegoce(){
-
-        return $this->isDRMNegociant();
-    }
-
+    
     public function isCreationAuto(){
       return $this->type_creation == DRMClient::DRM_CREATION_AUTO;
     }

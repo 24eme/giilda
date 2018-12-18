@@ -27,3 +27,4 @@ all:
       nb_extra_pdf_pages: 0
       observations_auto: true
       mouvement_vide_neant: false
+      negociant_facturable: false
