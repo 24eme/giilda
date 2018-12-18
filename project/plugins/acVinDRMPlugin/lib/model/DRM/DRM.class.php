@@ -1071,8 +1071,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getMouvementsCalcule($teledeclaration_drm = false) {
+        $mouvements = $this->declaration->getMouvements($teledeclaration_drm);
 
-        return $this->declaration->getMouvements($teledeclaration_drm);
+        if(DRMConfiguration::getInstance()->isMouvementVideNeant() && (!isset($mouvements[$this->getIdentifiant()]) || !count($mouvements[$this->getIdentifiant()]))) {
+            $mouvement = DRMMouvement::freeInstance($this->getDocument());
+            $mouvement->facture = 0;
+            $mouvement->facturable = 0;
+            $mouvement->region = $this->getDocument()->region;
+            $mouvements[$this->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
+        }
+
+        return $mouvements;
     }
 
     public function getMouvementsCalculeByIdentifiant($identifiant, $teledeclaration_drm = false) {

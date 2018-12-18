@@ -44,32 +44,31 @@ class ExportMouvementsDRMDB2
                 unset($mouvements[$key]);
                 continue;
             }
-            if(!preg_match("/".$mouvement->etablissement_identifiant."/", $mouvement->id_doc)) {
-                unset($mouvements[$key]);
-                continue;
-            }
-            if(!$this->convertProduit($mouvement->produit_hash)) {
+            if($mouvement->region != EtablissementClient::REGION_CVO) {
                 unset($mouvements[$key]);
                 continue;
             }
             $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
-            if(!isset($drms[$identifiantPeriode]) || $drms[$identifiantPeriode]->_id < $mouvement->id_doc) {
-                $drms[$identifiantPeriode] = DRMClient::getInstance()->find($mouvement->id_doc, acCouchdbClient::HYDRATE_JSON);
+            if(isset($drms[$identifiantPeriode]) && $drms[$identifiantPeriode]->_id >= $mouvement->id_doc) {
+                continue;
             }
+            $drms[$identifiantPeriode] = DRMClient::getInstance()->find($mouvement->id_doc, acCouchdbClient::HYDRATE_JSON);
         }
 
-        $db2Mouvements = $this->aggregateMouvements($mouvements);
-        $db2MouvementsExport = $this->aggregateMouvementsExport($mouvements);
-        $db2CRD = $this->aggregateCRD($drms);
-        $db2Total = $this->aggregateTotal($mouvements, $db2CRD);
-
         $db2Identifiants = array();
-        foreach($db2Total as $identifiantPeriode => $null) {
+        $db2Base = array();
+        foreach($drms as $identifiantPeriode => $null) {
             $parts = explode("-", $identifiantPeriode);
             $identifiant = $parts[0];
 
             $db2Identifiants[$identifiantPeriode] = EtablissementClient::getInstance()->find("ETABLISSEMENT-".$identifiant, acCouchdbClient::HYDRATE_JSON)->num_interne;
+            $db2Base[$identifiantPeriode] = array();
         }
+
+        $db2Mouvements = array_merge($db2Base, $this->aggregateMouvements($mouvements));
+        $db2MouvementsExport = $this->aggregateMouvementsExport($mouvements);
+        $db2CRD = $this->aggregateCRD($drms);
+        $db2Total = array_merge($db2Base, $this->aggregateTotal($mouvements, $db2CRD));
 
         $csv = array();
 
@@ -140,6 +139,14 @@ class ExportMouvementsDRMDB2
             $periode = $parts[1];
             $annee = substr($periode, 0, 4);
             $mois = substr($periode, 4, 2);
+
+            if(!isset($total["prix_ht"])) { $total["prix_ht"] = 0; }
+            if(!isset($total["tva"])) { $total["tva"] = 0; }
+            if(!isset($total["prix_ttc"])) { $total["prix_ttc"] = 0; }
+            if(!isset($total["quantite"])) { $total["quantite"] = 0; }
+            if(!isset($total["crd_tranq_utilisation"])) { $total["crd_tranq_utilisation"] = 0; }
+            if(!isset($total["crd_mousseux_utilisation"])) { $total["crd_mousseux_utilisation"] = 0; }
+
             $total["prix_ht"] = floor(($total["prix_ht"] * 100)) / 100;
             $total["tva"] = round($total["prix_ht"] * 0.20, 2);
             $total["prix_ttc"] = $total["prix_ht"] + $total["tva"];
@@ -177,6 +184,12 @@ class ExportMouvementsDRMDB2
             if($mouvement->type_drm != "SUSPENDU") {
                 continue;
             }
+            if(!preg_match("/".$mouvement->etablissement_identifiant."/", $mouvement->id_doc)) {
+                continue;
+            }
+            if(!$this->convertProduit($mouvement->produit_hash)) {
+                continue;
+            }
             $produit = $this->convertProduit($mouvement->produit_hash);
             $mouvementType = $this->convertMouvement($mouvement->type_hash);
             $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
@@ -203,6 +216,12 @@ class ExportMouvementsDRMDB2
     protected function aggregateMouvementsExport($mouvements) {
         $db2 = array();
         foreach($mouvements as $mouvement) {
+            if(!preg_match("/".$mouvement->etablissement_identifiant."/", $mouvement->id_doc)) {
+                continue;
+            }
+            if(!$this->convertProduit($mouvement->produit_hash)) {
+                continue;
+            }
             if(!preg_match("/export/", $mouvement->type_hash) || !$mouvement->detail_identifiant) {
                 continue;
             }
@@ -267,6 +286,12 @@ class ExportMouvementsDRMDB2
 
         foreach($mouvements as $mouvement) {
             if($mouvement->type_drm != "SUSPENDU") {
+                continue;
+            }
+            if(!preg_match("/".$mouvement->etablissement_identifiant."/", $mouvement->id_doc)) {
+                continue;
+            }
+            if(!$this->convertProduit($mouvement->produit_hash)) {
                 continue;
             }
             $produit = $this->convertProduit($mouvement->produit_hash);
