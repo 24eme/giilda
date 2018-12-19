@@ -169,4 +169,23 @@ class DRMConfiguration {
       return array_unique($messages);
     }
 
+    public function isMouvementVideNeant() {
+
+        return $this->configuration['mouvement_vide_neant'];
+    }
+
+    public function isNegociantFacturable() {
+
+        return $this->configuration['negociant_facturable'];
+    }
+
+    public function getConfig($name) {
+        if(!isset($this->configuration[$name])) {
+
+            return null;
+        }
+
+        return $this->configuration[$name];
+    }
+
 }
