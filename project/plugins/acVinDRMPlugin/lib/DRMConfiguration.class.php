@@ -160,4 +160,13 @@ class DRMConfiguration {
         return $this->configuration['negociant_facturable'];
     }
 
+    public function getConfig($name) {
+        if(!isset($this->configuration[$name])) {
+
+            return null;
+        }
+
+        return $this->configuration[$name];
+    }
+
 }
