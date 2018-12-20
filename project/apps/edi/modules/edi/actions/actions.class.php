@@ -6,7 +6,6 @@ class ediActions extends sfActions {
 
     public function executeDrmCreationEdi(sfWebRequest $request) {
       $only_edi = true;
-      $this->save = $request->getPostParameter("save", true);
       if($request->getContentType()){
         $only_edi = $request->getContentType();
       }
@@ -36,6 +35,7 @@ class ediActions extends sfActions {
 
       if ($request->isMethod(sfWebRequest::POST) && ($request->getContentType() == 'text/csv')){
           $csvFileTmpPath = sfConfig::get('sf_data_dir') . '/upload/' . uniqId();
+          $this->save = false;
           file_put_contents($csvFileTmpPath, $request->getContent());
             try {
                 $csvFile = new CsvFile($csvFileTmpPath);
