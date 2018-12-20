@@ -34,7 +34,7 @@ class CsvFile
     }
     $buffer = preg_replace('/$[^\n]*\n/', '', $buffer);
     if (!$buffer) {
-      throw new Exception('invalid csv file; '.$this->file);
+      throw new Exception('invalid csv file: '.$this->file);
     }
     $virgule = explode(',', $buffer);
     $ptvirgule = explode(';', $buffer);
