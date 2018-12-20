@@ -2,8 +2,11 @@
 
 class ediActions extends sfActions {
 
+    protected $save = true;
+
     public function executeDrmCreationEdi(sfWebRequest $request) {
       $only_edi = true;
+      $this->save = $request->getPostParameter("save", true);
       if($request->getContentType()){
         $only_edi = $request->getContentType();
       }
@@ -74,7 +77,9 @@ class ediActions extends sfActions {
                 $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
                 $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm, true);
               }
-              $this->drmCsvEdi->importCSV(true);
+              if($this->save){
+                $this->drmCsvEdi->importCSV(true);
+              }
               $url = sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate('drm_redirect_etape', array('identifiant' => $this->identifiant , 'periode_version' => $this->periode));
               fputcsv($handle, array('OK',$url,'',''),";");
             }
