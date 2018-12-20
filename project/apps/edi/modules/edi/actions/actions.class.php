@@ -30,6 +30,20 @@ class ediActions extends sfActions {
           unlink($csvFileTmpPath);
           return $result;
       }
+
+      if ($request->isMethod(sfWebRequest::POST) && ($request->getContentType() == 'text/csv')){
+          $csvFileTmpPath = sfConfig::get('sf_data_dir') . '/upload/' . uniqId();
+          file_put_contents($csvFileTmpPath, $request->getContent());
+            try {
+                $csvFile = new CsvFile($csvFileTmpPath);
+            } catch (Exception $e) {
+                echo "Error;;;".$e->getMessage()."\n";
+            }
+          $result = $this->importEdiFile($csvFileTmpPath);
+          unlink($csvFileTmpPath);
+          return $result;
+      }
+
       if($request->getContentType() == 'application/x-www-form-urlencoded'){
         $this->enctype = "application/x-www-form-urlencoded";
       }
