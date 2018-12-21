@@ -1,40 +1,42 @@
-TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT
-"suspendu","stocks_debut","revendique"
-"suspendu","entrees","vci"
-"suspendu","entrees","achatcrd"
-"suspendu","entrees","manipulation"
-"suspendu","entrees","excedents"
-"suspendu","entrees","transferts"
-"suspendu","entrees","repli"
-"suspendu","entrees","declassement"
-"suspendu","entrees","retourmarchandisenontaxees"
-"suspendu","entrees","retourmarchandisetaxees"
-"suspendu","entrees","retourmarchandisetaxeesacquitte"
-"suspendu","entrees","travailafacon"
-"suspendu","entrees","revendique"
-"suspendu","sorties","vracsanscontrat"
-"suspendu","sorties","ventefrancebouteillecrd"
-"suspendu","sorties","ventefrancebibcrd"
-"suspendu","sorties","ventefrancebouteillecrdacquitte"
-"suspendu","sorties","ventefrancebibcrdacquitte"
-"suspendu","sorties","vrac"
-"suspendu","sorties","contrathorsinterpro"
-"suspendu","sorties","consommationfamilialedegustation"
-"suspendu","sorties","repli"
-"suspendu","sorties","usageindustriel"
-"suspendu","sorties","distillation"
-"suspendu","sorties","declassement"
-"suspendu","sorties","export"
-"suspendu","sorties","transfertsinternes"
-"suspendu","sorties","vci"
-"suspendu","sorties","travailafacon"
-"suspendu","sorties","destructionperte"
-"suspendu","sorties","manquant"
-"suspendu","stocks_fin","revendique"
-"acquitte","stocks_debut","revendique"
-"acquitte","entrees","achat"
-"acquitte","entrees","autre"
-"acquitte","sorties","autre"
-"acquitte","sorties","replacementsuspension"
-"acquitte","sorties","vente"
-"acquitte","stocks_fin","revendique"
+TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT,LIBELLE MOUVEMENT,DESCRIPTION MOUVEMENT
+suspendu,stocks_debut,instance,revendication,vin en instance de revendication
+suspendu,stocks_debut,revendique,stock début de mois,stock début de mois
+suspendu,entrees,achatcrd,achat,achats de vrac et/ou de bouteilles
+suspendu,entrees,declassement,déclassement,déclassements d'aop ou igp en vins sans ig
+suspendu,entrees,excedents,excédents,excédents suite à inventaire ou contrôle des douanes
+suspendu,entrees,manipulation,manipulations,augmentation constatée des volumes suite à des manipulations œnologiques
+suspendu,entrees,repli,repli,repli d'une aop vers une autre ou changement de dénomination
+suspendu,entrees,revendique,revendiqué,volumes revendicables tels que renseignés en ligne 14 ou 15 de la déclaration de récolte
+suspendu,entrees,retourmarchandisetaxeesacquitte,réintégr. crd - acq.,retour de marchandises sous crd (acquitté)
+suspendu,entrees,retourmarchandisetaxees,réintégr. crd - susp.,retour de marchandises sous crd (suspendu)
+suspendu,entrees,retourmarchandisenontaxees,réintégrations non crd,réintégrations après sortis en suspension de droits
+suspendu,entrees,transferts,transfert,transfert de comptabilité matière ou cession. fermage / métayage.  coopérative
+suspendu,entrees,travailafacon,travail à façon,retour d'embouteillage. relogement. travail à façon. distillation à façon
+suspendu,entrees,vci,vci,intégration volume complémentaire individuel agréé
+suspendu,sorties,ventefrancebibcrdacquitte,bib crd - acquitté,ventes de bib en france sous crd. pion (acquitté)
+suspendu,sorties,ventefrancebibcrd,bib crd - suspendu,ventes de bib en france sous crd. pion (suspendu)
+suspendu,sorties,ventefrancebouteillecrdacquitte,bouteilles crd - acquitté,ventes de bouteilles en france sous crd (acquitté)
+suspendu,sorties,ventefrancebouteillecrd,bouteilles crd - susp.,ventes de bouteilles en france sous crd (suspendu)
+suspendu,sorties,consommationfamilialedegustation,conso. familiale,consommation familiale. dégustation. échantillons. cadeaux. dons
+suspendu,sorties,vrac,contrat interloire,ventes de vrac ou de conditionnés avec un contrat interloire; précisez le numéro d'enregistrement
+suspendu,sorties,destructionperte,destruction / manquants,destruction / manquants suite  à inventaire ou contrôle des douanes
+suspendu,sorties,distillation,distillation,distillation
+suspendu,sorties,declassement,déclassement,déclassements d'aop ou igp en vins sans ig
+suspendu,sorties,export,export,ventes de vrac ou conditionnés à l'export; précisez les pays destinataires
+suspendu,sorties,manquant,manipulations / pertes,réduction constatée des volumes suite à des manipulations œnologiques ou des soutirages. pertes
+suspendu,sorties,repli,repli,repli d'une aop vers une autre ou changement de dénomination
+suspendu,sorties,transfertsinternes,transfert,transfert de comptabilité matière ou cession. fermage / métayage.  coopérative
+suspendu,sorties,travailafacon,travail à façon,sortie pour prestation d'embouteillage. relogement. élaboration de vins mousseux
+suspendu,sorties,usageindustriel,usages industr.,lies. usage agroalimentaire. vinaigrerie
+suspendu,sorties,vci,vci,revendication volume complémentaire individuel
+suspendu,sorties,contrathorsinterpro,vente négoce hors contrat itl,vente negoce hors contrat interloire
+suspendu,sorties,vracsanscontrat,vrac sans contrat,ventes de petit vrac (dsa. tickets. factures)
+suspendu,stocks_fin,instance,en instance de revendication,en instance de revendication
+suspendu,stocks_fin,revendique,stock fin de mois,stock fin de mois
+acquitte,stocks_debut,revendique,initial,a remplir uniquement sur la 1ère drm de campagne. en août. indiquer le stock réel constaté par inventaire et identique à la déclaration de stocks. pour tous les mois suivants de la campagne. le stock est automatiquement repris du mois précédent.
+acquitte,entrees,achat,achats,indiquer les achats du produit.
+acquitte,entrees,autre,autres,autres entrées du produit. ex : correspondant à une sortie de produits en droits suspendus pour lesquels les droits ont été payés.
+acquitte,sorties,autre,autres,indiquer les volumes commercialisés à l'export.
+acquitte,sorties,replacementsuspension,replacement en suspension,indiquer le replacement du produit en suspension de droits.
+acquitte,sorties,vente,ventes de produits ,indiquer les ventes du produit.
+acquitte,stocks_fin,revendique,final,calcul automatique: cette case ne peut être modifiée.
