@@ -17,6 +17,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $mouvements = array();
     protected $csvDoc = null;
     protected $fromEdi = false;
+    protected $noSave = false;
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
@@ -200,7 +201,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
                   $this->csvDoc->addErreur($this->otherPeriodeError($ligne_num, $csvRow));
                 }
-                if($this->fromEdi && (!$this->drm || ! $this->drm->isCreationEdi())){
+                if($this->fromEdi && (!$this->drm || !$this->drm->isCreationEdi()) && !$this->noSave){
                   $this->csvDoc->addErreur($this->drmIsNotCreationEdiError($ligne_num, $csvRow));
                 }
 
@@ -296,7 +297,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $identifiantContrat = $this->findContratDocId($csvRow);
                   if($identifiantContrat){
                       $vracObj = VracClient::getInstance()->find($identifiantContrat);
-                      if($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]){
+                      if(($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]) && !$this->noSave){
                         $this->csvDoc->addErreur($this->vracNotFoundError($num_ligne, $csvRow));
                         $num_ligne++;
                         continue;
@@ -957,6 +958,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             }
           }
             return true;
+        }
+
+        public function setNoSave($noSave){
+          $this->noSave = $noSave;
         }
 
 
