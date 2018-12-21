@@ -17,6 +17,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $mouvements = array();
     protected $csvDoc = null;
     protected $fromEdi = false;
+    protected $noSave = false;
 
         public function __construct($file, DRM $drm = null, $fromEdi = false) {
           $this->fromEdi = $fromEdi;
@@ -907,6 +908,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         return $all_conf_details_slugified;
     }
+
+    public function setNoSave($noSave){
+          $this->noSave = $noSave;
+    }
+
 
     private function isEmptyArray($array){
       foreach ($array as $csvLibelle) {
