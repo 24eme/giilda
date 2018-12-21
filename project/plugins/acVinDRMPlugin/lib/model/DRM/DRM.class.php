@@ -1601,6 +1601,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return true;
     }
 
+
     public function setPaiementDouaneFrequence($p){
       $this->societe->paiement_douane_frequence = $p;
       $soc = $this->getEtablissement()->getSociete();
@@ -1612,6 +1613,11 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
 
     /** Fin Droit de circulation douane */
 
+    public function isCreationEdi(){
+      return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
+    }
+
+    
     /*
     * Observations
     */
@@ -1722,7 +1728,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         return $libelles_detail_ligne;
     }
-    
+
     public function isCreationAuto(){
       return $this->type_creation == DRMClient::DRM_CREATION_AUTO;
     }
