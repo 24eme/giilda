@@ -17,6 +17,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $mouvements = array();
     protected $csvDoc = null;
     protected $fromEdi = false;
+    protected $noSave = false;
 
         public function __construct($file, DRM $drm = null, $fromEdi = false) {
           $this->fromEdi = $fromEdi;
@@ -510,7 +511,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       $value = boolval($valeur_complement);
                       break;
                   }
-		  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM])]);
+                  $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+		  		  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM])], $denomination_complementaire);
                   $field = strtolower($type_complement);
                   $drmDetails->add($field, $value);
                 }
@@ -906,6 +908,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         return $all_conf_details_slugified;
     }
+
+    public function setNoSave($noSave){
+          $this->noSave = $noSave;
+    }
+
 
     private function isEmptyArray($array){
       foreach ($array as $csvLibelle) {
