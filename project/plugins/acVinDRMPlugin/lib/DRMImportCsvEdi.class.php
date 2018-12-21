@@ -297,7 +297,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $identifiantContrat = $this->findContratDocId($csvRow);
                   if($identifiantContrat){
                       $vracObj = VracClient::getInstance()->find($identifiantContrat);
-                      if($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]){
+                      if(($vracObj->getVendeurIdentifiant() != $csvRow[self::CSV_IDENTIFIANT]) && !$this->noSave){
                         $this->csvDoc->addErreur($this->vracNotFoundError($num_ligne, $csvRow));
                         $num_ligne++;
                         continue;
