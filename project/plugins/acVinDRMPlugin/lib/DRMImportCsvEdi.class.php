@@ -240,6 +240,19 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         $keys_libelle_mention_fin = preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE],$csvRow[self::CSV_CAVE_MENTION]));
 
+        /** pseudo cache : si un produit a été déjà vu, on le traite **/
+        if (isset($this->previous_produits[$keys_libelle])) {
+          $founded_produit = $this->previous_produits[$keys_libelle];
+        }
+        if (isset($this->previous_produits[$keys_libelle_mention_fin])) {
+          $founded_produit = $this->previous_produits[$keys_libelle_mention_fin];
+        }
+        if ((isset($this->produits_not_found[$keys_libelle]) && $this->produits_not_found[$keys_libelle]) || (isset($this->produits_not_found[$keys_libelle_mention_fin]) && $this->produits_not_found[$keys_libelle_mention_fin])) {
+          $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
+          $num_ligne++;
+          continue;
+        }
+
         if(!$founded_produit && ($keys_libelle != '      ')) {
           $founded_produit = $this->configuration->identifyProductByLibelle(KeyInflector::slugify(str_replace("AOC AOC","AOC",$keys_libelle)));
         }
@@ -316,8 +329,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         if (!$founded_produit) {
           $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
           $num_ligne++;
+          $this->produits_not_found[$keys_libelle] = 1;
+          $this->produits_not_found[$keys_libelle_mention_fin] = 1;
           continue;
         }
+
+        $this->previous_produits[$keys_libelle] = $founded_produit;
+        $this->previous_produits[$keys_libelle_mention_fin] = $founded_produit;
 
         $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
         if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
