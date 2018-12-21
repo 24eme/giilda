@@ -385,7 +385,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
             $vrac_id = $this->findContratDocId($csvRow);
 
-            if(!$vrac_id) {
+            if(!$vrac_id && !$this->noSave) {
               $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
               $num_ligne++;
               continue;
