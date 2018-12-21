@@ -1,250 +1,271 @@
-certification,genre,appellation,mention,lieu,couleur,cepage,libelle complet
-AOP,Tranquille,Anjou,,,Blanc,,Anjou Blanc
-AOP,Tranquille,Anjou,,,Rouge,Gamay,Anjou Gamay
-AOP,Tranquille,Anjou,,,Rouge,,Anjou Rouge
-AOP,Tranquille,Anjou,Primeur,,Rouge,Gamay,Anjou Gamay Primeur
-AOP,Tranquille,Anjou Coteaux de la Loire,,,Blanc,Chenin,Anjou Coteaux de la Loire
-AOP,Tranquille,Anjou-Villages,,,Rouge,,Anjou-Villages
-AOP,Tranquille,Anjou-Villages Brissac,,,Rouge,,Anjou-Villages Brissac
-AOP,Tranquille,Bonnezeaux,,,Blanc,,Bonnezeaux
-AOP,Tranquille,Cabernet d'Anjou,,,Rosé,,Cabernet d'Anjou
-AOP,Tranquille,Cabernet de Saumur,,,Rosé,,Cabernet de Saumur
-AOP,Tranquille,Chinon,,,Blanc,Chenin,Chinon Blanc
-AOP,Tranquille,Chinon,,,Rouge,Cabernet Franc,Chinon Rouge
-AOP,Tranquille,Chinon,,,Rosé,Cabernet Franc,Chinon Rosé
-AOP,Tranquille,Coteaux d'Ancenis,,,Blanc,Chenin,Coteaux d'Ancenis Blanc Chenin
-AOP,Tranquille,Coteaux d'Ancenis,,,Blanc,Malvoisie,Coteaux d'Ancenis Blanc Malvoisie
-AOP,Tranquille,Coteaux d'Ancenis,,,Rouge,Gamay,Coteaux d'Ancenis Rouge Gamay
-AOP,Tranquille,Coteaux d'Ancenis,,,Rouge,Cabernet,Coteaux d'Ancenis Rouge Cabernet
-AOP,Tranquille,Coteaux d'Ancenis,,,Rosé,Gamay,Coteaux d'Ancenis Rosé Gamay
-AOP,Tranquille,Coteaux d'Ancenis,,,Rosé,Cabernet,Coteaux d'Ancenis Rosé Cabernet
-AOP,Tranquille,Coteaux de l'Aubance,,,Blanc,Chenin,Coteaux de l'Aubance
-AOP,Tranquille,Coteaux de l'Aubance,SGN,,Blanc,Chenin,Coteaux de l'Aubance SGN
-AOP,Tranquille,Coteaux de Saumur,,,Blanc,Chenin,Coteaux de Saumur
-AOP,Tranquille,Coteaux du Layon,,,Blanc,Chenin,Coteaux du Layon
-AOP,Tranquille,Coteaux du Layon,,Beaulieu,Blanc,,Coteaux du Layon Beaulieu
-AOP,Tranquille,Coteaux du Layon,,Rochefort,Blanc,,Coteaux du Layon Rochefort
-AOP,Tranquille,Coteaux du Layon,,Rablay,Blanc,,Coteaux du Layon Rablay
-AOP,Tranquille,Coteaux du Layon,,Faye,Blanc,,Coteaux du Layon Faye
-AOP,Tranquille,Coteaux du Layon,,St Aubin,Blanc,,Coteaux du Layon St Aubin
-AOP,Tranquille,Coteaux du Layon,,St Lambert,Blanc,,Coteaux du Layon St Lambert
-AOP,Tranquille,Coteaux du Layon,,1er Cru Chaume,Blanc,Chenin,Coteaux du Layon 1er Cru Chaume
-AOP,Tranquille,Coteaux du Layon,SGN,,Blanc,,Coteaux du Layon SGN
-AOP,Tranquille,Coteaux du Layon,SGN,Beaulieu,Blanc,,Coteaux du Layon Beaulieu SGN
-AOP,Tranquille,Coteaux du Layon,SGN,Faye,Blanc,,Coteaux du Layon Faye SGN
-AOP,Tranquille,Coteaux du Layon,SGN,Rablay,Blanc,,Coteaux du Layon Rablay SGN
-AOP,Tranquille,Coteaux du Layon,SGN,Rochefort,Blanc,,Coteaux du Layon Rochefort SGN
-AOP,Tranquille,Coteaux du Layon,SGN,St Aubin,Blanc,,Coteaux du Layon St Aubin SGN
-AOP,Tranquille,Coteaux du Layon,SGN,St Lambert,Blanc,,Coteaux du Layon St Lambert SGN
-AOP,Tranquille,Coteaux du Layon,Villages,,Blanc,Chenin,Coteaux du Layon Villages
-AOP,Tranquille,Coteaux du loir,,,Blanc,Chenin,Coteaux du loir Blanc
-AOP,Tranquille,Coteaux du loir,,,Rouge,,Coteaux du loir Rouge
-AOP,Tranquille,Coteaux du loir,,,Rosé,,Coteaux du loir Rosé
-AOP,Tranquille,Gros plant,,,Blanc,Folle blanche,Gros plant
-AOP,Tranquille,Gros plant,Sur lie,,Blanc,Folle blanche,Gros plant Sur lie
-AOP,Tranquille,Jasnières,,,Blanc,Chenin,Jasnières
-AOP,Tranquille,Muscadet AC,,,Blanc,Melon,Muscadet AC
-AOP,Tranquille,Muscadet AC,Sur lie,,Blanc,Melon,Muscadet AC Sur lie
-AOP,Tranquille,Muscadet AC,Primeur,,Blanc,Melon,Muscadet AC Primeur
-AOP,Tranquille,Muscadet Coteaux de la Loire,,,Blanc,Melon,Muscadet Coteaux de la Loire
-AOP,Tranquille,Muscadet Coteaux de la Loire,Sur lie,,Blanc,Melon,Muscadet Coteaux de la Loire Sur lie
-AOP,Tranquille,Muscadet Côtes de Grand Lieu,,,Blanc,Melon,Muscadet Côtes de Grand Lieu
-AOP,Tranquille,Muscadet Côtes de Grand Lieu,Sur lie,,Blanc,Melon,Muscadet Côtes de Grand Lieu Sur lie
-AOP,Tranquille,Muscadet Sèvre et Maine,,,Blanc,Melon,Muscadet Sèvre et Maine
-AOP,Tranquille,Muscadet Sèvre et Maine,,Gorges,Blanc,Melon,Muscadet Sèvre et Maine Gorges
-AOP,Tranquille,Muscadet Sèvre et Maine,,Clisson,Blanc,Melon,Muscadet Sèvre et Maine Clisson
-AOP,Tranquille,Muscadet Sèvre et Maine,,Le Pallet,Blanc,Melon,Muscadet Sèvre et Maine Le Pallet
-AOP,Tranquille,Muscadet Sèvre et Maine,Sur lie,,Blanc,Melon,Muscadet Sèvre et Maine Sur lie
-AOP,Tranquille,Quarts de Chaume,,,Blanc,Chenin,Quarts de Chaume
-AOP,Tranquille,Rosé d'Anjou,,,Rosé,,Rosé d'Anjou
-AOP,Tranquille,Rosé de Loire,,,Rosé,,Rosé de Loire
-AOP,Tranquille,Saumur,,,Blanc,Chenin,Saumur Blanc
-AOP,Tranquille,Saumur,,,Rosé,,Saumur Rosé
-AOP,Tranquille,Saumur,,,Rouge,,Saumur Rouge
-AOP,Tranquille,Saumur,,Puy-Notre-Dame,Rouge,,Saumur Puy-Notre-Dame
-AOP,Tranquille,Saumur Champigny,,,Rouge,,Saumur Champigny
-AOP,Tranquille,Savennières,,,Blanc,Chenin,Savennières
-AOP,Tranquille,Savennières,moelleux ou doux,,Blanc,Chenin,Savennières moelleux ou doux
-AOP,Tranquille,Savennières,demi sec,,Blanc,Chenin,Savennières demi sec
-AOP,Tranquille,Coulée de Serrant,,,Blanc,Chenin,Coulée de Serrant
-AOP,Tranquille,Coulée de Serrant,moelleux ou doux,,Blanc,Chenin,Coulée de Serrant moelleux ou doux
-AOP,Tranquille,Savennières Roche aux moines,,,Blanc,Chenin,Savennières Roche aux moines
-AOP,Tranquille,Savennières Roche aux moines,moelleux ou doux,,Blanc,Chenin,Savennières Roche aux moines moelleux ou doux
-AOP,Tranquille,St Nicolas de Bourgueil,,,Rouge,Cabernet Franc,St Nicolas de Bourgueil Rouge
-AOP,Tranquille,St Nicolas de Bourgueil,,,Rosé,Cabernet Franc,St Nicolas de Bourgueil Rosé
-AOP,Tranquille,Touraine,,,Blanc,,Touraine Blanc
-AOP,Tranquille,Touraine,,,Rouge,,Touraine Rouge
-AOP,Tranquille,Touraine,,,Rouge,Gamay,Touraine Rouge Gamay
-AOP,Tranquille,Touraine,,,Rosé,,Touraine Rosé
-AOP,Tranquille,Touraine,,Amboise,Blanc,Chenin,Touraine Amboise Blanc
-AOP,Tranquille,Touraine,,Amboise,Rouge,,Touraine Amboise Rouge
-AOP,Tranquille,Touraine,,Amboise,Rosé,,Touraine Amboise Rosé
-AOP,Tranquille,Touraine,,Azay-le-rideau,Blanc,Chenin,Touraine Azay-le-rideau Blanc
-AOP,Tranquille,Touraine,,Azay-le-rideau,Rosé,,Touraine Azay-le-rideau Rosé
-AOP,Tranquille,Touraine,,Mesland,Blanc,Chenin,Touraine Mesland Blanc
-AOP,Tranquille,Touraine,,Mesland,Rouge,,Touraine Mesland Rouge
-AOP,Tranquille,Touraine,,Mesland,Rosé,,Touraine Mesland Rosé
-AOP,Tranquille,Touraine,,Chenonceaux,Blanc,Sauvignon,Touraine Chenonceaux Blanc
-AOP,Tranquille,Touraine,,Chenonceaux,Rouge,,Touraine Chenonceaux Rouge
-AOP,Tranquille,Touraine,,Oisly,Blanc,Sauvignon Blanc,Touraine Oisly Blanc
-AOP,Tranquille,Touraine,Primeur,,Rouge,,Touraine Rouge Primeur
-AOP,Tranquille,Touraine Noble Joué,,,Rosé,,Touraine Noble Joué
-AOP,Tranquille,Vouvray,,,Blanc,,Vouvray
-AOP,Tranquille,Coteaux du Vendomois,,(VDM),Blanc,,Coteaux du Vendomois Blanc
-AOP,Tranquille,Coteaux du Vendomois,,(VDM),Rouge,,Coteaux du Vendomois Rouge
-AOP,Tranquille,Coteaux du Vendomois,,(VDM),Rosé,,Coteaux du Vendomois Rosé
-AOP,Tranquille,Haut-Poitou,,,Blanc,,Haut-Poitou Blanc
-AOP,Tranquille,Haut-Poitou,,,Rosé,,Haut-Poitou Rosé
-AOP,Tranquille,Haut-Poitou,,,Rouge,,Haut-Poitou Rouge
-AOP,Mousseux,Anjou,,,Blanc,,Anjou Mousseux Blanc
-AOP,Mousseux,Anjou,,,Rosé,,Anjou Mousseux Rosé
-AOP,Mousseux,Crémant de Loire,,,Blanc,,Crémant de Loire Blanc
-AOP,Mousseux,Crémant de Loire,,,Rosé,,Crémant de Loire Rosé
-AOP,Mousseux,Saumur,,,Blanc,,Saumur Mousseux Blanc
-AOP,Mousseux,Saumur,,,Rosé,,Saumur Mousseux Rosé
-AOP,Mousseux,Touraine,,,Blanc,,Touraine Mousseux Blanc
-AOP,Mousseux,Touraine,,,Rosé,,Touraine Mousseux Rosé
-AOP,Mousseux,Vouvray,,,Blanc,,Vouvray Mousseux
-AOP,Mousseux,Vouvray,Pétillant,,Blanc,,Vouvray Pétillant
-AOP,VCI,St Nicolas de Bourgueil,,,Rouge,,VCI St Nicolas de Bourgueil
-AOP,VCI,Cabernet d'Anjou,,,Rosé,,VCI Cabernet d'Anjou
-AOP,Tranquille,Bourgueil,,,Rouge,Cabernet Franc,Bourgueil Rouge
-AOP,Tranquille,Bourgueil,,,Rosé,Cabernet Franc,Bourgueil Rosé
-AOP,Tranquille,Fiefs vendéens,,Brem,Blanc,,Fiefs vendéens Brem Blanc
-AOP,Tranquille,Fiefs vendéens,,Brem,Rouge,,Fiefs vendéens Brem Rouge
-AOP,Tranquille,Fiefs vendéens,,Brem,Rosé,,Fiefs vendéens Brem Rosé
-AOP,Tranquille,Fiefs vendéens,,Mareuil,Blanc,,Fiefs vendéens Mareuil Blanc
-AOP,Tranquille,Fiefs vendéens,,Mareuil,Rouge,,Fiefs vendéens Mareuil Rouge
-AOP,Tranquille,Fiefs vendéens,,Mareuil,Rosé,,Fiefs vendéens Mareuil Rosé
-AOP,Tranquille,Fiefs vendéens,,Pissotte,Blanc,,Fiefs vendéens Pissotte Blanc
-AOP,Tranquille,Fiefs vendéens,,Pissotte,Rouge,,Fiefs vendéens Pissotte Rouge
-AOP,Tranquille,Fiefs vendéens,,Pissotte,Rosé,,Fiefs vendéens Pissotte Rosé
-AOP,Tranquille,Fiefs vendéens,,Vix,Blanc,,Fiefs vendéens Vix Blanc
-AOP,Tranquille,Fiefs vendéens,,Vix,Rouge,,Fiefs vendéens Vix Rouge
-AOP,Tranquille,Fiefs vendéens,,Vix,Rosé,,Fiefs vendéens Vix Rosé
-AOP,Tranquille,Fiefs vendéens,,Chantonnay,Rosé,,Fiefs vendéens Chantonnay Rosé
-AOP,Tranquille,Fiefs vendéens,,Chantonnay,Blanc,,Fiefs vendéens Chantonnay Blanc
-AOP,Tranquille,Fiefs vendéens,,Chantonnay,Rouge,,Fiefs vendéens Chantonnay Rouge
-AOP,Tranquille,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire
-AOP,Tranquille,Cheverny,,(CHY),Blanc,,Cheverny Blanc
-AOP,Tranquille,Cheverny,,(CHY),Rosé,,Cheverny Rosé
-AOP,Tranquille,Cheverny,,(CHY),Rouge,,Cheverny Rouge
-AOP,Tranquille,Valençay,,,Blanc,,Valençay Blanc
-AOP,Tranquille,Valençay,,,Rosé,,Valençay Rosé
-AOP,Tranquille,Valençay,,,Rouge,,Valençay Rouge
-AOP,Tranquille,Côte d'Auvergne,,,Blanc,,Côte d'Auvergne Blanc
-AOP,Tranquille,Côte d'Auvergne,,,Rouge,,Côte d'Auvergne Rouge
-AOP,Tranquille,Côte d'Auvergne,,,Rosé,,Côte d'Auvergne Rosé
-AOP,Tranquille,Orléans,,,Blanc,,Orléans Blanc
-AOP,Tranquille,Orléans,,,Rouge,,Orléans Rouge
-AOP,Tranquille,Orléans,,,Rosé,,Orléans Rosé
-AOP,Tranquille,Orléans,,Cléry,Rouge,,Orléans Cléry
-AOP,Tranquille,Cour-Cheverny,,,Blanc,,Cour-Cheverny
-AOP,Tranquille,Saint Pourçain,,,Blanc,,Saint Pourçain Blanc
-AOP,Tranquille,Saint Pourçain,,,Rouge,,Saint Pourçain Rouge
-AOP,Tranquille,Saint Pourçain,,,Rosé,,Saint Pourçain Rosé
-AOP,Tranquille,Alsace grand cru,SGN,(SCHLOSSBERG),Blanc,(RIESLING),Alsace grand cru Blanc SGN
-AOP,Tranquille,Alsace grand cru,SGN,(SCHBG),Blanc,Riesling,Alsace grand cru Blanc SGN Riesling
-AOP,Tranquille,Gaillac,,,Rouge,,Gaillac Rouge
-AOP,Tranquille,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire
-AOP,Tranquille,Bordeaux supérieur,,,Rouge,,Bordeaux supérieur Rouge
-AOP,Tranquille,Côtes du Rhône Villages,,,Rouge,,Côtes du Rhône Villages Rouge
-AOP,Tranquille,Côtes du Rhône Villages,,,Blanc,,Côtes du Rhône Villages Blanc
-AOP,Tranquille,Côtes de Provence,,,Rouge,,Côtes de Provence Rouge
-AOP,Tranquille,Coteaux d'Aix-en-Provence,,,Rosé,,Coteaux d'Aix-en-Provence Rosé
-AOP,Mousseux,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire Mousseux
-AOP,Mousseux,Montlouis sur Loire,Pétillant,,Blanc,Chenin,Montlouis sur Loire Pétillant
-AOP,Mousseux,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire Mousseux
-AOP,VCI,Bourgueil,,,Rouge,,VCI Bourgueil Rouge
-AOP,Tranquille,Châteaumeillant,,,Rouge,,Châteaumeillant Rouge
-AOP,Tranquille,Châteaumeillant,,,Rosé,,Châteaumeillant Rosé
-AOP,Tranquille,Sancerre,,,Blanc,,Sancerre Blanc
-AOP,Tranquille,Sancerre,,,Rouge,,Sancerre Rouge
-AOP,Tranquille,Sancerre,,,Rosé,,Sancerre Rosé
-AOP,Tranquille,Pouilly-Fumé,,,Blanc,,Pouilly-Fumé
-AOP,Tranquille,Pouilly-sur-Loire,,,Blanc,,Pouilly-sur-Loire
-AOP,Tranquille,Menetou-Salon,,,Blanc,,Menetou-Salon Blanc
-AOP,Tranquille,Menetou-Salon,,,Rouge,,Menetou-Salon Rouge
-AOP,Tranquille,Menetou-Salon,,,Rosé,,Menetou-Salon Rosé
-AOP,Tranquille,Quincy,,,Blanc,,Quincy
-AOP,Tranquille,Reuilly,,,Blanc,,Reuilly Blanc
-AOP,Tranquille,Reuilly,,,Rouge,,Reuilly Rouge
-AOP,Tranquille,Reuilly,,,Rosé,,Reuilly Rosé
-AOP,Tranquille,Coteaux du Giennois,,,Blanc,,Coteaux du Giennois Blanc
-AOP,Tranquille,Coteaux du Giennois,,,Rouge,,Coteaux du Giennois Rouge
-AOP,Tranquille,Coteaux du Giennois,,,Rosé,,Coteaux du Giennois Rosé
-AOP,VCI,Menetou-Salon,,,Blanc,,VCI Menetou-Salon Blanc
-AOP,VCI,Quincy,,,Blanc,,VCI Quincy Blanc
-AOP,VCI,Reuilly,,,Blanc,,VCI Reuilly Blanc
-IGP,Tranquille,Val de Loire,,,Blanc,,IGP Val de Loire Blanc
-IGP,Tranquille,Val de Loire,,,Blanc,Multi cépage,IGP Val de Loire Blanc Multi cépage
-IGP,Tranquille,Val de Loire,,,Blanc,Pinot blanc,IGP Val de Loire Blanc Pinot blanc
-IGP,Tranquille,Val de Loire,,,Blanc,Pinot gris,IGP Val de Loire Blanc Pinot gris
-IGP,Tranquille,Val de Loire,,,Blanc,Sauvignon blanc,IGP Val de Loire Blanc Sauvignon blanc
-IGP,Tranquille,Val de Loire,,,Blanc,Sauvignon gris,IGP Val de Loire Blanc Sauvignon gris
-IGP,Tranquille,Val de Loire,,,Blanc,Chardonnay,IGP Val de Loire Blanc Chardonnay
-IGP,Tranquille,Val de Loire,,,Blanc,Chenin,IGP Val de Loire Blanc Chenin
-IGP,Tranquille,Val de Loire,,,Blanc,Folle blanche,IGP Val de Loire Blanc Folle blanche
-IGP,Tranquille,Val de Loire,,,Blanc,Grolleau gris,IGP Val de Loire Blanc Grolleau gris
-IGP,Tranquille,Val de Loire,,,Blanc,Melon,IGP Val de Loire Blanc Melon
-IGP,Tranquille,Val de Loire,,,Rosé,,IGP Val de Loire Rosé
-IGP,Tranquille,Val de Loire,,,Rosé,Multi cépage,IGP Val de Loire Rosé Multi cépage
-IGP,Tranquille,Val de Loire,,,Rosé,Pinot noir,IGP Val de Loire Rosé Pinot noir
-IGP,Tranquille,Val de Loire,,,Rosé,Egiodola,IGP Val de Loire Rosé Egiodola
-IGP,Tranquille,Val de Loire,,,Rosé,Cabernet franc,IGP Val de Loire Rosé Cabernet franc
-IGP,Tranquille,Val de Loire,,,Rosé,Cabernet sauvignon,IGP Val de Loire Rosé Cabernet sauvignon
-IGP,Tranquille,Val de Loire,,,Rosé,Gamay noir,IGP Val de Loire Rosé Gamay noir
-IGP,Tranquille,Val de Loire,,,Rosé,Grolleau noir,IGP Val de Loire Rosé Grolleau noir
-IGP,Tranquille,Val de Loire,,,Rosé,Cot,IGP Val de Loire Rosé Cot
-IGP,Tranquille,Val de Loire,,,Rosé,Merlot,IGP Val de Loire Rosé Merlot
-IGP,Tranquille,Val de Loire,,,Rosé,Abouriou,IGP Val de Loire Rosé Abouriou
-IGP,Tranquille,Val de Loire,,,Rosé,Pineau d'Aunis,IGP Val de Loire Rosé Pineau d'Aunis
-IGP,Tranquille,Val de Loire,,,Rouge,,IGP Val de Loire Rouge
-IGP,Tranquille,Val de Loire,,,Rouge,Multi cépage,IGP Val de Loire Rouge Multi cépage
-IGP,Tranquille,Val de Loire,,,Rouge,Pinot noir,IGP Val de Loire Rouge Pinot noir
-IGP,Tranquille,Val de Loire,,,Rouge,Cabernet franc,IGP Val de Loire Rouge Cabernet franc
-IGP,Tranquille,Val de Loire,,,Rouge,Cabernet sauvignon,IGP Val de Loire Rouge Cabernet sauvignon
-IGP,Tranquille,Val de Loire,,,Rouge,Gamay noir,IGP Val de Loire Rouge Gamay noir
-IGP,Tranquille,Val de Loire,,,Rouge,Grolleau noir,IGP Val de Loire Rouge Grolleau noir
-IGP,Tranquille,Val de Loire,,,Rouge,Cot,IGP Val de Loire Rouge Cot
-IGP,Tranquille,Val de Loire,,,Rouge,Merlot,IGP Val de Loire Rouge Merlot
-IGP,Tranquille,Val de Loire,,,Rouge,Abouriou,IGP Val de Loire Rouge Abouriou
-IGP,Tranquille,Val de Loire,,,Rouge,Pineau d'Aunis,IGP Val de Loire Rouge Pineau d'Aunis
-IGP,Tranquille,Côtes de la Charité,,,Blanc,,IGP Côtes de la Charité Blanc
-IGP,Tranquille,Côtes de la Charité,,,Rouge,,IGP Côtes de la Charité Rouge
-IGP,Tranquille,Côtes de la Charité,,,Rosé,,IGP Côtes de la Charité Rosé
-IGP,Tranquille,Coteaux du Cher et de l'Arnon,,,Blanc,,IGP Coteaux du Cher et de l'Arnon Blanc
-IGP,Tranquille,Coteaux du Cher et de l'Arnon,,,Rouge,,IGP Coteaux du Cher et de l'Arnon Rouge
-IGP,Tranquille,Coteaux du Cher et de l'Arnon,,,Rosé,,IGP Coteaux du Cher et de l'Arnon Rosé
-IGP,Tranquille,Côteaux de Tannay,,,Blanc,,IGP Côteaux de Tannay Blanc
-IGP,Tranquille,Côteaux de Tannay,,,Rouge,,IGP Côteaux de Tannay Rouge
-IGP,Tranquille,Côteaux de Tannay,,,Rosé,,IGP Côteaux de Tannay Rosé
-IGP,Tranquille,Oc,,,Blanc,,IGP Oc Blanc
-IGP,Tranquille,Oc,,,Rosé,,IGP Oc Rosé
-IGP,Tranquille,Oc,,,Rouge,,IGP Oc Rouge
-IGP,Tranquille,Autres que celles du Val de Loire,,,,,IGP Autres que celles du Val de Loire
-IGP,Tranquille,Calvados,,,Blanc,,IGP Calvados Blanc
-IGP,Tranquille,Calvados,,,Rouge,,IGP Calvados Rouge
-IGP,Mousseux,IGP mousseux,,,,,IGP IGP mousseux
-Autres vins,Tranquille,Vins sans IG,,,Blanc,,Vins sans IG Blanc
-Autres vins,Tranquille,Vins sans IG,,,Rouge,,Vins sans IG Rouge
-Autres vins,Tranquille,Vins sans IG,,,Rosé,,Vins sans IG Rosé
-Autres vins,Tranquille,Vins tranquilles étrangers,,,,,Vins tranquilles étrangers
-Autres vins,Mousseux,Vins sans IG,,,Blanc,,Vins sans IG Mousseux Blanc
-Autres vins,Mousseux,Vins sans IG,,,Rouge,,Vins sans IG Mousseux Rouge
-Autres vins,Mousseux,Vins sans IG,,,Rosé,,Vins sans IG Mousseux Rosé
-Autres vins,Mousseux,Vins mousseux étrangers,,,,,Vins mousseux étrangers
-Autres alcools,,"Bière > 2,8°",,,,,"Bière > 2,8°"
-Autres alcools,,"Bière < 2,8°",,,,,"Bière < 2,8°"
-Autres alcools,,"Cidres, Poirés",,,,,"Cidres, Poirés"
-Autres alcools,,"Porto, Pineau > 18°",,,,,"Porto, Pineau > 18°"
-Autres alcools,,Rhums des DOM,,,,,Rhums des DOM
-Autres alcools,,"Porto, Pineau < 18°",,,,,"Porto, Pineau < 18°"
-Autres alcools,,Vins de liqueur et Vins doux naturels > 18°,,,,,Vins de liqueur et Vins doux naturels > 18°
-Autres alcools,,Vins de liqueur et Vins doux naturels < 18°,,,,,Vins de liqueur et Vins doux naturels < 18°
-Autres alcools,,Autres alcools < 18°,,,,,Autres alcools < 18°
-Autres alcools,,Autres alcools > 18°,,,,,Autres alcools > 18°
-Autres,,Lies et Bourbes,,,,,Lies et Bourbes
-Autres,,"Lies, Bourbes et vins à éliminer",,,,,"Lies, Bourbes et vins à éliminer"
-Autres,,DRA (Dépassement de Rendement Autorisé),,,Blanc,,DRA (Dépassement de Rendement Autorisé) Blanc
-Autres,,DRA (Dépassement de Rendement Autorisé),,,Rouge,,DRA (Dépassement de Rendement Autorisé) Rouge
+CERTIFICATION,GENRE,APPELLATION,MENTION,LIEU,COULEUR,CEPAGE,LIBELLE_PRODUIT,IDENTIFIANT INAO
+AOP,,Anjou,,,Blanc,,Anjou Blanc,1B200
+AOP,,Anjou,,,Rouge,Gamay,Anjou Gamay,1R203S
+AOP,,Anjou,,,Rouge,,Anjou Rouge,1R200S
+AOP,,Anjou,Primeur,,Rouge,Gamay,Anjou Gamay Primeur,1R203S01
+AOP,,Anjou Coteaux de la Loire,,,Blanc,Chenin,Anjou Coteaux de la Loire,1B202L
+AOP,,Anjou-Villages,,,Rouge,,Anjou-Villages,1R204S
+AOP,,Anjou-Villages Brissac,,,Rouge,,Anjou-Villages Brissac,1R217S
+AOP,,Bonnezeaux,,,Blanc,,Bonnezeaux,1B210L
+AOP,,Cabernet d'Anjou,,,Rosé,,Cabernet d'Anjou,1S201D
+AOP,,Cabernet de Saumur,,,Rosé,,Cabernet de Saumur,1S207
+AOP,,Chinon,,,Blanc,Chenin,Chinon Blanc,1B222S
+AOP,,Chinon,,,Rouge,Cabernet Franc,Chinon Rouge,1R222S
+AOP,,Chinon,,,Rosé,Cabernet Franc,Chinon Rosé,1S222S
+AOP,,Coteaux d'Ancenis,,,Blanc,Chenin,Coteaux d'Ancenis Blanc Chenin,1B707S01
+AOP,,Coteaux d'Ancenis,,,Blanc,Malvoisie,Coteaux d'Ancenis Blanc Malvoisie,1B707S
+AOP,,Coteaux d'Ancenis,,,Rouge,Gamay,Coteaux d'Ancenis Rouge Gamay,1R707S03
+AOP,,Coteaux d'Ancenis,,,Rouge,Cabernet,Coteaux d'Ancenis Rouge Cabernet,1R707S02
+AOP,,Coteaux d'Ancenis,,,Rosé,Gamay,Coteaux d'Ancenis Rosé Gamay,1S707S03
+AOP,,Coteaux d'Ancenis,,,Rosé,Cabernet,Coteaux d'Ancenis Rosé Cabernet,1S707S02
+AOP,,Coteaux de l'Aubance,,,Blanc,Chenin,Coteaux de l'Aubance,1B211L
+AOP,,Coteaux de l'Aubance,SGN,,Blanc,Chenin,Coteaux de l'Aubance SGN,1B211L01
+AOP,,Coteaux de Saumur,,,Blanc,Chenin,Coteaux de Saumur,1B213L
+AOP,,Coteaux du Layon,,,Blanc,Chenin,Coteaux du Layon,1B212L
+AOP,,Coteaux du Layon,,Beaulieu,Blanc,,Coteaux du Layon Beaulieu,1B212L01
+AOP,,Coteaux du Layon,,Rochefort,Blanc,,Coteaux du Layon Rochefort,1B212L05
+AOP,,Coteaux du Layon,,Rablay,Blanc,,Coteaux du Layon Rablay,1B212L04
+AOP,,Coteaux du Layon,,Faye,Blanc,,Coteaux du Layon Faye,1B212L03
+AOP,,Coteaux du Layon,,St Aubin,Blanc,,Coteaux du Layon St Aubin,1B212L06
+AOP,,Coteaux du Layon,,St Lambert,Blanc,,Coteaux du Layon St Lambert,1B212L07
+AOP,,Coteaux du Layon,,1er Cru Chaume,Blanc,Chenin,Coteaux du Layon 1er Cru Chaume,1B212L02
+AOP,,Coteaux du Layon,SGN,,Blanc,,Coteaux du Layon SGN,1B212L10
+AOP,,Coteaux du Layon,SGN,Beaulieu,Blanc,,Coteaux du Layon Beaulieu SGN,1B212L11
+AOP,,Coteaux du Layon,SGN,Faye,Blanc,,Coteaux du Layon Faye SGN,1B212L13
+AOP,,Coteaux du Layon,SGN,Rablay,Blanc,,Coteaux du Layon Rablay SGN,1B212L14
+AOP,,Coteaux du Layon,SGN,Rochefort,Blanc,,Coteaux du Layon Rochefort SGN,1B212L15
+AOP,,Coteaux du Layon,SGN,St Aubin,Blanc,,Coteaux du Layon St Aubin SGN,1B212L16
+AOP,,Coteaux du Layon,SGN,St Lambert,Blanc,,Coteaux du Layon St Lambert SGN,1B212L17
+AOP,,Coteaux du Layon,Villages,,Blanc,Chenin,Coteaux du Layon Villages,1B212L
+AOP,,Coteaux du loir,,,Blanc,Chenin,Coteaux du loir Blanc,1B223
+AOP,,Coteaux du loir,,,Rouge,,Coteaux du loir Rouge,1R223S
+AOP,,Coteaux du loir,,,Rosé,,Coteaux du loir Rosé,1S223S
+AOP,,Gros plant,,,Blanc,Folle blanche,Gros plant,1B708
+AOP,,Gros plant,Sur lie,,Blanc,Folle blanche,Gros plant Sur lie,1B708 01
+AOP,,Jasnières,,,Blanc,Chenin,Jasnières,1B224
+AOP,,Muscadet AC,,,Blanc,Melon,Muscadet AC,1B228
+AOP,,Muscadet AC,Sur lie,,Blanc,Melon,Muscadet AC Sur lie,1B228 01
+AOP,,Muscadet AC,Primeur,,Blanc,Melon,Muscadet AC Primeur,1B228 02
+AOP,,Muscadet Coteaux de la Loire,,,Blanc,Melon,Muscadet Coteaux de la Loire,1B229
+AOP,,Muscadet Coteaux de la Loire,Sur lie,,Blanc,Melon,Muscadet Coteaux de la Loire Sur lie,1B229 01
+AOP,,Muscadet Côtes de Grand Lieu,,,Blanc,Melon,Muscadet Côtes de Grand Lieu,1B227
+AOP,,Muscadet Côtes de Grand Lieu,Sur lie,,Blanc,Melon,Muscadet Côtes de Grand Lieu Sur lie,1B227 01
+AOP,,Muscadet Sèvre et Maine,,,Blanc,Melon,Muscadet Sèvre et Maine,1B230
+AOP,,Muscadet Sèvre et Maine,,Gorges,Blanc,Melon,Muscadet Sèvre et Maine Gorges,1B702
+AOP,,Muscadet Sèvre et Maine,,Clisson,Blanc,Melon,Muscadet Sèvre et Maine Clisson,1B701
+AOP,,Muscadet Sèvre et Maine,,Le Pallet,Blanc,Melon,Muscadet Sèvre et Maine Le Pallet,1B703
+AOP,,Muscadet Sèvre et Maine,Sur lie,,Blanc,Melon,Muscadet Sèvre et Maine Sur lie,1B230 01
+AOP,,Quarts de Chaume,,,Blanc,Chenin,Quarts de Chaume,1B214L
+AOP,,Rosé d'Anjou,,,Rosé,,Rosé d'Anjou,1S200D
+AOP,,Rosé de Loire,,,Rosé,,Rosé de Loire,1S209S
+AOP,,Saumur,,,Blanc,Chenin,Saumur Blanc,1B206
+AOP,,Saumur,,,Rosé,,Saumur Rosé,1S206
+AOP,,Saumur,,,Rouge,,Saumur Rouge,1R206S
+AOP,,Saumur,,Puy-Notre-Dame,Rouge,,Saumur Puy-Notre-Dame,1R189S
+AOP,,Saumur Champigny,,,Rouge,,Saumur Champigny,1R208
+AOP,,Savennières,,,Blanc,Chenin,Savennières,1B216S
+AOP,,Savennières,moelleux ou doux,,Blanc,Chenin,Savennières moelleux ou doux,1B216L
+AOP,,Savennières,demi sec,,Blanc,Chenin,Savennières demi sec,1B216
+AOP,,Coulée de Serrant,,,Blanc,Chenin,Coulée de Serrant,1B216S01
+AOP,,Coulée de Serrant,moelleux ou doux,,Blanc,Chenin,Coulée de Serrant moelleux ou doux,1B216L01
+AOP,,Savennières Roche aux moines,,,Blanc,Chenin,Savennières Roche aux moines,1B216S02
+AOP,,Savennières Roche aux moines,moelleux ou doux,,Blanc,Chenin,Savennières Roche aux moines moelleux ou doux,1B216L02
+AOP,,St Nicolas de Bourgueil,,,Rouge,Cabernet Franc,St Nicolas de Bourgueil Rouge,1R221S
+AOP,,St Nicolas de Bourgueil,,,Rosé,Cabernet Franc,St Nicolas de Bourgueil Rosé,1S221S
+AOP,,Touraine,,,Blanc,,Touraine Blanc,1B235S
+AOP,,Touraine,,,Rouge,,Touraine Rouge,1R235S
+AOP,,Touraine,,,Rouge,Gamay,Touraine Rouge Gamay,1R235S02
+AOP,,Touraine,,,Rosé,,Touraine Rosé,1S235S
+AOP,,Touraine,,Amboise,Blanc,Chenin,Touraine Amboise Blanc,1B236
+AOP,,Touraine,,Amboise,Rouge,,Touraine Amboise Rouge,1R236S
+AOP,,Touraine,,Amboise,Rosé,,Touraine Amboise Rosé,1S236
+AOP,,Touraine,,Azay-le-rideau,Blanc,Chenin,Touraine Azay-le-rideau Blanc,1B237
+AOP,,Touraine,,Azay-le-rideau,Rosé,,Touraine Azay-le-rideau Rosé,1S237S
+AOP,,Touraine,,Mesland,Blanc,Chenin,Touraine Mesland Blanc,1B238
+AOP,,Touraine,,Mesland,Rouge,,Touraine Mesland Rouge,1R238S
+AOP,,Touraine,,Mesland,Rosé,,Touraine Mesland Rosé,1S238
+AOP,,Touraine,,Chenonceaux,Blanc,Sauvignon,Touraine Chenonceaux Blanc,1B705S
+AOP,,Touraine,,Chenonceaux,Rouge,,Touraine Chenonceaux Rouge,1R705S
+AOP,,Touraine,,Oisly,Blanc,Sauvignon Blanc,Touraine Oisly Blanc,1B704S
+AOP,,Touraine,Primeur,,Rouge,,Touraine Rouge Primeur,1R235S01
+AOP,,Touraine Noble Joué,,,Rosé,,Touraine Noble Joué,1S239
+AOP,,Vouvray,,,Blanc,,Vouvray,1B226
+AOP,,Coteaux du Vendomois,,,Blanc,,Coteaux du Vendomois Blanc,1B218S
+AOP,,Coteaux du Vendomois,,,Rouge,,Coteaux du Vendomois Rouge,1R218S
+AOP,,Coteaux du Vendomois,,,Rosé,,Coteaux du Vendomois Rosé,1S218S
+AOP,,Haut-Poitou,,,Blanc,,Haut-Poitou Blanc,1B713S
+AOP,,Haut-Poitou,,,Rosé,,Haut-Poitou Rosé,1S713S
+AOP,,Haut-Poitou,,,Rouge,,Haut-Poitou Rouge,1R713S
+AOP,Mousseux,Anjou,,,Blanc,,Anjou Mousseux Blanc,1B200M 1
+AOP,Mousseux,Anjou,,,Rosé,,Anjou Mousseux Rosé,1S200M 1
+AOP,Mousseux,Crémant de Loire,,,Blanc,,Crémant de Loire Blanc,1B215M
+AOP,Mousseux,Crémant de Loire,,,Rosé,,Crémant de Loire Rosé,1S215M
+AOP,Mousseux,Saumur,,,Blanc,,Saumur Mousseux Blanc,1B205M 1
+AOP,Mousseux,Saumur,,,Rosé,,Saumur Mousseux Rosé,1S205M 1
+AOP,Mousseux,Touraine,,,Blanc,,Touraine Mousseux Blanc,1B235M 1
+AOP,Mousseux,Touraine,,,Rosé,,Touraine Mousseux Rosé,1S235M 1
+AOP,Mousseux,Vouvray,,,Blanc,,Vouvray Mousseux,1B226M 1
+AOP,Mousseux,Vouvray,Pétillant,,Blanc,,Vouvray Pétillant,1B226P 1
+AOP,VCI,St Nicolas de Bourgueil,,,Rouge,,VCI St Nicolas de Bourgueil Rouge,1R221S99
+AOP,VCI,Cabernet d'Anjou,,,Rosé,,VCI Cabernet d'Anjou,1S201D99
+AOP,VCI,Touraine,,,Blanc,,VCI Touraine Blanc,1B235S99
+AOP,VCI,Vouvray,,,Blanc,,VCI Vouvray,1B226 99
+AOP,VCI,Vouvray,,,Mousseux,,VCI Vouvray Mousseux,1B226M91
+AOP,VCI,Chinon,,,Blanc,,VCI Chinon Blanc,1B222S99
+AOP,VCI,Chinon,,,Rouge,,VCI Chinon Rouge,1R222S99
+AOP,VCI,Crémant de Loire,,,Blanc,,VCI Crémant de Loire Blanc,1B215M99
+AOP,VCI,Crémant de Loire,,,Rosé,,VCI Crémant de Loire Rosé,1S215M99
+AOP,VCI,Saumur,,,Rouge,,VCI Saumur Rouge,1R170S99
+AOP,VCI,Saumur Champigny,,,Rouge,,VCI Saumur Champigny,1R208 99
+AOP,VCI,Muscadet Côtes de Grand Lieu,Sur lie,,,,VCI Muscadet Côtes de Grand Lieu Sur lie,1B227 91
+AOP,VCI,Muscadet Côtes de Grand Lieu,,,,,VCI Muscadet Côtes de Grand Lieu,1B227 99
+AOP,VCI,Muscadet AC,Sur lie,,,,VCI Muscadet AC Sur lie,1B228 91
+AOP,VCI,Muscadet AC,,,,,VCI Muscadet AC,1B228 99
+AOP,VCI,Muscadet Coteaux de la Loire,Sur lie,,,,VCI Muscadet Coteaux de la Loire Sur lie,1B229 91
+AOP,VCI,Muscadet Coteaux de la Loire,,,,,VCI Muscadet Coteaux de la Loire,1B229 99
+AOP,VCI,Muscadet Sèvre et Maine,,,,,VCI Muscadet Sèvre et Maine,1B230 99
+AOP,VCI,Muscadet Sèvre et Maine,Sur lie,,,,VCI Muscadet Sèvre et Maine Sur lie,1B230 91
+AOP,,Bourgueil,,,Rouge,Cabernet Franc,Bourgueil Rouge,1R220S
+AOP,,Bourgueil,,,Rosé,Cabernet Franc,Bourgueil Rosé,1S220S
+AOP,,Fiefs vendéens,,Brem,Blanc,,Fiefs vendéens Brem Blanc,1B709S
+AOP,,Fiefs vendéens,,Brem,Rouge,,Fiefs vendéens Brem Rouge,1R709S
+AOP,,Fiefs vendéens,,Brem,Rosé,,Fiefs vendéens Brem Rosé,1S709S
+AOP,,Fiefs vendéens,,Mareuil,Blanc,,Fiefs vendéens Mareuil Blanc,1B710S
+AOP,,Fiefs vendéens,,Mareuil,Rouge,,Fiefs vendéens Mareuil Rouge,1R710S
+AOP,,Fiefs vendéens,,Mareuil,Rosé,,Fiefs vendéens Mareuil Rosé,1S710S
+AOP,,Fiefs vendéens,,Pissotte,Blanc,,Fiefs vendéens Pissotte Blanc,1B711S
+AOP,,Fiefs vendéens,,Pissotte,Rouge,,Fiefs vendéens Pissotte Rouge,1R711S
+AOP,,Fiefs vendéens,,Pissotte,Rosé,,Fiefs vendéens Pissotte Rosé,1S711S
+AOP,,Fiefs vendéens,,Vix,Blanc,,Fiefs vendéens Vix Blanc,1B712S 
+AOP,,Fiefs vendéens,,Vix,Rouge,,Fiefs vendéens Vix Rouge,1R712S
+AOP,,Fiefs vendéens,,Vix,Rosé,,Fiefs vendéens Vix Rosé,1S712S
+AOP,,Fiefs vendéens,,Chantonnay,Rosé,,Fiefs vendéens Chantonnay Rosé,1S728S
+AOP,,Fiefs vendéens,,Chantonnay,Blanc,,Fiefs vendéens Chantonnay Blanc,1B728S
+AOP,,Fiefs vendéens,,Chantonnay,Rouge,,Fiefs vendéens Chantonnay Rouge,1R728S
+AOP,,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire,1B225
+AOP,,Cheverny,,,Blanc,,Cheverny Blanc,1B231S
+AOP,,Cheverny,,,Rosé,,Cheverny Rosé,1S231S
+AOP,,Cheverny,,,Rouge,,Cheverny Rouge,1R231S
+AOP,,Valençay,,,Blanc,,Valençay Blanc,1B233S
+AOP,,Valençay,,,Rosé,,Valençay Rosé,1S233S
+AOP,,Valençay,,,Rouge,,Valençay Rouge,1R233S
+AOP,,Côte d'Auvergne,,,Blanc,,Côte d'Auvergne Blanc,1B714S 
+AOP,,Côte d'Auvergne,,,Rouge,,Côte d'Auvergne Rouge,1R714S
+AOP,,Côte d'Auvergne,,,Rosé,,Côte d'Auvergne Rosé,1S714S
+AOP,,Orléans,,,Blanc,,Orléans Blanc,1B198 
+AOP,,Orléans,,,Rouge,,Orléans Rouge,1R198
+AOP,,Orléans,,,Rosé,,Orléans Rosé,1S198
+AOP,,Orléans,,Cléry,Rouge,,Orléans Cléry,1R199
+AOP,,Saint Pourçain,,,Blanc,,Saint Pourçain Blanc,1B430S 
+AOP,,Saint Pourçain,,,Rouge,,Saint Pourçain Rouge,1R430S
+AOP,,Saint Pourçain,,,Rosé,,Saint Pourçain Rosé,1S430S
+AOP,,Alsace grand cru,SGN,,Blanc,,Alsace grand cru Blanc SGN,1B037D14
+AOP,,Alsace grand cru,SGN,,Blanc,Riesling,Alsace grand cru Blanc SGN Riesling,1B037D14
+AOP,,Gaillac,,,Rouge,,Gaillac Rouge,1R128S
+AOP,,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire,VT_IG_AOP
+AOP,,Bordeaux supérieur,,,Rouge,,Bordeaux supérieur Rouge,1R105S2
+AOP,,Côtes du Rhône Villages,,,Rouge,,Côtes du Rhône Villages Rouge,1R531
+AOP,,Côtes du Rhône Villages,,,Blanc,,Côtes du Rhône Villages Blanc,1B531
+AOP,,Côtes de Provence,,,Rouge,,Côtes de Provence Rouge,1R582S
+AOP,,Coteaux d'Aix-en-Provence,,,Rosé,,Coteaux d'Aix-en-Provence Rosé,1S579S
+AOP,,Saint Emilion,,,Rouge,,Saint Emilion,1R156S
+AOP,,Saint Emilion Grand Cru,,,Rouge,,Saint Emilion Grand Cru,1R157S
+AOP,,Cour-Cheverny,,,Blanc,,Cour-Cheverny,1B232S
+AOP,Mousseux,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire Mousseux,1B225M 1
+AOP,Mousseux,Montlouis sur Loire,Pétillant,,Blanc,Chenin,Montlouis sur Loire Pétillant,1B225P 1
+AOP,Mousseux,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire Mousseux,VM_IG_AOP
+AOP,Mousseux,Champagne,,,Blanc,,Champagne Blanc,1B080M 1
+AOP,Mousseux,Champagne,,,Rosé,,Champagne Rosé,1S080M 1
+AOP,VCI,Bourgueil,,,Rouge,,VCI Bourgueil Rouge,1R220S99
+AOP,,Châteaumeillant,,,Rouge,,Châteaumeillant Rouge,1R700
+AOP,,Châteaumeillant,,,Rosé,,Châteaumeillant Rosé,1S700
+AOP,,Sancerre,,,Blanc,,Sancerre Blanc,1B195S
+AOP,,Sancerre,,,Rouge,,Sancerre Rouge,1R196S
+AOP,,Sancerre,,,Rosé,,Sancerre Rosé,1S196S
+AOP,,Pouilly-Fumé,,,Blanc,,Pouilly-Fumé,1B192S
+AOP,,Pouilly-sur-Loire,,,Blanc,,Pouilly-sur-Loire,1B191S
+AOP,,Menetou-Salon,,,Blanc,,Menetou-Salon Blanc,1B190S
+AOP,,Menetou-Salon,,,Rouge,,Menetou-Salon Rouge,1R190S
+AOP,,Menetou-Salon,,,Rosé,,Menetou-Salon Rosé,1S190S
+AOP,,Quincy,,,Blanc,,Quincy,1B193S
+AOP,,Reuilly,,,Blanc,,Reuilly Blanc,1B194S
+AOP,,Reuilly,,,Rouge,,Reuilly Rouge,1R194S
+AOP,,Reuilly,,,Rosé,,Reuilly Rosé,1S194S
+AOP,,Coteaux du Giennois,,,Blanc,,Coteaux du Giennois Blanc,1B197S
+AOP,,Coteaux du Giennois,,,Rouge,,Coteaux du Giennois Rouge,1R197S
+AOP,,Coteaux du Giennois,,,Rosé,,Coteaux du Giennois Rosé,1S197S
+AOP,VCI,Menetou-Salon,,,Blanc,,VCI Menetou-Salon Blanc,1B190S99
+AOP,VCI,Quincy,,,Blanc,,VCI Quincy Blanc,1B193S99
+AOP,VCI,Reuilly,,,Blanc,,VCI Reuilly Blanc,1B194S99
+IGP,,Val de Loire,,,Blanc,,IGP Val de Loire Blanc,3B009
+IGP,,Val de Loire,,,Blanc,Multi cépage,IGP Val de Loire Blanc Multi cépage,3B009 00
+IGP,,Val de Loire,,,Blanc,Pinot blanc,IGP Val de Loire Blanc Pinot blanc,3B009 59
+IGP,,Val de Loire,,,Blanc,Pinot gris,IGP Val de Loire Blanc Pinot gris,3B009 AA
+IGP,,Val de Loire,,,Blanc,Sauvignon blanc,IGP Val de Loire Blanc Sauvignon blanc,3B009 AE
+IGP,,Val de Loire,,,Blanc,Sauvignon gris,IGP Val de Loire Blanc Sauvignon gris,3B009 AF
+IGP,,Val de Loire,,,Blanc,Chardonnay,IGP Val de Loire Blanc Chardonnay,3B009 CA
+IGP,,Val de Loire,,,Blanc,Chenin,IGP Val de Loire Blanc Chenin,3B009 CF
+IGP,,Val de Loire,,,Blanc,Folle blanche,IGP Val de Loire Blanc Folle blanche,3B009 CL
+IGP,,Val de Loire,,,Blanc,Grolleau gris,IGP Val de Loire Blanc Grolleau gris,3B009 CU
+IGP,,Val de Loire,,,Blanc,Melon,IGP Val de Loire Blanc Melon,3B009 DK
+IGP,,Val de Loire,,,Rosé,,IGP Val de Loire Rosé,3S009
+IGP,,Val de Loire,,,Rosé,Multi cépage,IGP Val de Loire Rosé Multi cépage,3S009 00
+IGP,,Val de Loire,,,Rosé,Pinot noir,IGP Val de Loire Rosé Pinot noir,3S009 AB
+IGP,,Val de Loire,,,Rosé,Egiodola,IGP Val de Loire Rosé Egiodola,3S009 AI
+IGP,,Val de Loire,,,Rosé,Cabernet franc,IGP Val de Loire Rosé Cabernet franc,3S009 BW
+IGP,,Val de Loire,,,Rosé,Cabernet sauvignon,IGP Val de Loire Rosé Cabernet sauvignon,3S009 BX
+IGP,,Val de Loire,,,Rosé,Gamay noir,IGP Val de Loire Rosé Gamay noir,3S009 CM
+IGP,,Val de Loire,,,Rosé,Grolleau noir,IGP Val de Loire Rosé Grolleau noir,3S009 CT
+IGP,,Val de Loire,,,Rosé,Cot,IGP Val de Loire Rosé Cot,3S009 CZ
+IGP,,Val de Loire,,,Rosé,Merlot,IGP Val de Loire Rosé Merlot,3S009 DE
+IGP,,Val de Loire,,,Rosé,Abouriou,IGP Val de Loire Rosé Abouriou,3S009 35
+IGP,,Val de Loire,,,Rosé,Pineau d'Aunis,IGP Val de Loire Rosé Pineau d'Aunis,3S009 58
+IGP,,Val de Loire,,,Rouge,,IGP Val de Loire Rouge,3R009
+IGP,,Val de Loire,,,Rouge,Multi cépage,IGP Val de Loire Rouge Multi cépage,3R009 00
+IGP,,Val de Loire,,,Rouge,Pinot noir,IGP Val de Loire Rouge Pinot noir,3R009 AB
+IGP,,Val de Loire,,,Rouge,Cabernet franc,IGP Val de Loire Rouge Cabernet franc,3R009 BW
+IGP,,Val de Loire,,,Rouge,Cabernet sauvignon,IGP Val de Loire Rouge Cabernet sauvignon,3R009 BX
+IGP,,Val de Loire,,,Rouge,Gamay noir,IGP Val de Loire Rouge Gamay noir,3R009 CM
+IGP,,Val de Loire,,,Rouge,Grolleau noir,IGP Val de Loire Rouge Grolleau noir,3R009 CT
+IGP,,Val de Loire,,,Rouge,Cot,IGP Val de Loire Rouge Cot,3R009 CZ
+IGP,,Val de Loire,,,Rouge,Merlot,IGP Val de Loire Rouge Merlot,3R009 DE
+IGP,,Val de Loire,,,Rouge,Abouriou,IGP Val de Loire Rouge Abouriou,3R009 35
+IGP,,Val de Loire,,,Rouge,Pineau d'Aunis,IGP Val de Loire Rouge Pineau d'Aunis,3R009 58
+IGP,,Côtes de la Charité,,,Blanc,,IGP Côtes de la Charité Blanc,3B582
+IGP,,Côtes de la Charité,,,Rouge,,IGP Côtes de la Charité Rouge,3R582
+IGP,,Côtes de la Charité,,,Rosé,,IGP Côtes de la Charité Rosé,3S582
+IGP,,Coteaux du Cher et de l'Arnon,,,Blanc,,IGP Coteaux du Cher et de l'Arnon Blanc,3B182
+IGP,,Coteaux du Cher et de l'Arnon,,,Rouge,,IGP Coteaux du Cher et de l'Arnon Rouge,3R182
+IGP,,Coteaux du Cher et de l'Arnon,,,Rosé,,IGP Coteaux du Cher et de l'Arnon Rosé,3S182
+IGP,,Côteaux de Tannay,,,Blanc,,IGP Côteaux de Tannay Blanc,3B583
+IGP,,Côteaux de Tannay,,,Rouge,,IGP Côteaux de Tannay Rouge,3R583
+IGP,,Côteaux de Tannay,,,Rosé,,IGP Côteaux de Tannay Rosé,3S583
+IGP,,Oc,,,Blanc,,IGP Oc Blanc,3B001
+IGP,,Oc,,,Rosé,,IGP Oc Rosé,3S001
+IGP,,Oc,,,Rouge,,IGP Oc Rouge,3R001
+IGP,,Autres que celles du Val de Loire,,,,,IGP Autres que celles du Val de Loire,VT_IG_IGP
+IGP,,Calvados,,,Blanc,,IGP Calvados Blanc,3B141
+IGP,,Calvados,,,Rouge,,IGP Calvados Rouge,3R141
+IGP,,mousseux,,,,,IGP mousseux,VM_IG_IGP
+Autres vins,,Vins sans IG,,,Blanc,,Vins sans IG Blanc,4B999
+Autres vins,,Vins sans IG,,,Rouge,,Vins sans IG Rouge,4R999
+Autres vins,,Vins sans IG,,,Rosé,,Vins sans IG Rosé,4S999
+Autres vins,,Vins tranquilles étrangers,,,,,Vins tranquilles étrangers,VT_ETRANGERS
+Autres vins,Mousseux,Vins sans IG,,,Blanc,,Vins sans IG Mousseux Blanc,4B999M
+Autres vins,Mousseux,Vins sans IG,,,Rouge,,Vins sans IG Mousseux Rouge,4R999M
+Autres vins,Mousseux,Vins sans IG,,,Rosé,,Vins sans IG Mousseux Rosé,4S999M
+Autres vins,Mousseux,Vins mousseux étrangers,,,,,Vins mousseux étrangers,VM_ETRANGERS
+Autres alcools,,Bière > 2.8°,,,,,Bière > 2.8°,BIERE_SUP_2_8_BRASSERIE_TAUX_NORMAL
+Autres alcools,,Bière < 2.8°,,,,,Bière < 2.8°,BIERE_INF_2_8
+Autres alcools,,Cidres. Poirés,,,,,Cidres. Poirés,CIDRES
+Autres alcools,,Porto. Pineau > 18°,,,,,Porto. Pineau > 18°,AUTRES_PI_SUP_18
+Autres alcools,,Rhums des DOM,,,,,Rhums des DOM,RHUM_TRADITIONNEL_DOM_ART_1
+Autres alcools,,Porto. Pineau < 18°,,,,,Porto. Pineau < 18°,AUTRES_PI_INF_18
+Autres alcools,,Vins de liqueur et Vins doux naturels > 18°,,,,,Vins de liqueur et Vins doux naturels > 18°,VDN_VDL_AOP_SUP_18
+Autres alcools,,Vins de liqueur et Vins doux naturels < 18°,,,,,Vins de liqueur et Vins doux naturels < 18°,VDN_VDL_AOP_INF_18
+Autres alcools,,Autres alcools < 18°,,,,,Autres alcools < 18°,ALCOOL_AUTRE_INF_18
+Autres alcools,,Autres alcools > 18°,,,,,Autres alcools > 18°,ALCOOL_AUTRE_SUP_18
+Autres,,,Lies et Bourbes,,,,Lies et Bourbes,4X999V
+Autres,,,Lies. Bourbes et vins à éliminer,,,,Lies. Bourbes et vins à éliminer,5X999V
+Autres,,DRA (Dépassement de Rendement Autorisé),,,Blanc,,DRA (Dépassement de Rendement Autorisé) Blanc,4B988Y
+Autres,,DRA (Dépassement de Rendement Autorisé),,,Rouge,,DRA (Dépassement de Rendement Autorisé) Rouge,4R988Y
