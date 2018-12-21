@@ -2,6 +2,8 @@
 
 class ediActions extends sfActions {
 
+    protected $save = true;
+
     public function executeDrmCreationEdi(sfWebRequest $request) {
       $only_edi = true;
       if($request->getContentType()){
@@ -44,7 +46,7 @@ class ediActions extends sfActions {
           unlink($csvFileTmpPath);
           return $result;
       }
-      
+
       if($request->getContentType() == 'application/x-www-form-urlencoded'){
         $this->enctype = "application/x-www-form-urlencoded";
       }
@@ -69,13 +71,15 @@ class ediActions extends sfActions {
             }
 
 
-            if(!$this->drmCsvEdi->getCsvDoc()->hasErreurs(CSVClient::LEVEL_ERROR)){
+            if(!$this->drmCsvEdi->getCsvDoc()->hasErreurs(CSVDRMClient::LEVEL_ERROR)){
               if(($drm->etape == DRMClient::ETAPE_VALIDATION_EDI) && !$drm->isNew()){
                 $drm->delete();
                 $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($this->identifiant,$this->periode, true);
                 $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm, true);
               }
-              $this->drmCsvEdi->importCSV(true);
+              if($this->save){
+                $this->drmCsvEdi->importCSV(true);
+              }
               $url = sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate('drm_redirect_etape', array('identifiant' => $this->identifiant , 'periode_version' => $this->periode));
               fputcsv($handle, array('OK',$url,'',''),";");
             }
