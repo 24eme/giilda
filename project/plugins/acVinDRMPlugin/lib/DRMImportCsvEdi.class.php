@@ -378,6 +378,38 @@ private function importMouvementsFromCSV($just_check = false) {
           $num_ligne++;
           continue;
         }
+        $confDetailMvt = $this->mouvements[$type_douane_drm_key][$cat_mouvement][$type_mouvement];
+
+        if($just_check && $confDetailMvt->hasDetails()) {
+          if ($confDetailMvt->getKey() == 'export') {
+            $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
+            if (!$pays) {
+              $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
+              $num_ligne++;
+              continue;
+            }
+          }
+          if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
+            if ($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
+              $num_ligne++;
+              continue;
+            }
+
+            if (!$csvRow[self::CSV_CAVE_CONTRATID]) {
+              $this->csvDoc->addErreur($this->contratIDEmptyError($num_ligne, $csvRow));
+              $num_ligne++;
+              continue;
+            }
+
+            $vrac_id = $this->findContratDocId($csvRow);
+
+            if(!$vrac_id && !$this->noSave) {
+              $this->csvDoc->addErreur($this->contratIDNotFoundError($num_ligne, $csvRow));
+              $num_ligne++;
+              continue;
+            }
+          }
+        }
 
         $vrac_id = $this->findContratDocId($csvRow);
 
