@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(34);
+$t = new lime_test(30);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = array_keys(ConfigurationClient::getInstance()->getConfiguration("2018-01-01")->getProduits());
 $produit1_hash = array_shift($produits);
@@ -46,7 +46,8 @@ if ($import->getCsvDoc()->hasErreurs()) {
     $t->ok(false, $err->diagnostic);
   }
 }
-$t->ok($import->importCSV(),"Import de la DRM");
+
+$import->importCSV();
 
 $t->is($drm->getProduit($produit1_hash, 'details')->get('stocks_debut/initial'), 951.4625, "le stock initial est celui attendu");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('sorties/ventefrancecrd'),4.62,"vente frande crd OK");
@@ -90,7 +91,9 @@ if ($import->getCsvDoc()->hasErreurs()) {
     $t->ok(false, $err->diagnostic);
   }
 }
-$t->ok($import->importCSV(),"Import de la DRM");
+
+$import->importCSV();
+
 $t->is($drm->getProduit($produit1_hash, 'details')->get('stocks_debut/initial'), 951.4625, "le stock initial est celui attendu");
 $drm->delete();
 unlink($tmpfname);
@@ -118,7 +121,9 @@ if ($import->getCsvDoc()->hasErreurs()) {
     $t->ok(false, $err->diagnostic);
   }
 }
-$t->ok($import->importCSV(),"Import de la DRM");
+
+$import->importCSV();
+
 $t->is($drm2->getProduit($produit1_hash, 'details')->get('stocks_fin/final'), 944, "le stock find est celui attendu");
 $t->is($drm2->getProduit($produit1_hash, 'details')->get('entrees/retourmarchandisetaxees'), 1, "retour a le bon volume");
 $t->is($drm2->getProduit($produit1_hash, 'details')->replacement_date, '20/12/2017', "Date de replacement conservée");
@@ -147,7 +152,9 @@ if ($import->getCsvDoc()->hasErreurs()) {
     $t->ok(false, $err->diagnostic);
   }
 }
-$t->ok($import->importCSV(),"Import de la DRM");
+
+$import->importCSV();
+
 $drm3->save();
 
 $t->is($drm3->getProduit($produit1_hash, 'details')->get('sorties/ventefrancecrd'), 4, "Sortie ok");
