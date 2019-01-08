@@ -50,6 +50,8 @@ Autre AOC,Tranquille,Touraine,,Amboise,Rouge,,Touraine Amboise Rouge,1R236S
 Autre AOC,Tranquille,Coteaux du Vendomois,,,Blanc,,Coteaux du Vendomois Blanc,1B218S
 Autre AOC,Tranquille,Coteaux du Vendomois,,,Rouge,,Coteaux du Vendomois Rouge,1R218S
 Autre AOC,Tranquille,Coteaux du Vendomois,,,Rosé,,Coteaux du Vendomois Rosé,1S218S
+Autre AOC,Tranquille,Coteaux de l'Aubance,,,Blanc,Chenin,Coteaux de l'Aubance,1B211L
+Autre AOC,Tranquille,Anjou-Villages Brissac,,,Rouge,,Anjou-Villages Brissac,1R217S
 Autre AOC,Mousseux,Crémant de Loire,,,Blanc,,Crémant de Loire Blanc,1B215M
 Autre AOC,Mousseux,Crémant de Loire,,,Rosé,,Crémant de Loire Rosé,1S215M
 Autre AOC,Mousseux,Touraine,,,Blanc,,Touraine Mousseux Blanc,1B235M 1
@@ -67,6 +69,7 @@ Autre AOC,Tranquille,Valençay,,,Rouge,,Valençay Rouge,1R233S
 Autre AOC,Tranquille,Valençay,,,Rosé,,Valençay Rosé,1S233S
 Autre AOC,Tranquille,Côtes du Forez,,,Rouge,,Côtes du Forez Rouge,1R360
 Autre AOC,Tranquille,Côtes du Forez,,,Rosé,,Côtes du Forez Rosé,1S360
+Autre AOC,Tranquille,Premières Côtes de Bordeaux,,,Blanc,,Premières Côtes de Bordeaux Blanc,1B153D
 Autre AOC,Mousseux,Montlouis sur Loire,Pétillant,,Blanc,Chenin,Montlouis sur Loire Pétillant,1B225P 1
 Autre AOC,Mousseux,Champagne,,,Blanc,,Champagne Blanc,1B080M 1
 Autre AOC,Mousseux,Champagne,,,Rosé,,Champagne Rosé,1S080M 1
