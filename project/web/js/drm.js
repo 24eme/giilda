@@ -45,6 +45,13 @@ var objAjoutsLiquidations = {};
         }
 
        blocsInfosValidationDRM.matchHeight({byRow: false});
+
+       $("a#retransmission").click(function(){
+        if(confirm("Attention! Vous êtes sur le point d'effectuer une retransmission vers le portail Ciel. Cela peut écraser la DRM si elle est en cours d'édition!")){
+          window.location.href = $(this).data('link');
+        }
+      });
+      
     });
 
 
@@ -214,7 +221,7 @@ var objAjoutsLiquidations = {};
             etablissementInfos.stop().show();
         });
 
-        
+
         // On cache les tooltip d'infos d'établissement au clic en dehors de celles-ci
         $(document).click(function()
         {
