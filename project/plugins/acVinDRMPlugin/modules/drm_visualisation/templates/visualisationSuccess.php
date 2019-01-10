@@ -110,6 +110,7 @@
                             <?php endif; ?>
                           </ul>
                         <?php endif; ?>
+                        <a id="retransmission" data-link="<?php echo url_for('drm_retransmission', $drm); ?>" class="pull-right btn btn-xs btn-default" ><span class="glyphicon glyphicon-repeat"></span></a>
                       </td>
                   </tr>
                   <?php if (!$isTeledeclarationMode  || (sfConfig::get('app_force_usurpation_mode') && $sf_user->isUsurpationCompte())): ?>
