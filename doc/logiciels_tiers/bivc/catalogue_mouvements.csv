@@ -4,6 +4,7 @@ suspendu,stocks_debut,initial,initial,stock initial
 suspendu,entrees,recolte,01. récolte,récolte
 suspendu,entrees,declassement,02. issu d'un déclassement,déclassement
 suspendu,entrees,retourembouteillage,03. retour conditionnmt,retour de conditionnement
+suspendu,entrees,vci,04-bis. intégration vci,indiquer les volumes issus de votre récolte que vous intégrez en vci
 suspendu,entrees,transfertcomptamatierecession,04. transfert de produits,transfert de récoltes ou de vins entre les chais d'une même exploitation
 suspendu,entrees,travailafacon,05. retour travail à façon,retour de travail à façon. distillation à façon
 suspendu,entrees,retourmarchandisetaxees,06. retour vin crd acquittées,retour de vin crd acquittées
@@ -18,6 +19,7 @@ suspendu,sorties,creationvractirebouche,03. bouteilles négoce,ventes en suspens
 suspendu,sorties,apportgroupement,04. livraison coopérative,livraison coopérative
 suspendu,sorties,vracsanscontratacquitte,05. petit vrac france,bib. grandes bouteilles vendus sans crd. facture pour mise à la consommation – particuliers. chr. cavistes
 suspendu,sorties,ventefrancecrd,06. vente sous crd,vente sous crd
+suspendu,sorties,vci,07-bis. revendication vci,indiquer les volumes de vci que vous intégrez dans votre stock revendiqué
 suspendu,sorties,transfertcomptamatiere,07. transfert de produits,transfert de récoltes ou de vins entre les chais d'une même exploitation
 suspendu,sorties,declassement,08. déclassement,déclassement
 suspendu,sorties,travailafacon,09. travail à façon,sortie d'embouteillage. relogement. travail à façon. distillation à façon

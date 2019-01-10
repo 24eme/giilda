@@ -18,6 +18,8 @@ class DRMValidation extends DocumentValidation {
         if (!$this->isTeledeclarationDrm) {
             $this->addControle('vigilance', 'vrac_detail_nonsolde', "Le contrat est soldé (ou annulé)");
             $this->addControle('erreur', 'vrac_detail_exist', "Le contrat n'existe plus");
+        }else{
+          $this->addControle('vigilance', 'alcool_hlap', "Pour cet alcool");
         }
         $this->addControle('erreur', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
@@ -53,14 +55,22 @@ class DRMValidation extends DocumentValidation {
             $entrees_retourmarchandisesanscvo = ($detail->entrees->exist('retourmarchandisesanscvo'))? $detail->entrees->retourmarchandisesanscvo : 0.0;
             $entrees_autre = ($detail->entrees->exist('autre'))? $detail->entrees->autre : 0.0;
 
-            $sorties_manquants = ($detail->sorties->exist('manquants'))? $detail->sorties->manquants : 0.0;
+            $sorties_manquant = ($detail->sorties->exist('manquant'))? $detail->sorties->manquant : 0.0;
             $sorties_autre = ($detail->sorties->exist('autre'))? $detail->sorties->autre : 0.0;
 
-            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_manquants + $entrees_autre + $sorties_autre;
+            $total_observations_obligatoires = $entrees_excedents + $entrees_retourmarchandisetaxees + $entrees_retourmarchandisesanscvo + $sorties_manquant + $entrees_autre + $sorties_autre;
 
             $produitLibelle = " pour le produit ".$detail->getLibelle();
 
             if ($this->isTeledeclarationDrm) {
+
+              if(DRMConfiguration::getInstance()->hasWarningForProduit()){
+                $msgs = DRMConfiguration::getInstance()->getWarningsMessagesForProduits(array($detail->getHash() => ""));
+                if(count($msgs)){
+                  $this->addPoint('vigilance', 'alcool_hlap', $this->generateUrl('drm_edition_detail', $detail)." , les mouvements d'entrées et de sorties doivent être renseignés en HL (et non en HLAP). Un taux d'alcool volumique \"TAV\" doit être renseigné dans les ".$this->generateUrl('drm_annexes', $this->document)."");
+                }
+              }
+
               if($total_observations_obligatoires && (!$detail->exist('observations') || !trim($detail->observations)))
               {
                 if($entrees_excedents){
@@ -75,8 +85,8 @@ class DRMValidation extends DocumentValidation {
                 if($entrees_retourmarchandisesanscvo){
                   $this->addPoint('erreur', 'observations', "Entrée retour de marchandises sans CVO (".sprintf("%.2f",$entrees_retourmarchandisesanscvo)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
-                if($sorties_manquants){
-                  $this->addPoint('erreur', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_destructionperte)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
+                if($sorties_manquant){
+                  $this->addPoint('erreur', 'observations', "Sortie manquant (".sprintf("%.2f",$sorties_manquant)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
                 if($entrees_autre){
                   $this->addPoint('erreur', 'observations', "Entrée autre (".sprintf("%.2f",$entrees_autre)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
