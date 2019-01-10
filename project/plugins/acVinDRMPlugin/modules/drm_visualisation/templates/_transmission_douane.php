@@ -9,9 +9,12 @@
         <tbody>
             <tr><td>
 <?php if ($drm->transmission_douane->success) : ?>
-La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
+La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> : accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
 <?php else: ?>
 La transmission a échoué. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
+<?php endif; ?>
+<?php if (!$isTeledeclarationMode): ?>
+        &nbsp;<a id="retransmission" data-link="<?php echo url_for('drm_retransmission', $drm); ?>" class="btn_majeur"  style="font-weight: normal; line-height: 20px; float:right;" ><span style="font-size:7pt;">retransmettre</span></a>
 <?php endif; ?>
             </td></tr>
             <?php if (!$isTeledeclarationMode): ?>
