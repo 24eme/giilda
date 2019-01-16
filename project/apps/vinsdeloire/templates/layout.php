@@ -122,6 +122,6 @@
         <?php include_partial('global/initMessageAide') ?>
 
         <script type="text/javascript">var jsPath = "/js/";</script>
-        <script type="text/javascript" src="/js/include_dev.js"></script>
+        <script type="text/javascript" src="/js/include_dev.js?201901151100"></script>
     </body>
 </html>
