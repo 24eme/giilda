@@ -527,7 +527,7 @@ class DRMDetail extends BaseDRMDetail {
     public function getReplacementYear() {
       if(!$this->exist('replacement_date')) return "";
       $d = $this->_get('replacement_date');
-      return preg_replace('/(\d{4})/', '\1', $d);
+      return preg_replace('/.*(\d{4}).*/', '\1', $d);
     }
 
     public function isCodeDouaneAlcool(){
