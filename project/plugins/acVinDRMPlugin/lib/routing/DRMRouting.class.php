@@ -265,6 +265,10 @@ class DRMRouting {
 
         $r->prependRoute('drm_transmission', new DRMRoute('/drm/:identifiant/transmission/:periode_version', array('module' => 'drm_xml', 'action' => 'wait'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
 
+        $r->prependRoute('drm_retransmission', new DRMRoute('/drm/:identifiant/retransmission/:periode_version',
+            array('module' => 'drm_xml', 'action' => 'retransmission'), array('sf_method' => array('get', 'post')),
+            array('model' => 'DRM', 'type' => 'object')));
+
         $r->prependRoute('drm_xml', new DRMRoute('/drm/:identifiant/xml/:periode_version', array('module' => 'drm_xml', 'action' => 'print'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
 
         $r->prependRoute('drm_retour', new DRMRoute('/drm/:identifiant/retour/:periode_version', array('module' => 'drm_xml', 'action' => 'retour'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
