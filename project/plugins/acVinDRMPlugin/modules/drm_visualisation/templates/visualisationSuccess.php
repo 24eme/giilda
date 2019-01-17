@@ -50,14 +50,18 @@
             <div style="text-align: right;">
                 <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
             </div>
+          <?php elseif ($drm->isTeledeclareNonFacturee() && !$drm->hasSuivante()): ?>
+            <div style="text-align: right;">
+              <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
+            </div>
         <?php elseif (($drm->isTeledeclareFacturee() || $drm->hasSuivante()) && !$drm->hasBeenTransferedToCiel()): ?>
             <div style="text-align: right;">
                 <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
             </div>
-        <?php elseif ($drm->isTeledeclareNonFacturee() && !$drm->hasSuivante()): ?>
-            <div style="text-align: right;">
-                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
-            </div>
+        <?php else: ?>
+          <div style="text-align: right;">
+              <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>" onclick="return confirm('Attention cette DRM a été déclarée aux douanes et est conforme.\nLa modifier peut avoir des impacts pour les prochains mois si le stock change.\n\nVeux-tu vraiment le faire ?');">Modificatrice de la DRM</a>
+          </div>
         <?php endif; ?>
 
         <?php if (!$drm->isMaster()): ?>
