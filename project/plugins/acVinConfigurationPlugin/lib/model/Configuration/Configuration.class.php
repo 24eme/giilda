@@ -8,6 +8,7 @@ class Configuration extends BaseConfiguration {
 
     const DEFAULT_KEY = 'DEFAUT';
     const DEFAULT_DENSITE = "1.3";
+    protected $identifyCodeDouaneProduct = array();
 
     public function constructId() {
         $this->set('_id', "CONFIGURATION");
@@ -16,6 +17,25 @@ class Configuration extends BaseConfiguration {
     public function getProduits() {
 
         return $this->declaration->getProduits();
+    }
+
+    public function identifyProductByCodeDouane($code) {
+        if(array_key_exists($code, $this->identifyCodeDouaneProduct)) {
+            return $this->identifyCodeDouaneProduct[$code];
+        }
+
+        $codeSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($code)));
+
+        foreach($this->getProduits() as $produit) {
+            $codeProduitSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($produit->code_douane)));
+            if($codeSlugify == $codeProduitSlugify) {
+                $this->identifyCodeDouaneProduct[$code][] = $produit;
+            }
+        }
+        if (isset($this->identifyCodeDouaneProduct[$code])) {
+          return $this->identifyCodeDouaneProduct[$code];
+        }
+        return array();
     }
 
     public function formatProduits($date = null, $format = "%format_libelle% (%code_produit%)", $attributes = array()) {

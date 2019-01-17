@@ -234,37 +234,57 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
                 $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
                 $founded_produit = false;
-
-                foreach ($all_produits as $produit) {
-                    if ($founded_produit) {
-                        break;
-                    }
-                    $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
-                    $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
-                    $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
-                    $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
-                    $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
-
-                    $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
-                    if ($isEmptyArray){
-                      if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                      && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-                      && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
-                        continue;
-                      }
-                    }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
-
-                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
-                        continue;
-                    }elseif((count(array_diff($produitConfLibelleAOC, $csvLibelleProductArray))) && (count(array_diff($produitConfLibelleAOP, $csvLibelleProductArray)))
-                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
-                        continue;
-                    }
-                    $founded_produit = $produit;
+                
+                if ($idDouane = $this->getIdDouane($csvRow)) {
+                	$produits = $this->configuration->identifyProductByCodeDouane($idDouane);
+                	if (count($produits) == 1) {
+                		$founded_produit = $produits[0];
+                	} else {
+                		$libelle = preg_replace('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', '${1}', trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]));
+                		foreach($produits as $p) {
+                			if (!$founded_produit) {
+                				$founded_produit = $p;
+                			}
+                			if ($p->getLibelleFormat() == $libelle) {
+                				$founded_produit = $p;
+                				break;
+                			}
+                		}
+                	}
+                }
+				
+                if (!$founded_produit) {
+	                foreach ($all_produits as $produit) {
+	                    if ($founded_produit) {
+	                        break;
+	                    }
+	                    $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
+	                    $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
+	                    $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
+	                    $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
+	                    $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
+	
+	                    $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
+	                    if ($isEmptyArray){
+	                      if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+	                      && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+	                      && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+	                        continue;
+	                      }
+	                    }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
+	
+	                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+	                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+	                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+	                        continue;
+	                    }elseif((count(array_diff($produitConfLibelleAOC, $csvLibelleProductArray))) && (count(array_diff($produitConfLibelleAOP, $csvLibelleProductArray)))
+	                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+	                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+	                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+	                        continue;
+	                    }
+	                    $founded_produit = $produit;
+	                }
                 }
                 if (!$founded_produit) {
                     $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
@@ -963,6 +983,23 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         public function setNoSave($noSave){
           $this->noSave = $noSave;
         }
+        
+		private function getIdDouane($datas)
+		{
+			$certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
+			if (
+			$certification &&
+			!trim($datas[self::CSV_CAVE_GENRE]) &&
+			!trim($datas[self::CSV_CAVE_APPELLATION]) &&
+			!trim($datas[self::CSV_CAVE_MENTION]) &&
+			!trim($datas[self::CSV_CAVE_LIEU]) &&
+			!trim([self::CSV_CAVE_COULEUR]) &&
+			!trim($datas[self::CSV_CAVE_CEPAGE])
+			) {
+				return $certification;
+			}
+			return null;
+		}
 
 
     }
