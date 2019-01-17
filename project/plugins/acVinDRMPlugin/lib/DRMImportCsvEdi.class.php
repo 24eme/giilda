@@ -254,6 +254,24 @@ private function importMouvementsFromCSV($just_check = false) {
       continue;
     }
 
+    if ($idDouane = $this->getIdDouane($csvRow)) {
+    	$produits = $this->configuration->identifyProductByCodeDouane($idDouane);
+    	if (count($produits) == 1) {
+    		$founded_produit = $produits[0];
+    	} else {
+    		$libelle = preg_replace('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', '${1}', trim($csvRow[self::CSV_CAVE_LIBELLE_PRODUIT]));
+    		foreach($produits as $p) {
+    			if (!$founded_produit) {
+    				$founded_produit = $p;
+    			}
+    			if ($p->getLibelleFormat() == $libelle) {
+    				$founded_produit = $p;
+    				break;
+    			}
+    		}
+    	}
+    }
+
     if(!$founded_produit && ($keys_libelle != '      ')) {
       $founded_produit = $this->configuration->identifyProductByLibelle(KeyInflector::slugify(str_replace("AOC AOC","AOC",$keys_libelle)));
     }
@@ -867,6 +885,23 @@ private function createError($num_ligne, $erreur_csv, $raison, $level = CSVDRMCl
 /**
 * Fin des functions de création d'erreurs
 */
+private function getIdDouane($datas)
+{
+	$certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
+	if (
+	$certification &&
+	!trim($datas[self::CSV_CAVE_GENRE]) &&
+	!trim($datas[self::CSV_CAVE_APPELLATION]) &&
+	!trim($datas[self::CSV_CAVE_MENTION]) &&
+	!trim($datas[self::CSV_CAVE_LIEU]) &&
+	!trim([self::CSV_CAVE_COULEUR]) &&
+	!trim($datas[self::CSV_CAVE_CEPAGE])
+	) {
+		return $certification;
+	}
+	return null;
+}
+
 private function buildLibellesArrayWithRow($csvRow, $with_slugify = false) {
   $certification = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_CERTIFICATION]) : $csvRow[self::CSV_CAVE_CERTIFICATION];
   $genre = ($with_slugify) ? KeyInflector::slugify($csvRow[self::CSV_CAVE_GENRE]) : $csvRow[self::CSV_CAVE_GENRE];
