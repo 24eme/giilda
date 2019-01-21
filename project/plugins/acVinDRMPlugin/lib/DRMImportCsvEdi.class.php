@@ -894,7 +894,7 @@ private function getIdDouane($datas)
 	!trim($datas[self::CSV_CAVE_APPELLATION]) &&
 	!trim($datas[self::CSV_CAVE_MENTION]) &&
 	!trim($datas[self::CSV_CAVE_LIEU]) &&
-	!trim([self::CSV_CAVE_COULEUR]) &&
+	!trim($datas[self::CSV_CAVE_COULEUR]) &&
 	!trim($datas[self::CSV_CAVE_CEPAGE])
 	) {
 		return $certification;
