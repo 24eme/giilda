@@ -96,12 +96,12 @@ echo "s/;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_libelle
 # Transformation au format du fichier des Non-DRAs
 cat $TMP/export_bi_drm_stock_campagne_filtered_aout_without_coop.csv | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$8"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' > $TMP/export_bi_drm_stock_1.csv
 
-cat $TMP/export_bi_drm_stock_1.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7";\""substr($2,7,4)"07\";"$8";"$9";"$10";"$11";"$12";"$13";"$6";" }' | grep -v "/declaration/certifications/IGP" > $TMP/export_bi_drm_final_for_non_dra.csv
+cat $TMP/export_bi_drm_stock_1.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7";\""substr($2,7,4)"07\";"$8";"$9";"$10";"$11";"$12";"$13";"$6";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_non_dra.csv
 
 # Transformation au format du fichier des DRAs
 cat $TMP/export_bi_drm_stock_campagne_filtered_juillet_for_dra.csv  | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$13"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' > $TMP/export_bi_drm_stock_2.csv
 
-cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7";\""substr($2,7,4)"07\";"$8";"$9";"$10";"$11";"$12";"$13";"$6";" }' | grep -v "/declaration/certifications/IGP" > $TMP/export_bi_drm_final_for_dra.csv
+cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7";\""substr($2,7,4)"07\";"$8";"$9";"$10";"$11";"$12";"$13";"$6";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_dra.csv
 
 
 cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
