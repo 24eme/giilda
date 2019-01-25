@@ -1,6 +1,9 @@
 <?php
 class CompteLdap extends acVinLdap
 {
+    public $ou = 'ou=People';
+    public $id = 'uid';
+
     public function saveCompte($compte, $verbose = 0)
     {
         $info = $this->info($compte);
@@ -59,7 +62,7 @@ class CompteLdap extends acVinLdap
             $info['givenName']        = $compte->getPrenom();
         }
 
-        if ($compte->email && filter_var($compte->email, FILTER_VAR_EMAIL)) {
+        if ($compte->email && filter_var($compte->email, FILTER_VALIDATE_EMAIL)) {
             $info['mail']             = $compte->email;
         }
 
