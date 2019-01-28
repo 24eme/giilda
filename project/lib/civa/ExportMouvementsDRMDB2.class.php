@@ -36,7 +36,7 @@ class ExportMouvementsDRMDB2
         $this->structure = $this->buildStructure();
     }
 
-    public function export($mouvements) {
+    public function export($mouvements, $periode_max = null) {
         $drms = array();
 
         foreach($mouvements as $key => $mouvement) {
@@ -51,6 +51,12 @@ class ExportMouvementsDRMDB2
             $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
             if(isset($drms[$identifiantPeriode]) && $drms[$identifiantPeriode]->_id >= $mouvement->id_doc) {
                 continue;
+            }
+            if ($periode_max) {
+              $periode = preg_replace('/DRM-[^-]*-/', $identifiantPeriode);
+              if ($periode > $periode_max) {
+                continue;
+              }
             }
             $drms[$identifiantPeriode] = DRMClient::getInstance()->find($mouvement->id_doc, acCouchdbClient::HYDRATE_JSON);
         }
