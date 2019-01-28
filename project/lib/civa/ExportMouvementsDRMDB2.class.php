@@ -53,7 +53,7 @@ class ExportMouvementsDRMDB2
                 continue;
             }
             if ($periode_max) {
-              $periode = preg_replace('/DRM-[^-]*-/', $identifiantPeriode);
+              $periode = preg_replace('/DRM-[^-]*-/', '', $identifiantPeriode);
               if ($periode > $periode_max) {
                 continue;
               }
