@@ -88,6 +88,16 @@ abstract class acVinLdap
     }
 
     /**
+     * Retourne le template d'identification
+     *
+     * @return string Template de la ressource
+     */
+    protected function getBaseIdentifiant()
+    {
+        return $this->base_identifiant;
+    }
+
+    /**
      * Sauvegarde une entrée dans le LDAP
      *
      * @param string $identifiant Identifiant de la ressource. uid ou cn

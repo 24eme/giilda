@@ -21,7 +21,7 @@ class CompteGroupLdap extends acVinLdap
      */
     public function saveGroup($cn, $member)
     {
-        $fdn = "uid=$member,ou=People,dc=ivso,dc=actualys,dc=com";
+        $fdn = $this->fdn($member);
 
         if (! $this->exist($cn)) {
             parent::add($cn, array_merge($this->attributes, ['uniqueMember' => $fdn]));
@@ -64,7 +64,8 @@ class CompteGroupLdap extends acVinLdap
     }
 
     /**
-     * Enlève un membre du groupe
+     * Enlève un membre du groupe. Si dernier utilisateur du groupe,
+     * alors on supprime directement le groupe.
      *
      * @param string $cn cn du groupe
      * @param string $member DN du membre
@@ -72,7 +73,18 @@ class CompteGroupLdap extends acVinLdap
      */
     public function removeMember($cn, $member)
     {
+        if (! $this->memberExists($cn, $member)) {
+            return false;
+        }
 
+        if ($this->lastMemberOf($cn)) {
+            return $this->delete($cn);
+        } else {
+            return ldap_mod_del(parent::getConnection(),
+                sprintf(parent::getBaseIdentifiant(), $cn),
+                ['uniqueMember' => $this->fdn($member)]
+            );
+        }
     }
 
     /**
@@ -81,9 +93,16 @@ class CompteGroupLdap extends acVinLdap
      * @param string $cn cn du groupe
      * @return bool Groupe vide
      */
-    public function empty($cn)
+    public function lastMemberOf($cn)
     {
+        $count = ldap_read(parent::getConnection(),
+            sprintf(parent::getBaseIdentifiant(), $cn),
+            '(objectClass=groupOfUniqueNames)',
+            ['uniqueMember']
+        );
 
+        $uniqueMembers = ldap_get_values(parent::getConnection(), $count, 'uniqueMember');
+        return $uniqueMembers['count'] < 2;
     }
 
     /**
@@ -94,6 +113,17 @@ class CompteGroupLdap extends acVinLdap
      */
     public function delete($cn)
     {
+        return parent::delete($cn);
+    }
 
+    /**
+     * Créé le FDN de l'utilisateur
+     *
+     * @param string $member Identifiant du membre
+     * @return string FDN du membre
+     */
+    private function fdn($member)
+    {
+        return "uid=$member,ou=People,dc=ivso,dc=actualys,dc=com";
     }
 }

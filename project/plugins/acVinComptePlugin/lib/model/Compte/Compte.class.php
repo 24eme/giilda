@@ -325,17 +325,25 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $ldap = new CompteLdap();
         $groupldap = new CompteGroupLdap();
 
+        $compteid = ($this->isSocieteContact()) ? $this->getSociete()->identifiant : $this->identifiant;
+
         if ($this->isActif()) {
             $ldap->saveCompte($this, $verbose);
 
             if ($this->tags->exist('produit')) {
-                $compteid = ($this->isSocieteContact()) ? $this->getSociete()->identifiant : $this->identifiant;
-                foreach ($this->tags->produit as $tag) {
-                    $groupldap->saveGroup($tag, $compteid);
+                foreach ($this->tags->produit as $group) {
+                    $groupldap->saveGroup($group, $compteid);
                 }
             }
         } else {
             $ldap->deleteCompte($this, $verbose);
+
+            if ($this->tags->exist('produit')) {
+                foreach ($this->tags->produit as $group) {
+                    $groupldap->removeMember($group, $compteid);
+                }
+            }
+
         }
     }
 
