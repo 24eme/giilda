@@ -100,12 +100,6 @@ class CompteLdap extends acVinLdap
             }
         }
 
-        if ($compte->tags->exist('produit')) {
-            foreach ($compte->tags->produit as $tag) {
-                $info['memberOf'][] = $tag;
-            }
-        }
-
         return $info;
     }
 }

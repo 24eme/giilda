@@ -68,6 +68,26 @@ abstract class acVinLdap
     }
 
     /**
+     * Retourne l'identifiant de connection
+     *
+     * @return resource Identifiant LDAP
+     */
+    protected function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * Retourne le DN de base pour la recherche
+     *
+     * @return string Base DN pour la recherche
+     */
+    protected function getBaseDN()
+    {
+        return $this->base_dn;
+    }
+
+    /**
      * Sauvegarde une entrée dans le LDAP
      *
      * @param string $identifiant Identifiant de la ressource. uid ou cn
