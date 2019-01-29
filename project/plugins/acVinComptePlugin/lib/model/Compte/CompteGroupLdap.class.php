@@ -36,15 +36,15 @@ class CompteGroupLdap extends acVinLdap
      * Vérifie si le membre est déjà présent dans le groupe
      *
      * @param string $cn cn du groupe
-     * @param string $member DN du membre
+     * @param string $fdn FDN du membre
      * @return bool Le membre est présent
      */
-    public function memberExists($cn, $member)
+    public function memberExists($cn, $fdn)
     {
         $search = '(&(objectClass=groupOfUniqueNames)(cn=%s)(uniqueMember=%s))';
         $result = ldap_search(parent::getConnection(),
                             parent::getBaseDN(),
-                            sprintf($search, $cn, $member),
+                            sprintf($search, $cn, $fdn),
                             ['dn', 'uniqueMember']
                   );
 
@@ -55,12 +55,15 @@ class CompteGroupLdap extends acVinLdap
      * Ajoute un membre au groupe
      *
      * @param string $cn cn du groupe
-     * @param string $member DN du membre
+     * @param string $fdn FDN du membre
      * @return bool Succès de l'ajout
      */
-    public function addMember($cn, $member)
+    public function addMember($cn, $fdn)
     {
-        return parent::update($cn, ['uniqueMember' => $member]);
+        return ldap_mod_add(parent::getConnection(),
+            sprintf(parent::getBaseIdentifiant(), $cn),
+            ['uniqueMember' => $fdn]
+        );
     }
 
     /**
@@ -73,7 +76,9 @@ class CompteGroupLdap extends acVinLdap
      */
     public function removeMember($cn, $member)
     {
-        if (! $this->memberExists($cn, $member)) {
+        $fdn = $this->fdn($member);
+
+        if (! $this->memberExists($cn, $fdn)) {
             return false;
         }
 
@@ -82,7 +87,7 @@ class CompteGroupLdap extends acVinLdap
         } else {
             return ldap_mod_del(parent::getConnection(),
                 sprintf(parent::getBaseIdentifiant(), $cn),
-                ['uniqueMember' => $this->fdn($member)]
+                ['uniqueMember' => $fdn]
             );
         }
     }
