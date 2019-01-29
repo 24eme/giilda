@@ -527,6 +527,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
             $contact->setStatut($newStatus);
             $contact->save();
         }
+        $this->comptes = null;
         foreach ($this->etablissements as $keyEtablissement => $etablissement) {
             $etablissement = EtablissementClient::getInstance()->find($keyEtablissement);
             $etablissement->setStatut($newStatus);
