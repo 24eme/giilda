@@ -93,6 +93,38 @@ class CompteGroupLdap extends acVinLdap
     }
 
     /**
+     * Retourne la liste des groupes du membre
+     *
+     * @param string $member Identifiant du membre
+     * @return array Liste des groupes
+     */
+    public function getMembership($member)
+    {
+        $fdn = $this->fdn($member);
+
+        $search = '(&(objectClass=groupOfUniqueNames)(uniqueMember=%s))';
+        $result = ldap_search(parent::getConnection(),
+            parent::getBaseDN(),
+            sprintf($search, $fdn),
+            ['cn']
+        );
+
+        if (! $result) {
+            return false;
+        }
+
+        $entry = ldap_first_entry(parent::getConnection(), $result);
+        $g = [];
+
+        do {
+            $value = ldap_get_values(parent::getConnection(), $entry, 'cn');
+            $g[] = $value[0];
+        } while ($entry = ldap_next_entry(parent::getConnection(), $entry));
+
+        return $g;
+    }
+
+    /**
      * Vérifie si le groupe n'a pas de membre
      *
      * @param string $cn cn du groupe
