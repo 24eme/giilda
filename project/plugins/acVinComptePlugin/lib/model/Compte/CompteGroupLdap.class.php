@@ -106,8 +106,8 @@ class CompteGroupLdap extends acVinLdap
             ['uniqueMember']
         );
 
-        $uniqueMembers = ldap_get_values(parent::getConnection(), $count, 'uniqueMember');
-        return $uniqueMembers['count'] < 2;
+        $entry = ldap_get_entries(parent::getConnection(), $count);
+        return $entry[0]['uniquemember']['count'] < 2;
     }
 
     /**
