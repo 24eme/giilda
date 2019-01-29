@@ -36,7 +36,7 @@ class ExportMouvementsDRMDB2
         $this->structure = $this->buildStructure();
     }
 
-    public function export($mouvements) {
+    public function export($mouvements, $periode_max = null) {
         $drms = array();
 
         foreach($mouvements as $key => $mouvement) {
@@ -51,6 +51,12 @@ class ExportMouvementsDRMDB2
             $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
             if(isset($drms[$identifiantPeriode]) && $drms[$identifiantPeriode]->_id >= $mouvement->id_doc) {
                 continue;
+            }
+            if ($periode_max) {
+              $myperiode = preg_replace('/[^-]*-/', '', $identifiantPeriode);
+              if ($myperiode > $periode_max) {
+                continue;
+              }
             }
             $drms[$identifiantPeriode] = DRMClient::getInstance()->find($mouvement->id_doc, acCouchdbClient::HYDRATE_JSON);
         }
@@ -74,6 +80,9 @@ class ExportMouvementsDRMDB2
 
         foreach($db2Mouvements as $identifiantPeriode => $volumes) {
             $parts = explode("-", $identifiantPeriode);
+            if (!isset($db2Identifiants[$identifiantPeriode])) {
+              continue;
+            }
             $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             foreach($this->structure as $file => $infos) {
@@ -97,6 +106,9 @@ class ExportMouvementsDRMDB2
 
         foreach($db2MouvementsExport as $identifiantPeriode => $infos) {
             $parts = explode("-", $identifiantPeriode);
+            if (!isset($db2Identifiants[$identifiantPeriode])) {
+              continue;
+            }
             $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             $compteur = 1;
@@ -118,6 +130,9 @@ class ExportMouvementsDRMDB2
 
         foreach($db2CRD as $identifiantPeriode => $centilisations) {
             $parts = explode("-", $identifiantPeriode);
+            if (!isset($db2Identifiants[$identifiantPeriode])) {
+              continue;
+            }
             $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             $compteur = 1;
@@ -135,6 +150,9 @@ class ExportMouvementsDRMDB2
 
         foreach($db2Total as $identifiantPeriode => $total) {
             $parts = explode("-", $identifiantPeriode);
+            if (!isset($db2Identifiants[$identifiantPeriode])) {
+              continue;
+            }
             $identifiant = $db2Identifiants[$identifiantPeriode];
             $periode = $parts[1];
             $annee = substr($periode, 0, 4);
@@ -172,6 +190,11 @@ class ExportMouvementsDRMDB2
         }
 
         foreach($mouvements as $mouvement) {
+            $identifiantPeriode = preg_replace("/DRM-(.+)-(.+)-?.*$/", '\1-\2', $mouvement->id_doc);
+            if (!isset($db2Identifiants[$identifiantPeriode])) {
+              continue;
+            }
+
             $csv["09.ORIGINES"][] = $mouvement->origines;
         }
 
