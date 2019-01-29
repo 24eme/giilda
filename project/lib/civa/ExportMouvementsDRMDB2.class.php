@@ -58,6 +58,10 @@ class ExportMouvementsDRMDB2
                 continue;
               }
             }
+            $drm = DRMClient::getInstance()->find($mouvement->id_doc, acCouchdbClient::HYDRATE_JSON);
+            if(!isset($drms[$identifiantPeriode]) && (!isset($drm->transmission_douane->success) || !$drm->transmission_douane->success)) {
+                continue;
+            }
             $drms[$identifiantPeriode] = DRMClient::getInstance()->find($mouvement->id_doc, acCouchdbClient::HYDRATE_JSON);
         }
 
