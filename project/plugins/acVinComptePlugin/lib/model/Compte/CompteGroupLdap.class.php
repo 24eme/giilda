@@ -18,17 +18,18 @@ class CompteGroupLdap extends acVinLdap
      *
      * @param string $cn Identifiant du groupe
      * @param string $member Identifiant de l'utilisateur
+     * @return bool Succès de l'ajout
      */
     public function saveGroup($cn, $member)
     {
         $fdn = $this->fdn($member);
 
         if (! $this->exist($cn)) {
-            parent::add($cn, array_merge($this->attributes, ['uniqueMember' => $fdn]));
+            return parent::add($cn, array_merge($this->attributes, ['uniqueMember' => $fdn]));
         }
 
         if (! $this->memberExists($cn, $fdn)) {
-            $this->addMember($cn, $fdn);
+            return $this->addMember($cn, $fdn);
         }
     }
 
