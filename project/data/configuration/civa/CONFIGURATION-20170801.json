@@ -17449,7 +17449,7 @@
                    "restriction_lies": 0,
                    "recolte": 1,
                    "mouvement_coefficient": -1,
-                   "facturable": 0,
+                   "facturable": 1,
                    "douane_type": "SUSPENDU",
                    "douane_cat": "sorties-periode/sorties-sans-paiement-droits/autres-sorties",
                    "taxable_douane": 0

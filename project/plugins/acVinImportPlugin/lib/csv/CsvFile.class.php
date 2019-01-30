@@ -36,6 +36,10 @@ class CsvFile
     if($charset != 'utf-8'){
         exec('recode '.$charset.'..utf-8 '.$file);
     }
+    $charset = $this->getCharset($file);
+    if($charset != 'utf-8'){
+        exec('iconv -f '.$charset.' -t utf-8 '.$file.' > '.$file.'.tmp; mv '.$file.'{.tmp,}');
+    }
     $buffer = preg_replace('/$[^\n]*\n/', '', $buffer);
     if (!$buffer) {
       throw new sfException('invalid csv file; '.$this->file);
