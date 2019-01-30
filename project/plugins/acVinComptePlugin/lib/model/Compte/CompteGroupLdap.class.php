@@ -114,6 +114,10 @@ class CompteGroupLdap extends acVinLdap
             return false;
         }
 
+        if (ldap_count_entries(parent::getConnection(), $result) === 0) {
+            return [];
+        }
+
         $entry = ldap_first_entry(parent::getConnection(), $result);
         $g = [];
 
