@@ -377,7 +377,7 @@ private function importMouvementsFromCSV($just_check = false) {
     $confDetailMvt = $this->mouvements[$type_douane_drm_key][$cat_mouvement][$type_mouvement];
 
     if($just_check && $confDetailMvt->hasDetails()) {
-      if ($confDetailMvt->getKey() == 'export') {
+      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         if (!$pays) {
           $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
@@ -385,7 +385,7 @@ private function importMouvementsFromCSV($just_check = false) {
           continue;
         }
       }
-      if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
+      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_VRAC) {
         if ($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
           $num_ligne++;
           continue;
@@ -466,7 +466,7 @@ private function importMouvementsFromCSV($just_check = false) {
     if ($confDetailMvt->hasDetails()) {
       $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
-      if (preg_match("/^export/", $type_key)) {
+      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         $export = DRMESDetailExport::freeInstance($this->drm);
         $export->volume = $volume;
@@ -474,7 +474,7 @@ private function importMouvementsFromCSV($just_check = false) {
         $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($export);
       }
 
-      if ($type_key == 'vrac' || $type_key == 'contrat') {
+      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_VRAC) {
         $vrac_id = $this->findContratDocId($csvRow);
 
         $detailNode = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->add($vrac_id);
@@ -486,7 +486,7 @@ private function importMouvementsFromCSV($just_check = false) {
         $detailNode->identifiant = $vrac_id;
         $detailNode->date_enlevement = $date->format('Y-m-d');
       }
-      if($type_key == 'creationvrac' || $type_key == 'creationvractirebouche'){
+      if($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_CREATIONVRAC){
         $creationvrac = DRMESDetailCreationVrac::freeInstance($this->drm);
         $creationvrac->volume = $volume;
         $creationvrac->prixhl = floatval($csvRow[self::CSV_CAVE_CONTRAT_PRIXHL]);
