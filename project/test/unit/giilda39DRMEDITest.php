@@ -12,12 +12,12 @@ $produit2 = ConfigurationClient::getInstance()->getConfiguration("2018-01-01")->
 
 
 //Suppression des DRM précédentes
-/*foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
+foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
   $drm = DRMClient::getInstance()->find($k);
   $drm->delete(false);
   $csv = CSVDRMClient::getInstance()->find(str_replace("DRM", "CSVDRM", $k));
   $csv->delete(false);
-}*/
+}
 
 $t->comment("Création d'une DRM via EDI ".$viti->identifiant);
 
