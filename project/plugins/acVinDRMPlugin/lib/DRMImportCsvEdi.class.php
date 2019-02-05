@@ -304,8 +304,10 @@ private function importMouvementsFromCSV($just_check = false) {
         }
         $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
         $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
+        $produitConfLibelleAOCWithoutGenre = $this->slugifyProduitConf($produit, false, false);
         $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
         $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
+        $libelleCompletConfAOCWithoutGenre = $this->slugifyProduitArrayOrString($produitConfLibelleAOCWithoutGenre);
         $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_PRODUIT]);
 
         $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
@@ -319,7 +321,9 @@ private function importMouvementsFromCSV($just_check = false) {
         }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
         && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+        && ($libelleCompletConfAOCWithoutGenre != $csvLibelleProductComplet)
+        && ($libelleCompletConfAOCWithoutGenre != $libelleCompletEnCsv)
+        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv) ) {
           continue;
         }
         $founded_produit = $produit;
@@ -891,7 +895,7 @@ private function buildLibellesArrayWithRow($csvRow, $with_slugify = false) {
 }
 private function slugifyProduitArrayOrString($produitLibelles) {
   $produitLibellesStr = is_array($produitLibelles)? implode(" ",$produitLibelles) : $produitLibelles;
-  return strtoupper(KeyInflector::slugify(trim(preg_replace("/[\ ]+/"," ",$produitLibellesStr))));
+  return str_replace("AOC-AOC", "AOC", strtoupper(KeyInflector::slugify(trim(preg_replace("/[\ ]+/"," ",$produitLibellesStr)))));
 }
 
 private function slugifyProduitConf($produit, $withAOP = false, $withGenre = true) {
@@ -899,13 +903,15 @@ private function slugifyProduitConf($produit, $withAOP = false, $withGenre = tru
   foreach ($produit->getLibelles() as $key => $libelle) {
     $libellesSlugified[] = strtoupper(KeyInflector::slugify($libelle));
   }
-  $genreKey = $produit->getGenre()->getKey();
-  if(isset(self::$genres[$genreKey])) {
-    $genreLibelle = self::$genres[$genreKey];
-  } else {
-    $genreLibelle = null;
+  if($withGenre) {
+      $genreKey = $produit->getGenre()->getKey();
+      if(isset(self::$genres[$genreKey])) {
+        $genreLibelle = self::$genres[$genreKey];
+      } else {
+        $genreLibelle = null;
+      }
+      $libellesSlugified[1] = strtoupper(KeyInflector::slugify($genreLibelle));
   }
-  $libellesSlugified[1] = strtoupper(KeyInflector::slugify($genreLibelle));
   if(($libellesSlugified[0] == "AOC") && $withAOP){
     $libellesSlugified[0]="AOP";
   }
