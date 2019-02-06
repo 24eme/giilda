@@ -304,8 +304,10 @@ private function importMouvementsFromCSV($just_check = false) {
         }
         $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
         $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
+        $produitConfLibelleAOCWithoutGenre = $this->slugifyProduitConf($produit, false, false);
         $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
         $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
+        $libelleCompletConfAOCWithoutGenre = $this->slugifyProduitArrayOrString($produitConfLibelleAOCWithoutGenre);
         $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_PRODUIT]);
 
         $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
@@ -319,7 +321,9 @@ private function importMouvementsFromCSV($just_check = false) {
         }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
         && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
         && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+        && ($libelleCompletConfAOCWithoutGenre != $csvLibelleProductComplet)
+        && ($libelleCompletConfAOCWithoutGenre != $libelleCompletEnCsv)
+        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv) ) {
           continue;
         }
         $founded_produit = $produit;
@@ -906,16 +910,19 @@ private function slugifyProduitConf($produit, $withAOP = false, $withGenre = tru
   foreach ($produit->getLibelles() as $key => $libelle) {
     $libellesSlugified[] = strtoupper(KeyInflector::slugify($libelle));
   }
-  $genreKey = $produit->getGenre()->getKey();
-  if(isset(self::$genres[$genreKey])) {
-    $genreLibelle = self::$genres[$genreKey];
-  } else {
-    $genreLibelle = null;
+  if($withGenre) {
+      $genreKey = $produit->getGenre()->getKey();
+      if(isset(self::$genres[$genreKey])) {
+        $genreLibelle = self::$genres[$genreKey];
+      } else {
+        $genreLibelle = null;
+      }
+      $libellesSlugified[1] = strtoupper(KeyInflector::slugify($genreLibelle));
   }
-  $libellesSlugified[1] = strtoupper(KeyInflector::slugify($genreLibelle));
   if(($libellesSlugified[0] == "AOC") && $withAOP){
     $libellesSlugified[0]="AOP";
   }
+  $libellesSlugified[2] = str_replace("AOC-", "", $libellesSlugified[2]);
   foreach ($libellesSlugified as $key => $libelle) {
     if (!$libelle) {
       $libellesSlugified[$key] = null;
