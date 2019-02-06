@@ -177,6 +177,31 @@ $t->is($drm3->getProduit($produit1_hash, 'details')->get('stocks_fin/final'), 94
 $t->is($drm3->crds->COLLECTIFSUSPENDU->get('TRANQ-LIEDEVIN-750')->stock_fin, 11601, "stock fin 75 cl OK");
 
 $drm3->delete();
+
+$t->comment("Conformité aux catalogues ou  ".$viti->identifiant);
+
+$produit_disabled = null;
+
+foreach($produits as $ph) {
+  $p = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->get($ph);
+  if (!$p->isActif(date('Y')."-01-01")) {
+    $produit_disabled = $p;
+    break;
+  }
+}
+$temp = fopen($tmpfname, "w");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit_disabled->getCertification()->getLibelle().",".$produit_disabled->getGenre()->getLibelle().",".$produit_disabled->getAppellation()->getLibelle().",".$produit_disabled->getMention()->getLibelle().",".$produit_disabled->getLieu()->getLibelle().",".$produit_disabled->getCouleur()->getLibelle().",".$produit_disabled->getCepage()->getLibelle().",,".$produit_disabled->getLibelleFormat().",suspendu,stocks_debut,initial,951.4625,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit_disabled->getCertification()->getLibelle().",".$produit_disabled->getGenre()->getLibelle().",".$produit_disabled->getAppellation()->getLibelle().",".$produit_disabled->getMention()->getLibelle().",".$produit_disabled->getLieu()->getLibelle().",".$produit_disabled->getCouleur()->getLibelle().",".$produit_disabled->getCepage()->getLibelle().",,".$produit_disabled->getLibelleFormat().",suspendu,entrees,retourmarchandisetaxees,1,201712,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit_disabled->getCertification()->getLibelle().",".$produit_disabled->getGenre()->getLibelle().",".$produit_disabled->getAppellation()->getLibelle().",".$produit_disabled->getMention()->getLibelle().",".$produit_disabled->getLieu()->getLibelle().",".$produit_disabled->getCouleur()->getLibelle().",".$produit_disabled->getCepage()->getLibelle().",,".$produit_disabled->getLibelleFormat().",suspendu,sorties,ventefrancecrd,4.62,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit_disabled->getCertification()->getLibelle().",".$produit_disabled->getGenre()->getLibelle().",".$produit_disabled->getAppellation()->getLibelle().",".$produit_disabled->getMention()->getLibelle().",".$produit_disabled->getLieu()->getLibelle().",".$produit_disabled->getCouleur()->getLibelle().",".$produit_disabled->getCepage()->getLibelle().",,".$produit_disabled->getLibelleFormat().",suspendu,sorties,export,1.89,PAYS-BAS,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit_disabled->getCertification()->getLibelle().",".$produit_disabled->getGenre()->getLibelle().",".$produit_disabled->getAppellation()->getLibelle().",".$produit_disabled->getMention()->getLibelle().",".$produit_disabled->getLieu()->getLibelle().",".$produit_disabled->getCouleur()->getLibelle().",".$produit_disabled->getCepage()->getLibelle().",,".$produit_disabled->getLibelleFormat().",suspendu,sorties,export,0.9525,BELGIQUE,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit_disabled->getCertification()->getLibelle().",".$produit_disabled->getGenre()->getLibelle().",".$produit_disabled->getAppellation()->getLibelle().",".$produit_disabled->getMention()->getLibelle().",".$produit_disabled->getLieu()->getLibelle().",".$produit_disabled->getCouleur()->getLibelle().",".$produit_disabled->getCepage()->getLibelle().",,".$produit_disabled->getLibelleFormat().",suspendu,stocks_fin,final,945,,,,,,\n");
+fclose($temp);
+
+$drm4 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
+$import = new DRMImportCsvEdi($tmpfname, $drm4);
+$t->ok(!$produit_disabled || !$import->checkCSV(), "Un produit non actif ne doit pas être permis");
+
 $drm2->devalide();
 $drm2->delete();
 unlink($tmpfname);

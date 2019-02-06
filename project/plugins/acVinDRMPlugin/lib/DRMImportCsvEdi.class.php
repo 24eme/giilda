@@ -349,6 +349,13 @@ private function importMouvementsFromCSV($just_check = false) {
       continue;
     }
 
+    if ($founded_produit && !$founded_produit->isActif($csvRow[self::CSV_PERIODE].'-01')) {
+      $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
+      $num_ligne++;
+      continue;
+    }
+
+
     $this->previous_produits[$keys_libelle] = $founded_produit;
     $this->previous_produits[$keys_libelle_mention_fin] = $founded_produit;
 
