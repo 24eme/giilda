@@ -4,11 +4,11 @@ require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
 $t = new lime_test(32);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
-$produits = array_keys(ConfigurationClient::getInstance()->getConfiguration("2018-01-01")->getProduits());
+$produits = array_keys(ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits());
 $produit1_hash = array_shift($produits);
-$produit1 = ConfigurationClient::getInstance()->getConfiguration("2018-01-01")->get($produit1_hash);
+$produit1 = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->get($produit1_hash);
 $produit2_hash = array_shift($produits);
-$produit2 = ConfigurationClient::getInstance()->getConfiguration("2018-01-01")->get($produit2_hash);
+$produit2 = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->get($produit2_hash);
 
 
 //Suppression des DRM précédentes
@@ -55,7 +55,7 @@ $t->is($drm->getProduit($produit1_hash, 'details')->get('sorties/export'),2.8425
 $t->is($drm->getProduit($produit1_hash, 'details')->get('stocks_fin/final'),945,"stock final OK");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('replacement_date'), "31/12/2017","Date de replacement OK");
 if(DRMConfiguration::getInstance()->isObservationsAuto()) {
-$t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), ConfigurationClient::getInstance()->getConfiguration("2018-01-01")->libelle_detail_ligne->details->entrees->retourmarchandisetaxees->libelle_long, "Observations OK");
+$t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->libelle_detail_ligne->details->entrees->retourmarchandisetaxees->libelle_long, "Observations OK");
 } else {
 $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), "", "Observations OK");
 }
