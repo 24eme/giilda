@@ -506,10 +506,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if ($this->drm->hasPrecedente()) {
                     if  ($fieldNameCrd == 'stock_debut') {
                       $drmPrecedente = $this->drm->getPrecedente();
-                      if ($quantite && (!$drmPrecedente->crds->exist($crd_regime) || !$drmPrecedente->crds->get($crd_regime)->exist($keyNode))) {
-                        $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow));
-                        $num_ligne++;
-                        continue;
+                      if ($quantite) {
+                         if (!$drmPrecedente->crds->exist($crd_regime)) {
+                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "regime"));
+                            $num_ligne++;
+                            continue;
+                         }
+                         if (!$drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
+                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "type/centilisation"));
+                            $num_ligne++;
+                            continue;
+                         }
                       }
 
                       if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
@@ -835,8 +842,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                       CSVClient::LEVEL_WARNING);
         }
 
-        private function previousCRDProductError($num_ligne, $csvRow) {
-          return $this->createError($num_ligne, $csvRow[self::CSV_CRD_REGIME], "Il n'existe pas de stock pour cette crd dans la DRM précédente");
+        private function previousCRDProductError($num_ligne, $csvRow, $more) {
+          return $this->createError($num_ligne, $csvRow[self::CSV_CRD_REGIME], "Il n'existe pas de stock pour cette crd dans la DRM précédente ($more)");
         }
 
         private function previousCRDStockError($num_ligne, $csvRow) {
