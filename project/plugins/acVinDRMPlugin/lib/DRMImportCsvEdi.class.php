@@ -499,7 +499,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $fieldNameCrd.="_" . $type_key;
                 }
 
-                $centilitrage = $all_contenances[$litrageKey];
+                $centilitrage = $all_contenances[$litrageLibelle];
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
                 $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
 
@@ -535,11 +535,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                 } else {
                     if(!array_key_exists($litrageLibelle,$all_contenances)){ continue; }
-
-                    $centilitrage = $all_contenances[$litrageLibelle];
-                    $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
-
-                    $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
                     if (!$regimeNode->exist($keyNode)) {
                         $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
                         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
