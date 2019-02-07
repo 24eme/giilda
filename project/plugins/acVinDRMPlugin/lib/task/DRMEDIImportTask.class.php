@@ -20,6 +20,7 @@ class DRMEDIImportTask extends sfBaseTask
             new sfCommandOption('creation-depuis-precedente', null, sfCommandOption::PARAMETER_REQUIRED, 'Création depuis la précédente', false),
             new sfCommandOption('facture', null, sfCommandOption::PARAMETER_REQUIRED, 'Flag automatiquement les mouvements a facturé', false),
             new sfCommandOption('savewarning', null, sfCommandOption::PARAMETER_REQUIRED, 'Sauver les DRM en statut warning', false),
+            new sfCommandOption('check', null, sfCommandOption::PARAMETER_REQUIRED, "Check only (no real import)", false),
         ));
 
         $this->namespace        = 'drm';
@@ -40,7 +41,7 @@ EOF;
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        if(DRMClient::getInstance()->find('DRM-'.$arguments['identifiant'].'-'.$arguments['periode'], acCouchdbClient::HYDRATE_JSON)) {
+        if(!$options['check'] && DRMClient::getInstance()->find('DRM-'.$arguments['identifiant'].'-'.$arguments['periode'], acCouchdbClient::HYDRATE_JSON)) {
             echo "Existe : ".'DRM-'.$arguments['identifiant'].'-'.$arguments['periode']."\n";
             return;
         }
@@ -76,6 +77,10 @@ EOF;
                 echo sprintf("%s : %s;#%s\n", $erreur->diagnostic, $erreur->csv_erreur, implode(";", $csv[$erreur->num_ligne-1]));
             }
             return;
+        }
+
+        if ($options['check']) {
+          return ;
         }
 
         $drmCsvEdi->importCSV();
