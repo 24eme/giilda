@@ -1018,9 +1018,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         public function setNoSave($noSave){
           $this->noSave = $noSave;
         }
-        
+
 		private function getIdDouane($datas)
 		{
+      if (preg_match('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', trim($datas[self::CSV_CAVE_LIBELLE_COMPLET]), $m)) {
+        return $m[2];
+      }
+
 			$certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
 			if (
 			$certification &&
