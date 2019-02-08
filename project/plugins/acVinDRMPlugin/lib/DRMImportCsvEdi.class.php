@@ -476,11 +476,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
-                $crd_regime = "";
-                $crd_regime_libelle = KeyInflector::slugify($csvRow[self::CSV_CRD_REGIME]);
-                if(array_key_exists($crd_regime_libelle,self::$regimes_crd)){
-                  $crd_regime = self::$regimes_crd[$crd_regime_libelle];
-                }
+                $crd_regime = DRMClient::convertCRDRegime($csvRow[self::CSV_CRD_REGIME]);
                 if(!$crd_regime){
                   $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
                 }

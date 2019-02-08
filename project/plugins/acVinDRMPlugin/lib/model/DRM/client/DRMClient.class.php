@@ -666,5 +666,134 @@ class DRMClient extends acCouchdbClient {
           return $this->find($idPrecedente);
       }
 
+      public static function convertCRDGenre($s) {
+        $s = strtoupper(KeyInflector::slugify($s));
+        if (preg_match('/^TRANQ/', $s)) {
+          return self::DRM_CRD_CATEGORIE_TRANQ;
+        }
+        if (preg_match('/^MOU/', $s)) {
+          return self::DRM_CRD_CATEGORIE_MOUSSEUX;
+        }
+        return '';
+      }
+      public static function convertCRDRegime($s) {
+        $s = strtoupper(KeyInflector::slugify($s));
+        if (preg_match('/PERSONNALISE/', $s)) {
+          return EtablissementClient::REGIME_CRD_PERSONNALISE;
+        }
+        if (preg_match('/ACQUIT/', $s)) {
+          return EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE;
+        }
+        if (preg_match('/SUSPEND/', $s)) {
+          return EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
+        }
+        return '';
+      }
+      public static function convertCRDLitrage($s) {
+        return VracConfiguration::slugifyContenances($s);
+      }
+
+      public static function getLibelleCRD($s) {
+        return VracConfiguration::getInstance()->getContenanceLibelle($s);
+      }
+      public static function convertCRDCategorie($s) {
+        $s = strtolower(KeyInflector::slugify($s));
+        if (preg_match('/^entr/', $s)) {
+          return 'entrees';
+        }
+        if (preg_match('/^sortie/', $s)) {
+          return 'sorties';
+        }
+        if (preg_match('/debut$/', $s)) {
+          return 'stock_debut';
+        }
+        if (preg_match('/fin$/', $s)) {
+          return 'stock_fin';
+        }
+      }
+      public static function convertCRDType($s) {
+        $s = strtolower(KeyInflector::slugify($s));
+        switch ($s) {
+          case "fin":
+              return "fin";
+          case "debut":
+              return "debut";
+          case "achats":
+              return "achats";
+          case "retours":
+              return "retours";
+          case "excedents":
+              return "excedents";
+          case "utilisations":
+              return "utilisations";
+          case "destructions":
+              return "destructions";
+          case "manquants":
+              return "manquants";
+        }
+        return '';
+      }
+
+      public function getRecapCvos($identifiant, $periode) {
+
+          return $this->getRecapCvosByMouvements(DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($identifiant, $periode));
+      }
+
+      public function getRecapCvosByMouvements($mouvements) {
+          $recapCvos = array();
+
+          $recapCvos["TOTAL"] = new stdClass();
+          $recapCvos["TOTAL"]->totalVolumeDroitsCvo = 0;
+          $recapCvos["TOTAL"]->totalVolumeReintegration = 0;
+          $recapCvos["TOTAL"]->totalPrixDroitCvo = 0;
+          $recapCvos["TOTAL"]->version = null;
+
+          foreach ($mouvements as $mouvement) {
+              $version = $mouvement->version;
+              if(!$version) {
+                  $version = "M00";
+              }
+              if(!array_key_exists($version, $recapCvos)) {
+                  $recapCvos[$version] = new stdClass();
+                  $recapCvos[$version]->totalVolumeDroitsCvo = 0;
+                  $recapCvos[$version]->totalVolumeReintegration = 0;
+                  $recapCvos[$version]->totalPrixDroitCvo = 0;
+                  $recapCvos[$version]->version = $version;
+              }
+              if ($mouvement->facturable) {
+                  $recapCvos[$version]->totalVolumeDroitsCvo += $mouvement->quantite;
+                  $recapCvos["TOTAL"]->totalVolumeDroitsCvo += $mouvement->quantite;
+                  $recapCvos[$version]->totalPrixDroitCvo += $mouvement->prix_ht;
+                  $recapCvos["TOTAL"]->totalPrixDroitCvo +=  $mouvement->prix_ht;
+              }
+              if ($mouvement->type_hash == 'entrees/reintegration' && $mouvement->facturable) {
+                  $recapCvos[$version]->totalVolumeReintegration += $mouvement->volume;
+                  $recapCvos["TOTAL"]->totalVolumeReintegration += $mouvement->volume;
+              }
+          }
+
+          if(count($recapCvos) <= 2) {
+
+              return array("TOTAL" => $recapCvos["TOTAL"]);
+          }
+
+          ksort($recapCvos);
+
+          return $recapCvos;
+      }
+
+      public function getAllRegimesCrdsChoices($libelleLong = false){
+        $crdsRegimesChoices = array();
+        $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles;
+
+        if($libelleLong){
+          $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles_longs;
+        }
+        $onlySuspendus = DRMConfiguration::getInstance()->isCrdOnlySuspendus();
+        if($onlySuspendus){
+          $crdsRegimesChoices = EtablissementClient::$regimes_crds_libelles_longs_only_suspendu;
+        }
+        return $crdsRegimesChoices;
+      }
 
 }
