@@ -18,8 +18,15 @@ class drm_ediActions extends drmGeneriqueActions {
         $drm->periode = $this->periode;
         $drm->teledeclare = true;
 
-        $this->drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
-        $this->drmCsvEdi->checkCSV();
+        $drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
+        $drmCsvEdi->checkCSV();
+        $this->csvDoc = $drmCsvEdi->getCsvDoc();
+
+        if($this->csvDoc->statut == DRMCsvEdi::STATUT_VALIDE) {
+          return $this->redirect('drm_creation_fichier_edi', array('periode' => $this->periode, 'md5' => $this->md5, 'identifiant' => $this->identifiant));
+        }
+
+
         $this->creationEdiDrmForm = new DRMChoixCreationForm(array('type_creation' => DRMClient::DRM_CREATION_EDI), array('identifiant' => $this->identifiant, 'periode' => $this->periode));
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->creationEdiDrmForm->bind($request->getParameter($this->creationEdiDrmForm->getName()), $request->getFiles($this->creationEdiDrmForm->getName()));
