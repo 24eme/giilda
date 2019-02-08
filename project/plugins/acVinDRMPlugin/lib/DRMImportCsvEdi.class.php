@@ -503,9 +503,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
                 $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
 
-                if ($this->drm->hasPrecedente()) {
+                $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
+                if ($drmPrecedente) {
                     if  ($fieldNameCrd == 'stock_debut') {
-                      $drmPrecedente = $this->drm->getPrecedente();
                       if ($quantite) {
                          if (!$drmPrecedente->crds->exist($crd_regime)) {
                             $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "regime"));
