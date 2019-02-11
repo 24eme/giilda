@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(37);
+$t = new lime_test(39);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = array_keys(ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits());
 $produit1_hash = array_shift($produits);
@@ -238,6 +238,19 @@ foreach($import->getCsvDoc()->erreurs as $k => $err) {
   break;
 }
 $t->is($err->num_ligne, 5, "L'erreur de CRD pointe la bonne ligne");
+
+unlink($tmpfname);
+$temp = fopen($tmpfname, "w");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,944,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,944,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$produit2->getCodeDouane().",,,,,,,,,suspendu,stocks_debut,initial,944,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$produit2->getCodeDouane().",,,,,,,,,suspendu,stocks_fin,final,944,,,,,,\n");
+fclose($temp);
+$drm7 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$import = new DRMImportCsvEdi($tmpfname, $drm7);
+$import->importCSV();
+$t->is($drm7->crds->COLLECTIFSUSPENDU->get('TRANQ-VERT-750')->stock_debut, 11624, "stock debut 75 cl OK");
+$t->is($drm7->crds->COLLECTIFSUSPENDU->get('TRANQ-VERT-750')->stock_fin, 11624, "stock fin 75 cl OK");
 
 $drm2->devalide();
 $drm2->delete();
