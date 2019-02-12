@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(39);
+$t = new lime_test(41);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = array_keys(ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits());
 $produit1_hash = array_shift($produits);
@@ -146,9 +146,9 @@ $periode = (date('Y'))."02";
 $tmpfname = tempnam("/tmp", "DRM_");
 $t->comment("Dépendance des stocks de produits et CRD ".$viti->identifiant);
 $temp = fopen($tmpfname, "w");
-fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,945,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,944,,,,,,\n");
 fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,ventefrancecrd,4,,,,,,\n");
-fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,941,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,940,,,,,,\n");
 fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",Lie de vin,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,0,,,,\n");
 fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",Lie de vin,tranquille,Bouteille75cl,,,,,,,collectif suspendu,entrees,achats,11625,,,,\n");
 fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",Lie de vin,tranquille,Bouteille 75 cl,,,,,,,collectif suspendu,sorties,utilisations,24,,,,\n");
@@ -251,6 +251,22 @@ $import = new DRMImportCsvEdi($tmpfname, $drm7);
 $import->importCSV();
 $t->is($drm7->crds->COLLECTIFSUSPENDU->get('TRANQ-VERT-750')->stock_debut, 11624, "stock debut 75 cl OK");
 $t->is($drm7->crds->COLLECTIFSUSPENDU->get('TRANQ-VERT-750')->stock_fin, 11624, "stock fin 75 cl OK");
+$drm7->delete();
+unlink($tmpfname);
+
+$temp = fopen($tmpfname, "w");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,944,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,944,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$produit2->getCodeDouane().",,,,,,,,,suspendu,stocks_debut,initial,940,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$produit2->getCodeDouane().",,,,,,,,,suspendu,stocks_fin,final,940,,,,,,\n");
+fclose($temp);
+$drm8 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$import = new DRMImportCsvEdi($tmpfname, $drm8);
+$t->ok(!$import->checkCSV(), "On ne peut pas changer le stock de vin déclaré lors de la DRM précédente");
+foreach($import->getCsvDoc()->erreurs as $k => $err) {
+  break;
+}
+$t->is($err->num_ligne, 3, "L'erreur de CRD pointe la bonne ligne");
 
 $drm2->devalide();
 $drm2->delete();
