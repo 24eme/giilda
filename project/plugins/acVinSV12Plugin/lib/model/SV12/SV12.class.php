@@ -173,8 +173,10 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $contrats_to_save = array();
 
         foreach ($this->contrats as $c) {
+            if (!$c->getVrac()) {
+              throw new sfException("Vrac non trouvé : ".$c->getVracIdentifiant());
+            }
             $contrats_to_save[] = $c->getVrac();
-
         }
 
         foreach($contrats_to_save as $vrac)  {
@@ -240,14 +242,13 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     public function validate($options = array()) {
         if($this->isValidee()) {
 
-            throw new sfExcpetion(sprintf("Cette SV12 est déjà validée"));
+            throw new sfException(sprintf("Cette SV12 est déjà validée"));
         }
-
-        $this->storeDates();
-        $this->storeDeclarant();
 
         $this->generateMouvements();
         $this->updateTotaux();
+        $this->storeDates();
+        $this->storeDeclarant();
 
         $this->archivage_document->archiver();
 
