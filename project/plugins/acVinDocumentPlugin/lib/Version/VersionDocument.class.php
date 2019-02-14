@@ -114,14 +114,18 @@ class VersionDocument
             $this->mother = $this->document->findDocumentByVersion($this->document->getPreviousVersion());
         }
 
-        return $this->mother;    
+        return $this->mother;
     }
 
     public function getDiffWithMother() {
         if (is_null($this->diff_with_mother)) {
             $mother = $this->getMother();
             if (!$this->getMother()) {
-                $mother = new DRM();
+                if ($this instanceof SV12) {
+                  $mother = new SV12();
+                }else{
+                  $mother = new DRM();
+                }
             }
             $this->diff_with_mother = $this->getDiffWithAnotherDocument($mother->getData());
         }
