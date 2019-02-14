@@ -34,11 +34,11 @@ EOF;
 
     if ($options['devalide'] && $sv12->isValidee()) {
       $sv12->devalide();
+      $sv12->updateTotaux();
+      $sv12->validate();
+      $sv12->save();
     }
 
-    $sv12->updateTotaux();
-    $sv12->validate();
-    $sv12->save();
     $sv12->updateVracs();
 
   }
