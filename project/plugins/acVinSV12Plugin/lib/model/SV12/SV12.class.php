@@ -173,10 +173,11 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $contrats_to_save = array();
 
         foreach ($this->contrats as $c) {
-            if (!$c->getVrac()) {
-              throw new sfException("Vrac non trouvé : ".$c->getVracIdentifiant());
+            if ($c->getVrac()) {
+                  if ($c->getVrac() && !$c->getVrac()->isSolde()) {
+                    $contrats_to_save[] = $c->getVrac();
+                 }
             }
-            $contrats_to_save[] = $c->getVrac();
         }
 
         foreach($contrats_to_save as $vrac)  {
