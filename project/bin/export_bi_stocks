@@ -3,6 +3,8 @@
 . bin/config.inc
 . bin/import_functions.inc
 
+SHORT='("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019")';
+
 # I - Récupération DS négoce/Caves Coop
 echo "#DS;campagne;identifiant declarant;hash produit;code produit;periode;identifiant;volume stock;volume stock élaboration;vci;reserve_qualitative;nom declarant;libelle produit" > $TMP/export_bi_dss.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_dss.csv
@@ -10,7 +12,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks | sed -f
 
 # II - Récupération des DRMs et réduction de fichiers
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DRM;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' > $TMP/export_bi_drm_stock.csv
-cat $TMP/export_bi_drm_stock.csv | awk -F ";" ' substr($5,2,4) >= 2014  { print }' | grep -Ev "(AOC_HORSINTERLOIRE|AOC_BIVC|IGP_HORSVALDELOIRE|VINSSIG)" > $TMP/export_bi_drm_stock_campagne_filtered.csv
+cat $TMP/export_bi_drm_stock.csv | awk -F ";" ' substr($5,2,4) >= 2017  { print }' | grep -Ev "(AOC_HORSINTERLOIRE|AOC_BIVC|IGP_HORSVALDELOIRE|VINSSIG)" > $TMP/export_bi_drm_stock_campagne_filtered.csv
 
 # Récupération des plus hautes modificatrices
 
@@ -80,7 +82,55 @@ echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAVCDS\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"Savennières Coulée de Serrant"/' >> $TMP/sed_produit_libelle.tmp
 echo 's/;\("\/declaration\/certifications\/AOC\/genres\/EFF\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Saumur Fines bulles Rosé"/' >> $TMP/sed_produit_libelle.tmp
 echo 's/;\("\/declaration\/certifications\/AUTRES\/genres\/DEFAUT\/appellations\/DPLC\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"DPLC"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRES\/genres\/DEFAUT\/appellations\/DPLC\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/DEFAUT"\)/;\1;"DPLC"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRES\/genres\/DEFAUT\/appellations\/DPLC\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"DPLC"/' >> $TMP/sed_produit_libelle.tmp
 echo 's/;\("\/declaration\/certifications\/AUTRES\/genres\/DEFAUT\/appellations\/LIES\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"LIES"/' >> $TMP/sed_produit_libelle.tmp
+
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/CHA"\)/;\1;"IGP Val de Loire Blanc Chardonnay"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"IGP Val de Loire Blanc Chenin "/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/DEFAUT"\)/;\1;"IGP Val de Loire Blanc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/GRO"\)/;\1;"IGP Val de Loire Blanc Grolleau gris "/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"IGP Val de Loire Blanc Melon "/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/MULTI"\)/;\1;"IGP Val de Loire Blanc Multi cépage "/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/PIG"\)/;\1;"IGP Val de Loire Blanc Pinot gris "/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/SAUB"\)/;\1;"IGP Val de Loire Blanc Sauvignon blanc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/SAUG"\)/;\1;"IGP Val de Loire Blanc Sauvignon gris"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/CBF"\)/;\1;"IGP Val de Loire Rosé Cabernet franc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/CBS"\)/;\1;"IGP Val de Loire Rosé Cabernet sauvignon"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"IGP Val de Loire Rosé"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/GAM"\)/;\1;"IGP Val de Loire Rosé Gamay noir"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/GRO"\)/;\1;"IGP Val de Loire Rosé Grolleau noir"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/MERL"\)/;\1;"IGP Val de Loire Rosé Merlot"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/MULTI"\)/;\1;"IGP Val de Loire Rosé Multi cépage"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/PIN"\)/;\1;"IGP Val de Loire Rosé Pinot noir"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/PINAU"\)/;\1;"IGP Val de Loire Rosé Pineau Aunis"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/CBF"\)/;\1;"IGP Val de Loire Rouge Cabernet franc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/CBS"\)/;\1;"IGP Val de Loire Rouge Cabernet sauvignon"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/COT"\)/;\1;"IGP Val de Loire Rouge Cot"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"IGP Val de Loire Rouge"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/GAM"\)/;\1;"IGP Val de Loire Rouge Gamay noir"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/GRO"\)/;\1;"IGP Val de Loire Rouge Grolleau noir"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/MERL"\)/;\1;"IGP Val de Loire Rouge Merlot"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/MULTI"\)/;\1;"IGP Val de Loire Rouge Multi cépage"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/PIN"\)/;\1;"IGP Val de Loire Rouge Pinot noir"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/PINAU"\)/;\1;"IGP Val de Loire Rouge Pineau Aunis"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/ALCOOL\/genres\/DEFAUT\/appellations\/CID\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"Cidres, Poirés"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/VCI\/appellations\/STN\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"VCI St Nicolas de Bourgueil Rouge"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRES\/genres\/DEFAUT\/appellations\/LIES\/mentions\/LBVE\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"Lies, Bourbes et vins à éliminer"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/EFF\/appellations\/SIG\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/DEFAUT"\)/;\1;"Vins sans IG Mousseux Blanc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/EFF\/appellations\/SIG\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Vins sans IG Mousseux Rosé"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/EFF\/appellations\/SIG\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"Vins sans IG Mousseux Rouge"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/TRANQ\/appellations\/ETR\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"Vins mousseux étrangers"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/TRANQ\/appellations\/SIG\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/DEFAUT"\)/;\1;"Vins sans IG Blanc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/TRANQ\/appellations\/SIG\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/DEFAUT"\)/;\1;"Vins sans IG Rosé"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/AUTRESVINS\/genres\/TRANQ\/appellations\/SIG\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"Vins sans IG Rouge"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/FBL"\)/;\1;"IGP Val de Loire Blanc Folle blanche"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/blanc\/cepages\/PIB"\)/;\1;"IGP Val de Loire Blanc Pinot blanc"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/ABO"\)/;\1;"IGP Val de Loire Rosé Abouriou"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/COT"\)/;\1;"IGP Val de Loire Rosé Cot"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/EGI"\)/;\1;"IGP Val de Loire Rosé Egiodola"/' >> $TMP/sed_produit_libelle.tmp
+echo 's/;\("\/declaration\/certifications\/IGP_VALDELOIRE\/genres\/TRANQ\/appellations\/VAL\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rouge\/cepages\/ABO"\)/;\1;"IGP Val de Loire Rouge Abouriou"/' >> $TMP/sed_produit_libelle.tmp
+
 
 cat $TMP/sed_produit_libelle.tmp > $TMP/sed_produit_libelle
 
@@ -90,24 +140,23 @@ cat $TMP/sed_produit_libelle.tmp | sed 's|\\\/AOC\\\/|\\\/AOC_INTERLOIRE\\\/|g' 
 
 cat $TMP/sed_produit_libelle | sort -u -t ";" -k2,2 | uniq > $TMP/sed_produit_libelle.tmp
 cat $TMP/sed_produit_libelle.tmp > $TMP/sed_produit_libelle
-echo "s/;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_libelle
 
 
 # Transformation au format du fichier des Non-DRAs
-cat $TMP/export_bi_drm_stock_campagne_filtered_aout_without_coop.csv | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$8"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' > $TMP/export_bi_drm_stock_1.csv
+cat $TMP/export_bi_drm_stock_campagne_filtered_aout_without_coop.csv | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$8"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' | sed -r 's|;("/declaration/[^\"]*");("[0-9]+");|;\1;;\2;|' > $TMP/export_bi_drm_stock_1.csv
 
-cat $TMP/export_bi_drm_stock_1.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7";\""substr($2,7,4)"07\";"$8";"$9";"$10";"$11";"$12";"$13";"$6";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_non_dra.csv
+cat $TMP/export_bi_drm_stock_1.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$6";\""substr($2,7,4)"07\";"$7";"$8";"$9";"$10";"$11";"$12";"$5";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_non_dra.csv
 
 # Transformation au format du fichier des DRAs
-cat $TMP/export_bi_drm_stock_campagne_filtered_juillet_for_dra.csv  | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$13"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' > $TMP/export_bi_drm_stock_2.csv
+cat $TMP/export_bi_drm_stock_campagne_filtered_juillet_for_dra.csv  | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$4"\";;"$5";\"DRM-"$1"\";\""$13"\";;;;"$14 }' | sed -f $TMP/sed_produit_code | sed -f $TMP/sed_produit_libelle | sed 's/-M00//g' | sed -r 's|;("/declaration/[^\"]*");("[0-9]+");|;\1;;\2;|' > $TMP/export_bi_drm_stock_2.csv
 
-cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$7";\""substr($2,7,4)"07\";"$8";"$9";"$10";"$11";"$12";"$13";"$6";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_dra.csv
+cat $TMP/export_bi_drm_stock_2.csv | awk -F ";" ' { print $1";"$2";"$3";"$4";"$6";\""substr($2,7,4)"07\";"$7";"$8";"$9";"$10";"$11";"$12";"$5";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_dra.csv
 
 
 cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
 cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss.csv
 
 
-cat $TMP/export_bi_dss.csv | grep -E '("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019")' > $TMP/export_bi_dss_short.csv
+cat $TMP/export_bi_dss.csv | grep -E $SHORT > $TMP/export_bi_dss_short.csv
 
 echo "FIN"
