@@ -476,11 +476,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
-                $crd_regime = "";
-                $crd_regime_libelle = KeyInflector::slugify($csvRow[self::CSV_CRD_REGIME]);
-                if(array_key_exists($crd_regime_libelle,self::$regimes_crd)){
-                  $crd_regime = self::$regimes_crd[$crd_regime_libelle];
-                }
+                $crd_regime = DRMClient::convertCRDRegime($csvRow[self::CSV_CRD_REGIME]);
                 if(!$crd_regime){
                   $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
                 }
@@ -498,6 +494,37 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if ($categorie_key != "stock_debut" && $categorie_key != "stock_fin") {
                     $fieldNameCrd.="_" . $type_key;
                 }
+
+                $centilitrage = $all_contenances[$litrageLibelle];
+                $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
+                $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
+
+                $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
+                if ($drmPrecedente) {
+                    if  ($fieldNameCrd == 'stock_debut') {
+                      if ($quantite) {
+                         if (!$drmPrecedente->crds->exist($crd_regime)) {
+                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "regime"));
+                            $num_ligne++;
+                            continue;
+                         }
+                         if (!$drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
+                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "type/centilisation"));
+                            $num_ligne++;
+                            continue;
+                         }
+                      }
+
+                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
+                        if ($drmPrecedente->crds->get($crd_regime)->get($keyNode)->stock_fin != $quantite) {
+                          $this->csvDoc->addErreur($this->previousCRDStockError($num_ligne, $csvRow));
+                          $num_ligne++;
+                          continue;
+                        }
+                      }
+                    }
+                }
+
                 if ($just_check) {
                     if(!array_key_exists($litrageLibelle,$all_contenances)){
                       $this->csvDoc->addErreur($this->crdContenanceWrongFormatError($num_ligne, $csvRow));
@@ -511,11 +538,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                 } else {
                     if(!array_key_exists($litrageLibelle,$all_contenances)){ continue; }
-
-                    $centilitrage = $all_contenances[$litrageLibelle];
-                    $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
-
-                    $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
                     if (!$regimeNode->exist($keyNode)) {
                         $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
                         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
@@ -816,6 +838,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                       CSVClient::LEVEL_WARNING);
         }
 
+        private function previousCRDProductError($num_ligne, $csvRow, $more) {
+          return $this->createError($num_ligne, $csvRow[self::CSV_CRD_REGIME], "Il n'existe pas de stock pour cette crd dans la DRM précédente ($more)");
+        }
+
+        private function previousCRDStockError($num_ligne, $csvRow) {
+          return $this->createError($num_ligne, $csvRow[self::CSV_CRD_REGIME], "Le stock initial pour cette crd n'est pas conforme à la DRM précédente");
+        }
+
+
         private function annexesTypeMvtWrongFormatError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_TYPEMVT],
@@ -864,7 +895,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                       CSVClient::LEVEL_ERROR);
         }
 
-        private function createError($num_ligne, $erreur_csv, $raison, $level = null) {
+        private function createError($num_ligne, $erreur_csv, $raison, $level = CSVClient::LEVEL_WARNING) {
             $error = new stdClass();
             $error->num_ligne = $num_ligne;
             $error->erreur_csv = $erreur_csv;
@@ -983,9 +1014,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         public function setNoSave($noSave){
           $this->noSave = $noSave;
         }
-        
+
 		private function getIdDouane($datas)
 		{
+      if (preg_match('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', trim($datas[self::CSV_CAVE_LIBELLE_COMPLET]), $m)) {
+        return $m[2];
+      }
+
 			$certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
 			if (
 			$certification &&
