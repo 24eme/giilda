@@ -102,21 +102,9 @@ class MouvementsConsultationView extends acCouchdbView
         $mouvement->cvo =  $row->value[self::VALUE_CVO];
         $mouvement->facturable =  $row->value[self::VALUE_FACTURABLE];
         $mouvement->id = $row->value[self::VALUE_MOUVEMENT_ID];
-	if ($mouvement->vrac_numero) {
-	  $mouvement->numero_archive = $row->value[self::VALUE_TYPE_LIBELLE];
-	  if (strlen($mouvement->numero_archive) != 5) {
-          try {
-              $vrac = VracClient::getInstance()->find('VRAC-'.$mouvement->vrac_numero);
-          } catch (Exception $e) {
-              $vrac = VracClient::getInstance()->find('VRAC-'.$mouvement->vrac_numero, acCouchdbClient::HYDRATE_JSON);
-          }
-      if($vrac){
-        $mouvement->numero_archive = $vrac->numero_archive;
-      }else{
-        $mouvement->vrac_numero = "SUPPRIME";
-      }
-	  }
-	}
+	      if ($mouvement->vrac_numero) {
+	         $mouvement->numero_archive = $row->value[self::VALUE_DETAIL_LIBELLE];
+	      }
         return $mouvement;
     }
 
