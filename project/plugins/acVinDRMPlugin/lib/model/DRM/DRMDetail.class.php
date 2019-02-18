@@ -170,7 +170,7 @@ class DRMDetail extends BaseDRMDetail {
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
           if ($this->getConfig()->get('entrees')->exist($entree)){
-            if (preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
+            if ($this->getConfig()->get('entrees')->get($entree)->needDouaneObservation() && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations') || ! $this->observations) {
                   $this->add('observations');
@@ -181,7 +181,7 @@ class DRMDetail extends BaseDRMDetail {
         }
         foreach($this->sorties as $sortie => $v) {
           if ($this->getConfig()->get('sorties')->exist($sortie)){
-            if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
+            if (!preg_match('/details/', $sortie) && $this->getConfig()->get('sorties')->get($sortie)->needDouaneObservation() && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations') || ! $this->observations) {
                     $this->add('observations');
@@ -194,13 +194,14 @@ class DRMDetail extends BaseDRMDetail {
           $this->remove('observations');
         }
 
-        if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
-          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
-          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
-          || ($this->entrees->exist('retourmarchandiseacquitte') && $this->entrees->retourmarchandiseacquitte)
-          || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)
-          || ($this->entrees->exist('cooperative') && $this->entrees->cooperative)) {
-          $this->add('replacement_date',null);
+        $needDateReplacement = false;
+        foreach($this->entrees as $entree => $v) {
+            if($v && $this->getConfig()->get('entrees')->exist($entree) && $this->getConfig()->get('entrees')->get($entree)->needDouaneDateReplacement()) {
+                $needDateReplacement = true;
+            }
+        }
+        if($needDateReplacement) {
+          $this->add('replacement_date');
         }else{
           $this->remove('replacement_date');
         }
