@@ -4,11 +4,25 @@ require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
 $t = new lime_test(41);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
-$produits = array_keys(ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits());
-$produit1_hash = array_shift($produits);
-$produit1 = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->get($produit1_hash);
-$produit2_hash = array_shift($produits);
-$produit2 = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->get($produit2_hash);
+$produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
+foreach($produits as $produit) {
+    if(!$produit->code_douane) {
+        continue;
+    }
+    if(!$produit->isActif(date('Y')."-01-01")) {
+        continue;
+    }
+    if(!isset($produit1)) {
+        $produit1_hash = $produit->getHash();
+        $produit1 = $produit;
+        continue;
+    }
+    if(!isset($produit2)) {
+        $produit2_hash = $produit->getHash();
+        $produit2 = $produit;
+        break;
+    }
+}
 
 
 //Suppression des DRM précédentes
@@ -184,8 +198,7 @@ $t->comment("Conformité aux catalogues ou  ".$viti->identifiant);
 
 $produit_disabled = null;
 
-foreach($produits as $ph) {
-  $p = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->get($ph);
+foreach($produits as $p) {
   if (!$p->isActif(date('Y')."-01-01")) {
     $produit_disabled = $p;
     break;
