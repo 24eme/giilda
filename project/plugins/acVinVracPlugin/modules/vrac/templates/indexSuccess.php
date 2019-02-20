@@ -19,10 +19,18 @@
             <div class="form-group<?php if($creationForm['annee']->hasError()): ?> has-error<?php endif; ?>">
                 <?php echo $creationForm['annee']->render(array('placeholder' => 'AAAA')); ?>
             </div>
-        	<div class="form-group<?php if($creationForm['bordereau']->hasError()): ?> has-error<?php endif; ?>">
-            	<?php echo $creationForm['bordereau']->render(array('placeholder' => 'N° bordereau')); ?>
-          	</div>
-          	<button type="submit" class="btn btn-default">Créer le contrat</button>
+            <div class="form-group<?php if($creationForm['bordereau']->hasError()): ?> has-error<?php endif; ?>">
+                <?php echo $creationForm['bordereau']->render(array('placeholder' => 'N° bordereau')); ?>
+            </div>
+            <button type="submit" class="btn btn-default">Créer le contrat</button>
+        </form>
+    </div>
+
+    <div class="col-xs-12">
+        <h3>Téléversement d'un fichier CSV</h3>
+        <form action="<?= url_for('vrac_import') ?>" method="post" class="form-inline" enctype="multipart/form-data">
+            <?= $uploadForm ?>
+            <button type="submit" class="btn btn-default">Importer des contrats</button>
         </form>
     </div>
 

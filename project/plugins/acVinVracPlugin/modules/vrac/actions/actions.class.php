@@ -19,6 +19,7 @@ class vracActions extends sfActions {
         $this->redirect403IfIsTeledeclaration();
         $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
         $this->creationForm = new VracCreationForm();
+        $this->uploadForm = new UploadCSVForm();
         //$this->etiquettesForm = new VracEtiquettesForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->creationForm->bind($request->getParameter($this->creationForm->getName()));
@@ -37,6 +38,21 @@ class vracActions extends sfActions {
                 $vrac->save();
                 return $this->redirect('vrac_soussigne', $vrac);
             }
+        }
+    }
+
+    public function executeImportVrac(sfWebRequest $request) {
+        if (! $request->isMethod(sfWebRequest::POST)) {
+            return $this->redirect('vrac');
+        }
+
+        $this->form = new UploadCSVForm();
+        $this->form->bind(null, $request->getFiles('csv'));
+
+        if ($this->form->isValid()) {
+            $file = $this->form->getValue('file');
+            $vracs = new VracCsvImport($file);
+            $vracs->import();
         }
     }
 

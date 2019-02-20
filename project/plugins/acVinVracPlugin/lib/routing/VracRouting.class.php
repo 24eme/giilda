@@ -34,6 +34,12 @@ class VracRouting {
                                                                     'type' => 'object')
                                                                     ));
 
+        $r->prependRoute('vrac_import', new sfRoute('/vrac/upload',
+                array('module' => 'vrac', 'action' => 'importVrac'),
+                array('sf_method' => array('post'))
+            )
+        );
+
         $r->prependRoute('vrac_exportCsv', new sfRoute('/vrac/exportCsv', array('module' => 'vrac',
                                                             'action' => 'exportCsv')));
 
