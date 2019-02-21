@@ -169,26 +169,27 @@ class DRMDetail extends BaseDRMDetail {
 
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
-          if ($this->getConfig()->get('entrees')->exist($entree)){
-            if ($this->getConfig()->get('entrees')->get($entree)->needDouaneObservation() && $v) {
-                $hasobs = true;
-                if (!$this->exist('observations') || ! $this->observations) {
-                  $this->add('observations');
-                  $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('entrees')->get($entree)->libelle_long : "";
-                }
+            if (!$v || !$this->getConfig()->exist('entrees/'.$entree) || !$this->getConfig()->get('entrees/'.$entree)->needDouaneObservation()) {
+                continue;
             }
-          }
+            $hasobs = true;
+            if (!$this->exist('observations') || ! $this->observations) {
+              $this->add('observations');
+              $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('entrees')->get($entree)->libelle_long : "";
+            }
         }
         foreach($this->sorties as $sortie => $v) {
-          if ($this->getConfig()->get('sorties')->exist($sortie)){
-            if (!preg_match('/details/', $sortie) && $this->getConfig()->get('sorties')->get($sortie)->needDouaneObservation() && $v) {
-                $hasobs = true;
-                if (!$this->exist('observations') || ! $this->observations) {
-                    $this->add('observations');
-                    $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
-                }
+            if($v instanceof acCouchdbJson || !$v || !$this->getConfig()->exist('sorties/'.$sortie)) {
+                continue;
             }
-          }
+            if (!$this->getConfig()->get('sorties/'.$sortie)->needDouaneObservation()) {
+                continue;
+            }
+            $hasobs = true;
+            if (!$this->exist('observations') || ! $this->observations) {
+                $this->add('observations');
+                $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
+            }
         }
         if (!$hasobs) {
           $this->remove('observations');
