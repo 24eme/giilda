@@ -51,7 +51,7 @@ class vracActions extends sfActions {
 
         if ($this->form->isValid()) {
             $file = $this->form->getValue('file');
-            $vracs = new VracCsvImport($file);
+            $vracs = VracCsvImport::createFromArray($file->getCsv());
             try {
                 $vracs->import();
             } catch (Exception $e) {

@@ -26,25 +26,30 @@ class VracCsvImport extends CsvFile {
     const CSV_LOT = 21;
     const CSV_DEGRE = 22;
     const CSV_RECIPIENT_CONTENANCE = 23;
-    const CSV_QUANTITE = 24;
-    const CSV_QUANTITE_UNITE = 25;
-    const CSV_VOLUME_PROPOSE = 26;
-    const CSV_VOLUME_ENLEVE = 27;
-    const CSV_PRIX_UNITAIRE = 28;
-    const CSV_PRIX_UNITAIRE_HL = 29;
-    const CSV_CLE_DELAI_PAIEMENT = 30;
-    const CSV_DELAI_PAIEMENT = 31;
-    const CSV_CLE_MODE_PAIEMENT = 32;
-    const CSV_MODE_PAIEMENT = 33;
-    const CSV_ACOMPTE_SIGNATURE = 34;
-    const CSV_TAUX_COURTAGE = 35;
-    const CSV_REPARTITION_COURTAGE = 36;
-    const CSV_REPARTITION_CVO = 37;
-    const CSV_RETIRAISON_DATE_DEBUT = 38;
-    const CSV_RETIRAISON_DATE_FIN = 39;
-    const CSV_CLAUSES = 40;
-    const CSV_LABELS = 41;
-    const CSV_COMMENTAIRE = 42;
+    const CSV_RECIPIENT_CONTENANCE_LIBELLE = 24;
+    const CSV_QUANTITE = 25;
+    const CSV_QUANTITE_UNITE = 26;
+    const CSV_VOLUME_PROPOSE = 27;
+    const CSV_VOLUME_ENLEVE = 28;
+    const CSV_PRIX_UNITAIRE = 29;
+    const CSV_PRIX_UNITAIRE_HL = 30;
+    const CSV_CLE_DELAI_PAIEMENT = 31;
+    const CSV_DELAI_PAIEMENT = 32;
+    const CSV_CLE_MODE_PAIEMENT = 33;
+    const CSV_MODE_PAIEMENT = 34;
+    const CSV_ACOMPTE_SIGNATURE = 35;
+    const CSV_TAUX_COURTAGE = 36;
+    const CSV_REPARTITION_COURTAGE = 37;
+    const CSV_REPARTITION_CVO = 38;
+    const CSV_RETIRAISON_DATE_DEBUT = 39;
+    const CSV_RETIRAISON_DATE_FIN = 40;
+    const CSV_CONDITIONNEMENT = 41;
+    const CSV_EMBOUTEILLAGE = 42;
+    const CSV_PREPARATION_VIN = 43;
+    const CSV_CLAUSES = 44;
+    const CSV_LABELS = 45;
+    const CSV_COMMENTAIRE = 46;
+    const CVO_REPARTITION = 47;
 
     const LABEL_BIO = 'agriculture_biologique';
 
@@ -63,7 +68,7 @@ class VracCsvImport extends CsvFile {
      */
     public static function createFromArray(array $lines) {
         $class = new self();
-        $class->csvdata = $array;
+        $class->csvdata = $lines;
 
         return $class;
     }
@@ -146,7 +151,7 @@ class VracCsvImport extends CsvFile {
                 $labels = explode(',', $line[self::CSV_LABELS]);
                 foreach ($labels as $label_key) {
                     $label_key = trim($label_key);
-                    if ($array_key_exists($label_key, self::$labels_array)) {
+                    if (array_key_exists($label_key, self::$labels_array)) {
                         $v->getOrAdd('label')->add($label_key, self::$labels_array[$label_key]);
                     }
                 }
@@ -173,13 +178,13 @@ class VracCsvImport extends CsvFile {
             $v->conditionnement_crd = $line[self::CSV_CONDITIONNEMENT];
             $v->embouteillage = $line[self::CSV_EMBOUTEILLAGE];
             $v->preparation_vin = $line[self::CSV_PREPARATION_VIN];
-            $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRES]);
+            $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRE]);
 
-            $v->cvo_repartition = ($line[self::cvo_repartition]) ?: null;
+            $v->cvo_repartition = ($line[self::CVO_REPARTITION]) ?: null;
 
             $v->versement_fa = VracClient::VERSEMENT_FA_TRANSMIS;
 
-            $v->valide->status = $line[self::CSV_STATUST];
+            $v->valide->status = $line[self::CSV_STATUT];
 
             $v->constructId();
             $v->update();
@@ -197,6 +202,8 @@ class VracCsvImport extends CsvFile {
             }
 
             $v->save();
+
+            self::$imported++;
         }
     }
 }
