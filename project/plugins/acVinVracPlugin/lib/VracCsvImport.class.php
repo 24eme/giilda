@@ -187,23 +187,24 @@ class VracCsvImport extends CsvFile {
             $v->valide->statut = $line[self::CSV_STATUT];
 
             $v->constructId();
-            $v->update();
 
             $validator = new VracValidation($v);
 
-            if ($validator->hasErrors()) {
-                foreach ($validator->getErrors() as $err) {
-                    $this->errors[] = ['message' => $err->getMessage()];
+            if ($validator->hasErreurs()) {
+                $this->errors[] = 'Une erreur est survenue à la ligne du contrat' . $line[self::CSV_NUMERO_CONTRAT];
+                foreach ($validator->getErreurs() as $err) {
+                    $this->errors[] = $err->getMessage() . ': ' . $err->getInfo();
                 }
+
+                return $this->errors;
             }
 
-            if (count($this->errors)) {
-                throw new sfException('Erreur dans le fichier, au num. de contrat '. $line[self::CSV_NUMERO_CONTRAT]);
-            }
-
+            $v->update();
             $v->save();
 
             self::$imported++;
         }
+
+        return self::$imported;
     }
 }

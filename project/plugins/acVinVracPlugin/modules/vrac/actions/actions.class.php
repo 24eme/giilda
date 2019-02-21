@@ -52,10 +52,12 @@ class vracActions extends sfActions {
         if ($this->form->isValid()) {
             $file = $this->form->getValue('file');
             $vracs = VracCsvImport::createFromArray($file->getCsv());
-            try {
-                $vracs->import();
-            } catch (Exception $e) {
-                var_dump($e->getMessage());
+
+            $res = $vracs->import();
+
+            if (is_array($res)) {
+                $this->getUser()->setFlash('vrac_error', $res);
+                return $this->redirect('vrac');
             }
         }
     }

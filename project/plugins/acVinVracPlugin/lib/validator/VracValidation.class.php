@@ -78,8 +78,8 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'float', 'Le taux de courtage n\'est pas un chiffre floattant');
         }
 
-        if ($this->mandataire_identifiant) {
-            if (! $this->mandataire_exist) {
+        if ($this->document->mandataire_identifiant) {
+            if (! $this->document->mandataire_exist) {
                 parent::addPoint('vigilance', 'mandataire', 'Le flag de mandataire doit être à true');
             }
 
@@ -100,7 +100,7 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le type de responsable n\'existe pas');
         }
 
-        if (! $this->produit) {
+        if (! $this->document->produit) {
             parent::addPoint('erreur', 'inexistant', 'Le produit n\'a pas été trouvé');
         }
 
@@ -110,7 +110,7 @@ class VracValidation extends DocumentValidation
             }
         }
 
-        if (! $this->checkFloat($this->document->degree)) {
+        if (! $this->checkFloat($this->document->degre)) {
             parent::addPoint('erreur', 'float', 'Le degré n\'est pas un chiffre flotant');
         }
 
