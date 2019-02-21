@@ -184,7 +184,7 @@ class VracCsvImport extends CsvFile {
 
             $v->versement_fa = VracClient::VERSEMENT_FA_TRANSMIS;
 
-            $v->valide->status = $line[self::CSV_STATUT];
+            $v->valide->statut = $line[self::CSV_STATUT];
 
             $v->constructId();
             $v->update();
