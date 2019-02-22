@@ -34,8 +34,14 @@ class VracRouting {
                                                                     'type' => 'object')
                                                                     ));
 
-        $r->prependRoute('vrac_import', new sfRoute('/vrac/upload',
-                array('module' => 'vrac', 'action' => 'importVrac'),
+        $r->prependRoute('vrac_upload_verification', new sfRoute('/vrac/upload/verification',
+                array('module' => 'vrac', 'action' => 'verificationUploadVrac'),
+                array('sf_method' => array('post'))
+            )
+        );
+
+        $r->prependRoute('vrac_upload_reel', new sfRoute('/vrac/upload/import',
+                array('module' => 'vrac', 'action' => 'importUploadVrac'),
                 array('sf_method' => array('post'))
             )
         );

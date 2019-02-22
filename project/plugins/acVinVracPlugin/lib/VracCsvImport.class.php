@@ -55,6 +55,7 @@ class VracCsvImport extends CsvFile {
 
     public static $labels_array = [self::LABEL_BIO => "Agriculture Biologique"];
 
+    /** @var int $imported Nombre de vrac importé */
     protected static $imported = 0;
 
     /** @var array $errors Tableau des erreurs de l'import */
@@ -89,9 +90,10 @@ class VracCsvImport extends CsvFile {
     /**
      * Importe des vracs dans la base
      *
-     * @return int Nombre de vracs importés
+     * @param bool $verified Le csv a été vérifier
+     * @return int|array Nombre de vracs importés ou tableau d'erreur
      */
-    public function import() {
+    public function import($verified = false) {
         $configuration = ConfigurationClient::getInstance()->getCurrent();
 
         foreach ($this->getLines() as $line) {
@@ -188,23 +190,22 @@ class VracCsvImport extends CsvFile {
 
             $v->constructId();
 
-            $validator = new VracValidation($v);
+            if ($verified) {
+                $v->update();
+                $v->save();
 
-            if ($validator->hasErreurs()) {
-                $this->errors[] = 'Une erreur est survenue à la ligne du contrat' . $line[self::CSV_NUMERO_CONTRAT];
-                foreach ($validator->getErreurs() as $err) {
-                    $this->errors[] = $err->getMessage() . ': ' . $err->getInfo();
+                self::$imported++;
+            } else {
+                $validator = new VracValidation($v);
+
+                if ($validator->hasErreurs()) {
+                    foreach ($validator->getErreurs() as $err) {
+                        $this->errors[$line[self::CSV_NUMERO_CONTRAT]][] = $err->getMessage() . ': ' . $err->getInfo();
+                    }
                 }
-
-                return $this->errors;
             }
-
-            $v->update();
-            $v->save();
-
-            self::$imported++;
         }
 
-        return self::$imported;
+        return ($verified) ? self::$imported : $this->errors;
     }
 }

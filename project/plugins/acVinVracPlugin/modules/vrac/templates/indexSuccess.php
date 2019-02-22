@@ -28,18 +28,7 @@
 
     <div class="col-xs-12">
         <h3>Téléversement d'un fichier CSV</h3>
-
-        <?php if ($sf_user->hasFlash('vrac_error')): ?>
-        <div class="bg-danger">
-            <ul>
-                <?php foreach ($sf_user->getFlash('vrac_error') as $err): ?>
-                    <?= '<li>' . $err . '</li>' ?>
-                <?php endforeach ?>
-            </ul>
-        </div>
-        <?php endif ?>
-
-        <form action="<?= url_for('vrac_import') ?>" method="post" class="form-inline" enctype="multipart/form-data">
+        <form action="<?= url_for('vrac_upload_verification') ?>" method="post" class="form-inline" enctype="multipart/form-data">
             <?= $uploadForm ?>
             <button type="submit" class="btn btn-default">Importer des contrats</button>
         </form>

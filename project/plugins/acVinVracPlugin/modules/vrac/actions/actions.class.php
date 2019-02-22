@@ -41,7 +41,7 @@ class vracActions extends sfActions {
         }
     }
 
-    public function executeImportVrac(sfWebRequest $request) {
+    public function executeVerificationUploadVrac(sfWebRequest $request) {
         if (! $request->isMethod(sfWebRequest::POST)) {
             return $this->redirect('vrac');
         }
@@ -53,12 +53,18 @@ class vracActions extends sfActions {
             $file = $this->form->getValue('file');
             $vracs = VracCsvImport::createFromArray($file->getCsv());
 
-            $res = $vracs->import();
+            $this->verification = [];
+            $this->verification = $vracs->import(false);
 
-            if (is_array($res)) {
-                $this->getUser()->setFlash('vrac_error', $res);
-                return $this->redirect('vrac');
+            if (empty($this->verification) === false) {
+                unlink($file->getPath() . '/' . $file->getMd5());
             }
+        }
+    }
+
+    public function executeImportUploadVrac(sfWebRequest $request) {
+        if (! $request->isMethod(sfWebRequest::POST)) {
+            return $this->redirect('vrac');
         }
     }
 
