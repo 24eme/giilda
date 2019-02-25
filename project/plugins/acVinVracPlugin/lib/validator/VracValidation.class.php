@@ -74,7 +74,7 @@ class VracValidation extends DocumentValidation
         }
 
         if ($this->document->taux_courtage && ! $this->checkFloat($this->document->taux_courtage)) {
-            parent::addPoint('erreur', 'float', 'Le taux de courtage n\'est pas un chiffre floattant');
+            parent::addPoint('erreur', 'float', 'Le taux de courtage n\'est pas un chiffre flottant');
         }
 
         if ($this->document->mandataire_identifiant) {
@@ -110,7 +110,7 @@ class VracValidation extends DocumentValidation
         }
 
         if (! $this->checkFloat($this->document->degre)) {
-            parent::addPoint('erreur', 'float', 'Le degré n\'est pas un chiffre flotant');
+            parent::addPoint('erreur', 'float', 'Le degré n\'est pas un chiffre flottant');
         }
 
         if ($this->document->bouteilles_contenance_volume) {
@@ -129,7 +129,7 @@ class VracValidation extends DocumentValidation
         }
 
         if (! $this->checkFloat($this->document->jus_quantite)) {
-            parent::addPoint('erreur', 'float', 'La quantité n\'est pas un chiffre floattant');
+            parent::addPoint('erreur', 'float', 'La quantité n\'est pas un chiffre flottant');
         }
 
         if (! $this->document->prix_initial_unitaire || ! $this->document->prix_initial_unitaire_hl) {
@@ -146,12 +146,12 @@ class VracValidation extends DocumentValidation
             }
 
             if ($this->document->date_limite_retiraison < $this->document->date_debut_retiraison) {
-                parent::addPoint('vigilance', 'date', 'La date de début de retiraison est supérieur à celle du début');
+                parent::addPoint('vigilance', 'date', 'La date de début de retiraison est supérieure à celle du début');
             }
         }
 
         if (! $this->checkFloat($this->document->acompte)) {
-            parent::addPoint('erreur', 'float', 'L\'acompte n\'est pas un chiffre floattant');
+            parent::addPoint('erreur', 'float', 'L\'acompte n\'est pas un chiffre flottant');
         }
 
         if ($this->document->conditionnement_crd !== null) {
