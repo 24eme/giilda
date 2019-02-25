@@ -4,7 +4,7 @@ class VracValidation extends DocumentValidation
 {
     private $etablissement_client;
 
-    private $float_helper;
+    private static $format = 'Y-m-d';
 
     /**
      * Constructeur
@@ -14,7 +14,6 @@ class VracValidation extends DocumentValidation
      */
     public function __construct(Vrac $document, $options = []) {
         $this->etablissement_client = EtablissementClient::getInstance();
-        $this->float_helper = FloatHelper::getInstance();
         parent::__construct($document, $options);
     }
 
@@ -38,11 +37,11 @@ class VracValidation extends DocumentValidation
      * Contrôle les entrées du vrac
      */
     public function controle() {
-        if (! $this->checkDate($this->document->date_signature)) {
+        if (! $this->checkDate(self::$format, $this->document->date_signature)) {
             parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
         }
 
-        if (! $this->checkDate($this->document->valide->date_saisie)) {
+        if (! $this->checkDate(self::$format, $this->document->valide->date_saisie)) {
             parent::addPoint('erreur', 'date', 'La date de saisie doit être renseignée');
         }
 
@@ -137,12 +136,12 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le prix unitaire est requis');
         }
 
-        if (! $this->checkDate($this->document->date_limite_retiraison)) {
+        if (! $this->checkDate(self::$format, $this->document->date_limite_retiraison)) {
             parent::addPoint('erreur', 'date', 'La date de limite de retiraison n\'est pas valide');
         }
 
         if ($this->document->date_debut_retiraison) {
-            if (! $this->checkDate($this->document->date_debut_retiraison)) {
+            if (! $this->checkDate(self::$format, $this->document->date_debut_retiraison)) {
                 parent::addPoint('erreur', 'date', 'La date de début de retiraison n\'est pas valide');
             }
 
@@ -187,7 +186,7 @@ class VracValidation extends DocumentValidation
      * @param string $format Le format de date à vérifier
      * @return bool
      */
-    private function checkDate($date, $format = 'Y-m-d') {
+    private function checkDate($format, $date) {
         if (! $date) {
             return false;
         }
