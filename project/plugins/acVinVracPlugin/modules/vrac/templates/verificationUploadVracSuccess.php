@@ -3,8 +3,7 @@
 </ol>
 
 <h1>Rapport d'erreur sur l'import</h1>
-
-<?php if (empty($verification)): ?>
+<?php if ($verification->count() == 0): ?>
     <div class="alert alert-success">
         Pas d'erreur détéctées. Vous pouvez y aller !
     </div>
