@@ -150,7 +150,7 @@ class VracValidation extends DocumentValidation
             }
         }
 
-        if (! $this->checkFloat($this->document->acompte)) {
+        if ($this->document->acompte && ! $this->checkFloat($this->document->acompte)) {
             parent::addPoint('erreur', 'float', 'L\'acompte n\'est pas un chiffre flottant');
         }
 
@@ -166,7 +166,7 @@ class VracValidation extends DocumentValidation
             $acteurs = array_keys(VracConfiguration::getInstance()->getActeursEmbouteillage());
 
             if (! in_array($this->document->embouteillage, $acteurs)) {
-                parent::addPoint('erreur', 'inexistant', 'L\'acteur n\'existe pas');
+                parent::addPoint('erreur', 'inexistant', 'L\'acteur d\'embouteillage n\'existe pas');
             }
         }
 
@@ -174,7 +174,7 @@ class VracValidation extends DocumentValidation
             $acteurs = array_keys(VracConfiguration::getInstance()->getActeursPreparationVin());
 
             if (! in_array($this->document->preparation_vin, $acteurs)) {
-                parent::addPoint('erreur', 'inexistant', 'L\'acteur n\'existe pas');
+                parent::addPoint('erreur', 'inexistant', 'L\'acteur de préparation vin n\'existe pas');
             }
         }
     }
@@ -203,7 +203,7 @@ class VracValidation extends DocumentValidation
      * @return bool
      */
     private function checkNumero($numero, $longueur) {
-        return preg_match("#\d{$longueur}#", $numero) && sprintf("%{$longueur}d", $numero) === $numero;
+        return preg_match("#\d{$longueur}#", $numero) && sprintf("%0{$longueur}d", $numero) === $numero;
     }
 
     /**
@@ -227,15 +227,10 @@ class VracValidation extends DocumentValidation
      *
      * @param string $number Le nombre à vérifier
      * @return bool
+     * @see https://php.net/manual/en/function.is-float.php#85848
      */
     private function checkFloat($number) {
-        $number = str_replace(',', '.', $number);
-
-        if (! is_numeric($number) || ! is_float($number)) {
-            return false;
-        }
-
-        return true;
+        return ($number === (string)(float) $number);
     }
 
     /**

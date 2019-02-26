@@ -73,17 +73,14 @@ class VracCsvImport extends CsvFile {
     const CSV_DATE_CAMPAGNE = 68;
     const CSV_DATE_SIGNATURE = 69;
     const CSV_DATE_VISA = 70;
-    const CSV_VOLUME_INITIAL = 71;
-    const CSV_VOLUME_PROPOSE = 72;
-    const CSV_VOLUME_ENLEVE = 73;
-    const CSV_ENLEVEMENT_DATE = 74;
-    const CSV_ENLEVEMENT_FRAIS_GARDE = 75;
-    const CSV_VALIDE_DATE_SAISIE = 76;
-    const CSV_VALIDE_STATUT = 77;
-    const CSV_VALIDE_IDENTIFIANT = 78;
-    const CSV_VALIDE_DATE_SIGNATURE_VENDEUR = 79;
-    const CSV_VALIDE_DATE_SIGNATURE_ACHETEUR = 80;
-    const CSV_VALIDE_DATE_SIGNATURE_COURTIER = 81;
+    const CSV_ENLEVEMENT_DATE = 71;
+    const CSV_ENLEVEMENT_FRAIS_GARDE = 72;
+    const CSV_VALIDE_DATE_SAISIE = 73;
+    const CSV_VALIDE_STATUT = 74;
+    const CSV_VALIDE_IDENTIFIANT = 75;
+    const CSV_VALIDE_DATE_SIGNATURE_VENDEUR = 76;
+    const CSV_VALIDE_DATE_SIGNATURE_ACHETEUR = 77;
+    const CSV_VALIDE_DATE_SIGNATURE_COURTIER = 78;
 
     /*
     const CSV_NUMERO_PAPIER = 0;
@@ -216,16 +213,23 @@ class VracCsvImport extends CsvFile {
             $v->millesime = ($line[self::CSV_MILLESIME]) ? (int) $line[self::CSV_MILLESIME] : null;
             $v->categorie_vin = ($line[self::CSV_CATEGORIE_VIN]) ?: VracClient::CATEGORIE_VIN_GENERIQUE;
             $v->domaine = ($line[self::CSV_DOMAINE]) ? trim($line[self::CSV_DOMAINE]) : null;
-            $v->degre = ($line[self::CSV_DEGRE]) ? trim($line[self::CSV_DEGRE]) : null;
+            $v->degre = ($line[self::CSV_DEGRE]) ? (float) trim($line[self::CSV_DEGRE]) : null;
 
             $v->bouteilles_contenance_volume = ($line[self::CSV_BOUTEILLES_CONTENANCE_VOLUME]) ?: null;
+            if ($v->bouteilles_contenance_volume) {
+                $contenances = VracConfiguration::getInstance()->getContenances();
+                if (in_array($v->bouteilles_contenance_volume, $contenances)) {
+                    $v->bouteilles_contenance_libelle = array_search($v->bouteilles_contenance_volume, $contenances);
+                }
+            }
             //$v->bouteilles_contenance_libelle = ($line[self::CSV_BOUTEILLES_CONTENANCE_LIBELLE]) ?: null;
 
-            $v->jus_quantite = $line[self::CSV_VOLUME_PROPOSE];
-            $v->volume_propose = $line[self::CSV_VOLUME_PROPOSE];
-            $v->volume_enleve = $line[self::CSV_VOLUME_PROPOSE];
+            $v->jus_quantite = (float) $line[self::CSV_JUS_QUANTITE];
+            $v->volume_initial = $v->jus_quantite;
+            $v->volume_propose = $v->jus_quantite;
+            $v->volume_enleve = null;
 
-            $v->prix_initial_unitaire = $line[self::CSV_PRIX_UNITAIRE_HL];
+            $v->prix_initial_unitaire = (float) $line[self::CSV_PRIX_UNITAIRE_HL];
             $v->prix_initial_unitaire_hl = $v->prix_initial_unitaire;
 
             $v->date_debut_retiraison = $line[self::CSV_DATE_DEBUT_RETIRAISON];
@@ -248,7 +252,7 @@ class VracCsvImport extends CsvFile {
 
             $v->moyen_paiement = $line[self::CSV_MOYEN_PAIEMENT];
 
-            $v->acompte = $line[self::CSV_ACOMPTE];
+            $v->acompte = ($line[self::CSV_ACOMPTE]) ?: null;
 
             $v->taux_courtage = ($line[self::CSV_TAUX_COURTAGE]) ?: null;
             $v->courtage_repartition = ($line[self::CSV_TAUX_REPARTITION]) ?: null;
