@@ -1,137 +1,58 @@
 <?php
 
-class VracCsvImport extends CsvFile {
+class VracCsvImport extends CsvFile
+{
+    const CSV_TYPE_TRANSACTION = 0;
+    const CSV_DATE_SIGNATURE = 1;
+    const CSV_CREATEUR_ID = 2;
+    const CSV_CREATEUR_NUMERO = 3;
+    const CSV_ACHETEUR_ID = 4;
+    const CSV_ACHETEUR_NUMERO = 5;
+    const CSV_ACHETEUR_NOM = 6;
+    const CSV_VENDEUR_ID = 7;
+    const CSV_VENDEUR_NUMERO = 8;
+    const CSV_VENDEUR_NOM = 9;
+    const CSV_REPRESENTANT_ID = 10;
+    const CSV_REPRESENTANT_NUMERO = 11;
+    const CSV_REPRESENTANT_NOM = 12;
+    const CSV_COURTIER_MANDATAIRE_ID = 13;
+    const CSV_COURTIER_MANDATAIRE_NUMERO = 14;
+    const CSV_COURTIER_MANDATAIRE_NOM = 15;
 
-    const CSV_CAMPAGNE = 0;
-    const CSV_NUMERO_CONTRAT = 1;
-    const CSV_NUMERO_ARCHIVE = 2;
-    const CSV_ETAPE = 3;
-    const CSV_INTERNE = 4;
-    const CSV_RESPONSABLE = 5;
-    const CSV_TELEDECLARE = 6;
-    const CSV_ACOMPTE = 7;
-    const CSV_LOT = 8;
-    const CSV_SURFACE = 9;
-    const CSV_DEGRE = 10;
-    const CSV_DELAI_PAIEMENT = 11;
-    const CSV_MOYEN_PAIEMENT = 12;
-    const CSV_DATE_LIMITE_RETIRAISON = 13;
-    const CSV_DATE_DEBUT_RETIRAISON = 14;
-    const CSV_CONDITIONS_PARTICULIERES = 15;
-    const CSV_TVA = 16;
-    const CSV_PLURIANNUEL = 17;
-    const CSV_CLAUSE_RESERVE_PROPRIETE = 18;
-    const CSV_AUTORISATION_NOM_VIN = 19;
-    const CSV_AUTORISATION_NOM_PRODUCTEUR = 20;
-    const CSV_CLAUSES = 21;
-    const CSV_MILLESIME = 22;
-    const CSV_CEPAGE = 23;
-    const CSV_PREPARATION_VIN = 24;
-    const CSV_EMBOUTEILLAGE = 25;
-    const CSV_CONDITIONNEMENT_CRD = 26;
-    const CSV_REFERENCE_CONTRAT = 27;
-    const CSV_ANNEE_CONTRAT = 28;
-    const CSV_SEUIL_REVISION = 29;
-    const CSV_POURCENTAGE_VARIATION = 30;
-    const CSV_CAHIER_CHARGE = 31;
-    const CSV_UNITES = 32;
-    const CSV_INTERLOCUTEUR_COMMERCIAL = 33;
-    const CSV_CREATEUR_IDENTIFIANT = 34;
-    const CSV_VENDEUR_ID = 35;
-    const CSV_REPRESENTANT_ID = 36;
-    const CSV_ACHETEUR_ID = 37;
-    const CSV_MANDATAIRE_EXIST = 38;
-    const CSV_MANDATANT = 39;
-    const CSV_MANDATAIRE_ID = 40;
-    const CSV_LOGEMENT = 41;
-    const CSV_ATTENTE_ORIGINAL = 42;
-    const CSV_TYPE_TRANSACTION = 43;
-    const CSV_PRODUIT = 44;
-    const CSV_CATEGORIE_VIN = 45;
-    const CSV_DOMAINE = 46;
-    const CSV_LABELS = 47;
-    const CSV_RAISIN_QUANTITE = 48;
-    const CSV_JUS_QUANTITE = 49;
-    const CSV_BOUTEILLES_QUANTITE = 50;
-    const CSV_BOUTEILLES_CONTENANCE_VOLUME = 51;
-    const CSV_PRIX_INITIAL_UNITAIRE = 52;
-    const CSV_PRIX_INITIAL_UNITAIRE_HL = 53;
-    const CSV_PRIX_INITIAL_TOTAL = 54;
-    const CSV_PRIX_UNITAIRE = 55;
-    const CSV_PRIX_UNITAIRE_HL = 56;
-    const CSV_PRIX_TOTAL = 57;
-    const CSV_TYPE_CONTRAT = 58;
-    const CSV_PRIX_VARIABLE = 59;
-    const CSV_PART_VARIABLE = 60;
-    const CSV_CVO_NATURE = 61;
-    const CSV_CVO_REPARTITION = 62;
-    const CSV_COURTAGE_REPARTITION = 63;
-    const CSV_TAUX_COURTAGE = 64;
-    const CSV_TAUX_REPARTITION = 65;
-    const CSV_COMMENTAIRE = 66;
-    const CSV_VERSEMENT_FA = 67;
-    const CSV_DATE_CAMPAGNE = 68;
-    const CSV_DATE_SIGNATURE = 69;
-    const CSV_DATE_VISA = 70;
-    const CSV_ENLEVEMENT_DATE = 71;
-    const CSV_ENLEVEMENT_FRAIS_GARDE = 72;
-    const CSV_VALIDE_DATE_SAISIE = 73;
-    const CSV_VALIDE_STATUT = 74;
-    const CSV_VALIDE_IDENTIFIANT = 75;
-    const CSV_VALIDE_DATE_SIGNATURE_VENDEUR = 76;
-    const CSV_VALIDE_DATE_SIGNATURE_ACHETEUR = 77;
-    const CSV_VALIDE_DATE_SIGNATURE_COURTIER = 78;
+    const CSV_VIN_LIBELLE = 16;
+    const CSV_VIN_CERTIF = 17;
+    const CSV_VIN_GENRE = 18;
+    const CSV_VIN_APPELLATION = 19;
+    const CSV_VIN_MENTION = 20;
+    const CSV_VIN_LIEU = 21;
+    const CSV_VIN_COULEUR = 22;
+    const CSV_VIN_CEPAGE = 23;
+    const CSV_VIN_COMPLEMENT = 24;
+    const CSV_VIN_PERSO = 25;
 
-    /*
-    const CSV_NUMERO_PAPIER = 0;
-    const CSV_NUMERO_CONTRAT = 1;
-    const CSV_DATE_SIGNATURE = 2;
-    const CSV_DATE_SAISIE = 3;
-    const CSV_TYPE_TRANSACTION = 4;
-    const CSV_STATUT = 5;
-    const CSV_VENDEUR_ID = 6;
-    const CSV_VENDEUR_CVI = 7;
-    const CSV_VENDEUR_VIN_LOGEMENT_AUTRE = 8;
-    const CSV_INTERMEDIAIRE_ID = 9;
-    const CSV_ACHETEUR_ID = 10;
-    const CSV_COURTIER_ID = 11;
-    const CSV_RESPONSABLE = 12;
-    const CSV_PRODUIT_ID = 13;
-    const CSV_PRODUIT_LIBELLE = 14;
-    const CSV_MILLESIME = 15;
-    const CSV_CEPAGE_ID = 16;
-    const CSV_CEPAGE_LIBELLE = 17;
-    const CSV_CATEGORIE_VIN = 18;
-    const CSV_CATEGORIE_VIN_INFO = 19;
-    const CSV_SURFACE = 20;
-    const CSV_LOT = 21;
-    const CSV_DEGRE = 22;
-    const CSV_RECIPIENT_CONTENANCE = 23;
-    const CSV_RECIPIENT_CONTENANCE_LIBELLE = 24;
-    const CSV_QUANTITE = 25;
-    const CSV_QUANTITE_UNITE = 26;
-    const CSV_VOLUME_PROPOSE = 27;
-    const CSV_VOLUME_ENLEVE = 28;
-    const CSV_PRIX_UNITAIRE = 29;
-    const CSV_PRIX_UNITAIRE_HL = 30;
-    const CSV_CLE_DELAI_PAIEMENT = 31;
-    const CSV_DELAI_PAIEMENT = 32;
-    const CSV_CLE_MODE_PAIEMENT = 33;
-    const CSV_MODE_PAIEMENT = 34;
-    const CSV_ACOMPTE_SIGNATURE = 35;
-    const CSV_TAUX_COURTAGE = 36;
-    const CSV_REPARTITION_COURTAGE = 37;
-    const CSV_REPARTITION_CVO = 38;
-    const CSV_RETIRAISON_DATE_DEBUT = 39;
-    const CSV_RETIRAISON_DATE_FIN = 40;
-    const CSV_CONDITIONNEMENT = 41;
-    const CSV_EMBOUTEILLAGE = 42;
-    const CSV_PREPARATION_VIN = 43;
-    const CSV_CLAUSES = 44;
-    const CSV_LABELS = 45;
-    const CSV_COMMENTAIRE = 46;
-    const CVO_REPARTITION = 47;
-     */
+    const CSV_MILLESIME = 26;
+    const CSV_MILLESIME_85_15 = 27;
+    const CSV_CEPAGE = 28;
+    const CSV_CEPAGE_85_15 = 29;
+    const CSV_AB = 30;
+    const CSV_LOT = 31;
+    const CSV_DEGRE = 32;
+    const CSV_MENTION = 33;
+    const CSV_VOLUME = 34;
+    const CSV_PRIX = 35;
+
+    const CSV_LOGEMENT = 36;
+    const CSV_VENDEUR_TVA = 37;
+    const CSV_DELAI_PAIEMENT = 38;
+    const CSV_MOYEN_PAIEMENT = 39;
+    const CSV_ACOMPTE = 40;
+    const CSV_DATE_RETIRAISON_DEBUT = 41;
+    const CSV_DATE_RETIRAISON_LIMITE = 42;
+    const CSV_RESERVE_PROPRIETE = 43;
+    const CSV_CAHIER_CHARGES = 44;
+    const CSV_AUTH_NOM_VIN = 45;
+    const CSV_AUTH_NOM_PRODUCTEUR = 46;
+    const CSV_OBSERVATION = 47;
 
     const LABEL_BIO = 'agriculture_biologique';
 
@@ -140,7 +61,7 @@ class VracCsvImport extends CsvFile {
     /** @var int $imported Nombre de vrac importé */
     protected static $imported = 0;
 
-    /** @var array $errors Tableau des erreurs de l'import */
+    /** @var array $errors Tableau des erreurs de vérification */
     private $errors = [];
 
     /**
@@ -150,6 +71,8 @@ class VracCsvImport extends CsvFile {
      * @return self
      */
     public static function createFromArray(array $lines) {
+        array_shift($lines);
+
         $class = new self();
         $class->csvdata = $lines;
 
@@ -179,117 +102,163 @@ class VracCsvImport extends CsvFile {
         foreach ($this->getLines() as $line) {
             $v = new Vrac();
 
+            $v->type_transaction = $line[self::CSV_TYPE_TRANSACTION];
             $v->date_signature = $line[self::CSV_DATE_SIGNATURE];
-            $v->date_campagne = $v->date_signature;
 
-            $v->valide->date_saisie = $line[self::CSV_VALIDE_DATE_SAISIE];
-            $v->date_visa = $v->valide->date_saisie;
+            $v->createur_identifiant = $line[self::CSV_CREATEUR_ID];
+            if (! $v->createur_identifiant) {
+                $v->createur_identifiant = $this->guessId($line[self::CSV_CREATEUR_NUMERO]);
+            }
 
-            $v->campagne = $line[self::CSV_CAMPAGNE];
-            $v->numero_contrat = $line[self::CSV_NUMERO_CONTRAT];
-            $v->numero_archive = $line[self::CSV_NUMERO_ARCHIVE];
+            $v->acheteur_identifiant = $line[self::CSV_ACHETEUR_ID];
+            if (! $v->acheteur_identifiant) {
+                $v->acheteur_identifiant = $this->guessId($line[self::CSV_ACHETEUR_NUMERO]);
+            }
 
             $v->vendeur_identifiant = $line[self::CSV_VENDEUR_ID];
-            $v->acheteur_identifiant = $line[self::CSV_ACHETEUR_ID];
-            $v->representant_identifiant = ($line[self::CSV_REPRESENTANT_ID]) ?: $v->vendeur_identifiant;
+            if (! $v->vendeur_identifiant) {
+                $v->vendeur_identifiant = $this->guessId($line[self::CSV_VENDEUR_NUMERO]);
+            }
 
-            $v->mandataire_exist = false;
-            if ($line[self::CSV_MANDATAIRE_ID]) {
-                $v->mandataire_identifiant = $line[self::CSV_MANDATAIRE_ID];
+            $v->representant_identifiant = $line[self::CSV_REPRESENTANT_ID];
+            if (! $v->representant_identifiant) {
+                $v->representant_identifiant = $this->guessId($line[self::CSV_REPRESENTANT_NUMERO]);
+            }
+
+            $v->mandataire_identifiant = $line[self::CSV_COURTIER_MANDATAIRE_ID];
+            if (! $v->mandataire_identifiant) {
+                $v->mandataire_identifiant = $this->guessId($line[self::CSV_COURTIER_MANDATAIRE_NUMERO]);
+            }
+
+            if ($v->mandataire_identifiant) {
                 $v->mandataire_exist = true;
             }
 
-            $v->responsable = ($line[self::CSV_RESPONSABLE]) ?: null;
+            // vin
+            /*
+            $produit = "/declaration/certifications/";
+            $produit .= ($line[self::CSV_VIN_CERTIF]) ?: "DEFAUT";
+            $produit .= "/genres/";
+            $produit .= ($line[self::CSV_VIN_GENRE]) ?: "DEFAUT";
+            $produit .= "/appellations/";
+            $produit .= ($line[self::CSV_VIN_APPELLATION]) ?: "DEFAUT";
+            $produit .= "/mentions/";
+            $produit .= ($line[self::CSV_VIN_MENTION]) ?: "DEFAUT";
+            $produit .= "/lieux/";
+            $produit .= ($line[self::CSV_VIN_LIEU]) ?: "DEFAUT";
+            $produit .= "/couleurs/";
+            $produit .= ($line[self::CSV_VIN_COULEUR]) ?: "DEFAUT";
+            $produit .= "/cepages/";
+            $produit .= ($line[self::CSV_VIN_CEPAGE]) ?: "DEFAUT";
 
-            $produit = $configuration->identifyProductByLibelle($line[self::CSV_PRODUIT]);
+            $v->produit = $produit;
+            */
 
+            $produit = $configuration->identifyProductByLibelle($line[self::CSV_VIN_LIBELLE]);
             if ($produit) {
                 $v->setProduit($produit->getHash());
             }
 
-            $v->cepage = ($line[self::CSV_CEPAGE]) ?: null;
+            $v->millesime = $line[self::CSV_MILLESIME];
+            $v->millesime_85_15 = (bool) $line[self::CSV_MILLESIME_85_15];
 
-            $v->type_transaction = ($line[self::CSV_TYPE_TRANSACTION]) ?: null;
-            $v->millesime = ($line[self::CSV_MILLESIME]) ? (int) $line[self::CSV_MILLESIME] : null;
-            $v->categorie_vin = ($line[self::CSV_CATEGORIE_VIN]) ?: VracClient::CATEGORIE_VIN_GENERIQUE;
-            $v->domaine = ($line[self::CSV_DOMAINE]) ? trim($line[self::CSV_DOMAINE]) : null;
-            $v->degre = ($line[self::CSV_DEGRE]) ? (float) trim($line[self::CSV_DEGRE]) : null;
+            $v->cepage = $line[self::CSV_CEPAGE];
+            $v->cepage_85_15 = (bool) $line[self::CSV_CEPAGE_85_15];
 
-            $v->bouteilles_contenance_volume = ($line[self::CSV_BOUTEILLES_CONTENANCE_VOLUME]) ?: null;
-            if ($v->bouteilles_contenance_volume) {
-                $contenances = VracConfiguration::getInstance()->getContenances();
-                if (in_array($v->bouteilles_contenance_volume, $contenances)) {
-                    $v->bouteilles_contenance_libelle = array_search($v->bouteilles_contenance_volume, $contenances);
-                }
-            }
-            //$v->bouteilles_contenance_libelle = ($line[self::CSV_BOUTEILLES_CONTENANCE_LIBELLE]) ?: null;
-
-            $v->jus_quantite = (float) $line[self::CSV_JUS_QUANTITE];
-            $v->volume_initial = $v->jus_quantite;
-            $v->volume_propose = $v->jus_quantite;
-            $v->volume_enleve = null;
-
-            $v->prix_initial_unitaire = (float) $line[self::CSV_PRIX_UNITAIRE_HL];
-            $v->prix_initial_unitaire_hl = $v->prix_initial_unitaire;
-
-            $v->date_debut_retiraison = $line[self::CSV_DATE_DEBUT_RETIRAISON];
-            $v->date_limite_retiraison = $line[self::CSV_DATE_LIMITE_RETIRAISON];
-
-            if ($line[self::CSV_LABELS]) {
-                $labels = explode(',', $line[self::CSV_LABELS]);
-                foreach ($labels as $label_key) {
-                    $label_key = trim($label_key);
-                    if (array_key_exists($label_key, self::$labels_array)) {
-                        $v->getOrAdd('label')->add($label_key, self::$labels_array[$label_key]);
-                    }
-                }
+            if ($line[self::CSV_AB]) {
+                $v->getOrAdd('label')->add(self::LABEL_BIO, self::$labels_array[self::LABEL_BIO]);
             }
 
-            $v->vendeur_tva = (preg_match('/assujetti_tva/', $line[self::CSV_CLAUSES])) ? 1 : 0;
-            $v->tva = (preg_match('/facturation_tva/', $line[self::CSV_CLAUSES])) ? 'AVEC' : 'SANS';
+            $v->lot = $line[self::CSV_LOT];
+            $v->degre = $line[self::CSV_DEGRE];
 
+            $v->categorie_vin = VracClient::CATEGORIE_VIN_GENERIQUE;
+            if ($line[self::CSV_MENTION]) {
+                $v->domaine = $line[self::CSV_MENTION];
+                $v->categorie_vin = "MENTION";
+            }
+
+            if ($v->type_transaction === VracClient::TYPE_TRANSACTION_RAISINS) {
+                $v->raisin_quantite = $line[self::CSV_VOLUME];
+            } else {
+                $v->jus_quantite = $line[self::CSV_VOLUME];
+            }
+            $v->prix_initial_unitaire = $line[self::CSV_PRIX];
+
+            $v->logement = $line[self::CSV_LOGEMENT];
+            $v->vendeur_tva = $line[self::CSV_VENDEUR_TVA];
             $v->delai_paiement = $line[self::CSV_DELAI_PAIEMENT];
-
             $v->moyen_paiement = $line[self::CSV_MOYEN_PAIEMENT];
+            $v->acompte = $line[self::CSV_ACOMPTE];
+            $v->date_debut_retiraison = $line[self::CSV_DATE_RETIRAISON_DEBUT];
+            $v->date_limite_retiraison = $line[self::CSV_DATE_RETIRAISON_LIMITE];
+            $v->clause_reserve_propriete = $line[self::CSV_RESERVE_PROPRIETE];
+            $v->cahier_charge = $line[self::CSV_CAHIER_CHARGES];
+            $v->autorisation_nom_producteur = $line[self::CSV_AUTH_NOM_PRODUCTEUR];
+            $v->autorisation_nom_vin = $line[self::CSV_AUTH_NOM_VIN];
+            $v->conditions_particulieres = $line[self::CSV_OBSERVATION];
 
-            $v->acompte = ($line[self::CSV_ACOMPTE]) ?: null;
-
-            $v->taux_courtage = ($line[self::CSV_TAUX_COURTAGE]) ?: null;
-            $v->courtage_repartition = ($line[self::CSV_TAUX_REPARTITION]) ?: null;
-
-            $v->clause_reserve_propriete = (preg_match('/clause_reserve_propriete/', $line[self::CSV_CLAUSES])) ? true : false;
-            $v->autorisation_nom_vin = (preg_match('/autorisation_nom_vin/', $line[self::CSV_CLAUSES])) ? true : false;
-            $v->autorisation_nom_producteur = (preg_match('/autorisation_nom_producteur/', $line[self::CSV_CLAUSES])) ? true : false;
-
-            $v->conditionnement_crd = $line[self::CSV_CONDITIONNEMENT_CRD];
-            $v->embouteillage = $line[self::CSV_EMBOUTEILLAGE];
-            $v->preparation_vin = $line[self::CSV_PREPARATION_VIN];
-            $v->commentaire = str_replace('\n', "\n", $line[self::CSV_COMMENTAIRE]);
-
-            $v->cvo_repartition = ($line[self::CSV_CVO_REPARTITION]) ?: null;
-
-            $v->versement_fa = VracClient::VERSEMENT_FA_TRANSMIS;
-
-            $v->valide->statut = $line[self::CSV_VALIDE_STATUT];
-
-            $v->constructId();
-
-            if ($verified) {
+            try {
                 $v->update();
-                $v->save();
+            } catch (sfException $e) {
+                $this->errors[self::$imported+2][] = $e->getMessage();
+            }
 
-                self::$imported++;
+            if ($verified && count($this->errors) === 0) {
+                $v->constructId();
+                $v->save();
             } else {
                 $validator = new VracValidation($v);
 
                 if ($validator->hasErreurs()) {
                     foreach ($validator->getErreurs() as $err) {
-                        $this->errors[$line[self::CSV_NUMERO_CONTRAT]][] = $err->getMessage() . ': ' . $err->getInfo();
+                        $this->errors[self::$imported+2][] = $err->getMessage() . ': ' . $err->getInfo();
                     }
                 }
             }
+
+            self::$imported++;
         }
 
         return ($verified) ? self::$imported : $this->errors;
+    }
+
+    /**
+     * Trouve le numero d'identifiant en fonction d'un autre
+     *
+     * @param string $numero Le numéro d'accise, de siret, ou de cvi
+     * @return bool|string L'identifiant à trouver ou false
+     */
+    private function guessId($numero) {
+        $res = false;
+        $instance = EtablissementClient::getInstance();
+
+        switch ($numero) {
+            // SIRET
+            case (preg_match('#^\d{14}$#', $numero) ? true : false):
+                $res = false;
+                break;
+
+            // CVI
+            case (preg_match('#^\d{10}$#', $numero) ? true : false):
+                $res = $instance->findByCvi($numero);
+                break;
+
+            // Accise
+            case (preg_match('#^FR0[a-zA-Z0-9]{10}$#', $numero) ? true : false):
+                $res = $instance->findByNoAccise($numero);
+                break;
+
+            // Mauvais code
+            default:
+                $res = false;
+                break;
+        }
+
+        if ($res === null) {
+            $res = false;
+        }
+
+        return $res;
     }
 }

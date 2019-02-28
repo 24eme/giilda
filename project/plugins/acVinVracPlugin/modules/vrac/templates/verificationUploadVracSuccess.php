@@ -14,7 +14,7 @@
 <?php else: ?>
     <div class="alert alert-danger" role="alert">
         <?php foreach ($verification as $contrat => $erreurs): ?>
-        <p class="h4"><?= count($erreurs) ?> Erreurs sur le contrat : <?= $contrat ?></p>
+        <p class="h4"><?= count($erreurs) ?> <?= (count($erreurs) > 1) ? 'erreurs' : 'erreur'?> à la ligne <?= $contrat ?> du CSV</p>
             <ul>
                 <?php foreach ($erreurs as $erreur): ?>
                     <li><?= $erreur ?></li>
