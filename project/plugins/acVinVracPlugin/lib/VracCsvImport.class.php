@@ -122,7 +122,7 @@ class VracCsvImport extends CsvFile
 
             $v->representant_identifiant = $line[self::CSV_REPRESENTANT_ID];
             if (! $v->representant_identifiant) {
-                $v->representant_identifiant = $this->guessId($line[self::CSV_REPRESENTANT_NUMERO]);
+                $v->representant_identifiant = $v->acheteur_identifiant;
             }
 
             $v->mandataire_identifiant = $line[self::CSV_COURTIER_MANDATAIRE_ID];
@@ -198,14 +198,8 @@ class VracCsvImport extends CsvFile
             $v->autorisation_nom_vin = $line[self::CSV_AUTH_NOM_VIN];
             $v->conditions_particulieres = $line[self::CSV_OBSERVATION];
 
-            try {
-                $v->update();
-            } catch (sfException $e) {
-                $this->errors[self::$imported+2][] = $e->getMessage();
-            }
-
             if ($verified && count($this->errors) === 0) {
-                $v->constructId();
+                $v->update();
                 $v->save();
             } else {
                 $validator = new VracValidation($v);
@@ -257,6 +251,10 @@ class VracCsvImport extends CsvFile
 
         if ($res === null) {
             $res = false;
+        }
+
+        if ($res instanceof Etablissement) {
+            $res = $res->identifiant;
         }
 
         return $res;

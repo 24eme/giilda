@@ -35,6 +35,10 @@ class VracValidation extends DocumentValidation
      * Contrôle les entrées du vrac
      */
     public function controle() {
+        if (! $this->document->type_transaction || ! array_key_exists($this->document->type_transaction, VracClient::$types_transaction)) {
+            parent::addPoint('erreur', 'inexistant', 'Le type de transaction n\'existe pas');
+        }
+
         if (! $this->checkDate($this->document->_get('date_signature'))) {
             parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
         }
@@ -100,7 +104,7 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'float', 'La quantité n\'est pas un chiffre flottant');
         }
 
-        if (! $this->document->prix_initial_unitaire || ! $this->document->prix_initial_unitaire_hl) {
+        if (! $this->document->prix_initial_unitaire) {
             parent::addPoint('erreur', 'inexistant', 'Le prix unitaire est requis');
         }
 
