@@ -61,6 +61,9 @@ class VracCsvImport extends CsvFile
     /** @var int $imported Nombre de vrac importé */
     protected static $imported = 0;
 
+    /** @var int $line Numero de ligne du CSV */
+    protected static $line = 1;
+
     /** @var array $errors Tableau des erreurs de vérification */
     private $errors = [];
 
@@ -70,8 +73,11 @@ class VracCsvImport extends CsvFile
      * @param array $array Le CSV transformé en tableau
      * @return self
      */
-    public static function createFromArray(array $lines) {
-        array_shift($lines);
+    public static function createFromArray(array $lines, $headers = true) {
+        if ($headers) {
+            array_shift($lines);
+            self::$line++;
+        }
 
         $class = new self();
         $class->csvdata = $lines;
@@ -198,20 +204,22 @@ class VracCsvImport extends CsvFile
             $v->autorisation_nom_vin = $line[self::CSV_AUTH_NOM_VIN];
             $v->conditions_particulieres = $line[self::CSV_OBSERVATION];
 
-            if ($verified && count($this->errors) === 0) {
+            if ($verified) {
                 $v->update();
                 $v->save();
+
+                self::$imported++;
             } else {
                 $validator = new VracValidation($v);
 
                 if ($validator->hasErreurs()) {
                     foreach ($validator->getErreurs() as $err) {
-                        $this->errors[self::$imported+2][] = $err->getMessage() . ': ' . $err->getInfo();
+                        $this->errors[self::$line][] = $err->getMessage() . ': ' . $err->getInfo();
                     }
                 }
             }
 
-            self::$imported++;
+            self::$line++;
         }
 
         return ($verified) ? self::$imported : $this->errors;
