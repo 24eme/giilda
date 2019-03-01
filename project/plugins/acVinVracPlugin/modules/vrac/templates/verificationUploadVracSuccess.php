@@ -8,8 +8,10 @@
         Pas d'erreur détéctées. Vous pouvez y aller !
     </div>
 
-    <form action="">
-        <button></button>
+    <form action="<?= url_for('vrac_upload_import') ?>" method="POST">
+        <input type="hidden" name="md5" value="<?= $file->getMd5() ?>">
+
+        <button class="btn btn-primary">Importer</button>
     </form>
 <?php else: ?>
     <div class="alert alert-danger" role="alert">

@@ -40,7 +40,7 @@ class VracRouting {
             )
         );
 
-        $r->prependRoute('vrac_upload_reel', new sfRoute('/vrac/upload/import',
+        $r->prependRoute('vrac_upload_import', new sfRoute('/vrac/upload/import',
                 array('module' => 'vrac', 'action' => 'importUploadVrac'),
                 array('sf_method' => array('post'))
             )

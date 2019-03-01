@@ -205,6 +205,12 @@ class VracCsvImport extends CsvFile
             $v->conditions_particulieres = $line[self::CSV_OBSERVATION];
 
             if ($verified) {
+                $v->acompte = (float) $v->acompte;
+                $v->degre = (float) $v->degre;
+                $v->millesime = (int) $v->millesime;
+                $v->jus_quantite = (float) $v->jus_quantite;
+                $v->prix_initial_unitaire = (float) $v->prix_initial_unitaire;
+
                 $v->update();
                 $v->save();
 

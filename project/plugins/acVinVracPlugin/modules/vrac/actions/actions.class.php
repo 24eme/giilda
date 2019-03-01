@@ -50,14 +50,14 @@ class vracActions extends sfActions {
         $this->form->bind(null, $request->getFiles('csv'));
 
         if ($this->form->isValid()) {
-            $file = $this->form->getValue('file');
-            $vracs = VracCsvImport::createFromArray($file->getCsv());
+            $this->file = $this->form->getValue('file');
+            $vracs = VracCsvImport::createFromArray($this->file->getCsv());
 
             $this->verification = [];
             $this->verification = $vracs->import(false);
 
             if (empty($this->verification) === false) {
-                unlink($file->getPath() . '/' . $file->getMd5());
+                unlink($this->file->getPath() . '/' . $this->file->getMd5());
             }
         }
     }
@@ -65,6 +65,20 @@ class vracActions extends sfActions {
     public function executeImportUploadVrac(sfWebRequest $request) {
         if (! $request->isMethod(sfWebRequest::POST)) {
             return $this->redirect('vrac');
+        }
+
+        $file = $request->getPostParameter('md5', null);
+        $file = sfConfig::get('sf_data_dir') . '/upload/' . basename($file);
+
+        $this->imported = 0;
+
+        if (file_exists($file)) {
+            $file = new CsvFile($file);
+            $vracs = VracCsvImport::createFromArray($file->getCsv());
+
+            $this->imported = $vracs->import(true);
+
+            unlink($file->getFileName());
         }
     }
 
