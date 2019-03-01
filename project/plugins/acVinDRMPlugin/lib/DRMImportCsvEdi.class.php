@@ -396,11 +396,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     if ($confDetailMvt->hasDetails()) {
                         if ($confDetailMvt->getKey() == 'export') {
                             $pays = $this->findPays($csvRow[self::CSV_CAVE_EXPORTPAYS]);
-                              if (!$pays) {
+                            if (!$pays) {
                                 $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
-                                $num_ligne++;
-                                continue;
                             }
+                            $num_ligne++;
                             continue;
                         }
                         if ($confDetailMvt->getKey() == 'vrac' || $confDetailMvt->getKey() == 'contrat') {
