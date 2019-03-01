@@ -8,8 +8,7 @@ class DRMEDIImportTask extends sfBaseTask
         $this->addArguments(array(
             new sfCommandArgument('file', sfCommandArgument::REQUIRED, "Fichier csv pour l'import"),
             new sfCommandArgument('periode', sfCommandArgument::REQUIRED, "Periode de la DRM"),
-            new sfCommandArgument('identifiant', sfCommandArgument::REQUIRED, "Identifiant de l'établissement (identifiant, cvi ou n° accises"),
-            new sfCommandArgument('numero_archive', sfCommandArgument::OPTIONAL, "Numéro d'archive"),
+            new sfCommandArgument('identifiants', sfCommandArgument::IS_ARRAY, "Identifiant de l'établissement (identifiant, cvi ou n° accises")
         ));
 
         $this->addOptions(array(
@@ -40,23 +39,33 @@ EOF;
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        if(!$options['check'] && DRMClient::getInstance()->find('DRM-'.$arguments['identifiant'].'-'.$arguments['periode'], acCouchdbClient::HYDRATE_JSON)) {
-            echo "Existe : ".'DRM-'.$arguments['identifiant'].'-'.$arguments['periode']."\n";
-            return;
+        $etablissement = null;
+
+        foreach($arguments['identifiants'] as $i) {
+            if(!$i) {
+                continue;
+            }
+            $etablissement = EtablissementClient::getInstance()->find($i, acCouchdbClient::HYDRATE_JSON);
+
+            if($etablissement) {
+                break;
+            }
+
+            $etablissement = EtablissementClient::getInstance()->findByNoAccise($i);
+
+            if($etablissement) {
+                break;
+            }
+
+            $etablissement = EtablissementClient::getInstance()->findByCvi($i);
+
+            if($etablissement) {
+                break;
+            }
         }
 
-        $etablissement = EtablissementClient::getInstance()->find($arguments['identifiant'], acCouchdbClient::HYDRATE_JSON);
-
         if(!$etablissement) {
-            $etablissement = EtablissementClient::getInstance()->findByNoAccise($arguments['identifiant']);
-        }
-
-        if(!$etablissement) {
-            $etablissement = EtablissementClient::getInstance()->findByCvi($arguments['identifiant']);
-        }
-
-        if(!$etablissement) {
-            echo "L'établissement n'existe pas;".$arguments['identifiant']."\n";
+            echo "L'établissement n'existe pas;".implode(",", $arguments['identifiants'])."\n";
             return;
         }
 
@@ -69,9 +78,6 @@ EOF;
 
         $drm = DRMClient::getInstance()->createDocByPeriode($identifiant, $arguments['periode']);
 
-        if($arguments['numero_archive']) {
-            $drm->numero_archive = $arguments['numero_archive'];
-        }
        try {
         $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm);
         $drmCsvEdi->checkCSV();
