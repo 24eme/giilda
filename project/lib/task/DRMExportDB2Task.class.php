@@ -47,8 +47,8 @@ EOF;
 
         $origineFilename = null;
         foreach($csv as $file => $lignes) {
-            $fileName = $arguments['path']."/".$date."_".preg_replace("/.+\./", "", $file), implode("\r\n", $lignes);
-            file_put_contents($fileName);
+            $fileName = $arguments['path']."/".$date."_".preg_replace("/.+\./", "", $file);
+            file_put_contents($fileName, implode("\r\n", $lignes));
             if($file == "09.ORIGINES") {
                 $origineFilename = $fileName;
             }
