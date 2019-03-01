@@ -43,16 +43,16 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
         }
 
-        if (! $this->checkEtablissement($this->document->vendeur_identifiant)) {
+        if (! $this->checkEtablissement($this->document->vendeur_identifiant, EtablissementFamilles::FAMILLE_PRODUCTEUR)) {
             parent::addPoint('erreur', 'inexistant', 'Le vendeur n\'existe pas');
         }
 
-        if (! $this->checkEtablissement($this->document->acheteur_identifiant)) {
+        if (! $this->checkEtablissement($this->document->acheteur_identifiant, EtablissementFamilles::FAMILLE_NEGOCIANT)) {
             parent::addPoint('erreur', 'inexistant', 'L\'acheteur n\'existe pas');
         }
 
         if ($this->document->representant_identifiant !== $this->document->vendeur_identifiant) {
-            if (! $this->checkEtablissement($this->document->representant_identifiant)) {
+            if (! $this->checkEtablissement($this->document->representant_identifiant, EtablissementFamilles::FAMILLE_REPRESENTANT)) {
                 parent::addPoint('erreur', 'inexistant', 'Le représentant n\'existe pas');
             }
         }
@@ -62,7 +62,7 @@ class VracValidation extends DocumentValidation
                 parent::addPoint('vigilance', 'mandataire', 'Le flag de mandataire doit être à true');
             }
 
-            if (! $this->checkEtablissement($this->document->mandataire_identifiant)) {
+            if (! $this->checkEtablissement($this->document->mandataire_identifiant, EtablissementFamilles::FAMILLE_COURTIER)) {
                 parent::addPoint('erreur', 'inexistant', 'Le mandataire n\'existe pas');
             }
         }
@@ -147,16 +147,17 @@ class VracValidation extends DocumentValidation
      * Vérifie l'existence d'un etablissement
      *
      * @param string $id L'identifiant de l'établissement
+     * @param string $famille Famille de l'établissement : négociant, acheteur, producteur, …
      * @return bool
      */
-    public function checkEtablissement($id) {
+    public function checkEtablissement($id, $famille) {
         if (strlen($id) !== 8) {
             return false;
         }
 
         $etablissement = $this->etablissement_client->find($id, acCouchdbClient::HYDRATE_JSON);
 
-        return ($etablissement) ? true : false;
+        return ($etablissement) ? $etablissement->famille === $famille : false;
     }
 
     /**
