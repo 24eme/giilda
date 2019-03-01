@@ -30,7 +30,7 @@ class DRMDefactureTask extends sfBaseTask
         $drm = DRMClient::getInstance()->find($arguments['doc_id']);
         foreach($drm->getMouvements() as $k => $mvts) {
           foreach($mvts as $key => $m) {
-            $m->facture = 1;
+            $m->facture = 0;
           }
         }
         $drm->save();
