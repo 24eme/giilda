@@ -168,6 +168,64 @@ all:
                             stock_initial_sum: "stock_initial>agg_column"
                             stock_final_sum: "stock_final>agg_column"
                           script: "stock_initial_sum - stock_final_sum"
+        disponibilites_stocks:
+          libelle: "Disponibilités Stocks"
+          index: "DRMMVT"
+          hashkeysize: 1
+          aggregation:
+            filter:
+              term:
+                doc.mouvements.categorie: 'stocks'
+            aggs:
+              totaux_stock_final:
+                sum_bucket:
+                  buckets_path: "agg_page>total_stock_final"
+              agg_page:
+                terms:
+                  size: 0,
+                  script: "'/declaration/certifications/'+doc['doc.mouvements.certification'].value+'/genres/'+doc['doc.mouvements.genre'].value+'/appellations/'+doc['doc.mouvements.appellation'].value+'/mentions/'+doc['doc.mouvements.mention'].value+'/lieux/'+doc['doc.mouvements.lieu'].value+'/couleurs/'+doc['doc.mouvements.couleur'].value"
+                  order:
+                    "_term": asc
+                aggs:
+                  total_stock_final:
+                    sum_bucket:
+                      buckets_path: "agg_line>stock_final>agg_column"
+                  agg_line:
+                    terms:
+                      size: 0,
+                      field: 'doc.mouvements.couleur'
+                      "order" : { "_term" : "desc" }
+                    aggs:
+                      stock_final:
+                        filter:
+                          term:
+                            doc.mouvements.type_hash: 'total'
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+        disponibilites_vracs:
+          libelle: "Disponibilités Vrac"
+          hidden: true
+          index: "VRAC"
+          aggregation:
+            filter:
+              term:
+                type: 'vrac'
+            aggs:
+              totaux_stock_final:
+                sum_bucket:
+                  buckets_path: "agg_page>volume_non_enleve"
+              agg_page:
+                    terms:
+                      size: 0,
+                      field: 'doc.produit'
+                      order:
+                        "_term": asc
+                    aggs:
+                      volume_non_enleve:
+                        sum:
+                          script: "doc['doc.volume_propose'].value - doc['doc.volume_enleve'].value"
         sorties_categorie:
           libelle: "Sorties par catégorie"
           index: "DRMMVT"
