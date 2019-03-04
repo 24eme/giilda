@@ -33,6 +33,10 @@ class VracRouting {
                                                                 array('model' => 'Etablissement',
                                                                     'type' => 'object')
                                                                     ));
+        $r->prependRoute('vrac_upload_index', new sfRoute('/vrac/upload',
+                array('module' => 'vrac', 'action' => 'indexUploadVrac')
+            )
+        );
 
         $r->prependRoute('vrac_upload_verification', new sfRoute('/vrac/upload/verification',
                 array('module' => 'vrac', 'action' => 'verificationUploadVrac'),

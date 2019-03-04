@@ -41,10 +41,20 @@ class vracActions extends sfActions {
         }
     }
 
+    public function executeIndexUploadVrac(sfWebRequest $request) {
+        $this->redirect403IfICanNotCreate();
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->uploadForm = new UploadCSVForm();
+    }
+
     public function executeVerificationUploadVrac(sfWebRequest $request) {
         if (! $request->isMethod(sfWebRequest::POST)) {
             return $this->redirect('vrac');
         }
+
+        $this->redirect403IfICanNotCreate();
+
+        $this->initSocieteAndEtablissementPrincipal();
 
         $this->form = new UploadCSVForm();
         $this->form->bind(null, $request->getFiles('csv'));
@@ -66,6 +76,8 @@ class vracActions extends sfActions {
         if (! $request->isMethod(sfWebRequest::POST)) {
             return $this->redirect('vrac');
         }
+
+        $this->redirect403IfICanNotCreate();
 
         $file = $request->getPostParameter('md5', null);
         $file = sfConfig::get('sf_data_dir') . '/upload/' . basename($file);
