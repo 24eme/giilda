@@ -72,7 +72,9 @@ class StatistiqueStatsFilterForm extends BaseForm
     public function getStatistiques() {
     	$statistiques = array();
     	foreach ($this->config['statistiques'] as $key => $value) {
-    		$statistiques[$key] = $value['libelle'];
+				if(!isset($value['hidden']) || !$value['hidden']){
+					$statistiques[$key] = $value['libelle'];
+				}
     	}
     	return $statistiques;
     }
@@ -120,6 +122,7 @@ class StatistiqueStatsFilterForm extends BaseForm
 							$libelles[$key] = $item->getLibelleFormat();
 						}
         }
+
         return $libelles;
     }
 
@@ -219,17 +222,15 @@ class StatistiqueStatsFilterForm extends BaseForm
     		$values['doc.date_campagne']['from'] = $values['doc.date_campagne/from'];
     		$values['doc.date_campagne']['to'] = $values['doc.date_campagne/to'];
     	}
-			if(in_array($values['statistiques'],array('prix')) && !$this->aggregatAppellation && !$values['doc.produit']){
-					$values['doc.produit'] = array_keys(self::getProduitsCepage());
-			}
-			if(!in_array($values['statistiques'],array('prix')) && !$this->aggregatAppellation && !$values['doc.mouvements.produit_hash']){
+			if(!in_array($values['statistiques'],array('prix','disponibilites_vracs')) && !$this->aggregatAppellation && !$values['doc.mouvements.produit_hash']){
 					$values['doc.mouvements.produit_hash'] = array_keys(self::getProduitsCepage());
 			}
-			if (isset($values['doc.mouvements.produit_hash']) && ($values['doc.mouvements.produit_hash'] || $values['doc.mouvements.produit_hash'])) {
-				 foreach ($values['doc.mouvements.produit_hash'] as $key => $ph) {
-				 		$values['doc.mouvements.produit_hash'][$key] = $ph."/details/DEFAUT";
-				 }
+			if (!in_array($values['statistiques'],array('prix','disponibilites_vracs')) && isset($values['doc.mouvements.produit_hash']) && ($values['doc.mouvements.produit_hash'] || $values['doc.mouvements.produit_hash'])) {
+				 $values['doc.mouvements.produit_hash'] = array_values($values['doc.mouvements.produit_hash']);
+			}else{
+				unset($values['doc.mouvements.produit_hash']);
 			}
+
     	unset($values['statistiques'], $values['lastyear'], $values['pdf'], $values['doc.mouvements.date/from'], $values['doc.mouvements.date/to'], $values['doc.date_campagne/from'], $values['doc.date_campagne/to']);
     	$rangeFields = self::$rangeFields;
     	$nbFilters = 0;
@@ -246,8 +247,15 @@ class StatistiqueStatsFilterForm extends BaseForm
     			$filters[] = array('range' => array($field => $range));
     			$nbFilters++;
     		} elseif ($value) {
-    			$filter = (is_array($value))? 'terms' : 'term';
-    			$filters[] = array($filter => array($field => $value));
+    			$filter = (is_array($value))? 'bool' : 'term';
+
+					if(is_array($value)){
+						$prefixs = array();
+						foreach ($value as $key => $p) {
+							$prefixs[] = array("prefix" => array($field => $p));
+						}
+					}
+    			$filters[] = array($filter => array("should" => $prefixs));
     			$nbFilters++;
     		}
     	}
