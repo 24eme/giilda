@@ -11,5 +11,6 @@ web/psd
 bin/config.inc
 data/latex/*
 data/upload/*
+data/drm_externe/
 web/*.log
 web/generation/*.pdf
