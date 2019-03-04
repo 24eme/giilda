@@ -170,6 +170,7 @@ all:
                           script: "stock_initial_sum - stock_final_sum"
         disponibilites_stocks:
           libelle: "Disponibilités Stocks"
+          customFonction: "disponibilitesStocks"
           index: "DRMMVT"
           hashkeysize: 1
           aggregation:
