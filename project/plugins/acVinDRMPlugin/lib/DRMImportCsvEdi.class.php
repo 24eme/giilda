@@ -509,7 +509,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             continue;
                          }
                          if (!$drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
-                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "type/centilisation"));
+                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "type/centilisation : ".$keyNode));
                             $num_ligne++;
                             continue;
                          }
