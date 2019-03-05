@@ -11,7 +11,7 @@ use_helper('Display');
 \def\InterloireAdresse{<?php echo getAdresseInterpro(); ?>}
 \def\InterloireContact{<?php echo getInfosInterpro($drm); ?>}
 
-\def\DRMSocieteRaisonSociale{<?php echo $drm->societe->raison_sociale; ?>}
+\def\DRMSocieteRaisonSociale{<?php echo escape_string_for_latex($drm->societe->raison_sociale); ?>}
 \def\DRMSocieteAdresse{<?php echo getDrmSocieteAdresse($drm); ?>}
 
 \def\DRMAdresseChai{<?php echo getDrmEtablissementAdresse($drm); ?>}
