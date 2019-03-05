@@ -553,10 +553,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function convertGenre($g){
           $g = KeyInflector::slugify($g);
           if (preg_match('/TRANQ/', $g)) {
-            return 'TRANQ';
+            return DRMClient::DRM_CRD_CATEGORIE_TRANQ;
           }
           if (preg_match('/MOUS/', $g)) {
-            return 'MOUSSEUX';
+            return DRMClient::DRM_CRD_CATEGORIE_MOUSSEUX;
           }
           return null;
         }
@@ -564,13 +564,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function convertCouleur($c){
           $c = KeyInflector::slugify($c);
           if (preg_match('/BLEU/', $c)) {
-            return 'BLEU';
+            return DRMClient::DRM_BLEU;
           }
           if (preg_match('/VERT/', $c)) {
-            return 'VERT';
+            return DRMClient::DRM_VERT;
           }
           if (preg_match('/LIE/', $c)) {
-            return 'LIE-DE-VIN';
+            return DRMClient::DRM_LIEDEVIN;
           }
           return null;
         }
