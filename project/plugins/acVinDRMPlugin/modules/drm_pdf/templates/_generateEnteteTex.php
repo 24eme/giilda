@@ -22,7 +22,7 @@ use_helper('Display');
 
 \def\DRMSiret{<?php echo $drm->societe->siret; ?>}
 \def\DRMIdentifiantIL{<?php echo ($etablissement && $etablissement->exist('num_interne') && $etablissement->num_interne) ? $etablissement->num_interne : $drm->identifiant; ?>}
-\def\DRMAdresseComptaMatiere{<?php echo ($drm->declarant->adresse_compta)? $drm->declarant->adresse_compta : $drm->societe->raison_sociale; ?>}
+\def\DRMAdresseComptaMatiere{<?php echo escape_string_for_latex(($drm->declarant->adresse_compta)? $drm->declarant->adresse_compta : $drm->societe->raison_sociale); ?>}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
