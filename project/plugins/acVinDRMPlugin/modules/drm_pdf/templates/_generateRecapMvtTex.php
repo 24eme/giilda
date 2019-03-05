@@ -78,7 +78,7 @@ if(!isset($tabTitle)) {
         \end{large} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             <?php $libelleProduit = str_replace("AOC Alsace Grand Cru", "Gd Cru", $produit->libelle); ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelleProduit; ?>}}}}
+            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelleProduit); ?>}}}}
             <?php echo ($counter < count($produits_for_page) -1 ) ? "&" : ''; ?>
         <?php endforeach; ?>
         \\
