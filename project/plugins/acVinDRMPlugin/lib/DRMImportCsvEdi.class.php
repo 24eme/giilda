@@ -502,6 +502,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
 
                 $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
+                if (!$drmPrecedente->isTeledeclare()) {
+                    $drmPrecedente = null;
+                }
                 if ($drmPrecedente) {
                     if  ($fieldNameCrd == 'stock_debut') {
                       if ($quantite) {
