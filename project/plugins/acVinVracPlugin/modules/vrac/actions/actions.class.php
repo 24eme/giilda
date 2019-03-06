@@ -63,10 +63,15 @@ class vracActions extends sfActions {
             $this->file = $this->form->getValue('file');
             $vracs = VracCsvImport::createFromArray($this->file->getCsv());
 
-            $this->verification = [];
-            $this->verification = $vracs->import(false);
+            $vracs->import(false);
 
-            if (empty($this->verification) === false) {
+            $this->errors = [];
+            $this->warnings = [];
+
+            $this->errors = $vracs->getErrors();
+            $this->warnings = $vracs->getWarnings();
+
+            if (count($this->errors) > 0) {
                 unlink($this->file->getPath() . '/' . $this->file->getMd5());
             }
         }

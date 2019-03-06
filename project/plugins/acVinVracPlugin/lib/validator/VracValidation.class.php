@@ -27,7 +27,7 @@ class VracValidation extends DocumentValidation
         parent::addControle('erreur', 'bouteille', 'Un problème avec les bouteilles');
 
         parent::addControle('vigilance', 'mandataire', '');
-        parent::addControle('vigilance', 'date', '');
+        parent::addControle('vigilance', 'date', 'Les dates peuvent poser problème');
         parent::addControle('vigilance', 'domaine', '');
     }
 

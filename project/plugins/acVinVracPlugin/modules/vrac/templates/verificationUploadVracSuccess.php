@@ -3,7 +3,21 @@
 </ol>
 
 <h1>Rapport d'erreur sur l'import</h1>
-<?php if ($verification->count() == 0): ?>
+
+<?php if ($warnings->count() > 0): ?>
+    <div class="alert alert-warning" role="alert">
+        <?php foreach ($warnings as $contrat => $contrat_warnings): ?>
+        <p class="h4"><?= count($contrat_warnings) ?> <?= (count($contrat_warnings) > 1) ? 'avertissements' : 'avertissement' ?> à la ligne <?= $contrat ?> du CSV</p>
+        <ul>
+            <?php foreach ($contrat_warnings as $warning): ?>
+                <li><?= $warning ?></li>
+            <?php endforeach ?>
+        </ul>
+        <?php endforeach ?>
+    </div>
+<?php endif ?>
+
+<?php if ($errors->count() === 0): ?>
     <div class="alert alert-success">
         Pas d'erreur détéctées. Vous pouvez y aller !
     </div>
@@ -15,11 +29,11 @@
     </form>
 <?php else: ?>
     <div class="alert alert-danger" role="alert">
-        <?php foreach ($verification as $contrat => $erreurs): ?>
-        <p class="h4"><?= count($erreurs) ?> <?= (count($erreurs) > 1) ? 'erreurs' : 'erreur'?> à la ligne <?= $contrat ?> du CSV</p>
+        <?php foreach ($errors as $contrat => $contrat_errors): ?>
+        <p class="h4"><?= count($contrat_errors) ?> <?= (count($contrat_errors) > 1) ? 'erreurs' : 'erreur'?> à la ligne <?= $contrat ?> du CSV</p>
             <ul>
-                <?php foreach ($erreurs as $erreur): ?>
-                    <li><?= $erreur ?></li>
+                <?php foreach ($contrat_errors as $error): ?>
+                    <li><?= $error ?></li>
                 <?php endforeach ?>
             </ul>
         <?php endforeach ?>

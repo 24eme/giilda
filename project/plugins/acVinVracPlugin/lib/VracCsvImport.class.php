@@ -67,6 +67,9 @@ class VracCsvImport extends CsvFile
     /** @var array $errors Tableau des erreurs de vérification */
     private $errors = [];
 
+    /** @var array $warnings Tableau des warnings de la vérification */
+    private $warnings = [];
+
     /**
      * Crée une instance depuis un tableau CSV
      *
@@ -97,10 +100,28 @@ class VracCsvImport extends CsvFile
     }
 
     /**
+     * Retourne le tableau contenant les erreurs
+     *
+     * @return array Le tableau d'erreur
+     */
+    public function getErrors() {
+        return $this->errors;
+    }
+
+    /**
+     * Retourne le tableau contenant les avertissements
+     *
+     * @return array Le tableau des avertissements
+     */
+    public function getWarnings() {
+        return $this->warnings;
+    }
+
+    /**
      * Importe des vracs dans la base
      *
      * @param bool $verified Le csv a été vérifier
-     * @return int|array Nombre de vracs importés ou tableau d'erreur
+     * @return int Nombre de vracs importés
      */
     public function import($verified = false) {
         $configuration = ConfigurationClient::getInstance()->getCurrent();
@@ -109,7 +130,6 @@ class VracCsvImport extends CsvFile
             $v = new Vrac();
 
             $v->type_transaction = $line[self::CSV_TYPE_TRANSACTION];
-            $v->date_signature = $line[self::CSV_DATE_SIGNATURE];
 
             $v->createur_identifiant = $line[self::CSV_CREATEUR_ID];
             if (! $v->createur_identifiant) {
@@ -204,6 +224,8 @@ class VracCsvImport extends CsvFile
             $v->autorisation_nom_vin = $line[self::CSV_AUTH_NOM_VIN];
             $v->conditions_particulieres = $line[self::CSV_OBSERVATION];
 
+            $v->date_signature = $line[self::CSV_DATE_SIGNATURE];
+
             if ($verified) {
                 $v->acompte = (float) $v->acompte;
                 $v->degre = (float) $v->degre;
@@ -223,12 +245,18 @@ class VracCsvImport extends CsvFile
                         $this->errors[self::$line][] = $err->getMessage() . ': ' . $err->getInfo();
                     }
                 }
+
+                if ($validator->hasVigilances()) {
+                    foreach ($validator->getVigilances() as $warn) {
+                        $this->warnings[self::$line][] = $warn->getMessage() . ': ' .  $warn->getInfo();
+                    }
+                }
             }
 
             self::$line++;
         }
 
-        return ($verified) ? self::$imported : $this->errors;
+        return self::$imported;
     }
 
     /**
