@@ -108,16 +108,16 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le prix unitaire est requis');
         }
 
-        if (! $this->checkDate($this->document->date_limite_retiraison)) {
+        if (! $this->checkDate($this->document->_get('date_limite_retiraison'))) {
             parent::addPoint('erreur', 'date', 'La date de limite de retiraison n\'est pas valide');
         }
 
-        if ($this->document->date_debut_retiraison) {
-            if (! $this->checkDate($this->document->date_debut_retiraison)) {
+        if ($this->document->_get('date_debut_retiraison')) {
+            if (! $this->checkDate($this->document->_get('date_debut_retiraison'))) {
                 parent::addPoint('erreur', 'date', 'La date de début de retiraison n\'est pas valide');
             }
 
-            if ($this->document->date_limite_retiraison < $this->document->date_debut_retiraison) {
+            if ($this->document->_get('date_limite_retiraison') < $this->document->_get('date_debut_retiraison')) {
                 parent::addPoint('vigilance', 'date', 'La date de début de retiraison est supérieure à celle du début');
             }
         }
