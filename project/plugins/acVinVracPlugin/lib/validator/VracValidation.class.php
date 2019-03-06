@@ -133,6 +133,17 @@ class VracValidation extends DocumentValidation
         if ($this->document->millesime && ! $this->checkDate($this->document->millesime, 'Y')) {
             parent::addPoint('erreur', 'date', 'Le millesime n\'est pas une année');
         }
+
+        if (! $this->document->moyen_paiement) {
+            parent::addPoint('erreur', 'inexistant', 'Le moyen de paiement doit être renseigné');
+        }
+
+        if ($this->document->moyen_paiement) {
+            $moyens_paiement = VracConfiguration::getInstance()->getMoyensPaiement();
+            if (! array_key_exists($this->document->moyen_paiement, $moyens_paiement)) {
+                parent::addPoint('erreur', 'inexistant', 'Le moyen de paiement n\'existe pas');
+            }
+        }
     }
 
     /**
