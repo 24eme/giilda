@@ -108,6 +108,10 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le prix unitaire est requis');
         }
 
+        if ($this->document->prix_initial_unitaire && ! $this->checkFloat($this->document->prix_initial_unitaire)) {
+            parent::addPoint('erreur', 'float', 'Le prix n\'est pas un chiffre flottant');
+        }
+
         if (! $this->checkDate($this->document->_get('date_limite_retiraison'))) {
             parent::addPoint('erreur', 'date', 'La date de limite de retiraison n\'est pas valide');
         }
