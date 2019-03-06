@@ -22,7 +22,7 @@ class DRMReleveNonApurementItemForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        
+
         $this->setWidget('numero_document', new sfWidgetFormInput());
         $this->setWidget('date_emission', new sfWidgetFormInput());
         $this->setWidget('numero_accise', new sfWidgetFormInput());
@@ -39,12 +39,12 @@ class DRMReleveNonApurementItemForm extends acCouchdbObjectForm {
         $this->widgetSchema->setNameFormat('non_apurement[%s]');
     }
 
-    
+
     public function doUpdateObject($values) {
         parent::doUpdateObject($values);
         $numero_document = $values['numero_document'];
         $date_emission = $values['date_emission'];
-        $numero_accise = $values['numero_accise'];
+        $numero_accise = trim($values['numero_accise']);
         if ($numero_document && $date_emission && $numero_accise) {
             $this->getObject()->getParent()->updateNonApurement($this->keyNonApurement, $numero_document, $date_emission, $numero_accise);
         }
