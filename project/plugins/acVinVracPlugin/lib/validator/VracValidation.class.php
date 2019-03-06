@@ -129,6 +129,10 @@ class VracValidation extends DocumentValidation
         if ($this->document->acompte && ! $this->checkFloat($this->document->acompte)) {
             parent::addPoint('erreur', 'float', 'L\'acompte n\'est pas un chiffre flottant');
         }
+
+        if ($this->document->millesime && ! $this->checkDate($this->document->millesime, 'Y')) {
+            parent::addPoint('erreur', 'date', 'Le millesime n\'est pas une année');
+        }
     }
 
     /**
