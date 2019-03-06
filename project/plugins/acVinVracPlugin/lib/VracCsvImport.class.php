@@ -40,19 +40,20 @@ class VracCsvImport extends CsvFile
     const CSV_MENTION = 33;
     const CSV_VOLUME = 34;
     const CSV_PRIX = 35;
+    const CSV_CONTENANCE = 36;
 
-    const CSV_LOGEMENT = 36;
-    const CSV_VENDEUR_TVA = 37;
-    const CSV_DELAI_PAIEMENT = 38;
-    const CSV_MOYEN_PAIEMENT = 39;
-    const CSV_ACOMPTE = 40;
-    const CSV_DATE_RETIRAISON_DEBUT = 41;
-    const CSV_DATE_RETIRAISON_LIMITE = 42;
-    const CSV_RESERVE_PROPRIETE = 43;
-    const CSV_CAHIER_CHARGES = 44;
-    const CSV_AUTH_NOM_VIN = 45;
-    const CSV_AUTH_NOM_PRODUCTEUR = 46;
-    const CSV_OBSERVATION = 47;
+    const CSV_LOGEMENT = 37;
+    const CSV_VENDEUR_TVA = 38;
+    const CSV_DELAI_PAIEMENT = 39;
+    const CSV_MOYEN_PAIEMENT = 40;
+    const CSV_ACOMPTE = 41;
+    const CSV_DATE_RETIRAISON_DEBUT = 42;
+    const CSV_DATE_RETIRAISON_LIMITE = 43;
+    const CSV_RESERVE_PROPRIETE = 44;
+    const CSV_CAHIER_CHARGES = 45;
+    const CSV_AUTH_NOM_VIN = 46;
+    const CSV_AUTH_NOM_PRODUCTEUR = 47;
+    const CSV_OBSERVATION = 48;
 
     const LABEL_BIO = 'agriculture_biologique';
 
@@ -210,6 +211,13 @@ class VracCsvImport extends CsvFile
                 $v->jus_quantite = $line[self::CSV_VOLUME];
             }
             $v->prix_initial_unitaire = $line[self::CSV_PRIX];
+
+            if ($v->type_transaction === VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
+                $contenances = VracConfiguration::getInstance()->getContenances();
+                if (array_key_exists($line[self::CSV_CONTENANCE], $contenances)) {
+                    $v->bouteilles_contenance_libelle = $line[self::CSV_CONTENANCE];
+                }
+            }
 
             $v->logement = $line[self::CSV_LOGEMENT];
             $v->vendeur_tva = $line[self::CSV_VENDEUR_TVA];
