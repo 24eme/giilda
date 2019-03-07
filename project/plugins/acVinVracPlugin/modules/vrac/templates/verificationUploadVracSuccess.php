@@ -1,4 +1,5 @@
 <ol class="breadcrumb">
+    <li><a href="<?php echo url_for('vrac_upload_index') ?>">Contrats</a></li>
     <li><a href="<?php echo url_for('vrac_upload_verification') ?>" class="active">Contrats</a></li>
 </ol>
 
@@ -39,5 +40,5 @@
         <?php endforeach ?>
     </div>
 
-    <a href="<?= url_for('vrac') ?>" class="btn btn-primary center-block">Retour à l'upload</a>
+    <a href="<?= url_for('vrac_upload_index') ?>" class="btn btn-primary center-block">Retour à l'upload</a>
 <?php endif ?>
