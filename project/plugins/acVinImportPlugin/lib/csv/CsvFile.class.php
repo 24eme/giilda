@@ -1,12 +1,13 @@
 <?php
 
-class CsvFile 
+class CsvFile
 {
 
   protected $current_line = 0;
+  protected $csvdata = null;
+
   private $file = null;
   private $separator = null;
-  protected $csvdata = null;
   private $ignore = null;
 
   public function getFileName() {
@@ -31,10 +32,15 @@ class CsvFile
     }
     $buffer = fread($handle, 500);
     fclose($handle);
-    
+
     $charset = $this->getCharset($file);
     if($charset != 'utf-8'){
         exec('recode '.$charset.'..utf-8 '.$file);
+    }
+    $charset = $this->getCharset($file);
+    if($charset != 'utf-8'){
+        exec('iconv -f '.$charset.' -t utf-8 '.$file.' > '.$file.'.tmp');
+        exec('mv '.$file.".tmp ".$file);
     }
     $buffer = preg_replace('/$[^\n]*\n/', '', $buffer);
     if (!$buffer) {
@@ -50,7 +56,7 @@ class CsvFile
       $this->separator = '\t';
   }
 
-  public function getCsv() 
+  public function getCsv()
   {
     if ($this->csvdata) {
       return $this->csvdata;
@@ -61,14 +67,14 @@ class CsvFile
     }
     $this->csvdata = array();
     while (($data = fgetcsv($handler, 0, $this->separator)) !== FALSE) {
-      if (!preg_match('/^#/', $data[0])) {
-		$this->csvdata[] = $data;           
-      }  
+      if (!preg_match('/^(...)?#/', $data[0]) && !preg_match('/^$/', $data[0])) {
+		$this->csvdata[] = $data;
+      }
     }
     fclose($handler);
     return $this->csvdata;
   }
-  
+
   private function getCharset($file) {
     $ret = exec('file -i '.$file);
     $charset = substr($ret, strpos($ret,'charset='));
