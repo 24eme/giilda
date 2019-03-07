@@ -360,6 +360,108 @@ all:
                                     vol_prix_sum: "vol_prix>agg_column"
                                     ca_sum: "ca>agg_column"
                                   script: "ca_sum / vol_prix_sum / 225"
+        mentions_valorisantes:
+          libelle: "Contrats par mentions valorisantes"
+          index: "VRAC"
+          aggregation:
+            filter:
+              term:
+                type: 'vrac'
+            aggs:
+                  agg_page:
+                    terms:
+                      size: 0,
+                      field: 'doc.type_transaction'
+                    aggs:
+                      agg_page:
+                        terms:
+                          size: 0,
+                          field: 'doc.produit'
+                        aggs:
+                          total_volume_categorie:
+                            sum_bucket:
+                              buckets_path: "agg_categorie>volume_propose>agg_column"
+                          total_ca_categorie:
+                            sum_bucket:
+                              buckets_path: "agg_categorie>ca>agg_column"
+                          total_volume_domaine:
+                            sum_bucket:
+                              buckets_path: "agg_domaine>volume_propose>agg_column"
+                          total_ca_domaine:
+                            sum_bucket:
+                              buckets_path: "agg_domaine>ca>agg_column"
+                          total_volume_bio:
+                            sum_bucket:
+                              buckets_path: "agg_bio>volume_propose>agg_column"
+                          total_ca_bio:
+                            sum_bucket:
+                              buckets_path: "agg_bio>ca>agg_column"
+                          agg_categorie:
+                            terms:
+                              field: "doc.categorie_vin"
+                            aggs:
+                              volume_propose:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.volume_propose'
+                              ca:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.prix_total'
+                          agg_domaine:
+                            terms:
+                              field: "doc.domaine"
+                            aggs:
+                              volume_propose:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.volume_propose'
+                              ca:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.prix_total'
+                          agg_bio:
+                            terms:
+                              field: "doc.label.agriculture_biologique"
+                            aggs:
+                              volume_propose:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.volume_propose'
+                              ca:
+                                filter:
+                                  range:
+                                    "doc.prix_initial_unitaire_hl":
+                                      gt: 0
+                                aggs:
+                                  agg_column:
+                                    sum:
+                                      field: 'doc.prix_total'
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20

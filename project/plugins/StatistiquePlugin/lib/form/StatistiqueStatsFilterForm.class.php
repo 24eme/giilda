@@ -222,10 +222,10 @@ class StatistiqueStatsFilterForm extends BaseForm
     		$values['doc.date_campagne']['from'] = $values['doc.date_campagne/from'];
     		$values['doc.date_campagne']['to'] = $values['doc.date_campagne/to'];
     	}
-			if(!in_array($values['statistiques'],array('prix','disponibilites_vracs')) && !$this->aggregatAppellation && !$values['doc.mouvements.produit_hash']){
+			if(!in_array($values['statistiques'],array('prix','disponibilites_vracs','mentions_valorisantes')) && !$this->aggregatAppellation && !$values['doc.mouvements.produit_hash']){
 					$values['doc.mouvements.produit_hash'] = array_keys(self::getProduitsCepage());
 			}
-			if (!in_array($values['statistiques'],array('prix','disponibilites_vracs')) && isset($values['doc.mouvements.produit_hash']) && ($values['doc.mouvements.produit_hash'] || $values['doc.mouvements.produit_hash'])) {
+			if (!in_array($values['statistiques'],array('prix','disponibilites_vracs','mentions_valorisantes')) && isset($values['doc.mouvements.produit_hash']) && ($values['doc.mouvements.produit_hash'] || $values['doc.mouvements.produit_hash'])) {
 				 $values['doc.mouvements.produit_hash'] = array_values($values['doc.mouvements.produit_hash']);
 			}else{
 				unset($values['doc.mouvements.produit_hash']);

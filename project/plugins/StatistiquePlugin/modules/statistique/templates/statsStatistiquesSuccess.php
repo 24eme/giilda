@@ -1,4 +1,4 @@
-<ol class="breadcrumb">
+prix|mentions_valorisantes"<ol class="breadcrumb">
     <li><a href="<?php echo url_for('statistiques') ?>">Statistique</a></li>
     <li><a href="<?php echo url_for('statistiques_stats') ?>" class="active">Statistiques</a></li>
 </ol>
@@ -25,7 +25,7 @@
              <div class="col-xs-6"><?php echo $form['doc.mouvements.produit_hash']->render(); ?></div>
            <?php endif; ?>
 			</div>
-      <div id="bloc_produit" class="form-group bloc_conditionner" data-condition-value="prix|disponibilites_vracs">
+      <div id="bloc_produit" class="form-group bloc_conditionner" data-condition-value="prix|mentions_valorisantes|disponibilites_vracs">
         <?php if(isset($form['doc.appellation'])): ?>
           <span class="error has-error"><?php echo $form['doc.appellation']->renderError() ?></span>
           <?php echo $form['doc.appellation']->renderLabel(null, array("class" => "col-xs-6 control-label")); ?>
@@ -44,7 +44,7 @@
 		        <div class="col-xs-6"><?php echo $form['doc.declarant.famille']->render(); ?></div>
 			</div>
     <?php endif; ?>
-			<div id="bloc_conditionnement" class="form-group bloc_conditionner" data-condition-value="prix">
+			<div id="bloc_conditionnement" class="form-group bloc_conditionner" data-condition-value="prix|mentions_valorisantes">
 				<span class="error has-error"><?php echo $form['doc.type_transaction']->renderError() ?></span>
 		        <?php echo $form['doc.type_transaction']->renderLabel(null, array("class" => "col-xs-6 control-label")); ?>
 		        <div class="col-xs-6"><?php echo $form['doc.type_transaction']->render(); ?></div>
@@ -57,7 +57,7 @@
 		        <div class="col-xs-3"><?php echo $form['doc.mouvements.date/to']->render(); ?></div>
 			</div>
 
-			<div id="bloc_date" class="form-group bloc_conditionner" data-condition-value="prix|disponibilites_vracs">
+			<div id="bloc_date" class="form-group bloc_conditionner" data-condition-value="prix|mentions_valorisantes|disponibilites_vracs">
 				<span class="error has-error"><?php echo $form['doc.date_campagne/from']->renderError() ?></span>
 				<span class="error has-error"><?php echo $form['doc.date_campagne/to']->renderError() ?></span>
 				<label class="col-xs-6 control-label">Période</label>
