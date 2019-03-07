@@ -252,20 +252,21 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $drm_suivante->precedente = $this->_id;
         }
 
-        if (!$isTeledeclarationMode) {
-            $tobedeleted = array();
-            foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
-                $details->getCepage()->remove('no_movements');
-                $details->getCepage()->remove('edited');
-                $details->add('no_movements', false);
-                $details->add('edited', false);
+
+        $tobedeleted = array();
+        foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
+            $details->getCepage()->remove('no_movements');
+            $details->getCepage()->remove('edited');
+            $details->add('no_movements', false);
+            $details->add('edited', false);
+            if (!$isTeledeclarationMode) {
                 if (!$details->getCepage()->getConfig()->isCVOActif($drm_suivante->getDate())) {
                     $tobedeleted[] = $details->getHash();
                 }
             }
-            foreach ($tobedeleted as $d) {
-                $drm_suivante->remove($d);
-            }
+        }
+        foreach ($tobedeleted as $d) {
+            $drm_suivante->remove($d);
         }
 
         $drm_suivante->initProduitsAutres($isTeledeclarationMode);
@@ -579,11 +580,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
               $d = (DateTime::createFromFormat('Y-m-d',$newVrac->enlevement_date));
               $enlevement_date = $d->format('c');
-              $newVrac->valide->add('date_saisie', $enlevement_date);
               $newVrac->add('date_signature', $enlevement_date);
               $newVrac->date_visa = $d->format('Y-m-d');
 
               $newVrac->validate();
+
+              $newVrac->valide->add('date_saisie', $enlevement_date);
               $newVrac->save();
             }
         }
@@ -1071,8 +1073,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function getMouvementsCalcule($teledeclaration_drm = false) {
+        $mouvements = $this->declaration->getMouvements($teledeclaration_drm);
 
-        return $this->declaration->getMouvements($teledeclaration_drm);
+        if(DRMConfiguration::getInstance()->isMouvementVideNeant() && (!isset($mouvements[$this->getIdentifiant()]) || !count($mouvements[$this->getIdentifiant()]))) {
+            $mouvement = DRMMouvement::freeInstance($this->getDocument());
+            $mouvement->facture = 0;
+            $mouvement->facturable = 0;
+            $mouvement->region = $this->getDocument()->region;
+            $mouvements[$this->getIdentifiant()][$mouvement->getMD5Key()] = $mouvement;
+        }
+
+        return $mouvements;
     }
 
     public function getMouvementsCalculeByIdentifiant($identifiant, $teledeclaration_drm = false) {
@@ -1123,9 +1134,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return $this->getEtablissement();
     }
 
+    public function isFacturable() {
+        if($this->isDRMNegociant() && !DRMConfiguration::getInstance()->isNegociantFacturable()) {
+
+            return false;
+        }
+
+
+        return true;
+    }
+
     public function isDRMNegociant() {
 
-           return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
+        return ($this->getFamille() == EtablissementFamilles::FAMILLE_NEGOCIANT);
     }
 
     public function getFamille() {
@@ -1381,6 +1402,10 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
             $this->remove('documents_annexes');
             $this->add('documents_annexes');
         }
+        if ($this->exist('releve_non_apurement') && $this->releve_non_apurement && count($this->releve_non_apurement)) {
+            $this->remove('releve_non_apurement');
+            $this->add('releve_non_apurement');
+        }
 
         if ($this->exist('quantite_sucre') && $this->quantite_sucre && count($this->quantite_sucre)) {
             $this->quantite_sucre = null;
@@ -1582,6 +1607,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return true;
     }
 
+
     public function setPaiementDouaneFrequence($p){
       $this->societe->paiement_douane_frequence = $p;
       $soc = $this->getEtablissement()->getSociete();
@@ -1593,6 +1619,11 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
 
     /** Fin Droit de circulation douane */
 
+    public function isCreationEdi(){
+      return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
+    }
+
+    
     /*
     * Observations
     */
@@ -1702,11 +1733,6 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
             $libelles_detail_ligne->remove($removeNode);
         }
         return $libelles_detail_ligne;
-    }
-
-    public function isDrmNegoce(){
-
-        return $this->isDRMNegociant();
     }
 
     public function isCreationAuto(){

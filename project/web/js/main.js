@@ -413,6 +413,11 @@
             });
           }
 
+          $(this).find('.btn-loading').on('click', function (e) {
+                $(this).addClass('disabled');
+                $(this).text($(this).attr('data-loading-text'));
+          });
+
     }
 
 

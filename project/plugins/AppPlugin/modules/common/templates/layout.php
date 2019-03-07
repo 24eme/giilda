@@ -21,7 +21,7 @@
         <link href="<?php echo public_path("/components/vins/vins.css") ?>" rel="stylesheet">
         <link href="<?php echo public_path("/css/style.css?20170324") ?>" rel="stylesheet">
         <?php if(file_exists(sfConfig::get('sf_web_dir')."/css/style_".sfConfig::get('sf_app').'.css')): ?>
-            <link href="<?php echo public_path("/css/style_".sfConfig::get('sf_app').".css") ?>" rel="stylesheet">
+            <link href="<?php echo public_path("/css/style_".sfConfig::get('sf_app').".css?201902051533") ?>" rel="stylesheet">
         <?php endif; ?>
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -53,8 +53,8 @@
         <script src="<?php echo public_path("/js/lib/jquery-ui-1.8.21.min.js") ?>"></script>
         <script src="<?php echo public_path("/js/ajaxHelper.js") ?>"></script>
         <script src="<?php echo public_path("/js/form.js") ?>"></script>
-        <script src="<?php echo public_path("/js/colonnes.js") ?>"></script>
-        <script src="<?php echo public_path("/js/main.js?20170223") ?>"></script>
+        <script src="<?php echo public_path("/js/colonnes.js?201801071600") ?>"></script>
+        <script src="<?php echo public_path("/js/main.js?201903041555") ?>"></script>
         <script src="<?php echo public_path("/js/teledeclaration.js") ?>"></script>
         <script src="<?php echo public_path("/js/conditionnement.js") ?>"></script>
         <script src="<?php echo public_path("/js/vrac.js") ?>"></script>
