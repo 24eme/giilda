@@ -53,11 +53,13 @@ class vracActions extends sfActions {
         $this->initSocieteAndEtablissementPrincipal();
 
         $this->form = new UploadCSVForm();
-        $this->form->bind(null, $request->getFiles('csv'));
+        $this->form->bind($request->getParameter('csv'), $request->getFiles('csv'));
 
         if ($this->form->isValid()) {
             $this->file = $this->form->getValue('file');
-            $vracs = VracCsvImport::createFromArray($this->file->getCsv());
+            $headers = $this->form->getValue('checkbox');
+
+            $vracs = VracCsvImport::createFromArray($this->file->getCsv(), $headers);
 
             $vracs->import(false);
 
@@ -70,6 +72,8 @@ class vracActions extends sfActions {
             if (count($this->errors) > 0) {
                 unlink($this->file->getPath() . '/' . $this->file->getMd5());
             }
+        } else {
+            $this->redirect('vrac_upload_index');
         }
     }
 

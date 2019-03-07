@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li><a href="<?php echo url_for('vrac_upload_index') ?>">Contrats</a></li>
-    <li><a href="<?php echo url_for('vrac_upload_verification') ?>" class="active">Contrats</a></li>
+    <li><a href="<?php echo url_for('vrac_upload_index') ?>">Importation</a></li>
+    <li><a href="<?php echo url_for('vrac_upload_verification') ?>" class="active">Vérification</a></li>
 </ol>
 
 <h1>Rapport d'erreur sur l'import</h1>
