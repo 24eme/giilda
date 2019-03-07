@@ -22,7 +22,7 @@
 </table>
 
 <a name="mouvements"></a>
-<h2>Configuration des mouvements</h2>
+<h2>Configuration des mouvements <small><a href="#mouvements"><span class="glyphicon glyphicon-link"></span></a></small></h2>
 <table class="table table-condensed table-striped table-bordered table-hover">
     <tbody>
         <?php foreach ($config->declaration->filter('details') as $configDetails): ?>
@@ -32,14 +32,14 @@
                     <td><?php echo $configDetails->getTypeDRMLibelle() ?></td>
                     <td><span class="<?php if($detail->mouvement_coefficient == -1): ?>text-danger<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>text-success<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
                     <td><?php echo $detail->getLibelle() ?> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
-                    <td><small class="text-muted"><?php echo $detail->douane_cat; ?></small></td>
+                    <td><small class="text-muted"><?php echo $detail->douane_cat; ?> <?php if ($detail->needDouaneObservation()): ?><span class="glyphicon glyphicon-comment" title="Nécessite une observation"></span><?php endif; ?> <?php if ($detail->needDouaneDateReplacement()): ?><span class="glyphicon glyphicon-calendar" title="Nécessite une date de replacement"></span><?php endif; ?></small></td>
                     <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
                     <td>
                         <?php if($detail->douane_type == DRMClient::CRD_TYPE_MIXTE): ?>CRD Mixte<?php endif; ?>
                         <?php if($detail->douane_type == DRMClient::CRD_TYPE_SUSPENDU): ?>CRD Susp.<?php endif; ?>
                         <?php if($detail->douane_type == DRMClient::CRD_TYPE_ACQUITTE): ?>CRD Acqui.<?php endif; ?>
                     </td>
-                    <td><?php if($detail->facturable): ?>CVO <?php endif; ?><?php if($detail->isFacturableNegociant()): ?>CVO_NEGO<?php endif; ?></td>
+                    <td><?php if($detail->facturable): ?>CVO <?php endif; ?><?php if($detail->isFacturableInverseNegociant()): ?>CVO_NEGO<?php endif; ?></td>
                     <td><?php if($detail->taxable_douane): ?>DOUANE<?php endif; ?></td>
                     <td><?php if($detail->recolte): ?>RECOLTE<?php endif; ?></td>
                     <td><?php if($detail->revendique): ?>REVEND.<?php endif; ?></td>

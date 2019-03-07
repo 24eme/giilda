@@ -24,7 +24,17 @@ class drm_validationActions extends drmGeneriqueActions {
       	            'periode_version' => $this->drm->getPeriodeAndVersion()));
         }
         $this->initSocieteAndEtablissementPrincipal();
-        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
+        $this->mouvements = array();
+        try {
+            $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
+        }catch(sfException $e) {}
+        foreach($this->mouvements as $key => $mouvement) {
+            if($mouvement->produit_hash) {
+                continue;
+            }
+
+            unset($this->mouvements[$key]);
+        }
         $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
 
         $this->drm->cleanDeclaration();
@@ -64,6 +74,7 @@ class drm_validationActions extends drmGeneriqueActions {
             return sfView::SUCCESS;
         }
 
+        $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($request->getParameter('brouillon')) {
             $this->form->save();

@@ -19,6 +19,7 @@ class vracActions extends sfActions {
         $this->redirect403IfIsTeledeclaration();
         $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
         $this->creationForm = new VracCreationForm();
+        $this->uploadForm = new UploadCSVForm();
         //$this->etiquettesForm = new VracEtiquettesForm();
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->creationForm->bind($request->getParameter($this->creationForm->getName()));
@@ -37,6 +38,60 @@ class vracActions extends sfActions {
                 $vrac->save();
                 return $this->redirect('vrac_soussigne', $vrac);
             }
+        }
+    }
+
+    public function executeIndexUploadVrac(sfWebRequest $request) {
+        $this->redirect403IfICanNotCreate();
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->uploadForm = new UploadCSVForm();
+    }
+
+    public function executeVerificationUploadVrac(sfWebRequest $request) {
+        $this->redirect403IfICanNotCreate();
+
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->form = new UploadCSVForm();
+        $this->form->bind($request->getParameter('csv'), $request->getFiles('csv'));
+
+        if ($this->form->isValid()) {
+            $this->file = $this->form->getValue('file');
+            $headers = $this->form->getValue('checkbox');
+
+            $vracs = VracCsvImport::createFromArray($this->file->getCsv(), $headers);
+
+            $vracs->import(false);
+
+            $this->errors = [];
+            $this->warnings = [];
+
+            $this->errors = $vracs->getErrors();
+            $this->warnings = $vracs->getWarnings();
+
+            if (count($this->errors) > 0) {
+                unlink($this->file->getPath() . '/' . $this->file->getMd5());
+            }
+        } else {
+            $this->redirect('vrac_upload_index');
+        }
+    }
+
+    public function executeImportUploadVrac(sfWebRequest $request) {
+        $this->redirect403IfICanNotCreate();
+
+        $file = $request->getPostParameter('md5', null);
+        $file = sfConfig::get('sf_data_dir') . '/upload/' . basename($file);
+
+        $this->imported = 0;
+
+        if (file_exists($file)) {
+            $file = new CsvFile($file);
+            $vracs = VracCsvImport::createFromArray($file->getCsv());
+
+            $this->imported = $vracs->import(true);
+
+            unlink($file->getFileName());
         }
     }
 
@@ -502,7 +557,7 @@ class vracActions extends sfActions {
             if ($this->form->isValid() && $this->validation->isValide()) {
                 $this->maj_etape(4);
                 $this->form->save();
-                $this->vrac->validate();
+                $this->vrac->validate($this->getUser()->getCompte()->identifiant);
                 $this->vrac->save();
                 $this->postValidateActions();
                 $this->getUser()->setFlash('postValidation', true);

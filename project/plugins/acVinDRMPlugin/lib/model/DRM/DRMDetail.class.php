@@ -169,38 +169,40 @@ class DRMDetail extends BaseDRMDetail {
 
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
-          if ($this->getConfig()->get('entrees')->exist($entree)){
-            if (preg_match('/autres-entrees|replacement/', $this->getConfig()->get('entrees')->get($entree)->douane_cat) && $v) {
-                $hasobs = true;
-                if (!$this->exist('observations') || ! $this->observations) {
-                  $this->add('observations');
-                  $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('entrees')->get($entree)->libelle_long : "";
-                }
+            if (!$v || !$this->getConfig()->exist('entrees/'.$entree) || !$this->getConfig()->get('entrees/'.$entree)->needDouaneObservation()) {
+                continue;
             }
-          }
+            $hasobs = true;
+            if (!$this->exist('observations') || ! $this->observations) {
+              $this->add('observations');
+              $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('entrees')->get($entree)->libelle_long : "";
+            }
         }
         foreach($this->sorties as $sortie => $v) {
-          if ($this->getConfig()->get('sorties')->exist($sortie)){
-            if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
-                $hasobs = true;
-                if (!$this->exist('observations') || ! $this->observations) {
-                    $this->add('observations');
-                    $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
-                }
+            if($v instanceof acCouchdbJson || !$v || !$this->getConfig()->exist('sorties/'.$sortie)) {
+                continue;
             }
-          }
+            if (!$this->getConfig()->get('sorties/'.$sortie)->needDouaneObservation()) {
+                continue;
+            }
+            $hasobs = true;
+            if (!$this->exist('observations') || ! $this->observations) {
+                $this->add('observations');
+                $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
+            }
         }
         if (!$hasobs) {
           $this->remove('observations');
         }
 
-        if(($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
-          || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
-          || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
-          || ($this->entrees->exist('retourmarchandiseacquitte') && $this->entrees->retourmarchandiseacquitte)
-          || ($this->entrees->exist('transfertcomptamatierecession') && $this->entrees->transfertcomptamatierecession)
-          || ($this->entrees->exist('cooperative') && $this->entrees->cooperative)) {
-          $this->add('replacement_date',null);
+        $needDateReplacement = false;
+        foreach($this->entrees as $entree => $v) {
+            if($v && $this->getConfig()->get('entrees')->exist($entree) && $this->getConfig()->get('entrees')->get($entree)->needDouaneDateReplacement()) {
+                $needDateReplacement = true;
+            }
+        }
+        if($needDateReplacement) {
+          $this->add('replacement_date');
         }else{
           $this->remove('replacement_date');
         }
@@ -217,7 +219,7 @@ class DRMDetail extends BaseDRMDetail {
             }
             $config = $this->getConfig()->get($hash . "/" . $key);
 
-            if ($config->facturable && !$this->getDocument()->isDrmNegoce()) {
+            if ($config->facturable && $this->getDocument()->isFacturable()) {
                 $this->total_facturable += $volume * $coefficient_facturable;
             }
         }
@@ -375,11 +377,11 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->cvo = $this->getCVOTaux();
             $mouvement->facturable = ($config->facturable && $mouvement->cvo > 0) ? 1 : 0;
 
-            if($this->getDocument()->isDrmNegoce()){
+            if(!$this->getDocument()->isFacturable()){
                 $mouvement->facturable = 0;
             }
 
-            if($this->getDocument()->isDrmNegoce() && $config->isFacturableNegociant()) {
+            if(!$this->getDocument()->isFacturable() && $config->isFacturableInverseNegociant()) {
                 $mouvement->facturable = 1;
                 $mouvement->add('coefficient_facturation', 1);
             }
@@ -393,7 +395,7 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
 
-            if($this->getDocument()->isDrmNegoce() && $mouvement->facturable && DRMConfiguration::getInstance()->isMouvementDivisable() &&  $volume * $config->mouvement_coefficient > DRMConfiguration::getInstance()->getMouvementDivisableSeuil() ) {
+            if(!$this->getDocument()->isFacturable() && $mouvement->facturable && DRMConfiguration::getInstance()->isMouvementDivisable() &&  $volume * $config->mouvement_coefficient > DRMConfiguration::getInstance()->getMouvementDivisableSeuil() ) {
                 $nbDivision = DRMConfiguration::getInstance()->getMouvementDivisableNbMonth();
                 $date = new DateTime($this->getDocument()->getDate());
                 $volumePart = round($volume / $nbDivision, 4);
@@ -557,7 +559,7 @@ class DRMDetail extends BaseDRMDetail {
     }
     public function getReplacementYear() {
       $d = $this->_get('replacement_date');
-      return preg_replace('/(\d{4})/', '\1', $d);
+      return preg_replace('/.*(\d{4}).*/', '\1', $d);
     }
 
     public function setDenominationComplementaire($denomination_complementaire){

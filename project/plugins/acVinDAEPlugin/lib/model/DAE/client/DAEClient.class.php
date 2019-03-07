@@ -37,7 +37,7 @@ class DAEClient extends acCouchdbClient {
                 $last_num = $num;
             }
         }
-        return sprintf("%03d", $last_num + 1);
+        return sprintf("%05d", $last_num + 1);
     }
 
     public function findLastByIdentifiantDate($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
@@ -49,28 +49,27 @@ class DAEClient extends acCouchdbClient {
     	if ($num < 2) {
     		return null;
     	}
-    	return $this->find('DAE-' . $identifiant . '-'. $date .'-' . sprintf("%03d", $num - 1));
+    	return $this->find('DAE-' . $identifiant . '-'. $date .'-' . sprintf("%05d", $num - 1));
     }
 
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
-        return $this->startkey('DAE-' . $identifiant . '-00000000-000')->endkey('DAE-' . $identifiant . '-99999999-999')->execute($hydrate);
+        return $this->startkey('DAE-' . $identifiant . '-00000000-00000')->endkey('DAE-' . $identifiant . '-99999999-99999')->execute($hydrate);
     }
 
     public function findByIdentifiantCampagne($identifiant, $campagne, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
-
-        return $this->startkey('DAE-' . $identifiant . '-'. str_replace("-", "", ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)) .'-000')->endkey('DAE-' . $identifiant . '-'.str_replace("-", "", ConfigurationClient::getInstance()->getDateFinCampagne($campagne)) . '99-999')->execute($hydrate);
+		return $this->startkey('DAE-' . $identifiant . '-'. str_replace("-", "", ConfigurationClient::getInstance()->getDateDebutCampagne($campagne)) .'-00000')->endkey('DAE-' . $identifiant . '-'.str_replace("-", "", ConfigurationClient::getInstance()->getDateFinCampagne($campagne)) . '-99999')->execute($hydrate);
     }
 
     public function findByIdentifiantPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT){
     	if (!preg_match('/^[0-9]{6}$/', $periode)) {
     		throw new sfException('periode not valid');
     	}
-        return $this->startkey('DAE-' . $identifiant . '-'. $periode .'01-000')->endkey('DAE-' . $identifiant . '-'. $periode . '99-999')->execute($hydrate);
+        return $this->startkey('DAE-' . $identifiant . '-'. $periode .'01-00000')->endkey('DAE-' . $identifiant . '-'. $periode . '99-99999')->execute($hydrate);
     }
 
     public function getForEtablissementAtDay($identifiant,$date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         $date = str_ireplace('-','',$date);
-        return $this->startkey('DAE-' . $identifiant . '-'.$date.'-000')->endkey('DAE-' . $identifiant . '-'.$date.'-999')->execute($hydrate);
+        return $this->startkey('DAE-' . $identifiant . '-'.$date.'-00000')->endkey('DAE-' . $identifiant . '-'.$date.'-99999')->execute($hydrate);
     }
 
     public function findByIdentifiantAndDate($identifiant, $date) {
@@ -79,15 +78,22 @@ class DAEClient extends acCouchdbClient {
     }
     
     public function listCampagneByEtablissementId($identifiant) {
-    	$rows = $this->findByIdentifiant($identifiant)->getDatas();
-    	$list = array();
-    	foreach ($rows as $r) {
-    		if ($d = $r->getDateObject())
-    			$list[$d->format('Y-m')] = $r->getLiteralPeriode();
-    	}
+    	$rows = $this->findByIdentifiant($identifiant, acCouchdbClient::HYDRATE_ON_DEMAND)->getDatas();
     	sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
-    	$list[date('Y-m')] = ucfirst(format_date(date('Y-m-d'), 'MMMM yyyy', 'fr_FR'));
-    	krsort($list);
-    	return $list;
+    	$periodes = array();
+    	foreach ($rows as $k => $v) {
+    		$ex = explode('-', $k);
+    		if (isset($ex[3])) {
+    			$periode = substr($ex[3], 0, 4).'-'.substr($ex[3], 4, 2);
+    			if (!in_array($periode, $periodes)) {
+    				$periodes[$periode] = ucfirst(format_date(substr($ex[3], 0, 4).'-'.substr($ex[3], 4, 2).'-01', 'MMMM yyyy', 'fr_FR'));
+    			}
+    		}
+    	}
+    	if (!in_array(date('Y-m'), $periodes)) {
+    		$periodes[date('Y-m')] = ucfirst(format_date(date('Y-m-d'), 'MMMM yyyy', 'fr_FR'));
+    	}
+    	krsort($periodes);
+    	return $periodes;
     }
 }

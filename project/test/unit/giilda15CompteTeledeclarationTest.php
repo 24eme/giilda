@@ -2,6 +2,10 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
+if($application == "civa") {
+    sfConfig::set('app_compte_synchro', true);
+}
+
 foreach (CompteTagsView::getInstance()->listByTags('test', 'test_teledeclaration') as $k => $v) {
     if (preg_match('/SOCIETE-([^ ]*)/', implode(' ', array_values($v->value)), $m)) {
       $soc = SocieteClient::getInstance()->findByIdentifiantSociete($m[1]);
@@ -33,6 +37,7 @@ $t->comment("Création de l'établissement");
 
 $etablissement = $societe->createEtablissement(EtablissementFamilles::FAMILLE_PRODUCTEUR);
 $etablissement->nom = "établissement viti test télédéclaration";
+$etablissement->num_interne = $etablissement->identifiant."001";
 $etablissement->save();
 
 $etablissement2 = $societe->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
