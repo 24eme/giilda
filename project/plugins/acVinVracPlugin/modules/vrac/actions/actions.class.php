@@ -48,10 +48,6 @@ class vracActions extends sfActions {
     }
 
     public function executeVerificationUploadVrac(sfWebRequest $request) {
-        if (! $request->isMethod(sfWebRequest::POST)) {
-            return $this->redirect('vrac');
-        }
-
         $this->redirect403IfICanNotCreate();
 
         $this->initSocieteAndEtablissementPrincipal();
@@ -78,10 +74,6 @@ class vracActions extends sfActions {
     }
 
     public function executeImportUploadVrac(sfWebRequest $request) {
-        if (! $request->isMethod(sfWebRequest::POST)) {
-            return $this->redirect('vrac');
-        }
-
         $this->redirect403IfICanNotCreate();
 
         $file = $request->getPostParameter('md5', null);
