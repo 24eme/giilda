@@ -3,7 +3,7 @@
 class VracCsvImport extends CsvFile
 {
     const CSV_TYPE_TRANSACTION = 0;
-    const CSV_DATE_SIGNATURE = 1;
+    const CSV_DATE_SAISIE = 1;
     const CSV_CREATEUR_ID = 2;
     const CSV_CREATEUR_NUMERO = 3;
     const CSV_ACHETEUR_ID = 4;
@@ -232,7 +232,7 @@ class VracCsvImport extends CsvFile
             $v->autorisation_nom_vin = $line[self::CSV_AUTH_NOM_VIN];
             $v->conditions_particulieres = $line[self::CSV_OBSERVATION];
 
-            $v->date_signature = $line[self::CSV_DATE_SIGNATURE];
+            $v->valide->date_saisie = $line[self::CSV_DATE_SAISIE];
 
             if ($verified) {
                 $v->acompte = (float) $v->acompte;
