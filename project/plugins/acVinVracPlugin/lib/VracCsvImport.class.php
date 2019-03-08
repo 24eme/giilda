@@ -243,6 +243,8 @@ class VracCsvImport extends CsvFile
                 $v->jus_quantite = (float) $v->jus_quantite;
                 $v->prix_initial_unitaire = (float) $v->prix_initial_unitaire;
 
+                $v->valide->date_signature_acheteur = date('c');
+
                 $v->update();
                 $v->save();
 

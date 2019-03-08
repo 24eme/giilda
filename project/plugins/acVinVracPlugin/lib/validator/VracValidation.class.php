@@ -68,7 +68,7 @@ class VracValidation extends DocumentValidation
         }
 
         if ($this->document->createur_identifiant !== $this->document->acheteur_identifiant
-            || $this->document->createur_identifiant !== $this->document->mandataire_identifiant) {
+            && $this->document->createur_identifiant !== $this->document->mandataire_identifiant) {
                 parent::addPoint('erreur', 'inexistant', 'Le créateur doit être l\'acheteur ou le mandataire');
         }
 
