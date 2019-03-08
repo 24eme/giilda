@@ -130,6 +130,8 @@ class VracCsvImport extends CsvFile
         foreach ($this->getLines() as $line) {
             $v = new Vrac();
 
+            $v->teledeclare = true;
+
             $v->type_transaction = $line[self::CSV_TYPE_TRANSACTION];
 
             $v->createur_identifiant = $line[self::CSV_CREATEUR_ID];
