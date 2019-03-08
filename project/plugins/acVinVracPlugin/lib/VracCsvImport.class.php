@@ -149,7 +149,7 @@ class VracCsvImport extends CsvFile
 
             $v->representant_identifiant = $line[self::CSV_REPRESENTANT_ID];
             if (! $v->representant_identifiant) {
-                $v->representant_identifiant = $v->acheteur_identifiant;
+                $v->representant_identifiant = $v->vendeur_identifiant;
             }
 
             $v->mandataire_identifiant = $line[self::CSV_COURTIER_MANDATAIRE_ID];
