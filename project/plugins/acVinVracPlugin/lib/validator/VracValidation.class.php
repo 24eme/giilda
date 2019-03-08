@@ -39,7 +39,7 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le type de transaction n\'existe pas');
         }
 
-        if (! $this->checkDate($this->document->_get('date_signature'))) {
+        if (! $this->checkDate($this->document->valide->date_saisie)) {
             parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
         }
 
