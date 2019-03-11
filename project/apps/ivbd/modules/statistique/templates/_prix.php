@@ -1,5 +1,4 @@
 <?php
-use_helper('Statistique');
 use_helper('IvbdStatistique');
 $millesime = preg_replace("/([0-9]+)-([0-9]+)/","$1",ConfigurationClient::getInstance()->getCurrentCampagne());
 $csvArray = array();

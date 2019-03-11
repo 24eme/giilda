@@ -1,12 +1,11 @@
 <?php
-use_helper('Statistique');
 use_helper('IvbdStatistique');
 if ($lastPeriode) {
 	$csv = "Produit;Stock initial;Stock initial N-1;Somme mouvements;Somme mouvements N-1;Stock final;Stock final N-1\n";
 	$result = $result->getRawValue();
 	$lastPeriode = $lastPeriode->getRawValue();
 	foreach ($result as $key => $values) {
-		$key = sfOutputEscaper::unescape($key);	
+		$key = sfOutputEscaper::unescape($key);
 		$csv .= $key.';';
 			if (isset($lastPeriode[$key])) {
 					foreach ($lastPeriode[$key] as $lastPeriodeCaseKey => $lastPeriodeCaseValue) {

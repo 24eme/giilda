@@ -1,4 +1,4 @@
-prix|mentions_valorisantes"<ol class="breadcrumb">
+<ol class="breadcrumb">
     <li><a href="<?php echo url_for('statistiques') ?>">Statistique</a></li>
     <li><a href="<?php echo url_for('statistiques_stats') ?>" class="active">Statistiques</a></li>
 </ol>
