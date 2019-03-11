@@ -42,7 +42,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 
 <?php $i=0; foreach ($headers as $header): ?>
 \fancypagestyle{fstyle_<?php echo $i ?>}{
-\fancyhead[C]{Prix moyen de vente sur soumission tous négoces confondus\\\textbf{<?php echo $header ?>}<?php if ($periode): ?> - Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
+\fancyhead[C]{Contrats par mentions valorisantes \\\textbf{<?php echo $header ?>}<?php if ($periode): ?> - Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
 }
 <?php $i++; endforeach; ?>
 
@@ -55,46 +55,19 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \begin{table}[ht!]
 \begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | }
 \hline
-\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{Nb de contrats} & \multicolumn{1}{c |}{Volume} & \multicolumn{1}{c |}{Cours} & \multicolumn{1}{c |}{Volume 2018} & \multicolumn{1}{c |}{Cours 2018} & \multicolumn{1}{c |}{Volume autres millesimes} & \multicolumn{1}{c |}{Cours autres millesimes} & \multicolumn{1}{c |}{Volume tous contrats} \tabularnewline
+\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{Volume total} & \multicolumn{1}{c |}{Cours total} & \multicolumn{1}{c |}{Volume Bio} & \multicolumn{1}{c |}{Cours Bio} & \multicolumn{1}{c |}{Volume Château} & \multicolumn{1}{c |}{Cours Château} & \multicolumn{1}{c |}{Volume Générique} & \multicolumn{1}{c |}{Cours Générique} \tabularnewline
 <?php
 	$i = 1;
-	$page = null;
 	foreach ($items as $item):
-		$values = explode(';', $item);
-		if (!$values[0]) {
-			continue;
-		}
+    $values = explode(';', $item);
+    if(count($values) < 2){
+      break;
+    }
 		$isTotal = preg_match('/total/i', $item);
-		$current = $values[0];
-		if (!$page) {
-			$page = $values[0];
-		}
-		unset($values[0]);
 ?>
-<?php
-	if ($i == $maxTableRowsPerPage || ($page != $current && !preg_match('/total/i', $current))):
-	$newSection = false;
-	if ($page != $current) {
-		$fstyle++;
-		$page = $current;
-		$newSection = true;
-	}
-?>
-\end{tabularx}
-\end{table}
-\clearpage
-\pagestyle{fstyle_<?php echo $fstyle ?>}
-\begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | }
-<?php if ($newSection): ?>
 \hline
-\rowcolor{gray!40} Produit & \multicolumn{1}{c |}{Nb de contrats} & \multicolumn{1}{c |}{Volume} & \multicolumn{1}{c |}{Courts} & \multicolumn{1}{c |}{Volume 2018} & \multicolumn{1}{c |}{Cours 2018} & \multicolumn{1}{c |}{Volume autres millesimes} & \multicolumn{1}{c |}{Cours autres millesimes} & \multicolumn{1}{c |}{Volume tous contrats} \tabularnewline
-<?php endif; ?>
-\hline
-<?php $i=($newSection)? 1 : 0; else: $i++;endif; ?>
 <?php if ($isTotal): ?>\rowcolor{gray!40} <?php endif; echo implode(' & ', $values); ?> \tabularnewline \hline
 <?php  endforeach;?>
 \end{tabularx}
 \end{table}
-
 \end{document}
