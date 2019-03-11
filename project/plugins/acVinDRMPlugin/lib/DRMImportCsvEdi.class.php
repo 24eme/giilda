@@ -637,8 +637,8 @@ private function importCrdsFromCSV($just_check = false) {
       if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null) {
         $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
       }
-      $num_ligne++;
     }
+    $num_ligne++;
   }
   return $this->csvDoc->hasErreurs();
 }
