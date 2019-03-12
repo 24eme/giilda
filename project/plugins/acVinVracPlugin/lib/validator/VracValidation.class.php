@@ -39,7 +39,7 @@ class VracValidation extends DocumentValidation
             parent::addPoint('erreur', 'inexistant', 'Le type de transaction n\'existe pas');
         }
 
-        if (! $this->checkDate($this->document->_get('date_signature'))) {
+        if (! $this->checkDate($this->document->valide->date_saisie)) {
             parent::addPoint('erreur', 'date', 'La date de signature doit être renseignée');
         }
 
@@ -65,6 +65,11 @@ class VracValidation extends DocumentValidation
             if (! $this->checkEtablissement($this->document->mandataire_identifiant, EtablissementFamilles::FAMILLE_COURTIER)) {
                 parent::addPoint('erreur', 'inexistant', 'Le mandataire n\'existe pas');
             }
+        }
+
+        if ($this->document->createur_identifiant !== $this->document->acheteur_identifiant
+            && $this->document->createur_identifiant !== $this->document->mandataire_identifiant) {
+                parent::addPoint('erreur', 'inexistant', 'Le créateur doit être l\'acheteur ou le mandataire');
         }
 
         if ($this->document->responsable && !in_array($this->document->responsable, ['vendeur', 'mandataire', 'acheteur'])) {

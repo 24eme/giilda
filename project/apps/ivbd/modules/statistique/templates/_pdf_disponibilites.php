@@ -52,15 +52,9 @@ $appellations = (isset($options['appellations']) && count($options['appellations
 \pagestyle{fstyle}
 
 \begin{table}[ht!]
-<?php if ($compare): ?>
-\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth}| >{\raggedleft}p{0.08\linewidth} | }
-\hline
-\rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Stock initial N-1}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Mouvements N-1}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} & \multicolumn{1}{c |}{\textbf{Stock Fin N-1}} \tabularnewline \hline
-<?php else : ?>
 \begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
 \hline
-\rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} \tabularnewline \hline
-<?php endif; ?>
+\rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{Stock fin de mois}} & \multicolumn{1}{c |}{\textbf{Volume engagé}} & \multicolumn{1}{c |}{\textbf{Disponibilités marché}} \tabularnewline \hline
 <?php
 	$i = 1;
 	$page = null;
@@ -82,18 +76,10 @@ $appellations = (isset($options['appellations']) && count($options['appellations
 \clearpage
 \pagestyle{fstyle}
 \begin{table}[ht!]
-<?php if ($compare): ?>
-\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.08\linewidth}| >{\raggedleft}p{0.08\linewidth} | }
-<?php else : ?>
 	\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | >{\raggedleft}p{0.1\linewidth} | }
-<?php endif; ?>
 	<?php if ($newSection): ?>
 	\hline
-	<?php if ($compare): ?>
-		\rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Stock initial N-1}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Mouvements N-1}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} & \multicolumn{1}{c |}{\textbf{Stock Fin N-1}} \tabularnewline \hline
-	<?php else : ?>
 		\rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{Stock initial}} & \multicolumn{1}{c |}{\textbf{Mouvements}} & \multicolumn{1}{c |}{\textbf{Stock Fin}} \tabularnewline
-	<?php endif; ?>
 	<?php endif; ?>
 	\hline
 <?php $i=($newSection)? 1 : 0;
