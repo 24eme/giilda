@@ -5,7 +5,7 @@
 
 SHORT='("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019")';
 
-curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
+curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 
 
 echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/AJV\/mentions\/DEFAUT\/lieux\/BRI\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"92"/' >> $TMP/sed_produit_code
@@ -37,8 +37,6 @@ echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archiv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history  | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | grep "IGP_VALDELOIRE" >> $TMP/export_bi_contrats_igp.csv
 
 
-. bin/export_bi_stocks
-
 echo "#REVENDIQUE;campagne;identifiant declarant;hash produit;code produit;region;document id;volume;nom declarant;libelle produit" > $TMP/export_bi_revendiques.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/revendication/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/REVENDIQUE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^REVENDIQUE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_revendiques.csv
 
@@ -50,6 +48,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/all?
 echo "#SOCIETE;statut (ACTIF, SUSPENDU);type societe (OPERATEUR, VITICULTEUR, NEGOCIANT, COURTIER, PRESSE, PARTENAIRE, DOUANE, INSTITUTION, HOTEL-RESTAURANT, AUTRE);identifiant interne;identifiant;code_comptable_client;code_comptable_fournisseur;type fournisseur;nom;nom abrege;cave cooperative (OUI, NON);siret;code naf;tva intracommunautaire;enseignes (enseigne1|enseigne2);adresse;adresse complementaire;code postal;ville;pays;telephone;fax;email" > $TMP/export_bi_societes.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' >> $TMP/export_bi_societes.csv
 
+. bin/export_bi_stocks
 
 . bin/export_bi_drm
 
