@@ -4,9 +4,10 @@ class CsvFile
 {
 
   protected $current_line = 0;
+  protected $csvdata = null;
+
   private $file = null;
   private $separator = null;
-  protected $csvdata = null;
   private $ignore = null;
 
   public function getFileName() {
@@ -35,6 +36,11 @@ class CsvFile
     $charset = $this->getCharset($file);
     if($charset != 'utf-8'){
         exec('recode '.$charset.'..utf-8 '.$file);
+    }
+    $charset = $this->getCharset($file);
+    if($charset != 'utf-8'){
+        exec('iconv -f '.$charset.' -t utf-8 '.$file.' > '.$file.'.tmp');
+        exec('mv '.$file.".tmp ".$file);
     }
     $buffer = preg_replace('/$[^\n]*\n/', '', $buffer);
     if (!$buffer) {

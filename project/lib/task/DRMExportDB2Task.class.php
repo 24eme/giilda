@@ -13,6 +13,8 @@ class DRMExportDB2Task extends sfBaseTask
         new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
         new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
         new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+        new sfCommandOption('periode_max', null, sfCommandOption::PARAMETER_REQUIRED, 'limit on a max periode', null),
+        new sfCommandOption('file_origine', null, sfCommandOption::PARAMETER_REQUIRED, "fichier origine tel que généré précédemment", null),
         // add your own options here
     ));
 
@@ -35,10 +37,22 @@ EOF;
 
         $date = date('YmdHis');
         $export = new ExportMouvementsDRMDB2();
-        $csv = $export->export(MouvementfactureFacturationView::getInstance()->getMouvementsAll(0));
 
-        foreach($csv as $file => $lignes) {
-            file_put_contents($arguments['path']."/".$date."_".preg_replace("/.+\./", "", $file), implode("\r\n", $lignes));
+        if (isset($options['file_origine'])) {
+          $csv = file($options['file_origine']);
+          return $export->setFacture($csv);
         }
+
+        $csv = $export->export(MouvementfactureFacturationView::getInstance()->getMouvementsAll(0), $options['periode_max']);
+
+        $origineFilename = null;
+        foreach($csv as $file => $lignes) {
+            $fileName = $arguments['path']."/".$date."_".preg_replace("/.+\./", "", $file);
+            file_put_contents($fileName, implode("\r\n", $lignes));
+            if($file == "09.ORIGINES") {
+                $origineFilename = $fileName;
+            }
+        }
+        $export->setFacture(explode("\r\n", file_get_contents($origineFilename)));
     }
 }
