@@ -756,9 +756,9 @@ private function findContratDocId($csvRow) {
     return $vrac->_id;
   }
 
-  if($vrac = VracClient::getInstance()->findDocIdByNumArchive("UNIQUE", $csvRow[self::CSV_CAVE_CONTRATID])) {
+  if($vrac_id = VracClient::getInstance()->findDocIdByNumArchive("UNIQUE", $csvRow[self::CSV_CAVE_CONTRATID])) {
 
-    return $vrac->_id;
+    return $vrac_id;
   }
 
   return VracClient::getInstance()->findDocIdByNumArchive($this->drm->campagne, $csvRow[self::CSV_CAVE_CONTRATID], 2);
