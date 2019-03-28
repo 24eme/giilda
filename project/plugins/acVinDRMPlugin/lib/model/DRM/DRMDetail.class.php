@@ -533,13 +533,8 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function isCodeDouaneAlcool(){
-      if(!$this->getCodeDouane()){
-        return false;
-      }
-      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
-        return false;
-      }
-      return true;
+
+        return ConfigurationCepage::isCodeDouaneNeedTav($this->getCodeDouane());
     }
 
 
