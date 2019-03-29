@@ -339,8 +339,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       }
                    }
                 }
+
+                $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+
                 if (!$just_check) {
-                    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))]);
+                    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
 
                     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
                     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
@@ -455,7 +458,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       $value = boolval($valeur_complement);
                       break;
                   }
-                  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))]);
+                  $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+                  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
                   $field = strtolower($type_complement);
                   $drmDetails->add($field, $value);
                 }
