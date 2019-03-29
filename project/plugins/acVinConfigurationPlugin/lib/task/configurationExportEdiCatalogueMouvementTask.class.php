@@ -48,7 +48,7 @@ EOF;
         $categorieArray = array();
         foreach ($categorieValue as $mvtKey => $mvtValue) {
           if(!in_array($mvtKey,self::$escaped_mvts_keys)){
-             if (strpos($categorieKey, 'stocks') !== false && $mvtKey == 'revendique') {
+             if (strpos($categorieKey, 'stocks') !== false && $mvtKey != 'revendique') {
                  continue;
              }
             $libelleMvt = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->libelle));
