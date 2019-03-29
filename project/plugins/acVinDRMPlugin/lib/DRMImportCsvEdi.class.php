@@ -365,8 +365,6 @@ private function importMouvementsFromCSV($just_check = false) {
       continue;
     }
 
-    echo implode(",", $csvRow).":".$founded_produit->getLibelleFormat()."\n";
-
     $this->previous_produits[$uniquekeyproduit] = $founded_produit;
     $this->previous_produits[$uniquekeyproduit_mentionfin] = $founded_produit;
 
