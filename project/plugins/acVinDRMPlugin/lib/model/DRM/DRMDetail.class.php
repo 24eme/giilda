@@ -532,7 +532,7 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getCepage()->getConfig()->code_douane;
     }
 
-    public function isCodeDouaneAlcool(){
+    public function isCodeDouaneNonINAO(){
       if(!$this->getCodeDouane()){
         return false;
       }
@@ -542,6 +542,9 @@ class DRMDetail extends BaseDRMDetail {
       return true;
     }
 
+    public function isCodeDouaneAlcool(){
+        return ConfigurationCepage::isCodeDouaneNeedTav($this->getCodeDouane());
+    }
 
     public function getReplacementDate() {
       $d = $this->_get('replacement_date');
