@@ -536,7 +536,7 @@ class DRMDetail extends BaseDRMDetail {
       if(!$this->getCodeDouane()){
         return false;
       }
-      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
+      if(preg_match('/^[0-9]/', $this->getCodeDouane())){
         return false;
       }
       return true;
