@@ -29,7 +29,7 @@ class DRMCsvEdi extends CsvFile {
     const CSV_CAVE_LIEU = 8;
     const CSV_CAVE_COULEUR = 9;
     const CSV_CAVE_CEPAGE = 10;
-    const CSV_CAVE_COMPLEMENT = 11;
+    const CSV_CAVE_LIBELLE_COMPLEMENTAIRE = 11;
     const CSV_CAVE_LIBELLE_COMPLET = 12;
     const CSV_CAVE_TYPE_DRM = 13;
 

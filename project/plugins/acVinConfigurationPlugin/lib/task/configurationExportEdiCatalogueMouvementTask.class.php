@@ -48,6 +48,9 @@ EOF;
         $categorieArray = array();
         foreach ($categorieValue as $mvtKey => $mvtValue) {
           if(!in_array($mvtKey,self::$escaped_mvts_keys)){
+             if (strpos($categorieKey, 'stocks') !== false && $mvtKey != 'revendique') {
+                 continue;
+             }
             $libelleMvt = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->libelle));
             $description = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->description));
             $categorieArray[$libelleMvt] = sprintf("%s,%s,%s,%s,%s\n",strtolower(KeyInflector::slugify($typesMvtValue)),$categorieKey,$mvtKey,$libelleMvt,$description);

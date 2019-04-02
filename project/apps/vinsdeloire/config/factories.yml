@@ -8,6 +8,12 @@ prod:
       level:   err
       loggers: ~
 
+  mailer:
+    class: AppMailer
+    param:
+      transport:
+        class: Swift_MailTransport
+
 test:
   storage:
     class: sfSessionTestStorage
@@ -45,3 +51,6 @@ all:
     class: myUser
     param:
       timeout: 7200
+
+  mailer:
+    class: AppMailer
