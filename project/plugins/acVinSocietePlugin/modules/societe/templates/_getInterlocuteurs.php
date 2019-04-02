@@ -18,9 +18,9 @@ if (!is_null($contacts)):
                 echo 'nom';
             } ?>">
                             <?php if (!isset($no_link) || !$no_link): ?>
-                                    <a title="<?php echo $contact->compte_type ?>" href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>"><?php echo $contact->nom_a_afficher; ?></a>
+                                    <a title="<?php echo $contact->compte_type ?>" href="<?php echo url_for('compte_visualisation', array('identifiant' => $contact->identifiant)); ?>"><?php echo $contact->nom_a_afficher; ?><?php if (preg_match('/[^ ]/', $contact->fonction)) { echo " - ".$contact->fonction; } ?></a>
                             <?php else: ?>
-                                <?php echo $contact->nom_a_afficher; ?>
+                                <?php echo $contact->nom_a_afficher; ?><?php if (preg_match('/[^ ]/', $contact->fonction)) { echo " - ".$contact->fonction; } ?>
                             <?php endif; ?>
                             </li>
                             <?php if ($contact->statut && ($contact->statut == SocieteClient::STATUT_SUSPENDU)): ?>
