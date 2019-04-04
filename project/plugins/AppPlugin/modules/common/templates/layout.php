@@ -19,7 +19,7 @@
         <link href="<?php echo public_path("/components/select2/select2-bootstrap.min.css") ?>" rel="stylesheet">
         <link href="<?php echo public_path("/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css") ?>" rel="stylesheet">
         <link href="<?php echo public_path("/components/vins/vins.css") ?>" rel="stylesheet">
-        <link href="<?php echo public_path("/css/style.css?20170324") ?>" rel="stylesheet">
+        <link href="<?php echo public_path("/css/style.css?20190308") ?>" rel="stylesheet">
         <?php if(file_exists(sfConfig::get('sf_web_dir')."/css/style_".sfConfig::get('sf_app').'.css')): ?>
             <link href="<?php echo public_path("/css/style_".sfConfig::get('sf_app').".css?201902051533") ?>" rel="stylesheet">
         <?php endif; ?>
@@ -54,7 +54,7 @@
         <script src="<?php echo public_path("/js/ajaxHelper.js") ?>"></script>
         <script src="<?php echo public_path("/js/form.js") ?>"></script>
         <script src="<?php echo public_path("/js/colonnes.js?201801071600") ?>"></script>
-        <script src="<?php echo public_path("/js/main.js?20170223") ?>"></script>
+        <script src="<?php echo public_path("/js/main.js?201903041555") ?>"></script>
         <script src="<?php echo public_path("/js/teledeclaration.js") ?>"></script>
         <script src="<?php echo public_path("/js/conditionnement.js") ?>"></script>
         <script src="<?php echo public_path("/js/vrac.js") ?>"></script>

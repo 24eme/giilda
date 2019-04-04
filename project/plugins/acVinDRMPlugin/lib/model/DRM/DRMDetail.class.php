@@ -169,26 +169,27 @@ class DRMDetail extends BaseDRMDetail {
 
         $hasobs = false;
         foreach($this->entrees as $entree => $v) {
-          if ($this->getConfig()->get('entrees')->exist($entree)){
-            if ($this->getConfig()->get('entrees')->get($entree)->needDouaneObservation() && $v) {
-                $hasobs = true;
-                if (!$this->exist('observations') || ! $this->observations) {
-                  $this->add('observations');
-                  $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('entrees')->get($entree)->libelle_long : "";
-                }
+            if (!$v || !$this->getConfig()->exist('entrees/'.$entree) || !$this->getConfig()->get('entrees/'.$entree)->needDouaneObservation()) {
+                continue;
             }
-          }
+            $hasobs = true;
+            if (!$this->exist('observations') || ! $this->observations) {
+              $this->add('observations');
+              $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('entrees')->get($entree)->libelle_long : "";
+            }
         }
         foreach($this->sorties as $sortie => $v) {
-          if ($this->getConfig()->get('sorties')->exist($sortie)){
-            if (!preg_match('/details/', $sortie) && $this->getConfig()->get('sorties')->get($sortie)->needDouaneObservation() && $v) {
-                $hasobs = true;
-                if (!$this->exist('observations') || ! $this->observations) {
-                    $this->add('observations');
-                    $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
-                }
+            if($v instanceof acCouchdbJson || !$v || !$this->getConfig()->exist('sorties/'.$sortie)) {
+                continue;
             }
-          }
+            if (!$this->getConfig()->get('sorties/'.$sortie)->needDouaneObservation()) {
+                continue;
+            }
+            $hasobs = true;
+            if (!$this->exist('observations') || ! $this->observations) {
+                $this->add('observations');
+                $this->observations = (DRMConfiguration::getInstance()->isObservationsAuto()) ? $this->getConfig()->getDocument()->libelle_detail_ligne->get($this->getConfig()->getKey())->get('sorties')->get($sortie)->libelle_long : "";
+            }
         }
         if (!$hasobs) {
           $this->remove('observations');
@@ -531,16 +532,19 @@ class DRMDetail extends BaseDRMDetail {
         return $this->getCepage()->getConfig()->code_douane;
     }
 
-    public function isCodeDouaneAlcool(){
+    public function isCodeDouaneNonINAO(){
       if(!$this->getCodeDouane()){
         return false;
       }
-      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
+      if(preg_match('/^[0-9]/', $this->getCodeDouane())){
         return false;
       }
       return true;
     }
 
+    public function isCodeDouaneAlcool(){
+        return ConfigurationCepage::isCodeDouaneNeedTav($this->getCodeDouane());
+    }
 
     public function getReplacementDate() {
       $d = $this->_get('replacement_date');

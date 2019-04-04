@@ -21,6 +21,7 @@ class DRMValidation extends DocumentValidation {
         }else{
           $this->addControle('vigilance', 'alcool_hlap', "Pour cet alcool");
         }
+        $this->addControle('erreur', 'vrac_achateur_exists', "Le contrat n'a pas d'acheteur connu");
         $this->addControle('erreur', 'total_negatif', "Le stock revendiqué théorique fin de mois est négatif");
         $this->addControle('vigilance', 'vrac_detail_negatif', "Le volume qui sera enlevé sur le contrat est supérieur au volume restant");
         $this->addControle('vigilance', 'crd_negatif', "Le nombre de CRD ne dois pas être négatif");
@@ -72,7 +73,7 @@ class DRMValidation extends DocumentValidation {
                 }
               }
 
-              if($total_observations_obligatoires && (!$detail->exist('observations') || !trim($detail->observations)))
+              if($detail->getParent()->getKey() == 'details' && $total_observations_obligatoires && (!$detail->exist('observations') || !trim($detail->observations)))
               {
                 if($entrees_excedents){
                   $this->addPoint('erreur', 'observations', "Entrée excédents (".sprintf("%.2f",$entrees_excedents)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
@@ -99,7 +100,7 @@ class DRMValidation extends DocumentValidation {
                   $this->addPoint('erreur', 'observations', "Sortie autre (".sprintf("%.2f",$sorties_autre)." hl)".$produitLibelle, $this->generateUrl('drm_annexes', $this->document));
                 }
               }
-              if(($entrees_retourmarchandisetaxees + $entrees_retourmarchandiseacquitte + $entrees_retourmarchandisesanscvo + $entrees_cooperative) && (!$detail->exist('replacement_date') || !$detail->replacement_date)) {
+              if($detail->getParent()->getKey() == 'details' && ($entrees_retourmarchandisetaxees + $entrees_retourmarchandiseacquitte + $entrees_retourmarchandisesanscvo + $entrees_cooperative) && (!$detail->exist('replacement_date') || !$detail->replacement_date)) {
                 $this->addPoint('erreur', 'replacement_date', $produitLibelle, $this->generateUrl('drm_annexes', $this->document));
               }
             }
@@ -133,6 +134,22 @@ class DRMValidation extends DocumentValidation {
             if($detail->total_revendique  > $detail->total){
                 $this->addPoint('vigilance', 'revendique_sup_initial', $detail->getLibelle(), $this->generateUrl('drm_edition_detail', $detail));
             }
+            if ($detail->getConfig()->sorties->exist('creationvrac') && $detail->sorties->exist('creationvrac_details')) {
+                foreach ($detail->sorties->creationvrac_details as $k => $dvrac) {
+                    if (!$dvrac->acheteur){
+                        $this->addPoint('erreur', 'vrac_achateur_exists', sprintf("Contrat vrac de %d à %d €/hl", $dvrac->volume, $dvrac->prixhl), $this->generateUrl('drm_edition_detail', $detail));
+                    }
+                }
+            }
+            if ($detail->getConfig()->sorties->exist('creationvractirebouche') && $detail->sorties->exist('creationvractirebouche_details')) {
+                foreach ($detail->sorties->creationvractirebouche_details as $k => $dvrac) {
+                    if (!$dvrac->acheteur){
+                        $this->addPoint('erreur', 'vrac_achateur_exists', sprintf("Contrat bouteilles de %d à %d €/hl", $dvrac->volume, $dvrac->prixhl), $this->generateUrl('drm_edition_detail', $detail));
+                    }
+                }
+            }
+
+
         }
 
         $volumes_restant = array();
