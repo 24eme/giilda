@@ -252,20 +252,21 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $drm_suivante->precedente = $this->_id;
         }
 
-        if (!$isTeledeclarationMode) {
-            $tobedeleted = array();
-            foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
-                $details->getCepage()->remove('no_movements');
-                $details->getCepage()->remove('edited');
-                $details->add('no_movements', false);
-                $details->add('edited', false);
+
+        $tobedeleted = array();
+        foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
+            $details->getCepage()->remove('no_movements');
+            $details->getCepage()->remove('edited');
+            $details->add('no_movements', false);
+            $details->add('edited', false);
+            if (!$isTeledeclarationMode) {
                 if (!$details->getCepage()->getConfig()->isCVOActif($drm_suivante->getDate())) {
                     $tobedeleted[] = $details->getHash();
                 }
             }
-            foreach ($tobedeleted as $d) {
-                $drm_suivante->remove($d);
-            }
+        }
+        foreach ($tobedeleted as $d) {
+            $drm_suivante->remove($d);
         }
 
         $drm_suivante->initProduitsAutres($isTeledeclarationMode);
@@ -579,11 +580,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
               $d = (DateTime::createFromFormat('Y-m-d',$newVrac->enlevement_date));
               $enlevement_date = $d->format('c');
-              $newVrac->valide->add('date_saisie', $enlevement_date);
               $newVrac->add('date_signature', $enlevement_date);
               $newVrac->date_visa = $d->format('Y-m-d');
 
               $newVrac->validate();
+
+              $newVrac->valide->add('date_saisie', $enlevement_date);
               $newVrac->save();
             }
         }
