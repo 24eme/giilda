@@ -79,6 +79,12 @@ function mergeBlancBlancMoelleux($aggs){
 	foreach ($aggs as $produitsCouleur) {
 		if($produitsCouleur['key'] == "blanc"){
 			foreach ($produitsCouleur['agg_line']['buckets'] as $produitBlanc) {
+					if(!array_key_exists("blanc_moelleux",$byCouleur)){
+					$byCouleur["blanc_moelleux"] = array();
+					$byCouleur["blanc_moelleux"]['key'] = "blanc_moelleux";
+					$byCouleur["blanc_moelleux"]['agg_line'] = array();
+					$byCouleur["blanc_moelleux"]['agg_line']['buckets'] = array();
+				}
 				array_unshift($byCouleur["blanc_moelleux"]['agg_line']['buckets'],$produitBlanc);
 			}
 		}else{
