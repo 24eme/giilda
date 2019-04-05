@@ -27,7 +27,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function needDouaneObservation() {
 
-        return preg_match('/autres-entrees|autres-sorties|replacement-suspension/', $this->douane_cat);
+        return preg_match('/autres-entrees|autres-sorties|replacement-suspension|manipulations/', $this->douane_cat);
     }
 
     public function needDouaneDateReplacement() {
