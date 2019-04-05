@@ -62,7 +62,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 
 \begin{table}[ht!]
 <?php if ($compare): ?>
-\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | }
+\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | }
 \hline
 \rowcolor{gray!40} ~ & \multicolumn{4}{c |}{\textbf{Stock initial}} & \multicolumn{4}{c |}{\textbf{Mouvements}} & \multicolumn{4}{c |}{\textbf{Stock Fin}} \tabularnewline \cmidrule{2-13}
 \rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{N}} & \multicolumn{1}{c |}{\textbf{N-1}} & \multicolumn{2}{c |}{\textbf{Ecart}} & \multicolumn{1}{c |}{\textbf{N}} & \multicolumn{1}{c |}{\textbf{N-1}} & \multicolumn{2}{c |}{\textbf{Ecart}}& \multicolumn{1}{c |}{\textbf{N}} & \multicolumn{1}{c |}{\textbf{N-1}} & \multicolumn{2}{c |}{\textbf{Ecart}} \tabularnewline \cmidrule{4-5} \cmidrule{8-9} \cmidrule{12-13}
@@ -96,7 +96,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \begin{table}[ht!]
 <?php if ($compare): ?>
 
-	\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | >{\raggedleft}p{0.044\linewidth} | }
+	\begin{tabularx}{\linewidth}{ | X | >{\raggedright}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | }
 	\hline
 	\rowcolor{gray!40} ~ & \multicolumn{4}{c |}{\textbf{Stock initial}} & \multicolumn{4}{c |}{\textbf{Mouvements}} & \multicolumn{4}{c |}{\textbf{Stock Fin}} \tabularnewline \cmidrule{2-13}
 	\rowcolor{gray!40} \textbf{Produit} & \multicolumn{1}{c |}{\textbf{N}} & \multicolumn{1}{c |}{\textbf{N-1}} & \multicolumn{2}{c |}{\textbf{Ecart}} & \multicolumn{1}{c |}{\textbf{N}} & \multicolumn{1}{c |}{\textbf{N-1}} & \multicolumn{2}{c |}{\textbf{Ecart}}& \multicolumn{1}{c |}{\textbf{N}} & \multicolumn{1}{c |}{\textbf{N-1}} & \multicolumn{2}{c |}{\textbf{Ecart}} \tabularnewline \cmidrule{4-5} \cmidrule{8-9} \cmidrule{12-13}
