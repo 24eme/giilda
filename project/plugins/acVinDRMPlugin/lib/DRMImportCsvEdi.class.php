@@ -339,8 +339,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       }
                    }
                 }
+
+                $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+
                 if (!$just_check) {
-                    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))]);
+                    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
 
                     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
                     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
@@ -455,7 +458,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       $value = boolval($valeur_complement);
                       break;
                   }
-                  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))]);
+                  $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+                  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
                   $field = strtolower($type_complement);
                   $drmDetails->add($field, $value);
                 }
@@ -502,6 +506,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
 
                 $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
+                if ($drmPrecedente && !$drmPrecedente->isTeledeclare()) {
+                    $drmPrecedente = null;
+                }
                 if ($drmPrecedente) {
                     if  ($fieldNameCrd == 'stock_debut') {
                       if ($quantite) {
@@ -511,7 +518,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             continue;
                          }
                          if (!$drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
-                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "type/centilisation"));
+                            $this->csvDoc->addErreur($this->previousCRDProductError($num_ligne, $csvRow, "type/centilisation : ".$keyNode));
                             $num_ligne++;
                             continue;
                          }
@@ -555,10 +562,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function convertGenre($g){
           $g = KeyInflector::slugify($g);
           if (preg_match('/TRANQ/', $g)) {
-            return 'TRANQ';
+            return DRMClient::DRM_CRD_CATEGORIE_TRANQ;
           }
           if (preg_match('/MOUS/', $g)) {
-            return 'MOUSSEUX';
+            return DRMClient::DRM_CRD_CATEGORIE_MOUSSEUX;
           }
           return null;
         }
@@ -566,13 +573,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function convertCouleur($c){
           $c = KeyInflector::slugify($c);
           if (preg_match('/BLEU/', $c)) {
-            return 'BLEU';
+            return DRMClient::DRM_BLEU;
           }
           if (preg_match('/VERT/', $c)) {
-            return 'VERT';
+            return DRMClient::DRM_VERT;
           }
           if (preg_match('/LIE/', $c)) {
-            return 'LIE-DE-VIN';
+            return DRMClient::DRM_LIEDEVIN;
           }
           return null;
         }
