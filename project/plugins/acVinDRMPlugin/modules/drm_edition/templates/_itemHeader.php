@@ -30,7 +30,7 @@ $isAcquitteMode = ($detailsNodes->getKey() == DRM::DETAILS_KEY_ACQUITTE);
                     <?php if ($item->isWritableForEtablissement($etablissement)): ?>
                         <?php if ($favoris_entrees->exist($key)): ?>
                             <li>
-                                <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle <?php echo 'entrees_' . $key; ?> <?php echo (count($favoris_entrees) > 1 ) ? 'clickable' : ''; ?>">
+                                <span id="<?php echo 'star_favoris_entrees_' . $key ?>" class="categorie_libelle <?php echo 'entrees_' . $key; ?> <?php echo (count($favoris_entrees) > 1 && !$isAcquitteMode) ? 'clickable' : ''; ?>">
                                     <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
                                 </span>
                                 &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" data-msg="help_popup_drm_entrees_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
@@ -68,7 +68,7 @@ $isAcquitteMode = ($detailsNodes->getKey() == DRM::DETAILS_KEY_ACQUITTE);
                     <?php if ($item->isWritableForEtablissement($etablissement)): ?>
                         <?php if ($favoris_sorties->exist($key)): ?>
                             <li>
-                                <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) > 1 ) ? 'clickable' : ''; ?>">
+                                <span id="<?php echo 'star_favoris_sorties_' . $key ?>" class="categorie_libelle <?php echo 'sorties_' . $key; ?> <?php echo (count($favoris_sorties) > 1  && !$isAcquitteMode) ? 'clickable' : ''; ?>">
                                     <?php echo $item->getLibelle(); ?>&nbsp;(<span class="unite">hl</span>)
 
                                 </span>&nbsp;<a href="" class="msg_aide_drm  icon-msgaide" style="float: right; padding: 0 10px 0 0;" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="<?php echo $item->getLibelleLong(); ?>"></a>
