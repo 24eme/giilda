@@ -405,7 +405,7 @@ DRM:
                                                                                                                               date_enlevement: {  }
                                                                                                                               numero_document: {  }
                                                                                                                               type_document: {  }
-                                                                                                                    transfertrecolte_details:
+                                                                                                                  transfertsrecolte_details:
                                                                                                                       class: DRMESDetails
                                                                                                                       type:  collection
                                                                                                                       required: false
