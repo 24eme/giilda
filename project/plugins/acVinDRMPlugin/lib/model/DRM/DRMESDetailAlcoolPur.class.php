@@ -55,14 +55,17 @@ class DRMESDetailAlcoolPur extends BaseDRMESDetailAlcoolPur {
     }
 
     public function setVolume($volume) {
+        $r = $this->_set('volume', $volume);
         $this->updateVolume();
-        return $this->_set('volume', $volume);
+
+        return $r;
     }
 
     public function setTav($tav) {
         $p = $this->getProduit();
         $r = $p->add('tav', $tav);
         $this->updateVolume();
+
         return $r;
     }
 

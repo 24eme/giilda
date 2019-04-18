@@ -65,6 +65,18 @@ class DRMMatierePremiereForm extends acCouchdbForm {
         }
 
         $this->detail->stocks_debut->initial = $this->getValue('stocks_debut');
+
+        $sortiesValues = $this->getValue('sorties');
+
+        foreach($sortiesValues as $hash => $sortie) {
+            $detailAlcool = DRMESDetailAlcoolPur::freeInstance($this->getDocument());
+            $detailAlcool->setProduit($this->getDocument()->get($hash));
+            $detailAlcool->tav = $sortie['tav'];
+            $detailAlcool->volume = $sortie['volume'];
+            $this->detail->sorties->transfertsrecolte_details->addDetail($detailAlcool);
+        }
+
+        $this->getDocument()->update();
         $this->getDocument()->save();
     }
 

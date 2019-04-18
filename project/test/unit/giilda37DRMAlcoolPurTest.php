@@ -23,7 +23,7 @@ if(!$produit_hash_matiere_premiere || !$produit_hash_alcoolpur || !$transfer_exi
     exit;
 }
 
-$t = new lime_test(16);
+$t = new lime_test(19);
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $periode = date('Ym');
@@ -77,20 +77,25 @@ $produitMP->stocks_debut->initial = 100;
 
 $form = new DRMMatierePremiereForm($produitMP);
 
-$t->is($form['stocks_debut']->getValue(), $produitMP->stocks_debut->initial, "Le stock de début est intialisé");
-$t->is($form['sorties'][$produitA->getHash()]['volume']->getValue(), null, "Le volume de sortie est vide");
-$t->is($form['sorties'][$produitA->getHash()]['tav']->getValue(), 50, "Le tav du produit est ok");
-$t->is($form['sorties'][$produitB->getHash()]['volume']->getValue(), null, "Le volume de sortie est vide");
-$t->is($form['sorties'][$produitB->getHash()]['tav']->getValue(), 40, "Le tav du produit est ok");
-$t->is(count($form['sorties']), 2, "Le formulaire a 2 produits");
+$t->is($form['stocks_debut']->getValue(), $produitMP->stocks_debut->initial, $drm->_id." : Le stock de début est intialisé");
+$t->is($form['sorties'][$produitA->getHash()]['volume']->getValue(), null, $drm->_id." : Le volume de sortie est vide");
+$t->is($form['sorties'][$produitA->getHash()]['tav']->getValue(), 50, $drm->_id." : Le tav du produit est ok");
+$t->is($form['sorties'][$produitB->getHash()]['volume']->getValue(), null, $drm->_id." : Le volume de sortie est vide");
+$t->is($form['sorties'][$produitB->getHash()]['tav']->getValue(), 40, $drm->_id." : Le tav du produit est ok");
+$t->is(count($form['sorties']), 2, $drm->_id." : Le formulaire a 2 produits");
 
 $values = $form->getDefaults();
 $values['stocks_debut'] = 120;
+$values['sorties'][$produitA->getHash()]['tav'] = 25;
+$values['sorties'][$produitA->getHash()]['volume'] = 100;
 
 $form->bind($values);
 
-$t->ok($form->isValid(), "Le form est valide");
+$t->ok($form->isValid(), $drm->_id." : Le form est valide");
 
 $form->save();
 
-$t->is($produitMP->stocks_debut->initial, $values['stocks_debut'], "Le stock de début a été enregistré");
+$t->is($produitMP->stocks_debut->initial, $values['stocks_debut'], $drm->_id." : Le stock de début a été enregistré");
+$t->is($produitMP->sorties->transfertsrecolte, 100, $drm->_id." : Le volume a bien été mise à jour dans la sortie de matière première");
+$t->is($produitA->entrees->transfertsrecolte, 400, $drm->_id." : Le volume a bien été mise à jour dans l'alcool");
+$t->is($produitA->tav, 25, $drm->_id." : Le tav a bien été mise à jour dans l'alcool");
