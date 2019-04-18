@@ -2,6 +2,45 @@
 
 class drm_editionActions extends drmGeneriqueActions {
 
+    public function executeMatierePremiere(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
+        $this->drm = $this->getRoute()->getDRM();
+        $this->initDeleteForm();
+        $this->detail = null;
+        foreach($this->drm->getProduitsDetails() as $detail) {
+            if(!preg_match('/MATIERES_PREMIERES/', $detail->code_douane)) { continue; }
+            $this->detail = $detail;
+        }
+
+        if(is_null($this->detail) && $request->getParameter('precedent')) {
+
+            return $this->redirect('drm_choix_produit', $this->drm);
+        }
+
+        if(is_null($this->detail)) {
+
+            return $this->redirect('drm_edition', $this->drm);
+        }
+
+        $this->form = new DRMMatierePremiereForm($this->detail);
+
+        if (!$request->isMethod(sfRequest::POST)) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if (!$this->form->isValid()) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        return $this->redirect('drm_edition', $this->drm);
+    }
+
     public function executeSaisieMouvements(sfWebRequest $request) {
          set_time_limit(-1);
         if(!($drmdetailtype = $this->getRequest()->getParameter('details'))) {
