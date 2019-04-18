@@ -51,8 +51,8 @@ $produitB->stocks_debut->initial = 1000;
 
 $detailAlcool = DRMESDetailAlcoolPur::freeInstance($drm);
 $detailAlcool->setProduit($produitA);
-$detailAlcool->volume = 100;
 $detailAlcool->tav = 50;
+$detailAlcool->volume = 100;
 $produitMP->sorties->transfertsrecolte_details->addDetail($detailAlcool);
 
 $drm->update();
