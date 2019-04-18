@@ -17,24 +17,52 @@ class DRMMatierePremiereForm extends acCouchdbForm {
 
     public function __construct(acCouchdbJson $detail, $options = array(), $CSRFSecret = null) {
         $this->detail = $detail;
+        $this->doc = $detail->getDocument();
 
-        parent::__construct($detail->getDocument(), array(), $options, $CSRFSecret);
+        $defaults = array();
+        $defaults['stocks_debut'] = $this->detail->stocks_debut->initial;
+
+        parent::__construct($detail->getDocument(), $defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
+        $this->setWidget('stocks_debut', new bsWidgetFormInputFloat());
+        $this->setValidator('stocks_debut', new sfValidatorNumber(array('required' => false)));
 
+        $formProduits = new BaseForm();
+        foreach($this->getDetailsAlcool() as $detail) {
+            $formProduit = new BaseForm(array("volume" => null, "tav" => $detail->tav));
+            $formProduit->setWidget('volume', new bsWidgetFormInputFloat());
+            $formProduit->setValidator('volume', new sfValidatorNumber(array('required' => false)));
+            $formProduit->setWidget('tav', new bsWidgetFormInputFloat());
+            $formProduit->setValidator('tav', new sfValidatorNumber(array('required' => false)));
 
+            $formProduits->embedForm($detail->getHash(), $formProduit);
+        }
+
+        $this->embedForm('sorties', $formProduits);
     }
 
-    protected function doUpdateObject($values) {
-        parent::doUpdateObject($values);
+    public function getDetailsAlcool() {
+        $produits = array();
 
+        foreach($this->getDocument()->getProduitsDetails() as $detail) {
+            if(!$detail->exist('tav')) {
+                continue;
+            }
+            $produits[] = $detail;
+        }
 
+        return $produits;
     }
 
-    public function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
+    public function save() {
+        if(!$this->isBound()) {
+            return;
+        }
 
+        $this->detail->stocks_debut->initial = $this->getValue('stocks_debut');
+        $this->getDocument()->save();
     }
 
 }
