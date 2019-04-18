@@ -41,6 +41,9 @@ class DRMMatierePremiereForm extends acCouchdbForm {
         }
 
         $this->embedForm('sorties', $formProduits);
+
+        $this->widgetSchema->setNameFormat('drm_matiere_premiere[%s]');
+        $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
 
     public function getDetailsAlcool() {
