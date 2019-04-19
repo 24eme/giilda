@@ -11,7 +11,11 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
-        return str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
+        $s = str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
+        if ($this->tav) {
+            $s .= " - ".$this->tav.'°';
+        }
+        return $s;
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
