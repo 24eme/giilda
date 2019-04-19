@@ -136,7 +136,7 @@ class DRMDetail extends BaseDRMDetail {
             }
             if($this->sorties->getConfig()->get($key)->hasDetails()) {
                 $this->sorties->set($key, 0);
-                foreach ($this->sorties->get($key."_details") as $detail) {
+                foreach ($this->sorties->add($key."_details") as $detail) {
                     $this->sorties->set($key, $this->sorties->get($key) + $detail->volume);
                 }
             }
