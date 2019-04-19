@@ -8,6 +8,11 @@
             <?php echo $form->renderGlobalErrors(); ?>
             <?php echo $form->renderHiddenFields(); ?>
 
+            <p>Pour les Armagnac non conditionnés, les mouvements d'entrées et de sorties peuvent être renseignés en HLAP en choisissant le produit "MATIÈRES PREMIÈRES SPIRITUEUX".</p>
+            <p>Pour les Armagnac conditionnés, les mouvements d'entrées et de sorties doivent être renseignés en HL (et non en HLAP) dans l'étape suivante des "mouvements suspendus".</p>
+            <p>Cette étape vous permet de réaliser le transfert de matières premiers en voluumes conditionnés. La conversion des HLAP en HL se calcule alors automatiquement.</p>
+            <p>Vous retrouverez ces sorties de matières premières et ces entrées de volumes conditionnés dans chacun des produits l'étape suivante.</p>
+
             <h3><?php echo $detail->getLibelle(); ?></h3>
             <div class="form-group">
                 <?php echo $form['stocks_debut']->renderError(); ?>
