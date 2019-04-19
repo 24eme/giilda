@@ -390,7 +390,7 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->date_version = ($this->getDocument()->valide->date_saisie) ? ($this->getDocument()->valide->date_saisie) : date('Y-m-d');
             $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE;
 
-            if ($this->exist($hash . "/" . $key . "_details")) {
+            if ($this->exist($hash . "/" . $key . "_details") && $this->get($hash . "/" . $key . "_details")) {
                 $mouvements = array_replace_recursive($mouvements, $this->get($hash . "/" . $key . "_details")->createMouvements($mouvement));
                 continue;
             }

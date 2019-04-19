@@ -36301,7 +36301,7 @@
                "transfertsrecolte": {
                    "readable": 1,
                    "writable": 1,
-                   "details": null,
+                   "details": "ALCOOLPUR",
                    "revendique": 0,
                    "restriction_lies": 0,
                    "recolte": 1,
