@@ -9,7 +9,7 @@ class DRMDetailEntreesForm extends acCouchdbObjectForm {
         $drm = $this->getObject()->getDocument();
         $declassementIgp = (DRMConfiguration::getInstance()->hasDeclassementIgp())?  '/AOC/' :'/AOC|IGP/';
         foreach ($configurationDetail->getEntreesSorted() as $key => $value) {
-            $disabled = false
+            $disabled = false;
             if(!preg_match('/MATIERES_PREMIERES/', $this->getObject()->getParent()->code_douane) && $this->getObject()->getParent()->exist('tav') && $value->details == "ALCOOLPUR") {
                 $disabled = true;
             }
