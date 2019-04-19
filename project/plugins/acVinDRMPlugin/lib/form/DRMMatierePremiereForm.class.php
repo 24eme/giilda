@@ -31,7 +31,12 @@ class DRMMatierePremiereForm extends acCouchdbForm {
 
         $formProduits = new BaseForm();
         foreach($this->getDetailsAlcool() as $detail) {
-            $formProduit = new BaseForm(array("volume" => null, "tav" => $detail->tav));
+            $volume = null;
+            $keyDetail = str_replace('/', '-', $detail->getHash());
+            if($this->detail->sorties->transfertsrecolte_details->exist($keyDetail)) {
+                $volume = $this->detail->sorties->transfertsrecolte_details->get($keyDetail)->volume;
+            }
+            $formProduit = new BaseForm(array("volume" => $volume, "tav" => $detail->tav));
             $formProduit->setWidget('volume', new bsWidgetFormInputFloat());
             $formProduit->setValidator('volume', new sfValidatorNumber(array('required' => false)));
             $formProduit->setWidget('tav', new bsWidgetFormInputFloat());

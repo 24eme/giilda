@@ -78,7 +78,7 @@ $produitMP->stocks_debut->initial = 100;
 $form = new DRMMatierePremiereForm($produitMP);
 
 $t->is($form['stocks_debut']->getValue(), $produitMP->stocks_debut->initial, $drm->_id." : Le stock de début est intialisé");
-$t->is($form['sorties'][$produitA->getHash()]['volume']->getValue(), null, $drm->_id." : Le volume de sortie est vide");
+$t->is($form['sorties'][$produitA->getHash()]['volume']->getValue(), 100, $drm->_id." : Le volume de sortie est vide");
 $t->is($form['sorties'][$produitA->getHash()]['tav']->getValue(), 50, $drm->_id." : Le tav du produit est ok");
 $t->is($form['sorties'][$produitB->getHash()]['volume']->getValue(), null, $drm->_id." : Le volume de sortie est vide");
 $t->is($form['sorties'][$produitB->getHash()]['tav']->getValue(), 40, $drm->_id." : Le tav du produit est ok");
