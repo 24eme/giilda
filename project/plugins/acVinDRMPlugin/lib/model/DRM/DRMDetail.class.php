@@ -18,6 +18,10 @@ class DRMDetail extends BaseDRMDetail {
         return $s;
     }
 
+    public function isAlcoolPur() {
+        return ($this->tav) &&  $this->entrees->exist('transfertsrecolte') && ($this->entrees->transfertsrecolte);
+    }
+
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
 
         return $this->getCepage()->getConfig()->getCodeFormat($format);

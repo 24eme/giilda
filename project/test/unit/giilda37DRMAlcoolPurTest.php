@@ -23,7 +23,7 @@ if(!$produit_hash_matiere_premiere || !$produit_hash_alcoolpur || !$transfer_exi
     exit;
 }
 
-$t = new lime_test(20);
+$t = new lime_test(21);
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $periode = date('Ym');
@@ -70,6 +70,7 @@ $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->get('entrees/transf
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->get('tav'), 40, $drm->_id." : tav enregistré dans l'alcool");
 
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->getLibelle(), 'Boissons Fermentées Autres - 40°', $drm->_id." : libellé avec TAV");
+$t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->isAlcoolPur(), true, $drm->_id." : Alcool pur ok");
 
 
 $t->comment("Test du formulaire");
