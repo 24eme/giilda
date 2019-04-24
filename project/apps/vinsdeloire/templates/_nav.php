@@ -143,6 +143,20 @@
 
         <?php endif; ?>
 
+        <?php if ($sf_user->hasCredential('teledeclaration_facture')) : ?>
+            <?php
+            include_component('global', 'navItem', array(
+                'libelle' => 'Factures',
+                'prefix' => 'facture',
+                'route' => 'facture_teledeclarant',
+                'route_etablissement' => 'facture_teledeclarant',
+                'societe' => $societe,
+                'target' => '_self'
+            ))
+            ?>
+
+        <?php endif; ?>
+
         <!-- Actions utilisateur pour tablette et mobile -->
 
         <?php if ($sf_user->hasCredential('admin')) : ?>

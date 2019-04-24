@@ -1,5 +1,5 @@
 <?php
-class factureActions extends sfActions {
+class factureActions extends factureGeneriqueActions {
 
   public function executeIndex(sfWebRequest $request) {
       $this->form = new FactureSocieteChoiceForm('INTERPRO-inter-loire');
@@ -50,6 +50,7 @@ class factureActions extends sfActions {
     public function executeMonEspace(sfWebRequest $resquest) {
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
+        $this->isTeledeclarationMode = $this->isTeledeclarationFacture();
         $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
     }
@@ -84,6 +85,26 @@ class factureActions extends sfActions {
         }
         $this->redirect('facture_societe', $this->societe);
     }
+
+    public function executeConnexion(sfWebRequest $request) {
+
+        $this->redirect403IfIsTeledeclaration();
+        $societe = $this->getRoute()->getSociete();
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->redirect('facture_teledeclarant',array('identifiant' => $this->etablissementPrincipal->identifiant));
+    }
+
+    public function executeSociete(sfWebRequest $request) {
+        $this->identifiant = $request['identifiant'];
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
+    }
+
 
 
 

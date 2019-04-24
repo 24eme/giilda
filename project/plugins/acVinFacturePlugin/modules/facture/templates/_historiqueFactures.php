@@ -1,5 +1,6 @@
 <?php
 use_helper('Date');
+$isTeledeclarationMode = (!isset($isTeledeclarationMode))? false : $isTeledeclarationMode;
 ?>
 <h2>Historique des factures</h2>
 <?php
@@ -16,7 +17,7 @@ if(count($factures->getRawValue())==0) :
                 <th>Date</th>
                 <th>DRM liées</th>
                 <th>Prix TTC</th>
-                <th>Défacturer</th>
+                <?php if(!$isTeledeclarationMode): ?><th>Défacturer</th>  <?php endif; ?>
             </tr>
         </thead>
         <tbody>
@@ -34,13 +35,16 @@ if(count($factures->getRawValue())==0) :
                 echo link_to($drmIdFormat, 'facture_redirect_to_doc', array('iddocument' => $drmid)) . "<br/>";
             }; ?></td>
                     <td><?php echoFloat($facture->value[FactureEtablissementView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
+                    <?php if(!$isTeledeclarationMode): ?>
                     <td><?php
-if ($fc->isRedressee($facture)) {
-  echo 'redressée';
-}else if ($fc->isRedressable($facture)) {
-  echo link_to('défacturer les mouvements', '@defacturer?identifiant='.str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]));
-}
-                    ?></td>
+                        if ($fc->isRedressee($facture)) {
+                          echo 'redressée';
+                        }else if ($fc->isRedressable($facture)) {
+                          echo link_to('défacturer les mouvements', '@defacturer?identifiant='.str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]));
+                        }
+                                            ?>
+                    </td>
+                  <?php endif; ?>
                 </tr>
 <?php endforeach; ?>
         </tbody>
