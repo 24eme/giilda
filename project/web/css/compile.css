@@ -10,7 +10,7 @@
 			Kris Van Herzeele,
 			Benoit Adam,
 			Portenart Emile-Victor
-			
+
 		More info at: http://lesselements.com
 -----------------------------------------------------*/
 /**
@@ -2961,6 +2961,19 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher {
 #contenu_etape #vrac_soussigne .section_label_maj_teledeclaration {
   margin: 0 0 0;
 }
+
+.label{
+  display: inline;
+  padding: .2em .6em .3em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25em;
+}
+
 #contenu_etape #vrac_soussigne .label_soussigne_identifiant {
   padding-right: 10px;
   display: inline-block;
@@ -5413,11 +5426,11 @@ bouton.recherche_contact #btn_rechercher {
 #colonne #infos_contact .contenu > ul > li {
   padding: 4px 0 4px 0;
   border-top: 1px dashed #aaa;
-  /*& > a 
+  /*& > a
                 {
                         font-weight: bold;
                         padding: 0 0 0 22px;
-                        
+
                         &:before
                         {
                                 .box-dimensions(0, 0);
