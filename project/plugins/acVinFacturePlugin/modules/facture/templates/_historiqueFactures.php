@@ -1,6 +1,7 @@
 <?php
 use_helper('Date');
 $isTeledeclarationMode = (!isset($isTeledeclarationMode))? false : $isTeledeclarationMode;
+$k = 0;
 ?>
 <h2>Historique des factures</h2>
 <?php
@@ -53,26 +54,28 @@ if(count($factures->getRawValue())==0) :
                        ?>
                      </td>
                   <?php endif; ?>
-                    <td><?php echo "N.C."; ?></td>
-                    <td><?php echo "<span class='btn btn_majeur btn_vert label'>Réglée</span>"; ?></td>
+                    <td><?php echo "prélèvement"; ?></td>
+                    <td><?php echo (!$k)? "<span class='btn btn_majeur btn_orange label'>En attente</span><br/><p style='margin: 8px;'>(prévu&nbsp;le&nbsp;28/05/2019)</p>" : "<span class='btn btn_majeur btn_vert label'>Réglée</span>"; ?></td>
                     <td><?php echoFloat($facture->value[FactureEtablissementView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
                   <td>
+                    <a href="<?php echo url_for('facture_pdf', array('identifiant' => $facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); ?>" class="btn_majeur btn_pdf center" style="font-size: 9px;" ><span>PDF</span></a>
                     <?php
                     if(!$isTeledeclarationMode):
                       if ($fc->isRedressee($facture)):
                         echo 'redressée';
                         elseif ($fc->isRedressable($facture)): ?>
-                          <a href="<?php echo url_for('defacturer',array('identifiant' => str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>"
-                            class="btn btn_majeur" style="padding:0 5px; font-size: 9px;" >défacturer</a>
-                        <br/><br/>
-                    <?php
+                        <br/>
+                        <a href="<?php echo url_for('defacturer',array('identifiant' => str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>"
+                          class="btn btn_majeur" style="margin: 8px; padding:0 5px; font-size: 9px;" >défacturer</a>
+                          <?php
+                        endif;
                       endif;
-                    endif;
-                    ?>
-                    <a href="<?php echo url_for('facture_pdf', array('identifiant' => $facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); ?>" class="btn_majeur btn_pdf center" style="font-size: 9px;" ><span>PDF</span></a>
+                      ?>
                   </td>
                 </tr>
-<?php endforeach; ?>
+<?php
+$k++;
+endforeach; ?>
         </tbody>
     </table>
 </fieldset>
