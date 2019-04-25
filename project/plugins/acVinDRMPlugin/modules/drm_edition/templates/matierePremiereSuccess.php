@@ -28,26 +28,27 @@
                 <label class="col-sm-4 control-label" style="text-align: left; font-weight: normal;">Sorties bouteilles : </label>
             </div>
             <?php foreach($form['sorties'] as $key => $item): ?>
+              <?php $hlaptohl_key = md5($detail->getHash().$key); ?>
                 <?php echo $item['volume']->renderError(); ?>
                 <?php echo $item['tav']->renderError(); ?>
-                <div class="form-group">
+                <div class="form-group volumehlaptohl">
                     <div class="col-sm-1">
                     </div>
                     <?php echo $item['volume']->renderLabel($drm->get($key)->getLibelle()." :", array("class" => "col-sm-3 control-label", "style" => "text-align: left; font-weight: normal;")); ?>
                     <div class="col-sm-2">
                         <div class="input-group">
-                            <?php echo $item['volume']->render(); ?>
+                            <?php echo $item['volume']->render(array("data-volumehlap" => $hlaptohl_key)); ?>
                             <span class="input-group-addon"> hlap</span>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="input-group">
-                        <?php echo $item['tav']->render(); ?>
+                        <?php echo $item['tav']->render(array("data-tav" => $hlaptohl_key)); ?>
                         <span class="input-group-addon"> °</span>
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <p class="form-control-static"><span id="<?php echo $item['volume']->renderId()."_hl"; ?>">0</span> hl</p>
+                        <p class="form-control-static"><span id="<?php echo $item['volume']->renderId()."_hl"; ?>" data-volumehl="<?php echo $hlaptohl_key; ?>"></span> hl</p>
                     </div>
                 </div>
             <?php endforeach; ?>
