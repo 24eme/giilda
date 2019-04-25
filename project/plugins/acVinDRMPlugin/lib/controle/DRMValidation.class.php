@@ -122,12 +122,12 @@ class DRMValidation extends DocumentValidation {
             $total_entrees_manipulation += ($detail->entrees->exist('manipulation')) ? $detail->entrees->manipulation : 0;
 
             $total_sorties_destructionperte += ($detail->sorties->exist('destructionperte')) ? $detail->sorties->destructionperte : 0;
-
-            if ($detail->getConfig()->entrees->exist('transfertsrecolte') && $detail->entrees->exist('transfertsrecolte')) {
+            
+            if ($detail->getConfig()->entrees->exist('transfertsrecolte') && $detail->entrees->exist('transfertsrecolte') && !preg_match("/certifications\/ALCOOLS\/genres\//",$detail->getHash())) {
               $total_entrees_transfert_appellation += $detail->entrees->transfertsrecolte;
             }
 
-            if ($detail->getConfig()->sorties->exist('transfertsrecolte') && $detail->sorties->exist('transfertsrecolte')) {
+            if ($detail->getConfig()->sorties->exist('transfertsrecolte') && $detail->sorties->exist('transfertsrecolte') && !preg_match("/certifications\/ALCOOLS\/genres\//",$detail->getHash())) {
               $total_sorties_transfert_appellation += $detail->sorties->transfertsrecolte;
             }
 
