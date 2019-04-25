@@ -51,7 +51,9 @@ class DRMESDetailAlcoolPur extends BaseDRMESDetailAlcoolPur {
 
     private function updateVolume() {
         $p = $this->getProduit();
-        $p->entrees->add('transfertsrecolte', $this->volume * 100 / $this->getTav());
+        if($this->getTav() !== 0.0 ){
+          $p->entrees->add('transfertsrecolte', $this->volume * 100 / $this->getTav());
+        }
     }
 
     public function setVolume($volume) {
