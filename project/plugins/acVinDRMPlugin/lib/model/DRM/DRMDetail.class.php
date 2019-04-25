@@ -22,6 +22,14 @@ class DRMDetail extends BaseDRMDetail {
         return ($this->tav) &&  $this->entrees->exist('transfertsrecolte') && ($this->entrees->transfertsrecolte);
     }
 
+    public function isMatierePremiere(){
+      return preg_match('/MATIERES_PREMIERES/', $this->code_douane);
+    }
+
+    public function isAlcoolPurOrMatierePremiere(){
+      return $this->isAlcoolPur() || $this->isMatierePremiere();
+    }
+
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
 
         return $this->getCepage()->getConfig()->getCodeFormat($format);

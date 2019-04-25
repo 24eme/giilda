@@ -13,7 +13,7 @@
         <?php $cpt_etape++; ?>
         <?php endif; ?>
 
-        <?php $hasMatierePremiere = false; foreach($drm->getProduitsDetails() as $detail): if(!preg_match('/MATIERES_PREMIERES/', $detail->code_douane)) { continue; } $hasMatierePremiere = true; endforeach; ?>
+        <?php $hasMatierePremiere = $drm->hasMatierePremiere(); ?>
         <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode && $hasMatierePremiere) : ?>
             <?php $actif = ($etape_courante == DRMClient::ETAPE_MATIERE_PREMIERE); ?>
             <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_MATIERE_PREMIERE, DRMClient::$drm_etapes))); ?>

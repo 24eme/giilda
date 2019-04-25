@@ -1623,7 +1623,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return $this->etape == DRMClient::ETAPE_VALIDATION_EDI;
     }
 
-    
+
     /*
     * Observations
     */
@@ -1837,6 +1837,13 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
 
     public function hasStatsEuropeennes() {
       return (($this->declaratif->statistiques->jus != null) || ($this->declaratif->statistiques->mcr != null) || ($this->declaratif->statistiques->vinaigre != null));
+    }
+
+    public function hasMatierePremiere(){
+      foreach($this->getProduitsDetails() as $detail){
+          if($detail->isMatierePremiere()){ return true; }
+      }
+      return false;
     }
 
 
