@@ -8,9 +8,10 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->initDeleteForm();
         $this->detail = null;
         foreach($this->drm->getProduitsDetails() as $detail) {
-            if(!preg_match('/MATIERES_PREMIERES/', $detail->code_douane)) { continue; }
+            if(!$detail->isMatierePremiere()) { continue; }
             $this->detail = $detail;
         }
+
 
         if(is_null($this->detail) && $request->getParameter('precedent')) {
 
@@ -21,7 +22,6 @@ class drm_editionActions extends drmGeneriqueActions {
 
             return $this->redirect('drm_edition', $this->drm);
         }
-
         $this->form = new DRMMatierePremiereForm($this->detail);
 
         if (!$request->isMethod(sfRequest::POST)) {
