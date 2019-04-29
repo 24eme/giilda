@@ -69,7 +69,7 @@ $t->is($drm->getProduit($produit_hash_matiere_premiere, 'details')->get('sorties
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->get('entrees/transfertsrecolte'), 250, $drm->_id." : transferts enregistrés dans l'alcool");
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->get('tav'), 40, $drm->_id." : tav enregistré dans l'alcool");
 
-$t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->getLibelle(), 'Boissons Fermentées Autres - 40°', $drm->_id." : libellé avec TAV");
+$t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->getLibelle(), 'Alcools supérieur 18° (autres que Rhum) - 40°', $drm->_id." : libellé avec TAV");
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->isAlcoolPur(), true, $drm->_id." : Alcool pur ok");
 
 
@@ -78,19 +78,23 @@ $t->comment("Test du formulaire");
 $produitB->tav = 40;
 $produitMP->stocks_debut->initial = 100;
 
-$form = new DRMMatierePremiereForm($produitMP);
+$form = new DRMMatierePremiereForm($drm);
+$hashForm = str_replace('/', '-', $produitMP->getHash());
+$t->is($form['stocks_debut_'.$hashForm]->getValue(), $produitMP->stocks_debut->initial, $drm->_id." : Le stock de début est intialisé");
 
-$t->is($form['stocks_debut']->getValue(), $produitMP->stocks_debut->initial, $drm->_id." : Le stock de début est intialisé");
-$t->is($form['sorties'][$produitA->getHash()]['volume']->getValue(), 100, $drm->_id." : Le volume de sortie est vide");
-$t->is($form['sorties'][$produitA->getHash()]['tav']->getValue(), 40, $drm->_id." : Le tav du produit est ok");
-$t->is($form['sorties'][$produitB->getHash()]['volume']->getValue(), null, $drm->_id." : Le volume de sortie est vide");
-$t->is($form['sorties'][$produitB->getHash()]['tav']->getValue(), 40, $drm->_id." : Le tav du produit est ok");
-$t->is(count($form['sorties']), 2, $drm->_id." : Le formulaire a 2 produits");
+$hashProduitAForm = $produitMP->getHash().'-'.$produitA->getHash();
+$hashProduitBForm = $produitMP->getHash().'-'.$produitB->getHash();
+
+$t->is($form['sorties_'.$hashForm][$hashProduitAForm]['volume']->getValue(), 100, $drm->_id." : Le volume de sortie est vide");
+$t->is($form['sorties_'.$hashForm][$hashProduitAForm]['tav']->getValue(), 40, $drm->_id." : Le tav du produit est ok");
+$t->is($form['sorties_'.$hashForm][$hashProduitBForm]['volume']->getValue(), null, $drm->_id." : Le volume de sortie est vide");
+$t->is($form['sorties_'.$hashForm][$hashProduitBForm]['tav']->getValue(), 40, $drm->_id." : Le tav du produit est ok");
+$t->is(count($form['sorties_'.$hashForm]), 2, $drm->_id." : Le formulaire a 2 produits");
 
 $values = $form->getDefaults();
-$values['stocks_debut'] = 120;
-$values['sorties'][$produitA->getHash()]['tav'] = 25;
-$values['sorties'][$produitA->getHash()]['volume'] = 100;
+$values['stocks_debut_'.$hashForm] = 120;
+$values['sorties_'.$hashForm][$hashProduitAForm]['tav'] = 25;
+$values['sorties_'.$hashForm][$hashProduitAForm]['volume'] = 100;
 
 $form->bind($values);
 
@@ -98,7 +102,7 @@ $t->ok($form->isValid(), $drm->_id." : Le form est valide");
 
 $form->save();
 
-$t->is($produitMP->stocks_debut->initial, $values['stocks_debut'], $drm->_id." : Le stock de début a été enregistré");
+$t->is($produitMP->stocks_debut->initial, $values['stocks_debut_'.$hashForm], $drm->_id." : Le stock de début a été enregistré");
 $t->is($produitMP->sorties->transfertsrecolte, 100, $drm->_id." : Le volume a bien été mise à jour dans la sortie de matière première");
 $t->is($produitA->entrees->transfertsrecolte, 400, $drm->_id." : Le volume a bien été mise à jour dans l'alcool");
 $t->is($produitA->tav, 25, $drm->_id." : Le tav a bien été mise à jour dans l'alcool");
