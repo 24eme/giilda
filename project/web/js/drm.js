@@ -273,7 +273,7 @@
       var volumehlap = $(elt).find("[data-volumehlap]").val();
       var tav = $(elt).find("[data-tav]").val();
       var id = $(elt).find("[data-tav]").attr("data-tav");
-      if(tav){
+      if(tav && tav != 0.0){
         var volume = 100.0/tav * volumehlap;
         $(elt).find("[data-volumehl=\""+id+"\"]").text(volume.toFixed(2));
       }else{
