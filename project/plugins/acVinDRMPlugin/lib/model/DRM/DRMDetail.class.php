@@ -390,7 +390,7 @@ class DRMDetail extends BaseDRMDetail {
             $mouvement->type_drm_libelle = $this->getTypeDRMLibelle();
             $mouvement->facture = 0;
             $mouvement->region = $this->getDocument()->region;
-            $mouvement->cvo = $this->getCVOTaux();
+            $mouvement->cvo = ($mouvement->region == EtablissementClient::REGION_HORS_CVO && VracConfiguration::getInstance()->getRegionDepartement() == ".*")? 0.0 : $this->getCVOTaux();
             $mouvement->facturable = ($config->facturable && $mouvement->cvo > 0) ? 1 : 0;
 
             if(!$this->getDocument()->isFacturable()){
