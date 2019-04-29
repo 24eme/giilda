@@ -26,11 +26,19 @@ class DRMMatierePremiereForm extends acCouchdbForm {
     }
 
     public function configure() {
-        $this->setWidget('stocks_debut', new bsWidgetFormInputFloat());
+        if ($this->detail->hasStockFinDeMoisDRMPrecedente()) {
+            $this->setWidget('stocks_debut', new bsWidgetFormInputFloat(array(), array('readonly' => 'readonly')));
+        }else{
+            $this->setWidget('stocks_debut', new bsWidgetFormInputFloat());
+        }
         $this->setValidator('stocks_debut', new sfValidatorNumber(array('required' => false)));
 
         $formProduits = new BaseForm();
         foreach($this->getDetailsAlcool() as $detail) {
+            $isreadonly = array();
+            if ($detail->hasStockFinDeMoisDRMPrecedente()) {
+                $isreadonly = array('readonly' => 'readonly');
+            }
             $volume = null;
             $keyDetail = str_replace('/', '-', $detail->getHash());
             if($this->detail->sorties->transfertsrecolte_details->exist($keyDetail)) {
@@ -39,7 +47,7 @@ class DRMMatierePremiereForm extends acCouchdbForm {
             $formProduit = new BaseForm(array("volume" => $volume, "tav" => $detail->tav));
             $formProduit->setWidget('volume', new bsWidgetFormInputFloat());
             $formProduit->setValidator('volume', new sfValidatorNumber(array('required' => false)));
-            $formProduit->setWidget('tav', new bsWidgetFormInputFloat());
+            $formProduit->setWidget('tav', new bsWidgetFormInputFloat(array(), $isreadonly));
             $formProduit->setValidator('tav', new sfValidatorNumber(array('required' => false)));
 
             $formProduits->embedForm($detail->getHash(), $formProduit);
