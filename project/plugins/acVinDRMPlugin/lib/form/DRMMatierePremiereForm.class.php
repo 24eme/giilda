@@ -82,6 +82,7 @@ class DRMMatierePremiereForm extends acCouchdbForm {
 
         foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
         $detailsMp->stocks_debut->initial = $this->getValue('stocks_debut_'.$detailsMpKey);
+        $detailsMp->add('edited',true);
         $sortiesValues = $this->getValue('sorties_'.$detailsMpKey);
         foreach($sortiesValues as $hash => $sortie) {
           $detailSplittedKey = explode("-",$hash);
