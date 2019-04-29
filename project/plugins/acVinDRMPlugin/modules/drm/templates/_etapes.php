@@ -12,9 +12,9 @@
             </li>
         <?php $cpt_etape++; ?>
         <?php endif; ?>
-
+        <?php $hasConfMatierePremiere = DRMConfiguration::getInstance()->hasMatierePremiere(); ?>
         <?php $hasMatierePremiere = $drm->hasMatierePremiere(); ?>
-        <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode && $hasMatierePremiere) : ?>
+        <?php if (isset($isTeledeclarationMode) && $isTeledeclarationMode && $hasMatierePremiere && $hasConfMatierePremiere) : ?>
             <?php $actif = ($etape_courante == DRMClient::ETAPE_MATIERE_PREMIERE); ?>
             <?php $past = ((!$actif) && (array_search($drm->etape, DRMClient::$drm_etapes) >= array_search(DRMClient::ETAPE_MATIERE_PREMIERE, DRMClient::$drm_etapes))); ?>
             <li class="<?php if($actif): ?>active<?php endif; ?> <?php if (!$past && !$actif): ?>disabled<?php endif; ?> <?php if ($past && !$actif): ?>visited<?php endif; ?>">

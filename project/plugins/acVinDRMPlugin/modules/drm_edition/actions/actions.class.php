@@ -2,7 +2,8 @@
 
 class drm_editionActions extends drmGeneriqueActions {
 
-    public function executeMatierePremiere(sfWebRequest $request) {
+    public function executeMatierePremiere(sfWebRequest $request) {      
+
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->drm = $this->getRoute()->getDRM();
         $this->initDeleteForm();
