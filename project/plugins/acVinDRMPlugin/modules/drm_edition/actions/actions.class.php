@@ -6,23 +6,18 @@ class drm_editionActions extends drmGeneriqueActions {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $this->drm = $this->getRoute()->getDRM();
         $this->initDeleteForm();
-        $this->detail = null;
-        foreach($this->drm->getProduitsDetails() as $detail) {
-            if(!$detail->isMatierePremiere()) { continue; }
-            $this->detail = $detail;
-        }
 
-
-        if(is_null($this->detail) && $request->getParameter('precedent')) {
+        if(!$this->drm->hasMatierePremiere() && $request->getParameter('precedent')) {
 
             return $this->redirect('drm_choix_produit', $this->drm);
         }
 
-        if(is_null($this->detail)) {
+        if(!$this->drm->hasMatierePremiere()) {
 
             return $this->redirect('drm_edition', $this->drm);
         }
-        $this->form = new DRMMatierePremiereForm($this->detail);
+
+        $this->form = new DRMMatierePremiereForm($this->drm);
 
         if (!$request->isMethod(sfRequest::POST)) {
 
@@ -31,14 +26,14 @@ class drm_editionActions extends drmGeneriqueActions {
 
         $this->form->bind($request->getParameter($this->form->getName()));
 
-        if (!$this->form->isValid()) {
+        if ($this->form->isValid()) {
 
-            return sfView::SUCCESS;
+          $this->form->save();
+
+          return $this->redirect('drm_edition', $this->drm);
+
         }
 
-        $this->form->save();
-
-        return $this->redirect('drm_edition', $this->drm);
     }
 
     public function executeSaisieMouvements(sfWebRequest $request) {

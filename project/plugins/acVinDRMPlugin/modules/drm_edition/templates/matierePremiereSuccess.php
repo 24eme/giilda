@@ -12,14 +12,14 @@
             <p>Pour les Armagnac conditionnés, les mouvements d'entrées et de sorties doivent être renseignés en HL (et non en HLAP) dans l'étape suivante des "mouvements suspendus".</p>
             <p>Cette étape vous permet de réaliser le transfert de matières premiers en volumes conditionnés. La conversion des HLAP en HL se calcule alors automatiquement.</p>
             <p>Vous retrouverez ces sorties de matières premières et ces entrées de volumes conditionnés dans chacun des produits l'étape suivante.</p>
-
-            <h3><?php echo $detail->getLibelle(); ?></h3>
+            <?php foreach ($form->getDetailsMp() as $detailMpKey => $detailMp): ?>
+            <h3><?php echo $detailMp->getLibelle();?></h3>
             <div class="form-group">
-                <?php echo $form['stocks_debut']->renderError(); ?>
-                <?php echo $form['stocks_debut']->renderLabel("Stock de matière première :", array("class" => "col-sm-4 control-label", "style" => "text-align: left; font-weight: normal;")); ?>
+                <?php echo $form['stocks_debut_'.$detailMpKey]->renderError(); ?>
+                <?php echo $form['stocks_debut_'.$detailMpKey]->renderLabel("Stock de matière première :", array("class" => "col-sm-4 control-label", "style" => "text-align: left; font-weight: normal;")); ?>
                 <div class="col-sm-2">
                     <div class="input-group">
-                    <?php echo $form['stocks_debut']->render(); ?>
+                    <?php echo $form['stocks_debut_'.$detailMpKey]->render(); ?>
                     <span class="input-group-addon"> hlap</span>
                     </div>
                 </div>
@@ -27,14 +27,17 @@
             <div class="form-group">
                 <label class="col-sm-4 control-label" style="text-align: left; font-weight: normal;">Sorties bouteilles : </label>
             </div>
-            <?php foreach($form['sorties'] as $key => $item): ?>
-              <?php $hlaptohl_key = md5($detail->getHash().$key); ?>
+            <?php foreach($form['sorties_'.$detailMpKey] as $key => $item): ?>
+              <?php
+              $hlaptohl_key = md5($key);
+              $splittedKey = explode("-",$key);
+              ?>
                 <?php echo $item['volume']->renderError(); ?>
                 <?php echo $item['tav']->renderError(); ?>
                 <div class="form-group volumehlaptohl">
                     <div class="col-sm-1">
                     </div>
-                    <?php echo $item['volume']->renderLabel($drm->get($key)->getLibelle()." :", array("class" => "col-sm-3 control-label", "style" => "text-align: left; font-weight: normal;")); ?>
+                    <?php echo $item['volume']->renderLabel($drm->get($splittedKey[1])->getLibelle()." :", array("class" => "col-sm-3 control-label", "style" => "text-align: left; font-weight: normal;")); ?>
                     <div class="col-sm-2">
                         <div class="input-group">
                             <?php echo $item['volume']->render(array("data-volumehlap" => $hlaptohl_key)); ?>
@@ -52,6 +55,7 @@
                     </div>
                 </div>
             <?php endforeach; ?>
+          <?php endforeach; ?>
             <div class="row" style="margin-top: 40px;">
                 <div class="col-xs-4 text-left">
                     <a tabindex="-1" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) :   url_for('drm_etablissement', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>

@@ -13,40 +13,51 @@
  */
 class DRMMatierePremiereForm extends acCouchdbForm {
 
-    private $detail = null;
+    private $drm = null;
+    private $detailsMp = null;
 
-    public function __construct(acCouchdbJson $detail, $options = array(), $CSRFSecret = null) {
-        $this->detail = $detail;
-        $this->doc = $detail->getDocument();
 
+    public function __construct(acCouchdbJson $drm, $options = array(), $CSRFSecret = null) {
+        $this->drm = $drm;
+        $this->detailsMp = array();
         $defaults = array();
-        $defaults['stocks_debut'] = $this->detail->stocks_debut->initial;
+        foreach($this->drm->getProduitsDetails() as $detailsMp) {
+            if($detailsMp->isMatierePremiere()){
+              $this->detailsMp[str_replace('/', '-', $detailsMp->getHash())] = $detailsMp;
+              $defaults['stocks_debut_'.str_replace('/', '-', $detailsMp->getHash())] = $detailsMp->stocks_debut->initial;
+            }
+        }
 
-        parent::__construct($detail->getDocument(), $defaults, $options, $CSRFSecret);
+        parent::__construct($this->drm, $defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
-        $this->setWidget('stocks_debut', new bsWidgetFormInputFloat());
-        $this->setValidator('stocks_debut', new sfValidatorNumber(array('required' => false)));
 
-        $formProduits = new BaseForm();
-        foreach($this->getDetailsAlcool() as $detail) {
-            $volume = null;
-            $keyDetail = str_replace('/', '-', $detail->getHash());
-            if($this->detail->sorties->transfertsrecolte_details->exist($keyDetail)) {
-                $volume = $this->detail->sorties->transfertsrecolte_details->get($keyDetail)->volume;
-            }
-            $formProduit = new BaseForm(array("volume" => $volume, "tav" => $detail->tav));
-            $formProduit->setWidget('volume', new bsWidgetFormInputFloat());
-            $formProduit->setValidator('volume', new sfValidatorNumber(array('required' => false)));
-            $formProduit->setWidget('tav', new bsWidgetFormInputFloat());
-            $formProduit->setValidator('tav', new sfValidatorNumber(array('required' => false)));
 
-            $formProduits->embedForm($detail->getHash(), $formProduit);
+        foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
+          $this->setWidget('stocks_debut_'.$detailsMpKey, new bsWidgetFormInputFloat());
+          $this->setValidator('stocks_debut_'.$detailsMpKey, new sfValidatorNumber(array('required' => false)));
+
+          $formProduits = new BaseForm();
+          foreach($this->getDetailsAlcool() as $detail) {
+                  $volume = null;
+                  $keyDetail = str_replace('/', '-', $detail->getHash());
+                  if($detailsMp->sorties->transfertsrecolte_details->exist($keyDetail)) {
+                      $volume = $detailsMp->sorties->transfertsrecolte_details->get($keyDetail)->volume;
+                  }
+                  $formProduit = new BaseForm(array("volume" => $volume, "tav" => $detail->tav));
+                  $formProduit->setWidget('volume', new bsWidgetFormInputFloat());
+                  $formProduit->setValidator('volume', new sfValidatorNumber(array('required' => false)));
+                  $formProduit->setWidget('tav', new bsWidgetFormInputFloat());
+                  $formProduit->setValidator('tav', new sfValidatorNumber(array('required' => false)));
+                  $formProduits->embedForm($detailsMp->getHash()."-".$detail->getHash(), $formProduit);
+
+              }
+              $this->embedForm('sorties_'.$detailsMpKey, $formProduits);
+
         }
-
-        $this->embedForm('sorties', $formProduits);
-
+        $matierePremiereValidator = new DRMMatierePremiereValidator(null, array('drm' => $this->drm));
+        $this->mergePostValidator($matierePremiereValidator);
         $this->widgetSchema->setNameFormat('drm_matiere_premiere[%s]');
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
     }
@@ -69,20 +80,33 @@ class DRMMatierePremiereForm extends acCouchdbForm {
             return;
         }
 
-        $this->detail->stocks_debut->initial = $this->getValue('stocks_debut');
-
-        $sortiesValues = $this->getValue('sorties');
-
+        foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
+        $detailsMp->stocks_debut->initial = $this->getValue('stocks_debut_'.$detailsMpKey);
+        $sortiesValues = $this->getValue('sorties_'.$detailsMpKey);
         foreach($sortiesValues as $hash => $sortie) {
-            $detailAlcool = DRMESDetailAlcoolPur::freeInstance($this->getDocument());
-            $detailAlcool->setProduit($this->getDocument()->get($hash));
-            $detailAlcool->tav = $sortie['tav'];
-            $detailAlcool->volume = $sortie['volume'];
-            $this->detail->sorties->transfertsrecolte_details->addDetail($detailAlcool);
+          $detailSplittedKey = explode("-",$hash);
+              $detailAlcool = DRMESDetailAlcoolPur::freeInstance($this->getDocument());
+              if($sortie['volume']){
+                $detailAlcool->setProduit($this->getDocument()->get($detailSplittedKey[1]));
+                $detailAlcool->tav = $sortie['tav'];
+                $detailAlcool->volume = $sortie['volume'];
+                $detailsMp->sorties->transfertsrecolte_details->addDetail($detailAlcool);
+            }else{
+              $k = str_replace("/","-",$detailSplittedKey[1]);
+              $exist = $detailsMp->sorties->transfertsrecolte_details->exist($k);
+              if($exist){
+                $detailsMp->sorties->transfertsrecolte_details->remove($k);
+              }
+            }
+          }
         }
 
         $this->getDocument()->update();
         $this->getDocument()->save();
+    }
+
+    public function getDetailsMp(){
+      return $this->detailsMp;
     }
 
 }
