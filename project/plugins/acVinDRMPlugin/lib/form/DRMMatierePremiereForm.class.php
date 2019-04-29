@@ -78,6 +78,7 @@ class DRMMatierePremiereForm extends acCouchdbForm {
         }
 
         $this->detail->stocks_debut->initial = $this->getValue('stocks_debut');
+        $this->detail->edited = true;
 
         $sortiesValues = $this->getValue('sorties');
 
