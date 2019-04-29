@@ -1846,5 +1846,18 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       return false;
     }
 
+    public function hasWritableTAV() {
+        foreach ($this->getProduitsDetails() as $hash => $detail) {
+            if($detail->exist('tav')){
+                if ($detail->hasStockFinDeMoisDRMPrecedente()) {
+                    return false;
+                }
+                if ($detail->isAlcoolPur()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 }
