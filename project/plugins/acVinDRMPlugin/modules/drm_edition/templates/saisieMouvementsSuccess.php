@@ -52,7 +52,7 @@
                             ?>
                             <a title="<?php echo $produit->getLibelle("%format_libelle%") ?>" style="position: relative;  overflow:hidden; cursor:pointer;
   display: block; height: 30px; padding: 5px 15px;
-  margin-bottom: -1px;" data-hash="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements()) ? 'style="display:none;"' : '' ?> class="list-group-item <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
+  margin-bottom: -1px;" data-hash="<?php echo $produit->getHash() ?>" <?php echo (!$produit->hasMovements()) ? 'style="display:none;"' : '' ?> class="list-group-item text-truncate <?php echo ($produit->isEdited()) ? 'edited list-group-item-success' : '' ?>">
 
                                 <small><?php echo str_replace("Alsace Grand Cru","Gd Cru",$produit->getLibelle("%format_libelle%")); ?></small>
                                 <span style="position:absolute; right: 1px; top:5px;" class="btn btn-xs btn-link glyphicon glyphicon-eye-open "></span>
@@ -69,7 +69,9 @@
                         <?php if($detailsKey == DRM::DETAILS_KEY_ACQUITTE && $drm->isDouaneType(DRMClient::TYPE_DRM_SUSPENDU)): ?>
                             <a tabindex="-1" href="<?php echo url_for('drm_edition_details', array('sf_subject' => $drm, 'details' => DRM::DETAILS_KEY_SUSPENDU)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
                         <?php else: ?>
-                            <a tabindex="-1" href="<?php echo ($isTeledeclarationMode) ? url_for('drm_choix_produit', $drm) :   url_for('drm_etablissement', $drm); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
+                            <a tabindex="-1" href="<?php  if($isTeledeclarationMode){
+                                                            echo (DRMConfiguration::getInstance()->hasMatierePremiere())? url_for('drm_matiere_premiere', array('sf_subject' => $drm, 'precedent' => 1)) : url_for('drm_choix_produit', $drm);
+                                                          }else{ echo url_for('drm_etablissement', $drm); } ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
                         <?php endif; ?>
                     </div>
                     <div class="col-xs-6 text-center">
