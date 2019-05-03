@@ -31,6 +31,7 @@ class Roles
     const TELEDECLARATION_VRAC_CREATION = 'teledeclaration_vrac_creation';
     const TELEDECLARATION_DRM = 'teledeclaration_drm';
     const TELEDECLARATION_DRM_ACQUITTE = 'teledeclaration_drm_acquitte';
+    const TELEDECLARATION_FACTURE = 'teledeclaration_facture';
     const TELEDECLARATION_DOUANE = 'teledeclaration_douane';
 
     const OBSERVATOIRE = 'observatoire';
@@ -41,7 +42,8 @@ class Roles
       self::TELEDECLARATION_VRAC_CREATION => "Teledeclaration création contrats",
       self::TELEDECLARATION_DRM => "Teledeclaration DRM",
       self::TELEDECLARATION_DOUANE => "Transmission Ciel",
-      self::TELEDECLARATION_DRM_ACQUITTE => "Teledeclaration DRM acquittée"
+      self::TELEDECLARATION_DRM_ACQUITTE => "Teledeclaration DRM acquittée",
+      self::TELEDECLARATION_FACTURE => "Factures"
       );
 
       public static $teledeclarationLibellesShort = array(
@@ -52,6 +54,7 @@ class Roles
         self::TELEDECLARATION_DRM => "DRM",
         self::TELEDECLARATION_DRM_ACQUITTE => "DRM acquittée",
         self::TELEDECLARATION_DOUANE => "Transmission Ciel",
+        self::TELEDECLARATION_FACTURE => "Factures",
         self::DRM => "DRM",
         self::CONTRAT => "Contrat",
         );

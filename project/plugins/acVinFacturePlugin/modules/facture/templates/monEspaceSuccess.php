@@ -30,6 +30,18 @@ slot('colButtons');
         <div class="btnRetourAccueil">
             <a href="<?php echo url_for('facture'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
         </div>
+        <?php if ($sf_user->isUsurpationCompte()): ?>
+            <div class="ligne_btn txt_centre">
+                <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('facture_dedebrayage') ?>">Revenir sur VINSI</a>
+            </div>
+        <?php endif; ?>
+        <?php if (!$isTeledeclarationMode && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_FACTURE)): ?>
+            <div class="ligne_btn txt_centre" style="margin:0px">
+                <div class="btnConnexion">
+                    <a href="<?php echo url_for('facture_debrayage', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <?php

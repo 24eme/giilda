@@ -503,7 +503,7 @@ class DRMClient extends acCouchdbClient {
         return array_merge(array($drm_version_suivante->get('_id')), $this->generateVersionCascade($drm_version_suivante));
     }
 
-    public function getLibelleFromId($id) {
+    public function getLibelleFromId($id, $shorted = false) {
         if (!$id) {
             return null;
         }
@@ -514,6 +514,9 @@ class DRMClient extends acCouchdbClient {
         $periode = $drmSplited[2];
         $annee = substr($periode, 0, 4);
         $mois = substr($periode, 4, 2);
+        if($shorted){
+          return "DRM ".$mois."/".$annee;
+        }
         $date = $annee . '-' . $mois . '-01';
         $df = format_date($date, 'MMMM yyyy', 'fr_FR');
         return elision($origineLibelle, $df);

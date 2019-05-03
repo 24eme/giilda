@@ -520,6 +520,10 @@ class Compte extends BaseCompte {
                 }
             }
 
+            if ($droit == Roles::TELEDECLARATION_FACTURE) {
+                $compteDroits->add(Roles::TELEDECLARATION_FACTURE, Roles::TELEDECLARATION_FACTURE);
+            }
+
         }
         if($acces_teledeclaration){
             $compteDroits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
