@@ -46,7 +46,8 @@ class EtablissementClient extends acCouchdbClient {
     public static $regimes_crds_libelles_longs = array(
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (DS)',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'collectif acquitté (DA)',
-        self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)'
+        self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
+    );
     public static $regimes_crds_libelles = array(
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Collectif acquitté',
