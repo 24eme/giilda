@@ -10,6 +10,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     const DETAILS_CREATIONVRAC = 'CREATIONVRAC';
     const DETAILS_EXPORT = 'EXPORT';
     const DETAILS_COOPERATIVE = 'COOPERATIVE';
+    const DETAILS_ALCOOLPUR = 'ALCOOLPUR';
 
     public function isReadable() {
 
