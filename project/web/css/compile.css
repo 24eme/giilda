@@ -1352,7 +1352,7 @@ bouton.btn_enregistrer {
   background-image: url('/images/pictos/pi_ok.png');
 }
 .contrat_attente_moi {
-  background-image: url('../images/pictos/pi_attente.png');
+  background-image: url('../images/pictos/pi_attente_signature.png');
 }
 .contrat_signe_soussigne {
   background-image: url('../images/pictos/pi_ok_gris.png');
