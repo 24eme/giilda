@@ -45,7 +45,7 @@
             </tbody>
         </table>
     <?php endif; ?>
-    <div class="choix_produit_add_produit">
-        <a href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" value="" class="btn_majeur submit_button">Ajouter des Produits</a>
+    <div class="choix_produit_add_produit clearfix" style="padding: 5px">
+        <a href="<?php echo url_for('drm_choix_produit', array('sf_subject' => $drm, 'add_produit' => $certificationProduits->certification_keys)) ?>" class="btn_majeur submit_button">Ajouter des Produits</a>
     </div>
 <?php endforeach; ?>
