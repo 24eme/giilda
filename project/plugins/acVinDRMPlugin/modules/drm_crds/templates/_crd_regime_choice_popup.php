@@ -13,16 +13,16 @@ if (isset($retour) && ($retour == 'crds')) {
             <?php echo $crdRegimeForm->renderGlobalErrors(); ?>
             <h2>DRM suspendue : choisir un régime de CRD (Compte capsule)</h2>
             <br/>
-            <p><span class="error_list">Votre chais «&nbsp;<?php echo $drm->getEtablissement()->nom; ?>&nbsp;» ne possède actuellement aucun régime de CRD.</span>
-            Il est nécessaire pour la suite de la saisie de choisir ici le régime CRD. Une fois choisi ce message n'apparaîtra plus. <br/>
-             Si vous achetez des CRD Acquitées auprès de votre ODG, sélectionnez «&nbsp;collectif acquitté&nbsp;». Si utilisez des CRD personnalisées, cliquez sur «&nbsp;personnalisé&nbsp;». Pour les autres cas, sélectionnez «&nbsp;collectif suspendu&nbsp;»</p>
+            <p><span class="error_list">Votre chai «&nbsp;<?php echo $drm->getEtablissement()->nom; ?>&nbsp;» ne possède actuellement aucun régime de CRD.</span></p>
+            <p>Le choix de votre régime CRD a un impact sur le paiement ou non de vos droits de circulation pour les sorties bouteilles et BIB en fin de DRM</p>
+            <p>Si vous payez les capsules ainsi que les droits de circulation auprès de votre organismes répartiteur au moment de l'achat des capsules, cochez « collectif acquittés (DA) » (Les droits de circultation sont réglés aux douanes au moment de l'achat des capsules). Si vous ne payez que les capsules auprès de votre organisme répartiteur, cochez « collectif suspendu (DS) » (Vos droits de circulation seront payés aux douanes sur la base des éléments de la DRM). Si vous payez uniquement vos capsules auprsè d'un fournisseur privé, coché « personnalisé (P) » (les droits de circultation sont payés sur la base des éléments de la DRM)</p>
             <br/>
-            <p>Sur la DRM papier Interloire, le régime CRD est demandé dans le cadre dédié au stock capsules&nbsp;:</p>
-            <center><img src="/images/visuels/regime_crd_papier.jpg" width="400" height="125" stype="padding: 10px;" ></center>
+            <p>Une fois renseigné, ce message n'apparaîtra plus. </p>.
             <br/>
             <p><b>Votre régime CRD&nbsp;:</b></p>
             <?php echo $crdRegimeForm['crd_regime']->render(); ?>
             <br/>
+            <p>Si vous avez deux types de régimes de CRD, contactez InterLoire.<p>
             <div class="ligne_btn">
                 <button id="popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Valider ce choix de régime CRD</span></button>
             </div>

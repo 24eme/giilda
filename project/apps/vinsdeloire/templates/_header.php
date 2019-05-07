@@ -26,15 +26,6 @@
                 <a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
             <?php endif; ?>
             <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
-
-                <?php //
-                //LIEN OBSERVATOIRE
-                //
-                //if ($sf_user->hasCredential(Roles::OBSERVATOIRE)) : ?>
-                <!--<a href="<?php // echo sfConfig::get('app_observatoire_url'); ?>">Observatoire</a>-->
-                <?php // endif; ?>
-
-
                 <a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
             <?php endif; ?>
             <?php if ($sf_user->isAuthenticated()): ?>

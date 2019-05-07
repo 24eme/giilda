@@ -101,7 +101,7 @@ class myUser extends sfBasicSecurityUser {
     }
 
     public function isUsurpationCompte() {
-       
+
         return $this->getAttribute(self::SESSION_COMPTE_LOGIN, null, self::NAMESPACE_COMPTE) != $this->getAttribute(self::SESSION_COMPTE_LOGIN, null, self::NAMESPACE_COMPTE_ORIGIN);
     }
 
@@ -119,6 +119,10 @@ class myUser extends sfBasicSecurityUser {
 
     public function hasTeledeclarationDrm() {
         return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_DRM);
+    }
+
+    public function hasTeledeclarationFacture() {
+        return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_FACTURE);
     }
 
     public function hasTeledeclarationVracCreation() {

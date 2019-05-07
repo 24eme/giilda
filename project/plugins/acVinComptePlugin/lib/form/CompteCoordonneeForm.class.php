@@ -36,6 +36,10 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->defaults['droits'][] =  Roles::TELEDECLARATION_DRM_ACQUITTE;
         }
 
+        if($compte->hasDroit(Roles::TELEDECLARATION_FACTURE)){
+            $this->defaults['droits'][] =  Roles::TELEDECLARATION_FACTURE;
+        }
+
     }
 
     public function configure() {
@@ -102,7 +106,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
 
     public function getDroits() {
 
-        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM", Roles::TELEDECLARATION_DRM_ACQUITTE => "DRM Acquittée", Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
+        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM", Roles::TELEDECLARATION_DRM_ACQUITTE => "DRM Acquittée", Roles::TELEDECLARATION_FACTURE =>  "Factures", Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
     }
 
     public function getCountryList() {

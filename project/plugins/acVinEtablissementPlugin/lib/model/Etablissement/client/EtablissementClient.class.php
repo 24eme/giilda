@@ -43,15 +43,20 @@ class EtablissementClient extends acCouchdbClient {
 
     public static $statuts = array(self::STATUT_ACTIF => 'ACTIF',
         self::STATUT_SUSPENDU => 'SUSPENDU');
-    public static $regimes_crds_libelles_longs = array(self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
+    public static $regimes_crds_libelles_longs = array(
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (DS)',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'collectif acquitté (DA)',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (DS)');
-     public static $regimes_crds_libelles = array(self::REGIME_CRD_PERSONNALISE => 'Personnalisé',
+        self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)'
+    public static $regimes_crds_libelles = array(
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Collectif acquitté',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu');
-    public static $regimes_crds_libelles_courts = array(self::REGIME_CRD_PERSONNALISE => 'P',
+        self::REGIME_CRD_PERSONNALISE => 'Personnalisé'
+    );
+    public static $regimes_crds_libelles_courts = array(
+        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
-        self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS');
+        self::REGIME_CRD_PERSONNALISE => 'P',
+    );
 
     public static $caution_libelles = array(self::CAUTION_DISPENSE => 'Dispensé',
         self::CAUTION_CAUTION => 'Caution');
