@@ -1,7 +1,8 @@
 <?php
-class factureActions extends sfActions {
+class factureActions extends factureGeneriqueActions {
 
   public function executeIndex(sfWebRequest $request) {
+      $this->redirect403IfIsTeledeclaration();
       $this->form = new FactureSocieteChoiceForm('INTERPRO-inter-loire');
       $this->generationForm = new FactureGenerationMasseForm();
       $this->generations = GenerationClient::getInstance()->findHistoryWithType(GenerationClient::TYPE_DOCUMENT_FACTURES,10);
@@ -14,6 +15,7 @@ class factureActions extends sfActions {
     }
 
    public function executeGeneration(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
         $this->generationForm = new FactureGenerationMasseForm();
         if ($request->isMethod(sfWebRequest::POST)) {
 	          $this->generationForm->bind($request->getParameter($this->generationForm->getName()));
@@ -44,17 +46,21 @@ class factureActions extends sfActions {
     }
 
    public function executeEtablissement(sfWebRequest $request) {
+     $this->redirect403IfIsTeledeclaration();
      return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
    }
 
     public function executeMonEspace(sfWebRequest $resquest) {
+        $this->redirect403IfIsTeledeclaration();
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
+        $this->isTeledeclarationMode = $this->isTeledeclarationFacture();
         $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
     }
 
     public function executeDefacturer(sfWebRequest $resquest) {
+        $this->redirect403IfIsTeledeclaration();
         $this->facture = $this->getRoute()->getFacture();
         if(!$this->facture->hasAvoir()){
             $this->avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($this->facture);
@@ -64,7 +70,7 @@ class factureActions extends sfActions {
 
 
     public function executeGenerer(sfWebRequest $request) {
-
+        $this->redirect403IfIsTeledeclaration();
         $parameters = $request->getParameter('facture_generation');
         $date_facturation = (!isset($parameters['date_facturation']))? null : DATE::getIsoDateFromFrenchDate($parameters['date_facturation']);
         $message_communication = (!isset($parameters['message_communication']))? null : $parameters['message_communication'];
@@ -85,9 +91,30 @@ class factureActions extends sfActions {
         $this->redirect('facture_societe', $this->societe);
     }
 
+    public function executeConnexion(sfWebRequest $request) {
+        $this->redirect403IfIsTeledeclaration();
+        $societe = $this->getRoute()->getSociete();
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->redirect('facture_teledeclarant',array('identifiant' => $this->etablissementPrincipal->identifiant));
+    }
+
+    public function executeSociete(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration();
+        $this->identifiant = $request['identifiant'];
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
+    }
+
+
 
 
     public function executeRedirect(sfWebRequest $request) {
+      $this->redirect403IfIsTeledeclaration();
       $iddoc = $request->getParameter('iddocument');
       if (preg_match('/^DRM/', $iddoc)) {
 	$drm = DRMClient::getInstance()->find($iddoc);
@@ -100,12 +127,16 @@ class factureActions extends sfActions {
     }
 
     public function executeLatex(sfWebRequest $request) {
-
-        $this->setLayout(false);
+        $this->isTeledeclarationMode = $this->isTeledeclarationFacture();
         $this->facture = FactureClient::getInstance()->find($request->getParameter('identifiant'));
+        $this->identifiant = $this->facture->getSociete()->getEtablissementPrincipal()->identifiant;
+        if($this->isTeledeclarationMode){
+          $this->redirect403IfIsNotTeledeclarationAndNotMe();
+        }
+        $this->setLayout(false);
         $this->forward404Unless($this->facture);
-	$latex = new FactureLatex($this->facture);
-	$latex->echoWithHTTPHeader($request->getParameter('type'));
+      	$latex = new FactureLatex($this->facture);
+      	$latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
 

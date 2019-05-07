@@ -9,17 +9,6 @@
             <p>
                 InterLoire met à votre disposition des outils de simplification administrative sur le système d’identification sécurisé : « vinsvaldeloire.pro ».
             </p>
-            <p>
-                Depuis le 1er novembre 2015, la télédéclaration de la DRM ou de la DRA est disponible.
-            </p>
-              <br/>
-            <p>
-                Ce service permet l’enregistrement de la DRM de façon simple et rapide grâce à une interface conviviale.
-            </p>
-
-            <p>
-                Le document pdf récapitulatif généré en fin d’enregistrement peut, à votre convenance, être envoyé aux services locaux de la Douane par voie postale ou électronique.
-            </p>
             <br/>
             <p>
                 Pour activer votre espace DRM, vous devez prendre connaissance et accepter le contrat d’inscription à la télédéclaration de la DRM. Pour cela, <a href="/data/contrat_service_v2.pdf" style="text-decoration: underline;">cliquez ici</a>.
