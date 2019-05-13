@@ -32,8 +32,17 @@ class DRMChoixCreationForm extends sfForm {
     }
 
     public function getTypesCreation() {
-        return DRMClient::$typesCreationLibelles;
+        $types = DRMClient::$typesCreationLibelles;
+
+        if ($this->isAout()) {
+            $types = array_diff_key($types, [DRMClient::DRM_CREATION_NEANT => '']);
+        }
+
+        return $types;
     }
 
-
+    public function isAout()
+    {
+        return preg_match('/[0-9]{5}8/', $this->periode) === 1;
+    }
 }
