@@ -27,7 +27,6 @@ class DRMClient extends acCouchdbClient {
     const DRM_DOCUMENTACCOMPAGNEMENT_DAE = 'DAE';
     const DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC = 'DSADSAC';
     const DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE = 'EMPREINTE';
-    const DRM_DOCUMENTACCOMPAGNEMENT_STATS_EUROPEENNES = 'STATS-EUROPEENNES';
     const DRM_TYPE_MVT_ENTREES = 'entrees';
     const DRM_TYPE_MVT_SORTIES = 'sorties';
     const DRM_CREATION_EDI = 'CREATION_EDI';
@@ -47,8 +46,8 @@ class DRMClient extends acCouchdbClient {
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DCA',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC => 'DSA/DSAC',
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAE => 'DAE',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte',
-        self::DRM_DOCUMENTACCOMPAGNEMENT_STATS_EUROPEENNES => 'Stats Européennes');
+        self::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE => 'Empreinte'
+    );
     public static $typesCreationLibelles = array(self::DRM_CREATION_VIERGE => "Création d'une drm vierge", self::DRM_CREATION_NEANT => "Création d'une drm à néant", self::DRM_CREATION_EDI => 'Création depuis un logiciel tiers');
     protected $drm_historiques = array();
 
