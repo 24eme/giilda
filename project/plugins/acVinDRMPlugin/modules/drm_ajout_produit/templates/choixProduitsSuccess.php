@@ -24,7 +24,7 @@
                         <span>Enregistrer le brouillon</span>
                     </a>
                          <a class="drm_delete_lien" href="#drm_delete_popup"></a>
-                    <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Etape Suivante</span></button>
+                    <button type="submit" class="btn_etape_suiv" id="choixProduitsSubmit"><span>Suivant</span></button>
                 </div>
             </form>
         </div>

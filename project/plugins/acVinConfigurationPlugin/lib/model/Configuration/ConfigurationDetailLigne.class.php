@@ -48,7 +48,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function isFavoris() {
 
-        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getKey()."_".$this->getKey());
+        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getParent()->getKey()."_".$this->getParent()->getKey()."_".$this->getKey());
     }
 
     public function isWritableForEtablissement($etb) {
