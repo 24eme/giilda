@@ -57,24 +57,33 @@ class AnnuaireClient extends acCouchdbClient {
     }
 
     public function findOrCreateAnnuaireWithSuspendu($identifiant) {
+        $etbclient = EtablissementClient::getInstance();
+
         $annuaire = $this->findOrCreateAnnuaire($identifiant);
         $annuaireWithSuspendu = new stdClass();
         $annuaireWithSuspendu->recoltants = array();
+
         foreach ($annuaire->recoltants as $key => $item) {
-            $isActif = (EtablissementClient::getInstance()->find($key, acCouchdbClient::HYDRATE_JSON)->statut == EtablissementClient::STATUT_ACTIF);
             $localEtb = new stdClass();
-            $localEtb->isActif = $isActif;
+
+            $etablissement = $etbclient->find($key, acCouchdbClient::HYDRATE_JSON);
+
+            $localEtb->isActif = ($etablissement->statut == EtablissementClient::STATUT_ACTIF);
             $localEtb->name = $item;
+            $localEtb->cvi = $etablissement->cvi;
+            $localEtb->accises = $etablissement->no_accises;
+
             $annuaireWithSuspendu->recoltants[$key] = $localEtb;
         }
+
         $annuaireWithSuspendu->negociants = array();
         foreach ($annuaire->negociants as $key => $item) {
-            $isActif = (EtablissementClient::getInstance()->find($key, acCouchdbClient::HYDRATE_JSON)->statut == EtablissementClient::STATUT_ACTIF);
             $localEtb = new stdClass();
-            $localEtb->isActif = $isActif;
+            $localEtb->isActif = ($etbclient->find($key, acCouchdbClient::HYDRATE_JSON)->statut == EtablissementClient::STATUT_ACTIF);
             $localEtb->name = $item;
             $annuaireWithSuspendu->negociants[$key] = $localEtb;
         }
+
         $annuaireWithSuspendu->commerciaux = $annuaire->commerciaux;
         return $annuaireWithSuspendu;
     }

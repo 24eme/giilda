@@ -9090,6 +9090,21 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 .annuaire .bloc_annuaire {
   margin: 20px 0;
 }
+.table_recap.table_annuaire th,
+.table_recap.table_annuaire td {
+  text-align: left;
+  padding-left: 5px;
+}
+.table_recap.table_annuaire tbody tr td span {
+  font-size: 11px;
+  color: #808080;
+}
+.table_recap.table_annuaire tbody tr td span.red {
+  color: red;
+}
+.table_recap.table_annuaire tbody tr.suspendu {
+  background-color: #ffeaea;
+}
 /**
  * Fichier : tablette.less
  * Description : styles spécifiques aux tablettes

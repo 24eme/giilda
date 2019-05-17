@@ -10,26 +10,29 @@
                     <a href="<?php echo url_for('annuaire_selectionner', array('type' => 'recoltants', 'identifiant' => $etablissement->identifiant)) ?>" class="btn_vert btn_majeur">Ajouter un viticulteur</a>
                 </div>
 
-                <table class="table_recap">			
+                <table class="table_recap table_annuaire">		
                     <thead>
                         <tr>
-                            <th colspan="2" style="text-align: left; padding-left: 5px;">Viticulteurs (<?php echo count($annuaire->recoltants) ?>)</th>
+                            <th colspan="2">Viticulteurs (<?php echo count($annuaire->recoltants) ?>)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (count($annuaire->recoltants) > 0): ?>
                             <?php foreach ($annuaire->recoltants as $key => $item): ?>
-                                <tr>
-                                    <?php if ($item->isActif): ?>
-                                        <td style="text-align: left; padding-left: 5px;"><?php echo $item->name ?><span style="color: #808080; font-size: 11px;">(<?php echo $key; ?>)</span></td>
-                                    <?php else: ?>
-                                        <td style="text-align: left; padding-left: 5px;"> <span style="text-decoration: line-through;"><?php echo $item->name ?> </span> <span style="color: #808080; font-size: 11px; text-decoration: line-through;">(<?php echo $key; ?>)</span> <span style="color: red; font-size: 11px;">SUSPENDU</span></td>
-                                    <?php endif; ?>
+                                <tr<?= ($item->isActif) ? '' : " class='suspendu'"?>>
+                                <td>
+                                    <?= $item->name ?>
+                                    <?php if (! $item->isActif) : ?>
+                                        <span class="red">SUSPENDU</span>
+                                    <?php endif;?>
+                                    <br/>
+                                    <span><?= $key; ?> &middot; CVI: <?= $item->cvi ?> &middot; Accise: <?= $item->accises ?></span>
+                                </td>
                                     <td><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'recoltants', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du viticulteur ?')" class="btn_supprimer">X</a></td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <tr><td style="text-align: left; padding-left: 5px;"><span style="font-style: italic; font-size: 11px;">Aucun viticulteur</span></td></tr>
+                            <tr><td><span>Aucun viticulteur</span></td></tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -52,9 +55,9 @@
                                 <?php foreach ($annuaire->negociants as $key => $item): ?>
                                     <tr>
                                         <?php if ($item->isActif): ?>
-                                        <td style="text-align: left; padding-left: 5px;"><?php echo $item->name ?> <?php echo $item->isActif ?><span style="color: #808080; font-size: 11px;">(<?php echo $key; ?>)</span></td>
+                                        <td style="text-align: left; padding-left: 5px;"><?php echo $item->name ?> <?php echo $item->isActif ?> <span style="color: #808080; font-size: 11px;">(<?php echo $key; ?>)</span></td>
                                         <?php else: ?>
-                                        <td style="text-align: left; padding-left: 5px;"> <span style="text-decoration: line-through;"><?php echo $item->name ?> </span> <span style="color: #808080; font-size: 11px; text-decoration: line-through;">(<?php echo $key; ?>)</span> <span style="color: red; font-size: 11px;">SUSPENDU</span></td>
+                                        <td style="text-align: left; padding-left: 5px;"><span style="text-decoration: line-through;"><?php echo $item->name ?></span> <span style="color: #808080; font-size: 11px; text-decoration: line-through;">(<?php echo $key; ?>)</span> <span style="color: red; font-size: 11px;">SUSPENDU</span></td>
                                     <?php endif; ?>
                                         <td><a href="<?php echo url_for('annuaire_supprimer', array('type' => 'negociants', 'id' => $key, 'identifiant' => $etablissement->identifiant)) ?>" onclick="return confirm('Confirmez-vous la suppression du négociant ?')" class="btn_supprimer">X</a></td>
                                     </tr>
