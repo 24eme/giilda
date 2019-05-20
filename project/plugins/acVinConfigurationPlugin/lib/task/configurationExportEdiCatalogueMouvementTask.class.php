@@ -58,7 +58,7 @@ EOF;
                 if($mvtValue->isVrac()) {
                     $properties[] = "CONTRAT";
                 }
-                if($mvtValue->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
+                if(preg_match("/export/", $mvtValue->getKey())) {
                     $properties[] = "PAYS";
                 }
                 if($mvtValue->needDouaneDateReplacement()) {
