@@ -1,1 +1,41 @@
-Could not open input file: symfony
+TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT,LIBELLE MOUVEMENT,DESCRIPTION MOUVEMENT
+suspendu,stocks_debut,initial,initial,stock début de mois
+suspendu,entrees,achatnoncrd,achat (vrac/blles nues),achats vrac + bouteilles sans crd
+suspendu,entrees,autre,autres,autres entrées que celles-ci-dessous. nécessite la saisie obligatoire d'un commentaire dans la rubrique observations.
+suspendu,entrees,excedent,excédents,quantités en excédent
+suspendu,entrees,manipulations,manipulations diverses,manipulations diverses
+suspendu,entrees,repli,repli/déclassement,repli/déclassement
+suspendu,entrees,retourmarchandisenontaxees,retour cvo non taxé,quantités réintégrées cvo seule
+suspendu,entrees,retourrelogement,retour de relogement,retour de relogement
+suspendu,entrees,retourembouteillage,retour embouteillage,retour de prestation d'embouteillage
+suspendu,entrees,retourmarchandisetaxees,retour taxé et cvo,quantités réintégrées cvo + droits circulation
+suspendu,entrees,retourtravailafacon,retour travail à façon,retour de travail à façon
+suspendu,entrees,recolte,récolte,entrées récolte
+suspendu,entrees,vci,vci,vci
+suspendu,sorties,autre,autres,autres sorties que celles-ci-dessous. nécessite la saisie obligatoire d'un commentaire dans la rubrique observations.
+suspendu,sorties,ventefrancecrd,blles crd - dsa france,sortie taxables crd ou dsa/dsac france
+suspendu,sorties,exporttaxe,blles crd hors france,sorties taxables dsa/dsac hors france métropolitaine
+suspendu,sorties,export,blles susp. hors alsace,sorties en suspension hors france crd ou capsules neutres
+suspendu,sorties,bouteillenue,contrat bouteille,sorties contrats bouteilles nues.
+suspendu,sorties,vrac,contrat vrac,sorties contrat vrac
+suspendu,sorties,consommationfamilialedegustation,dégustation propriété,sorties en exonération dégustation à la propriété
+suspendu,sorties,embouteillage,embouteillage,sortie pour prestation d'embouteillage
+suspendu,sorties,exoversutilisateurauto,exo vers utilisat. autorisé,sorties en exonération vers un utilisateur autorisé
+suspendu,sorties,lies,lies et bourbes,autres sorties lies et bourbes
+suspendu,sorties,manipulations,manipulations,manipulations
+suspendu,sorties,destructionperte,pertes et manquants,autres sorties pertes et manquants
+suspendu,sorties,rebeches,rebêches,autres sorties rebêches
+suspendu,sorties,relogement,relogement,relogement
+suspendu,sorties,repli,repli/déclassement,autres sorties replis et délassement
+suspendu,sorties,travailafacon,travail à façon,travail à façon
+suspendu,sorties,usageindustriel,usages industriel,dra/dplc blanc ou rouge et bfav
+suspendu,sorties,vci,vci,vci
+suspendu,stocks_fin,final,final,stock fin de mois
+acquitte,stocks_debut,initial,initial,stock début de mois
+acquitte,entrees,achat,achats,entrées achats
+acquitte,entrees,reintegration,réintégration,quantités réintégrées
+acquitte,sorties,ventefrancecrd,blles france,sorties bouteilles france
+acquitte,sorties,export,blles hors france,sorties sous document commercial de bouteilles hors france
+acquitte,sorties,consommationfamilialedegustation,dégustation,dégustation à la propriété
+acquitte,sorties,destructionperte,pertes et manquants,pertes et manquants
+acquitte,stocks_fin,final,final,stock fin de mois
