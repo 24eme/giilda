@@ -6,6 +6,12 @@
  */
 class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
+    const DETAILS_VRAC = 'VRAC';
+    const DETAILS_CREATIONVRAC = 'CREATIONVRAC';
+    const DETAILS_EXPORT = 'EXPORT';
+    const DETAILS_COOPERATIVE = 'COOPERATIVE';
+    const DETAILS_ALCOOLPUR = 'ALCOOLPUR';
+
     public function isReadable() {
 
         return ($this->readable);
@@ -19,6 +25,20 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
     public function isVrac() {
 
         return ($this->vrac > 0);
+    }
+
+    public function needDouaneObservation() {
+
+        return preg_match('/autres-entrees|autres-sorties|replacement-suspension|manipulations/', $this->douane_cat);
+    }
+
+    public function needDouaneDateReplacement() {
+        if($this->getParent()->getParent()->getKey() != "details") {
+
+            return false;
+        }
+
+        return preg_match('/replacement-suspension/', $this->douane_cat);
     }
 
     public function hasDetails() {
@@ -48,7 +68,7 @@ class ConfigurationDetailLigne extends BaseConfigurationDetailLigne {
 
     public function isFavoris() {
 
-        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getKey()."_".$this->getKey());
+        return $this->getDocument()->exist("mvts_favoris/".$this->getParent()->getParent()->getKey()."_".$this->getParent()->getKey()."_".$this->getKey());
     }
 
     public function isWritableForEtablissement($etb) {
