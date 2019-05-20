@@ -36,7 +36,12 @@ EOF;
         $etablissements = EtablissementClient::getInstance();
 
         $annuaire = $arguments['annuaire'];
-        $annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaire($annuaire);
+        $annuaire = AnnuaireClient::getInstance()->find($annuaire);
+
+        if (! $annuaire) {
+            echo "L'annuaire ".$arguments['annuaire']." n'existe pas".PHP_EOL;
+            exit;
+        }
 
         foreach (array_keys(AnnuaireClient::getAnnuaireTypes()) as $type) {
             foreach ($annuaire->get($type) as $key => $etab) {
