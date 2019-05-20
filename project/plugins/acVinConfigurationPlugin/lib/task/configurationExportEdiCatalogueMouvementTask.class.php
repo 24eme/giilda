@@ -36,7 +36,7 @@ EOF;
     if(!$configuration){
       throw new sfException("La configuration courante n'existe pas");
     }
-    echo sprintf("TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT,LIBELLE MOUVEMENT,DESCRIPTION MOUVEMENT\n");
+    echo sprintf("TYPE_DRM,CATEGORIE MOUVEMENT,TYPE MOUVEMENT,LIBELLE MOUVEMENT,DESCRIPTION MOUVEMENT,CARACTERISTIQUES,DOUANE\n");
 
     $configurationDeclaration = $configuration->getDeclaration();
     $typesMvt = DRMClient::$types_libelles;
@@ -47,14 +47,30 @@ EOF;
       foreach ($configurationDeclaration->$typesMvtKey as $categorieKey => $categorieValue) {
         $categorieArray = array();
         foreach ($categorieValue as $mvtKey => $mvtValue) {
-          if(!in_array($mvtKey,self::$escaped_mvts_keys)){
-             if (strpos($categorieKey, 'stocks') !== false && $mvtKey != 'revendique') {
-                 continue;
-             }
-            $libelleMvt = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->libelle));
-            $description = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->description));
-            $categorieArray[$libelleMvt] = sprintf("%s,%s,%s,%s,%s\n",strtolower(KeyInflector::slugify($typesMvtValue)),$categorieKey,$mvtKey,$libelleMvt,$description);
-          }
+            if (!$mvtValue->readable) {
+                continue;
+            }
+            if(!in_array($mvtKey,self::$escaped_mvts_keys)){
+                if (strpos($categorieKey, 'stocks') !== false && $mvtKey != 'revendique') {
+                    continue;
+                }
+                $properties = array();
+                if($mvtValue->isVrac()) {
+                    $properties[] = "CONTRAT";
+                }
+                if($mvtValue->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
+                    $properties[] = "PAYS";
+                }
+                if($mvtValue->needDouaneDateReplacement()) {
+                    $properties[] = "DATE_REPLACEMENT";
+                }
+                if($mvtValue->needDouaneObservation()) {
+                    $properties[] = "OBSERVATIONS";
+                }
+                $libelleMvt = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->libelle));
+                $description = str_replace(',', '.', strtolower($libelles->$typesMvtKey->$categorieKey->$mvtKey->description));
+                $categorieArray[$libelleMvt] = sprintf("%s,%s,%s,%s,%s,%s,%s\n",strtolower(KeyInflector::slugify($typesMvtValue)),$categorieKey,$mvtKey,$libelleMvt,$description, implode(";", $properties), $mvtValue->douane_cat);
+            }
         }
         ksort($categorieArray);
         foreach ($categorieArray as $row) {
