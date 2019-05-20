@@ -51,5 +51,6 @@ EOF;
         }
 
         $annuaire->save();
+        echo "L'annuaire ".$arguments['annuaire']." est mis à jour".PHP_EOL;
     }
 }
