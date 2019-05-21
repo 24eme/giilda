@@ -40,7 +40,7 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
     public function getCRDRegimes() {
         $regimes = DRMClient::getInstance()->getAllRegimesCrdsChoices(true);
 
-        if (sfContext::getInstance()->getUser()->isUsurpationCompte()) {
+        if (! sfContext::getInstance()->getUser()->isUsurpationCompte()) {
             unset(
                 $regimes[EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU],
                 $regimes[EtablissementClient::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU]
