@@ -39,10 +39,18 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
 
     public function getCRDRegimes() {
         $crdRegimes = EtablissementClient::$regimes_crds_libelles_longs;
-        
+
         if(preg_match('/^PDL_/',$this->drm->getEtablissement()->region) && array_key_exists(EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE,$crdRegimes)){
             unset($crdRegimes[EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE]);
         }
+
+        if (sfContext::getInstance()->getUser()->isUsurpationCompte()) {
+            unset(
+                $crdRegimes[EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU],
+                $crdRegimes[EtablissementClient::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU]
+            );
+        }
+
         return $crdRegimes;
     }
 
