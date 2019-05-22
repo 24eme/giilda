@@ -291,3 +291,14 @@ var fbConfig =
 	});
 
 })(jQuery);
+
+reveals = document.querySelectorAll('.reveal-link');
+reveals.forEach(function(link) {
+	link.addEventListener('click', function () {
+		id = this.dataset.reveal
+		el = document.getElementById(id)
+		if (el == null) {return false}
+		el.style.display = 'block'
+		this.remove()
+	}, false)
+});
