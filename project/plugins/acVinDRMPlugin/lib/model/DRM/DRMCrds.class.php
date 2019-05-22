@@ -61,6 +61,7 @@ class DRMCrds extends BaseDRMCrds {
         $contenanceDefault = $contenances['Bouteille 75 cl'];
 
         foreach ($genres as $genre) {
+            $this->getOrAddCrdNode($genre, DRMClient::DRM_DEFAUT, $contenanceDefault);
             $this->getOrAddCrdNode($genre, DRMClient::DRM_VERT, $contenanceDefault);
             $this->getOrAddCrdNode($genre, DRMClient::DRM_BLEU, $contenanceDefault);
             $this->getOrAddCrdNode($genre, DRMClient::DRM_LIEDEVIN, $contenanceDefault);

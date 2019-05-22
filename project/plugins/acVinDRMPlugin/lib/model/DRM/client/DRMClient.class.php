@@ -18,6 +18,7 @@ class DRMClient extends acCouchdbClient {
     const VALIDE_STATUS_VALIDEE = 'VALIDEE';
     const VALIDE_STATUS_VALIDEE_ENVOYEE = 'ENVOYEE';
     const VALIDE_STATUS_VALIDEE_RECUE = 'RECUE';
+    const DRM_DEFAUT = 'DEFAUT';
     const DRM_VERT = 'VERT';
     const DRM_BLEU = 'BLEU';
     const DRM_LIEDEVIN = 'LIEDEVIN';
@@ -40,7 +41,12 @@ class DRMClient extends acCouchdbClient {
     public static $types_node_from_libelles = array(self::TYPE_DRM_SUSPENDU => DRM::DETAILS_KEY_SUSPENDU, self::TYPE_DRM_ACQUITTE => DRM::DETAILS_KEY_ACQUITTE);
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
-    public static $drm_crds_couleurs = array(self::DRM_VERT => 'Vert', self::DRM_BLEU => 'Bleu', self::DRM_LIEDEVIN => 'Lie de vin');
+    public static $drm_crds_couleurs = array(
+        self::DRM_DEFAUT => 'Défaut',
+        self::DRM_VERT => 'Vert',
+        self::DRM_BLEU => 'Bleu',
+        self::DRM_LIEDEVIN => 'Lie de vin'
+    );
     public static $drm_max_favoris_by_types_mvt = array(self::DRM_TYPE_MVT_ENTREES => 3, self::DRM_TYPE_MVT_SORTIES => 6);
     public static $drm_documents_daccompagnement = array(
         self::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC => 'DAA/DCA',
