@@ -12,7 +12,8 @@
                         <?php echo $form->renderHiddenFields(); ?>
                         <?php echo $form->renderGlobalErrors(); ?>
                         <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
-                        <div class="form-group">
+                        <a href="#" data-reveal="reveal_crd_color" class="reveal-link">Afficher la liste des couleurs</a>
+                        <div class="form-group" style="display: none;" id="reveal_crd_color">
                             <?php echo $form['couleur_crd_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>
                             <div class="col-sm-8">
                                 <?php echo $form['couleur_crd_'.$regime]->render(); ?>
