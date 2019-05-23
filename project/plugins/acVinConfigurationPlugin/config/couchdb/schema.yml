@@ -130,6 +130,9 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -149,6 +152,9 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -168,6 +174,9 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -187,6 +196,9 @@ Configuration:
                               readable: {  }
                               writable: {  }
                               details: {  }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: {  }
                               vrac: { type: integer }
                               facturable: {  }
