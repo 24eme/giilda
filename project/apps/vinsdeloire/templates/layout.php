@@ -104,6 +104,8 @@
                         <?php endif; ?>
                         <?php include_slot('colLegende'); ?>
 
+                        <?php include_slot('colHlHlap'); ?>
+
                         <?php include_slot('colAide'); ?>
 
                         <?php include_slot('colReglementation'); ?>

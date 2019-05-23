@@ -13,15 +13,17 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
     private $typesCouleurs = null;
     private $typesLitrages = null;
     private $defaultGenre = null;
+    private $defaultColor = null;
 
     public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->drm = $object;
-	if (count($this->drm->getRegimesCrds()) > 1 && isset($options['regime'])) {
-		$this->regimeCrds = $options['regime'];
-	}else{
-		$this->regimeCrds = $this->drm->getRegimesCrds()[0];
-	}
+        if (count($this->drm->getRegimesCrds()) > 1 && isset($options['regime'])) {
+            $this->regimeCrds = $options['regime'];
+        }else{
+            $this->regimeCrds = $this->drm->getRegimesCrds()[0];
+        }
         $this->defaultGenre = $options['genre'];
+        $this->defaultColor = (isset($options['color'])) ? $options['color'] : DRMClient::DRM_DEFAUT;
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
@@ -43,6 +45,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         $this->setValidator('genre_crd_'.$this->regimeCrds, new sfValidatorChoice(array('multiple' => false, 'required' => true, 'choices' => array_keys($this->getGenres())), array('required' => "Aucun genre n'a été saisi !")));
         $this->setValidator('regime', new sfValidatorPass());
 
+        $this->setDefault('couleur_crd_'.$this->regimeCrds, $this->defaultColor);
         $this->setDefault('genre_crd_'.$this->regimeCrds, $this->defaultGenre);
         $this->setDefault('regime', $this->regimeCrds);
 

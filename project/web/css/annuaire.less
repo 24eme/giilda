@@ -10,13 +10,13 @@
 {
     table#table_annuaire_selection
     {
-        th, td 
+        th, td
         {
             padding-left: 5px;
             text-align: left;
         }
     }
-    
+
     table#soussigne_description
     {
         td
@@ -29,18 +29,18 @@
     div.btn_block
     {
         clear: both;
-        margin: 10px 0; 
-        
+        margin: 10px 0;
+
         a { float: left; }
-        
+
         button
-        {   
+        {
             cursor: pointer;
             float: right;
         }
     }
 
-    .ligne_form label 
+    .ligne_form label
     {
         display: inline;
         width: 100%;
@@ -50,4 +50,31 @@
 .annuaire
 {
     .bloc_annuaire { margin: 20px 0; }
+}
+
+.table_recap.table_annuaire
+{
+    th, td {
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    tbody {
+        tr {
+            td {
+                span {
+                    font-size: 11px;
+                    color: #808080;
+
+                    &.red {
+                        color: red;
+                    }
+                }
+            }
+
+            &.suspendu {
+                background-color: #ffeaea;
+            }
+        }
+    }
 }

@@ -37,6 +37,8 @@ class EtablissementClient extends acCouchdbClient {
     const REGIME_CRD_PERSONNALISE = 'PERSONNALISE';
     const REGIME_CRD_COLLECTIF_ACQUITTE = 'COLLECTIFACQUITTE';
     const REGIME_CRD_COLLECTIF_SUSPENDU = 'COLLECTIFSUSPENDU';
+    const REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU = 'COLLECTIFACQUITTE,COLLECTIFSUSPENDU';
+    const REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU = 'PERSONNALISE,COLLECTIFSUSPENDU';
 
     const CAUTION_DISPENSE = 'DISPENSE';
     const CAUTION_CAUTION = 'CAUTION';
@@ -46,16 +48,22 @@ class EtablissementClient extends acCouchdbClient {
     public static $regimes_crds_libelles_longs = array(
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'collectif suspendu (DS)',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'collectif acquitté (DA)',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'collectif acquitté + collectif suspendu (DA+DS)',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'personnalisé + collectif suspendu (P+DS)',
         self::REGIME_CRD_PERSONNALISE => 'personnalisé (P)',
     );
     public static $regimes_crds_libelles = array(
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'Collectif suspendu',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'Collectif acquitté',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'Collectif acquitté + Collectif suspendu',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'Personnalisé + Collectif suspendu',
         self::REGIME_CRD_PERSONNALISE => 'Personnalisé'
     );
     public static $regimes_crds_libelles_courts = array(
         self::REGIME_CRD_COLLECTIF_SUSPENDU => 'C-DS',
         self::REGIME_CRD_COLLECTIF_ACQUITTE => 'C-DA',
+        self::REGIME_CRD_COLLECTIF_ACQUITTE_SUSPENDU => 'C-DA+C-DS',
+        self::REGIME_CRD_COLLECTIF_PERSONNALISE_SUSPENDU => 'P+C-DS',
         self::REGIME_CRD_PERSONNALISE => 'P',
     );
 

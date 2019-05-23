@@ -4,13 +4,16 @@
             <?php echo $form->renderHiddenFields(); ?>
             <?php echo $form->renderGlobalErrors(); ?>
             <h2>Choisir un type de CRD</h2>
-            <div class="ligne_form">       
+            <div class="ligne_form">
+                <a href="#" data-reveal="reveal_crd_color" class="reveal-link">Afficher la liste des couleurs</a>
+                <div style="display: none" id="reveal_crd_color">
                 <span>
                     <?php echo $form['couleur_crd_'.$regime]->renderError(); ?>
                     <?php echo $form['couleur_crd_'.$regime]->renderLabel() ?>
                     <?php echo $form['couleur_crd_'.$regime]->render(array('class' => 'couleur_crd_choice')); ?>
                 </span>
                 &nbsp;<a href="" class="msg_aide_drm  icon-msgaide size-16" title="<?php echo getHelpMsgText('drm_crds_ajout_aide1'); ?>" style="float:right; padding: 0 10px 0 0;"></a>
+                </div>
             </div>
             <div class="ligne_form">       
                 <span>

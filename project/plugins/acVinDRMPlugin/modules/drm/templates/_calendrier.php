@@ -7,6 +7,9 @@
         <?php echo $formCampagne; ?> <input class="btn_majeur btn_vert" type="submit" value="changer"/>
         &nbsp;<span style="top: 4px; position: relative;"><a href="" class="msg_aide_drm icon-msgaide size-24" style="top:10px;" data-msg="help_popup_drm_entrees" title="<?php echo getHelpMsgText('drm_calendrier_aide1'); ?>"></a></span>
     </form>
+    <?php if ($sf_user->hasFlash('drm_neant_aout')) : ?>
+        <p style="background: #ffcece; border: 1px solid #ff0000; padding: 1px 5px; margin-top: 10px;"><?= $sf_user->getFlash('drm_neant_aout') ?></p>
+    <?php endif ?>
     <div class="bloc_form">
         <div class="ligne_form ligne_compose">
             <ul class="liste_mois">
