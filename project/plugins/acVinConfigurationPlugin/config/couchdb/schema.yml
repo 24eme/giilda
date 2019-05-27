@@ -130,6 +130,9 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -149,6 +152,9 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -168,6 +174,9 @@ Configuration:
                               readable: { type: integer }
                               writable: { type: integer }
                               details: { type: integer }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer }
                               facturable: { type: integer }
@@ -187,6 +196,9 @@ Configuration:
                               readable: {  }
                               writable: {  }
                               details: {  }
+                              revendique: { type: integer, required: false }
+                              restriction_lies: { type: integer, required: false }
+                              recolte: { type: integer, required: false }
                               mouvement_coefficient: {  }
                               vrac: { type: integer }
                               facturable: {  }
@@ -210,6 +222,12 @@ Configuration:
                         code_produit: {  }
                         code_comptable: {  }
                         code_douane: {  }
+                        attributs:
+                          type: collection
+                          required: false
+                          definition:
+                            fields:
+                             '*': { }
                         departements:
                           type: array_collection
                           definition:
@@ -291,6 +309,12 @@ Configuration:
                                     code_produit: {  }
                                     code_comptable: {  }
                                     code_douane: {  }
+                                    attributs:
+                                      type: collection
+                                      required: false
+                                      definition:
+                                        fields:
+                                         '*': { }
                                     '*':
                                       required: false
                                       class: ConfigurationDetail
@@ -442,6 +466,12 @@ Configuration:
                                                 code_produit: {  }
                                                 code_comptable: {  }
                                                 code_douane: {  }
+                                                attributs:
+                                                  type: collection
+                                                  required: false
+                                                  definition:
+                                                    fields:
+                                                     '*': { }
                                                 densite: {  }
                                                 detail:
                                                   required: false
@@ -594,6 +624,12 @@ Configuration:
                                                             code_produit: {  }
                                                             code_comptable: {  }
                                                             code_douane: {  }
+                                                            attributs:
+                                                              type: collection
+                                                              required: false
+                                                              definition:
+                                                                fields:
+                                                                 '*': { }
                                                             interpro:
                                                               type: collection
                                                               definition:
@@ -744,6 +780,12 @@ Configuration:
                                                                         code_produit: {  }
                                                                         code_comptable: {  }
                                                                         code_douane: {  }
+                                                                        attributs:
+                                                                          type: collection
+                                                                          required: false
+                                                                          definition:
+                                                                            fields:
+                                                                             '*': { }
                                                                         interpro:
                                                                           type: collection
                                                                           definition:
@@ -895,6 +937,12 @@ Configuration:
                                                                                     code_produit: {  }
                                                                                     code_comptable: {  }
                                                                                     code_douane: {  }
+                                                                                    attributs:
+                                                                                      type: collection
+                                                                                      required: false
+                                                                                      definition:
+                                                                                        fields:
+                                                                                         '*': { }
                                                                                     interpro:
                                                                                       type: collection
                                                                                       definition:
@@ -1046,6 +1094,18 @@ Configuration:
                                                                                                 code_produit: {  }
                                                                                                 code_comptable: {  }
                                                                                                 code_douane: {  }
+                                                                                                attributs:
+                                                                                                  type: collection
+                                                                                                  required: false
+                                                                                                  definition:
+                                                                                                    fields:
+                                                                                                     '*': { }
+                                                                                                cepages_autorises:
+                                                                                                  type: array_collection
+                                                                                                  required: false
+                                                                                                  definition:
+                                                                                                    fields:
+                                                                                                      '*': {  }
                                                                                                 interpro:
                                                                                                   type: collection
                                                                                                   definition:
