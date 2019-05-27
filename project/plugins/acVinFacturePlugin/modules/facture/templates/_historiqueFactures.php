@@ -48,7 +48,7 @@ if(count($factures->getRawValue())==0) :
                                 $drmIdFormat = SV12Client::getInstance()->getLibelleFromId($drmlibelle);
                                 $viti = SV12Client::getInstance()->find($drmid)->declarant->nom;
                             }
-                            echo "<span class='tooltip' data-tooltip='".$viti."'>"
+                            echo "<span class='infobulle' data-infobulle='".$viti."'>"
                                 .  link_to(str_replace(" ",'&nbsp;',$drmIdFormat), 'facture_redirect_to_doc', array('iddocument' => $drmid))
                                 . "</span><br/>";
                         } ?>

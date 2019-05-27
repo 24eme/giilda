@@ -9557,3 +9557,26 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     margin: 0 0 10px;
   }
 }
+.infobulle {
+  position: relative;
+}
+.infobulle::after {
+  content: attr(data-infobulle);
+  color: #fff;
+  font-weight: bold;
+  position: absolute;
+  left: 100%;
+  bottom: 0%;
+  pointer-events: none;
+  white-space: pre;
+  z-index: 9999;
+  background: #3e3e3e;
+  display: block;
+  padding: 3px 8px;
+  opacity: 0;
+  margin-left: 10px;
+}
+.infobulle:focus::after,
+.infobulle:hover::after {
+  opacity: 0.9;
+}
