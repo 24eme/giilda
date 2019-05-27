@@ -40,18 +40,18 @@ if(count($factures->getRawValue())==0) :
                     </td>
                     <?php if(!$isTeledeclarationMode): ?>
                       <td>
-                        <?php
-                        $drmIdFormatted = array();
-                        foreach ($facture->value[FactureEtablissementView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
-                          $drmIdFormat = (strstr($drmlibelle, 'DRM')!==FALSE)? DRMClient::getInstance()->getLibelleFromId($drmlibelle,true) :
-                          SV12Client::getInstance()->getLibelleFromId($drmlibelle);
-                          $drmIdFormatted[$drmIdFormat] = $drmIdFormat;
-                          echo link_to(str_replace(" ",'&nbsp;',$drmIdFormat), 'facture_redirect_to_doc', array('iddocument' => $drmid)) . "<br/>";
-                        }
-                        foreach ($drmIdFormatted as $drmIdFormat) {
-                          // echo $drmIdFormat."<br/>";
-                        }
-                       ?>
+                        <?php foreach ($facture->value[FactureEtablissementView::VALUE_ORIGINES] as $drmid => $drmlibelle) {
+                            if (strstr($drmlibelle, 'DRM') !== false) {
+                                $drmIdFormat = DRMClient::getInstance()->getLibelleFromId($drmlibelle, true);
+                                $viti = DRMClient::getInstance()->find($drmid)->declarant->nom;
+                            } else {
+                                $drmIdFormat = SV12Client::getInstance()->getLibelleFromId($drmlibelle);
+                                $viti = SV12Client::getInstance()->find($drmid)->declarant->nom;
+                            }
+                            echo "<span class='tooltip' data-tooltip='".$viti."'>"
+                                .  link_to(str_replace(" ",'&nbsp;',$drmIdFormat), 'facture_redirect_to_doc', array('iddocument' => $drmid))
+                                . "</span><br/>";
+                        } ?>
                      </td>
                   <?php endif; ?>
                     <td><?php echo "prélèvement"; ?></td>
