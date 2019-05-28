@@ -52,6 +52,15 @@
 
             <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post" id="drm_validation">
                 <?php echo $form->renderHiddenFields(); ?>
+
+                <?php if ($compte->hasDroit('teledeclaration_facture')): ?>
+                <div style="padding: 10px">
+                    <h2>Facture par e-mail</h2>
+                    <?= $form['email_facture']->renderLabel(); ?>
+                    <?= $form['email_facture']->render(); ?>
+                </div>
+                <?php endif; ?>
+
                 <?php if (!$isTeledeclarationMode): ?>
                     <h2><?php echo $form['commentaire']->renderLabel(); ?></h2>
                     <?php echo $form['commentaire']->renderError(); ?>
