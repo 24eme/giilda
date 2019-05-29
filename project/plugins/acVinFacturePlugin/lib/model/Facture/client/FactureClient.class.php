@@ -102,14 +102,14 @@ class FactureClient extends acCouchdbClient {
     public function getMouvementsNonFacturesBySoc($mouvements) {
         $generationFactures = array();
         foreach ($mouvements as $mouvement) {
-	  $societe_id = substr($mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID], 0, -2);
-	  if (isset($generationFactures[$societe_id])) {
-	    $generationFactures[$societe_id][] = $mouvement;
-	  } else {
-	    $generationFactures[$societe_id] = array();
-	    $generationFactures[$societe_id][] = $mouvement;
-	  }
-        }
+        $societe_id = substr($mouvement->key[MouvementfactureFacturationView::KEYS_ETB_ID], 0, -2);
+         if (isset($generationFactures[$societe_id])) {
+           $generationFactures[$societe_id][] = $mouvement;
+         } else {
+           $generationFactures[$societe_id] = array();
+           $generationFactures[$societe_id][] = $mouvement;
+         }
+       }
         return $generationFactures;
     }
 
@@ -190,11 +190,12 @@ class FactureClient extends acCouchdbClient {
     }
 
 
-    public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null) {
-
-        $generation = new Generation();
+    public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null, $generation = null) {
+        if(!$generation){
+            $generation = new Generation();
+        }
         $generation->date_emission = date('Y-m-d-H:i');
-        $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
+        $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES_DRM;
         $generation->documents = array();
         $generation->somme = 0;
         $cpt = 0;

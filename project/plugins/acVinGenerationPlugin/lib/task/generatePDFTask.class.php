@@ -28,7 +28,7 @@ Call it with:
   [php symfony generatePDF|INFO]
 EOF;
   }
-  
+
   protected function execute($arguments = array(), $options = array())
   {
     sfContext::createInstance($this->configuration);
@@ -43,7 +43,7 @@ EOF;
 	$generationids = GenerationClient::getInstance()->getGenerationIdEnAttente();
     }
 
-    foreach ($generationids as $gid) { 
+    foreach ($generationids as $gid) {
       echo "Generation de $gid\n";
       try {
 	$generation = GenerationClient::getInstance()->find($gid);
@@ -55,11 +55,15 @@ EOF;
 	case GenerationClient::TYPE_DOCUMENT_FACTURES:
 	  $g = new GenerationFacturePDF($generation, $this->configuration, $options);
 	  break;
-	  
+
+  case GenerationClient::TYPE_DOCUMENT_FACTURES_DRM:
+    $g = new GenerationFactureDRMPDF($generation, $this->configuration, $options);
+    break;
+
 	case GenerationClient::TYPE_DOCUMENT_DS:
 	  $g = new GenerationDSPDF($generation, $this->configuration, $options);
 	  break;
-      
+
         case GenerationClient::TYPE_DOCUMENT_RELANCE:
 	  $g = new GenerationRelancePDF($generation, $this->configuration, $options);
 	  break;
@@ -68,10 +72,10 @@ EOF;
 	  throw new sfException($generation->type_document." n'est pas un type supporté");
 	}
 	echo $g->generatePDF()."\n";
-      }catch(Exception $e) {
-	if ($options['debug']) {
-	  throw $e;
-	}
+       }catch(Exception $e) {
+  	 if ($options['debug']) {
+  	   throw $e;
+  	 }
 	$generation->statut = GenerationClient::GENERATION_STATUT_ENERREUR;
 	$generation->message = $e->getMessage();
 	$generation->save();
