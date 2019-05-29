@@ -21,9 +21,10 @@ var initConditions = function()
 
 var updatePanelsConditions = function()
 {
-    if ($('#vrac_condition #type_contrat input:checked').val() == 'SPOT')
+    if ($('#vrac_condition #type_contrat input').is(':checked') == false)
     {
         $('#prix_isVariable').hide();
+        $('#prix_variable').hide();
     }
     else
     {
