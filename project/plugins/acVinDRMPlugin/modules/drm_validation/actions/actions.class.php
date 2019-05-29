@@ -87,9 +87,14 @@ class drm_validationActions extends drmGeneriqueActions {
       if ($this->form->getValue('transmission_ciel') == "true") {
         $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
       }else{
-              $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
+              $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant,
                   'periode_version' => $this->drm->getPeriodeAndVersion(),
                   'hide_rectificative' => 1));
+                  
+                  $factureMail = true;
+                  if($factureMail){
+                    $this->transmissionFactureMail();
+                  }
       }
   }
 
@@ -127,5 +132,19 @@ class drm_validationActions extends drmGeneriqueActions {
                 $this->redirect('drm_validation', $this->drm);
             }
         }
+    }
+
+    private function transmissionFactureMail(){
+      $date_facturation = date('Y-m-d');
+      $message_communication = "Facture générée automatiquement lors de la validation de la ".DRMClient::getInstance()->getLibelleFromId($this->drm->_id);
+      $mouvementsBySoc = array();
+      $etablissementDRM = $this->drm->getEtablissement();
+      $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
+      $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES_DRM;
+      $generation->add('arguments')->add('regions', $etablissementDRM->region);
+      $generation->add('arguments')->add('drmid', $this->drm->_id);
+      $generation->add('arguments')->add('date_facturation',  $this->drm->getDate());
+      $generation->add('arguments')->add('message_communication', $message_communication);
+      $generation->save();
     }
 }
