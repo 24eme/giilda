@@ -57,9 +57,11 @@ $mess.="    - ".$drmIdFormatted."
     }
 $mess.="
 
-Cette facture a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode)."
+Cette facture a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
 
-Vous pouvez consulter cette dernière depuis votre espace InterLoire en cliquant dans votre espace sur l'onglet « Facture ».
+elle est disponible ici : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("facture_pdf",array("identifiant" => $this->facture->_id)) ."
+
+A tout moment vous pouvez consulter l'ensemble de vos factures sur votre espace InterLoire en cliquant sur l'onglet « Facture » présent en haut à droite.
 
 Pour toutes questions, veuillez contacter:
 
