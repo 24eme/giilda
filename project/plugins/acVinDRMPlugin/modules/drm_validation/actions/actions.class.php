@@ -87,14 +87,14 @@ class drm_validationActions extends drmGeneriqueActions {
       if ($this->form->getValue('transmission_ciel') == "true") {
         $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
       }else{
-              $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant,
+        $factureMail = $this->getUser()->hasTeledeclarationFacture() && $this->getUser()->hasTeledeclarationFactureEmail();
+        if($factureMail){
+          $this->transmissionFactureMail();
+        }
+              $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant,
                   'periode_version' => $this->drm->getPeriodeAndVersion(),
                   'hide_rectificative' => 1));
-                  
-                  $factureMail = true;
-                  if($factureMail){
-                    $this->transmissionFactureMail();
-                  }
+
       }
   }
 
@@ -143,6 +143,7 @@ class drm_validationActions extends drmGeneriqueActions {
       $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES_DRM;
       $generation->add('arguments')->add('regions', $etablissementDRM->region);
       $generation->add('arguments')->add('drmid', $this->drm->_id);
+      $generation->add('arguments')->add('seuil', 50);
       $generation->add('arguments')->add('date_facturation',  $this->drm->getDate());
       $generation->add('arguments')->add('message_communication', $message_communication);
       $generation->save();
