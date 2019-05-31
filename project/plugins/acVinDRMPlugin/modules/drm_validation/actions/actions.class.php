@@ -87,16 +87,33 @@ class drm_validationActions extends drmGeneriqueActions {
       if ($this->form->getValue('transmission_ciel') == "true") {
         $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
       }else{
-              $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant,
-                  'periode_version' => $this->drm->getPeriodeAndVersion(),
-                  'hide_rectificative' => 1));
-                  
-                  $factureMail = true;
-                  if($factureMail){
-                    $this->transmissionFactureMail();
-                  }
+          $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant,
+              'periode_version' => $this->drm->getPeriodeAndVersion(),
+              'hide_rectificative' => 1));
+
+          $factureMail = true;
+          if ($factureMail){
+              $this->transmissionFactureMail();
+          }
       }
   }
+
+    public function executeConfirmation(sfWebRequest $request)
+    {
+        $this->drm = $this->getRoute()->getDRM();
+
+        if (! $this->getUser()->hasDroit('teledeclaration_facture_email')) {
+            $this->form = new DRMFactureEmailForm();
+
+            if ($request->isMethod(sfWebRequest::POST)) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $this->form->save();
+                    $this->redirect('drm_visualisation', $this->drm);
+                }
+            }
+        }
+    }
 
     public function executeUpdateEtablissement(sfWebRequest $request) {
         $this->drm = $this->getRoute()->getDRM();
