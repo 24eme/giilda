@@ -22,12 +22,6 @@ class DRMValidationCommentaireForm extends acCouchdbObjectForm {
               $this->setValidator('transmission_ciel', new sfValidatorString(array('required' => false)));
               $this->widgetSchema->setLabel('transmission_ciel', 'Transmission pour préremplissage de votre DRM électronique sur le portail pro.douane.gouv.fr :');
           }
-
-          if ($user_account->exist('email') && $user_account->hasDroit('teledeclaration_facture')) {
-              $this->setWidget('email_facture', new sfWidgetFormInputCheckbox(['default' => true]));
-              $this->setValidator('email_facture', new sfValidatorBoolean(['required' => false]));
-              $this->widgetSchema->setLabel('email_facture', 'Je souhaite recevoir ma facture par e-mail');
-          }
       }
 
       $this->widgetSchema->setNameFormat('drm[%s]');

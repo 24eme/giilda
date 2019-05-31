@@ -85,32 +85,36 @@ class drm_validationActions extends drmGeneriqueActions {
 
       DRMClient::getInstance()->generateVersionCascade($this->drm);
       if ($this->form->getValue('transmission_ciel') == "true") {
-        $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
-      }else{
-          $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant,
-              'periode_version' => $this->drm->getPeriodeAndVersion(),
-              'hide_rectificative' => 1));
+          $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
+      }
 
-          $factureMail = true;
-          if ($factureMail){
+      if ($this->getUser()->hasTeledeclarationFacture()) {
+          if ($this->getUser()->hasTeledeclarationFactureEmail()) {
               $this->transmissionFactureMail();
+          } else {
+              $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
           }
       }
+
+      $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
   }
 
     public function executeConfirmation(sfWebRequest $request)
     {
         $this->drm = $this->getRoute()->getDRM();
 
-        if (! $this->getUser()->hasDroit('teledeclaration_facture_email')) {
-            $this->form = new DRMFactureEmailForm();
+        if ($this->getUser()->hasTeledeclarationFactureEmail()) {
+            $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
+        }
 
-            if ($request->isMethod(sfWebRequest::POST)) {
-                $this->form->bind($request->getParameter($this->form->getName()));
-                if ($this->form->isValid()) {
-                    $this->form->save();
-                    $this->redirect('drm_visualisation', $this->drm);
-                }
+        $this->form = new DRMFactureEmailForm($this->drm);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $this->form->save();
+                $this->transmissionFactureMail();
+                $this->redirect('drm_visualisation', $this->drm);
             }
         }
     }
@@ -160,6 +164,7 @@ class drm_validationActions extends drmGeneriqueActions {
       $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES_DRM;
       $generation->add('arguments')->add('regions', $etablissementDRM->region);
       $generation->add('arguments')->add('drmid', $this->drm->_id);
+      $generation->add('arguments')->add('seuil', 50);
       $generation->add('arguments')->add('date_facturation',  $this->drm->getDate());
       $generation->add('arguments')->add('message_communication', $message_communication);
       $generation->save();
