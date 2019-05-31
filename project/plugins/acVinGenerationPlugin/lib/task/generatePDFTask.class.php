@@ -58,6 +58,7 @@ EOF;
 
   case GenerationClient::TYPE_DOCUMENT_FACTURES_DRM:
     $options['mailer'] = $this->getMailer();
+    $options['routing'] = $this->getRouting();
     $g = new GenerationFactureDRMPDF($generation, $this->configuration, $options);
     break;
 

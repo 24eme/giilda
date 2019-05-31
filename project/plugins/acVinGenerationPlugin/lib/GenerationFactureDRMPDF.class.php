@@ -14,9 +14,11 @@ class GenerationFactureDRMPDF extends GenerationPDF {
     protected $drmSource = null;
     protected $facture = null;
     protected $mailer = null;
+    protected $routing = null;
 
     function __construct(Generation $g, $config = null, $options = null) {
         $this->mailer = $options['mailer'];
+        $this->routing = $options['routing'];
         parent::__construct($g, $config, $options);
     }
 
@@ -41,7 +43,7 @@ class GenerationFactureDRMPDF extends GenerationPDF {
     }
 
     public function postGeneratePDF(){
-      $mailManager = new FactureEmailManager($this->getMailer());
+      $mailManager = new FactureEmailManager($this->getMailer(),$this->getRouting());
 
       if(count($this->generation->documents) != 1){
         throw new sfException("L'envoie d'email ne pourra avoir lieu, la generation possède plusieurs documents", 1);
@@ -70,6 +72,10 @@ class GenerationFactureDRMPDF extends GenerationPDF {
 
     protected function getMailer(){
       return $this->mailer;
+    }
+
+    protected function getRouting(){
+      return $this->routing;
     }
 
     protected function getDocumentName() {
