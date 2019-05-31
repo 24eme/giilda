@@ -11,7 +11,14 @@
  */
 class GenerationFactureDRMPDF extends GenerationPDF {
 
+    protected $drmSource = null;
+    protected $facture = null;
+    protected $mailer = null;
+    protected $routing = null;
+
     function __construct(Generation $g, $config = null, $options = null) {
+        $this->mailer = $options['mailer'];
+        $this->routing = $options['routing'];
         parent::__construct($g, $config, $options);
     }
 
@@ -21,8 +28,8 @@ class GenerationFactureDRMPDF extends GenerationPDF {
        $date_facturation =  $this->generation->arguments->date_facturation;
        $message_communication = $this->generation->arguments->message_communication;
 
-       $drm = DRMClient::getInstance()->find($drmid);
-       $societe = $drm->getEtablissement()->getSociete();
+       $this->drmSource = DRMClient::getInstance()->find($drmid);
+       $societe = $this->drmSource->getEtablissement()->getSociete();
 
        $mouvementsBySoc = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe));
        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);
@@ -36,7 +43,23 @@ class GenerationFactureDRMPDF extends GenerationPDF {
     }
 
     public function postGeneratePDF(){
-      var_dump("SEND MAIL!!!!"); exit;
+      $mailManager = new FactureEmailManager($this->getMailer(),$this->getRouting());
+
+      if(count($this->generation->documents) != 1){
+        throw new sfException("L'envoie d'email ne pourra avoir lieu, la generation possède plusieurs documents", 1);
+      }
+
+      foreach ($this->generation->documents as $factureId) {
+        $this->facture = FactureClient::getInstance()->find($factureId);
+      }
+      if(!$this->facture || !$this->drmSource){
+        throw new sfException("L'envoie d'email ne pourra avoir lieu, la facture ou la drm source n'existe pas en base ", 1);
+
+      }
+      $mailManager->setFacture($this->facture);
+      $mailManager->setDrmSource($this->drmSource);
+      $mailManager->sendMailFacture();
+
     }
 
     protected function generatePDFForADocumentId($factureid) {
@@ -45,6 +68,14 @@ class GenerationFactureDRMPDF extends GenerationPDF {
 	       throw new sfException("Facture $factureid doesn't exist\n");
       }
       return new FactureLatex($facture, $this->config);
+    }
+
+    protected function getMailer(){
+      return $this->mailer;
+    }
+
+    protected function getRouting(){
+      return $this->routing;
     }
 
     protected function getDocumentName() {
