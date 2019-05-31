@@ -72,7 +72,6 @@ Pour toutes questions, veuillez contacter:
 --
 
 L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclaration_url') ." .";
-var_dump($mess); exit;
         $pdf = new FactureLatex($this->facture);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();
