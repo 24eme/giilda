@@ -143,7 +143,9 @@ class drm_validationActions extends drmGeneriqueActions {
       $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES_DRM;
       $generation->add('arguments')->add('regions', $etablissementDRM->region);
       $generation->add('arguments')->add('drmid', $this->drm->_id);
-      $generation->add('arguments')->add('seuil', 50);
+      if($seuil = sfConfig::get('app_facture_seuil_facturation',null)){
+        $generation->add('arguments')->add('seuil', $seuil);
+      }
       $generation->add('arguments')->add('date_facturation',  $this->drm->getDate());
       $generation->add('arguments')->add('message_communication', $message_communication);
       $generation->save();
