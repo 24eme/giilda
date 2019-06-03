@@ -27,13 +27,19 @@ if (!is_null($contacts)):
                                 <li style="color: red"><?php echo $contact->statut; ?></li>
                             <?php endif; ?>
                             <?php if ($contact->telephone_perso): ?>
-                                <li class="tel_perso"><?php echo $contact->telephone_perso; ?></li>
+                                <li class="tel_perso">
+                                    <a href="tel:<?php echo $contact->telephone_perso; ?>"><?php echo $contact->telephone_perso ?></a>
+                                </li>
                             <?php endif; ?>
                             <?php if ($contact->telephone_mobile): ?>
-                                <li class="tel_mobile"><?php echo $contact->telephone_mobile; ?></li>
+                                <li class="tel_mobile">
+                                    <a href="tel:<?php echo $contact->telephone_mobile; ?>"><?php echo $contact->telephone_mobile ?></a>
+                                </li>
                             <?php endif; ?>
                             <?php if ($contact->telephone_bureau): ?>
-                                <li class="tel"><?php echo $contact->telephone_bureau; ?></li>
+                                <li class="tel">
+                                    <a href="tel:<?php echo $contact->telephone_bureau; ?>"><?php echo $contact->telephone_bureau ?></a>
+                                </li>
                                 <?php endif; ?>
         <?php if ($contact->fax): ?>
                                 <li class="fax"><?php echo $contact->fax; ?></li>
