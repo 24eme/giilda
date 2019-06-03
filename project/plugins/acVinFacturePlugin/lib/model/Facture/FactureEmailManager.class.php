@@ -61,7 +61,7 @@ $mess.="
 
 Cette facture a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
 
-elle est disponible ici : ".sfConfig::get('app_teledeclaration_url').$this->routing->generate("facture_pdf",array("identifiant" => $this->facture->_id),false) ."
+elle est disponible ici : ".sfConfig::get('routing_context_production_host').$this->routing->generate("facture_pdf",array("identifiant" => $this->facture->_id),false) ."
 
 A tout moment vous pouvez consulter l'ensemble de vos factures sur votre espace InterLoire en cliquant sur l'onglet « Facture » présent en haut à droite.
 
@@ -71,7 +71,7 @@ Pour toutes questions, veuillez contacter:
 
 --
 
-L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclaration_url') ." .";
+L’application de télédéclaration des DRM ". sfConfig::get('routing_context_production_host') ." .";
         $pdf = new FactureLatex($this->facture);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();
