@@ -167,10 +167,33 @@ AOP,,Bordeaux supérieur,,,Rouge,,Bordeaux supérieur Rouge,1R105S2
 AOP,,Côtes du Rhône Villages,,,Rouge,,Côtes du Rhône Villages Rouge,1R531
 AOP,,Côtes du Rhône Villages,,,Blanc,,Côtes du Rhône Villages Blanc,1B531
 AOP,,Côtes de Provence,,,Rouge,,Côtes de Provence Rouge,1R582S
+AOP,,Côtes de Provence,,,Blanc,,Côtes de Provence Blanc,1B582S
+AOP,,Côtes de Provence,,,Rosé,,Côtes de Provence Rosé,1S582S
 AOP,,Coteaux d'Aix-en-Provence,,,Rosé,,Coteaux d'Aix-en-Provence Rosé,1S579S
 AOP,,Saint Emilion,,,Rouge,,Saint Emilion,1R156S
 AOP,,Saint Emilion Grand Cru,,,Rouge,,Saint Emilion Grand Cru,1R157S
 AOP,,Cour-Cheverny,,,Blanc,,Cour-Cheverny,1B232S
+AOP,,Cour-Cheverny,moelleux ou doux,,Blanc,,Cour-Cheverny moelleux ou doux,1B232L
+AOP,,Beaujolais,,,Rouge,,Beaujolais Rouge,1R300
+AOP,,Côtes de Bourg,,,Rouge,,Côtes de Bourg Rouge,1R108S
+AOP,,Coteaux du Languedoc,,,Rouge,,Coteaux du Languedoc Rouge,1R494
+AOP,,Bordeaux,,,Rouge,,Bordeaux Rouge,1R105S
+AOP,,Bordeaux,,,Blanc,Bordeaux,Bordeaux Blanc,1B105
+AOP,,Lussac Saint-Emilion,,,,,Lussac Saint-Emilion,1R139S
+AOP,,Graves,,,Rouge,,Graves Rouge,1R130S
+AOP,,Côtes du Rhône,,,Rouge,,Côtes du Rhône Rouge,1R530 
+AOP,,Blaye,,,Rouge,,Blaye Rouge,1R104S
+AOP,,Médoc,,,,,Médoc,1R143S
+AOP,,Entre-Deux-Mers,,,,,Entre-Deux-Mers,1B125S
+AOP,,Côtes de Duras,,,Rouge,,Côtes de Duras Rouge,1R117S
+AOP,,Pauillac,,,,,Pauillac,1R148S
+AOP,,Margaux,,,,,Margaux,1R142S
+AOP,,Haut-Médoc,,,,,Haut-Médoc,1R132S
+AOP,,Ventoux,,,Rouge,,Ventoux Rouge,1R534S
+AOP,,Pessac-Léognan,,,Rouge,,Pessac-Léognan Rouge,1R150S
+AOP,,Bergerac,,,Rouge,,Bergerac Rouge,1R103S
+AOP,,Bergerac,,,Rosé,,Bergerac Rosé,1S103
+AOP,,Bergerac,,,Blanc,,Bergerac Blanc,1B103S
 AOP,Mousseux,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire Mousseux,1B225M 1
 AOP,Mousseux,Montlouis sur Loire,Pétillant,,Blanc,Chenin,Montlouis sur Loire Pétillant,1B225P 1
 AOP,Mousseux,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire Mousseux,VM_IG_AOP
@@ -243,9 +266,21 @@ IGP,,Côteaux de Tannay,,,Rosé,,IGP Côteaux de Tannay Rosé,3S583
 IGP,,Oc,,,Blanc,,IGP Oc Blanc,3B001
 IGP,,Oc,,,Rosé,,IGP Oc Rosé,3S001
 IGP,,Oc,,,Rouge,,IGP Oc Rouge,3R001
+IGP,,Oc,,,Rouge,Pinot noir,IGP Oc Rouge Pinot noir,3R001 AB
+IGP,,Oc,,,Rouge,Cabernet sauvignon,IGP Oc Rouge Cabernet sauvignon,3R001 BX
 IGP,,Autres que celles du Val de Loire,,,,,IGP Autres que celles du Val de Loire,VT_IG_IGP
 IGP,,Calvados,,,Blanc,,IGP Calvados Blanc,3B141
 IGP,,Calvados,,,Rouge,,IGP Calvados Rouge,3R141
+IGP,,Allobrogie,,,Blanc,,IGP Allobrogie Blanc,3B731
+IGP,,Allobrogie,,,Rouge,,IGP Allobrogie Rouge,3R731
+IGP,,Côtes de Thongue,,,Rouge,,IGP Côtes de Thongue Rouge,3R954 
+IGP,,Pays d'Hérault,,,Rouge,,IGP Pays d'Hérault Rouge,3R341 
+IGP,,Côtes de Thau,,,Rouge,,IGP Côtes de Thau Rouge,3R953 
+IGP,,Côtes de Thau,,,Blanc,,IGP Côtes de Thau Blanc,3B953 
+IGP,,Côtes de Gascogne,,,Rouge,,IGP Côtes de Gascogne Rouge,3R323 
+IGP,,Côtes de Gascogne,,,Rosé,,IGP Côtes de Gascogne Rosé,3S323 
+IGP,,Côtes de Gascogne,,,Blanc doux,,IGP Côtes de Gascogne Blanc doux,3B323 
+IGP,,Côtes de Gascogne,,,Blanc sec,,IGP Côtes de Gascogne Blanc sec,3B323 
 IGP,,mousseux,,,,,IGP mousseux,VM_IG_IGP
 Autres vins,,Vins sans IG,,,Blanc,,Vins sans IG Blanc,4B999
 Autres vins,,Vins sans IG,,,Rouge,,Vins sans IG Rouge,4R999
