@@ -805,5 +805,4 @@ class DRMClient extends acCouchdbClient {
         }
         return $crdsRegimesChoices;
       }
-
 }

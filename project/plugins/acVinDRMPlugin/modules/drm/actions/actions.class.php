@@ -123,8 +123,8 @@ class drmActions extends drmGeneriqueActions {
                     return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
                     break;
                 case DRMClient::DRM_CREATION_NEANT :
-                    if ($this->creationDrmForm->isAout()) {
-                        $this->getUser()->setFlash('drm_neant_aout', "La DRM à néant n'est pas possible en août");
+                    if ($this->creationDrmForm->isAout() || $this->creationDrmForm->isFirstDRM()) {
+                        $this->getUser()->setFlash('drm_neant_error', "La DRM à néant n'est pas possible");
                         return $this->redirect('drm_societe', array('identifiant' => $identifiant));
                     }
 
@@ -346,8 +346,8 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
         $user = $this->getUser();
-        if ($user->hasFlash('drm_neant_aout')) {
-            $user->setFlash('drm_neant_aout', $user->getFlash('drm_neant_aout'));
+        if ($user->hasFlash('drm_neant_error')) {
+            $user->setFlash('drm_neant_error', $user->getFlash('drm_neant_error'));
         }
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
     }

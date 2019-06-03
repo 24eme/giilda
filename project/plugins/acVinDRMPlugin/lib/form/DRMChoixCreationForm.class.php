@@ -6,6 +6,9 @@ class DRMChoixCreationForm extends sfForm {
     private $identifiant = null;
     private $onlyEdi = false;
 
+    private $isAout = null;
+    private $isFirst = '';
+
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $this->periode = (isset($options['periode']))? $options['periode'] : null ;
         $this->identifiant = (isset($options['identifiant']))? $options['identifiant'] : null ;
@@ -34,7 +37,7 @@ class DRMChoixCreationForm extends sfForm {
     public function getTypesCreation() {
         $types = DRMClient::$typesCreationLibelles;
 
-        if ($this->isAout()) {
+        if ($this->isAout() || $this->isFirstDRM()) {
             $types = array_diff_key($types, [DRMClient::DRM_CREATION_NEANT => '']);
         }
 
@@ -43,6 +46,19 @@ class DRMChoixCreationForm extends sfForm {
 
     public function isAout()
     {
-        return preg_match('/[0-9]{5}8/', $this->periode) === 1;
+        if ($this->isAout === null) {
+            $this->isAout = preg_match('/[0-9]{5}8/', $this->periode) === 1;
+        }
+
+        return $this->isAout;
+    }
+
+    public function isFirstDRM()
+    {
+        if ($this->isFirst === '') {
+            $this->isFirst = DRMClient::getInstance()->findLastByIdentifiant((string)$this->identifiant) === null;
+        }
+
+        return $this->isFirst;
     }
 }
