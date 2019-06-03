@@ -1,18 +1,18 @@
 <?php
 
 class CompteClient extends acCouchdbClient {
-  
+
     const TYPE_COMPTE_SOCIETE = "SOCIETE";
     const TYPE_COMPTE_ETABLISSEMENT = "ETABLISSEMENT";
     const TYPE_COMPTE_INTERLOCUTEUR = "INTERLOCUTEUR";
-    
+
     const STATUT_ACTIF = "ACTIF";
 
     const STATUT_TELEDECLARANT_NOUVEAU = "NOUVEAU";
     const STATUT_TELEDECLARANT_INSCRIT = "INSCRIT";
     const STATUT_TELEDECLARANT_OUBLIE = "OUBLIE";
     const STATUT_TELEDECLARANT_INACTIF = "INACTIF";
-      
+
     public static function getInstance()
     {
       return acCouchdbManager::getClient("Compte");
@@ -24,7 +24,7 @@ class CompteClient extends acCouchdbClient {
     }
 
     public function getNextIdentifiantForSociete($societe)
-    {   
+    {
   	  $societe_id = $societe->identifiant;
     	$comptes = self::getAtSociete($societe_id, acCouchdbClient::HYDRATE_ON_DEMAND)->getIds();
       $last_num = 0;
@@ -41,11 +41,11 @@ class CompteClient extends acCouchdbClient {
 
       return  sprintf("%s%02d", $societe_id, $last_num + 1);
     }
-    
+
     public function getAtSociete($societe_id, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
-        return $this->startkey('COMPTE-'.$societe_id.'00')->endkey('COMPTE-'.$societe_id.'99')->execute($hydrate);        
+        return $this->startkey('COMPTE-'.$societe_id.'00')->endkey('COMPTE-'.$societe_id.'99')->execute($hydrate);
     }
-    
+
     public function findByIdentifiant($identifiant, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
       return $this->find($this->getId($identifiant), $hydrate);
     }
@@ -54,13 +54,13 @@ class CompteClient extends acCouchdbClient {
         $compte = $this->find($idCompte);
         if(!$compte) return;
         $this->delete($compte);
-        
+
         if(!$from_societe) {
             $societe = $compte->getSociete();
             $societe->removeContact($idCompte);
             $societe->save(true);
         }
-        
+
         if(!$from_etablissement) {
             throw new sfException("Not yet implemented");
         }
@@ -86,35 +86,35 @@ class CompteClient extends acCouchdbClient {
 
       return self::TYPE_COMPTE_INTERLOCUTEUR;
     }
-    
-    
+
+
     public function findOrCreateCompteSociete($societe) {
         $compte = null;
         if($societe->compte_societe) {
             $compte = $this->find($societe->compte_societe);
         }
-        
+
         if(!$compte) {
              $compte = $this->createCompteFromSociete($societe);
         }
-        
+
         return $compte;
     }
-   
-        
+
+
     public function findOrCreateCompteFromEtablissement($e) {
         $compte = $this->find($e->getNumCompteEtablissement());
-        
+
         if(!$compte) {
-         
+
             $compte = $this->createCompteFromEtablissement($e);
         }
-        
+
         return $compte;
     }
-    
+
     public function createCompteFromSociete($societe) {
-        $compte = new Compte();        
+        $compte = new Compte();
         $compte->id_societe = $societe->_id;
         if ($societe->siege->adresse) {
             $compte->adresse = $societe->siege->adresse;
@@ -128,13 +128,13 @@ class CompteClient extends acCouchdbClient {
         $compte->constructId();
         $compte->interpro = 'INTERPRO-inter-loire';
         $compte->synchroFromSociete();
-        
+
         return $compte;
     }
-    
+
     public function createCompteFromEtablissement($e) {
       $compte = $this->createCompteFromSociete($e->getSociete());
-      
+
       $compte->nom = $e->nom;
       $compte->email = $e->email;
       $compte->fax = $e->fax;
@@ -146,18 +146,18 @@ class CompteClient extends acCouchdbClient {
 	    $compte->code_postal = $e->siege->code_postal;
 	    $compte->commune = $e->siege->commune;
       }
-      
+
       $compte->addOrigine($e->_id);
       $compte->synchroFromSociete();
 
       return $compte;
     }
-    
+
     /**
      *
      * @param string $login
      * @param integer $hydrate
-     * @return Compte 
+     * @return Compte
      */
     public function retrieveByLogin($login, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
         return $this->findByLogin($login, $hydrate);
@@ -167,11 +167,11 @@ class CompteClient extends acCouchdbClient {
         $societe = SocieteClient::getInstance()->findByIdentifiantSociete($login);
 
         if(!$societe) {
-
-          return null;
+          $compte = CompteClient::getInstance()->findByIdentifiant($login);
+          return $compte;
         }
 
         return $societe->getMasterCompte();
     }
-    
+
 }
