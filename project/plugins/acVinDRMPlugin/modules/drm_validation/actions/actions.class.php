@@ -102,7 +102,7 @@ class drm_validationActions extends drmGeneriqueActions {
     public function executeConfirmation(sfWebRequest $request)
     {
         $this->drm = $this->getRoute()->getDRM();
-
+        $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         if ($this->getUser()->hasTeledeclarationFactureEmail()) {
             $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
         }
