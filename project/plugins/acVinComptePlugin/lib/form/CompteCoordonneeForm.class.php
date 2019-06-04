@@ -106,7 +106,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
 
     public function getDroits() {
 
-        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM", Roles::TELEDECLARATION_DRM_ACQUITTE => "DRM Acquittée", Roles::TELEDECLARATION_FACTURE =>  "Factures", Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
+        return array(Roles::CONTRAT => "Contrat",Roles::DRM => "DRM", Roles::TELEDECLARATION_DRM_ACQUITTE => "DRM Acquittée", Roles::TELEDECLARATION_FACTURE =>  "Factures",Roles::TELEDECLARATION_FACTURE_EMAIL =>  "Factures par email", Roles::OBSERVATOIRE =>  "Observatoire", Roles::TELEDECLARATION_DOUANE => 'Transmission douane');
     }
 
     public function getCountryList() {

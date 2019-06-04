@@ -103,6 +103,12 @@ class DRMRouting {
             'type' => 'object',
             'control' => array('edition'))));
 
+        $r->prependRoute('drm_confirmation', new DRMRoute('/drm/:identifiant/edition/:periode_version/confirmation',
+            array('module' => 'drm_validation', 'action' => 'confirmation'),
+            array('sf_method' => array('get', 'post')),
+            array('model' => 'DRM', 'type' => 'object')
+        ));
+
         $r->prependRoute('drm_edition_libelles', new DRMRoute('/drm/:identifiant/edition/:periode_version/libelles', array('module' => 'drm_edition',
             'action' => 'libelles'), array('sf_method' => array('get', 'post')), array('model' => 'DRM',
             'type' => 'object')));
@@ -276,8 +282,6 @@ class DRMRouting {
         $r->prependRoute('drm_xml_table', new DRMRoute('/drm/:identifiant/xml-table/:periode_version/:retour', array('module' => 'drm_xml', 'action' => 'table'), array('sf_method' => array('get')), array('model' => 'DRM', 'type' => 'object')));
 
         $r->prependRoute('drm_retour_refresh', new DRMRoute('/drm/:identifiant/maj-retour/:periode_version', array('module' => 'drm_xml', 'action' => 'retourRefresh'), array('sf_method' => array('get', 'post')), array('model' => 'DRM', 'type' => 'object')));
-
-
     }
 
 }

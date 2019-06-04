@@ -28,7 +28,7 @@
                 ?>
                 <li class="stats_contrats_a_signer <?php echo $action_size_class; ?>">
                     <div class="action <?php echo ($contratsSocietesWithInfos->infos->a_signer) ? "actif" : ""; ?>">
-                        <h2><img src="/images/pictos/pi_stylo_a_signer.png" width="40" height="40"/><span>A Signer</span></h2>
+                        <h2><img src="/images/pictos/pi_stylo_a_signer.png" width="40" height="40"/><span>À Signer</span></h2>
                         <?php if ($contratsSocietesWithInfos->infos->a_signer): ?>
                             <a href="<?php echo url_for('vrac_history', array('identifiant' => $etablissementPrincipal->identifiant, 'campagne' => ConfigurationClient::getInstance()->getCurrentCampagne(), 'etablissement' => 'tous', 'statut' => strtolower(VracClient::STATUS_SOUSSIGNECONTRAT_ATTENTE_SIGNATURE_MOI))) ?>">
                             <?php endif; ?>

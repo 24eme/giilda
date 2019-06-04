@@ -28,6 +28,7 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'crd_negatif', "Le nombre de CRD ne dois pas être négatif");
         $this->addControle('vigilance', 'documents_annexes_absents', "Les numéros de document sont mal renseignés.");
         $this->addControle('vigilance', 'siret_absent', "Le numéro de siret n'a pas été renseigné");
+        $this->addControle('vigilance', 'produits_absent', "Il n'y a pas de produit dans la DRM");
 
         $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");
     }
@@ -196,6 +197,10 @@ class DRMValidation extends DocumentValidation {
           }
         }
       }
+
+        if (count($this->document->getProduits()) === 0) {
+            $this->addPoint('vigilance', 'produits_absent', 'Retour aux produits', $this->generateUrl('drm_choix_produit', $this->document));
+        }
     }
 
 }

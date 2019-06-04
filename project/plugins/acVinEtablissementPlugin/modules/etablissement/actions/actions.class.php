@@ -2,17 +2,17 @@
 
 class etablissementActions extends sfCredentialActions {
 
- public function executeAjout(sfWebRequest $request) {
+     public function executeAjout(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
         $this->applyRights();
         if(!$this->modification){
             $this->forward('acVinCompte','forbidden');
         }
         $this->etablissement = EtablissementClient::getInstance()->createEtablissementFromSociete($this->societe);
-        $this->processFormEtablissement($request);        
-        $this->setTemplate('modification');    
-    }    
-    
+        $this->processFormEtablissement($request);
+        $this->setTemplate('modification');
+    }
+
     public function executeModification(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
@@ -22,7 +22,7 @@ class etablissementActions extends sfCredentialActions {
         }
         $this->processFormEtablissement($request);
     }
-    
+
      protected function processFormEtablissement(sfWebRequest $request) {
         $this->etablissementModificationForm = new EtablissementModificationForm($this->etablissement);
         if ($request->isMethod(sfWebRequest::POST)) {
@@ -38,19 +38,19 @@ class etablissementActions extends sfCredentialActions {
             }
         }
     }
-    
+
     public function executeVisualisation(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->societe = $this->etablissement->getSociete();
-        $this->contact = $this->etablissement->getContact(); 
+        $this->contact = $this->etablissement->getContact();
         $this->applyRights();
     }
 
     public function executeResetCrd(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
-	$this->etablissement->remove('crd_regime');
-	$this->etablissement->save();
-	return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
-    }
+        $this->etablissement->remove('crd_regime');
+        $this->etablissement->save();
 
+        return $this->redirect('etablissement_visualisation', array('identifiant' => $this->etablissement->identifiant));
+    }
 }

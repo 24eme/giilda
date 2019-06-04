@@ -21,9 +21,10 @@ var initConditions = function()
 
 var updatePanelsConditions = function()
 {
-    if ($('#vrac_condition #type_contrat input:checked').val() == 'SPOT')
+    if ($('#vrac_condition #type_contrat input').is(':checked') == false)
     {
         $('#prix_isVariable').hide();
+        $('#prix_variable').hide();
     }
     else
     {
@@ -290,23 +291,12 @@ var majTotal = function(quantiteField, isTeledeclarationMode) {
             var prix_total = quantite * parseFloat(prix_unitaire);
             $('#vrac_prix_initial_total').text(parseFloat(prix_initial_total).toFixed(4));
             $('#vrac_prix_initial_unite').text('€');
-            if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
-            {
-                var prix_initial_hl = prix_initial_total / hlRaisins;
-                $('#prixInitialUnitaire span#prix_initial_unitaire_unite').text("€/kg (soit " + parseFloat(prix_initial_hl).toFixed(4) + " €/hl)");
-            }
         }
         if (priceReg)
         {
             var prix_total = quantite * parseFloat(prix_unitaire);
             $('#vrac_prix_total').text(parseFloat(prix_total).toFixed(2));
             $('#vrac_prix_unite').text('€');
-
-            if (quantiteField == 'raisin_quantite' && !isTeledeclarationMode)
-            {
-                var prix_hl = prix_initial_total / hlRaisins;
-                $('#prixInitialUnitaire span#prix_unitaire_unite').text("€/kg (soit " + parseFloat(prix_hl).toFixed(4) + " €/hl)");
-            }
         }
     }
 };

@@ -679,10 +679,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                         $num_ligne++;
                         break;
-                    case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_STATS_EUROPEENNES:
-                        $type = strtolower($csvRow[self::CSV_ANNEXE_TYPEMVT]);
-                        $this->drm->declaratif->statistiques->add($type,$this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]));
-                    break;
                     default:
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->typeDocumentWrongFormatError($num_ligne, $csvRow));

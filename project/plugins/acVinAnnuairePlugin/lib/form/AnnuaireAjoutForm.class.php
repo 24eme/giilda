@@ -54,13 +54,13 @@ class AnnuaireAjoutForm extends acCouchdbObjectForm {
             $societe = $values['societe'];
             $tiers = $societe->getEtablissementPrincipal();
         }
-        $libelle = ($tiers->nom) ? $tiers->nom : $tiers->raison_sociale;
 
         $type = AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY;
         if ($this->isCourtier && array_key_exists('type', $values)) {
             $type = $values['type'];
         }
-        $entree = $this->getObject()->get($type)->add($tiers->_id, $libelle);
+
+        $this->getObject()->addTier($tiers, $type);
         $this->values['etablissementObject'] = $tiers;
     }
 

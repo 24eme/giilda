@@ -3,12 +3,13 @@
 class GenerationClient extends acCouchdbClient {
 
     const TYPE_DOCUMENT_FACTURES = 'FACTURE';
+    const TYPE_DOCUMENT_FACTURES_DRM = 'FACTUREDRM';
     const TYPE_DOCUMENT_DS = 'DS';
     const TYPE_DOCUMENT_RELANCE = 'RELANCE';
     const HISTORY_KEYS_TYPE_DOCUMENT = 0;
     const HISTORY_KEYS_TYPE_DATE_EMISSION = 1;
     const HISTORY_KEYS_DOCUMENT_ID = 1;
-    
+
     const HISTORY_VALUES_NBDOC = 0;
     const HISTORY_VALUES_DOCUMENTS = 1;
     const HISTORY_VALUES_SOMME = 2;
@@ -50,7 +51,7 @@ class GenerationClient extends acCouchdbClient {
         $cpt = count($rows) - 1;
         $result = array();
         while($cpt > (count($rows) - $limit) && $cpt > -1){
-         $result[] = $rows[$cpt]; 
+         $result[] = $rows[$cpt];
          $cpt--;
         }
 	return $result;

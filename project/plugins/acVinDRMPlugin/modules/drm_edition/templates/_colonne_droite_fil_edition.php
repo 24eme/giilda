@@ -25,3 +25,12 @@ slot('colFilEdition');
     </div>
 </div>
 <?php end_slot(); ?>
+
+<?php slot('colHlHlap') ?>
+    <div id="drm_hlap" class="bloc_col">
+        <h2>Hl d'alcool pur</h2>
+        <div class="contenu">
+            <p>Vivamus finibus vel nibh non lacinia. Duis vestibulum ipsum a consectetur elementum. Sed consequat lectus. </p>
+        </div>
+    </div>
+<?php end_slot() ?>
