@@ -119,21 +119,20 @@ if (!isset($fromSociete))
         </div>
 
             <div class="form_ligne">
-<form method="POST" action="<?php echo url_for('etablissement_resetcrd', $etablissement);?>">
-                <label for="crd_regime">
-                    Régime de CRD :
-                </label>
-         <?php if ($etablissement->exist('crd_regime') && $etablissement->getCrdRegimeArray()) : ?>
-                <?php foreach ($etablissement->getCrdRegimeArray() as $crd_regime) {
-                echo EtablissementClient::$regimes_crds_libelles[$crd_regime].'&nbsp;&nbsp;';
-                }
-                ?> <br/>
-                <?php if(count($etablissement->getCrdRegimeArray()) == 1): ?>
-                  <input type="submit" class="btn_majeur btn_nouveau" value="Réinitialiser le regime CRD pour les DRM suspendues"/>
-                <?php endif; ?>
-         <?php else: ?>
-		    En attente de saisie par l'utilisateur
-         <?php endif; ?> </form>
+                <form method="POST" action="<?php echo url_for('etablissement_resetcrd', $etablissement);?>">
+                    <label for="crd_regime">
+                        Régime de CRD :
+                    </label>
+                    <?php if ($etablissement->exist('crd_regime') && $etablissement->getCrdRegimeArray()) : ?>
+                        <?php foreach ($etablissement->getCrdRegimeArray() as $crd_regime) :
+                            echo EtablissementClient::$regimes_crds_libelles[$crd_regime].'&nbsp;&nbsp;';
+                        endforeach; ?>
+                        <br/>
+                        <input type="submit" class="btn_majeur btn_nouveau" value="Réinitialiser le regime CRD pour les DRM suspendues"/>
+                    <?php else: ?>
+                        En attente de saisie par l'utilisateur
+                     <?php endif; ?>
+                </form>
             </div>
             <div class="form_ligne">
                 <label for="commentaire">

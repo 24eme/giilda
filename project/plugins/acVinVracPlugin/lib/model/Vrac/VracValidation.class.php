@@ -31,6 +31,7 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'volume_expected', 'Le volume du contrat est manquant');
         $this->addControle('erreur', 'prix_initial_expected', 'Le prix du contrat est manquant');
         $this->addControle('erreur', 'viti_raisins_mouts_type_vins', "Le viticulteur ne peut pas faire de contrats de vins (il possède une exclusivité de raisins/moûts)");
+        $this->addControle('vigilance', 'prix_too_low', 'Le prix est trop bas');
     }
 
     public function controle() {
@@ -72,11 +73,15 @@ class VracValidation extends DocumentValidation {
         if (is_null($this->document->prix_initial_unitaire)) {
             $this->addPoint('erreur', 'prix_initial_expected', 'saisir un prix', $this->generateUrl('vrac_marche', $this->document));
         }
+
+        if ($this->document->prix_initial_unitaire_hl < 10) {
+            $this->addPoint('vigilance', 'prix_too_low', 'Le prix est inférieur à 10€/hl ['. $this->document->prix_initial_unitaire_hl .'€/hl]', $this->generateUrl('vrac_marche', $this->document));
+        }
     }
 
     private function checkSoussigneAbsenceMail() {
         $vendeurEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->vendeur_identifiant);
-        
+
         if (!$vendeurEtb->getEmailTeledeclaration()) {
             $this->addPoint('erreur', 'soussigne_vendeur_absence_mail', $vendeurEtb->nom );
         }
@@ -108,13 +113,13 @@ class VracValidation extends DocumentValidation {
         if ($this->document->mandataire_exist) {
             $courtierEtb = EtablissementClient::getInstance()->findByIdentifiant($this->document->mandataire_identifiant);
             $courtierCompte = CompteClient::getInstance()->find($courtierEtb->getSociete()->getCompteSociete());
-        
+
             if (!$courtierCompte->isTeledeclarationActive()) {
                 $this->addPoint('vigilance', 'soussigne_courtier_nonactif', '');
             }
         }
     }
-    
+
     private function checkDateEnlevement() {
         $produits = $this->document->getConfig()->getProduits();
         $produit = null;

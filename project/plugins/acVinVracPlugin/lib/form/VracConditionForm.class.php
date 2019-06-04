@@ -6,15 +6,13 @@
  */
 
 /**
- * Description of class VracSoussigneForm
+ * Description of class VracConditionForm
  * @author mathurin
  */
 class VracConditionForm extends acCouchdbObjectForm {
 
-    private $types_contrat = array(VracClient::TYPE_CONTRAT_SPOT => 'Spot',
-        VracClient::TYPE_CONTRAT_PLURIANNUEL => 'Pluriannuel');
-    private $prix_variable = array('1' => 'Oui',
-        '0' => 'Non');
+    private $types_contrat = array(VracClient::TYPE_CONTRAT_PLURIANNUEL => "L'achat rentre dans le cadre d'un contrat pluriannuel");
+    private $prix_variable = array('1' => 'Oui', '0' => 'Non');
     private $cvo_nature = array(VracClient::CVO_NATURE_MARCHE_DEFINITIF => 'Marché définitif',
         VracClient::CVO_NATURE_COMPENSATION => 'Compensation',
         VracClient::CVO_NATURE_NON_FINANCIERE => 'Non financière',
@@ -34,7 +32,7 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-        $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true)));
+        $this->setWidget('type_contrat', new sfWidgetFormChoice(array('choices' => $this->getTypesContrat(), 'expanded' => true, 'multiple' => true)));
         $this->setWidget('prix_variable', new sfWidgetFormChoice(array('choices' => $this->getPrixVariable(), 'expanded' => true)));
         $this->setWidget('part_variable', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
@@ -56,7 +54,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
 
         $this->setValidators(array(
-            'type_contrat' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypesContrat()))),
+            'type_contrat' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTypesContrat()), 'multiple' => true)),
             'prix_variable' => new sfValidatorInteger(array('required' => true)),
             'part_variable' => new sfValidatorNumber(array('required' => false, 'max' => 50, 'min' => 0), array('max' => 'Part variable %max% max.',
                 'min' => 'Part variable %min% min.')),
@@ -124,6 +122,12 @@ class VracConditionForm extends acCouchdbObjectForm {
     }
 
     public function doUpdateObject($values) {
+        if (! isset($values['type_contrat'])) {
+            $values['type_contrat'] = VracClient::TYPE_CONTRAT_SPOT;
+        } else {
+            $values['type_contrat'] = $values['type_contrat'][0];
+        }
+
         if ($values['type_contrat'] == VracClient::TYPE_CONTRAT_SPOT)
             $values['prix_variable'] = 0;
 

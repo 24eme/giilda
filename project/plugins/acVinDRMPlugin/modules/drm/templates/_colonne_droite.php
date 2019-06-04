@@ -100,15 +100,10 @@ if (isset($drm)) {
                 En cas de besoin n'hésitez pas à consulter la notice en format pdf.
             </p>
             <a href="/data/guide_drm.pdf" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
-            <br/>
-            <br/>
-            <br/>
             <p>
                 Vous trouverez ci dessous la convention d’adhésion et d'habilitation aux téléprocédures CIEL et Télépaiements en format pdf.
             </p>
-            <a href="/data/convention_adhesion_CIEL.pdf" id="liens_notices" class="lien_telechargement" style="font-size: 8pt;">Télécharger la convention</a>
-            <br/>
-            <br/>
+            <a href="/data/convention_adhesion_CIEL.pdf" id="liens_notices" class="lien_telechargement">Télécharger la convention</a>
             <p class="lien_lecteur_pdf">
                 Ces documents sont au format PDF. Pour les visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>

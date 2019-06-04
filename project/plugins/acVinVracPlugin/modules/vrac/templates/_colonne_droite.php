@@ -1,7 +1,7 @@
 <?php
 if (isset($retour_espace) && $retour_espace):
     slot('colButtons');
-    ?> 
+    ?>
     <div class="bloc_col" >
         <h2>Actions</h2>
         <div class="contenu">
@@ -11,7 +11,7 @@ if (isset($retour_espace) && $retour_espace):
             <div class="ligne_btn txt_centre">
                 <a href="<?php echo url_for('compte_teledeclarant_mon_espace', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_acces">Retour à mon espace</a>
 
-            </div>         
+            </div>
         </div>
     </div>
     <?php end_slot(); ?>
@@ -56,7 +56,7 @@ slot('colCompte');
     <div class="contenu">
         <h3>Types de marchés :</h3>
 
-        <div class="contenu legende">    
+        <div class="contenu legende">
             <div>
                 <span class="type_raisins">type_raisins</span>
                 <span class="legende_type_texte">Raisins</span>
@@ -76,9 +76,10 @@ slot('colCompte');
         <h3>Étapes de validation :</h3>
 
         <ul class="status_contrats">
-            <li><img src="/images/pictos/pi_ok.png" alt="" /> Signé par moi</li>
-            <li><img src="/images/pictos/pi_attente.png" alt="" /> En attente de signature</li>
-            <li><img src="/images/pictos/pi_ok_gris.png" alt="" /> Signé par d'autres soussignés</li>
+            <li><img src="/images/pictos/pi_ok.png" alt="Signé par moi" /> Signé par moi</li>
+            <li><img src="/images/pictos/pi_attente_signature.png" alt="À signer" /> À signer</li>
+            <li><img src="/images/pictos/pi_ok_gris.png" alt="Signé par d'autre" /> Signé par d'autres soussignés</li>
+            <li><img src="/images/pictos/pi_attente_soussigne.png" alt="À signer par d'autre" /> À signer par d'autres soussignés</li>
         </ul>
 
         <div class="legende">
@@ -122,19 +123,19 @@ $contact = EtablissementClient::getInstance()->buildInfosContact($etablissementP
 
         <h3>Votre contact - mise en marche</h3>
 
-        <ul class="contact"> 
+        <ul class="contact">
             <li class="nom"><?php echo $contact->nom; ?></li>
             <li class="email"><a href="mailto:<?php echo $contact->email; ?>"><?php echo $contact->email; ?></a></li>
             <li class="telephone"><?php echo $contact->telephone; ?></li>
         </ul>
     </div>
-</div>   
+</div>
 <script type="text/javascript">
     $(document).ready(function ()
     {
         initNoticePopup();
     });
-</script>    
+</script>
 <?php
 end_slot();
 ?>

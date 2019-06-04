@@ -96,15 +96,19 @@ class drmActions extends drmGeneriqueActions {
         if ($isTeledeclarationMode && !$this->etablissement->hasLegalSignature()) {
             return $this->redirect('drm_societe', array('identifiant' => $identifiant));
         }
+
         if ($request->isMethod(sfWebRequest::POST)) {
             if (!$request->getParameter('drmChoixCreation')) {
                 new sfException("Le formulaire n'est pas valide");
             }
-            $drmChoixCreation = $request->getParameter('drmChoixCreation');
-            $choixCreation = $drmChoixCreation['type_creation'];
+
             $periode = $request->getParameter('periode');
+
             $this->creationDrmForm = new DRMChoixCreationForm(array(), array('identifiant' => $identifiant, 'periode' => $periode));
             $this->creationDrmForm->bind($request->getParameter($this->creationDrmForm->getName()), $request->getFiles($this->creationDrmForm->getName()));
+
+            $drmChoixCreation = $request->getParameter('drmChoixCreation');
+            $choixCreation = $drmChoixCreation['type_creation'];
 
             switch ($choixCreation) {
                 case DRMClient::DRM_CREATION_EDI :
@@ -119,6 +123,11 @@ class drmActions extends drmGeneriqueActions {
                     return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
                     break;
                 case DRMClient::DRM_CREATION_NEANT :
+                    if ($this->creationDrmForm->isAout() || $this->creationDrmForm->isFirstDRM()) {
+                        $this->getUser()->setFlash('drm_neant_error', "La DRM à néant n'est pas possible");
+                        return $this->redirect('drm_societe', array('identifiant' => $identifiant));
+                    }
+
                     $drm = DRMClient::getInstance()->createDoc($identifiant, $periode, $isTeledeclarationMode);
                     $drm->etape = DRMClient::ETAPE_VALIDATION;
                     $drm->type_creation = DRMClient::DRM_CREATION_NEANT;
@@ -336,6 +345,10 @@ class drmActions extends drmGeneriqueActions {
 
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
 
+        $user = $this->getUser();
+        if ($user->hasFlash('drm_neant_error')) {
+            $user->setFlash('drm_neant_error', $user->getFlash('drm_neant_error'));
+        }
         $this->redirect('drm_etablissement', $this->etablissementPrincipal);
     }
 
