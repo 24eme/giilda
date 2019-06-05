@@ -120,9 +120,7 @@ Si vous n'avez pas signé la convention avec la douane qui active vos droits à 
 Sinon, vous pouvez transmettre cette DRM directement sur le portail de la douane, qui apparaîtra en mode brouillon sur le portail pro.douane.gouv.fr. Il vous restera alors à la valider une dernière fois en ligne sur le portail douanier.
 
 Pour toutes questions, veuillez contacter:
-
- - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
- - ou : " . $etablissement->nom . " - " . $etablissement->getEmailTeledeclaration() . " - " . $etablissement->telephone . " .
+  le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " 
 
 --
 
