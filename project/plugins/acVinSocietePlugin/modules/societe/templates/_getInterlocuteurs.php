@@ -41,15 +41,15 @@ if (!is_null($contacts)):
                                     <a href="callto:<?php echo str_replace(".",'',$contact->telephone_bureau); ?>"><?php echo $contact->telephone_bureau ?></a>
                                 </li>
                                 <?php endif; ?>
-        <?php if ($contact->fax): ?>
+                            <?php if ($contact->fax): ?>
                                 <li class="fax"><?php echo $contact->fax; ?></li>
-                    <?php endif; ?>
-        <?php if (trim($contact->email)): ?>
+                            <?php endif; ?>
+                            <?php if (trim($contact->email)): ?>
                                 <li class="email"><a href="mailto:<?php echo $contact->email; ?>"><?php echo $contact->email; ?></a></li>
-        <?php endif; ?>
+                            <?php endif; ?>
                         </ul>
                     </li>
-    <?php endforeach; ?>
+                  <?php endforeach; ?>
             </ul>
         </div>
     </div>
