@@ -59,57 +59,59 @@ class DRMCrdRegimeChoiceForm extends acCouchdbObjectForm {
         $crd_regime = $values['crd_regime'];
         $this->etablissement->add('crd_regime', $crd_regime);
         $this->etablissement->save();
-        $this->drm->forceModified();
-        $to_removes = array();
-        foreach ($this->drm->getOrAdd('crds') as $regime => $crds) {
-            if ($crd_regime != $regime) {
-                $to_removes[$regime] = $crds;
+        if (strpos($crd_regime, ',') === false) {
+            $this->drm->forceModified();
+            $to_removes = array();
+            foreach ($this->drm->getOrAdd('crds') as $regime => $crds) {
+                if ($crd_regime != $regime) {
+                    $to_removes[$regime] = $crds;
+                }
             }
-        }
 
-        foreach ($to_removes as $removeRegime => $crds) {
-            $this->drm->getOrAdd('crds')->remove($removeRegime);
-            $this->drm->getOrAdd('crds')->add($crd_regime, $crds);
-            if (($removeRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE) &&
-                    ($crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($crd_regime == EtablissementClient::REGIME_CRD_PERSONNALISE)) {
-                foreach ($this->drm->getProduits() as $produit) {
-                    foreach ($produit->getProduitsDetails(true) as $detailsKey => $details) {
-                        if($details->get('sorties')->exist('ventefrancebouteillecrdacquitte') && $details->get('sorties')->ventefrancebouteillecrdacquitte){
-                            $details->get('sorties')->add('ventefrancebouteillecrd', $details->get('sorties')->ventefrancebouteillecrdacquitte);
-                            $details->get('sorties')->ventefrancebouteillecrdacquitte = 0;
+            foreach ($to_removes as $removeRegime => $crds) {
+                $this->drm->getOrAdd('crds')->remove($removeRegime);
+                $this->drm->getOrAdd('crds')->add($crd_regime, $crds);
+                if (($removeRegime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE) &&
+                        ($crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($crd_regime == EtablissementClient::REGIME_CRD_PERSONNALISE)) {
+                    foreach ($this->drm->getProduits() as $produit) {
+                        foreach ($produit->getProduitsDetails(true) as $detailsKey => $details) {
+                            if($details->get('sorties')->exist('ventefrancebouteillecrdacquitte') && $details->get('sorties')->ventefrancebouteillecrdacquitte){
+                                $details->get('sorties')->add('ventefrancebouteillecrd', $details->get('sorties')->ventefrancebouteillecrdacquitte);
+                                $details->get('sorties')->ventefrancebouteillecrdacquitte = 0;
+                            }
+                            if($details->get('sorties')->exist('ventefrancebibcrdacquitte') && $details->get('sorties')->ventefrancebibcrdacquitte){
+                                $details->get('sorties')->add('ventefrancebibcrd', $details->get('sorties')->ventefrancebibcrdacquitte);
+                                $details->get('sorties')->ventefrancebibcrdacquitte = 0;
+                            }
+                              if($details->get('entrees')->exist('retourmarchandisetaxeesacquitte') && $details->get('entrees')->retourmarchandisetaxeesacquitte){
+                                $details->get('entrees')->add('retourmarchandisetaxees', $details->get('entrees')->retourmarchandisetaxeesacquitte);
+                                $details->get('entrees')->retourmarchandisetaxeesacquitte = 0;
+                            }
                         }
-                        if($details->get('sorties')->exist('ventefrancebibcrdacquitte') && $details->get('sorties')->ventefrancebibcrdacquitte){
-                            $details->get('sorties')->add('ventefrancebibcrd', $details->get('sorties')->ventefrancebibcrdacquitte);
-                            $details->get('sorties')->ventefrancebibcrdacquitte = 0;
-                        }
-                          if($details->get('entrees')->exist('retourmarchandisetaxeesacquitte') && $details->get('entrees')->retourmarchandisetaxeesacquitte){
-                            $details->get('entrees')->add('retourmarchandisetaxees', $details->get('entrees')->retourmarchandisetaxeesacquitte);
-                            $details->get('entrees')->retourmarchandisetaxeesacquitte = 0;
+                    }
+                }
+                if (($crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE) &&
+                        ($removeRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($removeRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)) {
+                    foreach ($this->drm->getProduits() as $produit) {
+                        foreach ($produit->getProduitsDetails(true) as $detailsKey => $details) {
+                            if($details->get('sorties')->exist('ventefrancebouteillecrd') && $details->get('sorties')->ventefrancebouteillecrd){
+                                $details->get('sorties')->add('ventefrancebouteillecrdacquitte', $details->get('sorties')->ventefrancebouteillecrd);
+                                $details->get('sorties')->ventefrancebouteillecrd = 0;
+                            }
+                             if($details->get('sorties')->exist('ventefrancebibcrd') && $details->get('sorties')->ventefrancebibcrd){
+                                $details->get('sorties')->add('ventefrancebibcrdacquitte', $details->get('sorties')->ventefrancebibcrd);
+                                $details->get('sorties')->ventefrancebibcrd = 0;
+                            }
+                            if($details->get('entrees')->exist('retourmarchandisetaxees') && $details->get('entrees')->retourmarchandisetaxees){
+                                $details->get('entrees')->add('retourmarchandisetaxeesacquitte', $details->get('entrees')->retourmarchandisetaxees);
+                                $details->get('entrees')->retourmarchandisetaxees = 0;
+                            }
                         }
                     }
                 }
             }
-            if (($crd_regime == EtablissementClient::REGIME_CRD_COLLECTIF_ACQUITTE) &&
-                    ($removeRegime == EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU) || ($removeRegime == EtablissementClient::REGIME_CRD_PERSONNALISE)) {
-                foreach ($this->drm->getProduits() as $produit) {
-                    foreach ($produit->getProduitsDetails(true) as $detailsKey => $details) {
-                        if($details->get('sorties')->exist('ventefrancebouteillecrd') && $details->get('sorties')->ventefrancebouteillecrd){
-                            $details->get('sorties')->add('ventefrancebouteillecrdacquitte', $details->get('sorties')->ventefrancebouteillecrd);
-                            $details->get('sorties')->ventefrancebouteillecrd = 0;
-                        }
-                         if($details->get('sorties')->exist('ventefrancebibcrd') && $details->get('sorties')->ventefrancebibcrd){
-                            $details->get('sorties')->add('ventefrancebibcrdacquitte', $details->get('sorties')->ventefrancebibcrd);
-                            $details->get('sorties')->ventefrancebibcrd = 0;
-                        }
-                        if($details->get('entrees')->exist('retourmarchandisetaxees') && $details->get('entrees')->retourmarchandisetaxees){
-                            $details->get('entrees')->add('retourmarchandisetaxeesacquitte', $details->get('entrees')->retourmarchandisetaxees);
-                            $details->get('entrees')->retourmarchandisetaxees = 0;
-                        }
-                    }
-                }
-            }
+            $this->drm->save();
         }
-        $this->drm->save();
     }
 
 }
