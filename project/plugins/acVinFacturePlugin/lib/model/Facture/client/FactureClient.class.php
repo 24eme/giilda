@@ -193,9 +193,9 @@ class FactureClient extends acCouchdbClient {
     public function createFacturesBySoc($generationFactures, $date_facturation, $message_communication = null, $generation = null) {
         if(!$generation){
             $generation = new Generation();
+            $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES;
         }
         $generation->date_emission = date('Y-m-d-H:i');
-        $generation->type_document = GenerationClient::TYPE_DOCUMENT_FACTURES_DRM;
         $generation->documents = array();
         $generation->somme = 0;
         $cpt = 0;
@@ -203,6 +203,9 @@ class FactureClient extends acCouchdbClient {
         foreach ($generationFactures as $societeID => $mouvementsSoc) {
             $societe = SocieteClient::getInstance()->find($societeID);
             $f = $this->createDoc($mouvementsSoc, $societe, $date_facturation, $message_communication);
+            if($generation->type_document == GenerationClient::TYPE_DOCUMENT_FACTURES_DRM){
+              $f->add('facture_electronique',true);
+            }
             $f->save();
 
             $generation->somme += $f->total_ttc;

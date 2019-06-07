@@ -19,6 +19,7 @@ Facture:
       region: {}
       versement_comptable: {type: integer}
       message_communication: {required: false}
+      facture_electronique: {required: false}
       emetteur:
         type: collection
         definition:
