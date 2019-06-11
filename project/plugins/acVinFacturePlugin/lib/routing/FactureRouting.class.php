@@ -13,8 +13,8 @@ class FactureRouting {
         $r = $event->getSubject();
         $r->prependRoute('facture', new sfRoute('/facture', array('module' => 'facture',
 								  'action' => 'index')));
-        $r->prependRoute('facture_societe', new SocieteRoute('/facture/:identifiant', array('module' => 'facture',
-													'action' => 'monEspace'),
+        $r->prependRoute('facture_societe', new SocieteRoute('/facture/:identifiant/:campagne', array('module' => 'facture',
+													'action' => 'monEspace', 'campagne' => null),
 									 array('sf_method' => array('get','post')),
 									 array('model' => 'Societe',
 									       'type' => 'object')
@@ -61,8 +61,8 @@ class FactureRouting {
                                 'type' => 'object')
                                 ));
 
-        $r->prependRoute('facture_teledeclarant',  new sfRoute('/facture/societe/:identifiant', array('module' => 'facture',
-                                'action' => 'societe')));
+        $r->prependRoute('facture_teledeclarant',  new sfRoute('/facture/societe/:identifiant/:campagne', array('module' => 'facture',
+                                'action' => 'societe', 'campagne' => null)));
 
 
     }
