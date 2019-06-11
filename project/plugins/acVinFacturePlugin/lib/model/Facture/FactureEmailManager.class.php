@@ -61,13 +61,10 @@ $mess.="
 
 Cette facture a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
 
-elle est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_pdf",array("identifiant" => $this->facture->_id),false) ."
+elle est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
 
 A tout moment vous pouvez consulter l'ensemble de vos factures sur votre espace InterLoire en cliquant sur l'onglet « Facture » présent en haut à droite.
 
-Pour toutes questions, veuillez contacter:
-
- - le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
 
 --
 
