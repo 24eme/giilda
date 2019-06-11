@@ -1,7 +1,7 @@
 <?php
 use_helper('Date');
 $isTeledeclarationMode = (!isset($isTeledeclarationMode))? false : $isTeledeclarationMode;
-$k = 0;
+$fc = FactureClient::getInstance();
 ?>
 <h2>Historique des factures</h2>
 <?php
@@ -17,19 +17,26 @@ if(count($factures->getRawValue())==0) :
             <tr>
                 <th>Num.</th>
                 <th>Date de Facturation</th>
-                <?php if(!$isTeledeclarationMode): ?><th>Documents</th><?php endif ?>
-                <th>Etat</th>
+                <?php if(!$isTeledeclarationMode): ?><th>Documents</th>
+                <th>Type de facture</th><?php endif ?>
                 <th>Prix TTC</th>
-                <th><?php if(!$isTeledeclarationMode): ?>Actions<?php else: ?>Export<?php endif ?></th>
+                <th><?php if(!$isTeledeclarationMode): ?>Actions<?php else: ?>Facture<?php endif ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($factures->getRawValue() as $facture) :
+                  $f = FactureClient::getInstance()->find($facture->id);
                   $numero_facture = $facture->value[5];?>
                 <tr>
-                    <td><?php echo $numero_facture; ?></td>
+                    <td><?php echo $numero_facture; ?>
+                      <?php if ($fc->isRedressable($facture) && !$isTeledeclarationMode): ?>
+                      <br/>
+                        <a href="<?php echo url_for('defacturer',array('identifiant' => str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>"
+                           style="color: #2160cf;font-style: italic;text-decoration: underline;" onclick='return confirm("Souhaitez-vous confirmer la défacturation de la facture <?php echo $numero_facture ?> ?")' >défacturer</a>
+                      <?php endif; ?>
+                    </td>
                     <td><?php
-                        $fc = FactureClient::getInstance();
+
                         $d = format_date($facture->value[FactureEtablissementView::VALUE_DATE_FACTURATION],'dd/MM/yyyy');
                         if(!$isTeledeclarationMode){
                           $d.=' <br/>(créée&nbsp;'.$fc->getDateCreation($facture->id).')';
@@ -52,33 +59,19 @@ if(count($factures->getRawValue())==0) :
                                 . "</span><br/>";
                         } ?>
                      </td>
-                  <?php endif; ?>
-                    <?php $echeances = FactureClient::getInstance()->find($facture->id)->echeances;
-                          $dateLimite = null;
-                          foreach ($echeances as $key => $echeance) {
-                            $dateLimite = DATE::francizeDate($echeance->getEcheanceDate());
-                          }
-                    ?>
-                    <td><?php echo (!$k)? "<span class='btn btn_majeur btn_orange label'>En attente</span><br/><p style='margin: 8px;'>(prévu&nbsp;le&nbsp;$dateLimite)</p>" : "<span class='btn btn_majeur btn_vert label'>Réglée</span>"; ?></td>
+                    <td><?php echo ($f->exist('facture_electronique') && $f->facture_electronique)? "éléctronique" : "papier"; ?></td>
+                    <?php endif; ?>
                     <td><?php echoFloat($facture->value[FactureEtablissementView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
                   <td>
-                    <a href="<?php echo url_for('facture_pdf', array('identifiant' => $facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); ?>" class="btn_majeur btn_pdf center" style="font-size: 9px;" ><span>PDF</span></a>
+                    <a href="<?php echo url_for('facture_pdf', array('identifiant' => $facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); ?>" class="btn_majeur btn_pdf center" style="font-size: 9px;" ><span>Télécharger</span></a>
                     <?php
-                    if(!$isTeledeclarationMode):
-                      if ($fc->isRedressee($facture)):
+                    if(!$isTeledeclarationMode && $fc->isRedressee($facture)):
                         echo 'redressée';
-                        elseif ($fc->isRedressable($facture)): ?>
-                        <br/>
-                        <a href="<?php echo url_for('defacturer',array('identifiant' => str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>"
-                          class="btn btn_majeur" style="margin: 8px; padding:0 5px; font-size: 9px;" onclick='return confirm("Souhaitez-vous confirmer la défacturation de la facture <?php echo $numero_facture ?> ?")' >défacturer</a>
-                          <?php
-                        endif;
                       endif;
                       ?>
                   </td>
                 </tr>
 <?php
-$k++;
 endforeach; ?>
         </tbody>
     </table>
