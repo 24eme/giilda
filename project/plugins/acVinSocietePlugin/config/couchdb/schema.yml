@@ -11,7 +11,7 @@ Societe:
       raison_sociale_abregee: { }
       statut: { }
       code_comptable_client: { }
-      code_comptable_fournisseur: { }     
+      code_comptable_fournisseur: { }
       teledeclaration_email: { required: false }
       paiement_douane_moyen: { required: false }
       paiement_douane_frequence: { required: false }
@@ -71,7 +71,15 @@ Societe:
                 fields:
                   nom: {}
                   ordre: {}
-
+      sepa:
+        required: false
+        type: collection
+        definition:
+          fields:
+            nom_bancaire: {  }
+            iban: {  }
+            bic: {  }
+            actif: {  }
       legal_signature:
         type: collection
         definition:
