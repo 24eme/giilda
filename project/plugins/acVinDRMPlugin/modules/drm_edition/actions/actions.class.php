@@ -60,7 +60,11 @@ class drm_editionActions extends drmGeneriqueActions {
         	$this->form->bind($request->getParameter($this->form->getName()));
         	if ($this->form->isValid()) {
                 $drm = $this->form->save();
-                $this->redirect('drm_validation', $drm);
+                if (!$drm->isValidee()) {
+                    $this->redirect('drm_validation', $drm);
+                }else {
+                    $this->redirect('drm_visualisation', $drm);
+                }
         	}
     	}
     }
