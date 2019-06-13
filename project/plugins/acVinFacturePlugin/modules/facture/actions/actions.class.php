@@ -112,7 +112,7 @@ class factureActions extends factureGeneriqueActions {
         $this->hasTeledeclarationPrevelement = $this->isTeledeclarationPrelevement();
         if(!$this->hasTeledeclarationPrevelement){
           $this->adhesionPrelevementForm = new FactureAdhesionPrelevementForm();
-          if ($request->isMethod(sfRequest::POST)) {
+          if ($request->isMethod(sfRequest::POST) && $request->getParameter($this->adhesionPrelevementForm->getName(),null)) {
               $this->adhesionPrelevementForm->bind($request->getParameter($this->adhesionPrelevementForm->getName()));
               if ($this->adhesionPrelevementForm->isValid()) {
                   $this->redirect('facture_sepa',array('identifiant' => $this->etablissementPrincipal->identifiant));
