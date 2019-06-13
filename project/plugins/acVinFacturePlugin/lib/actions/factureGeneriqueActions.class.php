@@ -51,6 +51,9 @@ class factureGeneriqueActions extends sfActions {
     protected function isTeledeclarationFacture() {
     	return $this->getUser()->hasTeledeclarationFacture();
     }
+    protected function isTeledeclarationPrelevement() {
+      return $this->getUser()->hasTeledeclarationPrevelement();
+    }
 
     protected function initDeleteForm() {
         $this->deleteForm = new DRMDeleteForm($this->drm);

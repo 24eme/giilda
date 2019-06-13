@@ -6,12 +6,12 @@ $fc = FactureClient::getInstance();
 ?>
 <h2>Historique des factures</h2>
 
-<form id="choix-campagne" method="POST">
+<form id="choix-campagne" method="POST" class="ligne_btn">
     <?= $campagneForm->renderGlobalErrors() ?>
     <?= $campagneForm->renderHiddenFields() ?>
     <?= $campagneForm['campagne']->renderLabel() ?>
     <?= $campagneForm['campagne']->render() ?>
-    <input class="btn_majeur btn_vert" type="submit" value="changer">
+    <button class="btn_majeur btn_vert" type="submit" form="choix-campagne" >Changer</button>
     <span class="infobulle" data-infobulle="<?= getHelpMsgText('drm_calendrier_aide1'); ?>"><i class="icon-msgaide size-24"></i></span>
 </form>
 

@@ -1,5 +1,7 @@
-@charset "utf-8";
 @import 'fonts.css';
+@import 'fancybox.css';
+@import 'jquery.ui/jquery.ui.theme.css?20180517';
+@import 'jquery.ui/jquery.ui.datepicker.css';
 /*---------------------------------------------------
 		LESS Elements 0.4
 	---------------------------------------------------
@@ -14,9 +16,6 @@
 /**
  * CSS 3
  ******************************************/
-@import 'fancybox.css';
-@import 'jquery.ui/jquery.ui.theme.css?20180517';
-@import 'jquery.ui/jquery.ui.datepicker.css';
 .majuscules {
   text-transform: uppercase;
 }
@@ -339,7 +338,7 @@ body {
 }
 body#app_transaction_prod,
 body#app_transaction_dev {
-  background: url(../images/fonds/bg_body.png) repeat scroll 0 0 #E6E6E6;
+  background: url(../images/fonds/bg_body.png) repeat scroll 0 0 #e6e6e6;
 }
 body#teledeclaration {
   background: url(../images/fonds/bg_bouteilles.png) -32px 0;
@@ -347,7 +346,7 @@ body#teledeclaration {
 body#app_compte_prod,
 body#app_compte_preprod,
 body#app_compte_dev {
-  background: url(../images/fonds/bg_body.png) repeat scroll 0 0 #9D3032;
+  background: url(../images/fonds/bg_body.png) repeat scroll 0 0 #9d3032;
 }
 a {
   color: #3e3e3e;
@@ -438,14 +437,14 @@ samp {
 }
 .label {
   display: inline;
-  padding: 0.2em 0.6em 0.3em;
+  padding: .2em .6em .3em;
   font-size: 75%;
   font-weight: 700;
   line-height: 1;
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: 0.25em;
+  border-radius: .25em;
 }
 /**
  * Classes génériques
@@ -501,9 +500,9 @@ samp {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -563,7 +562,7 @@ bouton.btn_majeur {
 .btn_vert,
 .btn_orange,
 .btn_rouge {
-  color: #fff;
+  color: #ffffff;
 }
 .btn_noir {
   background-position: 0 -52px;
@@ -582,7 +581,7 @@ bouton.btn_majeur {
   border-color: #b70808;
 }
 .btn_valider {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
@@ -604,7 +603,7 @@ bouton.btn_majeur {
   background-position: 3px -185px;
 }
 .btn_annuler {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -130px;
   border-color: #b70808;
   padding-left: 30px;
@@ -626,7 +625,7 @@ bouton.btn_majeur {
   background-position: 3px -211px;
 }
 .btn_modifier {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -104px;
   border-color: #f6b32c;
   padding-left: 30px;
@@ -662,9 +661,9 @@ bouton.btn_majeur {
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -701,9 +700,9 @@ bouton.btn_majeur {
   -webkit-border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
   border-radius: 4px 0 0 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -743,9 +742,9 @@ bouton.btn_majeur {
   -webkit-border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
   border-radius: 0 4px 4px 0;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -782,7 +781,7 @@ bouton.btn_majeur {
 }
 .btn_terminer_saisie,
 .btn_validation_declar {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
@@ -809,9 +808,9 @@ bouton.btn_majeur {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -825,7 +824,7 @@ bouton.btn_majeur {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
@@ -857,7 +856,7 @@ bouton.btn_validation_declar {
   background-position: 3px -184px;
 }
 .btn_excel {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
@@ -879,7 +878,7 @@ bouton.btn_validation_declar {
   background-position: 2px -315px;
 }
 .btn_pdf {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   padding-left: 30px;
@@ -901,7 +900,7 @@ bouton.btn_validation_declar {
   background-position: 3px -338px;
 }
 .btn_editer {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   padding-left: 30px;
@@ -923,7 +922,7 @@ bouton.btn_validation_declar {
   background-position: 3px -362px;
 }
 .btn_date {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   padding-left: 30px;
@@ -945,7 +944,7 @@ bouton.btn_validation_declar {
   background-position: 2px -388px;
 }
 .btn_voir {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   padding-left: 30px;
@@ -1024,7 +1023,7 @@ bouton.btn_validation_declar {
   background-position: 3px -488px;
 }
 .btn_refraichir {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
@@ -1051,9 +1050,9 @@ bouton.btn_validation_declar {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -1083,12 +1082,12 @@ bouton.btn_enregistrer {
   display: inline-block;
 }
 .btn_demarrer {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -104px;
   border-color: #f6b32c;
 }
 .btn_enregistrer {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
 }
@@ -1482,7 +1481,7 @@ bouton.btn_enregistrer {
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  background: #fff;
+  background: #ffffff;
   margin: 0 0 30px;
   padding: 15px 0 20px;
   min-height: 100px;
@@ -1528,7 +1527,7 @@ bouton.btn_enregistrer {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: #fff url(../images/fonds/bg_contenu.png) right 0 repeat-y;
+  background: #ffffff url(../images/fonds/bg_contenu.png) right 0 repeat-y;
   padding: 0 0 20px;
   position: relative;
 }
@@ -1696,7 +1695,7 @@ bouton.btn_enregistrer {
 #header #navigation li a:focus {
   border: 1px solid #9d3032;
   background: #ca5153;
-  color: #fff;
+  color: #ffffff;
   padding: 0 3px;
 }
 #header .btn_menu {
@@ -1869,7 +1868,7 @@ bouton.btn_enregistrer {
   background-color: #ecebeb;
 }
 input.ui-autocomplete-input {
-  background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+  background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size: 12px;
   padding: 5px 5px 5px 25px;
   width: 330px;
@@ -1948,7 +1947,7 @@ ul.radio_list li label {
   background: #E9E9E9;
 }
 .ui-autocomplete-loading {
-  background: #fff url('../images/pictos/pi_loader.gif') right 5px top 50% no-repeat !important;
+  background: #ffffff url('../images/pictos/pi_loader.gif') right 5px top 50% no-repeat !important;
 }
 .combobox + .ui-autocomplete-loading {
   background-position: right 35px top 50% !important;
@@ -1974,7 +1973,7 @@ ul.radio_list li label {
 #colonne .bloc_col h2 {
   text-transform: uppercase;
   background: #3e3e3e;
-  color: #fff;
+  color: #ffffff;
   font-weight: bold;
   line-height: 30px;
   left: -20px;
@@ -2036,9 +2035,9 @@ ul.radio_list li label {
 .ui-dialog {
   background: #f4f4f4;
   border: 10px solid #fff;
-  -webkit-box-shadow: 0 0 5px #000;
-  -moz-box-shadow: 0 0 5px #000;
-  box-shadow: 0 0 5px #000;
+  -webkit-box-shadow: 0 0 5px #000000;
+  -moz-box-shadow: 0 0 5px #000000;
+  box-shadow: 0 0 5px #000000;
   padding: 15px;
 }
 .ui-dialog .ui-dialog-titlebar {
@@ -2128,6 +2127,7 @@ ul.radio_list li label {
 pre.commentaire {
   text-align: left;
 }
+@charset "utf-8";
 /**
  * Fichier : principal.less
  * Description : Styles du coeur de page
@@ -2268,9 +2268,9 @@ pre.commentaire {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -2284,7 +2284,7 @@ pre.commentaire {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   width: 115px;
@@ -2366,7 +2366,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.4) inset;
   /*.inline-block-ie;*/
-  background: #fff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
+  background: #ffffff url(../images/pictos/pi_recherche.png) 5px 14px no-repeat;
   font-size: 14px;
   margin: 0 10px 0 0;
   padding: 3px 5px 3px 25px;
@@ -2447,7 +2447,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   position: absolute !important;
 }
 .hamza_style .autocompletion_tags .btn_rechercher {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
 }
@@ -2527,7 +2527,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   line-height: 49px;
 }
 #rail_etapes li.actif a {
-  color: #fff;
+  color: #ffffff;
   -webkit-text-shadow: 1px 1px rgba(214, 146, 10, 0.7);
   -moz-text-shadow: 1px 1px rgba(214, 146, 10, 0.7);
   text-shadow: 1px 1px rgba(214, 146, 10, 0.7);
@@ -2637,11 +2637,13 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
 #mon_espace .block_teledeclaration.espace_contrat .title {
   background-image: url('../images/pictos/pi_handshake_2.png');
 }
-#mon_espace .block_teledeclaration.espace_drm .title_espace {
+#mon_espace .block_teledeclaration.espace_drm .title_espace,
+#mon_espace .block_teledeclaration.espace_prelevement .title_espace {
   background-image: url('../images/pictos/pi_list_pen_2.png');
   background-position: 238px 5px;
 }
-#mon_espace .block_teledeclaration.espace_drm .title {
+#mon_espace .block_teledeclaration.espace_drm .title,
+#mon_espace .block_teledeclaration.espace_prelevement .title {
   background-image: url('../images/pictos/pi_list_pen_2.png');
 }
 /**
@@ -2781,7 +2783,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   width: 0px;
   border-style: solid;
   border-width: 5px 0 5px 5px;
-  border-color: transparent transparent transparent #000;
+  border-color: transparent transparent transparent #000000;
   content: '';
   display: inline-block;
   margin: 0 5px 0 0;
@@ -2866,9 +2868,9 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -2882,7 +2884,7 @@ bouton#contenu_etape #recherche_societe #btn_rechercher {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   width: 115px;
@@ -3086,9 +3088,9 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -3102,7 +3104,7 @@ bouton#contenu_etape #recherche_operateur #btn_rechercher {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -130px;
   border-color: #b70808;
   padding-left: 30px;
@@ -3141,9 +3143,9 @@ bouton#contenu_etape #vrac_soussigne .btnModification .annulation_div a {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -3157,7 +3159,7 @@ bouton#contenu_etape #vrac_soussigne .btnModification .annulation_div a {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -104px;
   border-color: #f6b32c;
   padding-left: 30px;
@@ -3537,9 +3539,9 @@ bouton#contenu_etape #vrac_soussigne .btnModification .modification_div a {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -3573,7 +3575,7 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   display: inline-block;
 }
 #contenu_etape #vrac_visualisation #vrac_condition #btn_editer_contrat {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -104px;
   border-color: #f6b32c;
   padding-left: 30px;
@@ -3596,7 +3598,7 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   background-position: 3px -362px;
 }
 #contenu_etape #vrac_visualisation #vrac_condition #btn_voir_contrat {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   padding-left: 30px;
@@ -3618,7 +3620,7 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   background-position: 3px -338px;
 }
 #contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -130px;
   border-color: #b70808;
   padding-left: 30px;
@@ -3645,9 +3647,9 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -3661,7 +3663,7 @@ bouton#contenu_etape #vrac_visualisation #vrac_condition #btn_annuler_contrat {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
   padding-left: 30px;
@@ -3985,7 +3987,7 @@ bouton#contenu_etape #btn_export_csv {
   font-size: 12px;
 }
 #statut_vrac #etat_avancement #barre_avancement {
-  background: #fff;
+  background: #ffffff;
 }
 #statut_vrac #etat_avancement #barre_avancement div {
   background: #9d3032;
@@ -4020,7 +4022,7 @@ bouton#contenu_etape #btn_export_csv {
   font-weight: bold;
   margin: 0 0 20px;
   text-align: center;
-  color: #fff;
+  color: #ffffff;
 }
 #vrac_soussigne h2,
 #vrac_marche h2,
@@ -4402,7 +4404,7 @@ bouton#contenu_etape #btn_export_csv {
 #vrac_condition #recapitulatif .recap_etablissement p strong,
 #vrac_validation #recapitulatif .recap_etablissement p strong,
 #vrac_recapitulatif #recapitulatif .recap_etablissement p strong {
-  color: #000;
+  color: #000000;
   font-style: italic;
   font-weight: normal;
 }
@@ -4536,7 +4538,7 @@ bouton#contenu_etape #btn_export_csv {
 #vrac_recapitulatif .ui-dropdownchecklist-selector .ui-dropdownchecklist-text {
   background: #fff;
   border: 1px solid #d3d2cd;
-  color: #fff;
+  color: #ffffff;
   font-size: 12px;
   height: 18px;
   padding: 2px 4px 0;
@@ -5092,7 +5094,7 @@ bouton#contenu_etape #btn_export_csv {
   clear: both;
 }
 #contacts .tags input {
-  background: #fff;
+  background: #ffffff;
   padding: 5px;
   width: auto;
 }
@@ -5189,7 +5191,7 @@ bouton#contenu_etape #btn_export_csv {
 }
 #visu_societe .btn_haut .btn_majeur {
   background-position: 0 -182px;
-  color: #fff;
+  color: #ffffff;
   padding-left: 40px;
 }
 #visu_societe .btn_haut .btn_majeur:before {
@@ -5331,9 +5333,9 @@ bouton#contenu_etape #btn_export_csv {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -5347,7 +5349,7 @@ bouton#contenu_etape #btn_export_csv {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
   width: 115px;
@@ -5556,9 +5558,9 @@ bouton.recherche_contact #btn_rechercher {
 }
 /* Infobulle contact */
 #infobulle_contact {
-  -webkit-box-shadow: 0 0 20px #666;
-  -moz-box-shadow: 0 0 20px #666;
-  box-shadow: 0 0 20px #666;
+  -webkit-box-shadow: 0 0 20px #666666;
+  -moz-box-shadow: 0 0 20px #666666;
+  box-shadow: 0 0 20px #666666;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -5764,7 +5766,7 @@ p#date_drm {
   font-size: 12px;
 }
 #statut_declaration #etat_avancement #barre_avancement {
-  background: #fff;
+  background: #ffffff;
 }
 #statut_declaration #etat_avancement #barre_avancement div {
   background: #9d3032;
@@ -5796,7 +5798,7 @@ p#date_drm {
   font-weight: bold;
 }
 #contenu #nombre_etabs {
-  color: #000;
+  color: #000000;
   font-size: 15px;
   margin: -10px 0 35px;
 }
@@ -5855,9 +5857,9 @@ p#date_drm {
   color: #fff;
 }
 #principal #etablissements_drm #liste_etablissements ul li a {
-  border: 1px solid #aaa;
+  border: 1px solid #aaaaaa;
   background: #a8a8a8 url(../images/fonds/bg_etabs_liste_default.png) left top repeat-x;
-  color: #fff;
+  color: #ffffff;
   display: inline-block;
   padding: 5px 7px;
 }
@@ -6016,11 +6018,13 @@ div.fancybox-wrap .popup_creation_drm ul.radio_list li {
 div.fancybox-wrap .popup_creation_drm .ligne_btn {
   width: 500px;
 }
-#principal #mon_espace .etablissements_drms {
+#principal #mon_espace .etablissements_drms,
+#principal #mon_espace .societe_prelevement {
   height: 215px;
   overflow: auto;
 }
-#principal #mon_espace .etablissements_drms > li {
+#principal #mon_espace .etablissements_drms > li,
+#principal #mon_espace .societe_prelevement > li {
   background: #ecebeb;
   border-radius: 5px;
   border: 1px solid #e3e2e2;
@@ -6028,42 +6032,72 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   margin: 5px;
   padding: 10px;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms h2 {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms h2,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms h2,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement h2,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement h2 {
   font-size: 13px;
   margin: 0 0 10px;
   text-align: center;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace li {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace li,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace li,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace li,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace li {
   height: 20px;
   line-height: 20px;
   margin: 5px 0;
   padding: 0 0 0 25px;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace a {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace a,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace a,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace a,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace a {
   position: static;
   text-decoration: none;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace a :hover {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace a :hover,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace a :hover,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace a :hover,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace a :hover {
   text-decoration: underline;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toCreate {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toCreate,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace .statut_toCreate,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace .statut_toCreate,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace .statut_toCreate {
   background: url("../images/pictos/pi_orange_plus.png") no-repeat;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace .statut_toFinish,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace .statut_toFinish,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace .statut_toFinish {
   background: url("../images/pictos/pi_red_alerte.png") no-repeat;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish_non_teledeclare {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_toFinish_non_teledeclare,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace .statut_toFinish_non_teledeclare,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace .statut_toFinish_non_teledeclare,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace .statut_toFinish_non_teledeclare {
   background: url("../images/pictos/pi_grey_plus.png") no-repeat;
 }
-#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_validee {
+#principal #mon_espace .etablissements_drms > li .etablissement_drms .block_drm_espace .statut_validee,
+#principal #mon_espace .societe_prelevement > li .etablissement_drms .block_drm_espace .statut_validee,
+#principal #mon_espace .etablissements_drms > li .adhesion_prelevement .block_drm_espace .statut_validee,
+#principal #mon_espace .societe_prelevement > li .adhesion_prelevement .block_drm_espace .statut_validee {
   background-image: url("../images/pictos/sprite_calendrier.png");
   background-position: 0 -70px;
   background-repeat: no-repeat;
 }
-#principal #espace_drm .etablissements_drms {
+#principal #espace_drm .etablissements_drms,
+#espace_prelevement .etablissements_drms,
+#principal #espace_drm .societe_prelevement,
+#espace_prelevement .societe_prelevement {
   overflow: hidden;
 }
-#principal #espace_drm .etablissements_drms li {
+#principal #espace_drm .etablissements_drms li,
+#espace_prelevement .etablissements_drms li,
+#principal #espace_drm .societe_prelevement li,
+#espace_prelevement .societe_prelevement li {
   padding: 0px 10px 0;
   margin: 5px 0;
   background-color: #ecebeb;
@@ -6072,30 +6106,79 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   position: relative;
   text-align: center;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms,
+#espace_prelevement .etablissements_drms li div.etablissement_drms,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms,
+#espace_prelevement .societe_prelevement li div.etablissement_drms,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement {
   width: 100%;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms h2 {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms h2,
+#espace_prelevement .etablissements_drms li div.etablissement_drms h2,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms h2,
+#espace_prelevement .societe_prelevement li div.etablissement_drms h2,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement h2,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement h2,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement h2,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement h2 {
   padding: 0;
   margin: 5px 0;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul,
+#espace_prelevement .etablissements_drms li div.etablissement_drms ul,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms ul,
+#espace_prelevement .societe_prelevement li div.etablissement_drms ul,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement ul,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement ul,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement ul,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement ul {
   display: inline-block;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul li {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul li,
+#espace_prelevement .etablissements_drms li div.etablissement_drms ul li,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms ul li,
+#espace_prelevement .societe_prelevement li div.etablissement_drms ul li,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement ul li,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement ul li,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement ul li,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement ul li {
   width: 100%;
   border: none;
   text-align: left;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toCreate button {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toCreate button,
+#espace_prelevement .etablissements_drms li div.etablissement_drms ul .statut_toCreate button,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms ul .statut_toCreate button,
+#espace_prelevement .societe_prelevement li div.etablissement_drms ul .statut_toCreate button,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement ul .statut_toCreate button,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement ul .statut_toCreate button,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement ul .statut_toCreate button,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement ul .statut_toCreate button {
   padding: 0 10px;
   background: rgba(0, 0, 0, 0) url("../images/pictos/pi_orange_plus.png") no-repeat scroll 0 0;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toFinish button {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul .statut_toFinish button,
+#espace_prelevement .etablissements_drms li div.etablissement_drms ul .statut_toFinish button,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms ul .statut_toFinish button,
+#espace_prelevement .societe_prelevement li div.etablissement_drms ul .statut_toFinish button,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement ul .statut_toFinish button,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement ul .statut_toFinish button,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement ul .statut_toFinish button,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement ul .statut_toFinish button {
   background: rgba(0, 0, 0, 0) url("../images/pictos/pi_red_alerte.png") no-repeat scroll 0 0;
   padding: 0 10px;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul a {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul a,
+#espace_prelevement .etablissements_drms li div.etablissement_drms ul a,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms ul a,
+#espace_prelevement .societe_prelevement li div.etablissement_drms ul a,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement ul a,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement ul a,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement ul a,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement ul a {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -6103,7 +6186,14 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   top: 0;
   padding: 0px 10px ;
 }
-#principal #espace_drm .etablissements_drms li div.etablissement_drms ul li.action a {
+#principal #espace_drm .etablissements_drms li div.etablissement_drms ul li.action a,
+#espace_prelevement .etablissements_drms li div.etablissement_drms ul li.action a,
+#principal #espace_drm .societe_prelevement li div.etablissement_drms ul li.action a,
+#espace_prelevement .societe_prelevement li div.etablissement_drms ul li.action a,
+#principal #espace_drm .etablissements_drms li div.adhesion_prelevement ul li.action a,
+#espace_prelevement .etablissements_drms li div.adhesion_prelevement ul li.action a,
+#principal #espace_drm .societe_prelevement li div.adhesion_prelevement ul li.action a,
+#espace_prelevement .societe_prelevement li div.adhesion_prelevement ul li.action a {
   vertical-align: bottom;
 }
 /**
@@ -6125,7 +6215,7 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   width: 350px;
 }
 #principal #drm_informations form .ligne_form .valeur {
-  color: #000;
+  color: #000000;
   font-style: italic;
 }
 /**
@@ -6479,7 +6569,7 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   margin-top: 0px !important;
 }
 #colonnes_dr .col_recolte .col_cont {
-  background: #fff;
+  background: #ffffff;
   border: 1px solid #e5e4e4;
   -webkit-border-radius: 0px 0px 5px 5px;
   -moz-border-radius: 0px 0px 5px 5px;
@@ -6541,7 +6631,7 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
 }
 #colonnes_dr .col_recolte .col_cont .col_btn .btn_modifier,
 #colonnes_dr .col_recolte .col_cont .col_btn .btn_supprimer {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -130px;
   border-color: #b70808;
 }
@@ -6562,13 +6652,13 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont input,
 #colonnes_dr .col_recolte.col_inactive .col_cont select {
-  background: #fff;
+  background: #ffffff;
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_groupe,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_debut,
 #colonnes_dr .col_recolte.col_inactive .col_cont input.somme_stock_fin {
-  color: #000;
+  color: #000000;
 }
 #colonnes_dr .col_recolte.col_inactive .col_cont .col_btn {
   /*.btn_col_inactive { visibility: hidden; }
@@ -6643,7 +6733,7 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
 }
 #colonnes_dr input.btn_detail,
 #colonnes_dr input.btn_detail[readonly] {
-  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -235px #FFFFFF;
+  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -235px #ffffff;
   border: 1px solid #d2d2d2;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -6667,9 +6757,9 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -6683,7 +6773,7 @@ div.fancybox-wrap .popup_creation_drm .ligne_btn {
   line-height: 26px;
   padding: 0 10px;
   position: relative;
-  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -236px #FFFFFF;
+  background: url("../images/pictos/pi_actions.png") no-repeat scroll 7px -236px #ffffff;
   border: 1px solid #d2d2d2;
   -webkit-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) inset;
   -moz-box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) inset;
@@ -6843,7 +6933,7 @@ bouton#colonnes_dr .btn_edition_label {
   z-index: 999;
 }
 #telecharger_pdf {
-  background: url("../images/boutons/btn_pdf.png") no-repeat scroll 0 0 #9E9E9E;
+  background: url("../images/boutons/btn_pdf.png") no-repeat scroll 0 0 #9e9e9e;
   border: 1px solid #646464;
   color: #3e3e3e;
   float: left;
@@ -6962,7 +7052,7 @@ bouton#colonnes_dr .btn_edition_label {
   width: 100%;
 }
 #colonne input.ui-autocomplete-input {
-  background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #fff;
+  background: url(../images/pictos/pi_recherche.png) 5px 10px no-repeat #ffffff;
   font-size: 12px;
   padding: 5px 5px 5px 25px;
   width: 200px;
@@ -7214,7 +7304,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm nav ul li.actif,
 #principal.drm fieldset.validation_drm_tables nav ul li.actif,
 #principal.drm fieldset#validation_drm_mvts_stocks nav ul li.actif {
-  border-bottom-color: #fff;
+  border-bottom-color: #ffffff;
 }
 #principal.drm fieldset#espace_drm nav ul li *,
 #principal.drm fieldset#historique_drm nav ul li *,
@@ -7447,7 +7537,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.cloture_campagne,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.cloture_campagne,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.cloture_campagne {
-  background-color: #fff;
+  background-color: #ffffff;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.nouv_campagne,
 #principal.drm fieldset#historique_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.nouv_campagne,
@@ -7501,7 +7591,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_teledeclaree {
-  background-color: #fff;
+  background-color: #ffffff;
   opacity: 0.7;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
@@ -7516,7 +7606,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li.attente_campagne_teledeclaree {
-  background-color: #fff;
+  background-color: #ffffff;
   opacity: 0.7;
 }
 #principal.drm fieldset#espace_drm .section_label_maj#calendrier_drm .bloc_form .ligne_compose .liste_mois > li.valide_campagne_non_teledeclaree,
@@ -7689,7 +7779,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement a.action,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement a.action,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_etablissement a.action {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -130px;
   border-color: #b70808;
 }
@@ -7740,7 +7830,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_papier_etablissement a.action,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_papier_etablissement a.action,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_papier_etablissement a.action {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
 }
@@ -7791,7 +7881,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .attente_papier_non_teledeclaree a.action {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
 }
@@ -7845,7 +7935,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .nouv_etablissement a.action,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .nouv_etablissement a.action,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .nouv_etablissement a.action {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -104px;
   border-color: #f6b32c;
 }
@@ -7897,7 +7987,7 @@ a.lien_drm_supprimer {
 #principal.drm fieldset#historique_drm .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_etablissement a.action,
 #principal.drm fieldset.validation_drm_tables .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_etablissement a.action,
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouvement_drm .bloc_form .ligne_compose .liste_mois > li .mois_infos .valide_etablissement a.action {
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -52px;
   border-color: #6d6b6b;
 }
@@ -7968,9 +8058,9 @@ a.lien_drm_supprimer {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -8382,9 +8472,9 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -8399,7 +8489,7 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
   padding: 0 10px;
   position: relative;
   padding-left: 30px;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -104px;
   border-color: #f6b32c;
 }
@@ -8437,9 +8527,9 @@ bouton#principal.drm fieldset .btn_container_modifier a {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 2px 0 #eee;
-  -moz-box-shadow: 0 2px 0 #eee;
-  box-shadow: 0 2px 0 #eee;
+  -webkit-box-shadow: 0 2px 0 #eeeeee;
+  -moz-box-shadow: 0 2px 0 #eeeeee;
+  box-shadow: 0 2px 0 #eeeeee;
   font-family: "HelveticaNeue75bold", Helvetica, Arial, sans-serif;
   text-transform: uppercase;
   text-decoration: none;
@@ -8454,7 +8544,7 @@ bouton#principal.drm fieldset .btn_container_modifier a {
   padding: 0 10px;
   position: relative;
   padding-left: 30px;
-  color: #fff;
+  color: #ffffff;
   background-position: 0 -78px;
   border-color: #83a44d;
 }
@@ -8610,7 +8700,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   margin-bottom: 25px;
 }
 .fancybox-wrap .fancybox-inner #contenu {
-  background: #fff;
+  background: #ffffff;
   width: auto;
 }
 .fancybox-wrap .fancybox-inner #contenu #principal {
@@ -9211,7 +9301,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     display: none;
   }
   #contenu {
-    background: #fff;
+    background: #ffffff;
   }
   #principal {
     width: auto;
@@ -9225,7 +9315,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     display: inline-block;
   }
   #colonne {
-    background: #F2F1F1;
+    background: #f2f1f1;
     display: none;
     float: none;
     padding: 10px 0;
@@ -9368,7 +9458,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     width: 0px;
     border-style: solid;
     border-width: 12px 16px 12px 0;
-    border-color: transparent #FFF transparent transparent;
+    border-color: transparent #ffffff transparent transparent;
     content: '';
     display: inline-block;
   }
@@ -9382,8 +9472,8 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     display: block !important;
     overflow: visible !important;
     padding-top: 0;
-    transition: right 0.4s;
-    -webkit-transition: right 0.4s;
+    transition: right .4s;
+    -webkit-transition: right .4s;
     width: 75%;
     z-index: 10;
   }
@@ -9395,7 +9485,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
     width: 0px;
     border-style: solid;
     border-width: 12px 0 12px 16px;
-    border-color: transparent transparent transparent #FFF;
+    border-color: transparent transparent transparent #ffffff;
     content: '';
     display: inline-block;
   }

@@ -34,6 +34,7 @@ class Roles
     const TELEDECLARATION_FACTURE = 'teledeclaration_facture';
     const TELEDECLARATION_FACTURE_EMAIL = 'teledeclaration_facture_email';
     const TELEDECLARATION_DOUANE = 'teledeclaration_douane';
+    const TELEDECLARATION_PRELEVEMENT = 'teledeclaration_prelevement';
 
     const OBSERVATOIRE = 'observatoire';
 
@@ -45,7 +46,8 @@ class Roles
       self::TELEDECLARATION_DOUANE => "Transmission Ciel",
       self::TELEDECLARATION_DRM_ACQUITTE => "Teledeclaration DRM acquittée",
       self::TELEDECLARATION_FACTURE => "Factures",
-      self::TELEDECLARATION_FACTURE_EMAIL => "Factures par email"
+      self::TELEDECLARATION_FACTURE_EMAIL => "Factures par email",
+      self::TELEDECLARATION_PRELEVEMENT => "Prélèvement automatique"
       );
 
       public static $teledeclarationLibellesShort = array(
@@ -58,6 +60,7 @@ class Roles
         self::TELEDECLARATION_DOUANE => "Transmission Ciel",
         self::TELEDECLARATION_FACTURE => "Factures",
         self::TELEDECLARATION_FACTURE_EMAIL => "Factures par email",
+        self::TELEDECLARATION_PRELEVEMENT => "Prélèvement automatique",
         self::DRM => "DRM",
         self::CONTRAT => "Contrat",
         );
