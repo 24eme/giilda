@@ -6,7 +6,7 @@ $fc = FactureClient::getInstance();
 ?>
 <h2>Historique des factures</h2>
 
-<form id="choix-campagne" method="POST">
+<form id="choix-campagne" method="POST" class="ligne_btn">
     <?= $campagneForm->renderGlobalErrors() ?>
     <?= $campagneForm->renderHiddenFields() ?>
     <?= $campagneForm['campagne']->renderLabel() ?>
