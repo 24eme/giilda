@@ -28,10 +28,6 @@ class FactureEditionSepaForm extends acCouchdbObjectForm {
         $this->setValidator('bic', new sfValidatorString(array('required' => true)));
         $this->widgetSchema->setLabel('bic', 'Bic :');
 
-        $this->setWidget('engagement', new sfWidgetFormInputCheckbox());
-        $this->setValidator('engagement', new sfValidatorPass(array('required' => true)));
-        $this->widgetSchema->setLabel('engagement', 'engagement :');
-
         $this->widgetSchema->setNameFormat('facture_edition_sepa[%s]');
     }
 
@@ -54,7 +50,7 @@ class FactureEditionSepaForm extends acCouchdbObjectForm {
         $diff = array();
         $this->getSepaSociete();
         foreach ($this->getValues() as $key => $new_value) {
-            if (!preg_match('/^_revision$/', $key) && ! preg_match('/^engagement$/', $key)) {
+            if (!preg_match('/^_revision$/', $key)) {
                 if ($this->sepaSociete->$key != $new_value) {
                     $diff[$key] = $new_value;
                 }

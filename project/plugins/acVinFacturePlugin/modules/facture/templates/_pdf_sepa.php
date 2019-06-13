@@ -50,7 +50,7 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 \def\CodePostal{<?php echo $societe->siege->code_postal; ?>}
 \def\Ville{<?php echo $societe->siege->commune; ?>}
 \def\Pays{<?php echo $countries[$societe->siege->pays]; ?>}
-\def\IBAN{<?php echo formatIbanForPdf($sepa->iban); ?>}
+\def\IBAN{<?php echo formatIban($sepa->iban,"~"); ?>}
 \def\BIC{<?php echo $sepa->bic; ?>}
 
 

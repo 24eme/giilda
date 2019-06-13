@@ -115,7 +115,7 @@ class factureActions extends factureGeneriqueActions {
           if ($request->isMethod(sfRequest::POST) && $request->getParameter($this->adhesionPrelevementForm->getName(),null)) {
               $this->adhesionPrelevementForm->bind($request->getParameter($this->adhesionPrelevementForm->getName()));
               if ($this->adhesionPrelevementForm->isValid()) {
-                  $this->redirect('facture_sepa',array('identifiant' => $this->etablissementPrincipal->identifiant));
+                  $this->redirect('facture_sepa_modification',array('identifiant' => $this->etablissementPrincipal->identifiant));
               }
           }
         }
@@ -125,7 +125,7 @@ class factureActions extends factureGeneriqueActions {
         $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe, $campagne);
     }
 
-    public function executeSepa(sfWebRequest $request) {
+    public function executeSepaModification(sfWebRequest $request) {
         $this->redirect403IfIsNotTeledeclaration();
         $this->identifiant = $request['identifiant'];
         $this->initSocieteAndEtablissementPrincipal();
@@ -136,13 +136,31 @@ class factureActions extends factureGeneriqueActions {
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
                 $this->form->save();
-                $latex = new FactureSepaLatex($this->societe);
-              //  echo $latex->getLatexFileContents(); exit;
-                $latex->echoWithHTTPHeader($request->getParameter('type'));
-                exit;
-                $this->redirect('facture_teledeclarant',array('identifiant' => $this->etablissementPrincipal->identifiant));
+                $this->redirect('facture_sepa_visualisation',array('identifiant' => $this->etablissementPrincipal->identifiant));
             }
         }
+    }
+
+    public function executeSepaVisualisation(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration();
+        $this->identifiant = $request['identifiant'];
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+
+    }
+
+    public function executeSepaLatex(sfWebRequest $request) {
+      $this->redirect403IfIsNotTeledeclaration();
+      $this->identifiant = $request['identifiant'];
+      $this->initSocieteAndEtablissementPrincipal();
+      $this->redirect403IfIsNotTeledeclarationAndNotMe();
+        $this->setLayout(false);
+        $this->forward404Unless($this->societe);
+        $latex = new FactureSepaLatex($this->societe);
+      //  echo $latex->getLatexFileContents(); exit;
+        $latex->echoWithHTTPHeader($request->getParameter('type'));
+        exit;
     }
 
 
