@@ -5,7 +5,7 @@ use_helper('Float');
 <section id="principal">
 
     <?php
-    include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures, 'isTeledeclarationMode' => true));
+    include_partial('historiqueFactures', array('identifiant' => $identifiant, 'factures' => $factures, 'isTeledeclarationMode' => true, 'campagneForm' => $campagneForm));
     ?>
 </section>
 <!-- fin #principal -->

@@ -25,7 +25,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               parent::__construct($file, $drm);
               $drmInfos = $this->getDRMInfosFromFile();
               if(!$drmInfos){
-                  throw new sfException("La DRM n'a pu être initialisé depuis le fichier csv : l'identifiant ou/et la periode n'ont pas été trouvés");
+                  throw new sfException("La DRM n'a pu être initialisée depuis le fichier csv : l'identifiant ou/et la periode n'ont pas été trouvés");
               }
               try{
                 $drm = DRMClient::getInstance()->findOrCreateFromEdiByIdentifiantAndPeriode($drmInfos['identifiant'],$drmInfos['periode'], true);
@@ -596,7 +596,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     case self::TYPE_ANNEXE_NONAPUREMENT:
                         $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
                         $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
-                        $dt = DateTime::createFromFormat("d-m-Y", $date_emission);
+                        $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
 
                         $numero_accise = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST]);
                         if (!$numero_document) {

@@ -1,5 +1,6 @@
 .infobulle {
 	position: relative;
+	cursor: help;
 	&::after {
 		content: attr(data-infobulle);
 		color: #fff;
@@ -14,11 +15,15 @@
 		display: block;
 		padding: 3px 8px;
 		opacity: 0;
-		margin-left: 10px;
+		margin: 0 10px;
+	}
+	&.infobulle-gauche::after {
+		right:100%;
+		left: auto;
 	}
 	&:focus,&:hover {
 		&::after {
-			opacity: 0.9;
+			opacity: 1;
 		}
 	}
 }

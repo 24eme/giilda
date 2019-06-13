@@ -30,8 +30,9 @@
 	<table class="table_recap">
     	<thead>
         	<tr>
-				<th class="col-xs-6">Libellé produit</th>
-				<th class="col-xs-6">Libellé prodouane</th>
+				<th class="col-xs-5">Libellé produit</th>
+				<th class="col-xs-5">Libellé prodouane</th>
+                <th class="col-xs-2">Code prodouane</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -46,6 +47,7 @@
 					<?php else: ?>
 					<td><?php echo $form[$hash]->render(array('class' => 'form-control', 'placeholder' => strip_tags(trim($form[$hash]->renderLabel())))) ?><?php echo $form[$hash]->renderError() ?></td>
 					<?php endif; ?>
+                    <td><?php echo $form[$hash.'_code']->render(array('class' => 'form-control', 'placeholder' => strip_tags(trim($form[$hash.'_code']->renderLabel())))) ?><?php echo $form[$hash.'_code']->renderError() ?></td>
 				</tr>
 				<?php endif; endforeach; ?>
 		</tbody>
@@ -63,6 +65,7 @@
         	<tr>
 				<th class="col-xs-6">Libellé produit</th>
 				<th class="col-xs-6">Libellé prodouane</th>
+                <th class="col-xs-2">Code prodouane</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -77,6 +80,7 @@
 					<?php else: ?>
 					<td><?php echo $form[$hash]->render(array('class' => 'form-control', 'placeholder' => strip_tags(trim($form[$hash]->renderLabel())))) ?><?php echo $form[$hash]->renderError() ?></td>
 					<?php endif; ?>
+                    <td><?php echo $form[$hash.'_code']->render(array('class' => 'form-control', 'placeholder' => strip_tags(trim($form[$hash.'_code']->renderLabel())))) ?><?php echo $form[$hash.'_code']->renderError() ?></td>
 				</tr>
 				<?php endif; endforeach; ?>
 		</tbody>
