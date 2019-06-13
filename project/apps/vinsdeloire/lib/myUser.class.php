@@ -129,6 +129,10 @@ class myUser extends sfBasicSecurityUser {
         return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_FACTURE_EMAIL);
     }
 
+    public function hasTeledeclarationPrevelement() {
+        return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_PRELEVEMENT);
+    }
+
     public function hasTeledeclarationVracCreation() {
         return $this->hasTeledeclaration() && $this->hasCredential(Roles::TELEDECLARATION_VRAC_CREATION);
     }

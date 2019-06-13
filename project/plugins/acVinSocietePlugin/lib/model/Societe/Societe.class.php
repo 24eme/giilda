@@ -393,4 +393,12 @@ class Societe extends BaseSociete {
         return $this->add('legal_signature')->add('v1', date('c'));
     }
 
+    public function getSepaSociete(){
+        return $this->getOrAdd('sepa');
+    }
+
+    public function getRum(){
+        return "ITL".$this->getIdentifiant();
+    }
+
 }

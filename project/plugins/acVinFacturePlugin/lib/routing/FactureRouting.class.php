@@ -64,6 +64,9 @@ class FactureRouting {
         $r->prependRoute('facture_teledeclarant',  new sfRoute('/facture/societe/:identifiant/:campagne', array('module' => 'facture',
                                 'action' => 'societe', 'campagne' => null)));
 
+        $r->prependRoute('facture_sepa',  new sfRoute('/facture/societe/:identifiant/sepa', array('module' => 'facture',
+                                'action' => 'sepa')));
+
 
     }
 }

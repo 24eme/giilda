@@ -108,12 +108,41 @@ class factureActions extends factureGeneriqueActions {
         $this->redirect403IfIsNotTeledeclaration();
         $this->identifiant = $request['identifiant'];
         $this->initSocieteAndEtablissementPrincipal();
-
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
+        $this->hasTeledeclarationPrevelement = $this->isTeledeclarationPrelevement();
+        if(!$this->hasTeledeclarationPrevelement){
+          $this->adhesionPrelevementForm = new FactureAdhesionPrelevementForm();
+          if ($request->isMethod(sfRequest::POST) && $request->getParameter($this->adhesionPrelevementForm->getName(),null)) {
+              $this->adhesionPrelevementForm->bind($request->getParameter($this->adhesionPrelevementForm->getName()));
+              if ($this->adhesionPrelevementForm->isValid()) {
+                  $this->redirect('facture_sepa',array('identifiant' => $this->etablissementPrincipal->identifiant));
+              }
+          }
+        }
 
         $campagne = $this->getCampagne($request, 'facture_teledeclarant');
 
         $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe, $campagne);
+    }
+
+    public function executeSepa(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration();
+        $this->identifiant = $request['identifiant'];
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+        $this->form = new FactureEditionSepaForm($this->societe);
+        if ($request->isMethod(sfRequest::POST)) {
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $diff = $this->form->getDiff();
+                $this->form->save();
+                $latex = new FactureSepaLatex($this->societe);
+              //  echo $latex->getLatexFileContents(); exit;
+                $latex->echoWithHTTPHeader($request->getParameter('type'));
+                exit;
+                $this->redirect('facture_teledeclarant',array('identifiant' => $this->etablissementPrincipal->identifiant));
+            }
+        }
     }
 
 
