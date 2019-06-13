@@ -47,7 +47,7 @@ Cette DRM n'a pas été transmise.
       <table class="table_recap">
         <thead >
             <tr>
-                <th colspan="3"><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => "1")); ?>">XML reçu CIEL</a>)</label></th>
+                <th colspan="3"><label style="float: left; padding : 0 10px;">Identification du problème rencontré (<a href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => "1")); ?>">XML reçu CIEL</a> - <a href="<?php echo url_for('drm_edition_libelles', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion())); ?>">Edition libellés</a>)</label></th>
                 <th>Valeur proDou@ne</th>
                 <th>Valeur Interpro</th>
             </tr>

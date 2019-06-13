@@ -1,17 +1,25 @@
 <?php
 use_helper('Date');
+use_helper('DRM');
 $isTeledeclarationMode = (!isset($isTeledeclarationMode))? false : $isTeledeclarationMode;
 $fc = FactureClient::getInstance();
 ?>
 <h2>Historique des factures</h2>
-<?php
-if(count($factures->getRawValue())==0) :
-?>
-<p>
-    <?php if(!$isTeledeclarationMode): ?>Il n'existe aucune facture générée pour cet établissement<?php else: ?>Vous n'avez aucune facture.<?php endif; ?>
-</p>
+
+<form id="choix-campagne" method="POST">
+    <?= $campagneForm->renderGlobalErrors() ?>
+    <?= $campagneForm->renderHiddenFields() ?>
+    <?= $campagneForm['campagne']->renderLabel() ?>
+    <?= $campagneForm['campagne']->render() ?>
+    <input class="btn_majeur btn_vert" type="submit" value="changer">
+    <span class="infobulle" data-infobulle="<?= getHelpMsgText('drm_calendrier_aide1'); ?>"><i class="icon-msgaide size-24"></i></span>
+</form>
+
+<?php if(count($factures->getRawValue())==0) : ?>
+    <p>
+        <?php if(!$isTeledeclarationMode): ?>Il n'existe aucune facture générée pour cet établissement<?php else: ?>Vous n'avez aucune facture.<?php endif; ?>
+    </p>
 <?php else : ?>
-<fieldset>
     <table class="table_recap table_compact">
         <thead>
             <tr>
@@ -75,5 +83,4 @@ if(count($factures->getRawValue())==0) :
 endforeach; ?>
         </tbody>
     </table>
-</fieldset>
 <?php endif; ?>

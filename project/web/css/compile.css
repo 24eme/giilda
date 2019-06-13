@@ -1222,6 +1222,9 @@ bouton.btn_enregistrer {
   font-size: 12px;
   padding: 5px 5px;
 }
+.table_recap.table_drm_choix_produit:not(:first-child) {
+  margin-top: 30px;
+}
 .table_selection .selecteur {
   padding: 5px 10px;
 }
@@ -8376,6 +8379,25 @@ bouton#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj#mouv
 #principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj table tr.vide {
   display: none;
 }
+#principal.drm fieldset#espace_drm .section_label_maj table.table_compact tr th,
+#principal.drm fieldset#historique_drm .section_label_maj table.table_compact tr th,
+#principal.drm fieldset.validation_drm_tables .section_label_maj table.table_compact tr th,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj table.table_compact tr th {
+  font-size: 12px;
+}
+#principal.drm fieldset#espace_drm .section_label_maj table.table_compact tr td,
+#principal.drm fieldset#historique_drm .section_label_maj table.table_compact tr td,
+#principal.drm fieldset.validation_drm_tables .section_label_maj table.table_compact tr td,
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj table.table_compact tr td {
+  font-size: 12px;
+  padding: 5px 5px;
+}
+#principal.drm fieldset#espace_drm .section_label_maj table.table_drm_choix_produit:not(:first-child),
+#principal.drm fieldset#historique_drm .section_label_maj table.table_drm_choix_produit:not(:first-child),
+#principal.drm fieldset.validation_drm_tables .section_label_maj table.table_drm_choix_produit:not(:first-child),
+#principal.drm fieldset#validation_drm_mvts_stocks .section_label_maj table.table_drm_choix_produit:not(:first-child) {
+  margin-top: 30px;
+}
 #principal.drm fieldset#espace_drm .section_label_maj_teledeclaration_drm,
 #principal.drm fieldset#historique_drm .section_label_maj_teledeclaration_drm,
 #principal.drm fieldset.validation_drm_tables .section_label_maj_teledeclaration_drm,
@@ -9649,6 +9671,7 @@ bouton#principal.drm fieldset .btn_container_exporter a {
 }
 .infobulle {
   position: relative;
+  cursor: help;
 }
 .infobulle::after {
   content: attr(data-infobulle);
@@ -9664,9 +9687,13 @@ bouton#principal.drm fieldset .btn_container_exporter a {
   display: block;
   padding: 3px 8px;
   opacity: 0;
-  margin-left: 10px;
+  margin: 0 10px;
+}
+.infobulle.infobulle-gauche::after {
+  right: 100%;
+  left: auto;
 }
 .infobulle:focus::after,
 .infobulle:hover::after {
-  opacity: 0.9;
+  opacity: 1;
 }

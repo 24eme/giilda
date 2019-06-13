@@ -16,7 +16,14 @@ class ediActions extends sfActions {
           if ($this->creationEdiDrmForm->isValid()) {
              $md5 = $this->creationEdiDrmForm->getValue('edi-file')->getMd5();
              $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $md5;
-             return $this->importEdiFile($csvFilePath);
+             try {
+                 return $this->importEdiFile($csvFilePath);
+             }catch(Exception $e) {
+                 $this->setLayout(false);
+                 $this->response->setContentType('text/csv');
+                 echo "Error;;;".$e->getMessage()."\n";
+                 return sfView::NONE;
+             }
            }
       }
 
@@ -27,8 +34,15 @@ class ediActions extends sfActions {
           $uniqId = uniqId();
           $csvFileTmpPath = sfConfig::get('sf_data_dir') . '/upload/' . $uniqId;
           file_put_contents($csvFileTmpPath,$file_content);
-          $csvFile = new CsvFile($csvFileTmpPath);
-          $result = $this->importEdiFile($csvFileTmpPath);
+          try {
+              $csvFile = new CsvFile($csvFileTmpPath);
+              $result = $this->importEdiFile($csvFileTmpPath);
+          }catch(Exception $e) {
+              $this->setLayout(false);
+              $this->response->setContentType('text/csv');
+              echo "Error;;;".$e->getMessage()."\n";
+              return sfView::NONE;
+          }
           unlink($csvFileTmpPath);
           return $result;
       }
@@ -39,10 +53,13 @@ class ediActions extends sfActions {
           file_put_contents($csvFileTmpPath, $request->getContent());
             try {
                 $csvFile = new CsvFile($csvFileTmpPath);
+                $result = $this->importEdiFile($csvFileTmpPath);
             } catch (Exception $e) {
+                $this->setLayout(false);
+                $this->response->setContentType('text/csv');
                 echo "Error;;;".$e->getMessage()."\n";
+                return sfView::NONE;
             }
-          $result = $this->importEdiFile($csvFileTmpPath);
           unlink($csvFileTmpPath);
           return $result;
       }

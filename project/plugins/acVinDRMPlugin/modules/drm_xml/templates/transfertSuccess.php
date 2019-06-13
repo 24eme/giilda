@@ -3,7 +3,7 @@
         <div id="contenu_etape">
 		<h2>Transmission de votre DRM à la Douane</h2>
 <?php if (!$drm->transmission_douane->success) :
-  if (preg_match('/HTTP Error 0/', $cielResponse)) {
+  if (preg_match('/HTTP Error 0/', $cielResponse) || preg_match('/permission to access .authtoken.oauth2/', $cielResponse)) {
     echo "<p><strong>Le service de reception des DRM de la Douane est indisponible pour le moment.</strong></p>";
   }else{
 	   echo "<p>Une erreur s'est produite lors du transfert de votre DRM : ".html_entity_decode($cielResponse)."</p>";

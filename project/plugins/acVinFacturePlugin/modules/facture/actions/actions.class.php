@@ -50,16 +50,20 @@ class factureActions extends factureGeneriqueActions {
      return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
    }
 
-    public function executeMonEspace(sfWebRequest $resquest) {
+    public function executeMonEspace(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
         $this->form = new FactureGenerationForm();
         $this->societe = $this->getRoute()->getSociete();
+        $this->identifiant = $request->getParameter('identifiant');
         $this->isTeledeclarationMode = $this->isTeledeclarationFacture();
-        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
+
+        $campagne = $this->getCampagne($request, 'facture_societe');
+
+        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe, $campagne);
         $this->mouvements = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($this->societe);
     }
 
-    public function executeDefacturer(sfWebRequest $resquest) {
+    public function executeDefacturer(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
         $this->facture = $this->getRoute()->getFacture();
         if(!$this->facture->hasAvoir()){
@@ -116,7 +120,9 @@ class factureActions extends factureGeneriqueActions {
           }
         }
 
-        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe);
+        $campagne = $this->getCampagne($request, 'facture_teledeclarant');
+
+        $this->factures = FactureEtablissementView::getInstance()->findBySociete($this->societe, $campagne);
     }
 
     public function executeSepa(sfWebRequest $request) {
@@ -173,4 +179,35 @@ class factureActions extends factureGeneriqueActions {
         return "/tmp/";
     }
 
+    /**
+     * Récupère la campagne en URL
+     * Si elle n'est pas renseignée, on prends la campagne courante
+     *
+     * On génère un formulaire de choix de campagne
+     *
+     * On filtre les factures sur la campagne choisie
+     *
+     * @param sfWebRequest $request La requête
+     * @param string $url L'url de retour si on change de campagne
+     * @return La campagne
+     */
+    private function getCampagne(sfWebRequest $request, $url)
+    {
+        $campagne = $request->getParameter('campagne');
+        if ($campagne === '') {
+            $campagne = date('Y');
+        }
+
+        $this->campagneForm = new FactureChoixCampagneForm($campagne);
+
+        if ($request->isMethod(sfWebRequest::POST)) {
+            $param = $request->getParameter($this->campagneForm->getName());
+            if ($param) {
+                $this->campagneForm->bind($param);
+                return $this->redirect($url, ['identifiant' => $this->identifiant, 'campagne' => $this->campagneForm->getValue('campagne')]);
+            }
+        }
+
+        return $campagne;
+    }
 }
