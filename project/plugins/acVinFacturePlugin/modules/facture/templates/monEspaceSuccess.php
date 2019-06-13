@@ -12,7 +12,7 @@ use_helper('Float');
     <br />
 
     <?php
-    include_partial('historiqueFactures', array('societe' => $societe, 'factures' => $factures));
+    include_partial('historiqueFactures', array('identifiant' => $societe->identifiant, 'factures' => $factures, 'campagneForm' => $campagneForm));
     ?>
     <hr />
     <h2>Génération de facture</h2>
