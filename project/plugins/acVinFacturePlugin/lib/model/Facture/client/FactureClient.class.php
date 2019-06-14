@@ -61,6 +61,7 @@ class FactureClient extends acCouchdbClient {
         if(trim($message_communication)) {
           $facture->addOneMessageCommunication($message_communication);
         }
+        $facture->updatePrelevementAutomatique();
         return $facture;
     }
 

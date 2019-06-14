@@ -4,7 +4,7 @@ use_helper('Float');
 
 
 \noindent{
-<?php if(!$avoir) : ?>
+<?php if(!$avoir && !$facture->isPrelevementAutomatique()) : ?>
 \begin{minipage}[b]{1\textwidth}
 \noindent{
        \begin{flushleft}

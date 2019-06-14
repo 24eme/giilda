@@ -580,5 +580,15 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         return self::MESSAGE_DEFAULT;
     }
 
+    public function updatePrelevementAutomatique(){
+      if($this->getSociete()->hasInfosSepa() && $this->getSociete()->getMasterCompte()->hasDroit(ROLES::TELEDECLARATION_PRELEVEMENT)){
+        $this->add('prelevement_automatique',true);
+      }
+    }
+
+    public function isPrelevementAutomatique(){
+      return $this->exist('prelevement_automatique') && $this->get('prelevement_automatique');
+     }
+
     /*     * * FIN ARCHIVAGE ** */
 }
