@@ -163,6 +163,18 @@ class societeActions extends sfCredentialActions {
         $this->redirect('societe_creation');
     }
 
+    public function executeSepaActivate(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+        $this->societe->getOrAdd('sepa')->date_activation = date('Y-m-d');
+        $this->societe->save();
+        $compte = $this->societe->getMasterCompte();
+        $compte->getOrAdd('droits')->add(Roles::TELEDECLARATION_PRELEVEMENT, Roles::TELEDECLARATION_PRELEVEMENT);
+        $compte->cleanDroits();
+        $compte->save();
+
+        return $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
+    }
+
     public function executeUpload(sfWebRequest $request) {
         ini_set('memory_limit', '2048M');
         set_time_limit(0);
@@ -186,7 +198,7 @@ class societeActions extends sfCredentialActions {
                 $this->rapport = SocieteClient::getInstance()->addTagRgtEnAttenteFromFile($path, $societesCodeClientView);
             }
         }else{
-            
+
             return $this->redirect('societe');
         }
     }

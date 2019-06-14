@@ -64,7 +64,7 @@ class FactureEditionSepaForm extends acCouchdbObjectForm {
         $this->societe->add('sepa')->nom_bancaire = $values['nom_bancaire'];
         $this->societe->add('sepa')->iban = $values['iban'];
         $this->societe->add('sepa')->bic = $values['bic'];
-        $this->societe->add('sepa')->actif = false;
+        $this->societe->add('sepa')->date_activation = null;
         $this->societe->save();
 
     }
