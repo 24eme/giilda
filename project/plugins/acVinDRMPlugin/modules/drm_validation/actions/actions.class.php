@@ -157,7 +157,6 @@ class drm_validationActions extends drmGeneriqueActions {
 
     private function transmissionFactureMail(){
       $date_facturation = date('Y-m-d');
-      $message_communication = "Facture générée automatiquement lors de la validation de la ".DRMClient::getInstance()->getLibelleFromId($this->drm->_id);
       $mouvementsBySoc = array();
       $etablissementDRM = $this->drm->getEtablissement();
       $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
@@ -168,7 +167,6 @@ class drm_validationActions extends drmGeneriqueActions {
         $generation->add('arguments')->add('seuil', $seuil);
       }
       $generation->add('arguments')->add('date_facturation',  $this->drm->getDate());
-      $generation->add('arguments')->add('message_communication', $message_communication);
       $generation->save();
     }
 }
