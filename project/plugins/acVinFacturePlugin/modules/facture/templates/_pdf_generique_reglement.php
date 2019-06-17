@@ -52,5 +52,5 @@ use_helper('Float');
             \end{tikzpicture}
  \end{minipage}
  \end{flushright}
-<?php if(!$avoir) : ?> \end{minipage} <?php endif; ?>
+<?php if(!$avoir && !$facture->isPrelevementAutomatique()) : ?> \end{minipage} <?php endif; ?>
 }

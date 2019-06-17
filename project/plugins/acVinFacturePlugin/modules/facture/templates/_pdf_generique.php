@@ -98,6 +98,6 @@ if(!$avoir){
 include_partial('facture/pdf_generique_reglement', array('facture' => $facture, 'avoir' => $avoir));
 
 if (!$avoir)
-    include_partial('facture/pdf_generique_echeances', array('echeances' => $facture->echeances));
+    include_partial('facture/pdf_generique_echeances', array('facture' => $facture, 'echeances' => $facture->echeances));
 ?>
 \end{document}
