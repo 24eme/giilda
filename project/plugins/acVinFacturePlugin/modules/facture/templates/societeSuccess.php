@@ -1,6 +1,6 @@
 <?php
 use_helper('Float');
-$service_prelevement_ouvert = true;
+$service_prelevement_ouvert = false;
 ?>
 <!-- #principal -->
 <section id="principal">

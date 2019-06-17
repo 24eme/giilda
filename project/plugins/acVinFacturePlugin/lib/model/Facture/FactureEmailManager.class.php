@@ -61,10 +61,9 @@ $mess.="
 
 Cette facture a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
 
-elle est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
-
 A tout moment vous pouvez consulter l'ensemble de vos factures sur votre espace InterLoire en cliquant sur l'onglet « Facture » présent en haut à droite.
 
+cet espace est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
 
 --
 
@@ -100,10 +99,6 @@ L’application de télédéclaration d'Interloire ". sfConfig::get('app_teledec
 
     private function getMailer() {
         return $this->mailer;
-    }
-
-    private function getUrlVisualisationFacture() {
-        return sfContext::getInstance()->getRouting()->generate('drm_visualisation', $this->drm, true);
     }
 
 }
