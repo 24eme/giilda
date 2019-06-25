@@ -78,9 +78,7 @@ foreach(\$files as \$file) {
 		continue;
 	}
 
-    preg_match('/^([0-9]+)_/', \$file, \$matches);
-
-    \$fileDate = \$matches[1];
+    \$fileDate = DateTime::createFromFormat('U', filemtime(\$file))->format('Ymd');
 
     if(\$date && \$fileDate < \$date) {
         continue;
