@@ -62,7 +62,11 @@ if test "$IP_AUTHORIZED"; then
 fi
 
 echo "<?php
-header(\"Content-Type: text/plain\");
+if(\$_GET['output'] == 'html') {
+        header(\"Content-Type: text/html\");
+} else {
+        header(\"Content-Type: text/plain\");
+}
 
 \$files = scandir(dirname(__FILE__));
 rsort(\$files);
@@ -71,6 +75,10 @@ rsort(\$files);
 
 if(isset(\$_GET['date'])) {
     \$date = str_replace('-', '', \$_GET['date']);
+}
+
+if(\$_GET['output'] == 'html') {
+        echo '<html><body><ul>';
 }
 
 foreach(\$files as \$file) {
@@ -84,6 +92,19 @@ foreach(\$files as \$file) {
         continue;
     }
 
-    echo \"http\".((isset(\$_SERVER['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].preg_replace(\"|list\.php.*$|\", \"\", \$_SERVER['REQUEST_URI']).\$file.\"\n\";
+    if(isset(\$_GET['identifiant']) && !preg_match('/DRM-'. \$_GET['identifiant'].'-/', \$file)) {
+        continue;
+    }
+
+    \$url = \"http\".((isset(\$_SERVER['HTTPS'])) ? \"s\" : \"\").\"://\".\$_SERVER['HTTP_HOST'].preg_replace(\"|list\.php.*$|\", \"\", \$_SERVER['REQUEST_URI']).\$file;
+
+    if(\$_GET['output'] == 'html') {
+        echo \"<li><a href='\".\$url.\"'>\".\$file.\"</a></li>\";
+    } else {
+        echo \$url.\"\n\";
+    }
+}
+if(\$_GET['output'] == 'html') {
+        echo '</ul></body></html>';
 }
 " > $EXPORT_PATH/list.php
