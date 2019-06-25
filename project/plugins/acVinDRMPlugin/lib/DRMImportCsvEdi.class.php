@@ -55,7 +55,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                     continue;
                 }
-                return array('identifiant' => KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]), 'periode' => KeyInflector::slugify($csvRow[self::CSV_PERIODE]));
+                $identifiantCsv = KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]);
+                if(preg_match('/^[0-9]{6}$/',$identifiantCsv)){
+                  $identifiantCsv=intval(sprintf("%06d",$identifiantCsv)."01");
+                }
+                return array('identifiant' => sprintf("%08d",$identifiantCsv), 'periode' => KeyInflector::slugify($csvRow[self::CSV_PERIODE]));
               }
             }
           }
