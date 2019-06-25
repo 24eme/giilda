@@ -48,12 +48,7 @@ class factureGeneriqueActions extends sfActions {
         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
     }
 
-    protected function isTeledeclarationFacture() {
-    	return $this->getUser()->hasTeledeclarationFacture();
-    }
-    protected function isTeledeclarationPrelevement() {
-      return $this->getUser()->hasTeledeclarationPrevelement();
-    }
+
 
     protected function initDeleteForm() {
         $this->deleteForm = new DRMDeleteForm($this->drm);

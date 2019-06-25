@@ -78,7 +78,7 @@ class drm_validationActions extends drmGeneriqueActions {
       $this->drm->updateVracs();
 
       if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
-          $mailManager = new DRMEmailManager($this->getMailer());
+          $mailManager = new DRMEmailManager($this->getMailer(), $this->getUser());
           $mailManager->setDRM($this->drm);
           $mailManager->sendMailValidation();
       }
@@ -129,7 +129,7 @@ class drm_validationActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
                 $this->form->save();
-                $mailManager = new DRMEmailManager($this->getMailer());
+                $mailManager = new DRMEmailManager($this->getMailer(),$this->getUser());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
                 $this->redirect('drm_validation', $this->drm);
@@ -147,7 +147,7 @@ class drm_validationActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
                 $this->form->save();
-                $mailManager = new DRMEmailManager($this->getMailer());
+                $mailManager = new DRMEmailManager($this->getMailer(), $this->getUser());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
                 $this->redirect('drm_validation', $this->drm);
