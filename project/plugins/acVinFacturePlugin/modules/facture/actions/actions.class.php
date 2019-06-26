@@ -1,5 +1,5 @@
 <?php
-class factureActions extends factureGeneriqueActions {
+class factureActions extends drmGeneriqueActions {
 
   public function executeIndex(sfWebRequest $request) {
       $this->redirect403IfIsTeledeclaration();
@@ -102,6 +102,17 @@ class factureActions extends factureGeneriqueActions {
 
         $this->initSocieteAndEtablissementPrincipal();
         $this->redirect('facture_teledeclarant',array('identifiant' => $this->etablissementPrincipal->identifiant));
+    }
+
+    public function executeDeconnexion(sfWebRequest $request) {
+
+        $url_back = $this->getUser()->usurpationOff();
+
+        if ($url_back) {
+            return $this->redirect($url_back);
+        }
+
+        $this->redirect('homepage');
     }
 
     public function executeSociete(sfWebRequest $request) {

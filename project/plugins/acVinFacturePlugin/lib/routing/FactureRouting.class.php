@@ -60,6 +60,8 @@ class FactureRouting {
                           array('model' => 'Societe',
                                 'type' => 'object')
                                 ));
+        $r->prependRoute('facture_dedebrayage',  new sfRoute('/facture/deconnexion', array('module' => 'facture',
+                                                                        'action' => 'deconnexion')));
 
         $r->prependRoute('facture_teledeclarant',  new sfRoute('/facture/societe/:identifiant/:campagne', array('module' => 'facture',
                                 'action' => 'societe', 'campagne' => null)));

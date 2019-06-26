@@ -46,6 +46,9 @@ $fc = FactureClient::getInstance();
                       if(!$isTeledeclarationMode && $fc->isRedressee($facture)):
                           echo '<br/><strong>(redressée)</strong>';
                         endif;
+                        if($f->isAvoir()):
+                            echo '<br/><strong>Avoir</strong>';
+                        endif;
                         ?>
                     </td>
                     <td><?php

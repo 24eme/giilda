@@ -270,7 +270,7 @@ class FactureClient extends acCouchdbClient {
 
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
       if (!$f->isRedressable()) {
-	return ;
+	       return ;
       }
       $avoir = clone $f;
       $soc = SocieteClient::getInstance()->find($avoir->identifiant);

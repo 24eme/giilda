@@ -24,7 +24,7 @@ use_helper('Display');
       <?php include_partial('visualisationPanel', array('societe' => $societe, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
 
       <div id="detail_societe_sepa" class="form_section ouvert">
-        <h3>Informations bancaires <?php if($societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?><span class="btn_majeur btn_vert btn_label" style="">actif</span><?php else: ?><span class="btn_majeur btn_orange btn_label" style="">non actif</span><?php endif; ?></h3>
+        <h3>Informations bancaires <?php if($societe->exist("sepa") && $societe->sepa->exist("date_activation") && $societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?><span class="btn_majeur btn_vert btn_label" style="">actif</span><?php else: ?><span class="btn_majeur btn_orange btn_label" style="">non actif</span><?php endif; ?></h3>
         <div class="form_contenu">
           <div class="form_ligne">
             <label for="teledeclaration_sepa_nom_bancaire" class="label_liste">

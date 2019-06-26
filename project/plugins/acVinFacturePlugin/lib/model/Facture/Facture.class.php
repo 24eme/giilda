@@ -528,9 +528,30 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function isAvoir() {
         return (($this->exist('statut')) &&
-                ($this->statut == self::STATUT_NONREDRESSABLE) &&
+                ($this->statut == FactureClient::STATUT_NONREDRESSABLE) &&
                 ($this->exist("total_ht")) &&
                 ($this->total_ht < 0.0));
+    }
+
+    public function getDateRemboursement(){
+      if(!$this->isAvoir() || !$this->isPrelevementAutomatique()){
+        return false;
+      }
+      $facturesSource = FactureEtablissementView::getInstance()->findBySociete($this->getSociete());
+      $dateRemboursement = date("Y-m-d");
+      foreach ($facturesSource as $factureRow) {
+        if($factureRow->value[FactureEtablissementView::VALUE_STATUT] == FactureClient::STATUT_REDRESSEE){
+          $f = FactureClient::getInstance()->find($factureRow->id);
+          if($f->exist("avoir") && $f->avoir == $this->_id){
+              foreach ($f->echeances as $e) {
+                if($e->echeance_date > $dateRemboursement){
+                  $dateRemboursement = $e->echeance_date;
+                }
+              }
+          }
+        }
+      }
+      return $dateRemboursement;
     }
 
     /*     * * ARCHIVAGE ** */

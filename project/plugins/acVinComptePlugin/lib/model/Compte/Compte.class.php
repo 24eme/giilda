@@ -496,13 +496,14 @@ class Compte extends BaseCompte {
             if ($droit == Roles::OBSERVATOIRE) {
                 $compteDroits->add(Roles::OBSERVATOIRE, Roles::OBSERVATOIRE);
             }
-            if ($droit == Roles::CONTRAT) {
-                $compteDroits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
-                if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER)) {
-                    $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
-                }
-            }
+
             $compteDroitsArray = $compteDroits->toArray(0,1);
+            if(!in_array(Roles::TELEDECLARATION_VRAC, $compteDroitsArray)){
+            $compteDroits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
+              if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER) && ! in_array(Roles::TELEDECLARATION_VRAC_CREATION, $compteDroitsArray)) {
+                $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
+              }
+            }
             if ($droit == Roles::DRM) {
               if(!in_array(Roles::TELEDECLARATION_DRM, $compteDroitsArray)){
                 $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);

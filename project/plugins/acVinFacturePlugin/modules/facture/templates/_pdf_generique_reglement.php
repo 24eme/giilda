@@ -21,6 +21,23 @@ use_helper('Float');
 \hspace{-1.35cm}
 \vspace{-2.7cm}
 <?php endif; ?>
+<?php if($avoir && $facture->isPrelevementAutomatique()) : ?>
+  \begin{minipage}[b]{1\textwidth}
+  \noindent{
+         \begin{flushleft}
+
+         \begin{minipage}[b]{0.60\textwidth}         
+         ~ \\
+         ~ \\
+         ~ \\
+          \small{\textbf{Cette avoir de <?php echoArialFloat($facture->total_ttc); ?>~\texteuro{}~TTC sera rembourser le <?php echo format_date($facture->getDateRemboursement(),'dd/MM/yyyy'); ?> }}
+          ~ \\
+          \end{minipage}
+          \end{flushleft}
+  }
+  \hspace{-1.35cm}
+  \vspace{-2.7cm}
+<?php endif; ?>
     \begin{flushright}
     \begin{minipage}[b]{0.27\textwidth}
             \begin{tikzpicture}
@@ -53,4 +70,5 @@ use_helper('Float');
  \end{minipage}
  \end{flushright}
 <?php if(!$avoir && !$facture->isPrelevementAutomatique()) : ?> \end{minipage} <?php endif; ?>
+<?php if($avoir && $facture->isPrelevementAutomatique()) : ?> \end{minipage} <?php endif; ?>
 }

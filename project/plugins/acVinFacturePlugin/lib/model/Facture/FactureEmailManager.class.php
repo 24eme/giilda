@@ -59,11 +59,11 @@ $mess.="    - ".$drmIdFormatted."
     }
 $mess.="
 
-Cette facture a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
+Cette facture a été générée automatiquement lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
 
 A tout moment vous pouvez consulter l'ensemble de vos factures sur votre espace InterLoire en cliquant sur l'onglet « Facture » présent en haut à droite.
 
-cet espace est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
+Cet espace est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
 
 --
 

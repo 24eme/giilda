@@ -1,6 +1,7 @@
 <?php
 use_helper("Date");
-?> 
+$btn = false;
+?>
 <?php
 if ($isTeledeclarationMode):
     slot('colCompte');
@@ -14,9 +15,22 @@ if ($isTeledeclarationMode):
 
                 <p> (<?php echo $societe->siege->commune; ?>) </p>
 
-                <?php if ($sf_user->isUsurpationCompte()): ?>
+                <?php if (!$btn && $sf_user->isUsurpationCompte() && $sf_user->hasTeledeclarationVrac()): ?>
+                  <?php $btn = true; ?>
                     <div class="ligne_btn txt_centre">
                         <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
+                    </div>
+                <?php endif; ?>
+                <?php if (!$btn && $sf_user->isUsurpationCompte() && $sf_user->hasTeledeclarationDrm()): ?>
+                  <?php $btn = true; ?>
+                    <div class="ligne_btn txt_centre">
+                        <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('drm_dedebrayage') ?>">Revenir sur VINSI</a>
+                    </div>
+                <?php endif; ?>
+                <?php if (!$btn && $sf_user->isUsurpationCompte() && $sf_user->hasTeledeclarationFacture()): ?>
+                  <?php $btn = true; ?>
+                    <div class="ligne_btn txt_centre">
+                        <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('facture_dedebrayage') ?>">Revenir sur VINSI</a>
                     </div>
                 <?php endif; ?>
 
@@ -56,15 +70,15 @@ endif;
             <p class="lien_lecteur_pdf">
                 Ce document est au format PDF. Pour la visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>
-            
+
         </div>
-    </div>   
+    </div>
     <script type="text/javascript">
         $(document).ready(function ()
         {
             initNoticePopup();
         });
-    </script>    
+    </script>
     <?php
     end_slot();
     ?>

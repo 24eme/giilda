@@ -7,7 +7,7 @@ class ExportCSV {
     const TYPE_LIGNE_TVA = 'TVA';
 
     public function __construct() {
-        
+
     }
 
     public static function printHeaderAnneeComptable() {
@@ -19,7 +19,7 @@ class ExportCSV {
     }
 
     private static function printHeaderBase() {
-        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo";
+        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;reference;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo ; prelevement automatique";
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
@@ -38,11 +38,12 @@ class ExportCSV {
         if ($export_annee_comptable) {
             $societe = SocieteClient::getInstance()->find($facture->identifiant);
         }
+        $prelevement_automatique = ($facture->exist('prelevement_automatique') && $facture->prelevement_automatique)? "1" : "0";
         foreach ($facture->lignes as $t => $lignes) {
             foreach ($lignes as $l) {
                 echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (' . $l->produit_libelle
                 . ');70610000;;' . $l->produit_identifiant_analytique . ';;CREDIT;' . $l->montant_ht . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_LIGNE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ';' . $l->origine_type . ';' . $l->produit_type . ';' . $l->origine_identifiant . ';' . $l->volume . ';' . $l->cotisation_taux
-                . ";";
+                . ";".$prelevement_automatique;
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
                 }
@@ -50,7 +51,7 @@ class ExportCSV {
                 echo "\n";
             }
         }
-        echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (TVA);' . $this->getSageCompteGeneral($facture) . ';;;;CREDIT;' . $facture->taxe . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+        echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (TVA);' . $this->getSageCompteGeneral($facture) . ';;;;CREDIT;' . $facture->taxe . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;".$prelevement_automatique;
         if ($export_annee_comptable) {
             echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
         }
@@ -61,7 +62,7 @@ class ExportCSV {
             $i = 0;
             foreach ($facture->echeances as $e) {
                 $i++;
-                echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');41100000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';DEBIT;' . $e->montant_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+                echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');41100000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';DEBIT;' . $e->montant_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;".$prelevement_automatique;
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
                 }
@@ -69,7 +70,7 @@ class ExportCSV {
                 echo "\n";
             }
         } else {
-            echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (Echeance unique);41100000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $facture->date_facturation . ';DEBIT;' . $facture->total_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+            echo 'VEN;' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_interloire . ';Facture n°' . $facture->numero_interloire . ' (Echeance unique);41100000;' . sprintf("%08d", $facture->code_comptable_client) . ';;' . $facture->date_facturation . ';DEBIT;' . $facture->total_ttc . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;".$prelevement_automatique;
             if ($export_annee_comptable) {
                 echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
             }
