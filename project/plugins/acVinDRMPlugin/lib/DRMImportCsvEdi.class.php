@@ -683,7 +683,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                         $num_ligne++;
                         break;
-                    case self::TYPE_STATS_EUROPEENES:
+                    case self::TYPE_ANNEXE_STATS_EUROPEENES:
                         $typeStat = strtolower(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]));
                         $stat = str_replace(',', '.', $csvRow[self::CSV_ANNEXE_QUANTITE]);
                         if(!in_array($typeStat, array('jus', 'mcr', 'vinaigre'))) {
