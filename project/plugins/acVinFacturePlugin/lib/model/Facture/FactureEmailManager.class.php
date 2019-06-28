@@ -43,9 +43,9 @@ class FactureEmailManager {
 
 
         $mess = "
-Madame, Monsieur
+Madame, Monsieur,
 
-Veuillez touver ci-joint à ce mail la version PDF de votre facture InterLoire n° ".$this->facture->numero_interloire." d'un montant de ".sprintFloat($this->facture->total_ttc,"%01.02f")." € TTC
+Veuillez trouver ci-joint la version PDF de votre facture InterLoire n° ".$this->facture->numero_interloire." d'un montant de ".sprintFloat($this->facture->total_ttc,"%01.02f")." € TTC.
 
 Cette facture est issue des mouvements des DRMs suivantes :
 
@@ -59,15 +59,18 @@ $mess.="    - ".$drmIdFormatted."
     }
 $mess.="
 
-Cette facture a été générée automatiquement lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode).",
+Elle a été automatiquement générée lors de la validation de la DRM ".getFrPeriodeElision($this->drmSource->periode)." et est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false)."
 
-A tout moment vous pouvez consulter l'ensemble de vos factures sur votre espace InterLoire en cliquant sur l'onglet « Facture » présent en haut à droite.
+A tout moment, vous pouvez consulter l'ensemble de vos factures en cliquant sur l'onglet « Facture ».
 
 Cet espace est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
 
+Pour toutes questions, veuillez contacter : " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
+
 --
 
-L’application de télédéclaration d'Interloire ". sfConfig::get('app_teledeclaration_url') ." .";
+
+L’application de télédéclaration d'Interloire ". sfConfig::get('app_teledeclaration_url')." .";
         $pdf = new FactureLatex($this->facture);
         $pdfContent = $pdf->getPDFFileContents();
         $pdfName = $pdf->getPublicFileName();
