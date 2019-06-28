@@ -63,7 +63,7 @@ Elle a été automatiquement générée lors de la validation de la DRM ".getFrP
 
 A tout moment, vous pouvez consulter l'ensemble de vos factures en cliquant sur l'onglet « Facture ».
 
-Cet espace est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_teledeclarant",array("identifiant" => $societe->identifiant),false) ."
+Cet espace est disponible ici : https://".sfConfig::get('app_routing_context_production_host').$this->routing->generate("facture_pdf",array("identifiant" => $facture->_id),false) ."
 
 Pour toutes questions, veuillez contacter : " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " .
 
