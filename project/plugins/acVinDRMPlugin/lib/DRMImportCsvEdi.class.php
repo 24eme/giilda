@@ -683,6 +683,20 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                         $num_ligne++;
                         break;
+                    case self::TYPE_ANNEXE_STATS_EUROPEENES:
+                        $typeStat = strtolower(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]));
+                        $stat = (float) str_replace(',', '.', $csvRow[self::CSV_ANNEXE_QUANTITE]);
+                        if(!in_array($typeStat, array('jus', 'mcr', 'vinaigre'))) {
+                            if ($just_check) {
+                                $this->csvDoc->addErreur($this->annexesTypeMvtStatistiquesWrongFormatError($num_ligne, $csvRow));
+                            } $num_ligne++;
+                            break;
+                        }
+                        if (!$just_check) {
+                            $this->drm->declaratif->statistiques->set($typeStat, $stat);
+                        }
+                        $num_ligne++;
+                        break;
                     default:
                         if ($just_check) {
                             $this->csvDoc->addErreur($this->typeDocumentWrongFormatError($num_ligne, $csvRow));
@@ -860,6 +874,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_ANNEXE_TYPEMVT],
                                       "Le type d'enregistrement des " . $csvRow[self::CSV_ANNEXE_TYPEANNEXE] . " doit être 'début' ou 'fin' .",
+                                      CSVClient::LEVEL_WARNING);
+        }
+
+        private function annexesTypeMvtStatistiquesWrongFormatError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      $csvRow[self::CSV_ANNEXE_TYPEMVT],
+                                      "Le type d'enregistrement des " . $csvRow[self::CSV_ANNEXE_TYPEANNEXE] . " doit être 'jus', 'mcr' ou 'vinaigre' .",
                                       CSVClient::LEVEL_WARNING);
         }
 
