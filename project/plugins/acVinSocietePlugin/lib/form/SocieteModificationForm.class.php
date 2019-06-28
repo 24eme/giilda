@@ -108,9 +108,9 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
             $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
 
-            $this->setValidator('nom_bancaire', new sfValidatorString(array('required' => true)));
-            $this->setValidator('iban', new sfValidatorString(array('required' => true)));
-            $this->setValidator('bic', new sfValidatorString(array('required' => true)));
+            $this->setValidator('nom_bancaire', new sfValidatorString(array('required' => false)));
+            $this->setValidator('iban', new sfValidatorString(array('required' => false)));
+            $this->setValidator('bic', new sfValidatorString(array('required' => false)));
 
             if ($this->getObject()->code_comptable_client) {
                 $this->widgetSchema['type_numero_compte_client']->setAttribute('disabled', 'disabled');
