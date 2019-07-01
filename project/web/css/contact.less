@@ -16,10 +16,18 @@
     /* Blocs société */
     #coordonnees_societe,
     #detail_societe, #detail_societe_coordonnees
-    {	
+    {
         h3
         {
             background: @couleur-a5 url('../images/pictos/pi_societe.png') 40px center no-repeat;
+            padding-left: 75px;
+        }
+    }
+    #detail_societe_sepa
+    {
+        h3
+        {
+            background: @couleur-a5 url('../images/pictos/pi_sepa.png') 30px center no-repeat;
             padding-left: 75px;
         }
     }
@@ -49,22 +57,22 @@
     }
 
 
-    .form_modifier 
+    .form_modifier
     {
         float: right;
         margin: 13px 0 0;
     }
 
-    .form_btn 
-    { 
+    .form_btn
+    {
         margin: 28px 0;
         .btn_valider { float: right; }
     }
 
-    .form_ligne 
+    .form_ligne
     {
         .clearfix;
-        margin: 13px 0; 
+        margin: 13px 0;
     }
 
     /* blocs de formulaire */
@@ -180,9 +188,9 @@
         padding-left: 42px;
         position: relative;
 
-        &:before 
-            { 
-            content: ""; 
+        &:before
+            {
+            content: "";
             .pos-abs(-10px, auto, auto, 0);
         }
     }
@@ -192,10 +200,10 @@
     /* Cible la deuxième colonne */
     .form_colonne:first-child + .form_colonne
         {
-        label 
-        { 
+        label
+        {
             padding-right: 10px;
-            width: auto; 
+            width: auto;
         }
     }
 
@@ -244,7 +252,7 @@
             width: 20px;
         }
 
-        .tagit-new 
+        .tagit-new
         { .pos-abs(0, auto, auto, 0); }
 
     }
@@ -296,19 +304,19 @@
         }
     }
 
-    label { width: 187px; }	
+    label { width: 187px; }
 }
 
 /**
 * Société
 ******************************************/
 
-#detail_societe
+#detail_societe, #detail_societe_sepa
 {
     label { width: 148px; }
 }
 
-/* Fiche d'une société */	 
+/* Fiche d'une société */
 #visu_societe
 {
     .btn_haut
@@ -334,7 +342,7 @@
         }
 
         .btn_majeur:first-child
-            { 
+            {
             background-position: 0 -156px;
             margin-right: 16px;
             padding-left: 43px;
@@ -368,7 +376,7 @@
     .form_colonne:first-child + .form_colonne
         {
         label { width: auto; }
-        label:first-child { width: 82px; } 
+        label:first-child { width: 82px; }
     }
 
     label { width: 145px; }
@@ -388,7 +396,7 @@
     }
 
     h2
-    {	
+    {
         &:before
             {
             background: url("../images/pictos/contact.png") no-repeat;
@@ -407,10 +415,10 @@
         /* Cible la deuxième colonne */
         .form_colonne:first-child + .form_colonne
             {
-            label 
-            { 
-                margin: 0 0 0 241px; 
-                width: 120px; 
+            label
+            {
+                margin: 0 0 0 241px;
+                width: 120px;
             }
 
             select { width: 69px; }
@@ -581,11 +589,11 @@
                     border-top: none;
                 }
 
-                /*& > a 
+                /*& > a
                 {
                         font-weight: bold;
                         padding: 0 0 0 22px;
-                        
+
                         &:before
                         {
                                 .box-dimensions(0, 0);
@@ -649,7 +657,7 @@
 
 
                         &.tel_mobile
-                        {	
+                        {
                             &:before
                                 {
                                 background-position: 0 -125px;
@@ -699,8 +707,8 @@
 /* boutons de la colonne */
 #contacts_actions
 {
-    li 
-    { 
+    li
+    {
         text-align: center;
 
         button
@@ -754,7 +762,7 @@
     }
 }
 
-/* Infobulle contact */ 
+/* Infobulle contact */
 #infobulle_contact
 {
     .box-shadow(0 0 20px #666);

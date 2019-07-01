@@ -42,7 +42,7 @@ class DRMClient extends acCouchdbClient {
 
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
     public static $drm_crds_couleurs = array(
-        self::DRM_DEFAUT => 'Défaut',
+        self::DRM_DEFAUT => '',
         self::DRM_VERT => 'Vert',
         self::DRM_BLEU => 'Bleu',
         self::DRM_LIEDEVIN => 'Lie de vin'

@@ -10,6 +10,7 @@ class FactureEtablissementView extends acCouchdbView
     const VALUE_ORIGINES = 1;
     const VALUE_TOTAL_TTC = 2;
     const VALUE_STATUT = 3;
+    const VALUE_PRELEVEMENT_AUTO = 8;
 
 
     public static function getInstance() {

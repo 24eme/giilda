@@ -26,7 +26,6 @@ class GenerationFactureDRMPDF extends GenerationPDF {
        parent::preGeneratePDF();
        $drmid = $this->generation->arguments->drmid;
        $date_facturation =  $this->generation->arguments->date_facturation;
-       $message_communication = $this->generation->arguments->message_communication;
 
        $this->drmSource = DRMClient::getInstance()->find($drmid);
        $societe = $this->drmSource->getEtablissement()->getSociete();

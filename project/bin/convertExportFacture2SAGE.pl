@@ -31,11 +31,15 @@ while(<STDIN>) {
         print "numero compte tiers;" if ($verbose);
         print $field[6]."\n";
         print "numero compte tiers contre partie;" if ($verbose);
-        print "\n";
+				print "\n";
         print "intitule;" if ($verbose);
         print substr($field[4], 0, 35)."\n";
         print "numero reglement;" if ($verbose);
-        print "\n";
+				if ($field[22] eq '1') {
+					print "3\n";
+				}else{
+					print "\n";
+				}
         print "date echeance;" if ($verbose);
 	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
         print $field[8]."\n";
@@ -47,7 +51,7 @@ while(<STDIN>) {
         print "\n";
         print "sens (credit = 1 / debit = 0);" if ($verbose);
         if ($field[9] eq 'CREDIT') {
-		print "1\n"; 
+		print "1\n";
 	} else {
 		print "0\n";
 	}

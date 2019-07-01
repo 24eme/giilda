@@ -27,13 +27,13 @@ slot('colCompte');
 
 <?php if ($sf_user->isUsurpationCompte()): ?>
                 <div class="ligne_btn txt_centre">
-                    <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('vrac_dedebrayage') ?>">Revenir sur VINSI</a>
+                    <a class="deconnexion btn_majeur btn_orange" href="<?php echo url_for('facture_dedebrayage') ?>">Revenir sur VINSI</a>
                 </div>
 <?php endif; ?>
 
             <div class="ligne_btn txt_centre">
                 <?php if (isset($retour) && $retour): ?>
-                    <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $societe->compte_societe))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
+                    <a href="<?php echo url_for('vrac_societe', array('identifiant' => str_replace('COMPTE-', '', $compte->identifiant))); ?>" class="btn_majeur btn_acces">Mes Contrats</a>
 <?php endif; ?>
             </div>
         </div>

@@ -42,6 +42,14 @@ $fc = FactureClient::getInstance();
                         <a href="<?php echo url_for('defacturer',array('identifiant' => str_replace('FACTURE-', '',$facture->key[FactureEtablissementView::KEYS_FACTURE_ID]))); ?>"
                            style="color: #2160cf;font-style: italic;text-decoration: underline;" onclick='return confirm("Souhaitez-vous confirmer la défacturation de la facture <?php echo $numero_facture ?> ?")' >défacturer</a>
                       <?php endif; ?>
+                      <?php
+                      if(!$isTeledeclarationMode && $fc->isRedressee($facture)):
+                          echo '<br/><strong>(redressée)</strong>';
+                        endif;
+                        if($f->isAvoir()):
+                            echo '<br/><strong>Avoir</strong>';
+                        endif;
+                        ?>
                     </td>
                     <td><?php
 
@@ -72,11 +80,6 @@ $fc = FactureClient::getInstance();
                     <td><?php echoFloat($facture->value[FactureEtablissementView::VALUE_TOTAL_TTC]); ?>&nbsp;€</td>
                   <td>
                     <a href="<?php echo url_for('facture_pdf', array('identifiant' => $facture->key[FactureEtablissementView::KEYS_FACTURE_ID])); ?>" class="btn_majeur btn_pdf center" style="font-size: 9px;" ><span>Télécharger</span></a>
-                    <?php
-                    if(!$isTeledeclarationMode && $fc->isRedressee($facture)):
-                        echo 'redressée';
-                      endif;
-                      ?>
                   </td>
                 </tr>
 <?php
