@@ -18,6 +18,18 @@ class drmActions extends drmGeneriqueActions {
         $this->redirect('drm_societe', array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
     }
 
+    public function executeDeconnexion(sfWebRequest $request) {
+
+        $url_back = $this->getUser()->usurpationOff();
+
+        if ($url_back) {
+            return $this->redirect($url_back);
+        }
+
+        $this->redirect('homepage');
+    }
+
+
     public function executeRedirect(sfWebRequest $request) {
         $drm = DRMClient::getInstance()->find($request->getParameter('identifiant_drm'));
         $this->forward404Unless($drm);

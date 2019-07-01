@@ -2,7 +2,7 @@
 <section id="principal">
 	<p id="fil_ariane"><a href="<?php echo url_for('societe');?>">Page d'accueil</a>
             &gt; <a href="<?php echo url_for('societe_visualisation',array('identifiant'=> $societe->identifiant));?>">
-            <?php echo $societe->raison_sociale; ?></a> &gt; 
+            <?php echo $societe->raison_sociale; ?></a> &gt;
             <strong><?php echo ($compte->nom_a_afficher)? $compte->nom_a_afficher : $compte->nom ;?></strong></p>
 
 	<!-- #contacts -->
@@ -46,7 +46,14 @@ slot('colButtons');
             <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Accueil de la société</span></a>
         </div>
     </div>
+		<?php if(!$reduct_rights): ?>
+		<div class="ligne_btn txt_centre">
+				<div class="btnConnexion">
+						<a href="<?php echo url_for('compte_teledeclarant_debrayage', array('identifiant' => $compte->identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
+				</div>
+		</div>
+	<?php endif; ?>
 </div>
 <?php
 end_slot();
-?> 
+?>

@@ -74,6 +74,10 @@ class SocieteRouting {
         $r->prependRoute('societe_upload', new sfRoute('/societe/upload-csv-rgt-en-attente', array('module' => 'societe',
             'action' => 'upload')));
 
+        $r->prependRoute('societe_sepa_activate', new SocieteRoute('/societe/:identifiant/sepa/activate', array('module' => 'societe',
+            'action' => 'sepaActivate'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
+            'type' => 'object')
+        ));
 
         /*         * *************
          * Intégration

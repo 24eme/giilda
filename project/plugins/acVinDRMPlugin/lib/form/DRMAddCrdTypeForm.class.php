@@ -80,7 +80,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
 
     public function getTypeCouleurs() {
         if (is_null($this->typesCouleurs)) {
-            $this->typesCouleurs = array_merge(array("" => ""), DRMClient::$drm_crds_couleurs);
+            $this->typesCouleurs = DRMClient::$drm_crds_couleurs;
         }
         return $this->typesCouleurs;
     }

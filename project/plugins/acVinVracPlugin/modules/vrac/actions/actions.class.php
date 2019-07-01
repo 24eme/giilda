@@ -8,7 +8,7 @@
  * @author     Mathurin Petit
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class vracActions extends sfActions {
+class vracActions extends drmGeneriqueActions {
 
     public function executeRedirect(sfWebRequest $request) {
         $vrac = VracClient::getInstance()->find($request->getParameter('identifiant_vrac'));
@@ -330,16 +330,15 @@ class vracActions extends sfActions {
         $this->signatureRequired = !$this->vrac->isSocieteHasSigned($this->societe);
         if (!$this->signatureRequired) {
             $societeId = $this->societe->_id;
-	    return $this->redirect('vrac_visualisation', $this->vrac);
+	          return $this->redirect('vrac_visualisation', $this->vrac);
         }
         $this->etablissement_concerned = $this->vrac->getEtbConcerned($this->societe);
         $this->vrac->signatureByEtb($this->etablissement_concerned);
         $validation_bio = $request->getParameterHolder()->get("popup_validation_bio_ecocert");
         $this->vrac->add("bio_ecocert",boolval($validation_bio));
         $this->vrac->save();
-
         if($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_VISE && sfConfig::get('app_vrac_teledeclaration_visa_automatique', true)) {
-            $vracEmailManager = new VracEmailManager($this->getMailer());
+            $vracEmailManager = new VracEmailManager($this->getMailer(),$this->getUser());
             $vracEmailManager->setVrac($this->vrac);
             $vracEmailManager->sendMailContratVise();
             $this->vrac->valide->statut = VracClient::STATUS_CONTRAT_NONSOLDE;
@@ -555,13 +554,16 @@ class vracActions extends sfActions {
     public function executeValidation(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
-
-        if ($this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE && ! $this->isTeledeclarationMode &&  $this->vrac->teledeclare) {
+        $this->initSocieteAndEtablissementPrincipal();
+        $this->vrac = $this->getRoute()->getVrac();
+        if ($this->vrac->exist('valide') && $this->vrac->valide->exist('statut')
+             && $this->vrac->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE
+             && !$this->isTeledeclarationVrac()
+             &&  $this->vrac->teledeclare) {
           return $this->redirect('vrac_visualisation', $this->vrac);
         }
 
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
-        $this->vrac = $this->getRoute()->getVrac();
         $this->compte = null;
         $this->societe = null;
         $this->signatureDemande = false;
@@ -854,7 +856,7 @@ class vracActions extends sfActions {
         $previous_statut = $this->vrac->valide->statut;
         $this->vrac->valide->statut = $statut;
         if ($this->vrac->isTeledeclare() && $statut == VracClient::STATUS_CONTRAT_ANNULE && $previous_statut != VracClient::STATUS_CONTRAT_BROUILLON) {
-            $mailManager = new VracEmailManager($this->getMailer());
+            $mailManager = new VracEmailManager($this->getMailer(),$this->getUser());
             $mailManager->setVrac($this->vrac);
             if (!$this->isUsurpationMode() && $this->isTeledeclarationVrac()) {
                 $mailManager->sendMailAnnulation(!$this->isTeledeclarationVrac());
@@ -868,7 +870,7 @@ class vracActions extends sfActions {
             if (!$this->vrac->exist('createur_identifiant') || !$this->vrac->createur_identifiant) {
                 throw new sfException("Le créateur du contrat $this->vrac->_id ne peut pas être null.");
             }
-            $mailManager = new VracEmailManager($this->getMailer());
+            $mailManager = new VracEmailManager($this->getMailer(),$this->getUser());
             $mailManager->setVrac($this->vrac);
             if (!$this->isUsurpationMode() && $this->isTeledeclarationVrac()) {
                 $mailManager->sendMailAttenteSignature();
@@ -892,51 +894,11 @@ class vracActions extends sfActions {
         return $vrac;
     }
 
-    /*
-     * Fonctions de service liées aux droits Users
-     *
-     */
-
-    private function isTeledeclarationVrac() {
-        return $this->getUser()->hasTeledeclarationVrac();
-    }
-
-    private function isUsurpationMode() {
-        return $this->getUser()->isUsurpationCompte();
-    }
 
     private function hasTeledeclarationVracCreation() {
         return $this->getUser()->hasTeledeclarationVracCreation();
     }
 
-    private function isAcheteurResponsable() {
-        return $this->getUser()->getCompte()->getSociete()->isNegociant();
-    }
-
-    private function isCourtierResponsable() {
-        return $this->getUser()->getCompte()->getSociete()->isCourtier();
-    }
-
-    private function initSocieteAndEtablissementPrincipal() {
-        $this->compte = $this->getUser()->getCompte();
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
-        }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-    }
-
-    private function redirect403IfIsTeledeclaration() {
-        if ($this->isTeledeclarationVrac()) {
-            $this->redirect403();
-        }
-    }
-
-    private function redirect403IfIsNotTeledeclaration() {
-        if (!$this->isTeledeclarationVrac()) {
-            $this->redirect403();
-        }
-    }
 
     private function redirect403IfIsNotTeledeclarationAndNotResponsable() {
         $this->redirect403IfICanNotCreate();
@@ -950,12 +912,7 @@ class vracActions extends sfActions {
         }
     }
 
-    private function redirect403IfIsNotTeledeclarationAndNotMe() {
-        $this->redirect403IfIsNotTeledeclaration();
-        if ($this->getUser()->getCompte()->identifiant != $this->identifiant) {
-            $this->redirect403();
-        }
-    }
+
 
     private function redirect403IsNotTeledeclarationAndNotInVrac() {
 

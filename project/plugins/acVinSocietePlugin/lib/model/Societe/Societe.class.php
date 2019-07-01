@@ -397,6 +397,17 @@ class Societe extends BaseSociete {
         return $this->getOrAdd('sepa');
     }
 
+    public function hasInfosSepa(){
+        return $this->exist("sepa")
+            && $this->getOrAdd("sepa")->exist("nom_bancaire")
+            && $this->getOrAdd("sepa")->exist("iban")
+            && $this->getOrAdd("sepa")->exist("bic")
+            && $this->getOrAdd("sepa")->nom_bancaire
+            && $this->getOrAdd("sepa")->iban
+            && $this->getOrAdd("sepa")->bic;
+
+    }
+
     public function getRum(){
         return "ITL".$this->getIdentifiant();
     }

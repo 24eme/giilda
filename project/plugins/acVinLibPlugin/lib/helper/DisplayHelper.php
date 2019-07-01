@@ -90,6 +90,6 @@ function enteteDs($ds,$date_echeance){
         return 'Cet imprimé doit \^{e}tre obligatoirement rempli \textsl{\textbf{avant le '.$date_echeance.'}} au plus tard\\\\par tous les propriétaires, fermiers, métayers, groupements de producteurs\\\\ \textbf{détenant des \textsl{stocks de vins AOP ou IGP}} (revendiqués et/ou agrées)\\\\ \textbf{et quels que soient leurs lieux d\'entreposage} selon la liste proposée ci-après\\\\conformément à l\'Accord Interprofessionnel d\'InterLoire en vigueur.';
 }
 
-function formatIbanForPdf($iban){
-  return preg_replace("/^([A-Z0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{3})/","$1~$2~$3~$4~$5~$6~$7",$iban);
+function formatIban($iban,$sep=' '){
+  return preg_replace("/^([A-Z0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{4})([0-9]{3})/","$1$sep$2$sep$3$sep$4$sep$5$sep$6$sep$7",$iban);
 }
