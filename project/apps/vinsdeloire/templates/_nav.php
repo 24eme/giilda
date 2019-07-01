@@ -34,17 +34,27 @@
                 'target' => '_self'
             ))
             ?>
+               
+           <?php
+               if($sf_route instanceof InterfaceEtablissementRoute) {
+                       $etablissement = $sf_route->getEtablissement();
+               }
+           ?>
 
-            <?php
-            include_component('global', 'navItem', array(
+           <?php if(sfConfig::get('app_odgloire', false)): ?>
+           <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
+            <?php else: ?>
+           <?php
+               include_component('global', 'navItem', array(
                 'libelle' => 'Import VR',
                 'prefix' => 'revendication',
                 'route' => 'revendication',
                 'route_etablissement' => 'revendication_etablissement',
                 'etablissement' => null,
                 'target' => '_self'
-            ))
+               ))
             ?>
+           <?php endif; ?>
 
             <?php
             include_component('global', 'navItem', array(
