@@ -51,7 +51,7 @@ class DRMClient extends acCouchdbClient {
     public static $types_node_from_libelles = array(self::TYPE_DRM_SUSPENDU => DRM::DETAILS_KEY_SUSPENDU, self::TYPE_DRM_ACQUITTE => DRM::DETAILS_KEY_ACQUITTE);
     public static $drm_etapes = array(self::ETAPE_CHOIX_PRODUITS, self::ETAPE_SAISIE_SUSPENDU, self::ETAPE_SAISIE_ACQUITTE, self::ETAPE_CRD, self::ETAPE_ADMINISTRATION, self::ETAPE_VALIDATION, self::ETAPE_VALIDATION_EDI);
     public static $drm_crds_couleurs = array(
-        self::DRM_CRD_DEFAUT => '',
+        self::DRM_CRD_DEFAUT => 'Autre couleur',
         self::DRM_CRD_VERT => 'Vert',
         self::DRM_CRD_BLEU => 'Bleu',
         self::DRM_CRD_LIEDEVIN => 'Lie de vin'
