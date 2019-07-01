@@ -41,4 +41,43 @@ class globalActions extends sfActions {
         return $this->redirect('societe');
     }
 
+    public function executeHeader(sfWebRequest $request) {
+        if (!in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')))
+        {
+            return $this->forwardSecure();
+        }
+        $compte = null;
+        $droits = array();
+        $compteDroits = array("admin");
+        $societe = null;
+        if($request->getParameter('compte_id') && $compte = CompteClient::getInstance()->find($request->getParameter('compte_id'))) {
+	    if($compte && $compte->exist('droits')) {
+            $compteDroits = $compte->droits->toArray(true ,false);
+            $societe = $compte->getSociete();
+
+		}
+        }
+        foreach ($compteDroits as $droit) {
+            $droits = array_merge($droits, Roles::getRoles($droit));
+        }
+
+        $compteOrigine = null;
+        if($request->getParameter('compteOrigine')) {
+            $compteOrigine = CompteClient::getInstance()->findByLogin($request->getParameter('compteOrigine'));
+        }
+
+        $etablissement = null;
+        if($request->getParameter('etablissement_id')) {
+            $etablissement = EtablissementClient::getInstance()->find($request->getParameter('etablissement_id'));
+        }
+
+        return $this->renderPartial("global/header", array("compte" => $compte, "droits" => $droits, "isAuthenticated" => true, "isUsurpation" => false, "etablissement" => $etablissement, "societe" => $societe));
+    }
+
+    protected function forwardSecure() {
+        $this->context->getController()->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+
+        throw new sfStopException();
+    }
+
 }
