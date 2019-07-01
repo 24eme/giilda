@@ -26,7 +26,7 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $this->defaultRegime = $options['regime'];
             $this->regimeCrds = array($this->defaultRegime);
         }
-        $this->defaultColor = (isset($options['color'])) ? $options['color'] : DRMClient::DRM_DEFAUT;
+        $this->defaultColor = (isset($options['color'])) ? $options['color'] : DRMClient::DRM_CRD_DEFAUT;
         parent::__construct($this->drm, $options, $CSRFSecret);
     }
 
