@@ -169,7 +169,15 @@
         <?php endif; ?>
 
         <?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev') || in_array('teledeclaration_drev', isset($droits) ? $droits->getRawValue() : array()))): ?>
-          <li><a href="/odg/declarations/<?php echo $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->getIdentifiant() ?>">DRev</a></li>
+          <?php
+          $url = null;
+          if($sf_user->getCompte()){
+            $url="/odg/declarations/".$sf_user->getCompte()->getIdentifiant()."?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$sf_user->getCompte()->getSociete()->getMasterCompte()->identifiant;
+          }else{
+            $url="/odg/declarations/".$etablissement->identifiant."?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$etablissement->getSociete()->getMasterCompte()->identifiant;
+          }
+          ?>
+          <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="<?php echo $url; ?>">DRev</a></li>
         <?php endif; ?>
 
         <?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev_admin') || in_array('teledeclaration_drev_admin', isset($droits) ? $droits->getRawValue() : array()))) : ?>

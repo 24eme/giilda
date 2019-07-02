@@ -39,7 +39,7 @@ class compte_teledeclarantActions extends drmGeneriqueActions {
         $this->nbTeledeclarations = intval($this->hasTeledeclarationVrac) + intval($this->hasTeledeclarationDrm) + intval($this->hasTeledeclarationFacture) + intval($this->hasTeledeclarationDrev) + intval($this->hasTeledeclarationDrevAdmin);
 
         if($this->nbTeledeclarations == 1 && $this->hasTeledeclarationDrevAdmin){
-          return $this->redirect("/odg/declaration");
+          return $this->redirect("/odg/declaration?usurpation=".intval($this->getUser()->isUsurpationCompte())."&login=".$this->getUser()->getCompte()->getSociete()->getMasterCompte()->identifiant);
         }
 
         $this->initSocieteAndEtablissementPrincipal();
