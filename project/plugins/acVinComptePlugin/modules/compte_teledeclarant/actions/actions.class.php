@@ -30,12 +30,18 @@ class compte_teledeclarantActions extends drmGeneriqueActions {
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->identifiant = $request['identifiant'];
-
         $this->isTeledeclarationMode = $this->getUser()->hasTeledeclaration();
         $this->hasTeledeclarationVrac = $this->getUser()->hasTeledeclarationVrac();
         $this->hasTeledeclarationDrm = $this->getUser()->hasTeledeclarationDrm();
         $this->hasTeledeclarationFacture = $this->getUser()->hasTeledeclarationFacture();
-        $this->nbTeledeclarations = intval($this->hasTeledeclarationVrac) + intval($this->hasTeledeclarationDrm) + intval($this->hasTeledeclarationFacture);
+        $this->hasTeledeclarationDrev = $this->getUser()->hasTeledeclarationDrev();
+        $this->hasTeledeclarationDrevAdmin = $this->getUser()->hasTeledeclarationDrevAdmin();
+        $this->nbTeledeclarations = intval($this->hasTeledeclarationVrac) + intval($this->hasTeledeclarationDrm) + intval($this->hasTeledeclarationFacture) + intval($this->hasTeledeclarationDrev) + intval($this->hasTeledeclarationDrevAdmin);
+
+        if($this->nbTeledeclarations == 1 && $this->hasTeledeclarationDrevAdmin){
+          return $this->redirect("/odg/declaration");
+        }
+
         $this->initSocieteAndEtablissementPrincipal();
 
         $this->redirect403IfIsNotTeledeclarationAndNotMe();

@@ -34,27 +34,28 @@
                 'target' => '_self'
             ))
             ?>
-               
+
            <?php
-               if($sf_route instanceof InterfaceEtablissementRoute) {
+               if(isset($sf_route) && $sf_route instanceof InterfaceEtablissementRoute) {
                        $etablissement = $sf_route->getEtablissement();
                }
            ?>
 
-           <?php if(sfConfig::get('app_odgloire', false)): ?>
-           <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
-            <?php else: ?>
+
            <?php
-               include_component('global', 'navItem', array(
-                'libelle' => 'Import VR',
-                'prefix' => 'revendication',
-                'route' => 'revendication',
-                'route_etablissement' => 'revendication_etablissement',
-                'etablissement' => null,
-                'target' => '_self'
-               ))
+               // include_component('global', 'navItem', array(
+               //  'libelle' => 'Import VR',
+               //  'prefix' => 'revendication',
+               //  'route' => 'revendication',
+               //  'route_etablissement' => 'revendication_etablissement',
+               //  'etablissement' => null,
+               //  'target' => '_self'
+               // ))
             ?>
-           <?php endif; ?>
+
+            <?php if (sfConfig::get('app_odgloire', false)) : ?>
+              <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
+            <?php endif; ?>
 
             <?php
             include_component('global', 'navItem', array(
@@ -165,6 +166,14 @@
             ))
             ?>
 
+        <?php endif; ?>
+
+        <?php if (sfConfig::get('app_odgloire', false) && $sf_user->hasCredential('teledeclaration_drev') && ($identifiant = $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->getIdentifiant())) : ?>
+          <li><a href="/odg/declarations/<?php echo $identifiant ?>">DRev</a></li>
+        <?php endif; ?>
+
+        <?php if (sfConfig::get('app_odgloire', false) && $sf_user->hasCredential('teledeclaration_drev_admin')) : ?>
+          <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
         <?php endif; ?>
 
         <!-- Actions utilisateur pour tablette et mobile -->

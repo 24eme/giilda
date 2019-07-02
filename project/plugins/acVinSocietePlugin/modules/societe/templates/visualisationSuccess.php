@@ -146,6 +146,11 @@ slot('colButtons');
           <a href="<?php echo url_for('etablissement_ajout', array('identifiant' => $societe->identifiant)); ?>" class="btn_majeur btn_acces"><span>Nouvel etablissement</span></a>
         </div>
       <?php endif; ?>
+      <?php if (!$reduct_rights && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DREV_ADMIN)) : ?>
+        <div class="btnConnexion">
+            <a href="<?php echo url_for('compte_teledeclarant_debrayage', array('identifiant' => $societe->getMasterCompte()->identifiant)); ?>" class="btn_majeur lien_connexion"><span>Connexion à la télédecl.</span></a>
+        </div>
+      <?php endif; ?>
     <?php endif; ?>
   </div>
 </div>
