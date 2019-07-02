@@ -1865,5 +1865,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         return true;
     }
+    
+    public function isNegoce() {
+        return $this->declarant->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR;
+    }
 
 }

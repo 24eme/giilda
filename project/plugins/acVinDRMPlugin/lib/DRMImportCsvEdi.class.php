@@ -377,7 +377,13 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $type_douane_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM]);
     $type_douane_drm_key = $this->getDetailsKeyFromDRMType($type_douane_drm);
-    $type_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
+
+    if(!$type_douane_drm_key) {
+        $this->csvDoc->addErreur($this->DRMTypeNotFoundError($num_ligne, $csvRow));
+        $num_ligne++;
+        continue;
+    }
+
     $type_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
 
     if (!array_key_exists($cat_mouvement, $this->mouvements[$type_douane_drm_key])) {
@@ -746,7 +752,7 @@ private function getDetailsKeyFromDRMType($drmType ) {
     return DRM::DETAILS_KEY_ACQUITTE;
   }
 
-  throw new sfException(sprintf("Le type de DRM \"%s\" n'est pas connu", $drmType));
+  return null;
 }
 
 private function findContratDocId($csvRow) {
@@ -807,6 +813,10 @@ private function otherPeriodeError($num_ligne, $csvRow) {
 private function productNotFoundError($num_ligne, $csvRow) {
   $libellesArray = $this->buildLibellesArrayWithRow($csvRow);
   return $this->createError($num_ligne, implode(' ', $libellesArray), "Le produit n'a pas été trouvé");
+}
+
+private function DRMTypeNotFoundError($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_DRM], "Le type de la DRM n'est pas connu doit être suspendu ou acquitte");
 }
 
 private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
