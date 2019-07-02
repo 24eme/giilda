@@ -1,6 +1,6 @@
 <nav id="navigation">
     <ul>
-        <?php if ($sf_user->hasCredential('transactions')) : ?>
+        <?php if ($sf_user->hasCredential('transactions') || in_array('transactions', isset($droits) ? $droits->getRawValue() : array())) : ?>
 
             <?php
             include_component('global', 'navItem', array(
@@ -113,7 +113,7 @@
             ?>
         <?php endif; ?>
 
-        <?php if ($sf_user->hasCredential('contacts')) : ?>
+        <?php if ($sf_user->hasCredential('contacts') || in_array('contacts', isset($droits) ? $droits->getRawValue() : array())) : ?>
             <?php
             include_component('global', 'navItem', array(
                 'libelle' => 'Contacts',
@@ -126,7 +126,7 @@
             ?>
 
         <?php endif; ?>
-        <?php if ($sf_user->hasCredential('teledeclaration_vrac')) : ?>
+        <?php if ($sf_user->hasCredential('teledeclaration_vrac') || in_array('teledeclaration_vrac', isset($droits) ? $droits->getRawValue() : array())) : ?>
             <?php
             include_component('global', 'navItem', array(
                 'libelle' => 'Contrats',
@@ -140,7 +140,7 @@
 
         <?php endif; ?>
 
-        <?php if ($sf_user->hasCredential('teledeclaration_drm')) : ?>
+        <?php if ($sf_user->hasCredential('teledeclaration_drm') || in_array('teledeclaration_drm', isset($droits) ? $droits->getRawValue() : array())) : ?>
             <?php
             include_component('global', 'navItem', array(
                 'libelle' => 'DRM',
@@ -154,7 +154,7 @@
 
         <?php endif; ?>
 
-        <?php if ($sf_user->hasCredential('teledeclaration_facture')) : ?>
+        <?php if ($sf_user->hasCredential('teledeclaration_facture') || in_array('teledeclaration_facture', isset($droits) ? $droits->getRawValue() : array())) : ?>
             <?php
             include_component('global', 'navItem', array(
                 'libelle' => 'Factures',
@@ -168,28 +168,36 @@
 
         <?php endif; ?>
 
-        <?php if (sfConfig::get('app_odgloire', false) && $sf_user->hasCredential('teledeclaration_drev') && ($identifiant = $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->getIdentifiant())) : ?>
-          <li><a href="/odg/declarations/<?php echo $identifiant ?>">DRev</a></li>
+        <?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev') || in_array('teledeclaration_drev', isset($droits) ? $droits->getRawValue() : array()))): ?>
+          <?php
+          $url = null;
+          if($sf_user->getCompte()){
+            $url="/odg/declarations/".$sf_user->getCompte()->getIdentifiant()."?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$sf_user->getCompte()->getSociete()->getMasterCompte()->identifiant;
+          }else{
+            $url="/odg/declarations/".$etablissement->identifiant."?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$etablissement->getSociete()->getMasterCompte()->identifiant;
+          }
+          ?>
+          <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="<?php echo $url; ?>">DRev</a></li>
         <?php endif; ?>
 
-        <?php if (sfConfig::get('app_odgloire', false) && $sf_user->hasCredential('teledeclaration_drev_admin')) : ?>
+        <?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev_admin') || in_array('teledeclaration_drev_admin', isset($droits) ? $droits->getRawValue() : array()))) : ?>
           <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
         <?php endif; ?>
 
         <!-- Actions utilisateur pour tablette et mobile -->
 
-        <?php if ($sf_user->hasCredential('admin')) : ?>
+        <?php if ($sf_user->hasCredential('admin') || in_array('admin', isset($droits) ? $droits->getRawValue() : array())) : ?>
             <li class="hidden_desk visible_tab"><a class="admin" href="<?php echo url_for('produits') ?>">Admin</a></li>
         <?php endif; ?>
 
-        <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+        <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION) || in_array(Roles::TELEDECLARATION, isset($droits) ? $droits->getRawValue() : array())): ?>
             <li class="hidden_desk visible_tab">
                 <a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
             </li>
         <?php endif; ?>
 
-        <?php if ($sf_user->isAuthenticated()): ?>
-            <?php if ($sf_user->isUsurpationCompte()): ?>
+        <?php if ($sf_user->isAuthenticated() || isset($isAuthenticated)): ?>
+            <?php if ($sf_user->isUsurpationCompte() || isset($isUsurpation)): ?>
                 <li class="hidden_desk visible_tab"><a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a></li>
             <?php else: ?>
                 <li class="hidden_desk visible_tab"><a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a></li>

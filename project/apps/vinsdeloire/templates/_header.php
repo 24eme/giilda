@@ -24,11 +24,11 @@
             <?php if ($sf_user->hasCredential('admin') || in_array('admin', isset($droits) ? $droits->getRawValue() : array())) : ?>
                 <a class="admin" href="<?php echo url_for('produits') ?>">Admin</a>
             <?php endif; ?>
-            <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
+            <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION) || in_array(Roles::TELEDECLARATION, isset($droits) ? $droits->getRawValue() : array())): ?>
                 <a href="<?php echo url_for("compte_teledeclarant_modification") ?>">Mon compte</a>
             <?php endif; ?>
             <?php if ($sf_user->isAuthenticated() || isset($isAuthenticated)): ?>
-                <?php if ($sf_user->isUsurpationCompte()): ?>
+                <?php if ($sf_user->isUsurpationCompte() || isset($isUsurpation)): ?>
                     <a class="deconnexion" href="<?php echo url_for('vrac_dedebrayage') ?>">Quitter</a>
                 <?php else: ?>
                     <a class="deconnexion" href="<?php echo url_for('auth_logout') ?>">Déconnexion</a>
