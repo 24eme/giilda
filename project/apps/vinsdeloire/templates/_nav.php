@@ -168,11 +168,8 @@
 
         <?php endif; ?>
 
-        <?php if ($sf_user->hasCredential('teledeclaration_drev')) : ?>
-            <?php
-          echo "lien DREV";
-            ?>
-
+        <?php if (sfConfig::get('app_odgloire', false) && $sf_user->hasCredential('teledeclaration_drev') && ($identifiant = $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->getIdentifiant())) : ?>
+          <li><a href="/odg/declarations/<?php echo $identifiant ?>">DRev</a></li>
         <?php endif; ?>
 
         <?php if (sfConfig::get('app_odgloire', false) && $sf_user->hasCredential('teledeclaration_drev_admin')) : ?>
