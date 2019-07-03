@@ -848,7 +848,7 @@ private function categorieCRDNotFoundError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CRD_CATEGORIE_KEY], "La categorie de mouvement de CRD (entrees, sorties, ...) n'a pas été trouvée");
 }
 private function typeCRDNotFoundError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_CRD_TYPE_KEY], "Le type de mouvement de CRD (achats, utilisations, ...) n'a pas été trouvé");
+  return $this->createError($num_ligne, $csvRow[self::CSV_CRD_CATEGORIE_KEY]."/".$csvRow[self::CSV_CRD_TYPE_KEY], "Le type de mouvement de CRD (achats, utilisations, ...) n'a pas été trouvé");
 }
 private function previousCRDProductError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CRD_REGIME], "Il n'existe pas de stock pour cette crd dans la DRM précédente");
