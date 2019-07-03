@@ -64,6 +64,9 @@ class vracActions extends drmGeneriqueActions {
         $societe = $this->etablissement->getSociete();
 
         $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+        if(!$this->getUser()->hasTeledeclarationVrac()){
+          return $this->redirect('compte_teledeclarant_mon_espace');
+        }
         $this->redirect('vrac_societe',array('identifiant' => $societe->getEtablissementPrincipal()->identifiant));
     }
 
@@ -281,7 +284,6 @@ class vracActions extends drmGeneriqueActions {
         $this->getUser()->setAttribute('vrac_object', null);
         $this->getUser()->setAttribute('vrac_acteur', null);
         $this->identifiant = $request['identifiant'];
-
         $this->initSocieteAndEtablissementPrincipal();
 
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
