@@ -84,7 +84,7 @@ class drmGeneriqueActions extends sfActions {
       if($this->isUsurpationMode()){
         return $this->getUser()->getCompte()->hasDroit(Roles::TELEDECLARATION_VRAC_CREATION);
       }
-      return $this->getUser()->hasTelededeclarationVracCreation();
+      return $this->getUser()->hasTeledeclarationVracCreation();
     }
 
     protected function isTeledeclarationFacture() {
