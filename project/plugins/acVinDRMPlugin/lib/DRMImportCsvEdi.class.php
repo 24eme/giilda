@@ -622,6 +622,12 @@ private function importCrdsFromCSV($just_check = false) {
     $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
     $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
 
+    if(!$regimeNode->getOrAdd($keyNode)->exist($fieldNameCrd)) {
+        $this->csvDoc->addErreur($this->typeCRDNotFoundError($num_ligne, $csvRow));
+        $num_ligne++;
+        continue;
+    }
+
     $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
     if ($drmPrecedente) {
         if  ($fieldNameCrd == 'stock_debut') {
