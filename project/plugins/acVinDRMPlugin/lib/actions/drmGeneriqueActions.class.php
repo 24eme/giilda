@@ -18,6 +18,13 @@ class drmGeneriqueActions extends sfActions {
         }
 
         $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
+        if ($this->isTeledeclaration()) {
+        $this->hasTeledeclarationDrevAdmin = $this->getUser()->hasTeledeclarationDrevAdmin();
+          if($this->hasTeledeclarationDrevAdmin){
+            return $this->redirect("/odg/declaration?usurpation=".intval($this->getUser()->isUsurpationCompte())."&login=".$this->getUser()->getCompte()->getSociete()->getMasterCompte()->identifiant);
+          }
+        }
+
     }
 
     protected function redirect403IfIsNotTeledeclaration() {
@@ -61,7 +68,7 @@ class drmGeneriqueActions extends sfActions {
     protected function isUsurpationMode() {
         return $this->getUser()->isUsurpationCompte();
     }
-  
+
     protected function processProduitDetails($request, $formClass) {
         $this->detail = $this->getRoute()->getDRMDetail();
         $this->drm = $this->detail->getDocument();
