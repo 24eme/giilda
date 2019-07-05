@@ -25,7 +25,7 @@
 				<code-inao><?php echo formatCodeINAO($produit->getCodeDouane()) ?></code-inao>
 			<?php endif; ?>
 <?php endif; ?>
-				<libelle-personnalise><?php echo xmlProduitLibelle($produit); ?></libelle-personnalise>
+				<libelle-personnalise><?php echo html_entity_decode(xmlProduitLibelle($produit)); ?></libelle-personnalise>
 <?php if ($produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
 <?php endif; ?>
