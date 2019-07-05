@@ -40,7 +40,7 @@ if ($isTeledeclarationMode):
                     <?php endif; ?>
                 </div>
                 <div class="ligne_btn txt_centre">
-                    <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
+                    <?php if (isset($etablissementPrincipal) && ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant())): ?>
                         <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
                     <?php endif; ?>
                 </div>

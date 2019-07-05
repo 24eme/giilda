@@ -33,6 +33,8 @@ class Roles
     const TELEDECLARATION_DRM_ACQUITTE = 'teledeclaration_drm_acquitte';
     const TELEDECLARATION_FACTURE = 'teledeclaration_facture';
     const TELEDECLARATION_FACTURE_EMAIL = 'teledeclaration_facture_email';
+    const TELEDECLARATION_DREV = 'teledeclaration_drev';
+    const TELEDECLARATION_DREV_ADMIN = 'teledeclaration_drev_admin';
     const TELEDECLARATION_DOUANE = 'teledeclaration_douane';
     const TELEDECLARATION_PRELEVEMENT = 'teledeclaration_prelevement';
 
@@ -47,6 +49,8 @@ class Roles
       self::TELEDECLARATION_DRM_ACQUITTE => "Teledeclaration DRM acquittée",
       self::TELEDECLARATION_FACTURE => "Factures",
       self::TELEDECLARATION_FACTURE_EMAIL => "Factures par email",
+      self::TELEDECLARATION_DREV => "Drev",
+      self::TELEDECLARATION_DREV_ADMIN => "Drev Administration",
       self::TELEDECLARATION_PRELEVEMENT => "Prélèvement automatique"
       );
 
@@ -60,6 +64,8 @@ class Roles
         self::TELEDECLARATION_DOUANE => "Transmission Ciel",
         self::TELEDECLARATION_FACTURE => "Factures",
         self::TELEDECLARATION_FACTURE_EMAIL => "Factures par email",
+        self::TELEDECLARATION_DREV => "Drev",
+        self::TELEDECLARATION_DREV_ADMIN => "Drev Administration",
         self::TELEDECLARATION_PRELEVEMENT => "Prélèvement automatique",
         self::DRM => "DRM",
         self::CONTRAT => "Contrat",

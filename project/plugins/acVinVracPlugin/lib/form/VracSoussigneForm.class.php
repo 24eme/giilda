@@ -112,6 +112,13 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $this->getObject()->remove('interlocuteur_commercial');
             $this->getObject()->add('interlocuteur_commercial');
         }
+
+        if ($this->entreprisesliees($values['acheteur_identifiant'], $values['vendeur_identifiant'])) {
+            $this->getObject()->interne = true;
+        } else {
+            $this->getObject()->interne = false;
+        }
+
         parent::doUpdateObject($values);
         $this->getObject()->setInformations();
     }
@@ -164,4 +171,20 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         return array_merge(array('' => ''), $choices);
     }
 
+    public function entreprisesliees($acheteur, $vendeur)
+    {
+        $acheteurEtb = EtablissementClient::getInstance()->find($acheteur);
+        $vendeurEtb = EtablissementClient::getInstance()->find($vendeur);
+
+        $acheteurLiaisons = $acheteurEtb->liaisons_operateurs;
+        $vendeurLiaisons = $vendeurEtb->liaisons_operateurs;
+
+        if (in_array('CONTRAT_INTERNE_'.$acheteur, array_keys($vendeurLiaisons->toArray())) 
+            || in_array('CONTRAT_INTERNE_'.$vendeur, array_keys($acheteurLiaisons->toArray()))
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

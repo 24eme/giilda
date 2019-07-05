@@ -59,7 +59,7 @@
         $.fn.includeJS(jsPath, 'societe.js');
         $.fn.includeJS(jsPath, 'etablissement.js');
         $.fn.includeJS(jsPath, 'teledeclaration_vrac.js?20170922');
-        $.fn.includeJS(jsPath, 'teledeclaration_drm.js?201901151100');
+        $.fn.includeJS(jsPath, 'teledeclaration_drm.js?201907021111');
         $.fn.includeJS(jsPath, 'produits.js');
 
 })(jQuery);

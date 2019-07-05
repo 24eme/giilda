@@ -373,7 +373,7 @@ var initMsgAide = function () {
 
     msgsAide.tooltip
             ({
-                placement: 'right',
+                placement: 'auto right',
                 html: true
             });
 
