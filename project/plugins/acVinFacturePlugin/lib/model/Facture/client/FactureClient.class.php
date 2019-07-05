@@ -61,6 +61,7 @@ class FactureClient extends acCouchdbClient {
         if(trim($message_communication)) {
           $facture->addOneMessageCommunication($message_communication);
         }
+        $facture->updatePrelevementAutomatique();
         return $facture;
     }
 
@@ -269,7 +270,7 @@ class FactureClient extends acCouchdbClient {
 
     public function defactureCreateAvoirAndSaveThem(Facture $f) {
       if (!$f->isRedressable()) {
-	return ;
+	       return ;
       }
       $avoir = clone $f;
       $soc = SocieteClient::getInstance()->find($avoir->identifiant);

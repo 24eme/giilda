@@ -79,7 +79,7 @@ Societe:
             nom_bancaire: {  }
             iban: {  }
             bic: {  }
-            actif: {  }
+            date_activation: {  }
       legal_signature:
         type: collection
         definition:

@@ -50,7 +50,7 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 \def\CodePostal{<?php echo $societe->siege->code_postal; ?>}
 \def\Ville{<?php echo $societe->siege->commune; ?>}
 \def\Pays{<?php echo $countries[$societe->siege->pays]; ?>}
-\def\IBAN{<?php echo formatIbanForPdf($sepa->iban); ?>}
+\def\IBAN{<?php echo formatIban($sepa->iban,"~"); ?>}
 \def\BIC{<?php echo $sepa->bic; ?>}
 
 
@@ -133,7 +133,7 @@ prélèvement autorisé.}}
 \textbf{Type de paiement :} & Paiement récurrent / répétitif~~~ \squareChecked & Paiement ponctuel~~~ $\square$ \\
 ~ & ~ & ~ \\
 \textbf{Signé à} & \dotfill & \multicolumn{1}{l|}{
-		\multirow{1}{*}{\includegraphics[scale=0.25]{/var/www/vinsi/project/web/images/pictos/date_field.png}
+		\multirow{1}{*}{\includegraphics[scale=0.25]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images/pictos")."/date_field.png" ?>}
 		}} \\
 ~ & $~~~^{\textrm{\textcolor{darkgray}{\tiny{Lieu}}}}$  & $~~~^{\textrm{\textcolor{darkgray}{\tiny{Date JJ MM AAAA}}}}$ \\
 ~ & ~ & ~ \\

@@ -2,7 +2,7 @@
 
 /* This file is part of the acVinComptePlugin package.
  * Copyright (c) 2011 Actualys
- * Authors :	
+ * Authors :
  * Tangui Morlier <tangui@tangui.eu.org>
  * Charlotte De Vichet <c.devichet@gmail.com>
  * Vincent Laurent <vince.laurent@gmail.com>
@@ -14,7 +14,7 @@
 
 /**
  * acVinCompte plugin.
- * 
+ *
  * @package    acVinComptePlugin
  * @subpackage lib
  * @author     Tangui Morlier <tangui@tangui.eu.org>
@@ -23,27 +23,29 @@
  * @author     Jean-Baptiste Le Metayer <lemetayer.jb@gmail.com>
  * @version    0.1
  */
-class compte_teledeclarantActions extends sfActions {
+class compte_teledeclarantActions extends drmGeneriqueActions {
 
     const SESSION_COMPTE_DOC_ID_CREATION = '';
     const SESSION_COMPTE_DOC_ID_OUBLIE = '';
 
     public function executeMonEspace(sfWebRequest $request) {
         $this->identifiant = $request['identifiant'];
-
         $this->isTeledeclarationMode = $this->getUser()->hasTeledeclaration();
         $this->hasTeledeclarationVrac = $this->getUser()->hasTeledeclarationVrac();
         $this->hasTeledeclarationDrm = $this->getUser()->hasTeledeclarationDrm();
+        $this->hasTeledeclarationFacture = $this->getUser()->hasTeledeclarationFacture();
+        $this->hasTeledeclarationDrev = $this->getUser()->hasTeledeclarationDrev();
+        $this->hasTeledeclarationDrevAdmin = $this->getUser()->hasTeledeclarationDrevAdmin();
+        $this->nbTeledeclarations = intval($this->hasTeledeclarationVrac) + intval($this->hasTeledeclarationDrm) + intval($this->hasTeledeclarationFacture) + intval($this->hasTeledeclarationDrev) + intval($this->hasTeledeclarationDrevAdmin);
 
-        if ($this->isTeledeclarationMode) {
-            $this->compte = $this->getUser()->getCompte();
-
-            if (!$this->compte) {
-                new sfException("Le compte $compte n'existe pas");
-            }
-            $this->societe = $this->compte->getSociete();
-            $this->etablissement = $this->societe->getEtablissementPrincipal();
+        if($this->nbTeledeclarations == 1 && $this->hasTeledeclarationDrevAdmin){
+          return $this->redirect("/odg/declaration?usurpation=".intval($this->getUser()->isUsurpationCompte())."&login=".$this->getUser()->getCompte()->getSociete()->getMasterCompte()->identifiant);
         }
+
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
 
         if ($this->hasTeledeclarationDrm) {
             $this->campagne = -1;
@@ -51,6 +53,10 @@ class compte_teledeclarantActions extends sfActions {
         if ($this->hasTeledeclarationVrac) {
             $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissement, 10);
         }
+        if ($this->hasTeledeclarationFacture) {
+            $this->facturesSocietesWithInfos = FactureEtablissementView::getInstance()->findBySociete($this->societe);
+        }
+
     }
 
     /**
@@ -72,7 +78,7 @@ class compte_teledeclarantActions extends sfActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeCreation(sfWebRequest $request) {
         $this->forward404Unless($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_CREATION, null));
@@ -135,7 +141,7 @@ class compte_teledeclarantActions extends sfActions {
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeModification(sfWebRequest $request) {
         $this->compte = $this->getUser()->getCompte();
@@ -215,12 +221,12 @@ class compte_teledeclarantActions extends sfActions {
     }
 
     public function executeMotDePasseOublieConfirm(sfWebRequest $request) {
-        
+
     }
 
     /**
      *
-     * @param sfWebRequest $request 
+     * @param sfWebRequest $request
      */
     public function executeModificationOublie(sfWebRequest $request) {
         $this->forward404Unless($this->getUser()->getAttribute(self::SESSION_COMPTE_DOC_ID_OUBLIE, null));
@@ -247,7 +253,7 @@ class compte_teledeclarantActions extends sfActions {
 
     /*
      * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
-     * 
+     *
      */
 
     protected function renderPdf($path, $filename) {

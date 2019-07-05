@@ -3,7 +3,7 @@
  * Description : Fichier php correspondant à la vue de vrac/nouveau-soussigne
  * Formulaire d'enregistrement de la partie soussigne des contrats (modification de contrat)
  * Auteur : Petit Mathurin - mpetit[at]actualys.com
- * Version : 1.0.0 
+ * Version : 1.0.0
  * Derniere date de modification : 29-05-12
  */
 //if (!$isTeledeclarationMode) :
@@ -51,16 +51,16 @@ endif;
 <section id="principal">
     <?php include_partial('headerVrac', array('vrac' => $form->getObject(), 'compte' => $compte, 'actif' => 1, 'urlsoussigne' => $urlForm,'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <div id="contenu_etape">
-        <form id="vrac_soussigne" method="post" action="<?php echo $urlForm; ?>">   
+        <form id="vrac_soussigne" method="post" action="<?php echo $urlForm; ?>">
             <?php echo $form->renderHiddenFields() ?>
             <?php echo $form->renderGlobalErrors() ?>
 
-            <div id="vendeur" class="block_overlay">   
+            <div id="vendeur" class="block_overlay">
                 <!--  Affichage des vendeurs disponibles  -->
                 <?php if ($isTeledeclarationMode): ?>
                     <?php $url_ajout_vendeur = url_for('vrac_annuaire', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'type' => AnnuaireClient::ANNUAIRE_RECOLTANTS_KEY, 'acteur' => 'vendeur', 'createur' => $vrac->createur_identifiant)); ?>
                     <div id="vendeur_choice" class="section_label_maj section_label_maj_teledeclaration" >
-                        <label>Vendeur</label><br />                        
+                        <label>Vendeur</label><br />
                         <?php echo $form['vendeur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
                         <?php echo $form['vendeur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un vendeur', 'data-url' => $url_ajout_vendeur)); ?>
                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
@@ -96,9 +96,9 @@ endif;
                         <a id="vendeur_modification_btn" class="btn_majeur btn_modifier">Modifier</a>
                     <?php endif; ?>
                 </div>
-            </div>           
+            </div>
             <!--  Affichage des acheteurs disponibles  -->
-            <div id="acheteur" class="block_overlay"> 
+            <div id="acheteur" class="block_overlay">
 
                 <?php if (!$isTeledeclarationMode && !isset($isAcheteurResponsable)): ?>
                     <div id="acheteur_choice" class="section_label_maj">
@@ -113,7 +113,7 @@ endif;
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration" >
                         <label>Acheteur</label><br />
                         <?php echo $form['acheteur_identifiant']->renderLabel(null, array('class' => 'label_soussigne_identifiant')); ?>
-                        <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un acheteur', 'data-url' => $url_ajout_acheteur)); ?>                        
+                        <?php echo $form['acheteur_identifiant']->render(array('class' => 'autocomplete combobox', 'data-btn-ajout-txt' => 'Ajouter un acheteur', 'data-url' => $url_ajout_acheteur)); ?>
                         <?php echo $form['acheteur_identifiant']->renderError(); ?>
                         <?php $style_acheteur_compte_inactif = ($compteAcheteurActif) ? 'style="display: none;"' : ""; ?>
                         <div id="points_vigilance">
@@ -125,13 +125,13 @@ endif;
                 <?php endif; ?>
                 <?php
                 if ($isTeledeclarationMode && $isAcheteurResponsable) :
-                    $identifiantAcheteur = (isset($etablissement)) ? $etablissement : $vrac->acheteur_identifiant;
+                    $identifiantAcheteur = (isset($etablissement)) ? $etablissement->identifiant : $vrac->acheteur_identifiant;
                     ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration">
                         <label >Acheteur :</label>
                         <input type="hidden" name="vrac[acheteur_identifiant]" value="<?php echo "ETABLISSEMENT-" . $identifiantAcheteur; ?>"/>
                     </div>
-                <?php endif; ?> 
+                <?php endif; ?>
 
                 <!--  Affichage des informations sur l'acheteur sélectionné AJAXIFIED -->
                 <div id="acheteur_informations">
@@ -156,10 +156,10 @@ endif;
             <?php if ($isTeledeclarationMode): ?>
                 <?php if (!$isAcheteurResponsable): ?>
                     <?php $url_ajout_courtier = url_for('vrac_annuaire_commercial', array('numero_contrat' => $form->getObject()->_id, 'sf_subject' => $form->getObject(), 'identifiant' => $etablissementPrincipal->identifiant, 'createur' => $vrac->createur_identifiant)); ?>
-                    <div id="teledeclaration_courtier" > 
+                    <div id="teledeclaration_courtier" >
                         <?php if ($isCourtierResponsable): ?>
                             <div id="" class="section_label_maj">
-                                Ajouter un interlocuteur commercial : 
+                                Ajouter un interlocuteur commercial :
                                 <input <?php if ($form['commercial']->getValue()): ?>checked="checked"<?php endif; ?> type="checkbox" id="teledeclaration_courtier_interlocuteur_commercial_show">
                             </div>
                         <?php endif; ?>
@@ -174,7 +174,7 @@ endif;
                         </div>
                     </div>
                     <?php if ($form->getObject()->getMandataireExist()): ?>
-                        <input id="vrac_mandataire_exist" type="hidden" value="1" name="vrac[mandataire_exist]">                
+                        <input id="vrac_mandataire_exist" type="hidden" value="1" name="vrac[mandataire_exist]">
                         <input id="vrac_mandataire_identifiant" type="hidden" value="ETABLISSEMENT-<?php echo $form->getObject()->getMandataireIdentifiant(); ?>" name="vrac[mandataire_identifiant]">
                     <?php endif; ?>
                 <?php endif; ?>
@@ -185,11 +185,11 @@ endif;
                     <?php echo $form['mandataire_exist']->renderLabel(); ?>
                     <?php echo $form['mandataire_exist']->renderError(); ?>
                 </div>
-                <div id="mandataire" class="block_overlay">     
+                <div id="mandataire" class="block_overlay">
                     <div id="mandatant" class="section_label_strong" >
                         <?php echo $form['mandatant']->renderError(); ?>
                         <?php echo $form['mandatant']->renderLabel() ?>
-                        <?php echo $form['mandatant']->render() ?>        
+                        <?php echo $form['mandatant']->render() ?>
                     </div>
 
                     <div id="mandataire_choice" class="section_label_maj">
@@ -213,7 +213,7 @@ endif;
                             $mandataireArray['mandataire'] = (!$hasmandataire) ? $mandataireArray['mandataire'] : $form->getObject()->getMandataireObject();
                         $mandataireArray['isTeledeclarationMode'] = $isTeledeclarationMode;
                         include_partial('mandataireInformations', $mandataireArray);
-                        ?>    
+                        ?>
                     </div>
                     <div class="btnModification">
                         <a id="mandataire_annulation_btn" class="btn_majeur btn_annuler" style="display: none;" href="#">Retour</a>
@@ -225,24 +225,24 @@ endif;
             <div class="btn_etape block_overlay" id="ligne_btn">
                 <?php if ($nouveau): ?>
                     <?php if ($isTeledeclarationMode): ?>
-                        <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a> 
+                        <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
 
-                    <?php else: ?>                        
-                        <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a> 
+                    <?php else: ?>
+                        <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
                     <?php endif; ?>
                 <?php else: ?>
                     <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
                         <a class="lien_contrat_supprimer_brouillon" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">
                             <span>Supprimer Brouillon</span>
                         </a>
-                    <?php endif; ?>  
+                    <?php endif; ?>
                 <?php endif; ?>
                 <button id="btn_soussigne_submit" class="btn_etape_suiv" type="submit"><span>Etape Suivante</span></button>
             </div>
 
         </form>
     </div>
-    <?php include_partial('popup_notices'); ?> 
+    <?php include_partial('popup_notices'); ?>
 </section>
 <?php if ($isTeledeclarationMode): ?>
     <script type="text/javascript">
@@ -278,4 +278,3 @@ else:
     end_slot();
 endif;
 ?>
- 

@@ -448,10 +448,6 @@ class Compte extends BaseCompte {
             $type_societe = $this->getSociete()->getTypeSociete();
         }
 
-        if ($type_societe != SocieteClient::SUB_TYPE_COURTIER) {
-            $acces_teledeclaration = true;
-            $droits->add(Roles::OBSERVATOIRE, Roles::OBSERVATOIRE);
-        }
         if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER)) {
             $acces_teledeclaration = true;
             $droits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
@@ -493,17 +489,15 @@ class Compte extends BaseCompte {
         $acces_teledeclaration = false;
         foreach ($droits as $droit) {
             $acces_teledeclaration = true;
-            if ($droit == Roles::OBSERVATOIRE) {
-                $compteDroits->add(Roles::OBSERVATOIRE, Roles::OBSERVATOIRE);
-            }
-            if ($droit == Roles::CONTRAT) {
-                $compteDroits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
-                if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER)) {
-                    $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
-                }
-            }
+
             $compteDroitsArray = $compteDroits->toArray(0,1);
-            if ($droit == Roles::DRM) {
+            if(!in_array(Roles::TELEDECLARATION_VRAC, $compteDroitsArray)){
+              if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER) && ! in_array(Roles::TELEDECLARATION_VRAC_CREATION, $compteDroitsArray)) {
+                $compteDroits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
+                $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
+              }
+            }
+            if ($droit == Roles::TELEDECLARATION_DRM) {
               if(!in_array(Roles::TELEDECLARATION_DRM, $compteDroitsArray)){
                 $compteDroits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
               }
@@ -519,6 +513,16 @@ class Compte extends BaseCompte {
                   $compteDroits->add(Roles::TELEDECLARATION_DOUANE, Roles::TELEDECLARATION_DOUANE);
                 }
             }
+            if ($droit == Roles::TELEDECLARATION_DREV) {
+              if(!in_array(Roles::TELEDECLARATION_DREV, $compteDroitsArray)){
+                  $compteDroits->add(Roles::TELEDECLARATION_DREV, Roles::TELEDECLARATION_DREV);
+                }
+            }
+            if ($droit == Roles::TELEDECLARATION_DREV_ADMIN) {
+              if(!in_array(Roles::TELEDECLARATION_DREV_ADMIN, $compteDroitsArray)){
+                  $compteDroits->add(Roles::TELEDECLARATION_DREV_ADMIN, Roles::TELEDECLARATION_DREV_ADMIN);
+                }
+            }
 
             if ($droit == Roles::TELEDECLARATION_FACTURE) {
                 $compteDroits->add(Roles::TELEDECLARATION_FACTURE, Roles::TELEDECLARATION_FACTURE);
@@ -528,6 +532,7 @@ class Compte extends BaseCompte {
             }
 
         }
+      
         if($acces_teledeclaration){
             $compteDroits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
         }

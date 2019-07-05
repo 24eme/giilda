@@ -56,7 +56,7 @@ all:
         service_facturation: 'nom prenom personne'
         telephone: 'tel nantes - fax nantes'
         email: 'emaildenantes@nantes.fr'
-    seuil_facturation : 50
+    seuil_facturation : 5
   tva:
     taux:
       19700101: 19.6
@@ -133,7 +133,7 @@ all:
         telephone: '00 00 00 00 00'
         email: 'mail@mail.fr'
     adresse_interloire: "adresse_interloire"
-    ics: "FRXXXXXXXXXXX"          
+    ics: "FRXXXXXXXXXXX"
     url: "interloire_domainname"
     emails_interloire: ['email1@email.fr','email2@email.fr','email3@email.fr']
   pdf:

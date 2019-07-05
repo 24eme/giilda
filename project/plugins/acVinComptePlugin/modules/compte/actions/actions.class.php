@@ -104,6 +104,12 @@ class compteActions extends sfCredentialActions {
       return $q;
     }
 
+    public function executeConnexion(sfWebRequest $request) {
+        $compte = $this->getRoute()->getCompte();
+        $this->getUser()->usurpationOn($compte, $request->getReferer());
+        $this->redirect('compte_teledeclarant_mon_espace', array('identifiant' => $compte->identifiant));
+    }
+
     public function executeSearchcsv(sfWebRequest $request) {
       ini_set('memory_limit', '512M');
       $index = acElasticaManager::getType('Compte');

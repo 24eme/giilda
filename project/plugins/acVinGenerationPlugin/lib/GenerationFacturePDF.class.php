@@ -10,15 +10,15 @@
  * @author mathurin
  */
 class GenerationFacturePDF extends GenerationPDF {
-    
+
     function __construct(Generation $g, $config = null, $options = null) {
         parent::__construct($g, $config, $options);
     }
-    
+
     public function preGeneratePDF() {
-       parent::preGeneratePDF();     
+       parent::preGeneratePDF();
        $regions = explode(',',$this->generation->arguments->regions);
-       $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions); 
+       $allMouvementsByRegion = FactureClient::getInstance()->getMouvementsForMasse($regions);
        $mouvementsBySoc = FactureClient::getInstance()->getMouvementsNonFacturesBySoc($allMouvementsByRegion);
        $arguments = $this->generation->arguments->toArray();
        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$arguments);
@@ -29,14 +29,16 @@ class GenerationFacturePDF extends GenerationPDF {
 	 $societe = SocieteClient::getInstance()->find($societeID);
 	 if (!$societe)
 	   throw new sfException($societeID." unknown :(");
-	 $facture = FactureClient::getInstance()->createDoc($mouvementsSoc, $societe, $arguments['date_facturation'],$message_communication);
-         $facture->save();
-         $this->generation->somme += $facture->total_ttc;
-         $this->generation->documents->add($cpt,$facture->_id);
-         $cpt++;
+   if(!$societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_FACTURE_EMAIL)){
+  	 $facture = FactureClient::getInstance()->createDoc($mouvementsSoc, $societe, $arguments['date_facturation'],$message_communication);
+     $facture->save();
+     $this->generation->somme += $facture->total_ttc;
+     $this->generation->documents->add($cpt,$facture->_id);
+     $cpt++;
         }
+      }
     }
-    
+
     protected function generatePDFForADocumentId($factureid) {
       $facture = FactureClient::getInstance()->find($factureid);
       if (!$facture) {

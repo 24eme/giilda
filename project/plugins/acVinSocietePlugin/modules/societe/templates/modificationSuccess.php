@@ -18,22 +18,30 @@
                     <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
                 <?php endif; ?>
                 <div id="detail_societe" class="form_section ouvert">
-                    <h3>Détail de la société</h3>  
+                    <h3>Détail de la société</h3>
                     <?php if($reduct_rights) :
                             include_partial('societeModificationRestricted', array('societeForm' => $societeForm));
                             else :
                             include_partial('societeModification', array('societeForm' => $societeForm));
-                        endif;                    
+                        endif;
                     ?>
+                </div>
+                <div id="detail_societe_sepa" class="form_section ouvert">
+                  <h3>Détail de la société</h3>
+                  <?php
+                    if(!$reduct_rights) :
+                      include_partial('societeSepaModification', array('societeForm' => $societeForm));
+                    endif;
+                  ?>
                 </div>
                 <div id="coordonnees_societe" class="form_section ouvert">
                     <h3>Coordonnées de la société</h3>
-               <?php      
+               <?php
                     if($reduct_rights) :
                             include_partial('compte/modificationCoordonneeRestricted', array('compteForm' => $contactSocieteForm, 'compteSociete' => true));
                             else :
                             include_partial('compte/modificationCoordonnee', array('compteForm' => $contactSocieteForm, 'compteSociete' => true));
-                        endif;                    
+                        endif;
                     ?>
                 </div>
                 <div class="form_btn">

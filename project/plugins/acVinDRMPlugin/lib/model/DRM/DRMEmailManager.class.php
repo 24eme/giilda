@@ -15,9 +15,11 @@ class DRMEmailManager {
 
     protected $drm = null;
     protected $mailer = null;
+    protected $user = null;
 
-    public function __construct($mailer) {
+    public function __construct($mailer, $user) {
         $this->mailer = $mailer;
+        $this->user = $user;
         sfProjectConfiguration::getActive()->loadHelpers("Date");
         sfProjectConfiguration::getActive()->loadHelpers("Orthographe");
         sfProjectConfiguration::getActive()->loadHelpers("DRM");
@@ -73,37 +75,6 @@ L’application de télédéclaration des contrats d’InterLoire";
     }
 
 
-    public function sendMailDrmCielDiffs() {
-        $typeInfos = null;
-        $typeLibelle = null;
-        $mailsInterloire = sfConfig::get('app_teledeclaration_emails_interloire');
-
-        $subject = "[ Comparaison Ciel Vinsi ] - Drm différente pour ".$this->drm->declarant->nom." (".$this->drm->identifiant.") période : ".$this->drm->getPeriode();
-
-        $mess = "La DRM de ".$this->drm->declarant->nom." (".$this->drm->identifiant.") période:".$this->drm->getPeriode()." a été transmise sur CIEL et possède des différences avec celle d'Interloire. ";
-
-        $diffArrStr = $this->drm->getXMLComparison()->getFormattedXMLComparaison();
-        foreach ($diffArrStr as $key => $values) {
-            $mess .= $key . " [" . ((is_null($values[0])) ? "valeur nulle" : $values[0]) . "]
-";
-        }
-        $mess .= "
-        Une DRM modificatrice a été ouverte : ".sfConfig::get('app_routing_context_production_host').sfContext::getInstance()->getRouting()->generate("drm_etablissement",array("identifiant" => $this->drm->identifiant))."
-
-——
-
-L’application de télédéclaration des contrats d’InterLoire";
-
-        $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
-        try {
-          //  $this->getMailer()->send($message);
-        } catch (Exception $e) {
-            $this->getUser()->setFlash('error', 'Erreur de configuration : Mail de confirmation non envoyé, veuillez contacter INTERLOIRE');
-            return null;
-        }
-        return true;
-    }
-
     public function sendMailValidation() {
 
         $etablissement = EtablissementClient::getInstance()->find($this->drm->identifiant);
@@ -120,7 +91,7 @@ Si vous n'avez pas signé la convention avec la douane qui active vos droits à 
 Sinon, vous pouvez transmettre cette DRM directement sur le portail de la douane, qui apparaîtra en mode brouillon sur le portail pro.douane.gouv.fr. Il vous restera alors à la valider une dernière fois en ligne sur le portail douanier.
 
 Pour toutes questions, veuillez contacter:
-  le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . " 
+  le service Economie et Etudes d'InterLoire: " . $contact->nom . " - " . $contact->email . " - " . $contact->telephone . "
 
 --
 
@@ -132,7 +103,12 @@ L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclarat
 
         $subject = "Validation de la DRM " . getFrPeriodeElision($this->drm->periode) . " créée le " . $this->getDateSaisieDrmFormatted() . " .";
 
-        $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $etablissement->getEmailTeledeclaration(), $subject, $mess);
+        $email = $this->getUser()->getCompte()->getEmail();
+        if(!$email){
+          $email = $etablissement->getEmailTeledeclaration();
+        }
+
+        $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $email, $subject, $mess);
 
         $message->attach(new Swift_Attachment($pdfContent, $pdfName, 'application/pdf'));
 
@@ -141,7 +117,7 @@ L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclarat
 
         try {
             $this->getMailer()->send($message);
-            $resultEmailArr[] = $etablissement->getEmailTeledeclaration();
+            $resultEmailArr[] = $email;
             if ($this->drm->email_transmission) {
                 $message_transmission = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $this->drm->email_transmission, $subject, $mess);
                 $message_transmission->attach(new Swift_Attachment($pdfContent, $pdfName, 'application/pdf'));
@@ -158,6 +134,10 @@ L’application de télédéclaration des DRM ". sfConfig::get('app_teledeclarat
 
     private function getMailer() {
         return $this->mailer;
+    }
+
+    private function getUser() {
+        return $this->user;
     }
 
     private function getUrlVisualisationDrm() {

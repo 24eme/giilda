@@ -1,19 +1,21 @@
 <?php
 
-class annuaireActions extends sfActions {
+class annuaireActions extends drmGeneriqueActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->cleanSessions();
+        $this->redirect403IfIsNotTeledeclaration(Roles::TELEDECLARATION_VRAC_CREATION);
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->annuaire = AnnuaireClient::getInstance()->findOrCreateAnnuaireWithSuspendu($this->identifiant);
-        
+
         $this->initSocieteAndEtablissementPrincipal();
         $this->isAcheteurResponsable = $this->isAcheteurResponsable();
         $this->isCourtierResponsable = $this->isCourtierResponsable();
     }
 
     public function executeSelectionner(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration(Roles::TELEDECLARATION_VRAC_CREATION);
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
@@ -39,6 +41,7 @@ class annuaireActions extends sfActions {
     }
 
     public function executeAjouter(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration(Roles::TELEDECLARATION_VRAC_CREATION);
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
@@ -53,7 +56,7 @@ class annuaireActions extends sfActions {
 
             $this->societeObject = AnnuaireClient::getInstance()->findSocieteByTypeAndTiers($this->type, $this->societeId);
             $this->etablissements = $this->societeObject->getEtablissementsObj(false);
-            
+
             $this->form = new AnnuaireAjoutForm($this->annuaire, $this->isCourtierResponsable, $this->type, $this->etablissements);
             $this->form->setDefault('type', $this->type);
             $this->form->setDefault('tiers', $this->societeId);
@@ -94,6 +97,7 @@ class annuaireActions extends sfActions {
     }
 
     public function executeAjouterCommercial(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration(Roles::TELEDECLARATION_VRAC_CREATION);
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
 
@@ -134,11 +138,12 @@ class annuaireActions extends sfActions {
                 return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
             }
         }
-    
+
         return $this->redirect('annuaire', array('identifiant' => $this->identifiant));
     }
 
     public function executeSupprimer(sfWebRequest $request) {
+        $this->redirect403IfIsNotTeledeclaration(Roles::TELEDECLARATION_VRAC_CREATION);
         $this->cleanSessions();
         $type = $request->getParameter('type');
         $id = $request->getParameter('id');
@@ -163,30 +168,5 @@ class annuaireActions extends sfActions {
         $this->getUser()->setAttribute('vrac_acteur', null);
     }
 
-    /*
-     * Fonctions de service liées aux droits Users
-     * 
-     */
-
-    private function isTeledeclarationVrac() {
-        return $this->getUser()->hasTeledeclarationVrac();
-    }
-
-    private function isAcheteurResponsable() {
-        return $this->getUser()->getCompte()->getSociete()->isNegociant();
-    }
-
-    private function isCourtierResponsable() {
-        return $this->getUser()->getCompte()->getSociete()->isCourtier();
-    }
-
-    private function initSocieteAndEtablissementPrincipal() {
-        $this->compte = $this->getUser()->getCompte();
-        if (!$this->compte) {
-            new sfException("Le compte $compte n'existe pas");
-        }
-        $this->societe = $this->compte->getSociete();
-        $this->etablissementPrincipal = $this->societe->getEtablissementPrincipal();
-    }
 
 }

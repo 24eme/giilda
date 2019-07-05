@@ -1,39 +1,50 @@
 <?php
 use_helper('Float');
 use_helper('Date');
+$is_prelevement = $facture->isPrelevementAutomatique();
 ?>
 \begin{center}
-Echéances (hors régularisation) : A = à 60 jours fin de mois, B = au 31/03 et au 30/06, C = au 31/03, au 30/06 et au 30/09, D = au 30/09
+  Echéances (hors régularisation) : A = à 60 jours fin de mois, B = au 31/03 et au 30/06, C = au 31/03, au 30/06 et au 30/09, D = au 30/09
 
-\begin{minipage}[b]{1\textwidth}
+  \begin{minipage}[b]{1\textwidth}
 
-\begin{tabular}{|p{9mm} p{25mm} p{25mm} p{20mm} | p{36mm} p{36mm} p{36mm}}
-            \hline
-    \multicolumn{4}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Partie à conserver}}} &
-    \multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Partie à joindre au règlement}}} \\
+  \begin{tabular}{|p{9mm} p{25mm} p{25mm} p{20mm} | p{36mm} p{36mm} <?php if(!$is_prelevement): ?>p{36mm}<?php else: ?>p{18mm}|<?php endif; ?>}
+              \hline
+      \multicolumn{4}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Partie à conserver}}} &
+      \multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c<?php if($is_prelevement): ?>|<?php endif; ?>}{<?php if(!$is_prelevement): ?>\centering \small{\textbf{Partie à joindre au règlement}}<?php else: ?>~<?php endif; ?>} \\
 
-\multicolumn{1}{|c}{ ~ } &
-\multicolumn{1}{c}{ \textbf{Code échéance} } &
-\multicolumn{1}{c}{ \textbf{Date d'échéance} } &
-\multicolumn{1}{c|}{ \textbf{Montant TTC} } &
-    \CutlnPapillon
+  \multicolumn{1}{|c}{ ~ } &
+  \multicolumn{1}{c}{ \textbf{Code échéance} } &
+  \multicolumn{1}{c}{ \textbf{Date d'échéance} } &
+  \multicolumn{1}{c|}{ \textbf{Montant TTC} } &
+      <?php if(!$is_prelevement): ?>\CutlnPapillon<?php else: ?> ~ & ~ & ~ \\ <?php endif; ?>
 
-        <?php $nb = count($echeances) ; foreach ($echeances as $key => $papillon) : ?>
-            & & & &
-            \centering \small{Echéance} &
-            \centering \small{Ref. Client / Ref. Facture} &
-            \multicolumn{1}{c}{\small{Montant TTC}} \\
+          <?php $nb = count($echeances) ; foreach ($echeances as $key => $papillon) : ?>
+            <?php if(!$is_prelevement): ?>
+              & & & &
+              \centering \small{Echéance} &
+              \centering \small{Ref. Client / Ref. Facture} &
+              \multicolumn{1}{c}{\small{Montant TTC}} \\
 
-                \centering \small{<?php echo $nb - $key; ?>} &
-                \centering \small{<?php echo $papillon->echeance_code ?>} &
-                \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \multicolumn{1}{r|}{\centering \small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}} &
-                \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
-                \centering \small{\FactureRefClient~/~\FactureNum} &
-                \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
-                \multicolumn{4}{|c|}{ ~ } & \CutlnPapillon 
-        <?php endforeach; ?>
+                  \centering \small{<?php echo $nb - $key; ?>} &
+                  \centering \small{<?php echo $papillon->echeance_code ?>} &
+                  \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
+                  \multicolumn{1}{r|}{\centering \small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}} &
+                  \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
+                  \centering \small{\FactureRefClient~/~\FactureNum} &
+                  \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}}  \\
+                  \multicolumn{4}{|c|}{ ~ } & \CutlnPapillon
+            <?php else: ?>
+              & & & & & & \\
+              \centering \small{<?php echo $nb - $key; ?>} &
+              \centering \small{<?php echo $papillon->echeance_code ?>} &
+              \centering \small{\textbf{<?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?>}} &
+              \multicolumn{1}{r|}{\centering \small{\textbf{<?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{}}}} &
+              \multicolumn{3}{c|}{\small{\textbf{~~~Facture prélevée le <?php echo format_date($papillon->echeance_date,'dd/MM/yyyy'); ?> d'un montant de <?php echo echoArialFloat($papillon->montant_ttc); ?>~\texteuro{} TTC }}} \\
+              & & & & & & \\
+            <?php endif; ?>
+          <?php endforeach; ?>
 
-\end{tabular}
-\end{minipage}
+  \end{tabular}
+  \end{minipage}
 \end{center}

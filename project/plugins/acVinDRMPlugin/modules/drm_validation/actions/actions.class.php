@@ -78,7 +78,7 @@ class drm_validationActions extends drmGeneriqueActions {
       $this->drm->updateVracs();
 
       if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
-          $mailManager = new DRMEmailManager($this->getMailer());
+          $mailManager = new DRMEmailManager($this->getMailer(), $this->getUser());
           $mailManager->setDRM($this->drm);
           $mailManager->sendMailValidation();
       }
@@ -129,7 +129,7 @@ class drm_validationActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
                 $this->form->save();
-                $mailManager = new DRMEmailManager($this->getMailer());
+                $mailManager = new DRMEmailManager($this->getMailer(),$this->getUser());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_ETABLISSEMENT, $diff);
                 $this->redirect('drm_validation', $this->drm);
@@ -147,7 +147,7 @@ class drm_validationActions extends drmGeneriqueActions {
             if ($this->form->isValid()) {
                 $diff = $this->form->getDiff();
                 $this->form->save();
-                $mailManager = new DRMEmailManager($this->getMailer());
+                $mailManager = new DRMEmailManager($this->getMailer(), $this->getUser());
                 $mailManager->setDRM($this->drm);
                 $mailManager->sendMailCoordonneesOperateurChanged(CompteClient::TYPE_COMPTE_SOCIETE, $diff);
                 $this->redirect('drm_validation', $this->drm);
@@ -157,7 +157,6 @@ class drm_validationActions extends drmGeneriqueActions {
 
     private function transmissionFactureMail(){
       $date_facturation = date('Y-m-d');
-      $message_communication = "Facture générée automatiquement lors de la validation de la ".DRMClient::getInstance()->getLibelleFromId($this->drm->_id);
       $mouvementsBySoc = array();
       $etablissementDRM = $this->drm->getEtablissement();
       $generation = FactureClient::getInstance()->createFacturesBySoc($mouvementsBySoc, $date_facturation, $message_communication);
@@ -168,7 +167,6 @@ class drm_validationActions extends drmGeneriqueActions {
         $generation->add('arguments')->add('seuil', $seuil);
       }
       $generation->add('arguments')->add('date_facturation',  $this->drm->getDate());
-      $generation->add('arguments')->add('message_communication', $message_communication);
       $generation->save();
     }
 }

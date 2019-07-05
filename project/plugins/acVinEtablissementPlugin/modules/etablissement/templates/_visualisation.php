@@ -128,7 +128,7 @@ if (!isset($fromSociete))
                             echo EtablissementClient::$regimes_crds_libelles[$crd_regime].'&nbsp;&nbsp;';
                         endforeach; ?>
                         <br/>
-                        <input type="submit" class="btn_majeur btn_nouveau" value="Réinitialiser le regime CRD pour les DRM suspendues"/>
+                        <input type="submit" class="btn_majeur btn_contact" style="float:right;" value="Réinitialiser le regime CRD pour les DRM suspendues"/>
                     <?php else: ?>
                         En attente de saisie par l'utilisateur
                      <?php endif; ?>

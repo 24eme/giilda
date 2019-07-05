@@ -60,12 +60,20 @@ class FactureRouting {
                           array('model' => 'Societe',
                                 'type' => 'object')
                                 ));
+        $r->prependRoute('facture_dedebrayage',  new sfRoute('/facture/deconnexion', array('module' => 'facture',
+                                                                        'action' => 'deconnexion')));
 
         $r->prependRoute('facture_teledeclarant',  new sfRoute('/facture/societe/:identifiant/:campagne', array('module' => 'facture',
                                 'action' => 'societe', 'campagne' => null)));
 
-        $r->prependRoute('facture_sepa',  new sfRoute('/facture/societe/:identifiant/sepa', array('module' => 'facture',
-                                'action' => 'sepa')));
+        $r->prependRoute('facture_sepa_modification',  new sfRoute('/facture/societe/:identifiant/sepa/modifier', array('module' => 'facture',
+                                'action' => 'sepaModification')));
+
+        $r->prependRoute('facture_sepa_visualisation',  new sfRoute('/facture/societe/:identifiant/sepa/visualisation', array('module' => 'facture',
+                                'action' => 'sepaVisualisation')));
+
+        $r->prependRoute('facture_sepa_pdf',  new sfRoute('/facture/societe/:identifiant/sepa/pdf', array('module' => 'facture',
+                                'action' => 'sepaLatex')));
 
 
     }
