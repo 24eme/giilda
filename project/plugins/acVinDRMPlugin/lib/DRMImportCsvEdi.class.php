@@ -601,7 +601,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
                         $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
                         $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
-                        if (!dt) {
+                        if (!$dt) {
                             $dt = DateTime::createFromFormat("d-m-Y", $date_emission);
                         }
 
