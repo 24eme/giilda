@@ -133,8 +133,8 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         {
             $this->compte->statut = $this->compte->getSociete()->statut;
             $this->compte->add('type_societe',$this->compte->getSociete()->type_societe);
-            $this->compte->updateDroits($this->getValue('droits'));
         }
+        $this->compte->updateDroits($this->getValue('droits'));
         if($this->compte->isEtablissementContact()){
             $this->compte->statut = $this->compte->getEtablissement()->statut;
         }
