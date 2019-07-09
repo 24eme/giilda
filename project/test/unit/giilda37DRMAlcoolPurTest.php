@@ -4,6 +4,7 @@ require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
 $produit_hash_matiere_premiere = null;
 $produit_hash_alcoolpur = null;
+$produit_hash_vin = null;
 $configuration = ConfigurationClient::getInstance()->getCurrent();
 foreach($configuration->getProduits() as $produit) {
     if(!$produit->needTav()) { continue; }
@@ -15,6 +16,12 @@ foreach($configuration->getProduits() as $produit) {
     $produit_hash_matiere_premiere = $produit->getHash();
     break;
 }
+foreach($configuration->getProduits() as $produit) {
+    if(preg_match('/MATIERES_PREMIERES/', $produit->code_douane)) { continue;}
+    if($produit->needTav()) { continue; }
+    $produit_hash_vin = $produit->getHash();
+    break;
+}
 
 $transfer_exists = ($configuration->declaration->details->sorties->exist('transfertsrecolte') && ($configuration->declaration->details->sorties->transfertsrecolte->details == 'ALCOOLPUR'));
 
@@ -23,7 +30,7 @@ if(!$produit_hash_matiere_premiere || !$produit_hash_alcoolpur || !$transfer_exi
     exit;
 }
 
-$t = new lime_test(25);
+$t = new lime_test(27);
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $periode = date('Ym');
@@ -39,11 +46,13 @@ $drm->addProduit($produit_hash_matiere_premiere, "details");
 $drm->addProduit($produit_hash_alcoolpur, "details", null, 42);
 $drm->addProduit($produit_hash_alcoolpur, "details");
 $drm->addProduit($produit_hash_alcoolpur, "details", "Ratafia");
+$drm->addProduit($produit_hash_vin, "details");
 
 $produitMP = $drm->getProduit($produit_hash_matiere_premiere, "details");
 $produitA = $drm->getProduit($produit_hash_alcoolpur, "details");
 $produitATav = $drm->getProduit($produit_hash_alcoolpur, "details", null, 42);
 $produitB = $drm->getProduit($produit_hash_alcoolpur, "details", "Ratafia");
+$produitVin = $drm->getProduit($produit_hash_vin, "details");
 
 $t->comment("Test du détail TAV");
 
@@ -51,6 +60,7 @@ $produitMP->stocks_debut->initial = 1000;
 $produitA->stocks_debut->initial = 1000;
 $produitATav->stocks_debut->initial = 1000;
 $produitB->stocks_debut->initial = 1000;
+$produitVin->stocks_debut->initial = 1000;
 
 $detailAlcool = DRMESDetailAlcoolPur::freeInstance($drm);
 $detailAlcool->setProduit($produitA);
@@ -58,7 +68,10 @@ $detailAlcool->tav = 40;
 $detailAlcool->volume = 100;
 $produitMP->sorties->transfertsrecolte_details->addDetail($detailAlcool);
 
+$produitVin->sorties->transfertsrecolte = 100;
+
 $drm->update();
+$drm->generateMouvements();
 $drm->save();
 
 $t->is($drm->getProduit($produit_hash_matiere_premiere, 'details')->get('stocks_debut/initial'), 1000, $drm->_id." : vérification du stock initial MP");
@@ -77,6 +90,9 @@ $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->get('tav'), 40, $dr
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->getLibelle(), 'Alcools supérieur 18° (autres que Rhum) - 40°', $drm->_id." : libellé avec TAV");
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details')->isAlcoolPur(), true, $drm->_id." : Alcool pur ok");
 $t->is($drm->getProduit($produit_hash_alcoolpur, 'details', null, 42)->get('tav'), 42, $drm->_id." : vérification du tav alcool avec tav");
+$t->is($drm->getProduit($produit_hash_vin, 'details')->get('sorties/transfertsrecolte'), 100, $drm->_id." : transfert enregistré dans le produit vin");
+
+$t->is(count($drm->mouvements->get($drm->identifiant)), 3, "La DRM a 3 mouvements");
 
 $t->comment("Test du formulaire");
 
