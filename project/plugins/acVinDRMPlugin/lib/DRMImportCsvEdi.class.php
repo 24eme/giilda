@@ -377,7 +377,13 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $type_douane_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM]);
     $type_douane_drm_key = $this->getDetailsKeyFromDRMType($type_douane_drm);
-    $type_drm = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
+
+    if(!$type_douane_drm_key) {
+        $this->csvDoc->addErreur($this->DRMTypeNotFoundError($num_ligne, $csvRow));
+        $num_ligne++;
+        continue;
+    }
+
     $type_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_MOUVEMENT]);
 
     if (!array_key_exists($cat_mouvement, $this->mouvements[$type_douane_drm_key])) {
@@ -616,6 +622,12 @@ private function importCrdsFromCSV($just_check = false) {
     $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
     $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
 
+    if(!in_array($fieldNameCrd, array('stock_debut', 'entrees_achats', 'entrees_excedents', 'entrees_retours', 'sorties_destructions', 'sorties_manquants', 'sorties_utilisations', 'stock_fin'))) {
+        $this->csvDoc->addErreur($this->typeCRDNotFoundError($num_ligne, $csvRow));
+        $num_ligne++;
+        continue;
+    }
+
     $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
     if ($drmPrecedente) {
         if  ($fieldNameCrd == 'stock_debut') {
@@ -661,6 +673,9 @@ private function importAnnexesFromCSV($just_check = false) {
       $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
       $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
       $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
+      if (!$dt) {
+          $dt = DateTime::createFromFormat("d-m-Y", $date_emission);
+      }
 
       $numero_accise = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST]);
       if (!$numero_document) {
@@ -746,7 +761,7 @@ private function getDetailsKeyFromDRMType($drmType ) {
     return DRM::DETAILS_KEY_ACQUITTE;
   }
 
-  throw new sfException(sprintf("Le type de DRM \"%s\" n'est pas connu", $drmType));
+  return null;
 }
 
 private function findContratDocId($csvRow) {
@@ -809,6 +824,10 @@ private function productNotFoundError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, implode(' ', $libellesArray), "Le produit n'a pas été trouvé");
 }
 
+private function DRMTypeNotFoundError($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_DRM], "Le type de la DRM n'est pas connu doit être suspendu ou acquitte");
+}
+
 private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT], "La catégorie de mouvement n'a pas été trouvée");
 }
@@ -832,7 +851,7 @@ private function categorieCRDNotFoundError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CRD_CATEGORIE_KEY], "La categorie de mouvement de CRD (entrees, sorties, ...) n'a pas été trouvée");
 }
 private function typeCRDNotFoundError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_CRD_TYPE_KEY], "Le type de mouvement de CRD (achats, utilisations, ...) n'a pas été trouvé");
+  return $this->createError($num_ligne, $csvRow[self::CSV_CRD_CATEGORIE_KEY]."/".$csvRow[self::CSV_CRD_TYPE_KEY], "Le type de mouvement de CRD (achats, utilisations, ...) n'a pas été trouvé");
 }
 private function previousCRDProductError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CRD_REGIME], "Il n'existe pas de stock pour cette crd dans la DRM précédente");
@@ -874,11 +893,11 @@ private function importHorsRegionError() {
 }
 
 private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION], "La date est vide ou mal formattée.");
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION], "La date est vide ou mal formattée (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION].").");
 }
 
 private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est vide ou mal formatté.");
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est vide ou mal formatté (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
 }
 
 private function typeComplementNotFoundError($num_ligne, $csvRow) {
