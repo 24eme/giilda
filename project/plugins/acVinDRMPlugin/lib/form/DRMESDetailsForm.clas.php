@@ -5,10 +5,10 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
     protected $details = null;
     protected $isTeledeclarationMode = null;
 
-    public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {        
-        $this->isTeledeclarationMode = $options['isTeledeclarationMode'];     
+    public function __construct(acCouchdbJson $details, $defaults = array(), $options = array(), $CSRFSecret = null) {
+        $this->isTeledeclarationMode = $options['isTeledeclarationMode'];
         $this->details = $details;
-        parent::__construct($this->details->getDocument(),$defaults, $options, $CSRFSecret);        
+        parent::__construct($this->details->getDocument(),$defaults, $options, $CSRFSecret);
     }
 
     public function configure() {
@@ -65,7 +65,9 @@ abstract class DRMESDetailsForm extends acCouchdbForm {
         }
 
         foreach ($details as $key => $detail) {
-            $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
+            if($detail->volume){
+              $this->getDetails()->addDetail($detail->identifiant, $detail->volume, $detail->date_enlevement, $detail->numero_document, $detail->type_document);
+            }
         }
     }
 
