@@ -1,7 +1,6 @@
 #!/bin/bash
 . $(dirname $0)/config.inc
 
-DATEREQUETE=$(cat $WORKINGDIR"/data/dateDrmDouane");
 PERIODE=$2
 NUMEROACCISE=$3
 CVI=$4
@@ -13,7 +12,7 @@ PATHFILETMP=$WORKINGDIR"/cache/"$APPLICATION"/prod/majDrmUrl";
 LAST=""
 echo "" > $PATHFILETMP;
 
-curl -s $CIEL_URL_RETOURXML"/?from="$DATEREQUETE | sort -r | while read url ; do
+curl -s "$CIEL_URL_RETOURXML/" | sort -r | while read url ; do
   CURRENT=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g');
   ACCISELOCAL=$(echo $url | sed -r 's/(.+)\/(FR[0-9A-Z]{11})_([0-9]{7}).*/\2/g');
   if [ "$CURRENT" == "$LAST" ]; then
@@ -34,7 +33,7 @@ done
 
 URLFOUND=$(cat $PATHFILETMP);
 if ! test $URLFOUND ; then
-    curl -s $CIEL_URL_RETOURXML"/?from="$DATEREQUETE | sort -r | while read url ; do
+    curl -s "$CIEL_URL_RETOURXML/" | sort -r | while read url ; do
       CURRENT=$(echo $url | sed -r 's/(.+)\/([0-9]{4}\/[0-9]{2}\/[0-9A-Z]+).*/\2/g');
 
       if [ "$CURRENT" == "$LAST" ]; then
