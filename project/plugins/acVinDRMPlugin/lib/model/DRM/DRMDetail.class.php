@@ -142,8 +142,8 @@ class DRMDetail extends BaseDRMDetail {
     protected function update($params = array()) {
         parent::update($params);
         $this->total_debut_mois = $this->stocks_debut->initial;
+        $keysDetailsToRemove = array();
         foreach($this->sorties as $key => $item) {
-
             if($item instanceof acCouchdbJson) {
                 continue;
             }
@@ -151,16 +151,23 @@ class DRMDetail extends BaseDRMDetail {
                 continue;
             }
             if(!$this->sorties->getConfig()->get($key)->hasDetails()) {
-                $this->sorties->remove($key."_details");
+                continue;
             }
-            if($this->sorties->getConfig()->get($key)->hasDetails() && $this->sorties->getConfig()->get($key)->details == ConfigurationDetailLigne::DETAILS_ALCOOLPUR && !$this->isCodeDouaneAlcool() && !$this->isCodeDouaneMatierePremiere()) {
-                $this->sorties->remove($key."_details");
+            if($this->sorties->getConfig()->get($key)->details == ConfigurationDetailLigne::DETAILS_ALCOOLPUR && !$this->isCodeDouaneAlcool() && !$this->isCodeDouaneMatierePremiere()) {
+                $keysDetailsToRemove[] = $key."_details";
+                continue;
             }
+            $this->sorties->add($key."_details");
+        }
+        foreach($keysDetailsToRemove as $keyDetails) {
+            $this->sorties->remove($keyDetails);
+        }
+        foreach($this->sorties as $key => $item) {
             if(!$this->sorties->exist($key."_details")) {
                 continue;
             }
             $this->sorties->set($key, 0);
-            foreach ($this->sorties->add($key."_details") as $detail) {
+            foreach ($this->sorties->get($key."_details") as $detail) {
                 $this->sorties->set($key, $this->sorties->get($key) + $detail->volume);
             }
         }
