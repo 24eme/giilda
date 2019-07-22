@@ -2,14 +2,14 @@
 use_helper('Date');
 use_helper('Float');
 ?>
-<ul style="<?php if (!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="etablissements_drms">
+<ul style="<?php if (!isset($btnAccess)): ?>height: auto<?php endif; ?>" class="">
     <li>
       <div class="etablissement_drms">
         <table class="table_recap table_compact">
             <thead>
                 <tr>
-                    <th>Num.</th>
-                    <th>Prix TTC</th>
+                    <th class="center">Num.</th>
+                    <th class="center">Prix TTC</th>
                 </tr>
             </thead>
             <tbody>
