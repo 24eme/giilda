@@ -9,7 +9,7 @@
           <p class="extendable <?php echo ($drm->hasAnnexes())? 'ouvert' : '' ?>"></p>
           <h2>Déclaration des documents d'accompagnement (facultatif)</h2>
         </div>
-        <div <?php echo ($drm->hasAnnexes())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_annexes_content_togglable" >
+        <div style="padding: 0px 10px 10px 10px;<?php echo ($drm->hasAnnexes())? '' : ' display:none;' ?>" class="drm_annexes_content_togglable" >
         <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
             <table id="table_drm_adminitration" class="table_recap table_drm_annexes" >
                 <thead >
@@ -39,7 +39,7 @@
               <p class="extendable <?php echo ($drm->hasReleveNonApurement())? 'ouvert' : '' ?>"></p>
               <h2>Relevé de non apurement</h2>
             </div>
-            <div <?php echo ($drm->hasReleveNonApurement())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_apurement_content_togglable" >
+            <div style="<?php echo ($drm->hasReleveNonApurement())? '' : 'display:none; ' ?>padding: 0px 10px 10px 10px;" class="drm_apurement_content_togglable" >
 
             <div><?php echo getHelpMsgText('drm_annexes_texte3'); ?></div><br/>
             <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
