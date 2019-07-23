@@ -35,7 +35,7 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
     $facture = FactureClient::getInstance()->find($arguments['factureid']);
-    $latex = new FactureLatex($facture, $this->config);
+    $latex = new FactureLatex($facture);
     $file = $latex->getPDFFile();
     $destdir = $options['directory'].'/'.$latex->getPublicFileName();
     copy($file, $destdir) or die("pb rename $file $destdir");
