@@ -68,7 +68,7 @@ cp $TMP/societes.csv $PDFDIR/csv/societes.last.csv
 
 bash bin/exportFacturePDF.sh "$PDFDIR"/csv/"$(date '+%Y%m%d')"_factures.csv
 
-cat $TMP/factures.csv | awk -F ';' '{print $14}' | sort | uniq | while read FACTUREID; do
+cat $TMP/factures.csv | awk -F ';' '{print $14}' | sort | uniq | grep FACTURE- | while read FACTUREID; do
     php symfony facture:setexported $FACTUREID;
 done
 
