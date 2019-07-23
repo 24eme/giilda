@@ -69,6 +69,37 @@
             </div>
   </div>
           </div>
+          <br/>
+          <div class="table-condensable ">
+          <div class="drm_statistiques_toggle" style="cursor:pointer;">
+              <p class="extendable ouvert"></p>
+            <h2>Statistiques européennes</h2>
+          </div>
+<div style="padding: 0px 10px 10px 10px;" class="drm_statistiques_content_togglable" >
+    <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
+        <thead>
+                    <tr>
+                      <th style=" width: auto;"></th>
+                      <th>Volume</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_jus']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_jus']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_jus']->renderError() ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_mcr']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_mcr']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_mcr']->renderError() ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_vinaigre']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_vinaigre']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_vinaigre']->renderError() ?></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+</div>
             <br/>
 <?php if($drm->hasObservations()): ?>
             <div class="table-condensable ">
