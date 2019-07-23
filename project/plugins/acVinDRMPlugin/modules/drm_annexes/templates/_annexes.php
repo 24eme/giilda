@@ -9,7 +9,7 @@
           <p class="extendable <?php echo ($drm->hasAnnexes())? 'ouvert' : '' ?>"></p>
           <h2>Déclaration des documents d'accompagnement (facultatif)</h2>
         </div>
-        <div <?php echo ($drm->hasAnnexes())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_annexes_content_togglable" >
+        <div style="padding: 0px 10px 10px 10px;<?php echo ($drm->hasAnnexes())? '' : ' display:none;' ?>" class="drm_annexes_content_togglable" >
         <div><?php echo getHelpMsgText('drm_annexes_texte2'); ?></div><br/>
             <table id="table_drm_adminitration" class="table_recap table_drm_annexes" >
                 <thead >
@@ -39,7 +39,7 @@
               <p class="extendable <?php echo ($drm->hasReleveNonApurement())? 'ouvert' : '' ?>"></p>
               <h2>Relevé de non apurement</h2>
             </div>
-            <div <?php echo ($drm->hasReleveNonApurement())? 'style="padding: 0px 10px 10px 10px;"' : 'style="display:none; padding: 0px 10px 10px 10px;"' ?> class="drm_apurement_content_togglable" >
+            <div style="<?php echo ($drm->hasReleveNonApurement())? '' : 'display:none; ' ?>padding: 0px 10px 10px 10px;" class="drm_apurement_content_togglable" >
 
             <div><?php echo getHelpMsgText('drm_annexes_texte3'); ?></div><br/>
             <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
@@ -69,6 +69,37 @@
             </div>
   </div>
           </div>
+          <br/>
+          <div class="table-condensable ">
+          <div class="drm_statistiques_toggle" style="cursor:pointer;">
+              <p class="extendable  <?php echo ($drm->hasStatistiquesEuropeennes())? 'ouvert' : '' ?>"></p>
+            <h2>Statistiques européennes</h2>
+          </div>
+<div style="<?php echo ($drm->hasStatistiquesEuropeennes())? '' : 'display:none; ' ?>padding: 0px 10px 10px 10px;" class="drm_statistiques_content_togglable" >
+    <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
+        <thead>
+                    <tr>
+                      <th style=" width: auto;"></th>
+                      <th>Volume</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_jus']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_jus']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_jus']->renderError() ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_mcr']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_mcr']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_mcr']->renderError() ?></td>
+                    </tr>
+                    <tr>
+                      <td><?php echo $annexesForm['statistiques_vinaigre']->renderLabel() ?></td>
+                      <td><?php echo $annexesForm['statistiques_vinaigre']->render() ?>&nbsp;<span class="unite">hl</span><br /><?php echo $annexesForm['statistiques_vinaigre']->renderError() ?></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+</div>
             <br/>
 <?php if($drm->hasObservations()): ?>
             <div class="table-condensable ">
