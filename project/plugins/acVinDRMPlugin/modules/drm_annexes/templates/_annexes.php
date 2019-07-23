@@ -72,10 +72,10 @@
           <br/>
           <div class="table-condensable ">
           <div class="drm_statistiques_toggle" style="cursor:pointer;">
-              <p class="extendable ouvert"></p>
+              <p class="extendable  <?php echo ($drm->hasStatistiquesEuropeennes())? 'ouvert' : '' ?>"></p>
             <h2>Statistiques européennes</h2>
           </div>
-<div style="padding: 0px 10px 10px 10px;" class="drm_statistiques_content_togglable" >
+<div style="<?php echo ($drm->hasStatistiquesEuropeennes())? '' : 'display:none; ' ?>padding: 0px 10px 10px 10px;" class="drm_statistiques_content_togglable" >
     <table id="table_drm_non_apurement" class="table_recap table_drm_annexes">
         <thead>
                     <tr>
