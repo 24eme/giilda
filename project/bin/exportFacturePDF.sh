@@ -18,6 +18,11 @@ do
 	php symfony generate:AFacture --directory=$FACTUREDIR $facture ; 
 done
 
+mkdir -p $PDFDIR"/export"
+annee=$(date '+%Y')
+php symfony export:facture-annee-comptable $annee"-01" $annee"-12" > $PDFDIR"/export/"$annee"_export_comptable.csv.tmp"
+mv $PDFDIR"/export/"$annee"_export_comptable.csv.tmp" $PDFDIR"/export/"$annee"_export_comptable.csv"
+
 if test $SAMBA_FACTURELOCALDIR; then
     sudo mount $SAMBA_FACTURELOCALDIR
     rsync -a $PDFDIR $SAMBA_FACTURELOCALDIR
