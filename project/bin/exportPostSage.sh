@@ -3,25 +3,37 @@
 . bin/config.inc
 
 function sendEmail {
-echo "Voici le compte rendu de l'import SAGE qui vient de s'effectuer :" >  $TMP/$SAGE_EMAILFILE.header
-echo >> $TMP/$SAGE_EMAILFILE.header
-echo "===========================================" >> $TMP/$SAGE_EMAILFILE.header
+    #Export comptable avant l'envoi de mail afin de s'assurer qu'il soit dispo quoi qu'il arrive
+    mkdir -p $PDFDIR"/export"
+    annee=$(date '+%Y')
+    php symfony export:facture-annee-comptable $annee"-01" $annee"-12" > $PDFDIR"/export/"$annee"_export_comptable.csv.tmp"
+    mv $PDFDIR"/export/"$annee"_export_comptable.csv.tmp" $PDFDIR"/export/"$annee"_export_comptable.csv"
+    if test $SAMBA_FACTURELOCALDIR; then
+        sudo mount $SAMBA_FACTURELOCALDIR
+        rsync -a $PDFDIR $SAMBA_FACTURELOCALDIR
+        sudo umount $SAMBA_FACTURELOCALDIR
+    fi
 
-echo "===========================================" > $TMP/$SAGE_EMAILFILE.footer
-echo >>  $TMP/$SAGE_EMAILFILE.footer
-echo "--" >>  $TMP/$SAGE_EMAILFILE.footer
-echo "envoyé automatiquement depuis "$USER"@"$HOSTNAME":"$0 >>  $TMP/$SAGE_EMAILFILE.footer
+    #Envoi du mail
+    echo "Voici le compte rendu de l'import SAGE qui vient de s'effectuer :" >  $TMP/$SAGE_EMAILFILE.header
+    echo >> $TMP/$SAGE_EMAILFILE.header
+    echo "===========================================" >> $TMP/$SAGE_EMAILFILE.header
+
+    echo "===========================================" > $TMP/$SAGE_EMAILFILE.footer
+    echo >>  $TMP/$SAGE_EMAILFILE.footer
+    echo "--" >>  $TMP/$SAGE_EMAILFILE.footer
+    echo "envoyé automatiquement depuis "$USER"@"$HOSTNAME":"$0 >>  $TMP/$SAGE_EMAILFILE.footer
 
 
-TITRE="Compte rendu"
-if grep ERREUR $TMP/$SAGE_EMAILFILE > /dev/null ; then
-TITRE="ERREUR"
-fi
-for email in $SAGE_EMAILS; do
-cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer | iconv -f UTF8 -t ISO88591 | mail -s "[Import SAGE] $TITRE" $email
-done
-cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer > log/mail/$(date +%Y%m%d)"_SAGE.txt"
-rm $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer
+    TITRE="Compte rendu"
+    if grep ERREUR $TMP/$SAGE_EMAILFILE > /dev/null ; then
+        TITRE="ERREUR"
+    fi
+    for email in $SAGE_EMAILS; do
+            cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer | iconv -f UTF8 -t ISO88591 | mail -s "[Import SAGE] $TITRE" $email
+        done
+    cat $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer > log/mail/$(date +%Y%m%d)"_SAGE.txt"
+    rm $TMP/$SAGE_EMAILFILE.header $TMP/$SAGE_EMAILFILE $TMP/$SAGE_EMAILFILE.footer
 }
 
 if ! test "$SAMBA_IP" || ! test "$SAMBA_SHARE" || ! test "$SAMBA_AUTH" || ! test "$SAMBA_SAGEEXP_SUBDIR" || ! test "$SAMBA_SAGEFILE"; then
