@@ -37,6 +37,7 @@ Compte:
       raison_sociale_societe: { required: false }
       type_societe: { required: false }
       teledeclaration_active: { required: false }
+      region: { required: false }
       societe_informations:
         type: collection
         definition:
@@ -67,4 +68,3 @@ Compte:
         definition:
           fields:
             '*': { }
- 
