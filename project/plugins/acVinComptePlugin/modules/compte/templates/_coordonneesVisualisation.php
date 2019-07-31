@@ -96,6 +96,16 @@
         </div>
     <?php endif; ?>
 </fieldset>
+<?php if($compte->exist('region')): ?>
+<fieldset>
+  <div class="form_ligne">
+      <label for="region">
+          Région ODG :
+      </label>
+      <?php echo $compte->region; ?>
+  </div>
+</fieldset>
+<?php endif; ?>
 <?php if($compte->exist('droits')): ?>
 <fieldset>
         <div class="form_ligne">

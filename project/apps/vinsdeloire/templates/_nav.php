@@ -168,7 +168,8 @@
 
         <?php endif; ?>
 
-        <?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev') || in_array('teledeclaration_drev', isset($droits) ? $droits->getRawValue() : array()))): ?>
+        <?php
+          if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev') || in_array('teledeclaration_drev', isset($droits) ? $droits->getRawValue() : array()))): ?>
           <?php
           $url = null;
           if($sf_user->getCompte()){
@@ -181,7 +182,12 @@
         <?php endif; ?>
 
         <?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev_admin') || in_array('teledeclaration_drev_admin', isset($droits) ? $droits->getRawValue() : array()))) : ?>
-          <li <?php if(isset($droits)): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
+          <?php if((isset($etablissement) && !isset($droits))): ?>
+            <li class="actif"><a href="/odg/<?php echo "declarations/".$etablissement->identifiant; ?>">DRev</a></li>
+          <?php else: ?>
+            <?php $url = "/odg/declaration?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$sf_user->getCompte()->identifiant; ?>
+            <li><a href="<?php echo $url ?>" >DRev</a></li>
+          <?php endif; ?>
         <?php endif; ?>
 
         <!-- Actions utilisateur pour tablette et mobile -->
