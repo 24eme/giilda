@@ -94,9 +94,11 @@ class DRMMatierePremiereForm extends acCouchdbForm {
             $detailsMp->add('edited',true);
             $sortiesValues = $this->getValue('sorties_'.$detailsMpKey);
             foreach($sortiesValues as $hash => $sortie) {
+
                 if (!$sortie['tav'] || !$sortie['volume']) {
                     continue;   
                 }
+
                 $detailSplittedKey = explode("-",$hash);
                 $detailAlcool = DRMESDetailAlcoolPur::freeInstance($this->getDocument());
 
