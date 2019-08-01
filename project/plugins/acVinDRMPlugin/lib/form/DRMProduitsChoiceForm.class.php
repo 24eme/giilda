@@ -98,7 +98,7 @@ class DRMProduitsChoiceForm extends acCouchdbObjectForm {
         if($this->_drm->exist($hash) && !preg_match("/(AUTRES)/", $hash)) {
             $checked = true;
         }
-        if($this->_drm->exist($hash) && $this->_drm->get($hash)->getTotalDebutMois()) {
+        if($this->_drm->exist($hash) && ! $this->_drm->get($hash)->hasStockEpuise()) {
             $checked = true;
         }
 
