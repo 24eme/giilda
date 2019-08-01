@@ -1,4 +1,4 @@
-<div class="form_contenu">                  
+<div class="form_contenu">
     <?php
         echo $compteForm->renderHiddenFields();
         echo $compteForm->renderGlobalErrors();
@@ -35,14 +35,14 @@
             </label>
             <?php echo $compteForm['commune']->render(array('class' => 'champ_long')); ?>
             <?php echo $compteForm['commune']->renderError(); ?>
-        </div>                
+        </div>
         <div class="form_ligne">
             <label for="cedex">
                 <?php echo $compteForm['cedex']->renderLabel(); ?>
             </label>
             <?php echo $compteForm['cedex']->render(); ?>
             <?php echo $compteForm['cedex']->renderError(); ?>
-        </div>                 
+        </div>
         <div class="form_ligne">
             <label for="pays">
                 <?php echo $compteForm['pays']->renderLabel(); ?>
@@ -100,6 +100,17 @@
         </div>
         <?php endif; ?>
     </fieldset>
+    <?php if(isset($compteForm['region'])): ?>
+    <fieldset>
+        <div class="form_ligne">
+            <legend>Région Odg</legend>
+        </div>
+        <div class="form_ligne">
+            <?php echo $compteForm['region']->renderError(); ?>
+            <?php echo $compteForm['region']->render(); ?>
+        </div>
+    </fieldset>
+  <?php endif; ?>
     <fieldset>
         <div class="form_ligne">
             <legend>Droits</legend>

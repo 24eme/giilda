@@ -46,6 +46,7 @@ Etablissement:
        raison_sociale: {  }
        nom: {  }
        cvi: {  }
+       ppm: { required: false }       
        no_accises: {  }
        carte_pro: {  }
        famille: {  }
