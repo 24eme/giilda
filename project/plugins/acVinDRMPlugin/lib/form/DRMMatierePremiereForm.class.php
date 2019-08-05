@@ -84,35 +84,42 @@ class DRMMatierePremiereForm extends acCouchdbForm {
         return $produits;
     }
 
+    public function updateDetail($detailsMp, $key, $values) {
+        $explodedKey = explode("-",$key);
+        $detailAlcool = DRMESDetailAlcoolPur::freeInstance($this->getDocument());
+        $detailAlcool->setProduit($this->getDocument()->get($explodedKey[1]));
+        $detailAlcool->tav = $values['tav'];
+        $detailAlcool->volume = $values['volume'];
+        $detailsMp->sorties->transfertsrecolte_details->addDetail($detailAlcool);
+    }
+
     public function save() {
         if(!$this->isBound()) {
             return;
         }
-
         foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
             $detailsMp->stocks_debut->initial = $this->getValue('stocks_debut_'.$detailsMpKey);
             $detailsMp->add('edited',true);
+        }
+        foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
             $sortiesValues = $this->getValue('sorties_'.$detailsMpKey);
             foreach($sortiesValues as $hash => $sortie) {
-                if (!$sortie['tav'] || !$sortie['volume']) {
-                    continue;   
-                }
-                $detailSplittedKey = explode("-",$hash);
-                $detailAlcool = DRMESDetailAlcoolPur::freeInstance($this->getDocument());
-
-                /*if(!$sortie['volume']){
-                    $k = str_replace("/","-",$detailSplittedKey[1]);
-                    echo $detailSplittedKey[1]."\n";
-                    $detailsMp->sorties->transfertsrecolte_details->remove($k);
-
+                if ($sortie['volume']) {
                     continue;
-                }*/
-
-                $detailAlcool->setProduit($this->getDocument()->get($detailSplittedKey[1]));
-                $detailAlcool->tav = $sortie['tav'];
-                $detailAlcool->volume = $sortie['volume'];
-                $detailsMp->sorties->transfertsrecolte_details->addDetail($detailAlcool);
+                }
+                $this->updateDetail($detailsMp, $hash, $sortie);
             }
+        }
+        foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
+            $sortiesValues = $this->getValue('sorties_'.$detailsMpKey);
+            foreach($sortiesValues as $hash => $sortie) {
+                if (!$sortie['volume']) {
+                    continue;
+                }
+                $this->updateDetail($detailsMp, $hash, $sortie);
+            }
+        }
+        foreach ($this->detailsMp as $detailsMpKey => $detailsMp) {
             $detailsMp->sorties->transfertsrecolte_details->cleanEmpty();
         }
         $this->getDocument()->update();
