@@ -21,7 +21,7 @@ class DRMMatierePremiereForm extends acCouchdbForm {
         $this->drm = $drm;
         $this->detailsMp = array();
         $defaults = array();
-        foreach($this->drm->getProduitsDetails() as $detailsMp) {
+        foreach($this->drm->getProduitsDetails(true, DRM::DETAILS_KEY_SUSPENDU) as $detailsMp) {
             if($detailsMp->isMatierePremiere()){
               $this->detailsMp[str_replace('/', '-', $detailsMp->getHash())] = $detailsMp;
               $defaults['stocks_debut_'.str_replace('/', '-', $detailsMp->getHash())] = $detailsMp->stocks_debut->initial;
@@ -74,7 +74,7 @@ class DRMMatierePremiereForm extends acCouchdbForm {
     public function getDetailsAlcool() {
         $produits = array();
 
-        foreach($this->getDocument()->getProduitsDetails() as $detail) {
+        foreach($this->getDocument()->getProduitsDetails(true, DRM::DETAILS_KEY_SUSPENDU) as $detail) {
             if(!$detail->exist('tav')) {
                 continue;
             }

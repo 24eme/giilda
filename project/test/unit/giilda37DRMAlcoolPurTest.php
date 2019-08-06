@@ -43,6 +43,7 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k =>
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
 
 $drm->addProduit($produit_hash_matiere_premiere, "details");
+$drm->addProduit($produit_hash_matiere_premiere, "detailsACQUITTE");
 $drm->addProduit($produit_hash_matiere_premiere, "details", "Meilleur");
 $drm->addProduit($produit_hash_alcoolpur, "details", null, 42);
 $drm->addProduit($produit_hash_alcoolpur, "details");
