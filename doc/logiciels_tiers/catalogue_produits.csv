@@ -223,6 +223,7 @@ AOP,,Pouilly-Fuissé,,,,,Pouilly-Fuissé,1B399
 AOP,,Saint-Véran,,,,,Saint-Véran,1B422
 AOP,,Chignin,,,Blanc,,Chignin Blanc,1B448S
 AOP,,Cotes du Roussillon,,,Blanc,,Cotes du Roussillon Blanc,1B480S
+AOP,,Cotes du Roussillon,,,Rouge,,Cotes du Roussillon Rouge,1R480S
 AOP,,Limoux,,,Blanc,,Limoux Blanc,1B483S
 AOP,,Limoux,,,Rouge,,Limoux Rouge,1R483S
 AOP,,Picpoul de Pinet,,,,,Picpoul de Pinet,1B512
@@ -277,11 +278,14 @@ AOP,,Saint-Joseph,,,Rouge,,Saint-Joseph Rouge,1R545
 AOP,,Luberon,,,Rosé,,Luberon Rosé,1S533S
 AOP,,Gard,,,Rosé,,Gard Rosé,3S301
 AOP,,Côtes de Bordeaux,,,Rouge,,Côtes de Bordeaux Rouge,1R120S
+AOP,,Pomerol,,,,,Pomerol,1R151S
 AOP,Mousseux,Montlouis sur Loire,,,Blanc,Chenin,Montlouis sur Loire Mousseux,1B225M 1
 AOP,Mousseux,Montlouis sur Loire,Pétillant,,Blanc,Chenin,Montlouis sur Loire Pétillant,1B225P 1
 AOP,Mousseux,Autres que celles du Val de Loire,,,,,Autres que celles du Val de Loire Mousseux,VM_IG_AOP
 AOP,Mousseux,Champagne,,,Blanc,,Champagne Blanc,1B080M 1
 AOP,Mousseux,Champagne,,,Rosé,,Champagne Rosé,1S080M 1
+AOP,Mousseux,Crémant d'Alsace,,,Blanc,,Crémant d'Alsace Mousseux Blanc,1B001M00
+AOP,Mousseux,Crémant d'Alsace,,,Rosé,,Crémant d'Alsace Mousseux Rosé,1S001M00
 AOP,VCI,Bourgueil,,,Rouge,,VCI Bourgueil Rouge,1R220S99
 AOP,,Châteaumeillant,,,Rouge,,Châteaumeillant Rouge,1R700
 AOP,,Châteaumeillant,,,Rosé,,Châteaumeillant Rosé,1S700
@@ -363,6 +367,7 @@ IGP,,Oc,,,Rouge,Cabernet sauvignon,IGP Oc Rouge Cabernet sauvignon,3R001 BX
 IGP,,Oc,,,Rouge,Multi cépage,IGP Oc Rouge Multi cépage,3R001 00
 IGP,,Oc,,,Rouge,Syrah,IGP Oc Rouge Syrah,3R001 AI
 IGP,,Oc,,,Rouge,Cabernet franc,IGP Oc Rouge Cabernet franc,3R001 BW
+IGP,,Oc,,,Rouge,Grenache,IGP Oc Rouge Grenache,3R001 CS
 IGP,,Autres que celles du Val de Loire,,,,,IGP Autres que celles du Val de Loire,VT_IG_IGP
 IGP,,Calvados,,,Blanc,,IGP Calvados Blanc,3B141
 IGP,,Calvados,,,Rouge,,IGP Calvados Rouge,3R141
@@ -395,6 +400,8 @@ Autres vins,Mousseux,Vins sans IG,,,Blanc,,Vins sans IG Mousseux Blanc,4B999M
 Autres vins,Mousseux,Vins sans IG,,,Rouge,,Vins sans IG Mousseux Rouge,4R999M
 Autres vins,Mousseux,Vins sans IG,,,Rosé,,Vins sans IG Mousseux Rosé,4S999M
 Autres vins,Mousseux,Vins mousseux étrangers,,,,,Vins mousseux étrangers,VM_ETRANGERS
+Autres vins,,Pétillants,,,,,Pétillants,PETILLANTS
+Autres vins,,Pétillants - PREMIX,,,,,Pétillants - PREMIX,PETILLANTS_PREMIX
 Autres alcools,,Bière > 2.8°,,,,,Bière > 2.8°,BIERE_SUP_2_8_BRASSERIE_TAUX_NORMAL
 Autres alcools,,Bière < 2.8°,,,,,Bière < 2.8°,BIERE_INF_2_8
 Autres alcools,,Cidres. Poirés,,,,,Cidres. Poirés,CIDRES
@@ -405,6 +412,12 @@ Autres alcools,,Vins de liqueur et Vins doux naturels > 18°,,,,,Vins de liqueur
 Autres alcools,,Vins de liqueur et Vins doux naturels < 18°,,,,,Vins de liqueur et Vins doux naturels < 18°,VDN_VDL_AOP_INF_18
 Autres alcools,,Autres alcools < 18°,,,,,Autres alcools < 18°,ALCOOL_AUTRE_INF_18
 Autres alcools,,Autres alcools > 18°,,,,,Autres alcools > 18°,ALCOOL_AUTRE_SUP_18
+Autres alcools,,Boissons fermentées. autres que le vin et la bière,,,,,Boissons fermentées. autres que le vin et la bière,BOISSONS_FERMENTEES_AUTRES
+Autres alcools,,Boissons fermentées. autres que le vin et la bière - PREMIX,,,,,Boissons fermentées. autres que le vin et la bière - PREMIX,BOISSONS_FERMENTEES_AUTRES_PREMIX
+Autres alcools,,Autres alcools < 18° - PREMIX,,,,,Autres alcools < 18° - PREMIX,ALCOOL_AUTRE_INF_18_PREMIX
+Autres alcools,,Matières premières pour spiritueux (chap. 2208 tarif des douanes),,,,,Matières premières pour spiritueux (chap. 2208 tarif des douanes),MATIERES_PREMIERES_SPIRITUEUX
+Autres alcools,,Matières premières pour alcools,,,,,Matières premières pour alcools,MATIERES_PREMIERES_ALCOOLS
+Autres alcools,,Muscat de Rivesaltes,,,,,Muscat de Rivesaltes,1B184N
 Autres,,,Lies et Bourbes,,,,Lies et Bourbes,4X999V
 Autres,,,Lies. Bourbes et vins à éliminer,,,,Lies. Bourbes et vins à éliminer,5X999V
 Autres,,DRA (Dépassement de Rendement Autorisé),,,Blanc,,DRA (Dépassement de Rendement Autorisé) Blanc,4B988Y

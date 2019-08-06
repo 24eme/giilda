@@ -1308,6 +1308,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
+    public function hasStatistiquesEuropeennes() {
+        $stats = $this->getExportableStatistiquesEuropeennes();
+        return (count($stats));
+    }
+
     public function hasReleveNonApurement() {
       if(!$this->exist('releve_non_apurement')){
         return false;
