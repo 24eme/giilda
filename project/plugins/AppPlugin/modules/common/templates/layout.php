@@ -1,7 +1,5 @@
 <?php
-
 $gitcommit = file_get_contents('../../.git/ORIG_HEAD');
-echo " $gitcommit  ";
  ?><!DOCTYPE html>
 <html lang="fr">
     <head>
