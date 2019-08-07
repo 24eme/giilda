@@ -519,7 +519,9 @@ class DRMClient extends acCouchdbClient {
         $drm->periode = $periode;
         $drm->teledeclare = $isTeledeclarationMode;
         $drm->etape = self::ETAPE_SAISIE;
-        $drm->buildFavoris();
+        $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
+
+        $drm->buildFavoris($drmLast);
         $drm->initSociete();
         $drm->initCrds();
         $drm->initProduitsAutres($isTeledeclarationMode);
@@ -527,7 +529,6 @@ class DRMClient extends acCouchdbClient {
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
-        $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
 
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
@@ -718,6 +719,15 @@ class DRMClient extends acCouchdbClient {
       }
       if (preg_match('/^MOU/', $s)) {
         return self::DRM_CRD_CATEGORIE_MOUSSEUX;
+      }
+      if (preg_match('/^COGNAC/', $s)) {
+        return self::DRM_CRD_CATEGORIE_COGNAC;
+      }
+      if (preg_match('/^ALCOOL/', $s)) {
+        return self::DRM_CRD_CATEGORIE_ALCOOLS;
+      }
+      if (preg_match('/^PI/', $s) || preg_match('/^PRODUIT/', $s)) {
+          return self::DRM_CRD_CATEGORIE_PI;
       }
       return '';
     }
