@@ -23,6 +23,7 @@ class DRMEmailManager {
         sfProjectConfiguration::getActive()->loadHelpers("Date");
         sfProjectConfiguration::getActive()->loadHelpers("Orthographe");
         sfProjectConfiguration::getActive()->loadHelpers("DRM");
+        sfProjectConfiguration::getActive()->loadHelpers("Url");
     }
 
     public function setDRM($drm) {
@@ -38,22 +39,20 @@ class DRMEmailManager {
                 $typeInfos = $this->drm->getDeclarant();
                 $typeLibelle = "l'etablissement";
                 $identification = $typeInfos->nom . " (" . $this->drm->identifiant . ")";
-                //$url = $this->generateUrl('etablissement_visualisation', array('identifiant' => $this->drm->identifiant));
-                $url = null;
+                $url = url_for('etablissement_visualisation', array('identifiant' => $this->drm->identifiant), true);
                 break;
 
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
-                $identification = $typeInfos->raison_sociale . " - " . substr(0, 6, $this->drm->identifiant) . "";
-                //$url = $this->generateUrl('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)));
-                $url = null; 
+                $identification = $typeInfos->raison_sociale . " (" . substr(0, 6, $this->drm->identifiant) . ")";
+                $url = url_for('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)), true);
                 break;
         }
 
         $mess = "Les coordonnées de " . $typeLibelle . " " . $identification . " <" .$url . "> ont été modifiées.
 
-Voici les différentes modifications effectuées par le viticulteur à partir de la DRM de ".$this->drm->getHumanPeriode()." :
+Voici les différentes modifications effectuées par l'opérateur sur la DRM " . getFrPeriodeElision($this->drm->periode) . " :
 
 ";
         foreach ($diff as $key => $value) {
