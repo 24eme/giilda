@@ -63,7 +63,7 @@ use_helper('Display');
                 </label>
                 <?php echo str_replace('{TEXT}', '', $societe->getMasterCompte()->mot_de_passe); ?>
               </div>
-          <?php elseif(preg_match('/\{OUBLIE\}'), $societe->getMasterCompte()->mot_de_passe): ?>
+          <?php elseif(preg_match('/\{OUBLIE\}/', $societe->getMasterCompte()->mot_de_passe)): ?>
                 <div class="form_ligne">
                   <label for="teledeclaration_email" class="label_liste">
                     Code de création :
