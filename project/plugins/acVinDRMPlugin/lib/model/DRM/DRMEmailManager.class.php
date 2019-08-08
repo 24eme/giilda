@@ -39,14 +39,14 @@ class DRMEmailManager {
                 $typeInfos = $this->drm->getDeclarant();
                 $typeLibelle = "l'etablissement";
                 $identification = $typeInfos->nom . " (" . $this->drm->identifiant . ")";
-                $url = url_for('etablissement_visualisation', array('identifiant' => $this->drm->identifiant), true);
+                $url = sfConfig::get('app_vinsi_url').url_for('etablissement_visualisation', array('identifiant' => $this->drm->identifiant));
                 break;
 
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
                 $identification = $typeInfos->raison_sociale . " (" . substr(0, 6, $this->drm->identifiant) . ")";
-                $url = url_for('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)), true);
+                $url = sfConfig::get('app_vinsi_url').url_for('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)));
                 break;
         }
 
