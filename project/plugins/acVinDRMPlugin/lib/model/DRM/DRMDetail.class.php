@@ -361,12 +361,12 @@ class DRMDetail extends BaseDRMDetail {
 
     public function hasMouvement() {
 
-        return $this->total_entrees > 0 || $this->total_entrees_revendique > 0 || $this->total_sorties > 0 || $this->total_sorties_revendique > 0;
+        return $this->total_entrees > 0.0000001 || $this->total_entrees_revendique > 0.0000001 || $this->total_sorties > 0.0000001 || $this->total_sorties_revendique > 0.0000001;
     }
 
     public function hasStockEpuise() {
 
-        return $this->total_debut_mois == 0 && !$this->hasMouvement() && $this->total == 0 && $this->total_revendique == 0;
+        return $this->total_debut_mois <= 0.0000001 && !$this->hasMouvement() && $this->total <= 0.0000001 && $this->total_revendique <= 0.0000001;
     }
 
     public function isSupprimable() {
@@ -626,7 +626,7 @@ class DRMDetail extends BaseDRMDetail {
       }
       return $this->_get('tav');
     }
-    
+
     public function getCorrespondanceNegoce()
     {
         if ($this->isCodeDouaneNonINAO()) {
