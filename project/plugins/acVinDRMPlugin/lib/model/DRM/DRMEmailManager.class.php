@@ -38,14 +38,16 @@ class DRMEmailManager {
                 $typeInfos = $this->drm->getDeclarant();
                 $typeLibelle = "l'etablissement";
                 $identification = $typeInfos->nom . " (" . $this->drm->identifiant . ")";
-                $url = $this->generateUrl('etablissement_visualisation', array('identifiant' => $this->drm->identifiant));
+                //$url = $this->generateUrl('etablissement_visualisation', array('identifiant' => $this->drm->identifiant));
+                $url = null;
                 break;
 
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
                 $identification = $typeInfos->raison_sociale . " - " . substr(0, 6, $this->drm->identifiant) . "";
-                $url = $this->generateUrl('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)));
+                //$url = $this->generateUrl('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)));
+                $url = null; 
                 break;
         }
 
