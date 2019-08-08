@@ -76,7 +76,7 @@ function details2XmlDouane($detail, $isNegoce = false) {
 		foreach ($detail->get($type) as $k => $v) {
 			if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
 				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->get($confKey)),  $v);
-				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey))) {
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees') {
 					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth(), true);
 					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear(),  true);
 				}
