@@ -40,6 +40,7 @@ if($compte->getSociete()->isTransaction()){
             </div>
             <div class="modification clearfix"<?php if (!$form->hasErrors()) echo ' style="display:none;"'; ?>>
                 <p class="intro">Modification de vos identifiants de connexion :</p>
+                <p class="titre_section"><strong>Votre mot de passe</strong> doit contenir au minimum 8 caractères alphanumériques.</p>
                 <br/>
                 <form method="post" action="">
                     <?php echo $form->renderHiddenFields(); ?>

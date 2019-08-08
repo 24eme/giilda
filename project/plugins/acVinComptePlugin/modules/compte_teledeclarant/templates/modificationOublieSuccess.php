@@ -9,13 +9,13 @@
         <!-- #nouvelle_declaration -->
         <div id="nouvelle_declaration">
             <h3 class="titre_section" style="margin: 10px 0;">Connexion</h3>
-
+            <p class="titre_section"><strong>Votre mot de passe</strong> doit contenir au minimum 8 caractères alphanumériques.</p>
             <div class="contenu_section">
                 <p class="intro">Merci d'indiquer un nouveau mot de passe: </p>
                 <div class="ligne_form ligne_form_label">
                     <?php echo $form->renderHiddenFields(); ?>
                     <?php echo $form->renderGlobalErrors(); ?>
-                    
+
                     <?php echo $form['mdp1']->renderError() ?>
                     <?php echo $form['mdp1']->renderLabel() ?>
                     <?php echo $form['mdp1']->render() ?>
