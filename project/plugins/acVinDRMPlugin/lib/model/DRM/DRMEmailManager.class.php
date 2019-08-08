@@ -38,16 +38,19 @@ class DRMEmailManager {
                 $typeInfos = $this->drm->getDeclarant();
                 $typeLibelle = "l'etablissement";
                 $identification = $typeInfos->nom . " (" . $this->drm->identifiant . ")";
+                $url = $this->generateUrl('etablissement_visualisation', array('identifiant' => $this->drm->identifiant));
                 break;
 
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
-                $identification = $typeInfos->raison_sociale . " (" . substr(0, 6, $this->drm->identifiant) . ")";
+                $identification = $typeInfos->raison_sociale . " - " . substr(0, 6, $this->drm->identifiant) . "";
+                $url = $this->generateUrl('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)));
                 break;
         }
 
-        $mess = "Les coordonnée de " . $typeLibelle . " " . $identification . " ont été modifiés.
+        $mess = "Les coordonnées de " . $typeLibelle . " " . $identification . " <" .$url . "> ont été modifiées.
+
 Voici les différentes modifications enregistrées :
 
 ";
@@ -62,7 +65,7 @@ Voici les différentes modifications enregistrées :
 L’application de télédéclaration des contrats d’InterLoire";
 
 
-        $subject = "Changement de coordonnées de la société " . $typeLibelle . " (" . $identification . ")";
+        $subject = "Changement de coordonnées de " . $typeLibelle . " " . $identification;
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
         try {
