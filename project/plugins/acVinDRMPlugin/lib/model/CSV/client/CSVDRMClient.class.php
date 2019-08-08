@@ -10,6 +10,10 @@ class CSVDRMClient extends acCouchdbClient {
         return acCouchdbManager::getClient("CSVDRM");
     }
 
+    public function findFromIdentifiantPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        return $this->find($this->buildId(self::TYPE_DRM, $identifiant, $periode), $hydrate);
+    }
+
     public function createOrFindDocFromDRM($path, DRM $drm) {
         $csvId = $this->buildId($drm->identifiant, $drm->periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT);
         $csvDrm = $this->find($csvId, $hydrate);
@@ -26,8 +30,8 @@ class CSVDRMClient extends acCouchdbClient {
         return $csvDrm;
     }
 
-    public function buildId($identifiant, $periode) {
-        return "CSVDRM-" . $identifiant . "-" . $periode;
+    public function buildId($type, $identifiant, $periode) {
+        return "CSV".$type."-" . $identifiant . "-" . $periode;
     }
 
 }
