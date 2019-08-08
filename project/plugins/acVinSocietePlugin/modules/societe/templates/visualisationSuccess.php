@@ -63,6 +63,14 @@ use_helper('Display');
                 </label>
                 <?php echo str_replace('{TEXT}', '', $societe->getMasterCompte()->mot_de_passe); ?>
               </div>
+          <?php elseif(preg_match('/\{OUBLIE\}'), $societe->getMasterCompte()->mot_de_passe): ?>
+                <div class="form_ligne">
+                  <label for="teledeclaration_email" class="label_liste">
+                    Code de création :
+                  </label>
+                  <?php $lien = 'https://'.sfConfig::get('app_routing_context_production_host').url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $societe->getMasterCompte()->mot_de_passe))); ?>
+                  En procédure de mot de passe oublié, lien reçu dans le mail : <a href="<?php echo $lien; ?>"><?php echo $lien; ?></a>
+                </div>
             <?php else: ?>
               <div class="form_ligne">
                 <label for="teledeclaration_email" class="label_liste">
