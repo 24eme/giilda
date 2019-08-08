@@ -226,7 +226,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         foreach($drm->getAllCrds() as $regime => $crds) {
             foreach($crds as $crd) {
-                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, true);
+                $stock = null;
+                if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                    $stock = $crd->stock_debut;
+                }
+                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, $stock, true);
             }
         }
     }
@@ -281,8 +285,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $drm_suivante->remove('favoris');
         }
 
-        if (!$drm_suivante->exist('favoris') || ($this->periode == '201508')) {
-            $drm_suivante->buildFavoris();
+        if (!$drm_suivante->exist('favoris')) {
+            $drm_suivante->buildFavoris($this);
         }
         return $drm_suivante;
     }
@@ -1018,7 +1022,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $drm_modificatrice = $this->version_document->generateModificative();
         $drm_modificatrice->etape = DRMClient::ETAPE_SAISIE;
         if (!$drm_modificatrice->exist('favoris')) {
-            $drm_modificatrice->buildFavoris();
+            $drm_modificatrice->buildFavoris($this);
         }
         return $drm_modificatrice;
     }
@@ -1490,10 +1494,21 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     /*     * * FIN ADMINISTRATION ** */
 
     /**     * FAVORIS ** */
-    public function buildFavoris() {
-        foreach ($this->drmDefaultFavoris() as $key => $value) {
-            $keySplitted = explode('/', $key);
-            $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->getOrAdd($keySplitted[1])->add($keySplitted[2], $value);
+    public function buildFavoris($drmBase = null) {
+        if ($drmBase && $drmBase->exist('favoris')) {
+            foreach($drmBase->favoris as $d => $es) {
+                foreach($es as $entree_ou_sortie => $detail) {
+                    foreach($detail as $k => $v) {
+                        $this->getOrAdd('favoris')->getOrAdd($d)->getOrAdd($entree_ou_sortie)->add($k, $v);
+                    }
+                }
+            }
+        }
+        if (!$this->exist('favoris')) {
+            foreach ($this->drmDefaultFavoris() as $key => $value) {
+                $keySplitted = explode('/', $key);
+                $this->getOrAdd('favoris')->getOrAdd($keySplitted[0])->getOrAdd($keySplitted[1])->add($keySplitted[2], $value);
+            }
         }
     }
 
