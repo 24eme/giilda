@@ -51,19 +51,13 @@ class DRMEmailManager {
 
         $mess = "Les coordonnées de " . $typeLibelle . " " . $identification . " <" .$url . "> ont été modifiées.
 
-Voici les différentes modifications enregistrées :
+Voici les différentes modifications effectuées par le viticulteur à partir de la DRM de ".$this->drm->getHumanPeriode()." :
 
 ";
         foreach ($diff as $key => $value) {
-            $mess .= $key . " : " . $value . "
+            $mess .= "- ".$key . " : " . $value . "
 ";
         }
-        $mess .= "
-
-——
-
-L’application de télédéclaration des contrats d’InterLoire";
-
 
         $subject = "Changement de coordonnées de " . $typeLibelle . " " . $identification;
 
