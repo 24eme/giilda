@@ -38,9 +38,9 @@ slot('colButtons');
 $url_retour_espace = null;
 $text_retour_espace = 'Actions';
 if (isset($drm)) {
-    $url_retour_espace = ($isTeledeclarationMode && !$sf_user->isUsurpationCompte()) ?
+    $url_retour_espace = ($isTeledeclarationMode && !$sf_user->hasCredentialAdmin()) ?
             url_for('drm_societe', array('identifiant' => $etablissementPrincipal->identifiant)) : url_for('drm_etablissement', array('identifiant' => $drm->identifiant));
-    $text_retour_espace = ($isTeledeclarationMode) ? 'Retour à mes DRM' : "Retour au calendrier";
+    $text_retour_espace = ($isTeledeclarationMode && !$sf_user->hasCredentialAdmin()) ? 'Retour à mes DRM' : "Retour au calendrier";
 }
 ?>
 <div class="bloc_col" >
