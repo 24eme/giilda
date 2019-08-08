@@ -486,6 +486,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function devalidate(){
       $this->valide->date_saisie = null;
       $this->valide->date_signee = null;
+      if ($this->exist('transmission_douane')) {
+          $this->transmission_douane->success = null;
+      }
       $this->clearMouvements();
     }
 
