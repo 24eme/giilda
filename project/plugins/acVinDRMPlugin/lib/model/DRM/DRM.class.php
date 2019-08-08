@@ -1806,10 +1806,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     }
 
     public function transferToCiel() {
-        if($this->changedToTeledeclare()) {
+        if($this->getEtablissementObject()->no_accises) {
             $this->declarant->no_accises = $this->getEtablissementObject()->no_accises;
         }
-
       $xml = $this->getXML();
       $service = new CielService();
       return $service->transferAndStore($this, $xml);
