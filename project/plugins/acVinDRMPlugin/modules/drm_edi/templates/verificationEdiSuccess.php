@@ -1,10 +1,7 @@
 <section id="principal">
     <h2>Import d'une DRM</h2>
-    <?php if ($csvDoc->statut == DRMCsvEdi::STATUT_WARNING) : ?>
-      <p>Votre fichier contient des points d'attention :</p>
-    <?php elseif ($csvDoc->statut == DRMCsvEdi::STATUT_ERROR) : ?>
-      <p>Votre fichier contient des erreurs :</p>
-    <?php endif; ?>
+
+    <a href="<?php echo url_for('drm_csv_edi', array('identifiant' => $csvDoc->identifiant, 'periode' => $csvDoc->periode)) ?>">Télécharger le fichier vérsé</a>
 
     <?php if (count($csvDoc->erreurs)): ?>
         <h2>Rapport d'erreurs</h2>

@@ -2,6 +2,21 @@
 
 class drm_ediActions extends drmGeneriqueActions {
 
+    public function executeCsv(sfWebRequest $request) {
+        $identifiant = $request->getParameter('identifiant');
+        $periode = $request->getParameter('periode');
+
+        $csv = CSVClient::getInstance()->findFromIdentifiantPeriode($identifiant, $periode);
+
+        $filename = 'import_edi_'.$identifiant.'_'.$periode.'.csv';
+
+        $this->response->setContent(file_get_contents($csv->getAttachmentUri($filename)));
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', "attachment; filename=" . $filename);
+
+        return sfView::NONE;
+    }
+
     /**
      *
      * @param sfWebRequest $request
