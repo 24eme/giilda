@@ -4,8 +4,6 @@
     <?php else: ?>
         <h2>Import d'une DRM</h2>
     <?php endif; ?>
-    <a href="<?php echo url_for('drm_csv_edi', array('identifiant' => $csvDoc->identifiant, 'periode' => $csvDoc->periode)) ?>">Télécharger le fichier versé</a>
-
     <?php if (count($csvDoc->erreurs)): ?>
         <h2>Rapport d'erreurs</h2>
         <table class="table_recap">
@@ -25,8 +23,12 @@
             <?php endforeach; ?>
         </table>
         <br/>
+    <?php else: ?>
+        <h2>Le fichier a été intégré sans problème</h2>
+        <br/>
     <?php endif; ?>
-
+    <p><a href="<?php echo url_for('drm_csv_edi', array('identifiant' => $csvDoc->identifiant, 'periode' => $csvDoc->periode)) ?>">Télécharger le fichier versé</a></p>
+    <br/>
     <?php if(!isset($drm)): ?>
     <br>
     <h2>Utiliser un autre fichier</h2>
