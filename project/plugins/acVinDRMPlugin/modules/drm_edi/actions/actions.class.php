@@ -37,9 +37,13 @@ class drm_ediActions extends drmGeneriqueActions {
             $drm->teledeclare = true;
         }
 
-        $drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
-        $drmCsvEdi->checkCSV();
-        $this->csvDoc = $drmCsvEdi->getCsvDoc();
+        if (!$request->getParameter('nocheck')) {
+            $drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
+            $drmCsvEdi->checkCSV();
+            $this->csvDoc = $drmCsvEdi->getCsvDoc();
+        }else{
+            $this->csvDoc = CsvClient::getInstance()->findFromIdentifiantPeriode($this->identifiant, $this->periode);
+        }
 
         if(!$drm->isNew()) {
             $this->drm = $drm;
