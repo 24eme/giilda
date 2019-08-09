@@ -22,7 +22,7 @@
 <?php else: ?>
             <div class="<?php echo getEtatDRMPictoCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?>">
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
-<p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?></span>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?></p>
+<p class="lignestatut">Etat : <span class="statut"><?php echo getEtatDRMCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?></span>&nbsp;<?php echo getTeledeclareeLabelCalendrier($isTeledeclarationMode, $calendrier, $periode) ?> <?php if($md5 = getDRMCSVCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement)): ?><small style="font-size: 11px;">(<a href="<?php echo url_for('drm_verification_fichier_edi', array('identifiant' => $etablissement->identifiant, 'periode' => $periode, 'md5' => $md5)) ?>">csv</a>)</small><?php endif; ?></p>
 
                    <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode)) : ?>
                     <a href="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="action <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): echo 'drm_nouvelle_teledeclaration';

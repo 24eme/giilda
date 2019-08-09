@@ -228,6 +228,27 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode, $isTeledeclarationMo
     return $statut;
 }
 
+function getDRMCSVCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement = false) {
+    if(!$isTeledeclarationMode) {
+        return false;
+    }
+
+    $statut = $calendrier->getStatut($periode, $etablissement);
+
+    if ($statut != DRMCalendrier::STATUT_NOUVELLE) {
+
+        return false;
+    }
+
+    $csv = CSVClient::getInstance()->findFromIdentifiantPeriode($etablissement->identifiant, $periode);
+    if(!$csv) {
+
+        return false;
+    }
+
+    return md5(file_get_contents($csv->getAttachmentUri('import_edi_'.$etablissement->identifiant.'_'.$periode.'.csv')));
+}
+
 function getLibelleForGenre($genre) {
     if ($genre == 'TRANQ') {
         return 'TRANQUILLE';

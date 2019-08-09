@@ -38,7 +38,7 @@ slot('colButtons');
     <h2>Action</h2>
     <div class="contenu">
         <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Accueil des sociétés</span></a>
+            <a href="<?php echo url_for('societe'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
         </div>
     </div>
     <div class="contenu">

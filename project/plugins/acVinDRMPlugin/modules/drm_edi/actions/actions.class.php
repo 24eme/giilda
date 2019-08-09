@@ -2,6 +2,21 @@
 
 class drm_ediActions extends drmGeneriqueActions {
 
+    public function executeCsv(sfWebRequest $request) {
+        $identifiant = $request->getParameter('identifiant');
+        $periode = $request->getParameter('periode');
+
+        $csv = CSVClient::getInstance()->findFromIdentifiantPeriode($identifiant, $periode);
+
+        $filename = 'import_edi_'.$identifiant.'_'.$periode.'.csv';
+
+        $this->response->setContent(file_get_contents($csv->getAttachmentUri($filename)));
+        $this->response->setContentType('text/csv');
+        $this->response->setHttpHeader('Content-Disposition', "attachment; filename=" . $filename);
+
+        return sfView::NONE;
+    }
+
     /**
      *
      * @param sfWebRequest $request
@@ -13,19 +28,27 @@ class drm_ediActions extends drmGeneriqueActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
-        $drm = new DRM();
-        $drm->identifiant = $this->identifiant;
-        $drm->periode = $this->periode;
-        $drm->teledeclare = true;
+        $drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $this->periode);
+
+        if(!$drm) {
+            $drm = new DRM();
+            $drm->identifiant = $this->identifiant;
+            $drm->periode = $this->periode;
+            $drm->teledeclare = true;
+        }
 
         $drmCsvEdi = new DRMImportCsvEdi($csvFilePath, $drm);
         $drmCsvEdi->checkCSV();
         $this->csvDoc = $drmCsvEdi->getCsvDoc();
 
+        if(!$drm->isNew()) {
+            $this->drm = $drm;
+            return sfView::SUCCESS;
+        }
+
         if($this->csvDoc->statut == DRMCsvEdi::STATUT_VALIDE) {
           return $this->redirect('drm_creation_fichier_edi', array('periode' => $this->periode, 'md5' => $this->md5, 'identifiant' => $this->identifiant));
         }
-
 
         $this->creationEdiDrmForm = new DRMChoixCreationForm(array('type_creation' => DRMClient::DRM_CREATION_EDI), array('identifiant' => $this->identifiant, 'periode' => $this->periode));
         if ($request->isMethod(sfWebRequest::POST)) {

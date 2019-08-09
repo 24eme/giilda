@@ -46,6 +46,11 @@
                     </tbody>
                 </table>
             <?php endforeach; ?>
-        </fieldset> 
+        </fieldset>
     <?php endforeach; ?>
+<?php endif; ?>
+
+<?php if($csv = CSVClient::getInstance()->findFromIdentifiantPeriode($drm->identifiant, $drm->periode)): ?>
+    <h2>Logiciel tiers</h2>
+    Cette drm a été initialisée à partir d'un fichier issu d'une logiciel tiers : <a href="<?php echo url_for('drm_verification_fichier_edi', array('identifiant' => $drm->identifiant, 'periode' => $drm->periode, 'md5' => md5(file_get_contents($csv->getAttachmentUri('import_edi_'.$drm->identifiant.'_'.$drm->periode.'.csv'))))) ?>">Voir le fichier</a>
 <?php endif; ?>
