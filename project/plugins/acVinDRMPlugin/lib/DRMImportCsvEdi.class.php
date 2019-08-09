@@ -228,15 +228,19 @@ private function importMouvementsFromCSV($just_check = false) {
   $all_produits = $this->configuration->declaration->getProduitsAll();
 
   $num_ligne = 1;
+  $default_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash();
   foreach ($this->getDocRows() as $csvRow) {
     if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
       $num_ligne++;
       continue;
     }
 
+    $founded_produit = null;
+    $is_default_produit = false;
+
     $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
     $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
-    $founded_produit = null;
+
     $keys_libelle = preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_MENTION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE]));
 
     $keys_libelle_mention_fin = preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $csvRow[self::CSV_CAVE_CERTIFICATION], $csvRow[self::CSV_CAVE_GENRE], $csvRow[self::CSV_CAVE_APPELLATION], $csvRow[self::CSV_CAVE_LIEU], $csvRow[self::CSV_CAVE_COULEUR], $csvRow[self::CSV_CAVE_CEPAGE],$csvRow[self::CSV_CAVE_MENTION]));
@@ -255,6 +259,11 @@ private function importMouvementsFromCSV($just_check = false) {
       $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
       $num_ligne++;
       continue;
+    }
+    if (isset($this->previous_default[$uniquekeyproduit])) {
+        $default_produit_inao = $this->previous_default[$uniquekeyproduit]['inao'];
+        $default_produit_libelle = $this->previous_default[$uniquekeyproduit]['libelle'];
+        $is_default_produit = true;
     }
 
     if (!$founded_produit && $idDouane = $this->getIdDouane($csvRow)) {
@@ -346,6 +355,13 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     }
 
+    if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+        $founded_produit = $this->configuration->get($default_hash);
+        $is_default_produit = true;
+        $default_produit_libelle = $m[1];
+        $default_produit_inao = $m[2];
+    }
+
     if($founded_produit && $aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
     && isset($aggregatedEdiList[0][$founded_produit->getHash()])){
       $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
@@ -367,6 +383,9 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $this->previous_produits[$uniquekeyproduit] = $founded_produit;
     $this->previous_produits[$uniquekeyproduit_mentionfin] = $founded_produit;
+    if ($is_default_produit) {
+        $this->previous_default[$uniquekeyproduit] = array('inao' => $default_produit_inao, 'libelle' => $default_produit_libelle);
+    }
 
     $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
     if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
@@ -431,8 +450,10 @@ private function importMouvementsFromCSV($just_check = false) {
     }
 
 
-
     $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+    if ($is_default_produit) {
+        $denomination_complementaire = ($denomination_complementaire) ? $default_produit_libelle." ".$denomination_complementaire : $default_produit_libelle;
+    }
 
     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);

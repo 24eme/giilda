@@ -72,6 +72,10 @@ class DRMConfiguration {
         return $this->configuration['vrac_multi_produit'];
     }
 
+    public function getEdiDefaultProduitHash() {
+        return $this->configuration['edi_default_produit_hash'];
+    }
+
     public function isCrdOnlySuspendus() {
 
         return $this->configuration['crd_only_suspendus'];
