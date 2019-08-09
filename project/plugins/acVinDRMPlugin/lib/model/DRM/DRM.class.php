@@ -1546,6 +1546,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         $societe = $this->getEtablissement()->getSociete();
         $drm_societe = $this->add('societe');
         $drm_societe->add('raison_sociale', $societe->raison_sociale);
+        if(count($societe->getEtablissementsObj(false)) >= 2) {
+            $drm_societe->add('raison_sociale', $this->getEtablissement()->raison_sociale);
+        }
         $drm_societe->add('siret', $societe->siret);
         $drm_societe->add('code_postal', $societe->siege->code_postal);
         $drm_societe->add('adresse', $societe->siege->adresse);
