@@ -227,7 +227,7 @@ private function importMouvementsFromCSV($just_check = false) {
   $all_produits = $this->configuration->declaration->getProduitsAll();
 
   $num_ligne = 1;
-  $default_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash();
+  $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
   foreach ($this->getDocRows() as $csvRow) {
     if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
       $num_ligne++;
@@ -262,6 +262,7 @@ private function importMouvementsFromCSV($just_check = false) {
     if (isset($this->previous_default[$uniquekeyproduit])) {
         $default_produit_inao = $this->previous_default[$uniquekeyproduit]['inao'];
         $default_produit_libelle = $this->previous_default[$uniquekeyproduit]['libelle'];
+        $default_produit_hash = $this->previous_default[$uniquekeyproduit]['hash'];
         $is_default_produit = true;
     }
 
@@ -354,11 +355,12 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     }
 
-    if((!$founded_produit) && $default_hash && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
-        $founded_produit = $this->configuration->get($default_hash);
+    if((!$founded_produit) && $has_default_hash && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
         $is_default_produit = true;
         $default_produit_libelle = $m[1];
         $default_produit_inao = $m[2];
+        $default_produit_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash($default_produit_inao);
+        $founded_produit = $this->configuration->get($default_produit_hash);
     }
 
     if($founded_produit && $aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
@@ -383,7 +385,7 @@ private function importMouvementsFromCSV($just_check = false) {
     $this->previous_produits[$uniquekeyproduit] = $founded_produit;
     $this->previous_produits[$uniquekeyproduit_mentionfin] = $founded_produit;
     if ($is_default_produit) {
-        $this->previous_default[$uniquekeyproduit] = array('inao' => $default_produit_inao, 'libelle' => $default_produit_libelle);
+        $this->previous_default[$uniquekeyproduit] = array('inao' => $default_produit_inao, 'libelle' => $default_produit_libelle, 'hash' => $default_produit_hash);
     }
 
     $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);

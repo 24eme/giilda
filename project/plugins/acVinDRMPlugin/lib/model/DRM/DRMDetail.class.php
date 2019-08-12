@@ -39,7 +39,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function isDefaultProduit() {
 
-        return ($this->getCepage()->getHash() == DRMConfiguration::getInstance()->getEdiDefaultProduitHash());
+        return DRMConfiguration::getInstance()->hasEdiDefaultProduitHash($this->code_inao) && ($this->getCepage()->getHash() == DRMConfiguration::getInstance()->getEdiDefaultProduitHash($this->code_inao));
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {

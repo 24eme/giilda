@@ -24,8 +24,7 @@ foreach($produits as $produit) {
     }
 }
 
-$produitdefault_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash();
-
+$produitdefault_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash("1B455S");
 
 //Suppression des DRM précédentes
 foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
