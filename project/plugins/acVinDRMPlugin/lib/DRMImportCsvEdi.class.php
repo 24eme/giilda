@@ -137,7 +137,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
     $this->drm->buildFavoris();
     $this->drm->storeDeclarant();
-    $this->drm->initSociete();
     $this->updateAndControlCoheranceStocks();
 
     if($withSave) {
