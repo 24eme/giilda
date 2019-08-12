@@ -6501,8 +6501,8 @@
           "mouvement_coefficient": -1,
           "facturable": 0,
           "douane_type": "CRD_MIXTE",
-          "douane_cat": "sorties-periode/sorties-sans-paiement-droits/autres-sorties",
-          "douane_cat_negoce": "sorties-periode/autres-sorties",
+          "douane_cat": "sorties-periode/sorties-sans-paiement-droits/sorties-definitives",
+          "douane_cat_negoce": "sorties-periode/sorties-definitives",
           "taxable_douane": 0
         },
         "export": {
