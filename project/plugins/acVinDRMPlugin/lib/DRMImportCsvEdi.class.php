@@ -241,6 +241,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
                 $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
                 $founded_produit = false;
+                $is_default_produit = false;
 
                 if ($idDouane = $this->getIdDouane($csvRow)) {
                 	$produits = $this->configuration->identifyProductByCodeDouane($idDouane);
@@ -293,6 +294,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 	                    $founded_produit = $produit;
 	                }
                 }
+
+                //Gestion du produit non connu
+                if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+                    $is_default_produit = true;
+                    $default_produit_libelle = $m[1];
+                    $default_produit_inao = $m[2];
+                    $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
+                    $founded_produit = $this->configuration->get($default_produit_hash);
+                }
+
                 if (!$founded_produit) {
                     $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                     $num_ligne++;
@@ -345,9 +356,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+                if ($is_default_produit) {
+                    $denomination_complementaire = ($denomination_complementaire) ? $default_produit_libelle." ".$denomination_complementaire : $default_produit_libelle;
+                }
 
                 if (!$just_check) {
                     $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
+                    //Gestion du produit non connu
+                    if ($is_default_produit) {
+                        $drmDetails->code_inao = $default_produit_inao;
+                        $drmDetails->produit_libelle = $default_produit_libelle;
+                    }
 
                     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
                     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
@@ -1069,5 +1088,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 			return null;
 		}
 
+        public static function getEdiDefaultFromInao($inao) {
+            if (preg_match('/^.....M/', $inao) && preg_match('/^VM_/', $inao)) {
+                return '/declaration/certifications/AUTRESVINS/genres/EFF/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT';
+            }
+            if (!preg_match('/^VT_/', $inao) && preg_match('/_/', $inao)) {
+                return '/declaration/certifications/ALCOOL/genres/DEFAUT/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT';
+            }
+
+            return '/declaration/certifications/AUTRESVINS/genres/TRANQ/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT';
+        }
 
     }
