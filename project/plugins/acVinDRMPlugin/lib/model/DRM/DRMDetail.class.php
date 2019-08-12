@@ -12,6 +12,13 @@ class DRMDetail extends BaseDRMDetail {
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
         $s = str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
+        if ($this->produit_libelle && $this->isDefaultProduit()) {
+            $s = $this->produit_libelle;
+            if ($this->denomination_complementaire != $this->produit_libelle) {
+                $s .= " ".$this->denomination_complementaire;
+            }
+            $s .= " (Hors Interpro)";
+        }
         if ($this->tav) {
             $s .= " - ".$this->tav.'°';
         }
@@ -28,6 +35,11 @@ class DRMDetail extends BaseDRMDetail {
 
     public function isAlcoolPurOrMatierePremiere(){
       return $this->isAlcoolPur() || $this->isMatierePremiere();
+    }
+
+    public function isDefaultProduit() {
+
+        return ($this->getCepage()->getHash() == DRMConfiguration::getInstance()->getEdiDefaultProduitHash());
     }
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {

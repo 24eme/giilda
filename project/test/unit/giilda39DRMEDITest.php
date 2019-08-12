@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(45);
+$t = new lime_test(50);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
 foreach($produits as $produit) {
@@ -89,8 +89,18 @@ $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), Configu
 } else {
 $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), "", "Observations OK");
 }
-
+#tests de produit hors interpro
+if ($produitdefault_hash) {
 $t->is(count($drm->get($produitdefault_hash)->details), 2, "les deux produits hors intepro sont bien reconnu comme deux produits défauts distincts");
+foreach($drm->get($produitdefault_hash)->details as $detail1) {
+    break;
+}
+$t->ok($detail1->isDefaultProduit(), "Produit hors-interpro est bien détecté");
+$t->is($detail1->produit_libelle, "Vin de Savoie Ripaille", "Produit hors-interpro : libellé douanier repris du CSV");
+$t->is($detail1->getLibelle(), "Vin de Savoie Ripaille (Hors Interpro)", "Produit hors-interpro : libellé douanier repris du CSV");
+$t->is($detail1->code_inao, "1B455S", "Produit hors-interpro : code inao repris du CSV");
+}
+#FIN: test de produit hors interpro
 
 $t->ok($drm->crds->exist('COLLECTIFSUSPENDU'), "CRD : noeud COLLECTIFSUSPENDU reconnu");
 $t->is(count($drm->crds->COLLECTIFSUSPENDU), 5, "CRD possède deux centilisations");

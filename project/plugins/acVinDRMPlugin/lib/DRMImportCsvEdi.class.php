@@ -354,7 +354,7 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     }
 
-    if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+    if((!$founded_produit) && $default_hash && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
         $founded_produit = $this->configuration->get($default_hash);
         $is_default_produit = true;
         $default_produit_libelle = $m[1];
@@ -476,6 +476,11 @@ private function importMouvementsFromCSV($just_check = false) {
     }
 
     $drmDetails = $this->drm->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire);
+    if ($is_default_produit) {
+        $drmDetails->code_inao = $default_produit_inao;
+        $drmDetails->produit_libelle = $default_produit_libelle;
+    }
+
 
     if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
       $num_ligne++;

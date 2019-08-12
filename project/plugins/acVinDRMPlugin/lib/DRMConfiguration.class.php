@@ -73,6 +73,9 @@ class DRMConfiguration {
     }
 
     public function getEdiDefaultProduitHash() {
+        if (!isset($this->configuration['edi_default_produit_hash'])) {
+            return "";
+        }
         return $this->configuration['edi_default_produit_hash'];
     }
 
