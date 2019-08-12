@@ -278,7 +278,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if ($drm_suivante->isPaiementAnnualise() && $isTeledeclarationMode) {
             $drm_suivante->initDroitsDouane();
         }
-        $drm_suivante->initSociete();
         $drm_suivante->clearAnnexes();
 
         if (! $this->getEtablissement()->hasRegimeCrd()) {
@@ -1136,6 +1135,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->declarant->getOrAdd('adresse_compta');
         $this->declarant->getOrAdd('caution');
         $this->declarant->getOrAdd('raison_sociale_cautionneur');
+        $this->storeSociete();
     }
 
     public function getEtablissementObject() {
@@ -1542,12 +1542,12 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
 
     /*     * * SOCIETE ** */
 
-    public function initSociete() {
+    public function storeSociete() {
         $societe = $this->getEtablissement()->getSociete();
         $drm_societe = $this->add('societe');
         $drm_societe->add('raison_sociale', $societe->raison_sociale);
         if(count($societe->getEtablissementsObj(false)) >= 2) {
-            $drm_societe->add('raison_sociale', $this->getEtablissement()->raison_sociale);
+            $drm_societe->add('raison_sociale', $this->declarant->nom);
         }
         $drm_societe->add('siret', $societe->siret);
         $drm_societe->add('code_postal', $societe->siege->code_postal);
@@ -1562,7 +1562,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
 
     public function getCoordonneesSociete() {
         if (!$this->exist('societe') || is_null($this->societe)) {
-            $this->initSociete();
+            $this->storeSociete();
         }
         return $this->societe;
     }

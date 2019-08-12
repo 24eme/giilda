@@ -522,7 +522,6 @@ class DRMClient extends acCouchdbClient {
         $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
 
         $drm->buildFavoris($drmLast);
-        $drm->initSociete();
         $drm->initCrds();
         $drm->initProduitsAutres($isTeledeclarationMode);
         $drm->clearAnnexes();
