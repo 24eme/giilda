@@ -12,8 +12,25 @@ class DRMDetail extends BaseDRMDetail {
 
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
-        return str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
+        $s = str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
+        if ($this->produit_libelle && $this->isDefaultProduit()) {
+            $s = $this->produit_libelle;
+            if ($this->denomination_complementaire != $this->produit_libelle) {
+                $s .= " ".$this->denomination_complementaire;
+            }
+            $s .= " (Hors Interpro)";
+        }
+        return $s;
     }
+
+    public function isDefaultProduit() {
+        if (!$this->code_inao) {
+            return false;
+        }
+        $hash = DRMImportCsvEdi::getEdiDefaultFromInao($this->code_inao);
+        return ($hash) && ($this->getCepage()->getHash() == $hash);
+    }
+
 
     public function getCode($format = "%g%%a%%m%%l%%co%%ce%") {
 
