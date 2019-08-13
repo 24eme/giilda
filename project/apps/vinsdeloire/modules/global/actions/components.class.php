@@ -13,8 +13,17 @@ class globalComponents extends sfComponents
         }
 
         $this->societe = isset($this->societe) ? $this->societe : null;
+
         if($this->getUser()->hasTeledeclaration() && !$this->societe) {
             $this->societe = $this->getUser()->getCompte()->getSociete();
+        }
+
+        if($this->getRoute() instanceof InterfaceSocieteRoute && !$this->societe) {
+            $this->societe = $this->getRoute()->getSociete();
+        }
+
+        if($this->societe && !$this->etablissement) {
+            $this->etablissement = $this->societe->getEtablissementPrincipal();
         }
     }
 

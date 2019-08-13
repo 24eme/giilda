@@ -13,6 +13,11 @@ class CSVClient extends acCouchdbClient {
         return acCouchdbManager::getClient("CSV");
     }
 
+    public function findFromIdentifiantPeriode($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+
+        return $this->find($this->buildId(self::TYPE_DRM, $identifiant, $periode), $hydrate);
+    }
+
     public function createOrFindDocFromDRM($path, DRM $drm) {
         $csvId = $this->buildId(self::TYPE_DRM, $drm->identifiant, $drm->periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT);
         $csvDrm = $this->find($csvId, $hydrate);

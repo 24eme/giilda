@@ -23,47 +23,6 @@ use_helper('Display');
 
       <?php include_partial('visualisationPanel', array('societe' => $societe, 'modification' => $modification, 'reduct_rights' => $reduct_rights)); ?>
 
-      <div id="detail_societe_sepa" class="form_section ouvert">
-        <h3>Informations bancaires <?php if($societe->exist("sepa") && $societe->sepa->exist("date_activation") && $societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?><span class="btn_majeur btn_vert btn_label" style="">actif</span><?php else: ?><span class="btn_majeur btn_orange btn_label" style="">non actif</span><?php endif; ?></h3>
-        <div class="form_contenu">
-          <div class="form_ligne">
-            <label for="teledeclaration_sepa_nom_bancaire" class="label_liste">
-              Nom bancaire :
-            </label>
-            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('nom_bancaire'))? $societe->sepa->nom_bancaire : ""; ?>
-          </div>
-          <div class="form_ligne">
-            <label for="teledeclaration_sepa_iban" class="label_liste">
-              Iban :
-            </label>
-            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('iban'))? formatIban($societe->sepa->iban) : ""; ?>
-          </div>
-          <div class="form_ligne">
-            <label for="teledeclaration_sepa_bic" class="label_liste">
-              Bic :
-            </label>
-            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('bic'))? $societe->sepa->bic : ""; ?>
-          </div>
-          <div class="form_ligne">
-              <form method="POST" action="<?php echo url_for('societe_sepa_activate', $societe);?>">
-                <strong>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <?php if ($societe->exist('sepa') && $societe->sepa->getOrAdd('nom_bancaire') && $societe->sepa->getOrAdd('iban') && $societe->sepa->getOrAdd('bic') ) : ?>
-                      <input type="submit" class="btn_majeur btn_contact" value="Activer" style="float:right;" onclick='return confirm("Souhaitez-vous confirmer l&apos;activation des prélèvements automatiques pour cette société ?")' />
-                  <?php else: ?>
-                      En attente de saisie par l'utilisateur
-                   <?php endif; ?>
-              </form>
-          </div>
-        </div>
-      </div>
-
-      <div id="detail_societe_coordonnees" class="form_section ouvert">
-        <h3>Coordonnées de la société</h3>
-        <div class="form_contenu">
-          <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte())); ?>
-        </div>
-      </div>
-
       <?php if ($societe->getMasterCompte()->exist('droits') && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
         <div id="detail_societe_coordonnees" class="form_section ouvert">
           <h3>Télédeclaration</h3>
@@ -104,6 +63,16 @@ use_helper('Display');
                 </label>
                 <?php echo str_replace('{TEXT}', '', $societe->getMasterCompte()->mot_de_passe); ?>
               </div>
+          <?php elseif(preg_match('/\{OUBLIE\}/', $societe->getMasterCompte()->mot_de_passe)): ?>
+                <div class="form_ligne">
+                  <label for="teledeclaration_email" class="label_liste">
+                    Code de création :
+                  </label>
+                  <?php $lien = 'https://'.sfConfig::get('app_routing_context_production_host').url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->identifiant, "mdp" => str_replace("{OUBLIE}", "", $societe->getMasterCompte()->mot_de_passe))); ?>
+                  En procédure de mot de passe oublié
+                </div>
+                <pre>Lien de réinitialisation de mot de passe reçu dans le mail :
+<?php echo $lien; ?></pre>
             <?php else: ?>
               <div class="form_ligne">
                 <label for="teledeclaration_email" class="label_liste">
@@ -116,6 +85,46 @@ use_helper('Display');
         </div>
       <?php endif; ?>
 
+      <div id="detail_societe_sepa" class="form_section ouvert">
+        <h3>Informations bancaires <?php if($societe->exist("sepa") && $societe->sepa->exist("date_activation") && $societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?><span class="btn_majeur btn_vert btn_label" style="">actif</span><?php else: ?><span class="btn_majeur btn_orange btn_label" style="">non actif</span><?php endif; ?></h3>
+        <div class="form_contenu">
+          <div class="form_ligne">
+            <label for="teledeclaration_sepa_nom_bancaire" class="label_liste">
+              Nom bancaire :
+            </label>
+            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('nom_bancaire'))? $societe->sepa->nom_bancaire : ""; ?>
+          </div>
+          <div class="form_ligne">
+            <label for="teledeclaration_sepa_iban" class="label_liste">
+              Iban :
+            </label>
+            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('iban'))? formatIban($societe->sepa->iban) : ""; ?>
+          </div>
+          <div class="form_ligne">
+            <label for="teledeclaration_sepa_bic" class="label_liste">
+              Bic :
+            </label>
+            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('bic'))? $societe->sepa->bic : ""; ?>
+          </div>
+          <div class="form_ligne">
+              <form method="POST" action="<?php echo url_for('societe_sepa_activate', $societe);?>">
+                <strong>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <?php if ($societe->exist('sepa') && $societe->sepa->getOrAdd('nom_bancaire') && $societe->sepa->getOrAdd('iban') && $societe->sepa->getOrAdd('bic') ) : ?>
+                      <input type="submit" class="btn_majeur btn_contact" value="Activer" style="float:right;" onclick='return confirm("Souhaitez-vous confirmer l&apos;activation des prélèvements automatiques pour cette société ?")' />
+                  <?php else: ?>
+                      En attente de saisie par l'utilisateur
+                   <?php endif; ?>
+              </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="detail_societe_coordonnees" class="form_section ouvert">
+        <h3>Coordonnées de la société</h3>
+        <div class="form_contenu">
+          <?php include_partial('compte/coordonneesVisualisation', array('compte' => $societe->getMasterCompte())); ?>
+        </div>
+      </div>
 
       <?php if (count($etablissements)): ?>
       <?php endif; ?>

@@ -194,6 +194,8 @@ class DRMRouting {
         $r->prependRoute('drm_verification_fichier_edi', new sfRoute('/drm/:identifiant/verification-edi/:periode/:md5', array('module' => 'drm_edi',
             'action' => 'verificationEdi')));
 
+        $r->prependRoute('drm_csv_edi', new sfRoute('/drm/:identifiant/csv-edi/:periode', array('module' => 'drm_edi', 'action' => 'csv')));
+
         $r->prependRoute('drm_creation_fichier_edi', new sfRoute('/drm/:identifiant/creation-edi/:periode/:md5', array('module' => 'drm_edi',
             'action' => 'creationEdi')));
 

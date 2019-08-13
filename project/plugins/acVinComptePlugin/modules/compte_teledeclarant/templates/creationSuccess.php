@@ -11,6 +11,7 @@ $libelle .= (($form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR) || 
 $libelle .= " :";
 ?>
         <p class="titre_section"><strong>Conseil :</strong> Utiliser un email connu par vos collaborateurs habilités à télé-déclarer sur vos différents établissements.</p>
+        <p class="titre_section"><strong>Votre mot de passe</strong> doit contenir au minimum 8 caractères alphanumériques.</p>
         <br/>
         <p class="titre_section"><?php echo $libelle; ?></p>
         <br/>

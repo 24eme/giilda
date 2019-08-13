@@ -23,6 +23,7 @@ class DRMEmailManager {
         sfProjectConfiguration::getActive()->loadHelpers("Date");
         sfProjectConfiguration::getActive()->loadHelpers("Orthographe");
         sfProjectConfiguration::getActive()->loadHelpers("DRM");
+        sfProjectConfiguration::getActive()->loadHelpers("Url");
     }
 
     public function setDRM($drm) {
@@ -38,31 +39,28 @@ class DRMEmailManager {
                 $typeInfos = $this->drm->getDeclarant();
                 $typeLibelle = "l'etablissement";
                 $identification = $typeInfos->nom . " (" . $this->drm->identifiant . ")";
+                $url = sfConfig::get('app_vinsi_url').url_for('etablissement_visualisation', array('identifiant' => $this->drm->identifiant));
                 break;
 
             case CompteClient::TYPE_COMPTE_SOCIETE:
                 $typeInfos = $this->drm->getSociete();
                 $typeLibelle = 'la société';
                 $identification = $typeInfos->raison_sociale . " (" . substr(0, 6, $this->drm->identifiant) . ")";
+                $url = sfConfig::get('app_vinsi_url').url_for('societe_visualisation', array('identifiant' => substr(0, 6, $this->drm->identifiant)));
                 break;
         }
 
-        $mess = "Les coordonnée de " . $typeLibelle . " " . $identification . " ont été modifiés.
-Voici les différentes modifications enregistrées :
+        $mess = "Les coordonnées de " . $typeLibelle . " " . $identification . " <" .$url . "> ont été modifiées.
+
+Voici les différentes modifications effectuées par l'opérateur sur la DRM " . getFrPeriodeElision($this->drm->periode) . " :
 
 ";
         foreach ($diff as $key => $value) {
-            $mess .= $key . " : " . $value . "
+            $mess .= "- ".$key . " : " . $value . "
 ";
         }
-        $mess .= "
 
-——
-
-L’application de télédéclaration des contrats d’InterLoire";
-
-
-        $subject = "Changement de coordonnées de la société " . $typeLibelle . " (" . $identification . ")";
+        $subject = "Changement de coordonnées de " . $typeLibelle . " " . $identification;
 
         $message = $this->getMailer()->compose(array(sfConfig::get('app_mail_from_email') => sfConfig::get('app_mail_from_name')), $mailsInterloire, $subject, $mess);
         try {

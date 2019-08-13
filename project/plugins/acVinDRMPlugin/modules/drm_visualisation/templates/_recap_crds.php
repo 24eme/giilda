@@ -46,6 +46,6 @@
                     </tbody>
                 </table>
             <?php endforeach; ?>
-        </fieldset> 
+        </fieldset>
     <?php endforeach; ?>
 <?php endif; ?>

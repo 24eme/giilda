@@ -149,4 +149,9 @@ class myUser extends sfBasicSecurityUser {
         return $this->hasCredential(Roles::ROLEDRM) && $this->hasCredential(Roles::DRM);
     }
 
+    public function hasCredentialAdmin() {
+        return $this->hasCredential(Roles::ADMIN);
+    }
+
+
 }
