@@ -365,7 +365,7 @@ class DRMDetail extends BaseDRMDetail {
 
     public function hasStockEpuise() {
 
-        return $this->total_debut_mois <= 0.0000001 && !$this->hasMouvement() && $this->total <= 0.0000001;
+        return $this->total_debut_mois <= 0.0000001 && $this->total_debut_mois >= -0.0000001  && !$this->hasMouvement() && $this->total <= 0.0000001 && $this->total >= -0.0000001;
     }
 
     public function isSupprimable() {
