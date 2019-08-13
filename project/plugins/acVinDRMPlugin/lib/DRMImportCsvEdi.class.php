@@ -463,7 +463,7 @@ private function importMouvementsFromCSV($just_check = false) {
     $type_key = $confDetailMvt->getKey();
 
     $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
-    if ($drmPrecedente) {
+    if ($drmPrecedente && $drmPrecedente->teledeclare) {
         $details_precedent = $drmPrecedente->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire);
         if(($cat_key == "stocks_debut") && ($volume != $details_precedent->getOrAdd('stocks_fin')->getOrAdd('final'))) {
           $this->csvDoc->addErreur($this->stockVolumeIncoherentError($num_ligne, $csvRow));
