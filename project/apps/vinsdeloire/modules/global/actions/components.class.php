@@ -5,11 +5,13 @@ class globalComponents extends sfComponents
 
     public function executeNav(sfWebRequest $request)
     {
+
+        $this->request =$request;
         $this->etablissement = isset($this->etablissement) ? $this->etablissement : null;
         if($this->getRoute() instanceof InterfaceEtablissementRoute && !$this->etablissement) {
             $this->etablissement = $this->getRoute()->getEtablissement();
         }
-        
+
         $this->societe = isset($this->societe) ? $this->societe : null;
         if($this->getUser()->hasTeledeclaration() && !$this->societe) {
             $this->societe = $this->getUser()->getCompte()->getSociete();
