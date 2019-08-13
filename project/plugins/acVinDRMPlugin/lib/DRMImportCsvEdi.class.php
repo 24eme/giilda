@@ -296,7 +296,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 //Gestion du produit non connu
-                if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+                if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
                     $is_default_produit = true;
                     $default_produit_libelle = $m[1];
                     $default_produit_inao = $m[2];
