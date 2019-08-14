@@ -8,6 +8,12 @@ prod:
       level:   err
       loggers: ~
 
+  mailer:
+    class: AppMailer
+    param:
+      transport:
+        class: Swift_MailTransport
+
 test:
   storage:
     class: sfSessionTestStorage
