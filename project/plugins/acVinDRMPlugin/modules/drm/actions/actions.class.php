@@ -111,6 +111,7 @@ class drmActions extends drmGeneriqueActions {
                   foreach($drmLast->getProduitsDetails() as $detail) {
                       if(preg_match("/^Total/", $detail->getLibelle())) {
                           $aggregate = true;
+                          break;
                       }
                   }
 
