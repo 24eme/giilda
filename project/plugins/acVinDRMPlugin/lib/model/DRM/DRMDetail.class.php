@@ -523,8 +523,27 @@ class DRMDetail extends BaseDRMDetail {
         if($this->exist("code_inao") && $this->code_inao) {
             return $this->code_inao;
         }
+        if ($this->getDocument()->isNegoce() && $this->getCorrespondanceNegoce()) {
+            $this->_set('code_inao', $this->getLibelleFiscalNegocePur());
+
+            return $this->_get('code_inao');
+        }
 
         return $this->getCepage()->getConfig()->code_douane;
+    }
+
+    public function isCodeDouaneNonINAO(){
+      $inao = $this->_get('code_inao');
+      if (!$inao) {
+          $inao = $this->getCepage()->getConfig()->code_douane;
+      }
+      if(!$inao){
+        return false;
+      }
+      if(preg_match('/^[0-9]/', $inao)){
+        return false;
+      }
+      return true;
     }
 
     public function getReplacementDate() {
@@ -557,12 +576,6 @@ class DRMDetail extends BaseDRMDetail {
       }
       return true;
     }
-    public function getTav(){
-      if(!$this->exist('tav')){
-       return false;
-      }
-      return $this->_get('tav');
-    }
 
     public function setDenominationComplementaire($denomination_complementaire){
       $denomChanged = ($this->get('denomination_complementaire') && ($this->get('denomination_complementaire') != $denomination_complementaire));
@@ -579,5 +592,48 @@ class DRMDetail extends BaseDRMDetail {
         $parent->add($newKey,$detailNode);
         $parent->get($oldKey)->delete();
       }
+    }
+
+    public function getTav(){
+      if(!$this->exist('tav')){
+       return false;
+      }
+      return $this->_get('tav');
+    }
+
+    public function getCorrespondanceNegoce()
+    {
+        if ($this->isCodeDouaneNonINAO()) {
+            return $this->getCepage()->getHash();
+        }
+        $correspondances = sfConfig::get('app_drm_negoce_correspondances_produits');
+        if (!is_array($correspondances)) {
+            throw new sfException('no correspondances_produits set in configuration app.yml');
+        }
+        $c = (isset($correspondances[$this->getGenre()->getHash()])) ? $correspondances[$this->getGenre()->getHash()] : null;
+        if (!$c) {
+            throw new sfException('correspondances_produits not found in configuration app.yml for key '.$this->getGenre()->getHash());
+        }
+        if (is_array($c)) {
+            $keys = array_keys($c);
+            $diff1 = array_diff(array('cep', 'sanscep'), $keys);
+            $diff2 = array_diff(array('vdlsup', 'vdlinf'), $keys);
+            if (!$diff1) {
+                return ($this->getCepage()->getKey() == Configuration::DEFAULT_KEY)? $c['sanscep'] : $c['cep'];
+            }
+            if (!$diff2) {
+                return ($this->getTav() > 18)? $c['vdlsup'] : $c['vdlinf'];
+            }
+            throw new sfException('errors in configuration app.yml for keys '.implode(', ', $keys));
+        } else {
+            return $c;
+        }
+    }
+
+    public function getLibelleFiscalNegocePur() {
+        $hash = $this->getCorrespondanceNegoce();
+        $hash = preg_replace('/.details.DEFAUT$/', '', $hash);
+        $p = ConfigurationClient::getCurrent()->get($hash);
+        return $p->getCodeDouane();
     }
 }

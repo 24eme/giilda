@@ -1711,4 +1711,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
       }
       return $total;
     }
+
+    public function isNegoce() {
+        return $this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR;
+    }
 }

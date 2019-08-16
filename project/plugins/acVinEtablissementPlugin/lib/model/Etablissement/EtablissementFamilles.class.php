@@ -1,9 +1,10 @@
 <?php
-class EtablissementFamilles 
+class EtablissementFamilles
 {
 
     const FAMILLE_PRODUCTEUR = "PRODUCTEUR";
     const FAMILLE_NEGOCIANT = "NEGOCIANT";
+    const FAMILLE_NEGOCIANT_PUR = "NEGOCIANT_PUR";
     const FAMILLE_COURTIER = "COURTIER";
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
     const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
@@ -18,7 +19,8 @@ class EtablissementFamilles
 
     protected static $familles = array (
     	self::FAMILLE_PRODUCTEUR => "Producteur",
-    	self::FAMILLE_NEGOCIANT => "Négociant",
+    	self::FAMILLE_NEGOCIANT => "Négociant vignificateur",
+        self::FAMILLE_NEGOCIANT_PUR => "Négociant pur",
     	self::FAMILLE_COURTIER => "Courtier"
     );
     protected static $sous_familles = array (
