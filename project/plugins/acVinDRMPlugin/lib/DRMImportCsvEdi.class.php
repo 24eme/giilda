@@ -463,7 +463,7 @@ private function importMouvementsFromCSV($just_check = false) {
     $type_key = $confDetailMvt->getKey();
 
     $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
-    if ($drmPrecedente) {
+    if ($drmPrecedente && $drmPrecedente->teledeclare) {
         $details_precedent = $drmPrecedente->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire);
         if(($cat_key == "stocks_debut") && ($volume != $details_precedent->getOrAdd('stocks_fin')->getOrAdd('final'))) {
           $this->csvDoc->addErreur($this->stockVolumeIncoherentError($num_ligne, $csvRow));
@@ -531,7 +531,11 @@ private function importMouvementsFromCSV($just_check = false) {
     } else {
       $oldVolume = $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key);
       if($cat_key == "stocks_debut" && !is_null($oldVolume) && $oldVolume != "") {
-        $this->drm->commentaire .= sprintf("IMPORT de %s le stock_debut %s de %s hl n'a pas été pris en compte\n", $drmDetails->getLibelle(), $type_key, $detailTotalVol);
+        if ($drmDetails->canSetStockDebutMois()) {
+            $drmDetails->getOrAdd($cat_key)->add($type_key, $detailTotalVol);
+        }else {
+            $this->drm->commentaire .= sprintf("IMPORT de %s le stock_debut %s de %s hl n'a pas été pris en compte\n", $drmDetails->getLibelle(), $type_key, $detailTotalVol);
+        }
       } else {
         $drmDetails->getOrAdd($cat_key)->add($type_key, $oldVolume + $detailTotalVol);
       }
