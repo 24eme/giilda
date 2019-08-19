@@ -414,6 +414,10 @@ class Compte extends BaseCompte {
         $this->_set('mot_de_passe', $hash);
     }
 
+    public function setNouveauCodeCreation(){
+      $this->mot_de_passe = "{TEXT}".sprintf("%04d", rand(0, 9999));
+    }
+
     public function isActif() {
         return ($this->statut == CompteClient::STATUT_ACTIF);
     }
@@ -491,7 +495,7 @@ class Compte extends BaseCompte {
             $acces_teledeclaration = true;
 
             $compteDroitsArray = $compteDroits->toArray(0,1);
-            if(!in_array(Roles::TELEDECLARATION_VRAC, $compteDroitsArray)){
+            if(!in_array(Roles::TELEDECLARATION_VRAC, $compteDroitsArray) && ($this->isEtablissementContact() || $this->isSocieteContact() || $droit == Roles::TELEDECLARATION_VRAC)){
                 $compteDroits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
               if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER) && ! in_array(Roles::TELEDECLARATION_VRAC_CREATION, $compteDroitsArray)) {
                 $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
@@ -532,7 +536,7 @@ class Compte extends BaseCompte {
             }
 
         }
-      
+
         if($acces_teledeclaration){
             $compteDroits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
         }

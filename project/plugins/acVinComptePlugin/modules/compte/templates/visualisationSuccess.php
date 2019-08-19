@@ -28,10 +28,7 @@
 						<?php include_partial('coordonneesVisualisation', array('compte' => $compte)); ?>
 					</div>
 				</div>
-
-
-
-				<?php if ($compte->exist("mot_de_passe") && $compte->mot_de_passe && $compte->getSociete()->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
+ 			  <?php if ($compte->exist("mot_de_passe") && $compte->mot_de_passe && $compte->getSociete()->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
 				  <div id="coordonnees_contact" class="form_section ouvert">
 				    <h3>Télédeclaration</h3>
 				    <div class="form_contenu">
@@ -76,6 +73,13 @@
 				  </div>
 				<?php endif; ?>
 
+				<?php if(count($compte->getDroits()) && (!$compte->exist("mot_de_passe") || !$compte->mot_de_passe)): ?>
+					<div class="form_btn">
+							<?php if($modification || $reduct_rights): ?>
+										<a onclick='return confirm("Êtes vous sûr de vouloir assigner un code de création à ce compte?")' href="<?php echo url_for('compte_nouveau_code_creation', array('identifiant' => $compte->identifiant)); ?>" class="btn_majeur" style="float: right;">Ajouter un code de création</a>
+							<?php endif; ?>
+				 </div>
+				<?php endif; ?>
 		</div>
 	</section>
 </section>

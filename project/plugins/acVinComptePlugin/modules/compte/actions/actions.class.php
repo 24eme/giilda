@@ -227,4 +227,12 @@ class compteActions extends sfCredentialActions {
       $this->last_page = ceil($this->nb_results / $res_by_page);
       $this->current_page = $page;
     }
+
+    public function executeNouveauCodeCreation(sfWebRequest $request) {
+      $this->compte = $this->getRoute()->getCompte();
+      $this->compte->setNouveauCodeCreation();
+      $this->compte->save();
+      return $this->redirect('compte_visualisation', $this->compte);
+    }
+
 }
