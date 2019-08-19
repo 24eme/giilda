@@ -1,18 +1,16 @@
 <section id="principal">
-    <h2>Import d'une DRM</h2>
-    <?php if ($csvDoc->statut == DRMCsvEdi::STATUT_WARNING) : ?>
-      <p>Votre fichier contient des points d'attention :</p>
-    <?php elseif ($csvDoc->statut == DRMCsvEdi::STATUT_ERROR) : ?>
-      <p>Votre fichier contient des erreurs :</p>
+    <?php if(isset($drm)): ?>
+        <h2>Bilan de l'import de la DRM de <?php echo $drm->getHumanPeriode(); ?> (<?php echo $drm->identifiant ?>)</h2>
+    <?php else: ?>
+        <h2>Import d'une DRM</h2>
     <?php endif; ?>
-
     <?php if (count($csvDoc->erreurs)): ?>
         <h2>Rapport d'erreurs</h2>
         <table class="table_recap">
             <thead>
                 <tr>
                     <th>Numéro de ligne</th>
-                    <th>Erreur</th>
+                    <th>Type</th>
                     <th>Raison</th>
                 </tr>
             </thead>
@@ -25,7 +23,13 @@
             <?php endforeach; ?>
         </table>
         <br/>
+    <?php else: ?>
+        <h2>Le fichier a été intégré sans problème</h2>
+        <br/>
     <?php endif; ?>
+    <p><a href="<?php echo url_for('drm_csv_edi', array('identifiant' => $csvDoc->identifiant, 'periode' => $csvDoc->periode)) ?>">Télécharger le fichier versé</a></p>
+    <br/>
+    <?php if(!isset($drm)): ?>
     <br>
     <h2>Utiliser un autre fichier</h2>
     <form action="<?php echo url_for('drm_verification_fichier_edi', array('identifiant' => $identifiant, 'periode' => $periode, 'md5' => $md5)); ?>" method="post" enctype="multipart/form-data">
@@ -57,4 +61,11 @@
             <a href="<?php echo url_for('drm_creation_fichier_edi', array('periode' => $periode, 'md5' => $md5, 'identifiant' => $identifiant)); ?>" class="btn_majeur btn_vert" style="float: right;">Importer la DRM</a>
         <?php endif; ?>
     </div>
+    <?php else: ?>
+        <div class="btn_etape">
+            <a class="btn_etape_prec" href="<?php echo url_for('drm_visualisation', $drm); ?>">
+                <span>Précédent</span>
+            </a>
+        </div>
+    <?php endif; ?>
 </section>

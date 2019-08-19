@@ -161,10 +161,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         return false;
     }
 
-    public function getConfigProduitsAuto() {
-
-        return $this->declaration->getConfigProduitsAuto();
-    }
 
     public function getProduits() {
         return $this->declaration->getProduits();
@@ -486,6 +482,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function devalidate(){
       $this->valide->date_saisie = null;
       $this->valide->date_signee = null;
+      if ($this->exist('transmission_douane')) {
+          $this->transmission_douane->success = null;
+      }
       $this->clearMouvements();
     }
 
@@ -1205,7 +1204,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function initProduitsAutres($isTeledeclarationMode){
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES/|",$hash)){
-          $this->addProduit($hash,self::DETAILS_KEY_SUSPENDU);
+          $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($hash);
+          if($produitConfig->isDouaneActif($this->getDate())){
+            $this->addProduit($hash,self::DETAILS_KEY_SUSPENDU);
+          }
         }
       }
     }
@@ -1306,6 +1308,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!count($releveNonApurement)) {
             $releveNonApurement->addEmptyNonApurement();
         }
+    }
+
+    public function hasStatistiquesEuropeennes() {
+        $stats = $this->getExportableStatistiquesEuropeennes();
+        return (count($stats));
     }
 
     public function hasReleveNonApurement() {
@@ -1651,6 +1658,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function transferToCiel() {
+        if($this->changedToTeledeclare()) {
+            $this->declarant->no_accises = $this->getEtablissementObject()->no_accises;
+        }
+
       $xml = $this->getXML();
       $service = new CielService();
       return $service->transferAndStore($this, $xml);

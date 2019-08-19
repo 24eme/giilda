@@ -52,6 +52,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setWidget('cedex', new sfWidgetFormInput());
             $this->setWidget('pays', new sfWidgetFormChoice(array('choices' => $this->getCountryList()), array('class' => 'autocomplete')));
             $this->setWidget('droits', new sfWidgetFormChoice(array('choices' => $this->getDroits(), 'multiple' => true, 'expanded' => true)));
+            $this->setWidget('region', new sfWidgetFormChoice(array('choices' => $this->getRegionsODG()), array('class' => 'autocomplete')));
         }
 
         $this->setWidget('email', new sfWidgetFormInput());
@@ -70,6 +71,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('cedex', 'Cedex');
             $this->widgetSchema->setLabel('pays', 'Pays *');
             $this->widgetSchema->setLabel('droits', 'Droits *');
+            $this->widgetSchema->setLabel('region', 'Région Odg');
         }
         $this->widgetSchema->setLabel('email', 'E-mail');
         $this->widgetSchema->setLabel('telephone_perso', 'Telephone Perso.');
@@ -88,6 +90,7 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
             $this->setValidator('cedex', new sfValidatorString(array('required' => false)));
             $this->setValidator('pays', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCountryList()))));
             $this->setValidator('droits', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getDroits()))));
+            $this->setValidator('region', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getRegionsODG()))));
         }
 
         $this->setValidator('email', new sfValidatorString(array('required' => false)));
@@ -116,6 +119,10 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         return $destinationChoices;
     }
 
+    public function getRegionsODG() {
+        return array(""=> "", "ANJOU" => "ANJOU","SAUMUR" => "SAUMUR","CHINON" => "CHINON","NANTES" => "NANTES","IGP_VALDELOIRE" => "IGP_VALDELOIRE");
+    }
+
     public function getAllTags() {
         return CompteClient::getInstance()->getAllTags();
     }
@@ -138,7 +145,12 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
         if($this->compte->isEtablissementContact()){
             $this->compte->statut = $this->compte->getEtablissement()->statut;
         }
-        
+        if($region = $this->getValue('region')){
+          $this->compte->add("region", $region);
+        }else{
+          $this->compte->remove("region");
+        }
+
         $this->object->getCouchdbDocument()->save();
     }
 
