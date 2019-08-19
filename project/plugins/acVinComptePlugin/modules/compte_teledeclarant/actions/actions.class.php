@@ -251,6 +251,12 @@ class compte_teledeclarantActions extends drmGeneriqueActions {
         return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/reglementation_generale_des_transactions.pdf", "reglementation_generale_des_transactions.pdf");
     }
 
+    public function executeDrevDeconnexion(sfWebRequest $request) {
+      $url_back = $this->getUser()->usurpationOff();
+
+      $this->redirect('/odg/logout');
+    }
+
     /*
      * Fonctions pour le téléchargement de la reglementation_generale_des_transactions
      *

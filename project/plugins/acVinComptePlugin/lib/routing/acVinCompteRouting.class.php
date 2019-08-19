@@ -54,13 +54,13 @@ class acVinCompteRouting {
 	$r->prependRoute('compte_addtag', new sfRoute('/compte/search/addtag', array('module' => 'compte', 'action' => 'addtag')));
 	$r->prependRoute('compte_removetag', new sfRoute('/compte/search/removetag', array('module' => 'compte', 'action' => 'removetag')));
 
-        $r->prependRoute('compte_ajout', new SocieteRoute('/compte/:identifiant/nouveau',
+  $r->prependRoute('compte_ajout', new SocieteRoute('/compte/:identifiant/nouveau',
                         array('module' => 'compte',
                             'action' => 'ajout'),
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Societe',
                             'type' => 'object')));
-                $r->prependRoute('compte_modification', new CompteRoute('/compte/:identifiant/modification',
+  $r->prependRoute('compte_modification', new CompteRoute('/compte/:identifiant/modification',
                         array('module' => 'compte',
                             'action' => 'modification'),
                         array('sf_method' => array('get', 'post')),
@@ -72,6 +72,13 @@ class acVinCompteRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Compte',
                             'type' => 'object')));
+
+  $r->prependRoute('compte_nouveau_code_creation', new CompteRoute('/compte/:identifiant/nouveau-code-creation',
+                        array('module' => 'compte',
+                              'action' => 'nouveauCodeCreation'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'Compte',
+                              'type' => 'object')));
         $r->prependRoute('compte_coordonnee_modification', new CompteRoute('/compte-coordonnee/:identifiant/modification',
                         array('module' => 'compte',
                             'action' => 'modificationCoordonnee'),
@@ -86,6 +93,11 @@ class acVinCompteRouting {
         array('model' => 'Compte',
             'type' => 'object')));
 
+
+                  $r->prependRoute('drev_dedebrayage',  new sfRoute('/drev/deconnexion',
+                                                            array('module' => 'compte_teledeclarant',
+                                                                'action' => 'drevDeconnexion'),
+                                                            array('sf_method' => array('get', 'post'))));
 
 
     }
