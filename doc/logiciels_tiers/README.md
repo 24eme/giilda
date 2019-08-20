@@ -40,9 +40,9 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 
 | Nom de l'Éditeur | Prise de contact | Génération du fichier de transfer | Recette des échanges en préproduction | Transmission opérationnelle en production | Versions compatibles |
 |------------------|------------------|-----------------------------------|---------------------------------------|------------------------------------------------------|----------------------|
-| Isagri           | Oui | Oui | En cours |  |  |
+| Isagri           | Oui | Oui | Oui | Oui  |  |
 | Solumatic        | Oui |  |  |  |  |
 | Dune Informatique| Oui |  |  |  |  |
 | Cer France       | Oui |  |  |  |  |
-| Vinosoft         | Oui |  |  |  |  |
+| Vinosoft         | Oui | Oui | Oui | Oui |  |
 | EBC         | Oui |  |  |  |  |
