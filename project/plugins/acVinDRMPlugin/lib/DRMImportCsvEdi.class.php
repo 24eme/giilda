@@ -296,15 +296,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 //Gestion du produit non connu
-                if((!$founded_produit) && $has_default_hash && ($default_produit_inao = $this->getIdDouane($csvRow))) {
+                if((!$founded_produit)  && ($default_produit_inao = $this->getIdDouane($csvRow))) {
                     $is_default_produit = true;
-                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
                         $default_produit_libelle = $m[1];
                     }else{
-                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT];
+                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_COMPLET];
                     }
-                    $default_produit_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash($default_produit_inao);
-                    $founded_produit = $this->configuration->getProduit($default_produit_hash);
+                    $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
+                    $founded_produit = $this->configuration->get($default_produit_hash);
                 }
 
                 if (!$founded_produit) {
@@ -1095,7 +1095,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         		return $certification;
         	}
 
-            if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_PRODUIT], $m) && trim($m[2])) {
+            if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_COMPLET], $m) && trim($m[2])) {
                 return $m[2];
             }
 
