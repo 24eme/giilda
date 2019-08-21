@@ -355,10 +355,15 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     }
 
-    if((!$founded_produit) && $has_default_hash && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+    if((!$founded_produit) && $has_default_hash && $this->getIdDouane($datas)) {
         $is_default_produit = true;
-        $default_produit_libelle = $m[1];
-        $default_produit_inao = $m[2];
+        if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
+            $default_produit_libelle = $m[1];
+            $default_produit_inao = $m[2];
+        }else{
+            $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT];
+            $default_produit_inao = $this->getIdDouane($datas);
+        }
         $default_produit_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash($default_produit_inao);
         $founded_produit = $this->configuration->get($default_produit_hash);
     }
