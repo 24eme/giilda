@@ -296,11 +296,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 //Gestion du produit non connu
-                if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
+                if((!$founded_produit) && $has_default_hash && $this->getIdDouane($datas)) {
                     $is_default_produit = true;
-                    $default_produit_libelle = $m[1];
-                    $default_produit_inao = $m[2];
-                    $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
+                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
+                        $default_produit_libelle = $m[1];
+                        $default_produit_inao = $m[2];
+                    }else{
+                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_COMPLET];
+                        $default_produit_inao = $this->getIdDouane($datas);
+                    }
+                    $default_produit_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash($default_produit_inao);
                     $founded_produit = $this->configuration->get($default_produit_hash);
                 }
 
