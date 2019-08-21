@@ -13,12 +13,13 @@ $drmTeledeclaree = $drm->teledeclare;
         <div class="head" style="margin-top: 37px;"></div>
         <div class="list-group" >
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="1">
+                <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Stock début<?php if ($saisieSuspendu): ?>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="A remplir uniquement sur la 1ère DRM de campagne. En août, indiquer le stock réel constaté par inventaire et identique à la Déclaration de Stocks. Pour tous les mois suivants de la campagne, le stock est automatiquement repris du mois précédent."></span></small><?php endif; ?></div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksDebut() as $key => $item): ?>
                         <?php if ($key != 'instance'): ?>
                     <li class="categorie_libelle form-group form-group-xs">
                                 <span id="<?php echo 'stock_debut_' . $key ?>" class=" <?php echo 'stock_debut_' . $key ?>">
-                                 <strong><?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?></strong>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php echo $item->getDescription(); ?>"></span></small>
+                                 <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php echo $item->getDescription(); ?>"></span></small>
                                 </span>
                             </li>
                         <?php endif; ?>
@@ -112,11 +113,12 @@ $drmTeledeclaree = $drm->teledeclare;
             </div>
 
             <div class="list-group-item list-group-item-xs groupe groupe_ouvert groupe_bloque" data-groupe-id="6">
+                <div class="form-group form-group-xs" style="height:22px; font-weight: bold;">Stock théorique fin de mois</div>
                 <ul class="list-unstyled">
                     <?php foreach ($detailsNodes->getStocksFin() as $key => $item): ?>
                         <?php if ($key != 'instance'): ?>
                             <li class="form-group form-group-xs <?php echo ($key != 'revendique') ? '' : ' li_gris'; ?>">
-                                <strong><?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?></strong>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php echo $item->getDescription(); ?>"></span></small>
+                                <?php echo str_replace(" ", "&nbsp;", $item->getLibelle()); ?>&nbsp;<small><span class="glyphicon glyphicon-question-sign" style="cursor:pointer;" data-toggle="tooltip" title="<?php echo $item->getDescription(); ?>"></span></small>
                             </li>
                         <?php endif; ?>
                     <?php endforeach;
