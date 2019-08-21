@@ -108,10 +108,12 @@ class drmActions extends drmGeneriqueActions {
 
                   $aggregate = false;
                   $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
-                  foreach($drmLast->getProduitsDetails() as $detail) {
-                      if(preg_match("/^Total/", $detail->getLibelle())) {
-                          $aggregate = true;
-                          break;
+                  if ($drmLast !== null) {
+                      foreach($drmLast->getProduitsDetails() as $detail) {
+                          if(preg_match("/^Total/", $detail->getLibelle())) {
+                              $aggregate = true;
+                              break;
+                          }
                       }
                   }
 
