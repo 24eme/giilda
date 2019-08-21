@@ -296,10 +296,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 //Gestion du produit non connu
-                if((!$founded_produit) && preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
+                if((!$founded_produit)  && ($default_produit_inao = $this->getIdDouane($csvRow))) {
                     $is_default_produit = true;
-                    $default_produit_libelle = $m[1];
-                    $default_produit_inao = $m[2];
+                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
+                        $default_produit_libelle = $m[1];
+                    }else{
+                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_COMPLET];
+                    }
                     $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
                     $founded_produit = $this->configuration->get($default_produit_hash);
                 }
@@ -512,7 +515,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                 $genre = $this->convertGenre($csvRow[self::CSV_CRD_GENRE]);
                 $couleur = $this->convertCouleur($csvRow[self::CSV_CRD_COULEUR]);
-                $litrageLibelle = strtoupper(str_replace(" ","",str_replace(",",".",$csvRow[self::CSV_CRD_CENTILITRAGE])));
+                $litrageLibelle = strtoupper(preg_replace("/[ _]/","",str_replace(",",".", preg_replace('/([0-9])_([0-9])/', '$1.$2', preg_replace('/^([^_]+)_(.*)/', '$2 $1', $csvRow[self::CSV_CRD_CENTILITRAGE])))));
                 $categorie_key = $csvRow[self::CSV_CRD_CATEGORIE_KEY];
                 $type_key = $csvRow[self::CSV_CRD_TYPE_KEY];
                 $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
@@ -584,12 +587,22 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function convertGenre($g){
           $g = KeyInflector::slugify($g);
-          if (preg_match('/TRANQ/', $g)) {
+          if (preg_match('/^T/', $g)) {
             return DRMClient::DRM_CRD_CATEGORIE_TRANQ;
           }
-          if (preg_match('/MOUS/', $g)) {
+          if (preg_match('/^M/', $g)) {
             return DRMClient::DRM_CRD_CATEGORIE_MOUSSEUX;
           }
+          if (preg_match('/^COGNAC/', $s)) {
+              return DRMClient::DRM_CRD_CATEGORIE_COGNAC;
+          }
+          if (preg_match('/^ALCOOL/', $s)) {
+              return self::DRM_CRD_CATEGORIE_ALCOOLS;
+          }
+          if (preg_match('/^PI/', $s) || preg_match('/^PRODUIT/', $s)) {
+              return self::DRM_CRD_CATEGORIE_PI;
+          }
+
           return null;
         }
 
@@ -1055,11 +1068,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function isEmptyArray($array){
-          foreach ($array as $csvLibelle) {
-            if($csvLibelle){
-              return false;
+            foreach ($array as $csvLibelle) {
+                if($csvLibelle){
+                    return false;
+                }
             }
-          }
             return true;
         }
 
@@ -1069,23 +1082,24 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
 		private function getIdDouane($datas)
 		{
-      if (preg_match('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', trim($datas[self::CSV_CAVE_LIBELLE_COMPLET]), $m)) {
-        return $m[2];
-      }
+            $certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
+        	if (
+            	$certification &&
+            	!trim($datas[self::CSV_CAVE_GENRE]) &&
+            	!trim($datas[self::CSV_CAVE_APPELLATION]) &&
+            	!trim($datas[self::CSV_CAVE_MENTION]) &&
+            	!trim($datas[self::CSV_CAVE_LIEU]) &&
+            	!trim($datas[self::CSV_CAVE_COULEUR]) &&
+            	!trim($datas[self::CSV_CAVE_CEPAGE])
+        	) {
+        		return $certification;
+        	}
 
-			$certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
-			if (
-			$certification &&
-			!trim($datas[self::CSV_CAVE_GENRE]) &&
-			!trim($datas[self::CSV_CAVE_APPELLATION]) &&
-			!trim($datas[self::CSV_CAVE_MENTION]) &&
-			!trim($datas[self::CSV_CAVE_LIEU]) &&
-			!trim($datas[self::CSV_CAVE_COULEUR]) &&
-			!trim($datas[self::CSV_CAVE_CEPAGE])
-			) {
-				return $certification;
-			}
-			return null;
+            if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_COMPLET], $m) && trim($m[2])) {
+                return $m[2];
+            }
+
+        	return null;
 		}
 
         public static function getEdiDefaultFromInao($inao) {
