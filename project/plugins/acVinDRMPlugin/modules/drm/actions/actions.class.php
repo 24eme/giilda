@@ -185,10 +185,14 @@ class drmActions extends drmGeneriqueActions {
           $this->drm->constructId();
           $fileName = 'import_'.$this->drm->identifiant . '_' . $this->drm->periode.'_'.$this->md5.'.csv';
 
-          $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
-          $this->drmCsvEdi->checkCSV();
+          try {
+              $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
+              $this->drmCsvEdi->checkCSV();
 
-          $this->erreurs = $this->drmCsvEdi->getCsvDoc()->erreurs;
+              $this->erreurs = $this->drmCsvEdi->getCsvDoc()->erreurs;
+          }catch(sfException $e) {
+              $this->erreurs = array( (object) array("diagnostic" => preg_replace('/;.*/', '', $e->getMessage()), "num_ligne" => "", "csv_erreur" => ""));
+          }
         }
         if (!count($this->erreurs)) {
           return $this->redirect('drm_creation_fichier_edi', array('periode' => $this->periode, 'md5' => $this->md5,'identifiant' => $this->identifiant));
