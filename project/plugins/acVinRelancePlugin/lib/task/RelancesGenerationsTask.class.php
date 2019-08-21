@@ -44,7 +44,6 @@ EOF;
     }    
     
     $alertes_relancables = AlerteHistoryView::getInstance()->findByTypesAndStatut($container->getGenerations(), AlerteClient::STATUT_EN_ATTENTE_GENERATION_RELANCE);
-    var_dump($container->getGenerations()); exit;
     if(count($alertes_relancables)){
         $generationDoc = new Generation();
         $generationDoc->arguments->add('date_emission', $this->getDate());

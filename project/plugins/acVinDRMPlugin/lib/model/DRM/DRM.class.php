@@ -175,10 +175,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function getProduitsWithCorrespondance($conf = null) {
 
         $hashesInversed = $conf->getCorrespondancesInverse();
-        foreach ($this->getProduits() as $hash => $produit) {
-            var_dump($hash);
-        }
-        exit;
         return $this->declaration->getProduitsWithCorrespondance();
     }
 
@@ -1714,5 +1710,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $total += $produit->getTotal();
       }
       return $total;
+    }
+
+    public function isNegoce() {
+        return $this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR;
     }
 }
