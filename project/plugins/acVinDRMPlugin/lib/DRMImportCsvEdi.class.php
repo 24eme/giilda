@@ -296,17 +296,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
 
                 //Gestion du produit non connu
-                if((!$founded_produit) && $has_default_hash && $this->getIdDouane($datas)) {
+                if((!$founded_produit) && $has_default_hash && ($default_produit_inao = $this->getIdDouane($csvRow))) {
                     $is_default_produit = true;
-                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
+                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
                         $default_produit_libelle = $m[1];
-                        $default_produit_inao = $m[2];
                     }else{
-                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_COMPLET];
-                        $default_produit_inao = $this->getIdDouane($datas);
+                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT];
                     }
                     $default_produit_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash($default_produit_inao);
-                    $founded_produit = $this->configuration->get($default_produit_hash);
+                    $founded_produit = $this->configuration->getProduit($default_produit_hash);
                 }
 
                 if (!$founded_produit) {
@@ -1060,11 +1058,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function isEmptyArray($array){
-          foreach ($array as $csvLibelle) {
-            if($csvLibelle){
-              return false;
+            foreach ($array as $csvLibelle) {
+                if($csvLibelle){
+                    return false;
+                }
             }
-          }
             return true;
         }
 
@@ -1074,23 +1072,24 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
 		private function getIdDouane($datas)
 		{
-      if (preg_match('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', trim($datas[self::CSV_CAVE_LIBELLE_COMPLET]), $m)) {
-        return $m[2];
-      }
+            $certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
+        	if (
+            	$certification &&
+            	!trim($datas[self::CSV_CAVE_GENRE]) &&
+            	!trim($datas[self::CSV_CAVE_APPELLATION]) &&
+            	!trim($datas[self::CSV_CAVE_MENTION]) &&
+            	!trim($datas[self::CSV_CAVE_LIEU]) &&
+            	!trim($datas[self::CSV_CAVE_COULEUR]) &&
+            	!trim($datas[self::CSV_CAVE_CEPAGE])
+        	) {
+        		return $certification;
+        	}
 
-			$certification = trim(str_replace(array('(', ')'), '', $datas[self::CSV_CAVE_CERTIFICATION]));
-			if (
-			$certification &&
-			!trim($datas[self::CSV_CAVE_GENRE]) &&
-			!trim($datas[self::CSV_CAVE_APPELLATION]) &&
-			!trim($datas[self::CSV_CAVE_MENTION]) &&
-			!trim($datas[self::CSV_CAVE_LIEU]) &&
-			!trim($datas[self::CSV_CAVE_COULEUR]) &&
-			!trim($datas[self::CSV_CAVE_CEPAGE])
-			) {
-				return $certification;
-			}
-			return null;
+            if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_PRODUIT], $m) && trim($m[2])) {
+                return $m[2];
+            }
+
+        	return null;
 		}
 
         public static function getEdiDefaultFromInao($inao) {
