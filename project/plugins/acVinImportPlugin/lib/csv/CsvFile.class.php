@@ -28,7 +28,7 @@ class CsvFile
 
     $charset = $this->getCharset($file);
     if ($charset != 'utf-8'){
-        exec('iconv -f '.$charset.' -t utf-8//TRANSLIT '.$file.' > '.$file.'.tmp');
+        exec('iconv -f '.$charset.' -t utf-8 '.$file.' > '.$file.'.tmp');
         if (filesize($file.".tmp")) {
             exec('mv '.$file.".tmp ".$file);
         }
