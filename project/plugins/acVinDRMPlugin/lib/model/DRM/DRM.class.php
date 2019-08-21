@@ -175,10 +175,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     public function getProduitsWithCorrespondance($conf = null) {
 
         $hashesInversed = $conf->getCorrespondancesInverse();
-        foreach ($this->getProduits() as $hash => $produit) {
-            var_dump($hash);
-        }
-        exit;
         return $this->declaration->getProduitsWithCorrespondance();
     }
 

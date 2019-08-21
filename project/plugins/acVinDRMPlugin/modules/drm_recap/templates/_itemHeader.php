@@ -26,7 +26,7 @@
 	<div class="groupe" data-groupe-id="3">
 		<p>Sorties</p>
 		<ul>
-			<?php foreach ($config_lieu->getCertification()->detail->getSorties() as $key => $item): var_dump($item); ?>
+			<?php foreach ($config_lieu->getCertification()->detail->getSorties() as $key => $item): ?>
                         <li><?php echo $item->getLibelle() ?>&nbsp;(<span class="unite">hl</span>)&nbsp;<a href="" class="msg_aide" data-msg="help_popup_drm_sorties_<?php echo $key; ?>" title="Message aide"></a></li>
 			<?php endforeach; ?>
 		</ul>
