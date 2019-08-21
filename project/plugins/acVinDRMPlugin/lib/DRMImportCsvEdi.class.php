@@ -515,7 +515,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                 $genre = $this->convertGenre($csvRow[self::CSV_CRD_GENRE]);
                 $couleur = $this->convertCouleur($csvRow[self::CSV_CRD_COULEUR]);
-                $litrageLibelle = strtoupper(str_replace(" ","",str_replace(",",".",$csvRow[self::CSV_CRD_CENTILITRAGE])));
+                $litrageLibelle = strtoupper(preg_replace("/[ _]/","",str_replace(",",".", preg_replace('/([0-9])_([0-9])/', '$1.$2', preg_replace('/^([^_]+)_(.*)/', '$2 $1', $csvRow[self::CSV_CRD_CENTILITRAGE])))));
                 $categorie_key = $csvRow[self::CSV_CRD_CATEGORIE_KEY];
                 $type_key = $csvRow[self::CSV_CRD_TYPE_KEY];
                 $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
@@ -587,12 +587,22 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function convertGenre($g){
           $g = KeyInflector::slugify($g);
-          if (preg_match('/TRANQ/', $g)) {
+          if (preg_match('/^T/', $g)) {
             return DRMClient::DRM_CRD_CATEGORIE_TRANQ;
           }
-          if (preg_match('/MOUS/', $g)) {
+          if (preg_match('/^M/', $g)) {
             return DRMClient::DRM_CRD_CATEGORIE_MOUSSEUX;
           }
+          if (preg_match('/^COGNAC/', $s)) {
+              return DRMClient::DRM_CRD_CATEGORIE_COGNAC;
+          }
+          if (preg_match('/^ALCOOL/', $s)) {
+              return self::DRM_CRD_CATEGORIE_ALCOOLS;
+          }
+          if (preg_match('/^PI/', $s) || preg_match('/^PRODUIT/', $s)) {
+              return self::DRM_CRD_CATEGORIE_PI;
+          }
+
           return null;
         }
 
