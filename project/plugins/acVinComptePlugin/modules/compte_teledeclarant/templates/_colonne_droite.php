@@ -62,9 +62,9 @@ endif;
 
         <div class="contenu">
             <p>
-                En cas de besoin n'hésitez pas à consulter la notice en format pdf.
+                En cas de besoin n'hésitez pas à consulter le guide utilisateur au format pdf.
             </p>
-            <a href="/data/guide_drm.pdf" id="liens_notices" class="lien_telechargement">Télécharger la notice</a>
+            <a href="/data/Enregistrez vos DRM en ligne - Guide utilisateur Août 2019.pdf" id="liens_notices" class="lien_telechargement">Télécharger le guide</a>
             <br/>
             <br/>
             <p class="lien_lecteur_pdf">
