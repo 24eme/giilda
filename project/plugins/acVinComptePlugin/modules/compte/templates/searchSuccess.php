@@ -186,8 +186,13 @@
                             continue;
                         }
 
+                        if (strpos($f['term'], 'région_indéterminée') !== false) {
+                            continue;
+                        }
+
 					  $targs = $args_copy->getRawValue();
 					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
+
 					  echo '<li class="'.(($i>=20) ? 'tag_overflow' : '').'"><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
                       $i++;
 					}

@@ -24,8 +24,6 @@ if (isset($retour) && ($retour == 'crds')) {
             <br/>
             <p><b>Votre régime CRD&nbsp;:</b></p>
             <?php echo $crdRegimeForm['crd_regime']->render(); ?>
-            <br/>
-            <p>Si vous avez deux types de régimes de CRD, contactez InterLoire.<p>
             <div class="ligne_btn">
                 <button id="popup_confirm" type="submit" class="btn_validation" style="float: right;" ><span>Valider ce choix de régime CRD</span></button>
             </div>
