@@ -100,10 +100,6 @@ if (isset($drm)) {
                 En cas de besoin n'hésitez pas à consulter le guide utilisateur au format pdf.
             </p>
             <a href="/data/Enregistrez vos DRM en ligne - Guide utilisateur Août 2019.pdf" id="liens_notices" class="lien_telechargement">Télécharger le guide</a>
-            <p>
-                Vous trouverez ci dessous la convention d’adhésion et d'habilitation aux téléprocédures CIEL et Télépaiements en format pdf.
-            </p>
-            <a href="/data/convention_adhesion_CIEL.pdf" id="liens_notices" class="lien_telechargement">Télécharger la convention</a>
             <p class="lien_lecteur_pdf">
                 Ces documents sont au format PDF. Pour les visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
             </p>
