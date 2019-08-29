@@ -97,12 +97,12 @@ if (isset($drm)) {
 
         <div class="contenu">
             <p>
-                En cas de besoin n'hésitez pas à consulter le guide utilisateur au format pdf.
+                En cas de besoin n'hésitez pas à consulter le <strong>guide utilisateur</strong> au format pdf.
             </p>
             <a href="/data/Enregistrez vos DRM en ligne - Guide utilisateur Août 2019.pdf" id="liens_notices" class="lien_telechargement">Télécharger le guide</a>
 
-            <p>Vos questions fréquentes</p>
-            <a href="/data/Vos questions fréquentes - DRM.pdf" id="lien_faq" class="lien_telechargement">Télécharger la faq</a>
+            <p>Vos <strong>questions fréquentes</strong></p>
+            <a href="/data/Vos questions fréquentes - DRM.pdf" id="lien_faq" class="lien_telechargement">Télécharger les questions</a>
 
             <p class="lien_lecteur_pdf">
                 Ces documents sont au format PDF. Pour les visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
