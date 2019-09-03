@@ -309,7 +309,7 @@ private function importMouvementsFromCSV($just_check = false) {
     }
 
     if(!$founded_produit) {
-      $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace('/ *\(.*/', '', preg_replace("/[ ]+/", " ", $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT]))));
+      $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace('/ *\(.*/', '', preg_replace("/[ ]+/", " ", $csvRow[self::CSV_CAVE_LIBELLE_PRODUIT] . ' ' . $csvRow[self::CSV_CAVE_MENTION]))));
     }
 
     if (!$founded_produit) {
