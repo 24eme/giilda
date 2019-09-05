@@ -215,7 +215,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire);
+            $produitTav = ($produit->getTav()) ?: null;
+            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire, $produitTav);
 
             if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
                 $p->stocks_debut->initial = $produit->total;
@@ -1344,6 +1345,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     }
 
     public function initProduitsAutres($isTeledeclarationMode){
+        if ($this->isNegoce()) {
+            return;
+        }
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
             if(preg_match("/(DPLC|LIES)/",$hash)){
