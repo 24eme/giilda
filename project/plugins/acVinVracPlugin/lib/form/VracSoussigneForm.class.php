@@ -43,6 +43,7 @@ class VracSoussigneForm extends acCouchdbObjectForm {
             $this->setValidator('vendeur_identifiant', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($vendeurs))));
             if ($this->isAcheteurResponsable) {
                 $acheteursChoiceValides[] = 'ETABLISSEMENT-' . $this->getObject()->createur_identifiant;
+                $this->setWidget('acheteur_identifiant', new sfWidgetFormInputHidden());
             } else {
                 $acheteursChoiceValides = array_keys($acheteurs);
             }
