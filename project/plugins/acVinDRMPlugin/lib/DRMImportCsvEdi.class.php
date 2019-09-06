@@ -113,7 +113,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     // Check Crds
     $this->checkImportCrdsFromCSV();
     // Check Crds
-    $this->checkHorsRegionFromCSV();
+    //$this->checkHorsRegionFromCSV();
 
     if ($this->csvDoc->hasErreurs()) {
       $this->csvDoc->setStatut(self::STATUT_WARNING);
