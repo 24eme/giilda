@@ -3,7 +3,7 @@
 . bin/config.inc
 . bin/import_functions.inc
 
-SHORT='("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019")';
+SHORT='("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019"|"2019-2020")';
 
 curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 
