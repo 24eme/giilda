@@ -249,7 +249,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $this->addProduit($produitConfig->getHash(), self::DETAILS_KEY_SUSPENDU);
+            $this->addProduit($produitConfig->getHash(), self::DETAILS_KEY_SUSPENDU, $produit->get('denomination_complementaire'));
         }
 
         foreach($drm->getAllCrds() as $regime => $crds) {
