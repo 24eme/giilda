@@ -42,7 +42,14 @@ EOF;
     print ";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
-    print "France;";
+    $compte = $societe->getMasterCompte();
+    if ($societe->siege->exist('pays') && $societe->siege->pays) {
+        print ConfigurationClient::getInstance()->getCountry($societe->siege->pays).";";
+    }elseif ($compte->pays) {
+        print ConfigurationClient::getInstance()->getCountry($compte->pays).";";
+    }else {
+        print "France;";
+    }
     print ";"; //NAF
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";

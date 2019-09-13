@@ -129,7 +129,7 @@ endif;
                     ?>
                     <div id="acheteur_choice" class="section_label_maj section_label_maj_teledeclaration">
                         <label >Acheteur :</label>
-                        <input type="hidden" name="vrac[acheteur_identifiant]" value="<?php echo "ETABLISSEMENT-" . $identifiantAcheteur; ?>"/>
+                        <?php echo $form['acheteur_identifiant']->renderError(); ?>
                     </div>
                 <?php endif; ?>
 
