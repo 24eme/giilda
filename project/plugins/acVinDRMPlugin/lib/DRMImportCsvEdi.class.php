@@ -113,7 +113,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     // Check Crds
     $this->checkImportCrdsFromCSV();
     // Check Crds
-    $this->checkHorsRegionFromCSV();
+    //$this->checkHorsRegionFromCSV();
 
     if ($this->csvDoc->hasErreurs()) {
       $this->csvDoc->setStatut(self::STATUT_WARNING);
@@ -594,7 +594,7 @@ private function importComplementMvt($csvRow, $founded_produit, $just_check  = f
       break;
     }
     $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
-    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM])], $denomination_complementaire);
+    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM])], $denomination_complementaire);
     $field = strtolower($type_complement);
     $drmDetails->add($field, $value);
   }
