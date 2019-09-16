@@ -19,7 +19,7 @@ Le projet est actuellement en cours d'utilisation par  :
 
 Ce logiciel est mis à disposition en licence AGPL
 
-# Installation
+## Installation
 
 ## Via ansible
 
