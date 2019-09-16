@@ -18,7 +18,7 @@ class FactureEditionSepaForm extends acCouchdbObjectForm {
 
         $this->setWidget('nom_bancaire', new sfWidgetFormInput());
         $this->setValidator('nom_bancaire', new sfValidatorString(array('required' => true)));
-        $this->widgetSchema->setLabel('nom_bancaire', 'Nom bancaire :');
+        $this->widgetSchema->setLabel('nom_bancaire', 'Titulaire du compte :');
 
         $this->setWidget('iban', new sfWidgetFormInput());
         $this->setValidator('iban', new ValidatorIban(array('required' => true)));
