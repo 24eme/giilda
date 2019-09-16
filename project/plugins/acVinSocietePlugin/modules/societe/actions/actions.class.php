@@ -165,7 +165,13 @@ class societeActions extends sfCredentialActions {
 
     public function executeSepaActivate(sfWebRequest $request) {
         $this->societe = $this->getRoute()->getSociete();
+
         $this->societe->getOrAdd('sepa')->date_activation = date('Y-m-d');
+
+        $mailManager = new SocieteSepaEmailManager($this->getMailer(), $this->getUser());
+        $mailManager->setSociete($this->societe);
+        $mailManager->sendMailSepaActivate();
+
         $this->societe->save();
         $compte = $this->societe->getMasterCompte();
         $compte->getOrAdd('droits')->add(Roles::TELEDECLARATION_PRELEVEMENT, Roles::TELEDECLARATION_PRELEVEMENT);
