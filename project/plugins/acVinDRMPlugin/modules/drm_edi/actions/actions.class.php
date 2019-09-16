@@ -23,7 +23,7 @@ class drm_ediActions extends drmGeneriqueActions {
      */
     public function executeVerificationEdi(sfWebRequest $request) {
 
-        set_time_limit(300);
+        set_time_limit(400);
 
         $this->md5 = $request->getParameter('md5');
         $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
@@ -72,7 +72,7 @@ class drm_ediActions extends drmGeneriqueActions {
      */
     public function executeCreationEdi(sfWebRequest $request) {
 
-        set_time_limit(300);
+        set_time_limit(400);
 
         $this->md5 = $request->getParameter('md5');
         $csvFilePath = sfConfig::get('sf_data_dir') . '/upload/' . $this->md5;
