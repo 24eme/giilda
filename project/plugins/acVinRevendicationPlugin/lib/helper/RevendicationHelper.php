@@ -4,10 +4,8 @@ function revendication_get_words($revendications) {
     $words = array();
 
     foreach($revendications as $revendication) {
-        //var_dump(revendication_get_id($revendication));
         $words[revendication_get_id($revendication)] = revendication_get_word($revendication);
     }
- //exit;
     return $words;
 }
 

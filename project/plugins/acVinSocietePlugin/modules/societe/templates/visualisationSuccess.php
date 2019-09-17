@@ -106,6 +106,20 @@ use_helper('Display');
             </label>
             <?php echo ($societe->exist('sepa') && $societe->sepa->exist('bic'))? $societe->sepa->bic : ""; ?>
           </div>
+          <?php if($societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?>
+          <div class="form_ligne">
+            <label for="teledeclaration_sepa_date_activation" class="label_liste">
+              Date activation :
+            </label>
+            <?php echo  Date::francizeDate($societe->getSepaDateActivation()); ?>
+          </div>
+          <div class="form_ligne">
+            <label for="teledeclaration_sepa_date_effectif" class="label_liste">
+              Date effective :
+            </label>
+            <?php echo  Date::francizeDate($societe->getSepaDateEffectif()); ?>
+          </div>
+        <?php endif; ?>
           <div class="form_ligne">
               <form method="POST" action="<?php echo url_for('societe_sepa_activate', $societe);?>">
                 <strong>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;

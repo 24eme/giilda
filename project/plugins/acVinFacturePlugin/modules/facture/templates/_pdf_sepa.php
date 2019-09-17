@@ -40,13 +40,13 @@ $m_adresse = array();
 preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 
  ?>
-\def\NomInterpro{Interloire}
+\def\NomInterpro{Interprofession des Vins du Val du Loire}
 \def\RUM{<?php echo $societe->getRum(); ?>}
 \def\NomBancaire{<?php echo $sepa->nom_bancaire; ?>}
-\def\Adresse{<?php $adresse = ($societe->getSiegeAdresses() == '')? "~" : html_entity_decode(str_replace(";", "",$societe->getSiegeAdresses()));
+\def\Adresse{\small{<?php $adresse = ($societe->getSiegeAdresses() == '')? "~" : html_entity_decode(str_replace(";", "",$societe->getSiegeAdresses()));
                                                  echo $adresse;
                    $adresseComplementaire = ($societe->siege->exist("adresse_complementaire") && $societe->siege->adresse_complementaire)?  "~-~".html_entity_decode($societe->siege->adresse_complementaire) : "~";
-                                                  echo $adresseComplementaire;   ?>}
+                                                  echo $adresseComplementaire;   ?>}}
 \def\CodePostal{<?php echo $societe->siege->code_postal; ?>}
 \def\Ville{<?php echo $societe->siege->commune; ?>}
 \def\Pays{<?php echo $countries[$societe->siege->pays]; ?>}
@@ -60,9 +60,15 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 
 
 \begin{document}
+
+Cher client, \\
+
+Nous vous prions de trouver ci-dessous un mandat de prélèvement SEPA que nous vous prions de compléter et renvoyer signé accompagné d'un relevé d'identité bancaire.\\
+
+Nous vous prions d'agréer cher client, nos salutations distinguées.\\
+
 \begin{tabularx}{\textwidth}{|XXX|}
 	\hline
-	~ & ~ & ~ \\
 	~ & ~ & ~ \\
 	~ & \multicolumn{2}{c|}{
 		\multirow{1}{*}{\includegraphics[scale=0.25]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/data")."/logo_vrac_pdf2.jpg"; ?>}
@@ -76,10 +82,9 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 	 \\
 	\multicolumn{1}{|c}{
 		\multirow{2}{*}{
-			\textbf{Société \NomInterpro}
+			\textbf{\tiny{L'\NomInterpro}}
 			}
 		} & ~  & ~ \\
-	~ & ~  & ~\\
 	~ & ~  & ~\\
 	~ & ~  & ~\\
 	\hline
@@ -88,62 +93,56 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 	~ & ~  & ~ \\
 	\hline
 	~ & ~  & ~\\
-	~ & ~  & ~\\
 	\multicolumn{3}{|l|}{
-	\parbox{18.5cm}{En signant ce formulaire de mandat, vous autorisez (A) à la Société INTERLOIRE à envoyer des instructions à votre banque pour
-débiter votre compte, et (B) votre banque à débiter votre compte conformément aux instructions de la Société INTERLOIRE.} }\\
-~ & ~  & ~\\
+	\parbox{18.5cm}{En signant ce formulaire de mandat, vous autorisez (A) à l'\NomInterpro à envoyer des instructions à votre banque pour
+débiter votre compte, et (B) votre banque à débiter votre compte conformément aux instructions de l'\NomInterpro.} }\\
 ~ & ~  & ~\\
 \multicolumn{3}{|l|}{
 \parbox{18.5cm}{
 Vous bénéficiez du droit d’être remboursé par votre banque suivant les conditions décrites dans la convention que vous avez passée
-avec elle. Une demande de remboursement doit être présentée dans les 8 semaines suivant la date de débit de votre compte pour un
-prélèvement autorisé.}}
+avec elle. \\~\\
+Une demande de remboursement doit être présentée :\\
+~~~~- dans les 8 semaines suivant la date de débit de votre compte pour un prélèvement autorisé.\\
+~~~~- sans tarder et au plus tard dans les 13 mois en cas de prélèvements non autorisé.
+}}
 \\
 ~ & ~  & ~\\
 \hline
 ~ & ~  & ~\\
-\textbf{Nom bancaire} & \multicolumn{2}{l|}{ \textbf{\NomBancaire} } \\
-~ & ~ & ~\\
+\textbf{Nom ou raison sociale} & \multicolumn{2}{l|}{ \textbf{\NomBancaire} } \\
 \textbf{Votre adresse} & \multicolumn{2}{l|}{ \Adresse } \\
-~ & ~ & ~\\
 ~ & \multicolumn{2}{l|}{\CodePostal~~~~\Ville} \\
-~ & ~ & ~ \\
 \textbf{Pays} & \multicolumn{2}{l|}{ \Pays } \\
-~ & ~ & ~ \\
 ~ & ~  & ~\\
-\textbf{Les coordonnées de votre compte} & \multicolumn{2}{l|}{
+\textbf{Iban} & \multicolumn{2}{l|}{
 		\multirow{1}{*}{
-      Iban~:~\textbf{\IBAN}
+      \textbf{\IBAN}
 		}
 	} \\
-~ & \multicolumn{2}{l|}{ ~ } \\
-~ & \multicolumn{2}{l|}{
+\textbf{Bic} & \multicolumn{2}{l|}{
 		\multirow{1}{*}{
-      Bic~:~\textbf{\BIC}
+      \textbf{\BIC}
 		}
 	} \\
 ~ & \multicolumn{2}{l|}{ ~ } \\
 ~ & ~ & ~ \\
-\textbf{Nom du créancier} & Interloire & ~ \\
+\textbf{Identification du créancier} & Interloire & ~ \\
 \textbf{I.C.S} & \ICSCreancier & ~ \\
 \textbf{Adresse} & \AdresseCreancier & ~ \\
 ~ & \multicolumn{2}{l|}{\CPVilleCreancier} \\
 ~ & ~ & ~ \\
-\textbf{Type de paiement :} & Paiement récurrent / répétitif~~~ \squareChecked & Paiement ponctuel~~~ $\square$ \\
+\textbf{Type de paiement :} & SEPA récurrent & ~ \\
 ~ & ~ & ~ \\
-\textbf{Signé à} & \dotfill & \multicolumn{1}{l|}{
-		\multirow{1}{*}{\includegraphics[scale=0.25]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images/pictos")."/date_field.png" ?>}
+\textbf{Fait à} & \dotfill & \multicolumn{1}{l|}{
+		\textbf{le}~~~\multirow{1}{*}{\includegraphics[scale=0.25]{<?php echo realpath(dirname(__FILE__)."/../../../../../web/images/pictos")."/date_field.png" ?>}
 		}} \\
 ~ & $~~~^{\textrm{\textcolor{darkgray}{\tiny{Lieu}}}}$  & $~~~^{\textrm{\textcolor{darkgray}{\tiny{Date JJ MM AAAA}}}}$ \\
 ~ & ~ & ~ \\
-\textbf{Signature(s) :}  & \multicolumn{2}{l|}{
+\textbf{Signature :}  & \multicolumn{2}{l|}{
 \multirow{1}{*}{
 \emptybox[11.5cm]{2.5cm}
 }
 } \\
-~ & ~ & ~ \\
-~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
@@ -156,13 +155,12 @@ prélèvement autorisé.}}
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
-~ & ~ & ~ \\
 \hline
 \multicolumn{1}{|l|}{ \textbf{A retourner à :} } & \multicolumn{2}{|c|}{ \textbf{Zone réservée à l'usage exclusif du créancier} } \\
-\multicolumn{1}{|l|}{} & \multicolumn{2}{|c|}{} \\
-\multicolumn{1}{|l|}{} & \multicolumn{2}{|c|}{} \\
-\multicolumn{1}{|l|}{} & \multicolumn{2}{|c|}{} \\
-\multicolumn{1}{|l|}{} & \multicolumn{2}{|c|}{} \\
+\multicolumn{1}{|l|}{Interloire} & \multicolumn{2}{|c|}{} \\
+\multicolumn{1}{|l|}{Service Recouvrement} & \multicolumn{2}{|c|}{} \\
+\multicolumn{1}{|l|}{\AdresseCreancier} & \multicolumn{2}{|c|}{} \\
+\multicolumn{1}{|l|}{\CPVilleCreancier} & \multicolumn{2}{|c|}{} \\
 \hline
 \end{tabularx}
 \end{document}
