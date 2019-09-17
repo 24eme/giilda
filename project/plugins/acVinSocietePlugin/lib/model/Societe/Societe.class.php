@@ -397,6 +397,16 @@ class Societe extends BaseSociete {
         return $this->getOrAdd('sepa');
     }
 
+    public function getSepaDateActivation(){
+        return $this->getSepaSociete()->date_activation;
+    }
+
+    public function getSepaDateEffectif(){
+        if(!$this->getSepaDateActivation()) return "";
+
+        return date("Y-m-t", strtotime(Date::addDelaiToDate('+30 days', $this->getSepaDateActivation())));
+    }
+
     public function hasInfosSepa(){
         return $this->exist("sepa")
             && $this->getOrAdd("sepa")->exist("nom_bancaire")

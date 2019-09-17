@@ -13,35 +13,35 @@ $service_prelevement_ouvert = false;
               <li style="height: auto">
                 <div class="adhesion_prelevement">
                   <?php if(!$hasTeledeclarationPrevelement && !$societe->hasInfosSepa()): ?>
-                  <h2>Pour adhérer au prélèvement automatique de vos Factures</h2>
+                  <h2>Adhérer au prélèvement automatique</h2>
                   <form method="post">
                       <?php echo $adhesionPrelevementForm->renderHiddenFields(); ?>
                       <?php echo $adhesionPrelevementForm->renderGlobalErrors(); ?>
-
+                      <p>InterLoire vous propose un nouveau mode de règlement de vos factures : le <strong>prélèvement automatique.</strong>
+                        <br/>Un paiement simple et confortable.</p>
+                        <br/>
+                      <ul>
+                        <li><strong>Facile :</strong> le prélèvement intervient automatiquement à la date d’échéance de votre facture</li>
+                        <li><strong>Pratique :</strong> vous vous libérez des formalités liées à vos règlements</li>
+                        <li><strong>Sécurisé :</strong> vous évitez tout risque d’oubli, de retard ou d’aléas postaux</li>
+                      </ul>
+                      <br/>
+                      <br/>
                       <?php echo $adhesionPrelevementForm['facture_adhesion_prelevement']->render(array('required' => 'true')); ?>
-                      <label for="drm_legal_signature_terms">Je m'engage fournir mes identifiants bancaires ainsi que mon RIB afin qu'Interloire puisse effectuer des prélèvements bancaires correspondant à mes factures.</label>
+                      <label for="drm_legal_signature_terms">J'adhère au prélèvement automatique.</label>
                       <br/>
                       <div class="ligne_btn txt_droite">
                           <button  type="submit" class="btn_validation right" ><span>Continuer</span></button>
                       </div>
                   </form>
-                <?php elseif(!$hasTeledeclarationPrevelement && $societe->hasInfosSepa()): ?>
-                      <h2>Vous avez rempli l'adhésion au prélèvement automatique de vos Factures</h2>
+                <?php elseif($societe->hasInfosSepa()): ?>
+                      <h2>VOTRE MANDAT DE PRÉLÈVEMENT AUTOMATIQUE</h2>
                       <br/>
-                      <p>Cliquez sur "votre Sepa" pour accéder/éditer vos informations bancaires</p>
+                      <p style="padding-left: 35px;">
+                        Vous avez souscrit au prélèvement automatique.<br/><br/>
+                        Si vos coordonnées bancaires ont changé, cliquer ici pour régénérer un nouveau mandat SEPA.</p>
                       <div class="ligne_btn txt_droite">
-                        <a href="<?php echo url_for('facture_sepa_visualisation',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur" ><span>Votre Sepa</span></a>
-                      </div>
-                <?php elseif($hasTeledeclarationPrevelement):
-                    $date_activation = $societe->getSepa()->getDateActivation();
-                    $date_debut_facture = date("Y-m-t", strtotime(Date::addDelaiToDate('+30 days', $date_activation)));
-                  ?>
-                      <h2>Prélèvement automatique</h2>
-                      <br/>
-                      <p><strong>Vous avez adhéré au prélèvement automatique le <?php echo Date::francizeDate($date_activation); ?>.
-                        <?php if($date_debut_facture > (date("Y-m-d"))): ?><br/>Celui-ci sera effectif pour les factures arrivant à échéance le <?php echo Date::francizeDate($date_debut_facture); ?> .<?php endif; ?></strong></p>
-                      <div class="ligne_btn txt_droite">
-                        <a href="<?php echo url_for('facture_sepa_visualisation',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur" ><span>Votre Sepa</span></a>
+                        <a href="<?php echo url_for('facture_sepa_visualisation',array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur" ><span>NOUVEAU MANDAT</span></a>
                       </div>
                 <?php endif; ?>
                   </div>

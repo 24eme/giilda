@@ -5,7 +5,7 @@ use_helper('Float');
 <section id="principal" class="drm">
   <div id="sepa">
     <div class="sepa_panel" style="min-height: 50px;">
-      <div class="title"><span class="text">Informations bancaires liées à votre société</span></div>
+      <div class="title"><span class="text">MES COORDONNÉES BANCAIRES</span></div>
       <div class="panel">
 
         <form  method="POST" class="">
@@ -30,9 +30,9 @@ use_helper('Float');
             <?php echo $form['bic']->renderLabel(); ?>
             <?php echo $form['bic']->render(); ?>
           </div>
-          <div id="btn_etape_dr">
+          <div id="btn_etape_dr" >
             <a href="<?php echo url_for('facture_teledeclarant', array('identifiant' => $etablissementPrincipal->getIdentifiant())) ?>" class="btn_majeur btn_annuler" style="float: left;" id="drm_validation_societe_annuler_btn"><span>annuler</span></a>
-            <button type="submit" class="btn_majeur btn_valider" id="drm_validation_societe_valider_btn" style="float: right;"><span>Valider</span></button>
+            <button type="submit" class="btn_validation" id="drm_validation_societe_valider_btn" style="float: right;"><span>Continuer</span></button>
           </div>
         </form>
 
