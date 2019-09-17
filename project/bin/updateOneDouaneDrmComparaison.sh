@@ -16,7 +16,7 @@ URL_PERIODE="/"
 if test "$PERIODE" ; then
     URL_PERIODE="/"$(echo $PERIODE | sed 's/..$//')"/"$(echo $PERIODE | sed 's/^....//')"/"
 fi
-URL_LASTDOC=$(curl -s $CIEL_URL_RETOURXML""$URL_PERIODE"?accise="$NUMEROACCISE"&from="$DATEREQUETE | sort -r | head -n 1)
+URL_LASTDOC=$(curl -s $CIEL_URL_RETOURXML""$URL_PERIODE"?accise="$NUMEROACCISE"&from="$DATEREQUETE | sort -r  -t '_' -k 4,4 | head -n 1)
 
 echo "url:"$URL_LASTDOC;
 if test $URL_LASTDOC ; then
