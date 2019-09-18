@@ -6,6 +6,7 @@ function sendEmail {
     #Export comptable avant l'envoi de mail afin de s'assurer qu'il soit dispo quoi qu'il arrive
     mkdir -p $PDFDIR"/export"
     annee=$(date '+%Y')
+    cd $SYMFONYROOT
     php symfony export:facture-annee-comptable $annee"-01" $annee"-12" > $PDFDIR"/export/"$annee"_export_comptable.csv.tmp"
     mv $PDFDIR"/export/"$annee"_export_comptable.csv.tmp" $PDFDIR"/export/"$annee"_export_comptable.csv"
     if test $SAMBA_FACTURELOCALDIR; then
@@ -40,7 +41,7 @@ if ! test "$SAMBA_IP" || ! test "$SAMBA_SHARE" || ! test "$SAMBA_AUTH" || ! test
     echo "ERREUR: Pas d'info sur les contacts avec le serveur SAGE (pb de configuration de VINSI)"
     exit 3
 fi
-
+SYMFONYROOT=$(pwd)
 cd $TMP
 if smbclient //$SAMBA_IP/$SAMBA_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_SAGEEXP_SUBDIR ; get societes.csv" | grep NT_STATUS_OBJECT_NAME_NOT_FOUND ; then
     echo "societes.csv not found" 1>&2
