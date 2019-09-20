@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+use POSIX qw(strftime);
 
 $verbose = shift;
 
@@ -15,8 +16,9 @@ while(<STDIN>) {
 	$field[1] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	print $field[1]."\n";
 	print "date saisie;" if ($verbose);
-	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
-	print $field[2]."\n";
+	my $date = strftime "%Y-%m-%d", localtime;
+	$date =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	print $date."\n";
 	print "piece;" if ($verbose);
 	$piece = $field[3]; $piece =~ s/[^a-z0-9]//ig;
 	print $piece."\n";
