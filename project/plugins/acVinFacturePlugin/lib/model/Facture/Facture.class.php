@@ -602,8 +602,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     }
 
     public function updatePrelevementAutomatique(){
-      if($this->getSociete()->hasInfosSepa() && $this->getSociete()->getMasterCompte()->hasDroit(ROLES::TELEDECLARATION_PRELEVEMENT)){
-        $this->add('prelevement_automatique',true);
+      if($this->getSociete()->hasInfosSepa()
+      && $this->getSociete()->getMasterCompte()->hasDroit(ROLES::TELEDECLARATION_PRELEVEMENT)){
+        if($this->getSociete()->getSepaDateEffectif() <= $this->getDateFacturation()){
+          $this->add('prelevement_automatique',true);
+        }
       }
     }
 
