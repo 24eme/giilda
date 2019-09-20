@@ -1,6 +1,6 @@
 <?php
 use_helper('Float');
-$service_prelevement_ouvert = false;
+$service_prelevement_ouvert = true;
 ?>
 <!-- #principal -->
 <section id="principal">
@@ -28,7 +28,7 @@ $service_prelevement_ouvert = false;
                       <br/>
                       <br/>
                       <?php echo $adhesionPrelevementForm['facture_adhesion_prelevement']->render(array('required' => 'true')); ?>
-                      <label for="drm_legal_signature_terms">J'adhère au prélèvement automatique.</label>
+                      <label for="facture_adhesion_prelevement_facture_adhesion_prelevement">J'adhère au prélèvement automatique.</label>
                       <br/>
                       <div class="ligne_btn txt_droite">
                           <button  type="submit" class="btn_validation right" ><span>Continuer</span></button>
