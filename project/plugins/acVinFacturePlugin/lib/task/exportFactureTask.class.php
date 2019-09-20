@@ -32,8 +32,13 @@ EOF;
         $export = new ExportCSV();
         $export->printHeader();
 
-        foreach(FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta() as $vfacture) {
+        $i = 0;
+        $factures = FactureEtablissementView::getInstance()->getFactureNonVerseeEnCompta();
+        foreach($factures as $vfacture) {
     	     $export->printFacture($vfacture->key[FactureEtablissementView::KEYS_FACTURE_ID]);
+             if (!($i++ % 300)) {
+                 sleep(1);
+             }
         }
     }
 }
