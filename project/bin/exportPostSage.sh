@@ -9,6 +9,12 @@ function sendEmail {
     cd $SYMFONYROOT
     php symfony export:facture-annee-comptable $annee"-01" $annee"-12" > $PDFDIR"/export/"$annee"_export_comptable.csv.tmp"
     mv $PDFDIR"/export/"$annee"_export_comptable.csv.tmp" $PDFDIR"/export/"$annee"_export_comptable.csv"
+
+    mkdir -p $PDFDIR/csv
+    cp $TMP/factures.csv $PDFDIR/csv/$(date '+%Y%m%d')_factures.csv
+    cp $TMP/societes.csv $PDFDIR/csv/$(date '+%Y%m%d')_societes.csv
+    cp $TMP/societes.csv $PDFDIR/csv/societes.last.csv
+
     if test $SAMBA_FACTURELOCALDIR; then
         sudo mount $SAMBA_FACTURELOCALDIR
         rsync -a $PDFDIR $SAMBA_FACTURELOCALDIR
