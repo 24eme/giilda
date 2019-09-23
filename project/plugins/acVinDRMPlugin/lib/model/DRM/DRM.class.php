@@ -215,7 +215,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire);
+            $produitTav = ($produit->getTav()) ?: null;
+            $p = $this->addProduit($produitConfig->getHash(), $produit->getParent()->getKey(), $produit->denomination_complementaire, $produitTav);
 
             if(DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
                 $p->stocks_debut->initial = $produit->total;
@@ -1344,6 +1345,9 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
     }
 
     public function initProduitsAutres($isTeledeclarationMode){
+        if ($this->isNegoce()) {
+            return;
+        }
       foreach ($this->getConfigProduits($isTeledeclarationMode) as $hash => $produit) {
         if(preg_match("|/declaration/certifications/AUTRES|",$hash)){
             if(preg_match("/(DPLC|LIES)/",$hash)){
@@ -1771,7 +1775,8 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       if (!function_exists('get_partial')) {
         sfContext::getInstance()->getConfiguration()->loadHelpers(array('Partial'));
       }
-      return get_partial('drm_xml/xml', array('drm' => $this));
+      $partial = ($this->isNegoce())? 'drm_xml/xmlnegoce' : 'drm_xml/xml';
+      return get_partial($partial, array('drm' => $this));
     }
 
     public function getXMLRetour() {
