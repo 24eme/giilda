@@ -77,15 +77,20 @@ EOF;
 
     echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;\n";
 
-    foreach(SocieteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire') as $socdata) {
+    $societes = SocieteAllView::getInstance()->findByInterpro('INTERPRO-inter-loire');
+    $i = 0;
+    foreach($societes as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
-      if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur) 
+      if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur)
 	continue;
       if ($soc->code_comptable_client) {
 	$this->printSociete($soc, $soc->code_comptable_client, self::ISCLIENT);
       }
       if ($soc->code_comptable_fournisseur) {
 	$this->printSociete($soc, $soc->code_comptable_fournisseur, self::ISFOURNISSEUR);
+      }
+      if (!(++$i % 300)) {
+          sleep(1);
       }
     }
   }
