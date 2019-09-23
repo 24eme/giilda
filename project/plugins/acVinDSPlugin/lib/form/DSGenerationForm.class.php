@@ -1,7 +1,7 @@
 <?php
 class DSGenerationForm extends DSGenerationOperateurForm {
 
-    
+
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         parent::__construct($defaults, $options, $CSRFSecret);
     }
@@ -11,7 +11,7 @@ class DSGenerationForm extends DSGenerationOperateurForm {
         parent::configure();
         $this->setWidget('regions', new sfWidgetFormChoice(array('choices' => $this->getRegions(), 'multiple' => true, 'expanded' => true, 'default'=>array_keys($this->getRegions()))));
         $this->setWidget('operateur_types', new sfWidgetFormChoice(array('choices' => $this->getOperateurs(), 'multiple' => true, 'expanded' => true, 'default'=>array_keys($this->getOperateurs()))));
-         
+
 	$choix = array_keys($this->getRegions());
 	$this->setValidator('regions', new sfValidatorChoice(array('choices' => $choix, 'multiple' => true)));
 	$this->setValidator('operateur_types', new sfValidatorChoice(array('choices' => array_keys($this->getOperateurs()), 'multiple' => true)));
@@ -28,11 +28,11 @@ class DSGenerationForm extends DSGenerationOperateurForm {
     }
 
     public function getOperateurs() {
-        
+
         return array(
             EtablissementFamilles::FAMILLE_PRODUCTEUR => EtablissementFamilles::FAMILLE_PRODUCTEUR."_HORS_COOP",
             EtablissementFamilles::FAMILLE_NEGOCIANT => EtablissementFamilles::FAMILLE_NEGOCIANT,
-            EtablissementFamilles::PSEUDOFAMILLE_COOPERATIVE => EtablissementFamilles::PSEUDOFAMILLE_COOPERATIVE,
+            EtablissementFamilles::FAMILLE_COOPERATIVE => EtablissementFamilles::FAMILLE_COOPERATIVE,
         );
     }
 
