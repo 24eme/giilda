@@ -50,6 +50,14 @@ class Societe extends BaseSociete {
         return count($this->etablissements);
     }
 
+    public function getTypeSociete(){
+      if($this->_get('type_societe') == SocieteClient::SUB_TYPE_COOPERATIVE){
+        return SocieteClient::SUB_TYPE_VITICULTEUR;
+      }
+      return $this->_get('type_societe');
+    }
+
+
     public function canHaveChais() {
         return in_array($this->type_societe, SocieteClient::getSocieteTypesWithChais());
     }

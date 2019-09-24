@@ -177,6 +177,13 @@ class Etablissement extends BaseEtablissement {
         return null;
     }
 
+    public function getFamille(){
+      if($this->_get('famille') == EtablissementFamilles::FAMILLE_COOPERATIVE){
+        return EtablissementFamilles::FAMILLE_PRODUCTEUR;
+      }
+      return $this->_get('famille');
+    }
+
     public function getDroit() {
         if (is_null($this->droit)) {
 

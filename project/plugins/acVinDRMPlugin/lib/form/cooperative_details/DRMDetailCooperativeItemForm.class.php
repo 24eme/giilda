@@ -4,7 +4,7 @@ class DRMDetailCooperativeItemForm extends DRMESDetailsItemForm {
 
     public function configure() {
         parent::configure();
-        $this->setWidget('identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => array(EtablissementFamilles::PSEUDOFAMILLE_COOPERATIVE))));
+        $this->setWidget('identifiant', new WidgetEtablissement(array('interpro_id' => 'INTERPRO-inter-loire', 'familles' => array(EtablissementFamilles::FAMILLE_COOPERATIVE))));
         $this->setValidator('identifiant', new ValidatorEtablissement(array('required' => false)));
     }
 
@@ -14,7 +14,7 @@ class DRMDetailCooperativeItemForm extends DRMESDetailsItemForm {
     }
 
     public function getIdentifiantChoices() {
-        
+
         return array();
     }
 

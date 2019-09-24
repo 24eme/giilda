@@ -4,6 +4,7 @@ class SocieteClient extends acCouchdbClient {
 
     const TYPE_OPERATEUR = 'OPERATEUR';
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
+    const SUB_TYPE_COOPERATIVE = 'COOPERATIVE';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
     const SUB_TYPE_COURTIER = 'COURTIER';
     const TYPE_PRESSE = 'PRESSE';
@@ -168,6 +169,7 @@ class SocieteClient extends acCouchdbClient {
 
     public static function getSocieteTypesWithChais() {
         return array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,
+            self::SUB_TYPE_COOPERATIVE => self::SUB_TYPE_COOPERATIVE,
             self::SUB_TYPE_NEGOCIANT => self::SUB_TYPE_NEGOCIANT,
             self::SUB_TYPE_COURTIER => self::SUB_TYPE_COURTIER);
     }
