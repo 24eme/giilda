@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(50);
+$t = new lime_test(51);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
 foreach($produits as $produit) {
@@ -328,12 +328,15 @@ unlink($tmpfname);
 $drm2->devalide();
 $drm2->delete();
 
-$t->comment("Test non appurement ".$viti->identifiant." $periode5");
+$periode5 = date('Y')."04";
+$t->comment("Test non appurement + CRD sans couleur ".$viti->identifiant." $periode5");
 $temp = fopen($tmpfname, "w");
 fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,944,,,,,,\n");
 fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,944,,,,,,\n");
 fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,01/06/2019,FR00000E0000,19FRG000000000000000\n");
 fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-02,FR00000E0001,19FRG000000000000001\n");
+fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,100,,,,\n");
+fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_fin,fin,100,,,,\n");
 fclose($temp);
 $drm9 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
 $drm9->teledeclare = true;
@@ -349,5 +352,10 @@ $drm9->save();
 $t->is(count($drm9->releve_non_apurement), 2, "releve de non apurement présent");
 $t->is($drm9->releve_non_apurement["19FRG000000000000000"]->getDateEmission(true), '2019-06-01', "la 1ere date est bonne");
 $t->is($drm9->releve_non_apurement["19FRG000000000000001"]->getDateEmission(true), '2019-06-02', "la 2de date est bonne");
+foreach ($drm9->crds as $k1 => $coul) {
+    foreach($coul as $k2 => $crd) {
+        $t->is($crd->couleur, 'DEFAUT', "sans couleur, la CRD couleur par défaut est DEFAUT");
+    }
+}
 
 unlink($tmpfname);
