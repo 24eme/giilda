@@ -88,24 +88,6 @@ use_helper('Display');
       <div id="detail_societe_sepa" class="form_section ouvert">
         <h3>Informations bancaires <?php if($societe->exist("sepa") && $societe->sepa->exist("date_activation") && $societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?><span class="btn_majeur btn_vert btn_label" style="">actif</span><?php else: ?><span class="btn_majeur btn_orange btn_label" style="">non actif</span><?php endif; ?></h3>
         <div class="form_contenu">
-          <div class="form_ligne">
-            <label for="teledeclaration_sepa_nom_bancaire" class="label_liste">
-              Nom bancaire :
-            </label>
-            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('nom_bancaire'))? $societe->sepa->nom_bancaire : ""; ?>
-          </div>
-          <div class="form_ligne">
-            <label for="teledeclaration_sepa_iban" class="label_liste">
-              Iban :
-            </label>
-            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('iban'))? formatIban($societe->sepa->iban) : ""; ?>
-          </div>
-          <div class="form_ligne">
-            <label for="teledeclaration_sepa_bic" class="label_liste">
-              Bic :
-            </label>
-            <?php echo ($societe->exist('sepa') && $societe->sepa->exist('bic'))? $societe->sepa->bic : ""; ?>
-          </div>
           <?php if($societe->getOrAdd("sepa")->getOrAdd("date_activation")): ?>
           <div class="form_ligne">
             <label for="teledeclaration_sepa_date_activation" class="label_liste">
@@ -122,7 +104,7 @@ use_helper('Display');
         <?php endif; ?>
           <div class="form_ligne">
               <form method="POST" action="<?php echo url_for('societe_sepa_activate', $societe);?>">
-                <strong>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                <strong>Les Informations bancaires ont étées saisies.<br/>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
                   <?php if ($societe->exist('sepa') && $societe->sepa->getOrAdd('nom_bancaire') && $societe->sepa->getOrAdd('iban') && $societe->sepa->getOrAdd('bic') ) : ?>
                       <input type="submit" class="btn_majeur btn_contact" value="Activer" style="float:right;" onclick='return confirm("Souhaitez-vous confirmer l&apos;activation des prélèvements automatiques pour cette société ?")' />
                   <?php else: ?>

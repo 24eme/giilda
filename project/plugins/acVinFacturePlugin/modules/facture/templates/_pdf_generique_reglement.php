@@ -26,11 +26,11 @@ use_helper('Float');
   \noindent{
          \begin{flushleft}
 
-         \begin{minipage}[b]{0.60\textwidth}         
+         \begin{minipage}[b]{0.60\textwidth}
          ~ \\
          ~ \\
          ~ \\
-          \small{\textbf{Cette avoir de <?php echoArialFloat($facture->total_ttc); ?>~\texteuro{}~TTC sera rembourser le <?php echo format_date($facture->getDateRemboursement(),'dd/MM/yyyy'); ?> }}
+          \small{\textbf{Cette avoir de <?php echoArialFloat($facture->total_ttc); ?>~\texteuro{}~TTC sera remboursée le <?php echo format_date($facture->getDateRemboursement(),'dd/MM/yyyy'); ?> }}
           ~ \\
           \end{minipage}
           \end{flushleft}
