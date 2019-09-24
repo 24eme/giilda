@@ -125,6 +125,7 @@ fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,
 fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".substr($produit1->getLibelleFormat(), 0, -2).",suspendu,stocks_fin,final,944,,,,,,\n"); // Teste en retirant un caractère à la fin pour voir si la reconnaissance se fait si il n'y a pas d'ambiguité sur la résolution de libellé d'un produit
 fclose($temp);
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
+$drm->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm);
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
@@ -161,6 +162,7 @@ fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tr
 fclose($temp);
 $periode = (date('Y'))."01";
 $drm2 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
+$drm2->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm2);
 
 $t->ok($import->checkCSV(), "Vérification de l'import");
@@ -197,6 +199,7 @@ fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",Lie de 
 fclose($temp);
 
 $drm3 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
+$drm3->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm3);
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
@@ -243,6 +246,7 @@ if($produit_disabled) {
     fclose($temp);
 
     $drm4 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
+    $drm4->teledeclare = true;
     $import = new DRMImportCsvEdi($tmpfname, $drm4);
     $t->ok(!$import->checkCSV(), "Un produit non actif ne doit pas être permis");
     unlink($tmpfname);
@@ -260,6 +264,7 @@ fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",VERT,t
 fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75cl,,,,,,,collectif acquitte,stock_fin,fin,11624,,,,\n");
 fclose($temp);
 $drm5 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$drm5->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm5);
 $t->ok(!$import->checkCSV(), "On ne peut pas changer une CRD avec du stock");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
@@ -280,6 +285,7 @@ fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",VERT,t
 fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75cl,,,,,,,collectif suspendu,stock_fin,fin,11624,,,,\n");
 fclose($temp);
 $drm6 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$drm6->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm6);
 $t->ok(!$import->checkCSV(), "On ne peut pas changer le stock CRD déclaré lors de la DRM précédente");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
@@ -295,6 +301,7 @@ fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$pr
 fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$produit2->getCodeDouane().",,,,,,,,,suspendu,stocks_fin,final,944,,,,,,\n");
 fclose($temp);
 $drm7 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$drm7->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm7);
 $import->importCSV();
 $t->is($drm7->crds->COLLECTIFSUSPENDU->get('TRANQ-VERT-750')->stock_debut, 11624, "stock debut 75 cl OK");
@@ -309,6 +316,7 @@ fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$pr
 fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",".$produit2->getCodeDouane().",,,,,,,,,suspendu,stocks_fin,final,940,,,,,,\n");
 fclose($temp);
 $drm8 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$drm8->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm8);
 $t->ok(!$import->checkCSV(), "On ne peut pas changer le stock de vin déclaré lors de la DRM précédente");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
@@ -328,6 +336,7 @@ fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,
 fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-02,FR00000E0001,19FRG000000000000001\n");
 fclose($temp);
 $drm9 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
+$drm9->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm9);
 $t->ok($import->checkCSV(), "Permet deux types de dates de non apurement");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
