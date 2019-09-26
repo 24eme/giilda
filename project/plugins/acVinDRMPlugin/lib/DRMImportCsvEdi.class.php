@@ -503,6 +503,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $newKey = strtoupper(str_replace(" ","",str_replace(",",".",$contenance_key)));
               $all_contenances[$newKey] = $contenance;
             }
+
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                     $num_ligne++;
@@ -582,6 +583,20 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                     $num_ligne++;
                 }
+            }
+
+            if (! $etablissementObj->exist('crd_regime')) {
+                $crd_regimes = [];
+                foreach ($this->getDocRows() as $csvRow) {
+                    $crd_regime = DRMClient::convertCRDRegime($csvRow[self::CSV_CRD_REGIME]);
+
+                    if (! in_array($crd_regime, $crd_regimes)) {
+                        $crd_regimes[] = $crd_regime;
+                    }
+                }
+
+                $etablissementObj->add('crd_regime', implode(',', $crd_regimes));
+                $etablissementObj->save();
             }
         }
 
