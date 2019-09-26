@@ -73,7 +73,7 @@
 				  </div>
 				<?php endif; ?>
 
-				<?php if(count($compte->getDroits()) && (!$compte->exist("mot_de_passe") || !$compte->mot_de_passe)): ?>
+				<?php if($compte->hasDroits() && (!$compte->exist("mot_de_passe") || !$compte->mot_de_passe)): ?>
 				<div id="coordonnees_contact" class="form_section ouvert">
 				  <h3>Télédeclaration</h3>
 				   <div class="form_contenu"> <fieldset>

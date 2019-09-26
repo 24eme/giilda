@@ -16,7 +16,7 @@ if (!isset($fromSociete))
             <label for="famille">
                 Type établissement :
             </label>
-            <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?>
+            <?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille); ?> <?php echo ($etablissement->_get('famille') == EtablissementFamilles::FAMILLE_COOPERATIVE)? "(".EtablissementFamilles::FAMILLE_COOPERATIVE.')' : ''; ?>
         </div>
         <div class="form_ligne">
             <label for="nom">

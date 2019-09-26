@@ -96,7 +96,7 @@ class EtablissementAllView extends acCouchdbView
 	$q[] = 'statut:'.$statut;
       }
 
-      if ($famille == EtablissementFamilles::PSEUDOFAMILLE_COOPERATIVE) {
+      if ($famille == EtablissementFamilles::FAMILLE_COOPERATIVE) {
 	$q[] = 'cooperative:1';
       }else if ($famille) {
 	$q[] = 'famille:'.$famille;

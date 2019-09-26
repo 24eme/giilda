@@ -477,8 +477,14 @@ class Compte extends BaseCompte {
         return in_array($droit, $droits);
     }
 
-    public function getDroits() {
+    public function hasDroits() {
+        if (!$this->exist('droits')) {
+            return false;
+        }
+        return count($this->getDroits());
+    }
 
+    public function getDroits() {
         return $this->_get('droits');
     }
 
