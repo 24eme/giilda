@@ -62,6 +62,7 @@ EOF;
             }
         }
         $drm->clearMouvements();
+        $drm->region = $drm->getEtablissement()->region;
         $isTeleclare = $drm->isTeledeclare();
 
         foreach ($drm->getProduits() as $hash => $produit){
