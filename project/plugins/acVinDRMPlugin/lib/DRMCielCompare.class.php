@@ -33,6 +33,9 @@ class DRMCielCompare
 		$inaoUnique = null;
 		$libelleUnique = null;
 		foreach($nonnull as $key => $value) {
+			if (preg_match('/\/droits-acquittes\//', $key)) {
+				continue;
+			}
 			if (!preg_match('/produit/', $key)) {
 				$res[$key] = $value;
 				continue;
