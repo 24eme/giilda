@@ -180,15 +180,11 @@ class VracSoussigneForm extends acCouchdbObjectForm {
         $acheteurLiaisons = $acheteurEtb->liaisons_operateurs;
         $vendeurLiaisons = $vendeurEtb->liaisons_operateurs;
 
-        if (is_array($vendeurLiaisons) &&
-            in_array('CONTRAT_INTERNE_'.$acheteur, array_keys($vendeurLiaisons->toArray()))
-        ) {
+        if ($vendeurLiaisons && in_array('CONTRAT_INTERNE_'.$acheteur, array_keys($vendeurLiaisons->toArray()))) {
             return true;
         }
 
-        if (is_array($acheteurLiaisons) &&
-            in_array('CONTRAT_INTERNE_'.$vendeur, array_keys($acheteurLiaisons->toArray()))
-        ) {
+        if ($acheteurLiaisons && in_array('CONTRAT_INTERNE_'.$vendeur, array_keys($acheteurLiaisons->toArray()))) {
             return true;
         }
 

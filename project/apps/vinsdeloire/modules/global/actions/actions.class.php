@@ -20,6 +20,10 @@ class globalActions extends sfActions {
             return $this->redirect('vrac');
         }
 
+	if ($this->getUser()->hasCredential('teledeclaration_drev_admin')) {
+            return $this->redirect('/odg/declaration');
+        }
+
         if ($this->getUser()->hasCredential('drm')) {
             return $this->redirect('drm');
         }
@@ -67,7 +71,9 @@ class globalActions extends sfActions {
             $etablissement = EtablissementClient::getInstance()->find($request->getParameter('etablissement_id'));
         }
 
-        return $this->renderPartial("global/header", array("compte" => $compte, "droits" => $droits, "isAuthenticated" => true, "isUsurpation" => false, "etablissement" => $etablissement, "societe" => $societe));
+	$actif = $request->getParameter('actif', null);
+
+        return $this->renderPartial("global/header", array("compte" => $compte, "droits" => $droits, "isAuthenticated" => true, "isUsurpation" => false, "etablissement" => $etablissement, "societe" => $societe, "actif" => $actif));
     }
 
     protected function forwardSecure() {
