@@ -185,7 +185,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getCodeDouane($uniq = false) {
+    public function getCodeDouane() {
         $a = $this->getCodesDouanes();
         if (!$a) {
             return null;
@@ -205,7 +205,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             return $this->getParentNode()->getCodesDouanes();
         }
 
-        return explode('/,/', $this->_get('code_douane'));
+        return explode(',', $this->_get('code_douane'));
     }
 
     public function getCodeProduit() {
