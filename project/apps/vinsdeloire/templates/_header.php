@@ -8,7 +8,7 @@
         </h1>
         <div class="conteneur_nav">
             <span class="baseline">Espace des professionnels du Vignoble du Val de Loire</span>
-            <?php include_component('global', 'nav', array('droits' => isset($droits) ? $droits : null, 'isAuthenticated' => isset($isAuthenticated), 'etablissement' => isset($etablissement) ? $etablissement : null, 'societe' => isset($societe) ? $societe : null)); ?>
+            <?php include_component('global', 'nav', array('droits' => isset($droits) ? $droits : null, 'isAuthenticated' => isset($isAuthenticated), 'etablissement' => isset($etablissement) ? $etablissement : null, 'societe' => isset($societe) ? $societe : null, 'actif' => isset($actif) ? $actif : null)); ?>
         </div>
 
         <?php if ($sf_user->hasCredential('transactions') || in_array('transactions', isset($droits) ? $droits->getRawValue() : array())): ?>
