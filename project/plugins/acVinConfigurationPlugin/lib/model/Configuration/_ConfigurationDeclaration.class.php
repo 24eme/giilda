@@ -197,7 +197,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
             return $this->getParentNode()->getCodesDouanes();
         }
 
-        return explode('/,/', $this->_get('code_douane'));
+        return explode(',', $this->_get('code_douane'));
     }
 
     public function getCodeProduit() {
