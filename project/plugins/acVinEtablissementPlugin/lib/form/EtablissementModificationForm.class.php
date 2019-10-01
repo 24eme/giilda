@@ -29,6 +29,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setWidget('no_accises', new sfWidgetFormInput());
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new sfWidgetFormInput());
+        $this->setWidget('ppm', new sfWidgetFormInput());
 
 
         $this->widgetSchema->setLabel('nom', 'Nom du chai *');
@@ -37,6 +38,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->widgetSchema->setLabel('no_accises', "N° d'Accise");
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
+        $this->widgetSchema->setLabel('ppm', 'PPM');
 
 
 
@@ -46,6 +48,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setValidator('site_fiche', new sfValidatorString(array('required' => false)));
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
+        $this->setValidator('ppm', new sfValidatorString(array('required' => false)));
 
 
         if (!$this->etablissement->isCourtier()) {

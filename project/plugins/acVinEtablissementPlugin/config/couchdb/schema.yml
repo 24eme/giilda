@@ -14,7 +14,7 @@ Etablissement:
        exclusion_drm: {  }
        relance_ds: {  }
        teledeclaration_email: {  }
-       recette_locale: 
+       recette_locale:
          type: collection
          definition:
            fields:
@@ -35,6 +35,7 @@ Etablissement:
                      id_etablissement: { }
                      libelle_etablissement: {}
                      type_liaison: { }
+                     ppm: { required: false }
                      aliases:
                        type: collection
                        definition:
@@ -46,7 +47,7 @@ Etablissement:
        raison_sociale: {  }
        nom: {  }
        cvi: {  }
-       ppm: { required: false }       
+       ppm: { required: false }
        no_accises: {  }
        carte_pro: {  }
        famille: {  }
