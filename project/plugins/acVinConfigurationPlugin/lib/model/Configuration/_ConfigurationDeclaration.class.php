@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 /**
  * Inheritance tree class _ConfigurationDeclaration
