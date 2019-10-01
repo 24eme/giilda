@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 /**
  * Inheritance tree class _ConfigurationDeclaration
@@ -185,13 +185,12 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getCodeDouane($uniq = false) {
-        if (!$this->_get('code_douane')) {
-
-            return $this->getParentNode()->getCodeDouane($uniq);
+    public function getCodeDouane() {
+        $a = $this->getCodesDouanes();
+        if (!$a) {
+            return null;
         }
-
-        $codeDouane = $this->_get('code_douane');
+        $codeDouane = array_shift($a);
 
         if(!$uniq) {
 
@@ -199,6 +198,14 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         }
 
         return $codeDouane;
+    }
+
+    public function getCodesDouanes() {
+        if (!$this->_get('code_douane')) {
+            return $this->getParentNode()->getCodesDouanes();
+        }
+
+        return explode(',', $this->_get('code_douane'));
     }
 
     public function getCodeProduit() {
