@@ -20,7 +20,6 @@ URL_LASTDOC=$(curl -s $CIEL_URL_RETOURXML""$URL_PERIODE"?accise="$NUMEROACCISE"&
 
 echo "url:"$URL_LASTDOC;
 if test $URL_LASTDOC ; then
-if ! test "$CVI" || curl $URL_LASTDOC | grep "$CVI" > /dev/null ; then
     cd $WORKINGDIR;
     OUT=$(php5 symfony $SYMFONYTASKOPTIONS drm:storeXMLRetour --force-update="1" $URL_LASTDOC)
 	RET=$?
@@ -29,7 +28,6 @@ if ! test "$CVI" || curl $URL_LASTDOC | grep "$CVI" > /dev/null ; then
 	if test $RET -eq 0 ; then
 		php5 symfony $SYMFONYTASKOPTIONS drm:compareXMLs $DRM
 	fi
-fi
 fi
 
 rm -f $PATHFILETMP;
