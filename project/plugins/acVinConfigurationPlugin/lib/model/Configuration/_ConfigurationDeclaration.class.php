@@ -185,7 +185,7 @@ abstract class _ConfigurationDeclaration extends acCouchdbDocumentTree {
         return $produits;
     }
 
-    public function getCodeDouane() {
+    public function getCodeDouane($uniq = null) {
         $a = $this->getCodesDouanes();
         if (!$a) {
             return null;
