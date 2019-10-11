@@ -4,7 +4,7 @@
         <form action="<?php echo url_for('drm_legal_signature', array('identifiant' => $etablissement->identifiant)) ?>" method="post">
             <?php echo $legalSignatureForm->renderHiddenFields(); ?>
             <?php echo $legalSignatureForm->renderGlobalErrors(); ?>
-            <h2>Activation de votre espace DRM</h2>
+            <h2>Activation de votre espace DRev</h2>
             <br/>
             <p>
                 InterLoire met à votre disposition des outils de simplification administrative sur le système d’identification sécurisé : « vinsvaldeloire.pro ».
