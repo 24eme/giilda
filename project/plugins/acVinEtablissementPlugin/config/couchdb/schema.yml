@@ -44,7 +44,6 @@ Etablissement:
        site_fiche: {  }
        compte: {  }
        num_interne: {  }
-       legal_signature_drev: { required: false }
        raison_sociale: {  }
        nom: {  }
        cvi: {  }
