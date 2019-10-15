@@ -54,8 +54,21 @@
             ?>
 
             <?php if (sfConfig::get('app_odgloire', false)) : ?>
+            <?php
+                include_component('global', 'navItem', array(
+                 'libelle' => 'DRev',
+                 'prefix' => 'drev',
+                 'route' => 'drev',
+                 'route_etablissement' => 'drev_etablissement',
+                 'etablissement' => $etablissement,
+                 'target' => '_self'
+                ))
+             ?>
+             <?php endif; ?>
+
+            <?php /*if (sfConfig::get('app_odgloire', false)) : ?>
               <li <?php if(isset($actif) && $actif == 'drev'): ?>class="actif"<?php endif; ?> ><a href="/odg/<?php echo (isset($etablissement) && !isset($droits)) ? "declarations/".$etablissement->identifiant : null ?>">DRev</a></li>
-            <?php endif; ?>
+            <?php endif;*/ ?>
 
             <?php
             include_component('global', 'navItem', array(
@@ -170,8 +183,21 @@
 
         <?php
           if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev') || in_array('teledeclaration_drev', isset($droits) ? $droits->getRawValue() : array()))): ?>
+              <?php
+              include_component('global', 'navItem', array(
+                  'libelle' => 'DRev',
+                  'prefix' => 'drev',
+                  'route' => 'drev_teledeclarant',
+                  'route_etablissement' => 'drev_teledeclarant',
+                  'societe' => $societe,
+                  'target' => '_self'
+              ))
+              ?>
+        <?php endif ?>
+
+
           <?php
-          $url = null;
+          /*$url = null;
           if($sf_user->getCompte()){
             $url="/odg/declarations/".$sf_user->getCompte()->getIdentifiant()."?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$sf_user->getCompte()->getSociete()->getMasterCompte()->identifiant;
           }else{
@@ -187,7 +213,7 @@
             <?php $url = "/odg/declaration?usurpation=".intval($sf_user->isUsurpationCompte())."&login=".$sf_user->getCompte()->identifiant; ?>
             <li <?php if(isset($actif) && $actif == 'drev'): ?>class="actif"<?php endif; ?>><a href="<?php echo $url ?>" >DRev</a></li>
           <?php endif; ?>
-        <?php endif; ?>
+        <?php endif;*/ ?>
 
         <!-- Actions utilisateur pour tablette et mobile -->
 
