@@ -14,6 +14,7 @@ Etablissement:
        exclusion_drm: {  }
        relance_ds: {  }
        teledeclaration_email: {  }
+       nature_inao: { required: false }
        recette_locale:
          type: collection
          definition:
