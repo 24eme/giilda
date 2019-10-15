@@ -78,6 +78,13 @@ if (!isset($fromSociete))
                 <?php echo $etablissement->cvi; ?>
             </div>
         <?php endif; ?>
+        <?php if ($etablissement->exist('ppm') && $etablissement->ppm): ?>
+            <div class="form_ligne">
+                <label for="ppm">
+                    PPM :</label>
+                <?php echo $etablissement->ppm; ?>
+            </div>
+        <?php endif; ?>
         <?php if ($etablissement->no_accises): ?>
             <div class="form_ligne">
                 <label for="no_accises">

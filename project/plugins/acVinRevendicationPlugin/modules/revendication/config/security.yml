@@ -1,3 +1,9 @@
 all:
   is_secure: true
   credentials: drev
+
+teledeclarant:
+  credentials: [[drev, teledeclaration_drev]]
+
+legalSignature:
+  credentials: [[drev, teledeclaration_drev]]

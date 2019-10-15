@@ -252,6 +252,48 @@ class revendicationActions extends sfActions {
         }
     }
 
+    public function executeAccueil(sfWebRequest $request) {
 
+        return $this->redirect('/odg/');
+    }
+
+    public function executeEtablissement(sfWebRequest $request) {
+
+        return $this->redirect('/odg/declarations/'.$request->getParameter('identifiant'));
+    }
+
+    public function executeTeledeclarant(sfWebRequest $request) {
+        $compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
+        $societe = $compte->getSociete();
+
+        if(!$societe->exist('legal_signature') || !$societe->legal_signature->exist('drev')) {
+
+            return $this->redirect('drev_legal_signature', array('identifiant' => $request->getParameter('identifiant')));
+        }
+
+        return $this->redirect('/odg/declarations/'.$request->getParameter('identifiant'));
+    }
+
+    public function executeLegalSignature(sfWebRequest $request) {
+        $this->compte = CompteClient::getInstance()->find("COMPTE-".$request->getParameter('identifiant'));
+        $this->societe = $this->compte->getSociete();
+        $this->legalSignatureForm = new DRevLegalSignatureForm($this->societe);
+
+        if (!$request->isMethod(sfRequest::POST)) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->legalSignatureForm->bind($request->getParameter($this->legalSignatureForm->getName()));
+
+        if (!$this->legalSignatureForm->isValid()) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->legalSignatureForm->save();
+
+        return $this->redirect('drev_teledeclarant', array('identifiant' => $request->getParameter('identifiant')));
+    }
 
 }

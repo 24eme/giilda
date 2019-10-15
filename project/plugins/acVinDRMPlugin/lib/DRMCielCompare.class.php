@@ -6,15 +6,13 @@ class DRMCielCompare
 
 	public function __construct($xmlIn, $xmlOut)
 	{
-		$xmlIn = preg_replace('/<!\[CDATA\[(.*)\]\]>/', '$1',$xmlIn);
-		$xmlOut = preg_replace('/<!\[CDATA\[(.*)\]\]>/', '$1',$xmlOut);
 		if(is_string($xmlIn)) {
-			$this->xmlIn = simplexml_load_string($xmlIn);
+			$this->xmlIn = simplexml_load_string($xmlIn, 'SimpleXMLElement', LIBXML_NOCDATA);
 		}else {
 			$this->xmlIn = $xmlIn;
 		}
 		if(is_string($xmlOut)) {
-			$this->xmlOut = simplexml_load_string($xmlOut);
+			$this->xmlOut = simplexml_load_string($xmlOut, 'SimpleXMLElement', LIBXML_NOCDATA);
 		}else {
 			$this->xmlOut = $xmlOut;
 		}

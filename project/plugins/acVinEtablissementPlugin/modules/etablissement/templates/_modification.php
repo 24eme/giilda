@@ -40,7 +40,7 @@
             <div class="form_colonne">
                 <?php echo $etablissementForm['relance_ds']->renderLabel(); ?>
                 <?php echo $etablissementForm['relance_ds']->render(); ?>
-    <?php echo $etablissementForm['relance_ds']->renderError(); ?>
+                <?php echo $etablissementForm['relance_ds']->renderError(); ?>
             </div>
             <div class="form_colonne">
             </div>
@@ -77,6 +77,11 @@
             <?php echo $etablissementForm['cvi']->renderLabel(); ?>
         <?php echo $etablissementForm['cvi']->render(); ?>
         <?php echo $etablissementForm['cvi']->renderError(); ?>
+      </div>
+        <div class="form_ligne">
+            <?php echo $etablissementForm['ppm']->renderLabel(); ?>
+        <?php echo $etablissementForm['ppm']->render(); ?>
+        <?php echo $etablissementForm['ppm']->renderError(); ?>
         </div>
         <?php endif; ?>
     <div class="form_ligne">
@@ -106,7 +111,7 @@
         <?php echo $etablissementForm['raison_sociale_cautionneur']->renderLabel(); ?>
         <?php echo $etablissementForm['raison_sociale_cautionneur']->render(); ?>
         <?php echo $etablissementForm['raison_sociale_cautionneur']->renderError(); ?>
-    </div>    
+    </div>
     <?php endif; ?>
 
 
