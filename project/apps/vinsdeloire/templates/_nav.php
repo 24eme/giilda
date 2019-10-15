@@ -61,7 +61,8 @@
                  'route' => 'drev',
                  'route_etablissement' => 'drev_etablissement',
                  'etablissement' => $etablissement,
-                 'target' => '_self'
+                 'target' => '_self',
+                 'actif' => (isset($actif) && $actif == 'drev') ? true : null,
                 ))
              ?>
              <?php endif; ?>
