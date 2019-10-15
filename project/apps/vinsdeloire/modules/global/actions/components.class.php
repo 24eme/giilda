@@ -29,7 +29,7 @@ class globalComponents extends sfComponents
 
     public function executeNavItem(sfWebRequest $request)
     {
-        $this->actif = preg_match('/^'.$this->prefix.'/', $this->getRequest()->getParameter('module'));
+        $this->actif = (isset($actif)) ? $actif : preg_match('/^'.$this->prefix.'/', $this->getRequest()->getParameter('module'));
     }
 
     public function getRoute()
