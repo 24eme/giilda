@@ -2,6 +2,12 @@ all:
   is_secure: true
   credentials: drev
 
+accueil:
+  credentials: [[drev, teledeclaration_drev_admin]]
+
+etablissement:
+  credentials: [[drev, teledeclaration_drev_admin]]
+
 teledeclarant:
   credentials: [[drev, teledeclaration_drev]]
 
