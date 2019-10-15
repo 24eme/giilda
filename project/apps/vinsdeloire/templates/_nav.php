@@ -197,6 +197,20 @@
               ?>
         <?php endif ?>
 
+	<?php if (sfConfig::get('app_odgloire', false) && ($sf_user->hasCredential('teledeclaration_drev_admin') || in_array('teledeclaration_drev_admin', isset($droits) ? $droits->getRawValue() : array()))): ?>
+            <?php
+                include_component('global', 'navItem', array(
+                 'libelle' => 'DRev',
+                 'prefix' => 'drev',
+                 'route' => 'drev',
+                 'route_etablissement' => 'drev_etablissement',
+                 'etablissement' => $etablissement,
+                 'target' => '_self',
+                 'actif' => (isset($actif) && $actif == 'drev') ? true : null,
+                ))
+             ?>
+        <?php endif; ?>
+
         <!-- Actions utilisateur pour tablette et mobile -->
 
         <?php if ($sf_user->hasCredential('admin') || in_array('admin', isset($droits) ? $droits->getRawValue() : array())) : ?>
