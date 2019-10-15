@@ -397,8 +397,8 @@ class Societe extends BaseSociete {
         return false;
     }
 
-    public function setLegalSignature() {
-        return $this->add('legal_signature')->add('v1', date('c'));
+    public function setLegalSignature($type = 'v1') {
+        return $this->add('legal_signature')->add($type, date('c'));
     }
 
     public function getSepaSociete(){

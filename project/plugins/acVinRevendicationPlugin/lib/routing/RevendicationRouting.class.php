@@ -113,6 +113,20 @@ class RevendicationRouting {
                         array('sf_method' => array('get', 'post')),
                         array('model' => 'Revendication',
                             'type' => 'object')));
+
+        $r->prependRoute('drev_legal_signature', new sfRoute('/drev/:identifiant/terms', array('module' => 'revendication',
+                                                                                                                   'action' => 'legalSignature')));
+
+        $r->prependRoute('drev', new sfRoute('/drev', array('module' => 'revendication', 'action' => 'accueil')));
+
+        $r->prependRoute('drev_etablissement', new EtablissementRoute('/drev/:identifiant', array('module' => 'revendication',
+            'action' => 'etablissement'), array('sf_method' => array('get')), array('model' => 'Etablissement',
+            'type' => 'object')));
+
+        $r->prependRoute('drev_teledeclarant', new sfRoute('/drev/teledeclaration/:identifiant', array('module' => 'revendication',
+            'action' => 'teledeclarant'), array('sf_method' => array('get')), array('model' => 'Etablissement',
+            'type' => 'object')));
+
     }
 
 }
