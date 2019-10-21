@@ -48,7 +48,7 @@ done
 # III - Traitement pour les vitis Hors DRA hors COOP
 
 # Récupération des coopératives
-cat $TMP/export_bi_etablissements.csv | awk  -F ";" ' $3 == "\"COOPERATIVE\"" { gsub("(ETABLISSEMENT-)","",$5); print $5";"$3 }' > $TMP/export_cooperatives.csv
+cat $TMP/export_bi_etablissements.csv | awk  -F ";" ' $3 == "\"COOPERATIVE\"" { gsub("(ETABLISSEMENT-)","",$5); print $5";"$3 }' | sort | uniq > $TMP/export_cooperatives.csv
 
 # On ne garde que les lignes d'aout
 cat $TMP/export_bi_drm_stock_last_modificatrices.csv | grep -E ";[0-9]{4}08;" > $TMP/export_bi_drm_stock_campagne_filtered_aout.csv
