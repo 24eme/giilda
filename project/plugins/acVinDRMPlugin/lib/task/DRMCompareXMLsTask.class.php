@@ -34,12 +34,13 @@ EOF;
     $contextInstance->set('routing', $routing);
 
     $drm = DRMClient::getInstance()->find($arguments['drmid']);
+    $region = ($drm->exist('region') && $drm->region)? $drm->region : '';
     if ($drm->areXMLIdentical()) {
       $drm->getOrAdd('transmission_douane')->add("coherente", true);
-      echo $drm->_id." : XML sont identiques\n";
+      echo $drm->_id." : XML sont identiques | ".$region."\n";
       $drm->save();
     }else{
-      echo $drm->_id." : XML differents\n";
+      echo $drm->_id." : XML differents | ".$region."\n";
       $comp = $drm->getXMLComparison();
       $drm->getOrAdd('transmission_douane')->add("coherente", 0);
       $drm->save();
