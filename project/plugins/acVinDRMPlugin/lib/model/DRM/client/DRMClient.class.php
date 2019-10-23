@@ -621,7 +621,7 @@ class DRMClient extends acCouchdbClient {
         throw new sfException("L'établissement n'a ni été trouvé par son CVI ".$idebntifiantCVI." ni par son numéro d'agrément ".$aggrement);
       }
       if ($aggrement && ($etablissement->no_accises != $aggrement)) {
-        throw new sfException("Le numéro d'accise ".$aggrement." ne correspond pas a celui de l'établissement (".$etablissement->identifiant." | ".$etablissement->no_accises.")");
+        throw new sfException("Le numéro d'accise ".$aggrement." ne correspond pas a celui de l'établissement (".$etablissement->identifiant." | ".$etablissement->no_accises." | ".$etablissement->region.")");
       }
       if(!preg_match('/<mois>([^<]+)</', $xml, $m)){
           throw new sfException("Mois non trouvé dans l'xml");
@@ -634,7 +634,7 @@ class DRMClient extends acCouchdbClient {
       if ($verbose) echo "INFO: recherche de la DRM pour ".$etablissement->identifiant.' '.$annee.$mois."\n";
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
       if (!$drm->_id) {
-          echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." n'a pas été trouvée\n";
+          echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." | ".$etablissement->region." n'a pas été trouvée\n";
           $drm->setEtape(self::ETAPE_VALIDATION);
           $drm->type_creation = self::DRM_CREATION_AUTO;
           $drm->add('transmission_douane')->add("xml", "généré automatiquement");

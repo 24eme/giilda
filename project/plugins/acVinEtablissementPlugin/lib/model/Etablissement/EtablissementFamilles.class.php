@@ -18,7 +18,7 @@ class EtablissementFamilles
 
     protected static $familles = array (
     	self::FAMILLE_PRODUCTEUR => "Producteur",
-    	self::FAMILLE_NEGOCIANT => "Négociant vignificateur",
+    	self::FAMILLE_NEGOCIANT => "Négociant vinificateur",
         self::FAMILLE_NEGOCIANT_PUR => "Négociant pur",
     	self::FAMILLE_COURTIER => "Courtier"
     );
@@ -107,7 +107,7 @@ class EtablissementFamilles
     	if (!in_array($famille, array_keys($familles))) {
     		throw new sfException('La clé famille "'.$famille.'" n\'existe pas');
     	}
-      
+
     	return $familles[$famille];
     }
 
