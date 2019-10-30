@@ -499,6 +499,13 @@ private function importMouvementsFromCSV($just_check = false) {
     if ($confDetailMvt->hasDetails()) {
       $detailTotalVol += $this->convertNumber($drmDetails->getOrAdd($cat_key)->getOrAdd($type_key));
 
+      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_REINTEGRATION) {
+        $dateReplacement = $this->getDateReplacementObject($csvRow[self::CSV_CAVE_EXPORTPAYS]);
+        $reintegration = DRMESDetailReintegration::freeInstance($this->drm);
+        $reintegration->volume = $volume;
+        $reintegration->date = $dateReplacement->format('Y-m-d');
+        $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($reintegration);
+      }
       if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         $export = DRMESDetailExport::freeInstance($this->drm);
@@ -555,21 +562,27 @@ private function importMouvementsFromCSV($just_check = false) {
       }
     }
 
-    $dateReplacement = null;
-    if (preg_match('/^2\d\d\d-\d\d-\d\d$/', $csvRow[self::CSV_CAVE_EXPORTPAYS])) {
-      $dateReplacement = new DateTime($csvRow[self::CSV_CAVE_EXPORTPAYS]);
-    }
-
-    if (preg_match('/^(2\d\d\d)(\d\d)$/', $csvRow[self::CSV_CAVE_EXPORTPAYS], $matches)) {
-      $dateReplacement = new DateTime($matches[1]."-".$matches[2]."-01");
-      $dateReplacement->modify("last day of this month");
-    }
+    $dateReplacement = $this->getDateReplacementObject($csvRow[self::CSV_CAVE_EXPORTPAYS]);
     if($dateReplacement) {
       $drmDetails->add("replacement_date", $dateReplacement->format("Y-m-d"));
     }
 
     $num_ligne++;
   }
+}
+
+private function getDateReplacementObject($csvDate) {
+    $dateReplacement = null;
+    if (preg_match('/^2\d\d\d-\d\d-\d\d$/', $csvDate)) {
+      $dateReplacement = new DateTime($csvDate);
+    }
+
+    if (preg_match('/^(2\d\d\d)(\d\d)$/', $csvDate, $matches)) {
+      $dateReplacement = new DateTime($matches[1]."-".$matches[2]."-01");
+      $dateReplacement->modify("last day of this month");
+    }
+
+    return $dateReplacement;
 }
 private function importComplementMvt($csvRow, $founded_produit, $just_check  = false){
   $type_complement = strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT]));
