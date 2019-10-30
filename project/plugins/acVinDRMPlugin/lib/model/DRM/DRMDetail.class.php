@@ -155,6 +155,15 @@ class DRMDetail extends BaseDRMDetail {
         parent::update($params);
         $this->total_debut_mois = $this->stocks_debut->initial;
         $keysDetailsToRemove = array();
+        foreach($this->entrees as $key => $item) {
+            if(!$this->entrees->exist($key."_details")) {
+                continue;
+            }
+            $this->entrees->set($key, 0);
+            foreach ($this->entrees->get($key."_details") as $detail) {
+                $this->entrees->set($key, $this->entrees->get($key) + $detail->volume);
+            }
+        }
         foreach($this->sorties as $key => $item) {
             if($item instanceof acCouchdbJson) {
                 continue;
