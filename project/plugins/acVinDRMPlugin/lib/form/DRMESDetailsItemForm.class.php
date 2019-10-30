@@ -52,7 +52,10 @@ abstract class DRMESDetailsItemForm extends acCouchdbObjectForm {
 
     public abstract function getFormName();
 
-    public abstract function getIdentifiantChoices();
+    public function getIdentifiantChoices() {
+
+        return array();
+    }
 
     public function getPostValidatorClass() {
 
