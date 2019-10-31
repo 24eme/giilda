@@ -260,6 +260,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $tobedeleted = array();
         foreach ($drm_suivante->declaration->getProduitsDetails() as $details) {
+            $details->getParent()->createESDetails($details);
             $details->getCepage()->remove('no_movements');
             $details->getCepage()->remove('edited');
             $details->add('no_movements', false);
@@ -1898,7 +1899,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
         }
         return true;
     }
-    
+
     public function isNegoce() {
         return $this->declarant->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR;
     }
