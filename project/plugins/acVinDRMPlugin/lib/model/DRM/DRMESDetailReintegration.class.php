@@ -12,7 +12,7 @@ class DRMESDetailReintegration extends BaseDRMESDetailExport {
 
     public function getIdentifiantLibelle() {
 
-        return '';
+        return $this->getDateFr();
     }
 
     public function setKey($k) {

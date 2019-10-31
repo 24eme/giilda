@@ -71,9 +71,10 @@ $t->is(count($produit->get($mouvementReintegrationHash)->toArray(true, false)), 
 $t->is($produit->get($mouvementReintegrationHash)->getFirst()->volume, 100, "Le volume est enregistré");
 $t->is($produit->get($mouvementReintegrationHash)->getFirst()->date, date('Y-m-d'), "La date est enregistré");
 $t->is($produit->get($mouvementReintegrationHash)->getFirst()->identifiant, date('Y-m-d'), "L'identifant est la date");
+$t->is($produit->get($mouvementReintegrationHash)->getFirst()->getIdentifiantLibelle(), date('d/m/Y'), "Le libellé de l'identifiant est la date en français");
 $t->is(preg_replace('/-[a-z0-9]+$/', '', $produit->get($mouvementReintegrationHash)->getFirst()->getKey()), date('Ymd'), "La clé commence par la date");
 $t->is($produit->get(str_replace("_details", "", $mouvementReintegrationHash)), 100, "Le volume total de réintegration est 100");
-
+$t->ok(!$produit->exist('replacement_date'), "Pas besoin de date de replacement");
 
 $t->comment('Test du formulaire');
 
