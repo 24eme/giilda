@@ -805,8 +805,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $listSorties[$detail->getConfig()->getHash()] = array_keys($detail->getConfig()->getSortiesSorted());
             }
             foreach ($detail->entrees as $keyEntree => $valueEntree) {
+                if ($valueEntree instanceof DRMESDetails) {
+                    continue;
+                }
                 if ($valueEntree && !in_array($keyEntree, $listEntrees[$detail->getConfig()->getHash()])) {
-                    $key_to_remove[] = $produit_hash.'/entrees/'.$keyEntree;
+                    $key_to_remove[] = $detail->getHash().'/entrees/'.$keyEntree;
 
                 }
             }

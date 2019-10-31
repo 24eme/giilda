@@ -36,6 +36,7 @@ function storeMultiArray(&$node, $keys, $value, $not_sum = false) {
 function multiArray2XML($preXML) {
 	$xml = '';
 	foreach ($preXML as $k => $v) {
+		$k = preg_replace("/\[[0-9]+\]$/", "", $k);
 		if (is_array($v)) {
 			$xml .= "<$k>";
 			$xml .= multiArray2XML($v);
@@ -75,6 +76,17 @@ function details2XmlDouane($detail, $isNegoce = false) {
 	foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 		foreach ($detail->get($type) as $k => $v) {
 			if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees' && $detail->get($type)->exist($k.'_details')) {
+					$i = 0;
+					foreach($detail->get($type)->get($k.'_details') as $detailLigne) {
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/volume'), $detailLigne->volume);
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/mois'),  $detailLigne->getReplacementMonth(), true);
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/annee'), $detailLigne->getReplacementYear(),  true);
+						$i++;
+					}
+					continue;
+				}
+
 				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->get($confKey)),  $v);
 				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees') {
 					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth(), true);
@@ -318,12 +330,29 @@ function xmlProduitLibelle($produit) {
 function xmlGetProduitsDetails($drm, $bool, $suspendu_acquitte) {
 	$produits = array();
 	$produits_faits = array();
+	$drmPrecedente = $drm->getPrecedente();
 	foreach ($drm->getProduitsDetails($bool, $suspendu_acquitte) as $produit) {
 		$produit_libelle = xmlProduitLibelle($produit);
 		if (isset($produits_faits[$produit_libelle])) {
 			continue;
 		}
 		$produits_faits[$produit_libelle] = $produit_libelle;
+		if ($drmPrecedente->exist($produit->getHash()) && $drmPrecedente->get($produit->getHash())->getCodeDouane() != $produit->getCodeDouane()) {
+			$produit2 = $drmPrecedente->get($produit->getHash());
+
+			$produit->stocks_debut->add('initial',  0);
+			$produit->entrees->add('repli', $produit2->stocks_fin->final);
+
+			foreach($produit2->entrees as $k => $v) {
+				$produit2->entrees->add($k, 0);
+			}
+			foreach($produit2->sorties as $k => $v) {
+				$produit2->sorties->add($k, 0);
+			}
+			$produit2->add('sorties')->add('repli', $produit2->stocks_fin->final);
+			$produit2->stocks_fin->add('final', 0);
+			$produits[] = $produit2;
+		}
 		$produits[] = $produit;
 	}
 	if (preg_match('/08$/', $drm->periode)) {
