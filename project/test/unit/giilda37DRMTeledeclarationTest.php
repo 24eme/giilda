@@ -83,7 +83,7 @@ $t->comment("Validation");
 if($details->entrees->getConfig()->get('retourmarchandisetaxees')->hasDetails()) {
     $detail = DRMESDetailReintegration::freeInstance($drm);
     $detail->volume = 100;
-    $detail->date = null;
+    $detail->date = date('Y-m-d');
     $details->get('entrees/retourmarchandisetaxees_details')->addDetail($detail);
 } else {
     $details->entrees->retourmarchandisetaxees = 100;
@@ -96,7 +96,11 @@ if(DRMConfiguration::getInstance()->isObservationsAuto()) {
 $validation = new DRMValidation($drm, true);
 
 $t->ok($validation->hasErreur('observations'), "Un point bloquant obligeant la saisie des observations est levé");
-$t->ok($validation->hasErreur('replacement_date'), "Un point bloquant obligeant la saisie de la date de replacement est levé");
+if($details->entrees->getConfig()->get('retourmarchandisetaxees')->hasDetails()) {
+    $t->ok(!$validation->hasErreur('replacement_date'), "Le point bloquant obligeant la saisie de la date de replacement n'est pas levé");
+} else {
+    $t->ok($validation->hasErreur('replacement_date'), "Un point bloquant obligeant la saisie de la date de replacement est levé");
+}
 
 $details->entrees->retourmarchandisetaxees = null;
 $details->sorties->manquant = null;

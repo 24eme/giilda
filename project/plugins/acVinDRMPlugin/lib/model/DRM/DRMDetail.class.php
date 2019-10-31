@@ -248,7 +248,7 @@ class DRMDetail extends BaseDRMDetail {
 
         $needDateReplacement = false;
         foreach($this->entrees as $entree => $v) {
-            if($v && $this->getConfig()->get('entrees')->exist($entree) && $this->getConfig()->get('entrees')->get($entree)->needDouaneDateReplacement()) {
+            if($v && $this->getConfig()->get('entrees')->exist($entree) && $this->getConfig()->get('entrees')->get($entree)->needDouaneDateReplacement() && !$this->entrees->exist($entree.'_details')) {
                 $needDateReplacement = true;
             }
         }
