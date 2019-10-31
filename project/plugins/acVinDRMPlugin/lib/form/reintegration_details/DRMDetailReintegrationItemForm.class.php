@@ -6,12 +6,19 @@ class DRMDetailReintegrationItemForm extends DRMESDetailsItemForm {
         parent::__construct($object, $options, $CSRFSecret);
     }
 
-    public function configure() {
+    public function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
 
+        if($this->getObject()->getDate()) {
+            $this->setDefault('identifiant', $this->getObject()->getDateFr());
+        }
+    }
+
+    public function configure() {
         $this->setWidget('identifiant', new bsWidgetFormInputDate());
         $this->setWidget('volume', new bsWidgetFormInputFloat(array(), array('autocomplete' => 'off')));
 
-        $this->setValidator('identifiant', new sfValidatorString(array('required' => false)));
+        $this->setValidator('identifiant', new sfValidatorDate(array('date_output' => 'Y-m-d', 'date_format' => '~(?P<day>\d{2})/(?P<month>\d{2})/(?P<year>\d{4})~', 'required' => true)));
         $this->setValidator('volume', new sfValidatorNumber(array('required' => true, 'min' => 0), array('min' => "La saisie d'un nombre négatif est interdite")));
 
 

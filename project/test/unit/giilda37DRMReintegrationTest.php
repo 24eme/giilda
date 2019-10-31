@@ -32,7 +32,7 @@ if(!$mouvementReintegration) {
 
 $mouvementReintegrationHash = $mouvementReintegration->getParent()->getKey().'/'.$mouvementReintegration->getKey().'_details';
 
-$t = new lime_test(7);
+$t = new lime_test(18);
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $periode = date('Ym');
@@ -45,6 +45,7 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k =>
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
 $drm->addProduit($produit, "details");
 
+$t->comment('Test sur le modèle');
 
 $produit = $drm->getProduit($produit, "details");
 $t->ok($produit->exist($mouvementReintegrationHash), 'Le details pour le mouvement en reintegration existe');
@@ -58,9 +59,49 @@ $detail->date = date('Y-m-d');
 
 $produit->get($mouvementReintegrationHash)->addDetail($detail);
 $drm->update();
+$drm->save();
+
+$t->ok($drm->_rev, "La DRM $drm->_id a été sauvgardé");
 
 $t->is(count($produit->get($mouvementReintegrationHash)->toArray(true, false)), 1, "Le tableau contient 1 détail");
 $t->is($produit->get($mouvementReintegrationHash)->getFirst()->volume, 100, "Le volume est enregistré");
-$t->is($produit->get($mouvementReintegrationHash)->getFirst()->date, $detail->date, "La date est enregistré");
-$t->is($produit->get($mouvementReintegrationHash)->getFirst()->identifiant, $detail->date, "L'identifant est la date");
+$t->is($produit->get($mouvementReintegrationHash)->getFirst()->date, date('Y-m-d'), "La date est enregistré");
+$t->is($produit->get($mouvementReintegrationHash)->getFirst()->identifiant, date('Y-m-d'), "L'identifant est la date");
+$t->is(preg_replace('/-[a-z0-9]+$/', '', $produit->get($mouvementReintegrationHash)->getFirst()->getKey()), date('Ymd'), "La clé commence par la date");
 $t->is($produit->get(str_replace("_details", "", $mouvementReintegrationHash)), 100, "Le volume total de réintegration est 100");
+
+
+$t->comment('Test du formulaire');
+
+$form = new DRMDetailReintegrationForm($produit->get($mouvementReintegrationHash), array(), array('isTeledeclarationMode' => true));
+
+$t->is(count($form), 3, "Le formulaire à 3 éléments");
+$t->is($form[$detail->getKey()]['identifiant']->getValue(), date('d/m/Y'), "La date est initialisée en français");
+$t->is($form[$detail->getKey()]['volume']->getValue(), 100, "Le volume est initialisé");
+
+$values = $form->getDefaults();
+$emptyItemKey = null;
+foreach($values as $key => $value) {
+    if($key != '_revision' && empty($value['identifiant']) && empty($value['volume'])) {
+        $emptyItemKey = $key;
+        break;
+    }
+}
+
+$values[$detail->getKey()]['volume'] = 110;
+
+$values[$emptyItemKey]['volume'] = 200;
+$values[$emptyItemKey]['identifiant'] = date('d/m/').(date('Y')-1);
+
+$form->bind($values);
+$t->ok($form->isValid(), "Le formulaire est valide");
+
+$form->update();
+$drm->update();
+$drm->save();
+
+$t->is($produit->get($mouvementReintegrationHash)->getFirst()->volume, 110, "Le volume a été modifié");
+$t->is($produit->get($mouvementReintegrationHash)->getFirst()->date, date('Y-m-d'), "La date a été conservée");
+$t->is($produit->get($mouvementReintegrationHash)->getLast()->volume, 200, "Le nouveau volume est intégré");
+$t->is($produit->get($mouvementReintegrationHash)->getLast()->date, (date('Y')-1).date('-m-d'), "La nouvelle date est intégrée");
+$t->is($produit->get(str_replace("_details", "", $mouvementReintegrationHash)), 310, "Le volume total de réintegration est 310");

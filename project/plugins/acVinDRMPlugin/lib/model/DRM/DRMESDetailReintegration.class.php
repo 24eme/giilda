@@ -22,21 +22,36 @@ class DRMESDetailReintegration extends BaseDRMESDetailExport {
     public function getKey() {
         if (!isset($this->key) || !$this->key) {
             if (!($this->key = parent::getKey())) {
-                $this->key = $this->identifiant.'-'.uniqid();
+                $this->key = str_replace('-', '', $this->identifiant).'-'.uniqid();
             }
         }
 
         return $this->key;
     }
 
-    public function setDate($date) {
+    public function setIdentifiant($date) {
+        $date = preg_replace('|([0-9]{2})/([0-9]{2})/([0-9]{4})|', '\3-\2-\1', $date);
 
-        return $this->identifiant;
+        $this->_set('identifiant', $date);
+    }
+
+    public function setDate($date) {
+        $this->identifiant = $date;
     }
 
     public function getDate() {
 
         return $this->identifiant;
+    }
+
+    public function getDateFr() {
+        if(!$this->getDate()) {
+            return null;
+        }
+
+        $date = new DateTime($this->getDate());
+
+        return $date->format('d/m/Y');
     }
 
 }
