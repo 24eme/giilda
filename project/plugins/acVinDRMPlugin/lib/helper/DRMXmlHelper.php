@@ -36,6 +36,7 @@ function storeMultiArray(&$node, $keys, $value, $not_sum = false) {
 function multiArray2XML($preXML) {
 	$xml = '';
 	foreach ($preXML as $k => $v) {
+		$k = preg_replace("/\[[0-9]+\]$/", "", $k);
 		if (is_array($v)) {
 			$xml .= "<$k>";
 			$xml .= multiArray2XML($v);
@@ -75,6 +76,17 @@ function details2XmlDouane($detail, $isNegoce = false) {
 	foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 		foreach ($detail->get($type) as $k => $v) {
 			if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees' && $detail->get($type)->exist($k.'_details')) {
+					$i = 0;
+					foreach($detail->get($type)->get($k.'_details') as $detailLigne) {
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/volume'), $detailLigne->volume);
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/mois'),  $detailLigne->getReplacementMonth(), true);
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/annee'), $detailLigne->getReplacementYear(),  true);
+						$i++;
+					}
+					continue;
+				}
+
 				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->get($confKey)),  $v);
 				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees') {
 					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth(), true);

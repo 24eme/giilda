@@ -54,4 +54,13 @@ class DRMESDetailReintegration extends BaseDRMESDetailExport {
         return $date->format('d/m/Y');
     }
 
+    public function getReplacementMonth() {
+
+      return sprintf('%02d', preg_replace('/.*(-|\/)(\d{2})(-|\/).*/', '\2', $this->getDate()));
+    }
+    public function getReplacementYear() {
+
+      return preg_replace('/.*(\d{4}).*/', '\1', $this->getDate());
+    }
+
 }
