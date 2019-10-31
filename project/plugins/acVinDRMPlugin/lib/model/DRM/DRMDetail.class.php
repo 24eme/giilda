@@ -449,7 +449,7 @@ class DRMDetail extends BaseDRMDetail {
             if(!$this->getDocument()->isFacturable() && $mouvement->facturable && DRMConfiguration::getInstance()->isMouvementDivisable() &&  $volume * $config->mouvement_coefficient > DRMConfiguration::getInstance()->getMouvementDivisableSeuil() ) {
                 $nbDivision = DRMConfiguration::getInstance()->getMouvementDivisableNbMonth();
                 $date = new DateTime($this->getDocument()->getDate());
-                $volumePart = round($volume / $nbDivision, 4);
+                $volumePart = round($volume / $nbDivision, FloatHelper::getInstance()->getMaxDecimalAuthorized());
                 $volumeTotal = $volume;
                 for($i=1; $i <= $nbDivision; $i++) {
                     $mouvementPart = $this->createMouvement(clone $mouvement, $hash . '/' . $key, $volumePart, $date->format('Y-m-d'));
