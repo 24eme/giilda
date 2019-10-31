@@ -21,6 +21,10 @@ foreach($configuration->declaration->details as $details) {
             continue;
         }
         $mouvementReintegration = $detail;
+        break;
+    }
+    if($mouvementReintegration) {
+        break;
     }
 }
 
@@ -32,7 +36,7 @@ if(!$mouvementReintegration) {
 
 $mouvementReintegrationHash = $mouvementReintegration->getParent()->getKey().'/'.$mouvementReintegration->getKey().'_details';
 
-$t = new lime_test(18);
+$t = new lime_test(20);
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $periode = date('Ym');

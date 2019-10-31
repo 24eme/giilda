@@ -39763,7 +39763,7 @@
                "retourmarchandiseacquitte": {
                    "readable": 1,
                    "writable": 1,
-                   "details": null,
+                   "details": "REINTEGRATION",
                    "revendique": 1,
                    "restriction_lies": 0,
                    "recolte": 1,

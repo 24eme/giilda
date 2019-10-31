@@ -307,6 +307,19 @@ DRM:
                                                                                                                               fields:
                                                                                                                                 identifiant: {  }
                                                                                                                                 volume: { type: float }
+                                                                                                                  retourmarchandiseacquitte_details:
+                                                                                                                      class: DRMESDetails
+                                                                                                                      type:  collection
+                                                                                                                      required: false
+                                                                                                                      definition:
+                                                                                                                        fields:
+                                                                                                                          '*':
+                                                                                                                            type: collection
+                                                                                                                            class: DRMESDetailReintegration
+                                                                                                                            definition:
+                                                                                                                              fields:
+                                                                                                                                identifiant: {  }
+                                                                                                                                volume: { type: float }
                                                                                                             sorties:
                                                                                                               type: collection
                                                                                                               class: DRMDetailNoeud
