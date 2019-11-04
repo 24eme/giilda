@@ -989,6 +989,15 @@ private function getIdDouane($datas)
     	!trim($datas[self::CSV_CAVE_COULEUR]) &&
     	!trim($datas[self::CSV_CAVE_CEPAGE])
 	) {
+        if(preg_match("/VT/", $datas[self::CSV_CAVE_LIBELLE_PRODUIT])) {
+
+            $certification = preg_replace('/D2([0-9]{1})$/', 'D1\1', $certification);
+        }
+        if(preg_match("/SGN/", $datas[self::CSV_CAVE_LIBELLE_PRODUIT])) {
+
+            $certification = preg_replace('/D1([0-9]{1})$/', 'D6\1', $certification);
+        }
+
 		return $certification;
 	}
 
