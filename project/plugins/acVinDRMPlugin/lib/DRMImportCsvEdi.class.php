@@ -220,6 +220,7 @@ private function checkImportAnnexesFromCSV() {
 }
 
 private function importMouvementsFromCSV($just_check = false) {
+    $date = new DateTime($this->drm->getDate());
   $aggregatedEdiList = null;
   if(DRMConfiguration::getInstance()->hasAggregatedEdi()){
     $aggregatedEdiList = DRMConfiguration::getInstance()->getAggregatedEdi();
@@ -342,7 +343,7 @@ private function importMouvementsFromCSV($just_check = false) {
           continue;
         }
         $founded_produit = $produit;
-        $date = new DateTime($this->drm->getDate());
+
         if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
 
           if($aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
@@ -525,7 +526,6 @@ private function importMouvementsFromCSV($just_check = false) {
         if ($detailNode->volume) {
           $volume+=$detailNode->volume;
         }
-        $date = new DateTime($this->drm->getDate());
         $detailNode->volume = $volume;
         $detailNode->identifiant = $vrac_id;
         $detailNode->date_enlevement = $date->format('Y-m-d');
