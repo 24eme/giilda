@@ -220,6 +220,7 @@ private function checkImportAnnexesFromCSV() {
 }
 
 private function importMouvementsFromCSV($just_check = false) {
+    $date = new DateTime($this->drm->getDate());
   $aggregatedEdiList = null;
   if(DRMConfiguration::getInstance()->hasAggregatedEdi()){
     $aggregatedEdiList = DRMConfiguration::getInstance()->getAggregatedEdi();
@@ -342,7 +343,7 @@ private function importMouvementsFromCSV($just_check = false) {
           continue;
         }
         $founded_produit = $produit;
-        $date = new DateTime($this->drm->getDate());
+
         if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
 
           if($aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
@@ -503,7 +504,7 @@ private function importMouvementsFromCSV($just_check = false) {
         $dateReplacement = $this->getDateReplacementObject($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         $reintegration = DRMESDetailReintegration::freeInstance($this->drm);
         $reintegration->volume = $volume;
-        $reintegration->date = $dateReplacement->format('Y-m-d');
+        $reintegration->date = ($dateReplacement)? $dateReplacement->format('Y-m-d') : null;
         $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($reintegration);
       }
       if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
@@ -525,7 +526,6 @@ private function importMouvementsFromCSV($just_check = false) {
         if ($detailNode->volume) {
           $volume+=$detailNode->volume;
         }
-        $date = new DateTime($this->drm->getDate());
         $detailNode->volume = $volume;
         $detailNode->identifiant = $vrac_id;
         $detailNode->date_enlevement = $date->format('Y-m-d');
@@ -989,6 +989,15 @@ private function getIdDouane($datas)
     	!trim($datas[self::CSV_CAVE_COULEUR]) &&
     	!trim($datas[self::CSV_CAVE_CEPAGE])
 	) {
+        if(preg_match("/VT/", $datas[self::CSV_CAVE_LIBELLE_PRODUIT])) {
+
+            $certification = preg_replace('/D2([0-9]{1})$/', 'D1\1', $certification);
+        }
+        if(preg_match("/SGN/", $datas[self::CSV_CAVE_LIBELLE_PRODUIT])) {
+
+            $certification = preg_replace('/D1([0-9]{1})$/', 'D6\1', $certification);
+        }
+
 		return $certification;
 	}
 
