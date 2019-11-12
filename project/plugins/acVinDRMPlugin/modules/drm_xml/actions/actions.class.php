@@ -75,10 +75,10 @@ class drm_xmlActions extends drmGeneriqueActions {
         return $this->redirect('drm_validation', $this->drm);
     }
 
-    if ($drm->exist('transmission_douane/coherente') && $drm->exist('transmission_douane/success
-') && $drm->transmission_douane->success && !$drm->transmission_douane->coherente && $drm->areXMLIdentical()) {
-        $drm->getOrAdd('transmission_douane')->add("coherente", true);
-        $drm->save();
+    if ($this->drm->exist('transmission_douane/coherente') && $this->drm->exist('transmission_douane/success
+') && $this->drm->transmission_douane->success && !$this->drm->transmission_douane->coherente && $this->drm->areXMLIdentical()) {
+        $this->drm->getOrAdd('transmission_douane')->add("coherente", true);
+        $this->drm->save();
     }
 
     return $this->redirect('drm_visualisation', $this->drm);
