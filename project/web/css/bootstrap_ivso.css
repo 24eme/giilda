@@ -2328,7 +2328,7 @@ th {
 }
 .table-striped > tbody > tr:nth-of-type(odd),
 .table-horizontal-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #f7f4ed;
+  background-color: #0e2244;
 }
 .table-hover > tbody > tr:hover {
   background-color: #f5f5f5;
@@ -5282,7 +5282,7 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #f7f4ed;
+  background-color: #0e2244;
   border: 1px solid #ffffff;
 }
 .list-group-item:first-child {
@@ -5715,25 +5715,25 @@ button.list-group-item-danger.active:focus {
   border-bottom: 1px solid #dddddd;
 }
 .panel-default {
-  border-color: #e9dec7;
+  border-color: #efefef;
 }
 .panel-default > .panel-heading {
   color: #0e2244;
-  background-color: #e9dec7;
-  border-color: #e9dec7;
+  background-color: #fffbfb;
+  border-color: #efefef;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
-  border-top-color: #e9dec7;
+  border-top-color: #fffbfb;
 }
 .panel-default > .panel-heading .badge {
-  color: #e9dec7;
+  color: #fffbfb;
   background-color: #0e2244;
 }
 .panel-default > .panel-body {
   background-color: transparent;
 }
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
-  border-bottom-color: #e9dec7;
+  border-bottom-color: #fffbfb;
 }
 .panel-primary {
   border-color: #0e2244;
@@ -6969,7 +6969,7 @@ button.close {
   color: #ffffff;
 }
 .table-vertical-striped > tbody > tr > td:nth-of-type(even) {
-  background-color: #f7f4ed;
+  background-color: #0e2244;
 }
 .panel {
   border-width: 3px;
@@ -6997,18 +6997,18 @@ button.close {
   background-color: #eee;
 }
 .societe .list-group {
-  border: 2px solid #f7f4ed;
+  border: 2px solid #0e2244;
 }
 #col_saisies .list-group-item {
   background-color: #fff;
-  border-bottom: 2px solid #f7f4ed;
+  border-bottom: 2px solid #0e2244;
 }
 #col_saisies .list-group-item.disabled {
   background-color: #eee;
 }
 #list-item .list-group-item {
   background-color: #fff;
-  border: 1px solid #f7f4ed;
+  border: 1px solid #0e2244;
 }
 #list-item .list-group-item.disabled {
   background-color: #eee;
@@ -7045,7 +7045,7 @@ button.close {
   border-radius: 3px;
 }
 #footer {
-  background: #e9dec7;
+  background: #fffbfb;
   padding: 70px 0 60px;
   text-align: center;
 }
