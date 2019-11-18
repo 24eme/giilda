@@ -5282,7 +5282,7 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #0e2244;
+  background-color: #fffbfb;
   border: 1px solid #ffffff;
 }
 .list-group-item:first-child {
