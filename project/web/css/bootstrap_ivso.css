@@ -6883,13 +6883,14 @@ button.close {
   height: 6px;
 }
 #content {
-  background: #eadfcf;
+  background: #fffbfb;
   padding: 20px 0;
 }
 #content > .container {
   background: #FFF;
   padding-top: 15px;
   padding-bottom: 15px;
+  border: 1px solid #efefef;
 }
 #principal > .navbar {
   border: 0;
