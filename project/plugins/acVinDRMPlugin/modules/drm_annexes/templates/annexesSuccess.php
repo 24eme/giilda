@@ -115,8 +115,8 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
 
                 <div class="row">
                   <div class="col-xs-12">
-                      <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapse_stats_europeenes" aria-expanded="true" aria-controls="collapse_stats_europeenes">
-                        <div class="panel-heading" style="cursor:pointer;" id="drm_annexes_stats_europeenes" >
+                      <div class="panel panel-default">
+                        <div class="panel-heading" style="cursor:pointer;" id="drm_annexes_stats_europeenes"  data-toggle="collapse" data-parent="#accordion" href="#collapse_stats_europeenes" aria-expanded="true" aria-controls="collapse_stats_europeenes">
                             <div class="row">
                               <div class="col-xs-11">
                                 <h3 class="panel-title text-center"><strong>Statistiques européennes</strong></h3>
