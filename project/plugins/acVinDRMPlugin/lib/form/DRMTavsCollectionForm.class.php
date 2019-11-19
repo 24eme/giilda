@@ -12,7 +12,7 @@ class DRMTavsCollectionForm extends BaseForm
         public function configure()
         {
 			  foreach ($this->drm->getProduitsDetails() as $hash => $detail) {
-        if($detail->exist('tav')){
+        if($detail->isCodeDouaneAlcool()){
           $this->embedForm($hash, new DRMTavForm($detail));
           }
 			}
