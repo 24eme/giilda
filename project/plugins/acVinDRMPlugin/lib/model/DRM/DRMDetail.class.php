@@ -573,6 +573,9 @@ class DRMDetail extends BaseDRMDetail {
       if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
         return false;
       }
+      if(preg_match('/(VT|VM)/', $this->getCodeDouane())){
+        return false;
+      }
       return true;
     }
 
