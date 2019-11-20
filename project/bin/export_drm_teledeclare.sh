@@ -42,8 +42,8 @@ do
     NOACCISES=$(echo $ligne | cut -d "," -f 4)
     PERIODE=$(echo $ID | cut -d "-" -f 3)
     DRMFILE=$TMP/$id$(date +%Y%m%d%H%M%S).csv
-    php symfony drm:export-csv $ID $SYMFONYTASKOPTIONS | grep -E "$PRODUIT" > $DRMFILE
-    if test $DATE && test $(cat $DRMFILE | grep -E "^CAVE;" | grep -E "$PRODUIT" | wc -l | sed -r 's/^0$//'); then
+    php symfony drm:export-csv $ID $SYMFONYTASKOPTIONS | grep -iE "$PRODUIT" > $DRMFILE
+    if test $DATE && test $(cat $DRMFILE | grep -E "^CAVE;" | grep -iE "$PRODUIT" | wc -l | sed -r 's/^0$//'); then
         echo $ID
         cp $DRMFILE $EXPORT_PATH/"$DATE"_"$PERIODE"_"$NOACCISES"_"$ID".csv
     fi
