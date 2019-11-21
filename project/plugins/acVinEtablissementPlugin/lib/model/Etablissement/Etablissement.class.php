@@ -32,7 +32,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function setRelanceDS($value) {
-        if (!($this->isViticulteur() || $this->isNegociant())) {
+        if (!($this->isViticulteur() || $this->isNegociant() || $this->isNegociantPur())) {
             throw new sfException("Le champs 'relance_ds' n'est valable que pour les viticulteurs ou les négociants");
         }
 
@@ -153,6 +153,10 @@ class Etablissement extends BaseEtablissement {
 
     public function isNegociant() {
         return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT);
+    }
+
+    public function isNegociantPur(){
+        return ($this->famille == EtablissementFamilles::FAMILLE_NEGOCIANT_PUR);
     }
 
     public function isViticulteur() {
