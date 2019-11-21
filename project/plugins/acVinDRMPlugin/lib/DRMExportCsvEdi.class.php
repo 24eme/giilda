@@ -133,6 +133,15 @@ class DRMExportCsvEdi extends DRMCsvEdi {
                 if (!$entreeValue) {
                     continue;
                 }
+                if ($entreeValue instanceof DRMESDetails) {
+                    foreach ($entreeValue as $entreeDetailKey => $entreeDetailValue) {
+                        if (!$entreeDetailValue->getVolume()) {
+                            continue;
+                        }
+                        $mouvementsEdi.= $debutLigne . $this->getProduitCSV($produitDetail) . ";" . "entrees;" . $this->getLibelleDetail($entreekey). ";" . $entreeDetailValue->getVolume() . ";".$entreeDetailValue->identifiant.";;\n";
+                    }
+                    continue;
+                }
                 $mouvementsEdi.= $debutLigne . $this->getProduitCSV($produitDetail) . ";" . "entrees;" . $entreekey . ";" . $entreeValue . ";;;\n";
             }
 
