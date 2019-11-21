@@ -138,6 +138,7 @@ Configuration:
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
+                              douane_cat_negoce: { required: false }
                               taxable_douane: { }
                   entrees:
                     required: false
@@ -160,6 +161,7 @@ Configuration:
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
+                              douane_cat_negoce: { required: false }
                               taxable_douane: { }
                   sorties:
                     required: false
@@ -182,6 +184,7 @@ Configuration:
                               facturable: { type: integer }
                               douane_type: { }
                               douane_cat: { }
+                              douane_cat_negoce: { required: false }
                               taxable_douane: { }
                   stocks_fin:
                     required: false
@@ -204,6 +207,7 @@ Configuration:
                               facturable: {  }
                               douane_type: { }
                               douane_cat: { }
+                              douane_cat_negoce: { required: false }
                               taxable_douane: { }
             certifications:
               type: collection
@@ -259,7 +263,7 @@ Configuration:
                                               fields:
                                                 campagne: {  }
                                                 date_debut: {  }
-                                                date_fin: {  }     
+                                                date_fin: {  }
                                     droits:
                                       type: collection
                                       definition:
@@ -403,7 +407,7 @@ Configuration:
                                                     type: collection
                                                     required: false
                                                     definition:
-                                                      fields:                                                        
+                                                      fields:
                                                         '*':
                                                           class: ConfigurationDateCirculation
                                                           type: collection
@@ -411,7 +415,7 @@ Configuration:
                                                             fields:
                                                               campagne: {  }
                                                               date_debut: {  }
-                                                              date_fin: {  }     
+                                                              date_fin: {  }
                                                 droits:
                                                   type: collection
                                                   definition:
@@ -688,7 +692,7 @@ Configuration:
                                                                                           date: {  }
                                                                                           taux: { type: float }
                                                                                           code: {  }
-                                                                                          libelle: {  }            
+                                                                                          libelle: {  }
                                                             departements:
                                                               type: array_collection
                                                               definition:
@@ -804,7 +808,7 @@ Configuration:
                                                                                         type: collection
                                                                                         required: false
                                                                                         definition:
-                                                                                          fields:                                                                                            
+                                                                                          fields:
                                                                                             '*':
                                                                                               class: ConfigurationDateCirculation
                                                                                               type: collection
@@ -844,7 +848,7 @@ Configuration:
                                                                                                       date: {  }
                                                                                                       taux: { type: float }
                                                                                                       code: {  }
-                                                                                                      libelle: {  }            
+                                                                                                      libelle: {  }
                                                                         departements:
                                                                           type: array_collection
                                                                           definition:
@@ -920,7 +924,7 @@ Configuration:
                                                                                           mouvement_coefficient: { type: integer }
                                                                                           vrac: { type: integer }
                                                                                           facturable: { type: integer }
-                                                                        couleurs: 
+                                                                        couleurs:
                                                                           type: collection
                                                                           definition:
                                                                             fields:
@@ -969,7 +973,7 @@ Configuration:
                                                                                                             fields:
                                                                                                               campagne: {  }
                                                                                                               date_debut: {  }
-                                                                                                              date_fin: {  }     
+                                                                                                              date_fin: {  }
                                                                                                 droits:
                                                                                                   type: collection
                                                                                                   definition:
@@ -1001,7 +1005,7 @@ Configuration:
                                                                                                                   date: {  }
                                                                                                                   taux: { type: float }
                                                                                                                   code: {  }
-                                                                                                                  libelle: {  }            
+                                                                                                                  libelle: {  }
                                                                                     departements:
                                                                                       type: array_collection
                                                                                       definition:
@@ -1077,7 +1081,7 @@ Configuration:
                                                                                                       mouvement_coefficient: { type: integer }
                                                                                                       vrac: { type: integer }
                                                                                                       facturable: { type: integer }
-                                                                                    cepages: 
+                                                                                    cepages:
                                                                                       type: collection
                                                                                       definition:
                                                                                         fields:
@@ -1119,7 +1123,7 @@ Configuration:
                                                                                                               type: collection
                                                                                                               required: false
                                                                                                               definition:
-                                                                                                                fields:                                                                                            
+                                                                                                                fields:
                                                                                                                   '*':
                                                                                                                     class: ConfigurationDateCirculation
                                                                                                                     type: collection
