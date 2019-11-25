@@ -11,15 +11,15 @@ var initSignaturePopup = function() {
     $('#signature_popup_content a#signature_popup_close').click(function(){
         $.fancybox.close();
     })
-    
+
     $('#signature_popup_content button#signature_popup_confirm').click(function(){
         $("form#vrac_validation").submit();
     });
-    
+
 };
 
 var initNoticePopup = function() {
-    
+
     $('a#liens_notices').click(function(){
         $('a.popup_link_notices').trigger('click');
     })
@@ -33,8 +33,19 @@ var initNoticePopup = function() {
     $('#notice_popup_content a#signature_popup_close').click(function(){
         $.fancybox.close();
     })
-    
+
 };
+
+var animateMemo = function(){
+  $('.fadediv').animate({ opacity: 0.0}, 1000,function(){
+    $('.fadediv').animate({ opacity: 1.0}, 1000);
+  });
+}
+
+var initMemoAnimation = function(){
+  $('.fadediv').animate({ opacity: 1.0}, 5000);
+  setInterval(animateMemo, 15000);
+}
 
 var triggerSignaturePopup = function() {
     $('a.signature_popup').click();
@@ -76,4 +87,3 @@ $(document).ready(function()
     initSignaturePopup();
     initRechercheFiltre();
 });
-
