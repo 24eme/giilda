@@ -528,13 +528,11 @@ class DRMClient extends acCouchdbClient {
     }
 
     public function getMemoForMonth($drm){
+      sfContext::getInstance()->getConfiguration()->loadHelpers(array('DRM'));
       $periode = $drm->getPeriode();
       $mois = format_date(date("Y")."-".substr($periode, 4, 2)."-01", 'MMMM', 'fr_FR');
-      $moisConf = sfConfig::get('app_drm_'.$mois);
-      if(!$moisConf || !isset($moisConf["memo"])){
-        return null;
-      }
-      return $moisConf["memo"];
+      $moisConf = getHelpMsgText('drm_mouvements_message_'.$mois);
+      return $moisConf;
     }
 
     public function getVersionLibelleFromId($id) {
