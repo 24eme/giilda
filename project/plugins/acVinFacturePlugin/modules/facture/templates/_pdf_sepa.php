@@ -40,7 +40,7 @@ $m_adresse = array();
 preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 
  ?>
-\def\NomInterpro{Interprofession des Vins du Val du Loire}
+\def\NomInterpro{Interprofession des Vins du Val de Loire}
 \def\RUM{<?php echo $societe->getRum(); ?>}
 \def\NomBancaire{<?php echo $sepa->nom_bancaire; ?>}
 \def\Adresse{\small{<?php $adresse = ($societe->getSiegeAdresses() == '')? "~" : html_entity_decode(str_replace(";", "",$societe->getSiegeAdresses()));
@@ -61,11 +61,11 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 
 \begin{document}
 
-Cher client, \\
+Madame, Monsieur, \\
 
 Nous vous prions de trouver ci-dessous un mandat de prélèvement SEPA que nous vous prions de compléter et renvoyer signé accompagné d'un relevé d'identité bancaire.\\
 
-Nous vous prions d'agréer cher client, nos salutations distinguées.\\
+Nous vous prions d'agréer Madame, Monsieur, nos salutations distinguées.\\
 
 \begin{tabularx}{\textwidth}{|XXX|}
 	\hline
@@ -82,7 +82,7 @@ Nous vous prions d'agréer cher client, nos salutations distinguées.\\
 	 \\
 	\multicolumn{1}{|c}{
 		\multirow{2}{*}{
-			\textbf{\tiny{L'\NomInterpro}}
+			\textbf{~}
 			}
 		} & ~  & ~ \\
 	~ & ~  & ~\\
@@ -94,7 +94,7 @@ Nous vous prions d'agréer cher client, nos salutations distinguées.\\
 	\hline
 	~ & ~  & ~\\
 	\multicolumn{3}{|l|}{
-	\parbox{18.5cm}{En signant ce formulaire de mandat, vous autorisez (A) à l'\NomInterpro à envoyer des instructions à votre banque pour
+	\parbox{18.5cm}{En signant ce formulaire de mandat, vous autorisez (A) l'\NomInterpro à envoyer des instructions à votre banque pour
 débiter votre compte, et (B) votre banque à débiter votre compte conformément aux instructions de l'\NomInterpro.} }\\
 ~ & ~  & ~\\
 \multicolumn{3}{|l|}{
@@ -106,11 +106,13 @@ Une demande de remboursement doit être présentée :\\
 ~~~~- sans tarder et au plus tard dans les 13 mois en cas de prélèvements non autorisé.
 }}
 \\
+\multicolumn{3}{|l|}{
+\parbox{18.5cm}{\underline{Après réception et saisie de ces informations dans notre logiciel, nous vous avertirons par e-mail de l’activation de votre mandat de prélèvement et de votre prochaine date d’échéance.}} }\\
 ~ & ~  & ~\\
 \hline
 ~ & ~  & ~\\
 \textbf{Nom ou raison sociale} & \multicolumn{2}{l|}{ \textbf{\NomBancaire} } \\
-\textbf{Votre adresse} & \multicolumn{2}{l|}{ \Adresse } \\
+\textbf{Adresse} & \multicolumn{2}{l|}{ \Adresse } \\
 ~ & \multicolumn{2}{l|}{\CodePostal~~~~\Ville} \\
 \textbf{Pays} & \multicolumn{2}{l|}{ \Pays } \\
 ~ & ~  & ~\\
