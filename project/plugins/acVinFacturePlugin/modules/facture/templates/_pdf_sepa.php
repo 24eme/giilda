@@ -107,7 +107,7 @@ Une demande de remboursement doit être présentée :\\
 }}
 \\
 \multicolumn{3}{|l|}{
-\parbox{18.5cm}{\underline{Après réception et saisie de ces informations dans notre logiciel, nous vous avertirons par e-mail de l’activation de votre mandat de prélèvement et de votre prochaine date d’échéance.}} }\\
+\parbox{18.5cm}{~\underline{Après réception et saisie de ces informations dans notre logiciel, nous vous avertirons par e-mail de l’activation de}\\~~\underline{votre mandat de prélèvement et de votre prochaine date d’échéance.}} }\\
 ~ & ~  & ~\\
 \hline
 ~ & ~  & ~\\
@@ -142,18 +142,15 @@ Une demande de remboursement doit être présentée :\\
 ~ & ~ & ~ \\
 \textbf{Signature :}  & \multicolumn{2}{l|}{
 \multirow{1}{*}{
-\emptybox[11.5cm]{2.5cm}
+\emptybox[11.5cm]{2.0cm}
 }
 } \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & $~~~^{\textrm{\textcolor{darkgray}{\tiny{Veuillez signer ici}}}}$ & ~ \\
-~ & ~ & ~ \\
 \multicolumn{3}{|l|}{\footnotesize{Note : Vos droits concernant le présent mandat sont expliqués dans un document que vous pouvez obtenir auprès de votre banque.}} \\
 \hline
-~ & ~ & ~ \\
-~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
 ~ & ~ & ~ \\
