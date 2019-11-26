@@ -106,8 +106,9 @@ Une demande de remboursement doit être présentée :\\
 ~~~~- sans tarder et au plus tard dans les 13 mois en cas de prélèvements non autorisé.
 }}
 \\
+~ & ~  & ~\\
 \multicolumn{3}{|l|}{
-\parbox{18.5cm}{~\underline{Après réception et saisie de ces informations dans notre logiciel, nous vous avertirons par e-mail de l’activation de}\\~~\underline{votre mandat de prélèvement et de votre prochaine date d’échéance.}} }\\
+\parbox{18.5cm}{\underline{Après réception et saisie de ces informations dans notre logiciel, nous vous avertirons par e-mail de l’activation de}\\ \underline{votre mandat de prélèvement et de votre prochaine date d’échéance.}} }\\
 ~ & ~  & ~\\
 \hline
 ~ & ~  & ~\\
