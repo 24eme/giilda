@@ -145,8 +145,11 @@ class factureActions extends drmGeneriqueActions {
         if ($request->isMethod(sfRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                $diff = $this->form->getDiff();
                 $this->form->save();
+                $values = $this->form->getValues();
+                $this->getUser()->setAttribute('iban', $values["iban"]);
+                $this->getUser()->setAttribute('bic', $values["bic"]);
+                $this->getUser()->setAttribute('nom_bancaire', $values["nom_bancaire"]);
                 $this->redirect('facture_sepa_visualisation',array('identifiant' => $this->etablissementPrincipal->identifiant));
             }
         }

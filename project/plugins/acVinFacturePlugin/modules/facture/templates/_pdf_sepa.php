@@ -42,7 +42,7 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
  ?>
 \def\NomInterpro{Interprofession des Vins du Val de Loire}
 \def\RUM{<?php echo $societe->getRum(); ?>}
-\def\NomBancaire{<?php echo $sepa->nom_bancaire; ?>}
+\def\NomBancaire{<?php echo $sf_user->getAttribute('nom_bancaire','~'); ?>}
 \def\Adresse{\small{<?php $adresse = ($societe->getSiegeAdresses() == '')? "~" : html_entity_decode(str_replace(";", "",$societe->getSiegeAdresses()));
                                                  echo $adresse;
                    $adresseComplementaire = ($societe->siege->exist("adresse_complementaire") && $societe->siege->adresse_complementaire)?  "~-~".html_entity_decode($societe->siege->adresse_complementaire) : "~";
@@ -50,8 +50,8 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
 \def\CodePostal{<?php echo $societe->siege->code_postal; ?>}
 \def\Ville{<?php echo $societe->siege->commune; ?>}
 \def\Pays{<?php echo $countries[$societe->siege->pays]; ?>}
-\def\IBAN{<?php echo formatIban($sepa->iban,"~"); ?>}
-\def\BIC{<?php echo $sepa->bic; ?>}
+\def\IBAN{<?php echo formatIban($sf_user->getAttribute('iban','~')); ?>}
+\def\BIC{<?php echo $sf_user->getAttribute('bic','~'); ?>}
 
 
 \def\ICSCreancier{<?php echo $ics_interloire; ?>}

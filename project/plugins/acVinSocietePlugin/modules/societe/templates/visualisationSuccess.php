@@ -102,16 +102,18 @@ use_helper('Display');
             <?php echo  Date::francizeDate($societe->getSepaDateEffectif()); ?>
           </div>
         <?php endif; ?>
+        <?php if(!$societe->sepa->exist('date_activation') || ! $societe->sepa->date_activation): ?>
           <div class="form_ligne">
               <form method="POST" action="<?php echo url_for('societe_sepa_activate', $societe);?>">
-                <strong>Les Informations bancaires ont étées saisies.<br/>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <?php if ($societe->exist('sepa') && $societe->sepa->getOrAdd('nom_bancaire') && $societe->sepa->getOrAdd('iban') && $societe->sepa->getOrAdd('bic') ) : ?>
+                  <?php if ($societe->exist('sepa') && $societe->sepa->exist('date_saisie') && $societe->sepa->date_saisie) : ?>
+                      <strong>Les informations bancaires ont été saisies par le ressortissant.<br/>Activer le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
                       <input type="submit" class="btn_majeur btn_contact" value="Activer" style="float:right;" onclick='return confirm("Souhaitez-vous confirmer l&apos;activation des prélèvements automatiques pour cette société ?")' />
                   <?php else: ?>
-                      En attente de saisie par l'utilisateur
+                      Les informations bancaires n'ont pas été saisies.
                    <?php endif; ?>
               </form>
           </div>
+        <?php endif; ?>
         </div>
       </div>
 

@@ -13,15 +13,15 @@ use_helper('Display');
         </div>
         <div class="ligne_form">
           <label>Titulaire du compte : </label>
-          <?php echo $societe->sepa->nom_bancaire; ?>
+          XXXXX
         </div>
         <div class="ligne_form">
           <label>Iban :</label>
-          <?php echo formatIban($societe->sepa->iban); ?>
+          XXXX XXXX XXXX XXXX XXXX XXX
         </div>
         <div class="ligne_form">
           <label>Bic :</label>
-          <?php echo $societe->sepa->bic; ?>
+          XXXXXXXX
         </div>
         <br/>
         <p class="encart_sepa">Afin de finaliser votre adhésion au prélèvement automatique, merci de bien vouloir IMPRIMER LE MANDAT SEPA et de le retourner signé accompagné d’un RIB par voie postale au service Recouvrement d’InterLoire.<br/>
