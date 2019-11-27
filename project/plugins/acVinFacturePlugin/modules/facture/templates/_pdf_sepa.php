@@ -49,7 +49,7 @@ preg_match("/^(.+) - (.+)/",$adresse_interloire,$m_adresse);
                                                   echo $adresseComplementaire;   ?>}}
 \def\CodePostal{<?php echo $societe->siege->code_postal; ?>}
 \def\Ville{<?php echo $societe->siege->commune; ?>}
-\def\Pays{<?php echo $countries[$societe->siege->pays]; ?>}
+\def\Pays{<?php echo ($societe->siege->exist('pays'))? $countries[$societe->siege->pays] : '~'; ?>}
 \def\IBAN{<?php echo formatIban($sf_user->getAttribute('iban','~')); ?>}
 \def\BIC{<?php echo $sf_user->getAttribute('bic','~'); ?>}
 
