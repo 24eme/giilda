@@ -166,7 +166,7 @@ class drm_validationActions extends drmGeneriqueActions {
       if($seuil = sfConfig::get('app_facture_seuil_facturation',null)){
         $generation->add('arguments')->add('seuil', $seuil);
       }
-      $generation->add('arguments')->add('date_facturation',  $this->drm->validate->date_saisie);
+      $generation->add('arguments')->add('date_facturation',  $this->drm->valide->date_saisie);
       $generation->save();
     }
 }
