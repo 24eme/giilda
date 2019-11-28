@@ -78,7 +78,7 @@
 
                         <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Vérifier le PDF</span></a>
                       <?php endif; ?>
-                      <?php if(!$isTeledeclarationMode || $drm->isNegoce()): ?>
+                      <?php if(!$compte->hasDroit(Roles::TELEDECLARATION_DOUANE) || $drm->isNegoce()): ?>
                         <button type="submit" class="btn_etape_suiv" id="button_drm_validation" <?php if (!$validation->isValide()): ?>disabled="disabled"<?php endif; ?>><span>Valider</span></button>
                       <?php endif; ?>
                     <a class="drm_delete_lien" href="#drm_delete_popup"></a>
