@@ -504,7 +504,7 @@ private function importMouvementsFromCSV($just_check = false) {
         $dateReplacement = $this->getDateReplacementObject($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         $reintegration = DRMESDetailReintegration::freeInstance($this->drm);
         $reintegration->volume = $volume;
-        $reintegration->date = $dateReplacement->format('Y-m-d');
+        $reintegration->date = ($dateReplacement)? $dateReplacement->format('Y-m-d') : null;
         $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($reintegration);
       }
       if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
