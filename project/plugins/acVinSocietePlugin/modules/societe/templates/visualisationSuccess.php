@@ -101,6 +101,14 @@ use_helper('Display');
             </label>
             <?php echo  Date::francizeDate($societe->getSepaDateEffectif()); ?>
           </div>
+          <div class="form_ligne">
+              <form method="POST" action="<?php echo url_for('societe_sepa_desactivate', $societe);?>">
+                      <strong>Desactiver le prélèvement automatique :</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <?php if($compta_rights): ?>
+                        <input type="submit" class="btn_majeur btn_contact" value="Désactiver le PA" style="float:right;" onclic0k='return confirm("Souhaitez-vous confirmer la désactivation des prélèvements automatiques pour cette société ?")' />
+                      <?php endif; ?>
+              </form>
+          </div>
         <?php endif; ?>
         <?php
         if(!$societe->sepa->exist('date_activation') || ! $societe->sepa->date_activation): ?>
