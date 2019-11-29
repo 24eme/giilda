@@ -77,7 +77,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setValidator('raison_sociale_cautionneur', new sfValidatorString(array('required' => false)));
 
 
-            if (!$this->etablissement->isNegociant()) {
+            if (!$this->etablissement->isNegociant() && !$this->etablissement->isNegociantPur()) {
                 $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
                 $this->setWidget('exclusion_drm', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
                 $this->setWidget('type_dr', new sfWidgetFormChoice(array('choices' => $this->getTypeDR())));

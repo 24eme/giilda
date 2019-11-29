@@ -120,7 +120,15 @@ class CompteCoordonneeForm extends acCouchdbObjectForm {
     }
 
     public function getRegionsODG() {
-        return array(""=> "", "ANJOU" => "ANJOU","SAUMUR" => "SAUMUR","CHINON" => "CHINON","NANTES" => "NANTES","IGP_VALDELOIRE" => "IGP_VALDELOIRE");
+        return array(""=> "", "ANJOU_SAUMUR" => "ANJOU_SAUMUR",
+                              "TOURAINE" => "TOURAINE",
+                              "CHINON" => "CHINON",
+                              "NANTES" => "NANTES",
+                              "COTEAUX_VENDOMOIS" => "COTEAUX_VENDOMOIS",
+                              "IGP_VALDELOIRE" => "IGP_VALDELOIRE",
+                              "SAINT_NICOLAS" => "SAINT_NICOLAS",
+                              "HAUT_POITOU" => "HAUT_POITOU" ,
+                              "VOUVRAY" => "VOUVRAY");
     }
 
     public function getAllTags() {

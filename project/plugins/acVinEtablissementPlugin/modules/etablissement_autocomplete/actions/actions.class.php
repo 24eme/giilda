@@ -14,17 +14,19 @@ class etablissement_autocompleteActions extends sfActions
 
  	public function executeByFamilles(sfWebRequest $request) {
 	    $interpro = $request->getParameter('interpro_id');
-		$familles = $request->getParameter('familles');
-
+		  $familles = $request->getParameter('familles');
+      if($familles == EtablissementFamilles::FAMILLE_PRODUCTEUR){
+        $familles.="|".EtablissementFamilles::FAMILLE_COOPERATIVE;
+      }
 	    $q = $request->getParameter('q');
 	    $limit = $request->getParameter('limit', 100);
 	    $json = $this->matchEtablissements(
 					       EtablissementAllView::getInstance()->findByInterproStatutAndFamilles($interpro, EtablissementClient::STATUT_ACTIF, explode('|', $familles), $q, $limit),
 					       $q,
 					       $limit
-					       );
-	    
- 		return $this->renderText(json_encode($json));	
+		  );
+
+ 		return $this->renderText(json_encode($json));
   	}
 
     protected function matchEtablissements($etablissements, $term, $limit) {
@@ -32,7 +34,7 @@ class etablissement_autocompleteActions extends sfActions
 
 	  	foreach($etablissements as $key => $etablissement) {
 	      $text = EtablissementAllView::getInstance()->makeLibelle($etablissement);
-	     
+
 	      if (Search::matchTerm($term, $text)) {
 	        $json[EtablissementClient::getInstance()->getId($etablissement->id)] = $text;
 	      }

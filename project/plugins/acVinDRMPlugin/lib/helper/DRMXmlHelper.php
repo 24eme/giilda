@@ -53,28 +53,92 @@ function multiArray2XML($preXML) {
 	return $xml;
 }
 
-function details2XmlDouane($detail) {
+function details2XmlDouane($detail, $isNegoce = false) {
 	$detailKey = $detail->getParent()->getKey();
 	$confDetail = null;
+	$confKey = ($isNegoce)? 'douane_cat_negoce' : 'douane_cat';
 	if(!$detail->getConfig()->getDocument()->declaration->exist($detailKey)){
-		$confDetail = $detail->getConfig()->getDocument()->declaration->detail;
+		$confDetail = $detail->getConfig()->getDocument()->declaration->details;
 	}else{
 		$confDetail = $detail->getConfig()->getDocument()->declaration->$detailKey;
 	}
-  $preXML = array();
-  foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
-	  foreach ($detail->get($type) as $k => $v) {
-			if (($v || ($k == 'revendique' && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->douane_cat) {
-				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->douane_cat),  $v);
-				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->douane_cat)) {
-						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth(), true);
-						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear(),  true);
+	$preXML = array();
+	$keyForceDisplay = array();
+	foreach (array('stocks_debut', 'stocks_fin') as $type) {
+		foreach($confDetail->get($type) as $k => $v) {
+			if($confDetail->get($type)->get($k)->get($confKey)) {
+				$keyForceDisplay[$type] = $k;
+				break;
+			}
+		}
+	}
+	foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
+		foreach ($detail->get($type) as $k => $v) {
+			if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees' && $detail->get($type)->exist($k.'_details')) {
+					$i = 0;
+					foreach($detail->get($type)->get($k.'_details') as $detailLigne) {
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/mois'),  $detailLigne->getReplacementMonth(), true);
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/annee'), $detailLigne->getReplacementYear(),  true);
+						$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension['.$i.']/volume'), $detailLigne->volume);
+						$i++;
+					}
+					continue;
+				}
+
+				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->get($confKey)),  $v);
+				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees') {
+					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth(), true);
+					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear(),  true);
 				}
 			}
-	  }
+		}
+	}
+	if ($isNegoce) {
+	    $preXML = sortForLot1($preXML);
 	}
 	return multiArray2XML($preXML);
 }
+
+function sortForLot1($tabXml) {
+    $xmlSorted = array();
+    $xmlSorted['stock-debut-periode'] = (isset($tabXml['stock-debut-periode']))? $tabXml['stock-debut-periode'] : 0;
+    $xmlSorted['entrees-periode'] = array();
+    if (isset($tabXml['entrees-periode']) && count($tabXml['entrees-periode']) > 0) {
+        if (isset($tabXml['entrees-periode']['volume-produit']))
+            $xmlSorted['entrees-periode']['volume-produit'] = $tabXml['entrees-periode']['volume-produit'];
+        if (isset($tabXml['entrees-periode']['entree-droits-suspendus']))
+            $xmlSorted['entrees-periode']['entree-droits-suspendus'] = $tabXml['entrees-periode']['entree-droits-suspendus'];
+        if (isset($tabXml['entrees-periode']['travail-a-facon']))
+            $xmlSorted['entrees-periode']['travail-a-facon'] = $tabXml['entrees-periode']['travail-a-facon'];
+        if (isset($tabXml['entrees-periode']['autres-entrees']))
+            $xmlSorted['entrees-periode']['autres-entrees'] = $tabXml['entrees-periode']['autres-entrees'];
+        if (isset($tabXml['entrees-periode']['replacements']))
+            $xmlSorted['entrees-periode']['replacements'] = $tabXml['entrees-periode']['replacements'];
+    }
+    $xmlSorted['sorties-periode'] = array();
+    if (isset($tabXml['sorties-periode']) && count($tabXml['sorties-periode']) > 0) {
+        if (isset($tabXml['sorties-periode']['sorties-avec-paiement-droits']))
+            $xmlSorted['sorties-periode']['sorties-avec-paiement-droits'] = $tabXml['sorties-periode']['sorties-avec-paiement-droits'];
+        if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits'])) {
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-exoneration-droits']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['sorties-exoneration-droits'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-exoneration-droits'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['travail-a-facon']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['travail-a-facon'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['travail-a-facon'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['fabrication-autre-produit']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['fabrication-autre-produit'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['fabrication-autre-produit'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'];
+        }
+    }
+    $xmlSorted['stock-fin-periode'] = (isset($tabXml['stock-fin-periode']))? $tabXml['stock-fin-periode'] : 0;
+    return $xmlSorted;
+}
+
 
 function formatXml($xml, $level = 0) {
 	while (preg_match("/\<[a-zA-Z0-9\-\_]*\>\<\/[a-zA-Z0-9\-\_]*\>/", $xml)) {
