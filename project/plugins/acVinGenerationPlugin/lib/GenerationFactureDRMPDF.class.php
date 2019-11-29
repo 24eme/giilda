@@ -29,7 +29,7 @@ class GenerationFactureDRMPDF extends GenerationPDF {
 
        $this->drmSource = DRMClient::getInstance()->find($drmid);
        $societe = $this->drmSource->getEtablissement()->getSociete();
-
+       $parameters = $this->generation->arguments;
        $mouvementsBySoc = array($societe->identifiant => FactureClient::getInstance()->getFacturationForSociete($societe));
        $mouvementsBySoc = FactureClient::getInstance()->filterWithParameters($mouvementsBySoc,$parameters);
 
