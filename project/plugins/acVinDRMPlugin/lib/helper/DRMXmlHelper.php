@@ -74,7 +74,7 @@ function details2XmlDouane($detail, $isNegoce = false) {
 	}
 	foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 		foreach ($detail->get($type) as $k => $v) {
-			if (($v || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
+			if (($v || ($v === 0 && preg_match('/^stock/', $type)) || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
 				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees' && $detail->get($type)->exist($k.'_details')) {
 					$i = 0;
 					foreach($detail->get($type)->get($k.'_details') as $detailLigne) {
