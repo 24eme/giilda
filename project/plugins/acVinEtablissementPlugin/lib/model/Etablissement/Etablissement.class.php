@@ -457,4 +457,12 @@ class Etablissement extends BaseEtablissement {
         return ($this->region != EtablissementClient::REGION_HORS_REGION);
     }
 
+    public function getMoisToSetStock()
+    {
+        if ($this->exist('mois_stock_debut') && $this->mois_stock_debut) {
+            return $this->mois_stock_debut;
+        }
+        return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
+    }
+
 }

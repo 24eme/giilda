@@ -114,9 +114,11 @@
     </div>
     <?php endif; ?>
 
-
-
-
+    <div class="form_ligne">
+        <?php echo $etablissementForm['mois_stock_debut']->renderLabel(); ?>
+        <?php echo $etablissementForm['mois_stock_debut']->render(); ?>
+        <?php echo $etablissementForm['mois_stock_debut']->renderError(); ?>
+    </div>
     <div class="form_ligne">
         <?php echo $etablissementForm['commentaire']->renderLabel(); ?>
 <?php echo $etablissementForm['commentaire']->render(); ?>

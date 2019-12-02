@@ -2,7 +2,7 @@
 <section id="principal">
     <p id="fil_ariane"><a href="<?php echo url_for('societe'); ?>">Page d'accueil</a>
         &gt; <a href="<?php echo url_for('societe_visualisation', array('identifiant' => $societe->identifiant)); ?>">
-            <?php echo $societe->raison_sociale; ?></a> 
+            <?php echo $societe->raison_sociale; ?></a>
             &gt;
             <?php if(!$etablissement->isNew()) : ?>
             <a href="<?php echo url_for('etablissement_visualisation', array('identifiant' => $etablissement->identifiant)); ?>">
@@ -34,7 +34,7 @@
                 <div id="coordonnees_etablissement" class="etablissement form_section ouvert">
                     <h3>Coordonnées de l'établissement</h3>
                     <?php include_partial('compte/modificationCoordonneeSameSocieteForm', array('form' => $etablissementModificationForm)); ?>
-                </div>  
+                </div>
                 <div class="form_btn">
                     <?php if($etablissement->isNew()): ?>
                         <a href="<?php echo url_for('societe_visualisation', $societe); ?>" type="submit" class="btn_majeur btn_annuler">Annuler</a>
@@ -45,7 +45,7 @@
                         <?php echo ($etablissement->isSameContactThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
                     </button>
                 </div>
-            </form>	
+            </form>
         </div>
     </section>
 </section>
