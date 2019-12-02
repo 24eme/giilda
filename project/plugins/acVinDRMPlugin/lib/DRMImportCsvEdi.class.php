@@ -721,7 +721,7 @@ private function importAnnexesFromCSV($just_check = false) {
     }
     switch (KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE])) {
       case self::TYPE_ANNEXE_NONAPUREMENT:
-      $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
+      $numero_document = trim(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]));
       $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
       $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
       if (!$dt) {
