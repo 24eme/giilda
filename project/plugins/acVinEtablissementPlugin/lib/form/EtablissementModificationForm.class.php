@@ -30,6 +30,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
         $this->setWidget('site_fiche', new sfWidgetFormInput());
         $this->setWidget('ppm', new sfWidgetFormInput());
+        $this->setWidget('mois_stock_debut', new sfWidgetFormChoice(array('choices' => $this->getMonths())));
 
 
         $this->widgetSchema->setLabel('nom', 'Nom du chai *');
@@ -39,7 +40,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
         $this->widgetSchema->setLabel('ppm', 'PPM');
-
+        $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de saisie du stock');
 
 
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
@@ -49,7 +50,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setValidator('no_accises', new sfValidatorString(array('required' => false)));
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('ppm', new sfValidatorString(array('required' => false)));
-
+        $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getMonths()))));
 
         if (!$this->etablissement->isCourtier()) {
             $recette_locale = $this->getRecettesLocales();
@@ -77,7 +78,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $this->setValidator('raison_sociale_cautionneur', new sfValidatorString(array('required' => false)));
 
 
-            if (!$this->etablissement->isNegociant()) {
+            if (!$this->etablissement->isNegociant() && !$this->etablissement->isNegociantPur()) {
                 $this->setWidget('raisins_mouts', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
                 $this->setWidget('exclusion_drm', new sfWidgetFormChoice(array('choices' => $this->getOuiNonChoices())));
                 $this->setWidget('type_dr', new sfWidgetFormChoice(array('choices' => $this->getTypeDR())));
@@ -162,6 +163,12 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
            $this->etablissement->compte = null;
            $switch = true;
         }
+
+        if (!$this->etablissement->exist('mois_stock_debut')) {
+            $this->etablissement->add('mois_stock_debut', $this->values['mois_stock_debut']);
+        } else {
+            $this->etablissement->mois_stock_debut = $this->values['mois_stock_debut'];
+        }
         $this->etablissement->save();
 
         if($switch) {
@@ -215,6 +222,18 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
             $douanesList[$douane->id] = $douane->key[SocieteAllView::KEY_RAISON_SOCIALE].' '.$douaneObj->siege->commune.' ('.$douaneObj->siege->code_postal.')';
         }
         return $douanesList;
+    }
+
+
+    public function getMonths()
+    {
+      $dateFormat = new sfDateFormat('fr_FR');
+      $results = array('' => '');
+      for ($i = 1; $i <= 12; $i++) {
+            $month = $dateFormat->format(date('Y').'-'.$i.'-01', 'MMMM');
+            $results[$i] = $month;
+      }
+      return $results;
     }
 
 

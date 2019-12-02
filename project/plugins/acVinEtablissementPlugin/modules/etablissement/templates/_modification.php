@@ -13,7 +13,7 @@
             <?php echo $etablissementForm['statut']->render(); ?>
             <?php echo $etablissementForm['statut']->renderError(); ?>
     </div>
-    <?php if (!$etablissement->isNegociant() && !$etablissement->isCourtier()) : ?>
+    <?php if (!$etablissement->isNegociant() && !$etablissement->isNegociantPur() && !$etablissement->isCourtier()) : ?>
         <div class="form_ligne">
             <div class="form_colonne">
                 <?php echo $etablissementForm['raisins_mouts']->renderLabel(); ?>
@@ -52,7 +52,7 @@
             <?php echo $etablissementForm['region']->render(); ?>
         <?php echo $etablissementForm['region']->renderError(); ?>
         </div>
-            <?php if (!$etablissement->isNegociant() && !$etablissement->isCourtier()) : ?>
+            <?php if (!$etablissement->isNegociant() && !$etablissement->isNegociantPur() && !$etablissement->isCourtier()) : ?>
             <div class="form_colonne">
                 <?php echo $etablissementForm['type_dr']->renderLabel(); ?>
                 <?php echo $etablissementForm['type_dr']->render(); ?>
@@ -114,9 +114,11 @@
     </div>
     <?php endif; ?>
 
-
-
-
+    <div class="form_ligne">
+        <?php echo $etablissementForm['mois_stock_debut']->renderLabel(); ?>
+        <?php echo $etablissementForm['mois_stock_debut']->render(); ?>
+        <?php echo $etablissementForm['mois_stock_debut']->renderError(); ?>
+    </div>
     <div class="form_ligne">
         <?php echo $etablissementForm['commentaire']->renderLabel(); ?>
 <?php echo $etablissementForm['commentaire']->render(); ?>

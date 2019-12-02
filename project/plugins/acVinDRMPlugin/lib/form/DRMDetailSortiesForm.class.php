@@ -28,6 +28,9 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
             if (preg_match('/LIE/', $mention) && (($key == 'destructionperte') || ($key == 'manquant'))) {
                 $disabled = true;
             }
+            if ($key == 'vci' && $drm->isNegoce()) {
+                $disabled = true;
+            }
 
             if ($value->readable) {
                 if (!$value->writable || $disabled) {

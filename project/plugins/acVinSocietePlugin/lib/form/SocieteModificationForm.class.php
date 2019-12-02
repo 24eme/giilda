@@ -46,10 +46,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setWidget('code_naf', new sfWidgetFormInput());
             $this->setWidget('no_tva_intracommunautaire', new sfWidgetFormInput());
 
-            $this->setWidget('nom_bancaire', new sfWidgetFormInput());
-            $this->setWidget('iban', new sfWidgetFormInput());
-            $this->setWidget('bic', new sfWidgetFormInput());
-
             $this->embedForm('enseignes', new EnseignesItemForm($this->getObject()->enseignes));
         }
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
@@ -72,9 +68,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->widgetSchema->setLabel('code_naf', 'Code Naf');
             $this->widgetSchema->setLabel('no_tva_intracommunautaire', 'TVA Intracom.');
 
-            $this->widgetSchema->setLabel('nom_bancaire', 'Nom bancaire :');
-            $this->widgetSchema->setLabel('iban', 'IBAN :');
-            $this->widgetSchema->setLabel('bic', 'Bic :');
         }
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
 
@@ -108,9 +101,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             $this->setValidator('code_naf', new sfValidatorString(array('required' => false)));
             $this->setValidator('no_tva_intracommunautaire', new sfValidatorString(array('required' => false)));
 
-            $this->setValidator('nom_bancaire', new sfValidatorString(array('required' => false)));
-            $this->setValidator('iban', new sfValidatorString(array('required' => false)));
-            $this->setValidator('bic', new sfValidatorString(array('required' => false)));
 
             if ($this->getObject()->code_comptable_client) {
                 $this->widgetSchema['type_numero_compte_client']->setAttribute('disabled', 'disabled');
@@ -140,9 +130,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
             if ($this->getObject()->isInCreation()) {
                 $this->setDefault('statut', SocieteClient::STATUT_ACTIF);
             }
-            $this->setDefault('nom_bancaire', $this->getObject()->getOrAdd('sepa')->getOrAdd('nom_bancaire'));
-            $this->setDefault('iban', $this->getObject()->getOrAdd('sepa')->getOrAdd('iban'));
-            $this->setDefault('bic', $this->getObject()->getOrAdd('sepa')->getOrAdd('bic'));
 
             // if (!$this->getObject()->isNegoOrViti()){
             $this->setDefault('type_fournisseur', $this->getDefaultTypesFournisseur());
@@ -267,9 +254,6 @@ class SocieteModificationForm extends acCouchdbObjectForm {
                 else
                     $this->getObject()->add('type_fournisseur', array());
             }
-            $this->getObject()->add('sepa')->nom_bancaire = $this->values['nom_bancaire'];
-            $this->getObject()->add('sepa')->iban = $this->values['iban'];
-            $this->getObject()->add('sepa')->bic = $this->values['bic'];
         }
     }
 

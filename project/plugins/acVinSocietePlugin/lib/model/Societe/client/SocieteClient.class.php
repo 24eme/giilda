@@ -6,6 +6,7 @@ class SocieteClient extends acCouchdbClient {
     const SUB_TYPE_VITICULTEUR = 'VITICULTEUR';
     const SUB_TYPE_COOPERATIVE = 'COOPERATIVE';
     const SUB_TYPE_NEGOCIANT = 'NEGOCIANT';
+    const SUB_TYPE_NEGOCIANT_PUR = 'NEGOCIANT_PUR';
     const SUB_TYPE_COURTIER = 'COURTIER';
     const TYPE_PRESSE = 'PRESSE';
     const TYPE_PARTENAIRE = 'PARTENAIRE';
@@ -149,6 +150,7 @@ class SocieteClient extends acCouchdbClient {
     public static function getSocieteTypes() {
         return array(self::TYPE_OPERATEUR => array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,
                 self::SUB_TYPE_NEGOCIANT => self::SUB_TYPE_NEGOCIANT,
+                self::SUB_TYPE_NEGOCIANT_PUR => self::SUB_TYPE_NEGOCIANT_PUR,
                 self::SUB_TYPE_COURTIER => self::SUB_TYPE_COURTIER),
             self::TYPE_PRESSE => self::TYPE_PRESSE,
             self::TYPE_PARTENAIRE => array(
@@ -171,6 +173,7 @@ class SocieteClient extends acCouchdbClient {
         return array(self::SUB_TYPE_VITICULTEUR => self::SUB_TYPE_VITICULTEUR,
             self::SUB_TYPE_COOPERATIVE => self::SUB_TYPE_COOPERATIVE,
             self::SUB_TYPE_NEGOCIANT => self::SUB_TYPE_NEGOCIANT,
+            self::SUB_TYPE_NEGOCIANT_PUR => self::SUB_TYPE_NEGOCIANT_PUR,
             self::SUB_TYPE_COURTIER => self::SUB_TYPE_COURTIER);
     }
 

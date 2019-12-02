@@ -181,6 +181,25 @@ class societeActions extends sfCredentialActions {
         return $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
     }
 
+    public function executeSepaDesctivate(sfWebRequest $request) {
+        $this->societe = $this->getRoute()->getSociete();
+
+        $this->societe->getOrAdd('sepa')->date_activation = null;
+
+        $this->societe->save();
+        $compte = $this->societe->getMasterCompte();
+        $new_droits = array();
+        foreach ($compte->getDroits() as $droit) {
+          if($droit != ROLES::TELEDECLARATION_PRELEVEMENT){
+            $new_droits[$droit] = $droit;
+          }
+        }
+        $compte->updateDroits($new_droits);
+        $compte->save();
+
+        return $this->redirect('societe_visualisation', array('identifiant' => $this->societe->identifiant));
+    }
+
     public function executeUpload(sfWebRequest $request) {
         ini_set('memory_limit', '2048M');
         set_time_limit(0);

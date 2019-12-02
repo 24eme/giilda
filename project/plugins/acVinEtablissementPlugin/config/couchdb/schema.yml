@@ -13,7 +13,8 @@ Etablissement:
        raisins_mouts: {  }
        exclusion_drm: {  }
        relance_ds: {  }
-       teledeclaration_email: {  }
+       teledeclaration_email: {  }       
+       mois_stock_debut: { required: false }
        recette_locale:
          type: collection
          definition:

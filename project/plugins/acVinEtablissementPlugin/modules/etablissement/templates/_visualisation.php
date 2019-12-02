@@ -1,5 +1,6 @@
 <?php
 use_helper('Etablissement');
+use_helper('Date');
 $typesLiaisons = EtablissementClient::getTypesLiaisons();
 if (!isset($fromSociete))
     $fromSociete = false;
@@ -152,6 +153,14 @@ if (!isset($fromSociete))
                 <label>Email télédéclaration :</label>
                 <?php echo ($etablissement->exist('teledeclaration_email')) ? $etablissement->teledeclaration_email : ""; ?>
             </div>
+            <?php if($etablissement->exist('mois_stock_debut')): ?>
+                <div class="form_ligne">
+                  <label for="mois_stock_debut">
+                    Mois de saisie du stock :</label>
+                    <?php echo ucfirst(format_date(date("Y")."-".$etablissement->mois_stock_debut."-01", 'MMMM', 'fr_FR')); ?>
+                </div>
+            <?php endif; ?>
+
         <?php if (!$fromSociete && $etablissement->commentaire): ?>
             <div class="form_ligne">
                 <label for="commentaire">

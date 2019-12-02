@@ -10,6 +10,11 @@ class FactureEditionSepaForm extends acCouchdbObjectForm {
 
     public function __construct(Societe $societe, $options = array(), $CSRFSecret = null) {
         $this->societe = $societe;
+        $this->societe->getOrAdd('sepa')->nom_bancaire = null;
+        $this->societe->getOrAdd('sepa')->iban = null;
+        $this->societe->getOrAdd('sepa')->bic = null;
+        $this->societe->getOrAdd('sepa')->date_activation = null;
+
         parent::__construct($societe, $options, $CSRFSecret);
     }
 
@@ -65,11 +70,10 @@ class FactureEditionSepaForm extends acCouchdbObjectForm {
 
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        $this->societe->add('sepa')->nom_bancaire = $values['nom_bancaire'];
-        $this->societe->add('sepa')->iban = $values['iban'];
-        $this->societe->add('sepa')->bic = $values['bic'];
-        $this->societe->add('sepa')->date_activation = null;
+        $this->societe->remove('sepa');
+        $this->societe->add('sepa')->date_saisie = date('Y-m-d');
         $this->societe->save();
+        
         $compte = $this->societe->getMasterCompte();
         $new_droits = array();
         foreach ($compte->getDroits() as $droit) {
