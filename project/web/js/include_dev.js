@@ -47,19 +47,19 @@
 	$.fn.includeJS(jsPath, 'popups.js');
 	$.fn.includeJS(jsPath, 'autocomplete.js');
     $.fn.includeJS(jsPath, 'ajaxHelper.js');
-	$.fn.includeJS(jsPath, 'vrac.js?201912031500');
+	$.fn.includeJS(jsPath, 'vrac.js?'+gitcommit);
 	$.fn.includeJS(jsPath, 'form.js');
-	$.fn.includeJS(jsPath, 'drm.js?201912031500');
+	$.fn.includeJS(jsPath, 'drm.js?'+gitcommit);
 	$.fn.includeJS(jsPath, 'declaration.js');
 	$.fn.includeJS(jsPath, 'sv12.js');
 	$.fn.includeJS(jsPath, 'ds.js');
-    $.fn.includeJS(jsPath, 'colonnes.js');
+    $.fn.includeJS(jsPath, 'colonnes.js?'+gitcommit);
 	$.fn.includeJS(jsPath, 'contacts.js');
 	$.fn.includeJS(jsPath, 'hamza_style.js');
         $.fn.includeJS(jsPath, 'societe.js');
         $.fn.includeJS(jsPath, 'etablissement.js');
-        $.fn.includeJS(jsPath, 'teledeclaration_vrac.js?201912031500');
-        $.fn.includeJS(jsPath, 'teledeclaration_drm.js?201912031500');
+        $.fn.includeJS(jsPath, 'teledeclaration_vrac.js?'+gitcommit);
+        $.fn.includeJS(jsPath, 'teledeclaration_drm.js?'+gitcommit);
         $.fn.includeJS(jsPath, 'produits.js');
 
 })(jQuery);

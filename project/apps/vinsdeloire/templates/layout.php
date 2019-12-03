@@ -1,3 +1,6 @@
+<?php
+$gitcommit = str_replace("\n",'',file_get_contents('../../.git/ORIG_HEAD'));
+ ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -121,7 +124,7 @@
         <?php include_partial('global/ajaxNotification') ?>
         <?php include_partial('global/initMessageAide') ?>
 
-        <script type="text/javascript">var jsPath = "/js/";</script>
-        <script type="text/javascript" src="/js/include_dev.js?201901151100"></script>
+        <script type="text/javascript">var jsPath = "/js/"; var gitcommit="<?php echo $gitcommit; ?>"; </script>
+        <script type="text/javascript" src="/js/include_dev.js"></script>
     </body>
 </html>
