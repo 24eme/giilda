@@ -240,6 +240,10 @@ class DRMDetail extends BaseDRMDetail {
         }else{
           $this->remove('replacement_date');
         }
+
+        if (! $this->stocks_debut->revendique && !$this->hasStockEpuise()) {
+            $this->stocks_debut->revendique = 0 ;
+        }
     }
 
     public function setImportableObservations($observations) {
