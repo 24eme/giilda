@@ -44,8 +44,10 @@ class GenerationFactureDRMPDF extends GenerationPDF {
     public function postGeneratePDF(){
       $mailManager = new FactureEmailManager($this->getMailer(),$this->getRouting());
 
-      if(count($this->generation->documents) != 1){
+      if(count($this->generation->documents) > 1){
         throw new sfException("L'envoie d'email ne pourra avoir lieu, la generation possède plusieurs documents", 1);
+      }elseif (count($this->generation->documents) < 1) {
+          throw new sfException("pas de documents à envoyer", 1);
       }
 
       foreach ($this->generation->documents as $factureId) {
