@@ -133,7 +133,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare()  || $this->getDocument()->changedImportToCreation());
+       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare()  || $this->getDocument()->changedImportToCreation() || $this->getDocument()->isMoisOuvert());
     }
 
     public function canSetLabels() {
@@ -586,6 +586,13 @@ class DRMDetail extends BaseDRMDetail {
         }
 
         return $this->getCepage()->getConfig()->code_douane;
+    }
+
+    public function isPremix() {
+        if (preg_match('/(premix|premix)/i', $this->produit_libelle) || preg_match('/(premix|premix)/i', $this->denomination_complementaire)) {
+            return true;
+        }
+        return false;
     }
 
     public function isCodeDouaneNonINAO(){
