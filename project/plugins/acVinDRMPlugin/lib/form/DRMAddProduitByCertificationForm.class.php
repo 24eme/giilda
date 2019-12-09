@@ -65,7 +65,7 @@ class DRMAddProduitByCertificationForm extends acCouchdbObjectForm {
             $produits = $this->_drm->getConfigProduits(true);
             $matchcertif = '#(';
             foreach ($this->_configurationCertifications as $certif) {
-                $matchcertif .= $certif->getHash().'|';
+                $matchcertif .= $certif->getHash().'/|';
             }
             $matchcertif = preg_replace('/\|$/', ')#', $matchcertif);
             if (!is_null($produits)) {
