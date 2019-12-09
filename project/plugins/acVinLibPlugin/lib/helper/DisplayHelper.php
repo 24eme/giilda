@@ -22,6 +22,7 @@ function escape_string_for_latex($string) {
     $disp = str_replace("%", "\%", $disp);
     $disp = str_replace("<", "$<$", $disp);
     $disp = str_replace(">", "$>$", $disp);
+    $disp = str_replace("_", "", $disp);
 
     return $disp;
 }
