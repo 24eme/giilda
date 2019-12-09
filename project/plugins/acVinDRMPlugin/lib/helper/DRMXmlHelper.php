@@ -74,7 +74,7 @@ function details2XmlDouane($detail, $isNegoce = false) {
 	}
 	foreach (array('stocks_debut', 'entrees', 'sorties', 'stocks_fin') as $type) {
 		foreach ($detail->get($type) as $k => $v) {
-			if (($v || ($v === 0 && preg_match('/^stock/', $type)) || (($k == 'initial' || $k == 'final') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
+			if (($v || ($v === 0 && preg_match('/^stock/', $type)) || (($k == 'initial' || $k == 'final' || $k == 'revendique') && preg_match('/^stock/', $type))) && $confDetail->get($type)->exist($k) && $confDetail->get($type)->get($k)->get($confKey)) {
 				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees' && $detail->get($type)->exist($k.'_details')) {
 					$i = 0;
 					foreach($detail->get($type)->get($k.'_details') as $detailLigne) {
@@ -118,8 +118,12 @@ function sortForLot1($tabXml) {
     }
     $xmlSorted['sorties-periode'] = array();
     if (isset($tabXml['sorties-periode']) && count($tabXml['sorties-periode']) > 0) {
-        if (isset($tabXml['sorties-periode']['sorties-avec-paiement-droits']))
-            $xmlSorted['sorties-periode']['sorties-avec-paiement-droits'] = $tabXml['sorties-periode']['sorties-avec-paiement-droits'];
+				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-annee-precedente'])){
+					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-precedente'] = $tabXml['sorties-periode']['sorties-avec-paiement-annee-precedente'];
+				}
+				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-annee-courante'])){
+					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-courante'] = $tabXml['sorties-periode']['sorties-avec-paiement-annee-courante'];
+				}
         if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits'])) {
             if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives']))
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'];

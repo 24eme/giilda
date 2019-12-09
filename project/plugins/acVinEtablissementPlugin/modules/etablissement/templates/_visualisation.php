@@ -153,7 +153,7 @@ if (!isset($fromSociete))
                 <label>Email télédéclaration :</label>
                 <?php echo ($etablissement->exist('teledeclaration_email')) ? $etablissement->teledeclaration_email : ""; ?>
             </div>
-            <?php if($etablissement->exist('mois_stock_debut')): ?>
+            <?php if($etablissement->exist('mois_stock_debut') && $etablissement->mois_stock_debut): ?>
                 <div class="form_ligne">
                   <label for="mois_stock_debut">
                     Mois de saisie du stock :</label>
