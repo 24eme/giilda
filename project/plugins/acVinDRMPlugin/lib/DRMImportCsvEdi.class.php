@@ -421,15 +421,16 @@ private function importMouvementsFromCSV($just_check = false) {
     }
     $confDetailMvt = $this->mouvements[$type_douane_drm_key][$cat_mouvement][$type_mouvement];
 
-    if($just_check && $confDetailMvt->hasDetails()) {
-      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
+    if ($confDetailMvt->hasDetails() && $confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         if (!$pays) {
-          $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
-          $num_ligne++;
-          continue;
+            $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
+            $num_ligne++;
+            continue;
         }
-      }
+    }
+
+    if($just_check && $confDetailMvt->hasDetails()) {
       if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_VRAC) {
         if ($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
           $num_ligne++;
