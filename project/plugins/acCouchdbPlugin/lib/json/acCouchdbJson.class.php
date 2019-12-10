@@ -42,8 +42,7 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
             return $this->get($objHash[acCouchdbHash::FIRST_KEY_OF_HASH])->get($objHash[acCouchdbHash::HASH_WITHOUT_FIRST_KEY]);
         } elseif(!$this->isArray()) {
             foreach($this as $key => $item) {
-                if(strpos($key_or_hash, $key) !== false) {
-
+                if($this->containsSubHash($key_or_hash, $key)) {
                     return $this->get($key)->get(str_replace($key, "", $key_or_hash));
                 }
             }
@@ -95,8 +94,7 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
             return $this->get($objHash[acCouchdbHash::FIRST_KEY_OF_HASH])->set($objHash[acCouchdbHash::HASH_WITHOUT_FIRST_KEY], $value);
         } elseif(!$this->isArray()) {
             foreach($this as $key => $item) {
-                if(strpos($key_or_hash, $key) !== false) {
-
+                if($this->containsSubHash($key_or_hash, $key)) {
                     return $this->get($key)->set(str_replace($key, "", $key_or_hash), $value);
                 }
             }
@@ -157,7 +155,7 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
             return $this->get($objHash[acCouchdbHash::FIRST_KEY_OF_HASH])->remove($objHash[acCouchdbHash::HASH_WITHOUT_FIRST_KEY]);
         } elseif(!$this->isArray()) {
             foreach($this as $key => $item) {
-                if(strpos($key_or_hash, $key) !== false) {
+                if($this->containsSubHash($key_or_hash, $key)) {
 
                     return $this->get($key)->remove(str_replace($key, "", $key_or_hash));
                 }
@@ -186,7 +184,7 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
         	return $this->get($objHash[acCouchdbHash::FIRST_KEY_OF_HASH])->exist($objHash[acCouchdbHash::HASH_WITHOUT_FIRST_KEY]);
         } elseif(!$this->isArray()) {
             foreach($this as $key => $item) {
-                if(strpos($key_or_hash, $key) !== false) {
+                if($this->containsSubHash($key_or_hash, $key)) {
 
                     return $this->get($key)->exist(str_replace($key, "", $key_or_hash));
                 }
@@ -194,6 +192,10 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
         }
 
         return false;
+    }
+
+    private function containsSubHash($key_or_hash, $key) {
+        return ((strpos($key_or_hash, $key.'/') !== false) || ($key == $key_or_hash));
     }
 
     public function __call($method, $arguments) {
