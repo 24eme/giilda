@@ -15,10 +15,7 @@ class DRMDetailExportItemForm extends DRMESDetailsItemForm {
     }
 
     public function getIdentifiantChoices() {
-        $country_list = ConfigurationClient::getInstance()->getCountryList();
-        if($this->detail->getDocument()->isNegoce()){
-          $country_list = array_merge(array("AUTRE" => "Pays Indéterminé"), $country_list);
-        }
+        $country_list = ConfigurationClient::getInstance()->getCountryList($this->detail);        
         return $country_list;
     }
 
