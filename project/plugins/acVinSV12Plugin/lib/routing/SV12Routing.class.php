@@ -39,8 +39,17 @@ class SV12Routing {
                              'type' => 'object',
                              'control' => array('edition'),
                 )));
-        
-        
+
+        $r->prependRoute('sv12_import', new SV12Route('/sv12/:identifiant/edition/:periode_version/import',
+                        array('module' => 'sv12',
+                            'action' => 'import'),
+                        array('sf_method' => array('get', 'post')),
+                        array('model' => 'SV12',
+                             'type' => 'object',
+                             'control' => array('edition'),
+                )));
+
+
         $r->prependRoute('sv12_update_addProduit', new SV12Route('/sv12/:identifiant/edition/:periode_version/update/addProduit', array('module' => 'sv12',
                     'action' => 'updateAddProduit'),
                     array('sf_method' => array('get', 'post')),

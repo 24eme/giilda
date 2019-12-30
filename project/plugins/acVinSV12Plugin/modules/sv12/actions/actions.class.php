@@ -84,6 +84,40 @@ class sv12Actions extends sfActions {
         }
     }
 
+    public function executeImport(sfWebRequest $request) {
+        $this->sv12 = $this->getRoute()->getSV12();
+        $campagne = preg_replace('/-.*/', '', $this->sv12->campagne);
+        $id = "SV12-".$this->sv12->identifiant."-".$campagne;
+        $client = acCouchdbManager::getClient();
+        $douane = $client->find($id, acCouchdbClient::HYDRATE_JSON);
+        foreach ($douane->_attachments as $key => $value) {
+                if (preg_match('/xls/', $key)) {
+                    $valid = $key;
+                    continue;
+                }
+        }
+        if (!$valid) {
+            return;
+        }
+        $url = $client->dsn().$client->getAttachmentUri($douane, $valid);
+
+        $tempfname = tempnam("/tmp", "sv12xls_").".xls";
+        $temp = fopen($tempfname, "w");
+        fwrite($temp, file_get_contents($url));
+        fclose($temp);
+        exec("bash ".sfConfig::get('app_sv12_path2odgproject')."/bin/get_csv_dr_from_douane.sh $tempfname", $output);
+        $sv12 = array();
+        foreach($output as $line) {
+                $csv = str_getcsv($line, ';');
+                if ($csv[19] == '11' || $csv[19] == '10') {
+                    $sv12[] = $csv;
+                }
+        }
+        print_r($sv12);
+
+        exit;
+    }
+
     public function executeRecapitulatif(sfWebRequest $request) {
         set_time_limit(0);
         $this->sv12 = $this->getRoute()->getSV12();
