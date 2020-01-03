@@ -798,7 +798,7 @@ private function importAnnexesFromCSV($just_check = false) {
 
 private function convertNumber($number){
   $numberPointed = trim(str_replace(",",".",$number));
-  return round(floatval($numberPointed), 4);
+  return round(floatval($numberPointed), 5);
 }
 
 private function getDetailsKeyFromDRMType($drmType ) {
