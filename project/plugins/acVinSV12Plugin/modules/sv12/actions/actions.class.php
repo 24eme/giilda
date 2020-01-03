@@ -108,10 +108,52 @@ class sv12Actions extends sfActions {
         exec("bash ".sfConfig::get('app_sv12_path2odgproject')."/bin/get_csv_dr_from_douane.sh $tempfname", $output);
         $sv12 = array();
         foreach($output as $line) {
-                $csv = str_getcsv($line, ';');
-                if ($csv[19] == '11' || $csv[19] == '10') {
-                    $sv12[] = $csv;
+            $csv = str_getcsv($line, ';');
+            if ($csv[19] == '11' || $csv[19] == '10') {
+                if (!isset($sv12[$csv[22]])) {
+                    $sv12[$csv[22]] = array();
                 }
+                $sv12_hash = '/declaration/certifications/'.$csv[9].'/genres/'.$csv[10].'/appellations/'.$csv[11].'/mentions/'.$csv[12].'/lieux/'.$csv[13].'/couleurs/'.$csv[14].'/cepages/'.$csv[15];
+                if (!isset($sv12[$csv[22]])) {
+                    $sv12[$csv[22]] = array();
+                }
+                if (!isset($sv12[$csv[22]][$sv12_hash.$csv[19]])) {
+                    $sv12[$csv[22]][$sv12_hash.$csv[19]] = array();
+                }
+                $sv12[$csv[22]][$sv12_hash.$csv[19]][] = $csv;
+            }
+        }
+        $delete_cvi = array();
+        foreach($this->sv12->contrats as $numcontrat => $contrat) {
+            $cvi = $contrat->vendeur->cvi;
+            $idhashtype = $contrat->produit_hash;
+            if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
+                $idhashtype .= '11';
+            } elseif ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
+                $idhashtype .= '10';
+            }
+            echo "$numcontrat ($cvi) - [";
+            if (count($sv12[$cvi][$idhashtype]) != 1) {
+                echo "] : Pas de contrat trouvé\n" ;
+                continue;
+            }
+            $c = $sv12[$cvi][$idhashtype][0];
+            echo $c[21]." - ".$contrat->volume_prop;
+            echo "] ";
+            echo abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop;
+            if (abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop < 0.10) {
+                $this->sv12->updateVolume($numcontrat, $c[21]);
+                echo ": OK\n";
+                unset($sv12[$cvi][$idhashtype]);
+                if (!count($sv12[$cvi][$idhashtype])) {
+                    unset($sv12[$cvi][$idhashtype]);
+                    if (!count($sv12[$cvi])) {
+                        unset($sv12[$cvi]);
+                    }
+                }
+            }else{
+                echo ": NOP\n";
+            }
         }
         print_r($sv12);
 
