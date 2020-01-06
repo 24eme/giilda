@@ -107,9 +107,11 @@ class sv12Actions extends sfActions {
         fclose($temp);
         exec("bash ".sfConfig::get('app_sv12_path2odgproject')."/bin/get_csv_dr_from_douane.sh $tempfname", $output);
         $sv12 = array();
+        $import = array(); $i = 0;
         foreach($output as $line) {
             $csv = str_getcsv($line, ';');
-            if ($csv[19] == '11' || $csv[19] == '10') {
+            $csv[21] = preg_replace('/,/', '.', $csv[21]);
+            if (($csv[19] == '11' || $csv[19] == '10') && $csv[9]) {
                 if (!isset($sv12[$csv[22]])) {
                     $sv12[$csv[22]] = array();
                 }
@@ -120,44 +122,72 @@ class sv12Actions extends sfActions {
                 if (!isset($sv12[$csv[22]][$sv12_hash.$csv[19]])) {
                     $sv12[$csv[22]][$sv12_hash.$csv[19]] = array();
                 }
+                $csv[] = $sv12_hash;
                 $sv12[$csv[22]][$sv12_hash.$csv[19]][] = $csv;
             }
         }
         $delete_cvi = array();
+        $import[++$i] = array("cvi vendeur", "hash produit", "type transcation", "num contrat", "volume sv12", "volume proposé", "action/erreur", "extra");
+        $conf = ConfigurationClient::getConfigurationByCampagne($this->sv12->campagne);
         foreach($this->sv12->contrats as $numcontrat => $contrat) {
             $cvi = $contrat->vendeur->cvi;
             $idhashtype = $contrat->produit_hash;
+            $import[++$i] = array($cvi, $idhashtype);
             if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
                 $idhashtype .= '11';
+                $import[$i][] = "MOUT";
             } elseif ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
                 $idhashtype .= '10';
+                $import[$i][] = "RAISINS";
             }
-            echo "$numcontrat ($cvi) - [";
-            if (count($sv12[$cvi][$idhashtype]) != 1) {
-                echo "] : Pas de contrat trouvé\n" ;
+            $import[$i][] = $numcontrat;
+            if (!isset($sv12[$cvi][$idhashtype]) || count($sv12[$cvi][$idhashtype]) < 1) {
+                $this->sv12->updateVolumeFromSV12($numcontrat, null, "douane non trouvée");
+                continue;
+            }
+            if (count($sv12[$cvi][$idhashtype]) > 1) {
+                $this->sv12->updateVolumeFromSV12($numcontrat, null, "Plusieurs douanes trouvées");
                 continue;
             }
             $c = $sv12[$cvi][$idhashtype][0];
-            echo $c[21]." - ".$contrat->volume_prop;
-            echo "] ";
-            echo abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop;
+            $import[$i][] = $c[21];
+            $import[$i][] = $contrat->volume_prop;
             if (abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop < 0.10) {
-                $this->sv12->updateVolume($numcontrat, $c[21]);
-                echo ": OK\n";
-                unset($sv12[$cvi][$idhashtype]);
-                if (!count($sv12[$cvi][$idhashtype])) {
-                    unset($sv12[$cvi][$idhashtype]);
-                    if (!count($sv12[$cvi])) {
-                        unset($sv12[$cvi]);
-                    }
-                }
+                $import[$i][] = "ok";
+                $this->sv12->updateVolumeFromSV12($numcontrat, $c[21]);
             }else{
-                echo ": NOP\n";
+                $contrat = $this->sv12->updateVolumeFromSV12($numcontrat, $c[21], "volume trop différent");
+            }
+            unset($sv12[$cvi][$idhashtype]);
+            if (!count($sv12[$cvi])) {
+                unset($sv12[$cvi]);
             }
         }
-        print_r($sv12);
+        foreach($sv12 as $cvi => $produits) {
+            foreach($produits as $hash => $array) {
+                foreach ($array as $csv) {
+                    if ($conf->get($csv[27])->getDroitCVO($this->sv12->getPeriode())->getTaux() > 0) {
+                        $e = EtablissementClient::getInstance()->findByCvi($cvi);
+                        if ($e) {
+                            $contrat = $this->sv12->addSansContrat($e,
+                                                        ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS,
+                                                        $csv[27]);
+                            $contrat->volume = $csv[21];
+                            $contrat->add('volume_sv12', $csv[21]);
+                        }else{
+                            $contrat = $this->sv12->addSansViti($csv[27], ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS);
+                            $contrat->volume = $csv[21];
+                            $contrat->add('volume_sv12', $csv[21]);
+                            $contrat->add('commentaire',"cvi non trouvé : [$cvi] - ".$csv[23]);
+                        }
+                        $import[++$i] = array($cvi, $csv[27], "", "SANS CONTRAT", $csv[21], null, "contrat et vsinon trouvée");
+                    }
+                }
+            }
+        }
+        $this->form = new SV12UpdateForm($this->sv12);
+        $this->setTemplate('update');
 
-        exit;
     }
 
     public function executeRecapitulatif(sfWebRequest $request) {

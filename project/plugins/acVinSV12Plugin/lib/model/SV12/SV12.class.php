@@ -232,6 +232,14 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function updateVolume($num_contrat,$volume) {
         $this->contrats[$num_contrat]->volume = $volume;
+        return $this->contrats[$num_contrat];
+    }
+
+    public function updateVolumeFromSV12($num_contrat, $volume, $commentaire = null) {
+        $this->contrats[$num_contrat]->volume = $volume;
+        $this->contrats[$num_contrat]->add('volume_sv12', $volume);
+        $this->contrats[$num_contrat]->add('commentaire', $commentaire);
+        return $this->contrats[$num_contrat];
     }
 
     public function storeDates() {

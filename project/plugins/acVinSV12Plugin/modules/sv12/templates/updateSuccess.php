@@ -52,10 +52,10 @@
                         <tr class="vide">
                             <td colspan="4">Aucun résultat n'a été trouvé pour cette recherche</td>
                         </tr>
-                        <?php foreach ($sv12->contrats as $contrat) : ?> 
+                        <?php foreach ($sv12->contrats as $contrat) : ?>
                             <tr id="<?php echo contrat_get_id($contrat) ?>" class="<?php if($contrat->volume){echo "saisi";} ?>">
-                                <td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php else: ?>-<?php endif; ?></td>
-                                <td><?php echo $contrat->produit_libelle; ?></td>	
+                                <td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php elseif ($contrat->exist('commentaire')): echo $contrat->commentaire; else: ?>-<?php endif; ?></td>
+                                <td><?php echo $contrat->produit_libelle; ?></td>
                                 <td>
                                     <?php if (!$contrat->contrat_numero): ?>
                                         -

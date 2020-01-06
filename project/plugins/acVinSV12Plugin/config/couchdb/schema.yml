@@ -60,6 +60,8 @@ SV12:
                   vendeur_identifiant: {  }
                   vendeur_nom: {  }
                   volume_prop: { type : float }
+                  volume_sv12: { type : float, required: false }
+                  commentaire: { type : float, required: false }
                   volume: { type : float }
                   cvo: { type: float }
       mouvements:
