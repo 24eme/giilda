@@ -17,8 +17,8 @@ class EtablissementFindByCviView extends acCouchdbView
 
     public function findByCvi($cvi) {
 
-    	return $this->client->startkey(array($cvi))
-                    		->endkey(array($cvi, array()))
+    	return $this->client->startkey(array($cvi.""))
+                    		->endkey(array($cvi."", array()))
                     		->getView($this->design, $this->view)->rows;
     }
 
