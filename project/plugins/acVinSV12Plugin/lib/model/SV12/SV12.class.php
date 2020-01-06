@@ -520,6 +520,18 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->add('mouvements');
     }
 
+    public function addSansContrat($etablissement, $raisinetmout, $hash_ref) {
+        $sv12Contrat = $this->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$raisinetmout.str_replace('/', '-', $hash_ref));
+        $sv12Contrat->updateNoContrat($this->getConfig()->get($hash_ref), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $raisinetmout));
+        return $sv12Contrat;
+    }
+
+    public function addSansViti($hash_ref, $raisinetmout = null) {
+        $sv12Contrat = $this->contrats->add(SV12Client::SV12_KEY_SANSVITI.'-'.$raisinetmout.str_replace('/', '-', $hash_ref));
+        $sv12Contrat->updateNoContrat($this->getConfig()->get($hash_ref), array('vendeur_identifiant' => null, 'vendeur_nom' => null, 'contrat_type' => $raisinetmout));
+        return $sv12Contrat;
+    }
+
     public function hasSansContratOrSansViti() {
         if($this->valide->statut != SV12Client::STATUT_VALIDE){
             return false;
