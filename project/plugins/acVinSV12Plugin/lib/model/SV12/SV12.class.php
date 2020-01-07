@@ -313,8 +313,10 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
 
     public function saveBrouillon() {
-        $this->valide->date_saisie = date('d-m-y');
-        $this->valide->statut = SV12Client::STATUT_BROUILLON;
+        $this->add('valide');
+        $this->valide->add('date_saisie', date('Y-m-d'));
+        $this->valide->add('statut', SV12Client::STATUT_BROUILLON);
+        return $this->save();
     }
 
     public function getDate() {

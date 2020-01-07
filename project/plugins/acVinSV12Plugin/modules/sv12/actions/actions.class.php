@@ -185,9 +185,8 @@ class sv12Actions extends sfActions {
                 }
             }
         }
-        $this->form = new SV12UpdateForm($this->sv12);
-        $this->setTemplate('update');
-
+        $this->sv12->saveBrouillon();
+        $this->redirect('sv12_update', $this->sv12);
     }
 
     public function executeRecapitulatif(sfWebRequest $request) {
