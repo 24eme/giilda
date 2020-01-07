@@ -107,10 +107,9 @@ class sv12Actions extends sfActions {
         fclose($temp);
         exec("bash ".sfConfig::get('app_sv12_path2odgproject')."/bin/get_csv_dr_from_douane.sh $tempfname", $output);
         $sv12 = array();
-        $import = array(); $i = 0;
         foreach($output as $line) {
             $csv = str_getcsv($line, ';');
-            $csv[21] = preg_replace('/,/', '.', $csv[21]);
+            $csv[21] = preg_replace('/,/', '.', $csv[21]) * 1;
             if (($csv[19] == '11' || $csv[19] == '10') && $csv[9]) {
                 if (!isset($sv12[$csv[22]])) {
                     $sv12[$csv[22]] = array();
@@ -127,20 +126,15 @@ class sv12Actions extends sfActions {
             }
         }
         $delete_cvi = array();
-        $import[++$i] = array("cvi vendeur", "hash produit", "type transcation", "num contrat", "volume sv12", "volume proposé", "action/erreur", "extra");
         $conf = ConfigurationClient::getConfigurationByCampagne($this->sv12->campagne);
         foreach($this->sv12->contrats as $numcontrat => $contrat) {
             $cvi = $contrat->vendeur->cvi;
             $idhashtype = $contrat->produit_hash;
-            $import[++$i] = array($cvi, $idhashtype);
             if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
                 $idhashtype .= '11';
-                $import[$i][] = "MOUT";
-            } elseif ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
+            } elseif ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
                 $idhashtype .= '10';
-                $import[$i][] = "RAISINS";
             }
-            $import[$i][] = $numcontrat;
             if (!isset($sv12[$cvi][$idhashtype]) || count($sv12[$cvi][$idhashtype]) < 1) {
                 $this->sv12->updateVolumeFromSV12($numcontrat, null, "douane non trouvée");
                 continue;
@@ -150,10 +144,7 @@ class sv12Actions extends sfActions {
                 continue;
             }
             $c = $sv12[$cvi][$idhashtype][0];
-            $import[$i][] = $c[21];
-            $import[$i][] = $contrat->volume_prop;
-            if (abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop < 0.10) {
-                $import[$i][] = "ok";
+            if ($contrat->volume_prop && abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop < 0.10) {
                 $this->sv12->updateVolumeFromSV12($numcontrat, $c[21]);
             }else{
                 $contrat = $this->sv12->updateVolumeFromSV12($numcontrat, $c[21], "volume trop différent");
@@ -178,9 +169,8 @@ class sv12Actions extends sfActions {
                             $contrat = $this->sv12->addSansViti($csv[27], ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS);
                             $contrat->volume = $csv[21];
                             $contrat->add('volume_sv12', $csv[21]);
-                            $contrat->add('commentaire',"cvi non trouvé : [$cvi] - ".$csv[23]);
+                            $contrat->add('commentaire', $csv[23]." : cvi non trouvé : [$cvi]");
                         }
-                        $import[++$i] = array($cvi, $csv[27], "", "SANS CONTRAT", $csv[21], null, "contrat et vsinon trouvée");
                     }
                 }
             }
