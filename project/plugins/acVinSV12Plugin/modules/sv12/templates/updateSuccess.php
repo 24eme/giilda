@@ -45,7 +45,7 @@
                             <th style="width: 200px;">Viticulteur </th>
                             <th>Produit</th>
                             <th>Contrat</th>
-                            <th>Volume</th>
+                            <th colspan="2">Volume</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,26 +54,63 @@
                         </tr>
                         <?php $last_identifiant = ""; foreach ($sv12->getContratsByVendeur() as $k => $contrat) : ?>
                             <tr id="<?php echo contrat_get_id($contrat) ?>" class="<?php if($contrat->volume){echo "saisi";} ?>">
-                                <td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php elseif ($contrat->exist('commentaire')): echo $contrat->commentaire; else: ?>-<?php endif; ?></td>
+                                <td<?php if ($contrat->vendeur_identifiant == $last_identifiant){echo ' style="opacity: 0.5;"';} $last_identifiant = $contrat->vendeur_identifiant; ?>>
+                                    <?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php elseif ($contrat->exist('commentaire')): echo $contrat->commentaire; else: ?>-<?php endif; ?>
+                                </td>
                                 <td><?php echo $contrat->produit_libelle; ?></td>
                                 <td>
                                     <?php if (!$contrat->contrat_numero): ?>
                                         -
                                     <?php else: ?>
-                                        <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo $contrat->numero_archive; ?></a>
-                                        <?php echo sprintf('(%s,&nbsp;%s&nbsp;hl)', $contrat->getContratTypeLibelle(), $contrat->volume_prop); ?>
+                                        <a href="<?php echo url_for(array('sf_route' => 'vrac_visualisation', 'numero_contrat' => $contrat->contrat_numero)) ?>"><?php echo $contrat->numero_archive; ?></a><br/>
+                                        <?php echo '('.$contrat->getContratTypeLibelle().',&nbsp;';
+                                              $style = '';
+                                              if ($contrat->volume_prop && ($contrat->exist('volume_sv12') || $contrat->volume)) {
+                                                  $ratio = abs($contrat->volume - $contrat->volume_prop) / $contrat->volume_prop;
+                                                  if ($ratio > 0.5) {
+                                                      $style = ' style="color: red;font-weight:bold;"';
+                                                  }elseif ($ratio > 0.1) {
+                                                      $style = ' style="color: orange;font-weight:bold;"';
+                                                  }
+
+                                              }
+                                              echo '<span'.$style.'>'.$contrat->volume_prop.'&nbsp;hl</span>)'; ?>
                                     <?php endif; ?>
                                 </td>
-                                <td>
-                                    <?php
-                                    echo $form[$contrat->getKey()]->renderError();
-                                    echo $form[$contrat->getKey()]->render();
-                                    ?>
-                                </td>
+                                <?php
+                                    echo '<td>';
+                                    if ($contrat->isImportAuto()) {
+                                        echo $form[$contrat->getKey()]->render(array('readonly'=> 'readonly', 'style' => 'box-shadow: none; text-align: right', "size" => 8));
+                                        echo "</td><td><a href='#' class='aedit'>(E)</a></td>";
+                                    }else{
+                                        echo $form[$contrat->getKey()]->renderError();
+                                        echo $form[$contrat->getKey()]->render(array('style' => 'text-align: right', "size" => 8));
+                                        echo "</td><td>";
+                                        if ($contrat->volume) {
+                                            echo "<a href='#' class='aclear'>(X)</a>";
+                                        }
+                                        echo "</td>";
+                                    }
+                                    echo '</td>';
+                                ?>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
-                </table> 
+                </table>
+                <script>
+                    $(".aclear").click(function() {
+                        $(this).html("");
+                        $(this).parent().parent().find( "input" ).val("");
+                        return false;
+                        });
+                    $(".aedit").click(function() {
+                        $(this).html("");
+                        input = $(this).parent().parent().find( "input" );
+                        input.removeAttr("readonly");
+                        input.attr("style", "text-align: right;");
+                        return false;
+                        });
+                </script>
             </fieldset>
 <input type="submit" style="display: none"/>
             <fieldset><input id="addproduit" name="addproduit" type="submit" class="btn_majeur btn_orange" value="Ajouter un produit"/></fieldset>

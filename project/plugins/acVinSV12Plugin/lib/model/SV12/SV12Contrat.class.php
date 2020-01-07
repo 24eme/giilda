@@ -231,4 +231,11 @@ class SV12Contrat extends BaseSV12Contrat {
       $this->volume = (isset($contratinfo['volume'])) ? $contratinfo['volume'] : null;
     }
 
+    public function isImportAuto() {
+        if (!$this->exist('volume_sv12') || !$this->volume_prop) {
+            return false;
+        }
+        return (abs($this->volume - $this->volume_prop) / $this->volume_prop <= 0.1) && ($this->volume == $this->volume_sv12);
+    }
+
 }
