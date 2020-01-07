@@ -201,7 +201,10 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     function getNumeroArchive() {
-      return VracClient::getInstance()->findByNumContrat($this->contrat_numero)->numero_archive;
+      if (VracClient::getInstance()->findByNumContrat($this->contrat_numero)) {
+          return VracClient::getInstance()->findByNumContrat($this->contrat_numero)->numero_archive;
+      }
+      return null;
     }
 
     function updateFromView($viewinfo) {
