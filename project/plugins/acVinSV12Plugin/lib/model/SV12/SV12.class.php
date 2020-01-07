@@ -634,4 +634,75 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         }
     }
     /*** FIN DROIT ***/
+
+    public function getSV12DouaneURL() {
+        $campagne = preg_replace('/-.*/', '', $this->campagne);
+        $id = "SV12-".$this->identifiant."-".$campagne;
+        $client = acCouchdbManager::getClient();
+        $douane = $client->find($id, acCouchdbClient::HYDRATE_JSON);
+        foreach ($douane->_attachments as $key => $value) {
+                if (preg_match('/xls/', $key)) {
+                    $valid = $key;
+                    continue;
+                }
+        }
+        if (!$valid) {
+            return;
+        }
+        return $client->dsn().$client->getAttachmentUri($douane, $valid);
+    }
+
+    public function importFromSV12Douane() {
+        $sv12 = SV12Client::getInstance()->getSV12CSVArray($this);
+        $delete_cvi = array();
+        $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
+        foreach($this->contrats as $numcontrat => $contrat) {
+            $cvi = $contrat->vendeur->cvi;
+            $idhashtype = $contrat->produit_hash;
+            if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
+                $idhashtype .= '11';
+            } elseif ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
+                $idhashtype .= '10';
+            }
+            if (!isset($sv12[$cvi][$idhashtype]) || count($sv12[$cvi][$idhashtype]) < 1) {
+                $this->updateVolumeFromSV12($numcontrat, null, "douane non trouvée");
+                continue;
+            }
+            if (count($sv12[$cvi][$idhashtype]) > 1) {
+                $this->updateVolumeFromSV12($numcontrat, null, "Plusieurs douanes trouvées");
+                continue;
+            }
+            $c = $sv12[$cvi][$idhashtype][0];
+            if ($contrat->volume_prop && abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop < 0.10) {
+                $this->updateVolumeFromSV12($numcontrat, $c[21]);
+            }else{
+                $contrat = $this->updateVolumeFromSV12($numcontrat, $c[21], "volume trop différent");
+            }
+            unset($sv12[$cvi][$idhashtype]);
+            if (!count($sv12[$cvi])) {
+                unset($sv12[$cvi]);
+            }
+        }
+        foreach($sv12 as $cvi => $produits) {
+            foreach($produits as $hash => $array) {
+                foreach ($array as $csv) {
+                    if ($conf->get($csv[27])->getDroitCVO($this->getPeriode())->getTaux() > 0) {
+                        $e = EtablissementClient::getInstance()->findByCvi($cvi);
+                        if ($e) {
+                            $contrat = $this->addSansContrat($e,
+                                                        ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS,
+                                                        $csv[27]);
+                            $contrat->volume = $csv[21];
+                            $contrat->add('volume_sv12', $csv[21]);
+                        }else{
+                            $contrat = $this->addSansViti($csv[27], ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS);
+                            $contrat->volume = $csv[21];
+                            $contrat->add('volume_sv12', $csv[21]);
+                            $contrat->add('commentaire', $csv[23]." : cvi non trouvé : [$cvi]");
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
