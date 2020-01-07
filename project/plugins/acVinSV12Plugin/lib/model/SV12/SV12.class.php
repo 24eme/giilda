@@ -64,6 +64,19 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         }
     }
 
+    public function getContratsByVendeur() {
+        $contrats = array();
+        foreach($this->contrats as $key => $c) {
+            if ($c->vendeur_nom) {
+                $contrats[$c->vendeur_nom." ".$c->produit_hash." ".$key] = $c;
+            }else{
+                $contrats[$c->commentaire." ".$c->produit_hash." ".$key] = $c;
+            }
+        }
+        ksort($contrats);
+        return $contrats;
+    }
+
     public function getContratsNonSaisis() {
         $contrats = array();
         foreach($this->contrats as $key => $c) {

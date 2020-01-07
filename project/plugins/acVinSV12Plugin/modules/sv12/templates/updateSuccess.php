@@ -52,7 +52,7 @@
                         <tr class="vide">
                             <td colspan="4">Aucun résultat n'a été trouvé pour cette recherche</td>
                         </tr>
-                        <?php foreach ($sv12->contrats as $contrat) : ?>
+                        <?php $last_identifiant = ""; foreach ($sv12->getContratsByVendeur() as $k => $contrat) : ?>
                             <tr id="<?php echo contrat_get_id($contrat) ?>" class="<?php if($contrat->volume){echo "saisi";} ?>">
                                 <td><?php if ($contrat->vendeur_identifiant): ?><?php echo $contrat->vendeur_nom . ' (' . $contrat->vendeur_identifiant . ')'; ?><?php elseif ($contrat->exist('commentaire')): echo $contrat->commentaire; else: ?>-<?php endif; ?></td>
                                 <td><?php echo $contrat->produit_libelle; ?></td>
