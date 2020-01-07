@@ -30,6 +30,8 @@ SV12:
           fields:
             volume_raisins: { type: float }
             volume_mouts: { type: float }
+            sv12_raisins: { type: float, required: false }
+            sv12_mouts: { type: float, required: false }
             volume_ecarts: { type: float }
             produits:
               type: collection
@@ -43,6 +45,8 @@ SV12:
                         volume_raisins: { type: float }
                         volume_mouts: { type: float }
                         volume_ecarts: { type: float }
+                        sv12_raisins: { type: float, required: false }
+                        sv12_mouts: { type: float, required: false }
       contrats:
         type: collection
         definition:
@@ -61,7 +65,7 @@ SV12:
                   vendeur_nom: {  }
                   volume_prop: { type : float }
                   volume_sv12: { type : float, required: false }
-                  commentaire: { type : float, required: false }
+                  commentaire: { required: false }
                   volume: { type : float }
                   cvo: { type: float }
       mouvements:

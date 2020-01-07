@@ -206,6 +206,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
         $this->totaux->volume_raisins = 0;
         $this->totaux->volume_mouts = 0;
+        $this->totaux->add('sv12_raisins', 0);
+        $this->totaux->add('sv12_mouts', 0);
 
         foreach ($this->contrats as $contrat) {
             if(!$this->totaux->produits->exist($contrat->produit_libelle)) {
@@ -213,6 +215,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
                 $noeud->produit_hash = $contrat->produit_hash;
                 $noeud->volume_raisins = 0;
                 $noeud->volume_mouts = 0;
+                $noeud->add('sv12_mouts', 0);
+                $noeud->add('sv12_raisins', 0);
             } else {
                 $noeud = $this->totaux->produits->get($contrat->produit_libelle);
             }
@@ -220,13 +224,29 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
                 $noeud->volume_raisins += $contrat->volume;
                 $this->totaux->volume_raisins += $contrat->volume;
+                if ($contrat->exist('volume_sv12')) {
+                    $noeud->sv12_raisins += $contrat->volume_sv12;
+                    $this->totaux->sv12_raisins += $contrat->volume_sv12;
+                }
             } elseif($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
                 $noeud->volume_mouts += $contrat->volume;
                 $this->totaux->volume_mouts += $contrat->volume;
+                if ($contrat->exist('volume_sv12')) {
+                    $noeud->sv12_mouts += $contrat->volume_sv12;
+                    $this->totaux->sv12_mouts += $contrat->volume_sv12;
+                }
             } else {
                 $noeud->volume_ecarts += $contrat->volume;
                 $this->totaux->volume_ecarts += $contrat->volume;
-	    }
+	        }
+        }
+        if (!$this->totaux->sv12_raisins && !$this->totaux->sv12_mouts) {
+            $this->totaux->remove('sv12_raisins');
+            $this->totaux->remove('sv12_mouts');
+            foreach($this->totaux->produits as $l => $p) {
+                $p->remove('sv12_mouts');
+                $p->remove('sv12_raisins');
+            }
         }
     }
 
