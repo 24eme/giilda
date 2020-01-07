@@ -19,8 +19,12 @@
             ?>
 
             <fieldset id="edition_sv12">
-                <legend>Saisie des volume</legend>
-
+<?php if (!$sv12->hasSV12DouaneImported() && $sv12->getSV12DouaneURL()): ?>
+<div style="float: right;">
+    <a href="<?php echo url_for('sv12_import', $sv12); ?>" class="btn_majeur btn_orange">Importer depuis une SV12</a>
+</div>
+<?php endif; ?>
+<h3>Saisie des volume</h3>
                 <?php include_partial('global/hamzaStyle', array('table_selector' => '#table_contrats',
                                                                  'mots' => contrat_get_words($sv12->contrats),
                                                                  'consigne' => "Saisissez un produit, un numéro de contrat, un viticulteur ou un type (moût / raisin) :")) ?>

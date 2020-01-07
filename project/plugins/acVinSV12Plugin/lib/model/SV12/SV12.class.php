@@ -705,4 +705,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             }
         }
     }
+
+    public function hasSV12DouaneImported() {
+        return ($this->totaux->exist('sv12_mouts') + $this->totaux->exist('sv12_raisins'));
+    }
 }

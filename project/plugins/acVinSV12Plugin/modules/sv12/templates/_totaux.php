@@ -1,6 +1,6 @@
 <?php
 use_helper('Float');
-$has_import_sv12 = ($sv12->totaux->exist('sv12_mouts') + $sv12->totaux->exist('sv12_raisins'));
+$has_import_sv12 = $sv12->hasSV12DouaneImported();
 ?>
 <style>
     .td_sv12 {color: #aaa;}
