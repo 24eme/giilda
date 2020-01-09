@@ -201,7 +201,10 @@ class SV12Contrat extends BaseSV12Contrat {
     }
 
     function getNumeroArchive() {
-      return VracClient::getInstance()->findByNumContrat($this->contrat_numero)->numero_archive;
+      if (VracClient::getInstance()->findByNumContrat($this->contrat_numero)) {
+          return VracClient::getInstance()->findByNumContrat($this->contrat_numero)->numero_archive;
+      }
+      return null;
     }
 
     function updateFromView($viewinfo) {
@@ -226,6 +229,13 @@ class SV12Contrat extends BaseSV12Contrat {
       $this->vendeur_nom = $contratinfo['vendeur_nom'];
       $this->volume_prop = (isset($contratinfo['volume_prop'])) ? $contratinfo['volume_prop'] : null;
       $this->volume = (isset($contratinfo['volume'])) ? $contratinfo['volume'] : null;
+    }
+
+    public function isImportAuto() {
+        if (!$this->exist('volume_sv12') || !$this->volume_prop) {
+            return false;
+        }
+        return (abs($this->volume - $this->volume_prop) / $this->volume_prop <= 0.1) && ($this->volume == $this->volume_sv12);
     }
 
 }
