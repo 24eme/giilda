@@ -126,9 +126,6 @@ function sortForLot1($tabXml) {
 				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-annee-courante'])){
 					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-courante'] = $tabXml['sorties-periode']['sorties-avec-paiement-annee-courante'];
 				}
-				if (isset($tabXml['sorties-periode']['autres-sorties'])){
-					$xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['autres-sorties'];
-				}
         if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits'])) {
             if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives']))
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'];
@@ -144,6 +141,9 @@ function sortForLot1($tabXml) {
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'];
 
         }
+				if (isset($tabXml['sorties-periode']['autres-sorties'])){
+					$xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['autres-sorties'];
+				}
     }
     $xmlSorted['stock-fin-periode'] = (isset($tabXml['stock-fin-periode']))? $tabXml['stock-fin-periode'] : 0;
     return $xmlSorted;
