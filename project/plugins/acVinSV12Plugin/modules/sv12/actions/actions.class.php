@@ -84,6 +84,13 @@ class sv12Actions extends sfActions {
         }
     }
 
+    public function executeImport(sfWebRequest $request) {
+        $this->sv12 = $this->getRoute()->getSV12();
+        $this->sv12->importFromSV12Douane();
+        $this->sv12->saveBrouillon();
+        $this->redirect('sv12_update', $this->sv12);
+    }
+
     public function executeRecapitulatif(sfWebRequest $request) {
         set_time_limit(0);
         $this->sv12 = $this->getRoute()->getSV12();

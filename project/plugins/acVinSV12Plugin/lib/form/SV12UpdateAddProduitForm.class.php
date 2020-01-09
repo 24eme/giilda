@@ -62,17 +62,13 @@ class SV12UpdateAddProduitForm extends acCouchdbForm
 	throw $this->getErrorSchema();
       }
       if (!isset($this->values['withviti']) || !$this->values['withviti']) {
-	$sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSVITI.str_replace('/', '-', $this->values['hashref']));
-	$sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']));
-	return $sv12Contrat;
+	      $sv12Contrat = $this->_sv12->addSansViti($this->values['hashref']);
+	      return $sv12Contrat;
       }
 
       $etablissement = EtablissementClient::getInstance()->find($this->values['identifiant']);
-
-      $sv12Contrat = $this->_sv12->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$this->values['raisinetmout'].str_replace('/', '-', $this->values['hashref']));
-      echo "update no contrat avec viti\n";
-      $sv12Contrat->updateNoContrat($this->getConfig()->get($this->values['hashref']), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $this->values['raisinetmout']));
-      
+      $sv12Contrat = $this->_sv12->addSansContrat($etablissement, $this->values['raisinetmout'], $this->values['hashref']);
+      return $sv12Contrat;
     }
     
     public function getConfig() {
