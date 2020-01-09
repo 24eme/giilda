@@ -3,7 +3,7 @@
     <table class="table_recap">
         <thead>
             <tr>
-                <th>Transmission sur le portail proDou@ne (<a href="<?php echo url_for('drm_xml_table', array("identifiant" => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), "retour" => "0")); ?>">XML transmis</a>)</th>
+                <th>Transmission sur le portail proDou@ne (<a href="<?php echo url_for('drm_xml_table', array("identifiant" => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), "retour" => "0")); ?>">XML transmis</a> - <a href="<?php echo url_for('drm_edition_libelles', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion())); ?>">Edition libellés</a>)</th>
             </tr>
         </thead>
         <tbody>

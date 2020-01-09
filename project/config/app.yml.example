@@ -99,6 +99,8 @@ all:
       "BIB 6l": 0.06
       "BIB 10l": 0.1
       "BIB 20l": 0.2
+  sv12:
+    path2odgproject: "/home/odgloire/project"
   ac_exception_notifier:
     enabled: false
     email:

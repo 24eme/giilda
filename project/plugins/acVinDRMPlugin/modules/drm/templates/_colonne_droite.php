@@ -32,7 +32,7 @@ if ($isTeledeclarationMode):
         <h2>Mémo</h2>
         <?php if(isset($drm) && $drm && $memo = DRMClient::getInstance()->getMemoForMonth($drm)): ?>
         <div class="contenu fadediv" style="opacity:0;">
-          <p><span class="picto"></span><strong class="memo-danger">Mémo du mois <?php echo elision('de', format_date($drm->periode, "MMMM", "fr_FR")); ?></strong> :</p>
+          <p><span class="picto"></span><strong class="memo-danger">Mémo du mois <?php echo elision('de', format_date(preg_replace("/^([0-9]{4})([0-9]{2})/","$1-$2-01",$drm->periode), "MMMM", "fr_FR")); ?></strong> :</p>
           <br/>
           <p class=""><?php echo $memo; ?></p>
         </div>

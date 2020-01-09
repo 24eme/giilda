@@ -137,4 +137,37 @@ class SV12Client extends acCouchdbClient {
 
         return sprintf('SV12 de %s',  $matches[1]);
     }
+
+    public function getSV12CSVArray($sv12) {
+        $url = $sv12->getSV12DouaneURL();
+        if (!$url) {
+            return array();
+        }
+        $tempfname = tempnam("/tmp", "sv12xls_").".xls";
+        $temp = fopen($tempfname, "w");
+        fwrite($temp, file_get_contents($url));
+        fclose($temp);
+        exec("bash ".sfConfig::get('app_sv12_path2odgproject')."/bin/get_csv_dr_from_douane.sh $tempfname", $output);
+        $sv12 = array();
+        foreach($output as $line) {
+            $csv = str_getcsv($line, ';');
+            $csv[21] = preg_replace('/,/', '.', $csv[21]) * 1;
+            if (($csv[19] == '11' || $csv[19] == '10') && $csv[9]) {
+                if (!isset($sv12[$csv[22]])) {
+                    $sv12[$csv[22]] = array();
+                }
+                $sv12_hash = '/declaration/certifications/'.$csv[9].'/genres/'.$csv[10].'/appellations/'.$csv[11].'/mentions/'.$csv[12].'/lieux/'.$csv[13].'/couleurs/'.$csv[14].'/cepages/'.$csv[15];
+                if (!isset($sv12[$csv[22]])) {
+                    $sv12[$csv[22]] = array();
+                }
+                if (!isset($sv12[$csv[22]][$sv12_hash.$csv[19]])) {
+                    $sv12[$csv[22]][$sv12_hash.$csv[19]] = array();
+                }
+                $csv[] = $sv12_hash;
+                $sv12[$csv[22]][$sv12_hash.$csv[19]][] = $csv;
+            }
+        }
+        return $sv12;
+    }
+
 }

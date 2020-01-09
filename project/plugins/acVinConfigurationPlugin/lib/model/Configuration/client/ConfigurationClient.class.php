@@ -240,18 +240,25 @@ class ConfigurationClient extends acCouchdbClient {
         return date('Ym');
     }
 
-    public function getCountryList() {
+    public function getCountryList($detail_drm = null) {
         if(is_null($this->countries)) {
             $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr', 'add_empty' => true));
             $this->countries = $destinationChoicesWidget->getChoices();
             $this->countries['inconnu'] = 'Inconnu';
         }
+				if($detail_drm){
+						$drm = $detail_drm->getDocument();
+						$cvo_taux = ($detail_drm instanceof DRMDetail)? $detail_drm->getCVOTaux() : $detail_drm->getProduitDetail()->getCVOTaux();
+		        if(($drm->isNegoce() || $drm->isDRMNegociant()) && ($cvo_taux <= 0)){
+		          $this->countries = array_merge(array("AUTRE" => "Pays Indéterminé"), $this->countries);
+		        }
+				}
 
         return $this->countries;
     }
 
-    public function getCountry($code) {
-        $countries = $this->getCountryList();
+    public function getCountry($code,$detail_drm = null) {
+        $countries = $this->getCountryList($detail_drm);
 
         return $countries[$code];
     }
@@ -300,7 +307,7 @@ class ConfigurationClient extends acCouchdbClient {
         }
     }
 
-    public function formatDenominationComplLibelle($denomination_complementaire = null, $format = "%la%", $separator = ", ") {				
+    public function formatDenominationComplLibelle($denomination_complementaire = null, $format = "%la%", $separator = ", ") {
 				return trim(str_replace("%la%", $denomination_complementaire, $format)." ".$denomination_complementaire);
     }
 
