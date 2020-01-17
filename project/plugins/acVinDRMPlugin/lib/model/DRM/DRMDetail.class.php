@@ -432,7 +432,7 @@ class DRMDetail extends BaseDRMDetail {
                 $mouvement->facturable = 0;
             }
 
-            if(!$this->getDocument()->isFacturable() && $config->isFacturableInverseNegociant()) {
+            if(!$this->getDocument()->isFacturable() && $config->isFacturableInverseNegociant() && $mouvement->cvo > 0) {
                 $mouvement->facturable = 1;
                 $mouvement->add('coefficient_facturation', 1);
             }
