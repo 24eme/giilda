@@ -22,10 +22,7 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
             if (preg_match('/VINSSIG/', $certif) && ($key == 'declassement')) {
                 $disabled = true;
             }
-            if (($certif == 'AUTRES') && ($key != 'usageindustriel') && ($key != 'destructionperte') && ($key != 'manquant') && ($key != 'vracsanscontrat')) {
-                $disabled = true;
-            }
-            if (preg_match('/LIE/', $mention) && (($key == 'destructionperte') || ($key == 'manquant'))) {
+            if (($certif == 'AUTRES') && ($key != 'usageindustriel')) {
                 $disabled = true;
             }
             if ($key == 'vci' && $drm->isNegoce()) {
