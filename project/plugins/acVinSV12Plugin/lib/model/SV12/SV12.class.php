@@ -57,6 +57,17 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function storeContrats() {
         $contratsView = SV12Client::getInstance()->findContratsByEtablissementAndCampagne($this->identifiant, $this->campagne);
+        if (count($this->contrats)) {
+            $todelete = array();
+            foreach($this->contrats as $ckey => $contrat) {
+                if ($contrat->contrat_numero && !$contrat->volume && !($contrat->exist("volume_sv12") && $contrat->volume_sv12)) {
+                    $todelete[] = $ckey;
+                }
+            }
+            foreach($todelete as $d) {
+                $this->contrats->remove($d);
+            }
+        }
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
