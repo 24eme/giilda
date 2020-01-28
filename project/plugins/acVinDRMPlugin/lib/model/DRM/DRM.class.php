@@ -1718,7 +1718,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function hasFactureEmail() {
-        return $this->isTeledeclare() && $this->getSociete()->getMasterCompte()->hasFactureEmail();
+        return $this->isTeledeclare() && $this->getEtablissement()->getSociete()->getMasterCompte()->hasFactureEmail();
     }
 
 }
