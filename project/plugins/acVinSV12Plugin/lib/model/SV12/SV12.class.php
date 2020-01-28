@@ -57,6 +57,17 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function storeContrats() {
         $contratsView = SV12Client::getInstance()->findContratsByEtablissementAndCampagne($this->identifiant, $this->campagne);
+        if (count($this->contrats)) {
+            $todelete = array();
+            foreach($this->contrats as $ckey => $contrat) {
+                if ($contrat->contrat_numero && !$contrat->volume && !($contrat->exist("volume_sv12") && $contrat->volume_sv12)) {
+                    $todelete[] = $ckey;
+                }
+            }
+            foreach($todelete as $d) {
+                $this->contrats->remove($d);
+            }
+        }
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
@@ -70,7 +81,7 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             if ($c->vendeur_nom) {
                 $contrats[$c->vendeur_nom." ".$c->produit_hash." ".$key] = $c;
             }else{
-                $contrats[$c->commentaire." ".$c->produit_hash." ".$key] = $c;
+                $contrats[isset($c->commentaire) ? $c->commentaire : "SANSVITI" ." ".$c->produit_hash." ".$key] = $c;
             }
         }
         ksort($contrats);
@@ -569,12 +580,14 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
     public function addSansContrat($etablissement, $raisinetmout, $hash_ref) {
         $sv12Contrat = $this->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$raisinetmout.str_replace('/', '-', $hash_ref));
         $sv12Contrat->updateNoContrat($this->getConfig()->get($hash_ref), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $raisinetmout));
+        $sv12Contrat->add('commentaire', "Sans contrat");
         return $sv12Contrat;
     }
 
     public function addSansViti($hash_ref, $raisinetmout = null) {
         $sv12Contrat = $this->contrats->add(SV12Client::SV12_KEY_SANSVITI.'-'.$raisinetmout.str_replace('/', '-', $hash_ref));
         $sv12Contrat->updateNoContrat($this->getConfig()->get($hash_ref), array('vendeur_identifiant' => null, 'vendeur_nom' => null, 'contrat_type' => $raisinetmout));
+        $sv12Contrat->add('commentaire', "Sans viti");
         return $sv12Contrat;
     }
 
