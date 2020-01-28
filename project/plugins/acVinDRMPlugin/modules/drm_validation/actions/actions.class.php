@@ -88,8 +88,8 @@ class drm_validationActions extends drmGeneriqueActions {
           $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
       }
 
-      if ($this->getUser()->hasTeledeclarationFacture()) {
-          if ($this->getUser()->hasTeledeclarationFactureEmail()) {
+      if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
+          if ($this->drm->hasFactureEmail()) {
               $this->transmissionFactureMail();
           } else {
               $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
