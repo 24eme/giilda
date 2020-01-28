@@ -26,7 +26,13 @@ class drm_visualisationActions extends drmGeneriqueActions {
         if ($this->drm->isMaster()) {
             $this->mouvements = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissementAndPeriode($this->drm->identifiant, $this->drm->periode);
         }else{
-            $this->mouvements = $this->drm->mouvements;
+            $this->mouvements = array();
+            foreach($this->drm->mouvements as $key => $mouvement) {
+                if(!$mouvement->produit_hash) {
+                    continue;
+                }
+                $this->mouvements[] = $mouvement;
+            }
         }
         $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
         $this->recapCvos = DRMClient::getInstance()->getRecapCvosByMouvements($this->mouvements);
