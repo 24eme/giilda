@@ -84,14 +84,18 @@ class drm_validationActions extends drmGeneriqueActions {
       }
 
       DRMClient::getInstance()->generateVersionCascade($this->drm);
+      if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
+          if ($this->drm->hasFactureEmail()) {
+              $this->transmissionFactureMail();
+          }
+      }
+
       if ($this->form->getValue('transmission_ciel') == "true") {
           $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
       }
 
       if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
-          if ($this->drm->hasFactureEmail()) {
-              $this->transmissionFactureMail();
-          } else {
+          if (!$this->drm->hasFactureEmail()) {
               $this->redirect('drm_confirmation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
           }
       }
