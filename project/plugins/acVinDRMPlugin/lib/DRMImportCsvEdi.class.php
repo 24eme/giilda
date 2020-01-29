@@ -125,6 +125,19 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     return true;
   }
 
+    private function getCacheKeyFromData($datas) {
+        return $datas[self::CSV_CAVE_CERTIFICATION].
+            $datas[self::CSV_CAVE_GENRE].
+            $datas[self::CSV_CAVE_APPELLATION].
+            $datas[self::CSV_CAVE_MENTION].
+            $datas[self::CSV_CAVE_LIEU].
+            $datas[self::CSV_CAVE_COULEUR].
+            $datas[self::CSV_CAVE_CEPAGE].
+            $datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE].
+            $datas[self::CSV_CAVE_LIBELLE_PRODUIT];
+    }
+
+
   /**
   * IMPORT DEPUIS LE CSV
   */
@@ -229,6 +242,26 @@ private function importMouvementsFromCSV($just_check = false) {
 
   $num_ligne = 1;
   $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
+
+  $cacheProduitTav = array();
+  # Premier parcours des lignes du csv pour créer un tableau de hashage : produit / tav
+  foreach ($this->getDocRows() as $csvRow) {
+    if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
+        continue;
+    }
+    if(strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT])) != self::COMPLEMENT){
+        continue;
+    }
+    if(strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT])) != self::COMPLEMENT_TAV) {
+        continue;
+    }
+    $tav = $this->convertNumber($csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT]);
+    if(!$tav) {
+        continue;
+    }
+    $cacheProduitTav[$this->getCacheKeyFromData($csvRow)] = $tav;
+  }
+
   foreach ($this->getDocRows() as $csvRow) {
     if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
       $num_ligne++;
@@ -237,6 +270,8 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $founded_produit = null;
     $is_default_produit = false;
+
+    $tav = isset($cacheProduitTav[$this->getCacheKeyFromData($csvRow)]) ? $cacheProduitTav[$this->getCacheKeyFromData($csvRow)] : null;
 
     $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
     $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
@@ -393,7 +428,7 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
     if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
-      $this->importComplementMvt($csvRow,$founded_produit,$just_check);
+      $this->importComplementMvt($csvRow,$founded_produit,$tav,$just_check);
       $num_ligne++;
       continue;
     }
@@ -421,15 +456,16 @@ private function importMouvementsFromCSV($just_check = false) {
     }
     $confDetailMvt = $this->mouvements[$type_douane_drm_key][$cat_mouvement][$type_mouvement];
 
-    if($just_check && $confDetailMvt->hasDetails()) {
-      if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
+    if ($confDetailMvt->hasDetails() && $confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_EXPORT) {
         $pays = ConfigurationClient::getInstance()->findCountry($csvRow[self::CSV_CAVE_EXPORTPAYS]);
         if (!$pays) {
-          $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
-          $num_ligne++;
-          continue;
+            $this->csvDoc->addErreur($this->exportPaysNotFoundError($num_ligne, $csvRow));
+            $num_ligne++;
+            continue;
         }
-      }
+    }
+
+    if($just_check && $confDetailMvt->hasDetails()) {
       if ($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_VRAC) {
         if ($csvRow[self::CSV_CAVE_CONTRATID] == "" && DRMConfiguration::getInstance()->hasSansContratOption()) {
           $num_ligne++;
@@ -467,7 +503,7 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
     if ($drmPrecedente && $drmPrecedente->teledeclare && !preg_match('/08$/', $drmPrecedente->periode)) {
-        $details_precedent = $drmPrecedente->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire);
+        $details_precedent = $drmPrecedente->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire, $tav);
         if(($cat_key == "stocks_debut") && ($volume != $details_precedent->getOrAdd('stocks_fin')->getOrAdd('final'))) {
           $this->csvDoc->addErreur($this->stockVolumeIncoherentError($num_ligne, $csvRow));
           $num_ligne++;
@@ -481,7 +517,7 @@ private function importMouvementsFromCSV($just_check = false) {
       continue;
     }
 
-    $drmDetails = $this->drm->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire);
+    $drmDetails = $this->drm->addProduit($founded_produit->getHash(), $type_douane_drm_key, $denomination_complementaire, $tav);
     if ($is_default_produit) {
         $drmDetails->code_inao = $default_produit_inao;
         $drmDetails->produit_libelle = $default_produit_libelle;
@@ -584,7 +620,7 @@ private function getDateReplacementObject($csvDate) {
 
     return $dateReplacement;
 }
-private function importComplementMvt($csvRow, $founded_produit, $just_check  = false){
+private function importComplementMvt($csvRow, $founded_produit, $tav, $just_check  = false){
   $type_complement = strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT]));
   if(!in_array($type_complement, self::$types_complement)){
     $this->csvDoc->addErreur($this->typeComplementNotFoundError($num_ligne, $csvRow));
@@ -612,7 +648,7 @@ private function importComplementMvt($csvRow, $founded_produit, $just_check  = f
       break;
     }
     $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
-    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM])], $denomination_complementaire);
+    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_DRM])], $denomination_complementaire, $tav);
     $field = strtolower($type_complement);
     $drmDetails->add($field, $value);
   }
@@ -721,7 +757,7 @@ private function importAnnexesFromCSV($just_check = false) {
     }
     switch (KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE])) {
       case self::TYPE_ANNEXE_NONAPUREMENT:
-      $numero_document = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
+      $numero_document = trim(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]));
       $date_emission = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NONAPUREMENTDATEEMISSION]);
       $dt = DateTime::createFromFormat("Y-m-d", $date_emission);
       if (!$dt) {
@@ -798,7 +834,7 @@ private function importAnnexesFromCSV($just_check = false) {
 
 private function convertNumber($number){
   $numberPointed = trim(str_replace(",",".",$number));
-  return round(floatval($numberPointed), 4);
+  return round(floatval($numberPointed), 5);
 }
 
 private function getDetailsKeyFromDRMType($drmType ) {
