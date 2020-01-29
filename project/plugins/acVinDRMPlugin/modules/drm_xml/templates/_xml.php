@@ -31,6 +31,8 @@
 <?php endif; ?>
 <?php if (false && $produit->getPremix()): ?>
 				<premix>true</premix>
+<?php else: ?>
+                                <premix>false</premix>
 <?php endif; ?>
 <?php if ($produit->exist('observations')): ?>
 				<observations><?php echo $produit->get('observations'); ?></observations>
