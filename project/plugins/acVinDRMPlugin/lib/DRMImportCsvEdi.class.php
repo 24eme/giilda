@@ -148,7 +148,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
 
-      $num_ligne = 0;
 
       $cacheProduitTav = array();
       # Premier parcours des lignes du csv pour créer un tableau de hashage : produit / tav
@@ -169,6 +168,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         $cacheProduitTav[$this->getCacheKeyFromData($csvRow)] = $tav;
       }
 
+      $num_ligne = 0;
       foreach ($this->getDocRows() as $datas) {
           $num_ligne++;
           if (!isset($all_produits)) {
@@ -177,7 +177,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if (preg_match('/^(...)?#/', $datas[self::CSV_TYPE])) {
               continue;
           }
-          if (strtoupper($datas[self::CSV_TYPE]) != self::TYPE_CAVE) {
+          if (strtoupper(KeyInflector::slugify($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
               continue;
           }
           if (isset($this->cache[$this->getCacheKeyFromData($datas)])) {
@@ -193,7 +193,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $founded_produit = null;
           $is_default_produit = false;
 
-          $tav = isset($cacheProduitTav[$this->getCacheKeyFromData($csvRow)]) ? $cacheProduitTav[$this->getCacheKeyFromData($csvRow)] : null;
+          $tav = isset($cacheProduitTav[$this->getCacheKeyFromData($datas)]) ? $cacheProduitTav[$this->getCacheKeyFromData($datas)] : null;
 
           $csvLibelleProductArray = $this->buildLibellesArrayWithRow($datas, true);
           $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
@@ -395,7 +395,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       //gestion des multidetails
       foreach($couleurs as $hash => $array_cache) {
           $volume2hash = array();
-          if($this->drmPrecedente->exist($hash)) {
+          if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
                   foreach($p->getDetails() as $kd => $d) {
                       $total_fin_mois = $d->stocks_fin->final * 1;
@@ -447,6 +447,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           }
       }
 
+      $num_ligne = 0;
       foreach ($this->getDocRows() as $datas) {
           $num_ligne++;
           if (!isset($all_produits)) {
@@ -607,7 +608,7 @@ private function importMouvementsFromCSV($just_check = false) {
 
     $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
     if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
-      $this->importComplementMvt($csvRow,$founded_produit,$this->cache2datas[$this->getCacheKeyFromData($csvRow)]['tav'], $just_check);
+      $this->importComplementMvt($csvRow,$founded_produit,$num_ligne, $just_check);
       continue;
     }
 
@@ -763,7 +764,7 @@ private function getDateReplacementObject($csvDate) {
 
     return $dateReplacement;
 }
-private function importComplementMvt($csvRow, $founded_produit, $tav, $just_check  = false){
+private function importComplementMvt($csvRow, $founded_produit, $num_ligne, $just_check  = false){
   $type_complement = strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT]));
   if(!in_array($type_complement, self::$types_complement)){
     $this->csvDoc->addErreur($this->typeComplementNotFoundError($num_ligne, $csvRow));
