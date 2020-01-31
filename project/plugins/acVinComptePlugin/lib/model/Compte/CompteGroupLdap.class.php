@@ -12,6 +12,10 @@ class CompteGroupLdap extends acVinLdap
         ]
     ];
 
+    public static $blacklist = [
+        '_rouge', '_rose', '_blanc_sec', '_blanc_moelleux', '_blanc_doux', '_blanc'
+    ];
+
     /**
      * Vérifie la présence d'un groupe dans le LDAP, et ajoute
      * un membre s'il n'est pas déjà présent

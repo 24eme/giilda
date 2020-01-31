@@ -338,6 +338,7 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
 
                 foreach ($this->tags as $type => $tags) {
                     foreach ($tags as $group) {
+                        $group = str_replace($groupldap::$blacklist, '', $group);
                         $groupldap->saveGroup($type."_".$group, $compteid);
 
                         // On récupère les groupes
