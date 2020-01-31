@@ -354,6 +354,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $this->cache2datas[$cacheid]['denomination_complementaire'] = $denomination_complementaire;
           $this->cache2datas[$cacheid]['founded_produit'] = $founded_produit;
           $this->cache2datas[$cacheid]['tav'] = $tav;
+          $this->cache2datas[$cacheid]['produit_libelle'] = $produit->produit_libelle;
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
       foreach($this->cache2datas as $cacheid => $params) {
@@ -381,7 +382,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   continue;
               }
               $p = $this->drm->addProduit($this->cache2datas[$cacheid]['hash'], $this->cache2datas[$cacheid]['details_type'], $this->cache2datas[$cacheid]['denomination_complementaire'], $this->cache2datas[$cacheid]['tav']);
-              $p->libelle = $this->cache2datas[$cacheid]['libelle'];
+              $p->produit_libelle = $this->cache2datas[$cacheid]['produit_libelle'];
               $this->cache[$cacheid] = $p;
           }
       }
