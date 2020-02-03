@@ -24,7 +24,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                         <div class="panel-heading " style="cursor:pointer;" id="drm_annexes_documents" >
                           <div class="row" data-toggle="collapse" data-parent="#accordion" href="#collapse_documents" aria-expanded="true" aria-controls="collapse_documents">
                             <div class="col-xs-11">
-                              <h3 class="panel-title text-center"><strong>Déclaration des documents d'accompagnement</strong></h3>
+                              <h3 class="panel-title text-center"><strong>Déclaration des documents d'accompagnement papier</strong></h3>
                             </div>
                             <div class="col-xs-1 text-right">
                               <a role="button" >
@@ -108,15 +108,15 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                               </thead>
                           </table>
                         </div>
-                      </div>
+                        </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="row">
                   <div class="col-xs-12">
-                      <div class="panel panel-default" data-toggle="collapse" data-parent="#accordion" href="#collapse_stats_europeenes" aria-expanded="true" aria-controls="collapse_stats_europeenes">
-                        <div class="panel-heading" style="cursor:pointer;" id="drm_annexes_stats_europeenes" >
+                      <div class="panel panel-default">
+                        <div class="panel-heading" style="cursor:pointer;" id="drm_annexes_stats_europeenes"  data-toggle="collapse" data-parent="#accordion" href="#collapse_stats_europeenes" aria-expanded="true" aria-controls="collapse_stats_europeenes">
                             <div class="row">
                               <div class="col-xs-11">
                                 <h3 class="panel-title text-center"><strong>Statistiques européennes</strong></h3>
@@ -127,7 +127,6 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                                 </a>
                               </div>
                             </div>
-                        </div>
                         </div>
                         <div id="collapse_stats_europeenes" class="panel-collapse collapse<?php if ($drm->hasStatsEuropeennes()) { echo " in"; } ?>" role="tabpanel" aria-labelledby="drm_annexes_stats_europeenes">
                         <div class="panel-body">
@@ -158,6 +157,7 @@ $paiement_douane_frequence = ($societe->exist('paiement_douane_frequence')) ? $s
                               </tr>
                             </tbody>
                           </table>
+                        </div>
                         </div>
                     </div>
                 </div>
