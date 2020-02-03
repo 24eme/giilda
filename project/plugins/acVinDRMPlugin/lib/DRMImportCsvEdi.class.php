@@ -155,6 +155,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
             continue;
         }
+        if (!$datas[self::CSV_CAVE_VOLUME]) {
+            continue;
+        }
         $cacheid = $this->getCacheKeyFromData($datas);
         if (isset($this->cache2datas[$cacheid])) {
             continue;
@@ -370,7 +373,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
       foreach($this->cache2datas as $cacheid => $params) {
-          $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+          if (isset($params['hash_detail'])) {
+              $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+          }
       }
 
       //on prépare les vérifications
@@ -402,7 +407,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
       foreach($this->cache2datas as $cacheid => $params) {
-          $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+          if (isset($params['hash_detail'])) {
+              $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+          }
       }
       $couleurs = array();
       foreach ($this->cache as $cacheid => $produit) {
@@ -475,7 +482,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
       foreach($this->cache2datas as $cacheid => $params) {
-          $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+          if (isset($params['hash_detail'])) {
+              $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+          }
       }
 
       $num_ligne = 0;
