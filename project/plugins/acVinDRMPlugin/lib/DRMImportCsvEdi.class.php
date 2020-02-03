@@ -148,8 +148,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
 
-      foreach ($this->getDocRows() as $csvRow) {
-        if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
+      foreach ($this->getDocRows() as $datas) {
+        if (KeyInflector::slugify(trim($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
             continue;
         }
         if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
@@ -165,21 +165,21 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
       $cacheProduitTav = array();
       # Premier parcours des lignes du csv pour créer un tableau de hashage : produit / tav
-      foreach ($this->getDocRows() as $csvRow) {
-        if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
+      foreach ($this->getDocRows() as $datas) {
+        if (KeyInflector::slugify(trim($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
             continue;
         }
-        if(strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT])) != self::COMPLEMENT){
+        if(strtoupper(KeyInflector::slugify($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT])) != self::COMPLEMENT){
             continue;
         }
-        if(strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT])) != self::COMPLEMENT_TAV) {
+        if(strtoupper(KeyInflector::slugify($datas[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT])) != self::COMPLEMENT_TAV) {
             continue;
         }
-        $tav = $this->convertNumber($csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT]);
+        $tav = $this->convertNumber($datas[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT]);
         if(!$tav) {
             continue;
         }
-        $cacheProduitTav[$this->getCacheKeyFromData($csvRow)] = $tav;
+        $cacheProduitTav[$this->getCacheKeyFromData($datas)] = $tav;
       }
 
       $num_ligne = 0;
