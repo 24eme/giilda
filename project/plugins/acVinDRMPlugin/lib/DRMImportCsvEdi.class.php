@@ -148,6 +148,20 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
 
+      foreach ($this->getDocRows() as $csvRow) {
+        if (KeyInflector::slugify(trim($csvRow[self::CSV_TYPE])) != self::TYPE_CAVE) {
+            continue;
+        }
+        if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
+            continue;
+        }
+        $cacheid = $this->getCacheKeyFromData($datas);
+        if (isset($this->cache2datas[$cacheid])) {
+            continue;
+        }
+        $this->cache2datas[$cacheid] = $datas;
+        $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]);
+      }
 
       $cacheProduitTav = array();
       # Premier parcours des lignes du csv pour créer un tableau de hashage : produit / tav
@@ -181,9 +195,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               continue;
           }
           if (isset($this->cache[$this->getCacheKeyFromData($datas)])) {
-              continue;
-          }
-          if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
               continue;
           }
           if (KeyInflector::slugify(trim($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
@@ -346,8 +357,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
           $cacheid = $this->getCacheKeyFromData($datas);
           $this->cache[$cacheid] = $produit;
-          $this->cache2datas[$cacheid] = $datas;
-          $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]);
+          if (!isset($this->cache2datas[$cacheid])) {
+              $this->cache2datas[$cacheid] = $datas;
+          }
           $this->cache2datas[$cacheid]['hash'] = $founded_produit->getHash();
           $this->cache2datas[$cacheid]['hash_detail'] = $produit->getHash();
           $this->cache2datas[$cacheid]['details_type'] = DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))];
@@ -417,6 +429,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
           }
           foreach($array_cache as $cacheid => $null)  {
+              if (!isset($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME])){
+                  continue;
+              }
               $total_debut_mois = $this->convertNumber($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME])."";
               if (!$total_debut_mois) {
                   continue;
@@ -490,7 +505,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $denomination_complementaire = $this->cache2datas[$this->getCacheKeyFromData($datas)]['denomination_complementaire'];
           $founded_produit = $this->cache2datas[$this->getCacheKeyFromData($datas)]['founded_produit'];
 
-          if ($this->drmPrecedente && $this->drmPrecedente->teledeclare && !preg_match('/08$/', $this->drmPrecedente->periode) && $this->drmPrecedente->exist($produit->getHash())) {
+          if ($this->drmPrecedente && $this->drmPrecedente->teledeclare && !preg_match('/08$/', $this->drmPrecedente->periode)
+           && $this->drmPrecedente->exist($produit->getHash()) && isset($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME])) {
+
               $details_precedent = $this->drmPrecedente->get($produit->getHash());
               if(($this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]) != $details_precedent->getOrAdd('stocks_fin')->getOrAdd('final'))) {
 
