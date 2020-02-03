@@ -138,7 +138,7 @@ class drmActions extends drmGeneriqueActions {
                   if(!$resultFile && file_exists($path)){
                     return $this->redirect('drm_nouvelle', array('identifiant' => $identifiant, 'periode' => $periode));
                   }
-                  return $this->redirect('drm_creation_fichier_edi',array('identifiant' => $identifiant,'periode' => $periode,'md5' => $md5file));
+                  return $this->redirect('drm_creation_fichier_edi',array('identifiant' => $identifiant,'periode' => $periode,'md5' => $md5file,'etape' => DRMClient::ETAPE_CHOIX_PRODUITS));
                 break;
                 case DRMClient::DRM_CREATION_EDI :
                     if ($this->creationDrmForm->isValid()) {
@@ -223,10 +223,10 @@ class drmActions extends drmGeneriqueActions {
         $this->drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
         $this->drmCsvEdi->importCSV();
 
-        $this->drm->etape = DRMClient::ETAPE_CHOIX_PRODUITS;
+        $this->drm->etape = $request->getParameter('etape', DRMClient::ETAPE_VALIDATION);
         $this->drm->save();
 
-        $this->redirect('drm_choix_produit', $this->drm);
+        $this->redirect('drm_redirect_etape', $this->drm);
 
     }
 
