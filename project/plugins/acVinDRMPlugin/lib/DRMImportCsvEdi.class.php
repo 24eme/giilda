@@ -428,6 +428,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
                   foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
+                      //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
                       if ($d->denomination_complementaire || $d->tav) {
                           $cepagedenomtav[$d->getCepage()->getHash().'-'.$this->cache2datas[$cacheid]['details_type'].'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
                       }
