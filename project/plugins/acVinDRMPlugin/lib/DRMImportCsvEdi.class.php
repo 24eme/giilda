@@ -135,7 +135,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $datas[self::CSV_CAVE_COULEUR].'-'.
               $datas[self::CSV_CAVE_CEPAGE].'-'.
               $datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE].'-'.
-              $datas[self::CSV_CAVE_LIBELLE_PRODUIT];
+              $datas[self::CSV_CAVE_LIBELLE_PRODUIT].'-'.
+              $datas[self::CSV_CAVE_TYPE_DRM];
   }
 
   public function createCacheProduits() {
@@ -424,7 +425,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $volume2hash = array();
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                  foreach($p->getDetails() as $kd => $d) {
+                  foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
                       $total_fin_mois = $d->stocks_fin->final * 1;
                       if (!$total_fin_mois) {
                           continue;
