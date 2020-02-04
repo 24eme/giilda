@@ -293,6 +293,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
               $founded_produit = $produit;
 
+              $date = $this->drm->getPeriode().'01';
               if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
 
                 if($aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
