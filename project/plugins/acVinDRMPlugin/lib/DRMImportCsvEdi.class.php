@@ -135,7 +135,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $datas[self::CSV_CAVE_COULEUR].'-'.
               $datas[self::CSV_CAVE_CEPAGE].'-'.
               $datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE].'-'.
-              $datas[self::CSV_CAVE_LIBELLE_PRODUIT];
+              $datas[self::CSV_CAVE_LIBELLE_PRODUIT].'-'.
+              $datas[self::CSV_CAVE_TYPE_DRM];
   }
 
   public function createCacheProduits() {
@@ -293,6 +294,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
               $founded_produit = $produit;
 
+              $date = $this->drm->getPeriode().'01';
               if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
 
                 if($aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
@@ -423,7 +425,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $volume2hash = array();
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                  foreach($p->getDetails() as $kd => $d) {
+                  foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
                       $total_fin_mois = $d->stocks_fin->final * 1;
                       if (!$total_fin_mois) {
                           continue;
@@ -841,6 +843,7 @@ private function importComplementMvt($csvRow, $founded_produit, $num_ligne, $jus
 
 private function importCrdsFromCSV($just_check = false) {
   $num_ligne = 0;
+  $edited = false;
   $etablissementObj = $this->drm->getEtablissementObject();
 
   $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
@@ -917,8 +920,12 @@ private function importCrdsFromCSV($just_check = false) {
       }
       if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null) {
         $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
+        $edited = true;
       }
     }
+  }
+  if ($edited) {
+      $this->drm->updateStockFinDeMoisAllCrds();
   }
   return $this->csvDoc->hasErreurs();
 }
