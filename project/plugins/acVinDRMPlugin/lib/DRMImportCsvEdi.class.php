@@ -339,7 +339,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $volume2hash = array();
                 if($this->drmPrecedente->exist($hash)) {
                     foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                        foreach($p->getProduitsDetails() as $kd => $d) {
+                        foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
                             $total_fin_mois = $d->stocks_fin->revendique * 1;
                             if (!$total_fin_mois) {
                                 continue;
