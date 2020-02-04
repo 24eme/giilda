@@ -476,10 +476,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   unset($volume2hash["$total_debut_mois"][$new_hash]);
               }
               if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
-                 || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->details->exist($this->cache[$cacheid]->getKey())
+                 || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])
+                 || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->exist($this->cache[$cacheid]->getKey())
                  ) {
-                  $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->details->remove($this->cache[$cacheid]->getKey());
+                  if ($this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])) {
+                      $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->remove($this->cache[$cacheid]->getKey());
+                  }
               }
+
               $this->cache[$cacheid] = $this->drm->getOrAdd($new_hash);
               $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME]);
               $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
@@ -506,9 +510,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               continue;
           }
           if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
-             || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->details->exist($this->cache[$cacheid]->getKey())
+             || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])
+             || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->exist($this->cache[$cacheid]->getKey())
              ) {
-              $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->details->remove($this->cache[$cacheid]->getKey());
+              if ($this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])) {
+                  $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->remove($this->cache[$cacheid]->getKey());
+              }
           }
           $this->cache[$cacheid] = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
           $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
