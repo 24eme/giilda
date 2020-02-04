@@ -420,12 +420,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           }
           $couleurs[$produit->getCouleur()->getHash()][$cacheid] = 1;
       }
-      //gestion des multidetails
+      //gestion des multidetails sur la base stock final de la DRM précédente
+      //+ preparation de la comparaison tav + denom
+      $cepagedenomtav = array();
       foreach($couleurs as $hash => $array_cache) {
           $volume2hash = array();
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
                   foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
+                      if ($d->denomination_complementaire || $d->tav) {
+                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$this->cache2datas[$cacheid]['details_type'].'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
+                      }
                       $total_fin_mois = $d->stocks_fin->final * 1;
                       if (!$total_fin_mois) {
                           continue;
@@ -487,6 +492,27 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if (isset($params['hash_detail'])) {
               $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
           }
+      }
+      // On tente une dernière mise en cohérence en comparant les denomination complémentaires
+      // et les tav de la drm preecente
+      foreach($this->cache2datas as $cacheid => $cachedata) {
+          if (!$cachedata['denomination_complementaire'] && !$cachedata['tav']) {
+             continue;
+          }
+          $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
+          echo "$id_cepagedenomtav\n";
+          if (!isset($cepagedenomtav[$id_cepagedenomtav])) {
+              continue;
+          }
+          if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
+             || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->details->exist($this->cache[$cacheid]->getKey())
+             ) {
+              $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->details->remove($this->cache[$cacheid]->getKey());
+          }
+          $this->cache[$cacheid] = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+          $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
+          $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
+          $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
       }
 
       $num_ligne = 0;
