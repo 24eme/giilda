@@ -160,6 +160,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         if (isset($this->cache2datas[$cacheid])) {
             continue;
         }
+        if($csvRow[self::CSV_CAVE_VOLUME] === "") {
+            continue;
+        }
+
         $this->cache2datas[$cacheid] = $datas;
         $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]);
       }
@@ -775,7 +779,7 @@ private function importMouvementsFromCSV($just_check = false) {
     if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
       continue;
     }
-    if($csvRow[self::CSV_CAVE_VOLUME] == "") {
+    if($csvRow[self::CSV_CAVE_VOLUME] === "") {
       continue;
     }
 
