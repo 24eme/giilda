@@ -351,7 +351,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $denomination_complementaire = ($denomination_complementaire) ? $default_produit_libelle." ".$denomination_complementaire : $default_produit_libelle;
           }
 
-          if((!$founded_produit) {
+          if(!$founded_produit) {
               $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $datas));
               continue;
           }
