@@ -440,10 +440,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $volume2hash = array();
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                  foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
+                  foreach($p->getProduitsDetails(true) as $kd => $d) {
                       //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
                       if ($d->denomination_complementaire || $d->tav) {
-                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$this->cache2datas[$cacheid]['details_type'].'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
+                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
                       }
                       $total_fin_mois = $d->stocks_fin->final * 1;
                       if (!$total_fin_mois) {
