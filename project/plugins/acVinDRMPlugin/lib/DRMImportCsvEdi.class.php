@@ -160,6 +160,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         if (isset($this->cache2datas[$cacheid])) {
             continue;
         }
+        if($csvRow[self::CSV_CAVE_VOLUME] === "") {
+            continue;
+        }
+
         $this->cache2datas[$cacheid] = $datas;
         $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]);
       }
@@ -476,15 +480,23 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                           $new_hash = $a_hash_volume;
                       }
                   }
-                  if (!$nb) {
-                      throw new sfException('ambiguité identification produit (trop de volume identiques) pour '.$this->cache[$cacheid]->getHash());
+                  if ($nb === 1) {
+                      unset($volume2hash["$total_debut_mois"][$new_hash]);
+                  }else{
+                      continue;
                   }
-                  unset($volume2hash["$total_debut_mois"][$new_hash]);
               }else{
                   $new_hashes = array_keys($volume2hash["$total_debut_mois"]);
                   $new_hash = array_shift($new_hashes);
                   unset($volume2hash["$total_debut_mois"][$new_hash]);
               }
+              if (isset($this->cache2datas[$cacheid]['tav'])  && (
+                       ! $this->drmPrecedente->exist($new_hash)
+                    || ! $this->drmPrecedente->get($new_hash)->exist('tav')
+                    || !($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
+                ) ) {
+                        continue;
+                    }
               if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
                  || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])
                  || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])->exist($this->cache[$cacheid]->getKey())
@@ -499,7 +511,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
               $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
               $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
-              $this->cache2datas[$cacheid]['tav'] = $this->cache[$cacheid]->tav;
           }
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
@@ -768,7 +779,7 @@ private function importMouvementsFromCSV($just_check = false) {
     if($cat_key == "stocks_debut" && !$drmDetails->canSetStockDebutMois()) {
       continue;
     }
-    if($csvRow[self::CSV_CAVE_VOLUME] == "") {
+    if($csvRow[self::CSV_CAVE_VOLUME] === "") {
       continue;
     }
 
