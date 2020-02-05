@@ -156,9 +156,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
             continue;
         }
-        if (!$datas[self::CSV_CAVE_VOLUME]) {
-            continue;
-        }
         $cacheid = $this->getCacheKeyFromData($datas);
         if (isset($this->cache2datas[$cacheid])) {
             continue;
