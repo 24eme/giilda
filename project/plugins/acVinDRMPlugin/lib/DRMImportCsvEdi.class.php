@@ -274,7 +274,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if ($is_default_produit) {
                     $denomination_complementaire = ($denomination_complementaire) ? $default_produit_libelle." ".$denomination_complementaire : $default_produit_libelle;
                 }
-
+                if (!$founded_produit) {
+                    continue;
+                }
                 /// CREATION DU DETAILS
                 $produit =  $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
 
@@ -295,8 +297,19 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->cache2datas[$cacheid]['denomination_complementaire'] = $denomination_complementaire;
             }
             //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
+            // (il est possible que le produit ait du tav ou du volume mais ne soit pas reconnu, donc il faut le supprimer du cache => $delete)
+            $delete = array();
             foreach($this->cache2datas as $cacheid => $params) {
-                $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+                if (isset($params['hash_detail']) && $params['hash_detail']) {
+                    $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+                }else{
+                    $delete[] = $cacheid;
+                }
+            }
+            foreach($delete as $cacheid){
+                unset($this->cache2datas[$cacheid]);
+                unset($this->cache[$cacheid]);
+
             }
             //on prépare les vérifications
             $check = array();
@@ -406,7 +419,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             // On tente une dernière mise en cohérence en comparant les denomination complémentaires
             // et les tav de la drm preecente
             foreach($this->cache2datas as $cacheid => $cachedata) {
-                if (!$cachedata['denomination_complementaire'] && !$cachedata['tav']) {
+                if (!$cachedata['denomination_complementaire'] && !(isset($cachedata['tav']) && $cachedata['tav'])) {
                    continue;
                 }
                 $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
@@ -547,13 +560,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     continue;
                 }
                 $drmDetails = $this->getProduitFromCache($csvRow);
-                $founded_produit = $drmDetails->getCepage()->getConfig();
 
                 if (!$drmDetails) {
                     $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                     $num_ligne++;
                     continue;
                 }
+                $founded_produit = $drmDetails->getCepage()->getConfig();
 
                 $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
                 if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
