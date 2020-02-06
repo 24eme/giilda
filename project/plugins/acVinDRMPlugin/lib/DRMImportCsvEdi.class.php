@@ -161,7 +161,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               if (isset($this->cache2datas[$cacheid])) {
                   continue;
               }
-              if($csvRow[self::CSV_CAVE_VOLUME] === "") {
+              if($datas[self::CSV_CAVE_VOLUME] === "") {
                   continue;
               }
               $this->cache2datas[$cacheid] = $datas;
