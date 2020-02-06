@@ -335,7 +335,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         continue;
                     }
                     $p = $this->drm->addProduit($this->cache2datas[$cacheid]['hash'], $this->cache2datas[$cacheid]['details_type'], $this->cache2datas[$cacheid]['denomination_complementaire']);
-                    $p->libelle = $this->cache2datas[$cacheid]['libelle'];
+                    $p->produit_libelle = $this->cache2datas[$cacheid]['libelle'];
                     $this->cache[$cacheid] = $p;
                 }
             }
