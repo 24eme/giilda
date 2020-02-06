@@ -161,7 +161,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               if (isset($this->cache2datas[$cacheid])) {
                   continue;
               }
-              if($csvRow[self::CSV_CAVE_VOLUME] === "") {
+              if($datas[self::CSV_CAVE_VOLUME] === "") {
                   continue;
               }
               $this->cache2datas[$cacheid] = $datas;
@@ -806,7 +806,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                          }
                       }
 
-                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
+                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode) && !$drm->canSetStockDebutMois()) {
                         if ($drmPrecedente->crds->get($crd_regime)->get($keyNode)->stock_fin != $quantite) {
                           $this->csvDoc->addErreur($this->previousCRDStockError($num_ligne, $csvRow));
                           $num_ligne++;
@@ -833,7 +833,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
                         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
                     }
-                    if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null) {
+                    if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null || ($drm->canSetStockDebutMois() && preg_match('/debut/', $fieldNameCrd)) {
                         $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
                     }
                     $num_ligne++;
