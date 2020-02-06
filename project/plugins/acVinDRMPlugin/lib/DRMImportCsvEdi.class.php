@@ -161,6 +161,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               if (isset($this->cache2datas[$cacheid])) {
                   continue;
               }
+              if($csvRow[self::CSV_CAVE_VOLUME] === "") {
+                  continue;
+              }
               $this->cache2datas[$cacheid] = $datas;
               $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]);
             }
@@ -354,10 +357,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $volume2hash = array();
                     if($this->drmPrecedente->exist($hash)) {
                     foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                        foreach($p->getProduitsDetails(true, $this->cache2datas[$cacheid]['details_type']) as $kd => $d) {
+                        foreach($p->getProduitsDetails(true) as $kd => $d) {
                             //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
-                            if ($d->denomination_complementaire || $d->exist('tav')) {
-                                $cepagedenomtav[$d->getCepage()->getHash().'-'.$this->cache2datas[$cacheid]['details_type'].'-'.$d->denomination_complementaire.'-'.$d->exist('tav')?$d->tav:''] = $d->getHash();
+                            if ($d->denomination_complementaire || ($d->exist('tav') && $d->tav) ) {
+                                $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
                             }
 
                             $total_fin_mois = $d->stocks_fin->revendique * 1;
@@ -391,14 +394,22 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                 $new_hash = $a_hash_volume;
                             }
                         }
-                        if (!$nb) {
-                            throw new sfException('ambiguité identification produit (trop de volume identiques) pour '.$this->cache[$cacheid]->getHash());
+                        if ($nb === 1) {
+                            unset($volume2hash["$total_debut_mois"][$new_hash]);
+                        }else{
+                            continue;
                         }
-                        unset($volume2hash["$total_debut_mois"][$new_hash]);
                     }else{
                         $new_hashes = array_keys($volume2hash["$total_debut_mois"]);
                         $new_hash = array_shift($new_hashes);
                         unset($volume2hash["$total_debut_mois"][$new_hash]);
+                    }
+                    if (isset($this->cache2datas[$cacheid]['tav'])  && (
+                       ! $this->drmPrecedente->exist($new_hash)
+                    || ! $this->drmPrecedente->get($new_hash)->exist('tav')
+                    || !($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
+                    ) ) {
+                        continue;
                     }
                     if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
                        || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])
@@ -410,6 +421,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         }
                     }
                     $this->cache[$cacheid] = $this->drm->getOrAdd($new_hash);
+                    $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
+                    $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
+                    $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
                 }
             }
             //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
