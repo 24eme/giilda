@@ -833,7 +833,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
                         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
                     }
-                    if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null) {
+                    if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null || ($drm->canSetStockDebutMois() && preg_match('/debut/', $fieldNameCrd)) {
                         $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
                     }
                     $num_ligne++;
