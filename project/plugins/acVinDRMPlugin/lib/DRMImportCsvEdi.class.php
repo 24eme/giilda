@@ -150,6 +150,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $this->cache = array();
             $this->cache2datas = array();
 
+            if ($this->drm->canSetStockDebutMois()) {
+                $this->drm->remove('declaration');
+                $this->drm->add('declaration');
+                $this->drm->remove('crds');
+                $this->drm->add('crds');
+            }
+
+
             foreach ($this->getDocRows() as $datas) {
               if (KeyInflector::slugify(trim($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
                   continue;
