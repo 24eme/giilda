@@ -131,7 +131,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-       return $this->canSetStockDebutMois();
+       return $this->getDocument()->canSetStockDebutMois();
     }
 
     public function canSetLabels() {
