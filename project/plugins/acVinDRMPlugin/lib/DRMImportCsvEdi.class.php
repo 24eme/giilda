@@ -930,7 +930,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             $num_ligne++;
                             break;
                         }
-                        if (!preg_match('/^[A-Z]{2}[0-9A-Z]{11}$/', $numero_accise)) {
+                        if ($numero_accise && !preg_match('/^[A-Z]{2}[0-9A-Z]{11}$/', $numero_accise)) {
                             if ($just_check) {
                                 $this->csvDoc->addErreur($this->annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow));
                             }
@@ -1213,7 +1213,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
-                                      $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est vide ou mal formatté.",
+                                      $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est mal formatté.",
                                       CSVClient::LEVEL_WARNING);
         }
 
