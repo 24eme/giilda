@@ -806,7 +806,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                          }
                       }
 
-                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
+                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode) && !$drm->canSetStockDebutMois()) {
                         if ($drmPrecedente->crds->get($crd_regime)->get($keyNode)->stock_fin != $quantite) {
                           $this->csvDoc->addErreur($this->previousCRDStockError($num_ligne, $csvRow));
                           $num_ligne++;
