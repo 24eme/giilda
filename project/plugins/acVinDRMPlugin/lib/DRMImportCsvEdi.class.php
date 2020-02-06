@@ -205,12 +205,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (strtoupper($datas[self::CSV_TYPE]) != self::TYPE_CAVE) {
                     continue;
                 }
-                if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
+                if (isset($this->cache[$this->getCacheKeyFromData($datas)])) {
                     continue;
                 }
-                if (strtolower($datas[self::CSV_CAVE_TYPE_MOUVEMENT]) != 'revendique') {
-                    continue;
-                }
+
                 /// RECHECHE DE PRODUIT
                 $csvLibelleProductArray = $this->buildLibellesArrayWithRow($datas, true);
                 $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
