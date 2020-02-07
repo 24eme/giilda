@@ -153,8 +153,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if ($this->drm->canSetStockDebutMois()) {
                 $this->drm->remove('declaration');
                 $this->drm->add('declaration');
-                $this->drm->remove('crds');
-                $this->drm->add('crds');
             }
 
 
@@ -753,8 +751,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function importCrdsFromCSV($just_check = false) {
-            $this->drm->remove('crds');
-            $this->drm->add('crds');
+            if ($this->drm->canSetStockDebutMois()) {
+                $this->drm->remove('crds');
+                $this->drm->add('crds');
+            }
             $num_ligne = 1;
             $etablissementObj = $this->drm->getEtablissementObject();
 
