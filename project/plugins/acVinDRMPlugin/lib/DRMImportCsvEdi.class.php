@@ -578,7 +578,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $denomination_complementaire = $this->cache2datas[$this->getCacheKeyFromData($datas)]['denomination_complementaire'];
           $founded_produit = $this->cache2datas[$this->getCacheKeyFromData($datas)]['founded_produit'];
 
-          if ($this->drmPrecedente && $this->drmPrecedente->teledeclare && !$this->drm->canSetStockDebutMois())
+          if ($this->drmPrecedente && $this->drmPrecedente->teledeclare && !$this->drm->canSetStockDebutMois()
            && $this->drmPrecedente->exist($produit->getHash()) && isset($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME])) {
 
               $details_precedent = $this->drmPrecedente->get($produit->getHash());
