@@ -750,6 +750,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
         }
 
+        private static function row2litrage($r) {
+            return strtoupper(preg_replace("/[ _]/","",str_replace(",",".", preg_replace('/([0-9])_([0-9])/', '$1.$2', preg_replace('/^([^_]+)_(.*)/', '$2 $1', $r)))));
+        }
+
+        private static function cdrreversekeyid($regime, $genre, $couleur, $libelle) {
+            if (!$couleur) {
+                $couleur = 'DEFAUT';
+            }
+            return $regime.'-'.$genre.'-'.$couleur.'-'.self::row2litrage($libelle);
+        }
+
         private function importCrdsFromCSV($just_check = false) {
             if ($this->drm->canSetStockDebutMois()) {
                 $this->drm->remove('crds');
@@ -764,6 +775,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $newKey = strtoupper(str_replace(" ","",str_replace(",",".",$contenance_key)));
               $all_contenances[$newKey] = $contenance;
             }
+            $crd_precedente = array();
+            foreach($this->drmPrecedente->crds as $regime => $crds) {
+                foreach($crds as $key => $crd) {
+                    $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
+                    if (!isset($crd_precedente[$kid])) {
+                        $crd_precedente[$kid] = array();
+                    }
+                    $crd_precedente[$kid][] = $crd->getKey();
+                }
+            }
 
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
@@ -777,7 +798,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                 $genre = $this->convertGenre($csvRow[self::CSV_CRD_GENRE]);
                 $couleur = $this->convertCouleur($csvRow[self::CSV_CRD_COULEUR]);
-                $litrageLibelle = strtoupper(preg_replace("/[ _]/","",str_replace(",",".", preg_replace('/([0-9])_([0-9])/', '$1.$2', preg_replace('/^([^_]+)_(.*)/', '$2 $1', $csvRow[self::CSV_CRD_CENTILITRAGE])))));
+                $litrageLibelle = self::row2litrage($csvRow[self::CSV_CRD_CENTILITRAGE]);
                 $categorie_key = $csvRow[self::CSV_CRD_CATEGORIE_KEY];
                 $type_key = $csvRow[self::CSV_CRD_TYPE_KEY];
                 $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
@@ -791,7 +812,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                 $centilitrage = isset($all_contenances[$litrageLibelle]) ? $all_contenances[$litrageLibelle] : null;
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
-                $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
+                $keyNode = null;
+                $reverseKey = self::cdrreversekeyid($regime, $genre, $couleur, $litrageLibelle);
+                if (isset($crd_precedente[$reverseKey])) {
+                    $keyNode = array_pop($crd_precedente[$reverseKey]);
+                }
+                if (!$keyNode) {
+                    $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
+                }
 
                 $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
                 if ($drmPrecedente && !$drmPrecedente->isTeledeclare()) {
