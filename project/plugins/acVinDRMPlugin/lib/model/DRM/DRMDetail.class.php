@@ -274,6 +274,7 @@ class DRMDetail extends BaseDRMDetail {
                 $this->total_facturable += $volume * $coefficient_facturable;
             }
         }
+        $this->total_facturable = round($this->total_facturable, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     private function getTotalByKey($key, $onlyCaracteristique = false) {
@@ -289,7 +290,7 @@ class DRMDetail extends BaseDRMDetail {
                 }
             }
         }
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function getTotalDebutMois() {
@@ -364,7 +365,7 @@ class DRMDetail extends BaseDRMDetail {
         foreach ($lines as $line) {
             $sum += $this->get($line);
         }
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function hasStockFinDeMoisDRMPrecedente() {
