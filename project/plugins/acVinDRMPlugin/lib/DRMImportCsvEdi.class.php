@@ -1102,7 +1102,7 @@ private function importAnnexesFromCSV($just_check = false) {
 
 private function convertNumber($number){
   $numberPointed = trim(str_replace(",",".",$number));
-  return round(floatval($numberPointed), 5);
+  return round(floatval($numberPointed), FloatHelper::getInstance()->getMaxDecimalAuthorized());
 }
 
 private function getDetailsKeyFromDRMType($drmType ) {
