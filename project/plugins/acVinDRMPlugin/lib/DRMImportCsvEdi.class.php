@@ -925,6 +925,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function importAnnexesFromCSV($just_check = false) {
+            $this->drm->remove('releve_non_apurement');
             $num_ligne = 1;
             $typesAnnexes = array_keys($this->type_annexes);
             foreach ($this->getDocRows() as $csvRow) {
