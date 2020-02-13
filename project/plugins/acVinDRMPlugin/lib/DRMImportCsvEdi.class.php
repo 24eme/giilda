@@ -223,7 +223,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             if (!$founded_produit) {
                                 $founded_produit = $p;
                             }
-                            if ($p->getLibelleFormat() == $libelle) {
+                            if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelle))) {
                                 $founded_produit = $p;
                                 break;
                             }
