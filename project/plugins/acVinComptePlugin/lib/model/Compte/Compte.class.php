@@ -325,23 +325,23 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $ldap = new CompteLdap();
         $groupldap = new CompteGroupLdap();
 
-        $compteid = $this->getSociete()->identifiant;
+        $ldapUid = CompteLdap::getIdentifiant($this);
 
         // récupération des groupes LDAP du compte
-        $groupes = $groupldap->getMembership($compteid);
+        $groupes = $groupldap->getMembership($ldapUid);
 
         if ($this->isActif()) {
             $ldap->saveCompte($this, $verbose);
 
             if (sfConfig::get('app_ldap_autogroup', false)) {
                 $groupes_a_garder = [];
-                $groupes_a_garder = $groupldap->saveLdapGroup($this->tags->toArray(), $compteid);
+                $groupes_a_garder = $groupldap->saveLdapGroup($this->tags->toArray(), $ldapUid);
 
                 $groupes_a_garder = array_merge(
                     $groupes_a_garder,
                     $groupldap->saveLdapGroup(
                         $this->getSociete()->getMasterCompte()->tags->toArray(),
-                        $compteid
+                        $ldapUid
                     )
                 );
 
@@ -349,13 +349,13 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
                 $ex_groupes = array_diff($groupes, $groupes_a_garder);
 
                 foreach ($ex_groupes as $group) {
-                    $groupldap->removeMember($group, $compteid);
+                    $groupldap->removeMember($group, $ldapUid);
                 }
             }
         } else {
             if (sfConfig::get('app_ldap_autogroup', false)) {
                 foreach ($groupes as $group) {
-                    $groupldap->removeMember($group, $compteid);
+                    $groupldap->removeMember($group, $ldapUid);
                 }
             }
 
