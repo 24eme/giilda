@@ -48,6 +48,23 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php if ($compte->mot_de_passe === null) : ?>
+        <div class="list-group-item list-group-item-xs">
+            <div class="row">
+                <div class="col-xs-12">
+                    <i class="glyphicon glyphicon-asterisk"></i> <a href="<?= url_for('compte_generate_codecreation', ['identifiant' => $compte->identifiant]) ?>">Générer un code de création</a>
+                </div>
+            </div>
+        </div>
+    <?php elseif (strpos($compte->mot_de_passe, '{TEXT}') === 0): ?>
+        <div class="list-group-item list-group-item-xs">
+            <div class="row">
+                <div class="col-xs-12">
+                    <span class=text-muted">Code de création : <?= str_replace('{TEXT}', '', $compte->mot_de_passe) ?></span>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
     <div class="list-group-item list-group-item-xs<?php echo ($compte->isSuspendu()) ? ' disabled': '' ?>">
         <?php include_partial('compte/tagsVisualisation', array('compte' => $compte, 'modification' => $modification, 'reduct_rights' => $reduct_rights, 'smallBlock' => true)); ?>
     </div>
