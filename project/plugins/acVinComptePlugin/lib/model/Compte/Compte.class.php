@@ -517,6 +517,14 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         return $this;
     }
 
+    public function generateCodeCreation()
+    {
+        if ($this->_get('mot_de_passe') === null) {
+            $this->_set('mot_de_passe', sprintf("{TEXT}%04d", rand(0, 9999)));
+        }
+        return $this;
+    }
+
     public function getSiteInternet() {
         return $this->_get('site_internet');
     }
