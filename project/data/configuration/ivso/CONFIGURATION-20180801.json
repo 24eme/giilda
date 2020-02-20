@@ -39845,7 +39845,8 @@
                    "douane_type": "CRD_MIXTE",
                    "douane_cat": "sorties-periode/sorties-sans-paiement-droits/sorties-definitives",
                    "douane_cat_negoce": "sorties-periode/sorties-sans-paiement-droits/sorties-definitives",
-                   "taxable_douane": 0
+                   "taxable_douane": 0,
+                   "facturable_negociant": 1
                },
                "vracsanscontratsuspendu": {
                    "readable": 1,
@@ -40086,7 +40087,8 @@
                    "douane_type": "CRD_MIXTE",
                    "douane_cat": "sorties-periode/sorties-sans-paiement-droits/autres-sorties",
                    "douane_cat_negoce": "sorties-periode/autres-sorties",
-                   "taxable_douane": 1
+                   "taxable_douane": 1,
+                   "facturable_negociant": 1
                },
                "cession": {
                    "readable": 1,
