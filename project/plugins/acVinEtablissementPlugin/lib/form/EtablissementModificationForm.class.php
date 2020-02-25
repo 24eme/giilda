@@ -39,7 +39,7 @@ class EtablissementModificationForm extends CompteGeneriqueForm {
         $this->widgetSchema->setLabel('no_accises', "N° d'Accise");
         $this->widgetSchema->setLabel('commentaire', 'Commentaire');
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
-        $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de début de declaration DRM');
+        $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de début de campagne DRM');
 
 
         $this->setValidator('famille', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getFamilles()))));
