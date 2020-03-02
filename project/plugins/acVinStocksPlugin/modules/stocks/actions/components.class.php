@@ -22,7 +22,7 @@ class stocksComponents extends sfComponents {
         $conf = ConfigurationClient::getConfiguration($date);
 
         foreach($mouvements as $mouvement) {
-            if (!$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($date)) {
+            if (!$conf->get(preg_replace("|/details/.+$|", "", $mouvement->produit_hash))->getCepage()->isCVOActif($date)) {
                 continue;
             }
 
