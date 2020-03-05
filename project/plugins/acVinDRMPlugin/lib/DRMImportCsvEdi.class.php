@@ -493,10 +493,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $new_hash = array_shift($new_hashes);
                   unset($volume2hash["$total_debut_mois"][$new_hash]);
               }
+
               if (isset($this->cache2datas[$cacheid]['tav'])  && (
                        ! $this->drmPrecedente->exist($new_hash)
                     || ! $this->drmPrecedente->get($new_hash)->exist('tav')
-                    || !($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
+                    || ($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
                 ) ) {
                         continue;
                     }
