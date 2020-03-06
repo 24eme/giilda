@@ -776,6 +776,11 @@ private function importMouvementsFromCSV($just_check = false) {
     $cat_key = $confDetailMvt->getParent()->getKey();
     $type_key = $confDetailMvt->getKey();
 
+    if(!preg_match("/stocks/", $cat_key) && $volume < 0) {
+        $this->csvDoc->addErreur($this->mouvementVolumeNegatifError($num_ligne, $csvRow));
+        continue;
+    }
+
     if($just_check) {
       continue;
     }
@@ -1191,6 +1196,11 @@ private function categorieMouvementNotFoundError($num_ligne, $csvRow) {
 private function typeMouvementNotFoundError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le type de mouvement n'a pas été trouvé");
 }
+
+private function mouvementVolumeNegatifError($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le volume est négatif");
+}
+
 private function stockVolumeIncoherentError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le stock n'est pas cohérent par rapport à la DRM précédente", CSVDRMClient::LEVEL_WARNING);
 }
