@@ -6,6 +6,7 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
         $configurationDetail = $this->getObject()->getParent()->getConfig();
         $certif = $this->getObject()->getParent()->getCertification()->getKey();
         $mention = $this->getObject()->getParent()->getAppellation()->getKey();
+        $hash = $this->getObject()->getParent()->getHash();
         $drm = $this->getObject()->getDocument();
         foreach ($configurationDetail->getSortiesSorted() as $key => $value) {
             $disabled = (!preg_match('/AOC|IGP/', $certif) && ($key == 'repli'));
@@ -26,6 +27,10 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
                 $disabled = true;
             }
             if ($key == 'vci' && $drm->isNegoce()) {
+                $disabled = true;
+            }
+
+            if (strpos($hash, 'VCI') !== false && $key !== 'vci') {
                 $disabled = true;
             }
 
