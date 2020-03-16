@@ -60,20 +60,28 @@ function statusColor($status) {
 function showRecapPrixUnitaire($vrac) {
     $unite = showPrixUnitaireUnite($vrac);
 
-    if ($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
-        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial()));
-    } elseif ($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
-        return sprintf("%s (Prix initial : %s)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial()), showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_initial_unitaire, $vrac->prix_initial_unitaire_hl));
+    $to_hl = $vrac->getPrixUnitaireHlOuInitial();
+    //Si raison, pas de conversion en hl/€
+    if ($unite == "€/kg") {
+        $to_hl = null;
     }
-    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $vrac->getPrixUnitaireHlOuInitial());
+
+    if ($vrac->hasPrixVariable() && !$vrac->hasPrixDefinitif()) {
+        return sprintf("%s (Prix non définitif)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $to_hl));
+    } elseif ($vrac->hasPrixVariable() && $vrac->hasPrixDefinitif()) {
+        return sprintf("%s (Prix initial : %s)", showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $to_hl), showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_initial_unitaire, $vrac->prix_initial_unitaire_hl));
+    }
+    return showRecapPrixUnitaireByUniteAndPrix($unite, $vrac->prix_unitaire, $to_hl);
 }
 
-function showRecapPrixUnitaireByUniteAndPrix($unite, $prix_unitaire, $prix_unitaire_hl) {
+function showRecapPrixUnitaireByUniteAndPrix($unite, $prix_unitaire, $prix_unitaire_hl = null) {
     if ($unite == '€/hl') {
         return sprintf('%s €/hl', echoF4($prix_unitaire));
     }
-
-    return sprintf('%s %s, soit %s €/hl', echoF4($prix_unitaire), $unite, echoF($prix_unitaire_hl));
+    if ($prix_unitaire_hl) {
+        return sprintf('%s %s, soit %s €/hl', echoF4($prix_unitaire), $unite, echoF($prix_unitaire_hl));
+    }
+    return sprintf('%s %s', echoF4($prix_unitaire), $unite);
 }
 
 function showPrixUnitaireUnite($vrac) {
