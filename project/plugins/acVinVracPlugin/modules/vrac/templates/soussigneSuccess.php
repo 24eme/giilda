@@ -223,13 +223,16 @@ endif;
             <?php endif; ?>
 
             <div class="btn_etape block_overlay" id="ligne_btn">
-                <?php if ($nouveau): ?>
-                    <?php if ($isTeledeclarationMode): ?>
-                        <a href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
-
-                    <?php else: ?>
-                        <a href="<?php echo url_for('vrac'); ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
-                    <?php endif; ?>
+                <?php if ($nouveau):
+                    $url_back = url_for('vrac');
+                    if ($isTeledeclarationMode) {
+                        $url_back = url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant));
+                    }
+                    ?>
+                    <script>
+                        history.replaceState({}, "Vrac", "<?php echo $url_back; ?>");
+                    </script>
+                    <a href="<?php echo $url_back  ?>" class="btn_majeur btn_annuler"><span>Annuler la saisie</span></a>
                 <?php else: ?>
                     <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
                         <a class="lien_contrat_supprimer_brouillon" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">
