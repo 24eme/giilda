@@ -48,8 +48,6 @@ Ce contrat attend votre signature. Pour le visualiser et le signer cliquez sur l
 
 Pour être valable, le contrat doit être signé par toutes les parties et enregistré par InterLoire. Un fichier en format PDF avec le numéro d’enregistrement d’InterLoire vous sera alors envoyé par courriel.
 
-Attention : si le contrat n’est pas signé par toutes les parties dans les 5 jours à compter de sa date de création, il sera automatiquement supprimé.
-
 Pour toutes questions, veuillez contacter " . $responsableNom . ", l'initiateur du contrat.
 
 ——
