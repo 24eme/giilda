@@ -302,6 +302,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->cache2datas[$cacheid]['hash_detail'] = $produit->getHash();
                 $this->cache2datas[$cacheid]['details_type'] = DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))];
                 $this->cache2datas[$cacheid]['denomination_complementaire'] = $denomination_complementaire;
+                $this->cache2datas[$cacheid]['libelle'] = $datas[self::CSV_CAVE_LIBELLE_COMPLET];
             }
             //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
             // (il est possible que le produit ait du tav ou du volume mais ne soit pas reconnu, donc il faut le supprimer du cache => $delete)
@@ -359,7 +360,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $cepagedenomtav = array();
             foreach($couleurs as $hash => $array_cache) {
                 $volume2hash = array();
-                    if($this->drmPrecedente->exist($hash)) {
+                    if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
                     foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
                         foreach($p->getProduitsDetails(true) as $kd => $d) {
                             //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
