@@ -223,7 +223,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             if (!$founded_produit) {
                                 $founded_produit = $p;
                             }
-                            if ($p->getLibelleFormat() == $libelle) {
+                            if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelle))) {
                                 $founded_produit = $p;
                                 break;
                             }
@@ -412,7 +412,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     if (isset($this->cache2datas[$cacheid]['tav'])  && (
                        ! $this->drmPrecedente->exist($new_hash)
                     || ! $this->drmPrecedente->get($new_hash)->exist('tav')
-                    || !($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
+                    || ($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
                     ) ) {
                         continue;
                     }

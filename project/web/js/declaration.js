@@ -473,7 +473,7 @@
 
             // Comparaison nombre entier / flottant
             if (float || parseInt(val) != parseFloat(val))
-                val = parseFloat(val).toFixed(4);
+                val = parseFloat(val).toFixed(5);
             else
                 val = parseInt(val);
         }
@@ -612,7 +612,7 @@
                     return true;
                 vol += vol_val_float;
             });
-            $('.drm_details_volume_total').text(vol.toFixed(4));
+            $('.drm_details_volume_total').text(vol.toFixed(5));
         }
         $('.drm_details_tableBody td.volume').unbind();
         $('.drm_details_tableBody td.volume').bind('keyup', $.majSommeLabelBind);
