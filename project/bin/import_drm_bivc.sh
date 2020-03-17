@@ -22,15 +22,20 @@ echo "Import des fichiers"
 ls $EXPORTDIR | grep -Ev "\.vinsi$" | awk -F '-' '{ version=99; if($4) { v=$4; gsub(".csv","",v); gsub("M", "", v); version=(version - v); } printf("%02d%d;%s\n", version, $3, $0) }' | sort | cut -d ";" -f 2 | while read csvfile
 do
     csvfilevinsi=$csvfile".vinsi"
-    cp $EXPORTDIR/$csvfile $EXPORTDIR/$csvfilevinsi
+    grep -v ';acquitte;' $EXPORTDIR/$csvfile > $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;stocks_debut;initial;/;suspendu;stocks_debut;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;stocks_fin;final;/;suspendu;stocks_fin;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;sorties;ventefrancecrd;/;suspendu;sorties;ventefrancebouteillecrd;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;sorties;vracsanscontratacquitte;/;suspendu;sorties;vracsanscontrat;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;creationvractirebouche;/;suspendu;sorties;vracsanscontrat;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;creationvrac;/;suspendu;sorties;vracsanscontrat;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;embouteillage;/;suspendu;sorties;travailafacon;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;transfertcomptamatiere;/;suspendu;sorties;transfertsinternes;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;entrees;transfertcomptamatierecession;/;suspendu;entrees;transferts;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;regularisation;/;suspendu;entrees;excedents;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;achatnoncrd;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;recolte;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
-    sed -i 's/;Autres pays;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;Autres pays;/;Inconnu;/' $EXPORTDIR/$csvfilevinsi
 
     periode=$(echo -n $csvfile | cut -d "_" -f 2)
     noaccises=$(cat $EXPORTDIR/$csvfilevinsi | head -n 1 | cut -d ";" -f 4)
@@ -40,8 +45,10 @@ do
         noaccises="0"
     fi
 
-    echo -n "$csvfilevinsi : "
-
-    php symfony drm:edi-import $EXPORTDIR/$csvfilevinsi $periode "$noaccises" "$cvi"
+    if test -s $EXPORTDIR/$csvfilevinsi  ; then
+        echo -n "$csvfilevinsi : "
+        php symfony drm:edi-import $EXPORTDIR/$csvfilevinsi $periode "$noaccises" "$cvi" 2>&1 | grep -i '[a-z0-9]' | tr '\n' '|'
+        echo
+    fi
 
 done

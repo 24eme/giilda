@@ -76,12 +76,14 @@ EOF;
             return;
         }
 
+        if (!preg_match('/^[0-9]{6}$/', $arguments['periode'])) {
+            throw new sfException('invalid periode : '.$arguments['periode']);
+        }
         $drm = DRMClient::getInstance()->createDocByPeriode($identifiant, $arguments['periode']);
 
        try {
-        $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm);
+        $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm, true);
         $drmCsvEdi->checkCSV();
-
         $condition_save = ($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE");
         if($options['savewarning']){
           $condition_save = $condition_save && ($drmCsvEdi->getCsvDoc()->getStatut() != "WARNING");

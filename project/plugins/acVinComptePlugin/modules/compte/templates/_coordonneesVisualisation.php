@@ -79,14 +79,6 @@
             <?php echo $compte->telephone_mobile; ?>
         </div>
     <?php endif; ?>
-    <?php if ($compte->fax) : ?>
-        <div class="form_ligne">
-            <label for="fax">
-                Fax :
-            </label>
-            <?php echo $compte->fax; ?>
-        </div>
-    <?php endif; ?>
     <?php if ($compte->exist('site_internet')) : ?>
         <div class="form_ligne">
             <label for="site_internet">
