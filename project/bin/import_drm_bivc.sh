@@ -45,10 +45,10 @@ do
         noaccises="0"
     fi
 
-    echo -n "$csvfilevinsi : "
-
-    php symfony drm:edi-import $EXPORTDIR/$csvfilevinsi $periode "$noaccises" "$cvi" 2>&1 | grep -i '[a-z0-9]' | tr '\n' '|'
-
-    echo
+    if test -s $EXPORTDIR/$csvfilevinsi  ; then
+        echo -n "$csvfilevinsi : "
+        php symfony drm:edi-import $EXPORTDIR/$csvfilevinsi $periode "$noaccises" "$cvi" 2>&1 | grep -i '[a-z0-9]' | tr '\n' '|'
+        echo
+    fi
 
 done
