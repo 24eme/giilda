@@ -355,8 +355,8 @@
                 // virgule déjà présente
                 if (touche == 44 && ponctuationPresente)
                     e.preventDefault();
-                // 2 décimales
-                if (val.match(/[\.\,][0-9][0-9][0-9][0-9]/) && chiffre && e.currentTarget && e.currentTarget.selectionStart > val.length - 3)
+                // 5 décimales
+                if (val.match(/[\.\,][0-9][0-9][0-9][0-9][0-9]/) && chiffre && e.currentTarget && e.currentTarget.selectionStart > val.length - 3)
                     e.preventDefault();
             }
             // Champ nombre entier
@@ -426,7 +426,7 @@
             if (float || parseInt(val) != parseFloat(val) && !champ_int){
                 decimales = val.slice(val.indexOf('.')+1);
                 var nbDecimal = (decimales.length < 2 )? 2 : decimales.length;
-                if(nbDecimal > 4) nbDecimal = 4;
+                if(nbDecimal > 5) nbDecimal = 5;
                 val = parseFloat(val).toFixed(nbDecimal);
 
             } else {

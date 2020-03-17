@@ -1055,7 +1055,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function convertNumber($number){
           $numberPointed = trim(str_replace(",",".",$number));
-          return floatval($numberPointed);
+          return round(floatval($numberPointed), FloatHelper::getInstance()->getMaxDecimalAuthorized());
         }
 
         /**
