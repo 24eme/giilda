@@ -79,7 +79,7 @@ EOF;
         $drm = DRMClient::getInstance()->createDocByPeriode($identifiant, $arguments['periode']);
 
        try {
-        $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm);
+        $drmCsvEdi = new DRMImportCsvEdiStandalone($arguments['file'], $drm, true);
         $drmCsvEdi->checkCSV();
 
         $condition_save = ($drmCsvEdi->getCsvDoc()->getStatut() != "VALIDE");
