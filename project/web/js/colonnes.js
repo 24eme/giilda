@@ -509,7 +509,9 @@
                 groupe_intitule_ul_li.each(function(i) {
                     var intitule_li = $(this);
                     var produits_li = groupe_produits.find('li:eq(' + i + ')');
-                    intitule_li.add(produits_li).hauteurEgale();
+                    if (produits_li.length > 0) {
+                        intitule_li.add(produits_li).hauteurEgale();
+                    }
                 });
 
             });
