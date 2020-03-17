@@ -47,6 +47,8 @@ do
 
     echo -n "$csvfilevinsi : "
 
-    php symfony drm:edi-import $EXPORTDIR/$csvfilevinsi $periode "$noaccises" "$cvi"
+    php symfony drm:edi-import $EXPORTDIR/$csvfilevinsi $periode "$noaccises" "$cvi" 2>&1 | grep -i '[a-z0-9]' | tr '\n' '|'
+
+    echo
 
 done
