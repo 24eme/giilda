@@ -778,16 +778,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $all_contenances[$newKey] = $contenance;
             }
             $crd_precedente = array();
-            foreach($this->drmPrecedente->crds as $regime => $crds) {
-                foreach($crds as $key => $crd) {
-                    $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
-                    if (!isset($crd_precedente[$kid])) {
-                        $crd_precedente[$kid] = array();
+            if ($this->drmPrecedente) {
+                foreach($this->drmPrecedente->crds as $regime => $crds) {
+                    foreach($crds as $key => $crd) {
+                        $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
+                        if (!isset($crd_precedente[$kid])) {
+                            $crd_precedente[$kid] = array();
+                        }
+                        $crd_precedente[$kid][] = $crd->getKey();
                     }
-                    $crd_precedente[$kid][] = $crd->getKey();
                 }
             }
-
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                     $num_ligne++;
