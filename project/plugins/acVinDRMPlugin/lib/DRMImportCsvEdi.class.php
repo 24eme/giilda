@@ -22,6 +22,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
+            $this->external_id = false;
             if($this->fromEdi){
               parent::__construct($file, $drm);
               $drmInfos = $this->getDRMInfosFromFile();
@@ -535,7 +536,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                if (!$this->external_id && !preg_match('/^[0-9]{8}[0-8\-]*$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
                     $this->csvDoc->addErreur($this->createWrongNumeroCompteError($ligne_num, $csvRow));
                 }
                 if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
@@ -544,7 +545,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->drm->getEtablissementObject()->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
-                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
+                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
                   $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
                 if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
@@ -777,16 +778,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $all_contenances[$newKey] = $contenance;
             }
             $crd_precedente = array();
-            foreach($this->drmPrecedente->crds as $regime => $crds) {
-                foreach($crds as $key => $crd) {
-                    $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
-                    if (!isset($crd_precedente[$kid])) {
-                        $crd_precedente[$kid] = array();
+            if ($this->drmPrecedente) {
+                foreach($this->drmPrecedente->crds as $regime => $crds) {
+                    foreach($crds as $key => $crd) {
+                        $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
+                        if (!isset($crd_precedente[$kid])) {
+                            $crd_precedente[$kid] = array();
+                        }
+                        $crd_precedente[$kid][] = $crd->getKey();
                     }
-                    $crd_precedente[$kid][] = $crd->getKey();
                 }
             }
-
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                     $num_ligne++;

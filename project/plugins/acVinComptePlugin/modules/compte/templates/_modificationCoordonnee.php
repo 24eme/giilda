@@ -83,13 +83,6 @@
             <?php echo $compteForm['telephone_mobile']->render(); ?>
             <?php echo $compteForm['telephone_mobile']->renderError(); ?>
         </div>
-        <div class="form_ligne">
-            <label for="fax">
-                <?php echo $compteForm['fax']->renderLabel(); ?>
-            </label>
-            <?php echo $compteForm['fax']->render(); ?>
-            <?php echo $compteForm['fax']->renderError(); ?>
-        </div>
         <?php if(isset($compteSociete) && $compteSociete):  ?>
         <div class="form_ligne">
             <label for="site">

@@ -1,12 +1,11 @@
 <?php use_helper('Float'); ?>
-<?php if ($isTeledeclarationMode) : ?>
-<?php endif; ?>
 <div id="contenu_onglet">
     <?php if($csv = CSVClient::getInstance()->findFromIdentifiantPeriode($drm->identifiant, $drm->periode)): ?>
         <h2>Logiciel tiers</h2>
         Cette drm a été initialisée à partir d'un fichier issu d'une logiciel tiers : <a href="<?php echo url_for('drm_verification_fichier_edi', array('identifiant' => $drm->identifiant, 'periode' => $drm->periode, 'nocheck'=> true, 'md5' => md5(file_get_contents($csv->getAttachmentUri('import_edi_'.$drm->identifiant.'_'.$drm->periode.'.csv'))))) ?>">Voir le fichier</a>
     <?php endif; ?>
 
+    <?php if ($isTeledeclarationMode && !$drm->isNegoce()) : ?>
     <h2>Cotisation interprofessionnelle</h2>
     <table id="table_drm_cvo_recap" class="table_recap">
         <thead >
@@ -39,4 +38,5 @@
             </tr>
         </tbody>
     </table>
+    <?php endif; ?>
 </div>
