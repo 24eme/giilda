@@ -49,13 +49,13 @@ class DRMAnnexesForm extends acCouchdbObjectForm {
         $tavs = new DRMTavsCollectionForm($this->drm);
         $this->embedForm('tavsProduits', $tavs);
 
-        $this->setWidget('quantite_sucre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
+        $this->setWidget('quantite_sucre', new sfWidgetFormInputFloat(array('float_format' => "%01.05f")));
         $this->widgetSchema->setLabel('quantite_sucre', 'Quantités de sucre (en quintaux)');
         $this->setValidator('quantite_sucre', new sfValidatorNumber(array('required' => false)));
 
-        $this->setWidget('statistiques_jus', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
-        $this->setWidget('statistiques_mcr', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
-        $this->setWidget('statistiques_vinaigre', new sfWidgetFormInputFloat(array('float_format' => "%01.04f")));
+        $this->setWidget('statistiques_jus', new sfWidgetFormInputFloat(array('float_format' => "%01.05f")));
+        $this->setWidget('statistiques_mcr', new sfWidgetFormInputFloat(array('float_format' => "%01.05f")));
+        $this->setWidget('statistiques_vinaigre', new sfWidgetFormInputFloat(array('float_format' => "%01.05f")));
         $this->widgetSchema->setLabel('statistiques_jus', 'Quantités de moûts de raisin transformées en jus de raisin');
         $this->widgetSchema->setLabel('statistiques_mcr', 'Quantités de moûts de raisin transformées en MCR');
         $this->widgetSchema->setLabel('statistiques_vinaigre', 'Quantités de moûts de raisin transformées en vinaigre');

@@ -20,7 +20,7 @@ abstract class AlerteGenerationDRM extends AlerteGeneration {
         $alerte->campagne = $drm->campagne;
         $alerte->region = $drm->declarant->region;
         $alerte->declarant_nom = $drm->declarant->nom;
-        $alerte->type_document = $drm->type;
+        $alerte->type_document = isset($drm->type) ? $drm->type : self::TYPE_DOCUMENT;
         return $alerte;
     }
 

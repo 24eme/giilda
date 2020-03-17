@@ -49,7 +49,6 @@ use_helper('Vrac');
                                         <li>N° CVI : <strong><?php echo $etbObject->cvi ?></strong></li>
                                         <li>N° d'ACCISE : <strong><?php echo $etbObject->no_accises ?></strong></li>
                                         <li>Téléphone : <strong><?php echo $etbObject->telephone ?></strong></li>
-                                        <li>Fax : <strong><?php echo $etbObject->fax ?></strong></li>
                                         <li>Adresse : <strong><?php echo $etbObject->siege->adresse ?></strong></li>
                                         <li>Code postal : <strong><?php echo $etbObject->siege->code_postal ?></strong></li>
                                         <li>Commune : <strong><?php echo $etbObject->siege->commune ?></strong></li>

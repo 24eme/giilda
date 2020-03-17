@@ -22,6 +22,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
+            $this->external_id = false;
             if($this->fromEdi){
               parent::__construct($file, $drm);
               $drmInfos = $this->getDRMInfosFromFile();
@@ -302,6 +303,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->cache2datas[$cacheid]['hash_detail'] = $produit->getHash();
                 $this->cache2datas[$cacheid]['details_type'] = DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))];
                 $this->cache2datas[$cacheid]['denomination_complementaire'] = $denomination_complementaire;
+                $this->cache2datas[$cacheid]['libelle'] = $datas[self::CSV_CAVE_LIBELLE_COMPLET];
             }
             //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
             // (il est possible que le produit ait du tav ou du volume mais ne soit pas reconnu, donc il faut le supprimer du cache => $delete)
@@ -359,7 +361,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $cepagedenomtav = array();
             foreach($couleurs as $hash => $array_cache) {
                 $volume2hash = array();
-                    if($this->drmPrecedente->exist($hash)) {
+                    if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
                     foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
                         foreach($p->getProduitsDetails(true) as $kd => $d) {
                             //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
@@ -379,7 +381,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                 }
                 foreach($array_cache as $cacheid => $null)  {
-                    $total_debut_mois = $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] * 1;
+                    $total_debut_mois = 0;
+                    if (isset($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME])) {
+                        $total_debut_mois = $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] * 1;
+                    }
                     if (!$total_debut_mois) {
                         continue;
                     }
@@ -534,16 +539,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                if (!$this->external_id && !preg_match('/^[0-9]{8}[0-8\-]*$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
                     $this->csvDoc->addErreur($this->createWrongNumeroCompteError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
+                if (KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]) && !preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
                 }
-                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->drm->getEtablissementObject()->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
+                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->drm->getEtablissementObject()->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
-                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
+                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
                   $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
                 if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
@@ -776,16 +781,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $all_contenances[$newKey] = $contenance;
             }
             $crd_precedente = array();
-            foreach($this->drmPrecedente->crds as $regime => $crds) {
-                foreach($crds as $key => $crd) {
-                    $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
-                    if (!isset($crd_precedente[$kid])) {
-                        $crd_precedente[$kid] = array();
+            if ($this->drmPrecedente) {
+                foreach($this->drmPrecedente->crds as $regime => $crds) {
+                    foreach($crds as $key => $crd) {
+                        $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
+                        if (!isset($crd_precedente[$kid])) {
+                            $crd_precedente[$kid] = array();
+                        }
+                        $crd_precedente[$kid][] = $crd->getKey();
                     }
-                    $crd_precedente[$kid][] = $crd->getKey();
                 }
             }
-
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                     $num_ligne++;
@@ -1049,7 +1055,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function convertNumber($number){
           $numberPointed = trim(str_replace(",",".",$number));
-          return floatval($numberPointed);
+          return round(floatval($numberPointed), FloatHelper::getInstance()->getMaxDecimalAuthorized());
         }
 
         /**

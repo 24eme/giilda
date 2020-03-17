@@ -62,7 +62,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
         $this->total_recolte = $this->getTotalByKey('total_recolte');
         $this->total_sorties = $this->getTotalByKey('total_sorties');
         $this->total_facturable = $this->getTotalByKey('total_facturable');
-        $this->total = $this->get('total_debut_mois') + $this->get('total_entrees') - $this->get('total_sorties');
+        $this->total = round($this->get('total_debut_mois') + $this->get('total_entrees') - $this->get('total_sorties'), FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     private function getTotalByKey($key) {
@@ -78,7 +78,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
     			}
     		}
     	}
-    	return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function hasStockEpuise() {
@@ -93,7 +93,7 @@ abstract class _DRMTotal extends acCouchdbDocumentTree {
             $sum += $item->sommeLignes($lines);
         }
 
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function hasMouvement() {
