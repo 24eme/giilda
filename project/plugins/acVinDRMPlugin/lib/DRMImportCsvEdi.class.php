@@ -381,7 +381,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                 }
                 foreach($array_cache as $cacheid => $null)  {
-                    $total_debut_mois = $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] * 1;
+                    $total_debut_mois = 0;
+                    if (isset($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME])) {
+                        $total_debut_mois = $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] * 1;
+                    }
                     if (!$total_debut_mois) {
                         continue;
                     }
