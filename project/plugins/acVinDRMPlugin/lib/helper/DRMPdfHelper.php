@@ -39,7 +39,22 @@ function sprintFloat($float, $format = "%01.04f")
 }
 
 function echoFloatWithHl($float) {
-    echo ($float)? sprintFloat($float).' hl' : '';
+    if(!$float){
+        return '';
+    }
+
+    $float = FloatHelper::getInstance()->format($float);
+
+    // credits: https://stackoverflow.com/a/2966878
+    $rounded = intval(round($float * 100)) / 100.0;
+
+    if ($rounded == $float) {
+        $format = "%.0".FloatHelper::getInstance()->getDefaultDecimalFormat()."f";
+    } else {
+        $format = "%.0".FloatHelper::getInstance()->getMaxDecimalAuthorized()."f";
+    }
+
+    echo sprintf($format, $float) . ' hl';
 }
 
 
