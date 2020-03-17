@@ -35,7 +35,6 @@ do
     sed -i 's/;suspendu;entrees;regularisation;/;suspendu;entrees;excedents;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;achatnoncrd;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;recolte;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
-    sed -i 's/;Autres pays;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
 
     periode=$(echo -n $csvfile | cut -d "_" -f 2)
     noaccises=$(cat $EXPORTDIR/$csvfilevinsi | head -n 1 | cut -d ";" -f 4)
