@@ -29,7 +29,7 @@ function getDrmEtablissementAdresse($drm) {
     return $drm->declarant->adresse . ' ' . $drm->declarant->code_postal . ' ' . $drm->declarant->commune;
 }
 
-function sprintFloat($float, $format = "%01.04f")
+function sprintFloat($float, $format = "%01.05f")
 {
 	if (is_null($float))
 		return null;
