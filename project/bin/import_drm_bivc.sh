@@ -27,6 +27,11 @@ do
     sed -i 's/;suspendu;stocks_fin;final;/;suspendu;stocks_fin;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;sorties;ventefrancecrd;/;suspendu;sorties;ventefrancebouteillecrd;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;sorties;vracsanscontratacquitte;/;suspendu;sorties;vracsanscontrat;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;creationvractirebouche;/;suspendu;sorties;vracsanscontrat;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;creationvrac;/;suspendu;sorties;vracsanscontrat;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;embouteillage;/;suspendu;sorties;travailafacon;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;sorties;transfertcomptamatiere;/;suspendu;sorties;transfertsinternes;/' $EXPORTDIR/$csvfilevinsi
+    sed -i 's/;suspendu;entrees;transfertcomptamatierecession;/;suspendu;entrees;transferts;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;regularisation;/;suspendu;entrees;excedents;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;achatnoncrd;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;entrees;recolte;/;suspendu;entrees;revendique;/' $EXPORTDIR/$csvfilevinsi
