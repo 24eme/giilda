@@ -22,7 +22,7 @@ echo "Import des fichiers"
 ls $EXPORTDIR | grep -Ev "\.vinsi$" | awk -F '-' '{ version=99; if($4) { v=$4; gsub(".csv","",v); gsub("M", "", v); version=(version - v); } printf("%02d%d;%s\n", version, $3, $0) }' | sort | cut -d ";" -f 2 | while read csvfile
 do
     csvfilevinsi=$csvfile".vinsi"
-    cp $EXPORTDIR/$csvfile $EXPORTDIR/$csvfilevinsi
+    grep -v ';acquitte;' $EXPORTDIR/$csvfile > $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;stocks_debut;initial;/;suspendu;stocks_debut;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;stocks_fin;final;/;suspendu;stocks_fin;revendique;/' $EXPORTDIR/$csvfilevinsi
     sed -i 's/;suspendu;sorties;ventefrancecrd;/;suspendu;sorties;ventefrancebouteillecrd;/' $EXPORTDIR/$csvfilevinsi
