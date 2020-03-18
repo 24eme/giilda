@@ -23,11 +23,12 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getLogin() {
-        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR)) {
+        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
 
             return $this->identifiant;
         }
-        return preg_replace("/^[0-9]{6}([0-9]+)$/", "", $this->identifiant);
+
+        return $this->getSociete()->identifiant;
     }
 
     public function getMasterCompte() {
