@@ -23,7 +23,12 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     }
 
     public function getLogin() {
-        return preg_replace("/^[0-9]{6}([0-9]+)$/", "", $this->identifiant);
+        if($this->compte_type == CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+
+            return $this->identifiant;
+        }
+
+        return $this->getSociete()->identifiant;
     }
 
     public function getMasterCompte() {
@@ -325,37 +330,68 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         $ldap = new CompteLdap();
         $groupldap = new CompteGroupLdap();
 
-        $compteid = ($this->isSocieteContact()) ? $this->getSociete()->identifiant : $this->identifiant;
-
-        // récupération des groupes LDAP du compte
-        $groupes = $groupldap->getMembership($compteid);
-
         if ($this->isActif()) {
             $ldap->saveCompte($this, $verbose);
 
             if (sfConfig::get('app_ldap_autogroup', false)) {
-                $groupes_a_garder = [];
+                $comptes = $this->getSociete()->getInterlocuteursWithOrdre();
 
-                foreach ($this->tags as $type => $tags) {
-                    foreach ($tags as $group) {
-                        $groupldap->saveGroup($type."_".$group, $compteid);
+                $groupes = [];
 
-                        // On récupère les groupes
-                        $groupes_a_garder[] = $group;
+                foreach ($comptes as $compte_id => $info) {
+                    $compte = CompteClient::getInstance()->find($compte_id);
+
+                    if ($compte === null ||
+                        $compte->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                        continue;
+                    }
+
+                    foreach ($compte->tags as $type => $tags) {
+                        if (! array_key_exists($type, $groupes)) {
+                            $groupes[$type] = [];
+                        }
+
+                        foreach ($tags as $tag) {
+                            $short_tag = str_replace(CompteGroupLdap::$blacklist, '', $tag);
+
+                            if (! in_array($short_tag, $groupes[$type])) {
+                                $groupes[$type][] = $short_tag;
+                            }
+                        }
                     }
                 }
 
-                // ex_groupes contient les groupes qui ne sont plus liés au compte
-                $ex_groupes = array_diff($groupes, $groupes_a_garder);
+                $ldapUid = CompteLdap::getIdentifiant($this);
 
-                foreach ($ex_groupes as $group) {
-                    $groupldap->removeMember($group, $compteid);
+                foreach ($groupldap->getMembership($ldapUid) as $groupe) {
+                    $groupldap->removeMember($groupe, $ldapUid);
+                }
+
+                $groupldap->saveMultipleGroup($groupes, $ldapUid);
+
+                if ($this->compte_type === CompteClient::TYPE_COMPTE_INTERLOCUTEUR) {
+                    foreach ($this->tags as $type => $tags) {
+                        if (! array_key_exists($type, $groupes)) {
+                            $groupes[$type] = [];
+                        }
+
+                        foreach ($tags as $tag) {
+                            $short_tag = str_replace(CompteGroupLdap::$blacklist, '', $tag);
+
+                            if (! in_array($short_tag, $groupes[$type])) {
+                                $groupes[$type][] = $short_tag;
+                            }
+                        }
+                    }
+                    $groupldap->saveMultipleGroup($groupes, $ldapUid);
                 }
             }
         } else {
             if (sfConfig::get('app_ldap_autogroup', false)) {
-                foreach ($groupes as $group) {
-                    $groupldap->removeMember($group, $compteid);
+                $ldapUid = CompteLdap::getIdentifiant($this);
+
+                foreach ($groupldap->getMembership($ldapUid) as $group) {
+                    $groupldap->removeMember($group, $ldapUid);
                 }
             }
 
@@ -483,6 +519,14 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
     public function setEmail($email) {
 
         $this->_set('email', $email);
+        return $this;
+    }
+
+    public function generateCodeCreation()
+    {
+        if ($this->_get('mot_de_passe') === null) {
+            $this->_set('mot_de_passe', sprintf("{TEXT}%04d", rand(0, 9999)));
+        }
         return $this;
     }
 

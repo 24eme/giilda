@@ -87,11 +87,11 @@ function details2XmlDouane($detail, $isNegoce = false) {
 					continue;
 				}
 
-				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->get($confKey)),  $v);
 				if (preg_match('/replacement/', $confDetail->get($type)->get($k)->get($confKey)) && $type == 'entrees') {
 					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/mois'),  $detail->getReplacementMonth(), true);
 					$preXML = storeMultiArray($preXML, explode('/', 'entrees-periode/replacements/replacement-suspension/annee'), $detail->getReplacementYear(),  true);
 				}
+				$preXML = storeMultiArray($preXML, explode('/', $confDetail->get($type)->get($k)->get($confKey)),  $v);
 			}
 		}
 	}
@@ -120,12 +120,14 @@ function sortForLot1($tabXml) {
     }
     $xmlSorted['sorties-periode'] = array();
     if (isset($tabXml['sorties-periode']) && count($tabXml['sorties-periode']) > 0) {
-				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-annee-precedente'])){
-					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-precedente'] = $tabXml['sorties-periode']['sorties-avec-paiement-annee-precedente'];
+        if (isset($tabXml['sorties-periode']['sorties-avec-paiement-droits'])) {
+				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-precedente'])){
+					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-precedente'] = $tabXml['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-precedente'];
 				}
-				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-annee-courante'])){
-					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-courante'] = $tabXml['sorties-periode']['sorties-avec-paiement-annee-courante'];
+				if (isset($tabXml['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-courante'])){
+					$xmlSorted['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-courante'] = $tabXml['sorties-periode']['sorties-avec-paiement-droits']['sorties-avec-paiement-annee-courante'];
 				}
+        }
         if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits'])) {
             if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives']))
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['sorties-definitives'];

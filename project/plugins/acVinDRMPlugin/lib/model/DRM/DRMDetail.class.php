@@ -133,7 +133,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare()  || $this->getDocument()->changedImportToCreation() || $this->getDocument()->isMoisOuvert());
+       return $this->getDocument()->canSetStockDebutMois();
     }
 
     public function canSetLabels() {
@@ -274,6 +274,7 @@ class DRMDetail extends BaseDRMDetail {
                 $this->total_facturable += $volume * $coefficient_facturable;
             }
         }
+        $this->total_facturable = round($this->total_facturable, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     private function getTotalByKey($key, $onlyCaracteristique = false) {
@@ -289,7 +290,7 @@ class DRMDetail extends BaseDRMDetail {
                 }
             }
         }
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function getTotalDebutMois() {
@@ -364,7 +365,7 @@ class DRMDetail extends BaseDRMDetail {
         foreach ($lines as $line) {
             $sum += $this->get($line);
         }
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function hasStockFinDeMoisDRMPrecedente() {
@@ -675,7 +676,8 @@ class DRMDetail extends BaseDRMDetail {
         }
         $c = (isset($correspondances[$this->getGenre()->getHash()])) ? $correspondances[$this->getGenre()->getHash()] : null;
         if (!$c) {
-            throw new sfException('correspondances_produits not found in configuration app.yml for key '.$this->getGenre()->getHash());
+            //throw new sfException('correspondances_produits not found in configuration app.yml for key '.$this->getGenre()->getHash());
+            return null;
         }
         if (is_array($c)) {
             $keys = array_keys($c);
