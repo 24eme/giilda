@@ -22,9 +22,9 @@ else :
     <script type="text/javascript">
         $(document).ready(function()
         {
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#vendeur_informations');
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#acheteur_informations');
-            ajaxifyAutocompleteGet('getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#mandataire_informations');
+            ajaxifyAutocompleteGet('/vrac/getInfos', {autocomplete: '#vendeur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#vendeur_informations');
+            ajaxifyAutocompleteGet('/vrac/getInfos', {autocomplete: '#acheteur_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#acheteur_informations');
+            ajaxifyAutocompleteGet('/vrac/getInfos', {autocomplete: '#mandataire_choice', 'numero_contrat': '<?php echo $numero_contrat; ?>'}, '#mandataire_informations');
             majMandatairePanel();
             //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
             //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
