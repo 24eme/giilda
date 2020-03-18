@@ -2,7 +2,7 @@
 
 class FloatHelper
 {
-    protected $defaultDecimalFormat = 5;
+    protected $defaultDecimalFormat = 2;
     protected $maxDecimalAuthorized = 5;
     protected static $self = null;
 
