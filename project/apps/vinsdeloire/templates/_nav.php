@@ -43,14 +43,14 @@
 
 
            <?php
-               // include_component('global', 'navItem', array(
-               //  'libelle' => 'Import VR',
-               //  'prefix' => 'revendication',
-               //  'route' => 'revendication',
-               //  'route_etablissement' => 'revendication_etablissement',
-               //  'etablissement' => null,
-               //  'target' => '_self'
-               // ))
+               include_component('global', 'navItem', array(
+                'libelle' => 'VR',
+                'prefix' => 'revendication',
+                'route' => 'revendication',
+                'route_etablissement' => 'revendication_etablissement',
+                'etablissement' => null,
+                'target' => '_self'
+               ))
             ?>
 
             <?php if (sfConfig::get('app_odgloire', false)) : ?>
