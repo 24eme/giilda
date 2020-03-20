@@ -26,7 +26,7 @@ class DRMLatex extends GenericLatex {
         $this->libelles_detail_ligne = $drm->allLibelleDetailLigneForDRM();
     }
 
-    public function getNbPages($postRecap=array()) {
+    public function getNbPages() {
         $nbPages = 0;
         if ($this->drm->isNeant()) {
             return 2;
