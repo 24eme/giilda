@@ -30,6 +30,7 @@ foreach ($dataExport as $pays => $appellations) {
     foreach($produits as $libelle) {
         $entete .='C{' . $size_col . 'mm}|';
     }
+    $entete .='C{' . $size_col . 'mm}|';
     $entete .='}';
     ?>
 
@@ -44,7 +45,7 @@ foreach ($dataExport as $pays => $appellations) {
         <?php echo ($i < count($produits)) ? "&" : '';  ?>
         <?php $i++; $tabTotal["Total"][$i] = 0;?>
     <?php $nbcol = $i; endforeach; ?>
-    \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
+    &\multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
     \\
     \hline
 
@@ -56,9 +57,9 @@ foreach ($dataExport as $pays => $appellations) {
             \multicolumn{1}{r|}{ \small{<?php $totalh += $volume; echoFloatWithHl($volume) ; ?>}}
 
             <?php echo ($i < count($appellations)) ? "&" : '';  ?>
-            <?php $nbPages++; $i++; $tabTotal["Total"][$i] += $volume; ?>
+            <?php $i++; $tabTotal["Total"][$i] += $volume; ?>
          <?php endforeach; ?>
-         \multicolumn{1}{r|}{ \small{<?php echoFloatWithHl($totalh) ; ?>}}
+         &\multicolumn{1}{r|}{ \small{<?php echoFloatWithHl($totalh) ; ?>}}
          \\
            \hline
     <?php endforeach; ?>
@@ -70,7 +71,7 @@ foreach ($dataExport as $pays => $appellations) {
         <?php $totalh += $totalv; ?>
         <?php echo ($key < $nbcol) ? "&" : '';  ?>
     <?php endforeach; ?>
-    \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($totalh); ?>}} }
+    &\multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($totalh); ?>}} }
     \\
     \hline
 

@@ -36,10 +36,11 @@ if(!isset($tabTitle)) {
             $nb_produits_per_page = $nb_produits - $nb_produits_displayed;
         }
         $size_col = 40;
-        $entete = '\begin{tabular}{C{48mm} |';
+        $entete = '\begin{tabular}{c|';
         for ($cpt_col = 0; $cpt_col < $nb_produits_per_page; $cpt_col++) {
-            $entete .='C{' . $size_col . 'mm}|';
+            $entete .='c|';
         }
+        $entete .='c|';
         $entete .='}';
         if ($index_page == 1) {
             $libelleCertif .= ' (Suite)';
@@ -78,10 +79,12 @@ if(!isset($tabTitle)) {
         \end{large} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             <?php $libelleProduit = str_replace("AOC Alsace Grand Cru", "Gd Cru", $produit->libelle); ?>
-            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelleProduit); ?>}}}}
+
+
+            \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}c|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelleProduit); ?>}}}}
             <?php echo ($counter < count($produits_for_page) -1 ) ? "&" : ''; ?>
         <?php endforeach; ?>
-        \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
+        &\multicolumn{1}{>{\columncolor[rgb]{0,0,0}}c|}{ \small{\color{white}{\textbf{TOTAL}}}}
         \\
         \hline
         <?php
@@ -97,7 +100,7 @@ if(!isset($tabTitle)) {
             \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($produit->total_debut_mois); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        \multicolumn{1}{r|}{ \small{\color{white}{\textbf{ <?php echoFloatWithHl( $totaldebuth ); ?> }}}}
+        &\multicolumn{1}{r|}{ \small{\color{white}{\textbf{ <?php echoFloatWithHl( $totaldebuth ); ?> }}}}
         \\
         \hline
         <?php
@@ -122,7 +125,7 @@ if(!isset($tabTitle)) {
                 <?php if($counter < count($produits_for_page) - 1): ?>
                     <?php echo "&"; ?>
                 <?php else: ?>
-                    \multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl( $totalentreeh ); ?> }}
+                    &\multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl( $totalentreeh ); ?> }}
                 <?php endif?>
             <?php endforeach; ?>           
             \\
@@ -141,7 +144,7 @@ if(!isset($tabTitle)) {
             \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($produit->total_entrees); ?>}} }
             <?php $tTotalentrees += $produit->total_entrees; echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($tTotalentrees); ?>}} }
+        &\multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($tTotalentrees); ?>}} }
         \\
         \hline
 
@@ -164,7 +167,7 @@ if(!isset($tabTitle)) {
                 <?php $totalsortieh += $sortieVal; ?>
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>
-            \multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl($totalsortieh); ?> }}  
+            &\multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl($totalsortieh); ?> }}  
             \\
             <?php if ((count($mvtsSortiesForPdf)) != $cpt_sortie): ?>
                 \hline
@@ -185,7 +188,7 @@ if(!isset($tabTitle)) {
             <?php $tTotalsorties += $produit->total_sorties; ?>
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        \multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($tTotalsorties); ?>}} }
+        &\multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($tTotalsorties); ?>}} }
         \\
         \hline \hline
 
@@ -201,7 +204,7 @@ if(!isset($tabTitle)) {
             \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php $totalstockh += $produit->stocks_fin->final; echoFloatWithHl($produit->stocks_fin->final); ?>}}}}
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($totalstockh); ?>}}}}
+        &\multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($totalstockh); ?>}}}}
         \\
         \hline
         \end{tabular}
