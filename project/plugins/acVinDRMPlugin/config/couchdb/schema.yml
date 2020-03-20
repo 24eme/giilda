@@ -566,6 +566,35 @@ DRM:
             service: {  }
             envoi: {  }
             accuse: {  }
+      controles:
+        type: collection
+        required: false
+        definition:
+          fields:
+            bloquants:
+              type: collection
+              required: false
+              definition:
+                fields:
+                  nb: { type: integer }
+                  messages:
+                    type: array_collection
+                    required: false
+                    definition:
+                      fields:
+                        '*': { }
+            vigilances:
+              type: collection
+              required: false
+              definition:
+                fields:
+                  nb: { type: integer }
+                  messages:
+                    type: array_collection
+                    required: false
+                    definition:
+                      fields:
+                        '*': { }
       mouvements:
         type: collection
         definition:
