@@ -35,7 +35,7 @@ if(!isset($tabTitle)) {
         if ($index_page == $nb_pages - 1) {
             $nb_produits_per_page = $nb_produits - $nb_produits_displayed;
         }
-        $size_col = 20;
+        $size_col = 40;
         $entete = '\begin{tabular}{C{48mm} |';
         for ($cpt_col = 0; $cpt_col < $nb_produits_per_page; $cpt_col++) {
             $entete .='C{' . $size_col . 'mm}|';
