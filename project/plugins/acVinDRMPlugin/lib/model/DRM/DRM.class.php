@@ -351,9 +351,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     protected function addMessages($typePoint, $point){
         foreach ($point as $identifiant => $message) {
             $lien = $message->getLien();
-            if($typePoint == $this::EURREUR) $this->controles->erreur->messages->add(1,$message->getMessage()." ( $lien )");
-            if($typePoint == $this::ENGAGEMENT) $this->controles->engagement->messages->add(1,$message->getMessage()." ( $lien )");
-            if($typePoint == $this::VIGILANCE) $this->controles->vigilance->messages->add(1,$message->getMessage()." ( $lien )");
+            if($typePoint == $this::EURREUR) $this->controles->erreur->messages->add(null,$message->getMessage()." ( $lien )");
+            if($typePoint == $this::ENGAGEMENT) $this->controles->engagement->messages->add(null,$message->getMessage()." ( $lien )");
+            if($typePoint == $this::VIGILANCE) $this->controles->vigilance->messages->add(null,$message->getMessage()." ( $lien )");
         }
     }
 
