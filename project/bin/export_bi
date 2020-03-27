@@ -3,7 +3,7 @@
 . bin/config.inc
 . bin/import_functions.inc
 
-SHORT=$(for ((i=($(date +%Y)-5) ; $(date +%Y) - $i + 1; i++)); do echo -n "\"$i-$(($i+1))\"|"; done | sed 's/|$/)/' | sed 's/^/(/')
+SHORT=$(for ((i=($(date +%Y)-4) ; $(date +%Y) - $i + 1; i++)); do echo -n "$i-$(($i+1))|"; done | sed 's/|$/)/' | sed 's/^/(/')
 
 curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 
