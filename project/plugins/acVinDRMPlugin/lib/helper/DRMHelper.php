@@ -241,7 +241,8 @@ function getDRMCSVCalendrier($isTeledeclarationMode, $calendrier, $periode, $eta
         return false;
     }
 
-    $csv = CSVClient::getInstance()->findFromIdentifiantPeriode($etablissement->identifiant, $periode);
+    $csv = CSVDRMClient::getInstance()->findFromIdentifiantPeriode($etablissement->identifiant, $periode);
+
     if(!$csv) {
 
         return false;
