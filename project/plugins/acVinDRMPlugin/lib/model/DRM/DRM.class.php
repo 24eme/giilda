@@ -14,6 +14,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     const ENGAGEMENT = 'engagement';
     const VIGILANCE = 'vigilance';
     const EURREUR = 'erreur';
+    const TRANSMISSION = 'transmission';
 
 
     protected $mouvement_document = null;
@@ -329,19 +330,19 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->remove('controles');
         $this->add('controles');
         if($points->hasErreurs()){
-            $this->controles->add('erreur');
+            $this->controles->add($this::EURREUR);
             $this->controles->erreur->nb = count($points->getErreurs());
             $this->addMessages($this::EURREUR, $points->getErreurs());
         }
     
         if($points->hasVigilances()){
-            $this->controles->add('vigilance');
+            $this->controles->add($this::VIGILANCE);
             $this->controles->vigilance->nb = count($points->getVigilances());
             $this->addMessages($this::VIGILANCE, $points->getVigilances());
         }
             
         if($points->hasEngagements()){
-            $this->controles->add('engagement');
+            $this->controles->add($this::ENGAGEMENT);
             $this->controles->engagement->nb = count($points->getEngagements());
             $this->addMessages($this::ENGAGEMENT, $points->getEngagements());
         }
@@ -361,6 +362,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->remove("controles");
         $this->save();
     }
+
+    public function cleanTransmission(){
+        $this->remove('transmission_douane');
+        $this->save();
+    }
+
     public function setDroits() {
         $this->remove('droits');
         $this->add('droits');
