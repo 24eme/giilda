@@ -214,7 +214,7 @@ class drmActions extends drmGeneriqueActions {
           $fileName = 'import_'.$this->drm->identifiant . '_' . $this->drm->periode.'_'.$this->md5.'.csv';
 
           try {
-              if (!$request->getParameter('nocheck') || $this->drm->isNew()) {
+              if (!$request->getParameter('nocheck')) {
                 $drmCsvEdi = new DRMImportCsvEdi(sfConfig::get('sf_data_dir') . '/upload/' . $fileName, $this->drm);
                 $drmCsvEdi->checkCSV();
                 $this->csvDoc = $drmCsvEdi->getCsvDoc();
@@ -231,10 +231,9 @@ class drmActions extends drmGeneriqueActions {
             return sfView::SUCCESS;
           }
 
-          if ($request->getParameter('nocheck')) {
+          if ($request->getParameter('nocreate')) {
                return sfView::SUCCESS;
           }
-
 
         if (!count($this->erreurs)) {
           return $this->redirect('drm_creation_fichier_edi', array('periode' => $this->periode, 'md5' => $this->md5,'identifiant' => $this->identifiant));
