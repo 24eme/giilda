@@ -64,6 +64,9 @@ $gitcommit = str_replace("\n",'',file_get_contents('../../.git/ORIG_HEAD'));
             <?php if (sfConfig::get('app_instance') == 'preprod') : ?>
                 <div style="background: white; text-align:center; font-weight:bold; margin-bottom: 10px; color:red;">Vous êtes dans l'environnement de préproduction. Les données introduites peuvent être supprimées à tout moment.</div>
             <?php endif; ?>
+
+            <div style="background: white; text-align:center; font-weight:bold; margin-bottom: 10px; line-height: 20px; font-size: 14px; font-weight: bold;text-transform: uppercase;"><a href="http://filiere.vinsvaldeloire.fr/Actualite/Actualites--Accueil/INFOS-COVID-19_637202963387800000"><span style="background: #f6eb43;line-height: 20px">&nbsp;Infos <span style="color: red">COVID-19</span>&nbsp;</span> <span href="" style="font-weight: normal;font-size: 12px;">Informations et documentations utiles pour vous aider à gérer au mieux la crise sanitaire</span></a></div>
+
             <div id="global_content" class="<?php include_slot('global_css_class', null) ?> " >
                 <div id="contenu">
                     <div class="center">
