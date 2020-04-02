@@ -17,17 +17,16 @@ try {
     if(!acCouchdbManager::getClient()->databaseExists()) {
         throw new Exception();
     }
-
     echo "Couchdb OK\n";
 } catch(Exception $e) {
     echo "Couchdb Error\n";
     header("HTTP/1.0 500 Internal Server Error");
 }
+
 try {
     if(acElasticaManager::getClient()->getDefaultIndex()->getStats()->getResponse()->hasError()) {
         throw new Exception();
     }
-
     echo "Elasticsearch OK\n";
 } catch(Exception $e) {
     echo "Elasticsearch Error\n";
