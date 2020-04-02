@@ -52,9 +52,9 @@ EOF;
 
   protected function execute($arguments = array(), $options = array())
   {
-    ini_set('memory_limit', '512M');
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+      ini_set('memory_limit', '512M');
+      $databaseManager = new sfDatabaseManager($this->configuration);
+      $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
     if (!preg_match('/^COMPTE-/',  $arguments['doc_id'])) {
       throw new sfCommandException(sprintf("The Document \"%s\" is not a COMPTE", $arguments['doc_id']));

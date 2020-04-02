@@ -24,10 +24,20 @@ class CompteLdap extends acVinLdap
         if (is_string($compte)) {
             $identifiant = $compte;
         }else {
-            $identifiant = $compte->login;
+            $identifiant = self::getIdentifiant($compte);
         }
         if ($verbose) {
             echo $identifiant." deleted\n";
+        }
+        return $this->delete($identifiant);
+    }
+
+    public static function getIdentifiant($compte)
+    {
+        if ($compte->isSocieteContact()) {
+            return $compte->getSociete()->identifiant;
+        } else {
+            return $compte->identifiant;
         }
         return $this->delete($identifiant);
     }
