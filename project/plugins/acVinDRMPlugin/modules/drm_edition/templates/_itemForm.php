@@ -101,7 +101,7 @@ $isAcquitteMode = ($detailsKey == DRM::DETAILS_KEY_ACQUITTE);
                                         ?>
                                         <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details  <?php echo ($isDisabled)? 'opacity40' : '' ?>" data-title="Details des contrats" data-href="<?php echo url_for("drm_vrac_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->vrac); ?>" <?php echo ($isDisabled)? 'disabled="disabled"' : '' ?> />
                                     <?php elseif ($key == "export"):
-                                        $isDisabled = ($detail->getCertification()->getKey() == "AUTRES");
+                                        $isDisabled = ($detail->getCertification()->getKey() == "AUTRES") || (strpos($detail->getHash(), 'VCI') !== false);
                                         ?>
                                         <input type="text" class="btn_detail num num_float somme_detail input_lien drm_details <?php echo ($isDisabled)? 'opacity40' : '' ?>" data-title="Details des exports" data-href="<?php echo url_for("drm_export_details", $form->getObject()) ?>" readonly="readonly" value="<?php echoFloat($detail->sorties->export); ?>" <?php echo ($isDisabled)? 'disabled="disabled"' : '' ?> />
                                     <?php elseif ($key == "cooperative"): ?>
