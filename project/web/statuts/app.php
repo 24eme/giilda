@@ -24,7 +24,7 @@ try {
     header("HTTP/1.0 500 Internal Server Error");
 }
 try {
-    if(acElasticaManager::getClient()->getDefaultIndex()->getStatus()->getResponse()->hasError()) {
+    if(acElasticaManager::getClient()->getDefaultIndex()->getStats()->getResponse()->hasError()) {
         throw new Exception();
     }
 
