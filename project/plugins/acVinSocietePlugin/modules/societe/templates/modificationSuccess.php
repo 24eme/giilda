@@ -26,14 +26,6 @@
                         endif;
                     ?>
                 </div>
-                <div id="detail_societe_sepa" class="form_section ouvert">
-                  <h3>Détail de la société</h3>
-                  <?php
-                    if(!$reduct_rights) :
-                      include_partial('societeSepaModification', array('societeForm' => $societeForm));
-                    endif;
-                  ?>
-                </div>
                 <div id="coordonnees_societe" class="form_section ouvert">
                     <h3>Coordonnées de la société</h3>
                <?php

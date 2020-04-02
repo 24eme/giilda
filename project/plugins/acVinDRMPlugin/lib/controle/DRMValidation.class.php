@@ -31,6 +31,8 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'produits_absent', "Il n'y a pas de produit dans la DRM");
 
         $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");
+
+        $this->addControle('vigilance', 'reintegration', 'La date de réintégration doit être inférieure au premier du mois');
     }
 
     public function controle() {
@@ -132,14 +134,23 @@ class DRMValidation extends DocumentValidation {
             $societe = $this->document->getEtablissement()->getSociete();
 
             foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
-              if((($detail->entrees->exist('retourmarchandisesanscvo') && $detail->entrees->retourmarchandisesanscvo)
-                || ($detail->entrees->exist('retourmarchandisetaxees') && $detail->entrees->retourmarchandisetaxees)
-                || ($detail->entrees->exist('retourmarchandisenontaxees') && $detail->entrees->retourmarchandisenontaxees)
-                || ($detail->entrees->exist('transfertcomptamatierecession') && $detail->entrees->transfertcomptamatierecession)) && (!$detail->exist('replacement_date') || !$detail->replacement_date)){
-                  $this->addPoint('erreur', 'replacement_date_manquante', 'retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
-                  break;
+                if((($detail->entrees->exist('retourmarchandisesanscvo') && $detail->entrees->retourmarchandisesanscvo)
+                    || ($detail->entrees->exist('retourmarchandisetaxees') && $detail->entrees->retourmarchandisetaxees)
+                    || ($detail->entrees->exist('retourmarchandisenontaxees') && $detail->entrees->retourmarchandisenontaxees)
+                    || ($detail->entrees->exist('transfertcomptamatierecession') && $detail->entrees->transfertcomptamatierecession)) && (!$detail->exist('replacement_date') || !$detail->replacement_date)){
+                    $this->addPoint('erreur', 'replacement_date_manquante', 'retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
+                    break;
                 }
-              }
+
+                if ($detail->exist('replacement_date')) {
+                    $date_replacement = date_create_from_format('d/m/Y', $detail->replacement_date);
+                    $date_debut_periode = date_create_from_format('Ym', $this->document->periode)->modify('first day of this month');
+
+                    if ($date_debut_periode < $date_replacement) {
+                        $this->addPoint('vigilance', 'reintegration', 'Retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
+                    }
+                }
+            }
         }
 
         $sortiesDocAnnexes = array();

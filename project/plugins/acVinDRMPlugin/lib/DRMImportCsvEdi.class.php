@@ -18,9 +18,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $csvDoc = null;
     protected $fromEdi = false;
     protected $noSave = false;
+    protected $drmPrecedente = null;
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
+            $this->external_id = false;
             if($this->fromEdi){
               parent::__construct($file, $drm);
               $drmInfos = $this->getDRMInfosFromFile();
@@ -40,6 +42,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             if(is_null($this->csvDoc)) {
                 $this->csvDoc = CSVClient::getInstance()->createOrFindDocFromDRM($file, $drm);
             }
+            $this->drmPrecedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($drm->identifiant, DRMClient::getInstance()->getPeriodePrecedente($drm->periode));
             parent::__construct($file, $drm);
         }
 
@@ -104,6 +107,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
          * CHECK DU CSV
          */
         public function checkCSV() {
+            $this->createCacheProduits();
             $this->csvDoc->clearErreurs();
             $this->checkCSVIntegrity();
             if ($this->csvDoc->hasErreurs(self::STATUT_ERROR)) {
@@ -130,15 +134,357 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             $this->csvDoc->setStatut(self::STATUT_VALIDE);
             $this->csvDoc->save();
         }
+        private function getCacheKeyFromData($datas) {
+            return $datas[self::CSV_CAVE_CERTIFICATION].'-'.
+                	$datas[self::CSV_CAVE_GENRE].'-'.
+                	$datas[self::CSV_CAVE_APPELLATION].'-'.
+                	$datas[self::CSV_CAVE_MENTION].'-'.
+                	$datas[self::CSV_CAVE_LIEU].'-'.
+                	$datas[self::CSV_CAVE_COULEUR].'-'.
+                	$datas[self::CSV_CAVE_CEPAGE].'-'.
+                    $datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE].'-'.
+                    $datas[self::CSV_CAVE_LIBELLE_COMPLET].'-'.
+                    $datas[self::CSV_CAVE_TYPE_DRM];
+        }
+
+        public function createCacheProduits() {
+            $this->cache = array();
+            $this->cache2datas = array();
+
+            if ($this->drm->canSetStockDebutMois()) {
+                $this->drm->remove('declaration');
+                $this->drm->add('declaration');
+            }
+
+
+            foreach ($this->getDocRows() as $datas) {
+              if (KeyInflector::slugify(trim($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
+                  continue;
+              }
+              if (strtolower($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'stocks_debut')) {
+                  continue;
+              }
+              $cacheid = $this->getCacheKeyFromData($datas);
+              if (isset($this->cache2datas[$cacheid])) {
+                  continue;
+              }
+              if($datas[self::CSV_CAVE_VOLUME] === "") {
+                  continue;
+              }
+              $this->cache2datas[$cacheid] = $datas;
+              $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$this->getCacheKeyFromData($datas)][self::CSV_CAVE_VOLUME]);
+            }
+
+            $cacheProduitTav = array();
+            # Premier parcours des lignes du csv pour créer un tableau de hashage : produit / tav
+            foreach ($this->getDocRows() as $datas) {
+              if (KeyInflector::slugify(trim($datas[self::CSV_TYPE])) != self::TYPE_CAVE) {
+                  continue;
+              }
+              if(strtoupper(KeyInflector::slugify($datas[self::CSV_CAVE_CATEGORIE_MOUVEMENT])) != self::COMPLEMENT){
+                  continue;
+              }
+              if(strtoupper(KeyInflector::slugify($datas[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT])) != self::COMPLEMENT_TAV) {
+                  continue;
+              }
+              $tav = $this->convertNumber($datas[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT]);
+              if(!$tav) {
+                  continue;
+              }
+              $cacheProduitTav[$this->getCacheKeyFromData($datas)] = $tav;
+            }
+
+            foreach ($this->getDocRows() as $datas) {
+                if (!isset($all_produits)) {
+                    $all_produits = $this->configuration->declaration->getProduits($datas[self::CSV_PERIODE]);
+                }
+                if (preg_match('/^(...)?#/', $datas[self::CSV_TYPE])) {
+                    continue;
+                }
+                if (strtoupper($datas[self::CSV_TYPE]) != self::TYPE_CAVE) {
+                    continue;
+                }
+                if (isset($this->cache[$this->getCacheKeyFromData($datas)])) {
+                    continue;
+                }
+
+                /// RECHECHE DE PRODUIT
+                $csvLibelleProductArray = $this->buildLibellesArrayWithRow($datas, true);
+                $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
+                $founded_produit = false;
+                $is_default_produit = false;
+
+                if ($idDouane = $this->getIdDouane($datas)) {
+                    $produits = $this->configuration->identifyProductByCodeDouane($idDouane);
+                    if (count($produits) == 1) {
+                        $founded_produit = $produits[0];
+                    } else {
+                        $libelle = preg_replace('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', '${1}', trim($datas[self::CSV_CAVE_LIBELLE_COMPLET]));
+                        foreach($produits as $p) {
+                            if (!$founded_produit) {
+                                $founded_produit = $p;
+                            }
+                            if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelle))) {
+                                $founded_produit = $p;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (!$founded_produit) {
+                    foreach ($all_produits as $produit) {
+                        if ($founded_produit) {
+                            break;
+                        }
+                        $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
+                        $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
+                        $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
+                        $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
+                        $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($datas[self::CSV_CAVE_LIBELLE_COMPLET]);
+
+                        $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
+                        if ($isEmptyArray){
+                          if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+                          && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                          && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+                            continue;
+                          }
+                        }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
+
+                            && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+                            && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                            && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+                            continue;
+                        }elseif((count(array_diff($produitConfLibelleAOC, $csvLibelleProductArray))) && (count(array_diff($produitConfLibelleAOP, $csvLibelleProductArray)))
+                            && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
+                            && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
+                            && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
+                            continue;
+                        }
+                        $founded_produit = $produit;
+                    }
+                }
+
+                //Gestion du produit non connu
+                if((!$founded_produit)  && ($default_produit_inao = $this->getIdDouane($datas))) {
+                    $is_default_produit = true;
+                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
+                        $default_produit_libelle = $m[1];
+                    }else{
+                        $default_produit_libelle = $datas[self::CSV_CAVE_LIBELLE_COMPLET];
+                    }
+                    $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
+                    $founded_produit = $this->configuration->get($default_produit_hash);
+                }
+
+                $denomination_complementaire = (trim($datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
+                if ($is_default_produit) {
+                    $denomination_complementaire = ($denomination_complementaire) ? $default_produit_libelle." ".$denomination_complementaire : $default_produit_libelle;
+                }
+                if (!$founded_produit) {
+                    continue;
+                }
+                /// CREATION DU DETAILS
+                $produit =  $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
+
+                //Gestion du produit non connu
+                if ($is_default_produit) {
+                    $produit->code_inao = $default_produit_inao;
+                    $produit->produit_libelle = $default_produit_libelle;
+                }
+
+                $cacheid = $this->getCacheKeyFromData($datas);
+                $this->cache[$cacheid] = $produit;
+                if (!isset($this->cache[$cacheid])) {
+                    $this->cache2datas[$cacheid] = $datas;
+                }
+                $this->cache2datas[$cacheid]['hash'] = $founded_produit->getHash();
+                $this->cache2datas[$cacheid]['hash_detail'] = $produit->getHash();
+                $this->cache2datas[$cacheid]['details_type'] = DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))];
+                $this->cache2datas[$cacheid]['denomination_complementaire'] = $denomination_complementaire;
+                $this->cache2datas[$cacheid]['libelle'] = $datas[self::CSV_CAVE_LIBELLE_COMPLET];
+            }
+            //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
+            // (il est possible que le produit ait du tav ou du volume mais ne soit pas reconnu, donc il faut le supprimer du cache => $delete)
+            $delete = array();
+            foreach($this->cache2datas as $cacheid => $params) {
+                if (isset($params['hash_detail']) && $params['hash_detail']) {
+                    $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+                }else{
+                    $delete[] = $cacheid;
+                }
+            }
+            foreach($delete as $cacheid){
+                unset($this->cache2datas[$cacheid]);
+                unset($this->cache[$cacheid]);
+
+            }
+            //on prépare les vérifications
+            $check = array();
+            foreach ($this->cache as $cacheid => $produit) {
+                if (!isset($check[$produit->getHash()])) {
+                    $check[$produit->getHash()] = array();
+                }
+                $check[$produit->getHash()][$cacheid] = 1;
+            }
+            // Cas d'un nouveau produit avec label ou complement et où un produit DEFAUT existe
+            foreach ($check as $hash => $array) {
+                if (count($array) <= 1) {
+                    continue;
+                }
+                ksort($array);
+                $isfirst = true;
+                foreach($array as $cacheid => $null) {
+                    if ($isfirst) {
+                        $isfirst = false;
+                        continue;
+                    }
+                    $p = $this->drm->addProduit($this->cache2datas[$cacheid]['hash'], $this->cache2datas[$cacheid]['details_type'], $this->cache2datas[$cacheid]['denomination_complementaire']);
+                    $p->produit_libelle = $this->cache2datas[$cacheid]['libelle'];
+                    $this->cache[$cacheid] = $p;
+                }
+            }
+            $couleurs = array();
+            foreach ($this->cache as $cacheid => $produit) {
+                if (!isset($couleurs[$produit->getCouleur()->getHash()])) {
+                    $couleurs[$produit->getCouleur()->getHash()] = array();
+                }
+                $couleurs[$produit->getCouleur()->getHash()][$cacheid] = 1;
+            }
+            //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
+            foreach($this->cache2datas as $cacheid => $params) {
+                $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+            }
+            //gestion des multidetails sur la base stock final de la DRM précédente
+            //+ preparation de la comparaison tav + denom
+            $cepagedenomtav = array();
+            foreach($couleurs as $hash => $array_cache) {
+                $volume2hash = array();
+                    if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
+                    foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
+                        foreach($p->getProduitsDetails(true) as $kd => $d) {
+                            //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
+                            if ($d->denomination_complementaire || ($d->exist('tav') && $d->tav) ) {
+                                $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
+                            }
+
+                            $total_fin_mois = $d->stocks_fin->revendique * 1;
+                            if (!$total_fin_mois) {
+                                continue;
+                            }
+                            if (!isset($volume2hash["$total_fin_mois"])) {
+                                $volume2hash["$total_fin_mois"] = array();
+                            }
+                            $volume2hash["$total_fin_mois"][$d->getHash()] = 1;
+                        }
+                    }
+                }
+                foreach($array_cache as $cacheid => $null)  {
+                    $total_debut_mois = 0;
+                    if (isset($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME])) {
+                        $total_debut_mois = $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] * 1;
+                    }
+                    if (!$total_debut_mois) {
+                        continue;
+                    }
+                    if (!isset($volume2hash["$total_debut_mois"]))  {
+                        continue;
+                    }
+                    if (isset($volume2hash["$total_debut_mois"][$this->cache[$cacheid]->getHash()])) {
+                        continue;
+                    }
+                    if (count(array_keys($volume2hash["$total_debut_mois"])) > 1) {
+                        $current_cepage_hash = $this->cache[$cacheid]->getCepage()->getHash();
+                        $nb = 0;
+                        foreach(array_keys($volume2hash["$total_debut_mois"]) as $a_hash_volume) {
+                            if (preg_replace('/.details.[^\/]*$/', '', $a_hash_volume) == $current_cepage_hash) {
+                                $nb++;
+                                $new_hash = $a_hash_volume;
+                            }
+                        }
+                        if ($nb === 1) {
+                            unset($volume2hash["$total_debut_mois"][$new_hash]);
+                        }else{
+                            continue;
+                        }
+                    }else{
+                        $new_hashes = array_keys($volume2hash["$total_debut_mois"]);
+                        $new_hash = array_shift($new_hashes);
+                        unset($volume2hash["$total_debut_mois"][$new_hash]);
+                    }
+                    if (isset($this->cache2datas[$cacheid]['tav'])  && (
+                       ! $this->drmPrecedente->exist($new_hash)
+                    || ! $this->drmPrecedente->get($new_hash)->exist('tav')
+                    || ($this->cache2datas[$cacheid]['tav'] != $this->drmPrecedente->get($new_hash)->tav)
+                    ) ) {
+                        continue;
+                    }
+                    if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
+                       || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])
+                       || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])->exist($this->cache[$cacheid]->getKey())
+                       ) {
+                        if ($this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])
+                            && $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])->exist($this->cache[$cacheid]->getKey())) {
+                                $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])->remove($this->cache[$cacheid]->getKey());
+                        }
+                    }
+                    $this->cache[$cacheid] = $this->drm->getOrAdd($new_hash);
+                    $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
+                    $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
+                    $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
+                }
+            }
+            //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
+            foreach($this->cache2datas as $cacheid => $params) {
+                $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+            }
+            // On tente une dernière mise en cohérence en comparant les denomination complémentaires
+            // et les tav de la drm preecente
+            foreach($this->cache2datas as $cacheid => $cachedata) {
+                if (!$cachedata['denomination_complementaire'] && !(isset($cachedata['tav']) && $cachedata['tav'])) {
+                   continue;
+                }
+                $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
+                if (!isset($cepagedenomtav[$id_cepagedenomtav])) {
+                    continue;
+                }
+                if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
+                   || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])
+                   || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->exist($this->cache[$cacheid]->getKey())
+                   ) {
+                    if ($this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])) {
+                        $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->remove($this->cache[$cacheid]->getKey());
+                    }
+                }
+                $this->cache[$cacheid] = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+                $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
+                $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
+                $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
+            }
+            //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
+            foreach($this->cache2datas as $cacheid => $params) {
+                if (isset($params['hash_detail'])) {
+                    $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
+                }
+            }
+        }
+
+        public function getProduitFromCache($datas) {
+            if (!isset($this->cache[$this->getCacheKeyFromData($datas)])) {
+                return null;
+            }
+            return $this->cache[$this->getCacheKeyFromData($datas)];
+        }
 
         /**
          * IMPORT DEPUIS LE CSV
          */
          public function importCSV($withSave = true) {
-             $this->importAnnexesFromCSV();
-
+             $this->createCacheProduits();
              $this->importMouvementsFromCSV();
              $this->importCrdsFromCSV();
+             $this->importAnnexesFromCSV();
              $this->drm->etape = ($this->fromEdi)? DRMClient::ETAPE_VALIDATION_EDI : DRMClient::ETAPE_VALIDATION;
              $this->drm->type_creation = DRMClient::DRM_CREATION_EDI;
              $this->drm->buildFavoris();
@@ -193,16 +539,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (!preg_match('/^[0-9]{6}$/', KeyInflector::slugify($csvRow[self::CSV_PERIODE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatPeriodeError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^[0-9]{8}$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
+                if (!$this->external_id && !preg_match('/^[0-9]{8}[0-8\-]*$/', KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]))) {
                     $this->csvDoc->addErreur($this->createWrongNumeroCompteError($ligne_num, $csvRow));
                 }
-                if (!preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
+                if (KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]) && !preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
                 }
-                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->drm->getEtablissementObject()->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
+                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->drm->getEtablissementObject()->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
-                if($this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
+                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
                   $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
                 if($this->drm->getPeriode() != KeyInflector::slugify($csvRow[self::CSV_PERIODE])){
@@ -229,8 +575,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function importMouvementsFromCSV($just_check = false) {
-            $all_produits = $this->configuration->declaration->getProduits(date("Y-m-d"));
-
             $num_ligne = 1;
             $stocksDebutModifies = array();
             foreach ($this->getDocRows() as $csvRow) {
@@ -238,84 +582,18 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
-                $csvLibelleProductArray = $this->buildLibellesArrayWithRow($csvRow, true);
-                $csvLibelleProductComplet = $this->slugifyProduitArrayOrString($csvLibelleProductArray);
-                $founded_produit = false;
-                $is_default_produit = false;
+                $drmDetails = $this->getProduitFromCache($csvRow);
 
-                if ($idDouane = $this->getIdDouane($csvRow)) {
-                	$produits = $this->configuration->identifyProductByCodeDouane($idDouane);
-                	if (count($produits) == 1) {
-                		$founded_produit = $produits[0];
-                	} else {
-                		$libelle = preg_replace('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', '${1}', trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]));
-                		foreach($produits as $p) {
-                			if (!$founded_produit) {
-                				$founded_produit = $p;
-                			}
-                			if ($p->getLibelleFormat() == $libelle) {
-                				$founded_produit = $p;
-                				break;
-                			}
-                		}
-                	}
-                }
-
-                if (!$founded_produit) {
-	                foreach ($all_produits as $produit) {
-	                    if ($founded_produit) {
-	                        break;
-	                    }
-	                    $produitConfLibelleAOC = $this->slugifyProduitConf($produit);
-	                    $produitConfLibelleAOP = $this->slugifyProduitConf($produit,true);
-	                    $libelleCompletConfAOC = $this->slugifyProduitArrayOrString($produitConfLibelleAOC);
-	                    $libelleCompletConfAOP = $this->slugifyProduitArrayOrString($produitConfLibelleAOP);
-	                    $libelleCompletEnCsv = $this->slugifyProduitArrayOrString($csvRow[self::CSV_CAVE_LIBELLE_COMPLET]);
-
-	                    $isEmptyArray = $this->isEmptyArray($csvLibelleProductArray);
-	                    if ($isEmptyArray){
-	                      if(($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-	                      && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-	                      && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
-	                        continue;
-	                      }
-	                    }elseif((count(array_diff($csvLibelleProductArray, $produitConfLibelleAOC))) && (count(array_diff($csvLibelleProductArray, $produitConfLibelleAOP)))
-
-	                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-	                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-	                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
-	                        continue;
-	                    }elseif((count(array_diff($produitConfLibelleAOC, $csvLibelleProductArray))) && (count(array_diff($produitConfLibelleAOP, $csvLibelleProductArray)))
-	                        && ($libelleCompletConfAOC != $csvLibelleProductComplet) && ($libelleCompletConfAOP != $csvLibelleProductComplet)
-	                        && ($libelleCompletConfAOC != $libelleCompletEnCsv) && ($libelleCompletConfAOP != $libelleCompletEnCsv)
-	                        && ($this->slugifyProduitArrayOrString($produit->getLibelleFormat()) != $libelleCompletEnCsv)) {
-	                        continue;
-	                    }
-	                    $founded_produit = $produit;
-	                }
-                }
-
-                //Gestion du produit non connu
-                if((!$founded_produit)  && ($default_produit_inao = $this->getIdDouane($csvRow))) {
-                    $is_default_produit = true;
-                    if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $csvRow[self::CSV_CAVE_LIBELLE_COMPLET], $m)) {
-                        $default_produit_libelle = $m[1];
-                    }else{
-                        $default_produit_libelle = $csvRow[self::CSV_CAVE_LIBELLE_COMPLET];
-                    }
-                    $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
-                    $founded_produit = $this->configuration->get($default_produit_hash);
-                }
-
-                if (!$founded_produit) {
+                if (!$drmDetails) {
                     $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $csvRow));
                     $num_ligne++;
                     continue;
                 }
+                $founded_produit = $drmDetails->getCepage()->getConfig();
 
                 $cat_mouvement = KeyInflector::slugify($csvRow[self::CSV_CAVE_CATEGORIE_MOUVEMENT]);
                 if(strtoupper(KeyInflector::slugify($cat_mouvement)) == self::COMPLEMENT){
-                    $this->importComplementMvt($csvRow,$founded_produit,$just_check);
+                    $this->importComplementMvt($csvRow,$drmDetails,$just_check);
                     continue;
                 }
 
@@ -358,19 +636,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                    }
                 }
 
-                $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
-                if ($is_default_produit) {
-                    $denomination_complementaire = ($denomination_complementaire) ? $default_produit_libelle." ".$denomination_complementaire : $default_produit_libelle;
-                }
-
                 if (!$just_check) {
-                    $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
-                    //Gestion du produit non connu
-                    if ($is_default_produit) {
-                        $drmDetails->code_inao = $default_produit_inao;
-                        $drmDetails->produit_libelle = $default_produit_libelle;
-                    }
-
                     $detailTotalVol = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
                     $volume = $this->convertNumber($csvRow[self::CSV_CAVE_VOLUME]);
 
@@ -457,7 +723,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             }
         }
 
-        private function importComplementMvt($csvRow, $founded_produit, $just_check  = false){
+        private function importComplementMvt($csvRow, $drmDetails, $just_check  = false){
               $type_complement = strtoupper(KeyInflector::slugify($csvRow[self::CSV_CAVE_TYPE_COMPLEMENT_PRODUIT]));
                 if(!in_array($type_complement, self::$types_complement)){
                   $this->csvDoc->addErreur($this->typeComplementNotFoundError($num_ligne, $csvRow));
@@ -484,16 +750,27 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       $value = boolval($valeur_complement);
                       break;
                   }
-                  $denomination_complementaire = (trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($csvRow[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
-                  $drmDetails = $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($csvRow[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
                   $field = strtolower($type_complement);
                   $drmDetails->add($field, $value);
                 }
         }
 
+        private static function row2litrage($r) {
+            return strtoupper(preg_replace("/[ _]/","",str_replace(",",".", preg_replace('/([0-9])_([0-9])/', '$1.$2', preg_replace('/^([^_]+)_(.*)/', '$2 $1', $r)))));
+        }
+
+        private static function cdrreversekeyid($regime, $genre, $couleur, $libelle) {
+            if (!$couleur) {
+                $couleur = 'DEFAUT';
+            }
+            return $regime.'-'.$genre.'-'.$couleur.'-'.self::row2litrage($libelle);
+        }
+
         private function importCrdsFromCSV($just_check = false) {
-            $this->drm->remove('crds');
-            $this->drm->add('crds');
+            if ($this->drm->canSetStockDebutMois()) {
+                $this->drm->remove('crds');
+                $this->drm->add('crds');
+            }
             $num_ligne = 1;
             $etablissementObj = $this->drm->getEtablissementObject();
 
@@ -503,7 +780,18 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $newKey = strtoupper(str_replace(" ","",str_replace(",",".",$contenance_key)));
               $all_contenances[$newKey] = $contenance;
             }
-
+            $crd_precedente = array();
+            if ($this->drmPrecedente) {
+                foreach($this->drmPrecedente->crds as $regime => $crds) {
+                    foreach($crds as $key => $crd) {
+                        $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
+                        if (!isset($crd_precedente[$kid])) {
+                            $crd_precedente[$kid] = array();
+                        }
+                        $crd_precedente[$kid][] = $crd->getKey();
+                    }
+                }
+            }
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CRD)) {
                     $num_ligne++;
@@ -516,7 +804,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                 $genre = $this->convertGenre($csvRow[self::CSV_CRD_GENRE]);
                 $couleur = $this->convertCouleur($csvRow[self::CSV_CRD_COULEUR]);
-                $litrageLibelle = strtoupper(preg_replace("/[ _]/","",str_replace(",",".", preg_replace('/([0-9])_([0-9])/', '$1.$2', preg_replace('/^([^_]+)_(.*)/', '$2 $1', $csvRow[self::CSV_CRD_CENTILITRAGE])))));
+                $litrageLibelle = self::row2litrage($csvRow[self::CSV_CRD_CENTILITRAGE]);
                 $categorie_key = $csvRow[self::CSV_CRD_CATEGORIE_KEY];
                 $type_key = $csvRow[self::CSV_CRD_TYPE_KEY];
                 $quantite = KeyInflector::slugify($csvRow[self::CSV_CRD_QUANTITE]);
@@ -528,9 +816,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $fieldNameCrd.="_" . $type_key;
                 }
 
-                $centilitrage = $all_contenances[$litrageLibelle];
+                $centilitrage = isset($all_contenances[$litrageLibelle]) ? $all_contenances[$litrageLibelle] : null;
                 $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
-                $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
+                $keyNode = null;
+                $reverseKey = self::cdrreversekeyid($regime, $genre, $couleur, $litrageLibelle);
+                if (isset($crd_precedente[$reverseKey])) {
+                    $keyNode = array_pop($crd_precedente[$reverseKey]);
+                }
+                if (!$keyNode) {
+                    $keyNode = $regimeNode->constructKey($genre, $couleur, $centilitrage, $litrageLibelle);
+                }
 
                 $drmPrecedente = DRMClient::getInstance()->find("DRM-".$this->drm->identifiant."-".DRMClient::getInstance()->getPeriodePrecedente($this->drm->periode));
                 if ($drmPrecedente && !$drmPrecedente->isTeledeclare()) {
@@ -551,7 +846,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                          }
                       }
 
-                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode)) {
+                      if ($drmPrecedente->crds->exist($crd_regime)  && $drmPrecedente->crds->get($crd_regime)->exist($keyNode) && !$this->drm->canSetStockDebutMois()) {
                         if ($drmPrecedente->crds->get($crd_regime)->get($keyNode)->stock_fin != $quantite) {
                           $this->csvDoc->addErreur($this->previousCRDStockError($num_ligne, $csvRow));
                           $num_ligne++;
@@ -578,7 +873,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $litrageLibelle = $csvRow[self::CSV_CRD_CENTILITRAGE];
                         $regimeNode->getOrAddCrdNode($genre, $couleur, $centilitrage, $litrageLibelle);
                     }
-                    if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null) {
+                    if (!preg_match('/^stock/', $fieldNameCrd) || $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} == null || ($this->drm->canSetStockDebutMois() && preg_match('/debut/', $fieldNameCrd))) {
                         $regimeNode->getOrAdd($keyNode)->{$fieldNameCrd} += intval($quantite);
                     }
                     $num_ligne++;
@@ -636,6 +931,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         }
 
         private function importAnnexesFromCSV($just_check = false) {
+            $this->drm->remove('releve_non_apurement');
             $num_ligne = 1;
             $typesAnnexes = array_keys($this->type_annexes);
             foreach ($this->getDocRows() as $csvRow) {
@@ -667,7 +963,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                             $num_ligne++;
                             break;
                         }
-                        if (!preg_match('/^[A-Z]{2}[0-9A-Z]{11}$/', $numero_accise)) {
+                        if ($numero_accise && !preg_match('/^[A-Z]{2}[0-9A-Z]{11}$/', $numero_accise)) {
                             if ($just_check) {
                                 $this->csvDoc->addErreur($this->annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow));
                             }
@@ -759,7 +1055,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function convertNumber($number){
           $numberPointed = trim(str_replace(",",".",$number));
-          return floatval($numberPointed);
+          return round(floatval($numberPointed), FloatHelper::getInstance()->getMaxDecimalAuthorized());
         }
 
         /**
@@ -950,7 +1246,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
         private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
             return $this->createError($num_ligne,
-                                      $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est vide ou mal formatté.",
+                                      $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est mal formatté.",
                                       CSVClient::LEVEL_WARNING);
         }
 
@@ -1128,4 +1424,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return '/declaration/certifications/AUTRESVINS/genres/TRANQ/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT';
         }
 
+        private function floatize($value)
+      	{
+      		return self::floatizeVal($value);
+      	}
+
+      	public static function floatizeVal($value)
+      	{
+      	    if ($value === null) {
+      	        return null;
+      	    }
+      	    $value = str_replace(',', '.', $value);
+      	    return (is_numeric($value))? floatval($value) : str_replace('.', ',', $value);
+      	}
     }

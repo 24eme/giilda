@@ -22,7 +22,7 @@ class stocksComponents extends sfComponents {
         $conf = ConfigurationClient::getConfiguration($date);
 
         foreach($mouvements as $mouvement) {
-            if (!$conf->get($mouvement->produit_hash)->getCepage()->isCVOActif($date)) {
+            if (!$conf->get(preg_replace("|/details/.+$|", "", $mouvement->produit_hash))->getCepage()->isCVOActif($date)) {
                 continue;
             }
 
@@ -70,8 +70,16 @@ class stocksComponents extends sfComponents {
     }
 
     protected function getMouvementsNegociant() {
+	$mouvements = SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($this->etablissement->identifiant, $this->campagne); 
 
-        return SV12MouvementsConsultationView::getInstance()->getByIdentifiantAndCampagne($this->etablissement->identifiant, $this->campagne);
+	foreach($mouvements as $hash => $mouvement) {
+	    if($mouvement->type_drm == DRMClient::TYPE_DRM_ACQUITTE || $mouvement->type == "DRM") {
+                unset($mouvements[$hash]);
+		continue;
+            }
+	}
+
+	return $mouvements;
     }
 
     protected function sortMvtsByDrmId($mvts_viti){

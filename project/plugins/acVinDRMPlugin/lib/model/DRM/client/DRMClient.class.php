@@ -527,6 +527,14 @@ class DRMClient extends acCouchdbClient {
         return elision($origineLibelle, $df);
     }
 
+    public function getMemoForMonth($drm){
+      sfContext::getInstance()->getConfiguration()->loadHelpers(array('DRM'));
+      $periode = $drm->getPeriode();
+      $mois = format_date(date("Y")."-".substr($periode, 4, 2)."-01", 'MMMM', 'fr_FR');
+      $moisConf = getHelpMsgText('drm_mouvements_message_'.$mois);
+      return $moisConf;
+    }
+
     public function getVersionLibelleFromId($id) {
         if (!$id) {
             return null;
@@ -635,18 +643,7 @@ class DRMClient extends acCouchdbClient {
       $drm = DRMClient::getInstance()->findOrCreateByIdentifiantAndPeriode($etablissement->identifiant, $annee.$mois);
       if (!$drm->_id) {
           echo "La DRM de ".$etablissement->identifiant.' '.$annee.$mois." | ".$etablissement->region." n'a pas été trouvée\n";
-          $drm->setEtape(self::ETAPE_VALIDATION);
-          $drm->type_creation = self::DRM_CREATION_AUTO;
-          $drm->add('transmission_douane')->add("xml", "généré automatiquement");
-          $drm->add('transmission_douane')->add('success', false);
-          $drm->add('transmission_douane')->add('horodatage', null);
-          $drm->add('transmission_douane')->add('id_declaration', null);
-          $drm->add('transmission_douane')->add('diff', null);
-          $drm->add('transmission_douane')->add('coherente', false);
-          if($drm->hasPrecedente() && $drm->getPrecedente()->isTeledeclare()){
-              $drm->teledeclare = true;
-          }
-          $drm->save();
+          throw new sfException("DRM non trouvée pour ".$etablissement->identifiant.' '.$annee.$mois." | ".$etablissement->region);
       }
       if (!$drm->storeXMLRetour($xml) && !$allwaysreturndrm) {
         return null;

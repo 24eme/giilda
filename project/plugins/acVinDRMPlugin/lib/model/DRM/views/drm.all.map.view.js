@@ -17,5 +17,11 @@ function(doc) {
     	coherente = doc.transmission_douane.coherente;
     	diff = doc.transmission_douane.diff;
     }
-    emit([doc.identifiant, doc.campagne, doc.periode, doc.version, doc.mode_de_saisie, doc.valide.date_saisie, doc.douane.envoi, doc.douane.accuse, doc.numero_archive, doc.teledeclare, transmission, horodatage, coherente, diff], 1);
+    var type_creation = null;
+    if(doc.type_creation){
+      type_creation = doc.type_creation;
+    }else{
+      type_creation = "NON_RENSEIGNE";
+    }
+    emit([doc.identifiant, doc.campagne, doc.periode, doc.version, doc.mode_de_saisie, doc.valide.date_saisie, doc.douane.envoi, doc.douane.accuse, doc.numero_archive, doc.teledeclare, transmission, horodatage, coherente, diff, type_creation], 1);
 }

@@ -343,9 +343,9 @@ var init_ajax_nouveau = function()
     //$('#vrac_vendeur_famille_viticulteur').attr('checked','checked');
     //$('#vrac_acheteur_famille_negociant').attr('checked','checked');
 
-    ajaxifyAutocompleteGet('getInfos', '#vendeur_choice', '#vendeur_informations');
-    ajaxifyAutocompleteGet('getInfos', '#acheteur_choice', '#acheteur_informations');
-    ajaxifyAutocompleteGet('getInfos', '#mandataire_choice', '#mandataire_informations');
+    ajaxifyAutocompleteGet('/vrac/getInfos', '#vendeur_choice', '#vendeur_informations');
+    ajaxifyAutocompleteGet('/vrac/getInfos', '#acheteur_choice', '#acheteur_informations');
+    ajaxifyAutocompleteGet('/vrac/getInfos', '#mandataire_choice', '#mandataire_informations');
     $('#has_mandataire input').attr('checked', 'checked');
     $('#vrac_mandatant_acheteur').attr('checked', 'checked');
 

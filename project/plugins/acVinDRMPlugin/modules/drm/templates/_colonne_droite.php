@@ -1,6 +1,7 @@
 <?php
 use_helper("Date");
 use_helper('DRM');
+use_helper('Orthographe');
 if (!isset($isMonEspace)) {
     $societe = $drm->getEtablissement()->getSociete();
     $etablissementPrincipal = $societe->getEtablissementPrincipal();
@@ -26,6 +27,25 @@ if ($isTeledeclarationMode):
                 <?php endif; ?>
             </div>
         </div>
+    </div>
+    <div class="bloc_col" id="contrat_compte">
+        <h2>Mémo</h2>
+        <?php if(isset($drm) && $drm && $memo = DRMClient::getInstance()->getMemoForMonth($drm)): ?>
+        <div class="contenu fadediv" style="opacity:0;">
+          <p><span class="picto"></span><strong class="memo-danger">Mémo du mois <?php echo elision('de', format_date(preg_replace("/^([0-9]{4})([0-9]{2})/","$1-$2-01",$drm->periode), "MMMM", "fr_FR")); ?></strong> :</p>
+          <br/>
+          <p class=""><?php echo $memo; ?></p>
+        </div>
+      <?php endif; ?>
+        <div class="contenu">
+          <p>Vos <strong>questions fréquentes : </strong></p>
+          <a href="/data/Vos questions fréquentes - DRM.pdf" id="lien_faq" class="lien_telechargement">Télécharger les questions</a>
+
+          <p class="lien_lecteur_pdf">
+              Ces documents sont au format PDF. Pour les visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
+          </p>
+        </div>
+        <br/>
     </div>
     <?php
     end_slot();
@@ -101,13 +121,6 @@ if (isset($drm)) {
             </p>
             <a href="/data/Enregistrez vos DRM en ligne - Guide utilisateur Août 2019.pdf" id="liens_notices" class="lien_telechargement">Télécharger le guide</a>
 
-            <p>Vos <strong>questions fréquentes</strong></p>
-            <a href="/data/Vos questions fréquentes - DRM.pdf" id="lien_faq" class="lien_telechargement">Télécharger les questions</a>
-
-            <p class="lien_lecteur_pdf">
-                Ces documents sont au format PDF. Pour les visualiser, veuillez utiliser un <a target="_blank" href="<?php echo sfConfig::get('app_pdf_reader_link') ?>">lecteur PDF</a>.
-            </p>
-
             <h3>Votre contact</h3>
 
             <ul class="contact">
@@ -121,6 +134,7 @@ if (isset($drm)) {
         $(document).ready(function ()
         {
             initNoticePopup();
+            initMemoAnimation();
         });
     </script>
     <?php

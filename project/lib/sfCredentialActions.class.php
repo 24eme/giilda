@@ -93,6 +93,8 @@ class sfCredentialActions extends sfActions {
         //reduction des droits en lecture seule pour le module contact
         $this->modification = true;
 
+        $this->compta_rights = true;
+
         $this->user = $this->getUserCredential();
         if (!$this->user) {
             return;
@@ -107,6 +109,7 @@ class sfCredentialActions extends sfActions {
                 if ($this->societe->isInstitution() || $this->societe->isSyndicat()) {
                     $this->modification = false;
                 }
+                $this->compta_rights = false;
             return;
             case self::CREDENTIAL_DIRECTION:
                 if ($this->societe->isTransaction()) {
@@ -116,6 +119,7 @@ class sfCredentialActions extends sfActions {
                 if ($this->societe->isPresse()) {
                     $this->modification = false;
                 }
+                $this->compta_rights = false;
             return;
             case self::CREDENTIAL_AUTRE:
                 if ($this->societe->isTransaction()) {
@@ -125,8 +129,16 @@ class sfCredentialActions extends sfActions {
                 if ($this->societe->isPresse() || $this->societe->isInstitution() || $this->societe->isSyndicat()) {
                     $this->modification = false;
                 }
+                $this->compta_rights = false;
             return;
             case self::CREDENTIAL_TRANSACTIONS:
+                if ($this->societe->isPresse() ||
+                        $this->societe->isInstitution()
+                        || $this->societe->isSyndicat()) {
+                    $this->modification = false;
+                }
+                $this->compta_rights = false;
+            return;
             case self::CREDENTIAL_COMPTA:
                 if ($this->societe->isPresse() ||
                         $this->societe->isInstitution()
@@ -139,6 +151,7 @@ class sfCredentialActions extends sfActions {
                  if (!$this->societe->isSyndicat()) {
                     $this->modification = false;
                 }
+                $this->compta_rights = false;
                 return;
             default:
                 return;

@@ -3,7 +3,7 @@
 . bin/config.inc
 . bin/import_functions.inc
 
-SHORT='("2014-2015"|"2015-2016"|"2016-2017"|"2017-2018"|"2018-2019"|"2019-2020")';
+SHORT=$(for ((i=($(date +%Y)-4) ; $(date +%Y) - $i + 1; i++)); do echo -n "$i-$(($i+1))|"; done | sed 's/|$/)/' | sed 's/^/(/')
 
 curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 
@@ -31,6 +31,7 @@ echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archiv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history  | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | grep -Ev "(AOC_HORSINTERLOIRE|IGP_VALDELOIRE|IGP_HORSVALDELOIRE|VINSSIG)" >> $TMP/export_bi_contrats.csv
 
 echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archive;identifiant acheteur;nom acheteur;identifiant vendeur; non vendeur;identifiant courtier;nom courtier;type de vente (VIN_VRAC, VIN_BOUTEILLE, RAISIN, MOUT); hash produit;code produit;libelle produit;volume propose (en hl);volume enleve (en hl);prix unitaire (en hl);prix unitaire definitif (en hl);prix variable (OUI, NON);contrat interne (OUI, NON);en attente de l'original (OUI, NON);type de contrat(SPOT, PLURIANNUEL);date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE);domaine;part variable;repartition cvo;nature de la cvo (MARCHE_DEFINITIF, COMPENSATION, NON_FINANCIERE, VINAIGRERIE);BIO" > $TMP/export_bi_contrats_short.csv
+
 cat $TMP/export_bi_contrats.csv | grep -E $SHORT >> $TMP/export_bi_contrats_short.csv
 
 echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archive;identifiant acheteur;nom acheteur;identifiant vendeur; non vendeur;identifiant courtier;nom courtier;type de vente (VIN_VRAC, VIN_BOUTEILLE, RAISIN, MOUT); hash produit;code produit;libelle produit;volume propose (en hl);volume enleve (en hl);prix unitaire (en hl);prix unitaire definitif (en hl);prix variable (OUI, NON);contrat interne (OUI, NON);en attente de l'original (OUI, NON);type de contrat(SPOT, PLURIANNUEL);date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE);domaine;part variable;repartition cvo;nature de la cvo (MARCHE_DEFINITIF, COMPENSATION, NON_FINANCIERE, VINAIGRERIE);BIO" > $TMP/export_bi_contrats_igp.csv
@@ -49,6 +50,11 @@ echo "#SOCIETE;statut (ACTIF, SUSPENDU);type societe (OPERATEUR, VITICULTEUR, NE
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' >> $TMP/export_bi_societes.csv
 
 . bin/export_bi_stocks
+
+echo "#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom" > $TMP/export_bi_drm_stock.csv
+cat $TMP/export_bi_drm_stock.csv > $TMP/export_bi_drm_stock_short.csv
+cat $TMP/export_bi_drm_stock_last_modificatrices.csv | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_drm_stock.csv
+cat $TMP/export_bi_drm_stock.csv | grep -E $SHORT >> $TMP/export_bi_drm_stock_short.csv
 
 . bin/export_bi_drm
 
@@ -87,7 +93,7 @@ if test "$SAMBA_XLSOFT_IP" && test "$SAMBA_XLSOFT_SHARE" && test "$SAMBA_AUTH" &
     smbclient //$SAMBA_XLSOFT_IP/$SAMBA_XLSOFT_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_XLSOFT_DIR ; put MDV_Fournisseurs.csv ; put PLV_Fournisseurs.csv ; put PLV_Clients.csv "
 fi
 if test "$SAMBA_BI_IP" && test "$SAMBA_BI_SHARE" && test "$SAMBA_AUTH" && test "$SAMBA_BI_DIR" ; then
-    smbclient //$SAMBA_BI_IP/$SAMBA_BI_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_BI_DIR ; put export_bi_mouvements.csv ; put export_bi_mouvements_igp.csv; put export_bi_contrats.csv; put export_bi_contrats_igp.csv; put export_bi_dss.csv ; put export_bi_revendiques.csv ; put export_bi_etablissements.csv ; put export_bi_societes.csv ; put export_bi_drm.csv ; put export_bi_mouvements_short.csv; put export_bi_mouvements_igp_short.csv; put export_bi_contrats_short.csv;"
+	smbclient //$SAMBA_BI_IP/$SAMBA_BI_SHARE -A $SAMBA_AUTH -c "cd $SAMBA_BI_DIR ; put export_bi_mouvements.csv ; put export_bi_mouvements_igp.csv; put export_bi_contrats.csv; put export_bi_contrats_igp.csv; put export_bi_dss.csv ; put export_bi_revendiques.csv ; put export_bi_etablissements.csv ; put export_bi_societes.csv ; put export_bi_drm.csv ; put export_bi_drm_stock.csv; put export_bi_drm_stock_short.csv ; put export_bi_mouvements_short.csv; put export_bi_mouvements_igp_short.csv; put export_bi_dss_short.csv; put export_bi_revendiques_short.csv; put export_bi_contrats_short.csv;"
 fi
 
 cd -

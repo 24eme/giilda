@@ -13,5 +13,5 @@ cat $TMP/all_drm.csv | while read line; do
    echo $CMD","$line >> $TMP/export_bi_drm.csv.temp
 done
 
-echo "#DRM ID;identifiant etablissement;nom etablissement;campagne;periode;numéro archivage;teledeclare;transmission;retour douane" > $TMP/export_bi_drm.csv
-cat $TMP/export_bi_drm.csv.temp | awk -F "," '{print $2";"$3";"$1";"$4";"$5";"$11";"$12";"$13";"$15}' | sed 's/"value":1}//g' | sed 's/null$/NON/g' | sed -r 's/false$/NON CONFORME/g' | sed -r 's/true$/CONFORME DOUANE/g' | sed -r 's/;true;/;OUI;/g' | sed -r 's/;(null|false);/;NON;/g' | sed -r 's/;(null|false);/;NON;/g' | sed -r 's|;"([0-9]{6})";NON;|;"\1";null;|'  >> $TMP/export_bi_drm.csv
+echo "#DRM ID;identifiant etablissement;nom etablissement;campagne;periode;numéro archivage;type creation;teledeclare;transmission;retour douane" > $TMP/export_bi_drm.csv
+cat $TMP/export_bi_drm.csv.temp | tr "\r" " " | sed 's/ $//g' | awk -F "," '{print $2";"$3";"$1";"$4";"$5";"$11";"$17";"$12";"$13";"$15}' | sed 's/"value":1}//g' | sed  's/null$/NON/g' | sed -r 's/false$/NON CONFORME/g' | sed -r 's/true$/CONFORME DOUANE/g' | sed -r 's/;true;/;OUI;/g' | sed -r 's/;(null|false);/;NON;/g' | sed -r 's/;(null|false);/;NON;/g' | sed -r 's|;"([0-9]{6})";NON;|;"\1";null;|'  >> $TMP/export_bi_drm.csv

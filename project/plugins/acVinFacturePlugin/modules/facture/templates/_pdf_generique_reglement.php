@@ -13,7 +13,8 @@ use_helper('Float');
         \small{\textbf{Règlement : }}
         \begin{itemize}
             \item \textbf{par virement} (merci de mentionner les n° suivants : \FactureRefClient~\FactureNum)
-            \item \textbf{par chèque en joignant le(s) papillon(s) à l'adresse suivante :\\  \textit{Interloire, <?php echo $facture->emetteur->adresse.' '.$facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}} \\
+            \item \textbf{par chèque en joignant le(s) papillon(s) à l'adresse suivante :\\  \textit{Interloire, <?php echo $facture->emetteur->adresse.' '.$facture->emetteur->code_postal.' '.$facture->emetteur->ville; ?>}}
+    %        \item \footnotesize{\textbf{par prélèvement automatique} (formulaire d’adhésion dans votre espace "Factures")}} %
         \end{itemize}
         \end{minipage}
         \end{flushleft}

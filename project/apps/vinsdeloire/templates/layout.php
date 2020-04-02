@@ -1,3 +1,6 @@
+<?php
+$gitcommit = str_replace("\n",'',file_get_contents('../../.git/ORIG_HEAD'));
+ ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -61,6 +64,9 @@
             <?php if (sfConfig::get('app_instance') == 'preprod') : ?>
                 <div style="background: white; text-align:center; font-weight:bold; margin-bottom: 10px; color:red;">Vous êtes dans l'environnement de préproduction. Les données introduites peuvent être supprimées à tout moment.</div>
             <?php endif; ?>
+
+            <div style="text-align:center; margin-bottom: 12px; margin-top: -10px; font-size: 14px; font-weight: bold; text-transform: uppercase;"><a href="http://filiere.vinsvaldeloire.fr/Actualite/Actualites--Accueil/INFOS-COVID-19_637202963387800000" target="_blank"><span style="background: #f6eb43;line-height: 20px">&nbsp;Infos <span style="color: red">COVID-19</span>&nbsp;</span> <span href="" style="font-weight: normal;font-size: 12px;">Informations et documentations utiles pour vous aider à gérer au mieux la crise sanitaire</span></a></div>
+
             <div id="global_content" class="<?php include_slot('global_css_class', null) ?> " >
                 <div id="contenu">
                     <div class="center">
@@ -121,7 +127,7 @@
         <?php include_partial('global/ajaxNotification') ?>
         <?php include_partial('global/initMessageAide') ?>
 
-        <script type="text/javascript">var jsPath = "/js/";</script>
-        <script type="text/javascript" src="/js/include_dev.js?201901151100"></script>
+        <script type="text/javascript">var jsPath = "/js/"; var gitcommit="<?php echo $gitcommit; ?>"; </script>
+        <script type="text/javascript" src="/js/include_dev.js"></script>
     </body>
 </html>

@@ -21,6 +21,27 @@
         </ul>
     <?php else: ?>
         <h2><?php echo getDrmTitle($drm); ?> <small style="font-weight: normal; text-transform: none;">(Validée le <?php echo format_date($drm->valide->date_signee, "dd/MM/yyyy", "fr_FR"); ?>)</small> &nbsp;<a href="" class="msg_aide_drm  icon-msgaide" title="<?php echo getHelpMsgText('drm_visualisation_aide1'); ?>"></a></h2>
+        <?php if ($drm->isNegoce()): ?>
+          <fieldset id="espace_prelevement">
+            <div id="mon_espace">
+              <div class="espace_prelevement">
+                <div class="panel">
+                  <ul style="height: auto" class="societe_prelevement">
+                    <li style="height: auto">
+                      <div class="adhesion_prelevement">
+                        <img src="/images/visuels/prodouane.png" />
+                        <p><br />Vous pouvez à présent télécharger votre DRM au format XML afin de l'importer en DTI+ sur le site prodouanes via le lien suivant : <a href="https://pro.douane.gouv.fr/">pro.douane.gouv.fr</a><br />
+                        <br />
+                        <a class="btn_majeur" style="float:right;" download="<?= $drm->_id ?>.xml" target="_blank" href="<?php echo url_for('drm_xml', $drm); ?>">Télécharger le XML</a><br />&nbsp;</p>
+                      </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+        <?php endif; ?>
+
         <?php if ($drm->isTeledeclare()): ?>
             <div id="btn_etape_dr" style="text-align: center;">
                 <a href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
@@ -94,7 +115,7 @@
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
         <?php if ($isTeledeclarationMode) : ?>
             <a style="margin-left: 70px;" href="<?php echo url_for('drm_pdf', $drm); ?>" class="btn_majeur btn_pdf center" id="drm_pdf"><span>Télécharger le PDF</span></a>
-            <?php if($compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode): ?>
+            <?php if($compte->hasDroit("teledeclaration_douane") && $isTeledeclarationMode && !$drm->isNegoce()): ?>
               <?php if (!$drm->exist('transmission_douane') || !$drm->transmission_douane->success) : ?>
                 <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn_majeur btn_vert" ><span>Transmettre la Drm sur CIEL</span></a>
               <?php endif; ?>

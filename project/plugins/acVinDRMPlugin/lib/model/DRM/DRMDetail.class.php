@@ -131,7 +131,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function canSetStockDebutMois() {
-       return (!$this->hasPrecedente() || $this->getDocument()->changedToTeledeclare());
+       return $this->getDocument()->canSetStockDebutMois();
     }
 
     public function canSetLabels() {
@@ -241,6 +241,10 @@ class DRMDetail extends BaseDRMDetail {
         }else{
           $this->remove('replacement_date');
         }
+
+        if (! $this->stocks_debut->revendique && !$this->hasStockEpuise()) {
+            $this->stocks_debut->revendique = 0 ;
+        }
     }
 
     public function setImportableObservations($observations) {
@@ -258,6 +262,7 @@ class DRMDetail extends BaseDRMDetail {
                 $this->total_facturable += $volume * $coefficient_facturable;
             }
         }
+        $this->total_facturable = round($this->total_facturable, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     private function getTotalByKey($key) {
@@ -267,7 +272,7 @@ class DRMDetail extends BaseDRMDetail {
                 $sum += $k;
             }
         }
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function getTotalDebutMois() {
@@ -343,7 +348,7 @@ class DRMDetail extends BaseDRMDetail {
         foreach ($lines as $line) {
             $sum += $this->get($line);
         }
-        return $sum;
+        return round($sum, FloatHelper::getInstance()->getMaxDecimalAuthorized());
     }
 
     public function hasStockFinDeMoisDRMPrecedente() {

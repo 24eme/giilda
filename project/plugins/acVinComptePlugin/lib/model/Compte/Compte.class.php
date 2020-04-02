@@ -570,4 +570,10 @@ class Compte extends BaseCompte {
       return $needToClean;
     }
 
+    public function hasFactureEmail() {
+        return $this->hasDroit(Roles::TELEDECLARATION) && $this->hasDroit(Roles::TELEDECLARATION_FACTURE_EMAIL);
+    }
+
+
+
 }

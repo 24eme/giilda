@@ -99,6 +99,17 @@ class Vrac extends BaseVrac {
             $this->cvo_repartition = $this->calculCvoRepartition();
             $this->cvo_nature = VracClient::CVO_NATURE_MARCHE_DEFINITIF;
         }
+        $this->updateCampagne();
+    }
+
+    public function updateCampagne() {
+        $array_date = explode('-', $this->getDateSignature('Y-m-d'));
+        if (($this->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS ||
+            $this->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS)
+            && $array_date[1] >= '06'
+        ) {
+            $this->setDateCampagne($array_date[0].'-08-01');
+        }
     }
 
     public function createVisa() {
@@ -203,7 +214,9 @@ class Vrac extends BaseVrac {
     }
 
     public function setDateSignature($d) {
-        return $this->setDate('date_signature', $d);
+        $ret = $this->setDate('date_signature', $d);
+        $this->updateCampagne();
+        return $ret;
     }
 
     public function getDateSignature($format = 'd/m/Y') {
@@ -626,7 +639,8 @@ class Vrac extends BaseVrac {
 
     public function getProduitsConfig() {
         $date = (!$this->date_signature) ? date('Y-m-d') : Date::getIsoDateFromFrenchDate($this->date_signature);
-        return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_ACTIF));
+
+        return $this->getConfig()->formatProduits($date, "%format_libelle% (%code_produit%)", array(_ConfigurationDeclaration::ATTRIBUTE_CVO_FACTURABLE));
     }
 
     public function isProduitIGP() {

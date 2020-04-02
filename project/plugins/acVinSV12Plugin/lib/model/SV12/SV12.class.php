@@ -57,11 +57,35 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function storeContrats() {
         $contratsView = SV12Client::getInstance()->findContratsByEtablissementAndCampagne($this->identifiant, $this->campagne);
+        if (count($this->contrats)) {
+            $todelete = array();
+            foreach($this->contrats as $ckey => $contrat) {
+                if ($contrat->contrat_numero && !$contrat->volume && !($contrat->exist("volume_sv12") && $contrat->volume_sv12)) {
+                    $todelete[] = $ckey;
+                }
+            }
+            foreach($todelete as $d) {
+                $this->contrats->remove($d);
+            }
+        }
         foreach ($contratsView as $contratView)
         {
             $idContrat = preg_replace('/VRAC-/', '', $contratView->value[VracClient::VRAC_VIEW_NUMCONTRAT]);
             $this->updateContrats($idContrat,$contratView->value);
         }
+    }
+
+    public function getContratsByVendeur() {
+        $contrats = array();
+        foreach($this->contrats as $key => $c) {
+            if ($c->vendeur_nom) {
+                $contrats[$c->vendeur_nom." ".$c->produit_hash." ".$key] = $c;
+            }else{
+                $contrats[isset($c->commentaire) ? $c->commentaire : "SANSVITI" ." ".$c->produit_hash." ".$key] = $c;
+            }
+        }
+        ksort($contrats);
+        return $contrats;
     }
 
     public function getContratsNonSaisis() {
@@ -105,7 +129,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
     public function isValidee() {
 
-        return ($this->valide->date_saisie) && (in_array($this->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL)));
+        return $this->valide && $this->valide->exist('date_saisie') &&
+            ($this->valide->date_saisie) && (in_array($this->valide->statut, array(SV12Client::STATUT_VALIDE, SV12Client::STATUT_VALIDE_PARTIEL)));
     }
 
     public function isBrouillon() {
@@ -206,6 +231,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
         $this->totaux->volume_raisins = 0;
         $this->totaux->volume_mouts = 0;
+        $this->totaux->add('sv12_raisins', 0);
+        $this->totaux->add('sv12_mouts', 0);
 
         foreach ($this->contrats as $contrat) {
             if(!$this->totaux->produits->exist($contrat->produit_libelle)) {
@@ -213,6 +240,8 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
                 $noeud->produit_hash = $contrat->produit_hash;
                 $noeud->volume_raisins = 0;
                 $noeud->volume_mouts = 0;
+                $noeud->add('sv12_mouts', 0);
+                $noeud->add('sv12_raisins', 0);
             } else {
                 $noeud = $this->totaux->produits->get($contrat->produit_libelle);
             }
@@ -220,18 +249,44 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
             if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
                 $noeud->volume_raisins += $contrat->volume;
                 $this->totaux->volume_raisins += $contrat->volume;
+                if ($contrat->exist('volume_sv12')) {
+                    $noeud->sv12_raisins += $contrat->volume_sv12;
+                    $this->totaux->sv12_raisins += $contrat->volume_sv12;
+                }
             } elseif($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
                 $noeud->volume_mouts += $contrat->volume;
                 $this->totaux->volume_mouts += $contrat->volume;
+                if ($contrat->exist('volume_sv12')) {
+                    $noeud->sv12_mouts += $contrat->volume_sv12;
+                    $this->totaux->sv12_mouts += $contrat->volume_sv12;
+                }
             } else {
                 $noeud->volume_ecarts += $contrat->volume;
                 $this->totaux->volume_ecarts += $contrat->volume;
-	    }
+	        }
+        }
+        if (!$this->totaux->sv12_raisins && !$this->totaux->sv12_mouts) {
+            $this->totaux->remove('sv12_raisins');
+            $this->totaux->remove('sv12_mouts');
+            foreach($this->totaux->produits as $l => $p) {
+                $p->remove('sv12_mouts');
+                $p->remove('sv12_raisins');
+            }
         }
     }
 
     public function updateVolume($num_contrat,$volume) {
         $this->contrats[$num_contrat]->volume = $volume;
+        return $this->contrats[$num_contrat];
+    }
+
+    public function updateVolumeFromSV12($num_contrat, $volume, $commentaire = null) {
+        $this->contrats[$num_contrat]->add('volume_sv12', $volume);
+        $this->contrats[$num_contrat]->add('commentaire', $commentaire);
+        if (!$this->contrats[$num_contrat]->volume) {
+            $this->contrats[$num_contrat]->volume = $volume;
+        }
+        return $this->contrats[$num_contrat];
     }
 
     public function storeDates() {
@@ -269,8 +324,10 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
 
 
     public function saveBrouillon() {
-        $this->valide->date_saisie = date('d-m-y');
-        $this->valide->statut = SV12Client::STATUT_BROUILLON;
+        $this->add('valide');
+        $this->valide->add('date_saisie', date('Y-m-d'));
+        $this->valide->add('statut', SV12Client::STATUT_BROUILLON);
+        return $this->save();
     }
 
     public function getDate() {
@@ -520,6 +577,20 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         $this->add('mouvements');
     }
 
+    public function addSansContrat($etablissement, $raisinetmout, $hash_ref) {
+        $sv12Contrat = $this->contrats->add(SV12Client::SV12_KEY_SANSCONTRAT.'-'.$etablissement->identifiant.'-'.$raisinetmout.str_replace('/', '-', $hash_ref));
+        $sv12Contrat->updateNoContrat($this->getConfig()->get($hash_ref), array('vendeur_identifiant' => $etablissement->identifiant, 'vendeur_nom' => $etablissement->nom, 'contrat_type' => $raisinetmout));
+        $sv12Contrat->add('commentaire', "Sans contrat");
+        return $sv12Contrat;
+    }
+
+    public function addSansViti($hash_ref, $raisinetmout = null) {
+        $sv12Contrat = $this->contrats->add(SV12Client::SV12_KEY_SANSVITI.'-'.$raisinetmout.str_replace('/', '-', $hash_ref));
+        $sv12Contrat->updateNoContrat($this->getConfig()->get($hash_ref), array('vendeur_identifiant' => null, 'vendeur_nom' => null, 'contrat_type' => $raisinetmout));
+        $sv12Contrat->add('commentaire', "Sans viti");
+        return $sv12Contrat;
+    }
+
     public function hasSansContratOrSansViti() {
         if($this->valide->statut != SV12Client::STATUT_VALIDE){
             return false;
@@ -576,4 +647,79 @@ class SV12 extends BaseSV12 implements InterfaceMouvementDocument, InterfaceVers
         }
     }
     /*** FIN DROIT ***/
+
+    public function getSV12DouaneURL() {
+        $campagne = preg_replace('/-.*/', '', $this->campagne);
+        $id = "SV12-".$this->identifiant."-".$campagne;
+        $client = acCouchdbManager::getClient();
+        $douane = $client->find($id, acCouchdbClient::HYDRATE_JSON);
+        foreach ($douane->_attachments as $key => $value) {
+                if (preg_match('/xls/', $key)) {
+                    $valid = $key;
+                    continue;
+                }
+        }
+        if (!$valid) {
+            return;
+        }
+        return $client->dsn().$client->getAttachmentUri($douane, $valid);
+    }
+
+    public function importFromSV12Douane() {
+        $sv12 = SV12Client::getInstance()->getSV12CSVArray($this);
+        $delete_cvi = array();
+        $conf = ConfigurationClient::getConfigurationByCampagne($this->campagne);
+        foreach($this->contrats as $numcontrat => $contrat) {
+            $cvi = $contrat->vendeur->cvi;
+            $idhashtype = $contrat->produit_hash;
+            if ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_MOUTS) {
+                $idhashtype .= '11';
+            } elseif ($contrat->contrat_type == VracClient::TYPE_TRANSACTION_RAISINS) {
+                $idhashtype .= '10';
+            }
+            if (!isset($sv12[$cvi][$idhashtype]) || count($sv12[$cvi][$idhashtype]) < 1) {
+                $this->updateVolumeFromSV12($numcontrat, null, "douane non trouvée");
+                continue;
+            }
+            if (count($sv12[$cvi][$idhashtype]) > 1) {
+                $this->updateVolumeFromSV12($numcontrat, null, "Plusieurs douanes trouvées");
+                continue;
+            }
+            $c = $sv12[$cvi][$idhashtype][0];
+            if ($contrat->volume_prop && abs(preg_replace('/,/', '.', $c[21]) - $contrat->volume_prop) / $contrat->volume_prop < 0.10) {
+                $this->updateVolumeFromSV12($numcontrat, $c[21]);
+            }else{
+                $contrat = $this->updateVolumeFromSV12($numcontrat, $c[21], "volume trop différent");
+            }
+            unset($sv12[$cvi][$idhashtype]);
+            if (!count($sv12[$cvi])) {
+                unset($sv12[$cvi]);
+            }
+        }
+        foreach($sv12 as $cvi => $produits) {
+            foreach($produits as $hash => $array) {
+                foreach ($array as $csv) {
+                    if ($conf->get($csv[27])->getDroitCVO($this->getPeriode())->getTaux() > 0) {
+                        $e = EtablissementClient::getInstance()->findByCvi($cvi);
+                        if ($e) {
+                            $contrat = $this->addSansContrat($e,
+                                                        ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS,
+                                                        $csv[27]);
+                            $contrat->volume = $csv[21];
+                            $contrat->add('volume_sv12', $csv[21]);
+                        }else{
+                            $contrat = $this->addSansViti($csv[27], ($csv[19] == 11) ? VracClient::TYPE_TRANSACTION_MOUTS : VracClient::TYPE_TRANSACTION_RAISINS);
+                            $contrat->volume = $csv[21];
+                            $contrat->add('volume_sv12', $csv[21]);
+                            $contrat->add('commentaire', $csv[23]." : cvi non trouvé : [$cvi]");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function hasSV12DouaneImported() {
+        return ($this->totaux->exist('sv12_mouts') + $this->totaux->exist('sv12_raisins'));
+    }
 }

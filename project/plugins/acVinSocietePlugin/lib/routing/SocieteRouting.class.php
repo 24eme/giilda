@@ -79,6 +79,12 @@ class SocieteRouting {
             'type' => 'object')
         ));
 
+        $r->prependRoute('societe_sepa_desactivate', new SocieteRoute('/societe/:identifiant/sepa/desactivate', array('module' => 'societe',
+            'action' => 'sepaDesctivate'), array('sf_method' => array('get', 'post')), array('model' => 'Societe',
+            'type' => 'object')
+        ));
+
+
         /*         * *************
          * Intégration
          * ************* */

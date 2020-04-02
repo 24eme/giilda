@@ -6,6 +6,7 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
         $configurationDetail = $this->getObject()->getParent()->getConfig();
         $certif = $this->getObject()->getParent()->getCertification()->getKey();
         $mention = $this->getObject()->getParent()->getAppellation()->getKey();
+        $hash = $this->getObject()->getParent()->getHash();
         $drm = $this->getObject()->getDocument();
         foreach ($configurationDetail->getSortiesSorted() as $key => $value) {
             $disabled = (!preg_match('/AOC|IGP/', $certif) && ($key == 'repli'));
@@ -22,10 +23,14 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
             if (preg_match('/VINSSIG/', $certif) && ($key == 'declassement')) {
                 $disabled = true;
             }
-            if (($certif == 'AUTRES') && ($key != 'usageindustriel') && ($key != 'destructionperte') && ($key != 'manquant') && ($key != 'vracsanscontrat')) {
+            if (($certif == 'AUTRES') && ($key != 'usageindustriel')) {
                 $disabled = true;
             }
-            if (preg_match('/LIE/', $mention) && (($key == 'destructionperte') || ($key == 'manquant'))) {
+            if ($key == 'vci' && $drm->isNegoce()) {
+                $disabled = true;
+            }
+
+            if (strpos($hash, 'VCI') !== false && ($key !== 'vci' && $key !== 'distillation' && $key !== 'destructionperte')) {
                 $disabled = true;
             }
 
