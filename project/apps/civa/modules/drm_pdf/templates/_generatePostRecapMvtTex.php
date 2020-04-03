@@ -26,7 +26,7 @@ foreach ($dataExport as $pays => $appellations) {
 
     <?php
     $size_col = 20;
-    $entete = '\begin{tabular}{C{48mm} |';
+    $entete = '\begin{tabular}{C{'. $size_col .'mm} |';
     foreach($produits as $libelle) {
         $entete .='C{' . $size_col . 'mm}|';
     }
