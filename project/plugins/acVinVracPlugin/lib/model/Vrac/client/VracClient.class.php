@@ -604,32 +604,6 @@ class VracClient extends acCouchdbClient {
         return $result;
     }
 
-    public static function getCsvBySoussigne($vracs) {
-        $result = "\xef\xbb\xbf";
-        $statuts_libelles = self::getStatuts();
-        foreach ($vracs->rows as $value) {
-            $cpt = 0;
-            $elt = $value->getRawValue()->value;
-
-            foreach ($elt as $key => $champs) {
-                $cpt++;
-                if ($key == self::VRAC_VIEW_STATUT)
-                    $champs = (array_key_exists($champs, $statuts_libelles)) ? $statuts_libelles[$champs] : $champs;
-                if ($key == self::VRAC_VIEW_NUMARCHIVE)
-                    $champs = "" . $champs;
-                if ($key == self::VRAC_VIEW_TYPEPRODUIT)
-                    $champs = self::$types_transaction[$champs];
-                if ($key == self::VRAC_VIEW_VOLPROP || $key == self::VRAC_VIEW_VOLENLEVE)
-                    $champs = sprintf("%01.02f", round($champs, 2));
-                $result.='"' . $champs . '"';
-                if ($cpt < count($elt))
-                    $result.=';';
-            }
-            $result.="\n";
-        }
-        return $result;
-    }
-
     public static function getCsvBySociete($vracs) {
         $result = "\xef\xbb\xbf";
         $result.= "numero_contrat;numero_archive;produit_libelle;quantite;prix_unitaire;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_signature;";
