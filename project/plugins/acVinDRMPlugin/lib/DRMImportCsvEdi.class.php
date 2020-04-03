@@ -472,6 +472,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
                 }
             }
+
+            //DEBUG
+            if (false) {
+                echo "cache content :<br/>";
+                foreach($this->cache2datas as $cacheid => $params) {
+                    echo "$cacheid : ".$this->cache2datas[$cacheid]['hash_detail']."(".$this->cache2datas[$cacheid]['tav'].")<br/>\n";
+                }
+                echo "FIN";
+                exit;
+            }
+
         }
 
         public function getProduitFromCache($datas) {
