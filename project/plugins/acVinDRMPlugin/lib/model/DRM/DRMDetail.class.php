@@ -13,6 +13,9 @@ class DRMDetail extends BaseDRMDetail {
 
     public function getLibelle($format = "%format_libelle%", $label_separator = ", ") {
         $s = str_replace('&', ' et ', $this->getCepage()->getConfig()->getLibelleFormat($this->get('denomination_complementaire'), $format, $label_separator));
+        if ($this->exist('tav') && $this->tav) {
+            $s .= " - ".$this->tav."°";
+        }
         if ($this->produit_libelle && $this->isDefaultProduit()) {
             $s = $this->produit_libelle;
             if ($this->denomination_complementaire != $this->produit_libelle) {
