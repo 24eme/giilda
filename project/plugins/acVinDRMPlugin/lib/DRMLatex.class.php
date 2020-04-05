@@ -46,6 +46,17 @@ class DRMLatex extends GenericLatex {
             $nbPages += (int)(count(array_keys($recap['/declaration/certifications/AOC_ALSACE']->produits))/DRMLatex::NB_PRODUITS_PER_PAGE)+1;
         }
 
+        $dataExport = $this->drm->declaration->getMouvementsAggregateByAppellation('export.*_details', '/declaration/certifications/AOC_ALSACE');
+        $nb = 0;
+        foreach ($dataExport as $pays => $produits) {
+            if($nb < count($produits)){
+                $nb = count($produits);
+            }
+        }
+        if ($nb) {
+            $nbPages += (int) ($nb/DRMLatex::NB_PRODUITS_PER_PAGE) +1;
+        }
+
         $cpt_crds_annexes = $this->drm->nbTotalCrdsTypes();
 
         if($cpt_crds_annexes || count($this->drm->documents_annexes)){
