@@ -37,9 +37,14 @@ var initSignatureDrmPopup = function () {
     })
 
     $('#signature_drm_popup_content a#signature_drm_popup_confirm').click(function () {
-      console.log($('#drm_transmission_ciel_visible').val());
+        $(this).hide();
+        $('a#signature_drm_popup_confirm_progress').show();
         $("form#drm_validation input#drm_email_transmission").val($('#drm_email_transmission_visible').val());
-        $("form#drm_validation input#drm_transmission_ciel").val($('#drm_transmission_ciel_visible').is(':checked'));
+        if($('#drm_transmission_ciel_visible').is(':checked') || $('#drm_transmission_ciel_visible').prop('checked')) {
+            $("form#drm_validation input#drm_transmission_ciel").val("1");
+        } else {
+            $("form#drm_validation input#drm_transmission_ciel").val("0");
+        }
         $("form#drm_validation").submit();
     });
 
