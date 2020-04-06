@@ -8,7 +8,7 @@
         </thead>
         <tbody>
             <tr><td>
-<?php if (isset($drm->transmission_douane)):
+<?php if ($drm->exist('transmission_douane') && ($drm->transmission_douane->success != null)):
     if ($drm->transmission_douane->success) : ?>
 La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> : accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
 <?php elseif ($drm->transmission_douane->xml): ?>
@@ -21,18 +21,17 @@ Cette DRM n'a pas été transmise.
 <?php endif; ?>
             </td></tr>
             <?php if (!$isTeledeclarationMode || $sf_user->isUsurpationCompte()):
-                if (isset($drm->transmission_douane)):
-                if (is_null($drm->transmission_douane->coherente)) : ?>
+                if ($drm->exist('transmission_douane') && is_null($drm->transmission_douane->coherente)) : ?>
                 <tr><td>Aucun retour de la part de proDou@ne n'a été effectué&nbsp;
                     <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:25px; float:right;" >♲</a>
                 </td></tr>
-              <?php elseif($drm->transmission_douane->coherente): ?>
+                <?php elseif($drm->exist('transmission_douane') && $drm->transmission_douane->coherente): ?>
                 <tr>
                     <td>La DRM est <strong>conforme</strong> à celle de proDou@ne
                         <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:25px; float:right;" >♲</a>
                     </td>
                 </tr>
-            <?php endif; else: ?>
+            <?php else: ?>
                 <tr>
                     <td>La DRM n'est <strong>pas conforme</strong> à celle de proDou@ne
                         <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:25px; float:right;" >♲</a>
