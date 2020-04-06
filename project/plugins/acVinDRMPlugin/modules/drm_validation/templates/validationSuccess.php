@@ -50,6 +50,10 @@
                 <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvo' => $recapCvo, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
             <?php endif; ?>
 
+            <?php if (!$isTeledeclarationMode || $sf_user->isUsurpationCompte()): ?>
+            <?php include_partial('drm_visualisation/transmission_douane', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
+            <?php endif; ?>
+
             <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post" id="drm_validation">
                 <?php echo $form->renderHiddenFields(); ?>
                 <?php if (!$isTeledeclarationMode): ?>
