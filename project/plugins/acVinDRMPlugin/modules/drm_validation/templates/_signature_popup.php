@@ -24,6 +24,7 @@
             <div class="ligne_btn">
                 <a id="signature_drm_popup_close" class="btn_rouge btn_majeur annuler" style="float: left;" href="#" >Annuler</a>
                 <a id="signature_drm_popup_confirm" class="btn_validation" href="javascript:void(0)" ><span>Valider la DRM</span></a>
+                <a id="signature_drm_popup_confirm_progress" style="display: none; float: right;" class="btn_validation" href="javascript:void(0)" ><span>Valider la DRM</span></a>
             </div>
         </div>
 </div>

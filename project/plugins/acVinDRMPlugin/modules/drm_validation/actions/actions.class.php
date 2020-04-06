@@ -90,7 +90,7 @@ class drm_validationActions extends drmGeneriqueActions {
           }
       }
 
-      if ($this->form->getValue('transmission_ciel') == "true") {
+      if ($this->form->getValue('transmission_ciel')) {
           $this->redirect('drm_transmission', array('identifiant' => $this->drm->identifiant,'periode_version' => $this->drm->getPeriodeAndVersion()));
       }
 
