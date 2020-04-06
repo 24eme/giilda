@@ -43,7 +43,9 @@ Cette DRM n'a pas été transmise.
             <?php endif; ?>
         </tbody>
     </table>
-    <?php if ((!$isTeledeclarationMode || $sf_user->isUsurpationCompte()) && isset($drm->transmission_douane) && ($drm->transmission_douane->coherente === false)): ?>
+    <?php
+
+    if (((!$isTeledeclarationMode) || $sf_user->isUsurpationCompte()) && $drm->exist('transmission_douane') && $drm->exist('_attachments') && (!$drm->transmission_douane->coherente)): ?>
       <br/>
       <table class="table_recap">
         <thead >
