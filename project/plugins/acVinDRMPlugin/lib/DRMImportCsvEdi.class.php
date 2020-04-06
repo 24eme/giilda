@@ -214,6 +214,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $founded_produit = false;
                 $is_default_produit = false;
 
+                $tav = isset($cacheProduitTav[$this->getCacheKeyFromData($datas)]) ? $cacheProduitTav[$this->getCacheKeyFromData($datas)] : null;
+
                 if ($idDouane = $this->getIdDouane($datas)) {
                     $produits = $this->configuration->identifyProductByCodeDouane($idDouane);
                     if (count($produits) == 1) {
@@ -286,7 +288,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     continue;
                 }
                 /// CREATION DU DETAILS
-                $produit =  $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire);
+                $produit =  $this->drm->addProduit($founded_produit->getHash(),DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))], $denomination_complementaire, $tav);
+
 
                 //Gestion du produit non connu
                 if ($is_default_produit) {
@@ -304,6 +307,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->cache2datas[$cacheid]['details_type'] = DRMClient::$types_node_from_libelles[KeyInflector::slugify(strtoupper($datas[self::CSV_CAVE_TYPE_DRM]))];
                 $this->cache2datas[$cacheid]['denomination_complementaire'] = $denomination_complementaire;
                 $this->cache2datas[$cacheid]['libelle'] = $datas[self::CSV_CAVE_LIBELLE_COMPLET];
+                $this->cache2datas[$cacheid]['tav'] = $tav;
             }
             //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
             // (il est possible que le produit ait du tav ou du volume mais ne soit pas reconnu, donc il faut le supprimer du cache => $delete)
@@ -340,7 +344,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $isfirst = false;
                         continue;
                     }
-                    $p = $this->drm->addProduit($this->cache2datas[$cacheid]['hash'], $this->cache2datas[$cacheid]['details_type'], $this->cache2datas[$cacheid]['denomination_complementaire']);
+                    $p = $this->drm->addProduit($this->cache2datas[$cacheid]['hash'], $this->cache2datas[$cacheid]['details_type'], $this->cache2datas[$cacheid]['denomination_complementaire'], $this->cache2datas[$cacheid]['tav']);
                     $p->produit_libelle = $this->cache2datas[$cacheid]['libelle'];
                     $this->cache[$cacheid] = $p;
                 }
@@ -468,6 +472,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $this->cache[$cacheid] = $this->drm->get($params['hash_detail']);
                 }
             }
+
+            //DEBUG
+            if (false) {
+                echo "cache content :<br/>";
+                foreach($this->cache2datas as $cacheid => $params) {
+                    echo "$cacheid : ".$this->cache2datas[$cacheid]['hash_detail']."(".$this->cache2datas[$cacheid]['tav'].")<br/>\n";
+                }
+                echo "FIN";
+                exit;
+            }
+
         }
 
         public function getProduitFromCache($datas) {
