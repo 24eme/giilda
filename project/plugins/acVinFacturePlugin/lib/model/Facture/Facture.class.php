@@ -249,6 +249,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             $origin_mouvement = $ligneByType->origine;
             if ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM){
                 $ligne->libelle = DRMClient::getInstance()->getLibelleFromId($docId);
+                if(preg_match('/^'.FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT_RECOLTE.'/', $ligneByType->matiere)) {
+                    $ligne->libelle .= " (sur la base des volumes produits)";
+                }
                 if (count($etablissements) > 1) {
                     $idEtb = $ligneByType->etablissement_identifiant;
                     $etb = $etablissements["ETABLISSEMENT-" . $idEtb];
@@ -269,7 +272,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             if (($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($origin_mouvement == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
                 $produit_libelle = $ligneByType->produit_libelle;
                 $detail = null;
-                if ($ligneByType->vrac_destinataire) {
+                if ($ligneByType->vrac_destinataire || $ligneByType->matiere != FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_PROPRIETE) {
                     $detail = $ligne->getOrAdd('details')->add();
                     $detail->libelle = $produit_libelle;
                     $detail->prix_unitaire = $ligneByType->prix_unitaire;
