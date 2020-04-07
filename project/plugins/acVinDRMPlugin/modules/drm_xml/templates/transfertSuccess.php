@@ -11,10 +11,15 @@
 else: ?>
 	<p>Votre DRM a été transmise avec succès sur le portail <a href="https://pro.douane.gouv.fr/">pro.douane.gouv.fr</a>.<br/><br/></p>
 	<p>Pour terminer cette prodécure, vous devez vous rendre sur le site des douanes, une fois connecté sur l'espace DRM CIEL, vous pourrez valider votre DRM.<br/><br/></p>
-	<p><a href="https://pro.douane.gouv.fr/">Cliquez ici pour vous rendre sur proDouane</a>.</p>
+    <br/>
+	<p style="text-align: center;"><a class="btn_majeur" href="https://pro.douane.gouv.fr/">Cliquez ici pour vous rendre sur proDouane</a>.</p>
+    <br/><br/><br/><br/>
 <?php endif; ?>
 </div></div>
 </section>
+<div id="btn_etape_dr">
+    <a href="<?php echo url_for('@drm_etablissement?identifiant='.$drm->identifiant); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
+</div>
 <?php
 include_partial('drm/colonne_droite', array('drm' => $drm, 'isTeledeclarationMode' => true));
 ?>
