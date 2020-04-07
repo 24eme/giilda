@@ -159,12 +159,12 @@ class MouvementfactureFacturationView extends acCouchdbView {
 
         if(isset($mouvement->matiere) && $mouvement->matiere == FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT_RECOLTE_REGULATION) {
 
-            $origine_libelle = "Régulation";
+            $origine_libelle = "Régularisation";
         }
 
         if(isset($mouvement->matiere) && $mouvement->matiere == FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT_RECOLTE) {
 
-            $origine_libelle = "Volumes produits (".$mouvement->detail_libelle.")";
+            $origine_libelle = "Récolte (".$mouvement->detail_libelle.")";
         }
 
         if(!$mouvement->vrac_destinataire) {
