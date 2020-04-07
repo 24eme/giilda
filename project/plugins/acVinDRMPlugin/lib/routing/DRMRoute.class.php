@@ -3,7 +3,7 @@
 class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
     protected $drm = null;
-    
+
     protected function getObjectForParameters($parameters) {
 
         $this->drm = DRMClient::getInstance()->find('DRM-'.$parameters['identifiant'].'-'.$parameters['periode_version']);
@@ -12,12 +12,12 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
             throw new sfError404Exception(sprintf("La DRM n'a pas été trouvée"));
         }
 
-	$myUser = sfContext::getInstance()->getUser();
+        $myUser = sfContext::getInstance()->getUser();
 
-        if ($myUser->hasCredential('teledeclaration_drm') && 
-	    $myUser->getCompte()->getSociete()->identifiant != $this->drm->getEtablissement()->getSociete()->identifiant) {
-		throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette DRM");
-	}
+        if ($myUser->hasCredential('teledeclaration_drm') &&
+            $myUser->getCompte()->getSociete()->identifiant != $this->drm->getEtablissement()->getSociete()->identifiant) {
+                throw new sfError404Exception("Vous n'avez pas le droit d'accéder à cette DRM");
+        }
 
         $control = isset($this->options['control']) ? $this->options['control'] : array();
 
@@ -38,13 +38,13 @@ class DRMRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
         exit;
     }
 
-    protected function doConvertObjectToArray($object) {  
+    protected function doConvertObjectToArray($object) {
         $parameters = array("identifiant" => $object->getIdentifiant(), "periode_version" => $object->getPeriodeAndVersion());
         return $parameters;
     }
-    
+
     public function getDRMConfiguration() {
-        
+
         return $this->getDRM()->getConfig();
     }
 
