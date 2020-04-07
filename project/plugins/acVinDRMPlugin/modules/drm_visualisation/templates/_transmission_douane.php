@@ -18,7 +18,7 @@ Cette DRM semble avoir ét étransmise et réouverte.
 <?php else: ?>
 Cette DRM n'a pas été transmise.
 <?php endif; ?>
-<?php if (!$isTeledeclarationMode): ?>
+<?php if (!$isTeledeclarationMode && $drm->isValidee()): ?>
         &nbsp;<a id="retransmission" data-link="<?php echo url_for('drm_retransmission', $drm); ?>" class="btn_majeur"  style="font-weight: normal; line-height: 20px; float:right;" ><span style="font-size:7pt;">retransmettre</span></a>
 <?php endif; ?>
             </td></tr>
