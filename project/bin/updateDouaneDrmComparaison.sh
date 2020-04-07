@@ -44,7 +44,7 @@ cat $LOGFILE | grep -C 1 "Une DRM modificatrice est déjà ouverte" | grep "XML 
 
 echo -e "\n\nOpérateurs connus télédéclarants sur CIEL mais pas sur la plateforme : \n\n" >> $RAPPORTBODY;
 
-cat $LOGFILE | grep "n'a pas été trouvée" | sed -r "s/(.*)La DRM de (.+) (.+) \| (.+) n'a pas été trouvée(.+)/DRM-\2-\3 \4/g" | sort | uniq | sed -r "s|DRM-([0-9]+)-([0-9]+)|         $URLDRMINTERNE\1 pour la DRM \2|g" >> $RAPPORTBODY;
+cat $LOGFILE | grep "n'a pas été trouvée" | sed -r "s/(.*)La DRM de (.+) (.+) \| (.+) n'a pas été trouvée Erreur (.+) : (.+) \| (.+)/DRM-\2-\3 \4 \5/g" | sort | uniq | sed "s|$CIEL_URL_RETOURXML|$PROXY_PASS_CIEL_URL_RETOURXML|g" | sed -r "s|DRM-([0-9]+)-([0-9]+) (.+) (.+)|         $URLDRMINTERNE\1 pour la DRM \2 \3 (XML : \4)|g" >> $RAPPORTBODY;
 
 echo -e "\n\nAvaries : Numéros d'accise mal référencés = "$NBNUMACCISEMALDRM" DRM correspondant à "$NBNUMACCISEMAL" accises :\n\n" >> $RAPPORTBODY;
 
