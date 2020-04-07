@@ -13,7 +13,9 @@
 La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> : accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
 <?php elseif ($drm->transmission_douane->xml): ?>
 La transmission a échoué. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
-<?php endif ; else: ?>
+<?php endif ; elseif ($drm->exist("_attachments") && $drm->_attachments->exist("drm_transmise.xml")): ?>
+Cette DRM semble avoir ét étransmise et réouverte.
+<?php else: ?>
 Cette DRM n'a pas été transmise.
 <?php endif; ?>
 <?php if (!$isTeledeclarationMode): ?>
@@ -45,7 +47,7 @@ Cette DRM n'a pas été transmise.
     </table>
     <?php
 
-    if (((!$isTeledeclarationMode) || $sf_user->isUsurpationCompte()) && $drm->exist('transmission_douane') && $drm->exist('_attachments') && (!$drm->transmission_douane->coherente)): ?>
+    if (((!$isTeledeclarationMode) || $sf_user->isUsurpationCompte()) && $drm->exist('transmission_douane') && $drm->exist('_attachments') && $drm->_attachments->exist('drm_retour.xml') && (!$drm->transmission_douane->coherente)): ?>
       <br/>
       <table class="table_recap">
         <thead >
