@@ -243,7 +243,7 @@ $facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societe
 if($hasCVONegociant) {
     $t->ok($facture, "La facture est créée");
     $t->is($facture->total_ht, round($prixHt, 2), "Le total HT est de ".$prixHt." €");
-    $t->is($facture->lignes->get($drm->_id)->libelle,DRMClient::getInstance()->getLibelleFromId($drm->_id)." (sur la base des volumes produits)");
+    $t->is($facture->lignes->get($drm->_id)->libelle,DRMClient::getInstance()->getLibelleFromId($drm->_id)." (sur la base des volumes produits)", 'Libellé de la catégorie');
     $t->is(count($facture->lignes->get($drm->_id)->details->toArray(true, false)), 4, "La facture à 4 lignes");
 } else {
     $t->ok(!$facture, "La facture n'est pas créée");
