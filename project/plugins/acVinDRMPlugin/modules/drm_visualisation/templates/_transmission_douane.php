@@ -8,7 +8,7 @@
         </thead>
         <tbody>
             <tr><td>
-<?php if ($drm->exist('transmission_douane') && ($drm->transmission_douane->success != null)):
+<?php if ($drm->exist('transmission_douane') && ($drm->transmission_douane->xml != null)):
     if ($drm->transmission_douane->success) : ?>
 La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> : accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
 <?php elseif ($drm->transmission_douane->xml): ?>
