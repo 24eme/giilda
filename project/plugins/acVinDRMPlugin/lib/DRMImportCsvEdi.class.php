@@ -592,6 +592,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function importMouvementsFromCSV($just_check = false) {
             $num_ligne = 1;
             $stocksDebutModifies = array();
+            $etablissement = $this->drm->getEtablissementObject();
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CAVE)) {
                     $num_ligne++;
@@ -624,7 +625,15 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     $num_ligne++;
                     continue;
                 }
+
                 $confDetailMvt = $this->mouvements[$detailNode][$cat_mouvement][$type_mouvement];
+
+                if(!$confDetailMvt->isWritableForEtablissement($etablissement)) {
+                    $this->csvDoc->addErreur($this->typeMouvementCompatibiliteError($num_ligne, $csvRow));
+                    $num_ligne++;
+                    continue;
+                }
+
                 $cat_key = $confDetailMvt->getParent()->getKey();
                 $type_key = $confDetailMvt->getKey();
                 if ($confDetailMvt->hasDetails() && $type_key == 'vrac' || $type_key == 'contrat') {
@@ -1148,6 +1157,13 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             return $this->createError($num_ligne,
                                       $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT],
                                       "Le type de mouvement n'a pas été trouvé",
+                                      CSVClient::LEVEL_WARNING);
+        }
+
+        private function typeMouvementCompatibiliteError($num_ligne, $csvRow) {
+            return $this->createError($num_ligne,
+                                      $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT],
+                                      "Le type de mouvement n'est pas compatible avec le régime crd de l'établissement, le volume ne sera pas importé",
                                       CSVClient::LEVEL_WARNING);
         }
 
