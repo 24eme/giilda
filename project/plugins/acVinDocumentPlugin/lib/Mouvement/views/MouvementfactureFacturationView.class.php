@@ -153,8 +153,28 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return $mouvement;
     }
 
-
     public function createOrigine($famille, $mouvement) {
+        $origine_libelle = null;
+        if(preg_match('/^'.FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT_RECOLTE.'/', $mouvement->matiere) && $mouvement->quantite < 0) {
+            $origine_libelle = "Régularisation";
+        }
+
+        if(preg_match('/^'.FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT_RECOLTE.'/', $mouvement->matiere) && $mouvement->quantite > 0) {
+            $origine_libelle = "Récolte";
+            if($mouvement->detail_libelle) {
+                $origine_libelle .= " (".$mouvement->detail_libelle.")";
+            }
+        }
+
+        if(!$mouvement->vrac_destinataire) {
+
+            return $origine_libelle;
+        }
+
+        if($origine_libelle) {
+            $origine_libelle .= " ";
+        }
+        
         $isProduitFirst = FactureConfiguration::getInstance()->isPdfProduitFirst();
 
         if (($mouvement->origine == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM)
@@ -173,7 +193,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
                 }else{
                     $idContrat = $mouvement->detail_libelle;
                 }
-                $origine_libelle = 'Contrat n° ' . $idContrat;
+                $origine_libelle .= 'Contrat n° ' . $idContrat;
             }
             $origine_libelle .= ' (' . $mouvement->vrac_destinataire . ') ';
 
