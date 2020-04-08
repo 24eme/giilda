@@ -19,6 +19,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
     protected $fromEdi = false;
     protected $noSave = false;
     protected $drmPrecedente = null;
+    protected $etablissement = null;
 
       public function __construct($file, DRM $drm = null, $fromEdi = false) {
             $this->fromEdi = $fromEdi;
@@ -37,6 +38,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 return;
               }
             }
+
+            $this->etablissement = $drm->getEtablissementObject();
+            $this->societe = $this->etablissement->getSociete();
 
             $this->initConf($drm);
             if(is_null($this->csvDoc)) {
@@ -560,7 +564,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 if (KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]) && !preg_match('/^FR[0-9A-Z]{11}$/', KeyInflector::slugify($csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->createWrongFormatNumAcciseError($ligne_num, $csvRow));
                 }
-                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->drm->getEtablissementObject()->getSociete()->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->drm->getEtablissementObject()->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
+                if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && ($this->societe->identifiant != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT]) && (!$csvRow[self::CSV_NUMACCISE] || $this->etablissement->no_accises != $csvRow[self::CSV_NUMACCISE]))) {
                     $this->csvDoc->addErreur($this->otherNumeroCompteError($ligne_num, $csvRow));
                 }
                 if(!$this->external_id && $this->drm->getIdentifiant() != KeyInflector::slugify($csvRow[self::CSV_IDENTIFIANT])){
@@ -592,7 +596,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
         private function importMouvementsFromCSV($just_check = false) {
             $num_ligne = 1;
             $stocksDebutModifies = array();
-            $etablissement = $this->drm->getEtablissementObject();
             foreach ($this->getDocRows() as $csvRow) {
                 if (KeyInflector::slugify($csvRow[self::CSV_TYPE] != self::TYPE_CAVE)) {
                     $num_ligne++;
@@ -628,7 +631,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
                 $confDetailMvt = $this->mouvements[$detailNode][$cat_mouvement][$type_mouvement];
 
-                if(!$confDetailMvt->isWritableForEtablissement($etablissement)) {
+                if(!$confDetailMvt->isWritableForEtablissement($this->etablissement)) {
                     $this->csvDoc->addErreur($this->typeMouvementCompatibiliteError($num_ligne, $csvRow));
                     $num_ligne++;
                     continue;
@@ -796,7 +799,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $this->drm->add('crds');
             }
             $num_ligne = 1;
-            $etablissementObj = $this->drm->getEtablissementObject();
 
             $all_contenances_origine = sfConfig::get('app_vrac_contenances');
             $all_contenances = array();
@@ -823,7 +825,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
                 $crd_regime = DRMClient::convertCRDRegime($csvRow[self::CSV_CRD_REGIME]);
                 if(!$crd_regime){
-                  $crd_regime = ($etablissementObj->exist('crd_regime'))? $etablissementObj->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
+                  $crd_regime = ($this->etablissement->exist('crd_regime'))? $this->etablissement->get('crd_regime') : EtablissementClient::REGIME_CRD_COLLECTIF_SUSPENDU;
                 }
 
                 $genre = $this->convertGenre($csvRow[self::CSV_CRD_GENRE]);
@@ -904,7 +906,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
             }
 
-            if (! $etablissementObj->exist('crd_regime')) {
+            if (! $this->etablissement->exist('crd_regime')) {
                 $crd_regimes = [];
                 foreach ($this->getDocRows() as $csvRow) {
                     $crd_regime = DRMClient::convertCRDRegime($csvRow[self::CSV_CRD_REGIME]);
@@ -914,8 +916,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                     }
                 }
 
-                $etablissementObj->add('crd_regime', implode(',', $crd_regimes));
-                $etablissementObj->save();
+                $this->etablissement->add('crd_regime', implode(',', $crd_regimes));
+                $this->etablissement->save();
             }
         }
 
