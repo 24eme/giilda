@@ -62,7 +62,7 @@
 <?php if ($produit->getTav()): ?>
 				<tav><?php echo sprintf("%01.02f", $produit->getTav()) ?></tav>
 <?php endif; ?>
-<?php if ($produit->isPremix()): ?>
+<?php if (false && $produit->getPremix()): ?>
 				<premix>true</premix>
 <?php endif; ?>
 <?php if ($produit->exist('observations')): ?>
