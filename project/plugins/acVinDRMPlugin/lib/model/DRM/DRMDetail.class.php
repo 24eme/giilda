@@ -540,7 +540,7 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function isPremix() {
-        if (preg_match('/(premix|premix)/i', $this->produit_libelle) || preg_match('/(premix|premix)/i', $this->denomination_complementaire || preg_match('/(premix|premix)/i', $this->code_douane))) {
+        if (preg_match('/premix/i', $this->produit_libelle) || preg_match('/premix/i', $this->denomination_complementaire) || preg_match('/premix/i', $this->code_douane)) {
             return true;
         }
         return false;
