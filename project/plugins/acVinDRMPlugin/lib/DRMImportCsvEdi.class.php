@@ -939,15 +939,17 @@ private function importCrdsFromCSV($just_check = false) {
   $all_contenances = VracConfiguration::getInstance()->getContenancesSlugified();
 
   $crd_precedente = array();
-  foreach($this->drmPrecedente->crds as $regime => $crds) {
-      foreach($crds as $key => $crd) {
-          $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
-          if (!isset($crd_precedente[$kid])) {
-              $crd_precedente[$kid] = array();
+  if($this->drmPrecedente) {
+      foreach($this->drmPrecedente->crds as $regime => $crds) {
+          foreach($crds as $key => $crd) {
+              $kid = self::cdrreversekeyid($regime, $crd->genre, $crd->couleur, $crd->detail_libelle);
+              if (!isset($crd_precedente[$kid])) {
+                  $crd_precedente[$kid] = array();
+              }
+              $crd_precedente[$kid][] = $crd->getKey();
           }
-          $crd_precedente[$kid][] = $crd->getKey();
       }
-  }
+    }
 
   foreach ($this->getDocRows() as $csvRow) {
     $num_ligne++;
@@ -992,7 +994,7 @@ private function importCrdsFromCSV($just_check = false) {
     $litrageLibelle = DRMClient::getInstance()->getLibelleCRD($litrageKey);
     $regimeNode = $this->drm->getOrAdd('crds')->getOrAdd($crd_regime);
     $keyNode = null;
-    $reverseKey = self::cdrreversekeyid($regime, $genre, $couleur, $litrageLibelle);
+    $reverseKey = self::cdrreversekeyid($crd_regime, $genre, $couleur, $litrageLibelle);
     if (isset($crd_precedente[$reverseKey])) {
         $keyNode = array_pop($crd_precedente[$reverseKey]);
     }
