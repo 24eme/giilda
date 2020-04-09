@@ -286,20 +286,27 @@ class DRMClient extends acCouchdbClient {
     }
 
     public static function getDRMControles(){
-        $index = acElasticaManager::getType('DRM');
-        $queryString = new acElasticaQueryQueryString("controles");
-        $query = new acElasticaQuery();
-        $query->setRawQuery(["query" => ["exists" => ["field" =>"doc.controles" ]]]);
-        
-        $resultSet = $index->search($query);
-        $results = array();
-        foreach ($resultSet as $key => $rs) {
-            $drm_id_array = explode("-", $rs->id);
-            $identifiant = $drm_id_array[1];
-            $results[$identifiant] = $rs;
+        $results = [];
+        try{
+            if(acElasticaManager::getIndex()->exists()){
+                $index = acElasticaManager::getType('DRM');      
+                $queryString = new acElasticaQueryQueryString("controles");
+                $query = new acElasticaQuery();
+                $query->setRawQuery(["query" => ["exists" => ["field" =>"doc.controles" ]]]);
+                $resultSet = $index->search($query);
+                $results = array();
+                foreach ($resultSet as $key => $rs) {
+                    $drm_id_array = explode("-", $rs->id);
+                    $identifiant = $drm_id_array[1];
+                    $results[$identifiant] = $rs;
+                }            
+                return $results;
+            }
+        }
+        catch(Exception $e){
+            return;
         }
         
-        return $results;
     }
 
     public static function getNbControlesDRM($controles){

@@ -33,7 +33,7 @@
                 </td>
                 <td class="text-center">
                     <?php foreach (array_keys($drm_controle->doc["controles"]) as $key => $controle): ?>
-                        <span><?php echo $controle != DRM::TRANSMISSION ? "$controle; ": "Erreur $controle; "; ?></span>
+                        <span><?php echo $controle != DRM::TRANSMISSION ? "$controle; ": "Erreur de $controle; "; ?></span>
                     <?php endforeach; ?>
                 </td>
                 <td class="text-center"><a class="btn btn-sm btn-default" href="<?php echo url_for($redirect, array('identifiant' => $identifiant, 'periode_version' => $drm_controle->doc['periode'])) ?>">Visualiser</a></td>

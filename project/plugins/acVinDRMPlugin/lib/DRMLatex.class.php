@@ -75,7 +75,7 @@ class DRMLatex extends GenericLatex {
         if ($this->drm->exist('releve_non_apurement') && count($this->drm->releve_non_apurement) && (count($this->drm->releve_non_apurement) >= 4)) {
             $nbPages++;
         }
-        $nbPages += (int) (count($this->drm->droits->douane)/DRMLatex::NB_PRODUITS_PER_PAGE)+1;
+        $nbPages += $this->makeDivision(count($this->drm->droits->douane));
         
         return $nbPages;
     }
