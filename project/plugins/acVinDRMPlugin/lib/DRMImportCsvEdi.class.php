@@ -763,6 +763,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $num_ligne++;
                   return;
                 }
+
+                if($type_complement == self::COMPLEMENT_PREMIX && $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT] && !$drmDetails->isPremix()) {
+                    $this->csvDoc->addErreur($this->typeComplementNotFoundError($num_ligne, $csvRow));
+                    return;
+                }
                 if(!$just_check){
                   $valeur_complement = $csvRow[self::CSV_CAVE_VALEUR_COMPLEMENT_PRODUIT];
                   $value = null;
@@ -774,8 +779,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                       $value = $valeur_complement;
                       break;
                     case self::COMPLEMENT_PREMIX:
-                      $value = boolval($valeur_complement);
-                      break;
+                      return;
                   }
                   $field = strtolower($type_complement);
                   $drmDetails->add($field, $value);
