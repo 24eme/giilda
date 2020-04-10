@@ -18,15 +18,17 @@ class DRMLibellesForm extends acCouchdbForm {
 		}
 		$this->widgetSchema->setNameFormat('drm_libelles[%s]');
 	}
-	
+
     public function save() {
         $values = $this->getValues();
         $drm = $this->getObject();
         foreach ($values as $hash => $value) {
 			if (preg_match('/_code$/', $hash)) continue;
-        	if ($drm->exist($hash) && preg_match('/^\/declaration\/certifications\//', $hash) && $value) {
-        		$detail = $drm->get($hash);
-        		$detail->produit_libelle = $value;
+        	if ($drm->exist($hash) && preg_match('/^\/declaration\/certifications\//', $hash)) {
+				$detail = $drm->get($hash);
+				if ($value) {
+        			$detail->produit_libelle = $value;
+				}
 				if (isset($values[$hash.'_code']) && $values[$hash.'_code']) {
 					$v = $values[$hash.'_code'];
 					if (strlen($v) == 5) {

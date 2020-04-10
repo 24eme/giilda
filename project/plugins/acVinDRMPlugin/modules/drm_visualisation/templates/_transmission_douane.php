@@ -3,25 +3,27 @@
     <table class="table_recap">
         <thead>
             <tr>
-                <th>Transmission sur le portail proDou@ne (<?php if ($drm->exist('transmission_douane') && !is_null($drm->transmission_douane->success)) : ?><a href="<?php echo url_for('drm_xml_table', array("identifiant" => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), "retour" => "0")); ?>">XML transmis</a> - <?php endif; ?><a href="<?php echo url_for('drm_edition_libelles', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion())); ?>">Edition libellés</a>)</th>
+                <th>Transmission sur le portail proDou@ne <?php if (!$isTeledeclarationMode || $sf_user->isUsurpationCompte()) : echo "("; if ($drm->exist('transmission_douane') && !is_null($drm->transmission_douane->xml)) : ?><a href="<?php echo url_for('drm_xml_table', array("identifiant" => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), "retour" => "0")); ?>">XML transmis</a> - <?php endif; ?><a href="<?php echo url_for('drm_edition_libelles', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion())); ?>">Edition libellés</a>)<?php endif; ?></th>
             </tr>
         </thead>
         <tbody>
             <tr><td>
-<?php if ($drm->exist('transmission_douane') && ($drm->transmission_douane->success != null)):
+<?php if ($drm->exist('transmission_douane') && ($drm->transmission_douane->xml != null)):
     if ($drm->transmission_douane->success) : ?>
 La transmission a été réalisée avec succès le <?php echo $drm->getTransmissionDate(); ?> : accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
 <?php elseif ($drm->transmission_douane->xml): ?>
 La transmission a échoué. Le message d'erreur envoyé par le portail des douanes est « <?php echo $drm->getTransmissionErreur(); ?> ».
-<?php endif ; else: ?>
+<?php endif ; elseif ($drm->exist("_attachments") && $drm->_attachments->exist("drm_transmise.xml")): ?>
+Cette DRM semble avoir ét étransmise et réouverte.
+<?php else: ?>
 Cette DRM n'a pas été transmise.
 <?php endif; ?>
-<?php if (!$isTeledeclarationMode): ?>
+<?php if (!$isTeledeclarationMode && $drm->isValidee()): ?>
         &nbsp;<a id="retransmission" data-link="<?php echo url_for('drm_retransmission', $drm); ?>" class="btn_majeur"  style="font-weight: normal; line-height: 20px; float:right;" ><span style="font-size:7pt;">retransmettre</span></a>
 <?php endif; ?>
             </td></tr>
             <?php if (!$isTeledeclarationMode || $sf_user->isUsurpationCompte()):
-                if ($drm->exist('transmission_douane') && is_null($drm->transmission_douane->coherente)) : ?>
+                if (!$drm->exist('transmission_douane') || ($drm->exist('transmission_douane') && is_null($drm->transmission_douane->coherente))) : ?>
                 <tr><td>Aucun retour de la part de proDou@ne n'a été effectué&nbsp;
                     <a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="btn_majeur"  style="line-height: 20px; font-size:25px; float:right;" >♲</a>
                 </td></tr>
@@ -45,7 +47,7 @@ Cette DRM n'a pas été transmise.
     </table>
     <?php
 
-    if (((!$isTeledeclarationMode) || $sf_user->isUsurpationCompte()) && $drm->exist('transmission_douane') && $drm->exist('_attachments') && (!$drm->transmission_douane->coherente)): ?>
+    if (((!$isTeledeclarationMode) || $sf_user->isUsurpationCompte()) && $drm->exist('transmission_douane') && $drm->exist('_attachments') && $drm->_attachments->exist('drm_retour.xml') && (!$drm->transmission_douane->coherente)): ?>
       <br/>
       <table class="table_recap">
         <thead >

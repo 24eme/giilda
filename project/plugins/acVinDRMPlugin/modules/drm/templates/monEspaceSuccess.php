@@ -29,6 +29,9 @@
                     </div>
                 <?php endif; ?>
             <?php endif; ?>
+<?php if ($sf_user->hasFlash('drm_warning')) : ?>
+<p style="text-align: center;background-color: orange;color: white;font-weight: bold;padding: 5px;"><?php echo $sf_user->getFlash('drm_warning'); ?></p>
+<?php endif; ?>
 <?php if (!$isTeledeclarationMode): ?>
                 <nav>
                     <ul>
