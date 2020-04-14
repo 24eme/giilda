@@ -37,7 +37,7 @@ cat $TMP/view_drm_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DRM
 
 cat $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv | cut -d ";" -f 1 | sort -r -t ";" -k 1,1 | uniq -w 16 | sort > $TMP/export_bi_drm_ids.csv
 
-join -t ";" -1 1 -2 1 /tmp/loire/export_bi_drm_ids.csv /tmp/loire/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv
+join -t ";" -1 1 -2 1 /tmp/loire/export_bi_drm_ids.csv /tmp/loire/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv > $TMP/export_bi_drm_stock_last_modificatrices.csv
 
 # III - Traitement pour les vitis Hors DRA hors COOP
 
