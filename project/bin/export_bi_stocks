@@ -7,7 +7,12 @@ if ! test "$SHORT"; then
     SHORT=$(for ((i=($(date +%Y)-4) ; $(date +%Y) - $i + 1; i++)); do echo -n "$i-$(($i+1))|"; done | sed 's/|$/)/' | sed 's/^/(/')
 fi
 
-curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' | grep -E '"[0-9]+"/' | sort | uniq > $TMP/sed_produit_code_cleaned
+curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false"  > $TMP/view_configuration_produits.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks > $TMP/view_ds_stocks.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks > $TMP/view_drm_stocks.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation > $TMP/view_mouvement_consultation.json
+
+cat $TMP/view_configuration_produits.json | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' | grep -E '"[0-9]+"/' | sort | uniq > $TMP/sed_produit_code_cleaned
 
 echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/AJV\/mentions\/DEFAUT\/lieux\/BRI\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"92"/' >> $TMP/sed_produit_code_cleaned
 echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUS\/mentions\/DEFAUT\/lieux\/AC\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"1040"/' >> $TMP/sed_produit_code_cleaned
@@ -20,32 +25,19 @@ echo 's/;;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/TRANQ\/appel
 
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code_cleaned
 
+
 # I - Récupération DS négoce/Caves Coop
+
 echo "#DS;campagne;identifiant declarant;hash produit;code produit;periode;identifiant;volume stock;volume stock élaboration;vci;reserve_qualitative;nom declarant;libelle produit" > $TMP/export_bi_dss-nonwell.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code_cleaned >> $TMP/export_bi_dss-nonwell.csv
+cat $TMP/view_ds_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code_cleaned >> $TMP/export_bi_dss-nonwell.csv
 
 
 # II - Récupération des DRMs et réduction de fichiers
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DRM;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' > $TMP/export_bi_drm_stock.csv
-cat $TMP/export_bi_drm_stock.csv | awk -F ";" ' substr($5,2,4) >= 2014  { print }' | grep -Ev "(AOC_HORSINTERLOIRE|AOC_BIVC|IGP_HORSVALDELOIRE|VINSSIG)" > $TMP/export_bi_drm_stock_campagne_filtered.csv
+cat $TMP/view_drm_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DRM;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DRM;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | awk -F ";" ' substr($5,2,4) >= 2014  { print }' | grep -Ev "(AOC_HORSINTERLOIRE|AOC_BIVC|IGP_HORSVALDELOIRE|VINSSIG)" | awk  -F ";" '{ gsub("\"","",$3); gsub("\"","",$5); gsub("\"","",$6); print $3"-"$5"-"$6";"$1";"$2";"$3";"$4";"$5";"$6";"$7";"$8";"$9";"$10";"$11";"$12";"$13 }' | sed -r 's/^([0-9]*-[0-9]{6}-);/\1M00;/g' | sort -t ";" -k 1,1 > $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv
 
-# Récupération des plus hautes modificatrices
+cat $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv | cut -d ";" -f 1 | sort -r -t ";" -k 1,1 | uniq -w 16 | sort > $TMP/export_bi_drm_ids.csv
 
-cat $TMP/export_bi_drm_stock_campagne_filtered.csv | awk  -F ";" '{ gsub("\"","",$3); gsub("\"","",$5); gsub("\"","",$6); print $3"-"$5"-"$6";"$1";"$2";"$3";"$4";"$5";"$6";"$7";"$8";"$9";"$10";"$11";"$12";"$13 }' | sed -r 's/^([0-9]*-[0-9]{6}-);/\1M00;/g' > $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv
-cat $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv | cut -d ";" -f 1 | sort -r | uniq -w 16 > $TMP/export_bi_drm_ids.csv
-
-# On garde uniquement les lignes de plus hautes modificatrices
-rm $TMP/export_bi_drm_stock_last_modificatrices.csv > /dev/null 2>&1
-touch $TMP/export_bi_drm_stock_last_modificatrices.csv
-
-cat $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv | while read line; do
-   DOCID=`echo $line | cut -d ";" -f 1`;
-   CMD=`cat $TMP/export_bi_drm_ids.csv | grep $DOCID`;
-   if [ ! -z $CMD ]
-   then
-     echo $line >> $TMP/export_bi_drm_stock_last_modificatrices.csv
-   fi
-done
+join -t ";" -1 1 -2 1 /tmp/loire/export_bi_drm_ids.csv /tmp/loire/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv
 
 # III - Traitement pour les vitis Hors DRA hors COOP
 
@@ -90,7 +82,7 @@ done
 # V - Mise en forme des données et ajout dans le fichiers stock
 
 # Récupération de tout les libellés depuis les mouvements
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' > $TMP/export_bi_mouvements_for_match_libelle.csv
+cat $TMP/view_mouvement_consultation.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' > $TMP/export_bi_mouvements_for_match_libelle.csv
 
 cat $TMP/export_bi_mouvements_for_match_libelle.csv | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | awk -F ";" ' { print $8";"$14 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' | sort | uniq  > $TMP/sed_produit_libelle.tmp
 
