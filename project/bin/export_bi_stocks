@@ -10,7 +10,6 @@ fi
 curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false"  > $TMP/view_configuration_produits.json
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/ds/_view/stocks > $TMP/view_ds_stocks.json
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/drm/_view/stocks > $TMP/view_drm_stocks.json
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation > $TMP/view_mouvement_consultation.json
 
 cat $TMP/view_configuration_produits.json | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' | grep -E '"[0-9]+"/' | sort | uniq > $TMP/sed_produit_code_cleaned
 
@@ -59,25 +58,6 @@ curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/all
 join -t ";" -1 4 -2 1 $TMP/export_bi_drm_stock_campagne_filtered_juillet.csv $TMP/export_etablissement_dra.csv > $TMP/export_bi_drm_stock_campagne_filtered_juillet_for_dra.csv
 
 # V - Mise en forme des données et ajout dans le fichiers stock
-
-# Récupération de tout les libellés depuis les mouvements
-# cat $TMP/view_mouvement_consultation.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' > $TMP/export_bi_mouvements_for_match_libelle.csv
-#
-# cat $TMP/export_bi_mouvements_for_match_libelle.csv | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | awk -F ";" ' { print $8";"$14 }' | sort -u -t ";" -k1,1 | grep -E '".*";".*"' | awk -F ";" ' { gsub("/","#",$1); print "s/;\\("$1"\\)/;\\1;"$2"/" }' | sed 's/#/\\\//g' | sort | uniq  > $TMP/sed_produit_libelle.tmp
-#
-# echo 's/;\("\/declaration\/certifications\/AUTRES\/genres\/DEFAUT\/appellations\/LIES\/mentions\/LBVE\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"Lies, Bourbes et vins à éliminer"/' >> $TMP/sed_produit_libelle.tmp
-# echo 's/;\("\/declaration\/certifications\/ALCOOL\/genres\/DEFAUT\/appellations\/CID\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/DEFAUT\/cepages\/DEFAUT"\)/;\1;"Cidres, Poirés"/' >> $TMP/sed_produit_libelle.tmp
-# echo 's/;\("\/declaration\/certifications\/AOC_INTERLOIRE\/genres\/TRANQ\/appellations\/COA\/mentions\/DEFAUT\/lieux\/DEFAUT\/couleurs\/rose\/cepages\/CBF"\)/;\1;"Coteaux d'"'"'Ancenis Rosé Cabernet"/' >> $TMP/sed_produit_libelle.tmp
-#
-# cat $TMP/sed_produit_libelle.tmp > $TMP/sed_produit_libelle_notuniq
-# cat $TMP/sed_produit_libelle.tmp | sed 's|\\\/AOC\\\/|\\\/AOC_INTERLOIRE\\\/|g' >> $TMP/sed_produit_libelle_notuniq
-# cat $TMP/sed_produit_libelle_notuniq | sort -u -t ";" -k 2,2 > $TMP/sed_produit_libelle
-
-# Unfication
-#cat $TMP/sed_produit_libelle | sort -u -t ";" -k2,2 | uniq > $TMP/sed_produit_libelle.tmp
-#cat $TMP/sed_produit_libelle.tmp > $TMP/sed_produit_libelle
-
-#rm $TMP/export_bi_mouvements_for_match_libelle.csv;
 
 # Transformation au format du fichier des Non-DRAs
 cat $TMP/export_bi_drm_stock_campagne_filtered_aout_without_coop.csv | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$1"\";;"$5";"$15";\"DRM-"$2"\";\""$8"\";;;;"$14 }' | sed -f $TMP/sed_produit_code_cleaned | sed 's/-M00//g' | awk -F ";" ' { print $1";"$2";"$3";"$4";"$5";\""substr($2,7,4)"07\";"$7";"$8";"$9";"$10";"$11";"$12";"$6";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_non_dra.csv
