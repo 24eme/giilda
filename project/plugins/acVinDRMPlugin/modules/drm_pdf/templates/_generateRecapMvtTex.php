@@ -38,7 +38,8 @@ if(!isset($tabTitle)) {
             $nb_produits_per_page = $nb_produits - $nb_produits_displayed;
         }
         $size_col = 25;
-        $entete = '\begin{tabular}{C{'.$size_col.'mm}|';
+        $size_col_sp = 40;
+        $entete = '\begin{tabular}{C{'.$size_col_sp.'mm}|';
         for ($cpt_col = 0; $cpt_col < $nb_produits_per_page; $cpt_col++) {
             $entete .='C{'.$size_col.'mm}|';
         }
@@ -103,7 +104,7 @@ if(!isset($tabTitle)) {
         ?>
         \rowcolor{gray}
         <?php $totaldebuth = 0; ?>
-        \multicolumn{1}{C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{STOCK DÉBUT DE MOIS}} }} &
+        \multicolumn{1}{C{<?php echo $size_col_sp; ?>mm}|}{ \small{\color{white}{\textbf{STOCK DÉBUT DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             <?php if(count((array)$produit) > 1):?>
                 <?php $totaldebuth += $produit->total_debut_mois; ?>
@@ -184,7 +185,7 @@ if(!isset($tabTitle)) {
         <?php foreach ($mvtsSortiesForPdf as $cpt_sortie => $sortie): ?>
             <?php $sortieKey = $sortie->key; ?>
             <?php if (!$cpt_sortie): ?>
-                \multicolumn{1}{C{<?php echo $size_col; ?>mm}|}{\multirow{<?php echo count($mvtsSortiesForPdf); ?>}{48mm}{\small{\textbf{SORTIES DU MOIS}}}} &
+                \multicolumn{1}{C{<?php echo $size_col_sp; ?>mm}|}{\multirow{<?php echo count($mvtsSortiesForPdf); ?>}{48mm}{\small{\textbf{SORTIES DU MOIS}}}} &
             <?php endif; ?>
             <?php $totalsortieh = 0; ?>
             \multicolumn{1}{|l|}{  \small{<?php echo $sortie->libelle; ?>} } &
@@ -240,7 +241,7 @@ if(!isset($tabTitle)) {
         ?>
         \rowcolor{gray}
         <?php $totalstockh = 0; ?>
-        \multicolumn{1}{C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
+        \multicolumn{1}{C{<?php echo $size_col_sp; ?>mm}|}{ \small{\color{white}{\textbf{STOCK FIN DE MOIS}} }} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
             <?php if(count((array)$produit) > 1):?>
                 \multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php $totalstockh += $produit->stocks_fin->final; echoFloatWithHl($produit->stocks_fin->final); ?>}}}}
