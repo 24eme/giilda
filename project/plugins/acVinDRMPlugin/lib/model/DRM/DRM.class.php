@@ -327,26 +327,31 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $this->devalide();
     }
     public function addPoints($points){
+        $msg = "";
         $this->remove('controles');
         $this->add('controles');
         if($points->hasErreurs()){
             $this->controles->add($this::EURREUR);
+            $msg .= $this::EURREUR;
             $this->controles->erreur->nb = count($points->getErreurs());
             $this->addMessages($this::EURREUR, $points->getErreurs());
         }
 
         if($points->hasVigilances()){
             $this->controles->add($this::VIGILANCE);
+            $msg .= ", ".$this::VIGILANCE;
             $this->controles->vigilance->nb = count($points->getVigilances());
             $this->addMessages($this::VIGILANCE, $points->getVigilances());
         }
 
         if($points->hasEngagements()){
             $this->controles->add($this::ENGAGEMENT);
+            $msg .= ", ".$this::ENGAGEMENT;
             $this->controles->engagement->nb = count($points->getEngagements());
             $this->addMessages($this::ENGAGEMENT, $points->getEngagements());
         }
-        //$this->save();
+        $this->save();
+        return $msg;
     }
 
     protected function addMessages($typePoint, $point){
@@ -360,12 +365,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function cleanControles(){
         $this->remove("controles");
-        $this->save();
     }
 
     public function cleanTransmission(){
         $this->remove('transmission_douane');
-        $this->save();
     }
 
     public function setDroits() {

@@ -59,7 +59,7 @@ all:
     param:
       session_name: giilda_civa
 
-  request:
-    class: sfWebRequest
-    param:
-      relative_url_root: /drm/
+  # request:
+  #   class: sfWebRequest
+  #   param:
+  #     relative_url_root: /drm/
