@@ -32,7 +32,7 @@ if($nb_produits): ?>
     <?php
     $nb_pages = ceil($nb_produits / $nb_produits_per_page);
     $nb_produits_displayed = 0;
-    $size_col = 40;
+    $size_col = 25;
     for ($index_page = 0; $index_page < $nb_pages; $index_page++): ?>
         <?php
         $index_first_produit = $index_page * $nb_produits_per_page;

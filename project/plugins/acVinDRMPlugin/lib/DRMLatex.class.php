@@ -18,7 +18,7 @@ class DRMLatex extends GenericLatex {
 
     const VRAC_OUTPUT_TYPE_PDF = 'pdf';
     const VRAC_OUTPUT_TYPE_LATEX = 'latex';
-    const NB_PRODUITS_PER_PAGE = 4;
+    const NB_PRODUITS_PER_PAGE = 8;
 
     function __construct(DRM $drm, $config = null) {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");

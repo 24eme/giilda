@@ -7,8 +7,10 @@ use_helper('Display');
 $mvtsEnteesForPdf = $drmLatex->getMvtsEnteesForPdf($detailsNodes);
 $mvtsSortiesForPdf = $drmLatex->getMvtsSortiesForPdf($detailsNodes);
 $newPage = false;
+$is_recap = true;
 if(!isset($data)) {
     $data = $drm->declaration->getProduitsDetailsByCertifications(true,$detailsNodes);
+    $is_recap = false;
 }
 if(!isset($tabTitle)) {
     $tabTitle = "Produits ".$libelleDetail."s";
@@ -35,12 +37,16 @@ if(!isset($tabTitle)) {
         if ($index_page == $nb_pages - 1) {
             $nb_produits_per_page = $nb_produits - $nb_produits_displayed;
         }
-        $size_col = 40;
+        $size_col = 25;
         $entete = '\begin{tabular}{C{'.$size_col.'mm}|';
         for ($cpt_col = 0; $cpt_col < $nb_produits_per_page; $cpt_col++) {
             $entete .='C{'.$size_col.'mm}|';
         }
-        $entete .='C{'.$size_col.'mm}|}';
+        if($is_recap){
+            $entete .='C{'.$size_col.'mm}|}';
+        }else{
+            $entete .='}';
+        }
 
         if ($index_page == 1) {
             $libelleCertif .= ' (Suite)';
@@ -84,7 +90,10 @@ if(!isset($tabTitle)) {
             \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelleProduit); ?>}}}}
             <?php echo ($counter < count($produits_for_page) -1 ) ? "&" : ''; ?>
         <?php endforeach; ?>
-        &\multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}
+        <?php if($is_recap):?>
+            &\multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{TOTAL}}}}            
+        <?php endif; ?>
+        
         \\
         \hline
         <?php
@@ -104,7 +113,9 @@ if(!isset($tabTitle)) {
             <?php endif; ?>
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        &\multicolumn{1}{r|}{ \small{\color{white}{\textbf{ <?php echoFloatWithHl( $totaldebuth ); ?> }}}}
+        <?php if($is_recap):?>
+            &\multicolumn{1}{r|}{ \small{\color{white}{\textbf{ <?php echoFloatWithHl( $totaldebuth ); ?> }}}}
+        <?php endif; ?>        
         \\
         \hline
         <?php
@@ -133,7 +144,9 @@ if(!isset($tabTitle)) {
                 <?php if($counter < count($produits_for_page) - 1): ?>
                     <?php echo "&"; ?>
                 <?php else: ?>
-                    &\multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl( $totalentreeh ); ?> }}
+                    <?php if($is_recap):?>
+                        &\multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl( $totalentreeh ); ?> }}
+                    <?php endif; ?>                    
                 <?php endif?>
             <?php endforeach; ?>           
             \\
@@ -157,7 +170,9 @@ if(!isset($tabTitle)) {
             <?php endif; ?>
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        &\multicolumn{1}{r|}{\small{\textbf{<?php echoFloatWithHl($tTotalentrees); ?>}} }
+        <?php if($is_recap):?>
+            &\multicolumn{1}{r|}{\small{\textbf{<?php echoFloatWithHl($tTotalentrees); ?>}} }
+        <?php endif; ?>
         \\
         \hline
 
@@ -184,7 +199,9 @@ if(!isset($tabTitle)) {
                 <?php endif; ?>
                 <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
             <?php endforeach; ?>
-            &\multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl($totalsortieh); ?> }}  
+            <?php if($is_recap):?>
+                &\multicolumn{1}{r|}{ \small{ <?php echoFloatWithHl($totalsortieh); ?> }}
+            <?php endif; ?>  
             \\
             <?php if ((count($mvtsSortiesForPdf)) != $cpt_sortie): ?>
                 \hline
@@ -209,7 +226,10 @@ if(!isset($tabTitle)) {
             <?php endif; ?>
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        &\multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($tTotalsorties); ?>}} }
+        <?php if($is_recap):?>
+            &\multicolumn{1}{r|}{   \small{\textbf{<?php echoFloatWithHl($tTotalsorties); ?>}} }
+        <?php endif; ?>
+        
         \\
         \hline \hline
 
@@ -229,7 +249,9 @@ if(!isset($tabTitle)) {
             <?php endif; ?>
             <?php echo ($counter < count($produits_for_page) - 1) ? "&" : ''; ?>
         <?php endforeach; ?>
-        &\multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($totalstockh); ?>}}}}
+        <?php if($is_recap):?>
+            &\multicolumn{1}{r|}{  \small{\color{white}{\textbf{<?php echoFloatWithHl($totalstockh); ?>}}}}
+        <?php endif; ?>        
         \\
         \hline
         \end{tabular}
