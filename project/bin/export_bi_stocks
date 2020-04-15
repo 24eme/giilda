@@ -27,8 +27,8 @@ echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code_cleane
 
 # I - Récupération DS négoce/Caves Coop
 
-echo "#DS;campagne;identifiant declarant;hash produit;code produit;periode;identifiant;volume stock;volume stock élaboration;vci;reserve_qualitative;nom declarant;libelle produit" > $TMP/export_bi_dss-nonwell.csv
-cat $TMP/view_ds_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code_cleaned >> $TMP/export_bi_dss-nonwell.csv
+echo "#DS;campagne;identifiant declarant;hash produit;code produit;periode;identifiant;volume stock;volume stock élaboration;vci;reserve_qualitative;nom declarant;libelle produit" > $TMP/export_bi_dss.csv
+cat $TMP/view_ds_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code_cleaned >> $TMP/export_bi_dss.csv
 
 
 # II - Récupération des DRMs et réduction de fichiers
@@ -36,7 +36,7 @@ cat $TMP/view_drm_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DRM
 
 cat $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv | cut -d ";" -f 1 | sort -r -t ";" -k 1,1 | uniq -w 16 | sort > $TMP/export_bi_drm_ids.csv
 
-join -t ";" -1 1 -2 1 /tmp/loire/export_bi_drm_ids.csv /tmp/loire/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv > $TMP/export_bi_drm_stock_last_modificatrices.csv
+join -t ";" -1 1 -2 1 $TMP/export_bi_drm_ids.csv $TMP/export_bi_drm_stock_campagne_filtered_with_modificatrices.csv > $TMP/export_bi_drm_stock_last_modificatrices.csv
 
 # III - Traitement pour les vitis Hors DRA hors COOP
 
@@ -65,50 +65,8 @@ cat $TMP/export_bi_drm_stock_campagne_filtered_aout_without_coop.csv | awk -F ";
 # Transformation au format du fichier des DRAs
 cat $TMP/export_bi_drm_stock_campagne_filtered_juillet_for_dra.csv  | awk -F ";" ' { print "DS;\""substr($6,1,4)-1"-"substr($6,1,4)"\";\""$1"\";;"$5";"$15";\"DRM-"$2"\";\""$13"\";;;;"$14 }' | sed -f $TMP/sed_produit_code_cleaned |sed 's/-M00//g' | awk -F ";" ' { print $1";"$2";"$3";"$4";"$5";\""substr($2,7,4)"07\";"$7";"$8";"$9";"$10";"$11";"$12";"$6";" }' | grep -v "/declaration/certifications/IGP_HORSVALDELOIRE" > $TMP/export_bi_drm_final_for_dra.csv
 
-cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss-nonwell.csv
-cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss-nonwell.csv
-
-cat $TMP/export_bi_dss-nonwell.csv | awk -F ';' '{ isDrm=index($0,"DRM-"); code_produit=""; if(match($8,/^\"[0-9]+\"$/)){ code_produit=$8; } drmid=""; if(match($8,/^\"DRM-[0-9]+-[0-9]+.+\"/)){ drmid=$8; } if(match($9,/^\"DRM-[0-9]+-[0-9]+.+\"/)){ drmid=$9; } stock=""; if(match($9,/^\"[0-9.]+\"$/)){ stock=$9; } if(match($10,/^\"[0-9.]+\"$/)){ stock=$10; } if(isDrm == 0){ print $0; }else{ print $1";"$2";"$3";"$4";"code_produit";"$6";"drmid";"stock";;;;;"$13; } }' > $TMP/export_bi_dss.tmp.csv
-
-rm $TMP/export_bi_dss.tmp2.csv > /dev/null 2>&1
-touch $TMP/export_bi_dss.tmp2.csv
-
-cat $TMP/export_bi_etablissements.csv | cut -d ";" -f 5,6 | sed 's|"||g' | sed 's|ETABLISSEMENT-||' > $TMP/identifiants_etablissements.csv
-
-cat $TMP/export_bi_dss.tmp.csv | while read line; do
-  IDENTIFIANTETB=`echo $line | cut -d ";" -f 3 | sed 's|"||g'`;
-  NOMETB=`echo $line | cut -d ";" -f 12 | sed 's|"||g'`;
-  if test -z "$NOMETB"
-  then
-    NOMETB=`grep -E "^$IDENTIFIANTETB;" $TMP/identifiants_etablissements.csv | cut -d ";" -f 2 | sed 's|"||g'`;
-    F1=`echo $line | cut -d ";" -f 1,2,3,4,5,6,7,8,9,10,11`;
-    F2=`echo $line | cut -d ";" -f 13`;
-    echo $F1";\""$NOMETB"\";"$F2 >> $TMP/export_bi_dss.tmp2.csv;
-  else
-    echo $line >> $TMP/export_bi_dss.tmp2.csv;
-  fi
-done
-
-cat $TMP/sed_produit_code | grep -Ev ';""/$' | sort | uniq | grep -v '\[^"\]' | cut -d ';' -f 3,5 | sed 's|"||g' | sed 's|\\(\\||' | sed 's|\\)\/||' | sed -r 's|\/$||' | sed 's|\\/|/|g' > $TMP/produit_code_stock
-
-rm $TMP/export_bi_dss.tmp3.csv > /dev/null 2>&1
-touch $TMP/export_bi_dss.tmp3.csv
-
-cat $TMP/export_bi_dss.tmp2.csv | while read line; do
-  PRODUITHASH=`echo $line | cut -d ";" -f 4 | sed 's|"||g'`;
-  PRODUITCODE=`echo $line | cut -d ";" -f 5 | sed 's|"||g'`;
-  if test -z "$PRODUITCODE"
-  then
-    PRODUITCODE=`grep -E "^$PRODUITHASH;" $TMP/produit_code_stock | cut -d ";" -f 2 | sed 's|"||g'`;
-    F1=`echo $line | cut -d ";" -f 1,2,3,4`;
-    F2=`echo $line | cut -d ";" -f 6,7,8,9,10,11,12,13`;
-    echo $F1";\""$PRODUITCODE"\";"$F2 >> $TMP/export_bi_dss.tmp3.csv;
-  else
-    echo $line >> $TMP/export_bi_dss.tmp3.csv;
-  fi
-done
-
-mv $TMP/export_bi_dss.tmp3.csv $TMP/export_bi_dss.csv
+cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
+cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss.csv
 
 cat $TMP/export_bi_dss.csv | grep -E $SHORT > $TMP/export_bi_dss_short.csv
 
