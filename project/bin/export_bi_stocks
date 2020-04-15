@@ -69,5 +69,3 @@ cat $TMP/export_bi_drm_final_for_non_dra.csv >> $TMP/export_bi_dss.csv
 cat $TMP/export_bi_drm_final_for_dra.csv >> $TMP/export_bi_dss.csv
 
 cat $TMP/export_bi_dss.csv | grep -E $SHORT > $TMP/export_bi_dss_short.csv
-
-echo "FIN"
