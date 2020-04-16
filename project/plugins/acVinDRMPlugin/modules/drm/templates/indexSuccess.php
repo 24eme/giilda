@@ -7,7 +7,7 @@
         <?php include_component('drm', 'formEtablissementChoice') ?>
     </div>
 </div>
-<?php $drm_controles = DRMClient::getDRMControles(); if(!empty($drm_controles)) : ?>
+<?php $drm_controles = DRMClient::getInstance()->getDRMControles(); if(!empty($drm_controles)) : ?>
 <div class="row col-xs-12">
     <h2>Liste des DRM ayant des points d'attention</h2>
     <table class="table table-bordered table-condensed table-striped">

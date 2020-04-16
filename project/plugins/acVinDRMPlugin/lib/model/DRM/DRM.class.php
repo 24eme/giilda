@@ -15,6 +15,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     const VIGILANCE = 'vigilance';
     const EURREUR = 'erreur';
     const TRANSMISSION = 'transmission';
+    const COHERENCE = 'coherence';
 
 
     protected $mouvement_document = null;
