@@ -85,7 +85,7 @@ if(!isset($tabTitle)) {
         \textbf{<?php echo $tabTitle ?> <?php echo $libelleCertif; ?>}
         \end{large} &
         <?php foreach ($produits_for_page as $counter => $produit): ?>
-            <?php $libelleProduit = str_replace("AOC Alsace Grand Cru", "Gd Cru", $produit->libelle); ?>
+            <?php $libelleProduit = str_replace(array("AOC Alsace Grand Cru", "AOC Alsace Communale"), array("Gd Cru", "Communale"), $produit->libelle); ?>
 
 
             \multicolumn{1}{>{\columncolor[rgb]{0,0,0}}C{<?php echo $size_col; ?>mm}|}{ \small{\color{white}{\textbf{<?php echo escape_string_for_latex($libelleProduit); ?>}}}}
