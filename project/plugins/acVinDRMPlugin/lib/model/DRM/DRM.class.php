@@ -346,7 +346,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->controles->engagement->nb = count($points->getEngagements());
             $this->addMessages($this::ENGAGEMENT, $points->getEngagements());
         }
-        //$this->save();
     }
 
     protected function addMessages($typePoint, $point){
@@ -358,14 +357,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
     }
 
-    public function cleanControles(){
-        $this->remove("controles");
-        $this->save();
-    }
-
-    public function cleanTransmission(){
-        $this->remove('transmission_douane');
-        $this->save();
+    public function cleanControles($controle=null){
+        $controle? $this->controles->remove($controle):$this->remove("controles");
     }
 
     public function setDroits() {
