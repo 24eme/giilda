@@ -56,7 +56,7 @@ cat $TMP/view_societe_export.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[
 
 . bin/export_bi_stocks
 
-echo "#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom" > $TMP/export_bi_drm_stock.csv
+echo "#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom;libelle produit"; > $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock.csv > $TMP/export_bi_drm_stock_short.csv
 cat $TMP/export_bi_drm_stock_last_modificatrices.csv | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock.csv | grep -E $SHORT >> $TMP/export_bi_drm_stock_short.csv

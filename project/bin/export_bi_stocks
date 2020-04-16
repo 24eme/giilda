@@ -28,6 +28,7 @@ echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code_cleane
 # I - Récupération DS négoce/Caves Coop
 
 echo "#DS;campagne;identifiant declarant;hash produit;code produit;periode;identifiant;volume stock;volume stock élaboration;vci;reserve_qualitative;nom declarant;libelle produit" > $TMP/export_bi_dss.csv
+echo $TMP/export_bi_dss.csv > $TMP/export_bi_dss_short.csv
 cat $TMP/view_ds_stocks.json | sed -f bin/unicode2alpha | sed 's/.*"key":\[/DS;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^DS;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code_cleaned >> $TMP/export_bi_dss.csv
 
 
