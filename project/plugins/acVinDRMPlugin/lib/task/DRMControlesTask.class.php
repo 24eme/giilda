@@ -28,7 +28,7 @@ EOF;
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
       $drm = DRMClient::getInstance()->find($arguments["drmid"]);
       if(!is_null($drm)){
-        $drm->addControlesDRM($drm,false, true);
+        $drm->updateControles();
         $drm->save();
         $vigilance = $this->getControle($drm, DRM::VIGILANCE);
         $engagement = $this->getControle($drm, DRM::ENGAGEMENT);
