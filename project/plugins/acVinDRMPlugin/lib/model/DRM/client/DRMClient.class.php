@@ -285,26 +285,6 @@ class DRMClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
 
-    public function addTransmission($drm){
-        if($drm->exist("transmission_douane") && $drm->transmission_douane->success == false){
-            if($drm->exist("controles")){
-                if($drm->controles->get(DRM::TRANSMISSION)){
-                    $drm->cleanControles(DRM::TRANSMISSION);
-                }
-                if($drm->controles->get(DRM::COHERENCE)){
-                    $drm->cleanControles(DRM::COHERENCE);
-                }
-            }
-
-            $drm->getOrAdd("controles")->getOrAdd(DRM::TRANSMISSION)->messages->add(null, $drm->transmission_douane->xml);
-            $drm->getOrAdd("controles")->getOrAdd(DRM::TRANSMISSION)->nb += 1;
-            if(!isset($drm->get("transmission_douane")->coherence)){
-                $drm->getOrAdd("controles")->getOrAdd(DRM::COHERENCE)->messages->add(null, "Non cohérante");
-            $drm->getOrAdd("controles")->getOrAdd(DRM::COHERENCE)->nb += 1;
-            }
-        }
-    }
-
     public function getDRMControles(){
         return DRMClient::parseResultSet(DRMClient::getInstance()->getDRMByFieldExists("doc.controles"));
     }
