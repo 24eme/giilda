@@ -93,18 +93,18 @@ class EtablissementAllView extends acCouchdbView
 	$q[$i] = '*'.$q[$i].'*';
       }
       if ($statut) {
-	$q[] = 'statut:'.$statut;
+	$q[] = 'doc.statut:'.$statut;
       }
 
       if ($famille == EtablissementFamilles::FAMILLE_COOPERATIVE) {
-	$q[] = 'cooperative:1';
+	$q[] = 'doc.cooperative:1';
       }else if ($famille) {
-	$q[] = 'famille:'.$famille;
+	$q[] = 'doc.famille:'.$famille;
       }
 
       $query = implode(' ', $q);
 
-      $index = acElasticaManager::getType('Etablissement');
+      $index = acElasticaManager::getType('ETABLISSEMENT');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($query);
@@ -124,7 +124,7 @@ class EtablissementAllView extends acCouchdbView
     private function elasticRes2View($resultset) {
       $res = array();
       foreach ($resultset->getResults() as $er) {
-	$r = $er->getData();
+	$r = $er->getData()['doc'];
 	$e = new stdClass();
 	$e->id = $r['_id'];
 	$e->key = array($r['interpro'], $r['statut'], $r['famille'], $r['id_societe'], $r['_id'], $r['nom'], $r['identifiant'], $r['cvi'], $r['region']);

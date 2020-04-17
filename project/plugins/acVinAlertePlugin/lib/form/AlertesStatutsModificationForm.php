@@ -14,15 +14,15 @@ class AlertesStatutsModificationForm extends sfForm {
         $this->setWidget('commentaire_all_alertes', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
 
         foreach ($this->alertesList as $a) {
-            
+
             $alerte_id = null;
             if ($a instanceof Elastica_Result) {
-                $alerte = $a->getData();
+                $alerte = $a->getData()['doc'];
                 $alerte_id = $alerte['_id'];
             } else {
                 $alerte_id = $a->id;
             }
-            
+
             $this->setWidget($alerte_id, new sfWidgetFormInputCheckbox());
             $this->setValidator($alerte_id, new sfValidatorChoice(array('required' => false, 'choices' => array('0' => 0, '1' => 1))));
         }

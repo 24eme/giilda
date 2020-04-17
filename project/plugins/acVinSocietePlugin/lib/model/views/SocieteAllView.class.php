@@ -36,7 +36,7 @@ class SocieteAllView extends acCouchdbView
 	$query[] = "*$q*";
       }
       if ($statut) {
-	$query[] = "statut:$statut";
+	$query[] = "doc.statut:$statut";
       }
       if (count($typesocietes)) {
 	$tq = '';
@@ -44,13 +44,13 @@ class SocieteAllView extends acCouchdbView
 	  if ($tq) {
 	    $tq .= ' OR ';
 	  }
-	  $tq .= 'type_societe:'.$ts;
+	  $tq .= 'doc.type_societe:'.$ts;
 	}
 	$query[] = '('.$tq.')';
       }
       $q = implode(' ', $query);
 
-      $index = acElasticaManager::getType('Societe');
+      $index = acElasticaManager::getType('SOCIETE');
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setDefaultOperator('AND');
       $elasticaQueryString->setQuery($q);
@@ -73,7 +73,7 @@ class SocieteAllView extends acCouchdbView
     private function elasticRes2View($results) {
       $res = array();
       foreach ($results->getResults() as $er) {
-				$r = $er->getData();
+				$r = $er->getData()['doc'];
 				$e = new stdClass();
 				$e->id = $r['_id'];
 				$e->key = array($r['interpro'], $r['statut'], $r['type_societe'], $r['_id'], $r['raison_sociale'], $r['identifiant'], $r['siret'], $r['siege']['commune'], $r['siege']['code_postal']);

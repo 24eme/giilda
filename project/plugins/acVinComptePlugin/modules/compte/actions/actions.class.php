@@ -145,7 +145,7 @@ class compteActions extends sfCredentialActions {
       $cpt = 0;
       $nbimpactables =  $resset->getTotalHits();
       foreach ($resset->getResults() as $res) {
-	$data = $res->getData();
+	$data = $res->getData()['doc'];
 	$doc = CompteClient::getInstance()->findByIdentifiant($data['identifiant'], acCouchdbClient::HYDRATE_JSON);
 	if (!$doc) {
 	  continue;

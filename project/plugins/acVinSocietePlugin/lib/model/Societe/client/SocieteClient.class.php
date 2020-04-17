@@ -39,10 +39,10 @@ class SocieteClient extends acCouchdbClient {
     }
 
     public function findBySiret($siret) {
-        $index = acElasticaManager::getType('Societe');
+        $index = acElasticaManager::getType('SOCIETE');
         $elasticaQueryString = new acElasticaQueryQueryString();
         $elasticaQueryString->setDefaultOperator('AND');
-        $elasticaQueryString->setQuery(sprintf("siret:%s", $siret));
+        $elasticaQueryString->setQuery(sprintf("doc.siret:%s", $siret));
 
         $q = new acElasticaQuery();
         $q->setQuery($elasticaQueryString);
@@ -51,7 +51,7 @@ class SocieteClient extends acCouchdbClient {
         $res = $index->search($q);
 
         foreach ($res->getResults() as $er) {
-            $r = $er->getData();
+            $r = $er->getData()['doc'];
 
             return $this->find($r['_id']);
         }
