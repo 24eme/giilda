@@ -71,7 +71,7 @@
 				<?php foreach($results as $res): ?>
 
 					<?php
-						$data = $res->getData();
+						$data = $res->getData()['doc'];
                         $societe_informations = $data['societe_informations'];
 						$class = ($cpt % 2) ? ' class="even"' : '';
 					?>
@@ -178,22 +178,22 @@
 			<ul class="liste_tags">
 				<?php
 				foreach($facets as $type => $ftype) {
-				  if (count($ftype['terms'])) {
+				  if (count($ftype['buckets'])) {
 					echo '<li class="typetag">'.$type.'</li><ul>';
 					$i=0;
-                    foreach($ftype['terms'] as $f) {
-                        if (preg_match('/^(export|produit)_/', $f['term'])) {
+                    foreach($ftype['buckets'] as $f) {
+                        if (preg_match('/^(export|produit)_/', $f['key'])) {
                             continue;
                         }
 
-                        if (strpos($f['term'], 'région_indéterminée') !== false) {
+                        if (strpos($f['key'], 'région_indéterminée') !== false) {
                             continue;
                         }
 
 					  $targs = $args_copy->getRawValue();
-					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['term'])));
+					  $targs['tags'] = implode(',', array_merge($selected_rawtags->getRawValue(), array($type.':'.$f['key'])));
 
-					  echo '<li class="'.(($i>=20) ? 'tag_overflow' : '').'"><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['term']).' ('.$f['count'].')</a></li>';
+					  echo '<li class="'.(($i>=20) ? 'tag_overflow' : '').'"><a href="'.url_for('compte_search', $targs).'">'.str_replace('_', ' ', $f['key']).' ('.$f['doc_count'].')</a></li>';
                       $i++;
 					}
                     ?>
