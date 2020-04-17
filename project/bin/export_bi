@@ -20,9 +20,9 @@ echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/AJ
 echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUS\/mentions\/DEFAUT\/lieux\/AC\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"1040"/' >> $TMP/sed_produit_code.tmp
 echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV\/mentions\/DEFAUT\/lieux\/RAM\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"141"/' >> $TMP/sed_produit_code.tmp
 echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/CHA\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"182"/' >> $TMP/sed_produit_code.tmp
-echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code.tmp
 
 cat $TMP/sed_produit_code.tmp | sort | uniq | grep -vE "\"\"/$" > $TMP/sed_produit_code
+echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements.csv
 cat $TMP/view_mouvement_consultation.json | grep -E "$PRODUITS" | grep -vE "$PRODUITS_IGP" | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | sed -f $TMP/sed_produit_code | cut -d ';' -f 1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25 >> $TMP/export_bi_mouvements.csv
