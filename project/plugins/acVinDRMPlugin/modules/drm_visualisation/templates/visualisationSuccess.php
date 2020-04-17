@@ -10,7 +10,7 @@
             </li>
             <li>
                 <strong>
-                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->hasBeenTransferedToCiel()): ?>&nbsp;transmise<?php endif; ?><?php if($drm->exist('transmission_douane') && $drm->transmission_douane->coherente): ?>&nbsp;- Douane OK<?php endif; ?><?php if($drm->isTeledeclareFacturee()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isTeledeclareNonFacturee()): ?>&nbsp;(non facturée)<?php endif; ?>
+                  <label><?php if($drm->isTeledeclare()): ?>Télédéclarée<?php if($drm->hasBeenTransferedToCiel()): ?>&nbsp;transmise<?php endif; ?><?php if($drm->exist('transmission_douane') && $drm->transmission_douane->coherente): ?>&nbsp;- Douane OK<?php endif; ?><?php if($drm->isFactures()): ?>&nbsp;(facturée)<?php endif; ?><?php if($drm->isNonFactures()): ?>&nbsp;(non facturée)<?php endif; ?>
                   <?php else : ?>Saisie sur Vinsi<?php endif; ?>
                 </label>
                     <?php if (!$isTeledeclarationMode && !$drm->isTeledeclare()): ?>
@@ -66,24 +66,14 @@
                 </ul>
             </div>
         <?php endif; ?>
-
-        <?php if ($drm->isModifiable()): ?>
-            <div style="text-align: right;">
-                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
-            </div>
-          <?php elseif ($drm->isTeledeclareNonFacturee() && !$drm->hasSuivante()): ?>
-            <div style="text-align: right;">
-              <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
-            </div>
-        <?php elseif (($drm->isTeledeclareFacturee() || $drm->hasSuivante()) && !$drm->hasBeenTransferedToCiel()): ?>
-            <div style="text-align: right;">
-                <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
-            </div>
-        <?php else: ?>
-          <div style="text-align: right;">
-              <a class="btn_majeur btn_modifier" href="<?php echo url_for('drm_modificative', $drm) ?>" onclick="return confirm('Attention cette DRM a été déclarée aux douanes et est conforme.\nLa modifier peut avoir des impacts pour les prochains mois si le stock change.\n\nVeux-tu vraiment le faire ?');">Modificatrice de la DRM</a>
-          </div>
+        <div style="text-align: right;">
+        <?php $avertissementTransfere = "onclick=\"return confirm('Attention cette DRM a été déclarée aux douanes et est conforme.\nLa modifier peut avoir des impacts pour les prochains mois si le stock change.\n\nVeux-tu vraiment le faire ?');\"";?>
+        <?php if ($drm->isReouvrable()): ?>
+            <a class="btn_majeur btn_modifier" <?php if($drm->hasBeenTransferedToCiel()):?><?php echo $avertissementTransfere; ?><?php endif; ?> href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
+        <?php elseif ($drm->isModifiable()): ?>
+                <a class="btn_majeur btn_modifier" <?php if($drm->isTeledeclare() && $drm->hasBeenTransferedToCiel()):?><?php echo $avertissementTransfere; ?><?php endif; ?> href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
         <?php endif; ?>
+        </div>
 
         <?php if (!$drm->isMaster()): ?>
             <fieldset id="points_vigilance">
