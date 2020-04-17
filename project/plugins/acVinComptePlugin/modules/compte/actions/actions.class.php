@@ -74,34 +74,34 @@ class compteActions extends sfCredentialActions {
     }
 
     private function initSearch(sfWebRequest $request, $extratag = null, $excludeextratag = false) {
-      $query = $request->getParameter('q', '*');
-      if (! $request->getParameter('contacts_all') ) {
-	$query .= " statut:ACTIF";
-      }
-      $this->selected_rawtags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
-      $this->selected_typetags = array();
-      foreach ($this->selected_rawtags as $t) {
-	if (preg_match('/^([^:]+):(.+)$/', $t, $m)) {
-	  if (!isset($this->selected_typetags[$m[1]])) {
-	    $this->selected_typetags[$m[1]] = array();
-	  }
-	  $this->selected_typetags[$m[1]][] = $m[2];
-	}
-	$query .= ' tags.'.$t;
-      }
-      $this->real_q = $query;
-      if ($extratag) {
-	$query .= ($excludeextratag) ? ' -' : ' ';
-	$query .= 'tags.manuel:'.$extratag;
-      }
+        $query = $request->getParameter('q', '*');
+        if (! $request->getParameter('contacts_all') ) {
+            $query .= " doc.statut:ACTIF";
+        }
+        $this->selected_rawtags = array_unique(array_diff(explode(',', $request->getParameter('tags')), array('')));
+        $this->selected_typetags = array();
+        foreach ($this->selected_rawtags as $t) {
+            if (preg_match('/^([^:]+):(.+)$/', $t, $m)) {
+                if (!isset($this->selected_typetags[$m[1]])) {
+                    $this->selected_typetags[$m[1]] = array();
+                }
+                $this->selected_typetags[$m[1]][] = $m[2];
+            }
+            $query .= ' doc.tags.'.$t;
+        }
+        $this->real_q = $query;
+        if ($extratag) {
+            $query .= ($excludeextratag) ? ' -' : ' ';
+            $query .= 'doc.tags.manuel:'.$extratag;
+        }
 
-      $qs = new acElasticaQueryQueryString($query);
-      $q = new acElasticaQuery();
-      $q->setQuery($qs);
-      $this->contacts_all = $request->getParameter('contacts_all');
-      $this->q = $request->getParameter('q');
-      $this->args = array('q' => $this->q, 'contacts_all' => $this->contacts_all, 'tags' => implode(',', $this->selected_rawtags));
-      return $q;
+        $qs = new acElasticaQueryQueryString($query);
+        $q = new acElasticaQuery();
+        $q->setQuery($qs);
+        $this->contacts_all = $request->getParameter('contacts_all');
+        $this->q = $request->getParameter('q');
+        $this->args = array('q' => $this->q, 'contacts_all' => $this->contacts_all, 'tags' => implode(',', $this->selected_rawtags));
+        return $q;
     }
 
     public function executeConnexion(sfWebRequest $request) {
@@ -112,7 +112,7 @@ class compteActions extends sfCredentialActions {
 
     public function executeSearchcsv(sfWebRequest $request) {
       ini_set('memory_limit', '512M');
-      $index = acElasticaManager::getType('Compte');
+      $index = acElasticaManager::getType('COMPTE');
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
       $resset = $index->search($q);
@@ -131,7 +131,7 @@ class compteActions extends sfCredentialActions {
     }
 
     private function addremovetag(sfWebRequest $request, $remove = false) {
-      $index = acElasticaManager::getType('Compte');
+      $index = acElasticaManager::getType('COMPTE');
       $tag = Compte::transformTag($request->getParameter('tag'));
       $q = $this->initSearch($request, $tag, !$remove);
       $q->setLimit(1000000);
@@ -208,22 +208,20 @@ class compteActions extends sfCredentialActions {
       $q = $this->initSearch($request);
       $q->setLimit($res_by_page);
       $q->setFrom($from);
-      $facets = array('manuel' => 'tags.manuel', 'export' => 'tags.export', 'produit' => 'tags.produit', 'automatique' => 'tags.automatique');
+      $facets = array('manuel' => 'doc.tags.manuel', 'export' => 'doc.tags.export', 'produit' => 'doc.tags.produit', 'automatique' => 'doc.tags.automatique');
       foreach($facets as $nom => $f) {
-	$elasticaFacet 	= new acElasticaFacetTerms($nom);
-	$elasticaFacet->setField($f);
-	$elasticaFacet->setSize(200);
-	$elasticaFacet->setOrder('count');
-	$q->addFacet($elasticaFacet);
+	     $elasticaFacet 	= new acElasticaFacetTerms($nom);
+	     $elasticaFacet->setField($f);
+	     $elasticaFacet->setSize(200);
+         // $elasticaFacet->setOrder('count');
+         $q->addFacet($elasticaFacet);
       }
-
-      $index = acElasticaManager::getType('Compte');
+      $index = acElasticaManager::getType('COMPTE');
       $resset = $index->search($q);
 
       $this->results = $resset->getResults();
       $this->nb_results = $resset->getTotalHits();
       $this->facets = $resset->getFacets();
-
       $this->last_page = ceil($this->nb_results / $res_by_page);
       $this->current_page = $page;
     }
