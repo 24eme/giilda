@@ -32,7 +32,7 @@ class DRMValidation extends DocumentValidation {
 
         $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");
 
-        $this->addControle('vigilance', 'reintegration', 'La date de réintégration doit être inférieure au premier du mois');
+        $this->addControle('vigilance', 'reintegration', 'La date de réintégration ne peut pas être supérieur à la période de la DRM');
     }
 
     public function controle() {
@@ -144,10 +144,10 @@ class DRMValidation extends DocumentValidation {
 
                 if ($detail->exist('replacement_date')) {
                     $date_replacement = date_create_from_format('d/m/Y', $detail->replacement_date);
-                    $date_debut_periode = date_create_from_format('Ym', $this->document->periode)->modify('first day of this month');
+                    $date_debut_periode = date_create_from_format('Ym', $this->document->periode)->modify('last day of this month');
 
-                    if ($date_debut_periode < $date_replacement) {
-                        $this->addPoint('vigilance', 'reintegration', 'Retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
+                    if ($date_debut_periode->format('Ymd') < $date_replacement->format('Ymd')) {
+                        $this->addPoint('vigilance', 'reintegration', 'retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
                     }
                 }
             }

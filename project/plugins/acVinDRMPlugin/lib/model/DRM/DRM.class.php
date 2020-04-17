@@ -855,15 +855,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function isModifiable() {
-        return $this->version_document->isModifiable() && !$this->isTeledeclare();
+        return $this->version_document->isModifiable();
     }
 
-    public function isTeledeclareFacturee() {
-        return $this->isTeledeclare() && !$this->isNonFactures();
-    }
+    public function isReouvrable() {
 
-    public function isTeledeclareNonFacturee() {
-        return $this->isTeledeclare() && $this->isNonFactures();
+        return $this->isModifiable() && $this->isTeledeclare() && $this->isNonFactures() && !$this->hasSuivante();
     }
 
     public function getPreviousVersion() {

@@ -299,6 +299,22 @@ class drmActions extends drmGeneriqueActions {
         return $this->renderText($this->getPartial('popupFrequence', array('drm' => $drm)));
     }
 
+    public function executeReouvrir(sfWebRequest $request) {
+        if(sfConfig::get('app_force_usurpation_mode')) {
+            $this->redirect403Unless($this->getUser()->isUsurpationCompte());
+        } else {
+            $this->redirect403IfIsTeledeclaration();
+        }
+        $drm = $this->getRoute()->getDRM();
+        $this->redirect403Unless($drm->isReouvrable());
+
+        $drm = $this->getRoute()->getDRM();
+        $drm->devalidate();
+        $drm->save();
+
+        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
+    }
+
     public function executeShowError(sfWebRequest $request) {
         $drm = $this->getRoute()->getDRM();
         $drmValidation = new DRMValidation($drm);
@@ -307,14 +323,6 @@ class drmActions extends drmGeneriqueActions {
         $this->getUser()->setFlash('control_message', $controle->getMessage());
         $this->getUser()->setFlash('control_css', "flash_" . $controle->getType());
         $this->redirect($controle->getLien());
-    }
-
-    public function executeReouvrir(sfWebRequest $request) {
-        $drm = $this->getRoute()->getDRM();
-        $drm->devalidate();
-        $drm->save();
-
-        return $this->redirect('drm_redirect_etape', array('identifiant' => $drm->identifiant, 'periode_version' => $drm->getPeriodeAndVersion()));
     }
 
     public function executeRectificative(sfWebRequest $request) {

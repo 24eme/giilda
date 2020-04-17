@@ -4,56 +4,65 @@
 . bin/import_functions.inc
 
 SHORT=$(for ((i=($(date +%Y)-4) ; $(date +%Y) - $i + 1; i++)); do echo -n "$i-$(($i+1))|"; done | sed 's/|$/)/' | sed 's/^/(/')
+PRODUITS="/(AOC|AOC_BIVC|AOC_INTERLOIRE|IGP_VALDELOIRE)/"
+PRODUITS_IGP="/(IGP_VALDELOIRE)/"
 
-curl -s -X GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
+curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" > $TMP/view_configuration_produits.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation > $TMP/view_mouvement_consultation.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history > $TMP/view_vrac_history.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/revendication/_view/stocks > $TMP/view_revendication_stocks.json
+curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/all?reduce=false" > $TMP/view_etablissement_all.json
+curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export > $TMP/view_societe_export.json
 
+cat $TMP/view_configuration_produits.json | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g' | sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code.tmp
 
-echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/AJV\/mentions\/DEFAUT\/lieux\/BRI\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"92"/' >> $TMP/sed_produit_code
-echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUS\/mentions\/DEFAUT\/lieux\/AC\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"1040"/' >> $TMP/sed_produit_code
-echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV\/mentions\/DEFAUT\/lieux\/RAM\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"141"/' >> $TMP/sed_produit_code
-echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/CHA\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"182"/' >> $TMP/sed_produit_code
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/AJV\/mentions\/DEFAUT\/lieux\/BRI\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"92"/' >> $TMP/sed_produit_code.tmp
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/MUS\/mentions\/DEFAUT\/lieux\/AC\/couleurs\/blanc\/cepages\/MEL"\)/;\1;"1040"/' >> $TMP/sed_produit_code.tmp
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAV\/mentions\/DEFAUT\/lieux\/RAM\/couleurs\/blanc\/cepages\/CHE"\)/;\1;"141"/' >> $TMP/sed_produit_code.tmp
+echo 's/;;\("\/declaration\/certifications\/AOC\/genres\/TRANQ\/appellations\/SAU\/mentions\/DEFAUT\/lieux\/CHA\/couleurs\/rouge\/cepages\/DEFAUT"\)/;\1;"182"/' >> $TMP/sed_produit_code.tmp
 
+cat $TMP/sed_produit_code.tmp | sort | uniq | grep -vE "\"\"/$" > $TMP/sed_produit_code
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" >> $TMP/sed_produit_code
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | sed -f $TMP/sed_produit_code | grep -Ev "(AOC_HORSINTERLOIRE|IGP_VALDELOIRE|IGP_HORSVALDELOIRE|VINSSIG)" | cut -d ';' -f 1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25 >> $TMP/export_bi_mouvements.csv
+cat $TMP/view_mouvement_consultation.json | grep -E "$PRODUITS" | grep -vE "$PRODUITS_IGP" | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | sed -f $TMP/sed_produit_code | cut -d ';' -f 1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25 >> $TMP/export_bi_mouvements.csv
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements_short.csv
 cat $TMP/export_bi_mouvements.csv | grep -E $SHORT >> $TMP/export_bi_mouvements_short.csv
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements_igp.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | sed -f $TMP/sed_produit_code | grep -E "(IGP_VALDELOIRE|IGP_HORSVALDELOIRE)" | cut -d ';' -f 1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25 >> $TMP/export_bi_mouvements_igp.csv
+cat $TMP/view_mouvement_consultation.json | grep -E "$PRODUITS_IGP" | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/g' | sed -r 's|\/details(ACQUITTE)?\/([a-zA-Z0-9]+)";|";|g' | sed -f $TMP/sed_produit_code | cut -d ';' -f 1,2,3,4,5,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,24,25 >> $TMP/export_bi_mouvements_igp.csv
 
 echo "#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id; hash produit;code produit;type drm;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);negoce/vignificateur" > $TMP/export_bi_mouvements_igp_short.csv
 cat $TMP/export_bi_mouvements_igp.csv | grep -E $SHORT >> $TMP/export_bi_mouvements_igp_short.csv
 
 echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archive;identifiant acheteur;nom acheteur;identifiant vendeur; non vendeur;identifiant courtier;nom courtier;type de vente (VIN_VRAC, VIN_BOUTEILLE, RAISIN, MOUT); hash produit;code produit;libelle produit;volume propose (en hl);volume enleve (en hl);prix unitaire (en hl);prix unitaire definitif (en hl);prix variable (OUI, NON);contrat interne (OUI, NON);en attente de l'original (OUI, NON);type de contrat(SPOT, PLURIANNUEL);date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE);domaine;part variable;repartition cvo;nature de la cvo (MARCHE_DEFINITIF, COMPENSATION, NON_FINANCIERE, VINAIGRERIE);BIO" > $TMP/export_bi_contrats.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history  | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | grep -Ev "(AOC_HORSINTERLOIRE|IGP_VALDELOIRE|IGP_HORSVALDELOIRE|VINSSIG)" >> $TMP/export_bi_contrats.csv
+cat $TMP/view_vrac_history.json | grep -E "$PRODUITS" | grep -Ev "$PRODUITS_IGP" | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_contrats.csv
 
 echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archive;identifiant acheteur;nom acheteur;identifiant vendeur; non vendeur;identifiant courtier;nom courtier;type de vente (VIN_VRAC, VIN_BOUTEILLE, RAISIN, MOUT); hash produit;code produit;libelle produit;volume propose (en hl);volume enleve (en hl);prix unitaire (en hl);prix unitaire definitif (en hl);prix variable (OUI, NON);contrat interne (OUI, NON);en attente de l'original (OUI, NON);type de contrat(SPOT, PLURIANNUEL);date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE);domaine;part variable;repartition cvo;nature de la cvo (MARCHE_DEFINITIF, COMPENSATION, NON_FINANCIERE, VINAIGRERIE);BIO" > $TMP/export_bi_contrats_short.csv
 
 cat $TMP/export_bi_contrats.csv | grep -E $SHORT >> $TMP/export_bi_contrats_short.csv
 
 echo "#CONTRAT;campagne;statut;identifiant document;numero contrat;numero archive;identifiant acheteur;nom acheteur;identifiant vendeur; non vendeur;identifiant courtier;nom courtier;type de vente (VIN_VRAC, VIN_BOUTEILLE, RAISIN, MOUT); hash produit;code produit;libelle produit;volume propose (en hl);volume enleve (en hl);prix unitaire (en hl);prix unitaire definitif (en hl);prix variable (OUI, NON);contrat interne (OUI, NON);en attente de l'original (OUI, NON);type de contrat(SPOT, PLURIANNUEL);date de signature;date de statistiques;date de validation;millesime;type de produit (GENERIQUE, DOMAINE);domaine;part variable;repartition cvo;nature de la cvo (MARCHE_DEFINITIF, COMPENSATION, NON_FINANCIERE, VINAIGRERIE);BIO" > $TMP/export_bi_contrats_igp.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/vrac/_view/history  | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code | grep "IGP_VALDELOIRE" >> $TMP/export_bi_contrats_igp.csv
+cat $TMP/view_vrac_history.json | grep -E "$PRODUITS_IGP" | sed -f bin/unicode2alpha | sed 's/.*"value":\[/CONTRAT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^CONTRAT;' | grep -E ',"(NONSOLDE|SOLDE)",' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed -r 's/(;[0-9]+\.[0-9]{2})[0-9]+;/\1;/g' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_contrats_igp.csv
 
 
 echo "#REVENDIQUE;campagne;identifiant declarant;hash produit;code produit;region;document id;volume;nom declarant;libelle produit" > $TMP/export_bi_revendiques.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/revendication/_view/stocks | sed -f bin/unicode2alpha | sed 's/.*"key":\[/REVENDIQUE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^REVENDIQUE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_revendiques.csv
+cat $TMP/view_revendication_stocks.json | grep -E "$PRODUITS" | sed -f bin/unicode2alpha | sed 's/.*"key":\[/REVENDIQUE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^REVENDIQUE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/";;"/";"/' | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_revendiques.csv
 
 cat $TMP/export_bi_revendiques.csv | grep -E $SHORT > $TMP/export_bi_revendiques_short.csv
 
 echo "#ETABLISSEMENT;statut (ACTIF, SUSPENDU);famille;identifiant societe;identifiant interne;nom;identifiant;cvi;region viticole;raison sociale;siege.adresse;siege.commune;siege.code postal;no accises;carte pro;email;telephone;fax;recette locale identifiant societe;recette locale nom" > $TMP/export_bi_etablissements.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/etablissement/_view/all?reduce=false | sed -f bin/unicode2alpha | sed -r 's/.*"key":\[("INTERPRO-inter-loire"|null),/ETABLISSEMENT;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^ETABLISSEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'  >> $TMP/export_bi_etablissements.csv
+cat $TMP/view_etablissement_all.json | sed -f bin/unicode2alpha | sed -r 's/.*"key":\[("INTERPRO-inter-loire"|null),/ETABLISSEMENT;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^ETABLISSEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g'  >> $TMP/export_bi_etablissements.csv
 
 echo "#SOCIETE;statut (ACTIF, SUSPENDU);type societe (OPERATEUR, VITICULTEUR, NEGOCIANT, COURTIER, PRESSE, PARTENAIRE, DOUANE, INSTITUTION, HOTEL-RESTAURANT, AUTRE);identifiant interne;identifiant;code_comptable_client;code_comptable_fournisseur;type fournisseur;nom;nom abrege;cave cooperative (OUI, NON);siret;code naf;tva intracommunautaire;enseignes (enseigne1|enseigne2);adresse;adresse complementaire;code postal;ville;pays;telephone;fax;email" > $TMP/export_bi_societes.csv
-curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/societe/_view/export | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' >> $TMP/export_bi_societes.csv
+cat $TMP/view_societe_export.json | sed -f bin/unicode2alpha | sed 's/.*"key":\["INTERPRO-inter-loire",/SOCIETE;/' | sed 's/\],"value":\[*/,/' | sed 's/\]*\},*//' | grep '^SOCIETE;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' >> $TMP/export_bi_societes.csv
 
 . bin/export_bi_stocks
 
-echo "#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom" > $TMP/export_bi_drm_stock.csv
+echo "#ID;Type document;campagne;identifiant;hash produit;code produit;date;modificatrice;stock debut;entree;entree récolte;sortie;sortie facturable;stock fin;nom;libelle produit" > $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock.csv > $TMP/export_bi_drm_stock_short.csv
-cat $TMP/export_bi_drm_stock_last_modificatrices.csv | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' >> $TMP/export_bi_drm_stock.csv
+cat $TMP/export_bi_drm_stock_last_modificatrices.csv | grep -E "$PRODUITS" | sed 's/;"\/declaration/;\0/g' | sed -f $TMP/sed_produit_code >> $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock.csv | grep -E $SHORT >> $TMP/export_bi_drm_stock_short.csv
 
 . bin/export_bi_drm
