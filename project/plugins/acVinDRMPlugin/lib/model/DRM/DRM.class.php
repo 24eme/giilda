@@ -359,13 +359,15 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function cleanControles(){
-        $this->remove("controles");
-        $this->save();
+        if($this->exist("controles")){
+            $this->remove("controles");
+        }
     }
 
     public function cleanTransmission(){
-        $this->remove('transmission_douane');
-        $this->save();
+        if($this->exist("transmission_douane")){
+            $this->remove('transmission_douane');
+        }
     }
 
     public function setDroits() {

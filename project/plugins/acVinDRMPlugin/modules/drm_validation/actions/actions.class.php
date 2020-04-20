@@ -90,11 +90,6 @@ class drm_validationActions extends drmGeneriqueActions {
         }
         $this->form->save();
         $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
-        
-        if($this->drm->exist("controles")){
-            $this->drm->cleanControles();
-        }
-        $this->drm->save();
 
         $this->drm->updateVracs();
 
