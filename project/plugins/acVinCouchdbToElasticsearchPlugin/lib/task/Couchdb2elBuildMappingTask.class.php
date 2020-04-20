@@ -26,7 +26,7 @@ EOF;
       $databaseManager = new sfDatabaseManager($this->configuration);
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-      echo json_encode(acCouchdbManager::getInstance()->getSchema());
+      echo json_encode(acCouchdbManager::getInstance()->getSchema(),JSON_PRETTY_PRINT);
     }
 
 }
