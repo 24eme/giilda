@@ -30,11 +30,11 @@ EOF;
       if(!is_null($drm)){
         $drm->updateControles();
         $drm->save();
-        $vigilance = $this->getControle($drm, DRM::VIGILANCE);
-        $engagement = $this->getControle($drm, DRM::ENGAGEMENT);
-        $erreurs = $this->getControle($drm, DRM::EURREUR);
-        $transmission = $this->getControle($drm, DRM::TRANSMISSION);
-        $coherence = $this->getControle($drm, DRM::COHERENCE);
+        $vigilance = $this->getControle($drm, DRM::CONTROLE_POINT_VIGILANCE);
+        $engagement = $this->getControle($drm, DRM::CONTROLE_POINT_ENGAGEMENT);
+        $erreurs = $this->getControle($drm, DRM::CONTROLE_POINT_BLOCANT);
+        $transmission = $this->getControle($drm, DRM::CONTROLE_TRANSMISSION);
+        $coherence = $this->getControle($drm, DRM::CONTROLE_COHERENCE);
         echo sprintf("%s;erreur:%s;engagement:%s;vigilance:%s;transmission:%s;coherence:%s\n", $arguments["drmid"], $erreurs,$engagement, $vigilance, $transmission, $coherence);
       }else{
         echo sprintf("%s Not found ! Please check config databases.yml for %s!\n", $arguments["drmid"], $options["application"]);
