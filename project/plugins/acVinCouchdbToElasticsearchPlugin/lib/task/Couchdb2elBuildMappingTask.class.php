@@ -11,6 +11,7 @@ class Couchdb2elBuildMappingTask extends sfBaseTask {
     protected static $analysedString = array("type" => "string");
     protected static $notAnalysedString = array("index" => "not_analyzed", "type" => "string");
     protected static $formattedDate = array("format" => "strict_date_optional_time||epoch_millis", "type" => "date");
+    protected static $formattedFloat = array("type" => "long");
 
     protected function configure() {
         // // add your own arguments here
@@ -47,21 +48,22 @@ EOF;
       $schemas = acCouchdbManager::getInstance()->getSchema();
       foreach ($schemas as $schemaName => $schema) {
         $schemaNameMapping = strtoupper($schemaName);
-        if($schemaNameMapping!="COMPTE"){ continue; }
-        $mappings["mappings"][$schemaNameMapping] = array();
-        $mappings["mappings"][$schemaNameMapping]["properties"] = self::$defaultProperties;
-        $mappings["mappings"][$schemaNameMapping]["doc"] = array();
-        $mappings["mappings"][$schemaNameMapping]["doc"]["properties"] = $this->transformSchemaForMapping($schema);
+        if(!isset($schema["indexable"]) || $schema["indexable"]){
+          $mappings["mappings"][$schemaNameMapping] = array();
+          $mappings["mappings"][$schemaNameMapping]["properties"] = self::$defaultProperties;
+          $mappings["mappings"][$schemaNameMapping]["doc"] = array();
+          $mappings["mappings"][$schemaNameMapping]["doc"]["properties"] = $this->transformSchemaForMapping($schema);
+        }
       }
 
       echo json_encode($mappings,JSON_PRETTY_PRINT );
     }
 
     protected function transformSchemaForMapping($schemaCouchdb){
-      $schemaCouchdbKeys = array_keys($schemaCouchdb);
-      if((count($schemaCouchdb) != 1) || (array_shift($schemaCouchdbKeys) != "definition")){
+      if(!isset($schemaCouchdb["definition"])){
         throw new sfException("Le schema couchdb suivant comporte des avaries : \n".json_encode($schemaCouchdb,JSON_PRETTY_PRINT) );
       }
+
       $fieldsCouchdb = $schemaCouchdb["definition"];
       $schemaMapping = array();
       foreach ($fieldsCouchdb as $fieldsKey => $fields) {
@@ -99,6 +101,10 @@ EOF;
           return self::$formattedDate;
         }
 
+        if($fieldCouchdb["type"] == "float"){
+          return self::$formattedFloat;
+        }
+
         //array_collection
         if($fieldCouchdb["type"] == "array_collection"){
           $localFields = $fieldCouchdb["definition"]["fields"];
@@ -124,6 +130,5 @@ EOF;
           }
         }
       }
-      var_dump($fieldCouchdb); exit;
     }
 }
