@@ -285,35 +285,18 @@ class DRMClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
 
-    public function addTransmission($drm){
-        if($drm->exist("transmission_douane") && $drm->transmission_douane->success == false){
-            if($drm->exist("controles") && $drm->controles->get(DRM::TRANSMISSION)){
-                $drm->cleanControles(DRM::TRANSMISSION);
-            }
-            $drm->getOrAdd("controles")->getOrAdd(DRM::TRANSMISSION)->messages->add(null, $drm->transmission_douane->xml);
-            $drm->getOrAdd("controles")->getOrAdd(DRM::TRANSMISSION)->nb += 1;
-            return "Erreur transmission";
-        }
+    public function getDRMControles(){
+        return DRMClient::parseResultSet(DRMClient::getInstance()->getDRMByFieldExists("doc.controles"));
     }
 
-    public function checkDRM($identifiant){
-        $drm = DRMClient::getInstance()->find($identifiant);
-        $msg = DRMClient::addTransmission($drm);
-        $drm->save();
-        return $msg;
-    }
-    public static function getDRMControles(){
-        return DRMClient::parseResultSet(DRMClient::getDRMByFieldExists("doc.controles"));
-    }
-
-    public static function getDRMByFieldExists($field){
+    public function getDRMByFieldExists($field){
         try{
             if(acElasticaManager::getIndex()->exists()){
                 $index = acElasticaManager::getType('DRM');
                 $query = new acElasticaQuery();
                 $query->setRawQuery(["query" => ["exists" => ["field" =>$field]]]);
                 $resultSet = $index->search($query);;
-                return DRMClient::parseResultSet($resultSet);
+                return $resultSet;
             }
         }
         catch(Exception $e){
@@ -329,31 +312,6 @@ class DRMClient extends acCouchdbClient {
             $results[$identifiant] = $rs;
         }            
         return $results;
-    }
-
-    public static function getDRMById($id){
-        try{
-            if(acElasticaManager::getIndex()->exists()){
-                $index = acElasticaManager::getType('DRM'); 
-                $queryString = new acElasticaQueryQueryString();
-                $queryString->setQuery("id:$id");
-                $query = new acElasticaQuery();
-                $query->setQuery($qs);
-                $resultSet = $index->search($query);;
-                return $resultSet;
-            }
-        }
-        catch(Exception $e){
-            return;
-        }  
-    }
-
-    public static function getNbControlesDRM($controles){
-        $nb_controles = 0;
-        foreach ($controles as $type => $controle) {
-            $nb_controles += $controle["nb"];
-        }
-        return $nb_controles;
     }
 
     public function viewByIdentifiant($identifiant) {

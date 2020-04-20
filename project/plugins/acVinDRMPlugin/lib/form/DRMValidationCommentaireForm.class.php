@@ -24,6 +24,6 @@ class DRMValidationCommentaireForm extends acCouchdbObjectForm {
     }
 
     protected function doUpdateObject($values) {
-        $this->getObject()->cleanControles();
+        $this->getObject()->updateControles();
     }
 }

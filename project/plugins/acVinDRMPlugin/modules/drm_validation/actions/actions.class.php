@@ -51,8 +51,8 @@ class drm_validationActions extends drmGeneriqueActions {
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
         if($this->validation->hasPoints()){
-            $this->drm->addPoints($this->validation);
-        }else if(isset($this->drm->controles)){
+            $this->drm->updateControles();
+        }else{
             $this->drm->cleanControles();
         }
         $this->drm->save();
@@ -91,8 +91,8 @@ class drm_validationActions extends drmGeneriqueActions {
             return sfView::SUCCESS;
         }
         $this->form->save();
-        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
 
+        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->updateVracs();
 
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
