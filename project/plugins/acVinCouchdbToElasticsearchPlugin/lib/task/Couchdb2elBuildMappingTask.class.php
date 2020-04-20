@@ -51,8 +51,8 @@ EOF;
         if(!isset($schema["indexable"]) || $schema["indexable"]){
           $mappings["mappings"][$schemaNameMapping] = array();
           $mappings["mappings"][$schemaNameMapping]["properties"] = self::$defaultProperties;
-          $mappings["mappings"][$schemaNameMapping]["doc"] = array();
-          $mappings["mappings"][$schemaNameMapping]["doc"]["properties"] = $this->transformSchemaForMapping($schema);
+          $mappings["mappings"][$schemaNameMapping]["properties"]["doc"] = array();
+          $mappings["mappings"][$schemaNameMapping]["properties"]["doc"]["properties"] = $this->transformSchemaForMapping($schema);
         }
       }
 
