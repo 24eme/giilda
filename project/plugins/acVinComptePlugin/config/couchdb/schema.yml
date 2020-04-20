@@ -67,6 +67,7 @@ Compte:
       droits:
         type: array_collection
         required: false
+        indexable: false
         definition:
           fields:
             '*': { }
