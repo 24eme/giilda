@@ -66,19 +66,28 @@ EOF;
       $schemaMapping = array();
       foreach ($fieldsCouchdb as $fieldsKey => $fields) {
           foreach ($fields as $fieldName => $fieldCouchdb) {
-            $fieldMapping = array();
-            $schemaMapping[$fieldName] = $this->transformFieldForMapping($fieldCouchdb,$fieldName);
+            $fieldMapping = $this->transformFieldForMapping($fieldCouchdb,$fieldName);
+            if($fieldMapping){
+              $schemaMapping[$fieldName] = $fieldMapping;
+            }
           }
       }
       return $schemaMapping;
     }
 
     protected function transformFieldForMapping($fieldCouchdb,$fieldName = null){
-      if(is_array($fieldCouchdb) && !count($fieldCouchdb)){
-        return self::$notAnalysedString;
+      if(is_array($fieldCouchdb) && isset($fieldCouchdb["indexable"]) && !$fieldCouchdb["indexable"]){
+        return null;
       }
 
-      if(is_array($fieldCouchdb) && (count($fieldCouchdb) == 1) && (isset($fieldCouchdb["required"]) || isset($fieldCouchdb["require"]))){
+      if(isset($fieldCouchdb["required"])){
+        unset($fieldCouchdb["required"]);
+      }
+      if(isset($fieldCouchdb["require"])){
+        unset($fieldCouchdb["require"]);
+      }
+
+      if(is_array($fieldCouchdb) && !count($fieldCouchdb)){
         return self::$notAnalysedString;
       }
 
@@ -115,5 +124,6 @@ EOF;
           }
         }
       }
+      var_dump($fieldCouchdb); exit;
     }
 }
