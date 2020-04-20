@@ -189,7 +189,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request
      */
     public function executeVerificationEdi(sfWebRequest $request) {
-        ini_set('memory_limit', '300M');
+        ini_set('memory_limit', '400M');
         set_time_limit(0);
         $this->md5 = $request->getParameter('md5');
         $this->identifiant = $request->getParameter('identifiant');
@@ -246,7 +246,7 @@ class drmActions extends drmGeneriqueActions {
      */
     public function executeCreationEdi(sfWebRequest $request) {
         set_time_limit(0);
-        ini_set('memory_limit', '300M');
+        ini_set('memory_limit', '400M');
         $this->md5 = $request->getParameter('md5');
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
@@ -461,6 +461,7 @@ class drmActions extends drmGeneriqueActions {
             $this->redirect403IfIsTeledeclaration();
         }
         $drm = $this->getRoute()->getDRM();
+        $drm->cleanControles();
         $this->redirect403Unless($drm->isTeledeclareNonFacturee());
 
         $drm = $this->getRoute()->getDRM();
