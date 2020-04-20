@@ -66,7 +66,7 @@ class CompteAllView extends acCouchdbView {
     private function elasticRes2View($results) {
       $res = array();
       foreach ($results->getResults() as $er) {
-	$r = $er->getData();
+	$r = $er->getData()['doc'];
 	$e = new stdClass();
 	$e->id = $r['_id'];
 	$e->key = array($r['interpro'], $r['statut'], $r['_id'], $r['nom_a_afficher'], $r['identifiant'], $r['adresse'], $r['commune'], $r['code_postal'], $r['compte_type']);
