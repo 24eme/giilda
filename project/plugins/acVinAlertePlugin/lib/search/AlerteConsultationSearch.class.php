@@ -6,16 +6,20 @@
  */
 class AlerteConsultationSearch {
 
-    const ELASTICSEARCH_INDEX = 'Alerte';
+    const ELASTICSEARCH_INDEX = 'ALERTE';
     const ELASTICSEARCH_LIMIT = 20;
 
     protected $values;
     protected $index;
     protected $nbResult;
+    protected $page;
 
     public function __construct($values = null) {
-        $this->values = $values;
-        $this->index = acElasticaManager::getType(self::ELASTICSEARCH_INDEX);
+        if ($values) {
+            $this->values = $values;
+        }else{
+            $this->values = array();
+        }
         $this->nbResult = 0;
     }
 
@@ -35,32 +39,35 @@ class AlerteConsultationSearch {
         $this->nbResult = $nbResult;
     }
 
-    public function getLimit($limit = null) {
-        if (!$limit) {
-            $limit = self::ELASTICSEARCH_LIMIT;
+    public function getLimit() {
+        return self::ELASTICSEARCH_LIMIT;
+    }
+
+    public function getElasticSearchResult(int $page = null) {
+        $index = acElasticaManager::getType('ALERTE');
+        $q = new acElasticaQuery();
+        $elasticaQueryString = new acElasticaQueryQueryString();
+        $elasticaQueryString->setDefaultOperator('AND');
+        $qstr = '';
+        foreach ($this->values as $node => $value) {
+            $qstr .= 'doc.'.$node.':'.$value.' ';
         }
-        return $limit;
-    }
+        if ($qstr) {
+            $elasticaQueryString->setQuery($qstr);
+            $q->setQuery($elasticaQueryString);
+        }
 
-    public function getElasticSearchDefaultResult($from = 0, $limit = null) {
-        $query = $this->makeQuery(new acElasticaQueryMatchAll(), $from, $limit);
-        return $this->getResult($query);
-    }
+        $this->page = 1;
+        if ($page > 1) {
+            $q->setFrom(($page - 1 ) *  self::ELASTICSEARCH_LIMIT);
+            $this->page = $page;
+        }
+		$q->setLimit(self::ELASTICSEARCH_LIMIT);
 
-    public function getElasticSearchResult($from = 0, $limit = null) {
-        $query = $this->makeQuery(new acElasticaFiltered(new acElasticaQueryMatchAll(), $this->getFilters()), $from, $limit);
-        return $this->getResult($query);
-    }
-
-    protected function makeQuery($query, $from = 0, $limit = null) {
-        $limit = $this->getLimit($limit);
-        $elasticaQuery = new acElasticaQuery();
-        $elasticaQuery->setQuery($query);
-        $elasticaQuery->setFrom($from);
-        $elasticaQuery->setsort(array("date_dernier_statut" => array("order" => "desc")));
-        $elasticaQuery->setLimit($limit);
-
-        return $elasticaQuery;
+        //Search on the index.
+        $res = $index->search($q);
+        $this->setNbResult($res->getTotalHits());
+        return $res->getResults();
     }
 
     protected function getResult($query) {

@@ -34,7 +34,7 @@
 		<tbody>
 				<?php 
                                 foreach ($alertesHistorique as $a) :
-				$alerte = $a->getData()->getRawValue();
+				$alerte = $a->getData()['doc']->getRawValue();
 				$derniereAlerte = array_pop($alerte['statuts']);
                                 $document_link = link_to($alerte['libelle_document'], 'redirect_visualisation', array('id_doc' => $alerte['id_document']));
                                 if(($alerte['type_alerte'] == AlerteClient::DRM_MANQUANTE) || ($alerte['type_alerte'] == AlerteClient::DRA_MANQUANTE)){
