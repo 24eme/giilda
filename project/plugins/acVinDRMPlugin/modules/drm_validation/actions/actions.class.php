@@ -71,7 +71,9 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->form = new DRMValidationCommentaireForm($this->drm);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-
+            if ($this->drm->exist('controles') && count($this->drm->controles)) {
+                $this->drm->save();
+            }
             return sfView::SUCCESS;
         }
 
