@@ -68,14 +68,15 @@ class drm_validationActions extends drmGeneriqueActions {
 
         $this->isUsurpationMode = $this->isUsurpationMode();
 
-        $this->form = new DRMValidationCommentaireForm($this->drm);
-
         if (!$request->isMethod(sfWebRequest::POST)) {
             if ($this->drm->exist('controles') && count($this->drm->controles)) {
                 $this->drm->save();
             }
+            $this->form = new DRMValidationCommentaireForm($this->drm);
             return sfView::SUCCESS;
         }
+
+        $this->form = new DRMValidationCommentaireForm($this->drm);
 
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->form->bind($request->getParameter($this->form->getName()));
