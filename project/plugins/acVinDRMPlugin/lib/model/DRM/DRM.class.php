@@ -11,11 +11,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     const DETAILS_KEY_SUSPENDU = 'details';
     const DETAILS_KEY_ACQUITTE = 'detailsACQUITTE';
 
-    const ENGAGEMENT = 'engagement';
-    const VIGILANCE = 'vigilance';
-    const EURREUR = 'erreur';
-    const TRANSMISSION = 'transmission';
-
+    const CONTROLE_POINT_ENGAGEMENT = 'engagement';
+    const CONTROLE_POINT_VIGILANCE = 'vigilance';
+    const CONTROLE_POINT_BLOCANT = 'erreur';
+    const CONTROLE_TRANSMISSION = 'transmission';
+    const CONTROLE_COHERENCE = 'coherence';
 
     protected $mouvement_document = null;
     protected $version_document = null;
@@ -326,46 +326,66 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         $this->devalide();
     }
-    public function addPoints($points){
-        $this->remove('controles');
-        $this->add('controles');
-        if($points->hasErreurs()){
-            $this->controles->add($this::EURREUR);
-            $this->controles->erreur->nb = count($points->getErreurs());
-            $this->addMessages($this::EURREUR, $points->getErreurs());
-        }
 
-        if($points->hasVigilances()){
-            $this->controles->add($this::VIGILANCE);
-            $this->controles->vigilance->nb = count($points->getVigilances());
-            $this->addMessages($this::VIGILANCE, $points->getVigilances());
+    protected function addControleMessagesFromPoints($typePoint, $points){
+        foreach ($points as $identifiant => $point) {
+            $lien = $point->getLien();
+            $this->addControleMessage($typePoint, $point->getMessage()." ( $lien )");
         }
-
-        if($points->hasEngagements()){
-            $this->controles->add($this::ENGAGEMENT);
-            $this->controles->engagement->nb = count($points->getEngagements());
-            $this->addMessages($this::ENGAGEMENT, $points->getEngagements());
-        }
-        //$this->save();
     }
 
-    protected function addMessages($typePoint, $point){
-        foreach ($point as $identifiant => $message) {
-            $lien = $message->getLien();
-            if($typePoint == $this::EURREUR) $this->controles->erreur->messages->add(null,$message->getMessage()." ( $lien )");
-            if($typePoint == $this::ENGAGEMENT) $this->controles->engagement->messages->add(null,$message->getMessage()." ( $lien )");
-            if($typePoint == $this::VIGILANCE) $this->controles->vigilance->messages->add(null,$message->getMessage()." ( $lien )");
-        }
+    protected function addControleMessage($typePoint, $message){
+        $messages = $this->add('controles')->add($typePoint)->add('messages');
+        $messages->add(null, $message);
+        $this->controles->add($typePoint)->nb = count($messages);
     }
 
     public function cleanControles(){
-        $this->remove("controles");
-        $this->save();
+        if($this->exist("controles")){
+            $this->remove("controles");
+        }
     }
 
     public function cleanTransmission(){
-        $this->remove('transmission_douane');
-        $this->save();
+        if($this->exist("transmission_douane")){
+            $this->remove('transmission_douane');
+        }
+    }
+
+    protected function cleanControle($controle){
+        $this->controles->remove($controle);
+    }
+
+    public function updateControles(){
+        $points = new DRMValidation($this, true);
+        if(!$points->hasPoints() && !$this->exist("transmission_douane"))
+            return;
+        $this->cleanControles();
+        if($points->hasPoints()){
+            $this->add('controles');
+            if($points->hasErreurs()){
+                $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_BLOCANT, $points->getErreurs());
+            }
+
+            if($points->hasVigilances()){
+                $this->controles->add(DRM::CONTROLE_POINT_VIGILANCE);
+                $this->controles->vigilance->nb = count($points->getVigilances());
+                $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_VIGILANCE, $points->getVigilances());
+            }
+
+            if($points->hasEngagements()){
+                $this->controles->add(DRM::CONTROLE_POINT_ENGAGEMENT);
+                $this->controles->engagement->nb = count($points->getEngagements());
+                $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_ENGAGEMENT, $points->getEngagements());
+            }
+        }
+
+        if($this->exist("transmission_douane") && $this->transmission_douane->success == false){
+            $this->addControleMessage(DRM::CONTROLE_TRANSMISSION, $this->getTransmissionErreur());
+        }
+        if($this->exist("transmission_douane") && $this->get("transmission_douane")->exist('coherence') && !$this->get("transmission_douane")->coherence){
+            $this->addControleMessage(DRM::CONTROLE_COHERENCE, "Non conforme douane");
+        }
     }
 
     public function setDroits() {
