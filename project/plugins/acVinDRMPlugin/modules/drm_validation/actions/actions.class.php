@@ -88,9 +88,9 @@ class drm_validationActions extends drmGeneriqueActions {
         if (!$this->validation->isValide()) {
             return sfView::SUCCESS;
         }
+        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->form->save();
 
-        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->updateVracs();
 
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){
