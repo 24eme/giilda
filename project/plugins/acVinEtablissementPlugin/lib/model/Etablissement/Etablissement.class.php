@@ -293,6 +293,8 @@ class Etablissement extends BaseEtablissement {
         $this->synchroRecetteLocale();
         $this->initFamille();
         $this->synchroFromSociete();
+        //parfois l'interpro n'est pas setté
+        $this->interpro = "INTERPRO-inter-loire";
 
         if (!$fromclient) {
             if (!$this->compte) {
