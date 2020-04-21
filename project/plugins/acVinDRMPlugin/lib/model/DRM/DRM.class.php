@@ -335,8 +335,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     protected function addControleMessage($typePoint, $message){
-        $this->add('controles')->add($typePoint)->add('messages')->add(null, $message);
-        $this->controles->add($typePoint)->nb = count($this->controles->get($typePoints)->messages);
+        $messages = $this->add('controles')->add($typePoint)->add('messages');
+        $messages->add(null, $message);
+        $this->controles->add($typePoint)->nb = count($messages);
     }
 
     public function cleanControles(){
