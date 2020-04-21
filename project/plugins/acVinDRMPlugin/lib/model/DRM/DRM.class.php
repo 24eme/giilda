@@ -11,11 +11,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     const DETAILS_KEY_SUSPENDU = 'details';
     const DETAILS_KEY_ACQUITTE = 'detailsACQUITTE';
 
-    const DRM_CONTROLE_POINT_ENGAGEMENT = 'engagement';
-    const DRM_CONTROLE_POINT_VIGILANCE = 'vigilance';
-    const DRM_CONTROLE_POINT_BLOCANT = 'erreur';
-    const DRM_CONTROLE_TRANSMISSION = 'transmission';
-    const DRM_CONTROLE_COHERENCE = 'coherence';
+    const CONTROLE_POINT_ENGAGEMENT = 'engagement';
+    const CONTROLE_POINT_VIGILANCE = 'vigilance';
+    const CONTROLE_POINT_BLOCANT = 'erreur';
+    const CONTROLE_TRANSMISSION = 'transmission';
+    const CONTROLE_COHERENCE = 'coherence';
 
     protected $mouvement_document = null;
     protected $version_document = null;
