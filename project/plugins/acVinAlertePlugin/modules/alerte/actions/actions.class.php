@@ -6,8 +6,6 @@ class alerteActions extends sfActions {
         $search = new AlerteConsultationSearch();
         $this->page = $request->getParameter('p', 1);
         $this->consultationFilter = $this->makeParameterQuery(array('consultation' => $request->getParameter('consultation', null)));
-        $this->alertesHistorique = (is_null($this->page)) ? $search->getElasticSearchDefaultResult() : $search->getElasticSearchDefaultResult(($this->page - 1) * 20, 20);
-        //usort($this->alertesHistorique, array("alerteActions", "triResultElasticaAlertesDates"));
 
         $this->form = new AlertesConsultationForm();
         $this->dateAlerte = AlerteDateClient::getInstance()->find(AlerteDateClient::getInstance()->buildId());
@@ -26,9 +24,8 @@ class alerteActions extends sfActions {
         if ($this->form->isValid() && $this->form->hasFilters()) {
             $values = $this->createSearchValues($this->form);
             $search->setValues($values);
-            $this->alertesHistorique = $search->getElasticSearchResult(($this->page - 1) * 20, 20);
-            //     usort($this->alertesHistorique, array("alerteActions", "triResultElasticaAlertesDates"));
         }
+        $this->alertesHistorique = $search->getElasticSearchResult($this->page);
         $this->nbResult = $search->getNbResult();
         $this->nbPage = ceil($this->nbResult / $search->getLimit());
         $this->modificationStatutForm = new AlertesStatutsModificationForm($this->alertesHistorique);
