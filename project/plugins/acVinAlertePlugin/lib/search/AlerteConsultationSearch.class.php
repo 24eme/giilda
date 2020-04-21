@@ -43,7 +43,7 @@ class AlerteConsultationSearch {
         return self::ELASTICSEARCH_LIMIT;
     }
 
-    public function getElasticSearchResult(int $page = null) {
+    public function getElasticSearchResult($page = null) {
         $index = acElasticaManager::getType('ALERTE');
         $q = new acElasticaQuery();
         $elasticaQueryString = new acElasticaQueryQueryString();
