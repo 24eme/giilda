@@ -55,6 +55,12 @@ class drmGeneriqueActions extends sfActions {
         }
     }
 
+    protected function redirect403Unless($bool) {
+        if (!$bool) {
+          $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+    }
+
     private function redirect403() {
         $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
     }
