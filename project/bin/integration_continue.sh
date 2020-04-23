@@ -28,7 +28,7 @@ echo $$ > $PID_PATH
 
 mkdir -p $XMLTESTDIR 2> /dev/null
 
-git fetch
+git fetch > /dev/null 2>&1
 git reset --hard origin/master
 
 BRANCH=$(cat ../.git/HEAD | sed -r 's|^ref: refs/heads/||')
