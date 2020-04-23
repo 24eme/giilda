@@ -3,6 +3,11 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
+if($application == "civa") {
+    $t = new lime_test(0);
+    exit(0);
+}
+
 $conf = ConfigurationClient::getInstance()->getCurrent();
 
 $hasCVONegociant = false;
@@ -31,11 +36,13 @@ $paramFacturation =  array(
 
 $societeViti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
+$t->comment("Suppression des DRM précédentes pour ".$viti->identifiant);
 foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
   $drm = DRMClient::getInstance()->find($k);
   $drm->delete(false);
 }
 
+$t->comment("Création de la DRM");
 $produits = array_keys($conf->getProduits());
 $produit_hash = array_shift($produits);
 $periode = date('Ym');
@@ -48,7 +55,9 @@ $drm->save();
 $drm->validate();
 $drm->save();
 
+$t->comment("Recherche des mouvements (non facturable)");
 $mouvementsFactureMasse = FactureClient::getInstance()->getMouvementsNonFacturesBySoc(FactureClient::getInstance()->getMouvementsForMasse(null));
+$t->comment("Recherche des mouvements (> à 999999)");
 $mouvementsFactureMasse = FactureClient::getInstance()->filterWithParameters($mouvementsFactureMasse, array_merge($paramFacturation, array('seuil' => 999999)));
 
 $t->is(count($mouvementsFactureMasse), 0, "Avec un seuil à 99999 aucune société à facturer");
