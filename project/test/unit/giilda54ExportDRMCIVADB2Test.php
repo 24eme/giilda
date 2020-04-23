@@ -157,7 +157,7 @@ foreach($mouvements as $key => $mouvement) {
 $export = new ExportMouvementsDRMDB2();
 $csv = $export->export($mouvements);
 
-$t->is(count($csv), 7, "L'export genère 7 csv");
+$t->is(count($csv), 9, "L'export genère 9 csv");
 
 $t->is(count($csv["01.DRMDEM"]), 1, "Une seul ligne pour les entrées");
 $t->is($csv["01.DRMDEM"][0], substr($periode,0,4).";".(substr($periode,4,2)*1).";".$viti->num_interne.";;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;".$date.";\"TELEDECLARATION\"", "Les entrées sont vides");
