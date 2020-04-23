@@ -337,7 +337,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
             continue;
           }
 
-          if ($founded_produit && !$founded_produit->isActif($datas[self::CSV_PERIODE].'-01')) {
+          if ($founded_produit && !$founded_produit->isActif(substr($datas[self::CSV_PERIODE], 0, 4).'-'.substr($datas[self::CSV_PERIODE], -2).'-01')) {
             $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $datas));
             continue;
           }
