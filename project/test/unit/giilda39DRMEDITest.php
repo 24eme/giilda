@@ -5,11 +5,14 @@ require_once(dirname(__FILE__).'/../bootstrap/common.php');
 $t = new lime_test(63);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
+
+$produit_disabled = null;
 foreach($produits as $produit) {
     if(!$produit->code_douane) {
         continue;
     }
     if(!$produit->isActif(date('Y')."-01-01")) {
+        $produit_disabled = $produit;
         continue;
     }
     if(!isset($produit1)) {
@@ -242,13 +245,6 @@ unlink($tmpfname);
 $t->comment("Conformité aux catalogues ou  ".$viti->identifiant);
 
 $produit_disabled = null;
-
-foreach($produits as $p) {
-  if (!$p->isActif(date('Y')."-01-01")) {
-    $produit_disabled = $p;
-    break;
-  }
-}
 
 if($produit_disabled) {
     $temp = fopen($tmpfname, "w");
