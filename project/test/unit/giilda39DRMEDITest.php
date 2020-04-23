@@ -381,11 +381,11 @@ $drm9->delete();
 $periode5 = date('Y')."04";
 $t->comment("Reconnaissance de produit Alcool avec le degré");
 $temp = fopen($tmpfname, "w");
-fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,45,,,,,,\n");
-fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,100,,,,,,\n");
-fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 20° (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,20,,,,,,\n");
-fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 20° (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,50,,,,,,\n");
-fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 60° (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,70,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getLibelleFormat()." (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,45,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getLibelleFormat()." (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,100,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getLibelleFormat()." - 20° (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,20,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getLibelleFormat()." - 20° (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,50,,,,,,\n");
+fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getLibelleFormat()." - 60° (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,70,,,,,,\n");
 fclose($temp);
 
 $drm10 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5, true);
@@ -403,14 +403,14 @@ $keyProductTav60 = 'DEFAUT';
 $t->is(count($drm10->get($produitAlcool_hash.'/details')->toArray(true, false)), 3, "3 produits ont été créés");
 $t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav45)->tav, 45, "Tav du 1er produit");
 $t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav45)->stocks_debut->initial, 100, "Le stock initial du 1er produit");
-$t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav45)->getLibelle(), $produitAlcool->getAppellation()->getLibelle().' - 45°', "Libellé du 1er produit");
+$t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav45)->getLibelle(), $produitAlcool->getLibelleFormat().' - 45°', "Libellé du 1er produit");
 
 $t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav20)->tav, 20, "Tav du 2ème produit");
 $t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav20)->stocks_debut->initial, 50, "Stock initial du 2ème produit");
-$t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav20)->getLibelle(), $produitAlcool->getAppellation()->getLibelle().' - 20°', "Le libelle du 2ème produit contient le tav");
+$t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav20)->getLibelle(), $produitAlcool->getLibelleFormat().' - 20°', "Le libelle du 2ème produit contient le tav");
 $t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav60)->tav, 60, "Tav du 3ème produit");
 $t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav60)->stocks_debut->initial, 70, "Stock initial du 3ème produit");
-$t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav60)->getLibelle(), $produitAlcool->getAppellation()->getLibelle().' - 60°', "Libellé du 3ème produit avec le tav");
+$t->is($drm10->get($produitAlcool_hash.'/details/'.$keyProductTav60)->getLibelle(), $produitAlcool->getLibelleFormat().' - 60°', "Libellé du 3ème produit avec le tav");
 unlink($tmpfname);
 
 $periode6 = date('Y')."05";
