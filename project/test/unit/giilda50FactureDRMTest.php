@@ -234,10 +234,24 @@ $details->sorties->manquant = 1;
 $details->sorties->destructionperte = 2;
 $details->sorties->transfertsrecolte = 10;
 
-$vrac_detail = DRMESDetailVrac::freeInstance($drm);
-$vrac_detail->identifiant = $vrac->_id;
-$vrac_detail->volume = 1;
-$vrac_detail = $details->sorties->vrac_details->addDetail($vrac_detail);
+$prixHt = round($details->entrees->recolte / 12 * 2, 2) * $details->getCVOTaux() - round($details->sorties->manquant * $details->getCVOTaux(), 2) - round($details->sorties->destructionperte * $details->getCVOTaux(), 2);
+if ($details->sorties->exist('vrac_details')) {
+    $vrac_detail = DRMESDetailVrac::freeInstance($drm);
+    $vrac_detail->identifiant = $vrac->_id;
+    $vrac_detail->volume = 1;
+    $vrac_detail = $details->sorties->vrac_details->addDetail($vrac_detail);
+    $prixHt += - round($vrac_detail->volume * ($details->getCVOTaux() / 2), 2);
+}elseif ($details->sorties->exist('creationvrac_details')) {
+    $vrac_detail = DRMESDetailCreationVrac::freeInstance($drm);
+    $vrac_detail->acheteur = $nego2->identifiant;
+    $vrac_detail->type_contrat = VracClient::TYPE_TRANSACTION_VIN_VRAC;
+    $vrac_detail->volume = 1;
+    $vrac_detail = $details->sorties->creationvrac_details->addDetail($vrac_detail);
+    $prixHt += - round($vrac_detail->volume * ($details->getCVOTaux() / 2), 2);
+}else{
+    $details->sorties->ventefrancecrd = 1;
+    $prixHt += - round($details->sorties->ventefrancecrd * ($details->getCVOTaux() / 2), 2);
+}
 
 $details_2 = $drm->addProduit($produit, 'details', 'BIO');
 $details_2->entrees->transfertsrecolte = 10;
@@ -245,8 +259,6 @@ $details_2->entrees->transfertsrecolte = 10;
 $drm->update();
 $drm->validate();
 $drm->save();
-
-$prixHt = round($details->entrees->recolte / 12 * 2, 2) * $details->getCVOTaux() - round($details->sorties->manquant * $details->getCVOTaux(), 2) - round($details->sorties->destructionperte * $details->getCVOTaux(), 2) - round($vrac_detail->volume * ($details->getCVOTaux() / 2), 2);
 
 $dateFacturation = new DateTime(preg_replace("/([0-9]{4})([0-9]{2})/", '\1-\2-31', $periode));
 $paramFacturation["date_mouvement"] = $dateFacturation->modify("+ 1 month")->format('Y-m-d');
