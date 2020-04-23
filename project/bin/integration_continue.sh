@@ -28,13 +28,17 @@ fi
 
 echo $$ > $PID_PATH
 
+if ! test "$WORKINGDIR"; then
+    WORKINGDIR=$(dirname $0)"/../"
+fi
+
 mkdir -p $XMLTESTDIR 2> /dev/null
 
 #git fetch > /dev/null 2>&1
 #git reset --hard origin/master
 
 BRANCH=$(cat ../.git/HEAD | sed -r 's|^ref: refs/heads/||')
-LASTCOMMIT=$(cat $WORKINGDIR"../.git/refs/heads/"$BRANCH)
+LASTCOMMIT=$(cat $WORKINGDIR"/../.git/refs/heads/"$BRANCH)
 DATE=$(date +%Y%m%d%H%M%S)
 BRANCH=$(echo $BRANCH | tr '/' '-')
 
@@ -53,7 +57,7 @@ make clean
 make
 cd -
 
-ls $WORKINGDIR"data/configuration/"$APPLICATION | while read jsonFile
+ls $WORKINGDIR"/data/configuration/"$APPLICATION | while read jsonFile
 do
     curl -s -X POST -d @data/configuration/$APPLICATION/$jsonFile -H "content-type: application/json" $COUCHTEST
 done
