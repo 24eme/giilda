@@ -1,12 +1,20 @@
 #!/bin/bash
 
 . bin/config.inc
+LOCK="/tmp/compte_update_ldap.lock"
+SEQ="/tmp/compte_update_ldap.seq"
+if test -f $LOCK ; then
+    exit 1
+fi
+touch $LOCK
+if ! test -s $SEQ; then
+    echo 0 > $SEQ
+fi
 
-curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/compte/_view/all" | cut -d "," -f 1 | sed 's/{"id":"//' | sed 's/"//' | grep "^COMPTE" > $TMP/comptes_ldap_ids
-
-while read ligne  
+curl -s "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_changes?feed=continuous&timeout=590000&since="$(cat $SEQ | sed 's/[^0-9]//g') | grep "COMPTE" | while read ligne
 do
-    echo $ligne
-    php symfony compte:ldap-update $ligne
-done < $TMP/comptes_ldap_ids
+    echo $ligne | awk -F '"' '{print $3}' | sed 's/[^0-9]//g' > $SEQ
+    php symfony compte:ldap-update $SYMFONYTASKOPTIONS $(echo $ligne | awk -F '"' '{print $6}')
+done
 
+rm $LOCK

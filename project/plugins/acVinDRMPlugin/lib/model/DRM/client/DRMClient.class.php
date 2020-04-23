@@ -285,6 +285,37 @@ class DRMClient extends acCouchdbClient {
         return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
     }
 
+    public function getDRMControles(){
+        return DRMClient::parseResultSet(DRMClient::getInstance()->getDRMByFieldExists("doc.controles"));
+    }
+
+    public function getDRMByFieldExists($field){
+        try{
+            if(acElasticaManager::getIndex()->exists()){
+                $index = acElasticaManager::getType('DRM');
+                $query = new acElasticaQuery();
+                $query->setRawQuery(["query" => ["exists" => ["field" =>$field]]]);
+                $resultSet = $index->search($query);
+                return $resultSet;
+            }
+        }
+        catch(Exception $e){
+            return;
+        }  
+    }
+
+    public function parseResultSet($resultSet){
+        $results = array();
+        if($resultSet){
+            foreach ($resultSet as $key => $rs) {
+                $drm_id_array = explode("-", $rs->id);
+                $identifiant = $drm_id_array[1];
+                $results[$identifiant] = $rs;
+            }
+        }                    
+        return $results;
+    }
+
     public function viewByIdentifiant($identifiant) {
         $rows = acCouchdbManager::getClient()
                         ->startkey(array($identifiant))
