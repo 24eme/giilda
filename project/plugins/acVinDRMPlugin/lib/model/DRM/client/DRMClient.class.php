@@ -295,7 +295,7 @@ class DRMClient extends acCouchdbClient {
                 $index = acElasticaManager::getType('DRM');
                 $query = new acElasticaQuery();
                 $query->setRawQuery(["query" => ["exists" => ["field" =>$field]]]);
-                $resultSet = $index->search($query);;
+                $resultSet = $index->search($query);
                 return $resultSet;
             }
         }
@@ -306,11 +306,13 @@ class DRMClient extends acCouchdbClient {
 
     public function parseResultSet($resultSet){
         $results = array();
-        foreach ($resultSet as $key => $rs) {
-            $drm_id_array = explode("-", $rs->id);
-            $identifiant = $drm_id_array[1];
-            $results[$identifiant] = $rs;
-        }            
+        if($resultSet){
+            foreach ($resultSet as $key => $rs) {
+                $drm_id_array = explode("-", $rs->id);
+                $identifiant = $drm_id_array[1];
+                $results[$identifiant] = $rs;
+            }
+        }                    
         return $results;
     }
 

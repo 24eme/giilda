@@ -2,6 +2,13 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
+try {
+    acElasticaManager::getIndex();
+} catch(sfException $e) {
+    $t = new lime_test(0);
+    return;
+}
+
 
 $index = acElasticaManager::getType('ETABLISSEMENT');
 $elasticaQueryString = new acElasticaQueryQueryString();

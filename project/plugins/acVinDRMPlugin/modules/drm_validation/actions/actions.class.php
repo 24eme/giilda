@@ -51,6 +51,7 @@ class drm_validationActions extends drmGeneriqueActions {
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
         $this->drm->updateControles();
+        $this->drm->save();
         $this->produits = array();
         foreach ($this->drm->getProduits() as $produit) {
             $d = new stdClass();

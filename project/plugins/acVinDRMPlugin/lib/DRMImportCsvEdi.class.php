@@ -1287,7 +1287,7 @@ private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {
 }
 
 private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "La numéro d'accise du destinataire est mal formatté (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "Le numéro d'accise du destinataire est mal formatté (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
 }
 
 private function typeComplementNotFoundError($num_ligne, $csvRow) {
