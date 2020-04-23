@@ -348,8 +348,8 @@ $t->comment("Test non appurement + CRD sans couleur ".$viti->identifiant." $peri
 $temp = fopen($tmpfname, "w");
 fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,944,,,,,,\n");
 fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,944,,,,,,\n");
-fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,01/06/2019,FR00000E0000,19FRG000000000000000\n");
-fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-02,FR00000E0001,19FRG000000000000001\n");
+fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,01/06/2019,FR00000E00000,19FRG000000000000000\n");
+fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-02,FR00000E00001,19FRG000000000000001\n");
 fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,100,,,,\n");
 fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_fin,fin,100,,,,\n");
 fclose($temp);
