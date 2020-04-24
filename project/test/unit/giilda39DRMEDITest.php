@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(63);
+$nb_tests = 59;
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
 
@@ -32,7 +32,18 @@ foreach($produits as $produit) {
     }
 }
 
-$produitdefault_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash("1B455S");
+$produitdefault_tranq_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash("1B455S");
+if ($produitdefault_tranq_hash) {
+    $nb_tests += 5;
+}
+$produitdefault_mou_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash("1S437M 1");
+if ($produitdefault_mou_hash) {
+    $nb_tests += 5;
+}
+$produitdefault_autre_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash("SPIRITUEUX_GUADELOUPE_SUP_18");
+if ($produitdefault_autre_hash) {
+    $nb_tests += 5;
+}
 
 //Suppression des DRM précédentes
 foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
@@ -42,6 +53,7 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k =>
   $csv->delete(false);
 }
 
+$t = new lime_test($nb_tests);
 $t->comment("Création d'une DRM via EDI avec aussi un produit non interpro ".$viti->identifiant);
 
 $periode = (date('Y'))."01";
@@ -57,10 +69,14 @@ fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,
 fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie Ripaille (1B455S),suspendu,entrees,recolte,4,,,,,,\n");
 fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie Ripaille (1B455S),suspendu,sorties,ventefrancecrd,4,,,,,,\n");
 fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie Ripaille (1B455S),suspendu,stocks_fin,final,0,,,,,,\n");
-fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Roussette de savoie (1B436S 1),suspendu,stocks_debut,initial,0,,,,,,\n");
-fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Roussette de savoie (1B436S 1),suspendu,entrees,recolte,4,,,,,,\n");
-fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Roussette de savoie (1B436S 1),suspendu,sorties,ventefrancecrd,4,,,,,,\n");
-fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Roussette de savoie (1B436S 1),suspendu,stocks_fin,final,0,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie mousseux rosé (1S437M 1),suspendu,stocks_debut,initial,0,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie mousseux rosé (1S437M 1),suspendu,entrees,recolte,4,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie mousseux rosé (1S437M 1),suspendu,sorties,ventefrancecrd,4,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Vin de Savoie mousseux rosé (1S437M 1),suspendu,stocks_fin,final,0,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Autre vin de Savoie (SPIRITUEUX_GUADELOUPE_SUP_18),suspendu,stocks_debut,initial,0,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Autre vin de Savoie (SPIRITUEUX_GUADELOUPE_SUP_18),suspendu,entrees,recolte,4,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Autre vin de Savoie (SPIRITUEUX_GUADELOUPE_SUP_18),suspendu,sorties,ventefrancecrd,4,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,Autre vin de Savoie (SPIRITUEUX_GUADELOUPE_SUP_18),suspendu,stocks_fin,final,0,,,,,,\n");
 fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,14742,,,,\n");
 fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75 cl,,,,,,,collectif suspendu,sorties,utilisations,3118,,,,\n");
 fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75cl,,,,,,,collectif suspendu,stock_fin,fin,11624,,,,\n");
@@ -85,7 +101,7 @@ if ($import->getCsvDoc()->hasErreurs()) {
 }
 
 $import->importCSV();
-
+$t->is(count($drm->getProduitsDetails()), 4, "La DRM a bien 4 produits");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('stocks_debut/initial'), 951.4625, "le stock initial est celui attendu");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('sorties/ventefrancecrd'),4.62,"vente frande crd OK");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('sorties/export'),2.8425,"sortie export OK");
@@ -101,15 +117,35 @@ $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), Configu
 $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), "", "Observations OK");
 }
 #tests de produit hors interpro
-if ($produitdefault_hash) {
-$t->is(count($drm->get($produitdefault_hash)->details), 2, "les deux produits hors intepro sont bien reconnu comme deux produits défauts distincts");
-foreach($drm->get($produitdefault_hash)->details as $detail1) {
-    break;
+if ($produitdefault_tranq_hash) {
+    $t->is(count($drm->get($produitdefault_tranq_hash)->details), 1, "Le produit tranquille hors intepro est bien reconnu comme produit défaut distinct");
+    foreach($drm->get($produitdefault_tranq_hash)->details as $detail1) {
+        break;
+    }
+    $t->ok($detail1->isDefaultProduit(), "Produit tranquille hors-interpro est bien détecté");
+    $t->is($detail1->produit_libelle, "Vin de Savoie Ripaille", "Produit hors-interpro : libellé douanier repris du CSV");
+    $t->is($detail1->getLibelle(), "Vin de Savoie Ripaille (Hors Interpro)", "Produit hors-interpro : libellé douanier repris du CSV");
+    $t->is($detail1->code_inao, "1B455S", "Produit tranquille hors-interpro : code inao repris du CSV");
 }
-$t->ok($detail1->isDefaultProduit(), "Produit hors-interpro est bien détecté");
-$t->is($detail1->produit_libelle, "Vin de Savoie Ripaille", "Produit hors-interpro : libellé douanier repris du CSV");
-$t->is($detail1->getLibelle(), "Vin de Savoie Ripaille (Hors Interpro)", "Produit hors-interpro : libellé douanier repris du CSV");
-$t->is($detail1->code_inao, "1B455S", "Produit hors-interpro : code inao repris du CSV");
+if ($produitdefault_mou_hash) {
+    $t->is(count($drm->get($produitdefault_mou_hash)->details), 1, "Le produit mousseux hors intepro est bien reconnu comme produit défaut distinct");
+    foreach($drm->get($produitdefault_mou_hash)->details as $detail2) {
+        break;
+    }
+    $t->ok($detail2->isDefaultProduit(), "Produit mousseux hors-interpro est bien détecté");
+    $t->is($detail2->produit_libelle, "Vin de Savoie mousseux rosé", "Produit hors-interpro : libellé douanier repris du CSV");
+    $t->is($detail2->getLibelle(), "Vin de Savoie mousseux rosé (Hors Interpro)", "Produit hors-interpro : libellé douanier repris du CSV");
+    $t->is($detail2->code_inao, "1S437M 1", "Produit mousseux hors-interpro : code inao repris du CSV");
+}
+if ($produitdefault_autre_hash) {
+    $t->is(count($drm->get($produitdefault_autre_hash)->details), 1, "Le produit autre hors intepro est bien reconnu comme produit défaut distinct");
+    foreach($drm->get($produitdefault_autre_hash)->details as $detail3) {
+        break;
+    }
+    $t->ok($detail3->isDefaultProduit(), "Produit autre hors-interpro est bien détecté");
+    $t->is($detail3->produit_libelle, "Autre vin de Savoie", "Produit hors-interpro : libellé douanier repris du CSV");
+    $t->is($detail3->getLibelle(), "Autre vin de Savoie (Hors Interpro)", "Produit hors-interpro : libellé douanier repris du CSV");
+    $t->is($detail3->code_inao, "SPIRITUEUX_GUADELOUPE_SUP_18", "Produit autre hors-interpro : code inao repris du CSV");
 }
 #FIN: test de produit hors interpro
 
