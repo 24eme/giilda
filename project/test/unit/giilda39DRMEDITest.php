@@ -47,10 +47,10 @@ if ($produitdefault_autre_hash) {
 
 //Suppression des DRM précédentes
 foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k => $v) {
-  $drm = DRMClient::getInstance()->find($k);
-  $drm->delete(false);
-  $csv = CSVDRMClient::getInstance()->find(str_replace("DRM", "CSVDRM", $k));
-  $csv->delete(false);
+    $drm = DRMClient::getInstance()->find($k);
+    $drm->delete(false);
+    $csv = CSVDRMClient::getInstance()->find(str_replace("DRM", "CSVDRM", $k));
+    $csv->delete(false);
 }
 
 $t = new lime_test($nb_tests);
@@ -95,9 +95,9 @@ $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
 $import = new DRMImportCsvEdi($tmpfname, $drm);
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
-  foreach ($import->getCsvDoc()->erreurs as $k => $err) {
-    $t->ok(false, $err->diagnostic);
-  }
+    foreach ($import->getCsvDoc()->erreurs as $k => $err) {
+        $t->ok(false, $err->diagnostic);
+    }
 }
 
 $import->importCSV();
@@ -112,9 +112,9 @@ if($drm->getProduit($produit1_hash, 'details')->exist('entrees/retourmarchandise
     $t->is($drm->getProduit($produit1_hash, 'details')->get('replacement_date'), "31/12/2017","Date de replacement OK");
 }
 if(DRMConfiguration::getInstance()->isObservationsAuto()) {
-$t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->libelle_detail_ligne->details->entrees->retourmarchandisetaxees->libelle_long, "Observations OK");
+    $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->libelle_detail_ligne->details->entrees->retourmarchandisetaxees->libelle_long, "Observations OK");
 } else {
-$t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), "", "Observations OK");
+    $t->is($drm->getProduit($produit1_hash, 'details')->get('observations'), "", "Observations OK");
 }
 #tests de produit hors interpro
 if ($produitdefault_tranq_hash) {
@@ -177,9 +177,9 @@ $drm->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm);
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
-  foreach ($import->getCsvDoc()->erreurs as $k => $err) {
-    $t->ok(false, $err->diagnostic);
-  }
+    foreach ($import->getCsvDoc()->erreurs as $k => $err) {
+        $t->ok(false, $err->diagnostic);
+    }
 }
 
 $import->importCSV();
@@ -215,9 +215,9 @@ $import = new DRMImportCsvEdi($tmpfname, $drm2);
 
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
-  foreach ($import->getCsvDoc()->erreurs as $k => $err) {
-    $t->ok(false, $err->diagnostic);
-  }
+    foreach ($import->getCsvDoc()->erreurs as $k => $err) {
+        $t->ok(false, $err->diagnostic);
+    }
 }
 
 $import->importCSV();
@@ -257,9 +257,9 @@ $drm3->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm3);
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
-  foreach ($import->getCsvDoc()->erreurs as $k => $err) {
-    $t->ok(false, $err->diagnostic." : ".$err->csv_erreur);
-  }
+    foreach ($import->getCsvDoc()->erreurs as $k => $err) {
+        $t->ok(false, $err->diagnostic." : ".$err->csv_erreur);
+    }
 }
 
 $import->importCSV();
@@ -315,7 +315,7 @@ $drm5->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm5);
 $t->ok(!$import->checkCSV(), "On ne peut pas changer une CRD avec du stock");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
-  break;
+    break;
 }
 $t->is($err->num_ligne, 5, "L'erreur de CRD pointe la bonne ligne");
 
@@ -336,7 +336,7 @@ $drm6->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm6);
 $t->ok(!$import->checkCSV(), "On ne peut pas changer le stock CRD déclaré lors de la DRM précédente");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
-  break;
+    break;
 }
 $t->is($err->num_ligne, 5, "L'erreur de CRD pointe la bonne ligne");
 
@@ -367,7 +367,7 @@ $drm8->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm8);
 $t->ok(!$import->checkCSV(), "On ne peut pas changer le stock de vin déclaré lors de la DRM précédente");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
-  break;
+    break;
 }
 $t->is($err->num_ligne, 3, "L'erreur de CRD pointe la bonne ligne");
 unlink($tmpfname);
