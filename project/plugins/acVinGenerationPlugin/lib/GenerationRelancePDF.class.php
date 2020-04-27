@@ -52,7 +52,6 @@ class GenerationRelancePDF extends GenerationPDF {
             $alertes_relancables_tmp = array();
 
            foreach($alertes_relancables as $a){
-               $campagne_relance =
                if($a->key[AlerteRelanceView::KEY_CAMPAGNE] == $lastCampagne){
                        $alertes_relancables_tmp[$a->id] = $a;
                }
