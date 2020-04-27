@@ -51,6 +51,7 @@ class drm_validationActions extends drmGeneriqueActions {
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
         $this->drm->updateControles();
+        $this->drm->save();
         $this->produits = array();
         foreach ($this->drm->getProduits() as $produit) {
             $d = new stdClass();
@@ -68,12 +69,15 @@ class drm_validationActions extends drmGeneriqueActions {
 
         $this->isUsurpationMode = $this->isUsurpationMode();
 
-        $this->form = new DRMValidationCommentaireForm($this->drm);
-
         if (!$request->isMethod(sfWebRequest::POST)) {
-
+            if ($this->drm->exist('controles') && count($this->drm->controles)) {
+                $this->drm->save();
+            }
+            $this->form = new DRMValidationCommentaireForm($this->drm);
             return sfView::SUCCESS;
         }
+
+        $this->form = new DRMValidationCommentaireForm($this->drm);
 
         $this->mouvements = $this->drm->getMouvementsCalculeByIdentifiant($this->drm->identifiant);
         $this->form->bind($request->getParameter($this->form->getName()));
@@ -85,9 +89,9 @@ class drm_validationActions extends drmGeneriqueActions {
         if (!$this->validation->isValide()) {
             return sfView::SUCCESS;
         }
+        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->form->save();
 
-        $this->drm->validate(array('isTeledeclarationMode' => $this->isTeledeclarationMode));
         $this->drm->updateVracs();
 
         if(!$this->isUsurpationMode() && $this->isTeledeclarationMode){

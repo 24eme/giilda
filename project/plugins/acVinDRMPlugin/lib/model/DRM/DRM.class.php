@@ -11,11 +11,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     const DETAILS_KEY_SUSPENDU = 'details';
     const DETAILS_KEY_ACQUITTE = 'detailsACQUITTE';
 
-    const DRM_CONTROLE_POINT_ENGAGEMENT = 'engagement';
-    const DRM_CONTROLE_POINT_VIGILANCE = 'vigilance';
-    const DRM_CONTROLE_POINT_BLOCANT = 'erreur';
-    const DRM_CONTROLE_TRANSMISSION = 'transmission';
-    const DRM_CONTROLE_COHERENCE = 'coherence';
+    const CONTROLE_POINT_ENGAGEMENT = 'engagement';
+    const CONTROLE_POINT_VIGILANCE = 'vigilance';
+    const CONTROLE_POINT_BLOCANT = 'erreur';
+    const CONTROLE_TRANSMISSION = 'transmission';
+    const CONTROLE_COHERENCE = 'coherence';
 
     protected $mouvement_document = null;
     protected $version_document = null;
@@ -335,8 +335,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     protected function addControleMessage($typePoint, $message){
-        $this->add('controles')->add($typePoint)->add('messages')->add(null, $message);
-        $this->controles->add($typePoint)->nb = count($this->controles->get($typePoints)->messages);
+        $messages = $this->add('controles')->add($typePoint)->add('messages');
+        $messages->add(null, $message);
+        $this->controles->add($typePoint)->nb = count($messages);
     }
 
     public function cleanControles(){
@@ -357,9 +358,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function updateControles(){
         $points = new DRMValidation($this, true);
-        if(!$points->hasPoints() && !$this->exist("transmission_douane"))
+	$this->cleanControles();
+	if(!$points->hasPoints() && !$this->exist("transmission_douane")){
             return;
-        $this->cleanControles();
+        }
         if($points->hasPoints()){
             $this->add('controles');
             if($points->hasErreurs()){
@@ -892,7 +894,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($key_to_remove as $key) {
            $this->remove($key);
         }
+
         parent::save();
+    }
+
+    protected function doSave() {
+        if (!$this->isValidee()) {
+            $this->add('date_modification', date('Y-m-d'));
+        }else{
+            if ($c = count($this->editeurs)) {
+                $this->add('date_modification', value($this->editeur[$c - 1 ]->date_modification));
+            }else{
+                $this->add('date_modification', $this->valide->date_saisie);
+            }
+        }
     }
 
     protected function preSaveEditeur() {
