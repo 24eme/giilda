@@ -461,8 +461,8 @@ class drmActions extends drmGeneriqueActions {
             $this->redirect403IfIsTeledeclaration();
         }
         $drm = $this->getRoute()->getDRM();
-        $drm->cleanControles();
         $this->redirect403Unless($drm->isReouvrable());
+        $drm->cleanControles();
 
         $drm = $this->getRoute()->getDRM();
         $drm->devalidate();

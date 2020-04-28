@@ -28,6 +28,7 @@ DRM:
                   nom: {  }
                   prenom: {  }
                   date_modification: { type: date }
+      date_modification: { type: date, required: false}
       apurement_possible: {  }
       raison_rectificative: {  }
       etape: {  }
