@@ -27,6 +27,8 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
+        $this->page_num = $request->getParameter('page', 1);
+        $this->drm_controles = DRMClient::getInstance()->getDRMControles();
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {
