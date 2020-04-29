@@ -39,9 +39,6 @@ class drm_validationActions extends drmGeneriqueActions {
 
         $this->drm->cleanDeclaration();
 
-        $this->drm->updateControles();
-        $this->drm->save();
-
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
@@ -72,9 +69,9 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->isUsurpationMode = $this->isUsurpationMode();
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-            if ($this->drm->exist('controles') && count($this->drm->controles)) {
-                $this->drm->save();
-            }
+            $this->drm->updateControles();
+            $this->drm->save();
+
             $this->form = new DRMValidationCommentaireForm($this->drm);
             return sfView::SUCCESS;
         }
