@@ -21,7 +21,7 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
-$t = new lime_test(36);
+$t = new lime_test(37);
 
 $t->comment("Création d'une facture à partir des DRM pour une société");
 
@@ -153,6 +153,7 @@ $t->ok($avoir->isAvoir(), "L'avoir est marqué comme un avoir");
 $t->is($avoir->total_ht, $prixHt, "Le total TTC est de ".$prixHt." €");
 $t->is($avoir->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC." €");
 $t->is($avoir->total_taxe, $prixTaxe, "Le total TTC est de ".$prixTaxe." €");
+$t->is($avoir->date_facturation, date('Y-m-d'), "La date de l'avoir est celle d'aujourd'hui");
 $t->ok(!$avoir->isRedressable(), "L'avoir n'est pas redressable");
 
 $t->is($facture->avoir, $avoir->_id, "L'avoir est conservé dans la facture");
