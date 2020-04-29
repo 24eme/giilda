@@ -293,8 +293,13 @@ class DRMClient extends acCouchdbClient {
         try{
             if(acElasticaManager::getIndex()->exists()){
                 $index = acElasticaManager::getType('DRM');
+
                 $query = new acElasticaQuery();
-                $query->setRawQuery(["query" => ["exists" => ["field" =>$field]]]);
+                $elasticaQueryString = new acElasticaQueryQueryString();
+                $elasticaQueryString->setQuery("_exists_:$field");
+                $query->setQuery($elasticaQueryString);
+                $query->setSort([["doc.periode" => ["order"=>"asc"]]]);
+                $query->setLimit(10);
                 $resultSet = $index->search($query);
                 return $resultSet;
             }
