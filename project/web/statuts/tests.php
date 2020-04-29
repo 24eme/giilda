@@ -45,7 +45,7 @@ foreach($files as $file) {
     $test->diff_nb_errors = 0;
 
     $precTest = null;
-    if(isset($prec[$test->application.'_'.$test->branch]) && $prec[$test->application.'_'.$test->branch] && $prec[$test->application.'_'.$test->branch]->commit != $precTest->commit) {
+    if(isset($prec[$test->application.'_'.$test->branch]) && $prec[$test->application.'_'.$test->branch] && $prec[$test->application.'_'.$test->branch]->commit != $test->commit) {
         $precTest = $prec[$test->application.'_'.$test->branch];
     }
 
@@ -64,7 +64,6 @@ krsort($tests);
 <?php if($output == "xml"): ?>
 <?php header('Content-Type: text/xml'); ?>
 <?xml version="1.0" encoding="utf-8"?>
-
     <feed xmlns="http://www.w3.org/2005/Atom">
     	<title>Tests</title>
     	<updated><?php echo current($tests)->date->format('Y-m-d H:i:s') ?></updated>
@@ -73,7 +72,8 @@ krsort($tests);
         <?php if($test->diff_nb_success || $test->diff_nb_errors): ?>
         <entry>
     		<title><?php echo $test->application ?> le bilan des tests a évolué pour le commit <?php echo $test->branch ?>/<?php echo $test->commit; ?> : <?php echo $test->nb_success ?> (<?php if($test->diff_nb_success > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_success ?>) SUCCESS / <?php echo $test->nb_errors ?> (<?php if($test->diff_nb_errors > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_errors ?>) FAILED </title>
-    	    <id><?php echo $test->commit ?>:success</id>
+    	    <id><?php echo $test->commit ?></id>
+    	    <link><?php echo isset($_SERVER['HTTPS']) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].preg_replace("/\?.+$/", "", $_SERVER['REQUEST_URI']) ?></link>
     		<updated><?php echo $test->date->format('Y-m-d H:i:s') ?></updated>
     	</entry>
         <?php endif; ?>
