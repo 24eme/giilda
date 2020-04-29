@@ -3,8 +3,16 @@
 $directory = dirname(__FILE__);
 $files = scandir($directory."/xml");
 
-$tests = array();
+sort($files);
 
+$output = 'html';
+
+if(isset($_GET['format']) && $_GET['format']) {
+    $output = $_GET['format'];
+}
+
+$tests = array();
+$precs = array();
 foreach($files as $file) {
     if(!preg_match('/^(.+)_(.+)_(.+)_(.+)\.xml/', $file, $matches)) {
         continue;
@@ -32,13 +40,47 @@ foreach($files as $file) {
         //echo ($xml['failures']*1)."\n";
     }
     $test->success = !$test->nb_errors;
+    $test->nb_success = $test->nb - $test->nb_errors;
+    $test->diff_nb_success = 0;
+    $test->diff_nb_errors = 0;
 
+    $precTest = null;
+    if(isset($prec[$test->application.'_'.$test->branch]) && $prec[$test->application.'_'.$test->branch] && $prec[$test->application.'_'.$test->branch]->commit != $test->commit) {
+        $precTest = $prec[$test->application.'_'.$test->branch];
+    }
+
+    if($precTest) {
+        $test->diff_nb_errors = $test->nb_errors - $precTest->nb_errors;
+        $test->diff_nb_success = $test->nb_success - $precTest->nb_success - $test->diff_nb_errors;
+    }
+
+    $prec[$test->application.'_'.$test->branch] = $test;
     $tests[$test->date->format('YmdHis')] = $test;
 }
 
 krsort($tests);
 
 ?>
+<?php if($output == "xml"): ?>
+<?php header('Content-Type: text/xml'); ?>
+<?xml version="1.0" encoding="utf-8"?>
+    <feed xmlns="http://www.w3.org/2005/Atom">
+    	<title>Tests</title>
+    	<updated><?php echo current($tests)->date->format('Y-m-d H:i:s') ?></updated>
+
+        <?php foreach($tests as $test): ?>
+        <?php if($test->diff_nb_success || $test->diff_nb_errors): ?>
+        <entry>
+    		<title><?php echo $test->application ?> le bilan des tests a évolué pour le commit <?php echo $test->branch ?>/<?php echo $test->commit; ?> : <?php echo $test->nb_success ?> (<?php if($test->diff_nb_success > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_success ?>) SUCCESS / <?php echo $test->nb_errors ?> (<?php if($test->diff_nb_errors > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_errors ?>) FAILED </title>
+    	    <id><?php echo $test->commit ?></id>
+    	    <link><?php echo (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'].preg_replace("/\?.+$/", "", $_SERVER['REQUEST_URI']) ?></link>
+    		<updated><?php echo $test->date->format('Y-m-d H:i:s') ?></updated>
+    	</entry>
+        <?php endif; ?>
+        <?php endforeach; ?>
+    </feed>
+<?php exit; ?>
+<?php endif; ?>
 <!doctype html>
 <html lang="fr_FR">
 <head>
