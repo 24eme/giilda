@@ -62,7 +62,7 @@ krsort($tests);
 
 ?>
 <?php if($output == "xml"): ?>
-    <?php header('Content-Type: text/xml'); ?>
+<?php header('Content-Type: text/xml'); ?>
 <?xml version="1.0" encoding="utf-8"?>
 
     <feed xmlns="http://www.w3.org/2005/Atom">
