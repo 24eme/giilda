@@ -7,7 +7,7 @@
         <?php include_component('drm', 'formEtablissementChoice') ?>
     </div>
 </div>
-<?php if(!empty($drm_controles)) : ?>
+<?php if(!empty($drm_controles)) : ?>    
 <div class="row col-xs-12">
     <h2>Liste des DRM ayant des points d'attention</h2>
     <table class="table table-bordered table-condensed table-striped">
@@ -32,7 +32,7 @@
                     </a>
                 </td>
                 <td class="text-center">
-                    <?php foreach (array_keys($drm_controle->doc["controles"]) as $key => $controle): ?>
+                    <?php foreach ($drm_controle->doc["controles"] as $controle => $controleValue): ?>
                         <span><?php echo $controle != DRM::CONTROLE_TRANSMISSION ? "$controle; ": "Erreur de $controle; "; ?></span>
                     <?php endforeach; ?>
                 </td>
@@ -41,5 +41,26 @@
         <?php endforeach; ?>
         </tbody>
 	</table>
+    <h4>Nombre total : <?php echo $nb_results; ?></h4>
 </div>
+<div class="text-center">
+        <nav>
+            <ul class="pagination">
+                <?php if ($current_page > 1) : ?>
+                    <li><a href="<?php $args['page']=1; echo url_for('drm', $args); ?>"><span aria-hidden="true"><<</span></a></li>
+                    <?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
+                    <li><a href="<?php echo url_for('drm', $args); ?>"><span aria-hidden="true"><</span></a></li>
+                <?php endif; ?>
+                <?php if ($current_page < $last_page) $args['page'] = $current_page + 1; else $args['page'] = $last_page ;?>
+                <li><a href="">page <?php echo $current_page; ?> sur <?php echo $last_page; ?></a></li>
+                <?php if ($current_page != $args['page']): ?>
+                    <li><a href="<?php echo url_for('drm', $args); ?>"> > </a></li>
+                <?php endif; ?>
+                    <?php $args['page'] = $last_page; ?>
+                <?php if ($current_page != $args['page']): ?>
+                    <li><a href="<?php echo url_for('drm', $args); ?>" class="btn_majeur page_suivante"> >> </a></li>
+                <?php endif; ?>
+            </ul>
+        </nav>
+    </div>
 <?php endif; ?>
