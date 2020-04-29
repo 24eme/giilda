@@ -38,6 +38,10 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
 
         $this->drm->cleanDeclaration();
+
+        $this->drm->updateControles();
+        $this->drm->save();
+
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
@@ -50,8 +54,6 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
-        $this->drm->updateControles();
-        $this->drm->save();
         $this->produits = array();
         foreach ($this->drm->getProduits() as $produit) {
             $d = new stdClass();
