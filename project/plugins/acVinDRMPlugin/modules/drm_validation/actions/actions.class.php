@@ -38,6 +38,7 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->mouvementsByProduit = DRMClient::getInstance()->sortMouvementsForDRM($this->mouvements);
 
         $this->drm->cleanDeclaration();
+
         if ($this->isTeledeclarationMode) {
             $this->validationCoordonneesSocieteForm = new DRMValidationCoordonneesSocieteForm($this->drm);
             $this->validationCoordonneesEtablissementForm = new DRMValidationCoordonneesEtablissementForm($this->drm);
@@ -50,8 +51,6 @@ class drm_validationActions extends drmGeneriqueActions {
         }
 
         $this->validation = new DRMValidation($this->drm, $this->isTeledeclarationMode);
-        $this->drm->updateControles();
-        $this->drm->save();
         $this->produits = array();
         foreach ($this->drm->getProduits() as $produit) {
             $d = new stdClass();
@@ -70,9 +69,9 @@ class drm_validationActions extends drmGeneriqueActions {
         $this->isUsurpationMode = $this->isUsurpationMode();
 
         if (!$request->isMethod(sfWebRequest::POST)) {
-            if ($this->drm->exist('controles') && count($this->drm->controles)) {
-                $this->drm->save();
-            }
+            $this->drm->updateControles();
+            $this->drm->save();
+
             $this->form = new DRMValidationCommentaireForm($this->drm);
             return sfView::SUCCESS;
         }
