@@ -894,7 +894,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         foreach ($key_to_remove as $key) {
            $this->remove($key);
         }
+
         parent::save();
+    }
+
+    protected function doSave() {
+        if (!$this->isValidee()) {
+            $this->add('date_modification', date('Y-m-d'));
+        }else{
+            if ($c = count($this->editeurs)) {
+                $this->add('date_modification', value($this->editeur[$c - 1 ]->date_modification));
+            }else{
+                $this->add('date_modification', $this->valide->date_saisie);
+            }
+        }
     }
 
     protected function preSaveEditeur() {
