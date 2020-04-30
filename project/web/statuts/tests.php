@@ -95,7 +95,7 @@ krsort($tests);
 </head>
 <body>
     <div class="container" style="margin-top: 20px;">
-        <h2>Tests <img src="/statuts/tests.svg.php" /></h2>
+        <h2>Tests <img src="./tests.svg.php" /></h2>
         <table style="margin-top: 20px;" class="table table-bordered table-striped table-sm">
             <thead>
                 <tr>
@@ -118,7 +118,7 @@ krsort($tests);
                     <td class="text-center"><?php echo $test->nb; ?></td>
                     <td class="text-center <?php if($test->success): ?>text-success<?php else: ?>text-danger<?php endif; ?>"><?php echo $test->nb_errors ?></td>
                     <td class="<?php if($test->success): ?>text-success<?php else: ?>text-danger<?php endif; ?>"><?php if($test->success): ?>Succès<?php else: ?>Échec<?php endif ?></td>
-                    <td><a href="/statuts/xml/<?php echo $test->file ?>">Voir</a></td>
+                    <td><a href="./xml/<?php echo $test->file ?>">Voir</a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
