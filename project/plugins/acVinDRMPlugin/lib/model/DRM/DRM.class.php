@@ -903,7 +903,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->add('date_modification', date('Y-m-d'));
         }else{
             if ($c = count($this->editeurs)) {
-                $this->add('date_modification', value($this->editeur[$c - 1 ]->date_modification));
+                $this->add('date_modification', $this->editeur[$c - 1 ]->date_modification);
             }else{
                 $this->add('date_modification', $this->valide->date_saisie);
             }
