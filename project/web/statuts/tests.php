@@ -37,7 +37,6 @@ foreach($files as $file) {
             continue;
         }
         $test->nb_errors += $item['failures']*1 + $item['assertions']*1 - count($item);
-        //echo ($xml['failures']*1)."\n";
     }
     $test->success = !$test->nb_errors;
     $test->nb_success = $test->nb - $test->nb_errors;
@@ -51,7 +50,7 @@ foreach($files as $file) {
 
     if($precTest) {
         $test->diff_nb_errors = $test->nb_errors - $precTest->nb_errors;
-        $test->diff_nb_success = $test->nb_success - $precTest->nb_success - $test->diff_nb_errors;
+        $test->diff_nb_success = $test->nb_success - $precTest->nb_success;
     }
 
     $prec[$test->application.'_'.$test->branch] = $test;
@@ -65,18 +64,17 @@ krsort($tests);
 <?php header('Content-Type: text/xml'); ?>
 <?xml version="1.0" encoding="utf-8"?>
     <feed xmlns="http://www.w3.org/2005/Atom">
-    	<title>Tests</title>
+    	<title>Tests <?php echo $application ?></title>
     	<updated><?php echo current($tests)->date->format('Y-m-d H:i:s') ?></updated>
 
         <?php foreach($tests as $test): ?>
-        <?php if($test->diff_nb_success || $test->diff_nb_errors): ?>
+        <?php if(!$test->diff_nb_success && !$test->diff_nb_errors): continue; endif;?>
         <entry>
-    		<title><?php echo $test->application ?> le bilan des tests a évolué pour le commit <?php echo $test->branch ?>/<?php echo $test->commit; ?> : <?php echo $test->nb_success ?> (<?php if($test->diff_nb_success > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_success ?>) SUCCESS / <?php echo $test->nb_errors ?> (<?php if($test->diff_nb_errors > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_errors ?>) FAILED </title>
+    		<title>Le bilan des tests a évolué : <?php echo $test->nb_success ?> (<?php if($test->diff_nb_success > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_success ?>) SUCCESS / <?php echo $test->nb_errors ?> (<?php if($test->diff_nb_errors > 0): ?>+<?php endif; ?><?php echo $test->diff_nb_errors ?>) FAILED </title>
     	    <id><?php echo $test->commit ?></id>
     	    <link><?php echo (isset($_SERVER['HTTPS']) ? 'https://' : 'http://').$_SERVER['HTTP_HOST'].preg_replace("/\?.+$/", "", $_SERVER['REQUEST_URI']) ?></link>
     		<updated><?php echo $test->date->format('Y-m-d H:i:s') ?></updated>
     	</entry>
-        <?php endif; ?>
         <?php endforeach; ?>
     </feed>
 <?php exit; ?>
@@ -89,12 +87,13 @@ krsort($tests);
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 
     <title>Tests</title>
 </head>
 <body>
     <div class="container" style="margin-top: 20px;">
+        <a class="float-right btn btn-sm btn-link" href="tests.php?format=xml">Feed </a>
         <h2>Tests <img src="./tests.svg.php" /></h2>
         <table style="margin-top: 20px;" class="table table-bordered table-striped table-sm">
             <thead>
@@ -125,10 +124,5 @@ krsort($tests);
         </table>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

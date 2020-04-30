@@ -558,6 +558,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
         if(!isset($options['validation_step']) || !$options['validation_step']) {
             $this->archivage_document->archiver();
+            $this->forceModified();
         }
 
         if (!isset($options['validation_step']) || !$options['validation_step']) {
@@ -902,8 +903,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (!$this->isValidee()) {
             $this->add('date_modification', date('Y-m-d'));
         }else{
-            if ($c = count($this->editeurs)) {
-                $this->add('date_modification', value($this->editeur[$c - 1 ]->date_modification));
+            if ($this->exist('editeurs') && $c = count($this->editeurs)) {
+                $this->add('date_modification', $this->editeurs[$c - 1 ]->date_modification);
             }else{
                 $this->add('date_modification', $this->valide->date_saisie);
             }
