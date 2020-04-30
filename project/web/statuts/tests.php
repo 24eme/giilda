@@ -37,7 +37,6 @@ foreach($files as $file) {
             continue;
         }
         $test->nb_errors += $item['failures']*1 + $item['assertions']*1 - count($item);
-        //echo ($xml['failures']*1)."\n";
     }
     $test->success = !$test->nb_errors;
     $test->nb_success = $test->nb - $test->nb_errors;
@@ -51,7 +50,7 @@ foreach($files as $file) {
 
     if($precTest) {
         $test->diff_nb_errors = $test->nb_errors - $precTest->nb_errors;
-        $test->diff_nb_success = $test->nb_success - $precTest->nb_success - $test->diff_nb_errors;
+        $test->diff_nb_success = $test->nb_success - $precTest->nb_success;
     }
 
     $prec[$test->application.'_'.$test->branch] = $test;
@@ -94,6 +93,7 @@ krsort($tests);
 </head>
 <body>
     <div class="container" style="margin-top: 20px;">
+        <a class="float-right btn btn-sm btn-link" href="tests.php?format=xml">Feed </a>
         <h2>Tests <img src="./tests.svg.php" /></h2>
         <table style="margin-top: 20px;" class="table table-bordered table-striped table-sm">
             <thead>
