@@ -17,7 +17,7 @@ La nouvelle configuration CONFIGURATION-20200801 est configurée pour être util
 
 Il est préférable de supprimer le noeud correspondances de la configuration. Il est possible de le faire de cette manière :
 
-    ``php symfony document:setvalue CONFIGURATION-20210801 "correspondances" --delete=true --application=APP``
+    php symfony document:setvalue CONFIGURATION-20210801 "correspondances" --delete=true --application=APP
 
 Le document CONFIGURATION-20200801@x_revision a été sauvé @y_revision, les valeurs suivantes ont été changés : correspondances:supprimé
 
@@ -27,15 +27,17 @@ Pour un produit dont on doit faire évoluer la hash :
 
 On considère le changement comme suit :
 
-    ``HASH_FROM="/declaration/certification..."``
-    ``HASH_TO="/declaration/certification..."``
+    HASH_FROM="/declaration/certification..."
+    HASH_TO="/declaration/certification..."
 
-    ``HASH_FROM_WITH_TIRET=$(echo $HASH_FROM | sed 's|/|-|g')``
+    HASH_FROM="/declaration/certifications/AOC/genres/TRANQ/appellations/CDB/mentions/DEFAUT/lieux/DEFAUT/couleurs/blanc/cepages/DEFAUT"
+    HASH_TO="/declaration/certifications/AOC/genres/TRANQ/appellations/CDB/mentions/DEFAUT/lieux/DEFAUT/couleurs/blanc_pas_moelleux/cepages/DEFAUT"
 
-    ``php symfony document:replace-hash CONFIGURATION-20210801 --from="$HASH_FROM" --to="$HASH_TO" --application=APP``
+    HASH_FROM_WITH_TIRET=$(echo $HASH_FROM | sed 's|/|-|g')
 
-    ``php symfony document:add-in-collection CONFIGURATION-20210801 "correspondances" --key="$HASH_FROM_WITH_TIRET" --value="$HASH_TO"``
-    (Cette tache n'existe pas encore, elle est à créer)
+    php symfony document:replace-hash CONFIGURATION-20200801 --from="$HASH_FROM" --to="$HASH_TO" --application=APP
+
+    php symfony document:add-in-collection CONFIGURATION-20200801 "correspondances" --key="$HASH_FROM_WITH_TIRET" --value="$HASH_TO" --application=APP
 
 ## Ajout de nouveaux produits
 
