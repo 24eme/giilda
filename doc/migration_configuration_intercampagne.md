@@ -30,9 +30,6 @@ On considère le changement comme suit :
     HASH_FROM="/declaration/certification..."
     HASH_TO="/declaration/certification..."
 
-    HASH_FROM="/declaration/certifications/AOC/genres/TRANQ/appellations/CDB/mentions/DEFAUT/lieux/DEFAUT/couleurs/blanc/cepages/DEFAUT"
-    HASH_TO="/declaration/certifications/AOC/genres/TRANQ/appellations/CDB/mentions/DEFAUT/lieux/DEFAUT/couleurs/blanc_pas_moelleux/cepages/DEFAUT"
-
     HASH_FROM_WITH_TIRET=$(echo $HASH_FROM | sed 's|/|-|g')
 
     php symfony document:replace-hash CONFIGURATION-20200801 --from="$HASH_FROM" --to="$HASH_TO" --application=APP
