@@ -6,9 +6,36 @@ Voici les étapes auxquelles il faut penser :
 
 ## Duplication de la configuration
 
-## Suppression du noeud Alias
+Création d'une nouveau document CONFIGURATION dont la date est par exemple 2020-08-01
 
-## Renommage des noeuds de produits (et gestion de l'Alias)
+    ``php symfony configuration:fork CONFIGURATION-20200801 --application=APP``
+
+Fork 2020-08-01 créé à partir de la configuration CONFIGURATION-XXXXXXXX
+La nouvelle configuration CONFIGURATION-20200801 est configurée pour être utilisée à partir de 2020-08-01
+
+## Suppression du noeud Correspondances
+
+Il est préférable de supprimer le noeud correspondances de la configuration. Il est possible de le faire de cette manière :
+
+    ``php symfony document:setvalue CONFIGURATION-20210801 "correspondances" --delete=true --application=APP``
+
+Le document CONFIGURATION-20200801@x_revision a été sauvé @y_revision, les valeurs suivantes ont été changés : correspondances:supprimé
+
+## Renommage des noeuds de produits (et gestion de sa correspondances)
+
+Pour un produit dont on doit faire évoluer la hash :
+
+On considère le changement comme suit :
+
+    ``HASH_FROM="/declaration/certification..."``
+    ``HASH_TO="/declaration/certification..."``
+
+    ``HASH_FROM_WITH_TIRET=$(echo $HASH_FROM | sed 's|/|-|g')``
+
+    ``php symfony document:replace-hash CONFIGURATION-20210801 --from="$HASH_FROM" --to="$HASH_TO" --application=APP``
+
+    ``php symfony document:add-in-collection CONFIGURATION-20210801 "correspondances" --key="$HASH_FROM_WITH_TIRET" --value="$HASH_TO"``
+    (Cette tache n'existe pas encore, elle est à créer)
 
 ## Ajout de nouveaux produits
 
@@ -36,7 +63,7 @@ Il est ainsi possible de voir le détail des produits concernés par certains no
 
     php symfony configuration:list-droits --application=APP --with_produit=true 2018-08-01 cvo | grep '^3.46;'
 
-Ces options fonctionne aussi pour les droits douane : 
+Ces options fonctionne aussi pour les droits douane :
 
     php symfony configuration:list-droits --application=APP 2018-08-01 douane
 
