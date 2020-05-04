@@ -142,7 +142,7 @@ class DRMValidation extends DocumentValidation {
                     break;
                 }
 
-                if ($detail->exist('replacement_date')) {
+                if ($detail->exist('replacement_date') && $detail->replacement_date) {
                     $date_replacement = date_create_from_format('d/m/Y', $detail->replacement_date);
                     $date_debut_periode = date_create_from_format('Ym', $this->document->periode)->modify('last day of this month');
 
