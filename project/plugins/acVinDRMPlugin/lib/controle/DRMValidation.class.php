@@ -136,6 +136,7 @@ class DRMValidation extends DocumentValidation {
             foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
                 if((($detail->entrees->exist('retourmarchandisesanscvo') && $detail->entrees->retourmarchandisesanscvo)
                     || ($detail->entrees->exist('retourmarchandisetaxees') && $detail->entrees->retourmarchandisetaxees)
+                    || ($detail->entrees->exist('retourmarchandisetaxeesacquitte') && $detail->entrees->retourmarchandisetaxeesacquitte)
                     || ($detail->entrees->exist('retourmarchandisenontaxees') && $detail->entrees->retourmarchandisenontaxees)
                     || ($detail->entrees->exist('transfertcomptamatierecession') && $detail->entrees->transfertcomptamatierecession)) && (!$detail->exist('replacement_date') || !$detail->replacement_date)){
                     $this->addPoint('erreur', 'replacement_date_manquante', 'retour aux annexes', $this->generateUrl('drm_annexes', $this->document));
