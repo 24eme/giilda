@@ -40,7 +40,10 @@ class RevendicationStocksODGView extends acCouchdbView
         $revs = array();
 
         foreach($rows as $row) {
-            $revs[] = $this->build($row);
+            $b = $this->build($row);
+            if ($b) {
+                $revs[] = $b;
+            }
         }
 
         return $revs;
@@ -48,14 +51,22 @@ class RevendicationStocksODGView extends acCouchdbView
 
     public function build($row) {
         $rev = new stdClass();
+        $rev->odg = $row->key[self::KEY_ODG];
+        $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
+
+        if (preg_match('/IGP/', $rev->odg) && !preg_match('/IGP/', $rev->produit_hash)) {
+            return null;
+        }
+        if (!preg_match('/IGP/', $rev->odg) && preg_match('/IGP/', $rev->produit_hash)) {
+            return null;
+        }
+
         $rev->id = $row->id;
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant_nom = $row->value[self::VALUE_DECLARANT_NOM];
         $rev->declarant_cvi = $row->value[self::VALUE_DECLARANT_CVI];
         $rev->campagne = $row->key[self::KEY_CAMPAGNE];
-        $rev->odg = $row->key[self::KEY_ODG];
         $rev->statut = $row->key[self::KEY_LIGNE_STATUT];
-        $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
         $rev->produit_libelle_odg = $row->value[self::VALUE_PRODUIT_LIBELLE_ODG];
         $rev->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $rev->ligne_identifiant = $row->key[self::KEY_LIGNE_IDENTIFIANT];
