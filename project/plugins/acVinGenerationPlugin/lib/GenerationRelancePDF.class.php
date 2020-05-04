@@ -31,7 +31,8 @@ class GenerationRelancePDF extends GenerationPDF {
         $date_relance = $this->generation->arguments->date_relance;
         $types_relance = explode(',', $this->generation->arguments->types_relance);
         $etablissementsViews = EtablissementAllView::getInstance()->findByInterproStatutAndFamilles('INTERPRO-inter-loire', EtablissementClient::STATUT_ACTIF, array(EtablissementFamilles::FAMILLE_PRODUCTEUR,EtablissementFamilles::FAMILLE_NEGOCIANT), null, -1);
-
+        $campagneManager = new CampagneManager("08-01");
+        $lastCampagne = $campagneManager->getPrevious($campagneManager->getCampagneByDate($date_relance));
         $cpt = count($this->generation->documents);
         foreach ($etablissementsViews as $etablissement) {
             $alertes_relancables = array();
@@ -51,8 +52,7 @@ class GenerationRelancePDF extends GenerationPDF {
             $alertes_relancables_tmp = array();
 
            foreach($alertes_relancables as $a){
-             // TODO : a changer en 2018-2019 pour la dernière fois
-               if($a->key[AlerteRelanceView::KEY_CAMPAGNE] == "2017-2018"){
+               if($a->key[AlerteRelanceView::KEY_CAMPAGNE] == $lastCampagne){
                        $alertes_relancables_tmp[$a->id] = $a;
                }
            }
