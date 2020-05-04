@@ -10,10 +10,14 @@ Voici les étapes auxquelles il faut penser :
 
 ## Renommage des noeuds de produits (et gestion de l'Alias)
 
+## Ajout de nouveaux produits
+
 ## Changement de CVO
 
 ## Changement de droit douane
 
 ## Changement des mouvements
+
+## changement de favoris mouvements
 
 ## Changement du CURRENT
