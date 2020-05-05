@@ -4,6 +4,7 @@ all:
   routing_context_production_host: domaine.pro
   observatoire_url: "https://observatoire_url"
   vinsi_url: "https://vinsi_url"
+  header_ip_restriction: "10.0.0.01,10.0.0.0"
   cas:
     domain: login.cas
     port: 443

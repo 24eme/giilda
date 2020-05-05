@@ -42,7 +42,7 @@ class globalActions extends sfActions {
     }
 
     public function executeHeader(sfWebRequest $request) {
-        if (!in_array(@$_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')))
+        if (strpos("::1,127.0.0.1,".sfConfig::get('app_header_ip_restriction', ''), $_SERVER['REMOTE_ADDR']) === false)
         {
             return $this->forwardSecure();
         }
