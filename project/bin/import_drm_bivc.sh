@@ -3,11 +3,12 @@
 . bin/config.inc
 
 EXPORTDIR=data/drm_externe
+LOGFILE=/tmp/bivc2loire.$$.log
 
 mkdir $EXPORTDIR 2> /dev/null
-
-echo "Récuperations des fichiers de BIVC"
-
+echo > $LOGFILE
+echo "# Récuperations des fichiers de BIVC" >> $LOGFILE
+echo >> $LOGFILE
 curl -s $URLDRMBIVC | while read url
 do
     FILENAME=$(echo -n $url | sed -r "s|^.+/(.+)$|\1|")
@@ -15,7 +16,11 @@ do
         echo $FILENAME
         curl -s $url > $EXPORTDIR/$FILENAME
     fi
-done
+done >> $LOGFILE
+echo >> $LOGFILE
+echo "# Import des fichiers" >> $LOGFILE
+echo >> $LOGFILE
+rm -f $EXPORTDIR/*err
 
 ls $EXPORTDIR | grep -E "\.csv$" | awk -F '-' '{ version=99; if($4) { v=$4; gsub(".csv","",v); gsub("M", "", v); version=(version - v); } printf("%02d%d;%s\n", version, $3, $0) }' | sort | cut -d ";" -f 2 | while read csvfile
 do
@@ -60,4 +65,9 @@ do
         rm -f /tmp/import_bivc.$$.log
     fi
 
+done >> $LOGFILE
+
+for email in $EMAILS_RETOURXML ; do
+cat $LOGFILE | mail -s "[VINSI] import bivc" $email
 done
+rm $LOGFILE
