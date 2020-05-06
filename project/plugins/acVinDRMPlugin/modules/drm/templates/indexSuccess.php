@@ -23,8 +23,8 @@
 		<tbody>
 		<?php foreach ($drm_controles as $identifiant => $drm_controle): ?>
             <tr>
-            	<td class="text-center" ><a href="<?php $redirect = is_null($drm_controle->doc['valide']['date_saisie']) ? "drm_validation" : "drm_visualisation"; echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>"><?php $periode = $drm_controle->doc["periode"]; echo substr($periode,-2)."-".substr($periode, 0, 4); ?></a></td>
-                <td class="text-center"><?php echo count($drm_controle->doc["editeurs"]) ? " (".$drm_controle->doc['editeurs'][0]['date_modification']. ")":null; ?></td>                    
+            	<td class="text-center" ><a href="<?php $redirect = is_null($drm_controle->doc['valide']['date_saisie']) ? "drm_validation" : "drm_visualisation"; echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>"><?php echo $drm_controle->doc["periode"]; ?></a></td>
+                <td class="text-center"><?php echo $drm_controle->doc['date_modification'];?></td>                    
                 <td class="text-left">
                     <a href="<?php echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>">
                         <?php echo $drm_controle->doc["societe"]["raison_sociale"]." (".$drm_controle->doc['identifiant'].")"; ?>

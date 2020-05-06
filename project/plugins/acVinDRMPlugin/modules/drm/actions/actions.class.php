@@ -44,11 +44,11 @@ class drmActions extends drmGeneriqueActions {
       $elasticaQueryString = new acElasticaQueryQueryString();
       $elasticaQueryString->setQuery("_exists_:doc.controles");
       $query->setQuery($elasticaQueryString);
-      $query->setSort([["doc.periode" => ["order"=>"asc"]]]);
+      $query->setSort([["doc.date_modification" => ["order"=>"desc"]]]);
       $query->setFrom($from);
       $query->setLimit($res_by_page);
       $this->drm_controles = $index->search($query);
-      
+
       $this->nb_results = $this->drm_controles->getTotalHits();       
       $this->last_page = ceil($this->nb_results / $res_by_page);        
       

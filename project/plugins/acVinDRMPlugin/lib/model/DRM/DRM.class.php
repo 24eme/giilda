@@ -358,8 +358,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function updateControles(){
         $points = new DRMValidation($this, true);
-	$this->cleanControles();
-	if(!$points->hasPoints() && !$this->exist("transmission_douane")){
+    	$this->cleanControles();
+    	if(!$points->hasPoints() && !$this->exist("transmission_douane")){
             return;
         }
         if($points->hasPoints()){
