@@ -8,8 +8,9 @@ sfConfig::set('app_teledeclaration_contact_contrat', array());
 sfConfig::set('app_mail_from_email', "test_from_mail@mail.org");
 sfConfig::set('app_teledeclaration_interpro', "Interpro");
 
-$t = new lime_test(16);
+$t = new lime_test(21);
 
+$compteviti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration');
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $periode = date('Ym');
 
@@ -28,6 +29,13 @@ $drm->addProduit($produit_hash, 'detailsACQUITTE');
 
 $details = $drm->getProduit($produit_hash, 'details');
 $detailsAcquitte = $drm->getProduit($produit_hash, 'detailsACQUITTE');
+
+$drm->addEditeur($compteviti);
+$drm->save();
+
+$t->is($drm->date_modification, date('Y-m-d'), 'La date de modification est enregistré');
+$t->is($drm->editeurs[0]->compte, $compteviti->_id, "L'éditeur est enregistré");
+$t->is($drm->editeurs[0]->date_modification, date('Y-m-d'), "La date d'édition est enregistré");
 
 $t->comment("CRD");
 
@@ -64,7 +72,7 @@ $t->ok(!$details->exist('observations'), "Si le volume est supprimé le champ ob
 
 $annexesForm = new DRMAnnexesForm($drm);
 
-$values = array();
+$values = array('_revision' => $drm->_rev);
 
 foreach($annexesForm['releve_non_apurement'] as $formItemKey => $formItem) {
     $values['releve_non_apurement'][$formItemKey] = array('numero_document' => '123456', 'date_emission' => date('d/m/Y'), 'numero_accise' => 'FR123456E1234');
@@ -111,6 +119,15 @@ $validation = new DRMValidation($drm, true);
 
 $t->ok(!$validation->hasErreur('observations'), "Le point bloquant obligeant la saisie des observations n'est pas levé si le produit est acquitte");
 
+$drm->remove('date_modification');
+$drm->validate();
+$drm->save();
+$t->is($drm->date_modification, date('Y-m-d'), "La date de modification est enregistré après la validation d'une DRM");
+
+$drm->devalidate();
+$drm->save();
+$t->is($drm->valide->date_saisie, null, "La date de saisie n'est plus enregistré");
+
 
 $t->comment("Mail");
 
@@ -124,7 +141,7 @@ $t->is(count($messages), 2, "L'envoi compte 2 messages");
 
 @mkdir(sfConfig::get('sf_test_dir')."/output");
 file_put_contents(sfConfig::get('sf_test_dir')."/output/email_drm_validation_teldeclaration_douane_transmission_douane.eml", $messages[0]);
-$t->ok(strpos($messages[0], " test_from_mail@ma") !== false, "Les infos de contact dans le mail sont bonnes");
+$t->ok(strpos(str_replace(array("\n", "\r", "="), "", $messages[0]), " test_from_mail@ma") !== false, "Les infos de contact dans le mail sont bonnes");
 
 $t->ok($messages[0] instanceof Swift_Mime_SimpleMessage, "Mail généré : ".sfConfig::get('sf_test_dir')."/output/email_drm_validation_teldeclaration_douane_transmission_douane.eml");
 
