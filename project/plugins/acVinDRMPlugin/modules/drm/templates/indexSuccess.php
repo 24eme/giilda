@@ -36,7 +36,11 @@
                         <span><?php echo $controle != DRM::CONTROLE_TRANSMISSION ? "$controle; ": "Erreur de $controle; "; ?></span>
                     <?php endforeach; ?>
                 </td>
-                <td class="text-center"><a class="btn btn-sm btn-default" href="<?php echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>">Visualiser</a></td>
+                <td class="text-center"><a class="btn btn-sm btn-default" href="<?php echo url_for($redirect, array('identifiant' => $drm_controle->doc['identifiant'], 'periode_version' => $drm_controle->doc['periode'])) ?>">
+                    <?php if($redirect == "drm_visualisation"): ?>Visualiser
+                    <?php else: ?>Editer
+                    <?php endif; ?></a>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
