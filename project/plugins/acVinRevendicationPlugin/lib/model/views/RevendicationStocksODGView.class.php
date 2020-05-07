@@ -49,18 +49,23 @@ class RevendicationStocksODGView extends acCouchdbView
         return $revs;
     }
 
+    static public function shouldBeFilteredIGPAOP($odg, $produit_hash) {
+        if (preg_match('/IGP/', $rev->odg) && !preg_match('/IGP/', $rev->produit_hash)) {
+            return true;
+        }
+        if (!preg_match('/IGP/', $rev->odg) && preg_match('/IGP/', $rev->produit_hash)) {
+            return true;
+        }
+        return false;
+    }
+
     public function build($row) {
         $rev = new stdClass();
         $rev->odg = $row->key[self::KEY_ODG];
         $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
-
-        if (preg_match('/IGP/', $rev->odg) && !preg_match('/IGP/', $rev->produit_hash)) {
+        if (RevendicationStocksODGView::shouldBeFilteredIGPAOP($rev->odg, $rev->produit_hash)) {
             return null;
         }
-        if (!preg_match('/IGP/', $rev->odg) && preg_match('/IGP/', $rev->produit_hash)) {
-            return null;
-        }
-
         $rev->id = $row->id;
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant_nom = $row->value[self::VALUE_DECLARANT_NOM];
