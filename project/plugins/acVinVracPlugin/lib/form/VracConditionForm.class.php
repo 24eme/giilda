@@ -88,7 +88,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         if ($this->getObject()->isTeledeclare()) {
             $this->setWidget('enlevement_date', new sfWidgetFormInput());
             $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement (Par défaut " . $this->date_enlevement_default_label . ")");
-            $this->setValidator('enlevement_date', new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors));
+            $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
 
             $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
             $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde par mois");
