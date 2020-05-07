@@ -71,7 +71,7 @@ class RevendicationEtablissementView extends acCouchdbView
         foreach($rows as $row) {
             $row = $this->build($row);
             if ($row) {
-                $revs[] = $this->build($row);
+                $revs[] = $row;
             }
         }
 
