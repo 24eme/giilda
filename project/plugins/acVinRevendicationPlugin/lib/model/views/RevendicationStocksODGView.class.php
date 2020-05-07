@@ -50,10 +50,10 @@ class RevendicationStocksODGView extends acCouchdbView
     }
 
     static public function shouldBeFilteredIGPAOP($odg, $produit_hash) {
-        if (preg_match('/IGP/', $rev->odg) && !preg_match('/IGP/', $rev->produit_hash)) {
+        if (preg_match('/IGP/', $odg) && !preg_match('/IGP/', $produit_hash)) {
             return true;
         }
-        if (!preg_match('/IGP/', $rev->odg) && preg_match('/IGP/', $rev->produit_hash)) {
+        if (!preg_match('/IGP/', $odg) && preg_match('/IGP/', $produit_hash)) {
             return true;
         }
         return false;
