@@ -39,7 +39,7 @@ class DRMObservationForm extends BaseForm
 
 				if ($this->_detail->exist('replacement_date')) {
                 $w['replacement_date'] = new sfWidgetFormInputText();
-                $v['replacement_date'] = new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors));
+                $v['replacement_date'] = new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors);
                 $l['replacement_date'] = "Date de la sortie du volume correspondant à ce réplacement";
         }
         $this->setWidgets($w);
