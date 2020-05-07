@@ -48,7 +48,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
             'min_length' => 10,
             'max_length' => 10);
-        $dateRegexpErrors = array('required' => 'Cette obligatoire',
+        $dateRegexpErrors = array('required' => 'Date obligatoire',
             'invalid' => 'Date invalide (le format doit être jj/mm/aaaa)',
             'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
             'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
@@ -88,7 +88,7 @@ class VracConditionForm extends acCouchdbObjectForm {
         if ($this->getObject()->isTeledeclare()) {
             $this->setWidget('enlevement_date', new sfWidgetFormInput());
             $this->getWidget('enlevement_date')->setLabel("Date d'enlèvement (Par défaut " . $this->date_enlevement_default_label . ")");
-            $this->setValidator('enlevement_date', new sfValidatorString(array('required' => false)));
+            $this->setValidator('enlevement_date', new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors));
 
             $this->setWidget('enlevement_frais_garde', new sfWidgetFormInputFloat());
             $this->getWidget('enlevement_frais_garde')->setLabel("Frais de garde par mois");
