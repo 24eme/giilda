@@ -30,7 +30,10 @@ class RevendicationStocksView extends acCouchdbView
 
         foreach($rows as $row) {
             $key = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT] . '_' . $row->key[self::KEY_PRODUIT_HASH];
-            $revs[$key] = $this->build($row);
+            $row = $this->build($row);
+            if ($row) {
+                $revs[$key] = $row;
+            }
         }
 
         return $revs;
@@ -38,13 +41,16 @@ class RevendicationStocksView extends acCouchdbView
 
     public function build($row) {
         $rev = new stdClass();
+        $rev->odg = $row->key[self::KEY_ODG];
+        $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
+        if (RevendicationStocksODGView::shouldBeFilteredIGPAOP($rev->odg, $rev->produit_hash)) {
+            return null;
+        }
         $rev->campagne = $row->key[self::KEY_CAMPAGNE];
         $rev->etablissement_identifiant = $row->key[self::KEY_ETABLISSEMENT_IDENTIFIANT];
         $rev->declarant = new stdClass();
         $rev->declarant->nom = $row->value[self::VALUE_DECLARANT_NOM];
         $rev->campagne = $row->key[self::KEY_CAMPAGNE];
-        $rev->odg = $row->key[self::KEY_ODG];
-        $rev->produit_hash = $row->key[self::KEY_PRODUIT_HASH];
         $rev->produit_libelle = $row->value[self::VALUE_PRODUIT_LIBELLE];
         $rev->volume = $row->value[self::VALUE_VOLUME];
 	if (!isset($row->_id))
