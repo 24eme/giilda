@@ -116,7 +116,7 @@ class compte_teledeclarantActions extends drmGeneriqueActions {
                         }
                     }
                 }
-                if (($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT) && ($this->form->getValue('siret'))) {
+                if (($this->form->getTypeCompte() == SocieteClient::SUB_TYPE_VITICULTEUR || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT || $this->form->getTypeCompte() == SocieteClient::SUB_TYPE_NEGOCIANT_PUR) && ($this->form->getValue('siret'))) {
                     $societe->siret = $this->form->getValue('siret');
                     $societe->email = $old_societe_email;
                     $societe->save(true);

@@ -236,7 +236,7 @@ class Societe extends BaseSociete {
     }
 
     public function isNegoOrViti() {
-        return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
+        return ($this->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR) || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR);
     }
 
     public function isCourtier() {
@@ -248,7 +248,7 @@ class Societe extends BaseSociete {
     }
 
     public function isNegociant() {
-        return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT);
+        return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR);
     }
 
     public function hasDroitsAcquittes(){
