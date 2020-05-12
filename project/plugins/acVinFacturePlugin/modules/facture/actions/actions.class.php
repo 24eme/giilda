@@ -121,7 +121,7 @@ class factureActions extends drmGeneriqueActions {
         $this->initSocieteAndEtablissementPrincipal();
         $this->redirect403IfIsNotTeledeclarationAndNotMe();
         $this->hasTeledeclarationPrevelement = $this->isTeledeclarationPrelevement();
-        if(!$this->hasTeledeclarationPrevelement){
+        if(false && !$this->hasTeledeclarationPrevelement){
           $this->adhesionPrelevementForm = new FactureAdhesionPrelevementForm();
           if ($request->isMethod(sfRequest::POST) && $request->getParameter($this->adhesionPrelevementForm->getName(),null)) {
               $this->adhesionPrelevementForm->bind($request->getParameter($this->adhesionPrelevementForm->getName()));

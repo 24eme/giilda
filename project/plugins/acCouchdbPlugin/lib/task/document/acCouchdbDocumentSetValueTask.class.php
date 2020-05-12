@@ -21,10 +21,10 @@ class acCouchdbDocumentSetValueTask extends sfBaseTask
     $this->name             = 'setvalue';
     $this->briefDescription = '';
     $this->detailedDescription = <<<EOF
-The [maintenanceCompteStatut|INFO] task does things.
+The [document:setvalue|INFO] set new value on a hash document.
 Call it with:
 
-  [php symfony maintenanceCompteStatut|INFO]
+  [php symfony document:setvalue DOCID hash1 value1 hash2 value2 ... hashN valueN|INFO]
 EOF;
   }
 
