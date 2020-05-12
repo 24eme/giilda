@@ -48,7 +48,7 @@ class VracConditionForm extends acCouchdbObjectForm {
             'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
             'min_length' => 10,
             'max_length' => 10);
-        $dateRegexpErrors = array('required' => 'Cette obligatoire',
+        $dateRegexpErrors = array('required' => 'Date obligatoire',
             'invalid' => 'Date invalide (le format doit être jj/mm/aaaa)',
             'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
             'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');

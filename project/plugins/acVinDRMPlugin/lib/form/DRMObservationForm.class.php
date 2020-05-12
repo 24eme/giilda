@@ -23,13 +23,23 @@ class DRMObservationForm extends BaseForm
 
 	public function configure()
 	{
+
+		$dateRegexpOptions = array('required' => false,
+				'pattern' => "/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/",
+				'min_length' => 10,
+				'max_length' => 10);
+		$dateRegexpErrors = array('required' => 'Date obligatoire',
+				'invalid' => 'Date invalide (le format doit être jj/mm/aaaa)',
+				'min_length' => 'Date invalide (le format doit être jj/mm/aaaa)',
+				'max_length' => 'Date invalide (le format doit être jj/mm/aaaa)');
+
         $w = array('observations' => new sfWidgetFormInput());
         $v = array('observations' => new sfValidatorString(array('required' => false)));
         $l = array('observations' => $this->_detail->getLibelle());
 
 				if ($this->_detail->exist('replacement_date')) {
                 $w['replacement_date'] = new sfWidgetFormInputText();
-                $v['replacement_date'] = new sfValidatorString(array('required' => false));
+                $v['replacement_date'] = new sfValidatorRegex($dateRegexpOptions, $dateRegexpErrors);
                 $l['replacement_date'] = "Date de la sortie du volume correspondant à ce réplacement";
         }
         $this->setWidgets($w);
