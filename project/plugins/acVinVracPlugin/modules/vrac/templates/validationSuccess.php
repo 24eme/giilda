@@ -36,7 +36,7 @@ use_helper('Vrac');
                 <?php endif; ?>
                 <?php if ($validation->isValide()) : ?>
                     <?php if ($isTeledeclarationMode): ?>
-                      <?php if($vrac->isBio() && $etablissementPrincipal->isNegociant()): ?>
+                      <?php if($vrac->isBio() && ($etablissementPrincipal->isNegociant() || $etablissementPrincipal->isNegociantPur())): ?>
                         <div style="display:none">
                           <input name="vrac_validation_bio_ecocert" id="vrac_validation_bio_ecocert" type="checkbox">
                         </div>

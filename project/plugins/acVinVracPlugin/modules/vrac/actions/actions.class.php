@@ -229,7 +229,7 @@ class vracActions extends drmGeneriqueActions {
                 $this->etablissement = $this->choixEtablissement;
                 $this->initSocieteAndEtablissementPrincipal();
             }
-            if (!$isMethodPost && $this->societe->isNegociant() && count($this->societe->getEtablissementsObj(!$this->isTeledeclarationMode)) > 1 && !$this->choixEtablissement) {
+            if (!$isMethodPost && ($this->societe->isNegociant() || $this->societe->isNegociantPur()) && count($this->societe->getEtablissementsObj(!$this->isTeledeclarationMode)) > 1 && !$this->choixEtablissement) {
                 return $this->redirect('vrac_societe_choix_etablissement', array('identifiant' => $this->societe->identifiant));
             }
         }

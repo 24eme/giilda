@@ -40,7 +40,7 @@ slot('colCompte');
 <?php endif; ?>
             </div>
             <div class="ligne_btn txt_centre">
-                <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()): ?>
+                <?php if ($etablissementPrincipal->isCourtier() || $etablissementPrincipal->isNegociant()  || $etablissementPrincipal->isNegociantPur()): ?>
                     <a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn_majeur btn_annuaire">Annuaire</a>
 <?php endif; ?>
             </div>
