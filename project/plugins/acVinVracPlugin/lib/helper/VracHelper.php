@@ -305,7 +305,7 @@ function getPictoSignature($societe, $contrat, $type, $hide = false) {
             return 'contrat_attente_soussigne';
         }
     }
-    if ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) {
+    if ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT || $societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR) {
         if ($type == 'Acheteur') {
             if (!$toBeSigned) {
                 return 'contrat_signe_moi ';
@@ -348,6 +348,7 @@ function echoPictoSignatureFromObject($societe, $contrat, $type, $hide = false) 
     $isSigne = $contrat->$fctName();
     if (($societe->type_societe == SocieteClient::SUB_TYPE_VITICULTEUR && $type == 'Vendeur')
             || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT && $type == 'Acheteur')
+            || ($societe->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR && $type == 'Acheteur')
             || ($societe->type_societe == SocieteClient::SUB_TYPE_COURTIER && $type == 'Courtier')){
         if($isSigne){
             echo ' contrat_signe_moi ';
