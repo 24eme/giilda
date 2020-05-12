@@ -19,7 +19,7 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
             $this->setValidator('carte_pro', new sfValidatorString(array('required' => false)));
         }
 
-        if ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR || $this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) {
+        if ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR || $this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT  || $this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT_PUR) {
             $this->setWidget('siret', new sfWidgetFormInputText());
             $this->getWidget('siret')->setLabel("Numéro de SIRET :");
             $this->setValidator('siret', new sfValidatorRegex(array('required' => false,
@@ -49,10 +49,10 @@ class CompteTeledeclarantCreationForm extends CompteTeledeclarantForm {
             $etbPrincipal->carte_pro = $this->getValue('carte_pro');
             $etbPrincipal->save();
         }
-        if ((($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR)) && ($this->getValue('num_accises'))) {
+        if ((($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->typeCompte == SocieteClient::SUB_TYPE_NEGOCIANT_PUR) || ($this->typeCompte == SocieteClient::SUB_TYPE_VITICULTEUR)) && ($this->getValue('num_accises'))) {
             $etbPrincipal->no_accises = strtoupper($this->getValue('num_accises'));
             $etbPrincipal->save();
-        }        
+        }
     }
 
     public function getTypeCompte() {

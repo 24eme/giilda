@@ -452,7 +452,7 @@ class Compte extends BaseCompte {
             $type_societe = $this->getSociete()->getTypeSociete();
         }
 
-        if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER)) {
+        if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER)) {
             $acces_teledeclaration = true;
             $droits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
             $droits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
@@ -503,7 +503,7 @@ class Compte extends BaseCompte {
             $compteDroitsArray = $compteDroits->toArray(0,1);
             if(!in_array(Roles::TELEDECLARATION_VRAC, $compteDroitsArray) && ($this->isEtablissementContact() || $this->isSocieteContact() || $droit == Roles::TELEDECLARATION_VRAC)){
                 $compteDroits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
-              if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER) && ! in_array(Roles::TELEDECLARATION_VRAC_CREATION, $compteDroitsArray)) {
+              if (($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR) || ($type_societe == SocieteClient::SUB_TYPE_COURTIER) && ! in_array(Roles::TELEDECLARATION_VRAC_CREATION, $compteDroitsArray)) {
                 $compteDroits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
               }
             }

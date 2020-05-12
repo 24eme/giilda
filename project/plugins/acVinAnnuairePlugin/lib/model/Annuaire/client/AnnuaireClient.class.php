@@ -103,7 +103,7 @@ class AnnuaireClient extends acCouchdbClient {
         if ($type == self::ANNUAIRE_RECOLTANTS_KEY && $societe->type_societe != SocieteClient::SUB_TYPE_VITICULTEUR) {
             return null;
         }
-        if ($type == self::ANNUAIRE_NEGOCIANTS_KEY && $societe->type_societe != SocieteClient::SUB_TYPE_NEGOCIANT) {
+        if ($type == self::ANNUAIRE_NEGOCIANTS_KEY && $societe->type_societe != SocieteClient::SUB_TYPE_NEGOCIANT && $societe->type_societe != SocieteClient::SUB_TYPE_NEGOCIANT_PUR) {
             return null;
         }
         return $societe;

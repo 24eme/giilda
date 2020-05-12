@@ -813,6 +813,7 @@ class vracActions extends drmGeneriqueActions {
                 return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_viticulteur.pdf", "Guide_viticulteur.pdf");
 
             case SocieteClient::SUB_TYPE_NEGOCIANT:
+            case SocieteClient::SUB_TYPE_NEGOCIANT_PUR:
 
                 return $this->renderPdf(sfConfig::get('sf_web_dir') . DIRECTORY_SEPARATOR . "data/Guide_negociant.pdf", "Guide_négociant.pdf");
 
