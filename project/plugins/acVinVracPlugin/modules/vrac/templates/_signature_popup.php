@@ -2,7 +2,7 @@
     <div id="signature_popup_content" class="popup_contenu">
         <h2>Veuillez confirmer la signature du contrat </h2>
         <div class="ligne_btn">
-          <?php if($vrac->isBio() && $etablissementPrincipal->isNegociant()): ?>
+          <?php if($vrac->isBio() && ($etablissementPrincipal->isNegociant() || $etablissementPrincipal->isNegociantPur())): ?>
             <input name="popup_validation_bio_ecocert" id="popup_validation_bio_ecocert" type="checkbox" style="margin:0; vertical-align: bottom;  position: relative; top: -1px">
             <label for="popup_validation_bio_ecocert" style="font-weight:bold;" >&nbsp;J'ai le certificat Ecocert du vendeur</label>
           <?php endif; ?>
