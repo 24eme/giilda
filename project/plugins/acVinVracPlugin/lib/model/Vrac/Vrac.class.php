@@ -167,7 +167,7 @@ class Vrac extends BaseVrac {
         if (!$etb) {
             throw new sfException("L'etablissement d'id $etbId n'existe pas en base");
         }
-        if (!$etb->isCourtier() && !$etb->isNegociant()) {
+        if (!$etb->isCourtier() && !$etb->isNegociant() && !$etb->isNegociantPur()) {
             throw new sfException("La création d'un contrat ne peut pas se faire l'etablissement $etbId n'est ni courtier ni négociant");
         }
         if ($etb->isCourtier()) {
@@ -176,7 +176,7 @@ class Vrac extends BaseVrac {
             $this->setMandataireInformations();
         }
 
-        if ($etb->isNegociant()) {
+        if ($etb->isNegociant() || $etb->isNegociantPur()) {
             $this->setAcheteurIdentifiant($etbId);
             $this->setAcheteurInformations();
         }
@@ -737,7 +737,7 @@ class Vrac extends BaseVrac {
             $this->setMandataireIdentifiant($etablissement->_id);
             $this->mandataire_exist = true;
         }
-        if ($etablissement->getSociete()->isNegociant()) {
+        if ($etablissement->getSociete()->isNegociant() || $etablissement->getSociete()->isNegociantPur()) {
             $this->setAcheteurIdentifiant($etablissement->_id);
         }
     }
