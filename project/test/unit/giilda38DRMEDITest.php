@@ -410,8 +410,8 @@ $t->is(count($drm9->releve_non_apurement), 3, "releve de non apurement présent"
 $t->is($drm9->releve_non_apurement["19FRG000000000000000"]->getDateEmission(true), '2019-06-01', "la 1ere date est bonne");
 $t->is($drm9->releve_non_apurement["19FRG000000000000001"]->getDateEmission(true), '2019-06-02', "la 2de date est bonne");
 $t->is($drm9->releve_non_apurement["19FRG000000000000002"]->getDateEmission(true), '2019-06-03', "la 3ème date est bonne");
-$t->ok(!isset($drm9->releve_non_apurement["19FRG000000000000003"]), "le 4ème relevé de non appurement a bien été exclu");
-$t->ok(!isset($drm9->releve_non_apurement["19FRG000000000000004"]), "le 4ème relevé de non appurement a bien été exclu");
+$t->ok(!isset($drm9->releve_non_apurement["19FRG000000000000003"]), "le 4ème relevé de non appurement a bien été exclu (moins de 8 caractères)");
+$t->ok(!isset($drm9->releve_non_apurement["19FRG000000000000004"]), "le 5ème relevé de non appurement a bien été exclu (de 9 à 10 caractères)");
 foreach ($drm9->crds as $k1 => $coul) {
     foreach($coul as $k2 => $crd) {
         $t->is($crd->couleur, 'DEFAUT', "sans couleur, la CRD couleur par défaut est DEFAUT");
