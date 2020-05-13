@@ -251,6 +251,10 @@ class Societe extends BaseSociete {
         return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT) || ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR);
     }
 
+    public function isNegociantPur() {
+        return ($this->type_societe == SocieteClient::SUB_TYPE_NEGOCIANT_PUR);
+    }
+
     public function hasDroitsAcquittes(){
       return $this->getMasterCompte()->hasDroit(Roles::TELEDECLARATION_DRM_ACQUITTE);
     }
