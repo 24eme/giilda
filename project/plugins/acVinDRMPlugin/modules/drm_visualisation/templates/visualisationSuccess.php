@@ -55,7 +55,7 @@
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-
+        
         <?php if ($drm->isNegoce() && $isTeledeclarationMode): ?>
             <div class="alert alert-info">
 				<img src="/images/visuels/prodouane.png" />
@@ -90,6 +90,8 @@
 <?php include_partial('drm_visualisation/recapCsv', array('drm' => $drm)) ?>
 <?php include_partial('drm_visualisation/recapDroits', array('drm' => $drm, 'recapCvos' => $recapCvos, 'isTeledeclarationMode' => $isTeledeclarationMode)) ?>
 
+<br/><br/>
+<?php include_partial('drm_visualisation/douane_table', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 <?php include_partial('drm_xml/rapport_retour', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <br/><br/>
