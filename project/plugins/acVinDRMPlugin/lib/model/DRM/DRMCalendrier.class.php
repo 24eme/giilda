@@ -48,11 +48,7 @@ class DRMCalendrier {
     protected function buildPeriodes() {
 
         if ($this->campagne == -1) {
-            if ($this->isTeledeclarationMode) {
-                return DRMClient::getInstance()->getLastMonthPeriodes(6);
-            } else {
-                return DRMClient::getInstance()->getLastMonthPeriodes(12);
-            }
+            return DRMClient::getInstance()->getLastMonthPeriodes(12);
         }
         $periodes = array();
         $current = date('Ym');
