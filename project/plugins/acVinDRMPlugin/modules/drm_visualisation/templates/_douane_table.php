@@ -11,7 +11,7 @@
                   <tr>
                       <td class="col-xs-4">Transmission (<?php echo link_to('XML transmis', 'drm_xml_table', array("identifiant" => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), "retour" => "0")); ?>)</td>
                       <td class="col-xs-8">
-                        <?php if ($drm->transmission_douane->success) : ?>
+                        <?php if ($drm->exist('transmission_douane') && $drm->transmission_douane->success) : ?>
                           <?php if ($drm->transmission_douane->id_declaration): ?>
                           La transmission a été réalisée avec <strong>succès</strong> le <?php echo $drm->getTransmissionDate(); ?> avec l'accusé reception numéro <?php echo $drm->transmission_douane->id_declaration ?>.
                           <?php else: ?>
@@ -36,7 +36,7 @@
                       </td>
                   </tr>
                   <?php if (!$isTeledeclarationMode  || (sfConfig::get('app_force_usurpation_mode') && $sf_user->isUsurpationCompte())): ?>
-                    <?php if (is_null($drm->transmission_douane->coherente)) : ?>
+                    <?php if (!$drm->exist('transmission_douane') || is_null($drm->transmission_douane->coherente)) : ?>
                       <tr><td>Retour XML</td><td>Aucun retour de la part de proDou@ne n'a été effectué<a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="pull-right btn btn-xs btn-default" ><span class="glyphicon glyphicon-repeat"></span></a></td></tr>
                     <?php elseif($drm->transmission_douane->coherente): ?>
                       <tr><td>
