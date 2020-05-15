@@ -29,7 +29,7 @@
                         <?php endif; ?>
                         <?php if (!$isTeledeclarationMode  || (sfConfig::get('app_force_usurpation_mode') && $sf_user->isUsurpationCompte())): ?>
                           <a id="retransmission" data-link="<?php echo url_for('drm_retransmission', $drm); ?>" class="pull-right btn btn-xs btn-default" >retransmettre&nbsp;<span class="glyphicon glyphicon-repeat"></span></a>
-                          <?php if (!$drm->transmission_douane->success): ?>
+                          <?php if ($drm->exist('transmission_douane') && !$drm->transmission_douane->success): ?>
                           <a href="<?php echo url_for('drm_success_true', $drm); ?>" class="pull-right btn btn-xs btn-default" >ignore&nbsp;<span class="glyphicon glyphicon-eye-close"></span></a>
                           <?php endif; ?>
                         <?php endif; ?>
@@ -38,7 +38,7 @@
                   <?php if (!$isTeledeclarationMode  || (sfConfig::get('app_force_usurpation_mode') && $sf_user->isUsurpationCompte())): ?>
                     <?php if (!$drm->exist('transmission_douane') || is_null($drm->transmission_douane->coherente)) : ?>
                       <tr><td>Retour XML</td><td>Aucun retour de la part de proDou@ne n'a été effectué<a href="<?php echo url_for('drm_retour_refresh', $drm); ?>"  class="pull-right btn btn-xs btn-default" ><span class="glyphicon glyphicon-repeat"></span></a></td></tr>
-                    <?php elseif($drm->transmission_douane->coherente): ?>
+                      <?php elseif($drm->exist('transmission_douane') && $drm->transmission_douane->coherente): ?>
                       <tr><td>
                           Retour XML (<a href="<?php echo url_for('drm_xml_table', array('identifiant' => $drm->identifiant,"periode_version" => $drm->getPeriodeAndVersion(), 'retour' => "1")); ?>">XML reçu</a>)</td><td>
                           <?php if ($drm->transmission_douane->coherente && (!$drm->transmission_douane->exist('diff') || !$drm->transmission_douane->diff)) :?>
