@@ -27,6 +27,8 @@ EOF;
       $databaseManager = new sfDatabaseManager($this->configuration);
       $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
       $drm = DRMClient::getInstance()->find($arguments["drmid"]);
+      $drm->remove('controles');
+      $drm->save();
       if(!is_null($drm)){
         $drm->updateControles();
         $drm->save();
