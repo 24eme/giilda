@@ -59,6 +59,7 @@
         </div>
     </div>
 
+    <?php include_partial('drm_visualisation/douane_table', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <?php include_partial('drm_xml/rapport_retour', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <br/><br/>
     <div class="row">

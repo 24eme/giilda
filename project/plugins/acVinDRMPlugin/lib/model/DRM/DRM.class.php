@@ -362,7 +362,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     	if(!$points->hasPoints() && !$this->exist("transmission_douane")){
             return;
         }
-        if($points->hasPoints()){
+        if($points->hasPoints() && !$this->isValidee()){
             $this->add('controles');
             if($points->hasErreurs()){
                 $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_BLOCANT, $points->getErreurs());
