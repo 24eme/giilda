@@ -3,7 +3,7 @@ function(doc) {
         return;
     }
 
-    liaisons = array();
+    liaisons = [];
     if (doc.liaisons_operateurs) {
         for (key in doc.liaisons_operateurs) {
             liaisons.push(doc.liaisons_operateurs[key].id_etablissement.replace("ETABLISSEMENT-", ""));
