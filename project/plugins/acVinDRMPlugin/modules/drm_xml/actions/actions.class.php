@@ -116,7 +116,7 @@ class drm_xmlActions extends drmGeneriqueActions {
       $drm = $this->getRoute()->getDRM();
       if ($drm->exist('transmission_douane')) {
           $drm->transmission_douane->coherente = true;
-          $drm->transmission_douane->diff = "ignore";
+          $drm->transmission_douane->add('diff', "ignore");
           $drm->updateControles();
           $drm->save();
       }
