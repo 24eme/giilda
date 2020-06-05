@@ -12,6 +12,8 @@ web/psd
 bin/config.inc
 data/latex/*
 data/upload/*
+data/dateDrmDouane
+data/*.key
 web/*.log
 node_modules
 package.json
