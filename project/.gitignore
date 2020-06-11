@@ -22,3 +22,5 @@ web/statuts/xml
 data/convention/pdf
 test/output
 web/statuts/index.php
+web/doc-edi
+web/doc/docs
