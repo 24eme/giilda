@@ -181,16 +181,16 @@ class factureActions extends drmGeneriqueActions {
 
 
     public function executeRedirect(sfWebRequest $request) {
-      $this->redirect403IfIsTeledeclaration();
-      $iddoc = $request->getParameter('iddocument');
-      if (preg_match('/^DRM/', $iddoc)) {
-	$drm = DRMClient::getInstance()->find($iddoc);
-	return $this->redirect('drm_visualisation', $drm);
-      }else if (preg_match('/^SV12/', $iddoc)) {
-	$sv12 = SV12Client::getInstance()->find($iddoc);
-	return $this->redirect('sv12_visualisation', $sv12);
-      }
-      return $this->forward404();
+        $this->redirect403IfIsTeledeclaration();
+        $iddoc = $request->getParameter('iddocument');
+        if (preg_match('/^DRM/', $iddoc)) {
+            $drm = DRMClient::getInstance()->find($iddoc)->findMaster();
+            return $this->redirect('drm_visualisation', $drm);
+        }else if (preg_match('/^SV12/', $iddoc)) {
+            $sv12 = SV12Client::getInstance()->find($iddoc)->findMaster();
+            return $this->redirect('sv12_visualisation', $sv12);
+        }
+        return $this->forward404();
     }
 
     public function executeLatex(sfWebRequest $request) {
