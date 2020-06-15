@@ -571,7 +571,7 @@ class Compte extends BaseCompte {
     }
 
     public function hasFactureEmail() {
-        return $this->hasDroit(Roles::TELEDECLARATION) && $this->hasDroit(Roles::TELEDECLARATION_FACTURE_EMAIL);
+        return $this->hasDroit(Roles::TELEDECLARATION) && $this->hasDroit(Roles::TELEDECLARATION_FACTURE) && $this->hasDroit(Roles::TELEDECLARATION_FACTURE_EMAIL);
     }
 
 
