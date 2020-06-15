@@ -110,6 +110,9 @@ class drm_validationActions extends drmGeneriqueActions {
         if ($this->getUser()->hasTeledeclarationFactureEmail()) {
             $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
         }
+        if (!$this->getUser()->hasTeledeclarationFacture()) {
+            $this->redirect('drm_visualisation', array('identifiant' => $this->drm->identifiant, 'periode_version' => $this->drm->getPeriodeAndVersion()));
+        }
 
         $this->form = new DRMFactureEmailForm($this->drm);
 
