@@ -8,6 +8,8 @@ BASEDIR=$(pwd)
 
 #curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 
+rm -rf $TMP/export_bi_annualise 2> /dev/null
+
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" > $TMP/sed_produit_code
 
 CSVHEADER="#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);is_facture;is_vendeur;type de drm;libelle type de drm;date mouvement;famille DRM;extra"
