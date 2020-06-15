@@ -11,7 +11,7 @@ all:
       "/declaration/certifications/IGP/genres/TRANQ": "/declaration/certifications/IGP/genres/TRANQ/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
       "/declaration/certifications/IGP/genres/EFF": "/declaration/certifications/IGP/genres/MOU/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
       "/declaration/certifications/IGP/genres/MOU": "/declaration/certifications/IGP/genres/MOU/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
-      "/declaration/certifications/VSIG/genres/TRANQ": 
+      "/declaration/certifications/VSIG/genres/TRANQ":
         cep: "/declaration/certifications/VSIG/genres/TRANQ/appellations/CEP/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
         sanscep: "/declaration/certifications/VSIG/genres/TRANQ/appellations/SANSCEP/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"
       "/declaration/certifications/VSIG/genres/EFF":
@@ -479,6 +479,85 @@ all:
                                   agg_column:
                                     sum:
                                       field: 'doc.prix_total'
+        mouvements_facturation:
+          libelle: "Mouvement facturation"
+          index: "DRMMVT"
+          hashkeysize: 2
+          aggregation:
+            filter:
+              terms:
+                doc.declarant.famille: ['PRODUCTEUR']
+            aggs:
+              totaux_vrac:
+                sum_bucket:
+                  buckets_path: "agg_page>total_vrac"
+              totaux_sorties:
+                sum_bucket:
+                  buckets_path: "agg_page>total_sorties"
+              totaux_cvo:
+                sum_bucket:
+                  buckets_path: "agg_page>total_cvo"
+              totaux_total:
+                sum_bucket:
+                  buckets_path: "agg_page>total_total"
+              agg_page:
+                terms:
+                  size: 0,
+                  script: "'/declaration/certifications/'+doc['doc.mouvements.certification'].value+'/genres/'+doc['doc.mouvements.genre'].value+'/appellations/'+doc['doc.mouvements.appellation'].value+'/mentions/'+doc['doc.mouvements.mention'].value+'/lieux/'+doc['doc.mouvements.lieu'].value"
+                  "order" : { "_term" : "asc" }
+                aggs:
+                  total_vrac:
+                    sum_bucket:
+                      buckets_path: "agg_line>vrac>agg_column"
+                  total_sorties:
+                    sum_bucket:
+                      buckets_path: "agg_line>sorties>agg_column"
+                  total_cvo:
+                    sum_bucket:
+                      buckets_path: "agg_line>cvo>agg_column"
+                  total_total:
+                    sum_bucket:
+                      buckets_path: "agg_line>total"
+                  agg_line:
+                    terms:
+                      size: 0,
+                      field: 'doc.mouvements.type_hash'
+                      "order" : { "_term" : "asc" }
+                    aggs:
+                      vrac:
+                        filter:
+                          term:
+                            doc.mouvements.type_hash: 'vrac_details'
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
+                      sorties:
+                        filter:
+                          terms:
+                            doc.mouvements.type_hash: ['sorties/vracsanscontratsuspendu', 'sorties/apportgroupement', 'sorties/export', 'sorties/vracsanscontratacquitte', 'sorties/ventefrancecrd', 'sorties/ventefrancecrdacquitte', 'sorties/repli', 'sorties/declassement', 'sorties/vci', 'sorties/embouteillage', 'sorties/transfertcomptamatiere',  'sorties/travailafacon', 'sorties/consommationfamilialedegustation', 'sorties/distillationusageindustriel', 'sorties/destructionperte', 'sorties/manquant',  'sorties/cession', 'sorties/verslies', 'sorties/autre', 'sorties/replacementsuspension', 'sorties/vente' ]
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
+                      cvo:
+                        filter:
+                          terms:
+                            doc.mouvements.type_hash: ['sorties/vracsanscontratsuspendu', 'sorties/export', 'sorties/vracsanscontratacquitte', 'sorties/ventefrancecrd', 'sorties/ventefrancecrdacquitte', 'sorties/transfertcomptamatiere',  'sorties/manquant']
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
+                      total:
+                        bucket_script:
+                          buckets_path:
+                            vrac_sum: "vrac>agg_column"
+                            sorties_sum: "sorties>agg_column"
+                            cvo_sum: "cvo>agg_column"
+                          script: "vrac_sum - sorties_sum"
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20
