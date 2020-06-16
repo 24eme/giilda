@@ -325,7 +325,6 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
 
         $this->remove('taux_tva');
-        $this->getTauxTva();
 
         $this->devalide();
     }
