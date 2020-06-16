@@ -18,7 +18,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consulta
 
 cat $TMP/export_bi_mouvements.csv | cut -d ";" -f 5 | sed -r 's/([0-9]{4}).+$/\1/' | grep -E "[0-9]+" | sort | uniq | while read annee; do
     mkdir -p $TMP/export_bi_annualise/$annee 2> /dev/null;
-    echo $CSVHEADER > $TMP/export_bi_annualise/$annee/"$annee"__export_bi_mouvements.csv;
+    echo $CSVHEADER > $TMP/export_bi_annualise/$annee/"$annee"_export_bi_mouvements.csv;
     cat $TMP/export_bi_mouvements.csv | sort -t ";" -k 5,5 | grep -E ";$annee[0-9]{2};" >> $TMP/export_bi_annualise/$annee/"$annee"_export_bi_mouvements.csv;
 done;
 
