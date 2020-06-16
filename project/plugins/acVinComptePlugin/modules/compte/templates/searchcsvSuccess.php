@@ -4,6 +4,8 @@ echo "#nom complet ; type ; civilité ; prénom ; nom ; fonction; adresse ; adre
 foreach ($results as $res) {
   $data = $res->getData(ESC_RAW);
 
+  $data = $data['doc'];
+
   $societe_informations = $data['societe_informations'];
 
   echo '"'.$data['nom_a_afficher']. '";';
