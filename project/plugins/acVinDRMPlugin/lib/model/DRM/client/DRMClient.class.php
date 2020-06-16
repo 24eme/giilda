@@ -528,7 +528,6 @@ class DRMClient extends acCouchdbClient {
         if ($isTeledeclarationMode) {
             $drm->etape = self::ETAPE_CHOIX_PRODUITS;
         }
-        $drm->getTauxTva();
 
         if ($drmLast) {
             $drm->generateByDRM($drmLast);
