@@ -934,6 +934,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
         $this->updateControles();
+        $this->getTauxTva();
     }
 
     protected function preSaveEditeur() {
