@@ -8,6 +8,8 @@ BASEDIR=$(pwd)
 
 #curl -sX GET "http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/configuration/_view/produits?reduce=false" | sed -f bin/unicode2alpha | grep "produits" | sed 's/"declaration\//"\/declaration\//g' | sed 's/\//\\\//g'| sed 's/null/""/' | awk -F ',' '{ print "s/;;\\(" $7 "\\)/;\\1;" $9 "/" }' > $TMP/sed_produit_code
 
+rm -rf $TMP/export_bi_annualise 2> /dev/null
+
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" > $TMP/sed_produit_code
 
 CSVHEADER="#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);is_facture;is_vendeur;type de drm;libelle type de drm;date mouvement;famille DRM;extra"
@@ -16,7 +18,7 @@ curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consulta
 
 cat $TMP/export_bi_mouvements.csv | cut -d ";" -f 5 | sed -r 's/([0-9]{4}).+$/\1/' | grep -E "[0-9]+" | sort | uniq | while read annee; do
     mkdir -p $TMP/export_bi_annualise/$annee 2> /dev/null;
-    echo $CSVHEADER > $TMP/export_bi_annualise/$annee/"$annee"__export_bi_mouvements.csv;
+    echo $CSVHEADER > $TMP/export_bi_annualise/$annee/"$annee"_export_bi_mouvements.csv;
     cat $TMP/export_bi_mouvements.csv | sort -t ";" -k 5,5 | grep -E ";$annee[0-9]{2};" >> $TMP/export_bi_annualise/$annee/"$annee"_export_bi_mouvements.csv;
 done;
 

@@ -19,3 +19,4 @@ mkdir -p $EXPORTDIR"/bi"
 unzip $EXPORTDIR"/export_bi.zip" -d $EXPORTDIR"/bi"
 
 mv $EXPORTDIR"/bi/export_bi_annualise/*" $EXPORTDIR"/bi/"
+rm -rf $EXPORTDIR/bi/export_bi_annualise
