@@ -47,11 +47,9 @@ $xml = new SimpleXMLElement(file_get_contents($xmlFile));
                 <?php $hasError = true; ?>
                 <div class="alert alert-danger">
                     <h6><strong><?php echo $suite['name']; ?></strong>
-                    <?php if($suite['errors'] > 0): ?>
-                    <small class="badge badge-pill badge-danger"><?php echo $suite['errors'] ?> erreur<?php if($suite['errors'] > 1): ?>s<?php endif; ?></small>
-                    <?php endif; ?>
-                    <?php if($suite['failures'] > 0): ?>
-                    <small class="badge badge-pill badge-warning"><?php echo $suite['failures'] ?> échec<?php if($suite['failures'] > 1): ?>s<?php endif; ?></small></h6>
+                    <?php $nbErrors = $suite['failures']*1 + $suite['assertions']*1 - count($suite); ?>
+                    <?php if($nbErrors > 0): ?>
+                    <small class="badge badge-pill badge-danger"><?php echo $nbErrors ?> échec<?php if($nbErrors > 1): ?>s<?php endif; ?></small></h6>
                     <?php endif; ?>
                 <?php foreach($suite as $item): ?>
                     <?php if(!count($item)): continue; endif; ?>
