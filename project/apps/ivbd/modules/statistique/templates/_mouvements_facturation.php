@@ -1,70 +1,62 @@
 <?php
 use_helper('IvbdStatistique');
 
-var_dump($result->getRawValue()); exit;
 
-if ($lastPeriode) {
-	$csv = "Pays;Blanc;Blanc N-1;Blanc %;Blanc Sec;Blanc Sec N-1;Blanc Sec %;Blanc Moelleux;Blanc Moelleux N-1;Blanc Moelleux %;Blanc Doux;Blanc Doux N-1;Blanc Doux %;Rosé;Rosé N-1;Rosé %;Rouge;Rouge N-1;Rouge %;TOTAL;TOTAL N-1;TOTAL %\n";
-	$result = $result->getRawValue();
-	$lastPeriode = $lastPeriode->getRawValue();
-	$resultKeys = array_keys($result);
-	$resultPartKeys = array();
-	foreach ($result as $key => $values) {
-		$key = sfOutputEscaper::unescape($key);
-		$tabKey = explode('/', $key);
-		if (!in_array($tabKey[0], $resultPartKeys)) {
-			$resultPartKeys[] = $tabKey[0];
-		}
-		if ($tabKey[0] == 'TOTAL') {
-			foreach ($lastPeriode as $subkey => $subvalues) {
-				$subtabKey = explode('/', $subkey);
-				if (!in_array($subtabKey[0], $resultPartKeys)) {
-					$csv .= $subtabKey[0].';';
-					foreach ($subvalues as $subvalueskey => $subvaluesVal) {
-						$csv .= null.';'.$subvalues[$subvalueskey].";".getEvol($subvalues[$subvalueskey], 0);
-						$csv .= ($subvalueskey == count($subvalues) - 1)? "\n" : ';';
-					}
-				}
-			}
-		}
-		if (isset($lastPeriode[$key])) {
-			if ($lastPeriode[$key][6] || $values[6]) {
-				$csv .= $tabKey[0].';';
-				foreach ($lastPeriode[$key] as $lastPeriodeCaseKey => $lastPeriodeCaseValue) {
-					$csv .= $values[$lastPeriodeCaseKey].';'.$lastPeriode[$key][$lastPeriodeCaseKey].";".getEvol($lastPeriode[$key][$lastPeriodeCaseKey], $values[$lastPeriodeCaseKey]);
-					$csv .=  ($lastPeriodeCaseKey == count($lastPeriode[$key]) - 1)? "\n" : ';'; //.';'.$lastPeriode[$key][1].';'.$values[1].';'.getEvol($lastPeriode[$key][1], $values[1]).';'.$lastPeriode[$key][2].';'.$values[2].';'.getEvol($lastPeriode[$key][2], $values[2]).';'.$lastPeriode[$key][3].';'.$values[3].';'.getEvol($lastPeriode[$key][3], $values[3])."\n";
-				}
-			}
-		} else {
-			if ($values[6]) {
-				$csv .= $tabKey[0].';';
-				foreach ($values as $k => $v) {
-					$csv .= $values[$k].';'.null.';'.getEvol(0, $values[$k]);
-					$csv .=  ($k == count($values) - 1)? "\n" : ";";
-				}
-			}
-		}
+
+	$csv = "Produit;01. Vrac sous contrat;Total sorties hors contrat;06. Retour logement ext;08. Retour de vin CRD;09. Retour de vin hors CRD;Facturation cvo hors contrat;Sorties réelles pour facturation (hl);Mouvements exonérées de cvo (hl);Total mouvements (hl)\n";
+	foreach ($result['agg_page']['buckets'] as $produitLine) {
+		$produit = ConfigurationClient::getCurrent()->get($produitLine['key'])->getLibelleFormat();
+
+		$vrac_contrat = $produitLine['total_vrac']['total_vrac_cvo']['agg_column']['value'];
+
+		$total_sortie_hors_contrat = $produitLine['total_sorties_hors_contrat']['value'];
+
+		// 06. Retour logement ext. = transfertcomptamatierecession
+		$retour_logement_ext = $produitLine['total_entrees']['total_entrees_transfertcomptamatierecession']['agg_column']['value'];
+
+		// 08. Retour de vin CRD acq. retourmarchandiseacquitte + susp
+		$retour_vin_crd = $produitLine['total_entrees']['total_entrees_retourmarchandise']['agg_column']['value'];
+
+		// 09. Retour de vin hors CRD  = retourmarchandisenontaxees
+		$retour_vin_hors_crd = $produitLine['total_entrees']['total_entrees_retourmarchandisenontaxees']['agg_column']['value'];
+
+		$total_facturation_hors_contrat = $produitLine['total_facturation_hors_contrat']['value'];
+
+		// total cvo
+		$sorties_reelles_pour_facturation = $total_facturation_hors_contrat+$vrac_contrat;
+
+		$mouvements_exoneres_cvo = $produitLine['total_mouvements_hors_cvo']['value'];
+
+		$total_mouvements =  $produitLine['total_sorties']['agg_column']['value'] - $produitLine['total_entrees']['agg_column']['value'];
+
+		$csv .= $produit.';'.formatNumber($vrac_contrat,2).';'.
+												formatNumber($total_sortie_hors_contrat,2).";".
+												formatNumber($retour_logement_ext,2).";".
+												formatNumber($retour_vin_crd,2).";".
+												formatNumber($retour_vin_hors_crd,2).';'.
+												formatNumber($total_facturation_hors_contrat,2).';'.
+												formatNumber($sorties_reelles_pour_facturation,2).';'.
+												formatNumber($mouvements_exoneres_cvo,2).';'.
+												formatNumber($total_mouvements,2)."\n";
+
 	}
-} else {
-	$csv = "Pays;Blanc;Blanc Sec;Blanc Moelleux;Blanc Doux;Rosé;Rouge;TOTAL\n";
-	$totalBlanc = formatNumber($result['totaux_blanc']['value'],2);
-	$totalBlancSec = formatNumber($result['totaux_blanc_sec']['value'],2);
-	$totalBlancMoelleux = formatNumber($result['totaux_blanc_moelleux']['value'],2);
-	$totalBlancDoux = formatNumber($result['totaux_blanc_doux']['value'],2);
-	$totalRose = formatNumber($result['totaux_rose']['value'],2);
-	$totalRouge = formatNumber($result['totaux_rouge']['value'],2);
-	$totalTotal = formatNumber($result['totaux_total']['value'],2);
-	foreach ($result['agg_line']['buckets'] as $pays) {
-		$paysLibelle = $pays['key'];
-		$blanc = formatNumber($pays['blanc']['agg_column']['value'],2);
-		$blancSec = formatNumber($pays['blanc_sec']['agg_column']['value'],2);
-		$blancMoelleux = formatNumber($pays['blanc_moelleux']['agg_column']['value'],2);
-		$blancDoux = formatNumber($pays['blanc_doux']['agg_column']['value'],2);
-		$rose = formatNumber($pays['rose']['agg_column']['value'],2);
-		$rouge = formatNumber($pays['rouge']['agg_column']['value'],2);
-		$total = formatNumber($pays['total']['agg_column']['value'],2);
-		$csv .= $paysLibelle.';'.$blanc.';'.$blancSec.";".$blancMoelleux.";".$blancDoux.";".$rose.';'.$rouge.';'.$total."\n";
-	}
-	$csv .= 'TOTAL;'.$totalBlanc.';'.$totalBlancSec.';'.$totalBlancMoelleux.';'.$totalBlancDoux.';'.$totalRose.';'.$totalRouge.';'.$totalTotal."\n";
-}
+		 $totaux_vrac_cvo = formatNumber($result["totaux_vrac_cvo"]["value"],2);
+		 $totaux_sortie_hors_contrat = formatNumber($result["totaux_sorties_hors_contrat"]["value"],2);
+	 	 $totaux_retour_logement_ext = formatNumber($result['totaux_entrees_transfertcomptamatierecession']['value'],2);
+	 	 $totaux_retour_vin_crd = formatNumber($result['totaux_entrees_retourmarchandise']['value'],2);
+	 	 $totaux_retour_vin_hors_crd = formatNumber($result['totaux_entrees_retourmarchandisenontaxees']['value'],2);
+		 $totaux_facturation_hors_contrat = formatNumber($result['totaux_facturation_hors_contrat']['value'],2);
+		 $totaux_sorties_reelles_pour_facturation = formatNumber($result["totaux_sorties_hors_contrat"]["value"]+$result["totaux_vrac_cvo"]["value"],2);
+		 $totaux_mouvements_exoneres_cvo = formatNumber($result['totaux_mouvements_hors_cvo']['value'],2);
+		 $totaux_mouvements = formatNumber($result['totaux_mouvements']['value'],2);
+
+	 $csv .= 'TOTAL;'.$totaux_vrac_cvo.';'.
+	 $totaux_sortie_hors_contrat.';'.
+	 $totaux_retour_logement_ext.';'.
+	 $totaux_retour_vin_crd.';'.
+	 $totaux_retour_vin_hors_crd.';'.
+	 $totaux_facturation_hors_contrat.';'.
+	 $totaux_sorties_reelles_pour_facturation.';'.
+	 $totaux_mouvements_exoneres_cvo.';'.
+	 $totaux_mouvements.';'."\n";
 echo $csv;
