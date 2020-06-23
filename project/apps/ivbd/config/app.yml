@@ -488,9 +488,9 @@ all:
               terms:
                 doc.declarant.famille: ['PRODUCTEUR']
             aggs:
-              totaux_vrac:
+              totaux_vrac_cvo:
                 sum_bucket:
-                  buckets_path: "agg_page>total_vrac>agg_column"
+                  buckets_path: "agg_page>total_vrac>total_vrac_cvo>agg_column"
               totaux_entrees:
                 sum_bucket:
                   buckets_path: "agg_page>total_entrees>agg_column"
@@ -524,6 +524,12 @@ all:
               totaux_sorties_sans_cvo:
                 sum_bucket:
                   buckets_path: "agg_page>total_sorties>total_sorties_sans_cvo>agg_column"
+              totaux_mouvements_hors_cvo:
+                sum_bucket:
+                  buckets_path: "agg_page>total_mouvements_hors_cvo"
+              totaux_mouvements:
+                sum_bucket:
+                  buckets_path: "agg_page>total_mouvements"
               agg_page:
                 terms:
                   size: 0,
@@ -535,15 +541,19 @@ all:
                       term:
                         doc.mouvements.type_hash: 'vrac_details'
                     aggs:
-                      agg_column:
-                        sum:
-                          field: 'doc.mouvements.volume'
-                          script: '_value * -1'
+                      total_vrac_cvo:
+                        filter:
+                          term:
+                            doc.mouvements.facturable: "1"
+                        aggs:
+                          agg_column:
+                            sum:
+                              field: 'doc.mouvements.volume'
+                              script: '_value * -1'
                   total_entrees:
                     filter:
-                      range:
-                        "doc.mouvements.volume":
-                          "gt": 0
+                      term:
+                        doc.mouvements.type_es: "entree"
                     aggs:
                       total_entrees_cvo:
                         filter:
@@ -553,7 +563,7 @@ all:
                           agg_column:
                             sum:
                               field: 'doc.mouvements.volume'
-                              script: '_value * -1'
+                              script: '_value * 1'
                       total_entrees_sans_cvo:
                         filter:
                           term:
@@ -562,7 +572,7 @@ all:
                           agg_column:
                             sum:
                               field: 'doc.mouvements.volume'
-                              script: '_value * -1'
+                              script: '_value * 1'
                       total_entrees_transfertcomptamatierecession:
                         filter:
                           terms:
@@ -571,7 +581,7 @@ all:
                           agg_column:
                             sum:
                               field: 'doc.mouvements.volume'
-                              script: '_value * -1'
+                              script: '_value * 1'
                       total_entrees_retourmarchandise:
                         filter:
                           terms:
@@ -580,7 +590,7 @@ all:
                           agg_column:
                             sum:
                               field: 'doc.mouvements.volume'
-                              script: '_value * -1'
+                              script: '_value * 1'
                       total_entrees_retourmarchandisenontaxees:
                         filter:
                           terms:
@@ -589,16 +599,15 @@ all:
                           agg_column:
                             sum:
                               field: 'doc.mouvements.volume'
-                              script: '_value * -1'
+                              script: '_value * 1'
                       agg_column:
                         sum:
                           field: 'doc.mouvements.volume'
-                          script: '_value * -1'
+                          script: '_value * 1'
                   total_sorties:
                     filter:
-                      range:
-                        "doc.mouvements.volume":
-                          "lt": 0
+                      term:
+                        doc.mouvements.type_es: "sortie"
                     aggs:
                       total_sorties_cvo:
                         filter:
@@ -626,17 +635,29 @@ all:
                     bucket_script:
                       buckets_path:
                         total_sorties_cvo_sum: "total_sorties>total_sorties_cvo>agg_column"
-                        total_vrac_sum: "total_vrac>agg_column"
-                      script: "total_sorties_cvo_sum - total_vrac_sum"
+                        total_vrac_cvo_sum: "total_vrac>total_vrac_cvo>agg_column"
+                      script: "total_sorties_cvo_sum - total_vrac_cvo_sum"
                   total_facturation_hors_contrat:
                     bucket_script:
                       buckets_path:
                         total_sorties_cvo_sum: "total_sorties>total_sorties_cvo>agg_column"
-                        total_vrac_sum: "total_vrac>agg_column"
+                        total_vrac_cvo_sum: "total_vrac>total_vrac_cvo>agg_column"
                         total_entrees_transfertcomptamatierecession_sum: "total_entrees>total_entrees_transfertcomptamatierecession>agg_column"
                         total_entrees_retourmarchandise_sum: "total_entrees>total_entrees_retourmarchandise>agg_column"
                         total_entrees_retourmarchandisenontaxees_sum: "total_entrees>total_entrees_retourmarchandisenontaxees>agg_column"
-                      script: "total_sorties_cvo_sum - total_vrac_sum - total_entrees_transfertcomptamatierecession_sum - total_entrees_retourmarchandise_sum - total_entrees_retourmarchandisenontaxees_sum"
+                      script: "total_sorties_cvo_sum - total_vrac_cvo_sum - total_entrees_transfertcomptamatierecession_sum - total_entrees_retourmarchandise_sum - total_entrees_retourmarchandisenontaxees_sum"
+                  total_mouvements_hors_cvo:
+                    bucket_script:
+                      buckets_path:
+                        total_entrees_sans_cvo_sum: "total_entrees>total_entrees_sans_cvo>agg_column"
+                        total_sorties_sans_cvo_sum: "total_sorties>total_sorties_sans_cvo>agg_column"
+                      script: "total_sorties_sans_cvo_sum - total_entrees_sans_cvo_sum"
+                  total_mouvements:
+                    bucket_script:
+                      buckets_path:
+                        total_entrees_sum: "total_entrees>agg_column"
+                        total_sorties_sum: "total_sorties>agg_column"
+                      script: "total_sorties_sum - total_entrees_sum"
     drm:
       title: "Etat des lieux de saisie des DRMs"
       nb_resultat: 20
