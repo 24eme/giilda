@@ -58,5 +58,5 @@ use_helper('IvbdStatistique');
 	 $totaux_facturation_hors_contrat.';'.
 	 $totaux_sorties_reelles_pour_facturation.';'.
 	 $totaux_mouvements_exoneres_cvo.';'.
-	 $totaux_mouvements.';'."\n";
+	 $totaux_mouvements;
 echo $csv;
