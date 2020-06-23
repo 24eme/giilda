@@ -533,7 +533,7 @@ all:
               agg_page:
                 terms:
                   size: 0,
-                  script: "'/declaration/certifications/'+doc['doc.mouvements.certification'].value+'/genres/'+doc['doc.mouvements.genre'].value+'/appellations/'+doc['doc.mouvements.appellation'].value+'/mentions/'+doc['doc.mouvements.mention'].value+'/lieux/'+doc['doc.mouvements.lieu'].value"
+                  script: "'/declaration/certifications/'+doc['doc.mouvements.certification'].value+'/genres/'+doc['doc.mouvements.genre'].value+'/appellations/'+doc['doc.mouvements.appellation'].value+'/mentions/'+doc['doc.mouvements.mention'].value+'/lieux/'+doc['doc.mouvements.lieu'].value+'/couleurs/'+doc['doc.mouvements.couleur'].value"
                   "order" : { "_term" : "asc" }
                 aggs:
                   total_vrac:
