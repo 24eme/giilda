@@ -848,7 +848,9 @@ private function importMouvementsFromCSV($just_check = false) {
             $this->csvDoc->addErreur($this->creationvracdetailsAcheteurNonNegoError($num_ligne, $csvRow));
             continue;
         }
-        $creationvrac->acheteur = $nego->identifiant;
+        if($nego) {
+            $creationvrac->acheteur = $nego->identifiant;
+        }
         $creationvrac->type_contrat = ($type_key == 'creationvrac')? VracClient::TYPE_TRANSACTION_VIN_VRAC : VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
         $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($creationvrac);
       }
