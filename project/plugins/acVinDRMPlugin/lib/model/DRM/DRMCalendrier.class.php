@@ -333,10 +333,10 @@ class DRMCalendrier {
         $messages = array();
         foreach($this->getLastDrmToCompleteAndToStart() as $drm) {
             $month = preg_replace("/^[0-9]{4}/", "", $drm->periode);
-            if(!ConfigurationClient::getInstance()->getMessage("DRM_".$month)) {
+            if(!MessagesClient::getInstance()->getMessage("DRM_MOIS_".$month)) {
                 continue;
             }
-            $messages[$drm->periode] = ConfigurationClient::getInstance()->getMessage("DRM_".$month);
+            $messages[$drm->periode] = MessagesClient::getInstance()->getMessage("DRM_MOIS_".$month);
         }
 
         ksort($messages);
