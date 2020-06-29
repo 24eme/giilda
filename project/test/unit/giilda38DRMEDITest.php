@@ -4,6 +4,7 @@ require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
 $nb_tests = 63;
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
+$nego =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
 
 $produit_disabled = null;
@@ -47,6 +48,9 @@ if ($produitdefault_autre_hash) {
 
 if($application == "ivso") {
     $nb_tests += 1;
+}
+if($application == "bivc") {
+    $nb_tests += 11;
 }
 
 //Suppression des DRM précédentes
@@ -109,6 +113,7 @@ $t->is(count($drm->getProduitsDetails()), 4, "La DRM a bien 4 produits");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('stocks_debut/initial'), 951.4625, "le stock initial est celui attendu");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('sorties/ventefrancecrd'),4.62,"vente frande crd OK");
 $t->is($drm->getProduit($produit1_hash, 'details')->get('sorties/export'),2.8425,"sortie export OK");
+
 $t->is($drm->getProduit($produit1_hash, 'details')->get('stocks_fin/final'),945,"stock final OK");
 if($drm->getProduit($produit1_hash, 'details')->exist('entrees/retourmarchandisetaxees_details')) {
     $t->is($drm->getProduit($produit1_hash, 'details')->get('entrees/retourmarchandisetaxees_details')->getFirst()->getDateFr(), "31/12/2017","Date de replacement OK");
@@ -503,4 +508,47 @@ if($application == "ivso") {
     }
 
     $t->is($detail->getLibelle(), "Floc de Gascogne Blanc - 20°", "Reconnaissance du produit");
+} elseif($application == "bivc") {
+    $periode5 = date('Y')."04";
+    $t->comment("création vrac");
+
+    $temp = fopen($tmpfname, "w");
+    fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_debut,initial,944,,,,,,\n");
+    fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,creationvractirebouche,50,,,,450,".$nego->no_accises.",".$nego->raison_sociale."\n");
+    fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,sorties,creationvractirebouche,50,,-,,,-,-\n");
+    fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produit1->getAppellation()->getLibelle()." (".$produit1->getCodeDouane()."),suspendu,stocks_fin,final,844,,,,,,\n");
+    fclose($temp);
+
+    $drm10 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5, true);
+    $drm10->teledeclare = true;
+    $drm10->save();
+    $t->comment("DRM id : ".$drm10->_id);
+    $import = new DRMImportCsvEdi($tmpfname, $drm10);
+    $t->ok($import->checkCSV(), "Vérification de l'import");
+    if ($import->getCsvDoc()->hasErreurs()) {
+        foreach ($import->getCsvDoc()->erreurs as $k => $err) {
+            $t->ok(false, $err->diagnostic);
+        }
+    }
+    $import->importCSV();
+    $drm10->save();
+    $details = $drm10->getProduitsDetails();
+    foreach($details as $detail) {
+    }
+    $t->is($drm10->getProduit($produit1_hash, 'details')->get('stocks_debut/initial'), 944, "le stock initial est celui attendu");
+    $t->is($drm10->getProduit($produit1_hash, 'details')->get('sorties/creationvractirebouche'),100,"Vrac tiré bouché");
+    $t->is($drm10->getProduit($produit1_hash, 'details')->get('stocks_fin/final'), 844, "le stock final est celui attendu");
+    $t->ok($drm10->getProduit($produit1_hash, 'details')->exist('sorties/creationvractirebouche_details'), "details créé");
+    $i = 0;
+    foreach($drm10->getProduit($produit1_hash, 'details')->get('sorties/creationvractirebouche_details') as $drmid => $v) {
+        $i++;
+        $t->is($v->volume, 50, "volume du contrat ".$i." est ok");
+        if ($i == 1) {
+            $t->is($v->acheteur, $nego->identifiant, "l'acheteur 1 a bien été reconnu (".$nego->no_accises.")");
+            $t->is($v->prixhl, 450, "le prix du contrat de l'acheteur 1 a bien été reconnu");
+        }else{
+            $t->is($v->acheteur, null, "l'absence de l'acheteur 2 est bien OK");
+            $t->is($v->prixhl, null, "l'absence de prix OK");
+        }
+    }
 }
