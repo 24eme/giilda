@@ -324,7 +324,20 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $this->declaratif->add('statistiques');
         }
 
+        $this->remove('taux_tva');
+
         $this->devalide();
+    }
+
+    public function getTauxTva() {
+        if($this->exist('taux_tva')) {
+
+            return $this->_get('taux_tva');
+        }
+
+        $this->add('taux_tva', FactureClient::getInstance()->getTauxTva($this->getDate()) / 100);
+
+        return $this->_get('taux_tva');
     }
 
     protected function addControleMessagesFromPoints($typePoint, $points){
@@ -356,7 +369,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if($this->exist("controles")){
             $this->controles->remove($controle);
         }
-        
+
     }
 
     public function updateControles(){
@@ -921,6 +934,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             }
         }
         $this->updateControles();
+        $this->getTauxTva();
     }
 
     protected function preSaveEditeur() {

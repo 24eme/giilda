@@ -96,4 +96,4 @@ $headers[$appellation] = $appellation;
 \end{tabularx}
 \end{table}
 
-\end{document} 
+\end{document}
