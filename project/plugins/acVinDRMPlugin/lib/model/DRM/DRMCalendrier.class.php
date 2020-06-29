@@ -329,6 +329,21 @@ class DRMCalendrier {
         return $drmLastWithStatut;
     }
 
+    public function getMessages() {
+        $messages = array();
+        foreach($this->getLastDrmToCompleteAndToStart() as $drm) {
+            $month = preg_replace("/^[0-9]{4}/", "", $drm->periode);
+            if(!ConfigurationClient::getInstance()->getMessage("DRM_".$month)) {
+                continue;
+            }
+            $messages[$drm->periode] = ConfigurationClient::getInstance()->getMessage("DRM_".$month);
+        }
+
+        ksort($messages);
+
+        return $messages;
+    }
+
     public function getDrmsToCreateArray() {
         $drmsToCreate = array();
         foreach ($this->getPeriodes() as $periode) {

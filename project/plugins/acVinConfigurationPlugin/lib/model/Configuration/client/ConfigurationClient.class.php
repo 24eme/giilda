@@ -384,6 +384,18 @@ class ConfigurationClient extends acCouchdbClient {
 
         return hash("ripemd128", $value.$this->getSaltToken());
     }
+
+	public function getMessage($key) {
+		$messages = array(
+		);
+
+		if(!isset($messages[$key])) {
+
+			return null;
+		}
+
+		return $messages[$key];
+	}
 }
 
 
