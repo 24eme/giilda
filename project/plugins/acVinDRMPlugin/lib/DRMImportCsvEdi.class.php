@@ -791,8 +791,11 @@ private function importMouvementsFromCSV($just_check = false) {
     }
 
     if($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_CREATIONVRAC){
-      $creationvrac_nego = EtablissementClient::getInstance()->findByNoAccise($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]);
-      if (!$creationvrac_nego) {
+      $creationvrac_nego = null;
+     if (isset($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]) && KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES])) {
+          $creationvrac_nego = EtablissementClient::getInstance()->findByNoAccise($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]);
+      }
+      if (!$creationvrac_nego && isset($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]) && KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM])) {
         $creationvrac_nego = EtablissementClient::getInstance()->retrieveByName(str_replace(".", "", $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]));
       }
       if(!$creationvrac_nego) {
@@ -804,7 +807,6 @@ private function importMouvementsFromCSV($just_check = false) {
           continue;
       }
     }
-
 
     if($just_check) {
       continue;
@@ -1241,7 +1243,7 @@ private function creationvracdetailsAcheteurNonNegoError($num_ligne, $csvRow) {
     return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]."/".$csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM], "L'acheteur doit être un négociant");
 }
 private function creationvracdetailsEmptyAcheteurError($num_ligne, $csvRow) {
-    return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]."/".$csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM], "Un acheteur doit être renseigné");
+    return $this->createError($num_ligne, '', "Un acheteur doit être renseigné");
 }
 private function stockVolumeIncoherentError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le stock n'est pas cohérent par rapport à la DRM précédente", CSVDRMClient::LEVEL_WARNING);
@@ -1309,7 +1311,7 @@ private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
 }
 
 private function annexesDocumentDAEError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT], "Les numéros de DAE ne sont pas attendu comme document papier DAADAC/DSADSAC/EMPREINTE (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT], "Les numéros de DAE ne sont pas permis comme document papier DAADAC/DSADSAC/EMPREINTE des annexes (".$csvRow[self::CSV_ANNEXE_NUMERODOCUMENT].").");
 }
 
 private function typeComplementNotFoundError($num_ligne, $csvRow) {
