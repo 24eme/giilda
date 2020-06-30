@@ -50,7 +50,7 @@ if($application == "ivso") {
     $nb_tests += 1;
 }
 if($application == "bivc") {
-    $nb_tests += 11;
+    $nb_tests += 8;
 }
 
 //Suppression des DRM précédentes
@@ -531,10 +531,13 @@ if($application == "ivso") {
     $drm10->save();
     $t->comment("DRM id : ".$drm10->_id);
     $import = new DRMImportCsvEdi($tmpfname, $drm10);
-    $t->ok($import->checkCSV(), "Vérification de l'import");
+    $import->checkCSV();
+    $t->is(count($import->getCsvDoc()->erreurs), 1, "a bien que une erreur d'absence d'acheteur");
     if ($import->getCsvDoc()->hasErreurs()) {
         foreach ($import->getCsvDoc()->erreurs as $k => $err) {
-            $t->ok(false, $err->diagnostic);
+            if (!preg_match('/acheteur doit être renseigné/', $err->diagnostic)) {
+                $t->ok(false, $err->diagnostic);
+            }
         }
     }
     $import->importCSV();
@@ -543,19 +546,18 @@ if($application == "ivso") {
     foreach($details as $detail) {
     }
     $t->is($drm10->getProduit($produit1_hash, 'details')->get('stocks_debut/initial'), 944, "le stock initial est celui attendu");
-    $t->is($drm10->getProduit($produit1_hash, 'details')->get('sorties/creationvractirebouche'),100,"Vrac tiré bouché");
-    $t->is($drm10->getProduit($produit1_hash, 'details')->get('stocks_fin/final'), 844, "le stock final est celui attendu");
+    $t->is($drm10->getProduit($produit1_hash, 'details')->get('sorties/creationvractirebouche'),50,"Vrac tiré bouché");
+    $t->is($drm10->getProduit($produit1_hash, 'details')->get('stocks_fin/final'), 894, "le stock final est celui attendu");
     $t->ok($drm10->getProduit($produit1_hash, 'details')->exist('sorties/creationvractirebouche_details'), "details créé");
     $i = 0;
     foreach($drm10->getProduit($produit1_hash, 'details')->get('sorties/creationvractirebouche_details') as $drmid => $v) {
         $i++;
-        $t->is($v->volume, 50, "volume du contrat ".$i." est ok");
         if ($i == 1) {
+            $t->is($v->volume, 50, "volume du contrat ".$i." est ok");
             $t->is($v->acheteur, $nego->identifiant, "l'acheteur 1 a bien été reconnu (".$nego->no_accises.")");
             $t->is($v->prixhl, 450, "le prix du contrat de l'acheteur 1 a bien été reconnu");
         }else{
-            $t->is($v->acheteur, null, "l'absence de l'acheteur 2 est bien OK");
-            $t->is($v->prixhl, null, "l'absence de prix OK");
+            $t->ok(false, "l'absence de l'acheteur 2 ne doit pas être enregistré");
         }
     }
 }
