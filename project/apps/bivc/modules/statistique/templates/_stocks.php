@@ -1,7 +1,7 @@
-<?php 
+<?php
 use_helper('BivcStatistique');
 
-$csv = "Appellation;Catégorie;Stock initial;Stock actuel;TOTAL mvt\n";
+$csv = "Certification;Appellation;Catégorie;Stock initial;Stock actuel;TOTAL mvt\n";
 foreach ($result['agg_page']['buckets'] as $appellation) {
 	$appellationKey = str_replace('\\', '', $appellation['key']);
 	$appellationLibelle = preg_replace('/AOC */', '', ConfigurationClient::getCurrent()->get($appellationKey)->getLibelleFormat());
