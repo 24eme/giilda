@@ -64,7 +64,7 @@
             <?php if(count($messages)): ?>
             <div class="alert alert-info">
                 <?php foreach($messages as $message): ?>
-                    <p><?php echo $message ?></p>
+                    <p><span class="glyphicon glyphicon-info-sign"></span> <?php echo $message ?></p>
                 <?php endforeach; ?>
             </div>
             <?php endif; ?>
