@@ -790,6 +790,24 @@ private function importMouvementsFromCSV($just_check = false) {
         continue;
     }
 
+    if($confDetailMvt->getDetails() == ConfigurationDetailLigne::DETAILS_CREATIONVRAC){
+      $creationvrac_nego = null;
+     if (isset($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]) && KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES])) {
+          $creationvrac_nego = EtablissementClient::getInstance()->findByNoAccise($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]);
+      }
+      if (!$creationvrac_nego && isset($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]) && KeyInflector::slugify($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM])) {
+        $creationvrac_nego = EtablissementClient::getInstance()->retrieveByName(str_replace(".", "", $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]));
+      }
+      if(!$creationvrac_nego) {
+          $this->csvDoc->addErreur($this->creationvracdetailsEmptyAcheteurError($num_ligne, $csvRow));
+          continue;
+      }
+      if(!in_array($creationvrac_nego->famille, array(EtablissementFamilles::FAMILLE_NEGOCIANT, EtablissementFamilles::FAMILLE_NEGOCIANT_PUR))) {
+          $this->csvDoc->addErreur($this->creationvracdetailsAcheteurNonNegoError($num_ligne, $csvRow));
+          continue;
+      }
+    }
+
     if($just_check) {
       continue;
     }
@@ -840,15 +858,7 @@ private function importMouvementsFromCSV($just_check = false) {
         $creationvrac = DRMESDetailCreationVrac::freeInstance($this->drm);
         $creationvrac->volume = $volume;
         $creationvrac->prixhl = floatval($csvRow[self::CSV_CAVE_CONTRAT_PRIXHL]);
-        $nego = EtablissementClient::getInstance()->findByNoAccise($csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]);
-        if (!$nego) {
-          $nego = EtablissementClient::getInstance()->retrieveByName(str_replace(".", "", $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM]));
-        }
-        if($nego && !in_array($nego->famille, array(EtablissementFamilles::FAMILLE_NEGOCIANT, EtablissementFamilles::FAMILLE_NEGOCIANT_PUR))) {
-            $this->csvDoc->addErreur($this->creationvracdetailsAcheteurNonNegoError($num_ligne, $csvRow));
-            continue;
-        }
-        $creationvrac->acheteur = $nego->identifiant;
+        $creationvrac->acheteur = $creationvrac_nego->identifiant;
         $creationvrac->type_contrat = ($type_key == 'creationvrac')? VracClient::TYPE_TRANSACTION_VIN_VRAC : VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE;
         $drmDetails->getOrAdd($cat_key)->getOrAdd($type_key . '_details')->addDetail($creationvrac);
       }
@@ -1091,7 +1101,6 @@ private function importAnnexesFromCSV($just_check = false) {
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC:
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC:
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
-      $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
       $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
       $numDocument = KeyInflector::slugify(($csvRow[self::CSV_ANNEXE_QUANTITE]) ? $csvRow[self::CSV_ANNEXE_QUANTITE] :  $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
       if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
@@ -1100,6 +1109,13 @@ private function importAnnexesFromCSV($just_check = false) {
       }
         break;
       }
+      if (preg_match('/^[0-9][0-9]FRG[0-9]*$/', $numDocument)) {
+          if ($just_check) {
+              $this->csvDoc->addErreur($this->annexesDocumentDAEError($num_ligne, $csvRow));
+          }
+          $numDocument = null;
+          break;
+      }
       if (!$numDocument) {
         if ($just_check) {
           $this->csvDoc->addErreur($this->annexesNumeroDocumentError($num_ligne, $csvRow));
@@ -1107,6 +1123,7 @@ private function importAnnexesFromCSV($just_check = false) {
         break;
       }
       if (!$just_check) {
+        $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
         $docTypeAnnexe->add(strtolower($annexeTypeMvt), $numDocument);
       }
       break;
@@ -1225,6 +1242,9 @@ private function mouvementVolumeNegatifError($num_ligne, $csvRow) {
 private function creationvracdetailsAcheteurNonNegoError($num_ligne, $csvRow) {
     return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]."/".$csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM], "L'acheteur doit être un négociant");
 }
+private function creationvracdetailsEmptyAcheteurError($num_ligne, $csvRow) {
+    return $this->createError($num_ligne, '', "Un acheteur doit être renseigné pour les mouvements « creation vrac »");
+}
 private function stockVolumeIncoherentError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le stock n'est pas cohérent par rapport à la DRM précédente", CSVDRMClient::LEVEL_WARNING);
 }
@@ -1288,6 +1308,10 @@ private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {
 
 private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "Le numéro d'accise du destinataire est mal formatté (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
+}
+
+private function annexesDocumentDAEError($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT], "Les numéros de DAE ne sont pas permis comme identifiant de document papier DAADAC/DSADSAC/EMPREINTE des annexes.");
 }
 
 private function typeComplementNotFoundError($num_ligne, $csvRow) {
