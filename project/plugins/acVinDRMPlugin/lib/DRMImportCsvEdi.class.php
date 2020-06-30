@@ -1093,7 +1093,6 @@ private function importAnnexesFromCSV($just_check = false) {
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DAADAC:
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC:
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
-      $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
       $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
       $numDocument = KeyInflector::slugify(($csvRow[self::CSV_ANNEXE_QUANTITE]) ? $csvRow[self::CSV_ANNEXE_QUANTITE] :  $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
       if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
@@ -1102,6 +1101,13 @@ private function importAnnexesFromCSV($just_check = false) {
       }
         break;
       }
+      if (preg_match('/^[0-9][0-9]FRG[0-9]*$/', $numDocument)) {
+          if ($just_check) {
+              $this->csvDoc->addErreur($this->annexesDocumentDAEError($num_ligne, $csvRow));
+          }
+          $numDocument = null;
+          break;
+      }
       if (!$numDocument) {
         if ($just_check) {
           $this->csvDoc->addErreur($this->annexesNumeroDocumentError($num_ligne, $csvRow));
@@ -1109,6 +1115,7 @@ private function importAnnexesFromCSV($just_check = false) {
         break;
       }
       if (!$just_check) {
+        $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
         $docTypeAnnexe->add(strtolower($annexeTypeMvt), $numDocument);
       }
       break;
@@ -1290,6 +1297,10 @@ private function annexesNonApurementWrongDateError($num_ligne, $csvRow) {
 
 private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST], "Le numéro d'accise du destinataire est mal formatté (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
+}
+
+private function annexesDocumentDAEError($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT], "Les numéros de DAE ne sont pas attendu comme document papier DAADAC/DSADSAC/EMPREINTE (".$csvRow[self::CSV_ANNEXE_NONAPUREMENTACCISEDEST].").");
 }
 
 private function typeComplementNotFoundError($num_ligne, $csvRow) {

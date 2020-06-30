@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$nb_tests = 63;
+$nb_tests = 67;
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $nego =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
@@ -394,23 +394,26 @@ fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,
 fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-03,FR123456,19FRG000000000000002\n");
 fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-04,FR1234,19FRG000000000000003\n");
 fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,NONAPUREMENT,,,2019-06-04,FR12345678,19FRG000000000000004\n");
+fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,DAADAC,debut,,,,20FRG9999900000000001\n");
+fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,DAADAC,fin,,,,20FRG9999900000000002\n");
+fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,DSADSAC,debut,,,,123450\n");
+fwrite($temp, "ANNEXE,$periode5,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,,,DSADSAC,fin,,,,123460\n");
 fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,100,,,,\n");
 fwrite($temp, "CRD,$periode5,".$viti->identifiant.",".$viti->no_accises.",,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_fin,fin,100,,,,\n");
 fclose($temp);
 $drm9 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5);
 $drm9->teledeclare = true;
 $import = new DRMImportCsvEdi($tmpfname, $drm9);
--$t->ok(!$import->checkCSV(), "Repère bien l'erreur sur le non appurement");
-$t->is(count($import->getCsvDoc()->erreurs), 2, "a bien que les erreurs de accises/bureau de douane");
+$t->ok(!$import->checkCSV(), "Repère bien l'erreur sur le non appurement");
+$t->is(count($import->getCsvDoc()->erreurs), 4, "a bien que les erreurs de accises/bureau de douane et le warning relatif au DAE");
 foreach($import->getCsvDoc()->erreurs as $k => $err) {
-    if (!preg_match("/Le numéro d'accise du destinataire est mal formatté/", $err->diagnostic)) {
-        $t->ok(false, $err->diagnostic);
+    if (!preg_match("/Le numéro d'accise du destinataire est mal formatté/", $err->diagnostic) && !preg_match("/DAE/", $err->diagnostic)) {
+        $t->ok(false, "Erreur non voulue lors de l'import : ".$err->diagnostic);
     }
 }
 
 $import->importCSV();
 $drm9->save();
-
 $t->is(count($drm9->releve_non_apurement), 3, "releve de non apurement présent");
 $t->is($drm9->releve_non_apurement["19FRG000000000000000"]->getDateEmission(true), '2019-06-01', "la 1ere date est bonne");
 $t->is($drm9->releve_non_apurement["19FRG000000000000001"]->getDateEmission(true), '2019-06-02', "la 2de date est bonne");
@@ -422,6 +425,10 @@ foreach ($drm9->crds as $k1 => $coul) {
         $t->is($crd->couleur, 'DEFAUT', "sans couleur, la CRD couleur par défaut est DEFAUT");
     }
 }
+$t->ok(!$drm9->documents_annexes->exist('DAADAC'), "Les numéros de DAE ne sont bien pas enregistrés en annexes");
+$t->ok($drm9->documents_annexes->exist('DSADSAC'), "Enregistrement des documents d'accompagnement papier");
+$t->is($drm9->documents_annexes->DSADSAC->debut, 123450, 'DSA debut est bon');
+$t->is($drm9->documents_annexes->DSADSAC->fin, 123460, 'DSA fin est bon');
 
 unlink($tmpfname);
 
