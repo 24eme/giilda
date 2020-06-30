@@ -63,7 +63,7 @@
             <?php $messages = $calendrier->getMessages() ?>
             <?php if(count($messages)): ?>
             <div class="alert alert-info">
-                <?php foreach($messages as $periode => $message): ?>
+                <?php foreach($messages as $message): ?>
                     <p><?php echo $message ?></p>
                 <?php endforeach; ?>
             </div>

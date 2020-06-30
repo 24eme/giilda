@@ -7,7 +7,7 @@
     <?php if(count($messages)): ?>
     <div class="col-xs-12">
         <div class="alert alert-info">
-            <?php foreach($messages as $periode => $message): ?>
+            <?php foreach($messages as $message): ?>
                 <p><?php echo $message ?></p>
             <?php endforeach; ?>
         </div>
