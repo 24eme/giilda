@@ -1243,7 +1243,7 @@ private function creationvracdetailsAcheteurNonNegoError($num_ligne, $csvRow) {
     return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_ACCISES]."/".$csvRow[self::CSV_CAVE_CONTRAT_ACHETEUR_NOM], "L'acheteur doit être un négociant");
 }
 private function creationvracdetailsEmptyAcheteurError($num_ligne, $csvRow) {
-    return $this->createError($num_ligne, '', "Un acheteur doit être renseigné");
+    return $this->createError($num_ligne, '', "Un acheteur doit être renseigné pour les mouvements « creation vrac »");
 }
 private function stockVolumeIncoherentError($num_ligne, $csvRow) {
   return $this->createError($num_ligne, $csvRow[self::CSV_CAVE_TYPE_MOUVEMENT], "Le stock n'est pas cohérent par rapport à la DRM précédente", CSVDRMClient::LEVEL_WARNING);
@@ -1311,7 +1311,7 @@ private function annexesNonApurementWrongNumAcciseError($num_ligne, $csvRow) {
 }
 
 private function annexesDocumentDAEError($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT], "Les numéros de DAE ne sont pas permis comme document papier DAADAC/DSADSAC/EMPREINTE des annexes (".$csvRow[self::CSV_ANNEXE_NUMERODOCUMENT].").");
+  return $this->createError($num_ligne, $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT], "Les numéros de DAE ne sont pas permis comme identifiant de document papier DAADAC/DSADSAC/EMPREINTE des annexes.");
 }
 
 private function typeComplementNotFoundError($num_ligne, $csvRow) {
