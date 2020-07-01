@@ -7,8 +7,8 @@
     <?php if(count($messages)): ?>
     <div class="col-xs-12">
         <div class="alert alert-info">
-            <?php foreach($messages as $message): ?>
-                <p><span class="glyphicon glyphicon-info-sign"></span> <?php echo $message ?></p>
+            <?php foreach($messages->getRawValue() as $message): ?>
+                <p><span class="glyphicon glyphicon-info-sign"></span> <?php echo nl2br($message); ?></p>
             <?php endforeach; ?>
         </div>
     </div>

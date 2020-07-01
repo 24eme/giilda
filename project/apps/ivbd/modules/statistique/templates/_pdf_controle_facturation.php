@@ -49,23 +49,21 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \pagestyle{fstyle_0}
 
 \begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | >{\raggedleft}p{0.05\linewidth} | }
+\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | }
 \hline
- ~ & \multicolumn{6}{c|}{Sorties (hl)} & \multicolumn{1}{c|}{Sorties} & \multicolumn{1}{c|}{Mouvements} & \multicolumn{1}{c|}{Total} \tabularnewline
-\cline{2-7}
- \multicolumn{1}{|c@{}|}{ Produits } & \multicolumn{1}{c|}{Contrats} & \multicolumn{5}{c|}{Hors contrats} & \multicolumn{1}{c|}{réelles pour} & \multicolumn{1}{c|}{exonérées} & \multicolumn{1}{c|}{mouvements (hl)} \tabularnewline
-\cline{2-7}
-  & \multicolumn{1}{c|}{01. Vrac} & \multicolumn{1}{c|}{Total sorties} & \multicolumn{3}{c|}{Entrées} & \multicolumn{1}{c|}{Facturation} & \multicolumn{1}{c|}{facturation (hl)} &  \multicolumn{1}{c|}{de cvo (hl)} & ~  \tabularnewline
-\cline{4-6}
-  & \multicolumn{1}{c|}{sous contrat} & \multicolumn{1}{c|}{hors contrat} & \multicolumn{1}{c|}{06. Retour} & \multicolumn{1}{c|}{08. Retour} & \multicolumn{1}{c|}{09. Retour} & \multicolumn{1}{c|}{cvo hors} & ~ & ~ & ~ \tabularnewline
-  &  &  & \multicolumn{1}{c|}{logement} & \multicolumn{1}{c|}{de vin CRD} & \multicolumn{1}{c|}{de vin hors} & \multicolumn{1}{c|}{contrat} & ~ & ~ & ~ \tabularnewline
-  &  &  & \multicolumn{1}{c|}{ext} &  & \multicolumn{1}{c|}{CRD} &  &  &  &  \tabularnewline \hline
+~ 					& Sorties sous								& ~        & Facturation & Sorties hors             & ~        & Facturation & Total sorties         & ~        & Facturation \tabularnewline
+Appellation & contrats & CVO & attendue €  & Contrats & CVO & attendue  & réelles à & CVO & Attendue \tabularnewline
+~           & (vrac) hl     & \texteuro{}\/hl & \texteuro{}  & (bouteilles) hl & \texteuro{}\/hl & \texteuro{}  & facturer hl & \texteuro{}\/hl & \texteuro{} \tabularnewline
+\hline
 <?php
 	$i = 1;
 	foreach ($items as $item):
     $values = explode(';', $item);
-		$isTotal = preg_match('/total/i', $item);?>
-		<?php if ($isTotal): ?> \hline  <?php  echo implode(' & ', $values); ?> \tabularnewline \hline <?php else: ?><?php  echo implode(' & ', $values); ?> \tabularnewline <?php endif; ?>
+		$isTotal = preg_match('/total/i', $item);
+		$i++;
+		$lastItem = (count($items) <= $i );
+		?>
+		<?php if ($isTotal): ?> \hline  <?php echo implode(' & ', $values); ?> \tabularnewline \hline  <?php else: ?><?php  echo implode(' & ', $values); ?> <?php if (!$lastItem): ?> \tabularnewline <?php endif; ?><?php endif; ?>
 <?php  endforeach;?>
 \end{tabularx}
 \end{table}

@@ -67,7 +67,7 @@
         <?php foreach(MessagesClient::getInstance()->retrieveMessages()->getMessages() as $key => $message): ?>
         <tr>
             <td><?php echo $key ?></td>
-            <td><?php if($message): ?><?php echo $message ?><?php else: ?><span class="text-muted">Aucun message</span><?php endif; ?></td>
+            <td><?php if($message): ?><?php echo nl2br($message) ?><?php else: ?><span class="text-muted">Aucun message</span><?php endif; ?></td>
             <td><a href="<?php echo url_for("messages_modification", array('id' => $key)) ?>"><span class="glyphicon glyphicon-pencil"></span></a></td>
         </tr>
         <?php endforeach; ?>
