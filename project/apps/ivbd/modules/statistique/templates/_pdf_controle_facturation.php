@@ -16,6 +16,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \usepackage[top=2.3cm, bottom=1.8cm, left=0.5cm, right=0.5cm, headheight=2cm, headsep=0.5cm, marginparwidth=0cm]{geometry}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
+\usepackage{amssymb}
 \usepackage{multicol}
 \usepackage{colortbl}
 \usepackage{tabularx}
@@ -38,32 +39,36 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
 \fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
 
-<?php $i=0; foreach ($headers as $header): ?>
-\fancypagestyle{fstyle_<?php echo $i ?>}{
-\fancyhead[C]{Mouvements drm pour la facturation \\\textbf{<?php echo $header ?>}<?php if ($periode): ?> - Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
+\fancypagestyle{fstyle_0}{
+\fancyhead[C]{Mouvements drm pour la facturation <?php if ($periode): ?> - Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
 }
-<?php $i++; endforeach; ?>
 
 \begin{document}
 
 \pagestyle{fstyle_0}
 
 \begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | }
+\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | }
 \hline
-~ 					& Sorties sous								& ~        & Facturation & Sorties hors             & ~        & Facturation & Total sorties         & ~        & Facturation \tabularnewline
-Appellation & contrats & CVO & attendue €  & Contrats & CVO & attendue  & réelles à & CVO & Attendue \tabularnewline
-~           & (vrac) hl     & \texteuro{}\/hl & \texteuro{}  & (bouteilles) hl & \texteuro{}\/hl & \texteuro{}  & facturer hl & \texteuro{}\/hl & \texteuro{} \tabularnewline
+\rowcolor{gray!40} ~ 					& Sorties sous & ~        & \textbf{Facturation} & Sorties hors             & ~        & \textbf{Facturation} & Total sorties         & ~        & \textbf{Facturation} \tabularnewline
+\rowcolor{gray!40} \textbf{Appellation} & contrats & CVO & \textbf{attendue €}  & Contrats & CVO & \textbf{attendue}  & réelles à & CVO & \textbf{Attendue} \tabularnewline
+\rowcolor{gray!40} ~           & (vrac) hl     & \texteuro{}\/hl & \textbf{ \texteuro{} }  & (bouteilles) hl & \texteuro{}\/hl & en \texteuro{}   & facturer en hl & \texteuro{}\/hl & \textbf{\texteuro{}} \tabularnewline
 \hline
 <?php
-	$i = 1;
+	$i = 0;
 	foreach ($items as $item):
     $values = explode(';', $item);
+		foreach ($values as $key => $value) {
+			if($key==0 || $key==3 || $key==6 || $key==9){
+				$values[$key] = '\textbf{'.$value.'}';
+			}
+		}
 		$isTotal = preg_match('/total/i', $item);
 		$i++;
 		$lastItem = (count($items) <= $i );
 		?>
-		<?php if ($isTotal): ?> \hline  <?php echo implode(' & ', $values); ?> \tabularnewline \hline  <?php else: ?><?php  echo implode(' & ', $values); ?> <?php if (!$lastItem): ?> \tabularnewline <?php endif; ?><?php endif; ?>
+		<?php if ($isTotal): ?> \hline
+			<?php echo implode(' & ', $values); ?> <?php if (!$lastItem): ?> \tabularnewline <?php endif; ?>\hline  <?php else: ?><?php  echo implode(' & ', $values); ?>  \tabularnewline <?php endif; ?>
 <?php  endforeach;?>
 \end{tabularx}
 \end{table}

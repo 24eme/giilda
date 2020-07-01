@@ -54,7 +54,7 @@ use_helper('IvbdStatistique');
 		$appellationByCouleurCsv[$couleur]['ztotal'][9] += $facturant_prix;
 
 		// remplissage totaux
-		$appellationByCouleurCsv['ztotal']['ztotal'][0] = "TOTAL";
+		$appellationByCouleurCsv['ztotal']['ztotal'][0] = "TOTAL tous vins";
 		$appellationByCouleurCsv['ztotal']['ztotal'][1] += $vrac_contrat;
 		$appellationByCouleurCsv['ztotal']['ztotal'][2] = null;
 		$appellationByCouleurCsv['ztotal']['ztotal'][3] += $vrac_prix;
@@ -68,10 +68,35 @@ use_helper('IvbdStatistique');
 
 	ksort($appellationByCouleurCsv);
 
+	$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'] = array("TOTAL Rouge et Rosés", 0.0,null,0.0,0.0,null,0.0,0.0,null,0.0);
+	$appellationByCouleurCsv["Total tous Blancs"]['ztotal'] = array("TOTAL tous Blancs", 0.0,null,0.0,0.0,null,0.0,0.0,null,0.0);
+
+	foreach ($appellationByCouleurCsv as $couleur => $couleurCsv) {
+		foreach ($couleurCsv as $appellation => $appellationCsv) {
+			if($appellation == "ztotal" && preg_match("/Rouge|Rosé/",$couleur)){
+				$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'][1] += $appellationCsv[1];
+				$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'][3] += $appellationCsv[3];
+				$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'][4] += $appellationCsv[4];
+				$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'][6] += $appellationCsv[6];
+				$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'][7] += $appellationCsv[7];
+				$appellationByCouleurCsv["Total Rouge et Rosés"]['ztotal'][9] += $appellationCsv[9];
+			}
+			if($appellation == "ztotal" && preg_match("/Blanc/",$couleur)){
+				$appellationByCouleurCsv["Total tous Blancs"]['ztotal'][1] += $appellationCsv[1];
+				$appellationByCouleurCsv["Total tous Blancs"]['ztotal'][3] += $appellationCsv[3];
+				$appellationByCouleurCsv["Total tous Blancs"]['ztotal'][4] += $appellationCsv[4];
+				$appellationByCouleurCsv["Total tous Blancs"]['ztotal'][6] += $appellationCsv[6];
+				$appellationByCouleurCsv["Total tous Blancs"]['ztotal'][7] += $appellationCsv[7];
+				$appellationByCouleurCsv["Total tous Blancs"]['ztotal'][9] += $appellationCsv[9];
+			}
+		}
+	}
+	ksort($appellationByCouleurCsv);
+
 	$csv = "Appellation;Sorties sous contrats (vrac) hl;CVO €/hl;Facturation attendue €;Sorties hors contrats (bouteilles) hl;CVO €/hl;Facturation attendue €;total sorties réelles à facturer hl;CVO €/hl;Facturation attendue €\n";
 
 	foreach ($appellationByCouleurCsv as $couleur => $couleurLines) {
-		sort($couleurLines);
+		ksort($couleurLines);
 			foreach ($couleurLines as $produitKey => $line) {
 				if(is_array($line)){
 					foreach ($line as $key => $value) {
