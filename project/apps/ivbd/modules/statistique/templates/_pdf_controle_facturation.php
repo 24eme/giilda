@@ -40,7 +40,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
 
 \fancypagestyle{fstyle_0}{
-\fancyhead[C]{Mouvements drm pour la facturation <?php if ($periode): ?> - Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
+\fancyhead[C]{Controle de facturation des sorties <?php if ($periode): ?> - Période du \textbf{<?php echo $periode[0] ?>} au \textbf{<?php echo $periode[1] ?>}<?php endif; ?>}
 }
 
 \begin{document}
