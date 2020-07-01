@@ -111,7 +111,7 @@ class compteActions extends sfCredentialActions {
     }
 
     public function executeSearchcsv(sfWebRequest $request) {
-      ini_set('memory_limit', '512M');
+      ini_set('memory_limit', '1024M');
       $index = acElasticaManager::getType('COMPTE');
       $q = $this->initSearch($request);
       $q->setLimit(1000000);
