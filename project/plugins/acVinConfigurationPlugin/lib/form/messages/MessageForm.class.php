@@ -16,7 +16,7 @@ class MessageForm extends acCouchdbForm {
 
     public function configure() {
     	$this->setWidgets(array(
-    		'message' => new bsWidgetFormInput(array(), array('placeholder' => "Saisir un message")),
+    		'message' => new bsWidgetFormTextarea(array(), array('placeholder' => "Saisir un message au format texte ou html : <strong>pour mettre en gras</strong>, <em>pour l italique</em> ...")),
     	));
     	$this->setValidators(array(
     		'message' => new sfValidatorString(array('required' => false)),
