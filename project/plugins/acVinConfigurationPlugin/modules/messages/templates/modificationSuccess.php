@@ -17,6 +17,9 @@
         </div>
     </div>
 
+    <div id="previsulisation_message" class="alert alert-info">
+    </div>
+
     <div class="form-group">
         <div class="col-sm-6">
             <a href="<?php echo url_for('produits') ?>#messages" class="btn btn-default">Annuler</a>
@@ -26,3 +29,15 @@
        </div>
    </div>
 </form>
+
+<script type="text/javascript">
+    function updatePrevisualisation() {
+        document.getElementById('previsulisation_message').innerHTML =
+            "<span class=\"glyphicon glyphicon-info-sign\"></span> " + document.getElementById('messages_message').value.replace(/\n/g, "<br />");
+    }
+
+    updatePrevisualisation();
+    document.getElementById('messages_message').onkeyup = function() {
+        updatePrevisualisation();
+    };
+</script>
