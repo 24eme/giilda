@@ -466,5 +466,11 @@ class Etablissement extends BaseEtablissement {
         }
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
-
+    
+    public function getInsee() {
+        if ($this->cvi) {
+            return substr($this->cvi, 0, 5);
+        }
+        return null;
+    }
 }

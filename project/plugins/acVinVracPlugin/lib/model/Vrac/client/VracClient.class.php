@@ -66,6 +66,11 @@ class VracClient extends acCouchdbClient {
 
     const LABEL_AGRICULTURE_BIOLOGIQUE = 'agriculture_biologique';
 
+    const VERSEMENT_FA_NOUVEAU = 'NC';
+    const VERSEMENT_FA_MODIFICATION = 'MC';
+    const VERSEMENT_FA_ANNULATION = 'SC';
+    const VERSEMENT_FA_TRANSMIS = 'TRANSMIS';
+
     public static $types_transaction = array(VracClient::TYPE_TRANSACTION_RAISINS => 'Raisins',
         VracClient::TYPE_TRANSACTION_MOUTS => 'Moûts',
         VracClient::TYPE_TRANSACTION_VIN_VRAC => 'Vin en vrac',
@@ -172,12 +177,26 @@ class VracClient extends acCouchdbClient {
                         ->getView('vrac', 'history');
     }
 
+    public function getBySoussigne($campagne, $identifiant) {
+
+        return $this->descending(true)
+                        ->startkey(array($identifiant, $campagne, array()))
+                        ->endkey(array($identifiant, $campagne))
+                        ->reduce(false)
+                        ->getView('vrac', 'soussigneidentifiant');
+    }
 
     public function retrieveAllVracsTeledeclares() {
 
         return $this->descending(true)
                         ->startkey(array(1, array()))
                         ->endkey(array(1))
+                        ->getView('vrac', 'history');
+    }
+
+    public function retrieveAllVracs() {
+
+        return $this->descending(true)
                         ->getView('vrac', 'history');
     }
 
