@@ -98,6 +98,12 @@ EOF;
             if (!preg_match('/\/[a-z]+\/[a-z]+\/IGP(.*)/', $contratView->value[VracHistoryView::VALUE_PRODUIT])) {
                 continue;
             }
+            if ($contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE ||
+                $contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON ||
+                $contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_ANNULE
+               ) {
+                continue;
+            }
             $contrat = VracClient::getInstance()->find($contratView->id);
 
             if (!$this->isContratATransmettre($contrat)) {
@@ -119,16 +125,16 @@ EOF;
 
             $ligne[self::CSV_FA_NUM_LIGNE] = "01"; // ? ou $cpt;
             $type_contrat = "";
-            if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC) {
+            if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_VIN_VRAC || $contrat->type_transaction == VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE) {
                 $type_contrat = "V";
             }
-            if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS) {
+            if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS || $contrat->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
                 $type_contrat = "M";
             }
             $ligne[self::CSV_FA_TYPE_CONTRAT] = $type_contrat; // V pour vrac, M pour Mout
             $ligne[self::CSV_FA_CAMPAGNE] = substr($contrat->campagne, 0, 4);
-            $ligne[self::CSV_FA_NUM_ARCHIVAGE] = $contrat->numero_archive; // Est-ce notre numéro d'archivage?
-            $ligne[self::CSV_FA_CODE_LIEU_VISA] = "020"; //IVSO
+            $ligne[self::CSV_FA_NUM_ARCHIVAGE] = '0'.$contrat->numero_archive; // Est-ce notre numéro d'archivage?
+            $ligne[self::CSV_FA_CODE_LIEU_VISA] = "020"; //Interloire
             $ligne[self::CSV_FA_CODE_ACTION] = ($contrat->exist("versement_fa")) ? $contrat->versement_fa : 'NC'; // NC = Nouveau Contrat, SC = Supprimé Contrat, MC = Modifié Contrat
             $ligne[self::CSV_FA_DATE_CONTRAT] = Date::francizeDate($contrat->date_signature);
             $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_campagne);
@@ -152,12 +158,9 @@ EOF;
              */
             $ligne[self::CSV_FA_COURTIER] = ($contrat->mandataire_exist) ? 'O' : 'N';
 
-            $delai_retiraison = null; //DISABLED $this->diffDate($contrat->date_limite_retiraison, $contrat->date_debut_retiraison, 'i');
-
-            $ligne[self::CSV_FA_DELAI_RETIRAISON] = sprintf("%0.1f", $delai_retiraison);
-            $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = null; //DISABLED sprintf("%d", $contrat->acompte);
-
-            $ligne[self::CSV_FA_DELAI_PAIEMENT] = sprintf("%0.1f", $this->getDelaiPaiement($contrat));
+            $ligne[self::CSV_FA_DELAI_RETIRAISON] = 'X';
+            $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = 'X'; //DISABLED sprintf("%d", $contrat->acompte);
+            $ligne[self::CSV_FA_DELAI_PAIEMENT] = 'X'; // DISABLED sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
             $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA";
             $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($produit); // ASSIGNER LES CODE PRODUITS IGP
@@ -168,10 +171,11 @@ EOF;
             $ligne[self::CSV_FA_CODE_ELABORATION] = 'P'; //DISABLED ($contrat->conditionnement_crd == 'NEGOCE_ACHEMINE') ? "P" : "N";
             $ligne[self::CSV_FA_VOLUME] = $contrat->volume_propose;
             $ligne[self::CSV_FA_DEGRE] = 12.5; //DISABLED sprintf("%0.1f", $contrat->degre);
-            $ligne[self::CSV_FA_PRIX] = sprintf("%0.2f", $contrat->prix_initial_unitaire_hl);
+            $ligne[self::CSV_FA_PRIX] = $contrat->prix_initial_unitaire_hl;
             $ligne[self::CSV_FA_UNITE_PRIX] = 'H';
-            $ligne[self::CSV_FA_CODE_CEPAGE] = null; //DISABLED $contrat->cepage; // Aucun code produit ajourd'hui
+            $ligne[self::CSV_FA_CODE_CEPAGE] = $this->getCodeCepageFA($contrat, $produit);
             $ligne[self::CSV_FA_CODE_DEST] = "Z";
+            $ligne[self::CSV_FA_CODE_DEST + 1 ] = $contrat->_id;
             /*
               Comment connaitre?
               Z  = Consommation
@@ -211,8 +215,6 @@ EOF;
     }
 
     protected function getDelaiPaiement($contrat) {
-        return null; //DISABLED
-
         switch ($contrat->delai_paiement) {
             case "60_JOURS": {
                     return 2.0;
@@ -236,7 +238,7 @@ EOF;
     }
 
     protected function getCodeDenomVinIGP($produit) {
-        return sprintf('%03d',$produit->getCodeProduit());
+        return sprintf('%03d',preg_replace('/3[BSR]([0-9][0-9][0-9]).*/' , '\1', $produit->getCodeDouane()));
     }
 
     protected function getCouleurIGP($contrat, $produit) {
@@ -273,6 +275,58 @@ EOF;
             return true;
         }
         return false;
+    }
+
+    protected function getCodeCepageFA($contrat, $produit) {
+        switch (strtoupper($produit->getLibelleFormat('', '%ce%'))) {
+            case "ABOURIOU":
+                return '1011';
+            case "CABERNET FRANC":
+                return '1101';
+            case "CABERNET SAUVIGNON":
+                return '1111';
+            case "CHARDONNAY":
+                return '1141';
+            case "CHENIN":
+                return '1161';
+            case "COT":
+                return '1321';
+            case "FOLLE BLANCHE":
+                return '1201';
+            case "GAMAY DE CHAUDENAY NOIR":
+                return '1235';
+            case "GAMAY NOIR":
+                return '1221';
+            case "GROLLEAU GRIS":
+                return '1263';
+            case "GROLLEAU NOIR":
+                return '1261';
+            case "MELON":
+                return '1441';
+            case "MERLOT":
+                if ($this->getCouleurIGP($contrat, $produit) == 'RG') {
+                    return '1373';
+                }else{
+                    return '1371';
+                }
+            case "ORBOIS":
+                return '2007';
+            case "PINEAU D'AUNIS":
+                return '1491';
+            case "PINOT BLANC":
+                return '1503';
+            case "PINOT GRIS":
+                return '1507';
+            case "PINOT NOIR":
+                return '1511';
+            case "SAUVIGNON BLANC":
+                return '1561';
+            case "SAUVIGNON GRIS":
+                return '1567';
+            default:
+                return '';
+
+        }
     }
 
 }

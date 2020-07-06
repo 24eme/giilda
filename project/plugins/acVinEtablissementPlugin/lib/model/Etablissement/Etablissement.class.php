@@ -466,11 +466,36 @@ class Etablissement extends BaseEtablissement {
         }
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
-    
+
     public function getInsee() {
-        if ($this->cvi) {
-            return substr($this->cvi, 0, 5);
+        if (!$this->siege->exist('code_insee') && $this->cvi) {
+            $this->siege->add('code_insee',  substr($this->cvi, 0, 5));
+        }
+        if ($this->siege->exist('code_insee')) {
+            return $this->siege->code_insee;
         }
         return null;
+    }
+
+    public function getNatureInao() {
+        if (preg_match('/SICA( |$)/i', $this->raison_sociale)) {
+            return '07';
+        }
+        if (preg_match('/(SCEA|GFA|GAEC)( |$)/i', $this->raison_sociale)) {
+            return '06';
+        }
+        if ($this->famille == EtablissementClient::FAMILLE_COOPERATIVE) {
+            if (preg_match('/union/i', $this->raison_sociale)) {
+                return '05';
+            }
+            return '04';
+        }
+        if ($this->famille == EtablissementClient::FAMILLE_PRODUCTEUR) {
+            return '01';
+        }
+        if ($this->famille == EtablissementClient::FAMILLE_NEGOCIANT || $this->famille == EtablissementClient::FAMILLE_NEGOCIANT_PUR) {
+            return '08';
+        }
+        return '09';
     }
 }
