@@ -1042,7 +1042,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $docTypeAnnexe = $this->drm->getOrAdd('documents_annexes')->getOrAdd(KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEANNEXE]));
                         $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
                         $numDocument = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
-                        if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
+                        if (!in_array(strtolower($annexeTypeMvt), self::$permitted_annexes_type_mouvements)) {
                             if ($just_check) {
                                 $this->csvDoc->addErreur($this->annexesTypeMvtWrongFormatError($num_ligne, $csvRow));
                             } $num_ligne++;
