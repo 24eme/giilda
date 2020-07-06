@@ -222,7 +222,6 @@ class DRMDetail extends BaseDRMDetail {
           $this->total_revendique = $this->stocks_fin->dont_revendique;
         }
         if(($this->entrees->exist('excedents') && $this->entrees->excedents)
-        // Qu'est ce que les manipulation en entrée ici???
           || ($this->entrees->exist('retourmarchandisesanscvo') && $this->entrees->retourmarchandisesanscvo)
           || ($this->entrees->exist('retourmarchandisetaxees') && $this->entrees->retourmarchandisetaxees)
           || ($this->entrees->exist('retourmarchandisenontaxees') && $this->entrees->retourmarchandisenontaxees)
