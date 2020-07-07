@@ -1,0 +1,32 @@
+#schema des Subvention
+Subvention:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      type: {}
+      identifiant: {}
+      operation: {}
+      infos:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
+      contact:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
+      produits:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
+      engagements:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
+      commentaire: { }
+      validation_date: { type:date }
+      signature_date: { type:date }
