@@ -6,9 +6,9 @@ sfContext::createInstance($configuration);
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
 $operation = 'COVID';
 
-$subvention = SubventionClient::getInstance()->find('SUBVENTION-'.$viti->identifiant.'-'.$operation);
+$subvention = SubventionClient::getInstance()->find('SUBVENTION-'.$viti->identifiant.'-'.$operation, acCouchdbClient::HYDRATE_JSON);
 if($subvention) {
-    $subvention->delete();
+    acCouchdbManager::getClient()->deleteDoc($subvention);
 }
 
 $t = new lime_test(2);
