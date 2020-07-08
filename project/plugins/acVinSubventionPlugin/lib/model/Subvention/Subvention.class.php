@@ -38,4 +38,9 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         return EtablissementClient::getInstance()->find($this->identifiant);
     }
 
+    public function getInfosSchema() {
+
+        return SubventionConfiguration::getInstance()->getInfosSchema($this->operation);
+    }
+
 }
