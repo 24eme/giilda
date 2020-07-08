@@ -62,11 +62,11 @@ do
     curl -s -X POST -d @data/configuration/$APPLICATION/$jsonFile -H "content-type: application/json" $COUCHTEST
 done
 
-php symfony cc
+php5 symfony cc
 
 XMLFILE=$XMLTESTDIR/"$DATE"_"$APPLICATION"_"$LASTCOMMIT"_"$BRANCH".xml
 
-APPLICATION=$APPLICATION NODELETE=1 php symfony test:unit --xml=$XMLFILE
+APPLICATION=$APPLICATION NODELETE=1 php5 symfony test:unit --xml=$XMLFILE
 sed -i "s|$WORKINGDIR/||" $XMLFILE
 
 rm $PID_PATH

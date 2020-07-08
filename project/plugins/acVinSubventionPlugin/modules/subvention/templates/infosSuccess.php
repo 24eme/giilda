@@ -25,7 +25,7 @@
 
     <div class="row">
         <div class="col-xs-6">
-            <a class="btn btn-default" href="">Étape précédente</a>
+            <a class="btn btn-default" tabindex="-1" href="">Étape précédente</a>
         </div>
         <div class="col-xs-6 text-right">
             <button type="submit" class="btn btn-success">Étape suivante</button>

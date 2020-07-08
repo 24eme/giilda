@@ -12,15 +12,12 @@ class SubventionsInfosForm extends acCouchdbForm {
             $formCategorie = new BaseForm();
 
             foreach($items as $item) {
-                if($item == '*') {
-                    for($i = 0; $i < 5; $i++) {
-                        $formCategorie->setWidget('key_'.$i, new bsWidgetFormInput());
-                        $formCategorie->getWidget('key_'.$i)->setLabel($item);
-                        $formCategorie->setValidator('key_'.$i, new sfValidatorString());
-
-                        $formCategorie->setWidget('value_'.$i, new bsWidgetFormInput());
-                        $formCategorie->getWidget('value_'.$i)->setLabel($item);
-                        $formCategorie->setValidator('value_'.$i, new sfValidatorString());
+                if(strpos($item, '*') !== false) {
+                    for($i = 0; $i < 1; $i++) {
+                        $key = str_replace("*", $i, $item);
+                        $formCategorie->setWidget($key, new bsWidgetFormInput());
+                        $formCategorie->getWidget($key)->setLabel($key);
+                        $formCategorie->setValidator($key, new sfValidatorString(array('required' => false)));
                     }
 
                     continue;
