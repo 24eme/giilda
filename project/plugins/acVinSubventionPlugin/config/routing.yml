@@ -19,6 +19,8 @@ subvention_infos:
   options:
     model:    Subvention
     type:     object
+  requirements:
+    sf_method: [get, post]
 
 subvention_dossier:
   url: /subvention/:identifiant/dossier/:operation

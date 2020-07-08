@@ -17,6 +17,21 @@ class subventionActions extends sfActions {
 
     public function executeInfos(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+
+        $this->form = new SubventionsInfosForm($this->subvention);
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+            return sfView::SUCCESS;
+        }
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+      	if (!$this->form->isValid()) {
+      		return sfView::SUCCESS;
+      	}
+        $this->form->save();
+
+        $this->redirect('subvention_dossier', $this->subvention);
+
     }
 
     public function executeDossier(sfWebRequest $request) {
