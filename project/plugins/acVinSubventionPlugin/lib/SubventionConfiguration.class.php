@@ -18,7 +18,7 @@ class SubventionConfiguration {
     public function getInfosSchema($operation) {
         return array(
             "economique" => array("capital_social", "chiffre_affaire", "effectif_etp"),
-            "produits" => array("*", "%  de vins coctitants"),
+            "produits" => array("pourcentage_vins_occitans"),
             "contacts" => array("nom", "email"),
         );
     }
