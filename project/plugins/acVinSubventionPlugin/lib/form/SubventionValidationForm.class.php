@@ -15,4 +15,25 @@ class SubventionValidationForm extends acCouchdbObjectForm
         
         $this->widgetSchema->setNameFormat('validation[%s]');
     }
+    
+    protected function updateDefaultsFromObject() {
+        parent::updateDefaultsFromObject();
+        $defaults = $this->getDefaults();
+        foreach ($this->getObject()->engagements as $key => $value) {
+            $defaults["engagement_$key"] = 1;
+        }
+        $this->setDefaults($defaults);
+    }
+    
+    protected function doUpdateObject($values) {
+        parent::doUpdateObject($values);
+        $this->getObject()->remove('engagements');
+        $this->getObject()->add('engagements');
+        $engagements = sfConfig::get('subvention_configuration_engagements');
+	    foreach ($engagements as $key => $libelle) {
+	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
+	            $this->getObject()->engagements->add($key, 1);
+	        }
+	    }
+    }
 }

@@ -1,6 +1,14 @@
 subvention:
   url: /subvention
   param: { module: subvention, action: index }
+  
+subvention_etablissement:
+  url: /subvention/etablissement/:identifiant
+  param: { module: subvention, action: etablissement }
+  class: EtablissementRoute
+  options:
+    model:    Etablissement
+    type:     object
 
 subvention_creation:
   url: /subvention/:identifiant/creation/:operation
