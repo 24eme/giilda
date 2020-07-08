@@ -27,3 +27,5 @@ subvention_dossier:
   options:
     model:    Subvention
     type:     object
+  requirements:
+    sf_method: [get, post]
