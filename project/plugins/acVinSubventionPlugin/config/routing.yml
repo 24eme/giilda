@@ -55,3 +55,11 @@ subvention_visualisation:
   options:
     model:    Subvention
     type:     object
+
+subvention_pdf:
+  url: /subvention/:identifiant/pdf/:operation
+  param: { module: subvention, action: latex }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
