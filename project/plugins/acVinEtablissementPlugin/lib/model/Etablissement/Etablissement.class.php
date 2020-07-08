@@ -346,6 +346,15 @@ class Etablissement extends BaseEtablissement implements InterfaceCompteGeneriqu
         return $a;
     }
 
+    public function getSiret() {
+        if($this->exist('siret')) {
+
+            return $this->_get('siret');
+        }
+
+        return $this->getSociete()->siret;
+    }
+
     public function findEmail() {
         $etablissementPrincipal = $this->getSociete()->getEtablissementPrincipal();
         if ($this->_get('email')) {

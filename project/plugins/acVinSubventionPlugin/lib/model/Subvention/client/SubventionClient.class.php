@@ -12,6 +12,7 @@ class SubventionClient extends acCouchdbClient {
         $subvention->identifiant = $identifiant;
         $subvention->operation = $operation;
         $subvention->constructId();
+        $subvention->storeDeclarant();
 
         return $subvention;
     }
