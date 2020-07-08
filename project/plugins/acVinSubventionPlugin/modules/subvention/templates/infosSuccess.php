@@ -2,6 +2,8 @@
     <li class="active"><a href="<?php echo "#" ?>">Subvention</a></li>
 </ol>
 
+<h2><?php echo $subvention->declarant->raison_sociale ?> <small>(<?php echo $subvention->declarant->siret ?>)</small></h2>
+
 <form class="form-horizontal" method="POST" action="">
 
     <?php echo $form->renderGlobalErrors(); ?>
