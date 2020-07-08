@@ -11,7 +11,7 @@ if($subvention) {
     acCouchdbManager::getClient()->deleteDoc($subvention);
 }
 
-$t = new lime_test(4);
+$t = new lime_test(5);
 
 $t->comment('Creation du document');
 
@@ -24,4 +24,6 @@ $subvention->save();
 $t->ok($subvention->_rev, 'Enregistrement du document');
 $t->is($subvention->declarant->raison_sociale, $viti->raison_sociale, "Declrant Raison sociale");
 $t->is($subvention->declarant->siret, $viti->siret, "Declarant Siret");
-$t->is($subvention->declarant->siret, $viti->siret, "Declarant Siret");
+$t->ok(count($subvention->getInfosSchema()) > 0, "Schéma du champs info");
+
+$t->comment('Étape infos');
