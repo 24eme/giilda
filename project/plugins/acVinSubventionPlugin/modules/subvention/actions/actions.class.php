@@ -9,8 +9,9 @@ class subventionActions extends sfActions {
     public function executeCreation(sfWebRequest $request) {
         $etablissement = $this->getRoute()->getEtablissement();
 
-        $subvention = SubventionClient::getInstance()->createOrFind($etablissement->identifiant, $request->getParameter('operation'));
+        $subvention = SubventionClient::getInstance()->createDoc($etablissement->identifiant, $request->getParameter('operation'));
         $subvention->save();
+
         return $this->redirect('subvention_infos', $subvention);
     }
 

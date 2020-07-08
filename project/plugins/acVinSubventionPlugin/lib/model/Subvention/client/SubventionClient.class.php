@@ -6,7 +6,7 @@ class SubventionClient extends acCouchdbClient {
         return acCouchdbManager::getClient("Subvention");
     }
 
-    public function createOrFind($identifiant, $operation) {
+    public function createDoc($identifiant, $operation) {
 
         $subvention = new Subvention();
         $subvention->identifiant = $identifiant;
