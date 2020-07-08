@@ -17,21 +17,28 @@ Subvention:
       type: {}
       identifiant: {}
       operation: {}
+      declarant:
+        type: collection
+        definition:
+          fields:
+            nom: { searchable: true }
+            raison_sociale: { searchable: true  }
+            cvi: {  }
+            no_accises: {   }
+            adresse: {  searchable: true }
+            commune: {  searchable: true }
+            code_postal: {   }
+            region: {  }
+            famille: {  }
       infos:
         type: collection
         definition:
           fields:
-            '*': {  }
-      contact:
-        type: collection
-        definition:
-          fields:
-            '*': {  }
-      produits:
-        type: collection
-        definition:
-          fields:
-            '*': {  }
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
       engagements:
         type: collection
         definition:
