@@ -23,6 +23,7 @@ Subvention:
           fields:
             nom: { searchable: true }
             raison_sociale: { searchable: true  }
+            siret:  { searchable: true  }
             cvi: {  }
             no_accises: {   }
             adresse: {  searchable: true }
