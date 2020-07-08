@@ -4,6 +4,16 @@ Subvention:
     fields:
       _id: {}
       _rev: {}
+      _attachments:
+        type: collection
+        indexable: false
+        definition:
+          fields:
+            '*':
+              type: collection
+              definition:
+                fields:
+                  '*': { }      
       type: {}
       identifiant: {}
       operation: {}

@@ -19,3 +19,11 @@ subvention_infos:
   options:
     model:    Subvention
     type:     object
+
+subvention_dossier:
+  url: /subvention/:identifiant/dossier/:operation
+  param: { module: subvention, action: dossier }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
