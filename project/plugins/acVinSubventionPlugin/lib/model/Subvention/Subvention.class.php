@@ -10,4 +10,10 @@ class Subvention extends BaseSubvention  {
         parent::__construct();
     }
 
+    public function constructId() {
+        $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
+    }
+
+    
+
 }
