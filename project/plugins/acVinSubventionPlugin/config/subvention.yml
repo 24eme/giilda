@@ -1,0 +1,5 @@
+all:
+  configuration:
+    engagements:
+      non_commencement: "J'atteste le non commencement de ces opération au 1er juillet 2020 (aucun devis signé antérieur)"
+      conditions_eligibilite: "Je m'engage à respecter l'ensemble des conditions d'éligilibité"
