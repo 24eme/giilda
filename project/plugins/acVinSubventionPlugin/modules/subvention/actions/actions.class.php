@@ -78,4 +78,13 @@ class subventionActions extends sfActions {
         $this->redirect('subvention_infos', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
 
     }
+    
+    public function executeLatex(sfWebRequest $request) {
+        $this->setLayout(false);
+        $this->subvention = $this->getRoute()->getSubvention();
+        $this->forward404Unless($this->subvention);
+        $latex = new SubventionLatex($this->subvention);
+        $latex->echoWithHTTPHeader($request->getParameter('type'));
+        exit;
+    }
 }
