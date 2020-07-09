@@ -19,15 +19,10 @@ class SubventionConfiguration {
         return array(
             "economique" => array(
                                 "capital_social" => array("label" => "Capital Social", "unite" => "€"),
-                                "chiffre_affaire" => array("label" => "Chiffre d'affaire", "unite" => "€"),
-                                "effectif" => array("label" => "Effectif", "unite" => "ETP")
+                                "etp" => array("label" => "ETP"),
+                                "effectif_permanent" => array("label" => "Dont effectif permanent"),
                             ),
-            "produits" => array(
-                                "gammes" => array("libelle" => array("label" => "Gamme de produit"),
-                                                  "volume" => array("label" => "Volume", "unite" => "hl")),
-                                "part_vins_occitans" => array("label" => "Part de vins occitans", "unite" => "%")
-                            ),
-            "contacts" => array("nom" => array(), "email" => array()),
+            "contacts" => array("nom" => array(), "email" => array(), "telephone" => array()),
         );
     }
 

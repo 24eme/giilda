@@ -28,6 +28,7 @@ class SubventionsInfosForm extends acCouchdbForm {
                             if($help) {
                                 $formTableaux->getWidgetSchema()->setHelp($subkey, $help);
                             }
+                            $formTableaux->setDefault($subkey, $subitem);
                         }
                         $formItem->embedForm($index, $formTableaux);
                     }
@@ -44,6 +45,7 @@ class SubventionsInfosForm extends acCouchdbForm {
                 if($help) {
                     $formCategorie->getWidgetSchema()->setHelp($key, $help);
                 }
+                $formCategorie->setDefault($key, $item);
             }
 
             $this->embedForm($categorie, $formCategorie);

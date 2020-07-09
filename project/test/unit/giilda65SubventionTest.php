@@ -19,8 +19,6 @@ $subvention = SubventionClient::getInstance()->createDoc($viti->identifiant, $op
 
 $t->is($subvention->_id, 'SUBVENTION-'.$viti->identifiant.'-'.$operation, 'id de document généré');
 
-$subvention->infos->produits->gammes->add();
-
 $subvention->save();
 
 $t->ok($subvention->_rev, 'Enregistrement du document');
