@@ -26,7 +26,11 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
     }
 
-
+    public function updateInfosSchema() {
+        foreach($this->getInfosSchema() as $categorie => $items) {
+            $this->infos->add($categorie);
+        }
+    }
 
     public function storeDossier($file) {
   		if (!is_file($file)) {

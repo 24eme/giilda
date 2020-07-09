@@ -33,12 +33,25 @@ Subvention:
             famille: {  }
       infos:
         type: collection
+        class: SubventionInfos
         definition:
           fields:
             '*':
               type: collection
+              class: SubventionInfosCategorie
               definition:
                 fields:
+                  gammes:
+                    type: array_collection
+                    class: SubventionInfosCategorieCollection
+                    required: false
+                    definition:
+                      fields:
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              '*': { }
                   '*': {  }
       engagements:
         type: collection

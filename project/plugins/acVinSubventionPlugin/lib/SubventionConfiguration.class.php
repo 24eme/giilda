@@ -17,9 +17,17 @@ class SubventionConfiguration {
 
     public function getInfosSchema($operation) {
         return array(
-            "economique" => array("capital_social", "chiffre_affaire", "effectif_etp"),
-            "produits" => array("gamme_*_libelle", "gamme_*_volume", "pourcentage_vins_occitans"),
-            "contacts" => array("nom", "email"),
+            "economique" => array(
+                                "capital_social" => array("label" => "Capital Social", "unite" => "€"),
+                                "chiffre_affaire" => array("label" => "Chiffre d'affaire", "unite" => "€"),
+                                "effectif" => array("label" => "Effectif", "unite" => "ETP")
+                            ),
+            "produits" => array(
+                                "gammes" => array("libelle" => array("label" => "Gamme de produit"),
+                                                  "volume" => array("label" => "Volume", "unite" => "hl")),
+                                "part_vins_occitans" => array("label" => "Part de vins occitans", "unite" => "%")
+                            ),
+            "contacts" => array("nom" => array(), "email" => array()),
         );
     }
 

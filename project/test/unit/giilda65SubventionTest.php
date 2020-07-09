@@ -11,13 +11,15 @@ if($subvention) {
     acCouchdbManager::getClient()->deleteDoc($subvention);
 }
 
-$t = new lime_test(6);
+$t = new lime_test(5);
 
 $t->comment('Creation du document');
 
 $subvention = SubventionClient::getInstance()->createDoc($viti->identifiant, $operation);
 
-$t->is($subvention->_id, 'SUBVENTION-'.$viti->identifiant.'-'.$operation, 'id de document généré : '.$subvention->_id);
+$t->is($subvention->_id, 'SUBVENTION-'.$viti->identifiant.'-'.$operation, 'id de document généré');
+
+$subvention->infos->produits->gammes->add();
 
 $subvention->save();
 
@@ -30,15 +32,4 @@ $t->comment('Étape infos');
 
 $form = new SubventionsInfosForm($subvention);
 
-$values = $form->getDefaults();
-$values['economique']['capital_social'] = "100";
-
-$form->bind($values);
-
-foreach($form->getErrorSchema()->getErrors() as $key => $error) {
-    echo $error."\n";
-}
-
-$t->ok($form->isValid(), "Formulaire valide");
-
-$form->save();
+$form->bind(array(""));

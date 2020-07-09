@@ -12,14 +12,47 @@
     <?php foreach($form as $categorie => $items): ?>
         <?php if(!$items instanceof sfFormFieldSchema): continue; endif; ?>
         <h3><?php echo $categorie  ?></h3>
-        <?php foreach($items as $item): ?>
+
+        <?php foreach($items as $key => $item): ?>
+            <?php if($item instanceof sfFormFieldSchema): ?>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-xs-8">Gamme de produit</th>
+                                    <th class="col-xs-8">Volume</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($item as $subItem): ?>
+                                <tr>
+                                    <?php foreach($subItem as $field): ?>
+                                    <td>
+                                    <?php if($field->renderHelp()): ?><div class="input-group"><?php endif; ?>
+                                       <?php echo $field->render(); ?>
+                                       <?php echo $field->renderHelp() ?>
+                                    <?php if($field->renderHelp()): ?></div><?php endif; ?>
+                                    </td>
+                                    <?php endforeach; ?>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php else: ?>
             <div class="form-group">
                <?php echo $item->renderError(); ?>
                <?php echo $item->renderLabel(null, array("class" => "col-sm-2 control-label")); ?>
                <div class="col-sm-4">
-                 <?php echo $item->render(); ?>
+                    <?php if($item->renderHelp()): ?><div class="input-group"><?php endif; ?>
+                       <?php echo $item->render(); ?>
+                       <?php echo $item->renderHelp() ?>
+                    <?php if($item->renderHelp()): ?></div><?php endif; ?>
                </div>
             </div>
+            <?php endif; ?>
         <?php endforeach; ?>
     <?php endforeach; ?>
 
