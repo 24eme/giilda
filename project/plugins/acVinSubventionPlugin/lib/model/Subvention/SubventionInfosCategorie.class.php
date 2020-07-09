@@ -16,4 +16,10 @@ class SubventionInfosCategorie extends BaseSubventionInfosCategorie {
 
         return isset($schema[$key][$config]) ? $schema[$key][$config] : null;
     }
+
+    public function getLibelle() {
+        $schema = $this->getDocument()->getInfosSchema();
+
+        return isset($schema[$this->getKey().'_libelle']) ? $schema[$this->getKey().'_libelle'] : $this->getKey();
+    }
 }

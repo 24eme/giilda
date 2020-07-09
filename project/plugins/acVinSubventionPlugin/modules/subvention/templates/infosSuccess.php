@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">Demandeur</h3></div>
+                <div class="panel-heading"><h3 class="panel-title">Entreprise</h3></div>
                 <div class="panel-body">
                     <div class="form-group" style="margin-bottom: 0">
                        <label class="col-sm-4 control-label">Raison sociale</label>
@@ -56,7 +56,7 @@
         <?php if(!$items instanceof sfFormFieldSchema): continue; endif; ?>
 
         <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title"><?php echo $categorie  ?></h3></div>
+            <div class="panel-heading"><h3 class="panel-title"><?php echo $subvention->infos->get($categorie)->getLibelle() ?></h3></div>
             <div class="panel-body">
                 <?php foreach($items as $key => $item): ?>
                     <div class="form-group">

@@ -10,6 +10,9 @@ class SubventionInfos extends BaseSubventionInfos {
         $item = parent::add($key, $item);
 
         foreach($item->getInfosSchema() as $key => $schema) {
+            if(!is_array($schema)) {
+                continue;
+            }
             $item->add($key);
         }
 
