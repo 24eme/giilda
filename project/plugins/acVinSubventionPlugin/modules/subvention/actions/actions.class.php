@@ -41,26 +41,26 @@ class subventionActions extends sfActions {
     public function executeValidation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
         $this->form = new SubventionValidationForm($this->subvention);
-        
+
         if (!$request->isMethod(sfWebRequest::POST)) {
             return sfView::SUCCESS;
         }
-        
+
         $this->form->bind($request->getParameter($this->form->getName()));
-        
+
         if (!$this->form->isValid()) {
             return sfView::SUCCESS;
         }
-        
+
         $this->form->save();
-        
+
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
     }
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
     }
-    
+
     public function executeDossier(sfWebRequest $request) {
 
         $this->subvention = $this->getRoute()->getSubvention();
@@ -75,10 +75,10 @@ class subventionActions extends sfActions {
       		return sfView::SUCCESS;
       	}
         $this->form->save();
-        $this->redirect('subvention_infos', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
+        $this->redirect('subvention_dossier', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
 
     }
-    
+
     public function executeLatex(sfWebRequest $request) {
         $this->setLayout(false);
         $this->subvention = $this->getRoute()->getSubvention();
