@@ -13,38 +13,19 @@ class SubventionsInfosForm extends acCouchdbForm {
             $formCategorie = new BaseForm();
 
             foreach($items as $key => $item) {
-                if($item instanceof acCouchdbJson) {
-                    $item->add();
-                    $formItem = new BaseForm();
-                    foreach($item as $index => $indexItems) {
-                        $formTableaux = new BaseForm();
-                        foreach($indexItems as $subkey => $subitem) {
-                            $label = $item->getInfosSchemaItem($subkey, "label");
-                            $help = $item->getInfosSchemaItem($subkey, "unite");
-
-                            $formTableaux->setWidget($subkey, new bsWidgetFormInput());
-                            $formTableaux->getWidget($subkey)->setLabel($label);
-                            $formTableaux->setValidator($subkey, new sfValidatorString(array('required' => false)));
-                            if($help) {
-                                $formTableaux->getWidgetSchema()->setHelp($subkey, $help);
-                            }
-                            $formTableaux->setDefault($subkey, $subitem);
-                        }
-                        $formItem->embedForm($index, $formTableaux);
-                    }
-                    $formCategorie->embedForm($key, $formItem);
-                    continue;
-                }
-
                 $label = $items->getInfosSchemaItem($key, "label");
-                $help = $items->getInfosSchemaItem($key, "unite");
 
-                $formCategorie->setWidget($key, new bsWidgetFormInput());
-                $formCategorie->getWidget($key)->setLabel($label);
-                $formCategorie->setValidator($key, new sfValidatorString(array('required' => false)));
-                if($help) {
-                    $formCategorie->getWidgetSchema()->setHelp($key, $help);
+                $widgetClass = "bsWidgetFormInput";
+                $validatorClass = "sfValidatorString";
+
+                if($items->getInfosSchemaItem($key, "type") == "float") {
+                    $widgetClass = "bsWidgetFormInputFloat";
+                    $validatorClass = "sfValidatorNumber";
                 }
+
+                $formCategorie->setWidget($key, new $widgetClass());
+                $formCategorie->getWidget($key)->setLabel($label);
+                $formCategorie->setValidator($key, new $validatorClass(array('required' => false)));
                 $formCategorie->setDefault($key, $item);
             }
 

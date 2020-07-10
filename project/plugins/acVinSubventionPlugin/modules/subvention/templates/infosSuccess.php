@@ -62,11 +62,8 @@
                     <div class="form-group">
                        <?php echo $item->renderError(); ?>
                        <?php echo $item->renderLabel(null, array("class" => "col-sm-4 control-label")); ?>
-                       <div class="col-sm-6">
-                            <?php if($item->renderHelp()): ?><div class="input-group"><?php endif; ?>
-                               <?php echo $item->render(); ?>
-                               <?php echo $item->renderHelp() ?>
-                            <?php if($item->renderHelp()): ?></div><?php endif; ?>
+                       <div class="<?php if(get_class($item->getWidget()) == "bsWidgetFormInputFloat"): ?>col-sm-3<?php else: ?>col-sm-6<?php endif;?>">
+                            <?php echo $item->render(); ?>
                        </div>
                     </div>
                 <?php endforeach; ?>
