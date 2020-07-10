@@ -42,17 +42,6 @@ Subvention:
               definition:
                 fields:
                   '*': {  }
-                  # collections:
-                  #   type: array_collection
-                  #   class: SubventionInfosCategorieCollection
-                  #   required: false
-                  #   definition:
-                  #     fields:
-                  #       '*':
-                  #         type: collection
-                  #         definition:
-                  #           fields:
-                  #             '*': { }
       engagements:
         type: collection
         definition:
