@@ -1,3 +1,20 @@
+<?php use_helper('Date'); ?>
+<?php use_helper('Orthographe'); ?>
+<?php use_helper('DRM'); ?>
+
+<?php if($teledeclaration_drm): ?>
+    <?php $messages = $calendrier->getMessages() ?>
+    <?php if(count($messages)): ?>
+    <div class="col-xs-12">
+        <div class="alert alert-info">
+            <?php foreach($messages->getRawValue() as $message): ?>
+                <p><span class="glyphicon glyphicon-info-sign"></span> <?php echo nl2br($message); ?></p>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
+
 <div class="<?php if($teledeclaration_drm): ?>col-xs-6 <?php else: ?>col-xs-12 <?php endif; ?>">
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
