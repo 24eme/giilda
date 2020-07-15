@@ -13,7 +13,7 @@ Subvention:
               type: collection
               definition:
                 fields:
-                  '*': { }      
+                  '*': { }
       type: {}
       identifiant: {}
       operation: {}
@@ -33,10 +33,12 @@ Subvention:
             famille: {  }
       infos:
         type: collection
+        class: SubventionInfos
         definition:
           fields:
             '*':
               type: collection
+              class: SubventionInfosCategorie
               definition:
                 fields:
                   '*': {  }
@@ -48,3 +50,4 @@ Subvention:
       commentaire: { }
       validation_date: { }
       signature_date: { }
+      dossier_date: { }

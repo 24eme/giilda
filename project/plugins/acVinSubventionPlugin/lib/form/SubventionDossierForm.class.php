@@ -49,6 +49,8 @@ class SubventionDossierForm extends BaseForm {
       if ($file) {
         try {
           $this->subvention->storeDossier($file->getSavedName());
+          $date = new \DateTime( 'now');
+          $this->subvention->dossier_date = $date->format('Y-m-d H:i:s');
         } catch (sfException $e) {
           if ($isNew) {
             $this->subvention->remove();

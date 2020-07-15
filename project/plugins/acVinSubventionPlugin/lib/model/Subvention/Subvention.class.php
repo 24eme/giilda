@@ -26,15 +26,19 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
     }
 
-
+    public function updateInfosSchema() {
+        foreach($this->getInfosSchema() as $categorie => $items) {
+            $this->infos->add($categorie);
+        }
+    }
 
     public function storeDossier($file) {
   		if (!is_file($file)) {
   			throw new sfException($file." n'est pas un fichier valide");
   		}
   		$pathinfos = pathinfo($file);
-  		$extension = (isset($pathinfos['extension']) && $pathinfos['extension'])? strtolower($pathinfos['extension']): null;
-  		$fileName = ($extension)? uniqid().'.'.$extension : uniqid();
+  		$extension = (isset($pathinfos['extension']) && $pathinfos['extension'])? strtolower($pathinfos['extension']): 'xlsx';
+  		$fileName = "formulaire_subvention_".strtolower($this->operation).'.'.$extension;
 
 
   			$mime = mime_content_type($file);
@@ -58,6 +62,44 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     public function getInfosSchema() {
 
         return SubventionConfiguration::getInstance()->getInfosSchema($this->operation);
+    }
+
+    public function getXls() {
+        if($path = $this->getXlsPath()){
+          return file_get_contents($path);
+        }
+        return "";
+    }
+
+    public function getXlsPath() {
+        if(!$this->hasXls() && file_exists($this->getDefaultXlsPath())){
+          return $this->getDefaultXlsPath();
+        }
+        $uri = $this->getAttachmentUri($this->getFileName());
+        if ($uri) {
+          return $uri;
+        }
+        return "";
+    }
+
+    public function getFileName(){
+
+      return "formulaire_subvention_".strtolower($this->operation).".xlsx";
+    }
+
+    public function getXlsPublicName(){
+
+      return "formulaire_subvention_".strtolower($this->operation)."_".$this->identifiant.".xlsx";
+    }
+
+
+    public function getDefaultXlsPath(){
+
+      return realpath(dirname(__FILE__) . "/../../../../../data/subventions/".$this->getFileName());
+    }
+
+    public function hasXls(){
+      return $this->exist('_attachments') && $this->_attachments->exist($this->getFileName());
     }
 
 }

@@ -9,22 +9,22 @@ class ValidatorImportXls extends sfValidatorFile
     $options['required'] = true;
     parent::configure($options, $messages);
     $this->setMessage('mime_types', "Le fichier fourni doit être un xls");
-    $this->options['mime_types'] = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    $this->options['mime_types'] = array('application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/octet-stream');
 
   }
 
   protected function doClean($value)
   {
-	parent::doClean($value);
-    $xlsValidated = new XlsValidatedFile($value['name'], 'application/vnd.ms-excel', $value['tmp_name'], $value['size'], $this->getOption('file_path'));
+    parent::doClean($value);
+    $xlsValidated = new XlsValidatedFile($value['name'], $value['type'], $value['tmp_name'], $value['size'], $this->getOption('file_path'));
+
 
     $errorSchema = new sfValidatorErrorSchema($this);
 
     $xlsValidated->save();
 
     try {
-      // verif??
-      $xlsValidated->getSavedName();
+      $xls = file_get_contents($xlsValidated->getSavedName());
     }catch(Exception $e) {
       $xls = null;
       $errorSchema->addError(new sfValidatorError($this, $e->getMessage()));
