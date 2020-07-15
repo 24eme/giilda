@@ -31,7 +31,7 @@
 </div>
 <div class="row">
     <div class="col-xs-8 col-xs-offset-2">
-      <a class="btn btn-default btn-lg col-xs-10" href="#">Télécharger pour compléter</a>
+      <a class="btn btn-default btn-lg col-xs-10" href="">Télécharger pour compléter</a>
   </div>
 </div>
 <br/>
@@ -49,8 +49,6 @@
           <span class='' id="upload-file-info">Choisir un fichier</span>
       </label>
       <button type="submit" class="btn btn-default btn-lg btn-upper col-xs-4">Déposer le dossier</button>
-
-
   </div>
 </div>
 
