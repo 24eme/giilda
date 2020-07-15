@@ -33,10 +33,12 @@ Subvention:
             famille: {  }
       infos:
         type: collection
+        class: SubventionInfos
         definition:
           fields:
             '*':
               type: collection
+              class: SubventionInfosCategorie
               definition:
                 fields:
                   '*': {  }

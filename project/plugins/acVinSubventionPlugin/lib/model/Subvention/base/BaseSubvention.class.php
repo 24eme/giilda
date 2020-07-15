@@ -6,12 +6,12 @@
  *
  * @property string $_id
  * @property string $_rev
+ * @property acCouchdbJson $_attachments
  * @property string $type
  * @property string $identifiant
  * @property string $operation
- * @property acCouchdbJson $infos
- * @property acCouchdbJson $contact
- * @property acCouchdbJson $produits
+ * @property acCouchdbJson $declarant
+ * @property SubventionInfos $infos
  * @property acCouchdbJson $engagements
  * @property string $commentaire
  * @property string $validation_date
@@ -21,18 +21,18 @@
  * @method string setId()
  * @method string getRev()
  * @method string setRev()
+ * @method acCouchdbJson getAttachments()
+ * @method acCouchdbJson setAttachments()
  * @method string getType()
  * @method string setType()
  * @method string getIdentifiant()
  * @method string setIdentifiant()
  * @method string getOperation()
  * @method string setOperation()
- * @method acCouchdbJson getInfos()
- * @method acCouchdbJson setInfos()
- * @method acCouchdbJson getContact()
- * @method acCouchdbJson setContact()
- * @method acCouchdbJson getProduits()
- * @method acCouchdbJson setProduits()
+ * @method acCouchdbJson getDeclarant()
+ * @method acCouchdbJson setDeclarant()
+ * @method SubventionInfos getInfos()
+ * @method SubventionInfos setInfos()
  * @method acCouchdbJson getEngagements()
  * @method acCouchdbJson setEngagements()
  * @method string getCommentaire()
