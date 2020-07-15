@@ -5,7 +5,7 @@ use_helper('Orthographe');
 use_helper('DRMPdf');
 use_helper('Display');
 ?>
-\documentclass[a4paper,oneside, landscape, 10pt]{extarticle}
+\documentclass[a4paper,oneside, portrait, 10pt]{extarticle}
 
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -23,76 +23,156 @@ use_helper('Display');
 \usepackage{lastpage}
 \usepackage{truncate}
 \usepackage{fancyhdr}
-\usepackage{lastpage}
 \usepackage{amssymb}
 \usepackage{geometry}
-
+\usepackage{indentfirst}
 \usetikzlibrary{fit}
+\usepackage{enumitem}
+
+\newlist{todolist}{itemize}{2}
+\setlist[todolist]{label=$\square$}
+\usepackage{pifont}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
+\hspace{-2pt}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
 
 \renewcommand\sfdefault{phv}
 \newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\TruncateMarker}{\small{...}}
 
-\usepackage{array}
-\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
-\newcommand\BackgroundPic{
-\put(0,0){
-\parbox[b][\paperheight]{\paperwidth}{%
-\vfill
-\centering
-\vfill
-}}}
-
 \setlength{\oddsidemargin}{-2cm}
 \setlength{\evensidemargin}{-2cm}
-\setlength{\textwidth}{29.7cm}
-\setlength{\textheight}{15.5cm}
-\setlength{\headheight}{3.5cm>}
-\setlength{\headwidth}{28.2cm}
+\setlength{\textwidth}{20cm}
+\setlength{\textheight}{28.7cm}
 \setlength{\topmargin}{-3.5cm}
 \setlength{\footskip}{0cm}
-
-\begin{document}
-
 
 \def\DeclarantRaisonSociale{<?php echo escape_string_for_latex($subvention->declarant->raison_sociale); ?>}
 \def\DeclarantNom{<?php echo escape_string_for_latex($subvention->declarant->nom); ?>}
 \def\DeclarantSiret{<?php echo $subvention->declarant->siret; ?>}
-\def\DeclarantAdresse{<?php echo $subvention->declarant->adresse . ' ' . $subvention->declarant->code_postal . ' ' . $subvention->declarant->commune; ?>}
+\def\DeclarantAdresse{<?php echo escape_string_for_latex($subvention->declarant->adresse); ?>}
+\def\DeclarantCp{<?php echo $subvention->declarant->code_postal; ?>}
+\def\DeclarantVille{<?php echo escape_string_for_latex($subvention->declarant->commune); ?>}
 \def\DeclarantCapital{1 500 000,00€}
-\def\DeclarantCA{712 350,00€}
+\def\DeclarantPermanent{11}
 \def\DeclarantEffectif{35}
-
-\def\ContactDossier{Mme Michu - ginettemichu@labonnepiche.fr - 04.00.10.20.30}
+\def\ContactDossierNom{Mme Michu Monique}
+\def\ContactDossierContact{00.00.00.00.00 // moniquemichu@lemail.fr}
+\def\DateSignature{<?php echo $subvention->signature_date; ?>}
+\def\logos{<?php echo sfConfig::get('sf_web_dir'); ?>/images/subvention.jpg}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
 \fancyhf{}
 
-\lhead{
-\vspace{-2cm}
-Entreprise : \textbf{\DeclarantNom} \\
-Adresse  : \textbf{\DeclarantAdresse} \\
+\title{\vspace{-1cm}\textbf{Contrat Relance Viti \\ Fiche de pré-qualification}}
+\date{}
+
+\def\arraystretch{3}
+\setlength\extrarowheight{-3pt}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\setlength{\textfloatsep}{0pt}
+
+\fancyfoot[R]{\thepage ~/ \pageref{LastPage}}
+
+\fancypagestyle{plain}{
+\fancyfoot[R]{\thepage ~/ \pageref{LastPage}}
 }
 
-\rhead{
+\begin{document}
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=1]{\logos}
+\end{figure}
+
+\maketitle
+
 \vspace{-2cm}
- \begin{large}
-\textbf{Opération <?php echo escape_string_for_latex($subvention->operation); ?>} \\
-\textbf{<?php if($subvention->signature_date): ?>Signé électroniquement le <?php echo $subvention->signature_date; ?><?php endif; ?>}
-\end{large}
-}
 
-\rfoot{page \thepage\ / 1}
+\begin{tabular}{|L{3cm}|L{5.5cm}|L{3cm}|L{5.5cm}|}
+\hline
+\small{Portail} & ~ & \small{Agent référent} & ~ \\
+\hline
+\small{Date de réception de la demande} & ~ & \small{Personne en charge du dossier au sein de l'entreprise} & ~ \\
+\hline
+\end{tabular} 
+
+\vspace{0.5cm}
+
+\section{IDENTIFICATION DU DEMANDEUR}
+
+Qualité du demandeur : $\square$ Négociant \medbreak
+Metteur en marché direct : $\square$ Cave coopérative $\square$ Vigneron indépendant \bigbreak
+Dénomination juridique : \textbf{\DeclarantRaisonSociale} \medbreak
+Dénomination commerciale : \textbf{\DeclarantNom} \medbreak
+SIRET : \textbf{\DeclarantSiret} \bigbreak 
+Adresse : \textbf{\DeclarantAdresse} \medbreak
+Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVille} \bigbreak
+Capital Social : \textbf{\DeclarantCapital} \medbreak 
+Nombre d'ETP : \textbf{\DeclarantEffectif} \hspace{0.5cm} dont effectif permanent : \textbf{\DeclarantPermanent} \bigbreak
+\textbf{Personne en charge du dossier au sein de l'entreprise} \medbreak 
+Nom, Prénom : \textbf{\ContactDossierNom} \medbreak
+Coordonnées (tel/mail) : \textbf{\ContactDossierContact}
+
+\section{ENGAGEMENTS DU BÉNÉFICIAIRE}
+
+\begin{todolist}[itemsep=7pt,parsep=7pt]
+    \item Atteste le non commencement de ces opérations au 1er juillet 2020 (aucun devis signé antérieur au 1er juillet 2020)
+    \item Respecte les conditions d’éligibilité dans le cadre des opérations à portée collective :
+    \begin{todolist}[itemsep=7pt,parsep=7pt]
+      \item Présence des logos envisagée
+      \item Utilisation de la charte graphique
+      \item Visibilité minimale du message collectif envisagée
+    \end{todolist}
+    \item Atteste avoir pris connaissance qu’une vérification au paiement sera réalisée
+\end{todolist}
+
+\newpage
+
+~ \\ 
+
+\vspace{0,6cm}
 
 
+\section{CRITÈRES DE PRÉ-QUALIFICATION}
 
+\begin{tabular}{|C{0.5cm}|L{10cm}|L{7cm}|}
+\hline
+  \multicolumn{2}{|c|}{\cellcolor{gray!25}CRITÈRES} & \cellcolor{gray!25} \hfill APPRÉCIATION\hfill\null  \\
+\hline
+$\square$ & Respect des accords interprofessionnels ou engagement & ~ \\
+\hline
+$\square$ & Opérations concernant les vins conditionnés sous signe de qualité issus des AOP et IGP de la Région : \begin{enumerate}[itemsep=1pt,parsep=1pt] \item Pays d’OC/Terres du Midi \item AOC du Languedoc/IGP Sud de France \item Vins du Sud-Ouest \item Vins de la Vallée du Rhône \item Vins du Roussillon (AOP/IGP) \end{enumerate} & ~ \\
+\hline
+$\square$ & \underline{Pour les négociants}, contractualisation : \begin{todolist}[itemsep=1pt,parsep=1pt] \item effective* \item engagement* \end{todolist} \small{* Préciser obligatoirement les volumes concernés} & ~ \\
+\hline
+$\square$ & Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action...) & ~ \\
+\hline
+\end{tabular}
 
+\section{CONCLUSION}
 
+\begin{tabular}{|L{8,75cm}|L{8,75cm}|}
+\hline
+$\square$ Favorable \begin{todolist}[itemsep=1pt,parsep=1pt] \item sur l'ensemble des actions \item sur les actions n° \end{todolist} Commentaires : \bigbreak ~ \bigbreak ~ \bigbreak & Numéro de dossier (facultatif): \bigbreak Version du dossier : \begin{todolist}[itemsep=1pt,parsep=1pt] \item initiale \item modifiée \item 2ème dossier \end{todolist}  \\
+\hline
+\multicolumn{2}{|l|}{$\square$  Proposition de rejet} \\
+\multicolumn{2}{|l|}{Motif : } \\
+\multicolumn{2}{|l|}{~} \\
+\multicolumn{2}{|l|}{~} \\
+\hline
+\end{tabular}
 
+\bigbreak
+Date : \textbf{\DateSignature} \bigbreak
+Signature de l'agent référent ou de son représentant :
 
 \end{document}
