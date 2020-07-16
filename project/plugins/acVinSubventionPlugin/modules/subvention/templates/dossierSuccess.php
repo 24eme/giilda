@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-xs-12">
       <a class="btn btn-default btn-lg col-xs-12" style="text-align:left; padding-left:16px;" href="<?php echo url_for('subvention_xls', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>">
-        <span class="glyphicon glyphicon-file" style=" padding-right:14px;"></span> <?php if(!$subvention->hasXls()): ?>Télécharger pour compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
+        <span class="glyphicon glyphicon-file" style=" padding-right:14px;"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
         </a>
   </div>
 
@@ -37,7 +37,7 @@
     <div class="col-xs-12">
       <label class="btn btn-default btn-lg col-xs-12" for="subvention_dossier_file">
         <?php echo $form['file']->render(array('style' => 'display:none', 'onchange' => "$('#upload-file-info').html(this.files[0].name)")) ?>
-          <span class="glyphicon glyphicon-download-alt pull-left">&nbsp;</span> <span class="pull-left" id="upload-file-info"><?php if($subvention->hasXls()): ?>Remplacer le fichier<?php else: ?>Choisir un fichier<?php endif ?></span>
+          <span class="glyphicon glyphicon-download-alt pull-left">&nbsp;</span> <span class="pull-left" id="upload-file-info"><?php if($subvention->hasXls()): ?>Remplacer le fichier complété<?php else: ?>Verser le fichier complété<?php endif ?></span>
       </label>
     </div>
 </div>
