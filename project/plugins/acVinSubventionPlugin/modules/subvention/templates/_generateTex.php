@@ -50,8 +50,9 @@ use_helper('Display');
 \setlength{\topmargin}{-3.5cm}
 \setlength{\footskip}{0cm}
 
+\def\Plateforme{<?php echo escape_string_for_latex($subvention->getConfiguration()->getPlateforme()); ?>}
+\def\Referent{<?php echo escape_string_for_latex($subvention->getConfiguration()->getReferent()); ?>}
 \def\DeclarantRaisonSociale{<?php echo escape_string_for_latex($subvention->declarant->raison_sociale); ?>}
-\def\DeclarantNom{<?php echo escape_string_for_latex($subvention->declarant->nom); ?>}
 \def\DeclarantSiret{<?php echo $subvention->declarant->siret; ?>}
 \def\DeclarantAdresse{<?php echo escape_string_for_latex($subvention->declarant->adresse); ?>}
 \def\DeclarantCp{<?php echo $subvention->declarant->code_postal; ?>}
@@ -62,7 +63,7 @@ use_helper('Display');
 \def\ContactDossierNom{Mme Michu Monique}
 \def\ContactDossierContact{00.00.00.00.00 // moniquemichu@lemail.fr}
 \def\DateSignature{<?php echo $subvention->signature_date; ?>}
-\def\logos{<?php echo sfConfig::get('sf_web_dir'); ?>/images/subvention.jpg}
+\def\logos{/home/jb/Bureau/logos/logos.jpg}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
@@ -99,9 +100,9 @@ use_helper('Display');
 
 \begin{tabular}{|L{3cm}|L{5.5cm}|L{3cm}|L{5.5cm}|}
 \hline
-\small{Portail} & ~ & \small{Agent référent} & ~ \\
+\small{Portail} & \textbf{\Plateforme} & \small{Agent référent} & \textbf{\Referent} \\
 \hline
-\small{Date de réception de la demande} & ~ & \small{Personne en charge du dossier au sein de l'entreprise} & ~ \\
+\small{Date de réception de la demande} & \textbf{\DateSignature} & \small{Personne en charge du dossier au sein de l'entreprise} & \textbf{\ContactDossierNom} \\
 \hline
 \end{tabular} 
 
@@ -109,10 +110,9 @@ use_helper('Display');
 
 \section{IDENTIFICATION DU DEMANDEUR}
 
-Qualité du demandeur : $\square$ Négociant \medbreak
-Metteur en marché direct : $\square$ Cave coopérative $\square$ Vigneron indépendant \bigbreak
-Dénomination juridique : \textbf{\DeclarantRaisonSociale} \medbreak
-Dénomination commerciale : \textbf{\DeclarantNom} \medbreak
+Qualité du demandeur : <?php if (/*$subvention->getEtablissement()->isNegociant()*/1==2): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Négociant \medbreak
+Metteur en marché direct : <?php if (/*$subvention->getEtablissement()->isCaveCooperative()*/1==2): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Cave coopérative <?php if (/*$subvention->getEtablissement()->isViticulteur()*/1==1): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Vigneron indépendant \bigbreak
+Raison sociale : \textbf{\DeclarantRaisonSociale} \medbreak
 SIRET : \textbf{\DeclarantSiret} \bigbreak 
 Adresse : \textbf{\DeclarantAdresse} \medbreak
 Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVille} \bigbreak
@@ -121,6 +121,8 @@ Nombre d'ETP : \textbf{\DeclarantEffectif} \hspace{0.5cm} dont effectif permanen
 \textbf{Personne en charge du dossier au sein de l'entreprise} \medbreak 
 Nom, Prénom : \textbf{\ContactDossierNom} \medbreak
 Coordonnées (tel/mail) : \textbf{\ContactDossierContact}
+
+<?php if ($subvention->signature_date): ?>
 
 \section{ENGAGEMENTS DU BÉNÉFICIAIRE}
 
@@ -162,7 +164,7 @@ $\square$ & Eligibilité et appréciation de la faisabilité et de la cohérence
 
 \begin{tabular}{|L{8,75cm}|L{8,75cm}|}
 \hline
-$\square$ Favorable \begin{todolist}[itemsep=1pt,parsep=1pt] \item sur l'ensemble des actions \item sur les actions n° \end{todolist} Commentaires : \bigbreak ~ \bigbreak ~ \bigbreak & Numéro de dossier (facultatif): \bigbreak Version du dossier : \begin{todolist}[itemsep=1pt,parsep=1pt] \item initiale \item modifiée \item 2ème dossier \end{todolist}  \\
+$\square$ Favorable \begin{todolist}[itemsep=1pt,parsep=1pt] \item sur l'ensemble des actions \item sur les actions n° \end{todolist} Commentaires : \bigbreak ~ \bigbreak ~ \bigbreak & Numéro de dossier (facultatif): \bigbreak Version du dossier : \begin{todolist}[itemsep=1pt,parsep=1pt] \item initiale \item modifiée \end{todolist}  \\
 \hline
 \multicolumn{2}{|l|}{$\square$  Proposition de rejet} \\
 \multicolumn{2}{|l|}{Motif : } \\
@@ -174,5 +176,7 @@ $\square$ Favorable \begin{todolist}[itemsep=1pt,parsep=1pt] \item sur l'ensembl
 \bigbreak
 Date : \textbf{\DateSignature} \bigbreak
 Signature de l'agent référent ou de son représentant :
+
+<?php endif; ?>
 
 \end{document}

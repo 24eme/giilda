@@ -22,13 +22,19 @@
 
         <div class="row">
         	<div class="col-xs-12">
+        		<h3>Dossier joint</h3>
+        		<a href="#" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-file"></span>&nbsp;XLS</a>
+        	</div>
+        </div>
+
+        <div class="row">
+        	<div class="col-xs-12">
         		<h3>Engagements</h3>
             	<?php
-                $engagements = sfConfig::get('subvention_configuration_engagements');
-                foreach ($engagements as $key => $libelle):
+                foreach ($form->getEngagements() as $key => $libelle):
                    if (!isset($form["engagement_$key"])) continue;
                 ?>
-                <div class="form-group <?php if($form["engagement_$key"]->hasError()): ?>has-error<?php endif; ?>">
+                <div class="form-group <?php if($form["engagement_$key"]->hasError()): ?>has-error<?php endif; ?>" style="margin-bottom:0;">
                 	<div class="col-xs-12">
         				<?php echo $form["engagement_$key"]->renderError() ?>
         			</div>
@@ -38,6 +44,30 @@
         				</label>
                   	</div>
               	</div>
+              	<?php
+                $engagementsPrecisions = $form->getEngagementsPrecisions();
+                if (isset($engagementsPrecisions[$key])): 
+                ?>
+                <div class="row">
+        			<div class="col-xs-offset-1 col-xs-11" style="padding-left:0;">
+        			<?php 
+                        foreach ($engagementsPrecisions[$key] as $k => $libelle):
+                            if (!isset($form["precision_engagement_$key/$k"])) continue;
+                    ?>
+                    <div class="form-group <?php if($form["precision_engagement_$key/$k"]->hasError()): ?>has-error<?php endif; ?>" style="margin-bottom:0;">
+                    	<div class="col-xs-12">
+            				<?php echo $form["precision_engagement_$key/$k"]->renderError() ?>
+            			</div>
+        				<div class="col-xs-12 checkbox">
+        					<label for="validation_precision_engagement_<?php echo $key.'_'.$k ?>">
+            				<?php echo $form["precision_engagement_$key/$k"]->render(array("data-target" => "#validation_engagement_".$key)) ?>&nbsp;<?php echo $libelle ?>
+            				</label>
+                      	</div>
+                  	</div>
+                	<?php endforeach; ?>
+                	</div>
+                </div>
+                <?php endif; ?>
               	<?php endforeach; ?>
     		</div>
         </div>
@@ -55,13 +85,6 @@
         		</div>
     		</div>
         </div>
-
-        <div class="row">
-        	<div class="col-xs-12">
-        		<h3>Dossier joint</h3>
-        		<a href="#" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-file"></span>&nbsp;XLS</a>
-        	</div>
-        </div>
         <br />
         <br />
         <div class="row row-margin row-button">
@@ -73,5 +96,20 @@
             </div>
         </div>
     </form>
-
 </section>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("input[type='checkbox']").change(function () {
+		var checkbox = $(this);
+		if (checkbox.data("target")) {
+			if (checkbox.is(':checked')) {
+				$(checkbox.data("target")).prop("checked", true);
+			}
+		} else {
+			if (!checkbox.is(':checked')) {
+				$("input[data-target='#"+checkbox.attr("id")+"']").prop("checked", false);
+			}
+		}
+	});
+});
+</script>

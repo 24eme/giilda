@@ -3,6 +3,7 @@
 class SubventionConfiguration {
 
     private static $_instance = null;
+    protected $configuration;
 
     public static function getInstance() {
         if (is_null(self::$_instance)) {
@@ -12,7 +13,27 @@ class SubventionConfiguration {
     }
 
     public function __construct() {
+        if(!sfConfig::has('subvention_configuration_subvention')) {
+			throw new sfException("La configuration pour les subventions n'a pas été définie pour cette application");
+		}
 
+        $this->configuration = sfConfig::get('subvention_configuration_subvention', array());
+    }
+    
+    public function getEngagements() {
+        return (isset($this->configuration['engagements']))? $this->configuration['engagements'] : array();
+    }
+    
+    public function getEngagementsPrecisions() {
+        return (isset($this->configuration['engagements_precisions']))? $this->configuration['engagements_precisions'] : array();
+    }
+    
+    public function getPlateforme() {
+        return (isset($this->configuration['plateforme']))? $this->configuration['plateforme'] : array();
+    }
+    
+    public function getReferent() {
+        return (isset($this->configuration['referent']))? $this->configuration['referent'] : array();
     }
 
     public function getInfosSchema($operation) {

@@ -17,6 +17,10 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         parent::__clone();
         $this->initDocuments();
     }
+    
+    public function getConfiguration() {
+        return SubventionConfiguration::getInstance();
+    }
 
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
