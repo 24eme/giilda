@@ -50,16 +50,10 @@ class SubventionValidationForm extends acCouchdbObjectForm
         }
         $this->setDefaults($defaults);
     }
-    
+
     protected function doUpdateObject($values) {
         parent::doUpdateObject($values);
-        $this->getObject()->remove('engagements');
-        $this->getObject()->add('engagements');
-	    foreach ($this->engagements as $key => $libelle) {
-	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
-	            $this->getObject()->engagements->add($key, 1);
-	        }
-	    }
+        $this->getObject()->validate();
 	    foreach ($this->engagementsPrecisions as $eng => $precisions) {
 	        foreach ($precisions as $k => $libelle) {
 	            $key = "$eng/$k";

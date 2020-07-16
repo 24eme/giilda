@@ -106,4 +106,21 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
       return $this->exist('_attachments') && $this->_attachments->exist($this->getFileName());
     }
 
+    public function validate() {
+        $this->getObject()->remove('engagements');
+        $this->getObject()->add('engagements');
+        $engagements = sfConfig::get('subvention_configuration_engagements');
+	    foreach ($engagements as $key => $libelle) {
+	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
+	            $this->engagements->add($key, true);
+	        }
+	    }
+        $this->statut = SubventionClient::STATUT_VALIDE;
+        $this->signature_date = date('Y-m-d');
+    }
+
+    public function validateInterpro($statut) {
+        $this->statut = $statut;
+    }
+
 }
