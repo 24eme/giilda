@@ -1,7 +1,7 @@
 subvention:
   url: /subvention
   param: { module: subvention, action: index }
-  
+
 subvention_etablissement:
   url: /subvention/etablissement/:identifiant
   param: { module: subvention, action: etablissement }
@@ -53,6 +53,14 @@ subvention_validation:
 subvention_visualisation:
   url: /subvention/:identifiant/visualisation/:operation
   param: { module: subvention, action: visualisation }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
+
+subvention_xls:
+  url: /subvention/:identifiant/xls/:operation
+  param: { module: subvention, action: xls }
   class: SubventionRoute
   options:
     model:    Subvention

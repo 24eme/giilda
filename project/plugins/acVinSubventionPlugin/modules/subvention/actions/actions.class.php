@@ -75,8 +75,23 @@ class subventionActions extends sfActions {
       		return sfView::SUCCESS;
       	}
         $this->form->save();
-        $this->redirect('subvention_dossier', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
 
+        $this->redirect('subvention_validation', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
+
+    }
+
+    public function executeXls(sfWebRequest $request) {
+
+      $this->subvention = $this->getRoute()->getSubvention();
+      $this->setLayout(false);
+      $path = $this->subvention->getXlsPath();
+      $this->getResponse()->setHttpHeader('Content-disposition', 'attachment; filename="' . $this->subvention->getXlsPublicName() . '"');
+      $this->getResponse()->setHttpHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    //  $this->getResponse()->setHttpHeader('Content-Length', filesize($path));
+      $this->getResponse()->setHttpHeader('Pragma', '');
+      $this->getResponse()->setHttpHeader('Cache-Control', 'public');
+      $this->getResponse()->setHttpHeader('Expires', '0');
+      return $this->renderText(file_get_contents($path));
     }
 
     public function executeLatex(sfWebRequest $request) {

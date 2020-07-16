@@ -17,4 +17,5 @@ class SubventionClient extends acCouchdbClient {
 
         return $subvention;
     }
+      
 }
