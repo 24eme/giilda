@@ -25,7 +25,7 @@
                     </div>
 				</div>
 				<div class="modal-footer">
-					<a class="btn btn-default btn pull-left" href="">Annuler</a>
+					<a class="btn btn-default btn pull-left" href="<?php echo url_for('subvention_visualisation', $subvention) ?>">Annuler</a>
 					<button type="submit" class="btn btn-success btn pull-right">Valider</button>
 				</div>
 			</form>
