@@ -107,8 +107,8 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function validate() {
-        $this->getObject()->remove('engagements');
-        $this->getObject()->add('engagements');
+        $this->remove('engagements');
+        $this->add('engagements');
         $engagements = sfConfig::get('subvention_configuration_engagements');
 	    foreach ($engagements as $key => $libelle) {
 	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
