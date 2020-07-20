@@ -67,6 +67,8 @@ subvention_visualisation:
   options:
     model:    Subvention
     type:     object
+  requirements:
+    sf_method: [get]
 
 subvention_validationinterpro:
   url: /subvention/:identifiant/validationinterpro/:operation
