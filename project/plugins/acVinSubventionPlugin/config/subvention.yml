@@ -1,6 +1,7 @@
 all:
   configuration:
     subvention:
+      actif: true
       plateforme: "Plateforme interpro"
       referent: "Agent référent interpro"
       engagements:

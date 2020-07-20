@@ -19,19 +19,19 @@ class SubventionConfiguration {
 
         $this->configuration = sfConfig::get('subvention_configuration_subvention', array());
     }
-    
+
     public function getEngagements() {
         return (isset($this->configuration['engagements']))? $this->configuration['engagements'] : array();
     }
-    
+
     public function getEngagementsPrecisions() {
         return (isset($this->configuration['engagements_precisions']))? $this->configuration['engagements_precisions'] : array();
     }
-    
+
     public function getPlateforme() {
         return (isset($this->configuration['plateforme']))? $this->configuration['plateforme'] : array();
     }
-    
+
     public function getReferent() {
         return (isset($this->configuration['referent']))? $this->configuration['referent'] : array();
     }
@@ -48,6 +48,10 @@ class SubventionConfiguration {
             "contacts_libelle" => "Contacts de la personne en charge du dossier au sein de l’entreprise",
 
         );
+    }
+
+    public function isActif() {
+        return $this->configuration['actif'];
     }
 
 }

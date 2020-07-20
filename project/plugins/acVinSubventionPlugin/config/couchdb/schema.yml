@@ -53,6 +53,7 @@ Subvention:
           fields:
             '*': {  }
       commentaire: { }
+      date_modification: { }
       validation_date: { required: false }
       signature_date: { }
       dossier_date: { }

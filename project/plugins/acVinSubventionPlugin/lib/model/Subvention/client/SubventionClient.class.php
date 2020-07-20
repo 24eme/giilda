@@ -2,6 +2,8 @@
 
 class SubventionClient extends acCouchdbClient {
 
+    const DOCUMENTRADIX = "SUBVENTION";
+
     const STATUT_VALIDE = "VALIDE";
     const STATUT_APPROUVE = "APPROUVE";
     const STATUT_APPROUVE_PARTIELLEMENT = "APPROUVE_PARTIELLEMENT";
@@ -27,6 +29,26 @@ class SubventionClient extends acCouchdbClient {
         $subvention->updateInfosSchema();
 
         return $subvention;
+    }
+
+    public function findByEtablissementSortedByDate($identifiant){
+      $subventions = $this->startkey(sprintf(self::DOCUMENTRADIX."-%s-", $identifiant))
+                      ->endkey(sprintf(self::DOCUMENTRADIX."-%s-Z", $identifiant))
+                      ->execute(acCouchdbClient::HYDRATE_DOCUMENT)->getDatas();
+      $subventionsDocs = array();
+
+      foreach ($subventions as $key => $subvention) {
+        if($subvention->identifiant == $identifiant){
+            if(!array_key_exists($subvention->operation,$subventionsDocs)){
+              $subventionsDocs[$subvention->operation] = array();
+            }
+            $subventionsDocs[$subvention->operation][$subvention->date_modification] = $subvention;
+        }
+      }
+      foreach ($subventionsDocs as $sub => $subventions) {
+        ksort($subventions);
+      }
+      return $subventionsDocs;
     }
 
 }

@@ -17,7 +17,7 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         parent::__clone();
         $this->initDocuments();
     }
-    
+
     public function getConfiguration() {
         return SubventionConfiguration::getInstance();
     }
@@ -124,6 +124,10 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function validateInterpro($statut) {
         $this->statut = $statut;
+    }
+
+    public function dosave(){
+      $this->add('date_modification', date('Y-m-d H:m:s'));
     }
 
 }
