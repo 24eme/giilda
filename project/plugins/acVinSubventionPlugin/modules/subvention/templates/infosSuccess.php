@@ -10,7 +10,7 @@
         <?php echo $form->renderGlobalErrors(); ?>
         <?php echo $form->renderHiddenFields(); ?>
 
-        <h1>Informations du dossier de subvention</h1>
+        <h2>Informations du dossier de subvention</h2>
         <p>Saisie de informations de votre dossier de subvention</p>
         <div class="row">
             <div class="col-xs-12">
