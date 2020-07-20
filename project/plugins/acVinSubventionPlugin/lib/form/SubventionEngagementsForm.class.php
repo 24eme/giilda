@@ -35,7 +35,14 @@ class SubventionEngagementsForm extends acCouchdbForm {
     }
 
     public function save() {
-
+        $this->getDocument()->remove('engagements');
+        $this->getDocument()->add('engagements');
+        $engagements = sfConfig::get('subvention_configuration_engagements');
+	    foreach ($engagements as $key => $libelle) {
+	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
+	            $this->getDocument()->engagements->add($key, true);
+	        }
+	    }
         $this->getDocument()->save();
     }
 

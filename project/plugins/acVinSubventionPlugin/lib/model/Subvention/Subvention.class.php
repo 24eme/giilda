@@ -68,7 +68,7 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function getInfosSchema() {
 
-        return SubventionConfiguration::getInstance()->getInfosSchema($this->operation);
+        return $this->getConfiguration()->getInfosSchema($this->operation);
     }
 
     public function getXls() {
@@ -110,14 +110,6 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function validate() {
-        $this->remove('engagements');
-        $this->add('engagements');
-        $engagements = sfConfig::get('subvention_configuration_engagements');
-	    foreach ($engagements as $key => $libelle) {
-	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
-	            $this->engagements->add($key, true);
-	        }
-	    }
         $this->statut = SubventionClient::STATUT_VALIDE;
         $this->signature_date = date('Y-m-d');
     }
