@@ -7,7 +7,9 @@
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
 
-    <h1><strong>Etape 3</strong> - Validation du dossier</h1>
+    <h2>Validation du dossier</h2>
+
+    <p>Vous pouvez vérifier vos informations avant de soumettre la validation de votre dossier à l'interprofession</p>
 
     <form class="form-horizontal" role="form" action="<?php echo url_for("subvention_validation", $subvention) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>

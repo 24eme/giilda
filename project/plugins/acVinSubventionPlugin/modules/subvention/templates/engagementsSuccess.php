@@ -9,10 +9,12 @@
         <?php echo $form->renderGlobalErrors(); ?>
         <?php echo $form->renderHiddenFields(); ?>
 
-        <h1>Engagements</h1>
+        <h2>Engagements</h2>
+
+        <p>Merci de vérifier les points suivants et vous engager à les respecter :</p>
 
         <div class="row">
-        	<div class="col-xs-12">
+        	<div class="col-xs-9">
             	<?php
                 foreach ($form->getEngagements() as $key => $libelle):
                    if (!isset($form["engagement_$key"])) continue;
@@ -53,6 +55,9 @@
                 <?php endif; ?>
               	<?php endforeach; ?>
     		</div>
+            <div class="col-xs-3">
+                <?php include_partial('subvention/aide'); ?>
+            </div>
         </div>
 
         <div class="row" style="margin-top: 20px;">
