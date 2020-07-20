@@ -471,7 +471,7 @@ class Etablissement extends BaseEtablissement {
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
     }
 
-    public function getInsee() {
+    public function getCodeInsee() {
         if (!$this->siege->exist('code_insee') && $this->cvi) {
             $this->siege->add('code_insee',  substr($this->cvi, 0, 5));
         }
