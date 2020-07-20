@@ -38,6 +38,25 @@ class subventionActions extends sfActions {
 
     }
 
+    public function executeEngagements(sfWebRequest $request) {
+        $this->subvention = $this->getRoute()->getSubvention();
+        $this->form = new SubventionEngagementsForm($this->subvention);
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if (!$this->form->isValid()) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        return $this->redirect($this->generateUrl('subvention_validation', $this->subvention));
+    }
+
     public function executeValidation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
         $this->form = new SubventionValidationForm($this->subvention);

@@ -40,6 +40,16 @@ subvention_dossier:
   requirements:
     sf_method: [get, post]
 
+subvention_engagements:
+  url: /subvention/:identifiant/engagements/:operation
+  param: { module: subvention, action: engagements }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
 subvention_validation:
   url: /subvention/:identifiant/validation/:operation
   param: { module: subvention, action: validation }

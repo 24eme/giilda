@@ -8,7 +8,7 @@
 				</div>
 				<div class="modal-body">
                     <?php echo $form->renderHiddenFields(); ?>
-                    <?php echo $form->renderGlobalErrors(); ?> 
+                    <?php echo $form->renderGlobalErrors(); ?>
                     <div class="form-group <?php if($form['statut']->hasError()): ?>has-error<?php endif; ?>">
                         <?php echo $form['statut']->renderError() ?>
                         <?php echo $form['statut']->renderLabel(null, array("class" => "col-sm-3 control-label")); ?>
