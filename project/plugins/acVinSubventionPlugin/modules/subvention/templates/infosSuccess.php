@@ -14,74 +14,67 @@
         <p>Saisie de informations de votre dossier de subvention</p>
         <div class="row">
             <div class="col-xs-9">
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h3 class="panel-title">Entreprise</h3></div>
-                    <div class="panel-body">
-                        <div class="form-group" style="margin-bottom: 0">
-                           <label class="col-sm-3 control-label">Raison sociale</label>
-                           <div class="col-sm-8">
-                                <p class="form-control-static"><?php echo $subvention->declarant->raison_sociale ?></p>
-                           </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0">
-                           <label class="col-sm-3 control-label">Famille</label>
-                           <div class="col-sm-8">
-                                <p class="form-control-static"><?php echo EtablissementFamilles::getFamilleLibelle($subvention->declarant->famille) ?></p>
-                           </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0">
-                           <label class="col-sm-3 control-label">SIRET</label>
-                           <div class="col-sm-8">
-                                <p class="form-control-static"><?php echo $subvention->declarant->siret ?></p>
-                           </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0">
-                           <label class="col-sm-3 control-label">Adresse</label>
-                           <div class="col-sm-8">
-                                <p class="form-control-static"><?php echo $subvention->declarant->adresse ?></p>
-                           </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0">
-                           <label class="col-sm-3 control-label">Code postal</label>
-                           <div class="col-sm-8">
-                                <p class="form-control-static"><?php echo $subvention->declarant->code_postal ?></p>
-                           </div>
-                        </div>
-                        <div class="form-group" style="margin-bottom: 0">
-                           <label class="col-sm-3 control-label">Commune</label>
-                           <div class="col-sm-8">
-                                <p class="form-control-static"><?php echo $subvention->declarant->commune ?></p>
-                           </div>
-                        </div>
-                    </div>
+                <h3 style="margin-top: 5px;">Entreprise</h3>
+                <div class="form-group" style="margin-bottom: 0">
+                   <label class="col-sm-3 control-label">Raison sociale</label>
+                   <div class="col-sm-8">
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo $subvention->declarant->raison_sociale ?></p>
+                   </div>
                 </div>
+                <div class="form-group" style="margin-bottom: 0">
+                   <label class="col-sm-3 control-label">Famille</label>
+                   <div class="col-sm-8">
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo EtablissementFamilles::getFamilleLibelle($subvention->declarant->famille) ?></p>
+                   </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                   <label class="col-sm-3 control-label">SIRET</label>
+                   <div class="col-sm-8">
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo $subvention->declarant->siret ?></p>
+                   </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                   <label class="col-sm-3 control-label">Adresse</label>
+                   <div class="col-sm-8">
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo $subvention->declarant->adresse ?></p>
+                   </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                   <label class="col-sm-3 control-label">Code postal</label>
+                   <div class="col-sm-8">
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo $subvention->declarant->code_postal ?></p>
+                   </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 0">
+                   <label class="col-sm-3 control-label">Commune</label>
+                   <div class="col-sm-8">
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo $subvention->declarant->commune ?></p>
+                   </div>
+                </div>
+
                 <?php foreach($form as $categorie => $items): ?>
             <?php if(!$items instanceof sfFormFieldSchema): continue; endif; ?>
-
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title"><?php echo $subvention->infos->get($categorie)->getLibelle() ?></h3></div>
-                <div class="panel-body">
-                    <?php foreach($items as $key => $item): ?>
-                        <div class="form-group">
-                           <?php echo $item->renderError(); ?>
-                           <?php echo $item->renderLabel(null, array("class" => "col-sm-3 control-label")); ?>
-                           <div class="<?php if(get_class($item->getWidget()) == "bsWidgetFormInputFloat"): ?>col-sm-3<?php else: ?>col-sm-4<?php endif;?>">
-                                <?php $unite = $subvention->infos->get($categorie)->getInfosSchemaItem($key, "unite") ?>
-                                <?php if($unite): ?><div class="input-group"><?php endif ?>
-                                <?php echo $item->render(); ?>
-                                <?php if($unite): ?>
-                                    <span class="input-group-addon"><?php echo $unite; ?></span>
-                                    </div>
-                                <?php endif ?>
-                           </div>
-                           <div class="col-sm-3">
-                               <?php echo $item->renderHelp(); ?>
-                           </div>
-                        </div>
-                    <?php endforeach; ?>
+            <hr style="margin-bottom: 0;" />
+            <h3 style="margin-bottom: 20px; margin-top: 15px;"><?php echo $subvention->infos->get($categorie)->getLibelle() ?></h3>
+            <?php foreach($items as $key => $item): ?>
+                <div class="form-group">
+                   <?php echo $item->renderError(); ?>
+                   <?php echo $item->renderLabel(null, array("class" => "col-sm-3 control-label")); ?>
+                   <div class="<?php if(get_class($item->getWidget()) == "bsWidgetFormInputFloat"): ?>col-sm-3<?php else: ?>col-sm-4<?php endif;?>">
+                        <?php $unite = $subvention->infos->get($categorie)->getInfosSchemaItem($key, "unite") ?>
+                        <?php if($unite): ?><div class="input-group"><?php endif ?>
+                        <?php echo $item->render(); ?>
+                        <?php if($unite): ?>
+                            <span class="input-group-addon"><?php echo $unite; ?></span>
+                            </div>
+                        <?php endif ?>
+                   </div>
+                   <div class="col-sm-3">
+                       <?php echo $item->renderHelp(); ?>
+                   </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+            <?php endforeach; ?>
             </div>
 
             <div class="col-xs-3">
