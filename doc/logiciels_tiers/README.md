@@ -44,5 +44,5 @@ Ce fichier reprend l'ensemble des spécificités décrites ci-dessus.
 | Solumatic        | Oui |  |  |  |  |
 | Dune Informatique| Oui |  |  |  |  |
 | Cer France       | Oui |  |  |  |  |
-| Vinosoft         | Oui | Oui | Oui | Oui |  |
+| Baqio         | Oui | Oui | Oui | Oui |  |
 | EBC         | Oui |  |  |  |  |
