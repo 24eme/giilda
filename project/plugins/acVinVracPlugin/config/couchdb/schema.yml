@@ -73,6 +73,8 @@ Vrac:
       type_transaction: {  }
       produit: {   }
       produit_libelle: {   }
+      cepage: { required: false  }
+      cepage_libelle: { required: false  }
       millesime: { type: integer }
       categorie_vin: {   } # Générique ou domaine
       domaine: {  }
@@ -117,8 +119,10 @@ Vrac:
       commentaire: { }
 
 #Validations
+      versement_fa: { required: false }
       date_campagne: { }
       date_signature: { }
+      date_visa: { required: false }
 
       volume_propose: { type: float }
       volume_enleve: { type: float }

@@ -68,6 +68,7 @@ Etablissement:
                adresse: {  }
                adresse_complementaire: { required: false }
                code_postal: {  }
+               code_insee: { required: false }
                commune: {  }
        comptabilite:
            type: collection

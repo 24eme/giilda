@@ -21,7 +21,7 @@
                   <?php echo $form['denomination_complementaire']->renderLabel(); ?>
                 </div>
                 <div class="col-sm-8 text-left">
-                  <?php echo $form['denomination_complementaire']->render(array('class' => 'form-control', 'placeholder' => 'Exemple : millesime, sous produit')); ?>
+                  <?php echo $form['denomination_complementaire']->render(array('class' => 'form-control')); ?>
                 </div>
               </div>
 

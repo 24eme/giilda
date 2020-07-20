@@ -167,6 +167,10 @@ class Etablissement extends BaseEtablissement {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
 
+    public function isCooperative() {
+        return ($this->_get('famille') == EtablissementFamilles::FAMILLE_COOPERATIVE);
+    }
+
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
             EtablissementFamilles::FAMILLE_NEGOCIANT => 'acheteur',
@@ -182,7 +186,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function getFamille(){
-      if($this->_get('famille') == EtablissementFamilles::FAMILLE_COOPERATIVE){
+      if($this->isCooperative()){
         return EtablissementFamilles::FAMILLE_PRODUCTEUR;
       }
       return $this->_get('famille');
@@ -465,6 +469,38 @@ class Etablissement extends BaseEtablissement {
             return $this->mois_stock_debut;
         }
         return DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
+    }
+
+    public function getInsee() {
+        if (!$this->siege->exist('code_insee') && $this->cvi) {
+            $this->siege->add('code_insee',  substr($this->cvi, 0, 5));
+        }
+        if ($this->siege->exist('code_insee')) {
+            return $this->siege->code_insee;
+        }
+        return null;
+    }
+
+    public function getNatureInao() {
+        if (preg_match('/SICA( |$)/i', $this->raison_sociale)) {
+            return '07';
+        }
+        if (preg_match('/(SCEA|GFA|GAEC)( |$)/i', $this->raison_sociale)) {
+            return '06';
+        }
+        if ($this->isCooperative()) {
+            if (preg_match('/union/i', $this->raison_sociale)) {
+                return '05';
+            }
+            return '04';
+        }
+        if ($this->famille == EtablissementClient::FAMILLE_PRODUCTEUR) {
+            return '01';
+        }
+        if ($this->famille == EtablissementClient::FAMILLE_NEGOCIANT || $this->famille == EtablissementClient::FAMILLE_NEGOCIANT_PUR) {
+            return '08';
+        }
+        return '09';
     }
 
 }
