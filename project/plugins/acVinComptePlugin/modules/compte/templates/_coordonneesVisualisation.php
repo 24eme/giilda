@@ -20,7 +20,7 @@
         <label for="code_postal">
             Code postal :
         </label>
-        <?php echo $compte->code_postal; $insee = $compte->getCodeInsee(); if ($insee) { echo " ($insee)"; } ?>
+        <?php echo $compte->code_postal; $insee = $compte->getCodeInsee(); if ($insee) { echo " (insee: $insee)"; } ?>
     </div>
     <div class="form_ligne">
         <label for="commune">
