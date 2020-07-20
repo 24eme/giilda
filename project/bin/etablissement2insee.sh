@@ -32,12 +32,10 @@ grep -v ';.....$' etablissement2insee3.csv | sed 's/;.*//' | while read id ; do 
 grep -h ';.....$' etablissement2inse*csv | sort -u | sed 's/;.*//'  > etablissements_trouves.txt
 cat villes.csv | sed 's/;.*//' | sort  > etablissements_tous.txt
 
-diff etablissements_t* | grep '<'  | sed 's/^..//'  | grep ETAB | while read id ; do grep "^""$id"";" villes.csv ; done | while read line ; do echo $line | sed 's/;.*/;/'  | tr -d '\n' ;  geo=$(echo $line | sed 's/^[^,]*,//') ; md5=$(echo $geo | md5sum | sed 's/ .*//') ; test -f /tmp/cache/$md5 || curl -s -G --data-urlencode "q=""$geo" --data-urlencode "type=municipality" https://api-adresse.data.gouv.fr/search/ | jq '.features[]' | jq -c '[.properties.citycode, .properties.score]'  | sed 's/^.//' | sed 's/.$//'  | awk -F ',' '{if ($2 > 0.6) print  $1}'  | sed 's/"//g' | sort -u | tr -d '\n' > /tmp/cache/$md5 ; cat /tmp/cache/$md5; echo ; done > etablissement2insee5.csv
+diff etablissements_t*txt | grep '<'  | sed 's/^..//'  | grep ETAB | while read id ; do grep "^""$id"";" villes.csv ; done | while read line ; do echo $line | sed 's/;.*/;/'  | tr -d '\n' ;  geo=$(echo $line | sed 's/^[^,]*,//') ; md5=$(echo $geo | md5sum | sed 's/ .*//') ; test -f /tmp/cache/$md5 || curl -s -G --data-urlencode "q=""$geo" --data-urlencode "type=municipality" https://api-adresse.data.gouv.fr/search/ | jq '.features[]' | jq -c '[.properties.citycode, .properties.score]'  | sed 's/^.//' | sed 's/.$//'  | awk -F ',' '{if ($2 > 0.6) print  $1}'  | sed 's/"//g' | sort -u | tr -d '\n' > /tmp/cache/$md5 ; cat /tmp/cache/$md5; echo ; done > etablissement2insee5.csv
 
 
 grep -v ';.....$' etablissement2insee5.csv | sed 's/;.*//' | while read id ; do grep "^""$id"";" villes.csv ; done | while read line ; do echo $line | sed 's/;.*/;/'  | tr -d '\n' ;  geo=$(echo $line | sed 's/^[^,]*,//') ; md5=$(echo $geo | md5sum | sed 's/ .*//') ; test -f /tmp/cache/$md5".2" || curl -s -G --data-urlencode "q=""$geo" https://api-adresse.data.gouv.fr/search/ | jq '.features[]' | jq -c '[.properties.citycode, .properties.score]'  | sed 's/^.//' | sed 's/.$//'  | awk -F ',' '{if ($2 > 0.4) print  $1}'  | sed 's/"//g' | head -n 1 | tr -d '\n' > /tmp/cache/$md5".2" ; cat /tmp/cache/$md5".2"; echo ; done > etablissement2insee6.csv
 
 grep -h ';.....$' etablissement2inse*csv | sort -u  > etablissements_trouves2insee.csv
 cat etablissements_trouves2insee.csv | sed 's/;.*//'  > etablissements_trouves.txt
-
-
