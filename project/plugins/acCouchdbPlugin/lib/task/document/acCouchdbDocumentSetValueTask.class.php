@@ -56,18 +56,18 @@ EOF;
     $doc = acCouchdbManager::getClient()->find($arguments['doc_id']);
 
     if(!$doc) {
-
+        error_log("doc $doc non trouvé");
         return;
     }
 
     $output = array();
     foreach($values as $hash => $value) {
         if(!$doc->exist($hash)) {
-
+            error_log("$hash n'existe pas");
             return;
         }
         if($doc->get($hash) instanceof acCouchdbJson) {
-
+            error_log("$hash n'est pas un couchedbJson pour ".$doc->_id);
             return;
         }
         if($doc->get($hash) === $value) {
@@ -87,6 +87,6 @@ EOF;
         return;
     }
 
-    echo "Le document ".$doc->_id."@".$oldrev." a été sauvé @".$doc->_rev.", les valeurs suivantes ont été changés : ".implode(",", $output)."\n";
+    error_log("Le document ".$doc->_id."@".$oldrev." a été sauvé @".$doc->_rev.", les valeurs suivantes ont été changés : ".implode(",", $output));
   }
 }
