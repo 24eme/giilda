@@ -32,6 +32,9 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function updateInfosSchema() {
         foreach($this->getInfosSchema() as $categorie => $items) {
+            if(preg_match("/_libelle$/", $categorie)) {
+                continue;
+            }
             $this->infos->add($categorie);
         }
     }
