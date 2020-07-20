@@ -1,5 +1,7 @@
 <ol class="breadcrumb">
-    <li class="active"><a href="<?php echo "#" ?>">Subvention</a></li>
+    <li><a href="<?php echo url_for('subvention') ?>">Subvention</a></li>
+    <li><a href="<?php echo url_for('subvention_etablissement', array('identifiant' => $subvention->identifiant)) ?>"><?php echo $subvention->declarant->nom ?> (<?php echo $subvention->identifiant ?>)</a></li>
+    <li class="active"><a href="">Demande de subvention <?php echo $subvention->operation ?></a></li>
 </ol>
 
 <section id="principal">
@@ -60,7 +62,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 20px;">
+        <div class="row" style="margin-top: 30px;">
             <div class="col-xs-6">
                 <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('subvention_dossier', $subvention); ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Étape précédente</a>
             </div>
