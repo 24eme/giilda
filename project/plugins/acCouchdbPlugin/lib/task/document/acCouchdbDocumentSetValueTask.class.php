@@ -62,6 +62,20 @@ EOF;
 
     $output = array();
     foreach($values as $hash => $value) {
+        try {
+            $docadd = $doc;
+            $hashadd = $hash;
+            if (preg_match('/(.*)\/([^\/]*)$/', $hash, $match)) {
+                $parenthash = $match[1];
+                $docadd = $doc->get($parenthash);
+                $hashadd = $match[2];
+            }
+            $docadd->add($hashadd);
+        }catch(sfException $e) {
+            error_log("$hash ne peut exister pour ".$doc->_id);
+            return;
+        }
+
         if(!$doc->exist($hash)) {
             error_log("$hash n'existe pas");
             return;
