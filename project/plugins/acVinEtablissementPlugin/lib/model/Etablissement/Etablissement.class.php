@@ -167,6 +167,10 @@ class Etablissement extends BaseEtablissement {
         return ($this->famille == EtablissementFamilles::FAMILLE_COURTIER);
     }
 
+    public function isCooperative() {
+        return ($this->_get('famille') == EtablissementFamilles::FAMILLE_COOPERATIVE);
+    }
+
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
             EtablissementFamilles::FAMILLE_NEGOCIANT => 'acheteur',
@@ -182,7 +186,7 @@ class Etablissement extends BaseEtablissement {
     }
 
     public function getFamille(){
-      if($this->_get('famille') == EtablissementFamilles::FAMILLE_COOPERATIVE){
+      if($this->isCooperative()){
         return EtablissementFamilles::FAMILLE_PRODUCTEUR;
       }
       return $this->_get('famille');
@@ -484,7 +488,7 @@ class Etablissement extends BaseEtablissement {
         if (preg_match('/(SCEA|GFA|GAEC)( |$)/i', $this->raison_sociale)) {
             return '06';
         }
-        if ($this->famille == EtablissementClient::FAMILLE_COOPERATIVE) {
+        if ($this->isCooperative()) {
             if (preg_match('/union/i', $this->raison_sociale)) {
                 return '05';
             }
@@ -498,5 +502,5 @@ class Etablissement extends BaseEtablissement {
         }
         return '09';
     }
-    
+
 }
