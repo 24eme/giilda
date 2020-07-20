@@ -39,9 +39,9 @@ class SubventionConfiguration {
     public function getInfosSchema($operation) {
         return array(
             "economique" => array(
-                                "capital_social" => array("label" => "Capital Social", "type" => "float"),
-                                "etp" => array("label" => "Nombre d'ETP", "type" => "float"),
-                                "effectif_permanent" => array("label" => "Dont effectif permanent", "type" => "float"),
+                                "capital_social" => array("label" => "Capital Social", "type" => "float", "unite" => "€"),
+                                "etp" => array("label" => "Effectif", "type" => "float", "unite" => "ETP", "help" => "Équivalent temps plein"),
+                                "effectif_permanent" => array("label" => "Dont effectif permanent", "type" => "float", "unite" => "ETP", "help" => "Équivalent temps plein"),
                             ),
             "economique_libelle" => "Données économiques",
             "contacts" => array("nom" => array("label" => "Prénom Nom"), "email" => array("label" => "Email"), "telephone" => array("label" => "Téléphone")),
