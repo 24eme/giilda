@@ -42,6 +42,16 @@ subvention_dossier:
   requirements:
     sf_method: [get, post]
 
+subvention_engagements:
+  url: /subvention/:identifiant/engagements/:operation
+  param: { module: subvention, action: engagements }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
 subvention_validation:
   url: /subvention/:identifiant/validation/:operation
   param: { module: subvention, action: validation }
@@ -59,6 +69,16 @@ subvention_visualisation:
   options:
     model:    Subvention
     type:     object
+
+subvention_validationinterpro:
+  url: /subvention/:identifiant/validationinterpro/:operation
+  param: { module: subvention, action: validationInterpro }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
+  requirements:
+    sf_method: [get, post]
 
 subvention_xls:
   url: /subvention/:identifiant/xls/:operation

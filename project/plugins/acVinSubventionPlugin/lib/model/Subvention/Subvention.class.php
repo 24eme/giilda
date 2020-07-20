@@ -18,6 +18,10 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->initDocuments();
     }
 
+    public function getConfiguration() {
+        return SubventionConfiguration::getInstance();
+    }
+
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
     }
@@ -28,6 +32,9 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function updateInfosSchema() {
         foreach($this->getInfosSchema() as $categorie => $items) {
+            if(preg_match("/_libelle$/", $categorie)) {
+                continue;
+            }
             $this->infos->add($categorie);
         }
     }
@@ -100,6 +107,23 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function hasXls(){
       return $this->exist('_attachments') && $this->_attachments->exist($this->getFileName());
+    }
+
+    public function validate() {
+        $this->remove('engagements');
+        $this->add('engagements');
+        $engagements = sfConfig::get('subvention_configuration_engagements');
+	    foreach ($engagements as $key => $libelle) {
+	        if (isset($values["engagement_$key"]) && $values["engagement_$key"]) {
+	            $this->engagements->add($key, true);
+	        }
+	    }
+        $this->statut = SubventionClient::STATUT_VALIDE;
+        $this->signature_date = date('Y-m-d');
+    }
+
+    public function validateInterpro($statut) {
+        $this->statut = $statut;
     }
 
     public function dosave(){

@@ -13,34 +13,7 @@
         <?php echo $form->renderHiddenFields(); ?>
         <?php echo $form->renderGlobalErrors(); ?>
 
-        <div class="row">
-        	<div class="col-xs-12">
-        		<h3><?php echo $subvention->declarant->raison_sociale ?> (SIRET n°<?php echo $subvention->declarant->siret ?>)</h3>
-    			<a href="<?php echo url_for("subvention_pdf", $subvention) ?>" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-file"></span>&nbsp;Vos informations</a>
-    		</div>
-    	</div>
-
-        <div class="row">
-        	<div class="col-xs-12">
-        		<h3>Engagements</h3>
-            	<?php
-                $engagements = sfConfig::get('subvention_configuration_engagements');
-                foreach ($engagements as $key => $libelle):
-                   if (!isset($form["engagement_$key"])) continue;
-                ?>
-                <div class="form-group <?php if($form["engagement_$key"]->hasError()): ?>has-error<?php endif; ?>">
-                	<div class="col-xs-12">
-        				<?php echo $form["engagement_$key"]->renderError() ?>
-        			</div>
-    				<div class="col-xs-12 checkbox">
-    					<label for="validation_<?php echo "engagement_$key" ?>">
-        				<?php echo $form["engagement_$key"]->render() ?>&nbsp;<?php echo $libelle ?>
-        				</label>
-                  	</div>
-              	</div>
-              	<?php endforeach; ?>
-    		</div>
-        </div>
+        <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
 
         <div class="row">
         	<div class="col-xs-12">
@@ -55,13 +28,6 @@
         		</div>
     		</div>
         </div>
-
-        <div class="row">
-        	<div class="col-xs-12">
-        		<h3>Dossier joint</h3>
-        		<a href="#" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-file"></span>&nbsp;XLS</a>
-        	</div>
-        </div>
         <br />
         <br />
         <div class="row row-margin row-button">
@@ -73,5 +39,20 @@
             </div>
         </div>
     </form>
-
 </section>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("input[type='checkbox']").change(function () {
+		var checkbox = $(this);
+		if (checkbox.data("target")) {
+			if (checkbox.is(':checked')) {
+				$(checkbox.data("target")).prop("checked", true);
+			}
+		} else {
+			if (!checkbox.is(':checked')) {
+				$("input[data-target='#"+checkbox.attr("id")+"']").prop("checked", false);
+			}
+		}
+	});
+});
+</script>

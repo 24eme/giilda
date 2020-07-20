@@ -47,8 +47,14 @@ Subvention:
         definition:
           fields:
             '*': {  }
+      engagements_precisions:
+        type: collection
+        definition:
+          fields:
+            '*': {  }
       commentaire: { }
       date_modification: { }
-      validation_date: { }
+      validation_date: { required: false }
       signature_date: { }
       dossier_date: { }
+      statut: { }

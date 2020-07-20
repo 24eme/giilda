@@ -14,6 +14,7 @@ class SubventionsInfosForm extends acCouchdbForm {
 
             foreach($items as $key => $item) {
                 $label = $items->getInfosSchemaItem($key, "label");
+                $help = $items->getInfosSchemaItem($key, "help");
 
                 $widgetClass = "bsWidgetFormInput";
                 $validatorClass = "sfValidatorString";
@@ -27,6 +28,10 @@ class SubventionsInfosForm extends acCouchdbForm {
                 $formCategorie->getWidget($key)->setLabel($label);
                 $formCategorie->setValidator($key, new $validatorClass(array('required' => false)));
                 $formCategorie->setDefault($key, $item);
+
+                if($help) {
+                    $formCategorie->getWidgetSchema()->setHelp($key, $help);
+                }
             }
 
             $this->embedForm($categorie, $formCategorie);

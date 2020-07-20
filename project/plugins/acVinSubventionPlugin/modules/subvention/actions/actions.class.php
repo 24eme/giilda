@@ -40,6 +40,25 @@ class subventionActions extends sfActions {
 
     }
 
+    public function executeEngagements(sfWebRequest $request) {
+        $this->subvention = $this->getRoute()->getSubvention();
+        $this->form = new SubventionEngagementsForm($this->subvention);
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if (!$this->form->isValid()) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        return $this->redirect($this->generateUrl('subvention_validation', $this->subvention));
+    }
+
     public function executeValidation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
         $this->form = new SubventionValidationForm($this->subvention);
@@ -55,6 +74,28 @@ class subventionActions extends sfActions {
         }
 
         $this->form->save();
+
+        return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
+    }
+
+    public function executeValidationInterpro(sfWebRequest $request) {
+        $this->subvention = $this->getRoute()->getSubvention();
+        $this->formValidationInterpro = new SubventionValidationInterproForm($this->subvention);
+
+        $this->setTemplate('visualisation');
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+
+            return sfView::SUCCESS;
+        }
+
+        $this->formValidationInterpro->bind($request->getParameter($this->formValidationInterpro->getName()));
+
+        if (!$this->formValidationInterpro->isValid()) {
+            return sfView::SUCCESS;
+        }
+
+        $this->formValidationInterpro->save();
 
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
     }
