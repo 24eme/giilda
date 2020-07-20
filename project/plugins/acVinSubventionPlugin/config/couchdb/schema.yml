@@ -48,6 +48,7 @@ Subvention:
           fields:
             '*': {  }
       commentaire: { }
+      date_modification: { }
       validation_date: { }
       signature_date: { }
       dossier_date: { }

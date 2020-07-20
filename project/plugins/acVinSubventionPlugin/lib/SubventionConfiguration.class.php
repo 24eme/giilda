@@ -3,6 +3,7 @@
 class SubventionConfiguration {
 
     private static $_instance = null;
+    protected $configuration;
 
     public static function getInstance() {
         if (is_null(self::$_instance)) {
@@ -12,7 +13,11 @@ class SubventionConfiguration {
     }
 
     public function __construct() {
+        if(!sfConfig::has('subvention_configuration_subvention')) {
+          throw new sfException("La configuration pour les fichiers n'a pas été défini pour cette application");
+        }
 
+        $this->configuration = sfConfig::get('subvention_configuration_subvention', array());
     }
 
     public function getInfosSchema($operation) {
@@ -27,6 +32,10 @@ class SubventionConfiguration {
             "contacts_libelle" => "Contacts de la personne en charge du dossier au sein de l’entreprise",
 
         );
+    }
+
+    public function isActif() {
+        return $this->configuration['actif'];
     }
 
 }

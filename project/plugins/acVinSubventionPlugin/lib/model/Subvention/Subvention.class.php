@@ -102,4 +102,8 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
       return $this->exist('_attachments') && $this->_attachments->exist($this->getFileName());
     }
 
+    public function dosave(){
+      $this->add('date_modification', date('Y-m-d H:m:s'));
+    }
+
 }

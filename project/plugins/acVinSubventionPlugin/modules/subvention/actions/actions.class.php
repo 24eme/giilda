@@ -3,11 +3,13 @@
 class subventionActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
-        var_dump("ici les subventions"); exit;
+
     }
 
     public function executeEtablissement(sfWebRequest $request) {
         $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->subventions = SubventionClient::getInstance()->findByEtablissementSortedByDate($this->etablissement->identifiant);
+
     }
 
     public function executeCreation(sfWebRequest $request) {
