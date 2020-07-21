@@ -107,3 +107,11 @@ subvention_pdf:
   options:
     model:    Subvention
     type:     object
+
+subvention_zip:
+  url: /subvention/:identifiant/zip/:operation
+  param: { module: subvention, action: zip }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object

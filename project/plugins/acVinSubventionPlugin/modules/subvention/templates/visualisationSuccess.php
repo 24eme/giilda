@@ -6,7 +6,7 @@
 	<?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
     
     <div class="row text-center">
-    	<a class="btn btn-lg btn-primary" href=""><span class="glyphicon glyphicon-save-file"></span>&nbsp;Télécharger le dossier complet</a>
+    	<a class="btn btn-lg btn-primary" href="<?php echo url_for('subvention_zip', $subvention) ?>"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Télécharger le dossier complet</a>
     </div>
     
     <div class="row text-center">
@@ -14,7 +14,7 @@
     </div>
     
     <div class="row text-center">
-    	<a class="btn btn-lg btn-warning" href="">Déposer votre dossier sur le site de la région Occitanie</a>
+    	<a class="btn btn-lg btn-warning" href="" target="_blank">Déposer votre dossier sur le site de la région Occitanie</a>
     </div>
     
     <div class="row">

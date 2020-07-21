@@ -1,12 +1,6 @@
 <?php
 class SubventionValidationForm extends acCouchdbObjectForm
 {
-    protected $engagements;
-    protected $engagementsPrecisions;
-
-    public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
-        parent::__construct($object, $options, $CSRFSecret);
-    }
 
 	public function configure() {
         $this->setWidget('commentaire', new sfWidgetFormTextarea(array(), array('style' => 'width: 100%;resize:none;')));
