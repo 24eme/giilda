@@ -1,7 +1,8 @@
 <ol class="breadcrumb">
     <li><a href="<?php echo url_for('subvention') ?>">Subvention</a></li>
     <li><a href="<?php echo url_for('subvention_etablissement', array('identifiant' => $subvention->identifiant)) ?>"><?php echo $subvention->declarant->nom ?> (<?php echo $subvention->identifiant ?>)</a></li>
-    <li class="active"><a href=""><?php if($subvention->isNew()): ?>Ajouter<?php else: ?>Modifier<?php endif; ?></a></li>
+    <li><a href="<?php echo url_for('subvention_etablissement', $subvention->getEtablissement()) ?>"><?php echo $subvention->operation ?></a></li>
+    <li class="active"><a href="">Validation</a></li>
 </ol>
 
 <section id="principal">
