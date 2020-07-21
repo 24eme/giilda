@@ -119,7 +119,7 @@ class subventionActions extends sfActions {
       	}
         $this->form->save();
 
-        $this->redirect('subvention_validation', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
+        $this->redirect('subvention_engagements', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
 
     }
 

@@ -1,13 +1,11 @@
-<ol class="breadcrumb">
-    <li><a href="<?php echo url_for('subvention') ?>">Subvention</a></li>
-    <li><a href="<?php echo url_for('subvention_etablissement', array('identifiant' => $subvention->identifiant)) ?>"><?php echo $subvention->declarant->nom ?> (<?php echo $subvention->identifiant ?>)</a></li>
-    <li class="active"><a href=""><?php if($subvention->isNew()): ?>Ajouter<?php else: ?>Modifier<?php endif; ?></a></li>
-</ol>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
 
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
 
-    <h1><strong>Etape 3</strong> - Validation du dossier</h1>
+    <h2>Validation du dossier</h2>
+
+    <p>Vous pouvez vérifier vos informations avant de soumettre la validation de votre dossier à l'interprofession</p>
 
     <form class="form-horizontal" role="form" action="<?php echo url_for("subvention_validation", $subvention) ?>" method="post">
         <?php echo $form->renderHiddenFields(); ?>
@@ -32,7 +30,7 @@
         <br />
         <div class="row row-margin row-button">
             <div class="col-xs-6">
-            	<a href="<?php echo url_for('subvention_dossier', $subvention) ?>" tabindex="-1" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Etape précédente</a>
+            	<a href="<?php echo url_for('subvention_engagements', $subvention) ?>" tabindex="-1" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Etape précédente</a>
             </div>
             <div class="col-xs-6 text-right">
                 <button type="submit" class="btn btn-success">Valider le dossier&nbsp;<span class="glyphicon glyphicon-ok"></span></button>

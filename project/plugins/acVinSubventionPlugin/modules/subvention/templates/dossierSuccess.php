@@ -1,81 +1,43 @@
-<ol class="breadcrumb">
-    <li class="active"><a href="<?php echo "#" ?>">Subvention</a></li>
-</ol>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
 
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
 
-    <h2 class="">Saisie du dossier</h2>
-    <h3 class=""><?php echo $subvention->declarant->raison_sociale ?> <small>(<?php echo $subvention->declarant->siret ?>)</small></h3>
-    <br/>
+    <h2>Saisie du dossier</h2>
+
+    <p>Cette consiste à décrire les opérations de communication à mener à l'aide d'un tableur : </p>
 
     <form class="form-horizontal" role="form" action="<?php echo url_for('subvention_dossier', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>" method="post" enctype="multipart/form-data">
       <?php echo $form->renderGlobalErrors(); ?>
       <?php echo $form->renderHiddenFields(); ?>
     <div class="row">
-<div class="col-xs-9">
-
-<div class="row">
-    <div class="col-xs-10">
-      <h3 >Dossier de subvention <small>(en xls)</small></h3>
-  </div>
-</div>
-<div class="row">
-    <div class="col-xs-2">
-      <p class="lead" style="margin-top:9px;">Etape A : </p>
+        <div class="col-xs-9">
+            <div>
+            <h3>Étape A</h3>
+            <a class="btn btn-default btn-lg" style="width: 100%; text-align: left;" href="<?php echo url_for('subvention_xls', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>"><span class="glyphicon glyphicon-file"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
+            </a>
+            </div>
+            <hr />
+            <div>
+                <h3>Étape B</h3>
+                <?php echo $form['file']->renderError() ?>
+                <label class="btn btn-default btn-lg text-left" style="width: 100%; text-align: left;" for="subvention_dossier_file">
+                    <?php echo $form['file']->render(array('style' => 'display:none', 'onchange' => "$('#upload-file-info').html(this.files[0].name)")) ?>
+                    <span class="glyphicon glyphicon-download-alt"></span> <span id="upload-file-info"><?php if($subvention->hasXls()): ?>Remplacer le fichier complété<?php else: ?>Verser le fichier complété<?php endif ?></span>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <?php include_partial('subvention/aide'); ?>
+        </div>
     </div>
-    <div class="col-xs-10">
-      <a class="btn btn-link btn-lg col-xs-12" style="text-align:left; padding-left:16px; color: #007bff;" href="<?php echo url_for('subvention_xls', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>">
-        <span class="glyphicon glyphicon-file" style=" padding-right:5px;"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
-      </a>
-  </div>
-</div>
-
-<br/>
-<div class="row" <?php if($subvention->hasXls()): ?>id="subvention-upload"<?php endif ?> >
-  <div class="col-xs-12">
-    <?php echo $form['file']->renderError() ?>
-  </div>
-  <div class="col-xs-2">
-    <p class="lead" style="margin-top:9px;">Etape B : </p>
-  </div>
-    <div class="col-xs-10">
-      <label class="btn btn-default btn-lg col-xs-12" for="subvention_dossier_file">
-        <?php echo $form['file']->render(array('style' => 'display:none', 'onchange' => "$('#upload-file-info').html(this.files[0].name)")) ?>
-          <span class="glyphicon glyphicon-download-alt pull-left">&nbsp;</span> <span class="pull-left" id="upload-file-info"><?php if($subvention->hasXls()): ?>Remplacer le fichier complété<?php else: ?>Verser le fichier complété<?php endif ?></span>
-      </label>
+    <div style="margin-top: 30px;" class="row">
+        <div class="col-xs-6">
+            <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('subvention_infos', $subvention); ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Étape précédente</a>
+        </div>
+        <div class="col-xs-6 text-right">
+            <button type="submit" class="btn btn-success">Étape suivante&nbsp;<span class="glyphicon glyphicon-chevron-right"></button>
+        </div>
     </div>
-</div>
-<br/>
-</div>
-<div class="col-xs-3">
-    <br/>
-    <br/>
-  <div class="row">
-      <div class="col-xs-12">
-          <div class="panel panel-default">
-              <div class="panel-heading">
-                <h2 class="panel-title">Aide</h2>
-              </div>
-              <div class="panel-body">
-                <ul>
-                  <li><a href="#">Notice</a></li>
-                    <li><a href="#">Charte Graphique</a></li>
-                </ul>
-              </div>
-          </div>
-      </div>
-  </div>
-
-</div>
-</div>
-<div class="row">
-    <div class="col-xs-6">
-        <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('subvention_infos', $subvention); ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Étape précédente</a>
-    </div>
-    <div class="col-xs-6 text-right">
-        <button type="submit" class="btn btn-success">Étape suivante&nbsp;<span class="glyphicon glyphicon-chevron-right"></button>
-    </div>
-</div>
-</form>
+    </form>
 </section>
