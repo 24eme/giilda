@@ -6,9 +6,11 @@
         <h2 class="vertical-center" style="margin: 0 0 20px 0;">Demande de subvention</h2>
     </div>
     <div class="col-xs-4 text-right">
-
+<a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => "COVID1")); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Nouvelle Subvention</a>
     </div>
 </div>
+
+
   <div class="row row-margin">
     <table id="table_contrats" class="table">
     <thead>

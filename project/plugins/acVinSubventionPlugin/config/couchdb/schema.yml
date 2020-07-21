@@ -59,4 +59,4 @@ Subvention:
       dossier_date: { }
       statut: { }
       numero_archive: { }
-      campgane: { }
+      campagne_archive: { required: false }

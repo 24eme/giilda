@@ -118,10 +118,14 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function validateInterpro($statut) {
         $this->statut = $statut;
+        $this->add('validation_date', date('Y-m-d H:m:s'));
         $this->archivage_document->archiver();
     }
 
     protected function preSave() {
+        if($this->operation && !$this->exist('campagne_archive')) {
+            $this->add('campagne_archive', $this->operation);
+        }
         $this->archivage_document->preSave();
     }
 
@@ -137,8 +141,8 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function isArchivageCanBeSet() {
-      return true;
-      //  return $this->isVise();
+
+      return $this->exist("validation_date") && $this->validation_date;
     }
 
     /*     * * FIN ARCHIVAGE ** */

@@ -81,6 +81,8 @@ class subventionActions extends sfActions {
     public function executeValidationInterpro(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
         $this->formValidationInterpro = new SubventionValidationInterproForm($this->subvention);
+        $this->subvention->validateInterpro('VALIDE_INTERPRO');
+        $this->subvention->save();
 
         $this->setTemplate('visualisation');
 
