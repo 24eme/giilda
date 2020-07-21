@@ -6,6 +6,7 @@
  */
 class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
+    protected $archivage_document = null;
     protected $declarant_document = null;
 
     public function __construct() {
@@ -24,6 +25,7 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
+        $this->archivage_document = new ArchivageDocument($this);
     }
 
     public function constructId() {
@@ -124,10 +126,29 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
     public function validateInterpro($statut) {
         $this->statut = $statut;
+        $this->archivage_document->archiver();
+    }
+
+    protected function preSave() {
+        $this->archivage_document->preSave();
     }
 
     public function dosave(){
       $this->add('date_modification', date('Y-m-d H:m:s'));
     }
+
+    /*     * * ARCHIVAGE ** */
+
+    public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
+    }
+
+    public function isArchivageCanBeSet() {
+      return true;
+      //  return $this->isVise();
+    }
+
+    /*     * * FIN ARCHIVAGE ** */
 
 }

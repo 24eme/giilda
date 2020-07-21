@@ -58,3 +58,5 @@ Subvention:
       signature_date: { }
       dossier_date: { }
       statut: { }
+      numero_archive: { }
+      campgane: { }
