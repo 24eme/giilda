@@ -268,7 +268,7 @@ EOF;
 
     public function isContratATransmettre($contrat) {
         if (!$contrat->exist('versement_fa')) {
-            return true;
+            return false;
         }
         if (($contrat->versement_fa == VracClient::VERSEMENT_FA_ANNULATION) || ($contrat->versement_fa == VracClient::VERSEMENT_FA_MODIFICATION) || ($contrat->versement_fa == VracClient::VERSEMENT_FA_NOUVEAU)) {
             return true;
