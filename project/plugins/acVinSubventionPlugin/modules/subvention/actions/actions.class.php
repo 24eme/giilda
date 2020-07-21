@@ -12,6 +12,19 @@ class subventionActions extends sfActions {
 
     }
 
+
+    public function executeEtablissementSelection(sfWebRequest $request) {
+
+            $form = new SubventionEtablissementChoiceForm('INTERPRO-declaration');
+            $form->bind($request->getParameter($form->getName()));
+            if (!$form->isValid()) {
+
+                return $this->redirect('subvention');
+            }
+
+            return $this->redirect('subvention_etablissement', $form->getEtablissement());
+    }
+
     public function executeCreation(sfWebRequest $request) {
         $etablissement = $this->getRoute()->getEtablissement();
 

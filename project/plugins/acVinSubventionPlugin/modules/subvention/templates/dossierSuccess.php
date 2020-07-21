@@ -14,7 +14,13 @@
         <div class="col-xs-9">
             <div>
             <h3>Étape A</h3>
-            <a class="btn btn-default btn-lg" style="width: 100%; text-align: left;" href="<?php echo url_for('subvention_xls', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>"><span class="glyphicon glyphicon-file"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
+            <a class="btn btn-default btn-lg"
+               style="width: 100%; text-align: left;"
+               <?php if(!$subvention->hasXls() && !$subvention->hasDefaultXlsPath()): ?> disabled="disabled" <?php else: ?>
+                 href="<?php echo url_for('subvention_xls', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>"
+               <?php endif; ?>
+               >
+               <span class="glyphicon glyphicon-file"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
             </a>
             </div>
             <hr />

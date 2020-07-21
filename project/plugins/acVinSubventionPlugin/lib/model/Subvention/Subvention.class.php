@@ -91,21 +91,26 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         return "";
     }
 
-    public function getFileName(){
+    public function getDefaultXlsPath(){
 
-      return "formulaire_subvention_".strtolower($this->operation).".xlsx";
+      return SubventionClient::getInstance()->getDefaultXlsPath($this->operation);
     }
+
+    public function hasDefaultXlsPath(){
+
+      return file_exists($this->getDefaultXlsPath());
+    }
+
 
     public function getXlsPublicName(){
 
       return "formulaire_subvention_".strtolower($this->operation)."_".$this->identifiant.".xlsx";
     }
 
+  public function getFileName(){
+    return SubventionClient::getInstance()->getXlsFileName($this->operation);
+  }
 
-    public function getDefaultXlsPath(){
-
-      return realpath(dirname(__FILE__) . "/../../../../../data/subventions/".$this->getFileName());
-    }
 
     public function hasXls(){
       return $this->exist('_attachments') && $this->_attachments->exist($this->getFileName());

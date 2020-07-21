@@ -51,4 +51,12 @@ class SubventionClient extends acCouchdbClient {
       return $subventionsDocs;
     }
 
+    public function getXlsFileName($operation){
+      return "formulaire_subvention_".strtolower($operation).".xlsx";
+    }
+
+    public function getDefaultXlsPath($operation){
+      return realpath(dirname(__FILE__) . "/../../../../../../data/subventions/".$this->getXlsFileName($operation));
+    }
+
 }

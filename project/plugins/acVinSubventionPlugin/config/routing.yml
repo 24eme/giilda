@@ -12,6 +12,16 @@ subvention_etablissement:
   requirements:
     sf_method: [get, post]
 
+subvention_etablissement_selection:
+  url: /subvention/etablissement-selection
+  param: { module: subvention, action: etablissementSelection }
+  class: EtablissementRoute
+  options:
+    model:    Etablissement
+    type:     object
+  requirements:
+    sf_method: [post]
+
 subvention_creation:
   url: /subvention/:identifiant/creation/:operation
   param: { module: subvention, action: creation }
