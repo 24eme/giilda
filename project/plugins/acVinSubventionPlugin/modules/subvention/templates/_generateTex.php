@@ -2,7 +2,7 @@
 use_helper('Date');
 use_helper('DRM');
 use_helper('Orthographe');
-use_helper('DRMPdf');
+use_helper('Float');
 use_helper('Display');
 ?>
 \documentclass[a4paper,oneside, portrait, 10pt]{extarticle}
@@ -57,11 +57,12 @@ use_helper('Display');
 \def\DeclarantAdresse{<?php echo escape_string_for_latex($subvention->declarant->adresse); ?>}
 \def\DeclarantCp{<?php echo $subvention->declarant->code_postal; ?>}
 \def\DeclarantVille{<?php echo escape_string_for_latex($subvention->declarant->commune); ?>}
-\def\DeclarantCapital{1 500 000,00€}
-\def\DeclarantPermanent{11}
-\def\DeclarantEffectif{35}
-\def\ContactDossierNom{Mme Michu Monique}
-\def\ContactDossierContact{00.00.00.00.00 // moniquemichu@lemail.fr}
+\def\DeclarantCapital{<?php echo escape_string_for_latex(sprintFloatFr($subvention->infos->economique->capital_social, "%01.02f", true). " €"); ?>}
+\def\DeclarantEffectif{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->effectif)); ?>}
+\def\DeclarantPermanent{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->effectif_permanent)); ?>}
+\def\ContactDossierNom{<?php echo escape_string_for_latex($subvention->infos->contacts->nom); ?>}
+\def\ContactDossierTel{<?php echo escape_string_for_latex($subvention->infos->contacts->telephone); ?>}
+\def\ContactDossierEmail{<?php echo escape_string_for_latex($subvention->infos->contacts->email); ?>}
 \def\DateSignature{<?php echo $subvention->signature_date; ?>}
 \def\logos{/home/jb/Bureau/logos/logos.jpg}
 
@@ -113,14 +114,15 @@ use_helper('Display');
 Qualité du demandeur : <?php if (/*$subvention->getEtablissement()->isNegociant()*/1==2): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Négociant \medbreak
 Metteur en marché direct : <?php if (/*$subvention->getEtablissement()->isCaveCooperative()*/1==2): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Cave coopérative <?php if (/*$subvention->getEtablissement()->isViticulteur()*/1==1): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Vigneron indépendant \bigbreak
 Raison sociale : \textbf{\DeclarantRaisonSociale} \medbreak
-SIRET : \textbf{\DeclarantSiret} \bigbreak 
+SIRET : \textbf{\DeclarantSiret} \bigbreak
 Adresse : \textbf{\DeclarantAdresse} \medbreak
 Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVille} \bigbreak
-Capital Social : \textbf{\DeclarantCapital} \medbreak 
+Capital Social : \textbf{\DeclarantCapital} \medbreak
 Nombre d'ETP : \textbf{\DeclarantEffectif} \hspace{0.5cm} dont effectif permanent : \textbf{\DeclarantPermanent} \bigbreak
-\textbf{Personne en charge du dossier au sein de l'entreprise} \medbreak 
+\textbf{Personne en charge du dossier au sein de l'entreprise} \medbreak
 Nom, Prénom : \textbf{\ContactDossierNom} \medbreak
-Coordonnées (tel/mail) : \textbf{\ContactDossierContact}
+Téléphone : \textbf{\ContactDossierTel} \medbreak
+Email : \textbf{\ContactDossierEmail}
 
 <?php if ($subvention->signature_date): ?>
 
