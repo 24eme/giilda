@@ -40,7 +40,7 @@ class SubventionConfiguration {
         return array(
             "economique" => array(
                                 "capital_social" => array("label" => "Capital Social", "type" => "float", "unite" => "€"),
-                                "etp" => array("label" => "Effectif", "type" => "float", "unite" => "ETP", "help" => "Équivalent temps plein"),
+                                "effectif" => array("label" => "Effectif", "type" => "float", "unite" => "ETP", "help" => "Équivalent temps plein"),
                                 "effectif_permanent" => array("label" => "Dont effectif permanent", "type" => "float", "unite" => "ETP", "help" => "Équivalent temps plein"),
                             ),
             "economique_libelle" => "Données économiques",

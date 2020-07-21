@@ -1,9 +1,4 @@
-<ol class="breadcrumb">
-    <li><a href="<?php echo url_for('subvention') ?>">Subvention</a></li>
-    <li><a href="<?php echo url_for('subvention_etablissement', $subvention->getEtablissement()) ?>"><?php echo $subvention->declarant->nom ?> (<?php echo $subvention->identifiant ?>)</a></li>
-    <li><a href="<?php echo url_for('subvention_etablissement', $subvention->getEtablissement()) ?>"><?php echo $subvention->operation ?></a></li>
-    <li class="active"><a href="#">Visualisation</a></li>
-</ol>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
 
 <section id="principal" class="form-horizontal">
     <h1>Récapitulatif de votre dossier de subvention <strong><?php echo $subvention->operation ?></strong></h1>
