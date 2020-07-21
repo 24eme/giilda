@@ -52,7 +52,7 @@ class ExportContratsFATask extends sfBaseTask {
     protected function configure() {
 
         $this->addOptions(array(
-            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'declaration'),
+            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
             new sfCommandOption('dryrun', null, sfCommandOption::PARAMETER_REQUIRED, 'Mode de test ne sauvgarde pas en base', false),
@@ -99,8 +99,7 @@ EOF;
                 continue;
             }
             if ($contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE ||
-                $contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON ||
-                $contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_ANNULE
+                $contratView->value[VracHistoryView::VALUE_STATUT] == VracClient::STATUS_CONTRAT_BROUILLON
                ) {
                 continue;
             }
@@ -139,20 +138,20 @@ EOF;
             $ligne[self::CSV_FA_DATE_CONTRAT] = Date::francizeDate($contrat->date_signature);
             $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_campagne);
 
-            $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $vendeur->insee; // Code Insee Vendeur
+            $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $vendeur->getCodeInsee(); // Code Insee Vendeur
             $ligne[self::CSV_FA_INDICATION_DOUBLE_FIN] = 'N'; // Quelle signification?
             /**
              * ACHETEUR
              */
-            $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteur->insee; // Code Insee Acheteur
+            $ligne[self::CSV_FA_CODE_INSEE_DEPT_COMMUNE_ACHETEUR] = $acheteur->getCodeInsee(); // Code Insee Acheteur
             $ligne[self::CSV_FA_NATURE_ACHETEUR] = ($acheteur->exist('nature_inao'))? $acheteur->nature_inao : '08';
-            $ligne[self::CSV_FA_SIRET_ACHETEUR] = $acheteurSociete->siret;
+            $ligne[self::CSV_FA_SIRET_ACHETEUR] = preg_replace('/ /', '', $acheteurSociete->siret);
             /**
              * VENDEUR
              */
             $ligne[self::CSV_FA_CVI_VENDEUR] = $vendeur->cvi;
             $ligne[self::CSV_FA_NATURE_VENDEUR] = ($vendeur->exist('nature_inao'))? $vendeur->nature_inao : '01';
-            $ligne[self::CSV_FA_SIRET_VENDEUR] = $vendeurSociete->siret;
+            $ligne[self::CSV_FA_SIRET_VENDEUR] = preg_replace('/ /', '', $vendeurSociete->siret);
             /**
              * COURTIER
              */
