@@ -58,7 +58,7 @@ use_helper('Display');
 \def\DeclarantCp{<?php echo $subvention->declarant->code_postal; ?>}
 \def\DeclarantVille{<?php echo escape_string_for_latex($subvention->declarant->commune); ?>}
 \def\DeclarantCapital{<?php echo escape_string_for_latex(sprintFloatFr($subvention->infos->economique->capital_social, "%01.02f", true). " €"); ?>}
-\def\DeclarantEffectif{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->etp)); ?>}
+\def\DeclarantEffectif{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->effectif)); ?>}
 \def\DeclarantPermanent{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->effectif_permanent)); ?>}
 \def\ContactDossierNom{<?php echo escape_string_for_latex($subvention->infos->contacts->nom); ?>}
 \def\ContactDossierTel{<?php echo escape_string_for_latex($subvention->infos->contacts->telephone); ?>}
