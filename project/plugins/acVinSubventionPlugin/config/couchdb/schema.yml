@@ -51,7 +51,11 @@ Subvention:
         type: collection
         definition:
           fields:
-            '*': {  }
+            '*': 
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
       commentaire: { }
       date_modification: { }
       validation_date: { required: false }

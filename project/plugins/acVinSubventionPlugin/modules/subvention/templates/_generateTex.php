@@ -58,13 +58,13 @@ use_helper('Display');
 \def\DeclarantCp{<?php echo $subvention->declarant->code_postal; ?>}
 \def\DeclarantVille{<?php echo escape_string_for_latex($subvention->declarant->commune); ?>}
 \def\DeclarantCapital{<?php echo escape_string_for_latex(sprintFloatFr($subvention->infos->economique->capital_social, "%01.02f", true). " €"); ?>}
-\def\DeclarantEffectif{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->effectif)); ?>}
+\def\DeclarantEffectif{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->etp)); ?>}
 \def\DeclarantPermanent{<?php echo escape_string_for_latex(str_replace(".", ",", $subvention->infos->economique->effectif_permanent)); ?>}
 \def\ContactDossierNom{<?php echo escape_string_for_latex($subvention->infos->contacts->nom); ?>}
 \def\ContactDossierTel{<?php echo escape_string_for_latex($subvention->infos->contacts->telephone); ?>}
 \def\ContactDossierEmail{<?php echo escape_string_for_latex($subvention->infos->contacts->email); ?>}
 \def\DateSignature{<?php echo $subvention->signature_date; ?>}
-\def\logos{/home/jb/Bureau/logos/logos.jpg}
+\def\logos{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logos_region_occitanie.jpg}
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0pt}
@@ -111,18 +111,18 @@ use_helper('Display');
 
 \section{IDENTIFICATION DU DEMANDEUR}
 
-Qualité du demandeur : <?php if (/*$subvention->getEtablissement()->isNegociant()*/1==2): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Négociant \medbreak
-Metteur en marché direct : <?php if (/*$subvention->getEtablissement()->isCaveCooperative()*/1==2): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Cave coopérative <?php if (/*$subvention->getEtablissement()->isViticulteur()*/1==1): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Vigneron indépendant \bigbreak
+Qualité du demandeur : <?php if ($subvention->getEtablissement()->isNegociant()): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Négociant \medbreak
+Metteur en marché direct : <?php if ($subvention->getEtablissement()->isCaveCooperative()): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Cave coopérative <?php if ($subvention->getEtablissement()->isViticulteur()): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Vigneron indépendant \bigbreak
 Raison sociale : \textbf{\DeclarantRaisonSociale} \medbreak
 SIRET : \textbf{\DeclarantSiret} \bigbreak
 Adresse : \textbf{\DeclarantAdresse} \medbreak
 Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVille} \bigbreak
-Capital Social : \textbf{\DeclarantCapital} \medbreak
-Nombre d'ETP : \textbf{\DeclarantEffectif} \hspace{0.5cm} dont effectif permanent : \textbf{\DeclarantPermanent} \bigbreak
-\textbf{Personne en charge du dossier au sein de l'entreprise} \medbreak
-Nom, Prénom : \textbf{\ContactDossierNom} \medbreak
-Téléphone : \textbf{\ContactDossierTel} \medbreak
-Email : \textbf{\ContactDossierEmail}
+<?php foreach($subvention->infos as $categorie => $items): ?>
+\textbf{<?php echo $items->getLibelle() ?>} \medbreak
+<?php foreach($items as $key => $item): ?>
+<?php echo $items->getInfosSchemaItem($key, "label") ?>~: \textbf{<?php echo $item ?>}~<?php echo $items->getInfosSchemaItem($key, "unite") ?> \medbreak
+<?php endforeach; ?>
+<?php endforeach; ?>
 
 <?php if ($subvention->signature_date): ?>
 

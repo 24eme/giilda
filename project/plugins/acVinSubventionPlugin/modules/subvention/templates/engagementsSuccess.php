@@ -41,15 +41,15 @@
         			<div class="col-xs-offset-1 col-xs-11" style="padding-left:0;">
         			<?php
                         foreach ($engagementsPrecisions[$key] as $k => $libelle):
-                            if (!isset($form["precision_engagement_$key/$k"])) continue;
+                            if (!isset($form["precision_engagement_".$key."_".$k])) continue;
                     ?>
-                    <div class="form-group <?php if($form["precision_engagement_$key/$k"]->hasError()): ?>has-error<?php endif; ?>" style="margin-bottom:0;">
+                    <div class="form-group <?php if($form["precision_engagement_".$key."_".$k]->hasError()): ?>has-error<?php endif; ?>" style="margin-bottom:0;">
                     	<div class="col-xs-12">
-            				<?php echo $form["precision_engagement_$key/$k"]->renderError() ?>
+            				<?php echo $form["precision_engagement_".$key."_".$k]->renderError() ?>
             			</div>
         				<div class="col-xs-12 checkbox">
-        					<label for="<?php echo $form["precision_engagement_$key/$k"]->renderId() ?>">
-            				<?php echo $form["precision_engagement_$key/$k"]->render(array("data-target" => "#validation_engagement_".$key)) ?>&nbsp;<?php echo $libelle ?>
+        					<label for="<?php echo $form["precision_engagement_".$key."_".$k]->renderId() ?>">
+            				<?php echo $form["precision_engagement_".$key."_".$k]->render(array("data-target" => "#validation_engagement_".$key)) ?>&nbsp;<?php echo $libelle ?>
             				</label>
                       	</div>
                   	</div>

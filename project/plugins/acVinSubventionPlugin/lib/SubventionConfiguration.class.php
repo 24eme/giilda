@@ -28,6 +28,16 @@ class SubventionConfiguration {
         return (isset($this->configuration['engagements_precisions']))? $this->configuration['engagements_precisions'] : array();
     }
 
+    public function getEngagementLibelle($key) {
+        $engagements = $this->getEngagements();
+        return (isset($engagements[$key]))? $engagements[$key] : '';
+    }
+
+    public function getEngagementPrecisionLibelle($key, $skey) {
+        $precisions = $this->getEngagementsPrecisions();
+        return (isset($precisions[$key]) && isset($precisions[$key][$skey]))? $precisions[$key][$skey] : '';
+    }
+
     public function getPlateforme() {
         return (isset($this->configuration['plateforme']))? $this->configuration['plateforme'] : array();
     }

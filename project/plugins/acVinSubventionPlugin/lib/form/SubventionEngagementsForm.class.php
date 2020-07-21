@@ -2,6 +2,9 @@
 
 class SubventionEngagementsForm extends acCouchdbForm {
 
+    protected $engagements;
+    protected $engagementsPrecisions;
+    
     public function __construct(acCouchdbDocument $doc, $defaults = array(), $options = array(), $CSRFSecret = null) {
         $this->engagements = $doc->getConfiguration()->getEngagements();
         $this->engagementsPrecisions = $doc->getConfiguration()->getEngagementsPrecisions();
@@ -9,7 +12,9 @@ class SubventionEngagementsForm extends acCouchdbForm {
             $defaults["engagement_$key"] = 1;
         }
         foreach ($doc->engagements_precisions as $key => $value) {
-            $defaults["precision_engagement_$key"] = 1;
+            foreach ($value as $skey => $svalue) {
+                $defaults["precision_engagement_".$key."_".$skey] = 1;
+            }
         }
         parent::__construct($doc, $defaults, $options, $CSRFSecret);
     }
@@ -28,12 +33,11 @@ class SubventionEngagementsForm extends acCouchdbForm {
 	        $this->getWidget("engagement_$key")->setLabel($libelle);
 	        $this->setValidator("engagement_$key", new sfValidatorBoolean(array('required' => true)));
 	    }
-	    foreach ($this->engagementsPrecisions as $eng => $precisions) {
-	        foreach ($precisions as $k => $libelle) {
-	            $key = "$eng/$k";
-    	        $this->setWidget("precision_engagement_$key", new sfWidgetFormInputCheckbox());
-    	        $this->getWidget("precision_engagement_$key")->setLabel($libelle);
-    	        $this->setValidator("precision_engagement_$key", new sfValidatorBoolean(array('required' => false)));
+	    foreach ($this->engagementsPrecisions as $key => $precisions) {
+	        foreach ($precisions as $skey => $libelle) {
+    	        $this->setWidget("precision_engagement_".$key."_".$skey, new sfWidgetFormInputCheckbox());
+    	        $this->getWidget("precision_engagement_".$key."_".$skey)->setLabel($libelle);
+    	        $this->setValidator("precision_engagement_".$key."_".$skey, new sfValidatorBoolean(array('required' => false)));
 	        }
 	    }
         $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
@@ -49,11 +53,10 @@ class SubventionEngagementsForm extends acCouchdbForm {
 	            $this->getDocument()->engagements->add($key, true);
 	        }
 	    }
-        foreach ($this->engagementsPrecisions as $eng => $precisions) {
-           foreach ($precisions as $k => $libelle) {
-               $key = "$eng/$k";
-               if (isset($values["precision_engagement_$key"]) && $values["precision_engagement_$key"]) {
-                   $this->getDocument()->engagements_precisions->add($key, 1);
+        foreach ($this->engagementsPrecisions as $key => $precisions) {
+           foreach ($precisions as $skey => $libelle) {
+               if (isset($values["precision_engagement_".$key."_".$skey]) && $values["precision_engagement_".$key."_".$skey]) {
+                   $this->getDocument()->engagements_precisions->getOrAdd($key)->add($skey, true);
                }
            }
         }
