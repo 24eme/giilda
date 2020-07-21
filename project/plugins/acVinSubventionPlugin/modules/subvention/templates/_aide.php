@@ -4,8 +4,8 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li><a href="#">Notice</a></li>
-          <li><a href="#">Charte Graphique</a></li>
+        <li><a tabindex="-1" href="#">Notice</a></li>
+          <li><a tabindex="-1" href="#">Charte Graphique</a></li>
       </ul>
     </div>
 </div>
