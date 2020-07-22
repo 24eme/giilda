@@ -3,12 +3,13 @@
 class subventionActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
-
+      $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
+      $this->subventions = SubventionClient::getInstance()->findByAllSortedByDate();
     }
 
     public function executeEtablissement(sfWebRequest $request) {
+        $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->subventions = SubventionClient::getInstance()->findByEtablissementSortedByDate($this->etablissement->identifiant);
 
     }
 
@@ -160,7 +161,7 @@ class subventionActions extends sfActions {
         $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
-    
+
     public function executeZip(sfWebRequest $request) {
         $this->setLayout(false);
         $this->subvention = $this->getRoute()->getSubvention();
@@ -174,7 +175,7 @@ class subventionActions extends sfActions {
         rename($pdf, $target.'/'.$name.'.pdf');
         file_put_contents($target.'/'.$this->subvention->getXlsPublicName(), file_get_contents($this->subvention->getXlsPath()));
         exec('zip -j -r '.$target.$zipname.' '.$target.'/');
-        
+
         $this->getResponse()->clearHttpHeaders();
         $this->getResponse()->setContentType('application/force-download');
         $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $target.$zipname .'"');
@@ -182,7 +183,7 @@ class subventionActions extends sfActions {
         $this->getResponse()->setHttpHeader('Pragma', '');
         $this->getResponse()->setHttpHeader('Cache-Control', 'public');
         $this->getResponse()->setHttpHeader('Expires', '0');
-        
+
         $this->getResponse()->setContent(file_get_contents($target.$zipname));
         $this->getResponse()->send();
     }
