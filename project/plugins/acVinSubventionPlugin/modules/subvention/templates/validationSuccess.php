@@ -38,19 +38,3 @@
         </div>
     </form>
 </section>
-<script type="text/javascript">
-$(document).ready(function() {
-	$("input[type='checkbox']").change(function () {
-		var checkbox = $(this);
-		if (checkbox.data("target")) {
-			if (checkbox.is(':checked')) {
-				$(checkbox.data("target")).prop("checked", true);
-			}
-		} else {
-			if (!checkbox.is(':checked')) {
-				$("input[data-target='#"+checkbox.attr("id")+"']").prop("checked", false);
-			}
-		}
-	});
-});
-</script>

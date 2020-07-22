@@ -49,7 +49,7 @@
             			</div>
         				<div class="col-xs-12 checkbox">
         					<label for="<?php echo $form["precision_engagement_".$key."_".$k]->renderId() ?>">
-            				<?php echo $form["precision_engagement_".$key."_".$k]->render(array("data-target" => "#validation_engagement_".$key)) ?>&nbsp;<?php echo $libelle ?>
+            				<?php echo $form["precision_engagement_".$key."_".$k]->render(array("data-target" => "#subvention_engagements_engagement_".$key)) ?>&nbsp;<?php echo $libelle ?>
             				</label>
                       	</div>
                   	</div>
@@ -74,3 +74,19 @@
         </div>
     </form>
 </section>
+<script type="text/javascript">
+$(document).ready(function() {
+	$("input[type='checkbox']").change(function () {
+		var checkbox = $(this);
+		if (checkbox.data("target")) {
+			if (checkbox.is(':checked')) {
+				$(checkbox.data("target")).prop("checked", true);
+			}
+		} else {
+			if (!checkbox.is(':checked')) {
+				$("input[data-target='#"+checkbox.attr("id")+"']").prop("checked", false);
+			}
+		}
+	});
+});
+</script>
