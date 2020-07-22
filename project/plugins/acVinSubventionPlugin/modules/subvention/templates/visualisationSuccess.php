@@ -10,7 +10,20 @@
             <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('subvention_etablissement', $subvention->getEtablissement()) ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Retour à mon espace</a>
         </div>
         <div class="col-xs-4 text-center">
-            <a href="<?php echo url_for('subvention_zip', $subvention) ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Télécharger le dossier complet</a>
+        
+        	
+        	<div class="btn-group" role="group">
+				<a href="<?php echo url_for('subvention_zip', $subvention) ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Télécharger le dossier complet</a>
+				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification</a></li>
+                	<li><a href="<?php echo url_for('subvention_xls', $subvention) ?>">Descriptif détaillé de l'opération</a></li>
+                	<li><a href="">Notice</a></li>
+                	<li><a href="">Charte graphique</a></li>
+              	</ul>
+			</div>
+        	
+        	
         </div>
         <div class="col-xs-4 text-right">
             <a href="" class="btn btn-success">Vers le site de la région Occitanie&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
