@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row row-condensed">
     <div class="col-xs-6">
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">Entreprise</h3></div>
@@ -89,12 +89,3 @@
         </div>
     </div>
 </div>
-<style>
-.form-control-static {
-    padding: 5px 0;
-    min-height: 1px;
-}
-.form-horizontal .control-label {
-    padding: 5px 10px 0 10px;
-}
-</style>

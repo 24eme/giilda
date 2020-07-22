@@ -19,7 +19,7 @@
       <p>Espace des demandes de subventions auprès de votre interprofession</p>
     </div>
   </div>
-  <div class="row">
+  <div class="row row-condensed">
     <div class="col-xs-6">
       <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title"><?php echo $etablissement->raison_sociale ?></h3></div>
