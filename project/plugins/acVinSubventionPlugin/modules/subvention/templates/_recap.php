@@ -44,10 +44,11 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">Engagements</h3></div>
             <div class="panel-body">
-            <ul>
+            <ul class="list-unstyled">
             <?php foreach ($subvention->engagements as $k => $v): ?>
             	<li>
             		<small>
+            		<span class="glyphicon glyphicon-ok"></span>&nbsp;
             		<?php echo $subvention->getConfiguration()->getEngagementLibelle($k) ?>
             		<?php 
             		      if ($subvention->engagements_precisions->exist($k)): 
