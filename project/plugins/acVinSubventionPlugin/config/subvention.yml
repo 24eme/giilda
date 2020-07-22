@@ -1,6 +1,7 @@
 all:
   configuration:
     subvention:
+      operation_en_cours: COVID1
       actif: true
       plateforme: "Plateforme interpro"
       referent: "Agent référent interpro"

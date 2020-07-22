@@ -64,4 +64,8 @@ class SubventionConfiguration {
         return $this->configuration['actif'];
     }
 
+    public function getOperationEnCours() {
+        return $this->configuration['operation_en_cours'];
+    }
+
 }

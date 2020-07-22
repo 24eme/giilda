@@ -51,6 +51,25 @@ class SubventionClient extends acCouchdbClient {
       return $subventionsDocs;
     }
 
+    public function findByAllSortedByDate(){
+      $subventions = $this->startkey(self::DOCUMENTRADIX."-")
+                      ->endkey(self::DOCUMENTRADIX."-Z")
+                      ->execute(acCouchdbClient::HYDRATE_DOCUMENT)->getDatas();
+      $subventionsDocs = array();
+
+      foreach ($subventions as $key => $subvention) {
+            if(!array_key_exists($subvention->operation,$subventionsDocs)){
+              $subventionsDocs[$subvention->operation] = array();
+            }
+            $subventionsDocs[$subvention->operation][$subvention->date_modification] = $subvention;
+
+      }
+      foreach ($subventionsDocs as $sub => $subventions) {
+        ksort($subventions);
+      }
+      return $subventionsDocs;
+    }
+
     public function getXlsFileName($operation){
       return "formulaire_subvention_".strtolower($operation).".xlsx";
     }

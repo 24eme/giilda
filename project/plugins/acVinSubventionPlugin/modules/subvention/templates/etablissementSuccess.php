@@ -59,14 +59,14 @@
     </div>
     <div class="col-xs-6">
       <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Subvention en cours : COVID1</h3></div>
+        <div class="panel-heading"><h3 class="panel-title">Subvention en cours : </h3></div>
         <div class="panel-body">
           <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-10 col-sm-offset-1">Aucune subvention COVID1 encore commencée</label>
+            <label class="col-sm-10 col-sm-offset-1">Aucune subvention <?php echo $operation_en_cours; ?> encore commencée</label>
           </div>
           <div class="form-group" style="margin-bottom: 0">
             <div class="col-sm-10 col-sm-offset-1">
-              <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => "COVID1")); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Démarrer la subvention COVID1</a>
+              <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Démarrer la subvention <?php echo $operation_en_cours; ?> </a>
             </div>
           </div>
         </div>
@@ -74,46 +74,4 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <table id="table_contrats" class="table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th style="width: 110px;">Date</th>
-            <th>Etape</th>
-            <th>Documents</th>
-            <th>Pdf</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($subventions as $subventionNom => $subventionsDate): ?>
-            <?php foreach ($subventionsDate as $date => $subvention): ?>
-              <tr>
-                <td class="text-center">
-                  <span><?php echo $subventionNom; ?></span>
-                </td>
-                <td class="text-center">
-                  <span><?php echo $date; ?></span>
-                </td>
-                <td class="text-center">
-                  <span><?php echo $subventionNom; ?></span>
-                </td>
-                <td class="text-center">
-                  <span><?php echo $subventionNom; ?></span>
-                </td>
-                <td class="text-center">
-                  <span><?php echo $subventionNom; ?></span>
-                </td>
-                <td class="text-center">
-                  <a href="<?php echo url_for('subvention_infos',array('identifiant' => $subvention->identifiant, 'operation' => $subventionNom)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Continuer la Subvention</a>
-                </td>
-              </tr>
-            <?php endforeach ?>
-          <?php endforeach ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </section>
