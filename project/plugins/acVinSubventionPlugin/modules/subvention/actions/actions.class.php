@@ -91,32 +91,25 @@ class subventionActions extends sfActions {
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
     }
 
-    public function executeValidationInterpro(sfWebRequest $request) {
+    public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
-        $this->formValidationInterpro = new SubventionValidationInterproForm($this->subvention);
-        $this->subvention->validateInterpro('VALIDE_INTERPRO');
-        $this->subvention->save();
-
-        $this->setTemplate('visualisation');
-
-        if (!$request->isMethod(sfWebRequest::POST)) {
-
+        
+        $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionValidationInterproForm($this->subvention) : null;
+        
+        if (!$request->isMethod(sfWebRequest::POST) || !$this->formValidationInterpro) {
+        
             return sfView::SUCCESS;
         }
-
+        
         $this->formValidationInterpro->bind($request->getParameter($this->formValidationInterpro->getName()));
-
+        
         if (!$this->formValidationInterpro->isValid()) {
             return sfView::SUCCESS;
         }
-
+        
         $this->formValidationInterpro->save();
-
+        
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
-    }
-
-    public function executeVisualisation(sfWebRequest $request) {
-        $this->subvention = $this->getRoute()->getSubvention();
     }
 
     public function executeDossier(sfWebRequest $request) {
