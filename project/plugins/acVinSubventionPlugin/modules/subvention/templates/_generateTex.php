@@ -70,7 +70,7 @@ use_helper('Display');
 \renewcommand{\headrulewidth}{0pt}
 \fancyhf{}
 
-\title{\vspace{-1cm}\textbf{Contrat Relance Viti \\ Fiche de pré-qualification}}
+\title{\textbf{Contrat Relance Viti \\ Fiche de pré-qualification}\vspace{0.5cm}}
 \date{}
 
 \def\arraystretch{3}
@@ -129,14 +129,26 @@ Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVil
 \section{ENGAGEMENTS DU BÉNÉFICIAIRE}
 
 \begin{todolist}[itemsep=7pt,parsep=7pt]
-    \item Atteste le non commencement de ces opérations au 1er juillet 2020 (aucun devis signé antérieur au 1er juillet 2020)
-    \item Respecte les conditions d’éligibilité dans le cadre des opérations à portée collective :
-    \begin{todolist}[itemsep=7pt,parsep=7pt]
-      \item Présence des logos envisagée
-      \item Utilisation de la charte graphique
-      \item Visibilité minimale du message collectif envisagée
-    \end{todolist}
-    \item Atteste avoir pris connaissance qu’une vérification au paiement sera réalisée
+<?php foreach ($subvention->getConfiguration()->getEngagements() as $key => $value): ?>
+	<?php if ($subvention->engagements->exist($key)): ?>
+	\item[\done] <?php echo $value ?>
+	<?php else: ?>
+	\item <?php echo $value ?>
+	<?php endif; ?>
+	<?php if ($subvention->engagements_precisions->exist($key)): ?>
+	\begin{todolist}[itemsep=7pt,parsep=7pt]
+	<?php foreach ($subvention->getConfiguration()->getEngagementsPrecisions() as $skey => $svalue): if ($skey != $key) continue; ?>
+	<?php foreach ($svalue as $ssk => $ssv): ?>
+	<?php if ($subvention->engagements_precisions->get($key)->exist($ssk)): ?>
+	\item[\done] <?php echo $ssv ?>
+	<?php else: ?>
+	\item <?php echo $value ?>
+	<?php endif; ?>
+	<?php endforeach; ?>
+	<?php endforeach; ?>
+	 \end{todolist}
+	<?php endif; ?>
+<?php endforeach; ?>
 \end{todolist}
 
 \newpage
