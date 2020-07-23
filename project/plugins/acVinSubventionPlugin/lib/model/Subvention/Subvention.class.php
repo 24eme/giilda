@@ -153,7 +153,7 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     public function getStatutLibelle()
     {
       if(!$this->exist('statut') || !$this->statut){
-        return "en cours";
+        return "En cours de saisie";
       }
       return SubventionClient::$statuts[$this->statut];
     }

@@ -3,7 +3,7 @@ class SubventionValidationInterproForm extends acCouchdbForm
 {
 	public function configure() {
         $this->setWidget('statut', new bsWidgetFormChoice(array('choices' => $this->getStatuts())));
-        $this->setValidator('statut', new sfValidatorChoice(array('choices' => array_keys(SubventionClient::$statuts), 'required' => true)));
+        $this->setValidator('statut', new sfValidatorChoice(array('choices' => array_keys($this->getStatuts()), 'required' => true)));
 
 		$this->setWidget('commentaire', new bsWidgetFormTextarea());
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
@@ -15,8 +15,9 @@ class SubventionValidationInterproForm extends acCouchdbForm
     }
 
 	public function getStatuts() {
-
-		return array_merge(array("" => ""), SubventionClient::$statuts);
+		$statuts = SubventionClient::$statuts;
+		unset($statuts[SubventionClient::STATUT_VALIDE]);
+		return array_merge(array("" => ""), $statuts);
 	}
 
 	public function save() {
