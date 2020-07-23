@@ -63,7 +63,7 @@ use_helper('Display');
 \def\ContactDossierNom{<?php echo escape_string_for_latex($subvention->infos->contacts->nom); ?>}
 \def\ContactDossierTel{<?php echo escape_string_for_latex($subvention->infos->contacts->telephone); ?>}
 \def\ContactDossierEmail{<?php echo escape_string_for_latex($subvention->infos->contacts->email); ?>}
-\def\DateSignature{<?php echo $subvention->signature_date; ?>}
+\def\DateSignature{<?php echo format_date($subvention->signature_date, 'D'); ?>}
 \def\logos{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logos_region_occitanie.jpg}
 
 \pagestyle{fancy}
