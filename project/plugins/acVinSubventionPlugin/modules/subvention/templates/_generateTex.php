@@ -36,7 +36,7 @@ use_helper('Display');
 \newcommand{\xmark}{\ding{55}}%
 \newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
 \hspace{-2pt}}
-\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\cmark}}
 
 \renewcommand\sfdefault{phv}
 \newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
@@ -92,7 +92,7 @@ use_helper('Display');
 
 \begin{figure}[t]
   \centering
-  \includegraphics[scale=1]{\logos}
+  \includegraphics[width=19.5cm]{\logos}
 \end{figure}
 
 \maketitle
