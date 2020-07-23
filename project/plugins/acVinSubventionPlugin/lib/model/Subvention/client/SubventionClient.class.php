@@ -31,6 +31,10 @@ class SubventionClient extends acCouchdbClient {
         return $subvention;
     }
 
+    public function findByEtablissementAndOperation($identifiant,$operation){
+      return $this->find('SUBVENTION-'.$identifiant.'-'.$operation);
+    }
+
     public function findByEtablissementSortedByDate($identifiant){
       $subventions = $this->startkey(sprintf(self::DOCUMENTRADIX."-%s-", $identifiant))
                       ->endkey(sprintf(self::DOCUMENTRADIX."-%s-Z", $identifiant))

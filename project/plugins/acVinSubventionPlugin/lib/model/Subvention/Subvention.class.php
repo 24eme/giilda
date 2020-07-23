@@ -127,6 +127,29 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->archivage_document->archiver();
     }
 
+    public function isValideInterpro() {
+        $this->statut = $statut;
+        $this->add('validation_date', date('Y-m-d H:m:s'));
+        $this->archivage_document->archiver();
+    }
+
+
+    public function isApprouve(){
+      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_APPROUVE);
+    }
+
+    public function isApprouvePartiellement(){
+      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_APPROUVE_PARTIELLEMENT);
+    }
+
+    public function isRefuse(){
+      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_REFUSE);
+    }
+
+    public function isValide(){
+      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_VALIDE);
+    }
+
     protected function preSave() {
         if($this->operation && !$this->exist('campagne_archive')) {
             $this->add('campagne_archive', $this->operation);

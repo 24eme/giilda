@@ -10,7 +10,8 @@ class subventionActions extends sfActions {
     public function executeEtablissement(sfWebRequest $request) {
         $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
         $this->etablissement = $this->getRoute()->getEtablissement();
-
+        $this->subvention_en_cours = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, $this->operation_en_cours);
+        
     }
 
 
@@ -98,22 +99,22 @@ class subventionActions extends sfActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
-        
+
         $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionValidationInterproForm($this->subvention) : null;
-        
+
         if (!$request->isMethod(sfWebRequest::POST) || !$this->formValidationInterpro) {
-        
+
             return sfView::SUCCESS;
         }
-        
+
         $this->formValidationInterpro->bind($request->getParameter($this->formValidationInterpro->getName()));
-        
+
         if (!$this->formValidationInterpro->isValid()) {
             return sfView::SUCCESS;
         }
-        
+
         $this->formValidationInterpro->save();
-        
+
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
     }
 
