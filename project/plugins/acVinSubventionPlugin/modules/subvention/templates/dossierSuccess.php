@@ -20,7 +20,7 @@
                  href="<?php echo url_for('subvention_xls', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>"
                <?php endif; ?>
                >
-               <span class="glyphicon glyphicon-file"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? (DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date))->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
+               <span class="glyphicon glyphicon-file"></span> <?php if(!$subvention->hasXls()): ?>Télécharger le dossier vierge à compléter<?php else:?> Télécharger mon dossier déposé le <?php echo ($subvention->dossier_date)? DateTime::createFromFormat("Y-m-d H:i:s",$subvention->dossier_date)->format("d/m/Y à H\hi") : ''; ?><?php endif; ?>
             </a>
             </div>
             <hr />
