@@ -89,7 +89,11 @@ class subventionActions extends sfActions {
 
         $this->form->save();
 
-        return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
+        return $this->redirect($this->generateUrl('subvention_confirmation', $this->subvention));
+    }
+
+    public function executeConfirmation(sfWebRequest $request) {
+        $this->subvention = $this->getRoute()->getSubvention();
     }
 
     public function executeVisualisation(sfWebRequest $request) {
