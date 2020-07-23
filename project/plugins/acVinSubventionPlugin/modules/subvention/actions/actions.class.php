@@ -173,15 +173,13 @@ class subventionActions extends sfActions {
         rename($pdf, $target.'/'.$name.'.pdf');
         file_put_contents($target.'/'.$this->subvention->getXlsPublicName(), file_get_contents($this->subvention->getXlsPath()));
         exec('zip -j -r '.$target.$zipname.' '.$target.'/');
-
         $this->getResponse()->clearHttpHeaders();
         $this->getResponse()->setContentType('application/force-download');
-        $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $target.$zipname .'"');
+        $this->getResponse()->setHttpHeader('Content-Disposition', 'attachment; filename="' . $zipname .'"');
         $this->getResponse()->setHttpHeader('Content-Type', 'application/zip');
         $this->getResponse()->setHttpHeader('Pragma', '');
         $this->getResponse()->setHttpHeader('Cache-Control', 'public');
         $this->getResponse()->setHttpHeader('Expires', '0');
-
         $this->getResponse()->setContent(file_get_contents($target.$zipname));
         $this->getResponse()->send();
     }
