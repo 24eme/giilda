@@ -150,6 +150,14 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
       return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_VALIDE);
     }
 
+    public function getStatutLibelle()
+    {
+      if(!$this->exist('statut') || !$this->statut){
+        return "en cours";
+      }
+      return SubventionClient::$statuts[$this->statut];
+    }
+
     protected function preSave() {
         if($this->operation && !$this->exist('campagne_archive')) {
             $this->add('campagne_archive', $this->operation);

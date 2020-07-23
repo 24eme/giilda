@@ -11,7 +11,7 @@ class subventionActions extends sfActions {
         $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->subvention_en_cours = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, $this->operation_en_cours);
-        
+
     }
 
 
@@ -38,6 +38,10 @@ class subventionActions extends sfActions {
 
     public function executeInfos(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+
+        if(!$subvention->hasXls() && !$subvention->hasDefaultXlsPath()){
+          throw new sfException("Il n'existe pas de document pour cette opération : ".$subvention->operation);
+        }
 
         $this->form = new SubventionsInfosForm($this->subvention);
 
