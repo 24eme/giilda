@@ -20,7 +20,7 @@
         			<div class="col-xs-12">
         				<?php echo $form['commentaire']->renderError() ?>
         			</div>
-        			<div class="col-xs-10">
+        			<div class="col-xs-12">
         				<?php echo $form['commentaire']->render(array('class' => 'form-control', 'placeholder' => "Détailler les opérations pour lesquelles vous souhaitez utiliser la subvention")) ?>
         			</div>
         		</div>

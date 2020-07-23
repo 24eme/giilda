@@ -36,7 +36,7 @@ use_helper('Display');
 \newcommand{\xmark}{\ding{55}}%
 \newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
 \hspace{-2pt}}
-\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\xmark}}
+\newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\cmark}}
 
 \renewcommand\sfdefault{phv}
 \newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
@@ -63,7 +63,7 @@ use_helper('Display');
 \def\ContactDossierNom{<?php echo escape_string_for_latex($subvention->infos->contacts->nom); ?>}
 \def\ContactDossierTel{<?php echo escape_string_for_latex($subvention->infos->contacts->telephone); ?>}
 \def\ContactDossierEmail{<?php echo escape_string_for_latex($subvention->infos->contacts->email); ?>}
-\def\DateSignature{<?php echo $subvention->signature_date; ?>}
+\def\DateSignature{<?php echo format_date($subvention->signature_date, 'D'); ?>}
 \def\logos{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logos_region_occitanie.jpg}
 
 \pagestyle{fancy}
@@ -92,7 +92,7 @@ use_helper('Display');
 
 \begin{figure}[t]
   \centering
-  \includegraphics[scale=1]{\logos}
+  \includegraphics[width=19.5cm]{\logos}
 \end{figure}
 
 \maketitle
