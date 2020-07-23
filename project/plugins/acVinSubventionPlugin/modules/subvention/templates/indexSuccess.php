@@ -35,7 +35,7 @@
                     <span><?php echo $subvention->operation; ?></span>
                   </td>
                   <td class="text-center">
-                    <span><?php echo (DateTime::createFromFormat('Y-m-d H:i:s',$date))->format("d/m/Y"); ?></span>
+                    <span><?php echo DateTime::createFromFormat('Y-m-d H:i:s',$date)->format("d/m/Y"); ?></span>
                   </td>
                   <td class="text-center">
                     <span class="label

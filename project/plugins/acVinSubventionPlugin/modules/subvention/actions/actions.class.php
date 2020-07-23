@@ -39,8 +39,8 @@ class subventionActions extends sfActions {
     public function executeInfos(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
 
-        if(!$subvention->hasXls() && !$subvention->hasDefaultXlsPath()){
-          throw new sfException("Il n'existe pas de document pour cette opération : ".$subvention->operation);
+        if(!$this->subvention->hasXls() && !$this->subvention->hasDefaultXlsPath()){
+          throw new sfException("Il n'existe pas de document pour cette opération : ".$this->subvention->operation);
         }
 
         $this->form = new SubventionsInfosForm($this->subvention);
