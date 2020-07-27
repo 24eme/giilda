@@ -10,7 +10,7 @@ class SubventionClient extends acCouchdbClient {
     const STATUT_REFUSE = "REFUSE";
 
     public static $statuts = array(
-        self::STATUT_VALIDE => "Validé",
+        self::STATUT_VALIDE => "En attente de validation",
         self::STATUT_APPROUVE => "Approuvé",
         self::STATUT_APPROUVE_PARTIELLEMENT => "Approuvé partiellement",
         self::STATUT_REFUSE => "Refusé",
