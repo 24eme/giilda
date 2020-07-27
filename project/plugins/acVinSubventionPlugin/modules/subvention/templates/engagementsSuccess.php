@@ -80,11 +80,11 @@ $(document).ready(function() {
 		var checkbox = $(this);
 		if (checkbox.data("target")) {
 			if (checkbox.is(':checked')) {
-				$(checkbox.data("target")).prop("checked", true);
+				$(checkbox.data("target")).attr("checked", true);
 			}
 		} else {
 			if (!checkbox.is(':checked')) {
-				$("input[data-target='#"+checkbox.attr("id")+"']").prop("checked", false);
+				$("input[data-target='#"+checkbox.attr("id")+"']").attr("checked", false);
 			}
 		}
 	});

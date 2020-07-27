@@ -14,7 +14,6 @@ class subventionActions extends sfActions {
 
     }
 
-
     public function executeEtablissementSelection(sfWebRequest $request) {
 
             $form = new SubventionEtablissementChoiceForm('INTERPRO-declaration');

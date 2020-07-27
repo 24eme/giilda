@@ -6,7 +6,7 @@
 
 <section id="principal">
 
-  <div class="row">
+  <div class="row" id="formEtablissementChoice">
     <div class="col-xs-12">
       <?php include_component('subvention', 'formEtablissementChoice') ?>
     </div>
@@ -39,19 +39,19 @@
           <div class="form-group" style="margin-bottom: 0">
             <label class="col-sm-4 control-label">Adresse</label>
             <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->adresse ?></p>
+              <p class="form-control-static"><?php echo $etablissement->getAdresse() ?></p>
             </div>
           </div>
           <div class="form-group" style="margin-bottom: 0">
             <label class="col-sm-4 control-label">Code postal</label>
             <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->code_postal ?></p>
+              <p class="form-control-static"><?php echo $etablissement->getCodePostal() ?></p>
             </div>
           </div>
           <div class="form-group" style="margin-bottom: 0">
             <label class="col-sm-4 control-label">Commune</label>
             <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->commune ?></p>
+              <p class="form-control-static"><?php echo $etablissement->getCommune() ?></p>
             </div>
           </div>
         </div>

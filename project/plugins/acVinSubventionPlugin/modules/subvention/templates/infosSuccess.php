@@ -22,7 +22,7 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label class="col-sm-3 control-label">Famille</label>
                    <div class="col-sm-8">
-                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo EtablissementFamilles::getFamilleLibelle($subvention->declarant->famille) ?></p>
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo ($subvention->declarant->famille)? EtablissementFamilles::getFamilleLibelle($subvention->declarant->famille) : null; ?></p>
                    </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 0">
