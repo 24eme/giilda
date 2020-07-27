@@ -84,7 +84,7 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h3 class="panel-title">Descriptif détaillé de l'opération</h3></div>
             <div class="panel-body">
-                <a href="<?php echo url_for('subvention_xls', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Fichier XLS</a>
+                <a href="<?php echo url_for('subvention_xls', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Fichier Excel</a>
             </div>
         </div>
     </div>
