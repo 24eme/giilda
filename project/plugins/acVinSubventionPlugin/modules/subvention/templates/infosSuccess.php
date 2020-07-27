@@ -8,8 +8,8 @@
         <?php echo $form->renderGlobalErrors(); ?>
         <?php echo $form->renderHiddenFields(); ?>
 
-        <h2>Informations du dossier de subvention</h2>
-        <p>Saisie de informations de votre dossier de subvention</p>
+        <h2>Identification</h2>
+        <p>Saisie de les informations liées à votre identification</p>
         <div class="row">
             <div class="col-xs-9">
                 <h3 style="margin-top: 5px;">Entreprise</h3>
