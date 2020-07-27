@@ -1,7 +1,5 @@
 <?php
 use_helper('Date');
-use_helper('DRM');
-use_helper('Orthographe');
 use_helper('Float');
 use_helper('Display');
 ?>
