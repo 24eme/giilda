@@ -20,44 +20,7 @@
     </div>
   </div>
   <div class="row row-condensed">
-    <div class="col-xs-6">
-      <div class="panel panel-default" style="height:250px;">
-        <div class="panel-heading"><h3 class="panel-title"><?php echo $etablissement->raison_sociale ?></h3></div>
-        <div class="panel-body">
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-4 control-label">Famille</label>
-            <div class="col-sm-8">
-              <p class="form-control-static"><?php echo EtablissementFamilles::getFamilleLibelle($etablissement->famille) ?></p>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-4 control-label">SIRET</label>
-            <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->siret ?></p>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-4 control-label">Adresse</label>
-            <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->getAdresse() ?></p>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-4 control-label">Code postal</label>
-            <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->getCodePostal() ?></p>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-4 control-label">Commune</label>
-            <div class="col-sm-8">
-              <p class="form-control-static"><?php echo $etablissement->getCommune() ?></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xs-6">
+    <div class="col-xs-12">
       <div class="panel panel-default" style="height:250px;">
         <div class="panel-heading"><h3 class="panel-title">Subvention en cours : </h3></div>
         <div class="panel-body">
