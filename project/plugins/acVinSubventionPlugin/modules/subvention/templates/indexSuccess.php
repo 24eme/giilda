@@ -5,7 +5,7 @@
 
 <section id="principal">
 
-  <div class="row">
+  <div class="row" id="formEtablissementChoice">
       <div class="col-xs-12">
           <?php include_component('subvention', 'formEtablissementChoice') ?>
       </div>
@@ -35,7 +35,7 @@
                     <span><?php echo $subvention->operation; ?></span>
                   </td>
                   <td class="text-center">
-                    <span><?php echo DateTime::createFromFormat('Y-m-d H:i:s',$date)->format("d/m/Y"); ?></span>
+                    <span><?php echo ($date)? DateTime::createFromFormat('Y-m-d H:i:s', $date)->format("d/m/Y") : ''; ?></span>
                   </td>
                   <td class="text-center">
                     <span class="label

@@ -80,7 +80,7 @@ class SubventionClient extends acCouchdbClient {
     }
 
     public function getDefaultXlsPath($operation){
-      return realpath(dirname(__FILE__) . "/../../../../../../data/subventions/".$this->getXlsFileName($operation));
+      return sfConfig::get('sf_data_dir')."/subventions/".$this->getXlsFileName($operation);
     }
 
 }

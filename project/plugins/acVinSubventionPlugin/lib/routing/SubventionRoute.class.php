@@ -26,4 +26,8 @@ class SubventionRoute extends sfObjectRoute {
       }
       return $this->subvention;
     }
+    
+    public function getEtablissement() {
+        return $this->getSubvention()->getEtablissement();
+    }
 }
