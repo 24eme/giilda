@@ -76,7 +76,7 @@
        		'target' => '_self'
        ));
        endif;
-       
+
    endif;
 
 
@@ -90,6 +90,17 @@
             'target' => '_self'
        ));
 	endif;
+  if(SubventionConfiguration::getInstance()->isActif()):
+         include_component('common', 'navItem', array(
+         		'libelle' => 'Subventions',
+         		'prefix' => 'subvention',
+            'route' => 'subvention',
+         		'route_etablissement' => 'subvention_etablissement',
+         		'etablissement' =>  $etablissement,
+         		'target' => '_self'
+         ));
+   endif;
+
 ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION_VRAC)):
@@ -122,6 +133,16 @@ endif; ?>
        		'target' => '_self'
        ));
  endif; ?>
+ <?php if(SubventionConfiguration::getInstance()->isActif()):
+          /*include_component('common', 'navItem', array(
+        		'libelle' => 'Subventions',
+        		'prefix' => 'subvention',
+        		'route' => 'subvention_etablissement',
+        		'teledeclaration' => true,
+        		'etablissement' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
+        		'target' => '_self'
+        )); */
+  endif; ?>
 <?php endif; ?>
 <?php include_partial('common/navExtra'); ?>
 </ul>

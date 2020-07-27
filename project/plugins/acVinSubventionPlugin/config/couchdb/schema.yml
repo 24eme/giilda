@@ -13,7 +13,7 @@ Subvention:
               type: collection
               definition:
                 fields:
-                  '*': { }      
+                  '*': { }
       type: {}
       identifiant: {}
       operation: {}
@@ -47,6 +47,20 @@ Subvention:
         definition:
           fields:
             '*': {  }
+      engagements_precisions:
+        type: collection
+        definition:
+          fields:
+            '*': 
+              type: collection
+              definition:
+                fields:
+                  '*': {  }
       commentaire: { }
-      validation_date: { }
+      date_modification: { }
+      validation_date: { required: false }
       signature_date: { }
+      dossier_date: { }
+      statut: { }
+      numero_archive: { }
+      campagne_archive: { required: false }

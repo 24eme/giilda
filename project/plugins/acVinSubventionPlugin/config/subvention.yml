@@ -1,5 +1,16 @@
 all:
   configuration:
-    engagements:
-      non_commencement: "J'atteste le non commencement de ces opération au 1er juillet 2020 (aucun devis signé antérieur)"
-      conditions_eligibilite: "Je m'engage à respecter l'ensemble des conditions d'éligilibité"
+    subvention:
+      operation_en_cours: COVID1
+      actif: true
+      plateforme: "Plateforme interpro"
+      referent: "Agent référent interpro"
+      engagements:
+        non_commencement: "J'atteste le non commencement de ces opérations au 1er juillet 2020 (aucun devis signé antérieur au 1er juillet 2020)"
+        conditions_eligibilite: "Je respecte les conditions d'éligibilité dans le cadre des opérations à portée collective :"
+        verification_paiement: "J'atteste avoir pris connaissance qu’une vérification au paiement sera réalisée"
+      engagements_precisions:
+        conditions_eligibilite:
+          logo: "Présence des logos envisagée"
+          charte: "Utilisation de la charte graphique"
+          collectif: "Visibilité minimale du message collectif envisagée"
