@@ -43,7 +43,7 @@ class subventionActions extends sfActions {
           throw new sfException("Il n'existe pas de document pour cette opération : ".$this->subvention->operation);
         }
 
-        $this->form = new SubventionsInfosForm($this->subvention);
+        $this->form = new SubventionsGenericForm($this->subvention,'infos');
 
         if (!$request->isMethod(sfWebRequest::POST)) {
             return sfView::SUCCESS;
@@ -103,8 +103,7 @@ class subventionActions extends sfActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
-
-        $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionValidationInterproForm($this->subvention) : null;
+        $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionsGenericForm($this->subvention, 'approbations') : null;
 
         if (!$request->isMethod(sfWebRequest::POST) || !$this->formValidationInterpro) {
 

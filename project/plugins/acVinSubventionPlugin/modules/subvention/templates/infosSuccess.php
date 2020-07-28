@@ -59,13 +59,13 @@
                    <?php echo $item->renderError(); ?>
                    <?php echo $item->renderLabel(null, array("class" => "col-sm-3 control-label")); ?>
                    <div class="<?php if(get_class($item->getWidget()) == "bsWidgetFormInputFloat"): ?>col-sm-3<?php else: ?>col-sm-4<?php endif;?>">
-                        <?php $unite = $subvention->infos->get($categorie)->getInfosSchemaItem($key, "unite") ?>
+                        <?php $unite = $subvention->infos->get($categorie)->getSchemaItem($key, "unite") ?>
                         <?php if($unite): ?><div class="input-group"><?php endif ?>
                         <?php echo $item->render(); ?>
                         <?php if($unite): ?>
                             <span class="input-group-addon"><?php echo $unite; ?></span>
                             </div>
-                        <?php endif ?>
+                        <?php endif; ?>
                    </div>
                    <div class="col-sm-3">
                        <?php echo $item->renderHelp(); ?>

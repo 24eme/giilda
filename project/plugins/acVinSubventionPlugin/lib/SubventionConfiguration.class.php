@@ -24,18 +24,10 @@ class SubventionConfiguration {
         return (isset($this->configuration['engagements']))? $this->configuration['engagements'] : array();
     }
 
-    public function getEngagementsPrecisions() {
-        return (isset($this->configuration['engagements_precisions']))? $this->configuration['engagements_precisions'] : array();
-    }
 
     public function getEngagementLibelle($key) {
         $engagements = $this->getEngagements();
         return (isset($engagements[$key]))? $engagements[$key] : '';
-    }
-
-    public function getEngagementPrecisionLibelle($key, $skey) {
-        $precisions = $this->getEngagementsPrecisions();
-        return (isset($precisions[$key]) && isset($precisions[$key][$skey]))? $precisions[$key][$skey] : '';
     }
 
     public function getPlateforme() {
@@ -59,6 +51,25 @@ class SubventionConfiguration {
 
         );
     }
+
+    public function getApprobationsSchema($operation) {
+        return array(
+            "viticulteur" => array(
+                                "hve" => array("label" => "HVE III", "type" => "float", "unite" => "hl", "help" => "Contractualisation HVE III"),
+                                "mae" => array("label" => "MAE", "type" => "float", "unite" => "hl", "help" => "Contractualisation MAE")
+                            ),
+            "viticulteur_libelle" => "Approbations pour un viticulteur",
+            "negociant" => array(
+                                 "contractualisation_annuel_effective" => array("label" => "Contractualisation annuel effective", "type" => "float", "unite" => "hl"),
+                                 "contractualisation_annuel_engagement" => array("label" => "Contractualisation annuel engagement", "type" => "float", "unite" => "hl"),
+                                 "contractualisation_pluriannuel_effective" => array("label" => "Contractualisation pluriannuel effective", "type" => "float", "unite" => "hl"),
+                                 "contractualisation_pluriannuel_engagement" => array("label" => "Contractualisation pluriannuel engagement", "type" => "float", "unite" => "hl"),
+                                ),
+            "negociant_libelle" => "Approbations pour un négociant",
+        );
+    }
+
+
 
     public function isActif() {
         return $this->configuration['actif'];

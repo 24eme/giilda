@@ -4,14 +4,11 @@
  * 
  * Base model for SubventionInfosCategorie
 
- * @property SubventionInfosCategorieCollection $gammes
 
- * @method SubventionInfosCategorieCollection getGammes()
- * @method SubventionInfosCategorieCollection setGammes()
  
  */
 
-abstract class BaseSubventionInfosCategorie extends acCouchdbDocumentTree {
+abstract class BaseSubventionInfosCategorie extends SubventionNoeudCategorie {
                 
     public function configureTree() {
        $this->_root_class_name = 'Subvention';

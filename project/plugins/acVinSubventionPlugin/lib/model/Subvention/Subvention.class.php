@@ -32,12 +32,12 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
     }
 
-    public function updateInfosSchema() {
-        foreach($this->getInfosSchema() as $categorie => $items) {
+    public function updateNoeudSchema($key) {
+        foreach($this->getNoeudSchema($key) as $categorie => $items) {
             if(preg_match("/_libelle$/", $categorie)) {
                 continue;
             }
-            $this->infos->add($categorie);
+            $this->$key->add($categorie);
         }
     }
 
@@ -68,9 +68,9 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         return EtablissementClient::getInstance()->find($this->identifiant);
     }
 
-    public function getInfosSchema() {
-
-        return $this->getConfiguration()->getInfosSchema($this->operation);
+    public function getNoeudSchema($noeud) {
+        $nameGetFct = 'get'.ucfirst($noeud).'Schema';
+        return $this->getConfiguration()->$nameGetFct($this->operation);
     }
 
     public function getXls() {
