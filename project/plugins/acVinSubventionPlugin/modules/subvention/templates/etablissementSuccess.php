@@ -5,13 +5,13 @@
 </ol>
 
 <section id="principal">
-
+<?php if(!$isTeledeclarationMode): ?>
   <div class="row" id="formEtablissementChoice">
     <div class="col-xs-12">
       <?php include_component('subvention', 'formEtablissementChoice') ?>
     </div>
   </div>
-
+<?php endif; ?>
   <div class="row">
     <div class="col-xs-12">
       <h2>Demande des subventions</h2>

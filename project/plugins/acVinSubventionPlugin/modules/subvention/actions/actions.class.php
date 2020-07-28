@@ -8,6 +8,7 @@ class subventionActions extends sfActions {
     }
 
     public function executeEtablissement(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
         $this->etablissement = $this->getRoute()->getEtablissement();
         $this->subvention_en_cours = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, $this->operation_en_cours);
@@ -185,5 +186,20 @@ class subventionActions extends sfActions {
         $this->getResponse()->setHttpHeader('Expires', '0');
         $this->getResponse()->setContent(file_get_contents($target.$zipname));
         $this->getResponse()->send();
+    }
+
+    // debrayage
+    public function executeConnexion(sfWebRequest $request) {
+
+        //  $this->redirect403IfIsTeledeclaration();
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $societe = $this->etablissement->getSociete();
+
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+        $this->redirect('subvention_etablissement', array('identifiant' => $this->etablissement->identifiant));
+    }
+
+    protected function isTeledeclarationSubvention() {
+      return $this->getUser()->hasTeledeclaration();
     }
 }

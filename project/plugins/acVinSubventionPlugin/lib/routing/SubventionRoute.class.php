@@ -1,5 +1,5 @@
 <?php
-class SubventionRoute extends sfObjectRoute {
+class SubventionRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
     protected $subvention = null;
 
@@ -26,7 +26,7 @@ class SubventionRoute extends sfObjectRoute {
       }
       return $this->subvention;
     }
-    
+
     public function getEtablissement() {
         return $this->getSubvention()->getEtablissement();
     }
