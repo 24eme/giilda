@@ -12,20 +12,6 @@
         <?php echo $form->renderGlobalErrors(); ?>
 
         <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
-
-        <div class="row">
-        	<div class="col-xs-12">
-        		<h3>Commentaire</h3>
-            	<div class="form-group <?php if($form['commentaire']->hasError()): ?>has-error<?php endif; ?>">
-        			<div class="col-xs-12">
-        				<?php echo $form['commentaire']->renderError() ?>
-        			</div>
-        			<div class="col-xs-12">
-        				<?php echo $form['commentaire']->render(array('class' => 'form-control', 'placeholder' => "Détailler les opérations pour lesquelles vous souhaitez utiliser la subvention")) ?>
-        			</div>
-        		</div>
-    		</div>
-        </div>
         <br />
         <br />
         <div class="row row-margin row-button">
