@@ -53,19 +53,51 @@ class SubventionConfiguration {
     }
 
     public function getApprobationsSchema($operation) {
+
         return array(
-            "viticulteur" => array(
-                                "hve" => array("label" => "HVE III", "type" => "float", "unite" => "hl", "help" => "Contractualisation HVE III"),
-                                "mae" => array("label" => "MAE", "type" => "float", "unite" => "hl", "help" => "Contractualisation MAE")
+            "criteres" => array(
+              // case 1
+                              "respect_interpro" =>
+                                  array("label" => "Respect des accords interprofessionnels ou engagement", "type" => "checkbox"),
+                              "respect_interpro_appreciation" =>
+                                  array("label" => "Appréciation sur le respect des accords interprofessionnels", "type" => "text"),
+                                  // case 2
+                              "attente_dossierautre" =>
+                                  array("label" => "Opérations concernant les vins conditionnés sous signe de qualité issus des AOP et IGP de la Région :<br/>
+                                          1. Pays d’OC/Terres du Midi<br/>
+                                          2. AOC du Languedoc/IGP Sud de France<br/>
+                                          3. Vins du Sud-Ouest<br/>
+                                          4. Vins de la Vallée du Rhône<br/>
+                                          5. Vins du Roussillon (AOP/IGP)", "type" => "checkbox"),
+                              "attente_dossierautre_appreciation" =>
+                                  array("label" => "Appréciation sur les autres dossiers", "type" => "text"),
+                                // case 3
+                              "negociant_contractualisation" =>
+                                  array("label" => "Pour les négociants, condition de contractualisation", "type" => "checkbox"),
+                              "negociant_contractualisation_effective" =>
+                                  array("label" => "Contractualisation effective", "type" => "checkbox"),
+                              "negociant_contractualisation_engagement" =>
+                                  array("label" => "Contractualisation engagement", "type" => "checkbox"),
+                              "negociant_contractualisation_appreciation" =>
+                                  array("label" => "Appréciation sur la contractualisation négociants", "type" => "text"),
+                                  // case 4
+                              "conditions_eligibilite" =>
+                                  array("label" => "Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action…)", "type" => "checkbox"),
+                                "conditions_eligibilite_appreciation" =>
+                                  array("label" => "Appréciation sur l'éligibilité et la faisabilité", "type" => "text"),
+
+                              ),
+            "criteres_libelle" => "Critères de pré-qualification du dossier",
+            "conclusionfavorable" => array(
+                                "favorable" => array("label" => "Favorable sur l’ensemble des actions", "type" => "checkbox", "help" => "Cochez cette case si le dossier est favorable"),
+                                "partiellement_favorable" => array("label" => "Favorable uniquement sur les actions :", "type" => "text", "help" => "Listez les actions séparées par des \",\""),
+                                "partiellement_favorable_commentaire" => array("label" => "Commentaire :", "type" => "text")
                             ),
-            "viticulteur_libelle" => "Approbations pour un viticulteur",
-            "negociant" => array(
-                                 "contractualisation_annuel_effective" => array("label" => "Contractualisation annuel effective", "type" => "float", "unite" => "hl"),
-                                 "contractualisation_annuel_engagement" => array("label" => "Contractualisation annuel engagement", "type" => "float", "unite" => "hl"),
-                                 "contractualisation_pluriannuel_effective" => array("label" => "Contractualisation pluriannuel effective", "type" => "float", "unite" => "hl"),
-                                 "contractualisation_pluriannuel_engagement" => array("label" => "Contractualisation pluriannuel engagement", "type" => "float", "unite" => "hl"),
+            "conclusionfavorable_libelle" => "Conclusions favorables ou partiellement favorables",
+            "conclusionrejet" => array(
+                                 "motif_rejet" => array("label" => "Motif de rejet du dossier", "type" => "text", "help" => "Inscrivez ici les motifs de rejet du dossier")
                                 ),
-            "negociant_libelle" => "Approbations pour un négociant",
+            "conclusionrejet_libelle" => "Conclusions de rejet"
         );
     }
 

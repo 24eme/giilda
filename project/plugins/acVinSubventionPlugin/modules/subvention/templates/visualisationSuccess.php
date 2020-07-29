@@ -5,13 +5,18 @@
     	Récapitulatif de votre dossier de subvention <strong><?php echo $subvention->operation ?></strong>
     </h1>
 
-  <?php if(isset($formValidationInterpro)): ?>
-    <?php include_partial('subvention/validationInterpro', array('form' => $formValidationInterpro, 'subvention' => $subvention)); ?>
-  <?php endif; ?>
-
   <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
 
-
+  <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
+    <hr/>
+    <h1>
+      Approbation du dossier
+    </h1>
+    <div class="row row-condensed">
+    	<div class="col-xs-12">
+    		<form class="form-horizontal" method="POST" action="" id="approbationForm">
+          <?php include_partial('subvention/validationInterpro', array('form' => $formValidationInterpro, 'subvention' => $subvention)); ?>
+  <?php endif; ?>
 
     <div class="row">
         <div class="col-xs-4">
@@ -30,7 +35,36 @@
 			</div>
         </div>
         <div class="col-xs-4 text-right">
-            <a href="" class="btn btn-success">Vers le site de la région Occitanie&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+            <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
+              <input type="hidden" class="approbationstatut" value="" name="statut"/>
+
+              <div class="btn-group" role="group">
+                <a class="btn btn-success formPostButton" data-statut="<?php echo SubventionClient::STATUT_APPROUVE; ?>" >&nbsp;Approuver le dossier</a>
+            		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+            		<ul class="dropdown-menu">
+                    <a class="text-danger formPostButton" data-statut="<?php echo SubventionClient::STATUT_REFUSE; ?>" >&nbsp;Refuser le dossier</a>
+                </ul>
+    			    </div>
+            <?php else: ?>
+              <a href="" class="btn btn-success">Vers le site de la région Occitanie&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+            <?php endif; ?>
         </div>
     </div>
-</section>
+    <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
+        </form>
+      </div>
+    </div>
+    <?php endif; ?>
+
+    <script type="text/javascript">
+
+        $(document).ready( function()
+    	   {
+          $(".formPostButton").click(function(e){
+            e.preventDefault();
+            var statut = $(this).data("statut");
+            $("input.approbationstatut").val(statut);
+            $("#approbationForm").submit();
+          });
+        });
+    </script>

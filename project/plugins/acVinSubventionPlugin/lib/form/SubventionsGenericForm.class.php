@@ -17,7 +17,7 @@ class SubventionsGenericForm extends acCouchdbForm {
             $formCategorie = new BaseForm();
 
             foreach($items as $key => $item) {
-                //var_dump(get_class($items)); exit;
+
                 $label = $items->getSchemaItem($key, "label");
                 $help = $items->getSchemaItem($key, "help");
 
@@ -27,6 +27,10 @@ class SubventionsGenericForm extends acCouchdbForm {
                 if($items->getSchemaItem($key, "type") == "float") {
                     $widgetClass = "bsWidgetFormInputFloat";
                     $validatorClass = "sfValidatorNumber";
+                }
+                if($items->getSchemaItem($key, "type") == "checkbox") {
+                    $widgetClass = "bsWidgetFormInputCheckbox";
+                    $validatorClass = "sfValidatorBoolean";
                 }
 
                 $formCategorie->setWidget($key, new $widgetClass());

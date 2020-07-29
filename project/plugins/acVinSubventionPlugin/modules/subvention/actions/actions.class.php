@@ -103,8 +103,8 @@ class subventionActions extends sfActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionsGenericForm($this->subvention, 'approbations') : null;
-
         if (!$request->isMethod(sfWebRequest::POST) || !$this->formValidationInterpro) {
 
             return sfView::SUCCESS;
@@ -117,6 +117,11 @@ class subventionActions extends sfActions {
         }
 
         $this->formValidationInterpro->save();
+        $statut = $request->getParameter('statut',null);
+        if($statut){
+          $this->subvention->statut = $statut;
+          $this->subvention->save();
+        }
 
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
     }

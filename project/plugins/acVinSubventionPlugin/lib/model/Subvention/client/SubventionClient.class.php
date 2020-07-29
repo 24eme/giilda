@@ -33,6 +33,12 @@ class SubventionClient extends acCouchdbClient {
         return $subvention;
     }
 
+    public function getStatutsApprobation() {
+      $statuts = SubventionClient::$statuts;
+      unset($statuts[SubventionClient::STATUT_VALIDE]);
+      return array_merge($statuts);
+    }
+
     public function findByEtablissementAndOperation($identifiant,$operation){
       return $this->find('SUBVENTION-'.$identifiant.'-'.$operation);
     }
@@ -42,7 +48,6 @@ class SubventionClient extends acCouchdbClient {
                       ->endkey(sprintf(self::DOCUMENTRADIX."-%s-Z", $identifiant))
                       ->execute(acCouchdbClient::HYDRATE_DOCUMENT)->getDatas();
       $subventionsDocs = array();
-
       foreach ($subventions as $key => $subvention) {
         if($subvention->identifiant == $identifiant){
             if(!array_key_exists($subvention->operation,$subventionsDocs)){
