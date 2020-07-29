@@ -17,7 +17,7 @@
         <div class="col-xs-6 col-xs-offset-3">
             <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h3 class="panel-title">Titre
+                    <h3 class="panel-title">Contrat Relance Viti 
 
                     <?php if($subvention && $subvention->isApprouve()): ?>
                         <label class="label label-success pull-right">Approuvé par l'interprofession</label>
