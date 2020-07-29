@@ -9,10 +9,18 @@ class subventionActions extends sfActions {
 
     public function executeEtablissement(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
-        $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
         $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->subvention = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, $this->operation_en_cours);
+        $this->subvention = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, SubventionConfiguration::getInstance()->getOperationEnCours());
 
+        if($this->subvention && !$this->subvention->isValide()) {
+
+            return $this->redirect('subvention_infos', $this->subvention);
+        }
+
+        if($this->subvention) {
+
+            return $this->redirect('subvention_visualisation', $this->subvention);
+        }
     }
 
     public function executeEtablissementSelection(sfWebRequest $request) {

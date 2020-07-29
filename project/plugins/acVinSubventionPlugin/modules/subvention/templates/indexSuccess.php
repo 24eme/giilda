@@ -19,9 +19,9 @@
               <th>Société</th>
               <th>Subvention</th>
               <th style="width: 110px;">Date création</th>
-              <th>Statut</th>
-              <th>Documents</th>
-              <th>Action</th>
+              <th class="text-center">Statut</th>
+              <th class="text-center">Documents</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -54,7 +54,7 @@
                   <td class="text-center">
                     <?php if($subvention->statut): ?>
                     <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Télécharger <span class="caret"></span></button>
+                      <button type="button" class="btn btn-link btn-xs btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Télécharger <span class="caret"></span></button>
                       <ul class="dropdown-menu">
                         <li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification (PDF)</a></li>
                         <li><a href="<?php echo url_for('subvention_xls', $subvention) ?>">Descriptif détaillé de l'opération (Excel)</a></li>
@@ -62,16 +62,8 @@
                     </div>
                   <?php endif; ?>
                   </td>
-                  <td class="text-center">
-                  <?php if($subvention && $subvention->isApprouve()): ?>
-                    <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $subvention->identifiant, 'operation' => $subventionNom)); ?>" class="btn btn-xs btn-default col-xs-12"><span class="glyphicon glyphicon-save-file"></span> Gérer le dossier</a>
-                  <?php elseif($subvention && ($subvention->isApprouvePartiellement() || $subvention->isRefuse())): ?>
-                    <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $subvention->identifiant, 'operation' => $subventionNom)); ?>" class="btn btn-xs btn-default col-xs-12"><span class="glyphicon glyphicon-save-file"></span> Gérer le dossier</a>
-                  <?php elseif($subvention && $subvention->isValide()): ?>
-                    <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $subvention->identifiant, 'operation' => $subventionNom)); ?>" class="btn btn-xs btn-default col-xs-12"><span class="glyphicon glyphicon-save-file"></span> Gérer le dossier</a>
-                  <?php else: ?>
-                    <a href="<?php echo url_for('subvention_infos',array('identifiant' => $subvention->identifiant, 'operation' => $subventionNom)); ?>" class="btn btn-xs btn-default col-xs-12"><span class="glyphicon glyphicon-save-file"></span> Continuer la saisie</a>
-                  <?php endif; ?>
+                  <td>
+                    <a href="<?php echo url_for('subvention_etablissement',array('identifiant' => $subvention->identifiant)); ?>" class="btn btn-xs btn-default btn-block">Voir le dossier</a>
                   </td>
                 </tr>
               <?php endforeach ?>
