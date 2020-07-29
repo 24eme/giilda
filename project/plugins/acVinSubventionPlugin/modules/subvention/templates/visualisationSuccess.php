@@ -2,7 +2,7 @@
 
 <section id="principal" class="form-horizontal">
     <h1>
-    	Récapitulatif de votre dossier de subvention <strong><?php echo $subvention->operation ?></strong>
+    	Récapitulatif de votre dossier de subvention <strong><?php echo $subvention->operation ?></strong>&nbsp;<small class="text-muted">- version <?php echo $subvention->version; ?></small>
       <?php if($subvention->isValideInterpro()): ?>
         <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-warning pull-right">Ré-ouvrir la demande</a>
       <?php endif; ?>
