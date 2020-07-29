@@ -78,7 +78,7 @@
        endif;
        if(SubventionConfiguration::getInstance()->isActif()):
               include_component('common', 'navItem', array(
-                  'libelle' => 'Subventions',
+                  'libelle' => 'Contrat relance',
                   'prefix' => 'subvention',
                  'route' => 'subvention',
                   'route_etablissement' => 'subvention_etablissement',
@@ -134,13 +134,13 @@ endif; ?>
  endif; ?>
  <?php if(SubventionConfiguration::getInstance()->isActif()):
           include_component('common', 'navItem', array(
-        		'libelle' => 'Subventions',
+        		'libelle' => 'Contrat relance',
         		'prefix' => 'subvention',
         		'route' => 'subvention_etablissement',
         		'teledeclaration' => true,
         		'etablissement' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
         		'target' => '_self'
-        )); 
+        ));
   endif; ?>
 <?php endif; ?>
 <?php include_partial('common/navExtra'); ?>

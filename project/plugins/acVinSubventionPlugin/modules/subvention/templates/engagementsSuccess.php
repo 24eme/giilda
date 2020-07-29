@@ -7,7 +7,7 @@
         <?php echo $form->renderGlobalErrors(); ?>
         <?php echo $form->renderHiddenFields(); ?>
 
-        <h2>Engagements</h2>
+        <h2>Engagements du bénéficiaire</h2>
 
         <p>Merci de vérifier les points suivants et vous engager à les respecter :</p>
 

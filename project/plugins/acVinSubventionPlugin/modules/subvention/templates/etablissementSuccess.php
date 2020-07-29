@@ -14,15 +14,15 @@
 <?php endif; ?>
   <div class="row">
     <div class="col-xs-12">
-      <h2>Demande des subventions</h2>
+      <h2>Contrat Relance Viti</h2>
 
-      <p>Espace des demandes de subventions auprès de votre interprofession</p>
+      <p>Espace des demandes d’aides dans le cadre du dispositif Contrat Relance Viti</p>
     </div>
   </div>
   <div class="row row-condensed">
     <div class="col-xs-12">
       <div class="panel panel-default" style="height:250px;">
-        <div class="panel-heading"><h3 class="panel-title">Subvention en cours : </h3></div>
+        <div class="panel-heading"><h3 class="panel-title">Dossiers en cours : </h3></div>
         <div class="panel-body">
           <?php if($subvention_en_cours && $subvention_en_cours->isApprouve()): ?>
           <div class="form-group" style="margin-bottom: 0">
@@ -71,11 +71,11 @@
               </div>
             <?php else: ?>
                 <div class="form-group" style="margin-bottom: 0">
-                  <label class="col-sm-10 col-sm-offset-1">Espace de demande de subvention pour le <?php echo $operation_en_cours; ?>.</label>
+                  <label class="col-sm-10 col-sm-offset-1">Espace Contrat Relance Viti</label>
                 </div>
                 <div class="form-group" style="margin-bottom: 0">
                   <div class="col-sm-10 col-sm-offset-1">
-                    <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Création d'une nouvelle demande de subvention <?php echo $operation_en_cours; ?> </a>
+                    <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Création d’une nouvelle demande d’aide régionale <?php echo $operation_en_cours; ?> </a>
                   </div>
                 </div>
         <?php endif; ?>
