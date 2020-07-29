@@ -22,11 +22,12 @@
   <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
     <div class="text-center">
         <div class="btn-group" role="group">
-            <a href="<?php echo url_for('subvention_zip', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le dossier complet</a>
+            <a href="<?php echo url_for('subvention_pdf', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le PDF</a>
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification (PDF)</a></li>
                 <li><a href="<?php echo url_for('subvention_xls', $subvention) ?>">Descriptif détaillé de l'opération (Excel)</a></li>
+                <li><a href="<?php echo url_for('subvention_zip', $subvention) ?>">Dossier complet (ZIP)</a></li>
             </ul>
         </div>
     </div>
@@ -47,14 +48,15 @@
             <?php endif; ?>
         </div>
         <div class="col-xs-4 text-center">
-        	<div class="btn-group" role="group">
-				<a href="<?php echo url_for('subvention_zip', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le dossier complet</a>
-				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-				<ul class="dropdown-menu">
-					<li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification (PDF)</a></li>
+            <div class="btn-group" role="group">
+                <a href="<?php echo url_for('subvention_pdf', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le PDF</a>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification (PDF)</a></li>
                     <li><a href="<?php echo url_for('subvention_xls', $subvention) ?>">Descriptif détaillé de l'opération (Excel)</a></li>
-              	</ul>
-			</div>
+                    <li><a href="<?php echo url_for('subvention_zip', $subvention) ?>">Dossier complet (ZIP)</a></li>
+                </ul>
+            </div>
         </div>
         <div class="col-xs-4 text-right">
             <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
