@@ -29,10 +29,10 @@ $conclusionrejet = $subvention->approbations->conclusionrejet;
 \usepackage{indentfirst}
 \usetikzlibrary{fit}
 \usepackage{enumitem}
-
+\usepackage{pifont}
 \newlist{todolist}{itemize}{2}
 \setlist[todolist]{label=$\square$}
-\usepackage{pifont}
+
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
 \newcommand{\done}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}%
@@ -40,7 +40,9 @@ $conclusionrejet = $subvention->approbations->conclusionrejet;
 \newcommand{\wontfix}{\rlap{$\square$}{\large\hspace{1pt}\cmark}}
 
 \renewcommand\sfdefault{phv}
-\newcommand{\squareChecked}{\makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\squareChecked}{\rlap{$\square$}{\raisebox{2pt}{\large\hspace{1pt}\cmark}}}
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\TruncateMarker}{\small{...}}
 
