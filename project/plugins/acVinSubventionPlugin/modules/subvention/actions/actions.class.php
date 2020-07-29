@@ -207,6 +207,8 @@ class subventionActions extends sfActions {
         $this->getResponse()->setHttpHeader('Expires', '0');
         $this->getResponse()->setContent(file_get_contents($target.$zipname));
         $this->getResponse()->send();
+
+        return sfView::NONE;
     }
 
     // debrayage
