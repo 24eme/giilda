@@ -44,7 +44,7 @@
                 </ul>
     			    </div>
             <?php else: ?>
-              <a href="" class="btn btn-success">Vers le site de la région Occitanie&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+              <a href="https://mesaidesenligne.laregion.fr/" target="_blank" class="btn btn-success">Vers le site de la région Occitanie&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
             <?php endif; ?>
         </div>
     </div>
