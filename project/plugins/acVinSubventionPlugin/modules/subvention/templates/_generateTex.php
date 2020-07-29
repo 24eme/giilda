@@ -2,6 +2,9 @@
 use_helper('Date');
 use_helper('Float');
 use_helper('Display');
+$criteres = $subvention->approbations->criteres;
+$conclusionfavorable = $subvention->approbations->conclusionfavorable;
+$conclusionrejet = $subvention->approbations->conclusionrejet;
 ?>
 \documentclass[a4paper,oneside, portrait, 10pt]{extarticle}
 
@@ -103,7 +106,7 @@ use_helper('Display');
 \hline
 \small{Date de réception de la demande} & \textbf{\DateSignature} & \small{Personne en charge du dossier au sein de l'entreprise} & \textbf{\ContactDossierNom} \\
 \hline
-\end{tabular} 
+\end{tabular}
 
 \vspace{0.5cm}
 
@@ -118,7 +121,7 @@ Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVil
 <?php foreach($subvention->infos as $categorie => $items): ?>
 \textbf{<?php echo $items->getLibelle() ?>} \medbreak
 <?php foreach($items as $key => $item): ?>
-<?php echo $items->getInfosSchemaItem($key, "label") ?>~: \textbf{<?php echo $item ?>}~<?php echo $items->getInfosSchemaItem($key, "unite") ?> \medbreak
+<?php echo $items->getSchemaItem($key, "label") ?>~: \textbf{<?php echo $item ?>}~<?php echo $items->getSchemaItem($key, "unite") ?> \medbreak
 <?php endforeach; ?>
 <?php endforeach; ?>
 
@@ -133,25 +136,12 @@ Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVil
 	<?php else: ?>
 	\item <?php echo $value ?>
 	<?php endif; ?>
-	<?php if ($subvention->engagements_precisions->exist($key)): ?>
-	\begin{todolist}[itemsep=7pt,parsep=7pt]
-	<?php foreach ($subvention->getConfiguration()->getEngagementsPrecisions() as $skey => $svalue): if ($skey != $key) continue; ?>
-	<?php foreach ($svalue as $ssk => $ssv): ?>
-	<?php if ($subvention->engagements_precisions->get($key)->exist($ssk)): ?>
-	\item[\done] <?php echo $ssv ?>
-	<?php else: ?>
-	\item <?php echo $value ?>
-	<?php endif; ?>
-	<?php endforeach; ?>
-	<?php endforeach; ?>
-	 \end{todolist}
-	<?php endif; ?>
 <?php endforeach; ?>
 \end{todolist}
 
 \newpage
 
-~ \\ 
+~ \\
 
 \vspace{0,6cm}
 
@@ -162,13 +152,25 @@ Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVil
 \hline
   \multicolumn{2}{|c|}{\cellcolor{gray!25}CRITÈRES} & \cellcolor{gray!25} \hfill APPRÉCIATION\hfill\null  \\
 \hline
-$\square$ & Respect des accords interprofessionnels ou engagement & ~ \\
+  <?php if($criteres->respect_interpro): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> &
+  Respect des accords interprofessionnels ou engagement &
+  <?php if($criteres->respect_interpro_appreciation): echo $criteres->respect_interpro_appreciation; endif; ?> \\
 \hline
-$\square$ & Opérations concernant les vins conditionnés sous signe de qualité issus des AOP et IGP de la Région : \begin{enumerate}[itemsep=1pt,parsep=1pt] \item Pays d’OC/Terres du Midi \item AOC du Languedoc/IGP Sud de France \item Vins du Sud-Ouest \item Vins de la Vallée du Rhône \item Vins du Roussillon (AOP/IGP) \end{enumerate} & ~ \\
+  <?php if($criteres->attente_dossierautre): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> &
+  Opérations concernant les vins conditionnés sous signe de qualité issus des AOP et IGP de la Région : \begin{enumerate}[itemsep=1pt,parsep=1pt] \item Pays d’OC/Terres du Midi \item AOC du Languedoc/IGP Sud de France \item Vins du Sud-Ouest \item Vins de la Vallée du Rhône \item Vins du Roussillon (AOP/IGP) \end{enumerate} &
+   <?php if($criteres->attente_dossierautre_appreciation): echo $criteres->attente_dossierautre_appreciation; endif; ?> \\
 \hline
-$\square$ & \underline{Pour les négociants}, contractualisation : \begin{todolist}[itemsep=1pt,parsep=1pt] \item effective* \item engagement* \end{todolist} \small{* Préciser obligatoirement les volumes concernés} & ~ \\
+  <?php if($criteres->negociant_contractualisation): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> &
+   \underline{Pour les négociants}, contractualisation : \begin{todolist}[itemsep=1pt,parsep=1pt]
+                                                            \item<?php if($criteres->negociant_contractualisation_effective): ?>[\done]<?php endif; ?> effective*
+                                                            \item<?php if($criteres->negociant_contractualisation_engagement): ?>[\done]<?php endif; ?> engagement*
+                                                            \end{todolist} \small{* Préciser obligatoirement les volumes concernés} &
+  <?php if($criteres->negociant_contractualisation_appreciation): echo $criteres->negociant_contractualisation_appreciation; endif; ?>
+    \\
 \hline
-$\square$ & Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action...) & ~ \\
+ <?php if($criteres->conditions_eligibilite): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> &
+ Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action...) &
+  <?php if($criteres->conditions_eligibilite_appreciation): echo $criteres->conditions_eligibilite_appreciation; endif; ?> \\
 \hline
 \end{tabular}
 
@@ -176,10 +178,14 @@ $\square$ & Eligibilité et appréciation de la faisabilité et de la cohérence
 
 \begin{tabular}{|L{8,75cm}|L{8,75cm}|}
 \hline
-$\square$ Favorable \begin{todolist}[itemsep=1pt,parsep=1pt] \item sur l'ensemble des actions \item sur les actions n° \end{todolist} Commentaires : \bigbreak ~ \bigbreak ~ \bigbreak & Numéro de dossier (facultatif): \bigbreak Version du dossier : \begin{todolist}[itemsep=1pt,parsep=1pt] \item initiale \item modifiée \end{todolist}  \\
+<?php if($conclusionfavorable->favorable): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Favorable \begin{todolist}[itemsep=1pt,parsep=1pt]
+                                                                                                    \item<?php if($conclusionfavorable->favorable): ?>[\done]<?php endif; ?> sur l'ensemble des actions
+                                                                                                    \item<?php if($conclusionfavorable->partiellement_favorable): ?>[\done]<?php endif; ?> sur les actions n° <?php if($conclusionfavorable->partiellement_favorable): echo $conclusionfavorable->partiellement_favorable; endif; ?>\end{todolist}
+                                                                                                    Commentaires : <?php if($conclusionfavorable->partiellement_favorable_commentaire): echo $conclusionfavorable->partiellement_favorable_commentaire; endif; ?> &
+Numéro de dossier (facultatif): <?php if($subvention->numero_archive): echo $subvention->numero_archive; endif; ?> \bigbreak Version du dossier : \begin{todolist}[itemsep=1pt,parsep=1pt] \item initiale \item modifiée \end{todolist}  \\
 \hline
-\multicolumn{2}{|l|}{$\square$  Proposition de rejet} \\
-\multicolumn{2}{|l|}{Motif : } \\
+\multicolumn{2}{|l|}{ <?php if($conclusionrejet->motif_rejet): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?>  Proposition de rejet} \\
+\multicolumn{2}{|l|}{Motif : <?php if($conclusionrejet->motif_rejet): echo $conclusionrejet->motif_rejet; endif; ?>} \\
 \multicolumn{2}{|l|}{~} \\
 \multicolumn{2}{|l|}{~} \\
 \hline

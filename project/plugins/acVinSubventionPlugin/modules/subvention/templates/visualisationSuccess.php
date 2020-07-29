@@ -42,7 +42,7 @@
                 <a class="btn btn-success formPostButton" data-statut="<?php echo SubventionClient::STATUT_APPROUVE; ?>" >&nbsp;Approuver le dossier</a>
             		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
             		<ul class="dropdown-menu">
-                    <a class="text-danger formPostButton" data-statut="<?php echo SubventionClient::STATUT_REFUSE; ?>" >&nbsp;Refuser le dossier</a>
+                    <a href="#" class="text-danger formPostButton" data-statut="<?php echo SubventionClient::STATUT_REFUSE; ?>" >&nbsp;Refuser le dossier</a>
                 </ul>
     			    </div>
             <?php else: ?>
