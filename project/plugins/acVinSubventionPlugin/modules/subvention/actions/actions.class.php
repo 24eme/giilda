@@ -39,10 +39,6 @@ class subventionActions extends sfActions {
     public function executeInfos(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
 
-        if(!$this->subvention->hasXls() && !$this->subvention->hasDefaultXlsPath()){
-          throw new sfException("Il n'existe pas de document pour cette opération : ".$this->subvention->operation);
-        }
-
         $this->form = new SubventionsGenericForm($this->subvention,'infos');
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -130,6 +126,10 @@ class subventionActions extends sfActions {
 
         $this->subvention = $this->getRoute()->getSubvention();
         $this->form = new SubventionDossierForm($this->subvention);
+
+        if(!$this->subvention->hasXls() && !$this->subvention->hasDefaultXlsPath()){
+          throw new sfException("Il n'existe pas de document pour cette opération : ".$this->subvention->operation);
+        }
 
         if (!$request->isMethod(sfWebRequest::POST)) {
       		return sfView::SUCCESS;
