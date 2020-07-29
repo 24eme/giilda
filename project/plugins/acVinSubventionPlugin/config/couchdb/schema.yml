@@ -70,3 +70,4 @@ Subvention:
       statut: { }
       numero_archive: { }
       campagne_archive: { required: false }
+      version: { }

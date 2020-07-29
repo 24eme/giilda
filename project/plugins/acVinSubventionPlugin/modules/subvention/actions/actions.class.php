@@ -145,6 +145,15 @@ class subventionActions extends sfActions {
 
     }
 
+    public function executeReouvrir(sfWebRequest $request) {
+
+        $this->subvention = $this->getRoute()->getSubvention();
+        $this->subvention->reouvrir();
+        $this->subvention->save();
+        $this->redirect('subvention_dossier', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
+
+    }
+
     public function executeXls(sfWebRequest $request) {
 
       $this->subvention = $this->getRoute()->getSubvention();

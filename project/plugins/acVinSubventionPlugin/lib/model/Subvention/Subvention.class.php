@@ -32,6 +32,13 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
     }
 
+    public function reouvrir(){
+        $this->version+=1;
+        $this->validation_date = null;
+        $this->statut = null;
+        $this->signature_date = null;
+    }
+
     public function updateNoeudSchema($key) {
         foreach($this->getNoeudSchema($key) as $categorie => $items) {
             if(preg_match("/_libelle$/", $categorie)) {
@@ -128,9 +135,7 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function isValideInterpro() {
-        $this->statut = $statut;
-        $this->add('validation_date', date('Y-m-d H:m:s'));
-        $this->archivage_document->archiver();
+      return $this->isApprouve() || $this->isRefuse();
     }
 
 
