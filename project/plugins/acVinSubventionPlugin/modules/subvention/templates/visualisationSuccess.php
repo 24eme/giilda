@@ -24,13 +24,11 @@
         </div>
         <div class="col-xs-4 text-center">
         	<div class="btn-group" role="group">
-				<a href="<?php echo url_for('subvention_zip', $subvention) ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Télécharger le dossier complet</a>
-				<button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+				<a href="<?php echo url_for('subvention_zip', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le dossier complet</a>
+				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
 				<ul class="dropdown-menu">
-					<li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification</a></li>
-                	<li><a href="<?php echo url_for('subvention_xls', $subvention) ?>">Descriptif détaillé de l'opération</a></li>
-                	<li><a href="">Notice</a></li>
-                	<li><a href="">Charte graphique</a></li>
+					<li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification (PDF)</a></li>
+                    <li><a href="<?php echo url_for('subvention_xls', $subvention) ?>">Descriptif détaillé de l'opération (Excel)</a></li>
               	</ul>
 			</div>
         </div>
