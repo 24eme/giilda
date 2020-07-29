@@ -12,76 +12,41 @@
     </div>
   </div>
 <?php endif; ?>
-  <div class="row">
-    <div class="col-xs-12">
-      <h2>Contrat Relance Viti</h2>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3">
+            <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Contrat Relance Viti
 
-      <p>Espace des demandes d’aides dans le cadre du dispositif Contrat Relance Viti</p>
-    </div>
-  </div>
-  <div class="row row-condensed">
-    <div class="col-xs-12">
-      <div class="panel panel-default" style="height:250px;">
-        <div class="panel-heading"><h3 class="panel-title">Dossiers en cours : </h3></div>
-        <div class="panel-body">
-          <?php if($subvention_en_cours && $subvention_en_cours->isApprouve()): ?>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-10 col-sm-offset-1">Votre subvention pour le <?php echo $operation_en_cours; ?> a été approuvée.</label>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <div class="col-sm-10 col-sm-offset-1">
-              <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Visualiser votre demande de subvention <?php echo $operation_en_cours; ?> </a>
-            </div>
-          </div>
-        <?php elseif($subvention_en_cours && $subvention_en_cours->isApprouvePartiellement()): ?>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-10 col-sm-offset-1">Votre subvention pour le <?php echo $operation_en_cours; ?> a été approuvée partiellement.</label>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <div class="col-sm-10 col-sm-offset-1">
-              <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Visualiser votre demande de subvention <?php echo $operation_en_cours; ?> </a>
-            </div>
-          </div>
-        <?php elseif($subvention_en_cours && $subvention_en_cours->isRefuse()): ?>
-          <div class="form-group" style="margin-bottom: 0">
-            <label class="col-sm-10 col-sm-offset-1">Votre subvention pour le <?php echo $operation_en_cours; ?> a été refusée.</label>
-          </div>
-          <div class="form-group" style="margin-bottom: 0">
-            <div class="col-sm-10 col-sm-offset-1">
-              <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Visualiser votre demande de subvention <?php echo $operation_en_cours; ?> </a>
-            </div>
-          </div>
-        <?php elseif($subvention_en_cours && $subvention_en_cours->isValide()): ?>
-            <div class="form-group" style="margin-bottom: 0">
-              <label class="col-sm-10 col-sm-offset-1">Votre subvention pour le <?php echo $operation_en_cours; ?> a été validée par vos soin. Elle est en cours d'étude par votre interprofession.</label>
-            </div>
-            <div class="form-group" style="margin-bottom: 0">
-              <div class="col-sm-10 col-sm-offset-1">
-                <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Visualiser votre demande de subvention <?php echo $operation_en_cours; ?> </a>
-              </div>
-            </div>
-          <?php elseif($subvention_en_cours): ?>
-              <div class="form-group" style="margin-bottom: 0">
-                <label class="col-sm-10 col-sm-offset-1">Votre subvention pour le <?php echo $operation_en_cours; ?> est en cours de saisie.</label>
-              </div>
-              <div class="form-group" style="margin-bottom: 0">
-                <div class="col-sm-10 col-sm-offset-1">
-                  <a href="<?php echo url_for('subvention_infos',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Accèder à la saisie de votre demande de subvention <?php echo $operation_en_cours; ?> </a>
-                </div>
-              </div>
-            <?php else: ?>
-                <div class="form-group" style="margin-bottom: 0">
-                  <label class="col-sm-10 col-sm-offset-1">Espace Contrat Relance Viti</label>
-                </div>
-                <div class="form-group" style="margin-bottom: 0">
-                  <div class="col-sm-10 col-sm-offset-1">
-                    <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-warning"><span class="glyphicon glyphicon-save-file"></span> Création d’une nouvelle demande d’aide régionale <?php echo $operation_en_cours; ?> </a>
+                    <?php if($subvention && $subvention->isApprouve()): ?>
+                        <label class="label label-success pull-right">Approuvé par l'interprofession</label>
+                    <?php elseif($subvention && $subvention->isRefuse()): ?>
+                        <label class="label label-danger pull-right">Réfusé par l'interprofession</label>
+                    <?php elseif($subvention && $subvention->isValide()): ?>
+                        <label class="label label-default pull-right">En attente de validation par l'interprofession</label>
+                    <?php elseif($subvention): ?>
+                        <label class="label label-warning pull-right">En cours de saisie</label>
+                    <?php else: ?>
+                        <label class="label label-info pull-right">Non commencé</label>
+                    <?php endif; ?></h3>
                   </div>
-                </div>
-        <?php endif; ?>
+                  <div class="panel-body">
+                      Texte explicatif
+                  </div>
+                  <div class="panel-footer">
+                      <?php if($subvention && $subvention->isValide()): ?>
+                          <a href="<?php echo url_for('subvention_visualisation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-block btn-success">Visualiser la procédure</a>
+                      <?php elseif($subvention): ?>
+                          <a href="<?php echo url_for('subvention_infos',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-block btn-warning">Continuer la procédure</a>
+                      <?php else: ?>
+                          <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => $operation_en_cours)); ?>" class="btn btn-block btn-default">Démarrer la procédure</a>
+                      <?php endif; ?>
+                  </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+
+
+
 
 </section>
