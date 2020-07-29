@@ -1,12 +1,21 @@
 <?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
 
 <section id="principal" class="form-horizontal">
-    <h1>
-    	Récapitulatif de votre dossier de subvention <strong><?php echo $subvention->operation ?></strong>&nbsp;<small class="text-muted">- version <?php echo $subvention->version; ?></small>
+    <h2>
+    	Récapitulatif de votre dossier</strong>&nbsp;<small style="font-size: 14px;" class="text-muted">Version <?php echo $subvention->version; ?></small>
+        <button class="btn btn-sm <?php if($subvention && $subvention->isApprouve()): ?>
+        btn-success
+        <?php elseif($subvention && $subvention->isRefuse()): ?>
+        btn-danger
+        <?php elseif($subvention && $subvention->isValide()): ?>
+        btn-warning
+        <?php else: ?>
+        btn-default
+        <?php endif; ?>"><?php echo $subvention->getStatutLibelle(); ?></button>
       <?php if($subvention->isValideInterpro()): ?>
         <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-warning pull-right">Ré-ouvrir la demande</a>
       <?php endif; ?>
-    </h1>
+    </h2>
 
   <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
 
