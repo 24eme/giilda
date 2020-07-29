@@ -115,7 +115,7 @@ class subventionActions extends sfActions {
         $this->formValidationInterpro->save();
         $statut = $request->getParameter('statut',null);
         if($statut){
-          $this->subvention->statut = $statut;
+          $this->subvention->validateInterpro($statut);
           $this->subvention->save();
         }
 
