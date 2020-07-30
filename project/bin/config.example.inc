@@ -34,6 +34,10 @@ REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
 CIEL_URL_RETOURXML=http://10.10.10.10/reception_douanes/SIRENINTERPO/
 URLDRMINTERNE=http://url_interne_acces_drm
 
+FRANCEAGRIMER_MOUNT=""
+FRANCEAGRIMER_PATH="/mnt/fa"
+FRANCEAGRIMER_UMOUNT=""
+
 #Retour douane
 CIEL_URL_RETOURXML=""
 EMAILS_RETOURXML=""
