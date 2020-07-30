@@ -48,8 +48,13 @@
             <?php endif; ?>
         </div>
         <div class="col-xs-4 text-center">
-            <div class="btn-group" role="group">
-                <a href="<?php echo url_for('subvention_pdf', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le PDF</a>
+            <div class="btn-group dropup" role="group">
+
+                <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
+                    <button type="submit" name="pdf" value="pdf" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Enregistrer et voir le PDF</a>
+                <?php else: ?>
+                    <a href="<?php echo url_for('subvention_pdf', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;Télécharger le PDF</a>
+                <?php endif; ?>
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href="<?php echo url_for('subvention_pdf', $subvention) ?>">Fiche de pré-qualification (PDF)</a></li>
@@ -60,15 +65,13 @@
         </div>
         <div class="col-xs-4 text-right">
             <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
-              <input type="hidden" class="approbationstatut" value="" name="statut"/>
-
-              <div class="btn-group" role="group">
-                <a class="btn btn-success formPostButton" data-statut="<?php echo SubventionClient::STATUT_APPROUVE; ?>" >&nbsp;Approuver le dossier</a>
+                <div class="btn-group dropup" role="group">
+                    <button class="btn btn-success" type="submit" name="valider" value="valider"><span class="glyphicon glyphicon-ok"></span>&nbsp;Valider la préqualification</a>
             		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
-            		<ul class="dropdown-menu">
-                    <a href="#" class="text-danger formPostButton" data-statut="<?php echo SubventionClient::STATUT_REFUSE; ?>" >&nbsp;Refuser le dossier</a>
-                </ul>
-    			    </div>
+                	<ul class="dropdown-menu">
+                        <button class="btn" type="submit">Enregistrer en brouillon</button>
+                    </ul>
+    			</div>
             <?php else: ?>
               <a href="https://mesaidesenligne.laregion.fr/" target="_blank" class="btn btn-success">Vers le site de la région Occitanie&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
             <?php endif; ?>
@@ -80,15 +83,3 @@
     </div>
     <?php endif; ?>
 </section>
-    <script type="text/javascript">
-
-        $(document).ready( function()
-    	   {
-          $(".formPostButton").click(function(e){
-            e.preventDefault();
-            var statut = $(this).data("statut");
-            $("input.approbationstatut").val(statut);
-            $("#approbationForm").submit();
-          });
-        });
-    </script>
