@@ -5,9 +5,9 @@
 
     <h2>Détail des actions</h2>
 
-    <p>Cette étape consiste à détailler les actions qui seront réalisées dans le cadre du Contrat Relance Viti.</p>
+    <p>Cette étape consiste à décrire les actions de promotion et communication que vous souhaitez mettre en place dans le cadre du Contrat Relance Viti.</p>
 
-    <p>Pour ce faire, nous mettons à votre disposition un fichier Excel  (Etape A) qu’il convient de déposer sur <?php echo sfConfig::get('app_routing_context_production_host'); ?> après l’avoir complété (Etape B)</p>
+    <p>Pour ce faire, nous mettons à votre disposition un fichier Excel  (Etape A) qu’il convient de déposer sur cette page après l’avoir complété (Etape B)</p>
 
     <form class="form-horizontal" role="form" action="<?php echo url_for('subvention_dossier', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>" method="post" enctype="multipart/form-data">
       <?php echo $form->renderGlobalErrors(); ?>

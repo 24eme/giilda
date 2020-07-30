@@ -9,6 +9,15 @@
       <?php endif; ?>
     </h2>
 
+    <p>Voici un résumé de votre demande d'aide « Contrat relance ».</p>
+
+<p>Vous pouvez consulter le tableur que vous avez fourni ainsi que la fiche de préqualification.</p>
+
+<p>Votre interprofession va préqualifier ce dossier avant de le transmettre à la région.</p>
+<p>Les différentes étapes de ce processus sont consultables depuis cette page.</p>
+
+<p><strong>Si vous ne l'avez pas déjà fait, n'oubliez pas de vous rendre sur le site de la région Occitanie pour compléter votre demande et la valider définitivement.</strong></p>
+
   <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
 
   <?php if(!$isTeledeclarationMode && isset($formValidationInterpro)): ?>
