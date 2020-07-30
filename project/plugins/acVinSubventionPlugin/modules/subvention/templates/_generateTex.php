@@ -180,7 +180,7 @@ Code Postal : \textbf{\DeclarantCp} \hspace{0.5cm} Ville : \textbf{\DeclarantVil
 
 \begin{tabular}{|L{8,75cm}|L{8,75cm}|}
 \hline
-<?php if($conclusionfavorable->favorable): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Favorable \begin{todolist}[itemsep=1pt,parsep=1pt]
+<?php if($conclusionfavorable->favorable || $conclusionfavorable->partiellement_favorable): ?>\squareChecked<?php else: ?>$\square$<?php endif; ?> Favorable \begin{todolist}[itemsep=1pt,parsep=1pt]
                                                                                                     \item<?php if($conclusionfavorable->favorable): ?>[\done]<?php endif; ?> sur l'ensemble des actions
                                                                                                     \item<?php if($conclusionfavorable->partiellement_favorable): ?>[\done]<?php endif; ?> sur les actions n° <?php if($conclusionfavorable->partiellement_favorable): echo $conclusionfavorable->partiellement_favorable; endif; ?>\end{todolist}
                                                                                                     Commentaires : <?php if($conclusionfavorable->partiellement_favorable_commentaire): echo $conclusionfavorable->partiellement_favorable_commentaire; endif; ?> &
