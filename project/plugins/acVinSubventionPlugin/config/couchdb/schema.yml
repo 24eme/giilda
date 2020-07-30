@@ -64,10 +64,10 @@ Subvention:
                   '*': {  }
       commentaire: { }
       date_modification: { }
-      validation_date: { required: false }
+      validation_date: { }
       signature_date: { }
       dossier_date: { }
-      statut: { }
+      statut: { required: false }
       numero_archive: { }
-      campagne_archive: { required: false }
+      campagne_archive: { }
       version: { }

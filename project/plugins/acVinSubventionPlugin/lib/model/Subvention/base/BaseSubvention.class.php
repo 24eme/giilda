@@ -19,7 +19,6 @@
  * @property string $validation_date
  * @property string $signature_date
  * @property string $dossier_date
- * @property string $statut
  * @property string $numero_archive
  * @property string $campagne_archive
 
@@ -53,8 +52,6 @@
  * @method string setSignatureDate()
  * @method string getDossierDate()
  * @method string setDossierDate()
- * @method string getStatut()
- * @method string setStatut()
  * @method string getNumeroArchive()
  * @method string setNumeroArchive()
  * @method string getCampagneArchive()

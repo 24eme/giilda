@@ -3,15 +3,7 @@
 <section id="principal" class="form-horizontal">
     <h2>
     	Récapitulatif de votre dossier</strong>&nbsp;<small style="font-size: 14px;" class="text-muted">Version <?php echo $subvention->version; ?></small>
-        <button class="btn btn-sm <?php if($subvention && $subvention->isApprouve()): ?>
-        btn-success
-        <?php elseif($subvention && $subvention->isRefuse()): ?>
-        btn-danger
-        <?php elseif($subvention && $subvention->isValide()): ?>
-        btn-warning
-        <?php else: ?>
-        btn-default
-        <?php endif; ?>"><?php echo $subvention->getStatutLibelle(); ?></button>
+        <button class="btn btn-sm <?php if($subvention->isValideInterpro()): ?>btn-success<?php elseif($subvention->isValide()): ?>btn-warning<?php else: ?>btn-default<?php endif; ?>"><?php echo $subvention->getStatutLibelle(); ?></button>
       <?php if($subvention->isValideInterpro()): ?>
         <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-warning pull-right">Ré-ouvrir la demande</a>
       <?php endif; ?>

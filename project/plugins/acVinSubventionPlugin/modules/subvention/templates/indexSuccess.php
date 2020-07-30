@@ -38,21 +38,11 @@
                     <span><?php echo ($date)? DateTime::createFromFormat('Y-m-d H:i:s', $date)->format("d/m/Y") : ''; ?></span>
                   </td>
                   <td class="text-center">
-                    <span class="label
-                    <?php if($subvention && $subvention->isApprouve()): ?>
-                    label-success
-                    <?php elseif($subvention && $subvention->isRefuse()): ?>
-                    label-danger
-                    <?php elseif($subvention && $subvention->isValide()): ?>
-                    label-warning
-                    <?php else: ?>
-                    label-default
-                    <?php endif; ?>"
-                    >
+                    <span class="label <?php if($subvention->isValideInterpro()): ?>label-success<?php elseif($subvention->isValide()): ?>label-warning<?php else: ?>label-default<?php endif; ?>">
                     <?php echo $subvention->getStatutLibelle(); ?></span>
                   </td>
                   <td class="text-center">
-                    <?php if($subvention->statut): ?>
+                    <?php if($subvention->isValide()): ?>
                     <div class="btn-group" role="group">
                         <a href="<?php echo url_for('subvention_pdf', $subvention) ?>" class="btn btn-link btn-xs">Télécharger le PDF</a>
                         <button type="button" class="btn btn-link btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>

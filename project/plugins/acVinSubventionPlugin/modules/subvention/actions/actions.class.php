@@ -123,7 +123,7 @@ class subventionActions extends sfActions {
         $this->formValidationInterpro->save();
 
         if($request->getParameter('valider')){
-            $this->subvention->validateInterpro($statut);
+            $this->subvention->validateInterpro();
             $this->subvention->save();
         }
 

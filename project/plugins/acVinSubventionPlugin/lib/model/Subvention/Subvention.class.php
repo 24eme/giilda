@@ -33,9 +33,8 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function reouvrir(){
-        $this->version+=1;
+        $this->version += 1;
         $this->validation_date = null;
-        $this->statut = null;
         $this->signature_date = null;
     }
 
@@ -124,43 +123,43 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function validate() {
-        $this->statut = SubventionClient::STATUT_VALIDE;
         $this->signature_date = date('Y-m-d');
-    }
-
-    public function validateInterpro($statut) {
-        $this->statut = $statut;
-        $this->add('validation_date', date('Y-m-d H:m:s'));
         $this->archivage_document->archiver();
     }
 
+    public function validateInterpro() {
+        $this->add('validation_date', date('Y-m-d'));
+    }
+
     public function isValideInterpro() {
-      return $this->isApprouve() || $this->isRefuse();
+
+        return $this->exist('validation_date') && $this->get('validation_date');
     }
 
+    public function isValide() {
 
-    public function isApprouve(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_APPROUVE);
+        return $this->exist('signature_date') && $this->get('signature_date');
     }
 
-    public function isApprouvePartiellement(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_APPROUVE_PARTIELLEMENT);
-    }
+    public function isBrouillon() {
 
-    public function isRefuse(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_REFUSE);
-    }
-
-    public function isValide(){
-      return ($this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_VALIDE)) || $this->isValideInterpro();
+        return !$this->exist('signature_date') || !$this->get('signature_date');
     }
 
     public function getStatutLibelle()
     {
-      if(!$this->exist('statut') || !$this->statut){
+        if($this->isValideInterpro()){
+
+            return "Pré-qualifié";
+        }
+
+        if($this->isValide()){
+
+            return "En attente de qualification";
+        }
+
+
         return "En cours de saisie";
-      }
-      return SubventionClient::$statuts[$this->statut];
     }
 
     protected function preSave() {
