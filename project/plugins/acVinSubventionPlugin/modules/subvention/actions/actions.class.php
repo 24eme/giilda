@@ -7,6 +7,17 @@ class subventionActions extends sfActions {
       $this->subventions = SubventionClient::getInstance()->findByAllSortedByDate();
     }
 
+    public function executeSociete(sfWebRequest $request) {
+
+        $this->identifiant = $request['identifiant'];
+
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+        $this->redirect('subvention_etablissement', $this->etablissementPrincipal);
+    }
+
     public function executeEtablissement(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->etablissement = $this->getRoute()->getEtablissement();
@@ -224,5 +235,28 @@ class subventionActions extends sfActions {
 
     protected function isTeledeclarationSubvention() {
       return $this->getUser()->hasTeledeclaration();
+    }
+
+    protected function initSocieteAndEtablissementPrincipal() {
+        $this->compte = $this->getUser()->getCompte();
+        if ($this->getUser()->hasTeledeclaration()) {
+            $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
+            $this->societe = $this->etablissementPrincipal->getSociete();
+        }
+
+        $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
+    }
+
+    protected function redirect403IfIsNotTeledeclaration() {
+        if (!$this->getUser()->hasTeledeclaration()) {
+            $this->redirect403();
+        }
+    }
+
+    protected function redirect403IfIsNotTeledeclarationAndNotMe() {
+        $this->redirect403IfIsNotTeledeclaration();
+        if ($this->getUser()->getCompte()->id_societe != $this->societe->_id) {
+            $this->redirect403();
+        }
     }
 }
