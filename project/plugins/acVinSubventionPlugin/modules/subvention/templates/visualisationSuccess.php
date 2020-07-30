@@ -1,22 +1,18 @@
 <?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal" class="form-horizontal">
-    <h2>
+    <h2 style="margin-bottom: 15px;">
     	Récapitulatif de votre dossier</strong>&nbsp;<small style="font-size: 14px;" class="text-muted">Version <?php echo $subvention->version; ?></small>
         <button class="btn btn-sm <?php if($subvention->isValideInterpro()): ?>btn-success<?php elseif($subvention->isValide()): ?>btn-warning<?php else: ?>btn-default<?php endif; ?>"><?php echo $subvention->getStatutLibelle(); ?></button>
       <?php if($subvention->isValideInterpro()): ?>
         <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-sm btn-warning pull-right">Ré-ouvrir la demande</a>
       <?php endif; ?>
     </h2>
+    <p>Voici un résumé de votre demande d'aide « Contrat relance ». Vous pouvez consulter le tableur que vous avez fourni ainsi que la fiche de préqualification.</p>
 
-    <p>Voici un résumé de votre demande d'aide « Contrat relance ».</p>
+    <p>Votre interprofession va préqualifier ce dossier avant de le transmettre à la région. Les différentes étapes de ce processus sont consultables depuis cette page.</p>
 
-<p>Vous pouvez consulter le tableur que vous avez fourni ainsi que la fiche de préqualification.</p>
-
-<p>Votre interprofession va préqualifier ce dossier avant de le transmettre à la région.</p>
-<p>Les différentes étapes de ce processus sont consultables depuis cette page.</p>
-
-<p><strong>Si vous ne l'avez pas déjà fait, n'oubliez pas de vous rendre sur le site de la région Occitanie pour compléter votre demande et la valider définitivement.</strong></p>
+    <p style="margin-bottom: 20px;"><strong>Si vous ne l'avez pas déjà fait, n'oubliez pas de vous rendre sur le site de la région Occitanie pour compléter votre demande et la valider définitivement.</strong></p>
 
   <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
 
