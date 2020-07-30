@@ -58,7 +58,7 @@ class SubventionConfiguration {
             "criteres" => array(
               // case 1
                               "respect_interpro" =>
-                                  array("label" => "Respect des accords interprofessionnels ou engagement", "type" => "checkbox"),
+                                  array("label" => "Respect des accords interprofessionnels ou engagement", "type" => "checkbox", "default" => true),
                               "respect_interpro_appreciation" =>
                                   array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
                                   // case 2
@@ -68,7 +68,7 @@ class SubventionConfiguration {
                                           2. AOC du Languedoc/IGP Sud de France<br/>
                                           3. Vins du Sud-Ouest<br/>
                                           4. Vins de la Vallée du Rhône<br/>
-                                          5. Vins du Roussillon (AOP/IGP)", "type" => "checkbox"),
+                                          5. Vins du Roussillon (AOP/IGP)", "type" => "checkbox", "default" => true),
                               "attente_dossierautre_appreciation" =>
                                  array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
                                 // case 3
@@ -82,20 +82,20 @@ class SubventionConfiguration {
                                   array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
                                   // case 4
                               "conditions_eligibilite" =>
-                                  array("label" => "Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action…)", "type" => "checkbox"),
+                                  array("label" => "Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action…)", "type" => "checkbox", "default" => true),
                                 "conditions_eligibilite_appreciation" =>
                                   array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
 
                               ),
             "criteres_libelle" => "Critères de pré-qualification du dossier",
             "conclusionfavorable" => array(
-                                "favorable" => array("label" => "Favorable sur l’ensemble des actions", "type" => "checkbox", "help" => "Cochez cette case si le dossier est favorable"),
-                                "partiellement_favorable" => array("label" => "Favorable uniquement sur les actions :", "type" => "text", "help" => "Listez les actions séparées par des \",\""),
+                                "favorable" => array("label" => "Favorable sur l’ensemble des actions", "type" => "checkbox", "default" => true),
+                                "partiellement_favorable" => array("label" => "Favorable uniquement sur les actions :", "type" => "text", "placeholder" => "Listez les actions séparées par des \",\""),
                                 "partiellement_favorable_commentaire" => array("label" => "Commentaire :", "type" => "text")
                             ),
             "conclusionfavorable_libelle" => "Conclusions favorables ou partiellement favorables",
             "conclusionrejet" => array(
-                                 "motif_rejet" => array("label" => "Motif de rejet du dossier", "type" => "text", "help" => "Inscrivez ici les motifs de rejet du dossier")
+                                 "motif_rejet" => array("label" => "Motif de rejet du dossier", "type" => "text", "placeholder" => "Si le dossier est rejeter inscrivez ici les motifs de rejet du dossier")
                                 ),
             "conclusionrejet_libelle" => "Conclusions de rejet"
         );
