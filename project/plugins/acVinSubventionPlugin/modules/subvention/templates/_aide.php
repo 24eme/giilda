@@ -4,8 +4,7 @@
     </div>
     <div class="panel-body">
       <ul>
-        <li><a tabindex="-1" href="#">Notice Contrat Relance VITI</a></li>
-          <li><a tabindex="-1" href="#">Charte Graphique</a></li>
+        <li><a target="_blank" tabindex="-1" href="/pdf/notice_contrat_relance_covid.pdf">Notice Contrat Relance VITI</a></li>
       </ul>
     </div>
 </div>

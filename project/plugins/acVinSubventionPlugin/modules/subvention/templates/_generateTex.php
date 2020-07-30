@@ -194,8 +194,9 @@ Numéro de dossier : <?php if($subvention->numero_archive): echo $subvention->nu
 \end{tabular}
 
 \bigbreak
-Date : \textbf{\DateSignature} \bigbreak
-Signature de l'agent référent ou de son représentant :
+\bigbreak
+
+\textbf{Signé électroniquement le \DateSignature}
 
 <?php endif; ?>
 
