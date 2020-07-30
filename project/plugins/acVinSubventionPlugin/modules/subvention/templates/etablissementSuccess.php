@@ -14,8 +14,13 @@
 <?php endif; ?>
 
 <h2>Contrat Relance Viti</h2>
-<p>Texte explicatif</p>
+<div class="row">
+    <div class="col-xs-9">
+        <p>Texte explicatif</p>
 
-<a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => SubventionConfiguration::getInstance()->getOperationEnCours())); ?>" class="btn btn-primary">Démarrer la demande</a>
-
+        <a href="<?php echo url_for('subvention_creation',array('identifiant' => $etablissement->identifiant, 'operation' => SubventionConfiguration::getInstance()->getOperationEnCours())); ?>" class="btn btn-primary">Démarrer la demande</a>
+    </div>
+    <div class="col-xs-3">
+        <?php include_partial('subvention/aide'); ?>
+    </div>
 </section>
