@@ -1,4 +1,4 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
@@ -9,7 +9,7 @@
         <?php echo $form->renderHiddenFields(); ?>
 
         <h2>Identification du demandeur</h2>
-        <p>Saisie des informations de votre dossier de subvention - Contrat Relance Viti</p>
+        <p>Dans cette étape, vous devez saisir des informations de votre dossier « Contrat Relance Viti »</p>
         <div class="row">
             <div class="col-xs-9">
                 <h3 style="margin-top: 5px;">Entreprise</h3>

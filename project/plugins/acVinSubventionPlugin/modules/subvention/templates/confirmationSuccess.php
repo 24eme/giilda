@@ -1,11 +1,13 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal">
 
     <h2>Saisie terminée</h2>
 
-    <p>La saisie de votre dossier à destination de votre interprofession est terminée.</p>
-    <p>Pour terminer votre demande de subvention, vous devez remplir un dossier sur le site de la région Occitanie</p>
+
+    <p>La saisie de votre dossier de préqualification à destination de votre interprofession est terminée.</p>
+
+    <p>Vous devez à présent poursuivre votre demande directement auprès de la Région Occitanie sur le site de la Région</p>
 
     <h2>Terminer votre demande de subvention</h2>
 

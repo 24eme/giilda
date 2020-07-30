@@ -1,4 +1,4 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal" class="form-horizontal">
     <h2>
@@ -8,6 +8,15 @@
         <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-sm btn-warning pull-right">Ré-ouvrir la demande</a>
       <?php endif; ?>
     </h2>
+
+    <p>Voici un résumé de votre demande d'aide « Contrat relance ».</p>
+
+<p>Vous pouvez consulter le tableur que vous avez fourni ainsi que la fiche de préqualification.</p>
+
+<p>Votre interprofession va préqualifier ce dossier avant de le transmettre à la région.</p>
+<p>Les différentes étapes de ce processus sont consultables depuis cette page.</p>
+
+<p><strong>Si vous ne l'avez pas déjà fait, n'oubliez pas de vous rendre sur le site de la région Occitanie pour compléter votre demande et la valider définitivement.</strong></p>
 
   <?php include_partial('subvention/recap', array('subvention' => $subvention)); ?>
 
