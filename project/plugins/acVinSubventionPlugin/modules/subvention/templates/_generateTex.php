@@ -196,8 +196,11 @@ Numéro de dossier : <?php if($subvention->numero_archive): echo $subvention->nu
 \bigbreak
 \bigbreak
 
+<?php if($subvention->isValideInterpro()): ?>
 \textbf{Signé électroniquement le \DateSignature}
-
+<?php else: ?>
+\textbf{Dossier en brouillon (en attente de qualification par l'interprofession)}
+<?php endif; ?>
 <?php endif; ?>
 
 \end{document}
