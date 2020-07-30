@@ -19,7 +19,7 @@
             	<a href="<?php echo url_for('subvention_engagements', $subvention) ?>" tabindex="-1" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Etape précédente</a>
             </div>
             <div class="col-xs-6 text-right">
-                <button type="submit" class="btn btn-success">Valider le dossier&nbsp;<span class="glyphicon glyphicon-ok"></span></button>
+                <button type="submit" class="btn btn-success">Soumettre le dossier&nbsp;<span class="glyphicon glyphicon-ok"></span></button>
             </div>
         </div>
     </form>
