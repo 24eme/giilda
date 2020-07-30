@@ -47,10 +47,8 @@
             <ul class="list-unstyled">
             <?php foreach ($subvention->engagements as $k => $v): ?>
             	<li>
-            		<small>
-            		<span class="glyphicon glyphicon-ok"></span>&nbsp;
+            		<span class="glyphicon glyphicon-check"></span>&nbsp;
             		<?php echo $subvention->getConfiguration()->getEngagementLibelle($k) ?>
-            		</small>
             	</li>
             <?php endforeach; ?>
             </ul>
