@@ -120,6 +120,11 @@
         <?php echo $etablissementForm['mois_stock_debut']->renderError(); ?>
     </div>
     <div class="form_ligne">
+        <?php echo $etablissementForm['code_insee']->renderLabel(); ?>
+        <?php echo $etablissementForm['code_insee']->render(); ?>
+        <?php echo $etablissementForm['code_insee']->renderError(); ?>
+    </div>
+    <div class="form_ligne">
         <?php echo $etablissementForm['commentaire']->renderLabel(); ?>
 <?php echo $etablissementForm['commentaire']->render(); ?>
 <?php echo $etablissementForm['commentaire']->renderError(); ?>

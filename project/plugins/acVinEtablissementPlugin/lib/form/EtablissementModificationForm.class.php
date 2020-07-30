@@ -31,6 +31,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setWidget('site_fiche', new sfWidgetFormInput());
         $this->setWidget('ppm', new sfWidgetFormInput());
         $this->setWidget('mois_stock_debut', new sfWidgetFormChoice(array('choices' => $this->getMonths())));
+        $this->setWidget('code_insee', new sfWidgetFormInput());
 
 
         $this->widgetSchema->setLabel('nom', 'Nom du chai *');
@@ -41,6 +42,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->widgetSchema->setLabel('site_fiche', 'Site Fiche Publique');
         $this->widgetSchema->setLabel('ppm', 'PPM');
         $this->widgetSchema->setLabel('mois_stock_debut', 'Mois de saisie du stock');
+        $this->widgetSchema->setLabel('code_insee', 'Code INSEE');
 
 
         $this->setValidator('nom', new sfValidatorString(array('required' => true)));
@@ -51,6 +53,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('ppm', new sfValidatorString(array('required' => false)));
         $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMonths()))));
+        $this->setValidator('code_insee', new sfValidatorString(array('required' => true)));
 
         if (!$this->etablissement->isCourtier()) {
             $recette_locale = $this->getRecettesLocales();
@@ -106,6 +109,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         parent::updateDefaultsFromObject();
 
         $this->setDefault('recette_locale_choice', $this->getObject()->recette_locale->id_douane);
+        $this->setDefault('code_insee', $this->getObject()->getCodeInsee());
     }
 
     public function getStatuts() {
@@ -169,6 +173,11 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         } else {
             $this->etablissement->mois_stock_debut = $this->values['mois_stock_debut'];
         }
+
+        if ($this->values['code_insee']) {
+            $this->etablissement->siege->add('code_insee', $this->values['code_insee']);
+        }
+
         $this->etablissement->save();
 
         if($switch) {

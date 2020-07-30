@@ -625,6 +625,9 @@ class vracActions extends drmGeneriqueActions {
         $this->isAnnulable = $this->isTeledeclarationVrac() && $this->vrac->isTeledeclarationAnnulable() && ($this->vrac->getCreateurObject()->getSociete()->identifiant === $this->societe->identifiant);
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->majStatut(VracClient::STATUS_CONTRAT_ANNULE);
+            if ($this->vrac->exist('versement_fa')) {
+                $this->vrac->versement_fa = VracClient::VERSEMENT_FA_ANNULATION;
+            }
             $this->vrac->save();
         }
     }
