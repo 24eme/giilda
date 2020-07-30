@@ -60,7 +60,7 @@ class SubventionConfiguration {
                               "respect_interpro" =>
                                   array("label" => "Respect des accords interprofessionnels ou engagement", "type" => "checkbox"),
                               "respect_interpro_appreciation" =>
-                                  array("label" => "Appréciation sur le respect des accords interprofessionnels", "type" => "text"),
+                                  array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
                                   // case 2
                               "attente_dossierautre" =>
                                   array("label" => "Opérations concernant les vins conditionnés sous signe de qualité issus des AOP et IGP de la Région :<br/>
@@ -70,7 +70,7 @@ class SubventionConfiguration {
                                           4. Vins de la Vallée du Rhône<br/>
                                           5. Vins du Roussillon (AOP/IGP)", "type" => "checkbox"),
                               "attente_dossierautre_appreciation" =>
-                                  array("label" => "Appréciation sur les autres dossiers", "type" => "text"),
+                                 array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
                                 // case 3
                               "negociant_contractualisation" =>
                                   array("label" => "Pour les négociants, condition de contractualisation", "type" => "checkbox"),
@@ -79,12 +79,12 @@ class SubventionConfiguration {
                               "negociant_contractualisation_engagement" =>
                                   array("label" => "Contractualisation engagement", "type" => "checkbox"),
                               "negociant_contractualisation_appreciation" =>
-                                  array("label" => "Appréciation sur la contractualisation négociants", "type" => "text"),
+                                  array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
                                   // case 4
                               "conditions_eligibilite" =>
                                   array("label" => "Eligibilité et appréciation de la faisabilité et de la cohérence des opérations présentées (adéquation coût/action…)", "type" => "checkbox"),
                                 "conditions_eligibilite_appreciation" =>
-                                  array("label" => "Appréciation sur l'éligibilité et la faisabilité", "type" => "text"),
+                                  array("label" => " ", "type" => "text", "placeholder" => "Appréciation"),
 
                               ),
             "criteres_libelle" => "Critères de pré-qualification du dossier",

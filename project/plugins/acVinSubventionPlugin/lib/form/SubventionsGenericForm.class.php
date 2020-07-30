@@ -20,6 +20,7 @@ class SubventionsGenericForm extends acCouchdbForm {
 
                 $label = $items->getSchemaItem($key, "label");
                 $help = $items->getSchemaItem($key, "help");
+                $placeholder = $items->getSchemaItem($key, "placeholder");
 
                 $widgetClass = "bsWidgetFormInput";
                 $validatorClass = "sfValidatorString";
@@ -37,6 +38,10 @@ class SubventionsGenericForm extends acCouchdbForm {
                 $formCategorie->getWidget($key)->setLabel($label);
                 $formCategorie->setValidator($key, new $validatorClass(array('required' => false)));
                 $formCategorie->setDefault($key, $item);
+
+                if($placeholder) {
+                    $formCategorie->getWidget($key)->setAttribute('placeholder', $placeholder);
+                }
 
                 if($help) {
                     $formCategorie->getWidgetSchema()->setHelp($key, $help);
