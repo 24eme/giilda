@@ -1,5 +1,5 @@
 <ol class="breadcrumb">
-  <li><a href="<?php echo url_for('subvention') ?>">Subvention</a></li>
+  <?php if(!$isTeledeclarationMode): ?><li><a href="<?php echo url_for('subvention') ?>">Subvention</a></li><?php else: ?><li>Subvention</li><?php endif; ?>
   <li><a href="<?php echo url_for('subvention_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->siret ?>)</a></li>
 
 </ol>

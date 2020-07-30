@@ -48,7 +48,7 @@ class subventionActions extends sfActions {
 
     public function executeCreation(sfWebRequest $request) {
         $etablissement = $this->getRoute()->getEtablissement();
-
+        
         $subvention = SubventionClient::getInstance()->createDoc($etablissement->identifiant, $request->getParameter('operation'));
         $subvention->save();
 
@@ -57,7 +57,7 @@ class subventionActions extends sfActions {
 
     public function executeInfos(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
-
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionsGenericForm($this->subvention,'infos');
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -76,6 +76,7 @@ class subventionActions extends sfActions {
 
     public function executeEngagements(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionEngagementsForm($this->subvention);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -95,6 +96,7 @@ class subventionActions extends sfActions {
 
     public function executeValidation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionValidationForm($this->subvention);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -114,6 +116,7 @@ class subventionActions extends sfActions {
 
     public function executeConfirmation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
     }
 
     public function executeVisualisation(sfWebRequest $request) {
@@ -148,6 +151,7 @@ class subventionActions extends sfActions {
     public function executeDossier(sfWebRequest $request) {
 
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionDossierForm($this->subvention);
 
         if(!$this->subvention->hasXls() && !$this->subvention->hasDefaultXlsPath()){
@@ -171,6 +175,7 @@ class subventionActions extends sfActions {
     public function executeReouvrir(sfWebRequest $request) {
 
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->subvention->reouvrir();
         $this->subvention->save();
         $this->redirect('subvention_dossier', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));

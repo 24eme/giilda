@@ -1,4 +1,4 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal">
 
