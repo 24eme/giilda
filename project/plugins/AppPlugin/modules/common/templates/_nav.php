@@ -136,9 +136,9 @@ endif; ?>
           include_component('common', 'navItem', array(
         		'libelle' => 'Contrat relance',
         		'prefix' => 'subvention',
-        		'route' => 'subvention_etablissement',
+        		'route' => 'subvention_societe',
         		'teledeclaration' => true,
-        		'etablissement' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
+        		'identifiant' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
         		'target' => '_self'
         ));
   endif; ?>

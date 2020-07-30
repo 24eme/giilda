@@ -12,6 +12,16 @@ subvention_etablissement:
   requirements:
     sf_method: [get, post]
 
+subvention_societe:
+  url: /subvention/societe/:identifiant
+  param: { module: subvention, action: societe }
+  class: EtablissementRoute
+  options:
+    model:    Societe
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
 subvention_debrayage:
   url: /subvention/connexion/:identifiant
   param: { module: subvention, action: connexion }
