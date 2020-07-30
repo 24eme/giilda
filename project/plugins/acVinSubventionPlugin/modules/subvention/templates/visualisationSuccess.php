@@ -5,7 +5,7 @@
     	Récapitulatif de votre dossier</strong>&nbsp;<small style="font-size: 14px;" class="text-muted">Version <?php echo $subvention->version; ?></small>
         <button class="btn btn-sm <?php if($subvention->isValideInterpro()): ?>btn-success<?php elseif($subvention->isValide()): ?>btn-warning<?php else: ?>btn-default<?php endif; ?>"><?php echo $subvention->getStatutLibelle(); ?></button>
       <?php if($subvention->isValideInterpro()): ?>
-        <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-warning pull-right">Ré-ouvrir la demande</a>
+        <a href="<?php echo url_for('subvention_reouvrir', $subvention) ?>" class="btn btn-sm btn-warning pull-right">Ré-ouvrir la demande</a>
       <?php endif; ?>
     </h2>
 
@@ -24,9 +24,7 @@
         </div>
     </div>
     <hr/>
-    <h1>
-      Approbation du dossier
-    </h1>
+    <h2>Approbation du dossier</h2>
     <div class="row row-condensed">
     	<div class="col-xs-12">
     		<form class="form-horizontal" method="POST" action="" id="approbationForm">

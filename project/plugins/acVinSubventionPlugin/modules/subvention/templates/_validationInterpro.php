@@ -2,8 +2,8 @@
 		<?php echo $form->renderGlobalErrors(); ?>
 		<?php echo $form->renderHiddenFields(); ?>
 		<?php foreach($form as $categorie => $items): ?>
+			<?php if(!$items instanceof sfFormFieldSchema): continue; endif; ?>
 			<div class="panel panel-default">
-			<?php if($items instanceof sfFormFieldSchema): ?>
 					<div class="panel-heading">
 						<h3 class="panel-title"><strong><?php echo $subvention->approbations->get($categorie)->getLibelle() ?></strong></h3>
 					</div>
@@ -27,6 +27,5 @@
 							</div>
 						<?php endforeach; ?>
 					</div>
-				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>
