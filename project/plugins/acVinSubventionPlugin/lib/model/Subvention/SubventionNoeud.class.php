@@ -13,6 +13,10 @@ abstract class SubventionNoeud extends acCouchdbDocumentTree {
                 continue;
             }
             $item->add($subkey);
+
+            if(isset($schema['default'])) {
+                $item->set($subkey, $schema['default']);
+            }
         }
 
         return $item;
