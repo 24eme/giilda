@@ -77,9 +77,6 @@ EOF;
 
         $this->produitsConfiguration = ConfigurationClient::getCurrent()->getProduits();
 
-
-        //echo "#num_ligne;type_contrat;campagne;num_archive;code_lieu_visa;code_action;date_contrat;date_visa;code_commune_lieu_vinification;indicateur_double_fin;code_insee_dept_commune_acheteur;nature_acheteur;siret_acheteur;cvi_vendeur;nature_vendeur;siret_vendeur;courtier (O/N);delai_retiraison;pourcentage_accompte;delai_paiement;code_type_produit;code_denomination_vin_IGP;primeur;bio;couleur;annee_recolte;code_elaboration (O/N);volume;degre (Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût));prix;unité_prix (H);code_cepage;code_dest (Z)\n";
-
         $contrats = $this->getContrats();
         $this->printCSV($contrats->rows, $options['dryrun']);
     }
@@ -91,9 +88,11 @@ EOF;
 
     protected function printCSV($contratsView, $dryrun = false) {
         if (!count($contratsView)) {
-            echo "Aucun contrats\n";
+            fwrite(STDERR, "Aucun contrats\n");
         }
         $cpt = 0;
+        fwrite(STDERR, "#NUM_LIGNE;TYPE_CONTRAT;CAMPAGNE;NUM_ARCHIVAGE;CODE_LIEU_VISA;CODE_ACTION;DATE_CONTRAT;DATE_VISA;CODE_COMMUNE_LIEU_VINIFICATION;INDICATION_DOUBLE_FIN;CODE_INSEE_DEPT_COMMUNE_ACHETEUR;NATURE_ACHETEUR;SIRET_ACHETEUR;CVI_VENDEUR;NATURE_VENDEUR;SIRET_VENDEUR;COURTIER;DELAI_RETIRAISON;POURCENTAGE_ACCOMPTE;DELAI_PAIEMENT;CODE_TYPE_PRODUIT;CODE_DENOMINATION_VIN_IGP;PRIMEUR;BIO;COULEUR;ANNEE_RECOLTE;CODE_ELABORATION;VOLUME;DEGRE;PRIX;UNITE_PRIX;CODE_CEPAGE;CODE_DEST;ID_DOC;\n");
+        fwrite(STDERR, "#num_ligne;type_contrat;campagne;num_archive;code_lieu_visa;code_action;date_contrat;date_visa;code_commune_lieu_vinification;indicateur_double_fin;code_insee_dept_commune_acheteur;nature_acheteur;siret_acheteur;cvi_vendeur;nature_vendeur;siret_vendeur;courtier (O/N);delai_retiraison;pourcentage_accompte;delai_paiement;code_type_produit;code_denomination_vin_IGP;primeur;bio;couleur;annee_recolte;code_elaboration (O/N);volume;degre (Degré vin si type de contrat = V (vins) Degré en puissance si type de contrat = M (moût));prix;unité_prix (H);code_cepage;code_dest (Z)\n");
         foreach ($contratsView as $contratView) {
             if (!preg_match('/\/[a-z]+\/[a-z]+\/IGP(.*)/', $contratView->value[VracHistoryView::VALUE_PRODUIT])) {
                 continue;
@@ -191,10 +190,16 @@ EOF;
               X = Imprécis
              */
 
-            for($i = 0 ;  $i < count($ligne) ; $i++) {
+             //export pour FA
+            for($i = 0 ;  $i < count($ligne) - 1 ; $i++) {
                 echo '"' . $ligne[$i] . '";';
             }
             echo "\n";
+            //export pour le debug (contenant l'identifiant du doc)
+            for($i = 0 ;  $i < count($ligne) ; $i++) {
+                fwrite(STDERR, '"' . $ligne[$i] . '";');
+            }
+            fwrite(STDERR, "\n");
             $contrat->add('versement_fa', VracClient::VERSEMENT_FA_TRANSMIS);
 
             if($dryrun) {
