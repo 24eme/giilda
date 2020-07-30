@@ -79,7 +79,7 @@
       </div>
     </div>
     <?php endif; ?>
-
+</section>
     <script type="text/javascript">
 
         $(document).ready( function()
