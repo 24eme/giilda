@@ -139,10 +139,14 @@ class subventionActions extends sfActions {
         if($request->getParameter('valider')){
             $this->subvention->validateInterpro();
             $this->subvention->save();
+
+            return $this->redirect('subvention');
         }
 
         if($request->getParameter('pdf')){
             return $this->executeLatex($request);
+
+            return $this->redirect('subvention');
         }
 
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
