@@ -204,6 +204,15 @@ class subventionActions extends sfActions {
         $this->setLayout(false);
         $this->subvention = $this->getRoute()->getSubvention();
         $this->forward404Unless($this->subvention);
+
+        if(!$this->subvention->isValideInterpro() && !$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+            foreach($this->subvention->approbations as $items) {
+                foreach($items as $key => $value) {
+                    $items->set($key, null);
+                }
+            }
+        }
+
         $latex = new SubventionLatex($this->subvention);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
