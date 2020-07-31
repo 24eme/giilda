@@ -47,18 +47,8 @@
             <ul class="list-unstyled">
             <?php foreach ($subvention->engagements as $k => $v): ?>
             	<li>
-            		<small>
-            		<span class="glyphicon glyphicon-ok"></span>&nbsp;
+            		<span class="glyphicon glyphicon-check"></span>&nbsp;
             		<?php echo $subvention->getConfiguration()->getEngagementLibelle($k) ?>
-            		<?php 
-            		      if ($subvention->engagements_precisions->exist($k)): 
-            		          $nb = count($subvention->engagements_precisions->get($k));
-            		          $i=0;
-            		          foreach ($subvention->engagements_precisions->get($k) as $sk => $sv): 
-            		?>
-            		<?php echo trim($subvention->getConfiguration()->getEngagementPrecisionLibelle($k, $sk)) ?><?php if ($i < ($nb-1)) echo ', '; ?>
-            		<?php $i++; endforeach; endif; ?>
-            		</small>
             	</li>
             <?php endforeach; ?>
             </ul>
@@ -72,9 +62,9 @@
             <div class="panel-body">
             	<?php foreach($items as $key => $item): ?>
                 <div class="form-group" style="margin-bottom: 0">
-                   <label class="col-sm-4 control-label"><?php echo $items->getInfosSchemaItem($key, "label") ?></label>
+                   <label class="col-sm-4 control-label"><?php echo $items->getSchemaItem($key, "label") ?></label>
                    <div class="col-sm-8">
-                        <p class="form-control-static"><?php echo $item ?>&nbsp;<small class="text-muted"><?php echo $items->getInfosSchemaItem($key, "unite") ?></small></p>
+                        <p class="form-control-static"><?php echo $item ?>&nbsp;<small class="text-muted"><?php echo $items->getSchemaItem($key, "unite") ?></small></p>
                    </div>
                 </div>
             	<?php endforeach; ?>
@@ -82,7 +72,7 @@
         </div>
         <?php endforeach; ?>
         <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Descriptif détaillé de l'opération</h3></div>
+            <div class="panel-heading"><h3 class="panel-title">Descriptif détaillé de vos opérations</h3></div>
             <div class="panel-body">
                 <a href="<?php echo url_for('subvention_xls', $subvention) ?>" class="btn btn-default"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Fichier Excel</a>
             </div>

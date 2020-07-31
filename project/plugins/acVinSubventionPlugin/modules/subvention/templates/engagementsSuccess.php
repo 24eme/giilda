@@ -1,4 +1,4 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
@@ -7,7 +7,7 @@
         <?php echo $form->renderGlobalErrors(); ?>
         <?php echo $form->renderHiddenFields(); ?>
 
-        <h2>Engagements</h2>
+        <h2>Engagements du bénéficiaire</h2>
 
         <p>Merci de vérifier les points suivants et vous engager à les respecter :</p>
 
@@ -33,30 +33,6 @@
         				</label>
                   	</div>
               	</div>
-              	<?php
-                $engagementsPrecisions = $form->getEngagementsPrecisions();
-                if (isset($engagementsPrecisions[$key])):
-                ?>
-                <div class="row">
-        			<div class="col-xs-offset-1 col-xs-11" style="padding-left:0;">
-        			<?php
-                        foreach ($engagementsPrecisions[$key] as $k => $libelle):
-                            if (!isset($form["precision_engagement_".$key."_".$k])) continue;
-                    ?>
-                    <div class="form-group <?php if($form["precision_engagement_".$key."_".$k]->hasError()): ?>has-error<?php endif; ?>" style="margin-bottom:0;">
-                    	<div class="col-xs-12">
-            				<?php echo $form["precision_engagement_".$key."_".$k]->renderError() ?>
-            			</div>
-        				<div class="col-xs-12 checkbox">
-        					<label for="<?php echo $form["precision_engagement_".$key."_".$k]->renderId() ?>">
-            				<?php echo $form["precision_engagement_".$key."_".$k]->render(array("data-target" => "#subvention_engagements_engagement_".$key)) ?>&nbsp;<?php echo $libelle ?>
-            				</label>
-                      	</div>
-                  	</div>
-                	<?php endforeach; ?>
-                	</div>
-                </div>
-                <?php endif; ?>
               	<?php endforeach; ?>
     		</div>
             <div class="col-xs-3">
@@ -80,11 +56,11 @@ $(document).ready(function() {
 		var checkbox = $(this);
 		if (checkbox.data("target")) {
 			if (checkbox.is(':checked')) {
-				$(checkbox.data("target")).prop("checked", true);
+				$(checkbox.data("target")).attr("checked", true);
 			}
 		} else {
 			if (!checkbox.is(':checked')) {
-				$("input[data-target='#"+checkbox.attr("id")+"']").prop("checked", false);
+				$("input[data-target='#"+checkbox.attr("id")+"']").attr("checked", false);
 			}
 		}
 	});

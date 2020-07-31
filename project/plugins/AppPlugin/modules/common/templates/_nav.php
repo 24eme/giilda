@@ -76,7 +76,16 @@
        		'target' => '_self'
        ));
        endif;
-
+       if(SubventionConfiguration::getInstance()->isActif()):
+              include_component('common', 'navItem', array(
+                  'libelle' => 'Contrat relance',
+                  'prefix' => 'subvention',
+                 'route' => 'subvention',
+                  'route_etablissement' => 'subvention_etablissement',
+                  'etablissement' =>  $etablissement,
+                  'target' => '_self'
+              ));
+        endif;
    endif;
 
 
@@ -90,16 +99,6 @@
             'target' => '_self'
        ));
 	endif;
-  if(SubventionConfiguration::getInstance()->isActif()):
-         include_component('common', 'navItem', array(
-         		'libelle' => 'Subventions',
-         		'prefix' => 'subvention',
-            'route' => 'subvention',
-         		'route_etablissement' => 'subvention_etablissement',
-         		'etablissement' =>  $etablissement,
-         		'target' => '_self'
-         ));
-   endif;
 
 ?>
 <?php if ($sf_user->hasCredential(Roles::TELEDECLARATION)): ?>
@@ -134,14 +133,14 @@ endif; ?>
        ));
  endif; ?>
  <?php if(SubventionConfiguration::getInstance()->isActif()):
-          /*include_component('common', 'navItem', array(
-        		'libelle' => 'Subventions',
+          include_component('common', 'navItem', array(
+        		'libelle' => 'Contrat relance',
         		'prefix' => 'subvention',
-        		'route' => 'subvention_etablissement',
+        		'route' => 'subvention_societe',
         		'teledeclaration' => true,
-        		'etablissement' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
+        		'identifiant' => $sf_user->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant,
         		'target' => '_self'
-        )); */
+        ));
   endif; ?>
 <?php endif; ?>
 <?php include_partial('common/navExtra'); ?>
@@ -172,13 +171,16 @@ endif; ?>
             <li><a href="<?php echo url_for("comptabilite_edition") ?>">Codes analytiques</a></li>
           </ul>
         </li>
-<?php if ($etablissement): ?>
+<?php
+ if ($etablissement): ?>
 <?php if (preg_match('/drm/', $module)) : ?>
      <li><a tabindex="-1" href="<?php echo url_for('drm_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
 <?php elseif (preg_match('/vrac/', $module)): ?>
      <li><a tabindex="-1" href="<?php echo url_for('vrac_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
 <?php elseif (preg_match('/fichier/', $module)): ?>
      <li><a tabindex="-1" href="<?php echo url_for('fichiers_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
+<?php elseif (preg_match('/subvention/', $module)): ?>
+      <li><a tabindex="-1" href="<?php echo url_for('subvention_debrayage', array('identifiant' => $etablissement->identifiant)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a></li>
 <?php endif; ?>
 <?php endif; ?>
 <?php endif; ?>

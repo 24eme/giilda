@@ -12,6 +12,26 @@ subvention_etablissement:
   requirements:
     sf_method: [get, post]
 
+subvention_societe:
+  url: /subvention/societe/:identifiant
+  param: { module: subvention, action: societe }
+  class: EtablissementRoute
+  options:
+    model:    Societe
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
+subvention_debrayage:
+  url: /subvention/connexion/:identifiant
+  param: { module: subvention, action: connexion }
+  class: EtablissementRoute
+  options:
+    model:    Subvention
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
 subvention_etablissement_selection:
   url: /subvention/etablissement-selection
   param: { module: subvention, action: etablissementSelection }
@@ -85,6 +105,16 @@ subvention_confirmation:
 subvention_visualisation:
   url: /subvention/:identifiant/visualisation/:operation
   param: { module: subvention, action: visualisation }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
+subvention_reouvrir:
+  url: /subvention/:identifiant/re-ouvrir/:operation
+  param: { module: subvention, action: reouvrir }
   class: SubventionRoute
   options:
     model:    Subvention

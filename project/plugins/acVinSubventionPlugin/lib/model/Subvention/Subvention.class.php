@@ -32,12 +32,18 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
     }
 
-    public function updateInfosSchema() {
-        foreach($this->getInfosSchema() as $categorie => $items) {
+    public function reouvrir(){
+        $this->version += 1;
+        $this->validation_date = null;
+        $this->signature_date = null;
+    }
+
+    public function updateNoeudSchema($key) {
+        foreach($this->getNoeudSchema($key) as $categorie => $items) {
             if(preg_match("/_libelle$/", $categorie)) {
                 continue;
             }
-            $this->infos->add($categorie);
+            $this->$key->add($categorie);
         }
     }
 
@@ -68,9 +74,9 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         return EtablissementClient::getInstance()->find($this->identifiant);
     }
 
-    public function getInfosSchema() {
-
-        return $this->getConfiguration()->getInfosSchema($this->operation);
+    public function getNoeudSchema($noeud) {
+        $nameGetFct = 'get'.ucfirst($noeud).'Schema';
+        return $this->getConfiguration()->$nameGetFct($this->operation);
     }
 
     public function getXls() {
@@ -117,49 +123,47 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     public function validate() {
-        $this->statut = SubventionClient::STATUT_VALIDE;
         $this->signature_date = date('Y-m-d');
+        $this->archivage_document->archiver();
     }
 
-    public function validateInterpro($statut) {
-        $this->statut = $statut;
-        $this->add('validation_date', date('Y-m-d H:m:s'));
-        $this->archivage_document->archiver();
+    public function validateInterpro() {
+        $this->add('validation_date', date('Y-m-d'));
     }
 
     public function isValideInterpro() {
-        $this->statut = $statut;
-        $this->add('validation_date', date('Y-m-d H:m:s'));
-        $this->archivage_document->archiver();
+
+        return $this->exist('validation_date') && $this->get('validation_date');
     }
 
+    public function isValide() {
 
-    public function isApprouve(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_APPROUVE);
+        return $this->exist('signature_date') && $this->get('signature_date');
     }
 
-    public function isApprouvePartiellement(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_APPROUVE_PARTIELLEMENT);
-    }
+    public function isBrouillon() {
 
-    public function isRefuse(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_REFUSE);
-    }
-
-    public function isValide(){
-      return $this->exist('statut') && ($this->statut == SUBVENTIONCLIENT::STATUT_VALIDE);
+        return !$this->exist('signature_date') || !$this->get('signature_date');
     }
 
     public function getStatutLibelle()
     {
-      if(!$this->exist('statut') || !$this->statut){
+        if($this->isValideInterpro()){
+
+            return "Pré-qualifié";
+        }
+
+        if($this->isValide()){
+
+            return "En attente de qualification";
+        }
+
+
         return "En cours de saisie";
-      }
-      return SubventionClient::$statuts[$this->statut];
     }
 
     protected function preSave() {
-        if($this->operation && !$this->exist('campagne_archive')) {
+        if($this->operation && (!$this->exist('campagne_archive') || !$campagne_archive)) {
             $this->add('campagne_archive', $this->operation);
         }
         $this->archivage_document->preSave();

@@ -7,13 +7,32 @@ class subventionActions extends sfActions {
       $this->subventions = SubventionClient::getInstance()->findByAllSortedByDate();
     }
 
-    public function executeEtablissement(sfWebRequest $request) {
-        $this->operation_en_cours = SubventionConfiguration::getInstance()->getOperationEnCours();
-        $this->etablissement = $this->getRoute()->getEtablissement();
-        $this->subvention_en_cours = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, $this->operation_en_cours);
+    public function executeSociete(sfWebRequest $request) {
 
+        $this->identifiant = $request['identifiant'];
+
+        $this->initSocieteAndEtablissementPrincipal();
+
+        $this->redirect403IfIsNotTeledeclarationAndNotMe();
+
+        $this->redirect('subvention_etablissement', $this->etablissementPrincipal);
     }
 
+    public function executeEtablissement(sfWebRequest $request) {
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $this->subvention = SubventionClient::getInstance()->findByEtablissementAndOperation($this->etablissement->identifiant, SubventionConfiguration::getInstance()->getOperationEnCours());
+
+        if($this->subvention && !$this->subvention->isValide()) {
+
+            return $this->redirect('subvention_infos', $this->subvention);
+        }
+
+        if($this->subvention) {
+
+            return $this->redirect('subvention_visualisation', $this->subvention);
+        }
+    }
 
     public function executeEtablissementSelection(sfWebRequest $request) {
 
@@ -29,7 +48,7 @@ class subventionActions extends sfActions {
 
     public function executeCreation(sfWebRequest $request) {
         $etablissement = $this->getRoute()->getEtablissement();
-
+        
         $subvention = SubventionClient::getInstance()->createDoc($etablissement->identifiant, $request->getParameter('operation'));
         $subvention->save();
 
@@ -38,12 +57,8 @@ class subventionActions extends sfActions {
 
     public function executeInfos(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
-
-        if(!$this->subvention->hasXls() && !$this->subvention->hasDefaultXlsPath()){
-          throw new sfException("Il n'existe pas de document pour cette opération : ".$this->subvention->operation);
-        }
-
-        $this->form = new SubventionsInfosForm($this->subvention);
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
+        $this->form = new SubventionsGenericForm($this->subvention,'infos');
 
         if (!$request->isMethod(sfWebRequest::POST)) {
             return sfView::SUCCESS;
@@ -61,6 +76,7 @@ class subventionActions extends sfActions {
 
     public function executeEngagements(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionEngagementsForm($this->subvention);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -80,6 +96,7 @@ class subventionActions extends sfActions {
 
     public function executeValidation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionValidationForm($this->subvention);
 
         if (!$request->isMethod(sfWebRequest::POST)) {
@@ -99,13 +116,13 @@ class subventionActions extends sfActions {
 
     public function executeConfirmation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
     }
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
-
-        $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionValidationInterproForm($this->subvention) : null;
-
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
+        $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionsGenericForm($this->subvention, 'approbations') : null;
         if (!$request->isMethod(sfWebRequest::POST) || !$this->formValidationInterpro) {
 
             return sfView::SUCCESS;
@@ -119,13 +136,31 @@ class subventionActions extends sfActions {
 
         $this->formValidationInterpro->save();
 
+        if($request->getParameter('valider')){
+            $this->subvention->validateInterpro();
+            $this->subvention->save();
+
+            return $this->redirect('subvention');
+        }
+
+        if($request->getParameter('pdf')){
+            return $this->executeLatex($request);
+
+            return $this->redirect('subvention');
+        }
+
         return $this->redirect($this->generateUrl('subvention_visualisation', $this->subvention));
     }
 
     public function executeDossier(sfWebRequest $request) {
 
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->form = new SubventionDossierForm($this->subvention);
+
+        if(!$this->subvention->hasXls() && !$this->subvention->hasDefaultXlsPath()){
+          throw new sfException("Il n'existe pas de document pour cette opération : ".$this->subvention->operation);
+        }
 
         if (!$request->isMethod(sfWebRequest::POST)) {
       		return sfView::SUCCESS;
@@ -138,6 +173,16 @@ class subventionActions extends sfActions {
         $this->form->save();
 
         $this->redirect('subvention_engagements', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
+
+    }
+
+    public function executeReouvrir(sfWebRequest $request) {
+
+        $this->subvention = $this->getRoute()->getSubvention();
+        $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
+        $this->subvention->reouvrir();
+        $this->subvention->save();
+        $this->redirect('subvention_dossier', array('identifiant' => $this->subvention->identifiant,'operation' => $this->subvention->operation));
 
     }
 
@@ -159,7 +204,21 @@ class subventionActions extends sfActions {
         $this->setLayout(false);
         $this->subvention = $this->getRoute()->getSubvention();
         $this->forward404Unless($this->subvention);
+
+        if(!$this->subvention->isValideInterpro() && !$this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+            foreach($this->subvention->approbations as $items) {
+                foreach($items as $key => $value) {
+                    $items->set($key, null);
+                }
+            }
+        }
+
         $latex = new SubventionLatex($this->subvention);
+
+        if($this->subvention->isValideInterpro() || $this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+            $latex->setApprobationMode(true);
+        }
+
         $latex->echoWithHTTPHeader($request->getParameter('type'));
         exit;
     }
@@ -186,5 +245,45 @@ class subventionActions extends sfActions {
         $this->getResponse()->setHttpHeader('Expires', '0');
         $this->getResponse()->setContent(file_get_contents($target.$zipname));
         $this->getResponse()->send();
+
+        return sfView::NONE;
+    }
+
+    // debrayage
+    public function executeConnexion(sfWebRequest $request) {
+
+        //  $this->redirect403IfIsTeledeclaration();
+        $this->etablissement = $this->getRoute()->getEtablissement();
+        $societe = $this->etablissement->getSociete();
+
+        $this->getUser()->usurpationOn($societe->identifiant, $request->getReferer());
+        $this->redirect('subvention_etablissement', array('identifiant' => $this->etablissement->identifiant));
+    }
+
+    protected function isTeledeclarationSubvention() {
+      return $this->getUser()->hasTeledeclaration();
+    }
+
+    protected function initSocieteAndEtablissementPrincipal() {
+        $this->compte = $this->getUser()->getCompte();
+        if ($this->getUser()->hasTeledeclaration()) {
+            $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
+            $this->societe = $this->etablissementPrincipal->getSociete();
+        }
+
+        $this->etablissementPrincipal = $this->getRoute()->getEtablissement();
+    }
+
+    protected function redirect403IfIsNotTeledeclaration() {
+        if (!$this->getUser()->hasTeledeclaration()) {
+            $this->redirect403();
+        }
+    }
+
+    protected function redirect403IfIsNotTeledeclarationAndNotMe() {
+        $this->redirect403IfIsNotTeledeclaration();
+        if ($this->getUser()->getCompte()->id_societe != $this->societe->_id) {
+            $this->redirect403();
+        }
     }
 }

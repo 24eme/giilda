@@ -1,11 +1,13 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
 
-    <h2>Saisie du dossier</h2>
+    <h2>Détail des actions</h2>
 
-    <p>Cette consiste à décrire les opérations de communication à mener à l'aide d'un tableur : </p>
+    <p>Cette étape consiste à décrire les actions de promotion et communication que vous souhaitez mettre en place dans le cadre du Contrat Relance Viti.</p>
+
+    <p>Pour ce faire, nous mettons à votre disposition un fichier Excel  (Etape A) qu’il convient de déposer sur cette page après l’avoir complété (Etape B)</p>
 
     <form class="form-horizontal" role="form" action="<?php echo url_for('subvention_dossier', array('identifiant' => $subvention->identifiant,'operation' => $subvention->operation)) ?>" method="post" enctype="multipart/form-data">
       <?php echo $form->renderGlobalErrors(); ?>

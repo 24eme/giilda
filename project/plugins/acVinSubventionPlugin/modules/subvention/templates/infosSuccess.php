@@ -1,4 +1,4 @@
-<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention)); ?>
+<?php include_partial('subvention/breadcrumb', array('subvention' => $subvention, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
 
 <section id="principal">
     <?php include_partial('subvention/etapes', array('subvention' => $subvention)); ?>
@@ -8,8 +8,8 @@
         <?php echo $form->renderGlobalErrors(); ?>
         <?php echo $form->renderHiddenFields(); ?>
 
-        <h2>Informations du dossier de subvention</h2>
-        <p>Saisie de informations de votre dossier de subvention</p>
+        <h2>Identification du demandeur</h2>
+        <p>Dans cette étape, vous devez saisir des informations de votre dossier « Contrat Relance Viti »</p>
         <div class="row">
             <div class="col-xs-9">
                 <h3 style="margin-top: 5px;">Entreprise</h3>
@@ -22,7 +22,7 @@
                 <div class="form-group" style="margin-bottom: 0">
                    <label class="col-sm-3 control-label">Famille</label>
                    <div class="col-sm-8">
-                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo EtablissementFamilles::getFamilleLibelle($subvention->declarant->famille) ?></p>
+                        <p class="form-control-static" style="padding-bottom: 0; min-height: inherit;"><?php echo ($subvention->declarant->famille)? EtablissementFamilles::getFamilleLibelle($subvention->declarant->famille) : null; ?></p>
                    </div>
                 </div>
                 <div class="form-group" style="margin-bottom: 0">
@@ -59,13 +59,13 @@
                    <?php echo $item->renderError(); ?>
                    <?php echo $item->renderLabel(null, array("class" => "col-sm-3 control-label")); ?>
                    <div class="<?php if(get_class($item->getWidget()) == "bsWidgetFormInputFloat"): ?>col-sm-3<?php else: ?>col-sm-4<?php endif;?>">
-                        <?php $unite = $subvention->infos->get($categorie)->getInfosSchemaItem($key, "unite") ?>
+                        <?php $unite = $subvention->infos->get($categorie)->getSchemaItem($key, "unite") ?>
                         <?php if($unite): ?><div class="input-group"><?php endif ?>
                         <?php echo $item->render(); ?>
                         <?php if($unite): ?>
                             <span class="input-group-addon"><?php echo $unite; ?></span>
                             </div>
-                        <?php endif ?>
+                        <?php endif; ?>
                    </div>
                    <div class="col-sm-3">
                        <?php echo $item->renderHelp(); ?>
