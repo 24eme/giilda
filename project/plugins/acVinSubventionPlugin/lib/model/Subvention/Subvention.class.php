@@ -163,7 +163,7 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
     }
 
     protected function preSave() {
-        if($this->operation && (!$this->exist('campagne_archive') || !$this->exist('campagne_archive'))) {
+        if($this->operation && (!$this->exist('campagne_archive') || !$campagne_archive))) {
             $this->add('campagne_archive', $this->operation);
         }
         $this->archivage_document->preSave();
