@@ -7,7 +7,7 @@ mkdir -p $TMP/exports_franceagrimer > /dev/null
 DATE=$(date +%Y%m%d);
 FILENAME="CA_InterLoire_"$DATE;
 
-PATHFILEFA=$TMP"/exports_franceagrimer/"$FILENAME);
+PATHFILEFA=$TMP"/exports_franceagrimer/"$FILENAME;
 
 echo 'CONSTRUCTION DU FICHIER '$PATHFILEFA'.txt';
 
@@ -21,5 +21,5 @@ fi
 cat $PATHFILEFA".tmp" | sed -f $TMP/exports_franceagrimer/sedCepages > $PATHFILEFA".txt"
 
 $FRANCEAGRIMER_MOUNT
-cp $PATHFILEFA $FRANCEAGRIMER_PATH"/"$FILENAME".txt"
+cp $PATHFILEFA".txt" $FRANCEAGRIMER_PATH"/"
 $FRANCEAGRIMER_UMOUNT
