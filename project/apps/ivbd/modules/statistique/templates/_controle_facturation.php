@@ -23,6 +23,10 @@ use_helper('IvbdStatistique');
 		$facturant = $produitLine['total_facturation']['value'];
 		$facturant_prix = $facturant*$cvoTaux;
 
+		if(preg_match("/CMR|CDB/",$produitKey)){
+			$couleur = "Blanc moelleux";
+		}
+
 		if(!array_key_exists($couleur,$appellationByCouleurCsv)){
 			$appellationByCouleurCsv[$couleur] = array();
 			$appellationByCouleurCsv[$couleur]['ztotal'] = array("TOTAL ".$couleur, 0.0,null,0.0,0.0,null,0.0,0.0,null,0.0);
@@ -112,4 +116,5 @@ use_helper('IvbdStatistique');
 					}
 				}
 			}
+
 echo $csv;

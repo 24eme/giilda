@@ -48,10 +48,10 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \pagestyle{fstyle_0}
 
 \begin{table}[ht!]
-\begin{tabularx}{\linewidth}{ | X | >{\raggedleft}p{0.08\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | >{\raggedleft}p{0.07\linewidth} | }
+\begin{tabularx}{\linewidth}{ | X | >{\centering\arraybackslash}p{0.08\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | >{\centering\arraybackslash}p{0.07\linewidth} | }
 \hline
 \rowcolor{gray!40} ~ 					& Sorties sous & ~        & \textbf{Facturation} & Sorties hors             & ~        & \textbf{Facturation} & Total sorties         & ~        & \textbf{Facturation} \tabularnewline
-\rowcolor{gray!40} \textbf{Appellation} & contrats & CVO & \textbf{attendue €}  & Contrats & CVO & \textbf{attendue}  & réelles à & CVO & \textbf{Attendue} \tabularnewline
+\rowcolor{gray!40} \textbf{Appellations} & contrats & CVO & \textbf{attendue €}  & Contrats & CVO & \textbf{attendue}  & réelles à & CVO & \textbf{Attendue} \tabularnewline
 \rowcolor{gray!40} ~           & (vrac) hl     & \texteuro{}\/hl & \textbf{ \texteuro{} }  & (bouteilles) hl & \texteuro{}\/hl & en \texteuro{}   & facturer en hl & \texteuro{}\/hl & \textbf{\texteuro{}} \tabularnewline
 \hline
 <?php

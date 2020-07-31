@@ -70,3 +70,26 @@
     </div>
 </div>
 <?php endif; ?>
+<?php if($teledeclaration && SubventionConfiguration::getInstance()->isActif()): ?>
+<div class="col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-heading clearfix">
+          <div class="row">
+            <div class="col-xs-12 text-left">
+                <strong>Contrat Relance Viti Occitanie</strong>
+            </div>
+          </div>
+          </div>
+          <div class="text-center panel-body">
+            Espace de dépôt des demandes de subventions auprès de votre interprofession dans le cadre du Contrat Relance Viti de la Région Occitanie.<br/>
+            <small class="text-muted">
+              Dans le contexte de la crise sanitaire et économique liée au Covid-19 et afin de protéger les entreprises des effets de la crise et accompagner la reprise commerciale de ce secteur essentiel à l’économie régionale, la Région Occitanie et les acteurs régionaux de la filière viti-vinicole ont engagé collectivement l’élaboration partenariale d’un plan de relance de la filière viti-vinicole régionale.
+            </small>
+
+         </div>
+         <div class="panel-footer text-center">
+            <a class="btn btn-default" href="<?php echo url_for('subvention_societe',array('identifiant' => $etablissementPrincipal->identifiant)); ?>">Accéder au contrat relance</a>
+          </div>
+    </div>
+</div>
+<?php endif; ?>
