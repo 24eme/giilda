@@ -29,7 +29,7 @@ class SubventionLatex extends GenericLatex {
         return html_entity_decode(htmlspecialchars_decode(get_partial('subvention/generateTex', array('subvention' => $this->subvention, 'subventionLatex' => $this)), HTML_ENTITIES));
     }
 
-    public function setApprobationMode($adminMode) {
+    public function setApprobationMode($approbationMode) {
         $this->approbationMode = $approbationMode;
     }
 
