@@ -497,13 +497,13 @@ $drm11->delete();
 
 if($application == "ivso") {
     $periode5 = date('Y')."04";
-    $t->comment("Reconnaissance du Floc Gascogne pour IVSO");
+    $t->comment("Reconnaissance du Floc de Gascogne pour IVSO");
 
     $temp = fopen($tmpfname, "w");
     fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",AUTRES_PI_INF_18,,,,,,,,Floc de Gascogne Blanc - 17°,suspendu,stocks_debut,initial,0,,,,,,\n");
     fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",AUTRES_PI_INF_18,,,,,,,,Floc de Gascogne Blanc - 17°,suspendu,entrees,achatcrd,100,,,,,,\n");
     fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",AUTRES_PI_INF_18,,,,,,,,Floc de Gascogne Blanc - 17°,suspendu,sorties,ventefrancecrd,100,,,,,,\n");
-    fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",AUTRES_PI_INF_18,,,,,,,,Floc de Gascogne Blanc - 17°,suspendu,complement,TAV,20,,,,,,\n");
+    fwrite($temp, "CAVE,$periode5,".$viti->identifiant.",".$viti->no_accises.",AUTRES_PI_INF_18,,,,,,,,Floc de Gascogne Blanc - 17°,suspendu,complement,TAV,17,,,,,,\n");
     fclose($temp);
 
     $drm10 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode5, true);
@@ -514,7 +514,7 @@ if($application == "ivso") {
     foreach($details as $detail) {
     }
 
-    $t->is($detail->getLibelle(), "Floc de Gascogne Blanc - 20°", "Reconnaissance du produit");
+    $t->is($detail->getLibelle(), "Floc de Gascogne Blanc - 17°", "Reconnaissance du produit");
 } elseif($application == "bivc") {
     $periode5 = date('Y')."04";
     $t->comment("création vrac");

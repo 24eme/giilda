@@ -5,17 +5,7 @@
  *
  * @author mathurin
  */
-class SubventionDossierForm extends BaseForm {
-
-    protected $subvention;
-
-  	public function __construct($subvention, $defaults = array(), $options = array(), $CSRFSecret = null){
-
-      $this->subvention = $subvention;
-
-      parent::__construct($defaults, $options, $CSRFSecret);
-
-    }
+class SubventionDossierForm extends acCouchdbForm {
 
     public function configure() {
 
@@ -26,15 +16,20 @@ class SubventionDossierForm extends BaseForm {
           'file' => "Dossier"
       ));
       $this->setValidators(array(
-          'file' => new ValidatorImportXls(array('file_path' => sfConfig::get('sf_data_dir') . '/subventions'))
+          'file' => new ValidatorImportXls(array('required' => true, 'file_path' => sfConfig::get('sf_data_dir') . '/subventions'))
       ));
+
+      if($this->getDocument()->hasXls()) {
+          $this->getValidator('file')->setOption('required', false);
+      }
+
       $this->widgetSchema->setNameFormat('subvention_dossier[%s]');
 
     }
 
     public function save() {
       $file = $this->getValue('file');
-      if (!$file && $this->subvention->isNew()) {
+      if (!$file && $this->getDocument()->isNew()) {
         throw new sfException("Une erreur lors de l'upload est survenue");
       }
       if ($file && !$file->isSaved()) {
@@ -42,25 +37,25 @@ class SubventionDossierForm extends BaseForm {
       }
 
       $isNew = false;
-      if ($this->subvention->isNew()) {
-        $this->subvention->save();
+      if ($this->getDocument()->isNew()) {
+        $this->getDocument()->save();
         $isNew = true;
       }
       if ($file) {
         try {
-          $this->subvention->storeDossier($file->getSavedName());
+          $this->getDocument()->storeDossier($file->getSavedName());
           $date = new \DateTime( 'now');
-          $this->subvention->dossier_date = $date->format('Y-m-d H:i:s');
+          $this->getDocument()->dossier_date = $date->format('Y-m-d H:i:s');
         } catch (sfException $e) {
           if ($isNew) {
-            $this->subvention->remove();
+            $this->getDocument()->remove();
           }
           throw new sfException($e);
         }
         unlink($file->getSavedName());
       }
 
-      $this->subvention->save();
+      $this->getDocument()->save();
       return $this->subvention;
     }
 

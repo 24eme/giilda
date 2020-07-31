@@ -33,11 +33,13 @@ Subvention:
             famille: {  }
       infos:
         type: collection
+        inheritance: SubventionNoeud
         class: SubventionInfos
         definition:
           fields:
             '*':
               type: collection
+              inheritance: SubventionNoeudCategorie
               class: SubventionInfosCategorie
               definition:
                 fields:
@@ -47,7 +49,25 @@ Subvention:
         definition:
           fields:
             '*': {  }
+      approbations:
+        type: collection
+        inheritance: SubventionNoeud
+        class: SubventionApprobations
+        definition:
+          fields:
+            '*':
+              type: collection
+              inheritance: SubventionNoeudCategorie
+              class: SubventionApprobationsCategorie
+              definition:
+                fields:
+                  '*': {  }
       commentaire: { }
+      date_modification: { }
       validation_date: { }
       signature_date: { }
       dossier_date: { }
+      statut: { required: false }
+      numero_archive: { }
+      campagne_archive: { }
+      version: { }

@@ -11,7 +11,7 @@ if($subvention) {
     acCouchdbManager::getClient()->deleteDoc($subvention);
 }
 
-$t = new lime_test(5);
+$t = new lime_test(7);
 
 $t->comment('Creation du document');
 
@@ -24,10 +24,6 @@ $subvention->save();
 $t->ok($subvention->_rev, 'Enregistrement du document');
 $t->is($subvention->declarant->raison_sociale, $viti->raison_sociale, "Declrant Raison sociale");
 $t->is($subvention->declarant->siret, $viti->siret, "Declarant Siret");
-$t->ok(count($subvention->getInfosSchema()) > 0, "Schéma du champs info");
-
-$t->comment('Étape infos');
-
-$form = new SubventionsInfosForm($subvention);
-
-$form->bind(array(""));
+$t->ok($subvention->infos->exist('contacts/nom'), "Le schema a été initialisé");
+$t->ok(!$subvention->infos->exist('contacts_libelle'), "Le libellé n'a pas été pris en compte dans le schema");
+$t->is($subvention->infos->contacts->getLibelle(), "Contacts de la personne en charge du dossier au sein de l’entreprise", "On peut récupérer le libellé");

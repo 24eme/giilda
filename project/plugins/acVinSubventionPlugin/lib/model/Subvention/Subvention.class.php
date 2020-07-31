@@ -6,6 +6,7 @@
  */
 class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
 
+    protected $archivage_document = null;
     protected $declarant_document = null;
 
     public function __construct() {
@@ -18,17 +19,31 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->initDocuments();
     }
 
+    public function getConfiguration() {
+        return SubventionConfiguration::getInstance();
+    }
+
     protected function initDocuments() {
         $this->declarant_document = new DeclarantDocument($this);
+        $this->archivage_document = new ArchivageDocument($this);
     }
 
     public function constructId() {
         $this->set('_id', 'SUBVENTION-'.$this->identifiant.'-'.$this->operation);
     }
 
-    public function updateInfosSchema() {
-        foreach($this->getInfosSchema() as $categorie => $items) {
-            $this->infos->add($categorie);
+    public function reouvrir(){
+        $this->version += 1;
+        $this->validation_date = null;
+        $this->signature_date = null;
+    }
+
+    public function updateNoeudSchema($key) {
+        foreach($this->getNoeudSchema($key) as $categorie => $items) {
+            if(preg_match("/_libelle$/", $categorie)) {
+                continue;
+            }
+            $this->$key->add($categorie);
         }
     }
 
@@ -59,9 +74,9 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         return EtablissementClient::getInstance()->find($this->identifiant);
     }
 
-    public function getInfosSchema() {
-
-        return SubventionConfiguration::getInstance()->getInfosSchema($this->operation);
+    public function getNoeudSchema($noeud) {
+        $nameGetFct = 'get'.ucfirst($noeud).'Schema';
+        return $this->getConfiguration()->$nameGetFct($this->operation);
     }
 
     public function getXls() {
@@ -82,24 +97,94 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         return "";
     }
 
-    public function getFileName(){
+    public function getDefaultXlsPath(){
 
-      return "formulaire_subvention_".strtolower($this->operation).".xlsx";
+      return SubventionClient::getInstance()->getDefaultXlsPath($this->operation);
     }
+
+    public function hasDefaultXlsPath(){
+
+      return file_exists($this->getDefaultXlsPath());
+    }
+
 
     public function getXlsPublicName(){
 
       return "formulaire_subvention_".strtolower($this->operation)."_".$this->identifiant.".xlsx";
     }
 
+  public function getFileName(){
+    return SubventionClient::getInstance()->getXlsFileName($this->operation);
+  }
 
-    public function getDefaultXlsPath(){
-
-      return realpath(dirname(__FILE__) . "/../../../../../data/subventions/".$this->getFileName());
-    }
 
     public function hasXls(){
       return $this->exist('_attachments') && $this->_attachments->exist($this->getFileName());
     }
+
+    public function validate() {
+        $this->signature_date = date('Y-m-d');
+        $this->archivage_document->archiver();
+    }
+
+    public function validateInterpro() {
+        $this->add('validation_date', date('Y-m-d'));
+    }
+
+    public function isValideInterpro() {
+
+        return $this->exist('validation_date') && $this->get('validation_date');
+    }
+
+    public function isValide() {
+
+        return $this->exist('signature_date') && $this->get('signature_date');
+    }
+
+    public function isBrouillon() {
+
+        return !$this->exist('signature_date') || !$this->get('signature_date');
+    }
+
+    public function getStatutLibelle()
+    {
+        if($this->isValideInterpro()){
+
+            return "Pré-qualifié";
+        }
+
+        if($this->isValide()){
+
+            return "En attente de qualification";
+        }
+
+
+        return "En cours de saisie";
+    }
+
+    protected function preSave() {
+        if($this->operation && (!$this->exist('campagne_archive') || !$campagne_archive)) {
+            $this->add('campagne_archive', $this->operation);
+        }
+        $this->archivage_document->preSave();
+    }
+
+    public function dosave(){
+      $this->add('date_modification', date('Y-m-d H:m:s'));
+    }
+
+    /*     * * ARCHIVAGE ** */
+
+    public function getNumeroArchive() {
+
+        return $this->_get('numero_archive');
+    }
+
+    public function isArchivageCanBeSet() {
+
+      return $this->exist("validation_date") && $this->validation_date;
+    }
+
+    /*     * * FIN ARCHIVAGE ** */
 
 }

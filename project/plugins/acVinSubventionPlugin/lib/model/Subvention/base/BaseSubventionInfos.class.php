@@ -8,7 +8,7 @@
  
  */
 
-abstract class BaseSubventionInfos extends acCouchdbDocumentTree {
+abstract class BaseSubventionInfos extends SubventionNoeud {
                 
     public function configureTree() {
        $this->_root_class_name = 'Subvention';
