@@ -14,7 +14,7 @@
 class SubventionLatex extends GenericLatex {
 
     private $subvention = null;
-    private $adminMode = false;
+    private $approbationMode = false;
 
     function __construct(Subvention $subvention, $config = null) {
         sfProjectConfiguration::getActive()->loadHelpers("Partial", "Url", "MyHelper");
@@ -29,12 +29,12 @@ class SubventionLatex extends GenericLatex {
         return html_entity_decode(htmlspecialchars_decode(get_partial('subvention/generateTex', array('subvention' => $this->subvention, 'subventionLatex' => $this)), HTML_ENTITIES));
     }
 
-    public function setAdminMode($adminMode) {
-        $this->adminMode = $adminMode;
+    public function setApprobationMode($adminMode) {
+        $this->approbationMode = $approbationMode;
     }
 
     public function getPublicFileName($extention = '.pdf') {
-        return 'subvention_' . $this->subvention->_id . '_' . $this->subvention->_rev . '_' . $this->adminMode . $extention;
+        return 'subvention_' . $this->subvention->_id . '_' . $this->subvention->_rev . '_' . (int)$this->approbationMode . $extention;
     }
 
 }

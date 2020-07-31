@@ -213,10 +213,10 @@ class subventionActions extends sfActions {
             }
         }
 
-
         $latex = new SubventionLatex($this->subvention);
-        if(!$this->subvention->isValideInterpro() && $this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
-            $latex->setAdminMode(true);
+
+        if($this->subvention->isValideInterpro() || $this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN)) {
+            $latex->setApprobationMode(true);
         }
 
         $latex->echoWithHTTPHeader($request->getParameter('type'));
