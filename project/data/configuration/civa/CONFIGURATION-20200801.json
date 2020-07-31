@@ -860,7 +860,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B001D64",
+                                "code_douane": "1B001D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -877,7 +877,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B001D63",
+                                "code_douane": "1B001D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -894,7 +894,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B001D62",
+                                "code_douane": "1B001D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -911,7 +911,7 @@
                                 "code": "MO",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B001D60",
+                                "code_douane": "1B001D10",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -928,7 +928,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B001D61",
+                                "code_douane": "1B001D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -1489,7 +1489,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B070D64",
+                                "code_douane": "1B070D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -1506,7 +1506,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B070D63",
+                                "code_douane": "1B070D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -1523,7 +1523,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B070D62",
+                                "code_douane": "1B070D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -1540,7 +1540,7 @@
                                 "code": "MO",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B070D60",
+                                "code_douane": "1B070D10",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -1557,7 +1557,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B070D61",
+                                "code_douane": "1B070D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3154,7 +3154,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B065D61",
+                                "code_douane": "1B065D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3211,7 +3211,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B057D64",
+                                "code_douane": "1B057D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3228,7 +3228,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B057D63",
+                                "code_douane": "1B057D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3245,7 +3245,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B057D61",
+                                "code_douane": "1B057D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3302,7 +3302,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B066D64",
+                                "code_douane": "1B066D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3319,7 +3319,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B066D61",
+                                "code_douane": "1B066D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3376,7 +3376,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B062D64",
+                                "code_douane": "1B062D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3393,7 +3393,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B062D63",
+                                "code_douane": "1B062D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3410,7 +3410,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B062D61",
+                                "code_douane": "1B062D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3467,7 +3467,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B063D63",
+                                "code_douane": "1B063D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3524,7 +3524,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B061D64",
+                                "code_douane": "1B061D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -3581,7 +3581,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B064D64",
+                                "code_douane": "1B064D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14852,7 +14852,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B018D64",
+                                "code_douane": "1B018D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14869,7 +14869,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B018D63",
+                                "code_douane": "1B018D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14886,7 +14886,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B018D62",
+                                "code_douane": "1B018D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14903,7 +14903,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B018D61",
+                                "code_douane": "1B018D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14960,7 +14960,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B019D64",
+                                "code_douane": "1B019D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14977,7 +14977,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B019D63",
+                                "code_douane": "1B019D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -14994,7 +14994,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B019D62",
+                                "code_douane": "1B019D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15011,7 +15011,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B019D61",
+                                "code_douane": "1B019D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15068,7 +15068,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B020D64",
+                                "code_douane": "1B020D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15085,7 +15085,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B020D63",
+                                "code_douane": "1B020D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15102,7 +15102,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B020D62",
+                                "code_douane": "1B020D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15119,7 +15119,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B020D61",
+                                "code_douane": "1B020D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15176,7 +15176,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B021D64",
+                                "code_douane": "1B021D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15193,7 +15193,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B021D63",
+                                "code_douane": "1B021D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15210,7 +15210,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B021D62",
+                                "code_douane": "1B021D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15227,7 +15227,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B021D61",
+                                "code_douane": "1B021D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15284,7 +15284,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B022D64",
+                                "code_douane": "1B022D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15301,7 +15301,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B022D63",
+                                "code_douane": "1B022D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15318,7 +15318,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B022D62",
+                                "code_douane": "1B022D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15335,7 +15335,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B022D61",
+                                "code_douane": "1B022D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15392,7 +15392,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B023D64",
+                                "code_douane": "1B023D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15409,7 +15409,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B023D63",
+                                "code_douane": "1B023D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15426,7 +15426,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B023D62",
+                                "code_douane": "1B023D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15443,7 +15443,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B023D61",
+                                "code_douane": "1B023D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15500,7 +15500,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B027D64",
+                                "code_douane": "1B027D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15517,7 +15517,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B027D63",
+                                "code_douane": "1B027D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15534,7 +15534,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B027D62",
+                                "code_douane": "1B027D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15551,7 +15551,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B027D61",
+                                "code_douane": "1B027D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15608,7 +15608,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B029D64",
+                                "code_douane": "1B029D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15625,7 +15625,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B029D63",
+                                "code_douane": "1B029D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15642,7 +15642,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B029D62",
+                                "code_douane": "1B029D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15659,7 +15659,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B029D61",
+                                "code_douane": "1B029D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15716,7 +15716,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B034D64",
+                                "code_douane": "1B034D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15733,7 +15733,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B034D63",
+                                "code_douane": "1B034D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15750,7 +15750,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B034D62",
+                                "code_douane": "1B034D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15767,7 +15767,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B034D61",
+                                "code_douane": "1B034D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15824,7 +15824,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B035D64",
+                                "code_douane": "1B035D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15841,7 +15841,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B035D63",
+                                "code_douane": "1B035D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15858,7 +15858,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B035D62",
+                                "code_douane": "1B035D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15875,7 +15875,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B035D61",
+                                "code_douane": "1B035D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15932,7 +15932,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B036D64",
+                                "code_douane": "1B036D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15949,7 +15949,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B036D63",
+                                "code_douane": "1B036D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15966,7 +15966,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B036D62",
+                                "code_douane": "1B036D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -15983,7 +15983,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B036D61",
+                                "code_douane": "1B036D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16040,7 +16040,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B037D64",
+                                "code_douane": "1B037D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16057,7 +16057,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B037D63",
+                                "code_douane": "1B037D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16074,7 +16074,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B037D62",
+                                "code_douane": "1B037D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16091,7 +16091,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B037D61",
+                                "code_douane": "1B037D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16148,7 +16148,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B039D64",
+                                "code_douane": "1B039D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16165,7 +16165,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B039D63",
+                                "code_douane": "1B039D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16182,7 +16182,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B039D62",
+                                "code_douane": "1B039D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16199,7 +16199,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B039D61",
+                                "code_douane": "1B039D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16256,7 +16256,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B040D64",
+                                "code_douane": "1B040D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16273,7 +16273,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B040D63",
+                                "code_douane": "1B040D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16290,7 +16290,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B040D62",
+                                "code_douane": "1B040D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16307,7 +16307,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B040D61",
+                                "code_douane": "1B040D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16364,7 +16364,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B041D64",
+                                "code_douane": "1B041D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16381,7 +16381,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B041D63",
+                                "code_douane": "1B041D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16398,7 +16398,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B041D62",
+                                "code_douane": "1B041D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16415,7 +16415,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B041D61",
+                                "code_douane": "1B041D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16472,7 +16472,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B047D64",
+                                "code_douane": "1B047D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16489,7 +16489,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B047D63",
+                                "code_douane": "1B047D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16506,7 +16506,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B047D62",
+                                "code_douane": "1B047D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16523,7 +16523,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B047D61",
+                                "code_douane": "1B047D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16580,7 +16580,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B004D64",
+                                "code_douane": "1B004D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16597,7 +16597,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B004D63",
+                                "code_douane": "1B004D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16614,7 +16614,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B004D62",
+                                "code_douane": "1B004D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16631,7 +16631,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B004D61",
+                                "code_douane": "1B004D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16688,7 +16688,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B008D64",
+                                "code_douane": "1B008D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16705,7 +16705,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B008D63",
+                                "code_douane": "1B008D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16722,7 +16722,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B008D62",
+                                "code_douane": "1B008D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16739,7 +16739,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B008D61",
+                                "code_douane": "1B008D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16796,7 +16796,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B010D64",
+                                "code_douane": "1B010D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16813,7 +16813,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B010D63",
+                                "code_douane": "1B010D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16830,7 +16830,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B010D62",
+                                "code_douane": "1B010D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16847,7 +16847,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B010D61",
+                                "code_douane": "1B010D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16904,7 +16904,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B011D64",
+                                "code_douane": "1B011D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16921,7 +16921,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B011D63",
+                                "code_douane": "1B011D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16938,7 +16938,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B011D62",
+                                "code_douane": "1B011D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -16955,7 +16955,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B011D61",
+                                "code_douane": "1B011D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17012,7 +17012,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B024D64",
+                                "code_douane": "1B024D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17029,7 +17029,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B024D63",
+                                "code_douane": "1B024D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17046,7 +17046,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B024D62",
+                                "code_douane": "1B024D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17063,7 +17063,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B024D61",
+                                "code_douane": "1B024D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17120,7 +17120,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B025D64",
+                                "code_douane": "1B025D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17137,7 +17137,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B025D63",
+                                "code_douane": "1B025D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17154,7 +17154,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B025D62",
+                                "code_douane": "1B025D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17171,7 +17171,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B025D61",
+                                "code_douane": "1B025D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17228,7 +17228,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B026D64",
+                                "code_douane": "1B026D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17245,7 +17245,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B026D63",
+                                "code_douane": "1B026D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17262,7 +17262,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B026D62",
+                                "code_douane": "1B026D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17279,7 +17279,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B026D61",
+                                "code_douane": "1B026D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17336,7 +17336,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B028D64",
+                                "code_douane": "1B028D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17353,7 +17353,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B028D63",
+                                "code_douane": "1B028D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17370,7 +17370,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B028D62",
+                                "code_douane": "1B028D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17387,7 +17387,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B028D61",
+                                "code_douane": "1B028D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17444,7 +17444,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B030D64",
+                                "code_douane": "1B030D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17461,7 +17461,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B030D63",
+                                "code_douane": "1B030D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17478,7 +17478,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B030D62",
+                                "code_douane": "1B030D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17495,7 +17495,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B030D61",
+                                "code_douane": "1B030D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17552,7 +17552,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B031D64",
+                                "code_douane": "1B031D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17569,7 +17569,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B031D63",
+                                "code_douane": "1B031D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17586,7 +17586,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B031D62",
+                                "code_douane": "1B031D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17603,7 +17603,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B031D61",
+                                "code_douane": "1B031D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17660,7 +17660,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B032D64",
+                                "code_douane": "1B032D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17677,7 +17677,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B032D63",
+                                "code_douane": "1B032D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17694,7 +17694,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B032D62",
+                                "code_douane": "1B032D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17711,7 +17711,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B032D61",
+                                "code_douane": "1B032D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17768,7 +17768,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B033D64",
+                                "code_douane": "1B033D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17785,7 +17785,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B033D63",
+                                "code_douane": "1B033D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17802,7 +17802,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B033D62",
+                                "code_douane": "1B033D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17819,7 +17819,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B033D61",
+                                "code_douane": "1B033D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17876,7 +17876,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B038D64",
+                                "code_douane": "1B038D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17893,7 +17893,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B038D63",
+                                "code_douane": "1B038D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17910,7 +17910,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B038D62",
+                                "code_douane": "1B038D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17927,7 +17927,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B038D61",
+                                "code_douane": "1B038D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -17984,7 +17984,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B042D64",
+                                "code_douane": "1B042D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18001,7 +18001,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B042D63",
+                                "code_douane": "1B042D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18018,7 +18018,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B042D62",
+                                "code_douane": "1B042D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18035,7 +18035,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B042D61",
+                                "code_douane": "1B042D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18092,7 +18092,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B043D64",
+                                "code_douane": "1B043D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18109,7 +18109,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B043D63",
+                                "code_douane": "1B043D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18126,7 +18126,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B043D62",
+                                "code_douane": "1B043D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18143,7 +18143,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B043D61",
+                                "code_douane": "1B043D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18200,7 +18200,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B044D64",
+                                "code_douane": "1B044D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18217,7 +18217,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B044D63",
+                                "code_douane": "1B044D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18234,7 +18234,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B044D62",
+                                "code_douane": "1B044D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18251,7 +18251,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B044D61",
+                                "code_douane": "1B044D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18308,7 +18308,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B045D64",
+                                "code_douane": "1B045D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18325,7 +18325,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B045D63",
+                                "code_douane": "1B045D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18342,7 +18342,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B045D62",
+                                "code_douane": "1B045D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18359,7 +18359,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B045D61",
+                                "code_douane": "1B045D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18416,7 +18416,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B046D64",
+                                "code_douane": "1B046D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18433,7 +18433,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B046D63",
+                                "code_douane": "1B046D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18450,7 +18450,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B046D62",
+                                "code_douane": "1B046D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18467,7 +18467,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B046D61",
+                                "code_douane": "1B046D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18524,7 +18524,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B048D64",
+                                "code_douane": "1B048D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18541,7 +18541,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B048D63",
+                                "code_douane": "1B048D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18558,7 +18558,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B048D62",
+                                "code_douane": "1B048D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18575,7 +18575,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B048D61",
+                                "code_douane": "1B048D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18632,7 +18632,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B049D64",
+                                "code_douane": "1B049D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18649,7 +18649,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B049D63",
+                                "code_douane": "1B049D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18666,7 +18666,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B049D62",
+                                "code_douane": "1B049D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18683,7 +18683,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B049D61",
+                                "code_douane": "1B049D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18740,7 +18740,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B050D64",
+                                "code_douane": "1B050D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18757,7 +18757,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B050D63",
+                                "code_douane": "1B050D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18774,7 +18774,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B050D62",
+                                "code_douane": "1B050D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18791,7 +18791,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B050D61",
+                                "code_douane": "1B050D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18848,7 +18848,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B051D64",
+                                "code_douane": "1B051D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18865,7 +18865,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B051D63",
+                                "code_douane": "1B051D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18882,7 +18882,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B051D61",
+                                "code_douane": "1B051D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18939,7 +18939,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B012D64",
+                                "code_douane": "1B012D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18956,7 +18956,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B012D63",
+                                "code_douane": "1B012D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18973,7 +18973,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B012D62",
+                                "code_douane": "1B012D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -18990,7 +18990,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B012D61",
+                                "code_douane": "1B012D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19047,7 +19047,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B006D64",
+                                "code_douane": "1B006D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19064,7 +19064,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B006D63",
+                                "code_douane": "1B006D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19081,7 +19081,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B006D62",
+                                "code_douane": "1B006D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19098,7 +19098,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B006D61",
+                                "code_douane": "1B006D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19155,7 +19155,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B009D64",
+                                "code_douane": "1B009D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19172,7 +19172,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B009D63",
+                                "code_douane": "1B009D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19189,7 +19189,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B009D62",
+                                "code_douane": "1B009D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19206,7 +19206,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B009D61",
+                                "code_douane": "1B009D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19263,7 +19263,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B053D64",
+                                "code_douane": "1B053D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19280,7 +19280,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B053D63",
+                                "code_douane": "1B053D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19297,7 +19297,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B053D61",
+                                "code_douane": "1B053D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19354,7 +19354,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B002D64",
+                                "code_douane": "1B002D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19371,7 +19371,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B002D63",
+                                "code_douane": "1B002D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19388,7 +19388,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B002D62",
+                                "code_douane": "1B002D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19405,7 +19405,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B002D61",
+                                "code_douane": "1B002D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19462,7 +19462,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B003D64",
+                                "code_douane": "1B003D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19479,7 +19479,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B003D63",
+                                "code_douane": "1B003D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19496,7 +19496,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B003D61",
+                                "code_douane": "1B003D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19553,7 +19553,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B005D64",
+                                "code_douane": "1B005D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19570,7 +19570,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B005D63",
+                                "code_douane": "1B005D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19587,7 +19587,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B005D62",
+                                "code_douane": "1B005D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19604,7 +19604,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B005D61",
+                                "code_douane": "1B005D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19661,7 +19661,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B007D64",
+                                "code_douane": "1B007D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19678,7 +19678,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B007D63",
+                                "code_douane": "1B007D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19695,7 +19695,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B007D62",
+                                "code_douane": "1B007D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19712,7 +19712,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B007D61",
+                                "code_douane": "1B007D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19769,7 +19769,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B013D64",
+                                "code_douane": "1B013D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19786,7 +19786,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B013D63",
+                                "code_douane": "1B013D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19803,7 +19803,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B013D62",
+                                "code_douane": "1B013D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19820,7 +19820,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B013D61",
+                                "code_douane": "1B013D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19877,7 +19877,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B014D64",
+                                "code_douane": "1B014D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19894,7 +19894,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B014D63",
+                                "code_douane": "1B014D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19911,7 +19911,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B014D62",
+                                "code_douane": "1B014D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19928,7 +19928,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B014D61",
+                                "code_douane": "1B014D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -19985,7 +19985,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B015D64",
+                                "code_douane": "1B015D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20002,7 +20002,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B015D63",
+                                "code_douane": "1B015D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20019,7 +20019,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B015D62",
+                                "code_douane": "1B015D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20036,7 +20036,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B015D61",
+                                "code_douane": "1B015D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20093,7 +20093,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B016D64",
+                                "code_douane": "1B016D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20110,7 +20110,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B016D63",
+                                "code_douane": "1B016D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20127,7 +20127,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B016D62",
+                                "code_douane": "1B016D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20144,7 +20144,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B016D61",
+                                "code_douane": "1B016D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20201,7 +20201,7 @@
                                 "code": "RI",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B017D64",
+                                "code_douane": "1B017D14",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20218,7 +20218,7 @@
                                 "code": "PG",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B017D63",
+                                "code_douane": "1B017D13",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20235,7 +20235,7 @@
                                 "code": "MU",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B017D62",
+                                "code_douane": "1B017D12",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
@@ -20252,7 +20252,7 @@
                                 "code": "GW",
                                 "code_produit": null,
                                 "code_comptable": null,
-                                "code_douane": "1B017D61",
+                                "code_douane": "1B017D11",
                                 "cepages_autorises": [],
                                 "interpro": {
                                   "INTERPRO-declaration": {
