@@ -231,10 +231,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           		$founded_produit = $produits[0];
           	} else {
           		$libelle = preg_replace('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', '${1}', trim($datas[self::CSV_CAVE_LIBELLE_PRODUIT]));
+                $libelle = preg_replace('/([a-zA-Z0-9\ \_]*) - .*/', '${1}', $libelle);
+                //echo "libelle: $libelle\n";
           		foreach($produits as $p) {
-          			if (!$founded_produit) {
-          				$founded_produit = $p;
-          			}
+                    //echo KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat()))." == ".KeyInflector::slugify(str_replace(" ", "", $libelle))."\n";
           			if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelle))) {
           				$founded_produit = $p;
           				break;
