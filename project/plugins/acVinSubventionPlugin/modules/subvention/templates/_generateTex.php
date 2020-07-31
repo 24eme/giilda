@@ -73,7 +73,7 @@ $conclusionrejet = $subvention->approbations->conclusionrejet;
 \renewcommand{\headrulewidth}{0pt}
 \fancyhf{}
 
-\title{\textbf{Contrat Relance Viti \\ Fiche de pré-qualification}\vspace{0.5cm}}
+\title{\textbf{Contrat <?php if(!$subvention->isValideInterpro()): ?>Brouillon <?php endif; ?>Relance Viti \\ Fiche de pré-qualification}\vspace{0.5cm}}
 \date{}
 
 \def\arraystretch{3}
@@ -84,10 +84,10 @@ $conclusionrejet = $subvention->approbations->conclusionrejet;
 
 \setlength{\textfloatsep}{0pt}
 
-\fancyfoot[R]{\thepage ~/ \pageref{LastPage}}
+\fancyfoot[R]{\thepage ~/ 2}
 
 \fancypagestyle{plain}{
-\fancyfoot[R]{\thepage ~/ \pageref{LastPage}}
+\fancyfoot[R]{\thepage ~/ 2}
 }
 
 \begin{document}
