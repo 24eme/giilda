@@ -402,9 +402,9 @@ class DRMClient extends acCouchdbClient {
         $statutsContrats = VracClient::STATUS_CONTRAT_NONSOLDE;
         $results = array();
         if($withAgregat){
-          $results = $this->getContratsFromMultiProduitsAndATransactionRow($statutsContrats,$vendeur_identifiant, $produit,$type_transaction);
+          $results = $this->getContratsFromMultiProduitsAndATransactionRow($statutsContrats,$vendeur_identifiant, $produit,$type_transaction, $date);
         }else{
-          $results = $this->getContratsFromProduitAndATransactionRow($statutsContrats,$vendeur_identifiant, $produit,$type_transaction);
+          $results = $this->getContratsFromProduitAndATransactionRow($statutsContrats,$vendeur_identifiant, $produit,$type_transaction, $date);
         }
         return $this->postTraitementVracResult($results);
     }
@@ -442,7 +442,7 @@ class DRMClient extends acCouchdbClient {
       $produits = ConfigurationClient::getInstance()->convertHashProduitForDRM($produit, true, $date);
       $vendeur_identifiant = "ETABLISSEMENT-".$vendeur_identifiant;
       foreach ($produits as $produit) {
-        $results = array_merge($results,$this->getContratsFromProduitAndATransactionRow($statutsContrats,$vendeur_identifiant, $produit,$type_transaction));
+        $results = array_merge($results,$this->getContratsFromProduitAndATransactionRow($statutsContrats,$vendeur_identifiant, $produit,$type_transaction, $date));
       }
       return $results;
     }

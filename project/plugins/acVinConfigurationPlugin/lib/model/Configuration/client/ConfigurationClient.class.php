@@ -350,7 +350,7 @@ class ConfigurationClient extends acCouchdbClient {
 		$produitsOldHashes = array();
 		$produitsOldHashes[] = $hashProduit;
 
-		$conf = $this->getConfiguration();
+		$conf = $this->getConfiguration($date);
 		$produit = $conf->get($hashProduit);
 		if($WithAgregat && $produit->hasProduitsSibling()){
 			$produitsOldHashes = array_merge($produitsOldHashes, $produit->getProduitsSiblingWithoutTaux($date));
