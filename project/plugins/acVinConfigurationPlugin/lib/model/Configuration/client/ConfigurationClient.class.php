@@ -327,7 +327,7 @@ class ConfigurationClient extends acCouchdbClient {
     }
 
     public function formatDenominationComplLibelle($denomination_complementaire = null, $format = "%la%", $separator = ", ") {
-				return trim(str_replace("%la%", $denomination_complementaire, $format)." ".$denomination_complementaire);
+				return preg_replace('/  +/', ' ', trim(str_replace("%la%", $denomination_complementaire, $format)." ".$denomination_complementaire));
     }
 
     public function fork($fork_doc_id, $configuration = null) {
