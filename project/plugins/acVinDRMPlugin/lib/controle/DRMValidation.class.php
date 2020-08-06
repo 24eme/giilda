@@ -162,8 +162,12 @@ class DRMValidation extends DocumentValidation {
                   $total_entrees_replis += $detail->entrees->repli;
                   $total_sorties_replis += $detail->sorties->repli;
             }
-            if($detail->getConfig()->entrees->exist('declassement')){
+
+            if($detail->getConfig()->entrees->exist('declassement') && $detail->entrees->exist('declassement')){
                 $total_entrees_declassement += $detail->entrees->declassement;
+            }
+
+            if($detail->getConfig()->sorties->exist('declassement') && $detail->sorties->exist('declassement')){
                 $total_sorties_declassement += $detail->sorties->declassement;
             }
 
