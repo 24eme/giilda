@@ -53,7 +53,7 @@ class EtablissementModificationForm extends CompteCoordonneeSameSocieteForm {
         $this->setValidator('commentaire', new sfValidatorString(array('required' => false)));
         $this->setValidator('ppm', new sfValidatorString(array('required' => false)));
         $this->setValidator('mois_stock_debut', new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getMonths()))));
-        $this->setValidator('code_insee', new sfValidatorString(array('required' => true)));
+        $this->setValidator('code_insee', new sfValidatorString(array('required' => false)));
 
         if (!$this->etablissement->isCourtier()) {
             $recette_locale = $this->getRecettesLocales();
