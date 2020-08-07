@@ -1325,7 +1325,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
           $campagne = $this->drm->campagne;
           if (strpos($this->drm->periode, '07') === 4) { // Si en juillet
-            $annees = explode($campagne, '-');
+            $annees = explode('-', $campagne);
             $campagne = sprintf('%s-%s', $annees[0] + 1, $annees[1] + 1);
           }
           return VracClient::getInstance()->findDocIdByNumArchive($campagne, $csvRow[self::CSV_CAVE_CONTRATID], 2);
