@@ -127,6 +127,11 @@ class Subvention extends BaseSubvention implements InterfaceDeclarantDocument  {
         $this->archivage_document->archiver();
     }
 
+    public function devalidate() {
+        $this->signature_date = null;
+        $this->numero_archive = null;
+    }
+
     public function validateInterpro() {
         $this->add('validation_date', date('Y-m-d'));
     }
