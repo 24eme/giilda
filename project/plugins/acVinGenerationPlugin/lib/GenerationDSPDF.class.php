@@ -50,7 +50,6 @@ class GenerationDSPDF extends GenerationPDF {
         $ds = DSClient::getInstance()->find($docid);
         if (!$ds) {
             throw new sfException("DS $dsid doesn't exist\n");
-            continue;
         }
         return new DSLatex($ds, $this->config);
     }
