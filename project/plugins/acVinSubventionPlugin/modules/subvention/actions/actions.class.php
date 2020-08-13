@@ -114,6 +114,16 @@ class subventionActions extends sfActions {
         return $this->redirect($this->generateUrl('subvention_confirmation', $this->subvention));
     }
 
+    public function executeDevalidation(sfWebRequest $request) {
+        $subvention = $this->getRoute()->getSubvention();
+        $this->forward404Unless($subvention || !$this->isTeledeclarationSubvention());
+        if (!$this->isTeledeclarationSubvention() && $subvention->isValide() && !$subvention->isValideInterpro()) {
+            $subvention->devalidate();
+            $subvention->save();
+        }
+        return $this->redirect($this->generateUrl('subvention_visualisation', $subvention));
+    }
+
     public function executeConfirmation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
         $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
@@ -121,6 +131,7 @@ class subventionActions extends sfActions {
 
     public function executeVisualisation(sfWebRequest $request) {
         $this->subvention = $this->getRoute()->getSubvention();
+        $this->forward404Unless($this->subvention);
         $this->isTeledeclarationMode = $this->isTeledeclarationSubvention();
         $this->formValidationInterpro = ($this->getUser()->hasCredential(myUser::CREDENTIAL_ADMIN))? new SubventionsGenericForm($this->subvention, 'approbations') : null;
         if (!$request->isMethod(sfWebRequest::POST) || !$this->formValidationInterpro) {

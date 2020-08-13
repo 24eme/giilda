@@ -65,6 +65,7 @@
             		<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
                 	<ul class="dropdown-menu">
                         <button class="btn" type="submit">Enregistrer en brouillon</button>
+                        <a href="<?php echo url_for('subvention_devalidation', $subvention); ?>" class="btn">Réouvrir à la saisie opérateur</a>
                     </ul>
     			</div>
             <?php else: ?>
