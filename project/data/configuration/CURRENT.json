@@ -1,13 +1,14 @@
 {
-  "_id": "CURRENT",
-  "type": "Current",
-  "campagne": "2012-2013",
-  "configurations": {
-    "2019-08-01": "CONFIGURATION-20190801",
-    "2018-08-01": "CONFIGURATION-20180801",
-    "2017-08-01": "CONFIGURATION-20170801",
-    "2017-06-01": "CONFIGURATION-20170601",
-    "2015-08-01": "CONFIGURATION-20150801",
-    "2000-01-01": "CONFIGURATION-20000101"
-  }
+   "_id" : "CURRENT",
+   "campagne" : "2012-2013",
+   "configurations" : {
+      "2000-01-01" : "CONFIGURATION-20000101",
+      "2015-08-01" : "CONFIGURATION-20150801",
+      "2017-06-01" : "CONFIGURATION-20170601",
+      "2017-08-01" : "CONFIGURATION-20170801",
+      "2018-08-01" : "CONFIGURATION-20180801",
+      "2019-08-01" : "CONFIGURATION-20190801",
+      "2020-08-01" : "CONFIGURATION-20200801"
+   },
+   "type" : "Current"
 }
