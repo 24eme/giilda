@@ -188,7 +188,7 @@ class DRMDetail extends BaseDRMDetail {
         }
         foreach($this->sorties as $sortie => $v) {
           if ($this->getConfig()->get('sorties')->exist($sortie)){
-            if (!preg_match('/details/', $sortie) && preg_match('/autres-sorties/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
+            if (!preg_match('/details/', $sortie) && preg_match('/autres-/', $this->getConfig()->get('sorties')->get($sortie)->douane_cat) && $v) {
                 $hasobs = true;
                 if (!$this->exist('observations')) {
                   $this->add('observations',$sortie);
