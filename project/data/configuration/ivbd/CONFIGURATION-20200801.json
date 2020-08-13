@@ -3,6 +3,9 @@
    "alias" : {},
    "campagne" : null,
    "contenances" : {},
+   "correspondances" : {
+      "-declaration-certifications-AOC-genres-TRANQ-appellations-CMR-mentions-DEFAUT-lieux-DEFAUT-couleurs-blanc_moelleux-cepages-DEFAUT" : "/declaration/certifications/AOC/genres/TRANQ/appellations/CMR/mentions/DEFAUT/lieux/DEFAUT/couleurs/blanc_doux/cepages/DEFAUT"
+   },
    "declaration" : {
       "certifications" : {
          "ALCOOLS" : {
@@ -2091,7 +2094,7 @@
                                     "code_douane" : null,
                                     "code_produit" : null,
                                     "couleurs" : {
-                                       "blanc_doux" : {
+                                       "blanc_moelleux" : {
                                           "cepages" : {
                                              "DEFAUT" : {
                                                 "cepages_autorises" : [
@@ -2133,7 +2136,7 @@
                                                 "labels" : []
                                              }
                                           },
-                                          "libelle" : "Blanc doux"
+                                          "libelle" : "Blanc moelleux"
                                        }
                                     },
                                     "departements" : [],
