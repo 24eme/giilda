@@ -92,6 +92,16 @@ subvention_validation:
   requirements:
     sf_method: [get, post]
 
+subvention_devalidation:
+  url: /subvention/:identifiant/devalidation/:operation
+  param: { module: subvention, action: devalidation }
+  class: SubventionRoute
+  options:
+    model:    Subvention
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
 subvention_confirmation:
   url: /subvention/:identifiant/confirmation/:operation
   param: { module: subvention, action: confirmation }
