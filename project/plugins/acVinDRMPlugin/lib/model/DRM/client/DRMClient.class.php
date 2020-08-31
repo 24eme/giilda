@@ -531,7 +531,7 @@ class DRMClient extends acCouchdbClient {
       sfContext::getInstance()->getConfiguration()->loadHelpers(array('DRM'));
       $periode = $drm->getPeriode();
       $mois = format_date(date("Y")."-".substr($periode, 4, 2)."-01", 'MMMM', 'fr_FR');
-      $moisConf = getHelpMsgText('drm_mouvements_message_'.$mois);
+      $moisConf = getHelpMsgText('drm_mouvements_message_'.KeyInflector::unaccent($mois));
       return $moisConf;
     }
 
