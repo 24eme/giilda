@@ -5,8 +5,8 @@ class DRMAllView extends acCouchdbView
     const KEY_CAMPAGNE = 1;
     const KEY_PERIODE = 2;
     const KEY_VERSION = 3;
-    const KEY_MODE_SAISIE = 4; #Non utilisé
-    const KEY_DATE_SAISIE = 5; 
+    const KEY_TYPE_CREATION = 4; #Non utilisé
+    const KEY_DATE_SAISIE = 5;
     const KEY_DOUANE_ENVOI = 6; #Non utilisé
     const KEY_DOUANE_ACCUSE = 7; #Non utilisé
     const KEY_NUMERO_ARCHIVE = 8;
