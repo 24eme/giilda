@@ -22,6 +22,7 @@ SAGE_EMAILFILE=sage_report.log
 SAGE_EMAILS="test@example.org test2@example.org"
 VINSIEXPORT=VinsiClientsSage.txt
 SAMBA_FACTURELOCALDIR=zzzz
+SAMBA_FACTUREMOUNTDIR=zzzz
 SAMBA_SAGEVERIFY=1
 SAMBA_XLSOFT_IP=
 SAMBA_XLSOFT_SHARE=
@@ -33,6 +34,10 @@ DEV_EMAILS="test@example.org test2@example.org"
 REPLICATE_TELEDECLARATION_URL="http://url_to_replicate/database"
 CIEL_URL_RETOURXML=http://10.10.10.10/reception_douanes/SIRENINTERPO/
 URLDRMINTERNE=http://url_interne_acces_drm
+
+FRANCEAGRIMER_MOUNT=""
+FRANCEAGRIMER_PATH="/mnt/fa"
+FRANCEAGRIMER_UMOUNT=""
 
 #Retour douane
 CIEL_URL_RETOURXML=""

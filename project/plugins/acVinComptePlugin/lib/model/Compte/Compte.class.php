@@ -574,9 +574,9 @@ class Compte extends BaseCompte {
         return $this->hasDroit(Roles::TELEDECLARATION) && $this->hasDroit(Roles::TELEDECLARATION_FACTURE) && $this->hasDroit(Roles::TELEDECLARATION_FACTURE_EMAIL);
     }
 
-    public function getInsee() {
+    public function getCodeInsee() {
         if ($this->isEtablissementContact()) {
-            return $this->getEtablissement()->getInsee();
+            return $this->getEtablissement()->getCodeInsee();
         }
         return null;
     }

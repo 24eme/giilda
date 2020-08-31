@@ -16,9 +16,9 @@ function sendEmail {
     cp $TMP/societes.csv $PDFDIR/csv/societes.last.csv
 
     if test $SAMBA_FACTURELOCALDIR; then
-        sudo mount $SAMBA_FACTURELOCALDIR
+        sudo mount $SAMBA_FACTUREMOUNTDIR
         rsync -a $PDFDIR $SAMBA_FACTURELOCALDIR
-        sudo umount $SAMBA_FACTURELOCALDIR
+        sudo umount $SAMBA_FACTUREMOUNTDIR
     fi
 
     #Envoi du mail

@@ -339,6 +339,7 @@ class Vrac extends BaseVrac {
         if (isset($options['identifiant'])) {
             $this->valide->identifiant = $options['identifiant'];
         }
+        $this->updateVersementFa();
 
         $this->update();
     }
@@ -770,6 +771,7 @@ class Vrac extends BaseVrac {
         }
         if ($allSignatures) {
             $this->valide->statut = VracClient::STATUS_CONTRAT_VALIDE;
+            $this->updateVersementFa();
             if (!$this->date_signature) {
                 $this->date_signature = date('Y-m-d H:i:s');
             }
@@ -783,6 +785,26 @@ class Vrac extends BaseVrac {
 
     public function isTeledeclare() {
         return $this->exist('teledeclare') && $this->teledeclare;
+    }
+
+    public function updateVersementFa(){
+        if ($this->valide->statut == VracClient::STATUS_CONTRAT_BROUILLON ||
+            $this->valide->statut == VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE) {
+                return false;
+        }
+        if (!preg_match('/\/[a-z]+\/[a-z]+\/IGP(.*)/', $this->produit)) {
+            return false;
+        }
+
+        if (!$this->exist('versement_fa') || !$this->versement_fa) {
+            $this->add('versement_fa', VracClient::VERSEMENT_FA_NOUVEAU);
+            return true;
+        }
+        if ($this->exist('versement_fa') && $this->versement_fa == VracClient::VERSEMENT_FA_TRANSMIS) {
+            $this->versement_fa = VracClient::VERSEMENT_FA_MODIFICATION;
+            return true;
+        }
+        return false;
     }
 
     public function storeInterlocuteurCommercialInformations($nom, $contact) {
