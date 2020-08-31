@@ -22,12 +22,13 @@ class DAEImportCsvEdi extends DAECsvEdi
     protected $labels = null;
     protected $mentions = null;
     protected $types = null;
-    protected $contenances = null;
+    protected $conditionnements = null;
     protected $forceEtablissement = false;
     protected $dates = array();
     protected $cache = array();
     protected $etablissement = null;
     protected $client = null;
+    public $periodes = array();
 
     public function __construct($file = null, $identifiant, $periode) {
             $this->identifiant = $identifiant;
@@ -42,7 +43,7 @@ class DAEImportCsvEdi extends DAECsvEdi
             $this->labels = $this->dae->getLabels();
             $this->mentions = $this->dae->getMentions();
             $this->types = $this->dae->getTypes();
-            $this->contenances = $this->dae->getContenances();
+            $this->conditionnements = $this->dae->getConditionnements();
             $this->client = acCouchdbManager::getClient();
             parent::__construct($file, array());
     }
@@ -155,7 +156,7 @@ class DAEImportCsvEdi extends DAECsvEdi
     		if (isset($this->cache['cond_'.$value])) {
     			return $this->cache['cond_'.$value];
     		} else {
-    			$this->cache['cond_'.$value] = $this->getItemKey($this->contenances, $csvRows[self::CSV_CONDITIONNEMENT_TYPE]);
+    			$this->cache['cond_'.$value] = $this->getItemKey($this->conditionnements, $csvRows[self::CSV_CONDITIONNEMENT_TYPE]);
     			return $this->cache['cond_'.$value];
     		}
     	}
@@ -350,11 +351,11 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae = new stdClass();
         $dae->identifiant = $this->identifiant;
         $dae->date = $this->cache['date_'.$date];
+        $this->periodes[substr($this->cache['date_'.$date], 0, -3)] = substr($this->cache['date_'.$date], 0, -3);
         $dae->date_saisie = date('Y-m-d');
         $dae->type = 'DAE';
         
         if ($this->etablissement) {
-	        $dae->declarant->nom = null;
 	        if ($this->etablissement->exist("intitule") && $this->etablissement->get("intitule")) {
 	        	$dae->declarant->nom = $this->etablissement->intitule . " ";
 	        }
@@ -390,7 +391,8 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->millesime = trim($csvRow[self::CSV_PRODUIT_MILLESIME]);
         
         $dae->conditionnement_key = $csvRow[self::CSV_CONDITIONNEMENT_TYPE];
-        $dae->conditionnement_key = $this->contenances[$dae->contenance_key];
+        $dae->contenance_key = $csvRow[self::CSV_CONDITIONNEMENT_VOLUME];
+        $dae->conditionnement_libelle = $this->conditionnements[$dae->conditionnement_key];
         
         $dae->label_key = trim($csvRow[self::CSV_PRODUIT_LABEL]);
         $dae->label_libelle = $this->labels[$dae->label_key];
@@ -404,7 +406,7 @@ class DAEImportCsvEdi extends DAECsvEdi
         $dae->quantite = $this->convertNumber($csvRow[self::CSV_CONDITIONNEMENT_QUANTITE]);
         $dae->prix_unitaire = $this->convertNumber($csvRow[self::CSV_PRIX_UNITAIRE]);
         
-		$volume = (int)trim(str_replace('ml', '', csvRow[self::CSV_CONDITIONNEMENT_VOLUME]));
+		$volume = (int)trim(str_replace('ml', '', $csvRow[self::CSV_CONDITIONNEMENT_VOLUME]));
 
         if (!$volume) {
         	$dae->contenance_hl = 1;
@@ -449,7 +451,7 @@ class DAEImportCsvEdi extends DAECsvEdi
     }
     
     private function productNotFoundError($num_ligne, $csvRow) {
-    	return $this->createError($num_ligne, implode(' ', KeyInflector::slugify($csvRow[self::CSV_PRODUIT_INAO]).' '.KeyInflector::slugify($csvRow[self::CSV_PRODUIT_LIBELLE_PERSONNALISE])), "Le produit n'a pas été trouvé");
+    	return $this->createError($num_ligne, KeyInflector::slugify($csvRow[self::CSV_PRODUIT_INAO]).' '.KeyInflector::slugify($csvRow[self::CSV_PRODUIT_LIBELLE_PERSONNALISE]), "Le produit n'a pas été trouvé");
     }
     
     private function labelNotFoundError($num_ligne, $csvRow) {

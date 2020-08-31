@@ -236,7 +236,10 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
                     $stock = $crd->stock_fin;
                 }
-                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, $stock, true);
+                $crdNode = $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, $stock, true);
+                if($crdNode->stock_debut && !$crdNode->stock_fin){
+                    $crdNode->stock_fin = $crdNode->stock_debut;
+                }
             }
         }
     }
@@ -397,13 +400,13 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         }
         $this->add('controles');
         if($points->hasErreurs()){
-            $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_BLOCANT, $points->getErreurs());   
-        }   
+            $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_BLOCANT, $points->getErreurs());
+        }
 
         if($points->hasVigilances()){
             $this->controles->add(DRM::CONTROLE_POINT_VIGILANCE);
             $this->controles->vigilance->nb = count($points->getVigilances());
-            $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_VIGILANCE, $points->getVigilances());  
+            $this->addControleMessagesFromPoints(DRM::CONTROLE_POINT_VIGILANCE, $points->getVigilances());
         }
 
         if($points->hasEngagements()){
