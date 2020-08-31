@@ -71,7 +71,7 @@ class DRMValidationCoordonneesSocieteForm extends acCouchdbObjectForm {
         foreach ($this->getValues() as $key => $new_value) {
             if (!preg_match('/^_revision$/', $key)) {
                 if ($this->coordonneesSociete->$key != $new_value) {
-                    $diff[$key] = $new_value;
+                    $diff[$key] = $new_value.' (ancienne valeur : '.$this->coordonneesSociete->$key.')';
                 }
             }
         }
