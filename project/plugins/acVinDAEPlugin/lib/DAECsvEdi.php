@@ -36,6 +36,7 @@ class DAECsvEdi extends CsvFile {
 
     public function __construct($file) {
         $this->buildCountryList();
+        $this->buildDeviseList();
         parent::__construct($file);
     }
 
