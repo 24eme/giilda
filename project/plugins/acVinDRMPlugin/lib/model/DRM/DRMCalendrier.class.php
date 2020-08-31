@@ -82,8 +82,8 @@ class DRMCalendrier {
             foreach ($this->periodes as $periode) {
                 $drm = DRMClient::getInstance()->viewMasterByIdentifiantPeriode($etbIdentifiant, $periode);
                 $this->drms[$etbIdentifiant][$periode] = $drm;
-                $this->transmises[$etbIdentifiant][$periode] = ($drm[10] == 'SUCCESS');
-                $this->coherentes[$etbIdentifiant][$periode] = $drm[12];
+                $this->transmises[$etbIdentifiant][$periode] = (isset($drm[DRMAllView::KEY_TRANSMISSION]) && ($drm[DRMAllView::KEY_TRANSMISSION] == 'SUCCESS'));
+                $this->coherentes[$etbIdentifiant][$periode] = (isset($drm[DRMAllView::KEY_COHERENTE]) && $drm[DRMAllView::KEY_COHERENTE]);
             }
         }
     }
