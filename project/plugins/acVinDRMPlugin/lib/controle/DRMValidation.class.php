@@ -167,14 +167,14 @@ class DRMValidation extends DocumentValidation {
         $sortiesDocAnnexes = array();
         $vrac_liste = array();
         foreach ($this->document->getProduitsDetails($drmTeledeclaree,'details') as $detail) {
-            if (count($detail->sorties->export_details)) {
+            if ($detail->sorties->exist('export_details') && count($detail->sorties->export_details)) {
                 foreach ($detail->sorties->export_details as $paysCode => $export) {
                     if ($export->numero_document) {
                         $sortiesDocAnnexes[$export->type_document] = $export->numero_document;
                     }
                 }
             }
-            if (count($detail->sorties->vrac_details)) {
+            if ($detail->sorties->exist('vrac_details') && count($detail->sorties->vrac_details)) {
                 foreach ($detail->sorties->vrac_details as $num_vrac => $vrac) {
                     $vrac_liste[$num_vrac] = $vrac;
                     if ($vrac->numero_document) {
