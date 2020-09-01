@@ -48,11 +48,21 @@ class DRMValidation extends DocumentValidation {
 
             $total_mouvement_absolu += $detail->total_entrees + $detail->total_sorties;
 
-            $total_entrees_replis += (!$detail->getConfig()->entrees->exist('repli'))? 0.0 : $detail->entrees->repli;
-            $total_sorties_replis += (!$detail->getConfig()->sorties->exist('repli'))? 0.0 : $detail->sorties->repli;
+            $total_entrees_replis += ($detail->getConfig()->entrees->exist('repli') && $detail->entrees->exist('repli'))
+                                     ? $detail->entrees->repli
+                                     : 0.0;
 
-            $total_entrees_declassement += (!$detail->getConfig()->entrees->exist('declassement'))? 0.0 : $detail->entrees->declassement;
-            $total_sorties_declassement += (!$detail->getConfig()->sorties->exist('declassement'))? 0.0 : $detail->sorties->declassement;
+            $total_sorties_replis += ($detail->getConfig()->sorties->exist('repli') && $detail->sorties->exist('repli'))
+                                     ? $detail->sorties->repli
+                                     : 0.0;
+
+            $total_entrees_declassement += ($detail->getConfig()->entrees->exist('declassement') && $detail->entrees->exist('declassement'))
+                                     ? $detail->entrees->declassement
+                                     : 0.0;
+
+            $total_sorties_declassement += ($detail->getConfig()->sorties->exist('declassement') && $detail->sorties->exist('declassement'))
+                                     ? $detail->sorties->declassement
+                                     : 0.0;
 
             $entrees_excedents = ($detail->entrees->exist('excedents'))? $detail->entrees->excedents : 0.0;
             $entrees_manipulation = ($detail->entrees->exist('manipulation'))? $detail->entrees->manipulation : 0.0;
