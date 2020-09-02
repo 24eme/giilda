@@ -450,7 +450,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $volume2hash = array();
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                  foreach($p->getProduitsDetails(true) as $kd => $d) {
+		      if(!$this->drm->getConfig()->exist($p->getHash()) || !$this->drm->getConfig()->get($p->getHash())->isActif($this->drm->getDate())) {
+				continue;
+		      }
+		      foreach($p->getProduitsDetails(true) as $kd => $d) {
                       //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
                       if ($d->denomination_complementaire || $d->tav) {
                           $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
