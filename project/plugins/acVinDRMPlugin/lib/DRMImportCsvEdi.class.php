@@ -550,7 +550,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->remove($this->cache[$cacheid]->getKey());
               }
           }
-          $this->cache[$cacheid] = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+	  $detail = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+          $detail->getParent()->createESDetails($detail);
+          $this->cache[$cacheid] = $detail;
           $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
           $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
           $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
