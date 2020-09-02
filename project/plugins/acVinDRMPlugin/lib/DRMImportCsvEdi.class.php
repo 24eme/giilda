@@ -19,9 +19,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
   protected $etablissement = null;
   protected $fromEdi = false;
   protected $noSave = false;
+  protected $complement = false;
 
-  public function __construct($file, DRM $drm = null, $fromEdi = false) {
+  public function __construct($file, DRM $drm = null, $fromEdi = false, $complement = false) {
     $this->fromEdi = $fromEdi;
+    $this->complement = $complement;
     if($this->fromEdi){
       parent::__construct($file, $drm);
       $drmInfos = $this->getDRMInfosFromFile();
@@ -153,7 +155,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
 
-      if ($this->drm->canSetStockDebutMois()) {
+      if ($this->drm->canSetStockDebutMois() && !$this->complement) {
           $this->drm->remove('declaration');
           $this->drm->add('declaration');
       }
