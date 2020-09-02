@@ -944,7 +944,7 @@ private static function cdrreversekeyid($regime, $genre, $couleur, $libelle) {
 }
 
 private function importCrdsFromCSV($just_check = false) {
-   if ($this->drm->canSetStockDebutMois()) {
+   if ($this->drm->canSetStockDebutMois() && !$this->complement) {
        $this->drm->remove('crds');
        $this->drm->add('crds');
    }
