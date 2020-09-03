@@ -31,6 +31,10 @@ class DRMEmailManager {
     }
 
     public function sendMailCoordonneesOperateurChanged($type, $diff) {
+        if (!count($diff)) {
+            return false;
+        }
+
         $typeInfos = null;
         $typeLibelle = null;
         $mailsInterloire = sfConfig::get('app_teledeclaration_emails_interloire');
