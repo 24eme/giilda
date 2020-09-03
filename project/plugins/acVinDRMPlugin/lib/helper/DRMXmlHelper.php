@@ -383,7 +383,6 @@ function xmlProduitLibelle($produit) {
 function xmlGetProduitsDetails($drm, $bool, $suspendu_acquitte) {
 	$produits = array();
 	$produits_faits = array();
-	$drmPrecedente = $drm->getPrecedente();
 	foreach ($drm->getProduitsDetails($bool, $suspendu_acquitte) as $produit) {
 		$produit_libelle = xmlProduitLibelle($produit);
 		if (isset($produits_faits[$produit_libelle])) {
