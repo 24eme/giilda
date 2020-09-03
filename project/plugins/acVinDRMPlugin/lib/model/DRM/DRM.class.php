@@ -688,7 +688,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         } elseif ($this->getPrecedente() && $this->getPrecedente()->isNew()) {
 
             return false;
-        } elseif ($this->isDebutCampagne()) {
+        } elseif ($this->isMoisOuvert()) {
 
             return false;
         }
@@ -1722,12 +1722,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function canSetStockDebutMois() {
-       return (!$this->hasPrecedente() || $this->changedToTeledeclare() || $this->isMoisOuvert());
+       return ! $this->hasPrecedente() || $this->changedToTeledeclare() || $this->isMoisOuvert();
     }
 
     public function isMoisOuvert() {
       $mois = ($this->getEtablissementObject())? $this->getEtablissementObject()->getMoisToSetStock() : DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
-      return (DRMClient::getInstance()->getMois($this->periode) == $mois)? true : false;
+      return DRMClient::getInstance()->getMois($this->periode) == $mois;
     }
 
     public function hasFactureEmail() {
