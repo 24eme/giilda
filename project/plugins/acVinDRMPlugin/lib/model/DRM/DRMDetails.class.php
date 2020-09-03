@@ -54,6 +54,17 @@ public function getTypeDRMLibelle() {
     return null;
 }
 
+public function createESDetails($detail) {
+    foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
+        foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
+            $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
+            if($detailConfigNode->hasDetails()) {
+                $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey."_details", null);
+            }
+        }
+    }
+}
+
 public function addProduit($denomination_complementaire = null, $tav = null) {
         $detailDefaultKey = DRM::DEFAULT_KEY;
         $detail = null;
@@ -63,14 +74,7 @@ public function addProduit($denomination_complementaire = null, $tav = null) {
         }else{
           $detail = $this->add($detailDefaultKey);
         }
-        foreach ($this->getConfigDetails() as $detailConfigCat => $detailConfig) {
-            foreach ($detailConfig as $detailConfigKey => $detailConfigNode) {
-                $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey,null);
-                if($detailConfigNode->hasDetails()) {
-                    $detail->getOrAdd($detailConfigCat)->getOrAdd($detailConfigKey."_details", null);
-                }
-            }
-        }
+        $this->createESDetails($detail);
         if($detail->isCodeDouaneAlcool() ||  $detail->isPremix()){
               $detail->add('tav', $tav);
         }
