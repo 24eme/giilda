@@ -371,6 +371,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 $volume2hash = array();
                     if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
                     foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
+                        if(!$this->drm->getConfig()->exist($p->getHash()) || !$this->drm->getConfig()->get($p->getHash())->isActif($this->drm->getDate())) {
+                            continue;
+                        }
                         foreach($p->getProduitsDetails(true) as $kd => $d) {
                             //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
                             if ($d->denomination_complementaire || ($d->exist('tav') && $d->tav) ) {
@@ -437,7 +440,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                                 $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])->remove($this->cache[$cacheid]->getKey());
                         }
                     }
-                    $this->cache[$cacheid] = $this->drm->getOrAdd($new_hash);
+                    $detail = $this->drm->getOrAdd($new_hash);
+                    $detail->getParent()->createESDetails($detail);
+                    $this->cache[$cacheid] = $detail;
                     $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
                     $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
                     $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
@@ -465,7 +470,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->remove($this->cache[$cacheid]->getKey());
                     }
                 }
-                $this->cache[$cacheid] = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+                $detail = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+                $detail->getParent()->createESDetails($detail);
+                $this->cache[$cacheid] = $detail;
                 $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
                 $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
                 $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
