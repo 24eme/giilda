@@ -252,6 +252,8 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             $this->precedente = $drm->_id;
             $this->document_precedent = null;
         }
+
+        $this->update();
     }
 
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
