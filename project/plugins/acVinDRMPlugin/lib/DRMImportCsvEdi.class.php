@@ -519,7 +519,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   }
               }
 
-              $this->cache[$cacheid] = $this->drm->getOrAdd($new_hash);
+              $detail = $this->drm->getOrAdd($new_hash);
+              $detail->getParent()->createESDetails($detail);
+              $this->cache[$cacheid] = $detail;
               $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME]);
               $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
               $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
