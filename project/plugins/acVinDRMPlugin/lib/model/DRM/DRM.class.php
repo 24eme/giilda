@@ -228,6 +228,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $p->stocks_debut->revendique = $produit->total_revendique;
             }
 
+            if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                $p->stocks_debut->initial = $produit->total;
+                $p->produit_libelle = $produit->produit_libelle;
+                $p->code_inao = $produit->code_inao;
+            }
         }
 
         foreach($drm->getAllCrds() as $regime => $crds) {
@@ -241,6 +246,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                     $crdNode->stock_fin = $crdNode->stock_debut;
                 }
             }
+        }
+
+        if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+            $this->precedente = $drm->_id;
+            $this->document_precedent = null;
         }
     }
 
