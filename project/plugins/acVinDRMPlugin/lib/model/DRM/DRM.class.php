@@ -241,6 +241,11 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
                     $stock = $crd->stock_fin;
                 }
+
+                if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                    $stock = $crd->stock_fin;
+                }
+
                 $crdNode = $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, $stock, true);
                 if($crdNode->stock_debut && !$crdNode->stock_fin){
                     $crdNode->stock_fin = $crdNode->stock_debut;
