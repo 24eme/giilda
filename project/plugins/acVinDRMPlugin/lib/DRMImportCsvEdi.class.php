@@ -519,6 +519,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   }
               }
 
+	      if($new_hash) {
               $detail = $this->drm->getOrAdd($new_hash);
               $detail->getParent()->createESDetails($detail);
               $this->cache[$cacheid] = $detail;
@@ -526,7 +527,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
               $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
               $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
-          }
+	      }
+
+	  }
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
       foreach($this->cache2datas as $cacheid => $params) {
