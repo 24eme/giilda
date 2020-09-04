@@ -57,7 +57,7 @@ $cpt = 0;
         <?php if ($vrac->date_campagne && !$sf_user->hasTeledeclarationVrac()) : ?>
             <div id="conditions_recapitulatif_date_saisie" class="<?php echoClassLignesVisu($cpt); ?>">
                 <label>Date de campagne (statistique)&nbsp;: </label>
-                <span><?php echo $vrac->date_campagne; ?></span>
+                <span><?php echo $vrac->date_campagne." (".$vrac->campagne.")"; ?></span>
             </div>
         <?php endif; ?> 
 
