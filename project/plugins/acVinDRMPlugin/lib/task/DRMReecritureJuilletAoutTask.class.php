@@ -36,6 +36,7 @@ class DRMReecritureJuilletAoutTask extends sfBaseTask
         $periode_precedente = DRMClient::getInstance()->getPeriodePrecedente($drm_aout->periode);
         $drm_precedente = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($drm_aout->getIdentifiant(), $periode_precedente);
 
+        $unknowns = [];
         foreach ($drm_precedente->getProduitsDetails() as $detail) {
             $hash_prec = $detail->getHash();
 
@@ -43,18 +44,46 @@ class DRMReecritureJuilletAoutTask extends sfBaseTask
                 $detail_aout = $drm_aout->getDetailsByHash($hash_prec);
             } catch (sfException $e) {
                 echo $e->getMessage().PHP_EOL;
+                $unknowns[] = $detail;
                 continue;
             }
 
-            if ($detail->getProduitLibelle() !== $detail_aout->getProduitLibelle()) {
+            if ($detail->getProduitLibelle() !== $detail_aout->getProduitLibelle()
+                || $detail->getCodeInao() !== $detail_aout->getCodeInao()) {
                 echo 'update : '. $detail_aout->getProduitLibelle() . ' -> '.$detail->getProduitLibelle().PHP_EOL;
+                echo 'update : '. $detail_aout->getCodeInao() . ' -> '.$detail->getCodeInao().PHP_EOL;
+
                 $detail_aout->produit_libelle = $detail->getProduitLibelle();
                 $detail_aout->code_inao = $detail->getCodeInao();
             }
 
-            $drm_aout->update();
+
         }
 
+        echo 'Parcours des non trouvés :'.PHP_EOL;
+
+        foreach ($unknowns as $detail) {
+            foreach ($drm_aout->getProduitsDetails() as &$aout_detail) {
+                echo $aout_detail->denomination_complementaire." == \n".$detail->denomination_complementaire."\n";
+                echo $aout_detail->getCepage()->getHash().' == '."\n".$detail->getCepage()->getHash().PHP_EOL;
+                echo $aout_detail->tav.' == '.$detail->tav.PHP_EOL;
+                if ($aout_detail->denomination_complementaire == $detail->denomination_complementaire
+                    && $aout_detail->getCepage()->getHash() == $detail->getCepage()->getHash()
+                    && $aout_detail->tav == $detail->tav) {
+                    echo 'update : '. $aout_detail->getProduitLibelle() . ' -> ' . $detail->getProduitLibelle().PHP_EOL;
+                    echo 'hash : '. $aout_detail->getHash() . ' -> ' . $detail->getHash().PHP_EOL;
+                    echo PHP_EOL;
+
+                    $aout_detail->produit_libelle = $detail->getProduitLibelle();
+                    $aout_detail->code_inao = $detail->getCodeInao();
+                    $drm_aout->update();
+
+                    continue;
+                }
+            }
+        }
+
+        $drm_aout->update();
         $drm_aout->save();
     }
 
