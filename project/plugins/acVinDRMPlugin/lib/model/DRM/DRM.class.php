@@ -247,13 +247,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 continue;
             }
 
-            $this->addProduit($produitConfig->getHash(), self::DETAILS_KEY_SUSPENDU, $produit->get('denomination_complementaire'));
+            $detail = $this->addProduit($produitConfig->getHash(), self::DETAILS_KEY_SUSPENDU, $produit->get('denomination_complementaire'));
+            if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                $detail->stocks_debut->revendique = $produit->total;
+                $detail->produit_libelle = $produit->produit_libelle;
+                $detail->code_inao = $produit->code_inao;
+            }
         }
 
         foreach($drm->getAllCrds() as $regime => $crds) {
             foreach($crds as $crd) {
                 $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, true);
             }
+        }
+
+        if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+            $this->precedente = $drm->_id;
+            $this->document_precedent = null;
         }
     }
 
@@ -678,7 +688,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         } elseif ($this->getPrecedente() && $this->getPrecedente()->isNew()) {
 
             return false;
-        } elseif ($this->isDebutCampagne()) {
+        } elseif ($this->isMoisOuvert()) {
 
             return false;
         }
@@ -1712,12 +1722,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
     public function canSetStockDebutMois() {
-       return (!$this->hasPrecedente() || $this->changedToTeledeclare() || $this->isMoisOuvert());
+       return ! $this->hasPrecedente() || $this->changedToTeledeclare() || $this->isMoisOuvert();
     }
 
     public function isMoisOuvert() {
       $mois = ($this->getEtablissementObject())? $this->getEtablissementObject()->getMoisToSetStock() : DRMPaiement::NUM_MOIS_DEBUT_CAMPAGNE;
-      return (DRMClient::getInstance()->getMois($this->periode) == $mois)? true : false;
+      return DRMClient::getInstance()->getMois($this->periode) == $mois;
     }
 
     public function hasFactureEmail() {
