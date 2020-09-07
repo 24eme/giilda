@@ -13,12 +13,11 @@
                             <?php if (hasALink($isTeledeclarationMode, $calendrier, $periode, $etb)) : ?>
                                 <a href="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode, $etb); ?>"
                                    class="action <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etb)): echo 'drm_nouvelle_teledeclaration';  endif; ?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode, $isTeledeclarationMode, $etb); ?></a>
-        <?php endif; ?>
+                            <?php endif; ?>
                         </div>
                     </li>
-    <?php endforeach; ?>
+                <?php endforeach; ?>
             </ul>
-
 <?php else: ?>
             <div class="<?php echo getEtatDRMPictoCalendrier($isTeledeclarationMode, $calendrier, $periode, $etablissement); ?>">
                 <p class="etablissement_nom"><?php echo $etablissement->nom; ?></p>
@@ -28,7 +27,7 @@
                     <a href="<?php echo getEtatDRMHrefCalendrier($isTeledeclarationMode, $calendrier, $periode); ?>" class="action <?php if (hasPopup($isTeledeclarationMode, $calendrier, $periode, $etablissement)): echo 'drm_nouvelle_teledeclaration';
                endif;?>"><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode); ?></a>
             <?php else: ?>
-            <p><i><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode, $isTeledeclarationMode); ?></i></p><?php endif;?>
+            <p><i><?php echo getEtatDRMLibelleCalendrier($calendrier, $periode, $isTeledeclarationMode, $etablissement); ?></i></p><?php endif;?>
             </div>
 <?php endif; ?>
     </div>

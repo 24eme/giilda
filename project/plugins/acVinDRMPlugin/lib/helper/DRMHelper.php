@@ -222,6 +222,10 @@ function getEtatDRMLibelleCalendrier($calendrier, $periode, $isTeledeclarationMo
     if ($statut == DRMCalendrier::STATUT_NOUVELLE) {
         return 'A créer';
     }
+    if ($etablissement && ($etablissement->type_dr == EtablissementClient::TYPE_DR_DRA) && ($statut == DRMCalendrier::STATUT_NOUVELLE_BLOQUEE)) {
+        return "DRM impossible pour ce mois";
+    }
+
     if ($statut == DRMCalendrier::STATUT_NOUVELLE_BLOQUEE) {
         return "Une DRM est en cours d'édition";
     }
