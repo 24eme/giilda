@@ -188,7 +188,8 @@ class DRMCalendrier {
                         $hasteledeclaree = true;
                     } else if (!$hasteledeclaree) {
                         $statut = self::STATUT_VALIDEE_NON_TELEDECLARE;
-                        if ($this->isTeledeclarationMode && $this->computeStatut($periode, $etablissement) === self::STATUT_NOUVELLE && ($periode >= $lastPeriode)) {
+                        if ($this->isTeledeclarationMode && $this->computeStatut($periode, $etablissement) === self::STATUT_NOUVELLE
+                        && (($periode >= $lastPeriode) || ($etablissement->type_dr == EtablissementClient::TYPE_DR_DRA && preg_match('/07$/', $periode)) ) ) {
                             $statut = self::STATUT_NOUVELLE;
                         }
                     }
@@ -196,6 +197,9 @@ class DRMCalendrier {
                       $statut = self::STATUT_VALIDEE_NON_TELEDECLARE;
                     }
                     if ($statut == self::STATUT_NOUVELLE && $has_en_cours) {
+                      $statut = self::STATUT_NOUVELLE_BLOQUEE;
+                    }
+                    if ($statut == self::STATUT_NOUVELLE && ($etablissement->type_dr == EtablissementClient::TYPE_DR_DRA) && !preg_match('/07$/', $periode)) {
                       $statut = self::STATUT_NOUVELLE_BLOQUEE;
                     }
                     if ($statut == self::STATUT_EN_COURS &&  $hasteledeclaree) {
