@@ -265,7 +265,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 if($reprise_donnees){
                   $stock_debut = $crd->stock_fin;
                 }
-                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, true);
+                $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, null, $stock_debut);
             }
         }
 
