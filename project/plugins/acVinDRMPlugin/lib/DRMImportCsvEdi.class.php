@@ -964,7 +964,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if (preg_match('/LIE/', $c)) {
             return DRMClient::DRM_LIEDEVIN;
           }
-          return null;
+          return DRMClient::DRM_DEFAUT;
         }
 
         private function importAnnexesFromCSV($just_check = false) {
