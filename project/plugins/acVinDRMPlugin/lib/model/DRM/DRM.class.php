@@ -235,25 +235,28 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
 
     public function generateByDRM(DRM $drm, $teledeclarationMode = false) {
 
-        foreach ($drm->getProduitsDetails() as $produit) {
-            $produitCepage = $produit->getCepage();
-            $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produitCepage->getHash());
-            if (!$produitConfig || !$produitConfig->isActif($this->getDate())) {
-                continue;
-            }
+        foreach (array(DRM::DETAILS_KEY_SUSPENDU, DRM::DETAILS_KEY_ACQUITTE) as $type_drm) {
+          foreach ($drm->getProduitsDetails($teledeclarationMode, $type_drm) as $produit) {
+              $produitCepage = $produit->getCepage();
+              $produitConfig = $this->getConfig()->getProduitWithCorrespondanceInverse($produitCepage->getHash());
+              if (!$produitConfig || !$produitConfig->isActif($this->getDate())) {
+                  continue;
+              }
 
-            if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
-            $p = $this->addProduit($produitConfig->getHash(), DRM::DETAILS_KEY_SUSPENDU,$produit->denomination_complementaire);
-                continue;
-            }
+              if (!$produitConfig->isCVOActif($this->getDate()) && !$produitConfig->isDouaneActif($this->getDate())) {
+              $p = $this->addProduit($produitConfig->getHash(), $type_drm, $produit->denomination_complementaire);
+                  continue;
+              }
 
-            $detail = $this->addProduit($produitConfig->getHash(), self::DETAILS_KEY_SUSPENDU, $produit->get('denomination_complementaire'));
-            if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
-                $detail->stocks_debut->revendique = $produit->total;
-                $detail->produit_libelle = $produit->produit_libelle;
-                $detail->code_inao = $produit->code_inao;
-            }
+              $detail = $this->addProduit($produitConfig->getHash(), $type_drm, $produit->get('denomination_complementaire'));
+              if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                  $detail->stocks_debut->revendique = $produit->total;
+                  $detail->produit_libelle = $produit->produit_libelle;
+                  $detail->code_inao = $produit->code_inao;
+              }
+          }
         }
+
 
         foreach($drm->getAllCrds() as $regime => $crds) {
             foreach($crds as $crd) {
