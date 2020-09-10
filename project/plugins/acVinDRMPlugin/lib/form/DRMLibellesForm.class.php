@@ -34,7 +34,7 @@ class DRMLibellesForm extends acCouchdbForm {
     
     public function hasDetailsKey($detailsKey)
     {
-    	return count($this->getObject()->getProduitsDetails(true, $detailsKey) > 0);
+    	return count($this->getObject()->getProduitsDetails(true, $detailsKey)) > 0;
     }
 	
 	
