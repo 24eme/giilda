@@ -56,6 +56,10 @@ class DRMDetail extends BaseDRMDetail {
     	return ($this->produit_libelle && $this->produit_libelle !== $this->getLibelle());
     }
 
+    public function hasCodeInaoModified() {
+    	return ($this->code_inao && $this->code_inao !== $this->getConfig()->getCodeInao());
+    }
+
     /**
      *
      * @return DRMCepage
