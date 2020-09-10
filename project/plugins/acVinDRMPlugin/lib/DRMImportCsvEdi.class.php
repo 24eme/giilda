@@ -522,6 +522,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
 	      if($new_hash) {
               $detail = $this->drm->getOrAdd($new_hash);
+              $detail->denomination_complementaire = $denomination_complementaire;
               $detail->getParent()->createESDetails($detail);
               $this->cache[$cacheid] = $detail;
               $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME]);
@@ -557,6 +558,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
           }
 	  $detail = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+          $detail->denomination_complementaire = $denomination_complementaire;
           $detail->getParent()->createESDetails($detail);
           $this->cache[$cacheid] = $detail;
           $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
