@@ -30,7 +30,7 @@ class DRMDetailSortiesForm extends acCouchdbObjectForm {
                 $disabled = true;
             }
 
-            if (strpos($hash, 'VCI') !== false && ($key !== 'vci' && $key !== 'distillation' && $key !== 'destructionperte')) {
+            if (strpos($hash, 'VCI') !== false && ($key !== 'vci' && $key !== 'distillation' && $key !== 'destructionperte' && $key !== 'transfertsinternes')) {
                 $disabled = true;
             }
 
