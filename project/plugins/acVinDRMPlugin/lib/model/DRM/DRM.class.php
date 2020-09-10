@@ -1702,7 +1702,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
           return $node_details_or_cepage;
         }
       }
-      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
+      throw new sfException("La Hash du mvt $hash_details_or_cepage n'a pas été trouvée dans la DRM");
     }
 
     public function hasExportableProduitsAcquittes(){

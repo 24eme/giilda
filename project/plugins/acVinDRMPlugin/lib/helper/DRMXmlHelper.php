@@ -383,7 +383,7 @@ function xmlGetProduitsDetails($drm, $bool, $suspendu_acquitte) {
 		$produits_faits[$produit_libelle] = $produit_libelle;
 		$produits[] = $produit;
 	}
-	if (preg_match('/08$/', $drm->periode)) {
+	if ($drm->isMoisOuvert()) {
 		$drm_juillet = DRMClient::getInstance()->find(preg_replace('/08$/', '07', $drm->_id));
 		if ($drm_juillet) {
 			$drm_juillet->init(array("keepStock" => false));
