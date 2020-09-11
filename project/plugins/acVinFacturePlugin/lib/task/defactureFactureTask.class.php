@@ -10,7 +10,7 @@ class defactureFactureTask extends sfBaseTask
             new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
             new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-            new sfCommandOption('avoir', null, sfCommandOption::PARAMETER_OPTIONNAL, 'Genere un avoir', true)
+            new sfCommandOption('avoir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Genere un avoir', true)
             // add your own options here
         ));
 
@@ -36,16 +36,16 @@ EOF;
     }
 
     echo $arguments['factureid'] . " : ";
-    $facture = FactureClient::getInstance()->find($options['factureid']);
+    $facture = FactureClient::getInstance()->find($arguments['factureid']);
 
     if (! $facture) {
         echo 'Facture non trouvé'.PHP_EOL;
     }
 
-    if ($options['avoir']) {
+    if ($options['avoir'] != 'false') {
         $resultat = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture);
         echo ($resultat)
-            ? $avoir->_id
+            ? $resultat->_id
             : 'ERROR: '.$facture->_id.' not generated';
         echo PHP_EOL;
     } else {
