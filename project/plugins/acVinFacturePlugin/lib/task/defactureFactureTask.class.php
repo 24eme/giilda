@@ -36,16 +36,16 @@ EOF;
     }
 
     echo $arguments['factureid'] . " : ";
-    $facture = FactureClient::getInstance()->find($options['factureid']);
+    $facture = FactureClient::getInstance()->find($arguments['factureid']);
 
     if (! $facture) {
         echo 'Facture non trouvé'.PHP_EOL;
     }
 
-    if ($options['avoir']) {
+    if ($options['avoir'] != 'false') {
         $resultat = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture);
         echo ($resultat)
-            ? $avoir->_id
+            ? $resultat->_id
             : 'ERROR: '.$facture->_id.' not generated';
         echo PHP_EOL;
     } else {
