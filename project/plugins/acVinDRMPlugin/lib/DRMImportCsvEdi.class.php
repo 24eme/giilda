@@ -328,6 +328,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 unset($this->cache[$cacheid]);
 
             }
+
+            if($this->drm->isMoisOuvert()) {
+                return;
+            }
+
             //on prépare les vérifications
             $check = array();
             foreach ($this->cache as $cacheid => $produit) {
