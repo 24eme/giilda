@@ -272,14 +272,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
         $keepStock = ($periode > $this->periode);
         $drm_suivante = clone $this;
+        $drm_suivante->periode = $periode;
+        if($drm_suivante->isMoisOuvert() && !DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne()) {
+            $keepStock = false;
+        }
         $drm_suivante->teledeclare = $isTeledeclarationMode;
         $drm_suivante->init(array('keepStock' => $keepStock));
 
         $drm_suivante->update();
         $drm_suivante->storeDeclarant();
-        $drm_suivante->periode = $periode;
         $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
-        if ($is_just_the_next_periode) {
+        if ($is_just_the_next_periode && !$drm_suivante->isMoisOuvert()) {
             $drm_suivante->precedente = $this->_id;
         }
 
