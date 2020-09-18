@@ -56,7 +56,7 @@ class DRMCielCompare
 		}
 		foreach ($produits as $key => $produitArr) {
 			if(($key == 'produit unique') && $inaoUnique && $libelleUnique){
-				$newId = $inaoUnique.'_'.KeyInflector::slugifyCaseSensitive($libelleUnique);
+				$newId = $inaoUnique.'_'.$libelleUnique;
 				$produitArrFormatted = array();
 				foreach ($produitArr as $keyToChange => $valuetmp) {
 					if(!preg_match('/produit\/{array}\/code-inao/', $keyToChange) && !preg_match('/produit\/{array}\/libelle-personnalise/', $keyToChange)){

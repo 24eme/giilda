@@ -167,6 +167,10 @@ class VracRouting {
                                                                                             array('sf_method' => array('get','post')),
                                                                                             array('model' => 'Vrac', 'type' => 'object')));
 
+        $r->prependRoute('vrac_goto_visa',  new sfRoute('/contrats/goto/visa', array('module' => 'vrac', 'action' => 'gotoVisa'),
+                                                                            array('sf_method' => array('get'))));
+
+
 
     }
 
