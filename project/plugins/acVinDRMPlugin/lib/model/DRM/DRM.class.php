@@ -1971,6 +1971,16 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       }
       return "";
     }
+
+    public function initTransmission() {
+        if ($this->exist('transmission_douane') || !$this->isTeledeclare()) {
+            return;
+        }
+        $this->add('transmission_douane');
+        $this->transmission_douane->success = false;
+        $this->transmission_douane->xml = 'Pas de transmission';
+    }
+
     public function getDetailsByHash($hash_details_or_cepage){
       if($this->exist($hash_details_or_cepage)){
         $node_details_or_cepage = $this->get($hash_details_or_cepage);

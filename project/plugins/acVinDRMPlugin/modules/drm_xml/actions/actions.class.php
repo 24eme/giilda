@@ -105,11 +105,11 @@ class drm_xmlActions extends drmGeneriqueActions {
 
   public function executeSuccessTrue(sfWebRequest $request) {
       $drm = $this->getRoute()->getDRM();
-      if ($drm->exist('transmission_douane')) {
-          $drm->transmission_douane->success = true;
-          $drm->save();
-      }
-      return $this->redirect('drm_redirect_etape', $drm);
+      $drm->initTransmission();
+      $drm->transmission_douane->success = true;
+      $drm->save();
+
+      return $this->redirect('drm_visualisation', $drm);
   }
 
   public function executeRetourIgnore(sfWebRequest $request) {
