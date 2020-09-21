@@ -74,7 +74,9 @@ class drm_xmlActions extends drmGeneriqueActions {
     if(!$this->drm->isValidee()){
         return $this->redirect('drm_validation', $this->drm);
     }
-
+    //Si l'algo du diff a changé, le coherente n'a pas changé alors qu'il devrait.
+    //Si on ne recharge pas la DRM, il y a un update conflict
+    $this->drm = DRMClient::getInstance()->find($this->drm->_id);
     if ($this->drm->exist('transmission_douane/coherente') && $this->drm->exist('transmission_douane/success') && $this->drm->transmission_douane->success && !$this->drm->transmission_douane->coherente && $this->drm->areXMLIdentical()) {
         $this->drm->getOrAdd('transmission_douane')->add("coherente", true);
         $this->drm->save();
