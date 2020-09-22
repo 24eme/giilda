@@ -33,7 +33,7 @@
 }
 
 \AddToShipoutPicture{%
-\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2019\end{minipage}}\fi}
+\AtLowerLeftCorner{0.75cm}{-12cm}{\ifodd\c@page\rotatebox{90}{\begin{minipage}{\paperheight} \centering AOÛT 2020\end{minipage}}\fi}
 }
 \makeatother
 

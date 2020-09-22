@@ -9,7 +9,6 @@ use_helper('Display');
 \def\INTERLOIRECOORDONNEESADRESSE{<?php echo "62, rue Blaise Pascal - CS 61921"; ?>}
 \def\INTERLOIRECOORDONNEESCPVILLE{<?php echo "37019 TOURS CEDEX 1"; ?>}
 \def\INTERLOIRECOORDONNEESTELEPHONE{<?php echo "Tél. 09 72 58 37 60"; ?>}
-\def\INTERLOIRECOORDONNEESFAX{<?php echo "Fax : 02 47 60 55 09"; ?>}
 \def\INTERLOIRECOORDONNEESEMAIL{<?php echo "Email : contact@vinsvaldeloire.fr"; ?>}
 
 \def\VINIGPCOORDONNEESTITRE{<?php echo "C.I.V.D.L"; ?>}
