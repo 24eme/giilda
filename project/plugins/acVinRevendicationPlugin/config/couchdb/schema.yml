@@ -33,6 +33,7 @@ Revendication:
                 fields:
                   declarant_cvi: {  }
                   declarant_nom: {  }
+                  declarant_region: {  }
                   commune: {  }
                   produits:
                     type: collection
