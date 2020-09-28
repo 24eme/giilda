@@ -19,8 +19,9 @@ class RevendicationStocksODGView extends acCouchdbView
     const VALUE_BAILLEUR_IDENTIFIANT = 7;
     const VALUE_BAILLEUR_NOM = 8;
     const VALUE_PRODUIT_LIBELLE = 9;
-    
-            
+    const VALUE_DECLARANT_REGION = 10;
+
+
 
 
     public static function getInstance() {
