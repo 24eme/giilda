@@ -13,6 +13,8 @@ class revendicationActions extends sfActions {
                     $revendication = RevendicationClient::getInstance()->createOrFind($this->form->getValue('odg'), $this->form->getValue('campagne'));
                     $revendication->etape = 1;
                     $revendication->save();
+                    $revendication->cleanFromFilterIGPAOPAndRegion();
+                    $revendication->save();
 
                     return $this->redirect('revendication_upload', $revendication);
             }
