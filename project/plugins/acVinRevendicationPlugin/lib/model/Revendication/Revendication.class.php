@@ -315,7 +315,7 @@ class Revendication extends BaseRevendication {
         return $nb_erreur;
     }
 
-    public function cleanFromFilterIGPAOPAndRegion()
+    public function cleanFromFilterIGPAOPAndRegion() {
         $this->updateRegion();
         $revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG($this->campagne, $this->odg);
         $presents = array();
