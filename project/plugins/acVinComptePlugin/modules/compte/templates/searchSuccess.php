@@ -10,6 +10,18 @@
        return confirm('Etes vous sur(e) de vouloir supprimer définivement ce tag pour ces <?php echo $nb_results; ?> fiches ?');
      });
    $("#contacts_all").click(function () { $('#recherche_contact_form').submit(); });
+
+   $(".plus-tags").click(function(){
+     var siblings = $(this).siblings(".tag_hidden");
+     if(siblings.is(":visible")){
+       siblings.hide();
+       $(this).children("span").addClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up');
+     }else{
+       siblings.show();
+       $(this).children("span").addClass('glyphicon-chevron-up').removeClass('glyphicon-chevron-down');
+     }
+
+   });
     });
 </script>
 <div class="row">
@@ -34,7 +46,7 @@
         <nav>
     		<ul class="pagination">
                 <?php $args_copy = $args; ?>
-                <?php $args = array('q' => $q, 'tags' => $args['tags']); ?>
+                <?php $args = array('q' => $q, 'tags' => $args['tags'],'contacts_all' => $args['contacts_all']); ?>
                 <?php if ($current_page > 1) : ?>
     				<li><a href="<?php echo url_for('compte_search', $args); ?>"><span aria-hidden="true"><<</span></a></li>
     				<?php if ($current_page > 1) $args['page'] = $current_page - 1; ?>
@@ -128,7 +140,9 @@
     </div>
 
 	<div class="col-xs-12">
+            <?php $max_tags = 5; ?>
             <?php $tagsManuels = array(); foreach($facets as $type => $ftype): ?>
+              <?php $cptTags = 1; ?>
                 <?php if (count($ftype['buckets'])): ?>
                 <h4>Tags <?php echo $type ?></h4>
 		           <div class="list-group">
@@ -144,8 +158,10 @@
     							$tagsManuels[] = $f['key'];
     						}
     					?>
-    					  <a class="list-group-item list-group-item-xs <?php echo $active ?>" href="<?php echo ($active)? url_for('compte_search', $sargs) : url_for('compte_search', $targs); ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge" style="position: absolute; right: 10px;"><?php echo $f['doc_count'] ?></span></a>
-					<?php endforeach; ?>
+    					  <a <?php if($cptTags > $max_tags): echo "style='display:none;'"; endif; ?> class="list-group-item list-group-item-xs <?php echo $active ?> <?php if($cptTags > $max_tags): echo 'tag_hidden'; endif; ?>" href="<?php echo ($active)? url_for('compte_search', $sargs) : url_for('compte_search', $targs); ?>"><?php echo str_replace('_', ' ', $f['key']) ?> <span class="badge" style="position: absolute; right: 10px;"><?php echo $f['doc_count'] ?></span></a>
+          <?php $cptTags++; ?>
+          <?php endforeach; ?>
+            <a class="list-group-item list-group-item-xs  plus-tags text-center" style ><span class="glyphicon glyphicon-chevron-down"></span></a>
 					</div>
 			    <?php endif; ?>
 			<?php endforeach; ?>
