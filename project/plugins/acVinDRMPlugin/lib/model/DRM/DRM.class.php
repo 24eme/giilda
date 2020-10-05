@@ -228,6 +228,12 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $p->stocks_debut->revendique = $produit->total_revendique;
             }
 
+            if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                $p->stocks_debut->revendique = $produit->total_revendique;
+                $p->stocks_debut->initial = $produit->total;
+                $p->produit_libelle = $produit->produit_libelle;
+                $p->code_inao = $produit->code_inao;
+            }
         }
 
         foreach($drm->getAllCrds() as $regime => $crds) {
@@ -236,12 +242,24 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 if (DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
                     $stock = $crd->stock_fin;
                 }
+
+                if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+                    $stock = $crd->stock_fin;
+                }
+
                 $crdNode = $this->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($crd->genre, $crd->couleur, $crd->centilitrage, $crd->detail_libelle, $stock, true);
                 if($crdNode->stock_debut && !$crdNode->stock_fin){
                     $crdNode->stock_fin = $crdNode->stock_debut;
                 }
             }
         }
+
+        if (! $this->isMoisOuvert() && $drm->periode == DRMClient::getPeriodePrecedente($this->periode)) {
+            $this->precedente = $drm->_id;
+            $this->document_precedent = null;
+        }
+
+        $this->update();
     }
 
     public function generateSuivanteByPeriode($periode, $isTeledeclarationMode = false) {
@@ -254,14 +272,17 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $is_just_the_next_periode = (DRMClient::getInstance()->getPeriodeSuivante($this->periode) == $periode);
         $keepStock = ($periode > $this->periode);
         $drm_suivante = clone $this;
+        $drm_suivante->periode = $periode;
+        if($drm_suivante->isMoisOuvert() && !DRMConfiguration::getInstance()->isRepriseStocksChangementCampagne()) {
+            $keepStock = false;
+        }
         $drm_suivante->teledeclare = $isTeledeclarationMode;
         $drm_suivante->init(array('keepStock' => $keepStock));
 
         $drm_suivante->update();
         $drm_suivante->storeDeclarant();
-        $drm_suivante->periode = $periode;
         $drm_suivante->etape = ($isTeledeclarationMode) ? DRMClient::ETAPE_CHOIX_PRODUITS : DRMClient::ETAPE_SAISIE;
-        if ($is_just_the_next_periode) {
+        if ($is_just_the_next_periode && !$drm_suivante->isMoisOuvert()) {
             $drm_suivante->precedente = $this->_id;
         }
 
@@ -844,7 +865,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
             return false;
         } elseif ($this->getPrecedente() && $this->getPrecedente()->isNew()) {
             return false;
-        } elseif ($this->isDebutCampagne()) {
+        } elseif ($this->isMoisOuvert()) {
             return false;
         }
 
@@ -1950,6 +1971,16 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
       }
       return "";
     }
+
+    public function initTransmission() {
+        if ($this->exist('transmission_douane') || !$this->isTeledeclare()) {
+            return;
+        }
+        $this->add('transmission_douane');
+        $this->transmission_douane->success = false;
+        $this->transmission_douane->xml = 'Pas de transmission';
+    }
+
     public function getDetailsByHash($hash_details_or_cepage){
       if($this->exist($hash_details_or_cepage)){
         $node_details_or_cepage = $this->get($hash_details_or_cepage);
@@ -1959,7 +1990,7 @@ private function switchDetailsCrdRegime($produit,$newCrdRegime, $typeDrm = DRM::
           return $node_details_or_cepage;
         }
       }
-      throw new sfException("La Hash du mvt $hash_detail_or_cepage n'a pas été trouvée dans la DRM");
+      throw new sfException("La Hash du mvt $hash_details_or_cepage n'a pas été trouvée dans la DRM");
     }
 
     public function hasExportableProduitsAcquittes(){

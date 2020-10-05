@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$nb_tests = 67;
+$nb_tests = 68;
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $nego =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
@@ -104,7 +104,7 @@ $import = new DRMImportCsvEdi($tmpfname, $drm);
 $t->ok($import->checkCSV(), "Vérification de l'import");
 if ($import->getCsvDoc()->hasErreurs()) {
     foreach ($import->getCsvDoc()->erreurs as $k => $err) {
-        $t->ok(false, $err->diagnostic);
+        $t->ok(false, $err->diagnostic.":".$err->num_ligne);
     }
 }
 
@@ -474,8 +474,8 @@ $periode6 = date('Y')."05";
 $temp = fopen($tmpfname, "w");
 fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 20 (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,50,,,,,,\n");
 fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 20° (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,20,,,,,,\n");
-fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 45° (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,100,,,,,,\n");
-fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 45° (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,45,,,,,,\n");
+fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,45°,".$produitAlcool->getAppellation()->getLibelle()." (".$produitAlcool->getCodeDouane()."),suspendu,sorties,ventefrancecrd,10,,,,,,\n");
+fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,45°,".$produitAlcool->getAppellation()->getLibelle()." (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,45,,,,,,\n");
 fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 60° (".$produitAlcool->getCodeDouane()."),suspendu,stocks_debut,initial,70,,,,,,\n");
 fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 60° (".$produitAlcool->getCodeDouane()."),suspendu,sorties,ventefrancecrd,10,,,,,,\n");
 fwrite($temp, "CAVE,$periode6,".$viti->identifiant.",".$viti->no_accises.",,,,,,,,,".$produitAlcool->getAppellation()->getLibelle()." - 60° (".$produitAlcool->getCodeDouane()."),suspendu,complement,TAV,60,,,,,,\n");
@@ -485,7 +485,8 @@ fclose($temp);
 $drm11 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode6, true);
 $import = new DRMImportCsvEdi($tmpfname, $drm11);
 $import->importCSV();
-$t->is(count($drm11->get($produitAlcool_hash.'/details')->toArray(true, false)), 3, "3 produits ont été créés");
+$t->is(count($drm11->get($produitAlcool_hash.'/details')->toArray(true, false)), 3, "3 produits");
+$t->is($drm11->get($produitAlcool_hash.'/details/'.$keyProductTav45)->stocks_fin->final, 90, "Stock final du 2ème produit");
 $t->is($drm11->get($produitAlcool_hash.'/details/'.$keyProductTav60)->stocks_fin->final, 60, "Stock final du 3 ème produit");
 
 unlink($tmpfname);

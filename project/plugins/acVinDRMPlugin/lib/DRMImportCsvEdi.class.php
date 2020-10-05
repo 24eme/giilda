@@ -19,9 +19,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
   protected $etablissement = null;
   protected $fromEdi = false;
   protected $noSave = false;
+  protected $complement = false;
 
-  public function __construct($file, DRM $drm = null, $fromEdi = false) {
+  public function __construct($file, DRM $drm = null, $fromEdi = false, $complement = false) {
     $this->fromEdi = $fromEdi;
+    $this->complement = $complement;
     if($this->fromEdi){
       parent::__construct($file, $drm);
       $drmInfos = $this->getDRMInfosFromFile();
@@ -153,7 +155,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
       }
       $has_default_hash = DRMConfiguration::getInstance()->hasEdiDefaultProduitHash();
 
-      if ($this->drm->canSetStockDebutMois()) {
+      if ($this->drm->canSetStockDebutMois() && !$this->complement) {
           $this->drm->remove('declaration');
           $this->drm->add('declaration');
       }
@@ -240,6 +242,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           				break;
           			}
           		}
+                if (!$founded_produit && count($produits) > 1) {
+                    $founded_produit = $produits[0];
+                }
           	}
           }
 
@@ -262,7 +267,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
               }
             }
-            if (count($produits) > 1) {
+            if (!$founded_produit && count($produits) > 1) {
                 $founded_produit = $produits[0];
             }
           }
@@ -401,6 +406,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           unset($this->cache[$cacheid]);
 
       }
+
+        if($this->drm->isMoisOuvert()) {
+          return;
+        }
       //on prépare les vérifications
       $check = array();
       foreach ($this->cache as $cacheid => $produit) {
@@ -448,10 +457,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $volume2hash = array();
           if($this->drmPrecedente && $this->drmPrecedente->exist($hash)) {
               foreach($this->drmPrecedente->get($hash)->getProduits() as $k => $p) {
-                  foreach($p->getProduitsDetails(true) as $kd => $d) {
+		      if(!$this->drm->getConfig()->exist($p->getHash()) || !$this->drm->getConfig()->get($p->getHash())->isActif($this->drm->getDate())) {
+				continue;
+		      }
+		      foreach($p->getProduitsDetails(true) as $kd => $d) {
                       //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
                       if ($d->denomination_complementaire || $d->tav) {
-                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
+                          $denomTav = $d->denomination_complementaire.'-'.$d->tav;
+                          if(str_replace("°", "", $d->denomination_complementaire) == $d->tav) {
+                              $denomTav = "-".$d->tav;
+                          }
+                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$denomTav] = $d->getHash();
                       }
                       $total_fin_mois = $d->stocks_fin->final * 1;
                       if (!$total_fin_mois) {
@@ -506,6 +522,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                         continue;
                     }
               if (!$this->drmPrecedente->exist($this->cache[$cacheid]->getCepage()->getHash())
+                 || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->exist($this->cache2datas[$cacheid]['details_type'])
                  || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])
                  || !$this->drmPrecedente->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($this->cache2datas[$cacheid]['details_type'])->exist($this->cache[$cacheid]->getKey())
                  ) {
@@ -514,12 +531,16 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   }
               }
 
-              $this->cache[$cacheid] = $this->drm->getOrAdd($new_hash);
+	      if($new_hash) {
+              $detail = $this->drm->getOrAdd($new_hash);
+              $this->cache[$cacheid] = $detail;
               $this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME] = $this->convertNumber($this->cache2datas[$cacheid][self::CSV_CAVE_VOLUME]);
               $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
               $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
               $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
-          }
+	      }
+
+	  }
       }
       //avec le reorder, les référence vers les details sautent, on les re-récupère donc ici :
       foreach($this->cache2datas as $cacheid => $params) {
@@ -533,7 +554,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if (!$cachedata['denomination_complementaire'] && !(isset($cachedata['tav']) && $cachedata['tav'])) {
              continue;
           }
-          $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
+
+          $denomTav = $cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
+          if(str_replace("°", "", $cachedata['denomination_complementaire'] == $cachedata['tav'])) {
+              $denomTav = "-".$cachedata['tav'];
+          }
+          $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$denomTav;
           if (!isset($cepagedenomtav[$id_cepagedenomtav])) {
               continue;
           }
@@ -545,7 +571,8 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                   $this->drm->get($this->cache[$cacheid]->getCepage()->getHash())->getDetailsNoeud($cachedata['details_type'])->remove($this->cache[$cacheid]->getKey());
               }
           }
-          $this->cache[$cacheid] = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+	      $detail = $this->drm->getOrAdd($cepagedenomtav[$id_cepagedenomtav]);
+          $this->cache[$cacheid] = $detail;
           $this->cache2datas[$cacheid]['founded_produit'] = $this->cache[$cacheid]->getConfig();
           $this->cache2datas[$cacheid]['hash'] = $this->cache2datas[$cacheid]['founded_produit']->getHash();
           $this->cache2datas[$cacheid]['hash_detail'] = $this->cache[$cacheid]->getHash();
@@ -942,7 +969,7 @@ private static function cdrreversekeyid($regime, $genre, $couleur, $libelle) {
 }
 
 private function importCrdsFromCSV($just_check = false) {
-   if ($this->drm->canSetStockDebutMois()) {
+   if ($this->drm->canSetStockDebutMois() && !$this->complement) {
        $this->drm->remove('crds');
        $this->drm->add('crds');
    }
