@@ -242,6 +242,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           				break;
           			}
           		}
+                if (!$founded_produit && count($produits) > 1) {
+                    $founded_produit = $produits[0];
+                }
           	}
           }
 
@@ -264,7 +267,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
               }
             }
-            if (count($produits) > 1) {
+            if (!$founded_produit && count($produits) > 1) {
                 $founded_produit = $produits[0];
             }
           }
@@ -460,7 +463,11 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 		      foreach($p->getProduitsDetails(true) as $kd => $d) {
                       //préparation de l'étape suivante sur la comparaison sur la base du tav et de la denom
                       if ($d->denomination_complementaire || $d->tav) {
-                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$d->denomination_complementaire.'-'.$d->tav] = $d->getHash();
+                          $denomTav = $d->denomination_complementaire.'-'.$d->tav;
+                          if(str_replace("°", "", $d->denomination_complementaire) == $d->tav) {
+                              $denomTav = "-".$d->tav;
+                          }
+                          $cepagedenomtav[$d->getCepage()->getHash().'-'.$d->getParent()->getKey().'-'.$denomTav] = $d->getHash();
                       }
                       $total_fin_mois = $d->stocks_fin->final * 1;
                       if (!$total_fin_mois) {
@@ -547,7 +554,12 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if (!$cachedata['denomination_complementaire'] && !(isset($cachedata['tav']) && $cachedata['tav'])) {
              continue;
           }
-          $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
+
+          $denomTav = $cachedata['denomination_complementaire'].'-'.$cachedata['tav'];
+          if(str_replace("°", "", $cachedata['denomination_complementaire'] == $cachedata['tav'])) {
+              $denomTav = "-".$cachedata['tav'];
+          }
+          $id_cepagedenomtav = $this->cache[$cacheid]->getCepage()->getHash().'-'.$cachedata['details_type'].'-'.$denomTav;
           if (!isset($cepagedenomtav[$id_cepagedenomtav])) {
               continue;
           }
