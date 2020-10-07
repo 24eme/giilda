@@ -331,6 +331,10 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
           }
 
+          if(!trim($datas[self::CSV_CAVE_GENRE]) && !trim($datas[self::CSV_CAVE_APPELLATION]) && !trim($datas[self::CSV_CAVE_MENTION]) && !trim($datas[self::CSV_CAVE_LIEU]) && !trim($datas[self::CSV_CAVE_COULEUR]) && !trim($datas[self::CSV_CAVE_CEPAGE]) && !trim($datas[self::CSV_CAVE_LIBELLE_PRODUIT])) {
+              $this->csvDoc->addErreur($this->productLibelleWarning($num_ligne, $datas));
+          }
+
           if (!$founded_produit) {
             $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $datas));
             continue;
@@ -1225,6 +1229,10 @@ private function otherPeriodeError($num_ligne, $csvRow) {
 private function productNotFoundError($num_ligne, $csvRow) {
   $libellesArray = $this->buildLibellesArrayWithRow($csvRow);
   return $this->createError($num_ligne, implode(' ', $libellesArray), "Le produit n'a pas été trouvé");
+}
+
+private function productLibelleWarning($num_ligne, $csvRow) {
+  return $this->createError($num_ligne, "", "Le libellé est vide, le code douane n'est pas suffisant", CSVDRMClient::LEVEL_WARNING);
 }
 
 private function DRMTypeNotFoundError($num_ligne, $csvRow) {
