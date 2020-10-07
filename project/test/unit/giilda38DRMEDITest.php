@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$nb_tests = 68;
+$nb_tests = 69;
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti_2')->getEtablissement();
 $nego =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $produits = ConfigurationClient::getInstance()->getConfiguration(date('Y')."-01-01")->getProduits();
@@ -515,7 +515,8 @@ if($application == "ivso") {
     foreach($details as $detail) {
     }
 
-    $t->is($detail->getLibelle(), "Floc de Gascogne Blanc - 17°", "Reconnaissance du produit");
+    $t->is($detail->getCepage()->getHash(), "/declaration/certifications/VDNVDL/genres/DEFAUT/appellations/FDG/mentions/DEFAUT/lieux/DEFAUT/couleurs/blanc/cepages/DEFAUT", "Hash du produit reconnu");
+    $t->is($detail->getLibelle(), "Floc de Gascogne Blanc - 17°", "Libellé du produit reconnu");
 } elseif($application == "bivc") {
     $periode5 = date('Y')."04";
     $t->comment("création vrac");

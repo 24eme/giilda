@@ -226,53 +226,46 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           $keys_libelle = preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $datas[self::CSV_CAVE_CERTIFICATION], $datas[self::CSV_CAVE_GENRE], $datas[self::CSV_CAVE_APPELLATION], $datas[self::CSV_CAVE_MENTION], $datas[self::CSV_CAVE_LIEU], $datas[self::CSV_CAVE_COULEUR], $datas[self::CSV_CAVE_CEPAGE]));
 
           $keys_libelle_mention_fin = preg_replace("/[ ]+/", " ", sprintf("%s %s %s %s %s %s %s", $datas[self::CSV_CAVE_CERTIFICATION], $datas[self::CSV_CAVE_GENRE], $datas[self::CSV_CAVE_APPELLATION], $datas[self::CSV_CAVE_LIEU], $datas[self::CSV_CAVE_COULEUR], $datas[self::CSV_CAVE_CEPAGE],$datas[self::CSV_CAVE_MENTION]));
+          $libelleProduit = $datas[self::CSV_CAVE_LIBELLE_PRODUIT];
+          if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $libelleProduit, $m)) {
+              $libelleProduit = $m[1];
+          }
+          $libelleProduit = preg_replace('/([a-zA-Z0-9\ \_]*) - .*/', '${1}', $libelleProduit);
 
-          if (!$founded_produit && $idDouane = $this->getIdDouane($datas)) {
-          	$produits = $this->configuration->identifyProductByCodeDouane($idDouane);
-          	if (count($produits) == 1) {
-          		$founded_produit = $produits[0];
-          	} else {
-          		$libelle = preg_replace('/([a-zA-Z0-9\ \-\_]*)\(([a-zA-Z0-9\ \-\_]*)\)/', '${1}', trim($datas[self::CSV_CAVE_LIBELLE_PRODUIT]));
-                $libelle = preg_replace('/([a-zA-Z0-9\ \_]*) - .*/', '${1}', $libelle);
-                //echo "libelle: $libelle\n";
-          		foreach($produits as $p) {
-                    //echo KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat()))." == ".KeyInflector::slugify(str_replace(" ", "", $libelle))."\n";
-          			if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelle))) {
-          				$founded_produit = $p;
-          				break;
-          			}
-          		}
-          	}
+          $idDouane = $this->getIdDouane($datas);
+          $produitsByCodeDouane = $this->configuration->identifyProductByCodeDouane($idDouane);
+
+          // Reconnaissance par code douane si pas d'équivoque
+          if (!$founded_produit && $idDouane && count($produitsByCodeDouane) == 1)  {
+          		$founded_produit = $produitsByCodeDouane[0];
           }
 
+          // Reconnaissance par code douane avec équivoque en regardant le libelle
+          if (!$founded_produit && $idDouane && count($produitsByCodeDouane) > 1)  {
+              foreach($produitsByCodeDouane as $p) {
+                  if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelleProduit))) {
+                      $founded_produit = $p;
+                      break;
+                  }
+              }
+          }
+
+          // Reconnaissance par libellés les colonnes clés de l'arbre produit
           if(!$founded_produit && ($keys_libelle != '      ')) {
             $founded_produit = $this->configuration->identifyProductByLibelle(KeyInflector::slugify(str_replace("AOC AOC","AOC",$keys_libelle)));
           }
+
+          // Reconnaissance par libellé de clés l'arbre produit en mettant la mention à la fin
           if(!$founded_produit && ($keys_libelle != '      ')) {
             $founded_produit = $this->configuration->identifyProductByLibelle(KeyInflector::slugify(str_replace("AOC AOC","AOC",$keys_libelle_mention_fin)));
           }
 
-          if(!$founded_produit && preg_match('/(.*) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
-            $produits = $this->configuration->identifyProductByCodeDouane(trim($m[2]));
-            if (count($produits) == 1) {
-              $founded_produit = $produits[0];
-            }else {
-              foreach($produits as $p) {
-                if (preg_match('/'.preg_replace('/[\/\(\)]/', '.', $m[1]).'/', $p->getLibelleFormat())) {
-                  $founded_produit = $p;
-                  break;
-                }
-              }
-            }
-            if (count($produits) > 1) {
-                $founded_produit = $produits[0];
-            }
-          }
-
+          // Reconnaissance par libellé produit
           if(!$founded_produit) {
             $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace('/ *\(.*/', '', preg_replace("/[ ]+/", " ", $datas[self::CSV_CAVE_LIBELLE_PRODUIT] . ' ' . $datas[self::CSV_CAVE_MENTION]))));
           }
 
+          // Reconnaissance part les colonnes clés de l'arbre produit
           if (!$founded_produit) {
             foreach ($all_produits as $produit) {
               if ($founded_produit) {
@@ -316,13 +309,17 @@ class DRMImportCsvEdi extends DRMCsvEdi {
               }
             }
           }
-          if((!$founded_produit) && $has_default_hash && ($default_produit_inao = $this->getIdDouane($datas))) {
+
+          // Si aucun produit et un code douane on prend le premier produit trouvé
+          if (!$founded_produit && $idDouane && count($produitsByCodeDouane) > 0)  {
+              $founded_produit = $produitsByCodeDouane[0];
+          }
+
+          // Si aucun produit et code douane, on prend le produit par défaut
+          if(!$founded_produit && $has_default_hash && $idDouane) {
               $is_default_produit = true;
-              if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
-                  $default_produit_libelle = $m[1];
-              }else{
-                  $default_produit_libelle = $datas[self::CSV_CAVE_LIBELLE_PRODUIT];
-              }
+              $default_produit_inao = $idDouane;
+              $default_produit_libelle = $libelleProduit;
               $default_produit_hash = DRMConfiguration::getInstance()->getEdiDefaultProduitHash($default_produit_inao);
               if ($this->configuration->exist($default_produit_hash)) {
                   $founded_produit = $this->configuration->getProduit($default_produit_hash);
@@ -331,7 +328,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
           if($founded_produit && $aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
           && isset($aggregatedEdiList[0][$founded_produit->getHash()])){
-            $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
+              $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
           }
 
           if (!$founded_produit) {
@@ -342,18 +339,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           if ($founded_produit && !$founded_produit->isActif(substr($datas[self::CSV_PERIODE], 0, 4).'-'.substr($datas[self::CSV_PERIODE], -2).'-01')) {
             $this->csvDoc->addErreur($this->productNotFoundError($num_ligne, $datas));
             continue;
-          }
-
-          //Gestion du produit non connu
-          if((!$founded_produit)  && ($default_produit_inao = $this->getIdDouane($datas))) {
-              $is_default_produit = true;
-              if (preg_match('/(.*[^ ]) *\(([^\)]+)\)/', $datas[self::CSV_CAVE_LIBELLE_PRODUIT], $m)) {
-                  $default_produit_libelle = $m[1];
-              }else{
-                  $default_produit_libelle = $datas[self::CSV_CAVE_LIBELLE_PRODUIT];
-              }
-              $default_produit_hash = self::getEdiDefaultFromInao($default_produit_inao);
-              $founded_produit = $this->configuration->get($default_produit_hash);
           }
 
           $denomination_complementaire = (trim($datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]))? trim($datas[self::CSV_CAVE_LIBELLE_COMPLEMENTAIRE]) : false;
