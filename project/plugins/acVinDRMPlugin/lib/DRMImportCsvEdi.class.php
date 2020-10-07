@@ -242,9 +242,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           				break;
           			}
           		}
-                if (!$founded_produit && count($produits) > 1) {
-                    $founded_produit = $produits[0];
-                }
           	}
           }
 
@@ -267,7 +264,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
                 }
               }
             }
-            if (!$founded_produit && count($produits) > 1) {
+            if (count($produits) > 1) {
                 $founded_produit = $produits[0];
             }
           }
