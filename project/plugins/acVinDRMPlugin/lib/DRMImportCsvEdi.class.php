@@ -1232,7 +1232,7 @@ private function productNotFoundError($num_ligne, $csvRow) {
 }
 
 private function productLibelleWarning($num_ligne, $csvRow) {
-  return $this->createError($num_ligne, "", "La colonne libellé produit est vide, le code douane n'est pas suffisant", CSVDRMClient::LEVEL_WARNING);
+  return $this->createError($num_ligne, "", "La colonne libellé produit est vide (le code douane n'est pas suffisant)", CSVDRMClient::LEVEL_WARNING);
 }
 
 private function DRMTypeNotFoundError($num_ligne, $csvRow) {
