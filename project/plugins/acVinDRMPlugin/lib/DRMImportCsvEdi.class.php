@@ -311,7 +311,7 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           }
 
           // Si aucun produit et un code douane on prend le premier produit trouvé
-          if (!$founded_produit && $idDouane && count($produitsByCodeDouane) > 0)  {
+          if (!$founded_produit && $idDouane && ConfigurationCepage::isCodeDouaneINAO($idDouane) && count($produitsByCodeDouane) > 0)  {
               $founded_produit = $produitsByCodeDouane[0];
           }
 
