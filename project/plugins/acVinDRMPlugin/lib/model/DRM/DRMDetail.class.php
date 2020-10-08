@@ -203,7 +203,7 @@ class DRMDetail extends BaseDRMDetail {
         $this->total_entrees = $this->getTotalByKey('entrees');
         $this->total_sorties = $this->getTotalByKey('sorties');
         if($this->stocks_fin->exist('revendique')){
-          $this->stocks_fin->revendique = $this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties;
+          $this->stocks_fin->revendique = (float) number_format($this->stocks_debut->revendique + $this->total_entrees - $this->total_sorties, 5);
         }
         if ($this->entrees->exist('recolte')) {
             $this->total_recolte = $this->entrees->recolte;
