@@ -69,7 +69,14 @@ class DRMCalendrier {
             foreach ($this->periodes as $periode) {
                 $drm = DRMClient::getInstance()->viewMasterByIdentifiantPeriode($etbIdentifiant, $periode);
                 $this->drms[$etbIdentifiant][$periode] = $drm;
+                if (!isset($drm[10])) {
+                    $drm[10] = null;
+                    $drm[12] = null;
+                }
                 $this->transmises[$etbIdentifiant][$periode] = ($drm[10] == 'SUCCESS');
+                if (!isset($drm[12])) {
+                    $drm[12] = null;
+                }
                 $this->coherentes[$etbIdentifiant][$periode] = $drm[12];
             }
         }
@@ -170,7 +177,7 @@ class DRMCalendrier {
 
     private function loadStatuts() {
         $this->statuts = array();
-        $lastPeriode = Date::addDelaiToDate('-1 month', null, 'Ym');
+        $lastPeriode = Date::addDelaiToDate('-18 month', null, 'Ym');
         foreach ($this->etablissements as $etablissement) {
             $etbIdentifiant = $etablissement->identifiant;
             if (!array_key_exists($etbIdentifiant, $this->statuts)) {

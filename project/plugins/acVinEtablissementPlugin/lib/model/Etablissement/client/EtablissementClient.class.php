@@ -333,6 +333,9 @@ class EtablissementClient extends acCouchdbClient {
             $result->telephone = $contacts[$region]['telephone'];
             return $result;
         }
+        if (!isset($contacts[$region])) {
+            $contacts[$region] = array('nom' => 'contact inconnu', 'email' => '', 'telephone' => '');
+        }
         $result->nom = $contacts[$region]['nom'];
         $result->email = $contacts[$region]['email'];
         $result->telephone = $contacts[$region]['telephone'];
