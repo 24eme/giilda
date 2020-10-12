@@ -174,6 +174,7 @@ class Etablissement extends BaseEtablissement {
     public function getFamilleType() {
         $familleType = array(EtablissementFamilles::FAMILLE_PRODUCTEUR => 'vendeur',
             EtablissementFamilles::FAMILLE_NEGOCIANT => 'acheteur',
+            EtablissementFamilles::FAMILLE_NEGOCIANT_PUR => 'acheteur',
             EtablissementFamilles::FAMILLE_COURTIER => 'mandataire');
         return $familleType[$this->famille];
     }
