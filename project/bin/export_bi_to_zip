@@ -17,6 +17,10 @@ mv  $EXPORTDIR"/export_bi.zip.new" $EXPORTDIR"/export_bi.zip"
 rm -rf $EXPORTDIR"/bi" 2> /dev/null
 mkdir -p $EXPORTDIR"/bi"
 unzip $EXPORTDIR"/export_bi.zip" -d $EXPORTDIR"/bi"
+find $EXPORTDIR"/bi" -type f -name '*csv' | while read csv ; do
+    utf8=$(echo $csv | sed 's/.csv/.utf8.csv/')
+    iconv -f ISO88591 -t UTF8 $csv > $utf8
+done
 
 mv $EXPORTDIR/bi/export_bi_annualise/* $EXPORTDIR/bi/
 rm -rf $EXPORTDIR/bi/export_bi_annualise
