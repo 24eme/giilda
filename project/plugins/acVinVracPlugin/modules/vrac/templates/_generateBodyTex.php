@@ -8,8 +8,7 @@ $isIGP = $vrac->isProduitIGP(); ?>
 \INTERLOIRECOORDONNEESADRESSE  & ~ & ~ & ~ \\
 \INTERLOIRECOORDONNEESCPVILLE   & ~  & \multicolumn{2}{c|}{\textbf{\LARGE{\CONTRATNUMENREGISTREMENT}}} \\
 \textbullet ~ \small{\INTERLOIRECOORDONNEESTELEPHONE} & ~ & ~ & ~ \\
-\small{\INTERLOIRECOORDONNEESFAX}  & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE}} \\
-\small{\INTERLOIRECOORDONNEESEMAIL}  & ~ & ~ & ~ \\
+\small{\INTERLOIRECOORDONNEESEMAIL}  & ~ &  \multicolumn{2}{c|}{Le \textbf{\CONTRATDATEENTETE}} \\
 	\hline
 \end{tabularx}
 \vspace{0.4cm}
@@ -108,26 +107,13 @@ A été conclu le marché suivant: \\
 \textbf{L'achat rentre dans le cadre d'un contrat pluriannuel:}~~~~\textbf{OUI}~ <?php echo getCheckBoxe($vrac->isPluriannuel())?> ~~~\textbf{NON}~ <?php echo getCheckBoxe(!$vrac->isPluriannuel())?> \textbf{, <?php if($isIGP): ?>conforme à l'Accord Interprofessionnel du C.I.V.D.L.<?php else : ?>conforme à l'art. III-2 de l'Accord Interprofessionnel<?php endif; ?>}
 \\
 \\
-<?php if($isIGP): ?>
-\\
-\textbf{\normalsize{\underline{Délais de paiement} :} conformes aux dispositions de l'Accord Interprofessionnel rappelées au verso.} \\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-\\
-<?php else : ?>
-La cotisation interprofessionnelle est payée en totalité par l'acheteur. Toutefois, la cotisation interprofessionnelle concernant une vente à destination d'un acheteur hors du ressort d'InterLoire (1) est payée en totalité par le vendeur ; et la cotisation interprofessionnelle concernant la vente de vins en vrac, bouteilles ou BIB®, hors CRD, est payée par moitié par l’acheteur et par moitié par le vendeur, pour les enlèvements survenant entre le 1er août 2015 et le 31 décembre 2015.
+Les conditions générales d’exécution du présent contrat sont précisées au verso.
 
 \\
 
 \textbf{\normalsize{\underline{Délais de paiement} :} conformes aux dispositions de l'Accord Interprofessionnel rappelées au verso.} \\
 \\
-Tout incident se produisant au paiement de l'une des échéances prévues rend immédiatement exigible la totalité des sommes restant dues. De plus, tout règlement effectué après la date d'échéance entraîne le paiement d'intérêts de retard. Le montant de ces intérêts est  égal à trois fois le taux d'intérêt général. Ces intérêts de retard sont dus sans mise en demeure préalable et les frais de recouvrement sont à la charge de l'acheteur.
-<?php endif; ?>
+
 \begin{multicols}{2}
 \begin{flushleft}
 \normalsize{\underline{Conditions d'enlèvement} :}
@@ -138,12 +124,8 @@ Tout incident se produisant au paiement de l'une des échéances prévues rend i
 \end{multicols}
 A défaut d'indication, l'enlèvement est effectué par l'acheteur dans les 30 jours à compter de la date de signature du présent contrat. Passé cette date, si l'enlèvement n'a pas été effectué, le vendeur peut, à sa convenance, résoudre le contrat par simple lettre recommandée ou facturer à l'acheteur les frais de garde qui sont fixés à \framebox[1.05\width]{\CONTRATFRAISDEGARDE} par mois. L'émission de la facture ne peut  en aucun cas être postérieure à la date stipulée pour l'enlèvement.
 \\
-<?php if($isIGP): ?>
 \\
 \\
-<?php else : ?>
-\underline{Sanction} : Tout manquement grave au contrat (de type modification unilatérale de prix, résolution fautive du contrat) entraine, de plein droit et après mise en demeure, le paiement, à titre de dommages et intérêts, de 15\% du prix stipulé au contrat.
-<?php endif; ?>
 \\
 
 \fbox{

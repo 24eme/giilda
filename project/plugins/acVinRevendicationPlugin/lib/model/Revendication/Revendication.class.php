@@ -315,4 +315,43 @@ class Revendication extends BaseRevendication {
         return $nb_erreur;
     }
 
+    public function cleanFromFilterIGPAOPAndRegion() {
+        $this->updateRegion();
+        $revendications = RevendicationStocksODGView::getInstance()->findByCampagneAndODG($this->campagne, $this->odg);
+        $presents = array();
+        foreach($revendications as $id => $r) {
+            $presents[] = '/datas/'.$r->etablissement_identifiant.'/produits/'.$r->code_douane;
+        }
+        $to_delete = array();
+        foreach($this->datas as $interloire_id => $declarant) {
+            foreach ($declarant->produits as $code_inao => $produit) {
+                if (!in_array($produit->getHash(), $presents)) {
+                    $to_delete[] = $produit->getHash();
+                }
+            }
+        }
+        foreach ($to_delete as $id) {
+            $this->remove($id);
+        }
+        $to_delete = array();
+        foreach($this->datas as $interloire_id => $declarant) {
+            if (!count($declarant->produits)) {
+                $to_delete[] = $declarant->getHash();
+            }elseif ($declarant->declarant_region != $this->odg) {
+                $to_delete[] = $declarant->getHash();
+            }
+        }
+        foreach ($to_delete as $id) {
+            $this->remove($id);
+        }
+    }
+
+    public function updateRegion() {
+        foreach($this->datas as $interloire_id => $declarant) {
+            if (!$declarant->declarant_region) {
+                $declarant->declarant_region = EtablissementClient::getInstance()->find($interloire_id)->region;
+            }
+        }
+    }
+
 }

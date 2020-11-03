@@ -26,6 +26,7 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
     public function storeDeclarant($etb) {
         $this->declarant_cvi = $etb->key[EtablissementFindByCviView::KEY_ETABLISSEMENT_CVI];
         $this->declarant_nom = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_NOM];
+        $this->declarant_region = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_REGION];
         $this->commune = $etb->value[EtablissementFindByCviView::VALUE_ETABLISSEMENT_COMMUNE];
     }
 
@@ -34,6 +35,7 @@ class RevendicationEtablissements extends BaseRevendicationEtablissements {
 
         $this->declarant_cvi = $etablissement->cvi;
         $this->declarant_nom = $etablissement->nom;
+        $this->declarant_region = $etablissement->region;
         $this->commune = $etablissement->siege->commune;
     }
 
