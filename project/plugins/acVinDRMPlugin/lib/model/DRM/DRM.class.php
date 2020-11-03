@@ -1252,17 +1252,23 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         $regimesCrd = ($this->getEtablissement()->exist('crd_regime')) ? $this->getEtablissement()->getCrdRegimeArray() : null;
         if ($regimesCrd) {
           foreach ($regimesCrd as $regimeCrd) {
-            $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllGenres());
+            $this->crds->getOrAdd($regimeCrd)->crdsInitDefault($this->getAllCrdGenres());
           }
         }
     }
 
-    public function getAllGenres() {
+    public function getAllCrdGenres() {
         $genres = array();
         foreach ($this->getProduitsDetails(true) as $hash => $detail) {
             $genre = $detail->getCepage()->getCouleur()->getLieu()->getMention()->getAppellation()->getGenre()->getConfig();
-            if ($genre->getKey() == 'TRANQ') {
-                $genres[$genre->getKey()] = $genre->getKey();
+            if (preg_match('/(cognac|armagnac)/i', $detail->getLibelle())) {
+                $genres['COGNAC-ARMAGNAC'] = 'COGNAC-ARMAGNAC';
+            } elseif($detail->isCodeDouanePI()) {
+                $genres['PI'] = 'PI';
+            } elseif($detail->isCodeDouaneAlcool()) {
+                $genres['ALCOOLS'] = 'ALCOOLS';
+            } elseif ($genre->getKey() == 'TRANQ' || $genre->getKey() == 'DEFAUT') {
+                $genres['TRANQ'] = 'TRANQ';
             } else {
                 $genres['MOUSSEUX'] = 'MOUSSEUX';
             }
