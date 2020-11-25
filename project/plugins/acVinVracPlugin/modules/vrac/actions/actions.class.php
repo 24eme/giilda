@@ -827,6 +827,20 @@ class vracActions extends drmGeneriqueActions {
         throw new sfException("Notice non trouvée");
     }
 
+    public function executeGotoVisa(sfWebRequest $request) {
+        $campagne = $request->getParameter('campagne');
+        $visa = $request->getParameter('visa');
+        $vracid = ArchivageAllView::getInstance()->findDocId('Vrac', $campagne, $visa);
+        if (!$vracid) {
+            return $this->redirect('vrac');
+        }
+        $this->vrac = VracClient::getInstance()->find($vracid);
+        if (!$this->vrac) {
+            return $this->redirect('vrac');
+        }
+        return $this->redirect('vrac_visualisation', $this->vrac);
+    }
+
     private function redirectWithStep() {
         switch ($this->vrac->etape) {
             case 1:

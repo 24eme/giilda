@@ -14,8 +14,8 @@ foreach ($datas as $data) {
     ?>
     <div id="contenu_etape">
         <?php include_component('vrac', 'formEtablissementChoice') ?>
-        <div class="section_label_maj"> 
-            <label>10 derniers contrats saisis : </label>   
+        <div class="section_label_maj">
+            <label>10 derniers contrats saisis : </label>
             <?php include_partial('table_contrats', array('vracs' => $vracs)); ?>
         </div>
     </div>
@@ -28,6 +28,12 @@ end_slot();
 
 slot('colApplications');
 ?>
+<div id="export_soussignes" class="bloc_col">
+    <h2>Recherche par visa</h2>
+        <?php
+        include_partial('rechercheVisa');
+        ?>
+</div>
 <div id="export_soussignes" class="bloc_col">
     <h2>Export des soussignés</h2>
         <?php

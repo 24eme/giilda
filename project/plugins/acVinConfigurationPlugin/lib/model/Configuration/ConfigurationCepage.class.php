@@ -44,16 +44,39 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function getProduitsAll($interpro = null, $departement = null) {
-        
+
         return array($this->getHash() => $this);
     }
 
     public function compressDroits() {
         $this->compressDroitsSelf();
-    } 
+    }
 
     public function getCouleur() {
         return $this->getParentNode();
+    }
+
+    public static function isCodeDouaneNeedTav($code_douane) {
+        if(!$code_douane){
+
+            return false;
+        }
+
+        return preg_match('/^(RHUM_|ALCOOL_|SPIRITUEUX_|AUTRES_ALCOOLS)/', $code_douane);
+    }
+
+    public static function isCodeDouanePI($code_douane) {
+        if(!$code_douane){
+
+            return false;
+        }
+
+        return preg_match('/_PI_/', $code_douane);
+    }
+
+    public function needTav() {
+
+        return self::isCodeDouaneNeedTav($this->code_douane);
     }
 
     public function setDonneesCsv($datas) {
@@ -64,7 +87,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
         $this->code = $this->formatCodeFromCsv($datas[ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE]);
 
         $this->setDroitDouaneCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
-        $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT); 
+        $this->setDroitCvoCsv($datas, ProduitCsvFile::CSV_PRODUIT_CEPAGE_CODE_APPLICATIF_DROIT);
     }
 
     public function getCorrespondanceHash() {
@@ -73,13 +96,13 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function getTypeNoeud() {
-        
+
         return self::TYPE_NOEUD;
     }
 
-    public function addInterpro($interpro) 
+    public function addInterpro($interpro)
     {
-        
+
         return $this->getParentNode()->addInterpro($interpro);
     }
 
@@ -88,7 +111,7 @@ class ConfigurationCepage extends BaseConfigurationCepage {
     }
 
     public function hasCodes() {
-        
+
         return true;
     }
 

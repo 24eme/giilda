@@ -2,25 +2,26 @@
 
 class defactureFactureTask extends sfBaseTask
 {
-  protected function configure()
-  {
-    // // add your own arguments here
-    $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
-      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
-      new sfCommandOption('factureid', null, sfCommandOption::PARAMETER_REQUIRED, 'Facture id'),
-      // add your own options here
-    ));
+    protected function configure()
+    {
+        // // add your own arguments here
+        $this->addArgument('factureid', sfCommandArgument::REQUIRED, 'L\'id de la facture');
+        $this->addOptions(array(
+            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'vinsdeloire'),
+            new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+            new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'default'),
+            new sfCommandOption('avoir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Genere un avoir', true)
+            // add your own options here
+        ));
 
     $this->namespace        = 'facture';
     $this->name             = 'defacturer';
-    $this->briefDescription = '';
+    $this->briefDescription = 'Defacture et génère (optionnellement) un avoir (oui par défaut)';
     $this->detailedDescription = <<<EOF
-The [testFacture|INFO] task does things.
+The [defactureFacture|INFO] task does things.
 Call it with:
 
-    [php symfony test:Facture|INFO]
+    [php symfony facture:defacturer|INFO]
 EOF;
   }
 
@@ -30,16 +31,27 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-    if(!$options['factureid']) {
-	throw new sfException('factureid neeeded');
+    if(! $arguments['factureid']) {
+        throw new sfException('factureid neeeded');
     }
 
-    $facture = FactureClient::getInstance()->find($options['factureid']);
-    $avoir = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture);
-    if ($avoir) {
-	    echo $avoir->_id."\n";
-    }else{
-	    echo "ERROR: ".$facture->_id." not generated\n";
+    echo $arguments['factureid'] . " : ";
+    $facture = FactureClient::getInstance()->find($arguments['factureid']);
+
+    if (! $facture) {
+        echo 'Facture non trouvé'.PHP_EOL;
+    }
+
+    if ($options['avoir'] != 'false') {
+        $resultat = FactureClient::getInstance()->defactureCreateAvoirAndSaveThem($facture);
+        echo ($resultat)
+            ? $resultat->_id
+            : 'ERROR: '.$facture->_id.' not generated';
+        echo PHP_EOL;
+    } else {
+        $facture->defacturer();
+        $facture->save();
+        echo $facture->_id .PHP_EOL;
     }
   }
 }

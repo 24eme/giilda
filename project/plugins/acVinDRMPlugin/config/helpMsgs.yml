@@ -14,6 +14,8 @@ drm:
   drm_mouvements_message_juin: "<strong>DISTILLATION DE CRISE :</strong><br /><br />Dans les sorties, saisissez les volumes dans la ligne \"distillation\".<br />Une fois dans CIEL, cliquez sur le bouton \"modifier\" et écrivez dans la partie « observation » : distillation."
   drm_mouvements_message_juillet: "<strong>DISTILLATION DE CRISE :</strong><br /><br />Dans les sorties, saisissez les volumes dans la ligne \"distillation\".<br />Une fois dans CIEL, cliquez sur le bouton \"modifier\" et écrivez dans la partie « observation » : distillation."
   drm_mouvements_message_aout: "Sur votre DRM d'août, le stock de début de mois doit être renseigné sur la base de votre stock réel (issu de l'inventaire).<br /><br />La DAI se fait automatiquement dans Prodouanes, dans le module CIEL, en même temps que la finalisation de la DRM d'août."
+  drm_mouvements_message_septembre: "Les raisins et les moûts ne doivent pas apparaître sur votre DRM. Seuls les vins doivent être déclarés sur la DRM."
+  drm_mouvements_message_octobre: "Les raisins et les moûts ne doivent pas apparaître sur votre DRM. Seuls les vins doivent être déclarés sur la DRM."
   drm_mouvements_message_novembre: "Pour déclarer votre récolte, mentionnez le volume de vin correspondant à la ligne 14 ou 15 de votre déclaration de récolte dans la ligne \"Production\""
   drm_mouvements_message_decembre: "Pour déclarer votre récolte, mentionnez le volume de vin correspondant à la ligne 14 ou 15 de votre déclaration de récolte dans la ligne \"Production\""
   drm_mouvements_aide1: "En début de campagne ou lors de la 1ère saisie, le stock de début de mois est à renseigner (en hectolitres).<br/>Il sera calculé automatiquement les mois suivants."

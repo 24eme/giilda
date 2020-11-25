@@ -128,14 +128,15 @@ EOF;
             }
             if ($contrat->type_transaction == VracClient::TYPE_TRANSACTION_MOUTS || $contrat->type_transaction == VracClient::TYPE_TRANSACTION_RAISINS) {
                 $type_contrat = "M";
+                continue;
             }
             $ligne[self::CSV_FA_TYPE_CONTRAT] = $type_contrat; // V pour vrac, M pour Mout
-            $ligne[self::CSV_FA_CAMPAGNE] = substr($contrat->campagne, 0, 4);
+            $ligne[self::CSV_FA_CAMPAGNE] = (substr($contrat->millesime, 0, 4) && substr($contrat->campagne, 0, 4) > substr($contrat->millesime, 0, 4)) ? substr($contrat->millesime, 0, 4) : substr($contrat->campagne, 0, 4);
             $ligne[self::CSV_FA_NUM_ARCHIVAGE] = '0'.$contrat->numero_archive; // Est-ce notre numéro d'archivage?
             $ligne[self::CSV_FA_CODE_LIEU_VISA] = "020"; //Interloire
             $ligne[self::CSV_FA_CODE_ACTION] = ($contrat->exist("versement_fa")) ? $contrat->versement_fa : 'NC'; // NC = Nouveau Contrat, SC = Supprimé Contrat, MC = Modifié Contrat
             $ligne[self::CSV_FA_DATE_CONTRAT] = Date::francizeDate($contrat->date_signature);
-            $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_campagne);
+            $ligne[self::CSV_FA_DATE_VISA] = Date::francizeDate($contrat->date_signature);
 
             $ligne[self::CSV_FA_CODE_COMMUNE_LIEU_VINIFICATION] = $vendeur->getCodeInsee(); // Code Insee Vendeur
             $ligne[self::CSV_FA_INDICATION_DOUBLE_FIN] = 'N'; // Quelle signification?
@@ -160,19 +161,19 @@ EOF;
             $ligne[self::CSV_FA_POURCENTAGE_ACCOMPTE] = 'X'; //DISABLED sprintf("%d", $contrat->acompte);
             $ligne[self::CSV_FA_DELAI_PAIEMENT] = 'X'; // DISABLED sprintf("%0.1f", $this->getDelaiPaiement($contrat));
 
-            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = "PA";
+            $ligne[self::CSV_FA_CODE_TYPE_PRODUIT] = ($type_contrat == 'M') ? 'E' : "PA";
             $ligne[self::CSV_FA_CODE_DENOMINATION_VIN_IGP] = $this->getCodeDenomVinIGP($produit); // ASSIGNER LES CODE PRODUITS IGP
             $ligne[self::CSV_FA_PRIMEUR] = ($produit->getMention()->getKey() == "PM") ? "O" : "N";
             $ligne[self::CSV_FA_BIO] = ($contrat->isBio()) ? "O" : "N";
             $ligne[self::CSV_FA_COULEUR] = $this->getCouleurIGP($contrat, $produit);
-            $ligne[self::CSV_FA_ANNEE_RECOLTE] = (substr($contrat->millesime, 0, 4))? substr($contrat->millesime, 0, 4) : "".(date('Y') - 1); //??
+            $ligne[self::CSV_FA_ANNEE_RECOLTE] = (substr($contrat->millesime, 0, 4))? substr($contrat->millesime, 0, 4) : substr($contrat->campagne, 0, 4); //??
             $ligne[self::CSV_FA_CODE_ELABORATION] = 'P'; //DISABLED ($contrat->conditionnement_crd == 'NEGOCE_ACHEMINE') ? "P" : "N";
             $ligne[self::CSV_FA_VOLUME] = $contrat->volume_propose;
             $ligne[self::CSV_FA_DEGRE] = 12.5; //DISABLED sprintf("%0.1f", $contrat->degre);
             $ligne[self::CSV_FA_PRIX] = $contrat->prix_initial_unitaire_hl;
             $ligne[self::CSV_FA_UNITE_PRIX] = 'H';
             $ligne[self::CSV_FA_CODE_CEPAGE] = $this->getCodeCepageFA($contrat, $produit);
-            $ligne[self::CSV_FA_CODE_DEST] = "Z";
+            $ligne[self::CSV_FA_CODE_DEST] = ($type_contrat == 'M') ? 'E' : "Z";
             $ligne[self::CSV_FA_CODE_DEST + 1 ] = $contrat->_id;
             /*
               Comment connaitre?

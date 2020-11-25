@@ -185,8 +185,12 @@ function drm2CrdCiel($drm) {
 }
 
 function crdGenre2CategorieFiscale($g) {
-	$crdGenre2CategorieFiscaleArray = array('TRANQ' => 'T', 'MOUSSEUX' => 'M');
-	return $crdGenre2CategorieFiscaleArray[$g];
+	$crdGenre2CategorieFiscaleArray = array(DRMClient::DRM_CRD_CATEGORIE_TRANQ => 'T', DRMClient::DRM_CRD_CATEGORIE_MOUSSEUX => 'M');
+	if (isset($crdGenre2CategorieFiscaleArray[$g])) {
+		return $crdGenre2CategorieFiscaleArray[$g];
+	}else{
+		return $g;
+	}
 }
 function crdType2TypeCapsule($t) {
 	$crdType2TypeCapsuleArray = array('COLLECTIFSUSPENDU'=>'COLLECTIVES_DROITS_SUSPENDUS', 'COLLECTIFACQUITTE' => 'COLLECTIVES_DROITS_ACQUITTES', 'PERSONNALISE'=>'PERSONNALISEES');
@@ -383,7 +387,7 @@ function xmlGetProduitsDetails($drm, $bool, $suspendu_acquitte) {
 		$produits_faits[$produit_libelle] = $produit_libelle;
 		$produits[] = $produit;
 	}
-	if (preg_match('/08$/', $drm->periode)) {
+	if ($drm->isMoisOuvert()) {
 		$drm_juillet = DRMClient::getInstance()->find(preg_replace('/08$/', '07', $drm->_id));
 		if ($drm_juillet) {
 			$drm_juillet->init(array("keepStock" => false));
