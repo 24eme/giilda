@@ -86,6 +86,8 @@ class Vrac extends BaseVrac {
             if ($value) {
                 $cepages = $this->getCepagesConfig();
                 $this->cepage_libelle = $cepages[$value];
+            }else{
+              $this->cepage_libelle = null;
             }
         }
     }
@@ -578,7 +580,7 @@ class Vrac extends BaseVrac {
             }
         }
         foreach ($mvts_sv12 as $key => $mvt) {
-            if($mvt->detail_identifiant == $this->_id){              
+            if($mvt->detail_identifiant == $this->_id){
                 $mvts[] = $mvt;
             }
         }
