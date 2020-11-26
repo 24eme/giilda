@@ -139,6 +139,16 @@ class EtablissementClient extends acCouchdbClient {
         return parent::find($this->getId($id_or_identifiant), $hydrate, $force_return_ls);
     }
 
+    public function findBy($anyIdentifiant) {
+        $etablissement = $this->find($anyIdentifiant);
+        if(!$etablissement) {
+            $rows = EtablissementFindByCviView::getInstance()->findByCvi($anyIdentifiant);
+            $etablissement = (count($rows)) ? $this->find($rows[0]->id) : null;
+        }
+
+        return $etablissement;
+    }
+
     public function findByCvi($cvi,$withSuspendu = true) {
         $rows = EtablissementFindByCviView::getInstance()->findByCvi($cvi);
         if (!count($rows)) {
@@ -170,22 +180,13 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public function findByNoAccise($accise,$withSuspendu = true) {
-        $rows = EtablissementFindByCviView::getInstance()->findByAccise($accise);
 
-        if (!count($rows)) {
-            return null;
-        }
-        if(!$withSuspendu){
-          foreach ($rows as $row) {
-            $etb = $this->find($row->id);
-            if($etb->isActif()){
-              return $etb;
-            }
-          }
-          return null;
-        }
+        return $thus->findByCvi($accise,$withSuspendu);
+    }
 
-        return $this->find($rows[0]->id);
+    public function findByPPM($ppm,$withSuspendu = true) {
+
+        return $thus->findByCvi($ppm,$withSuspendu);
     }
 
     public function getId($id_or_identifiant) {
