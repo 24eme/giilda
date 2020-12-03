@@ -91,7 +91,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                             <div class="row">
                                   <div id="vendeur_selection" class="col-sm-12 <?php if($form['vendeur_identifiant']->getValue()): ?>hidden<?php endif; ?>">
                                     <div class="row">
-                                      <div class="col-sm-1 pull-left" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','soussignes_selection_vendeur'); ?>&nbsp;&nbsp;</div>
+                                      <div class="col-sm-1 pull-right"><?php echo getPointAideHtml('vrac','soussignes_selection_vendeur'); ?>&nbsp;&nbsp;</div>
                                       <div class="col-sm-11">
                                         <?php echo $form['vendeur_identifiant']->renderError(); ?>
                                         <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
@@ -110,7 +110,10 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                     </div>
                                 </div>
                                 <div class="col-sm-12 text-center <?php if(!$form['vendeur_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="vendeur_informations">
-                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['vendeur_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?>&nbsp;</div>
+                                    <div class="pull-right">
+                                    <button type="button" class="btn btn-xs btn-default select-close" data-select="#<?php echo $form['vendeur_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                    <span>&nbsp;<?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?></span>
+                                    </div>
                                     <div class="container-ajax">
                                         <?php if($form['vendeur_identifiant']->getValue()): ?>
                                         <?php include_partial('vrac/soussigne', array('id' => $form['vendeur_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -123,11 +126,11 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                     <div class="form-group <?php if($form['logement_exist']->hasError()): ?>has-error<?php endif; ?>">
                 		                    <?php echo $form['logement_exist']->renderError(); ?>
                 		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_logement">
-                                          <div class="pull-left"><?php echo getPointAideHtml('vrac','soussignes_vin_loge'); ?>&nbsp;&nbsp;</div>
                 		                        <label for="<?php echo $form['logement_exist']->renderId(); ?>">
                 		                            <?php echo $form['logement_exist']->render(); ?>
                 		                            Vin logé à une autre adresse
                 		                        </label>
+                                                <span>&nbsp;&nbsp;<?php echo getPointAideHtml('vrac','soussignes_vin_loge'); ?></span>
                 		                    </div>
                 		            </div>
                 		            <div id="bloc_logement" data-condition-value="1" class="form-group bloc_conditionner <?php if($form['logement']->hasError()): ?>has-error<?php endif; ?>">
@@ -141,11 +144,11 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                 		            <div class="form-group">
                 		            	<?php echo $form['vendeur_intermediaire']->renderError(); ?>
             		                    <div class="checkbox col-sm-12 bloc_condition" data-condition-cible="#bloc_intermediaire">
-                                      <div class="pull-left"><?php echo getPointAideHtml('vrac','soussignes_vente_intermediaire'); ?>&nbsp;&nbsp;</div>
             		                	       <label for="<?php echo $form['vendeur_intermediaire']->renderId(); ?>">
             		                    	        <?php echo $form['vendeur_intermediaire']->render(); ?>
             		                    	           Vente via intermédiaire
             		                        </label>
+                                            <span>&nbsp;&nbsp;<?php echo getPointAideHtml('vrac','soussignes_vente_intermediaire'); ?></span>
             		                    </div>
                 		            </div>
                 		            <div id="bloc_intermediaire" data-condition-value="1" class="form-group bloc_conditionner">
@@ -153,9 +156,9 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
 		                                    <?php echo $form['representant_identifiant']->renderError(); ?>
                                         <?php if($isTeledeclarationMode): ?>
                                           <div class="form-group <?php if($form['representant_identifiant']->hasError()): ?>has-error<?php endif; ?>">
-                                            <div class="col-sm-1 pull-left" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','soussignes_selection_intermediaire'); ?>&nbsp;&nbsp;</div>
                                             <div class="col-sm-11" id="representant_choice">
                                               <?php echo $form['representant_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Sélectionner un représentant', 'data-url' => url_for('vrac_soussigne_getinfos'), 'data-bloc' => '#representant_informations', 'data-hide' => '#representant_selection')); ?>
+                                              <span>&nbsp;&nbsp;<?php echo getPointAideHtml('vrac','soussignes_selection_intermediaire'); ?></span>
                                             </div>
                                           </div>
                                         <?php else: ?>
@@ -167,7 +170,10 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                         <?php endif; ?>
 		                                </div>
                                   <div class="col-sm-12 text-center <?php if(!$form['representant_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="representant_informations">
-                                            <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['representant_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?>&nbsp;</div>
+                                            <div class="pull-right">
+                                                <button type="button" class="btn btn-xs btn-default select-close" data-select="#<?php echo $form['representant_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                                &nbsp;<?php echo getPointAideHtml('vrac','soussigne_recoltant_supprimer'); ?>
+                                            </div>
     		                                    <div class="container-ajax">
     		                                        <?php if($form['representant_identifiant']->getValue()): ?>
     		                                        <?php include_partial('vrac/soussigne', array('id' => $form['representant_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -181,11 +187,11 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                   		                <div class="col-sm-12">
                   		                    <?php echo $form['vendeur_tva']->renderError(); ?>
                   		                    <div class="checkbox">
-                                              <div class="pull-left"><?php echo getPointAideHtml('vrac','soussignes_non_tva'); ?>&nbsp;&nbsp;</div>
                   		                        <label for="<?php echo $form['vendeur_tva']->renderId(); ?>">
                   		                            <?php echo $form['vendeur_tva']->render(); ?>
                   		                            Le vendeur est assujetti à la TVA
                   		                        </label>
+                                                <span>&nbsp;&nbsp;<?php echo getPointAideHtml('vrac','soussignes_non_tva'); ?></span>
                   		                    </div>
                   		                </div>
                 		                </div>
@@ -213,16 +219,16 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                             	<div id="bloc_acheteur_type" class="col-sm-12 <?php if($form['acheteur_producteur']->getValue() || $form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>">
                             <?php echo $form['acheteur_type']->renderError(); ?>
 				                    <div class="form-group <?php if($form['acheteur_type']->hasError()): ?>has-error<?php endif; ?>">
-                              <div class="col-sm-1 pull-left" style="padding-top:7px;"><?php echo getPointAideHtml('vrac','soussignes_nature_acheteur'); ?>&nbsp;&nbsp;</div>
 				                        <div class="col-sm-11 bloc_condition" data-condition-cible="#bloc_producteur|#bloc_negociant">
 				                            <?php echo $form['acheteur_type']->render(); ?>
+                                            <span>&nbsp;&nbsp;<?php echo getPointAideHtml('vrac','soussignes_nature_acheteur'); ?></span>
 				                        </div>
 				                    </div>
                             	</div>
                             	<div id="bloc_producteur" data-condition-value="<?php echo EtablissementFamilles::FAMILLE_PRODUCTEUR?>">
                                   <div id="acheteur_producteur_selection" class="col-sm-12 <?php if($form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>">
                                     <div class="row">
-                                      <div class="col-sm-1 pull-left" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','soussignes_selection_acheteur'); ?>&nbsp;&nbsp;</div>
+                                      <div class="col-sm-1 pull-right"><?php echo getPointAideHtml('vrac','soussignes_selection_acheteur'); ?></div>
                                       <div class="col-sm-11">
                                         <?php echo $form['acheteur_producteur']->renderError(); ?>
     	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
@@ -240,7 +246,10 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                     </div>
                                   </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_producteur']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_producteur_informations">
-	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_producteur']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_acheteur_supprimer'); ?>&nbsp;</div>
+                                        <div class="pull-right">
+	                                        <button type="button" class="btn btn-xs btn-default select-close" data-select="#<?php echo $form['acheteur_producteur']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                            <span>&nbsp;<?php echo getPointAideHtml('vrac','soussigne_acheteur_supprimer'); ?></span>
+                                        </div>
 	                                    <div class="container-ajax">
 	                                        <?php if($form['acheteur_producteur']->getValue()): ?>
 	                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_producteur']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -251,7 +260,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                             	<div id="bloc_negociant" data-condition-value="<?php echo EtablissementFamilles::FAMILLE_NEGOCIANT ?>">
                                   <div id="acheteur_negociant_selection" class="col-sm-12 <?php if($form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>">
                                     <div class="row">
-                                      <div class="col-sm-1 pull-left" style="padding-top:6px;"><?php echo getPointAideHtml('vrac','soussignes_selection_acheteur'); ?>&nbsp;&nbsp;</div>
+                                      <div class="col-sm-1 pull-right"><?php echo getPointAideHtml('vrac','soussignes_selection_acheteur'); ?></div>
                                       <div class="col-sm-11">
                                         <?php echo $form['acheteur_negociant']->renderError(); ?>
   	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
@@ -269,7 +278,10 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                     </div>
 	                                </div>
 	                                <div class="col-sm-12 text-center <?php if(!$form['acheteur_negociant']->getValue()): ?>hidden<?php endif; ?>" id="acheteur_negociant_informations">
-	                                    <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['acheteur_negociant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_acheteur_supprimer'); ?>&nbsp;</div>
+                                        <div class="pull-right">
+	                                        <button type="button" class="btn btn-xs btn-default select-close" data-select="#<?php echo $form['acheteur_negociant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                                            &nbsp; <?php echo getPointAideHtml('vrac','soussigne_acheteur_supprimer'); ?>
+                                        </div>
 	                                    <div class="container-ajax">
 	                                        <?php if($form['acheteur_negociant']->getValue()): ?>
 	                                        <?php include_partial('vrac/soussigne', array('id' => $form['acheteur_negociant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
@@ -313,7 +325,10 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                             </div>
                         </div>
                         <div class="col-sm-12 text-center <?php if(!$form['mandataire_identifiant']->getValue()): ?>hidden<?php endif; ?>" id="mandataire_informations">
-                            <button type="button" class="btn btn-xs btn-default pull-right select-close" data-select="#<?php echo $form['mandataire_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button><div class="pull-right"><?php echo getPointAideHtml('vrac','soussigne_courtier_supprimer'); ?>&nbsp;</div>
+                            <div class="pull-right">
+                            <button type="button" class="btn btn-xs btn-default select-close" data-select="#<?php echo $form['mandataire_identifiant']->renderId() ?>"><span class="glyphicon glyphicon-remove"></span></button>
+                            <span>&nbsp;<?php echo getPointAideHtml('vrac','soussigne_courtier_supprimer'); ?></span>
+                            </div>
                             <div class="container-ajax">
                               <?php if($form['mandataire_identifiant']->getValue()): ?>
                               <?php include_partial('vrac/soussigne', array('id' => $form['mandataire_identifiant']->getValue(), 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
