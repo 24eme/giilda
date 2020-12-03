@@ -181,12 +181,12 @@ class EtablissementClient extends acCouchdbClient {
 
     public function findByNoAccise($accise,$withSuspendu = true) {
 
-        return $thus->findByCvi($accise,$withSuspendu);
+        return $this->findByCvi($accise,$withSuspendu);
     }
 
     public function findByPPM($ppm,$withSuspendu = true) {
 
-        return $thus->findByCvi($ppm,$withSuspendu);
+        return $this->findByCvi($ppm,$withSuspendu);
     }
 
     public function getId($id_or_identifiant) {
