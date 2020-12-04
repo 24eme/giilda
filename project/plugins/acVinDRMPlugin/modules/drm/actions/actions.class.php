@@ -148,7 +148,7 @@ class drmActions extends drmGeneriqueActions {
                               $produitsTotaux .= $detail->getCouleur()->getLieu()->getConfig()->getHash();
                           }
                           if($detail->denomination_complementaire) {
-                              $withDenomination[$detail->getCepage()->getAppellation()->getHash()] = $detail->getCepage()->getAppellation()->getHash();
+                              $withDenomination[$detail->getCouleur()->getLieu()->getAppellation()->getHash()] = $detail->getCouleur()->getLieu()->getAppellation()->getHash();
                           }
                       }
                   }
