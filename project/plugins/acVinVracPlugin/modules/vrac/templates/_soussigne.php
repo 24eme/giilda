@@ -1,9 +1,12 @@
 <?php
 use_helper('PointsAides');
 ?>
-<?php if (isset($id) && !isset($soussigne)): ?>
-<?php $soussigne = EtablissementClient::getInstance()->find($id) ?>
-<?php endif; ?>
+<?php if (!isset($soussigne)) {
+    $soussigne = null;
+    if (isset($id)) {
+        $soussigne = EtablissementClient::getInstance()->find($id);
+    }
+} ?>
 <?php if (!$soussigne) return ; ?>
 <strong><?php echo $soussigne->nom ?></strong>
 <small class="text-muted">(<?php echo EtablissementFamilles::getFamilleLibelle($soussigne->famille) ?>)</small><br />
