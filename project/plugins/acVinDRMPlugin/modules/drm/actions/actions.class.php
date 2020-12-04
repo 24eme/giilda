@@ -139,6 +139,7 @@ class drmActions extends drmGeneriqueActions {
                   $drmLast = DRMClient::getInstance()->findLastByIdentifiantAndCampagne($identifiant, DRMClient::getInstance()->buildCampagne($periode));
                   if ($drmLast !== null) {
                       $produitsTotaux = null;
+                      $withDenomination = null;
                       foreach($drmLast->getProduitsDetails() as $detail) {
                           if(preg_match("/^Total/", $detail->getLibelle())) {
                               if($produitsTotaux) {
@@ -146,12 +147,21 @@ class drmActions extends drmGeneriqueActions {
                               }
                               $produitsTotaux .= $detail->getCouleur()->getLieu()->getConfig()->getHash();
                           }
-
+                          if($detail->denomination_complementaire) {
+                              if($withDenomination) {
+                                  $withDenomination .= '|';
+                              }
+                              $withDenomination .= $detail->getCepage()->getConfig()->getHash();
+                          }
                       }
                   }
 
-                  if($produitsTotaux) {
+                  if(isset($produitsTotaux) && $produitsTotaux) {
                       $url_reprise_donnees_drm.= '?aggregate='.$produitsTotaux;
+                  }
+
+                  if(isset($withDenomination) && $withDenomination) {
+                      $url_reprise_donnees_drm.= '?lieudit='.$withDenomination;
                   }
 
                   if(!DRMClient::getInstance()->findLastByIdentifiant($identifiant, acCouchdbClient::HYDRATE_JSON)) {
