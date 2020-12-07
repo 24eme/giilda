@@ -53,7 +53,11 @@ class DRMDetail extends BaseDRMDetail {
     }
 
     public function hasLibelleModified() {
-    	return ($this->produit_libelle && $this->produit_libelle !== $this->getLibelle())? true : false;
+    	return ($this->produit_libelle && $this->produit_libelle !== $this->getLibelle());
+    }
+
+    public function hasCodeInaoModified() {
+    	return ($this->code_inao && $this->code_inao !== $this->getConfig()->getCodeInao());
     }
 
     /**
@@ -607,10 +611,8 @@ class DRMDetail extends BaseDRMDetail {
       if(!$inao){
         return false;
       }
-      if(preg_match('/^[0-9]/', $inao)){
-        return false;
-      }
-      return true;
+
+      return !ConfigurationCepage::isCodeDouaneINAO($inao);
     }
 
     public function isCodeDouaneAlcool(){
