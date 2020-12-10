@@ -67,6 +67,7 @@ class RevendicationClient extends acCouchdbClient {
         if (!$produitNode->volumes->$row)
             throw new sfException("La ligne $row n'existe pas pour le produit $produit et l'etablissement $identifiant");
         $produitNode->volumes->$row->statut = RevendicationProduits::STATUT_SUPPRIME;
+        $produitNode->volumes->$row->volume = 0.0;
         $this->storeDoc($revendication);
     }
 
