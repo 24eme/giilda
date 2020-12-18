@@ -560,6 +560,14 @@ class DRMDetail extends BaseDRMDetail {
       return true;
     }
 
+    public function isCodeDouaneAlcool(){
+        return ConfigurationCepage::isCodeDouaneNeedTav($this->getCodeDouane());
+    }
+
+    public function isCodeDouanePI(){
+        return ConfigurationCepage::isCodeDouanePI($this->getCodeDouane());
+    }
+
     public function getReplacementDate() {
       $d = $this->_get('replacement_date');
       return preg_replace('/(\d{4})-(\d{2})-(\d{2})/', '\3/\2/\1', $d);
@@ -580,20 +588,7 @@ class DRMDetail extends BaseDRMDetail {
       $d = $this->_get('replacement_date');
       return preg_replace('/.*(\d{4}).*/', '\1', $d);
     }
-
-    public function isCodeDouaneAlcool(){
-      if(!$this->getCodeDouane()){
-        return false;
-      }
-      if(preg_match('/^[0-9]{1}/', $this->getCodeDouane())){
-        return false;
-      }
-      if(preg_match('/(VT|VM)/', $this->getCodeDouane())){
-        return false;
-      }
-      return true;
-    }
-
+    
     public function setDenominationComplementaire($denomination_complementaire){
       $denomChanged = ($this->get('denomination_complementaire') && ($this->get('denomination_complementaire') != $denomination_complementaire));
 
