@@ -34,8 +34,9 @@ class DRMValidation extends DocumentValidation {
 
         $this->addControle('vigilance', 'reintegration', 'La date de réintégration ne peut pas être supérieur à la période de la DRM');
 
-        $this->addControle('vigilance', 'reserve_interpro', "Votre stock fin de mois est inférieur à 120% de votre réserver interprofession");
-        $this->addControle('erreur', 'reserve_interpro', "Votre stock fin de mois est inférieur à votre réserver interprofession");
+        $this->addControle('vigilance', 'reserve_interpro', "Votre stock fin de mois est inférieur à 120% de votre réserve interprofession");
+        $this->addControle('erreur', 'reserve_interpro', "Votre stock fin de mois est inférieur à votre réserve interprofession");
+
     }
 
     public function controle() {
