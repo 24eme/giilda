@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 abstract class DocumentValidation
 {
@@ -13,7 +13,7 @@ abstract class DocumentValidation
     protected $controles = array();
 
     protected $points = array();
-    
+
     protected $noticeVigilance;
 
     public function __construct($document, $options = null)
@@ -72,13 +72,13 @@ abstract class DocumentValidation
     {
         return $this->getPoints('engagement');
     }
-    
+
     public function getVigilances()
     {
 
         return $this->getPoints('vigilance');
     }
-    
+
     public function getErreurs()
     {
 
@@ -89,7 +89,7 @@ abstract class DocumentValidation
     {
         return count($this->getEngagements()) > 0;
     }
-    
+
     public function hasVigilances()
     {
         return count($this->getVigilances()) > 0;
@@ -100,13 +100,37 @@ abstract class DocumentValidation
         return count($this->getErreurs()) > 0;
     }
 
+    public function hasErreur($code)
+    {
+        foreach($this->getErreurs() as $erreur) {
+            if($erreur->getCode() != $code) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function hasVigilance($code)
+    {
+        foreach($this->getVigilances() as $vigi) {
+            if($vigi->getCode() != $code) {
+                continue;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public function hasPoints()
     {
         return $this->hasEngagements() || $this->hasVigilances() || $this->hasErreurs();
     }
 
     public function isValide() {
-      
+
         return !($this->hasErreurs());
     }
 
@@ -119,7 +143,7 @@ abstract class DocumentValidation
 
         return in_array($type, $this->types);
     }
-    
+
     public function printNoticeVigilance()
     {
     	return $this->noticeVigilance;

@@ -33,6 +33,9 @@ class DRMValidation extends DocumentValidation {
         $this->addControle('vigilance', 'observations', "Les observations n'ont pas été toutes renseignées");
 
         $this->addControle('vigilance', 'reintegration', 'La date de réintégration ne peut pas être supérieur à la période de la DRM');
+
+        $this->addControle('vigilance', 'reserve_interpro', "Votre stock fin de mois est inférieur à 120% de votre réserver interprofession");
+        $this->addControle('erreur', 'reserve_interpro', "Votre stock fin de mois est inférieur à votre réserver interprofession");
     }
 
     public function controle() {
@@ -223,6 +226,18 @@ class DRMValidation extends DocumentValidation {
         if (count($this->document->getProduits()) === 0) {
             $this->addPoint('vigilance', 'produits_absent', 'Retour aux produits', $this->generateUrl('drm_choix_produit', $this->document));
         }
+
+        foreach ($this->document->getProduits() as $produit) {
+            if ($produit->exist('reserve_interpro')) {
+                if ($produit->getVolumeCommercialisable() < 0) {
+                    $this->addPoint('erreur', 'reserve_interpro', $produit->getLibelle(), $this->generateUrl('drm_edition', $this->document));
+                }elseif (($produit->total / $produit->getRerserveIntepro()) < 1.2) {
+                    $this->addPoint('vigilance', 'reserve_interpro', $produit->getLibelle(), $this->generateUrl('drm_edition', $this->document));
+                }
+            }
+        }
+
+
     }
 
 }
