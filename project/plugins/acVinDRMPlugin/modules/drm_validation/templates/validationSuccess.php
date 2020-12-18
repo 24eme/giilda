@@ -56,6 +56,10 @@
             <?php include_partial('drm_visualisation/transmission_douane', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
             <?php endif; ?>
 
+            <div style="padding-bottom: 20px">
+                <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+            </div>
+
             <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post" id="drm_validation">
                 <?php echo $form->renderHiddenFields(); ?>
                 <?php if (!$isTeledeclarationMode): ?>
