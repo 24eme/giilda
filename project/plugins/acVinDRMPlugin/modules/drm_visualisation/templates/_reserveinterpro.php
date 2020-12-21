@@ -7,7 +7,7 @@ if (count($produit_ri)): ?>
             <thead>
                 <tr>
                     <th>Produit</th>
-                    <th>Réserver interprofessionelle</th>
+                    <th>Réserve interprofessionelle</th>
                     <th>Stock commercialisable</th>
                 </tr>
             </thead>
