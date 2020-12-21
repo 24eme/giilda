@@ -84,6 +84,8 @@
     </div>
 </div>
 
+<?php include_partial('drm_visualisation/reserveinterpro', array('drm' => $drm)) ?>
+
 <?php if ((!$isTeledeclarationMode  || (sfConfig::get('app_force_usurpation_mode') && $sf_user->isUsurpationCompte())) && $drm->commentaire): ?>
     <div class="row">
         <div class="col-xs-12">
