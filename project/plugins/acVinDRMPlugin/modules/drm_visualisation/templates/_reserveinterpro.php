@@ -2,12 +2,12 @@
 $produit_ri = $drm->getProduitsReserveInterpro();
 if (count($produit_ri)): ?>
     <div id="contenu_onglet">
-        <h2>Reserve interprofessionelle</h2>
+        <h2>Reserve interprofessionnelle</h2>
         <table class="table_recap">
             <thead>
                 <tr>
                     <th>Produit</th>
-                    <th>Réserve interprofessionelle</th>
+                    <th>Réserve interprofessionnelle</th>
                     <th>Stock commercialisable</th>
                 </tr>
             </thead>
