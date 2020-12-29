@@ -86,13 +86,9 @@
     <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)) ?>
     <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode, 'no_link' => $no_link, 'mouvementsByProduit' => $mouvementsByProduit, 'visualisation' => true, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)) ?>
 
-    <?php if (!$isTeledeclarationMode): ?>
-        <br/>
-        <table class="table_recap">
-            <tr><th>Commentaire</th></tr>
-            <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
-        </table>
-    <?php else: ?>
+    <?php include_partial('drm_visualisation/reserveinterpro', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode )); ?>
+
+    <?php if ($isTeledeclarationMode): ?>
         <?php include_partial('drm_visualisation/recap_crds', array('drm' => $drm)) ?>
         <?php include_partial('drm_visualisation/recapAnnexes', array('drm' => $drm)) ?>
     <?php endif; ?>
@@ -101,6 +97,15 @@
     <?php if ($drm->exist('transmission_douane')) : ?>
     <?php include_partial('drm_visualisation/transmission_douane', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
     <?php endif; ?>
+
+    <?php if (!$isTeledeclarationMode): ?>
+        <br/>
+        <table class="table_recap">
+            <tr><th>Commentaire</th></tr>
+            <tr><td><pre class="commentaire"><?php echo $drm->commentaire; ?></pre></td></tr>
+        </table>
+    <?php endif; ?>
+
     <div id="btn_etape_dr">
         <a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->identifiant)); ?>" class="btn_etape_prec"><span>Retour à mon espace</span></a>
         <?php if ($isTeledeclarationMode) : ?>

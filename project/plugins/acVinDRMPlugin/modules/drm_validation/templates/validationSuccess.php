@@ -39,6 +39,8 @@
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false, 'mouvementsByProduit' => $mouvementsByProduit, 'typeDetailKey' => DRM::DETAILS_KEY_SUSPENDU, 'typeKey' => DRMClient::TYPE_DRM_SUSPENDU)); ?>
             <?php include_partial('drm_visualisation/recap_stocks_mouvements', array('drm' => $drm, 'mouvements' => $mouvements, 'no_link' => $no_link, 'isTeledeclarationMode' => $isTeledeclarationMode, 'visualisation' => false, 'mouvementsByProduit' => $mouvementsByProduit, 'typeDetailKey' => DRM::DETAILS_KEY_ACQUITTE, 'typeKey' => DRMClient::TYPE_DRM_ACQUITTE)); ?>
 
+            <?php include_partial('drm_visualisation/reserveinterpro', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode )); ?>
+
       		<?php if (!$isTeledeclarationMode && $drm->teledeclare): ?>
             <br/>
             <a class="btn_majeur" href="<?php echo url_for('drm_edition_libelles', $drm) ?>">Modifier les libellés produits</a>
@@ -53,6 +55,10 @@
             <?php if (!$isTeledeclarationMode || $sf_user->isUsurpationCompte()): ?>
             <?php include_partial('drm_visualisation/transmission_douane', array('drm' => $drm, 'isTeledeclarationMode' => $isTeledeclarationMode)); ?>
             <?php endif; ?>
+
+            <div style="padding-bottom: 20px">
+                <?php include_partial('document_validation/validation', array('validation' => $validation)); ?>
+            </div>
 
             <form action="<?php echo url_for('drm_validation', $form->getObject()) ?>" method="post" id="drm_validation">
                 <?php echo $form->renderHiddenFields(); ?>
