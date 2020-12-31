@@ -15,8 +15,8 @@ if (count($produit_ri)): ?>
 <?php foreach($produit_ri as $p): ?>
                 <tr>
                     <td><?php echo $p->getLibelle() ?></td>
-                    <td><?php echoFloat($p->getRerserveIntepro()); ?></td>
-                    <td><?php echoFloat($p->getVolumeCommercialisable()); ?></td>
+                    <td class="text-right"><?php echoFloat($p->getRerserveIntepro()); ?>&nbsp;hl</td>
+                    <td class="text-right"><?php echoFloat($p->getVolumeCommercialisable()); ?>&nbsp;hl</td>
                 </tr>
 <?php endforeach; ?>
             </tbody>
