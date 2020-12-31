@@ -160,6 +160,16 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
     }
 
 
+    public function getProduitsReserveInterpro() {
+        $produits = array();
+        foreach($this->getProduits() as $p) {
+            if ($p->hasRerserveIntepro()) {
+                $produits[] = $p;
+            }
+        }
+        return $produits;
+    }
+
     public function getProduits() {
         return $this->declaration->getProduits();
     }
