@@ -32,7 +32,7 @@ use_helper('Orthographe');
 \setlength{\textheight}{24.5cm}
 \setlength{\topmargin}{-2cm}
 
-\def\RELANCECLIENTNOM{<?php echo $relance->declarant->nom; ?>}
+\def\RELANCECLIENTNOM{<?php echo escape_string_for_latex($relance->declarant->nom); ?>}
 
 \def\RELANCECLIENTADRESSE{<?php echo display_latex_string($relance->declarant->adresse,';',50,2); ?>}
 
