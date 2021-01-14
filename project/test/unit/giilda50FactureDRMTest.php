@@ -21,7 +21,7 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
-$t = new lime_test(40);
+$t = new lime_test(42);
 
 $t->comment("Configuration");
 
@@ -101,6 +101,10 @@ $t->ok($facture->emetteur->adresse, "L'adresse de l'emetteur est rempli");
 $t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
 $t->is($facture->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC."  €");
 $t->is($facture->total_taxe, $prixTaxe, "Le total de taxe est de ".$prixTaxe."  €");
+
+$t->is(FactureClient::generateAuthKey($facture->_id), hash('md5', $facture->_id.sfConfig::get('app_secret')), "L'url d'authentification est bonne");
+$facture->setTelechargee();
+$t->is($facture->telechargee, date('Y-m-d'), "La date de téléchargement est mise");
 
 $nbLignes = 0;
 $doublons = 0;

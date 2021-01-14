@@ -454,4 +454,8 @@ class FactureClient extends acCouchdbClient {
         return $taux;
     }
 
+    public static function generateAuthKey($id)
+    {
+        return hash('md5', $id . sfConfig::get('app_secret'));
+    }
 }
