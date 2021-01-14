@@ -10,6 +10,7 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_EXPORT_SHELL = 'EXPORT';
     const TYPE_DOCUMENT_VRACSSANSPRIX = 'VRACSSANSPRIX';
     const TYPE_DOCUMENT_FACTURES_MAILS = 'FACTUREMAIL';
+    const TYPE_DOCUMENT_FACTURES_PAPIER = 'FACTUREPAPIER';
     const HISTORY_KEYS_TYPE_DOCUMENT = 0;
     const HISTORY_KEYS_TYPE_DATE_EMISSION = 1;
     const HISTORY_KEYS_DOCUMENT_ID = 2;
@@ -108,6 +109,10 @@ class GenerationClient extends acCouchdbClient {
             case GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS:
 
                 return 'GenerationFactureMail';
+
+            case GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER:
+
+                return 'GenerationFacturePapier';
 
             case GenerationClient::TYPE_DOCUMENT_DS:
 

@@ -151,20 +151,25 @@ $generation->save();
 $t->ok($generation, "La génération est créée");
 
 $t->comment("Envoi des factures par mail avec un génération");
-
 $generationMail = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS);
-
 $t->is($generationMail->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "Le type de la génération est facture mail");
 
 $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, $configuration, array());
-
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
 
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
-
 $t->ok(get_class($mail), "Swift_Message", "Génération du mail d'une facture");
-
 $mailGenerator->generate();
+
+$t->comment("Création des pdfs des factures non téléchargées");
+$generationPapier = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER);
+$t->is($generationPapier->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "Le type de la génération est facture papier");
+
+$papierGenerator = GenerationClient::getInstance()->getGenerator($generationPapier, $configuration, []);
+$t->is(get_class($papierGenerator), 'GenerationFacturePapier', "Classe d'exécution de la génération de facture papier");
+
+$facturesACreer = $papierGenerator->generatePDFForDocumentId($facture->_id);
+$papierGenerator->generate();
 
 $t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera créée");
 
