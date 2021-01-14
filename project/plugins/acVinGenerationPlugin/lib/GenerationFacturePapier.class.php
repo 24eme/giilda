@@ -2,7 +2,7 @@
 
 class GenerationFacturePapier extends GenerationPDF
 {
-    public function generate()
+    public function preGeneratePDF()
     {
         foreach ($this->generation->getMasterGeneration()->documents as $id) {
             $facture = FactureClient::getInstance()->find($id);
