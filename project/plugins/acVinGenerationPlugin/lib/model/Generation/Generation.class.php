@@ -19,7 +19,7 @@ class Generation extends BaseGeneration {
     $this->nb_documents = count($this->documents);
     if (count($this->fichiers) && $this->statut != GenerationClient::GENERATION_STATUT_ENERREUR) {
       $this->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
-    } 
+    }
     if (!$this->nb_documents && $this->statut == GenerationClient::GENERATION_STATUT_GENERE) {
 	$this->nb_documents = count($this->fichiers);
     }
@@ -53,6 +53,7 @@ class Generation extends BaseGeneration {
 
       $subGeneration = new Generation();
       $subGeneration->_id = $this->_id."-".$typeDocument;
+      $subGeneration->type_document = $typeDocument;
 
       return $subGeneration;
   }
@@ -79,14 +80,14 @@ class Generation extends BaseGeneration {
   public function regenerate() {
       $this->somme = 0;
       $documents = array_merge($this->documents->toArray(true, false), $this->add('documents_regenerate')->toArray(true, false));
-      $this->add('documents_regenerate', $documents); 
+      $this->add('documents_regenerate', $documents);
       $this->remove('documents');
       $this->add('documents');
       $this->reload();
   }
-  
+
   public function __toString() {
      return GenerationClient::getInstance()->getDateFromIdGeneration($this->_id);
   }
-  
+
 }

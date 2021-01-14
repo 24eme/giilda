@@ -9,6 +9,7 @@ class GenerationClient extends acCouchdbClient {
     const TYPE_DOCUMENT_EXPORT_SAGE = 'SAGE';
     const TYPE_DOCUMENT_EXPORT_SHELL = 'EXPORT';
     const TYPE_DOCUMENT_VRACSSANSPRIX = 'VRACSSANSPRIX';
+    const TYPE_DOCUMENT_FACTURES_MAILS = 'FACTUREMAIL';
     const HISTORY_KEYS_TYPE_DOCUMENT = 0;
     const HISTORY_KEYS_TYPE_DATE_EMISSION = 1;
     const HISTORY_KEYS_DOCUMENT_ID = 2;
@@ -30,6 +31,7 @@ class GenerationClient extends acCouchdbClient {
     public function getId($type_document, $date) {
         return 'GENERATION-' . $type_document . '-' . $date;
     }
+
 
     public function findHistoryWithType($types, $limit = 100) {
         if(!is_array($types)) {
@@ -102,6 +104,10 @@ class GenerationClient extends acCouchdbClient {
             case GenerationClient::TYPE_DOCUMENT_FACTURES:
 
                 return 'GenerationFacturePDF';
+
+            case GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS:
+
+                return 'GenerationFactureMail';
 
             case GenerationClient::TYPE_DOCUMENT_DS:
 
