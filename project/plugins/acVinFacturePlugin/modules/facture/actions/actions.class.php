@@ -174,6 +174,21 @@ class factureActions extends sfActions {
         exit;
     }
 
+    public function executeGetFactureWithAuth(sfWebRequest $request) {
+        $auth = $request->getParameter('auth');
+        $id = $request->getParameter('id');
+        $key = FactureClient::generateAuthKey($id);
+
+        if ($auth !== $key) {
+            $this->redirect403();
+        }
+
+        $facture = FactureClient::getInstance()->find($id);
+        $facture->setTelechargee();
+
+        $this->forward('facture', 'latex');
+    }
+
     private function getLatexTmpPath() {
         return "/tmp/";
     }
