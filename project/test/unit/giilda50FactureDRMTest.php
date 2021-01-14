@@ -21,6 +21,10 @@ foreach ($conf->declaration->filter('details') as $configDetails) {
     }
 }
 
+foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationClient::TYPE_DOCUMENT_FACTURES, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS)) as $row) {
+    GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
+}
+
 $t = new lime_test(45);
 
 $t->comment("Configuration");
@@ -142,9 +146,9 @@ if($application == "ivbd") {
 $t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablement");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
+$generation->save();
 
 $t->ok($generation, "La génération est créée");
-
 
 $t->comment("Envoi des factures par mail avec un génération");
 
@@ -159,6 +163,8 @@ $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
 
 $t->ok(get_class($mail), "Swift_Message", "Génération du mail d'une facture");
+
+$mailGenerator->generate();
 
 $t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera créée");
 
