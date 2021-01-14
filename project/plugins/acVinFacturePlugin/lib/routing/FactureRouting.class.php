@@ -61,6 +61,13 @@ class FactureRouting {
             'type' => 'object')
         ));
 
+        $r->prependRoute('facture_pdf_auth', new sfRoute(
+            '/facture/pdf/:id/:auth',
+            array('module' => 'facture', 'action' => 'getFactureWithAuth'),
+            array('sf_method' => array('get')),
+            array('model' => 'Facture', 'type' => 'object')
+        ));
+
         $r->prependRoute('comptabilite_edition', new sfRoute('/comptabilite-edition', array('module' => 'facture',
             'action' => 'comptabiliteEdition'), array('sf_method' => array('get', 'post')), array('model' => 'Comptabilite',
             'type' => 'object')
