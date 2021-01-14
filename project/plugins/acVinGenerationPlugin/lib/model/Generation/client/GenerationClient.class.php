@@ -53,6 +53,13 @@ class GenerationClient extends acCouchdbClient {
         return array_slice($rows, 0, $limit);
     }
 
+    public function findSubGeneration($idGeneration) {
+        return acCouchdbManager::getClient()
+                ->startkey_docid($idGeneration."-")
+                ->endkey_docid($idGeneration."-Z")
+                ->execute();
+    }
+
     public static function sortHistory($a, $b) {
 
         return strcmp($b->key[self::HISTORY_KEYS_TYPE_DATE_EMISSION], $a->key[self::HISTORY_KEYS_TYPE_DATE_EMISSION]);

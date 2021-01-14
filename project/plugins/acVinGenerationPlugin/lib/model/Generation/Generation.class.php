@@ -7,7 +7,9 @@
 class Generation extends BaseGeneration {
 
   public function constructId() {
-    $this->setDateEmission(date('YmdHis'));
+      if(!$this->date_emission) {
+          $this->setDateEmission(date('YmdHis'));
+      }
     $this->setIdentifiant($this->type_document.'-'.$this->date_emission);
     $this->set_id('GENERATION-'.$this->identifiant);
     $this->setStatut(GenerationClient::GENERATION_STATUT_ENATTENTE);
@@ -38,8 +40,31 @@ class Generation extends BaseGeneration {
     if($statut == GenerationClient::GENERATION_STATUT_ENERREUR) {
       $this->message = "";
     }
-    
+
     return $this->_set('statut', $statut);
+  }
+
+  public function getOrCreateSubGeneration($typeDocument) {
+      $subGeneration = GenerationClient::getInstance()->find($this->_id."-".$typeDocument);
+
+      if($subGeneration) {
+          return $subGeneration;
+      }
+
+      $subGeneration = new Generation();
+      $subGeneration->_id = $this->_id."-".$typeDocument;
+
+      return $subGeneration;
+  }
+
+  public function getMasterGeneration() {
+
+      return GenerationClient::getInstance()->find(preg_replace("/-[^-]*$/", "", $this->_id));
+  }
+
+  public function getSubGenerations() {
+
+      return GenerationClient::getInstance()->findSubGeneration($this->_id);
   }
 
   public function reload() {
