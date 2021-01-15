@@ -91,6 +91,19 @@ class factureActions extends sfActions {
         return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
     }
 
+    public function executeGenerationAEnvoyer(sfWebRequest $request)
+    {
+        $generationMaitre = $request->getParameter('generation');
+        $generationMaitre = GenerationClient::getInstance()->find($generationMaitre);
+
+        if (! $generationMaitre) {
+            $this->redirect404();
+        }
+
+        $generation = $generationMaitre->getOrCreateSubGeneration('FACTUREMAIL');
+        $generation->save();
+    }
+
     public function executeEtablissement(sfWebRequest $request) {
         return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
     }
