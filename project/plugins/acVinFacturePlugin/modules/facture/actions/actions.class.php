@@ -102,6 +102,11 @@ class factureActions extends sfActions {
 
         $generation = $generationMaitre->getOrCreateSubGeneration('FACTUREMAIL');
         $generation->save();
+
+        return $this->redirect('generation_view', [
+          'type_document' => $generationMaitre->type_document,
+          'date_emission' => $generationMaitre->date_emission
+        ]);
     }
 
     public function executeEtablissement(sfWebRequest $request) {

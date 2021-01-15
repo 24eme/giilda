@@ -52,6 +52,15 @@
     <?php endforeach; ?>
 </div>
 </div>
+
+<div class="row row-margin">
+  <div class="col-xs-3 col-xs-offset-3">
+    <a class="btn btn-default btn-block" href="/">Générer les mails</a>
+  </div>
+  <div class="col-xs-3">
+  <a class="btn btn-default btn-block" href="<?= url_for('facture_generation_a_envoyer', ['generation' => $generation->_id]) ?>">Générer les factures papiers</a>
+  </div>
+</div>
 <?php endif; ?>
 
 <div class="row row-margin">
