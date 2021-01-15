@@ -6,8 +6,6 @@ class GenerationFacturePapier extends GenerationPDF
 
     public function preGeneratePDF()
     {
-        parent::preGeneratePDF();
-
         foreach ($this->generation->getMasterGeneration()->documents as $id) {
             $facture = FactureClient::getInstance()->find($id);
 
@@ -19,13 +17,18 @@ class GenerationFacturePapier extends GenerationPDF
                 continue;
             }
 
-            $this->factures[$id] = $facture;
             $this->generation->documents->add(null, $id);
         }
     }
 
     public function generatePDFForADocumentID($docid)
     {
-        return new FactureLatex($this->factures[$docid], $this->config);
+        $facture = FactureClient::getInstance()->find($docid);
+        return new FactureLatex($facture, $this->config);
+    }
+
+    public function getDocumentName()
+    {
+        return 'Factures';
     }
 }

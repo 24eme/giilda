@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(45);
+$t = new lime_test(48);
 
 $t->comment("Configuration");
 
