@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(45);
+$t = new lime_test(46);
 
 $t->comment("Configuration");
 
@@ -165,6 +165,8 @@ $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
 $t->ok(get_class($mail), "Swift_Message", "Génération du mail d'une facture");
 
 $mailGenerator->generate();
+
+$t->is(count($generationMail->documents->toArray()), 1, "Mail envoyé");
 
 $t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera créée");
 
