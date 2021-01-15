@@ -168,7 +168,8 @@ $t->is($generationPapier->type_document, GenerationClient::TYPE_DOCUMENT_FACTURE
 $papierGenerator = GenerationClient::getInstance()->getGenerator($generationPapier, $configuration, []);
 $t->is(get_class($papierGenerator), 'GenerationFacturePapier', "Classe d'exécution de la génération de facture papier");
 
-$facturesACreer = $papierGenerator->generatePDFForDocumentId($facture->_id);
+$facturePapier = $papierGenerator->generatePDFForADocumentId($facture->_id);
+$t->ok(get_class($facturePapier), "FactureLatex", "Génération d'un PDF d'une facture");
 $papierGenerator->generate();
 
 $t->comment("Test d'une nouvelle facturation sur la société pour s'assurer qu'aucune facture ne sera créée");
