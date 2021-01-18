@@ -54,6 +54,7 @@ class Generation extends BaseGeneration {
       $subGeneration = new Generation();
       $subGeneration->_id = $this->_id."-".$typeDocument;
       $subGeneration->type_document = $typeDocument;
+      $subGeneration->date_emission = date('YmdHis');
 
       return $subGeneration;
   }
