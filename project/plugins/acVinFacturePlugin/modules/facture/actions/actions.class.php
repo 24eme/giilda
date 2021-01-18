@@ -91,7 +91,7 @@ class factureActions extends sfActions {
         return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
     }
 
-    public function executeGenerationAEnvoyer(sfWebRequest $request)
+    public function executeGenerationFactureMail(sfWebRequest $request)
     {
         $generationMaitre = $request->getParameter('generation');
         $generationMaitre = GenerationClient::getInstance()->find($generationMaitre);
