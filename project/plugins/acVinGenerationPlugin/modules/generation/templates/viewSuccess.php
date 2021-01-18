@@ -55,10 +55,10 @@
 
 <div class="row row-margin">
   <div class="col-xs-3 col-xs-offset-3">
-    <a class="btn btn-default btn-block" href="<?= url_for('facture_generation_mail', ['generation' => $generation->_id]) ?>">Générer les mails</a>
+    <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => 'mail']) ?>">Générer les mails</a>
   </div>
   <div class="col-xs-3">
-  <a class="btn btn-default btn-block" href="<?= url_for('facture_generation_mail', ['generation' => $generation->_id]) ?>">Générer les factures papiers</a>
+  <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => 'papier']) ?>">Générer les factures papiers</a>
   </div>
 </div>
 <?php endif; ?>

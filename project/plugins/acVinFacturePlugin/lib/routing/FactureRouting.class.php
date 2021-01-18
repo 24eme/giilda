@@ -44,8 +44,8 @@ class FactureRouting {
         $r->prependRoute('facture_generation', new sfRoute('/facture/generation', array('module' => 'facture',
             'action' => 'generation')));
 
-        $r->prependRoute('facture_generation_mail', new sfRoute('/facture/generation/:generation/mail',
-            array('module' => 'facture', 'action' => 'generationFactureMail')
+        $r->prependRoute('facture_sous_generation', new sfRoute('/facture/generation/:generation/:type',
+            array('module' => 'facture', 'action' => 'sousGenerationFacture')
         ));
 
         $r->prependRoute('facture_mouvements', new sfRoute('/facture_mouvements_list', array('module' => 'facture',

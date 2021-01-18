@@ -91,16 +91,22 @@ class factureActions extends sfActions {
         return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
     }
 
-    public function executeGenerationFactureMail(sfWebRequest $request)
+    public function executeSousGenerationFacture(sfWebRequest $request)
     {
         $generationMaitre = $request->getParameter('generation');
+        $type = $request->getParameter('type');
+
+        if (in_array($type, ['mail', 'papier']) === false) {
+            $this->redirect404();
+        }
+
         $generationMaitre = GenerationClient::getInstance()->find($generationMaitre);
 
         if (! $generationMaitre) {
             $this->redirect404();
         }
 
-        $generation = $generationMaitre->getOrCreateSubGeneration('FACTUREMAIL');
+        $generation = $generationMaitre->getOrCreateSubGeneration('FACTURE'.strtoupper($type));
         $generation->save();
 
         return $this->redirect('generation_view', [
