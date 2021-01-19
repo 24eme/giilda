@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(8);
+$t = new lime_test(9);
 
 $t->comment("Création d'une génération");
 $date = "99998877665544";
@@ -30,6 +30,8 @@ $t->is($sousGeneration1->_id, $generation->_id."-TESTSOUSGENERATION1", "id de la
 $t->is($sousGeneration1->type_document, "TESTSOUSGENERATION1", "type de document de la sous génération");
 $sousGeneration1->save();
 $t->is($sousGeneration1->date_emission, date('YmdHis'), "Date emission de la génération");
+$t->is($sousGeneration1->statut, GenerationClient::GENERATION_STATUT_ENATTENTE, "Le status est en attente");
+
 $sousGeneration2 = $generation->getOrCreateSubGeneration("TESTSOUSGENERATION2");
 $sousGeneration2->save();
 $sousGeneration1 = $generation->getOrCreateSubGeneration("TESTSOUSGENERATION1");
