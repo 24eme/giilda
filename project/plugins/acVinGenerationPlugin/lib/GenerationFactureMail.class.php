@@ -29,6 +29,9 @@ Nouvelle facture de votre interprofession :
     }
 
     public function generate() {
+        $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
+        $this->generation->save();
+
         $factureAEnvoyer = array();
         $factureDejaEnvoye = $this->generation->documents->toArray();
         foreach($this->generation->getMasterGeneration()->documents as $factureId) {
@@ -50,5 +53,8 @@ Nouvelle facture de votre interprofession :
             $this->generation->documents->add(null, $factureId);
             $this->generation->save();
         }
+
+        $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
+        $this->generation->save();
     }
 }

@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(52);
+$t = new lime_test(53);
 
 $t->comment("Configuration");
 
@@ -163,6 +163,7 @@ $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
 $t->ok(get_class($mail), "Swift_Message", "Génération du mail d'une facture");
 $mailGenerator->generate();
 
+$t->is($generationMail->statut, GenerationClient::GENERATION_STATUT_GENERE, "Statut généré");
 $t->is(count($generationMail->documents->toArray()), 1, "Mail envoyé");
 
 $t->comment("Création des pdfs des factures non téléchargées");
