@@ -16,7 +16,7 @@ Generation:
       pregeneration_needed: {required: false}
       message: {required: false;}
       sous_generation_types:
-        type: collection
+        type: array_collection
         required: false
         definition:
           fields:

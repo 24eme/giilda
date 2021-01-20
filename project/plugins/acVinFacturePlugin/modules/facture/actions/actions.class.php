@@ -102,17 +102,25 @@ class factureActions extends sfActions {
         $generationMaitre = $request->getParameter('generation');
         $type = $request->getParameter('type');
 
-        if (in_array($type, ['mail', 'papier']) === false) {
-            $this->redirect404();
-        }
-
         $generationMaitre = GenerationClient::getInstance()->find($generationMaitre);
 
         if (! $generationMaitre) {
             $this->redirect404();
         }
 
-        $generation = $generationMaitre->getOrCreateSubGeneration('FACTURE'.strtoupper($type));
+        $sousgenerations = (GenerationConfiguration::getInstance()->hasSousGeneration())
+                            ? GenerationConfiguration::getInstance()->getSousGeneration()
+                            : [];
+
+        if (in_array($generationMaitre->type_document, array_keys($sousgenerations)) === false) {
+            $this->redirect404();
+        }
+
+        if (in_array($type, $sousgenerations[$generationMaitre->type_document]) === false) {
+            $this->redirect404();
+        }
+
+        $generation = $generationMaitre->getOrCreateSubGeneration($type);
         $generation->save();
 
         return $this->redirect('generation_view', [

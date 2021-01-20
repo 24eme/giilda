@@ -52,16 +52,24 @@
     <?php endforeach; ?>
 </div>
 </div>
+<?php endif; ?>
 
-  <?php if ($generation->type_document === 'FACTURE'): ?>
-    <div class="row row-margin">
-      <div class="col-xs-3 col-xs-offset-3">
-        <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => 'mail']) ?>">Générer les mails</a>
-      </div>
-      <div class="col-xs-3">
-      <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => 'papier']) ?>">Générer les factures papiers</a>
-      </div>
-    </div>
+<?php if (GenerationConfiguration::getInstance()->hasSousGeneration()) : // TODO: A mettre en conf ?>
+  <?php $sousgenerations = GenerationConfiguration::getInstance()->getSousGeneration(); ?>
+  <?php if (in_array($generation->type_document, array_keys($sousgenerations))): ?>
+    <h3>Sous générations</h3>
+    <table class="table">
+    <tbody>
+    <?php foreach ($sousgenerations[$generation->type_document] as $sousgeneration): ?>
+      <tr>
+        <td><?= $sousgeneration ?></td>
+        <td>
+          <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => $sousgeneration]) ?>">Générer</a>
+        </td>
+      </tr>
+    <?php endforeach ?>
+    </tbody>
+    </table>
   <?php endif; ?>
 <?php endif; ?>
 
