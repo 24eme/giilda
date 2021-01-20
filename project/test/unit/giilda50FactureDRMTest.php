@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(53);
+$t = new lime_test(61);
 
 $t->comment("Configuration");
 
@@ -160,11 +160,21 @@ $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, 
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
 
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
-$t->ok(get_class($mail), "Swift_Message", "Génération du mail d'une facture");
+$t->ok(get_class($mail), "Génération du mail d'une facture");
 $mailGenerator->generate();
 
 $t->is($generationMail->statut, GenerationClient::GENERATION_STATUT_GENERE, "Statut généré");
+$t->is($mailGenerator->getLogFilname(), $generationMail->date_emission."-facture-envoi-mails.csv", "Nom du fichier csv de log d'envoi de mails");
+$t->is($mailGenerator->getLogPath(), sfConfig::get('sf_web_dir')."/generation/".$mailGenerator->getLogFilname(), "Chemin complet vers le fichier de log");
+$t->is($mailGenerator->getPublishFile(), "%2Fgeneration%2F".$mailGenerator->getLogFilname(), "Chemin complet relatif encodé");
+$logdate = date("Y-m-d H:i:s");
+$t->is($mailGenerator->getLog($facture->_id, "ENVOYÉ", $logdate), array($logdate, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $societeViti->getEmail(), "ENVOYÉ", $facture->_id), "La ligne de log contient les informations");
+$t->ok(file_exists($mailGenerator->getLogPath()), "Le fichier de log existe");
+$t->is(count(file($mailGenerator->getLogPath())), 2, "Le fichier de log contient 2 lignes");
+$mailGenerator->addLog($facture->_id, "ERROR", $logdate);
+$t->is(count(file($mailGenerator->getLogPath())), 3, "Le fichier de log contient 2 lignes");
 $t->is(count($generationMail->documents->toArray()), 1, "Mail envoyé");
+$t->is(count($generationMail->fichiers->toArray()), 1, "Fichier de log généré");
 
 $t->comment("Création des pdfs des factures non téléchargées");
 $generationPapier = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER);

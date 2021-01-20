@@ -28,6 +28,58 @@ Nouvelle facture de votre interprofession :
         return sfContext::getInstance()->getMailer();
     }
 
+    public function getLogPath() {
+
+        return sfConfig::get('sf_web_dir')."/generation/".$this->getLogFilname();
+    }
+
+    public function getPublishFile() {
+
+        return urlencode("/generation/".$this->getLogFilname());
+    }
+
+    public function getLogFilname() {
+
+        return $this->generation->date_emission."-facture-envoi-mails.csv";
+    }
+
+    public function getLogs() {
+
+        return $this->logs;
+    }
+
+    public function addLog($factureId, $statut, $date = null) {
+        $header = false;
+        if(!file_exists($this->getLogPath())) {
+            $header = true;
+        }
+
+        $fp = fopen($this->getLogPath(), 'a');
+
+        if($header) {
+            fputcsv($fp, array("Date", "Numéro de facture", "Identifiant Opérateur", "Raison sociale", "Email", "Statut", "Facture ID"));
+        }
+
+        fputcsv($fp, $this->getLog($factureId, $statut, $date));
+
+        fclose($fp);
+
+        if(!$this->generation->exist('fichiers/'.$this->getPublishFile())) {
+            $this->generation->add('fichiers')->add($this->getPublishFile(), "Logs d'envoi de mails");
+            $this->generation->save();
+        }
+    }
+
+    public function getLog($factureId, $statut, $date = null) {
+        if(!$date) {
+            $date = date("Y-m-d H:i:s");
+        }
+
+        $facture = FactureClient::getInstance()->find($factureId);
+
+        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmail(), $statut, $facture->_id);
+    }
+
     public function generate() {
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_ENCOURS);
         $this->generation->save();
@@ -41,17 +93,22 @@ Nouvelle facture de votre interprofession :
             $mail = $this->generateMailForADocumentId($factureId);
 
             if(!$mail) {
+                $this->addLog($factureId, "PAS_DE_MAIL");
                 continue;
             }
 
             $sended = $this->getMailer()->send($mail);
 
             if(!$sended) {
+                $this->addLog($factureId, "ERREUR");
                 continue;
             }
 
+            $this->addLog($factureId, "ENVOYÉ");
+
             $this->generation->documents->add(null, $factureId);
             $this->generation->save();
+
         }
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
