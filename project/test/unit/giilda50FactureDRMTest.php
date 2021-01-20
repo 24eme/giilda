@@ -156,6 +156,9 @@ $generationMail = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_D
 $t->is($generationMail->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "Le type de la génération est facture mail");
 $t->like($generationMail->_id, '/GENERATION-FACTURE-[0-9]{14}-FACTUREMAIL/', "L'id généré est bon");
 
+$t->is(count($generation->sous_generation_types), 1, "La sous génération est ajoutée à la génération");
+$t->is(array_key_first($generation->sous_generation_types->toArray()), GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "La sous génération est du bon type");
+
 $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, $configuration, array());
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
 
@@ -180,6 +183,8 @@ $t->comment("Création des pdfs des factures non téléchargées");
 $generationPapier = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER);
 $t->is($generationPapier->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "Le type de la génération est facture papier");
 $t->like($generationPapier->_id, '/GENERATION-FACTURE-[0-9]{14}-FACTUREPAPIER/', "L'id généré est bon");
+$t->is(count($generation->sous_generation_types), 2, "La sous génération est ajoutée à la génération");
+$t->is(array_key_last($generation->sous_generation_types->toArray()), GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "La sous génération est du bon type");
 
 $papierGenerator = GenerationClient::getInstance()->getGenerator($generationPapier, $configuration, []);
 $t->is(get_class($papierGenerator), 'GenerationFacturePapier', "Classe d'exécution de la génération de facture papier");

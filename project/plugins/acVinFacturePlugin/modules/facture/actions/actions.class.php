@@ -121,6 +121,8 @@ class factureActions extends sfActions {
         }
 
         $generation = $generationMaitre->getOrCreateSubGeneration($type);
+
+        $generationMaitre->save();
         $generation->save();
 
         return $this->redirect('generation_view', [
