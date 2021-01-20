@@ -54,17 +54,23 @@
 </div>
 <?php endif; ?>
 
-<?php if (GenerationConfiguration::getInstance()->hasSousGeneration()) : ?>
-  <?php $sousgenerations = GenerationConfiguration::getInstance()->getSousGeneration(); ?>
-  <?php if (in_array($generation->type_document, array_keys($sousgenerations))): ?>
+<?php if ($generation->statut === GenerationClient::GENERATION_STATUT_GENERE && GenerationConfiguration::getInstance()->hasSousGeneration()) : ?>
+  <?php $sousGenerations = GenerationConfiguration::getInstance()->getSousGeneration(); ?>
+  <?php if (in_array($generation->type_document, array_keys($sousGenerations))): ?>
     <h3>Sous générations</h3>
     <table class="table">
     <tbody>
-    <?php foreach ($sousgenerations[$generation->type_document] as $sousgeneration): ?>
+    <?php foreach ($sousGenerations[$generation->type_document] as $sousGeneration): ?>
       <tr>
-        <td><?= $sousgeneration ?></td>
+        <td><?= $sousGeneration ?></td>
         <td>
-          <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => $sousgeneration]) ?>">Générer</a>
+          <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => $sousGeneration]) ?>">Générer</a>
+          <?php if ($generation->exist('sous_generation_types') && in_array($sousGeneration, $generation->sous_generation_types->getRawValue()->toArray())): ?>
+          <a class="btn btn-success btn-block" href="<?= url_for('generation_view', [
+            'type_document' => $generation->type_document,
+            'date_emission' => $generation->date_emission.'-'.$sousGeneration
+          ]) ?>">Voir</a>
+          <?php endif ?>
         </td>
       </tr>
     <?php endforeach ?>
