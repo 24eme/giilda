@@ -54,7 +54,7 @@
 </div>
 <?php endif; ?>
 
-<?php if (GenerationConfiguration::getInstance()->hasSousGeneration()) : // TODO: A mettre en conf ?>
+<?php if (GenerationConfiguration::getInstance()->hasSousGeneration()) : ?>
   <?php $sousgenerations = GenerationConfiguration::getInstance()->getSousGeneration(); ?>
   <?php if (in_array($generation->type_document, array_keys($sousgenerations))): ?>
     <h3>Sous générations</h3>
