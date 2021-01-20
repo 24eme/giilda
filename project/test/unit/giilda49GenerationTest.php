@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 sfContext::createInstance($configuration);
 
-$t = new lime_test(9);
+$t = new lime_test(10);
 
 $t->comment("Création d'une génération");
 $date = "99998877665544";
@@ -39,5 +39,10 @@ $t->ok($sousGeneration1->_rev, "Récupération de la sous génération");
 $t->is($sousGeneration1->getMasterGeneration()->_id, $generation->_id, "Récupération de la génération maitre");
 $t->is(count($generation->getSubGenerations()), 2, "Récupération des sous générations");
 
-$generation->add('sous_generation_types', array(GenerationClient::TYPE_DOCUMENT_EXPORT_CSV));
-$t->is($generation->sous_generation_types->toArray(true, false), array(GenerationClient::TYPE_DOCUMENT_EXPORT_CSV), "Récupération du type de sous génération possible");
+$generation->getOrAdd('sous_generation_types')->add(null, GenerationClient::TYPE_DOCUMENT_EXPORT_CSV);
+$t->is(count($generation->sous_generation_types), 3, "Il y a 3 sous générations");
+$t->is($generation->sous_generation_types->toArray(true, false), array(
+    'TESTSOUSGENERATION1',
+    'TESTSOUSGENERATION2',
+    GenerationClient::TYPE_DOCUMENT_EXPORT_CSV
+), "Récupération du type de sous génération possible");
