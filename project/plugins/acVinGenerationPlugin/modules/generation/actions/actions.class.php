@@ -15,6 +15,16 @@ class generationActions extends sfActions {
 
   public function executeView(sfWebRequest $request) {
       $this->generation = $this->getGenerationFromRequest($request);
+      $this->sous_generations = $this->generation->getSubGenerations();
+
+      $this->type_generation = $this->generation->type_document;
+      $this->liste_sous_generations = [];
+
+      if ($this->generation->statut === GenerationClient::GENERATION_STATUT_GENERE &&
+          GenerationConfiguration::getInstance()->hasSousGeneration($this->type_generation))
+      {
+          $this->liste_sous_generations = GenerationConfiguration::getInstance()->getSousGeneration($this->type_generation);
+      }
   }
 
   public function executeList(sfWebRequest $request) {

@@ -38,13 +38,21 @@ class GenerationConfiguration
         return $this->configuration[$name];
     }
 
-    public function hasSousGeneration()
+    public function hasSousGeneration($type = null)
     {
-        return isset($this->configuration['sousgeneration']);
+        if (isset($this->configuration['sousgeneration']) === false) {
+            return false;
+        }
+
+        if ($type && isset($this->configuration['sousgeneration'][$type]) === false) {
+            return false;
+        }
+
+        return true;
     }
 
-    public function getSousGeneration()
+    public function getSousGeneration($type = null)
     {
-        return $this->configuration['sousgeneration'];
+        return $this->hasSousGeneration($type) && ($type) ? $this->configuration['sousgeneration'][$type] : $this->configuration['sousgeneration'];
     }
 }
