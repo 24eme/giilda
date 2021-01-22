@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(61);
+$t = new lime_test(65);
 
 $t->comment("Configuration");
 
@@ -157,6 +157,9 @@ $generationMail = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_D
 $t->is($generationMail->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "Le type de la génération est facture mail");
 $t->like($generationMail->_id, '/GENERATION-FACTURE-[0-9]{14}-FACTUREMAIL/', "L'id généré est bon");
 
+$t->is(count($generation->sous_generation_types), 1, "La sous génération est ajoutée à la génération");
+$t->is(current($generation->sous_generation_types->toArray()), GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "La sous génération est du bon type");
+
 $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, $configuration, array());
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
 
@@ -182,6 +185,8 @@ $t->comment("Création des pdfs des factures non téléchargées");
 $generationPapier = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER);
 $t->is($generationPapier->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "Le type de la génération est facture papier");
 $t->like($generationPapier->_id, '/GENERATION-FACTURE-[0-9]{14}-FACTUREPAPIER/', "L'id généré est bon");
+$t->is(count($generation->sous_generation_types), 2, "La sous génération est ajoutée à la génération");
+$t->is($generation->sous_generation_types[1], GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "La sous génération est du bon type");
 
 $papierGenerator = GenerationClient::getInstance()->getGenerator($generationPapier, $configuration, []);
 $t->is(get_class($papierGenerator), 'GenerationFacturePapier', "Classe d'exécution de la génération de facture papier");

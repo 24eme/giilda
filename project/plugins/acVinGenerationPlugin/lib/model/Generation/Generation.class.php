@@ -59,6 +59,8 @@ class Generation extends BaseGeneration {
       $subGeneration->date_emission = date('YmdHis');
       $subGeneration->statut = GenerationClient::GENERATION_STATUT_ENATTENTE;
 
+      $this->getOrAdd('sous_generation_types')->add(null, $typeDocument);
+
       return $subGeneration;
   }
 

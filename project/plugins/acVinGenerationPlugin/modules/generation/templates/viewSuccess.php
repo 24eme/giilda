@@ -45,25 +45,43 @@
 <?php endif; ?>
 
 <?php if ($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && count($generation->fichiers)) : ?>
-<div class="row row-margin">
-<div class="list-group col-xs-6 col-xs-offset-3">
+<div class="row">
+  <div class="col-xs-6 col-xs-offset-3">
     <?php foreach ($generation->fichiers as $chemin => $titre): ?>
+      <p>
         <a download="<?php echo basename(urldecode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>"  target="_blank" class="list-group-item text-center"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;<?php echo $titre; ?></a>
+      </p>
     <?php endforeach; ?>
+  </div>
 </div>
-</div>
-
-  <?php if ($generation->type_document === 'FACTURE'): ?>
-    <div class="row row-margin">
-      <div class="col-xs-3 col-xs-offset-3">
-        <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => 'mail']) ?>">Générer les mails</a>
-      </div>
-      <div class="col-xs-3">
-      <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', ['generation' => $generation->_id, 'type' => 'papier']) ?>">Générer les factures papiers</a>
-      </div>
-    </div>
-  <?php endif; ?>
 <?php endif; ?>
+
+<?php foreach ($sous_generations_conf as $sous_generation): ?>
+<div class="row">
+  <div class="col-xs-6 col-xs-offset-3">
+    <p class="text-center">
+    <?php if ($generation->exist('sous_generation_types') && in_array($sous_generation, $generation->sous_generation_types->getRawValue()->toArray())): ?>
+
+      <?php foreach ($sous_generations_generation->get($generation->_id.'-'.$sous_generation)->fichiers as $chemin => $titre): ?>
+      <a download="<?= basename(urlencode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>" class="text-center btn btn-default">
+          <span class="glyphicon glyphicon-download-alt"></span> <?= $titre ?>
+        </a>
+      <?php endforeach ?>
+
+      <a class="btn btn-success" href="<?= url_for('generation_view', [
+        'type_document' => $generation->type_document,
+        'date_emission' => $generation->date_emission.'-'.$sous_generation
+      ]) ?>">Voir</a>
+    <?php else: ?>
+      <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', [
+        'generation' => $generation->_id,
+        'type' => $sous_generation
+      ]) ?>">Générer</a>
+    <?php endif ?>
+    </p>
+  </div>
+</div>
+<?php endforeach ?>
 
 <div class="row row-margin">
     <div class="col-xs-4 text-left">
