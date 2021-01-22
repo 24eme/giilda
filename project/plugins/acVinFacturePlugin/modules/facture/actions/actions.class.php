@@ -8,8 +8,6 @@ class factureActions extends sfActions {
         $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(
             GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL,
             GenerationClient::TYPE_DOCUMENT_FACTURES,
-            GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS,
-            GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER,
             GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX
         ), 10);
         sfContext::getInstance()->getResponse()->setTitle('FACTURE');
