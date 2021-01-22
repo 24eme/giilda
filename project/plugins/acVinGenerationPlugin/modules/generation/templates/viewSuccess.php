@@ -45,28 +45,43 @@
 <?php endif; ?>
 
 <?php if ($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && count($generation->fichiers)) : ?>
+<div class="row">
   <div class="col-xs-6 col-xs-offset-3">
     <?php foreach ($generation->fichiers as $chemin => $titre): ?>
+      <p>
         <a download="<?php echo basename(urldecode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>"  target="_blank" class="list-group-item text-center"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;<?php echo $titre; ?></a>
+      </p>
     <?php endforeach; ?>
   </div>
+</div>
 <?php endif; ?>
 
 <?php foreach ($sous_generations_conf as $sous_generation): ?>
+<div class="row">
   <div class="col-xs-6 col-xs-offset-3">
-    <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', [
-      'generation' => $generation->_id,
-      'type' => $sous_generation
-    ]) ?>">Générer</a>
-      <?php if ($generation->exist('sous_generation_types') && in_array($sous_generation, $generation->sous_generation_types->getRawValue()->toArray())): ?>
-      <a class="btn btn-success btn-block" href="<?= url_for('generation_view', [
+    <p class="text-center">
+    <?php if ($generation->exist('sous_generation_types') && in_array($sous_generation, $generation->sous_generation_types->getRawValue()->toArray())): ?>
+
+      <?php foreach ($sous_generations_generation->get($generation->_id.'-'.$sous_generation)->fichiers as $chemin => $titre): ?>
+      <a download="<?= basename(urlencode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>" class="text-center btn btn-default">
+          <span class="glyphicon glyphicon-download-alt"></span> <?= $titre ?>
+        </a>
+      <?php endforeach ?>
+
+      <a class="btn btn-success" href="<?= url_for('generation_view', [
         'type_document' => $generation->type_document,
         'date_emission' => $generation->date_emission.'-'.$sous_generation
       ]) ?>">Voir</a>
-      <?php endif ?>
+    <?php else: ?>
+      <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', [
+        'generation' => $generation->_id,
+        'type' => $sous_generation
+      ]) ?>">Générer</a>
+    <?php endif ?>
+    </p>
   </div>
-<?php endforeach ?>
 </div>
+<?php endforeach ?>
 
 <div class="row row-margin">
     <div class="col-xs-4 text-left">
