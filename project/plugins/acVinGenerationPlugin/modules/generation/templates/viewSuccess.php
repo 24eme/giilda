@@ -109,7 +109,7 @@
 <a href="<?= url_for('generation_view', [
   'type_document' => $generation->getMasterGeneration()->type_document,
   'date_emission' => $generation->getMasterGeneration()->date_emission
-]) ?>" class="btn btn-info">Retour</a>
+]) ?>" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Retour</a>
 <?php endif ?>
 
 
