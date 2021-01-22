@@ -8,7 +8,15 @@
         <a href="<?php // echo url_for('generation_regenerate', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission)); ?>" onclick='return confirm("Étes vous sûr de vouloir regénérer les factures ?");' class="btn btn-sm btn-default btn-default-step btn-upper"><span class="glyphicon glyphicon-repeat"></span>&nbsp;&nbsp;Regénérer</a>
         <?php endif; ?>
     </div>
-    <h2>Génération N° <?php echo $generation->identifiant; ?><small> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small></h2>
+    <h2>
+      Génération N° <?php echo $generation->identifiant; ?><small> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small>
+      <?php if ($generation->getMasterGeneration()): ?>
+      <small class="pull-right"><a href="<?= url_for('generation_view', [
+        'type_document' => $generation->getMasterGeneration()->type_document,
+        'date_emission' => $generation->getMasterGeneration()->date_emission
+      ]) ?>">Voir la génération parente</a></small>
+      <?php endif ?>
+    </h2>
 </div>
 
 <?php if($generation->libelle): ?>
