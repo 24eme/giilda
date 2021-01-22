@@ -53,6 +53,6 @@ class GenerationConfiguration
 
     public function getSousGeneration($type)
     {
-        return $this->hasSousGeneration($type) && ($type) ? $this->configuration['sousgeneration'][$type] : false;
+        return $this->hasSousGeneration($type) && ($type) ? $this->configuration['sousgeneration'][$type] : array();
     }
 }

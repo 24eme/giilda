@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(68);
+$t = new lime_test(65);
 
 $t->comment("Configuration");
 
@@ -149,7 +149,9 @@ $t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablem
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 $generation->save();
+if(count(GenerationConfiguration::getInstance()->getSousGeneration($generation->type_document))) {
 $t->is(count($generation->sous_generation_types->toArray(true, false)), 2, "Les types de sous générations possibles sont enregistrés dans le doc");
+}
 
 $generator = GenerationClient::getInstance()->getGenerator($generation, $configuration, array());
 $generator->generate();
@@ -188,8 +190,6 @@ $t->comment("Création des pdfs des factures non téléchargées");
 $generationPapier = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER);
 $t->is($generationPapier->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "Le type de la génération est facture papier");
 $t->like($generationPapier->_id, '/GENERATION-FACTURE-[0-9]{14}-FACTUREPAPIER/', "L'id généré est bon");
-$t->is(count($generation->sous_generation_types), 2, "La sous génération est ajoutée à la génération");
-$t->is($generation->sous_generation_types[1], GenerationClient::TYPE_DOCUMENT_FACTURES_PAPIER, "La sous génération est du bon type");
 
 $papierGenerator = GenerationClient::getInstance()->getGenerator($generationPapier, $configuration, []);
 $t->is(get_class($papierGenerator), 'GenerationFacturePapier', "Classe d'exécution de la génération de facture papier");
