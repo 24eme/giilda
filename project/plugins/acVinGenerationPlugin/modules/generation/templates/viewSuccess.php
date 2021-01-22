@@ -11,14 +11,6 @@
     <h2>
       Génération N° <?= ($generation->getMasterGeneration()) ? $generation->getMasterGeneration()->identifiant.' '.$generation->type_document : $generation->identifiant; ?><small> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small>
     </h2>
-
-      <?php if ($generation->getMasterGeneration()): ?>
-      <small><a href="<?= url_for('generation_view', [
-        'type_document' => $generation->getMasterGeneration()->type_document,
-        'date_emission' => $generation->getMasterGeneration()->date_emission
-      ]) ?>">Voir la génération parente</a></small>
-      <?php endif ?>
-
 </div>
 
 <?php if($generation->libelle): ?>
@@ -113,6 +105,14 @@
     </div>
     <?php endif; ?>
 </div>
+
+<?php if ($generation->getMasterGeneration()): ?>
+<a href="<?= url_for('generation_view', [
+  'type_document' => $generation->getMasterGeneration()->type_document,
+  'date_emission' => $generation->getMasterGeneration()->date_emission
+]) ?>" class="btn btn-info">Retour</a>
+<?php endif ?>
+
 
 <?php if(in_array($generation->statut, array(GenerationClient::GENERATION_STATUT_ENATTENTE, GenerationClient::GENERATION_STATUT_ENCOURS))): ?>
 <script type="text/javascript">window.setTimeout("window.location.reload()", 30000);</script>
