@@ -38,7 +38,7 @@ class GenerationConfiguration
         return $this->configuration[$name];
     }
 
-    public function hasSousGeneration($type = null)
+    public function hasSousGeneration($type)
     {
         if (empty($this->configuration['sousgeneration'])) {
             return false;
@@ -51,8 +51,8 @@ class GenerationConfiguration
         return true;
     }
 
-    public function getSousGeneration($type = null)
+    public function getSousGeneration($type)
     {
-        return $this->hasSousGeneration($type) && ($type) ? $this->configuration['sousgeneration'][$type] : $this->configuration['sousgeneration'];
+        return $this->hasSousGeneration($type) && ($type) ? $this->configuration['sousgeneration'][$type] : false;
     }
 }

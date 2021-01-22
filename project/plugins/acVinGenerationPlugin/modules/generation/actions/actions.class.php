@@ -23,8 +23,8 @@ class generationActions extends sfActions {
           GenerationConfiguration::getInstance()->hasSousGeneration($this->type_generation))
       {
           $this->sous_generations_conf = GenerationConfiguration::getInstance()->getSousGeneration($this->type_generation);
-          $this->sous_generations_generation = $this->generation->getSubGenerations();
       }
+      $this->sous_generations = $this->generation->getSubGenerations();
   }
 
   public function executeList(sfWebRequest $request) {

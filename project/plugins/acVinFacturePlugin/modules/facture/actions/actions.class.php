@@ -108,18 +108,6 @@ class factureActions extends sfActions {
             $this->redirect404();
         }
 
-        $sousgenerations = (GenerationConfiguration::getInstance()->hasSousGeneration())
-                            ? GenerationConfiguration::getInstance()->getSousGeneration()
-                            : [];
-
-        if (in_array($generationMaitre->type_document, array_keys($sousgenerations)) === false) {
-            $this->redirect404();
-        }
-
-        if (in_array($type, $sousgenerations[$generationMaitre->type_document]) === false) {
-            $this->redirect404();
-        }
-
         $generation = $generationMaitre->getOrCreateSubGeneration($type);
 
         $generationMaitre->save();

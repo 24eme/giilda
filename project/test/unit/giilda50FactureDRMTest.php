@@ -149,6 +149,7 @@ $t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablem
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 $generation->save();
+$t->is(count($generation->sous_generation_types->toArray(true, false)), 2, "Les types de sous générations possibles sont enregistrés dans le doc");
 
 $generator = GenerationClient::getInstance()->getGenerator($generation, $configuration, array());
 $generator->generate();
@@ -161,9 +162,6 @@ $t->comment("Envoi des factures par mail avec un génération");
 $generationMail = $generation->getOrCreateSubGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS);
 $t->is($generationMail->type_document, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "Le type de la génération est facture mail");
 $t->like($generationMail->_id, '/GENERATION-FACTURE-[0-9]{14}-FACTUREMAIL/', "L'id généré est bon");
-
-$t->is(count($generation->sous_generation_types), 1, "La sous génération est ajoutée à la génération");
-$t->is(current($generation->sous_generation_types->toArray()), GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS, "La sous génération est du bon type");
 
 $mailGenerator = GenerationClient::getInstance()->getGenerator($generationMail, $configuration, array());
 $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution de la génération de mail");
