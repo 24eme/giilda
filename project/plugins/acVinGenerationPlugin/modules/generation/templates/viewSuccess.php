@@ -46,7 +46,7 @@
     </div>
 <?php endif; ?>
 
-<?php if ($generation->statut == GenerationClient::GENERATION_STATUT_GENERE && count($generation->fichiers)) : ?>
+<?php if ($generation->statut == GenerationClient::GENERATION_STATUT_GENERE ) : ?>
 <div class="row">
   <div class="col-xs-6 col-xs-offset-3">
     <?php foreach ($generation->fichiers as $chemin => $titre): ?>
@@ -54,36 +54,35 @@
         <a download="<?php echo basename(urldecode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>"  target="_blank" class="list-group-item text-center"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;<?php echo $titre; ?></a>
       </p>
     <?php endforeach; ?>
+    <?php foreach($sous_generations as $sous_generation): ?>
+        <?php foreach ($sous_generation->fichiers as $chemin => $titre): ?>
+            <p style="position: relative;">
+                <a class="list-group-item text-center" download="<?php echo basename(urldecode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>"  target="_blank"><span class="glyphicon glyphicon-download-alt"></span>&nbsp;&nbsp;<?php echo $titre; ?></a>
+                <a class="btn btn-link" style="position: absolute; top: 5px; right: -40px" href="<?= url_for('generation_view', [
+                  'type_document' => $generation->type_document,
+                  'date_emission' => $generation->date_emission.'-'.$sous_generation->type_document
+                ]) ?>"><span class="glyphicon glyphicon-eye-open"></span></a>
+            </p>
+        <?php endforeach; ?>
+    <?php endforeach; ?>
+
+
+    <?php if($generation->exist('sous_generation_types')): ?>
+    <?php foreach ($generation->sous_generation_types as $sous_generation_type): ?>
+        <p>
+        <?php if (!$generation->getOrCreateSubGeneration($sous_generation_type)->isNew()): continue; endif; ?>
+          <a class="btn btn-link" href="<?= url_for('facture_sous_generation', [
+            'generation' => $generation->_id,
+            'type' => $sous_generation_type
+          ]) ?>"><span class="glyphicon glyphicon-play-circle"></span>&nbsp;<?php echo call_user_func_array(array(GenerationClient::getClassForGeneration($generation->getOrCreateSubGeneration($sous_generation_type)), "getActionLibelle"), array()); ?></a>
+        </p>
+    <?php endforeach ?>
+    <?php endif ?>
   </div>
 </div>
 <?php endif; ?>
 
-<?php foreach ($sous_generations_conf as $sous_generation): ?>
-<div class="row">
-  <div class="col-xs-6 col-xs-offset-3">
-    <p class="text-center">
-    <?php if ($generation->exist('sous_generation_types') && in_array($sous_generation, $generation->sous_generation_types->getRawValue()->toArray())): ?>
 
-      <?php foreach ($sous_generations_generation->get($generation->_id.'-'.$sous_generation)->fichiers as $chemin => $titre): ?>
-      <a download="<?= basename(urlencode($chemin)) ?>" href="<?php echo urldecode($chemin); ?>" class="text-center btn btn-default">
-          <span class="glyphicon glyphicon-download-alt"></span> <?= $titre ?>
-        </a>
-      <?php endforeach ?>
-
-      <a class="btn btn-success" href="<?= url_for('generation_view', [
-        'type_document' => $generation->type_document,
-        'date_emission' => $generation->date_emission.'-'.$sous_generation
-      ]) ?>">Voir</a>
-    <?php else: ?>
-      <a class="btn btn-default btn-block" href="<?= url_for('facture_sous_generation', [
-        'generation' => $generation->_id,
-        'type' => $sous_generation
-      ]) ?>">Générer</a>
-    <?php endif ?>
-    </p>
-  </div>
-</div>
-<?php endforeach ?>
 
 <div class="row row-margin">
     <div class="col-xs-4 text-left">

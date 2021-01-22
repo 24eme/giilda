@@ -23,6 +23,11 @@ Nouvelle facture de votre interprofession : <".sfContext::getInstance()->getRout
         return $message;
     }
 
+    public static function getActionLibelle() {
+
+        return "Envoyer les factures par mail";
+    }
+
     public function getMailer() {
 
         return sfContext::getInstance()->getMailer();

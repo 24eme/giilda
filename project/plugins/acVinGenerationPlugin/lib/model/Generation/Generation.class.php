@@ -15,6 +15,10 @@ class Generation extends BaseGeneration {
     if(!$this->statut) {
         $this->setStatut(GenerationClient::GENERATION_STATUT_ENATTENTE);
     }
+
+    if(count(GenerationConfiguration::getInstance()->getSousGeneration($this->type_document))) {
+        $this->add('sous_generation_types', GenerationConfiguration::getInstance()->getSousGeneration($this->type_document));
+    }
   }
 
   public function save() {
@@ -58,8 +62,6 @@ class Generation extends BaseGeneration {
       $subGeneration->type_document = $typeDocument;
       $subGeneration->date_emission = date('YmdHis');
       $subGeneration->statut = GenerationClient::GENERATION_STATUT_ENATTENTE;
-
-      $this->getOrAdd('sous_generation_types')->add(null, $typeDocument);
 
       return $subGeneration;
   }
