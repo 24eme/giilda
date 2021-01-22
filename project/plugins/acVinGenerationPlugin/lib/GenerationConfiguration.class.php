@@ -40,11 +40,11 @@ class GenerationConfiguration
 
     public function hasSousGeneration($type = null)
     {
-        if (isset($this->configuration['sousgeneration']) === false) {
+        if (empty($this->configuration['sousgeneration'])) {
             return false;
         }
 
-        if ($type && isset($this->configuration['sousgeneration'][$type]) === false) {
+        if ($type && empty($this->configuration['sousgeneration'][$type])) {
             return false;
         }
 
