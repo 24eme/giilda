@@ -10,13 +10,15 @@
     </div>
     <h2>
       Génération N° <?= ($generation->getMasterGeneration()) ? $generation->getMasterGeneration()->identifiant.' '.$generation->type_document : $generation->identifiant; ?><small> créé le <?php echo GenerationClient::getInstance()->getDateFromIdGeneration($generation->date_maj); ?></small>
+    </h2>
+
       <?php if ($generation->getMasterGeneration()): ?>
-      <small class="pull-right"><a href="<?= url_for('generation_view', [
+      <small><a href="<?= url_for('generation_view', [
         'type_document' => $generation->getMasterGeneration()->type_document,
         'date_emission' => $generation->getMasterGeneration()->date_emission
       ]) ?>">Voir la génération parente</a></small>
       <?php endif ?>
-    </h2>
+
 </div>
 
 <?php if($generation->libelle): ?>
