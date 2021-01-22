@@ -146,6 +146,7 @@ if($application == "ivbd") {
 $t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablement");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
+$generation->statut = GenerationClient::GENERATION_STATUT_GENERE;
 $generation->save();
 
 $t->ok($generation, "La génération est créée");
@@ -161,6 +162,7 @@ $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution
 
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
 $t->ok(get_class($mail), "Génération du mail d'une facture");
+$t->ok(strpos($mail, "http"), "Le mail contient une url");
 $mailGenerator->generate();
 
 $t->is($generationMail->statut, GenerationClient::GENERATION_STATUT_GENERE, "Statut généré");

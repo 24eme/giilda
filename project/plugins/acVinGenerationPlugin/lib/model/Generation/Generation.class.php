@@ -12,7 +12,9 @@ class Generation extends BaseGeneration {
       }
     $this->setIdentifiant($this->type_document.'-'.$this->date_emission);
     $this->set_id('GENERATION-'.$this->identifiant);
-    $this->setStatut(GenerationClient::GENERATION_STATUT_ENATTENTE);
+    if(!$this->statut) {
+        $this->setStatut(GenerationClient::GENERATION_STATUT_ENATTENTE);
+    }
   }
 
   public function save() {
