@@ -148,10 +148,13 @@ if($application == "ivbd") {
 $t->is($facture->versement_comptable, 0, "La facture n'est pas versé comptablement");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
-$generation->statut = GenerationClient::GENERATION_STATUT_GENERE;
 $generation->save();
 
+$generator = GenerationClient::getInstance()->getGenerator($generation, $configuration, array());
+$generator->generate();
+
 $t->ok($generation, "La génération est créée");
+$t->is(count($generation->fichiers->toArray(true, false)), 1, "Un fichier généré");
 $t->like($generation->_id, '/GENERATION-FACTURE-[0-9]{14}/', "L'id généré est bon : $generation->_id");
 
 $t->comment("Envoi des factures par mail avec un génération");
