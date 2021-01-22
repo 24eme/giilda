@@ -127,7 +127,7 @@ class factureActions extends sfActions {
 
         return $this->redirect('generation_view', [
           'type_document' => $generationMaitre->type_document,
-          'date_emission' => $generationMaitre->date_emission
+          'date_emission' => $generationMaitre->date_emission.'-'.$generation->type_document
         ]);
     }
 
