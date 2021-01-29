@@ -192,7 +192,7 @@ class factureActions extends sfActions {
 
     public function executeLatex(sfWebRequest $request) {
         $this->setLayout(false);
-        $this->facture = $this->getRoute()->getFacture();
+        $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
         $this->forward404Unless($this->facture);
         $latex = new FactureLatex($this->facture);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
