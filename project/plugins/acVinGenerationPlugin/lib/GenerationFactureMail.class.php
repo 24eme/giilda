@@ -91,6 +91,9 @@ Une nouvelle facture de votre interprofession est disponible. Vous pouvez la té
 
         $factureAEnvoyer = array();
         $factureDejaEnvoye = $this->generation->documents->toArray();
+        $sleepMaxBatch = 5;
+        $sleepSecond = 1;
+        $i = 0;
         foreach($this->generation->getMasterGeneration()->documents as $factureId) {
             if(in_array($factureId, $factureDejaEnvoye)) {
                 continue;
@@ -113,7 +116,11 @@ Une nouvelle facture de votre interprofession est disponible. Vous pouvez la té
 
             $this->generation->documents->add(null, $factureId);
             $this->generation->save();
-
+            $i++;
+            if($i > $sleepMaxBatch) {
+                sleep($sleepSecond);
+                $i = 0;
+            }
         }
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
