@@ -5,14 +5,14 @@ class GenerationFactureMail extends GenerationAbstract {
     public function generateMailForADocumentId($id) {
         $facture = FactureClient::getInstance()->find($id);
 
-        if(!$facture->getSociete()->getEmail()) {
+        if(!$facture->getSociete()->getEmailTeledeclaration()) {
             echo $facture->getSociete()->_id."\n";
             return;
         }
 
         $message = Swift_Message::newInstance()
          ->setFrom(sfConfig::get('app_mail_from_email'))
-         ->setTo($facture->getSociete()->getEmail())
+         ->setTo($facture->getSociete()->getEmailTeledeclaration())
          ->setSubject("Facture Interpro")
          ->setBody("Bonjour,
 
