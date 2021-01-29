@@ -70,11 +70,6 @@ Le BIVC");
         fputcsv($fp, $this->getLog($factureId, $statut, $date));
 
         fclose($fp);
-
-        if(!$this->generation->exist('fichiers/'.$this->getPublishFile())) {
-            $this->generation->add('fichiers')->add($this->getPublishFile(), "Logs d'envoi de mails");
-            $this->generation->save();
-        }
     }
 
     public function getLog($factureId, $statut, $date = null) {
@@ -123,6 +118,11 @@ Le BIVC");
                 sleep($sleepSecond);
                 $i = 0;
             }
+        }
+
+        if(!$this->generation->exist('fichiers/'.$this->getPublishFile())) {
+            $this->generation->add('fichiers')->add($this->getPublishFile(), "Logs d'envoi de mails");
+            $this->generation->save();
         }
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
