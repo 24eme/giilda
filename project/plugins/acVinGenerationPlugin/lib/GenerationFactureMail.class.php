@@ -16,7 +16,7 @@ class GenerationFactureMail extends GenerationAbstract {
          ->setSubject("Facture Interpro")
          ->setBody("Bonjour,
 
-Une nouvelle facture de votre interprofession est disponible. Vous pouvez la télécharger directement en cliquant sur le lien : <".sfContext::getInstance()->getRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true).">
+Une nouvelle facture de votre interprofession est disponible. Vous pouvez la télécharger directement en cliquant sur le lien : <".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true).">
 
          ");
 
