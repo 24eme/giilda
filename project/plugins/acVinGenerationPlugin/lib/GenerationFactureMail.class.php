@@ -84,7 +84,7 @@ Le BIVC");
 
         $facture = FactureClient::getInstance()->find($factureId);
 
-        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmail(), $statut, $facture->_id);
+        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmailTeledeclaration(), $statut, $facture->_id);
     }
 
     public function generate() {
