@@ -211,6 +211,7 @@ class factureActions extends sfActions {
 
         $facture = FactureClient::getInstance()->find($id);
         $facture->setTelechargee();
+        $facture->save();
 
         $this->forward('facture', 'latex');
     }
