@@ -89,7 +89,7 @@ Le BIVC");
         $factureAEnvoyer = array();
         $factureDejaEnvoye = $this->generation->documents->toArray();
         $sleepMaxBatch = 5;
-        $sleepSecond = 1;
+        $sleepSecond = 2;
         $i = 0;
         foreach($this->generation->getMasterGeneration()->documents as $factureId) {
             if(in_array($factureId, $factureDejaEnvoye)) {
