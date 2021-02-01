@@ -203,6 +203,8 @@ class factureActions extends sfActions {
     public function executeGetFactureWithAuth(sfWebRequest $request) {
         $auth = $request->getParameter('auth');
         $id = $request->getParameter('id');
+
+        $auth = str_replace(">", '', $auth);
         $key = FactureClient::generateAuthKey($id);
 
         if ($auth !== $key) {
