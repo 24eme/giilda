@@ -206,7 +206,7 @@ class factureActions extends sfActions {
         $key = FactureClient::generateAuthKey($id);
 
         if ($auth !== $key) {
-            $this->redirect403();
+            throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
         }
 
         $facture = FactureClient::getInstance()->find($id);
