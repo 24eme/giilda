@@ -1,8 +1,8 @@
 #!/bin/bash
 
 . bin/config.inc
-LOCK="/tmp/compte_update_ldap.lock"
-SEQ="/tmp/compte_update_ldap.seq"
+LOCK="/tmp/compte_update_ldap_"$PROJET".lock"
+SEQ="/tmp/compte_update_ldap_"$PROJET".seq"
 if test -f $LOCK ; then
     exit 1
 fi
