@@ -122,6 +122,16 @@
        'target' => '_self'
 ));
 endif; ?>
+<?php if (FactureConfiguration::getInstance()->getTeledeclaration()):
+include_component('common', 'navItem', array(
+      'libelle' => 'Factures',
+      'prefix' => 'facture',
+      'route' => 'facture',
+      'route_etablissement' => 'facture_societe',
+      'etablissement' => $sf_user->getCompte()->getSociete(),
+      'target' => '_self'
+));
+endif; ?>
 <?php if(FichierConfiguration::getInstance()->isActif()):
        include_component('common', 'navItem', array(
        		'libelle' => 'Documents',
