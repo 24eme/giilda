@@ -25,7 +25,7 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(65);
+$t = new lime_test(69);
 
 $t->comment("Configuration");
 
@@ -106,7 +106,11 @@ $t->is($facture->total_ht, $prixHt, "Le total HT est de ".$prixHt." €");
 $t->is($facture->total_ttc, $prixTTC, "Le total TTC est de ".$prixTTC."  €");
 $t->is($facture->total_taxe, $prixTaxe, "Le total de taxe est de ".$prixTaxe."  €");
 
-$t->is(FactureClient::generateAuthKey($facture->_id), hash('md5', $facture->_id.sfConfig::get('app_secret')), "L'url d'authentification est bonne");
+$auth_key = hash('md5', $facture->_id.sfConfig::get('app_secret'));
+$auth_url = FactureClient::generateAuthKey($facture->_id);
+$t->is($auth_url, $auth_key, "L'url d'authentification est bonne");
+$t->is($auth_url, substr($auth_url.'%3E', 0, strlen($auth_key)), "On coupe la chaine à la taille de la key");
+$t->is($auth_url, substr($auth_url.'>', 0, strlen($auth_key)), "On coupe la chaine à la taille de la key");
 $t->ok(!$facture->isTelechargee(), "La facture est marqué comme non téléchargée");
 $facture->setTelechargee();
 $t->is($facture->telechargee, date('Y-m-d'), "La date de téléchargement est mise");
@@ -170,7 +174,8 @@ $t->is(get_class($mailGenerator), "GenerationFactureMail", "classe d'éxécution
 
 $mail = $mailGenerator->generateMailForADocumentId($facture->_id);
 $t->ok(get_class($mail), "Génération du mail d'une facture");
-$t->ok(strpos($mail, "http"), "Le mail contient une url");
+$t->ok(strpos($mail, "https"), "Le mail contient une url");
+$t->ok(!strpos($mail, "symfony"), "L'url n'a pas symfony");
 $mailGenerator->generate();
 
 $t->is($generationMail->statut, GenerationClient::GENERATION_STATUT_GENERE, "Statut généré");
