@@ -27,8 +27,8 @@ class drmActions extends drmGeneriqueActions {
 
     public function executeIndex(sfWebRequest $request) {
       $this->redirect403IfIsTeledeclaration();
-
-      $res_by_page = 10;
+      
+      $res_by_page = 10;        
       $this->page_num = $request->getParameter('page', 1);
 
       $this->current_page = $this->page_num;
@@ -47,19 +47,11 @@ class drmActions extends drmGeneriqueActions {
       $query->setSort([["doc.date_modification" => ["order"=>"desc"]]]);
       $query->setFrom($from);
       $query->setLimit($res_by_page);
-      $this->drm_controles_search = $index->search($query);
-      $this->nb_results = $this->drm_controles_search->getTotalHits();
+      $this->drm_controles = $index->search($query);
 
-      foreach ($this->drm_controles_search as $drm_controle) {
-        if(DRMClient::getInstance()->find($drm_controle->doc['_id'])->isMaster()){
-          $this->drm_controles[$drm_controle->doc['_id']] = $drm_controle;
-        }else{
-          $this->nb_results--;
-        }
-      }
-
-      $this->last_page = ceil($this->nb_results / $res_by_page);
-
+      $this->nb_results = $this->drm_controles->getTotalHits();       
+      $this->last_page = ceil($this->nb_results / $res_by_page);        
+      
       if($this->page_num > $this->last_page){
         return $this->forward404Unless(true);
       }
