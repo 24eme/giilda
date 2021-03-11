@@ -29,10 +29,8 @@
             <div class="pull-right">
                 <?php if ($drm->isReouvrable()): ?>
                     <a class="btn btn-warning" href="<?php echo url_for('drm_reouvrir', $drm) ?>">Ré-ouvrir la DRM</a>
-                <?php elseif($drm->isModifiable() && $drm->isTeledeclare()): ?>
-                    <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modificatrice de la DRM</a>
                 <?php elseif($drm->isModifiable()): ?>
-                    <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Modifier la DRM</a>
+                    <a class="btn btn-warning" href="<?php echo url_for('drm_modificative', $drm) ?>">Créer une Modificatrice</a>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
