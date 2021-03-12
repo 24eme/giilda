@@ -23,7 +23,6 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage[framemethod=tikz]{mdframed}
-\usepackage{lastpage}
 
 \def\LOGO{<?php echo sfConfig::get('sf_web_dir'); ?>/images/logo_ivbd.png}
 \renewcommand{\arraystretch}{1.2}
@@ -36,7 +35,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \renewcommand{\headrulewidth}{0cm}
 \renewcommand\sfdefault{phv}
 \renewcommand{\familydefault}{\sfdefault}
-\fancyfoot[R]{\thepage~/~\pageref{LastPage}}
+\fancyfoot[R]{1}
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
 \fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
 
