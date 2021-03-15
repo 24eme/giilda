@@ -52,7 +52,7 @@ $periode = (isset($options['periode']) && isset($options['periode'][0]) && isset
 \hline
 \rowcolor{gray!40} ~ 					& Sorties sous & ~        & \textbf{Facturation} & Sorties hors             & ~        & \textbf{Facturation} & Total sorties         & ~        & \textbf{Facturation} \tabularnewline
 \rowcolor{gray!40} \textbf{Appellations} & contrats & CVO & \textbf{attendue €}  & Contrats & CVO & \textbf{attendue}  & réelles à & CVO & \textbf{Attendue} \tabularnewline
-\rowcolor{gray!40} ~           & (vrac) hl     & \texteuro{}\/hl & \textbf{ \texteuro{} }  & (bouteilles) hl & \texteuro{}\/hl & en \texteuro{}   & facturer en hl & \texteuro{}\/hl & \textbf{\texteuro{}} \tabularnewline
+\rowcolor{gray!40} ~           & (vrac) hl     & \texteuro{}\/hl & \textbf{ \texteuro{} }  & (bouteilles) hl & \texteuro{}\/hl & ~ & facturer en hl & \texteuro{}\/hl & \textbf{\texteuro{}} \tabularnewline
 \hline
 <?php
 	$i = 0;
