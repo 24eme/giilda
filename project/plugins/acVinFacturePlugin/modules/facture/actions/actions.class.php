@@ -192,7 +192,7 @@ class factureActions extends sfActions {
 
     public function executeLatex(sfWebRequest $request) {
         $this->setLayout(false);
-        $this->facture = $this->getRoute()->getFacture();
+        $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
         $this->forward404Unless($this->facture);
         $latex = new FactureLatex($this->facture);
         $latex->echoWithHTTPHeader($request->getParameter('type'));
@@ -203,16 +203,19 @@ class factureActions extends sfActions {
     public function executeGetFactureWithAuth(sfWebRequest $request) {
         $auth = $request->getParameter('auth');
         $id = $request->getParameter('id');
+
         $key = FactureClient::generateAuthKey($id);
+        $auth = substr($auth, 0, strlen($key));
 
         if ($auth !== $key) {
-            $this->redirect403();
+            throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
         }
 
         $facture = FactureClient::getInstance()->find($id);
         $facture->setTelechargee();
+        $facture->save();
 
-        $this->forward('facture', 'latex');
+        return $this->executeLatex($request);
     }
 
     private function getLatexTmpPath() {

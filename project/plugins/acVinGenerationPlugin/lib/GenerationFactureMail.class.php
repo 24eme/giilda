@@ -5,20 +5,22 @@ class GenerationFactureMail extends GenerationAbstract {
     public function generateMailForADocumentId($id) {
         $facture = FactureClient::getInstance()->find($id);
 
-        if(!$facture->getSociete()->getEmail()) {
+        if(!$facture->getSociete()->getEmailTeledeclaration()) {
             echo $facture->getSociete()->_id."\n";
             return;
         }
 
         $message = Swift_Message::newInstance()
          ->setFrom(sfConfig::get('app_mail_from_email'))
-         ->setTo($facture->getSociete()->getEmail())
-         ->setSubject("Facture Interpro")
+         ->setTo($facture->getSociete()->getEmailCompta())
+         ->setSubject("Facture n°".$facture->getNumeroInterpro()." - BIVC")
          ->setBody("Bonjour,
 
-Nouvelle facture de votre interprofession : <".sfContext::getInstance()->getRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true).">
+Une nouvelle facture du BIVC est disponible, vous pouvez la télécharger directement en cliquant sur le lien : <".ProjectConfiguration::getAppRouting()->generate('facture_pdf_auth', array('id' => $facture->_id, 'auth' => FactureClient::generateAuthKey($id)), true).">
 
-         ");
+Bien cordialement,
+
+Le BIVC");
 
         return $message;
     }
@@ -68,11 +70,6 @@ Nouvelle facture de votre interprofession : <".sfContext::getInstance()->getRout
         fputcsv($fp, $this->getLog($factureId, $statut, $date));
 
         fclose($fp);
-
-        if(!$this->generation->exist('fichiers/'.$this->getPublishFile())) {
-            $this->generation->add('fichiers')->add($this->getPublishFile(), "Logs d'envoi de mails");
-            $this->generation->save();
-        }
     }
 
     public function getLog($factureId, $statut, $date = null) {
@@ -82,7 +79,7 @@ Nouvelle facture de votre interprofession : <".sfContext::getInstance()->getRout
 
         $facture = FactureClient::getInstance()->find($factureId);
 
-        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmail(), $statut, $facture->_id);
+        return array($date, $facture->getNumeroPieceComptable(), $facture->identifiant, $facture->declarant->raison_sociale, $facture->getSociete()->getEmailTeledeclaration(), $statut, $facture->_id);
     }
 
     public function generate() {
@@ -91,6 +88,9 @@ Nouvelle facture de votre interprofession : <".sfContext::getInstance()->getRout
 
         $factureAEnvoyer = array();
         $factureDejaEnvoye = $this->generation->documents->toArray();
+        $sleepMaxBatch = 5;
+        $sleepSecond = 2;
+        $i = 0;
         foreach($this->generation->getMasterGeneration()->documents as $factureId) {
             if(in_array($factureId, $factureDejaEnvoye)) {
                 continue;
@@ -113,7 +113,16 @@ Nouvelle facture de votre interprofession : <".sfContext::getInstance()->getRout
 
             $this->generation->documents->add(null, $factureId);
             $this->generation->save();
+            $i++;
+            if($i > $sleepMaxBatch) {
+                sleep($sleepSecond);
+                $i = 0;
+            }
+        }
 
+        if(!$this->generation->exist('fichiers/'.$this->getPublishFile())) {
+            $this->generation->add('fichiers')->add($this->getPublishFile(), "Logs d'envoi de mails");
+            $this->generation->save();
         }
 
         $this->generation->setStatut(GenerationClient::GENERATION_STATUT_GENERE);
