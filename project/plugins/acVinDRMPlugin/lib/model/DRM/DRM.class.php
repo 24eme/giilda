@@ -1233,7 +1233,7 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
         if (preg_match('|^(/declaration/certifications/.+/appellations/.+/mentions/.+/lieux/.+/couleurs/.+/cepages/.+/details.*/.+)/' . $hash_match . '$|', $key, $match)) {
             $detail = $this->get($match[1]);
             if (!$drm->exist($detail->getHash())) {
-            $drm->addProduit($detail->getCepage()->getHash(), $detail->getParent()->getKey(), $detail->labels->toArray());
+            $drm->addProduit($detail->getCepage()->getHash(), $detail->getParent()->getKey(), $detail->denomination_complementaire);
             }
             $drm->get($detail->getHash())->set($hash_replication, $value);
         }
