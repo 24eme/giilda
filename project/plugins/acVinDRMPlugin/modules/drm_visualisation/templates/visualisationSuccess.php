@@ -68,7 +68,7 @@
         <?php if ($drm->isNegoce() && $isTeledeclarationMode): ?>
             <div class="alert alert-info">
 				<img src="/images/visuels/prodouane.png" />
-                <p><br />Vous pouvez à présent télécharger votre DRM au format XML afin de l'importer en DTI+ sur le site prodouanes via le lien suivant : <a href="https://pro.douane.gouv.fr/">pro.douane.gouv.fr</a><br />
+                <p><br />Vous pouvez à présent télécharger votre DRM au format XML afin de l'importer en DTI+ sur le site prodouanes via le lien suivant : <a href="https://douane.gouv.fr/">douane.gouv.fr</a><br />
                 <a class="pull-right btn btn-default" download="<?= $drm->_id ?>.xml" target="_blank" href="<?php echo url_for('drm_xml', $drm); ?>">Télécharger le XML</a><br />&nbsp;</p>
             </div>
 		<?php endif; ?>
@@ -117,7 +117,7 @@
       <?php if (!$drm->transmission_douane->success) : ?>
         <a style="margin-left: 5px;" href="<?php echo url_for('drm_transmission', $drm); ?>" class="btn btn-success" ><span>Transmettre la Drm sur CIEL</span></a>
       <?php else: ?>
-        <a style="margin-left: 5px;" href="https://pro.douane.gouv.fr/" class="btn btn-success" ><span>Se rendre sur Pro Dou@ne</span></a>
+        <a style="margin-left: 5px;" href="https://douane.gouv.fr/" class="btn btn-success" ><span>Se rendre sur Pro Dou@ne</span></a>
       <?php endif; ?>
     <?php endif; ?>
     </div>
