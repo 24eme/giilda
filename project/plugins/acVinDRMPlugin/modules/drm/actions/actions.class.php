@@ -139,6 +139,7 @@ class drmActions extends drmGeneriqueActions {
                   $drmLast = DRMClient::getInstance()->findLastByIdentifiantAndCampagne($identifiant, DRMClient::getInstance()->buildCampagne($periode));
                   if ($drmLast !== null) {
                       $produitsTotaux = null;
+                      $withDenomination = array();
                       foreach($drmLast->getProduitsDetails() as $detail) {
                           if(preg_match("/^Total/", $detail->getLibelle())) {
                               if($produitsTotaux) {
@@ -146,12 +147,18 @@ class drmActions extends drmGeneriqueActions {
                               }
                               $produitsTotaux .= $detail->getCouleur()->getLieu()->getConfig()->getHash();
                           }
-
+                          if($detail->denomination_complementaire) {
+                              $withDenomination[$detail->getCouleur()->getLieu()->getAppellation()->getHash()] = $detail->getCouleur()->getLieu()->getAppellation()->getHash();
+                          }
                       }
                   }
 
-                  if($produitsTotaux) {
+                  if(isset($produitsTotaux) && $produitsTotaux) {
                       $url_reprise_donnees_drm.= '?aggregate='.$produitsTotaux;
+                  }
+
+                  if(isset($withDenomination) && $withDenomination) {
+                      $url_reprise_donnees_drm.= '?lieudit='.implode("|", $withDenomination);
                   }
 
                   if(!DRMClient::getInstance()->findLastByIdentifiant($identifiant, acCouchdbClient::HYDRATE_JSON)) {
@@ -224,7 +231,7 @@ class drmActions extends drmGeneriqueActions {
      * @param sfWebRequest $request
      */
     public function executeVerificationEdi(sfWebRequest $request) {
-        ini_set('memory_limit', '400M');
+        ini_set('memory_limit', '600M');
         set_time_limit(0);
         $this->md5 = $request->getParameter('md5');
         $this->identifiant = $request->getParameter('identifiant');
@@ -281,7 +288,7 @@ class drmActions extends drmGeneriqueActions {
      */
     public function executeCreationEdi(sfWebRequest $request) {
         set_time_limit(0);
-        ini_set('memory_limit', '400M');
+        ini_set('memory_limit', '600M');
         $this->md5 = $request->getParameter('md5');
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');

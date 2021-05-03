@@ -6,6 +6,11 @@
  */
 class Vrac extends BaseVrac {
 
+    const VRAC_RESPONSABLE_ACHETEUR = 'acheteur';
+    const VRAC_RESPONSABLE_VENDEUR  = 'vendeur';
+    const VRAC_RESPONSABLE_MANDATAIRE = 'mandataire';
+    const VRAC_RESPONSABLE_REPRESENTANT = 'representant';
+
     protected $archivage_document = null;
 
     public function __construct() {
@@ -86,6 +91,8 @@ class Vrac extends BaseVrac {
             if ($value) {
                 $cepages = $this->getCepagesConfig();
                 $this->cepage_libelle = $cepages[$value];
+            }else{
+              $this->cepage_libelle = null;
             }
         }
     }
@@ -151,6 +158,7 @@ class Vrac extends BaseVrac {
     }
 
     public function setInformations() {
+        $this->initResponsable();
         if(!$this->representant_identifiant) {
             $this->representant_identifiant = $this->vendeur_identifiant;
         }
@@ -202,7 +210,7 @@ class Vrac extends BaseVrac {
         }
     }
 
-    public function initCreateur($etbId) {
+    public function initCreateur($etbId, $isVendeur = false) {
 
         $etbId = str_replace('ETABLISSEMENT-', '', $etbId);
         $etb = EtablissementClient::getInstance()->findByIdentifiant($etbId);
@@ -214,13 +222,20 @@ class Vrac extends BaseVrac {
         }
         if ($etb->isCourtier()) {
             $this->mandataire_exist = true;
+            $this->responsable = Vrac::VRAC_RESPONSABLE_MANDATAIRE;
             $this->setMandataireIdentifiant($etbId);
             $this->setMandataireInformations();
         }
 
         if ($etb->isNegociant()) {
-            $this->setAcheteurIdentifiant($etbId);
-            $this->setAcheteurInformations();
+            if ($isVendeur) {
+                $this->setVendeurIdentifiant($etbId);
+                $this->setVendeurInformations();
+                $this->responsable = Vrac::VRAC_RESPONSABLE_VENDEUR;
+            }else {
+                $this->setAcheteurIdentifiant($etbId);
+                $this->setAcheteurInformations();
+            }
         }
 
         if ($etb->isRepresentant()) {
@@ -571,15 +586,14 @@ class Vrac extends BaseVrac {
         $mvts = array();
         $mvts_drm = DRMMouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->vendeur_identifiant);
         $mvts_sv12 = SV12MouvementsConsultationView::getInstance()->getMouvementsByEtablissement($this->acheteur_identifiant);
+
         foreach ($mvts_drm as $key => $mvt) {
-            $pos = strpos($mvt->produit_hash, $this->produit);
-            if(($mvt->type_hash == "vrac_details" && ($pos !== false) && $mvt->detail_identifiant == $this->_id) || (preg_match("/^creationvrac/",$mvt->type_hash) && ($pos !== false) && ("VRAC-".$mvt->vrac_numero == $this->_id))){
+            if(($mvt->type_hash == "vrac_details" && $mvt->detail_identifiant == $this->_id) || (preg_match("/^creationvrac/",$mvt->type_hash) && ("VRAC-".$mvt->vrac_numero == $this->_id))){
                 $mvts[] = $mvt;
             }
         }
         foreach ($mvts_sv12 as $key => $mvt) {
-            $pos = strpos($mvt->produit_hash, $this->produit);
-            if($pos !== false && $mvt->detail_identifiant == $this->_id){
+            if($mvt->detail_identifiant == $this->_id){
                 $mvts[] = $mvt;
             }
         }
@@ -997,5 +1011,37 @@ class Vrac extends BaseVrac {
     public function isVracCreation() {
       return preg_match('/^DRM-/', $this->numero_contrat);
     }
+
+    public function initResponsable() {
+        if (!$this->_get('responsable') && $this->teledeclare) {
+            if ($this->exist('mandataire_identifiant') && $this->mandataire_identifiant)  {
+                return $this->_set('responsable', Vrac::VRAC_RESPONSABLE_MANDATAIRE);
+            }
+            return $this->_set('responsable', Vrac::VRAC_RESPONSABLE_ACHETEUR);
+        }
+    }
+    public function getResponsable() {
+        if (!$this->_get('responsable')) {
+            $this->initResponsable();
+        }
+        return $this->_get('responsable');
+    }
+
+    public function isAcheteurResponsable() {
+        return ($this->responsable == Vrac::VRAC_RESPONSABLE_ACHETEUR);
+    }
+
+    public function isMandataireResponsable() {
+        return ($this->responsable == Vrac::VRAC_RESPONSABLE_MANDATAIRE);
+    }
+
+    public function isVendeurResponsable() {
+        return ($this->responsable == Vrac::VRAC_RESPONSABLE_VENDEUR);
+    }
+
+    public function isRepresentantResponsable() {
+        return ($this->responsable == Vrac::VRAC_RESPONSABLE_REPRESENTANT);
+    }
+
 
 }

@@ -76,7 +76,7 @@
        		'target' => '_self'
        ));
        endif;
-       if(SubventionConfiguration::getInstance()->isActif()):
+       if(SubventionConfiguration::getInstance()->isActif($etablissement, $sf_user->hasCredential('admin'))):
               include_component('common', 'navItem', array(
                   'libelle' => 'Contrat relance',
                   'prefix' => 'subvention',
@@ -122,6 +122,16 @@
        'target' => '_self'
 ));
 endif; ?>
+<?php if (FactureConfiguration::getInstance()->getTeledeclaration()):
+include_component('common', 'navItem', array(
+      'libelle' => 'Factures',
+      'prefix' => 'facture',
+      'route' => 'facture',
+      'route_etablissement' => 'facture_societe',
+      'etablissement' => $sf_user->getCompte()->getSociete(),
+      'target' => '_self'
+));
+endif; ?>
 <?php if(FichierConfiguration::getInstance()->isActif()):
        include_component('common', 'navItem', array(
        		'libelle' => 'Documents',
@@ -132,7 +142,7 @@ endif; ?>
        		'target' => '_self'
        ));
  endif; ?>
- <?php if(SubventionConfiguration::getInstance()->isActif()):
+ <?php if(SubventionConfiguration::getInstance()->isActif($sf_user->getCompte()->getSociete()->getEtablissementPrincipal(), $sf_user->hasCredential('admin'))):
           include_component('common', 'navItem', array(
         		'libelle' => 'Contrat relance',
         		'prefix' => 'subvention',

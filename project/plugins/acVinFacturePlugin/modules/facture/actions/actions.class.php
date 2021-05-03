@@ -5,7 +5,11 @@ class factureActions extends sfActions {
     public function executeIndex(sfWebRequest $request) {
         $this->form = new FactureSocieteChoiceForm('INTERPRO-declaration');
         $this->generationForm = new FactureGenerationForm();
-        $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL, GenerationClient::TYPE_DOCUMENT_FACTURES, GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX), 10);
+        $this->generations = GenerationClient::getInstance()->findHistoryWithType(array(
+            GenerationClient::TYPE_DOCUMENT_EXPORT_SHELL,
+            GenerationClient::TYPE_DOCUMENT_FACTURES,
+            GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX
+        ), 10);
         sfContext::getInstance()->getResponse()->setTitle('FACTURE');
         if ($request->isMethod(sfWebRequest::POST)) {
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -91,6 +95,28 @@ class factureActions extends sfActions {
         return $this->redirect('generation_view', array('type_document' => $generation->type_document, 'date_emission' => $generation->date_emission));
     }
 
+    public function executeSousGenerationFacture(sfWebRequest $request)
+    {
+        $generationMaitre = $request->getParameter('generation');
+        $type = $request->getParameter('type');
+
+        $generationMaitre = GenerationClient::getInstance()->find($generationMaitre);
+
+        if (! $generationMaitre) {
+            $this->redirect404();
+        }
+
+        $generation = $generationMaitre->getOrCreateSubGeneration($type);
+
+        $generationMaitre->save();
+        $generation->save();
+
+        return $this->redirect('generation_view', [
+          'type_document' => $generationMaitre->type_document,
+          'date_emission' => $generationMaitre->date_emission.'-'.$generation->type_document
+        ]);
+    }
+
     public function executeEtablissement(sfWebRequest $request) {
         return $this->redirect('facture_societe', $this->getRoute()->getEtablissement()->getSociete());
     }
@@ -172,6 +198,24 @@ class factureActions extends sfActions {
         $latex->echoWithHTTPHeader($request->getParameter('type'));
         //    var_dump($latex->echoWithHTTPHeader('latex'));
         exit;
+    }
+
+    public function executeGetFactureWithAuth(sfWebRequest $request) {
+        $auth = $request->getParameter('auth');
+        $id = $request->getParameter('id');
+
+        $key = FactureClient::generateAuthKey($id);
+        $auth = substr($auth, 0, strlen($key));
+
+        if ($auth !== $key) {
+            throw new sfError403Exception("Vous n'avez pas le droit d'accéder à cette page");
+        }
+
+        $facture = FactureClient::getInstance()->find($id);
+        $facture->setTelechargee();
+        $facture->save();
+
+        return $this->executeLatex($request);
     }
 
     private function getLatexTmpPath() {

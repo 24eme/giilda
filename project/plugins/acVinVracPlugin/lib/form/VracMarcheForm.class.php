@@ -70,6 +70,7 @@ class VracMarcheForm extends VracForm {
             'cepage_85_15' => 'Cépage 85/15'
         ));
         $validatorForNumbers = new sfValidatorRegex(array('required' => false, 'pattern' => "/^[0-9]*.?,?[0-9]+$/"));
+        $requiredDegre = VracConfiguration::getInstance()->isRequiredDegre();
 
         $this->setValidator('produit', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getProduits()))));
         $this->setValidator('cepage', new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getCepages()))));
@@ -81,7 +82,7 @@ class VracMarcheForm extends VracForm {
         $this->setValidator('bouteilles_contenance_libelle', new sfValidatorString(array('required' => true)));
         $this->setValidator('prix_initial_unitaire', new sfValidatorNumber(array('required' => true)));
         $this->setValidator('label', new sfValidatorChoice(array('required' => false, 'multiple' => true, 'choices' => array_keys($this->getLabels()))));
-        $this->setValidator('degre', new sfValidatorNumber(array('required' => true, 'min' => 7, 'max' => 15)));
+        $this->setValidator('degre', new sfValidatorNumber(array('required' => $requiredDegre, 'min' => 7, 'max' => 15)));
         $this->setValidator('surface', new sfValidatorNumber(array('required' => false)));
         $this->setValidator('selection', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('millesime_85_15', new sfValidatorBoolean(array('required' => false)));
@@ -226,7 +227,7 @@ class VracMarcheForm extends VracForm {
 
     public function getDomaines()
     {
-        $domaines = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
+        $domaines = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant, date('Y'));
         $this->domaines = array('' => '');
         foreach ($domaines->rows as $resultDomaine) {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];
@@ -289,7 +290,7 @@ class VracMarcheForm extends VracForm {
     }
 
     public function getDomainesForAutocomplete() {
-        $domainesView = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant);
+        $domainesView = VracDomainesView::getInstance()->findDomainesByVendeur($this->getObject()->vendeur_identifiant, date('Y'));
         $domaines = array();
         foreach ($domainesView->rows as $resultDomaine) {
             $d = $resultDomaine->key[VracDomainesView::KEY_DOMAINE];

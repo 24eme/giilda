@@ -7,7 +7,7 @@
  */
 
 /**
- * Description of class maintenanceNumeroCourtierTask
+ * Description of class VracUpdateRepartitionCVOTask
  * @author mathurin
  */
 class VracUpdateRepartitionCVOTask extends sfBaseTask
