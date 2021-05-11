@@ -110,7 +110,7 @@ class statistiqueActions extends sfActions {
 		$values['doc.mouvements.date/to'] = null;
 
 		$resultVrac = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters($values), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
-		$csvResult = $this->getPartial('statistique/disponibilites', array('stocksfin' => $resultStocks,'contrats' => $resultVrac));
+		$csvResult = $this->getPartial('statistique/disponibilites', array('stocksfin' => $resultStocks,'contrats' => $resultVrac, 'options' => array("fromDate" => $values["doc.date_campagne/from"])));
 		if ($this->form->pdfFormat()) {
 			return $this->renderPdf($csvResult, "disponibilites", array('categories' => $this->form->getCategories(), 'appellations' => $this->form->getAppellations(), 'periode' => $this->form->getPeriode()));
 		} else {
