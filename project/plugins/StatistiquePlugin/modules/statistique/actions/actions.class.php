@@ -52,7 +52,7 @@ class statistiqueActions extends sfActions {
 
 			}else{
 				$result = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters(), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
-				$csvResult = $this->getAggsResultCsv($values['statistiques'], $result);
+                $csvResult = $this->getAggsResultCsv($values['statistiques'], $result);
 
 				if ($this->form->canPeriodeCompare()) {
 					$resultLastPeriode = $this->getAggsResult($this->statistiquesConfig['statistiques'][$values['statistiques']]['index'], $this->form->processFilters($this->form->getValuesLastPeriode()), array($values['statistiques'] => $this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation']));
@@ -91,7 +91,7 @@ class statistiqueActions extends sfActions {
 	protected function getAggsResultCsv($type, $current, $lastPeriode = null)
 	{
 		$values = $this->form->getValues();
-		$fromDate = $values["doc.mouvements.date/from"];
+		$fromDate = ($values["doc.mouvements.date/from"])? $values["doc.mouvements.date/from"] : $values["doc.date_campagne/from"];
 		$options = array("fromDate" => $fromDate);
 
 		return ($lastPeriode !== null)? $this->getPartial('statistique/'.$type, array('lastPeriode' => $lastPeriode, 'result' => $current, 'options' => $options)) : $this->getPartial('statistique/'.$type, array('lastPeriode' => null, 'result' => $current[$type], 'options' => $options ));
