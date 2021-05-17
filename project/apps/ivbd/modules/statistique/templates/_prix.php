@@ -2,8 +2,8 @@
 use_helper('IvbdStatistique');
 $options = $options->getRawValue();
 $configuration = ConfigurationClient::getConfiguration($options['fromDate']);
-
-$millesime = preg_replace("/([0-9]+)-([0-9]+)/","$1",$configuration);
+$cm = new CampagneManager('08-01');
+$millesime = strstr($cm->getCampagneByDate($options['fromDate']),'-',true);
 $csvArray = array();
 $csvProduitCumulVolumes = array();
 $csv = 'Type contrat;Produit;Nombre de contrats;Qté en hl;Prix moyen;Volume '.$millesime.'; Cours '.$millesime.';Volume autres millesimes;Cours autres millesimes;Volume tous contrats'."\n";
@@ -37,9 +37,9 @@ foreach ($result['agg_page']['buckets'] as $type_contrats) {
 			$toutMillesimesPrix += ($contrats_millesimes['ca']['agg_column']['value'])? floatval($contrats_millesimes['ca']['agg_column']['value']) : 0.0;
 			if($contrats_millesimes['key'] == $millesime){
 				$millesimesNb = $contrats_millesimes['doc_count'];
-				$millesimesVolume = formatNumber($contrats_millesimes['vol_prix']['agg_column']['value'],2);
-				$millesimesPrix = formatNumber($contrats_millesimes['ca']['agg_column']['value'],2);
-				$millesimesMoyenne  = formatNumber($contrats_millesimes['moyenne']['value'],2);
+				$millesimesVolume = ($contrats_millesimes['vol_prix']['agg_column']['value'])? floatval($contrats_millesimes['vol_prix']['agg_column']['value']) : 0.0;
+				$millesimesPrix = ($contrats_millesimes['ca']['agg_column']['value'])? floatval($contrats_millesimes['ca']['agg_column']['value']) : 0.0;
+				$millesimesMoyenne  = ($contrats_millesimes['moyenne']['value'])? floatval($contrats_millesimes['moyenne']['value']) : 0.0;
 			}else{
 				$horsMillesimesNb += $contrats_millesimes['doc_count'];
 				$horsMillesimesVolume += ($contrats_millesimes['vol_prix']['agg_column']['value'])? floatval($contrats_millesimes['vol_prix']['agg_column']['value']) : 0.0;
@@ -47,8 +47,8 @@ foreach ($result['agg_page']['buckets'] as $type_contrats) {
 			}
 		}
 
-		$toutMillesimesMoyenne = ($toutMillesimesVolume)? formatNumber($toutMillesimesPrix / $toutMillesimesVolume / 225,2) : 0.0;
-		$horsMillesimesMoyenne = ($horsMillesimesVolume)? formatNumber($horsMillesimesPrix / $horsMillesimesVolume / 225,2) : 0.0;
+		$toutMillesimesMoyenne = ($toutMillesimesVolume)? floatval($toutMillesimesPrix / $toutMillesimesVolume / 225) : 0.0;
+		$horsMillesimesMoyenne = ($horsMillesimesVolume)? floatval($horsMillesimesPrix / $horsMillesimesVolume / 225) : 0.0;
 		if(!array_key_exists($produitLibelle,$csvProduitCumulVolumes)){
 			$csvProduitCumulVolumes[$produitLibelle] = 0.0;
 		}
@@ -72,13 +72,13 @@ foreach ($result['agg_page']['buckets'] as $type_contrats) {
 			$csv .= $produitValues['type_contrats_libelle'].';'.
 							$produitValues['produitLibelle'].';'.
 							$produitValues['nbContrats'].';'.
-							$produitValues['toutMillesimesVolume'].';'.
-							$produitValues['toutMillesimesMoyenne'].';'.
-							$produitValues['millesimesVolume'].';'.
-							$produitValues['millesimesMoyenne'].';'.
-							$produitValues['horsMillesimesVolume'].';'.
-							$produitValues['horsMillesimesMoyenne'].';'.
-							$csvProduitCumulVolumes[$produitKey]."\n";
+							formatNumber($produitValues['toutMillesimesVolume'],2).';'.
+							formatNumber($produitValues['toutMillesimesMoyenne'],2).';'.
+							formatNumber($produitValues['millesimesVolume'],2).';'.
+							formatNumber($produitValues['millesimesMoyenne'],2).';'.
+							formatNumber($produitValues['horsMillesimesVolume'],2).';'.
+							formatNumber($produitValues['horsMillesimesMoyenne'],2).';'.
+							formatNumber($csvProduitCumulVolumes[$produitKey],2)."\n";
 		}
 	}
 
