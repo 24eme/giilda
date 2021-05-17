@@ -49,10 +49,13 @@ foreach ($result['agg_page']['buckets'] as $type_contrats) {
 
 		$toutMillesimesMoyenne = ($toutMillesimesVolume)? floatval($toutMillesimesPrix / $toutMillesimesVolume / 225) : 0.0;
 		$horsMillesimesMoyenne = ($horsMillesimesVolume)? floatval($horsMillesimesPrix / $horsMillesimesVolume / 225) : 0.0;
-		if(!array_key_exists($produitLibelle,$csvProduitCumulVolumes)){
-			$csvProduitCumulVolumes[$produitLibelle] = 0.0;
+		if(!array_key_exists($type_contrats_libelle,$csvProduitCumulVolumes)){
+			$csvProduitCumulVolumes[$type_contrats_libelle] = array();
 		}
-		$csvProduitCumulVolumes[$produitLibelle] += $toutMillesimesVolume;
+        if(!array_key_exists($produitLibelle,$csvProduitCumulVolumes[$type_contrats_libelle])){
+			$csvProduitCumulVolumes[$type_contrats_libelle][$produitLibelle] = 0.0;
+		}
+		$csvProduitCumulVolumes[$type_contrats_libelle][$produitLibelle] += $toutMillesimesVolume;
 
 		$csvArray[$type_contrats_libelle][$produitLibelle]['type_contrats_libelle'] = $type_contrats_libelle;
 		$csvArray[$type_contrats_libelle][$produitLibelle]['produitLibelle'] = $produitLibelle;
@@ -78,7 +81,7 @@ foreach ($result['agg_page']['buckets'] as $type_contrats) {
 							formatNumber($produitValues['millesimesMoyenne'],2).';'.
 							formatNumber($produitValues['horsMillesimesVolume'],2).';'.
 							formatNumber($produitValues['horsMillesimesMoyenne'],2).';'.
-							formatNumber($csvProduitCumulVolumes[$produitKey],2)."\n";
+							formatNumber($csvProduitCumulVolumes[$type_contrats_libelle][$produitKey],2)."\n";
 		}
 	}
 
