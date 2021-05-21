@@ -216,8 +216,8 @@ En année 1, préciser :\small ~- si une révision est envisagée pour les anné
 \normalsize
 En années 2 ou 3, préciser le n° d'enregistrement à l'IVBD du contrat initial déposé en année 1 : \textbf{\CONTRATNUMEROENREGISTREMENTANNEEUN}
  ~ \\   ~ \\
-%PARTIE 6-a%
-\circled{6a}~~\textbf{Prix et conditions de paiement:} \\
+%PARTIE 6%
+\circled{6}~~\textbf{Prix et conditions de paiement :} \\
 \hspace*{0.5cm}
 Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T \\
 \hspace*{0.5cm}
@@ -225,19 +225,19 @@ Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} \\
 \hspace*{0.5cm}
 Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
 \hspace*{0.5cm}
-\tiny{Rappel : Les Accords Interprofessionnel de l'IVBD encadrent strictement, dans leur article 11, les delais de paiement maximaux. Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours \\
+\tiny{Rappel : Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues.\\
 \hspace*{0.5cm}
-calendaires après chacune des dates de retiraison prévues. Lorsque les bordereaux sont signés dans le cadre d'un contrat pluriannuel, les delais de paiement ne peuvent excéder 150 jours calendaires après chacune des dates de retiraison prévues. \\
+Dans tous les autres cas, les délais de paiement sont ceux prévus à l'article L 443-1 du Code de Commerce.\\
 \hspace*{0.5cm}
-Dans tous les autres cas, les délais de paiement son ceux prévus à l'article L 443-1 du Code de Commerce.\\
-\hspace*{0.5cm}
-Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000\texteuro ) en cas de non respect de ces dispositions.
+\Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 € ) en cas de non respect de ces dispositions.
   ~ \\   ~ \\
-%PARTIE 6-b%
 \normalsize
-\circled{6b}~~\textbf{Conditions de paiement particulières:}~Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard\\
 \hspace*{0.5cm}
-60 jours (ou 150 jours dans le cadre d'un contrat pluriannuel) calendaires après la date de retiraison prévue au présent contrat.\\
+Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard 60 jours calendaires après la date\\
+\hspace*{0.5cm}
+de retiraison\\
+\hspace*{0.5cm}
+prévue au présent contrat.\\
 \hspace*{0.5cm}
 Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
@@ -245,10 +245,10 @@ La cotisation interprofessionnelle est pour moitié à la charge de l'acheteur e
 \hspace*{0.5cm}
 exigibilité.\\
 \hspace*{0.5cm}
-Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$<?php endif; ?> (attestation d'achat en franchise à fournir)
+Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\squareChecked Non~$\square$<?php else: ?>~Oui~$\square$ Non~\squareChecked<?php endif;?> ~~~~~ La facturation se fera : <?php if ($vrac->tva == 'SANS'): ?>avec TVA $\square$ ~~ hors TVA \squareChecked<?php else : ?>avec TVA \squareChecked ~~ hors TVA $\square$ (dans ce cas, attestation d'achat en franchise à fournir)<?php endif; ?>
   ~ \\   ~ \\
 %PARTIE 7%
-\circled{7}~~\textbf{Retiraison, Délivrance et Réserve de propriété:}\\
+\circled{7}~~\textbf{Retiraison, Délivrance :}\\
 \hspace*{0.5cm}
 La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.\\
 \hspace*{0.5cm}
@@ -258,18 +258,37 @@ et en fonction du calendrier précisé au verso du présent contrat. Pour tout d
 \hspace*{0.5cm}
 en 4 exemplaires dont 1 pour l'IVBD, et signé par chacune des parties. De convention expresse entre les parties, la délivrance au sens de l'article\\
 \hspace*{0.5cm}
-1604 du Code Civil se réalisera à la date figurant sur le titre de mouvement. En cas de non respect par l'acheteur des dates de retiraison ci-dessus\\
+1604 du Code Civil se réalisera à la date figurant sur le titre de mouvement.
+ ~ \\   ~ \\
+ %PARTIE 7.1%
+\circled{7.1}~~\textbf{Résiliation du contrat :}\\
 \hspace*{0.5cm}
-mentionnées, le vendeur ne pourra invoquer l'article 1657 du code civil (annulation de droit de la vente pour non enlèvement des vins à la date prévue)\\
+En cas de non respect par l'acheteur des dates de retiraison ci-dessus mentionnées,\\
 \hspace*{0.5cm}
-que 10 jours ouvrés après l'envoi à l'acheteur d'une lettre recommandée avec accusé de réception le mettant en demeure de retirer le vin avant\\
+le vendeur ne pourra invoquer l'article 1657 du code civil : « annulation de droit de la vente pour non-enlèvement des vins à la date prévue ».\\
 \hspace*{0.5cm}
-l'expiration de ce délai supplémentaire de 10 jours. Les parties entendent placer le présent contrat sous le régime de la réserve de propriété\\
+En cas de non-agrément motivé du produit (vin non loyal et marchand), dans le délai de retiraison prévu au contrat, l'acheteur pourra demander la résiliation\\
 \hspace*{0.5cm}
-prévu par la loi du 12 mai 1980. En application de cette loi, le vendeur se réserve la propriété des vins vendus jusqu'à parfait paiement de ceux-ci.
+du contrat.
+ ~ \\   ~ \\
+%PARTIE 7.2%
+\circled{7.2}~~\textbf{Cas de Force Majeure :}\\
+\hspace*{0.5cm}
+Les parties ne sauraient être tenues responsables de l'inexécution de leurs obligations respectives si cette inexécution est due à un cas de force majeure,\\
+\hspace*{0.5cm}
+conformément aux dispositions de l'article 1218 du code civil.\\
+\hspace*{0.5cm}
+L'inexécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.\\
   ~ \\   ~ \\
 %PARTIE 8%
-\circled{8}~~\textbf{Enregistrement à l'IVBD:}\\
+\circled{8}~~\textbf{Réserve de propriété :}\\
+\hspace*{0.5cm}
+Les parties entendent placer le présent contrat sous le régime de la réserve de propriété prévue par la loi du 12 mai 1980. En application de cette loi,\\
+\hspace*{0.5cm}
+le vendeur se réserve la propriété des vins vendus jusqu'à parfait paiement de ceux-ci.<?php if($vrac->clause_reserve_propriete): ?>~~~~Oui~~$\squareChecked$~~~Non~~$\square$<?php else: ?>~~~~Oui~~$\square$~~~Non~~$\squareChecked$<?php endif; ?>
+~ \\   ~ \\  ~ \\   ~ \\
+%PARTIE 9%
+\circled{9}~~\textbf{Enregistrement à l'IVBD :}\\
 \hspace*{0.5cm}
 En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD conclus pour la première fois le 21 août 1981, le présent contrat\\
 \hspace*{0.5cm}
