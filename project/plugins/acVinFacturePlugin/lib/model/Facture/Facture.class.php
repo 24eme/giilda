@@ -672,10 +672,13 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if (!$this->versement_comptable) {
             $this->versement_comptable = 0;
         }
-
         if (!$this->versement_comptable_paiement) {
             $this->versement_comptable_paiement = 0;
         }
+        if (!$this->exist('paiements') || !count($this->paiements)) {
+            $this->versement_comptable_paiement = 1;
+        }
+
 
         $this->archivage_document->preSave();
         $this->numero_piece_comptable = $this->getNumeroPieceComptable();
