@@ -328,7 +328,7 @@ all:
           aggregation:
             filter:
               term:
-                doc.type: 'vrac'
+                doc.type: 'Vrac'
             aggs:
                   agg_page:
                     terms:
@@ -383,7 +383,7 @@ all:
           aggregation:
             filter:
               term:
-                doc.type: 'vrac'
+                doc.type: 'Vrac'
             aggs:
                   agg_page:
                     terms:
