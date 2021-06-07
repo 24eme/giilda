@@ -30,14 +30,38 @@ class DAECsvEdi extends CsvFile {
     const CSV_CONDITIONNEMENT_QUANTITE = 16; // AA (colonne n°20) : quantité de conditionnement (en nombre de bib, de bouteille ou, pour le vrac, en hl)
     const CSV_PRIX_UNITAIRE = 17; // AB (colonne n°20) : prix unitaire (prix en € par bouteille, bib ou hl)
     const CSV_DEVISE = 18;
-    
+
     protected $daes = null;
     protected $csv = null;
 
     public function __construct($file) {
         $this->buildCountryList();
         $this->buildDeviseList();
-        parent::__construct($file);
+
+        $this->ignore = $ignore_first_if_comment;
+        $this->separator = ';';
+        if (!$file)
+          return ;
+        if (!file_exists($file) && !preg_match('/^http/', $file))
+          throw new Exception("Cannont access $file");
+        $this->file = $file;
+        $handle = fopen($this->file, 'r');
+        if (!$handle) {
+          throw new sfException('unable to open file: '.$this->file);
+        }
+        $buffer = fread($handle, 500);
+        fclose($handle);
+        $buffer = preg_replace('/$[^\n]*\n/', '', $buffer);
+        if (!$buffer) {
+          throw new Exception('invalid csv file; '.$this->file);
+        }
+        $virgule = explode(',', $buffer);
+        $ptvirgule = explode(';', $buffer);
+        $tabulation = explode('\t', $buffer);
+        if (count($virgule) > count($ptvirgule) && count($virgule) > count($tabulation))
+          $this->separator = ',';
+        else if (count($tabulation) > count($ptvirgule))
+          $this->separator = '\t';
     }
 
     public function buildCountryList() {
