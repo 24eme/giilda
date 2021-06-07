@@ -28,6 +28,7 @@ if ($vrac->mandataire_exist) {
 \usepackage{amssymb}
 \usepackage{tikz}
 \usepackage{textcomp}
+\usepackage[dvipsnames]{xcolor}
 
 \usepackage[explicit]{titlesec}
 \usepackage{lipsum}
@@ -224,20 +225,21 @@ Le prix convenu est de ~\textbf{\CONTRATPRIX}~\texteuro / T \\
 Moyen de paiement : \textbf{\CONTRATMOYENPAIEMENT} \\
 \hspace*{0.5cm}
 Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
-\hspace*{0.5cm}
-\tiny{Rappel : Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues.\\
-\hspace*{0.5cm}
+\hspace*{0.45cm}
+\colorbox{gray!30}{
+\begin{minipage}{0.92\textwidth}
+\tiny{Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues.\\
 Dans tous les autres cas, les délais de paiement sont ceux prévus à l'article L 443-1 du Code de Commerce.\\
-\hspace*{0.5cm}
-\Des sanction financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 € ) en cas de non respect de ces dispositions.
+\underline{Des sanctions financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 \texteuro ) en cas de non respect de ces dispositions.}s
+\end{minipage}
+}
+}
   ~ \\   ~ \\
 \normalsize
 \hspace*{0.5cm}
 Quelles que soient les dates réelles de retiraison et de factures, le paiement devra être effectif au plus tard 60 jours calendaires après la date\\
 \hspace*{0.5cm}
-de retiraison\\
-\hspace*{0.5cm}
-prévue au présent contrat.\\
+de retiraison prévue au présent contrat.\\
 \hspace*{0.5cm}
 Le courtage de \textbf{\CONTRATPOURCENTAGECOURTAGE} \% est à la charge de \textbf{\CONTRATREPARTITION}.\\
 \hspace*{0.5cm}
@@ -250,7 +252,7 @@ Le vendeur est assujetti à la TVA <?php if ($vrac->vendeur_tva): ?>~Oui~\square
 %PARTIE 7%
 \circled{7}~~\textbf{Retiraison, Délivrance :}\\
 \hspace*{0.5cm}
-La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.\\
+\underline{La retiraison devra s'effectuer dans un délai maximal de 90 jours après signature du présent contrat sauf mention particulière précisée ci-dessous.} \\
 \hspace*{0.5cm}
 \underline{Mention particulière} : La retiraison intégrale devra s'effectuer au plus tard le : \textbf{\DATELIMITERETIRAISON}.\\
 \hspace*{0.5cm}
@@ -260,8 +262,8 @@ en 4 exemplaires dont 1 pour l'IVBD, et signé par chacune des parties. De conve
 \hspace*{0.5cm}
 1604 du Code Civil se réalisera à la date figurant sur le titre de mouvement.
  ~ \\   ~ \\
- %PARTIE 7.1%
-\circled{7.1}~~\textbf{Résiliation du contrat :}\\
+ %PARTIE 7bis%
+\circled{7bis}~~\textbf{Résiliation du contrat :}\\
 \hspace*{0.5cm}
 En cas de non respect par l'acheteur des dates de retiraison ci-dessus mentionnées,\\
 \hspace*{0.5cm}
@@ -271,8 +273,8 @@ En cas de non-agrément motivé du produit (vin non loyal et marchand), dans le 
 \hspace*{0.5cm}
 du contrat.
  ~ \\   ~ \\
-%PARTIE 7.2%
-\circled{7.2}~~\textbf{Cas de Force Majeure :}\\
+%PARTIE 7ter%
+\circled{7ter}~~\textbf{Cas de Force Majeure :}\\
 \hspace*{0.5cm}
 Les parties ne sauraient être tenues responsables de l'inexécution de leurs obligations respectives si cette inexécution est due à un cas de force majeure,\\
 \hspace*{0.5cm}
@@ -332,7 +334,8 @@ Signé électroniquement, le \textbf{<?php echo ($vrac->valide->date_signature_a
 \end{minipage}
 
 \newpage
-
+\vspace*{-1cm}
+\hspace*{-1cm}
 \includegraphics[scale=0.95]{<?php echo sfConfig::get('sf_web_dir'); ?>/pdf/_annexe_vrac.pdf}
 
 \end{document}
