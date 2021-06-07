@@ -230,7 +230,7 @@ Délais de paiement : \textbf{\CONTRATDELAIPAIEMENT} \\
 \begin{minipage}{0.92\textwidth}
 \tiny{Lorsque les bordereaux prévoient des dates de retiraison, les délais de paiement ne peuvent excéder 60 jours calendaires après chacune des dates de retiraison prévues.\\
 Dans tous les autres cas, les délais de paiement sont ceux prévus à l'article L 443-1 du Code de Commerce.\\
-\underline{Des sanctions financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 \texteuro ) en cas de non respect de ces dispositions.}s
+\underline{Des sanctions financières conséquentes sont prévues par l'article L 632-7 du Code Rural et l'article L 443-1 du Code de Commerce (amende de 75 000 \texteuro ) en cas de non respect de ces dispositions.}
 \end{minipage}
 }
 }
@@ -288,7 +288,7 @@ L'inexécution des obligations est suspendue pendant la durée de la force majeu
 Les parties entendent placer le présent contrat sous le régime de la réserve de propriété prévue par la loi du 12 mai 1980. En application de cette loi,\\
 \hspace*{0.5cm}
 le vendeur se réserve la propriété des vins vendus jusqu'à parfait paiement de ceux-ci.<?php if($vrac->clause_reserve_propriete): ?>~~~~Oui~~$\squareChecked$~~~Non~~$\square$<?php else: ?>~~~~Oui~~$\square$~~~Non~~$\squareChecked$<?php endif; ?>
-~ \\   ~ \\  ~ \\   ~ \\
+~ \\   ~ \\  ~ \\   ~ \\  ~ \\
 %PARTIE 9%
 \circled{9}~~\textbf{Enregistrement à l'IVBD :}\\
 \hspace*{0.5cm}
