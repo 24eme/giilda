@@ -8,6 +8,10 @@ DSNegoce:
       identifiant: {}
       campagne: {}
       periode: {}
+      millesime: {}
+      date_echeance: {}
+      docid_origine_reprise_produits: {}
+      commentaire: {}
       declarant:
         type: collection
         definition:
@@ -22,10 +26,7 @@ DSNegoce:
             region: {  }
             famille: {  }
             sous_famille: {  }
-      date_echeance: {}
-      docid_origine_reprise_produits: {}
-      commentaire: {}
-      declarations:
+      declaration:
         type: collection
         definition:
           fields:
@@ -34,9 +35,8 @@ DSNegoce:
               type: collection
               definition:
                 fields:
-                  produit_libelle: {}
-                  produit_hash: {}
-                  stock:
+                  libelle: {}
+                  detail:
                     type: collection
                     definition:
                       fields:
@@ -44,10 +44,13 @@ DSNegoce:
                           type: collection
                           definition:
                             fields:
-                              millesime: {}
-                              stock_initial: { type: float }
-                              stock_declare: { type: float }
-                              dont_vraclibre: { type: float }
+                              denomination_complementaire: {}
+                              stock_initial_millesime_courant: { type: float }
+                              stock_declare_millesime_courant: { type: float }
+                              dont_vraclibre_millesime_courant: { type: float }
+                              stock_initial_millesime_anterieur: { type: float }
+                              stock_declare_millesime_anterieur: { type: float }
+                              dont_vraclibre_millesime_anterieur: { type: float }
       valide:
         type: collection
         definition:
