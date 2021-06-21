@@ -1,0 +1,58 @@
+#schema des DS
+DSNegoce:
+  definition:
+    fields:
+      _id: {}
+      _rev: {}
+      type: {}
+      identifiant: {}
+      campagne: {}
+      periode: {}
+      declarant:
+        type: collection
+        definition:
+          fields:
+            nom: { searchable: true }
+            raison_sociale: { searchable: true }
+            cvi: {  }
+            no_accises: {   }
+            adresse: { searchable: true }
+            commune: { searchable: true }
+            code_postal: {   }
+            region: {  }
+            famille: {  }
+            sous_famille: {  }
+      date_echeance: {}
+      docid_origine_reprise_produits: {}
+      commentaire: {}
+      declarations:
+        type: collection
+        definition:
+          fields:
+            '*':
+              class: DSNegoceProduit
+              type: collection
+              definition:
+                fields:
+                  produit_libelle: {}
+                  produit_hash: {}
+                  stock:
+                    type: collection
+                    definition:
+                      fields:
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              millesime: {}
+                              stock_initial: { type: float }
+                              stock_declare: { type: float }
+                              dont_vraclibre: { type: float }
+      valide:
+        type: collection
+        definition:
+          fields:
+            date_saisie: { type: date }
+            date_signee: { type: date }
+            identifiant: {  }
+            statut: { }
