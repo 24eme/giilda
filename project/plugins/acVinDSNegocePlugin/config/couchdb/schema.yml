@@ -7,9 +7,9 @@ DSNegoce:
       type: {}
       identifiant: {}
       campagne: {}
-      periode: {}
       millesime: {}
       date_echeance: {}
+      date_stock: {}
       docid_origine_reprise_produits: {}
       commentaire: {}
       declarant:
