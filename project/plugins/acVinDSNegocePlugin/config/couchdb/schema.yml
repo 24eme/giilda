@@ -11,7 +11,7 @@ DSNegoce:
       date_echeance: {}
       date_stock: {}
       docid_origine_reprise_produits: {}
-      commentaire: {}
+      teledeclare: {}
       declarant:
         type: collection
         definition:
@@ -31,7 +31,6 @@ DSNegoce:
         definition:
           fields:
             '*':
-              class: DSNegoceProduit
               type: collection
               definition:
                 fields:
@@ -48,7 +47,6 @@ DSNegoce:
                               stock_initial_millesime_courant: { type: float }
                               stock_declare_millesime_courant: { type: float }
                               dont_vraclibre_millesime_courant: { type: float }
-                              stock_initial_millesime_anterieur: { type: float }
                               stock_declare_millesime_anterieur: { type: float }
                               dont_vraclibre_millesime_anterieur: { type: float }
       valide:
