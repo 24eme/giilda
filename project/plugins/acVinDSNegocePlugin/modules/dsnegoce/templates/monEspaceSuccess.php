@@ -1,4 +1,5 @@
 <?php use_helper('Date'); ?>
+<?php use_helper('Float'); ?>
 <?php include_partial('dsnegoce/preTemplate'); ?>
 <?php include_partial('dsnegoce/breadcrum', array('etablissement' => $etablissement)); ?>
 
@@ -29,10 +30,16 @@
     <p>&nbsp;</p>
 
     <div class="row">
-      <?php if($dsnegoce->isNew()): ?>
-        N'existe pas
+      <?php if (!$docRepriseProduits): ?>
+        <p>La saisie des stocks n'est pas possible car nous n'avez pas saisie votre DRM de <strong><?php echo (format_date($date, 'MMMM yyyy', 'fr_FR')) ?></strong></p>
+      <?php elseif(!$dsnegoce): ?>
+        <a href="<?php echo url_for('dsnegoce_creation', ['identifiant' => $etablissement->identifiant, 'date' => $date]) ?>" class="btn btn-primary">Saisir les stocks</a>
+      <?php elseif($dsnegoce->isValidee()): ?>
+        <?php include_partial('dsnegoce/recap', array('dsnegoce' => $dsnegoce)); ?>
+        <a href="<?php echo url_for('dsnegoce_visualisation', $dsnegoce) ?>" class="btn btn-primary pull-right">Accéder à la déclaration&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
       <?php else: ?>
-        Exist
+        <p>Une déclaration de stocks au <?php echo (format_date($dsnegoce->date_stock, 'dd MMMM yyyy', 'fr_FR')) ?> est en cours de saisie</p>
+        <a href="<?php echo url_for('dsnegoce_infos', $dsnegoce) ?>" class="btn btn-primary pull-right">Reprendre la saisie&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
       <?php endif; ?>
     </div>
 

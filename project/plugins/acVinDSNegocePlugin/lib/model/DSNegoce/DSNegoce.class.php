@@ -38,7 +38,10 @@ class DSNegoce extends BaseDSNegoce implements InterfaceDeclarantDocument {
 			$tabDateStock = explode('-', $date);
 			$this->campagne = $cm->getCampagneByDate($date);
 			$this->millesime = $tabDateStock[0]-1;
+			$this->teledeclare = (int)$teledeclare;
 			$this->constructId();
+			$this->storeDeclarant();
+			$this->storeProduits();
 	}
 
 	/*** DECLARANT ***/
@@ -56,5 +59,46 @@ class DSNegoce extends BaseDSNegoce implements InterfaceDeclarantDocument {
 	}
 
 	/*** FIN DECLARANT ***/
+
+	public function storeProduits() {
+		$doc = $this->getDocumentRepriseProduits();
+		if ($doc) {
+			$this->docid_origine_reprise_produits = $doc->_id;
+			foreach($doc->getProduitsCepages() as $produitCepage) {
+				$hashCepage = str_replace(['/declaration/','declaration/'], '', $produitCepage->getHash());
+				$produit = $this->declaration->add($hashCepage);
+				$produit->libelle = $produitCepage->getLibelle();
+				foreach($produitCepage->getProduits() as $detail) {
+					$produitDetail = $produit->detail->add($detail->getKey());
+					$produitDetail->denomination_complementaire = trim(str_replace($produitCepage->getLibelle(), '', $detail->getLibelle()));
+					$produitDetail->stock_initial_millesime_courant = $detail->total;
+				}
+			}
+		}
+	}
+
+	public function getDocumentRepriseProduits()
+	{
+			return DSNegoceClient::getDocumentRepriseProduits($this->identifiant, $this->date_stock);
+	}
+
+	public function devalidate()
+	{
+		$this->valide->date_saisie = null;
+		$this->valide->date_signee = null;
+		$this->valide->identifiant = null;
+	}
+
+	public function validate()
+	{
+		$this->valide->date_saisie = date('Y-m-d');
+		$this->valide->date_signee = $this->valide->date_saisie;
+		$this->valide->identifiant = $this->identifiant;
+	}
+
+	public function isValidee()
+	{
+		return preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $this->valide->date_saisie);
+	}
 
 }
