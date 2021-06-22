@@ -9,18 +9,29 @@ class DSNegoceClient extends acCouchdbClient {
       return acCouchdbManager::getClient("DSNegoce");
     }
 
-		public function createOrFind($etablissement, $date = null)
+		public static function makeId($identifiant, $date)
 		{
-			$dsnegoce = new DSNegoce();
-			$dsnegoce->initDoc($etablissement, $date);
-			return ($exist = $this->find($dsnegoce->_id))? $exist : $dsnegoce;
+			return self::TYPE_MODEL.'-' . $identifiant . '-' . str_replace('-', '', $date);
 		}
 
-		public static function getDateFinCampagne($date)
+		public function createOrFind($etablissement, $date = null, $teledeclare = false)
 		{
-			$cm = new CampagneManager('08-01');
-			$campagne = explode('-', $cm->getCampagneByDate($date));
-			return $campagne[0].'-07-31';
+			$dateDeclaration = self::getDateDeclaration($date);
+			if ($dsnegoce = $this->find(self::makeId($etablissement, $dateDeclaration))) {
+				return $dsnegoce;
+			}
+			$dsnegoce = new DSNegoce();
+			$dsnegoce->initDoc($etablissement, $dateDeclaration, $teledeclare);
+			return $dsnegoce;
+		}
+
+		public static function getDocumentRepriseProduits($identifiant, $dateDeclaration) {
+				$periode = substr(str_replace('-', '', $dateDeclaration), 0, 6);
+				$drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($identifiant, $periode);
+				if (!$drm) {
+					$drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($identifiant, substr($periode, 0, 4).'-'.substr($periode, -2));
+				}
+				return $drm;
 		}
 
 		public static function getDateDeclaration($date = null)
@@ -30,12 +41,14 @@ class DSNegoceClient extends acCouchdbClient {
 			} elseif (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
 				throw new Exception('Date format invalide : '.$date);
 			}
-			return self::getDateFinCampagne($date);
+			$cm = new CampagneManager('08-01');
+			$campagne = explode('-', $cm->getCampagneByDate($date));
+			return $campagne[1].'-07-31';
 		}
 
-    public function findByArgs($identifiant, $periode, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT)
+    public function findByArgs($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT)
     {
-    	$id = self::TYPE_MODEL.'-' . $identifiant . '-' . $periode;
+    	$id = self::TYPE_MODEL.'-' . $identifiant . '-' . $date;
     	return $this->find($id, $hydrate);
     }
 
@@ -52,16 +65,21 @@ class DSNegoceClient extends acCouchdbClient {
     	$periodes = array();
     	foreach ($rows as $k => $v) {
     		$ex = explode('-', $k);
-    		if (isset($ex[2])) {
-    			$date = substr($ex[2], 0, 4).'-'.substr($ex[2], 4, 2).'-'.substr($ex[2], 6, 2);
+				$lastInd = count($ex) - 1;
+    		if ($lastInd >= 0) {
+    			$date = substr($ex[$lastInd], 0, 4).'-'.substr($ex[$lastInd], 4, 2).'-'.substr($ex[$lastInd], 6, 2);
     			if (!in_array($date, $periodes)) {
     				$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     			}
     		}
     	}
-			$date = self::getDateFinCampagne(date('Y-m-d'));
+			$date = self::getDateDeclaration(date('Y-m-d'));
     	if (!in_array($date, $periodes)) {
     		$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
+    	}
+			$dateCampagneAnterieur = self::getDateDeclaration((date('Y')-1).'-'.date('m-d'));
+    	if (!in_array($dateCampagneAnterieur, $periodes)) {
+    		$periodes[$dateCampagneAnterieur] = ucfirst(format_date($dateCampagneAnterieur, 'MMMM yyyy', 'fr_FR'));
     	}
     	krsort($periodes);
     	return $periodes;

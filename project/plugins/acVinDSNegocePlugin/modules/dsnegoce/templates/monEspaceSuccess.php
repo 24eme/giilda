@@ -17,9 +17,9 @@
               <?php echo $formPeriodes->renderGlobalErrors() ?>
               <?php echo $formPeriodes->renderHiddenFields() ?>
               Stock à fin :
-              <div class="form-group<?php if($formPeriodes['periode']->hasError()): ?> has-error<?php endif; ?>">
-                  <?php echo $formPeriodes['periode']->renderError(); ?>
-                  <?php echo $formPeriodes['periode']->render(); ?>
+              <div class="form-group<?php if($formPeriodes['date']->hasError()): ?> has-error<?php endif; ?>" style="width: 160px;">
+                  <?php echo $formPeriodes['date']->renderError(); ?>
+                  <?php echo $formPeriodes['date']->render(); ?>
               </div>
               <button type="submit" class="btn btn-default">Changer</button>
           </form>

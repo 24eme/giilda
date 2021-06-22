@@ -19,21 +19,24 @@ class DSNegoce extends BaseDSNegoce implements InterfaceDeclarantDocument {
 
 	public function constructId()
 	{
-		$this->set('_id', DSNegoceUploadClient::TYPE_MODEL.'-' . $this->identifiant . '-' . $this->getPeriode());
+		$this->set('_id', DSNegoceClient::makeId($this->identifiant, $this->getDateStock()));
 	}
 
 	public function getPeriode()
 	{
-		return str_replace('-', '', $this->date_stock);
+		return substr($this->date_stock, 0, -3);
 	}
 
-	public function initDoc($etablissement, $date = null)
+	public function initDoc($etablissement, $date, $teledeclare = false)
 	{
+			if (!preg_match('/^[0-9]{4}-07-31$/', $date)) {
+				throw new Exception('Date de stock invalide : '.$date);
+			}
 			$this->identifiant = (is_object($etablissement))? $etablissement->identifiant : $etablissement;
 			$cm = new CampagneManager('08-01');
-			$this->date_stock = DSNegoceClient::getDateDeclaration($date);
-			$tabDateStock = explode('-', $this->date_stock);
-			$this->campagne = $cm->getCampagneByDate($this->date_stock);
+			$this->date_stock = $date;
+			$tabDateStock = explode('-', $date);
+			$this->campagne = $cm->getCampagneByDate($date);
 			$this->millesime = $tabDateStock[0]-1;
 			$this->constructId();
 	}
