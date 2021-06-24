@@ -195,7 +195,7 @@ Assiette foncière totale correspondant aux volumes commercialisés : \textbf{\S
 \hspace*{0.5cm}
 Volume prévisionnel : \textbf{\CONTRATVOLUME} ~ Kg de raisin du cépage \textbf{\CONTRATCEPAGEPRODUIT} \\
 \hspace*{0.5cm}
-pouvant prétandre à l'appellation : \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} \\
+pouvant prétendre à l'appellation : \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} \\
 \hspace*{0.5cm}
 Le vendeur s'engage à livrer à l'acheteur les raisins désignés ci-dessus, issus de sa production et conformes à l'ensemble des prescriptions figurant dans \\
 \hspace*{0.5cm}
@@ -205,7 +205,7 @@ les cahiers des charges des vins concernés. Il certifie que les renseignements 
 \circled{3}~~\textbf{Bordereau s'inscrivant dans le cadre d'un contrat d'achat pluriannuel:}<?php if ($vrac->pluriannuel): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser l'année d'application : Année 1 <?php if ($vrac->annee_contrat == 1): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 2 <?php if ($vrac->annee_contrat == 2): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> Année 3 <?php if ($vrac->annee_contrat == 3): ?>\squareChecked<?php else : ?>$\square$<?php endif; ?> \\
 \hspace*{0.5cm}
 Le volume et le prix indiqués sur ce bordereau concernent l'année d'application cochée, sous réserve du respect des règles précisées au verso. \\\hspace*{0.5cm}
-En année 1, préciser :\small ~- si une révision du prix est envisagée pour les années suivante :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
+En année 1, préciser :\small ~- si une révision du prix est envisagée pour les années suivantes :<?php if ($vrac->seuil_revision || $vrac->pourcentage_variation): ?>~Non~$\square$~Oui~\squareChecked<?php else : ?>~Non~\squareChecked~Oui~$\square$<?php endif; ?> $\rightarrow$ Préciser le seuil de déclenchement de révision de prix du contrat : $\pm$ \textbf{\CONTRATSEUILDECLENCHEMENT}\% \\
 \hspace*{2.98cm}
 - le pourcentage de variabilité maximale du volume en année 2 ou 3 par rapport au volume prévu en année 1 est de : $\pm$ \textbf{\CONTRATBORDEREUPOURCENTAGEANNEEUN}\% \\
 \hspace*{0.5cm}
@@ -242,9 +242,9 @@ le bordereau. Si la retiraison intervenait avant la date précitée, la délivra
 %PARTIE 5 bis%
 \circled{5}~~\textbf{bis - Résiliation du contrat :}\\
 \hspace*{0.5cm}
-En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur pour invoquer l'article 1657 du code civil : "Annulation\\
+En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur pourra invoquer l'article 1657 du code civil : "Annulation\\
 \hspace*{0.5cm}
-de droit de la vente pour non-enlèvement de la vendange à la date prévue.\\
+de droit de la vente pour non-enlèvement de la vendange à la date prévue".\\
 \hspace*{0.5cm}
 En cas de non-agrément motivé du produit (vendange non loyale et marchande), dans le délai de retiraison prévu au contrat, l'acheteur pourra demander\\
 \hspace*{0.5cm}
@@ -274,7 +274,7 @@ Ce bordereau fait référence à un contrat assorti d'un cahier des charges éta
 Observations : \textbf{\CONTRATOBSERVATIONS} \\
   ~ \\   ~ \\
 %PARTIE 7%
-\circled{7}~~\textbf{Enregistrement à l'IVBD:}\\
+\circled{8}~~\textbf{Enregistrement à l'IVBD:}\\
 \hspace*{0.5cm}
 En vertu de l'article 4 des Accords Interprofessionnels étendus de l'IVBD conclus pour la première fois le 21 août 1981, le présent contrat\\
 \hspace*{0.5cm}
