@@ -179,9 +179,7 @@ N° CIP : \textbf{\CONTRATCOURTIERCARTEPRO} \\
 Tél. : \textbf{\CONTRATCOURTIERTELEPHONE}
 <?php endif; ?>
 \end{minipage}
-~ \\
 %PARTIE 2%
-
 \circled{2}~~\textbf{Désignation du produit :}\normalsize \textbf{\CONTRATAPPELLATIONPRODUIT} \small {\CONTRATLABELSPRODUIT} de la récolte : \textbf{\CONTRATMILLESIMEPRODUIT} ( \textbf{Volume} : \textbf{\CONTRATVOLUME}~hl ) \\
 \hspace*{0.5cm}
 Ce vins droit de goût, loyal et marchand est garanti conforme aux prescriptions légales et à l'échantillon fourni pour la conclusion de cette transaction. \\
@@ -208,9 +206,7 @@ correspondant au minimum aux deux tiers de ceux identifiant le producteur) son n
 contrat, de son nom patronymique ou de sa raison sociale, ainsi que de son adresse pour la présentation du vin.<?php if ($vrac->autorisation_nom_producteur): ?>~Oui~\squareChecked~Non~$\square$<?php else : ?>~Oui~$\square$~Non~\squareChecked<?php endif; ?>
 ~ \\
 %PARTIE 5%
-\circled{5}~~\textbf{Préparation du vin et embouteillage:} \normalsize \underline{Dans tous les cas l'acheteur assume la responsabilité de la mise en bouteilles.}\\
-\hspace*{0.5cm}
-Cependant, préciser l'option retenue :\\
+\circled{5}~~\textbf{Préparation du vin et embouteillage:} \normalsize \underline{Dans tous les cas l'acheteur assume la responsabilité de la mise en bouteilles.} Cependant, préciser l'option retenue :\\
 \hspace*{0.5cm}
 Les opérations techniques de préparation du vin à la mise sont effectuées par : <?php if ($vrac->preparation_vin == 'VENDEUR'): ?>~le vendeur~\squareChecked~l'acheteur~$\square$<?php else : ?>~le vendeur~$\square$~l'acheteur~\squareChecked<?php endif; ?> \\
 \hspace*{0.5cm}
@@ -280,6 +276,15 @@ En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionn�
  "annulation de droit de la vente pour non enlèvement des vins à la date prévue". En cas de non-agrément motivé du produit (vin non loyal et\\
 \hspace*{0.5cm}
 marchand), dans le délai de retiraison prévu au contrat, l'acheteur pourra demander la résiliation du contrat.
+~ \\
+%PARTIE 9ter%
+\circled{9}~~\textbf{ter - Cas de Force Majeure :}\\
+\hspace*{0.5cm}
+Les parties ne sauraient être tenues responsables de l’inexécution de leurs obligations respectives si cette inexécution est due à un cas de force majeure,\\
+\hspace*{0.5cm}
+conformément aux dispositions de l’article 1218 du code civil.\\
+\hspace*{0.5cm}
+L’inexécution des obligations est suspendue pendant la durée de la force majeure, et est reprise si les effets de la cause de non-exécution prennent fin.
 ~ \\
 %PARTIE 10%
 \circled{10}~~\textbf{Réserve de propriété :}\\
