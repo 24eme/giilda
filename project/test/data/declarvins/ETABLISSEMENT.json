@@ -1,0 +1,71 @@
+{
+   "_id": "ETABLISSEMENT-T0001-01",
+   "identifiant": "T0001-01",
+   "nom": "Chateau DEMO",
+   "type": "Etablissement",
+   "statut": "ACTIF",
+   "interpro": "INTERPRO-IR",
+   "contrat_mandat": "",
+   "compte": "COMPTE-T0001-01",
+   "societe": null,
+   "num_interne": null,
+   "siret": "11111111111111",
+   "raison_sociale": "Chateau DEMO",
+   "transmission_ciel": 1,
+   "cni": null,
+   "cvi": "1111111111",
+   "no_accises": "FR111111E0000",
+   "no_carte_professionnelle": null,
+   "no_tva_intracommunautaire": "1111",
+   "carte_pro": null,
+   "famille": "producteur",
+   "sous_famille": "cave_particuliere",
+   "email": "test@test.test",
+   "telephone": "",
+   "fax": "",
+   "siege": {
+       "adresse": "6 rue des trois faucons",
+       "code_postal": "84000",
+       "commune": "Avignon",
+       "pays": "FRANCE"
+   },
+   "comptabilite": {
+       "adresse": null,
+       "code_postal": null,
+       "commune": null,
+       "pays": null
+   },
+   "service_douane": "SD1",
+   "droits": [
+       "dae"
+   ],
+   "zones": {
+       "CONFIGURATION-ZONE-RHONE": {
+           "libelle": "Zone Rhône",
+           "transparente": 0,
+           "administratrice": 1
+       },
+       "CONFIGURATION-ZONE-IGP-IVSE": {
+           "libelle": "IGP Intervins SE",
+           "transparente": 0,
+           "administratrice": 0
+       },
+       "CONFIGURATION-ZONE-ANIVIN": {
+           "libelle": "Autres vins",
+           "transparente": 1,
+           "administratrice": 0
+       },
+       "CONFIGURATION-ZONE-IGP-LANGUEDOC": {
+           "libelle": "IGP Languedoc",
+           "transparente": 0,
+           "administratrice": 0
+       },
+       "CONFIGURATION-ZONE-PROVENCE": {
+           "libelle": "Zone Provence",
+           "transparente": 0,
+           "administratrice": 1
+       }
+   },
+   "correspondances": {
+   }
+}
