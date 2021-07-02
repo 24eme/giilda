@@ -1,3 +1,4 @@
+<?php include_partial('facture/preTemplate'); ?>
 <ol class="breadcrumb">
     <li class="active"><a href="<?php echo url_for('facture') ?>">Factures</a></li>
 </ol>
@@ -30,3 +31,4 @@
         <a href="<?php echo url_for('facture_mouvements'); ?>" class="btn btn-md btn-default">Créer des mouvements de facturation libre</a>
     </div>
 </div>
+<?php include_partial('facture/postTemplate'); ?>
