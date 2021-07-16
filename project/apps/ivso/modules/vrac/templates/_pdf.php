@@ -292,11 +292,6 @@ Date de fin de retiraison : \textbf{\CONTRATDATEMAXENLEVEMENT}\\
 \end{minipage}
 \end{multicols}
 
-\begin{footnotesize}
-\underline{Accord Interprofessionnel - Titre VI - Délai de paiement} : \\
-Article 15 : Les transactions liées à des achats de vins sont soumises à des délais de paiement maximum de 75 jours à partir de la date de retiraison effective.
-\end{footnotesize}
-
  ~ \\
 
 \textbf{OBSERVATIONS:} \\
