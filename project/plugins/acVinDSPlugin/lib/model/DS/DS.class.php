@@ -64,16 +64,29 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 
 	public function storeProduits() {
 		$doc = $this->getDocumentRepriseProduits();
+		$regex = DSConfiguration::getInstance()->getProductHashRegexFilter();
+		$interpro = DSConfiguration::getInstance()->getProductDetailInterpro();
 		if ($doc) {
 			$this->docid_origine_reprise_produits = $doc->_id;
 			foreach($doc->getProduitsCepages() as $produitCepage) {
 				$hashCepage = str_replace(['/declaration/','declaration/'], '', $produitCepage->getHash());
+				if ($regex && !preg_match($regex, $hashCepage)) {
+					continue;
+				}
 				$produit = $this->declaration->add($hashCepage);
 				$produit->libelle = $produitCepage->getLibelle();
+				$hasDetails = false;
 				foreach($produitCepage->getProduits() as $detail) {
+					if ($interpro && $detail->exist('interpro') && $detail->interpro != $interpro) {
+						continue;
+					}
 					$produitDetail = $produit->detail->add($detail->getKey());
 					$produitDetail->denomination_complementaire = trim(str_replace($produitCepage->getLibelle(), '', $detail->getLibelle()));
 					$produitDetail->stock_initial_millesime_courant = $detail->total;
+					$hasDetails = true;
+				}
+				if (!$hasDetails) {
+					$this->declaration->remove($hashCepage);
 				}
 			}
 		}
