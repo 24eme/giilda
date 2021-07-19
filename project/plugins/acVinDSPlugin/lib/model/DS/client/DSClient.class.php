@@ -9,9 +9,13 @@ class DSClient extends acCouchdbClient {
       return acCouchdbManager::getClient("DS");
     }
 
-		public static function makeId($identifiant, $date)
+		public static function makeId($identifiant, $date, $version = null)
 		{
-			return self::TYPE_MODEL.'-' . $identifiant . '-' . str_replace('-', '', $date);
+			$id = self::TYPE_MODEL.'-' . $identifiant . '-' . str_replace('-', '', $date);
+			if ($version) {
+				$id .= '-' . $version;
+			}
+			return $id;
 		}
 
 		public function createOrFind($etablissement, $date = null, $teledeclare = false)
@@ -65,9 +69,8 @@ class DSClient extends acCouchdbClient {
     	$periodes = array();
     	foreach ($rows as $k => $v) {
     		$ex = explode('-', $k);
-				$lastInd = count($ex) - 1;
-    		if ($lastInd >= 0) {
-    			$date = substr($ex[$lastInd], 0, 4).'-'.substr($ex[$lastInd], 4, 2).'-'.substr($ex[$lastInd], 6, 2);
+    		if (isset($ex[2])) {
+    			$date = substr($ex[2], 0, 4).'-'.substr($ex[2], 4, 2).'-'.substr($ex[2], 6, 2);
     			if (!in_array($date, $periodes)) {
     				$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     			}
@@ -77,11 +80,29 @@ class DSClient extends acCouchdbClient {
     	if (!in_array($date, $periodes)) {
     		$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     	}
-			$dateCampagneAnterieur = self::getDateDeclaration((date('Y')-1).'-'.date('m-d'));
-    	if (!in_array($dateCampagneAnterieur, $periodes)) {
-    		$periodes[$dateCampagneAnterieur] = ucfirst(format_date($dateCampagneAnterieur, 'MMMM yyyy', 'fr_FR'));
-    	}
     	krsort($periodes);
     	return $periodes;
+    }
+
+
+    public function findMasterByIdentifiantAndDate($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+        $ds = $this->viewByIdentifiantDate($identifiant, str_replace('-', '', $date), $hydrate);
+        foreach ($ds as $id => $doc) {
+            return $doc;
+        }
+        return null;
+    }
+
+    protected function viewByIdentifiantDate($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT) {
+	    	$rows = $this->findByIdentifiant($identifiant, $hydrate);
+        $ds = array();
+        foreach ($rows as $row) {
+					if (strpos($row->_id, str_replace('-', '', $date)) === false) {
+						continue;
+					}
+            $ds[$row->_id] = $row;
+        }
+        krsort($ds);
+        return $ds;
     }
 }

@@ -5,7 +5,7 @@ class DSRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
     protected function getObjectForParameters($parameters = null) {
 
-        $id = DSClient::TYPE_MODEL."-".$parameters['identifiant']."-".$parameters['date'];
+        $id = DSClient::TYPE_MODEL."-".$parameters['identifiant']."-".$parameters['date_version'];
         $this->doc = DSClient::getInstance()->find($id);
 
         if (!$this->doc) {
@@ -17,7 +17,7 @@ class DSRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
     protected function doConvertObjectToArray($object = null) {
 
-        return array("identifiant" => $object->identifiant, 'date' => str_replace('-', '', $object->getDateStock()));
+        return array("identifiant" => $object->identifiant, 'date_version' => $object->getDateVersion());
     }
 
     public function getDS() {

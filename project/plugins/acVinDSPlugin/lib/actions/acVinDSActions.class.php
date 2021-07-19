@@ -5,7 +5,7 @@ class acVinDSActions extends sfActions
 		$this->etablissement = $this->getRoute()->getEtablissement();
 		$this->date = DSClient::getDateDeclaration($request->getParameter('date', date('Y-m-d')));
 
-		$this->ds = DSClient::getInstance()->find(DSClient::makeId($this->etablissement->identifiant, $this->date));
+		$this->ds = DSClient::getInstance()->findMasterByIdentifiantAndDate($this->etablissement->identifiant, $this->date);
 		$this->docRepriseProduits = DSClient::getDocumentRepriseProduits($this->etablissement->identifiant, $this->date);
 
 		$this->formPeriodes = new DSEtablissementPeriodesForm($this->etablissement->identifiant, $this->date);
@@ -85,5 +85,15 @@ class acVinDSActions extends sfActions
 
 	protected function isTeledeclarationDS() {
 		return $this->getUser()->hasTeledeclaration();
+	}
+
+
+	public function executeRectifier(sfWebRequest $request) {
+			$ds = $this->getRoute()->getDS();
+
+			$rectificative = $ds->generateRectificative();
+			$rectificative->save();
+
+			return $this->redirect('ds_stocks', $rectificative);
 	}
 }

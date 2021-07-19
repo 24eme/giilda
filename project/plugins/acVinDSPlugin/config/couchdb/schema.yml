@@ -12,6 +12,7 @@ DS:
       date_stock: {}
       docid_origine_reprise_produits: {}
       teledeclare: {}
+      version: {}
       declarant:
         type: collection
         definition:

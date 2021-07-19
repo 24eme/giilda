@@ -11,15 +11,18 @@
 
     <?php include_partial('ds/recap', array('ds' => $ds)); ?>
 
-    <?php if (!$isTeledeclarationMode): ?>
     <div class="row" style="margin-top: 20px;">
-        <div class="col-xs-6">
+        <div class="col-xs-4">
             <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('ds_etablissement', $etablissement) ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Retour</a>
         </div>
-        <div class="col-xs-6 text-right">
-            <a onclick="return confirm('Confirmez-vous la réouverture de la déclaration')" class="btn btn-warning" href="<?php echo url_for('ds_devalidate', $ds) ?>">Réouvrir la déclaration</span></a>
+        <div class="col-xs-4 text-center">
+            <?php if (!$isTeledeclarationMode): ?>
+            <a onclick="return confirm('Confirmez-vous la réouverture de la déclaration')" class="btn btn-default" href="<?php echo url_for('ds_devalidate', $ds) ?>">Réouvrir la déclaration</span></a>
+            <?php endif; ?>
+        </div>
+        <div class="col-xs-4 text-right">
+            <a class="btn btn-warning" href="<?php echo url_for('ds_rectifier', $ds) ?>">Rectifier la déclaration</span></a>
         </div>
     </div>
-  <?php endif; ?>
 
 </div>

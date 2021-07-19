@@ -23,7 +23,7 @@ ds_creation:
     sf_method: [get, post]
 
 ds_infos:
-  url: /ds/:identifiant/infos/:date
+  url: /ds/:identifiant/infos/:date_version
   param: { module: ds, action: infos }
   class: DSRoute
   options:
@@ -33,7 +33,7 @@ ds_infos:
     sf_method: [get]
 
 ds_stocks:
-  url: /ds/:identifiant/stocks/:date
+  url: /ds/:identifiant/stocks/:date_version
   param: { module: ds, action: stocks }
   class: DSRoute
   options:
@@ -43,7 +43,7 @@ ds_stocks:
     sf_method: [get, post]
 
 ds_validation:
-  url: /ds/:identifiant/validation/:date
+  url: /ds/:identifiant/validation/:date_version
   param: { module: ds, action: validation }
   class: DSRoute
   options:
@@ -53,7 +53,7 @@ ds_validation:
     sf_method: [get]
 
 ds_validate:
-  url: /ds/:identifiant/validate/:date
+  url: /ds/:identifiant/validate/:date_version
   param: { module: ds, action: validate }
   class: DSRoute
   options:
@@ -63,7 +63,7 @@ ds_validate:
     sf_method: [get]
 
 ds_devalidate:
-  url: /ds/:identifiant/devalidate/:date
+  url: /ds/:identifiant/devalidate/:date_version
   param: { module: ds, action: devalidate }
   class: DSRoute
   options:
@@ -73,8 +73,18 @@ ds_devalidate:
     sf_method: [get]
 
 ds_visualisation:
-  url: /ds/:identifiant/visualisation/:date
+  url: /ds/:identifiant/visualisation/:date_version
   param: { module: ds, action: visualisation }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get]
+
+ds_rectifier:
+  url: /ds/:identifiant/rectifier/:date_version
+  param: { module: ds, action: rectifier }
   class: DSRoute
   options:
     model:    DS
