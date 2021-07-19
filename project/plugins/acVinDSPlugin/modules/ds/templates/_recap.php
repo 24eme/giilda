@@ -1,17 +1,16 @@
 <table  class="table table-striped table-filter table-bordered" style="border-top:none;">
 	<thead>
 		<tr>
-			<th colspan="2" style="background:none;border-color:#fff;">&nbsp;</th>
-			<th colspan="2" class="text-center"><?php echo $ds->millesime ?></th>
-			<th colspan="2" class="text-center"><?php echo $ds->millesime - 1 ?>, précédent et non millésimé</th>
+			<th style="background:none;border-color:#fff;">&nbsp;</th>
+			<th colspan="2" class="text-center col-md-3"><?php echo $ds->millesime ?></th>
+			<th colspan="2" class="text-center  col-md-3"><?php echo $ds->millesime - 1 ?>, précédent et non millésimé</th>
 		</tr>
   		<tr>
   			<th>Produit</th>
-    		<th class="text-center"><?php echo ucfirst(format_date($ds->date_stock, 'MMMM yyyy', 'fr_FR')) ?></th>
   			<th class="text-center">Stock</th>
-  			<th class="text-center">Disponible</th>
+  			<th class="text-center">Dispo.</th>
   			<th class="text-center">Stock</th>
-  			<th class="text-center">Disponible</th>
+  			<th class="text-center">Dispo.</th>
   		</tr>
 	</thead>
 	<tbody>
