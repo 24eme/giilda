@@ -55,6 +55,13 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-9">
+              <p style="margin: 10px 0 0 0;">
+                <em>En cas d'erreur, merci de bien vouloir contacter votre interprofession afin de corriger les informations erronées.</em>
+              </p>
+            </div>
+       </div>
         <div class="row" style="margin-top: 20px;">
             <div class="col-xs-6">
                 <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('ds_etablissement', $etablissement) ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Étape précédente</a>
