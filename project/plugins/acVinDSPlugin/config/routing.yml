@@ -1,0 +1,83 @@
+ds:
+  url: /ds
+  param: { module: ds, action: index }
+
+ds_etablissement:
+  url: /ds/:identifiant
+  param: { module: ds, action: monEspace }
+  class: EtablissementRoute
+  options:
+    model:    Etablissement
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
+ds_creation:
+  url: /ds/:identifiant/creation/:date
+  param: { module: ds, action: creation }
+  class: EtablissementRoute
+  options:
+    model:    Etablissement
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
+ds_infos:
+  url: /ds/:identifiant/infos/:date
+  param: { module: ds, action: infos }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get]
+
+ds_stocks:
+  url: /ds/:identifiant/stocks/:date
+  param: { module: ds, action: stocks }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get, post]
+
+ds_validation:
+  url: /ds/:identifiant/validation/:date
+  param: { module: ds, action: validation }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get]
+
+ds_validate:
+  url: /ds/:identifiant/validate/:date
+  param: { module: ds, action: validate }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get]
+
+ds_devalidate:
+  url: /ds/:identifiant/devalidate/:date
+  param: { module: ds, action: devalidate }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get]
+
+ds_visualisation:
+  url: /ds/:identifiant/visualisation/:date
+  param: { module: ds, action: visualisation }
+  class: DSRoute
+  options:
+    model:    DS
+    type:     object
+  requirements:
+    sf_method: [get]
