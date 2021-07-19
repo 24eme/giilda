@@ -29,20 +29,39 @@
 
     <p>&nbsp;</p>
 
-    <div class="row">
-      <?php if (!$docRepriseProduits): ?>
-        <p>La saisie des stocks n'est pas possible car nous n'avez pas saisie votre DRM de <strong><?php echo (format_date($date, 'MMMM yyyy', 'fr_FR')) ?></strong></p>
-      <?php elseif(!$ds): ?>
-        <a href="<?php echo url_for('ds_creation', ['identifiant' => $etablissement->identifiant, 'date' => $date]) ?>" class="btn btn-primary">Saisir les stocks</a>
-      <?php elseif($ds->isValidee()): ?>
-        <?php include_partial('ds/recap', array('ds' => $ds)); ?>
-        <a href="<?php echo url_for('ds_visualisation', $ds) ?>" class="btn btn-primary pull-right">Accéder à la déclaration&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
-      <?php else: ?>
-        <p>Une déclaration de stocks au <?php echo (format_date($ds->date_stock, 'dd MMMM yyyy', 'fr_FR')) ?> est en cours de saisie</p>
-        <a href="<?php echo url_for('ds_infos', $ds) ?>" class="btn btn-primary pull-right">Reprendre la saisie&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
-      <?php endif; ?>
-    </div>
-
+    <table  class="table table-striped table-filter table-bordered" style="border-top:none;">
+    	<thead>
+      		<tr>
+      			<th class="col-md-10">Etat</th>
+      			<th class="text-center col-md-2">&nbsp;</th>
+      		</tr>
+    	</thead>
+    	<tbody>
+        <tr>
+        <?php if (!$docRepriseProduits): ?>
+          <td><?php echo DSConfiguration::getInstance()->getTitle() ?> impossible car nous n'avez pas saisie votre DRM de <strong><?php echo (format_date($date, 'MMMM yyyy', 'fr_FR')) ?></strong></td>
+          <td>
+            <a href="<?php echo url_for('drm_mon_espace', $etablissement) ?>">Espace DRM</a>
+          </td>
+        <?php elseif(!$ds): ?>
+          <td>Vous pouvez saisir votre <?php echo DSConfiguration::getInstance()->getTitle() ?></td>
+          <td>
+            <a href="<?php echo url_for('ds_creation', ['identifiant' => $etablissement->identifiant, 'date' => $date]) ?>" class="btn btn-primary">Saisir les stocks</a>
+          </td>
+        <?php elseif($ds->isValidee()): ?>
+          <td>Votre <?php echo DSConfiguration::getInstance()->getTitle() ?> est validée</td>
+          <td>
+              <a href="<?php echo url_for('ds_visualisation', $ds) ?>" class="btn btn-primary pull-right">Accéder à la déclaration&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
+          </td>
+        <?php else: ?>
+          <td>Une <?php echo DSConfiguration::getInstance()->getTitle() ?> est en cours de saisie</td>
+          <td>
+            <a href="<?php echo url_for('ds_stocks', $ds) ?>" class="btn btn-primary pull-right">Reprendre la saisie&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
+          </td>
+        <?php endif; ?>
+        </tr>
+    	</tbody>
+    </table>
 </div>
 
 <?php include_partial('dae/postTemplate'); ?>
