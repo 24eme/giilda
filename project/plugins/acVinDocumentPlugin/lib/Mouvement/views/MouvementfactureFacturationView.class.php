@@ -30,9 +30,7 @@ class MouvementfactureFacturationView extends acCouchdbView {
         return acCouchdbManager::getView('mouvementfacture', 'facturation');
     }
 
-    protected function getMouvementsBySociete($societe, $facturee, $facturable, $facturationBySoc = false) {
-        $identifiantFirstEntity = ($facturationBySoc) ? $societe->identifiant : $societe->identifiant . '00';
-        $identifiantLastEntity = ($facturationBySoc) ? $societe->identifiant : $societe->identifiant . '99';
+    protected function getMouvementsBySociete($societe, $facturee, $facturable) {
         try {
             $paramRegion = ($societe->type_societe != SocieteClient::TYPE_OPERATEUR) ? SocieteClient::TYPE_AUTRE : $societe->getRegionViticole();
         } catch (Exception $e) {
@@ -40,8 +38,8 @@ class MouvementfactureFacturationView extends acCouchdbView {
         }
 
         return $this->client
-                        ->startkey(array($facturee, $facturable, $paramRegion, $identifiantFirstEntity))
-                        ->endkey(array($facturee, $facturable, $paramRegion, $identifiantLastEntity, array()))
+                        ->startkey(array($facturee, $facturable, $paramRegion, $societe->identifiant . '00'))
+                        ->endkey(array($facturee, $facturable, $paramRegion, $societe->identifiant . '99', array()))
                         ->reduce(false)
                         ->getView($this->design, $this->view)->rows;
     }
