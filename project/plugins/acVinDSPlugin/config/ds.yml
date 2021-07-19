@@ -1,0 +1,7 @@
+all:
+  configuration:
+    ds:
+      name: "DS"
+      title: "Déclaration de Stock"
+      product_hash_regex_filter: ""
+      product_detail_interpro: ""

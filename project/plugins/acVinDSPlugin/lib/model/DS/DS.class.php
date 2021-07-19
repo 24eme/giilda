@@ -1,204 +1,296 @@
 <?php
-
 /**
  * Model for DS
  *
  */
-class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceArchivageDocument {
 
-    protected $declarant_document = null;
-    protected $archivage_document = null;
+class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionDocument {
 
-    public function  __construct() {
-        parent::__construct();
-        $this->initDocuments();
-    }
+	protected $declarant_document = null;
+	protected $version_document = null;
 
-    public function __clone() {
-        parent::__clone();
-        $this->initDocuments();
-    }
-
-    protected function initDocuments() {
-        $this->declarant_document = new DeclarantDocument($this);
-        $this->archivage_document = new ArchivageDocument($this);
-    }
-
-    public function constructId() {
-        if($this->statut == null) {
-            $this->statut = DSClient::STATUT_A_SAISIR;
-        }
-        $this->set('_id', DSClient::getInstance()->buildId($this->identifiant, $this->periode));
-    }
-
-    public function getCampagne() {
-
-        return $this->_get('campagne');
-    }
-
-    public function getFirstDayOfPeriode() {
-       return substr($this->periode, 0,4).'-'.substr($this->periode, 4,2).'-01';
-    }
-
-    public function setDateStock($date_stock) {
-        $this->date_echeance = Date::getIsoDateFinDeMoisISO($date_stock, 1);
-        $this->periode = DSClient::getInstance()->buildPeriode($date_stock);
-
-        return $this->_set('date_stock', $date_stock);
-    }
-
-    public function setPeriode($periode) {
-        $this->campagne = DSClient::getInstance()->buildCampagne($periode);
-
-        return $this->_set('periode', $periode);
-    }
-
-    public function getLastDRM() {
-
-        return DRMClient::getInstance()->findLastByIdentifiantAndCampagne($this->identifiant, $this->campagne);
-    }
-
-    public function getLastDS() {
-
-        return DSClient::getInstance()->findLastByIdentifiant($this->identifiant);
-    }
-
-    public function updateProduits() {
-	if ($this->getEtablissement()->isViticulteur()) {
-	  $drm = $this->getLastDRM();
-	  if ($drm) {
-	    return $this->updateProduitsFromDRM($drm);
-	  }
+	public function __construct() {
+			parent::__construct();
+			$this->initDocuments();
 	}
-	if ($this->getEtablissement()->isNegociant()) {
-	  return $this->updateProduitsFromVracs();
+
+	protected function initDocuments() {
+			$this->declarant_document = new DeclarantDocument($this);
+			$this->version_document = new VersionDocument($this);
 	}
-        $ds = $this->getLastDS();
-        if ($ds) {
-           return $this->updateProduitsFromDS($ds);
-        }
-    }
 
-    public function addProduit($hash) {
-        $config = ConfigurationClient::getCurrent()->get($hash);
+	public function constructId()
+	{
+		$this->set('_id', DSClient::makeId($this->identifiant, $this->getDateStock(), $this->version));
+	}
 
-        if(!$config->hasCVO($this->date_stock)) {
+	public function getPeriode()
+	{
+		return substr($this->date_stock, 0, -3);
+	}
 
-            return;
-        }
+	public function initDoc($etablissement, $date, $teledeclare = false)
+	{
+			if (!preg_match('/^[0-9]{4}-07-31$/', $date)) {
+				throw new Exception('Date de stock invalide : '.$date);
+			}
+			$this->identifiant = (is_object($etablissement))? $etablissement->identifiant : $etablissement;
+			$cm = new CampagneManager('08-01');
+			$this->date_stock = $date;
+			$tabDateStock = explode('-', $date);
+			$this->campagne = $cm->getCampagneByDate($date);
+			$this->millesime = $tabDateStock[0]-1;
+			$this->teledeclare = (int)$teledeclare;
+			$this->constructId();
+			$this->storeDeclarant();
+			$this->storeProduits();
+	}
 
-        $produit = $this->declarations->add($config->getHashForKey());
-        $produit->produit_hash = $config->getHash();
-        $produit->updateProduit();
+	/*** DECLARANT ***/
 
-        return $produit;
-    }
+	public function getEtablissementObject() {
+		return EtablissementClient::getInstance()->findByIdentifiant($this->identifiant);
+	}
 
-    protected function updateProduitsFromDRM($drm) {
-        $produits = $drm->getProduits();
-	    $this->drm_origine = $drm->_id;
-        foreach ($produits as $produit) {
-            $produitDs = $this->addProduit($produit->getHash());
-            if(!$produitDs) {
-                continue;
-            }
-            $produitDs->stock_initial = $produit->total;
-        }
-    }
+	public function storeDeclarant() {
+			$this->declarant_document->storeDeclarant();
+			$etablissement = $this->getEtablissementObject();
+			$declarant = $this->getDeclarant();
+			$declarant->famille = $etablissement->famille;
+			$declarant->sous_famille = $etablissement->sous_famille;
+	}
 
-    protected function updateProduitsFromVracs() {
-      $hproduits = VracSoussigneIdentifiantView::getInstance()->getProduitHashesFromCampagneAndAcheteur($this->campagne, $this->getEtablissement());
-      $hproduits = array_merge($hproduits, VracSoussigneIdentifiantView::getInstance()->getProduitHashesFromCampagneAndAcheteur(ConfigurationClient::getInstance()->getPreviousCampagne($this->campagne), $this->getEtablissement()));
-      foreach ($hproduits as $produit) {
-	$produitDs = $this->addProduit($produit);
-      }
-    }
+	/*** FIN DECLARANT ***/
 
-    protected function updateProduitsFromDS($ds) {
-        foreach ($ds->declarations as $produit) {
-            if (!$produit->isActif()) {
+	public function storeProduits() {
+		$doc = $this->getDocumentRepriseProduits();
+		$regex = DSConfiguration::getInstance()->getProductHashRegexFilter();
+		$interpro = DSConfiguration::getInstance()->getProductDetailInterpro();
+		if ($doc) {
+			$this->docid_origine_reprise_produits = $doc->_id;
+			foreach($doc->getProduitsCepages() as $produitCepage) {
+				$hashCepage = str_replace(['/declaration/','declaration/'], '', $produitCepage->getHash());
+				if ($regex && !preg_match($regex, $hashCepage)) {
+					continue;
+				}
+				$produit = $this->declaration->add($hashCepage);
+				$produit->libelle = $produitCepage->getLibelle();
+				$hasDetails = false;
+				foreach($produitCepage->getProduits() as $detail) {
+					if ($interpro && $detail->exist('interpro') && $detail->interpro != $interpro) {
+						continue;
+					}
+					$produitDetail = $produit->detail->add($detail->getKey());
+					$produitDetail->denomination_complementaire = trim(str_replace($produitCepage->getLibelle(), '', $detail->getLibelle()));
+					$produitDetail->stock_initial_millesime_courant = $detail->total;
+					$hasDetails = true;
+				}
+				if (!$hasDetails) {
+					$this->declaration->remove($hashCepage);
+				}
+			}
+		}
+	}
 
-                continue;
-            }
-            $produitDs = $this->addProduit($produit->produit_hash);
-        }
-    }
+	public function getDocumentRepriseProduits()
+	{
+			return DSClient::getDocumentRepriseProduits($this->identifiant, $this->date_stock);
+	}
 
-    public function isStatutValide() {
-        return $this->statut === DSClient::STATUT_VALIDE;
-    }
+	public function devalidate()
+	{
+		$this->valide->date_saisie = null;
+		$this->valide->date_signee = null;
+		$this->valide->identifiant = null;
+	}
 
-    public function isStatutASaisir() {
-        return $this->statut === DSClient::STATUT_A_SAISIR;
-    }
+	public function validate()
+	{
+		$this->valide->date_saisie = date('Y-m-d');
+		$this->valide->date_signee = $this->valide->date_saisie;
+		$this->valide->identifiant = $this->identifiant;
+	}
 
-    public function updateStatut() {
-        $this->statut = DSClient::STATUT_VALIDE;
-    }
+	public function isValidee()
+	{
+		return preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $this->valide->date_saisie);
+	}
 
-    protected function preSave() {
-        $this->archivage_document->preSave();
-	$this->updateProduits();
-    }
+	public function isValidable()
+	{
+		foreach($this->declaration as $k => $v) {
+			foreach($v->detail as $sk => $sv) {
+				if ($sv->stock_initial_millesime_courant > 0 && $sv->stock_declare_millesime_courant === null) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 
-    /*** DECLARANT ***/
+	public function getDateVersion()
+	{
+		$str = str_replace('-', '', $this->getDateStock());
+		if ($this->version) {
+			$str .= '-'.$this->version;
+		}
+		return $str;
+	}
 
-    public function getEtablissementObject() {
-        return $this->getEtablissement();
-    }
+	/*     * ** VERSION *** */
 
-    public function storeDeclarant() {
-        $this->declarant_document->storeDeclarant();
-    }
+	public static function buildVersion($rectificative, $modificative) {
+			return VersionDocument::buildVersion($rectificative, $modificative);
+	}
 
-    /*** FIN DECLARANT ***/
+	public static function buildRectificative($version) {
+			return VersionDocument::buildRectificative($version);
+	}
 
-    /*** ARCHIVAGE ***/
+	public static function buildModificative($version) {
+			return VersionDocument::buildModificative($version);
+	}
 
-     public function getNumeroArchive() {
+	public function getVersion() {
+			return $this->_get('version');
+	}
 
-        return $this->_get('numero_archive');
-    }
+	public function hasVersion() {
+			return $this->version_document->hasVersion();
+	}
 
-    public function isArchivageCanBeSet() {
+	public function isVersionnable() {
+			if (!$this->isValidee()) {
+					return false;
+			}
+			return $this->version_document->isVersionnable();
+	}
 
-        return $this->isStatutValide();
-    }
+	public function getRectificative() {
+			return $this->version_document->getRectificative();
+	}
 
-    /*** FIN ARCHIVAGE ***/
+	public function isRectificative() {
+			return $this->version_document->isRectificative();
+	}
 
-    public function getDepartement()
-    {
-        if($this->declarant->code_postal )  {
-          return substr($this->declarant->code_postal, 0, 2);
-        }
-        return null;
-    }
+	public function isRectifiable() {
+			return $this->version_document->isRectifiable();
+	}
 
-    public function getEtablissement()
-    {
-        return EtablissementClient::getInstance()->find($this->identifiant);
-    }
+	public function getModificative() {
+			return $this->version_document->getModificative();
+	}
 
-    public function getInterpro()
-    {
-      	if ($this->getEtablissement()) {
-         	return $this->getEtablissement()->getInterproObject();
-     	}
-    }
+	public function isModificative() {
+			return $this->version_document->isModificative();
+	}
 
-    public function getMaster() {
-        return $this;
-    }
+	public function isModifiable() {
+			return $this->version_document->isModifiable();
+	}
 
-    public function isMaster(){
-        return true;
-    }
+	public function getPreviousVersion() {
+		return $this->version_document->getPreviousVersion();
+	}
 
-    public function getCoordonneesIL(){
-        $configs = sfConfig::get('app_configuration_facture')['emetteur_cvo'];
-        if (!array_key_exists($this->declarant->region, $configs))
-            throw new sfException(sprintf('Config %s not found in app.yml', $this->declarant->region));
-        return $configs[$this->declarant->region];
-    }
+	public function getMasterVersionOfRectificative() {
+		$master = $this->findMaster();
+		return $master->version;
+	}
+
+	public function needNextVersion() {
+			return $this->version_document->needNextVersion();
+	}
+
+	public function getMaster() {
+			return $this->version_document->getMaster();
+	}
+
+	public function isMaster() {
+			return $this->version_document->isMaster();
+	}
+
+	public function findMaster() {
+			return DSClient::getInstance()->findMasterByIdentifiantAndDate($this->identifiant, $this->getDateStock());
+	}
+
+	public function findDocumentByVersion($version) {
+			return DSClient::getInstance()->find(DSClient::makeId($this->identifiant, $this->getDateStock(), $version));
+	}
+
+	public function getMother() {
+			return $this->version_document->getMother();
+	}
+
+	public function motherGet($hash) {
+			return $this->version_document->motherGet($hash);
+	}
+
+	public function motherExist($hash) {
+			return ($this->getMother())? $this->version_document->motherExist($hash) : false;
+	}
+
+	public function motherHasChanged() {
+			if (count($this->declaration) != count($this->getMother()->declaration)) {
+					return true;
+			}
+			foreach ($this->declaration as $key => $value) {
+				foreach($value->detail as $subkey => $subvalue) {
+					if (!$this->getMother()->exist($subvalue->getHash())) {
+						return true;
+					}
+					$old = $this->getMother()->get($subvalue->getHash());
+					if ($subvalue->stock_declare_millesime_courant != $old->stock_declare_millesime_courant)
+						return true;
+					if ($subvalue->dont_vraclibre_millesime_courant != $old->dont_vraclibre_millesime_courant)
+						return true;
+					if ($subvalue->stock_declare_millesime_anterieur != $old->stock_declare_millesime_anterieur)
+						return true;
+					if ($subvalue->dont_vraclibre_millesime_anterieur != $old->dont_vraclibre_millesime_anterieur)
+						return true;
+				}
+			}
+			return false;
+	}
+
+	public function getDiffWithMother() {
+			return $this->version_document->getDiffWithMother();
+	}
+
+	public function isModifiedMother($hash_or_object, $key = null) {
+			return $this->version_document->isModifiedMother($hash_or_object, $key);
+	}
+
+	public function generateRectificative($force = false) {
+			return $this->version_document->generateRectificative($force);
+	}
+
+	public function generateModificative() {
+			return $this->version_document->generateModificative();
+	}
+
+	public function generateNextVersion() {
+			if (!$this->hasVersion()) {
+					$next = $this->version_document->generateModificativeSuivante();
+			} else {
+					$next = $this->version_document->generateNextVersion();
+			}
+			if (!$next) {
+				return null;
+			}
+			return $next;
+	}
+
+	public function listenerGenerateVersion($document) {
+			$document->devalidate();
+	}
+
+	public function listenerGenerateNextVersion($document) {
+	}
+
+	public function getSuivante() {
+			return $this->findMaster();
+	}
+
 }

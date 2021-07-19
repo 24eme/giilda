@@ -1,45 +1,33 @@
 <?php
 class DSRoute extends sfObjectRoute implements InterfaceEtablissementRoute {
 
-	protected $ds = null;
+    protected $doc = null;
 
-	protected function getObjectForParameters($parameters) {
+    protected function getObjectForParameters($parameters = null) {
 
-        if (preg_match('/^[0-9]{4}[0-9]{2}$/',$parameters['periode'])) {            
-            $periode = $parameters['periode'];
-        } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'periode', $parameters['periode']));
-        }
-        
-        if (preg_match('/^[0-9]{8}$/',$parameters['identifiant'])) {            
-            $identifiant = $parameters['identifiant'];
-        } else {
-            throw new InvalidArgumentException(sprintf('The "%s" route has an invalid parameter "%s" value "%s".', $this->pattern, 'identifiant', $parameters['identifiant']));
+        $id = DSClient::TYPE_MODEL."-".$parameters['identifiant']."-".$parameters['date_version'];
+        $this->doc = DSClient::getInstance()->find($id);
+
+        if (!$this->doc) {
+            throw new sfError404Exception(sprintf("document %s non trouvé", $id));
         }
 
-        
-        $this->ds = DSClient::getInstance()->findByIdentifiantAndPeriode($identifiant, $periode);
-        if (!$this->ds) {
-            throw new sfError404Exception(sprintf('No DS found with the id "%s" and the periode "%s".',  $parameters['identifiant'],$parameters['periode']));
-        }
-        return $this->ds;
+        return $this->doc;
     }
 
-    protected function doConvertObjectToArray($object) {  
-        $parameters = array("identifiant" => $object->identifiant, "periode" => $object->periode);
-        return $parameters;
+    protected function doConvertObjectToArray($object = null) {
+
+        return array("identifiant" => $object->identifiant, 'date_version' => $object->getDateVersion());
     }
 
     public function getDS() {
-        if (!$this->ds) {
-            $this->getObject();
-        }
-
-        return $this->ds;
+      if (!$this->doc) {
+           $this->doc = $this->getObject();
+      }
+      return $this->doc;
     }
 
     public function getEtablissement() {
-
         return $this->getDS()->getEtablissementObject();
     }
 }
