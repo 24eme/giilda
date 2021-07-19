@@ -9,10 +9,10 @@
     </div>
 </div>
 
-<h1>Déclaration de Stock</h1>
+<h1><?php echo DSConfiguration::getInstance()->getTitle() ?></h1>
 
 <div class="col-xs-12">
-    <div class="row">
+    <div class="row" style="margin:0;">
       <h4>
           <form class="form-inline pull-right" method="get">
               <?php echo $formPeriodes->renderGlobalErrors() ?>
