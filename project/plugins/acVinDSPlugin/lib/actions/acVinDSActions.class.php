@@ -65,6 +65,7 @@ class acVinDSActions extends sfActions
 
 	public function executeValidate(sfWebRequest $request) {
 			$this->ds = $this->getRoute()->getDS();
+			$this->forward404Unless($this->ds->isValidable());
 			$this->ds->validate();
 			$this->ds->save();
 			$this->redirect('ds_visualisation', $this->ds);
