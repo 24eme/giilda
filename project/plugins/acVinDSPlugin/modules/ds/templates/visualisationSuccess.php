@@ -9,6 +9,10 @@
       <span class="text-muted pull-right"><?php if($ds->teledeclare): ?>Télédéclarée et <?php endif; ?>Validée le <?php echo (format_date($ds->valide->date_signee, 'dd/MM/yyyy', 'fr_FR')) ?></span>
     </h1>
 
+    <?php if($ds->getMaster()->_id != $ds->_id): ?>
+        <p class="bg-danger" style="padding: 15px 10px;color:#000;">Cette déclaration que vous visualisez n'est pas la version la plus récente. <a href="<?php echo url_for('ds_visualisation', array('sf_subject' => $ds->getMaster())) ?>">Cliquez ici</a> pour visualiser la dernière version.</p>
+    <?php endif; ?>
+
     <?php include_partial('ds/recap', array('ds' => $ds)); ?>
 
     <div class="row" style="margin-top: 20px;">
