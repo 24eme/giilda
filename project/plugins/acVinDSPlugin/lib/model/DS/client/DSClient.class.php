@@ -105,4 +105,10 @@ class DSClient extends acCouchdbClient {
         krsort($ds);
         return $ds;
     }
+
+		public function findAll($hydrate = acCouchdbClient::HYDRATE_JSON) {
+			$numeric = $this->startkey(sprintf(self::TYPE_MODEL."-%s", "0"))->endkey(sprintf(self::TYPE_MODEL."-%s", "9"))->execute($hydrate)->getDatas();
+			$alpha = $this->startkey(sprintf(self::TYPE_MODEL."-%s", "A"))->endkey(sprintf(self::TYPE_MODEL."-%s", "Z"))->execute($hydrate)->getDatas();
+			return array_merge($numeric, $alpha);
+		}
 }
