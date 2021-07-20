@@ -75,11 +75,11 @@ class MouvementfactureFacturationView extends acCouchdbView {
     public function getMouvementsBySocieteWithReduce($societe, $facturee, $facturable, $level) {
 
         if($societe == SocieteClient::TYPE_OPERATEUR) {
-            // On s'assure qu'il y a une region viticole cat cet méthode renvoi une Exception si ce n'est pas le cas
+            // On s'assure qu'il y a une region viticole pour les opérateurs car cette méthode renvoi une Exception si ce n'est pas le cas
             $societe->getRegionViticole();
         }
 
-        return $this->buildMouvements($this->consolidationMouvements($this->getRowsBySociete($societe, $facturee, $facturable)));
+        return $this->buildMouvements($this->consolidationMouvements($this->getRowsBySociete($societe, $facturee, $facturable, $level)));
     }
 
     protected function consolidationMouvements($rows) {
