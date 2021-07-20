@@ -8,7 +8,11 @@
     <p>Dans cette étape, vous devez controler votre saisie et valider l'ensemble des stocks</p>
 
     <?php if(!$ds->isValidable()): ?>
-    <p class="bg-danger" style="padding: 15px 10px;color:#000;">Vous devez saisir le stock <?php echo $ds->millesime ?> des produits, dont le stock fin de mois <?php echo (format_date($ds->date_stock, 'MMMM yyyy', 'fr_FR')) ?> n'est pas nul.</p>
+    <ul class="bg-danger" style="padding: 15px 10px;color:#000;">
+      <?php foreach ($ds->getPointsBloquants() as $pb): ?>
+        <li><?php echo $pb ?></li>
+      <?php endforeach; ?>
+    </ul>
     <?php endif; ?>
 
     <?php include_partial('ds/recap', array('ds' => $ds)); ?>

@@ -118,14 +118,25 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 
 	public function isValidable()
 	{
-		foreach($this->declaration as $k => $v) {
-			foreach($v->detail as $sk => $sv) {
-				if ($sv->stock_initial_millesime_courant > 0 && $sv->stock_declare_millesime_courant === null) {
-					return false;
+		return (count($this->getPointsBloquants()) > 0)? false : true;
+	}
+
+	public function getPointsBloquants() {
+			$pb = array();
+			foreach($this->declaration as $k => $v) {
+				foreach($v->detail as $sk => $sv) {
+					if ($sv->stock_initial_millesime_courant > 0 && $sv->stock_declare_millesime_courant === null) {
+						$pb[] = trim($v->libelle." ".$sv->denomination_complementaire)." : Vous devez saisir le stock $this->millesime des produits, dont le stock fin de mois n'est pas nul.";
+					}
+					if ($sv->dont_vraclibre_millesime_courant > $sv->stock_declare_millesime_courant) {
+						$pb[] = trim($v->libelle." ".$sv->denomination_complementaire)." : Le volume disponible $this->millesime ne peut pas excéder le stock $this->millesime";
+					}
+					if ($sv->dont_vraclibre_millesime_anterieur > $sv->stock_declare_millesime_anterieur) {
+						$pb[] = trim($v->libelle." ".$sv->denomination_complementaire)." : Le volume disponible ".($this->millesime-1).", précédent et non millésimé ne peut pas excéder le stock ".($this->millesime-1).", précédent et non millésimé";
+					}
 				}
 			}
-		}
-		return true;
+			return $pb;
 	}
 
 	public function getDateVersion()
