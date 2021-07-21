@@ -300,4 +300,10 @@ class Configuration extends BaseConfiguration {
         return false;
     }
 
+    // Pour compatibilité avec declarvins
+    public function existProduit($hash) {
+
+    	return $this->exist($hash);
+    }
+
 }

@@ -12,10 +12,8 @@ all:
           "VIN_VRAC": ["preparation_vin", "embouteillage", "conditionnement_crd"]
           "VIN_BOUTEILLE": []
       delais_paiement:
-        "60_JOURS": "60 jours fin de mois"
-        "30_JOURS": "30 jours fin de mois"
+        "60_JOURS": "60 jours après la date d'émission de la facture"
         "COMPTANT": "Comptant"
-        "ACCORD_INTERPROFESSIONNEL": "Accord Interprofessionnel (Maximum de 75 jours à partir de la date de retiraison effective)"
         "45_JOURS": "45 jours à compter du mois d'émission de la facture"
       moyens_paiement:
         "VIREMENT": "Virement bancaire"

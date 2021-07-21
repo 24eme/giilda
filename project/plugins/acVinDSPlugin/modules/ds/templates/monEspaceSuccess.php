@@ -1,55 +1,67 @@
-<?php
-use_helper('Float');
-?>
-<!-- #principal -->
-    <section id="principal" class="ds">
-        <p id="fil_ariane"><a href="<?php echo url_for('ds') ?>">Page d'accueil</a> &gt; <strong>Stocks : consultation & déclaration</strong></p>
-        
-        <!-- #contenu_etape -->
-        <section id="contenu_etape">
-            <h2>Consulter les stocks d'un opérateur :</h2>
-          <?php include_component('ds', 'chooseEtablissement', array('identifiant' => $etablissement->identifiant)); ?>
-		  
-			<h2>Détail opérateur</h2>
-			<?php 
-			include_partial('etablissementInformations', array('etablissement' => $etablissement));
-			?>
-                        
-			<?php if(count($dsHistorique)) : ?>
-			<h2>Historique des déclarations de stocks</h2>
-			<?php  include_partial('dsHistorique', array('dsHistorique' => $dsHistorique)) ?>
-			<?php endif; ?>
-			
-			<?php include_partial('generationFormulairesOperateur', array('etablissement' => $etablissement, 'generationOperateurForm' => $generationOperateurForm)); ?>
-			
-		</section>
-    </section>
-    <!-- fin #principal -->
-<?php
-slot('colButtons');
-?>
-<div id="action" class="bloc_col">
-    <h2>Action</h2>
-    <div class="contenu">
-        <div class="btnRetourAccueil">
-            <a href="<?php echo url_for('ds'); ?>" class="btn_majeur btn_acces"><span>Retour à l'accueil</span></a>
-        </div>
-      </div>
+<?php use_helper('Date'); ?>
+<?php use_helper('Float'); ?>
+<?php include_partial('ds/preTemplate'); ?>
+<?php include_partial('ds/breadcrum', array('etablissement' => $etablissement)); ?>
+
+<div class="row">
+    <div class="col-xs-12 formEtablissement">
+        <?php include_component('ds', 'formEtablissementChoice', array('identifiant' => $etablissement->_id)) ?>
+    </div>
 </div>
-<?php
-end_slot();
-?>
 
-<script type="text/javascript">
-    
-    $(document).ready( function()
-	{
-            $('#generation_ds').bind('click', function()
-            {
-                $('form#generation_form').submit();
-		return false;
-            });
-        });
-    
-</script>
+<h1><?php echo DSConfiguration::getInstance()->getTitle() ?></h1>
 
+<div class="col-xs-12">
+    <div class="row" style="margin:0;">
+      <h4>
+          <form class="form-inline pull-right" method="get">
+              <?php echo $formPeriodes->renderGlobalErrors() ?>
+              <?php echo $formPeriodes->renderHiddenFields() ?>
+              Stock à fin :
+              <div class="form-group<?php if($formPeriodes['date']->hasError()): ?> has-error<?php endif; ?>" style="width: 160px;">
+                  <?php echo $formPeriodes['date']->renderError(); ?>
+                  <?php echo $formPeriodes['date']->render(); ?>
+              </div>
+              <button type="submit" class="btn btn-default">Changer</button>
+          </form>
+        </h4>
+    </div>
+
+    <p>&nbsp;</p>
+
+    <table  class="table table-striped table-filter table-bordered" style="border-top:none;">
+    	<thead>
+      		<tr>
+      			<th class="col-md-10">Etat</th>
+      			<th class="text-center col-md-2">&nbsp;</th>
+      		</tr>
+    	</thead>
+    	<tbody>
+        <tr>
+        <?php if (!$docRepriseProduits): ?>
+          <td><?php echo DSConfiguration::getInstance()->getTitle() ?> impossible car nous n'avez pas saisie votre DRM de <strong><?php echo (format_date($date, 'MMMM yyyy', 'fr_FR')) ?></strong></td>
+          <td>
+            <a href="<?php echo url_for('drm_mon_espace', $etablissement) ?>">Espace DRM</a>
+          </td>
+        <?php elseif(!$ds): ?>
+          <td>Vous pouvez saisir votre <?php echo DSConfiguration::getInstance()->getTitle() ?></td>
+          <td>
+            <a href="<?php echo url_for('ds_creation', ['identifiant' => $etablissement->identifiant, 'date' => $date]) ?>" class="btn btn-primary">Saisir les stocks</a>
+          </td>
+        <?php elseif($ds->isValidee()): ?>
+          <td>Votre <?php echo DSConfiguration::getInstance()->getTitle() ?> est validée</td>
+          <td>
+              <a href="<?php echo url_for('ds_visualisation', $ds) ?>" class="btn btn-primary pull-right">Accéder à la déclaration&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
+          </td>
+        <?php else: ?>
+          <td>Une <?php echo DSConfiguration::getInstance()->getTitle() ?> est en cours de saisie</td>
+          <td>
+            <a href="<?php echo url_for('ds_stocks', $ds) ?>" class="btn btn-primary pull-right">Reprendre la saisie&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
+          </td>
+        <?php endif; ?>
+        </tr>
+    	</tbody>
+    </table>
+</div>
+
+<?php include_partial('dae/postTemplate'); ?>
