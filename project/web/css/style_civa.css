@@ -110,6 +110,11 @@ a.admin { color: #ff0000; }
 
 /**** NAV *****/
 
+#nav #onglets_majeurs .ui-tabs-disabled, #nav #onglets_majeurs .ui-tabs-disabled a {
+	background: #f1f1f1;
+	color: #cccc;
+}
+
 #nav {
     background: #f1f1f1;
     padding-top: 15px;
