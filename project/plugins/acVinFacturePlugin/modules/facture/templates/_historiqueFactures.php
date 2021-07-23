@@ -11,8 +11,13 @@ use_helper('Date');
             <th class="col-xs-1">Numéro</th>
             <th class="col-xs-3">Date de facturation</th>
             <th class="col-xs-1"></th>
-            <th class="col-xs-1 text-right">Montant&nbsp;HT</th>
-            <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
+            <?php if(FactureConfiguration::getInstance()->getPaiementsActif()): ?>
+              <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
+              <th class="col-xs-1 text-right">Montant&nbsp;payé</th>
+            <?php else: ?>
+              <th class="col-xs-1 text-right">Montant&nbsp;HT</th>
+              <th class="col-xs-1 text-right">Montant&nbsp;TTC</th>
+            <?php endif; ?>
             <th class="col-xs-3"></th>
         </tr>
     </thead>
@@ -27,13 +32,34 @@ use_helper('Date');
                 <td>N°&nbsp;<?php echo $f->numero_piece_comptable ?></td>
                 <td><?php echo $date; ?></td>
                 <td><?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></td>
-                <td class="text-right"><?php echo echoFloat($f->total_ht); ?>&nbsp;€</td>
-                <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
+                <?php if(FactureConfiguration::getInstance()->getPaiementsActif()): ?>
+                  <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
+                    <td class="text-right"><?php echo echoFloat($f->getMontantPaiement()); ?>&nbsp;€</td>
+                <?php else: ?>
+                  <td class="text-right"><?php echo echoFloat($f->total_ht); ?>&nbsp;€</td>
+                  <td class="text-right"><?php echo echoFloat($f->total_ttc); ?>&nbsp;€</td>
+                <?php endif; ?>
                 <td class="text-right">
                     <div class="btn-group text-left">
-                    <?php if ($f->isRedressable() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
-                        <a onclick="return confirm('Êtes-vous sur de vouloir annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_defacturer", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a>
-                    <?php endif; ?>
+                        <?php if(FactureConfiguration::getInstance()->getPaiementsActif()): ?>
+                          <button type="button" class="btn btn-default btn-default-step btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span>&nbsp;<span class="caret"></span></button>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                              <?php if ($f->isRedressable() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
+                                <li><a onclick="return confirm('Êtes-vous sur de vouloir annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_defacturer", array("id" => $f->_id)) ?>"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a></li>
+                              <?php else: ?>
+                                <li  class="disabled"><a href=""><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a></li>
+                              <?php endif; ?>
+                              <?php if ($f->isAvoir()): ?>
+                                <li  class="disabled"><a href="">Saisir / modifier les paiements</a></li>
+                              <?php else: ?>
+                                <li><a href="<?php echo url_for("facture_paiements", array("id" => $f->_id)) ?>">Saisir / modifier les paiements</a></li>
+                              <?php endif; ?>
+                          </ul>
+                        <?php else: ?>
+                          <?php if ($f->isRedressable() && $sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
+                          <a onclick="return confirm('Êtes-vous sur de vouloir annuler cette facture en créant un avoir ?');" href="<?php echo url_for("facture_defacturer", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-repeat"></span>&nbsp;Défacturer</a>
+                          <?php endif; ?>
+                        <?php endif; ?>
                     <a href="<?php echo url_for("facture_pdf", array("id" => $f->_id)) ?>" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span>&nbsp;Visualiser</a>
                     </div>
                     <?php if($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)): ?>
