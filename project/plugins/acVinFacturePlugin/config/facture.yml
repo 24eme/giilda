@@ -1,6 +1,7 @@
 all:
   configuration:
     facture:
+      paiements_actif: false
       prefix_sage: "VEN"
       prefix_sage_divers: null
       tva_compte: "44570100"

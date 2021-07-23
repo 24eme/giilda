@@ -39,6 +39,11 @@ class FactureConfiguration {
 
     }
 
+    public function getPaiementsActif() {
+
+        return $this->configuration['paiements_actif'];
+    }
+
     public function getPrefixSage() {
 
         return $this->configuration['prefix_sage'];
