@@ -16,7 +16,12 @@
             <?php endif; ?>
         </div>
         <?php else: ?>
-            <div style="height: 20px;"></div>
+            <div style="position:relative;" id="nav">
+                <?php echo file_get_contents(sfConfig::get('app_url_nav')."?active=".$sf_request->getParameter('module')); ?>
+                <?php if(sfConfig::get('sf_debug')): ?>
+                    <a style="position: absolute; right: 10px; top: 10px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_nav')."?active=".$sf_request->getParameter('module') ?>">[voir l'url de la nav]</a></pre>
+                <?php endif; ?>
+            </div>
         <?php endif; ?>
 <?php else: ?>
 <div id="main">
