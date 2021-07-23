@@ -28,6 +28,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->archivage_document = new ArchivageDocument($this);
     }
 
+    public function updateDatePaiementFromPaiements() {
+        $date = null;
+        foreach($this->paiements as $p) {
+            if ($p->date > $date) {
+                $date = $p->date;
+            }
+        }
+        return $this->date_paiement = $date;
+    }
+
+    public function updateMontantPaiement() {
+        $this->_set('montant_paiement', $this->paiements->getPaiementsTotal());
+    }
+
     public function getCampagne() {
 
         return $this->_get('campagne');
@@ -651,7 +665,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return $this->_get('total_ttc');
         }
 
-        return $this->_get('montant_paiement');
+        return 0;
     }
 
     public function getCodeComptableClient() {
