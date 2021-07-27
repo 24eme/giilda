@@ -25,3 +25,4 @@ all:
           20140101: 20.0
       export_shell: false
       teledeclaration: false
+      seuil_minimum: null

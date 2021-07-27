@@ -136,6 +136,11 @@ class FactureConfiguration {
         return $this->configuration['idcontrat'];
     }
 
+    public function getSeuilMinimum() {
+
+        return $this->configuration['seuil_minimum'];
+    }
+
     public function getReglement() {
       if (isset($this->configuration['reglement'])) {
         return $this->configuration['reglement'];
