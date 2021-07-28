@@ -24,5 +24,6 @@ all:
           19700101: 19.6
           20140101: 20.0
       export_shell: false
+      export_relances: false
       teledeclaration: false
       seuil_minimum: null

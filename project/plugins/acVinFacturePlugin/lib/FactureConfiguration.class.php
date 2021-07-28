@@ -126,6 +126,11 @@ class FactureConfiguration {
         return $this->configuration['export_shell'];
     }
 
+    public function getExportRelances() {
+
+        return $this->configuration['export_relances'];
+    }
+
     public function getTeledeclaration() {
 
         return $this->configuration['teledeclaration'];

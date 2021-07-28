@@ -4,6 +4,7 @@ class FactureGenerationForm extends BaseForm {
 
     const TYPE_DOCUMENT_TOUS = "TOUS";
     const TYPE_GENERATION_EXPORT = "EXPORT";
+    const TYPE_GENERATION_RELANCES = "RELANCES";
 
     public function __construct($defaults = array(), $options = array(), $CSRFSecret = null) {
         $defaults['date_facturation'] = date('d/m/Y');
@@ -42,6 +43,9 @@ class FactureGenerationForm extends BaseForm {
         $choices = array_merge(FactureClient::getInstance()->getTypeFactureMouvement());
         if (FactureConfiguration::getInstance()->getExportShell()) {
           $choices = array_merge($choices, array(self::TYPE_GENERATION_EXPORT => 'Export comptable'));
+	      }
+        if (FactureConfiguration::getInstance()->getExportRelances()) {
+          $choices = array_merge($choices, array(self::TYPE_GENERATION_RELANCES => 'Export relances'));
 	      }
         if (sfConfig::get('statistique_configuration_vracssansprix')) {
           $choices[GenerationClient::TYPE_DOCUMENT_VRACSSANSPRIX] = 'Contrats sans prix';
