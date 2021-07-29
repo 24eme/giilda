@@ -73,20 +73,18 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 				if ($regex && !preg_match($regex, $hashCepage)) {
 					continue;
 				}
-				$produit = $this->declaration->add($hashCepage);
-				$produit->libelle = $produitCepage->getLibelle();
-				$hasDetails = false;
 				foreach($produitCepage->getProduits() as $detail) {
 					if ($interpro && $detail->exist('interpro') && $detail->interpro != $interpro) {
 						continue;
 					}
+					if (!$detail->hasCvo()) {
+						continue;
+					}
+					$produit = $this->declaration->add($hashCepage);
+					$produit->libelle = $produitCepage->getLibelle();
 					$produitDetail = $produit->detail->add($detail->getKey());
 					$produitDetail->denomination_complementaire = trim(str_replace($produitCepage->getLibelle(), '', $detail->getLibelle()));
 					$produitDetail->stock_initial_millesime_courant = $detail->total;
-					$hasDetails = true;
-				}
-				if (!$hasDetails) {
-					$this->declaration->remove($hashCepage);
 				}
 			}
 		}
