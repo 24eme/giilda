@@ -25,7 +25,9 @@
             <?php endif; ?>
         </div>
         <div class="col-xs-4 text-right">
+            <?php if($ds->getMaster()->_id == $ds->_id): ?>
             <a class="btn btn-warning" href="<?php echo url_for('ds_rectifier', $ds) ?>">Rectifier la déclaration</span></a>
+          <?php endif; ?>
         </div>
     </div>
 
