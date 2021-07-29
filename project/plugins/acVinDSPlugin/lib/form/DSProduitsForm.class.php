@@ -17,7 +17,7 @@ class DSProduitsForm extends acCouchdbObjectForm {
                 $node = $this->getObject()->declaration->get($produit);
                 $node = $node->detail->get($detail);
                 foreach ($items as $k => $v) {
-                    $node->add($k, $v);
+                    $node->set($k, $v);
                 }
             }
         }
