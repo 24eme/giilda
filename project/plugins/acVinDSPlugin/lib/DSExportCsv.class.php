@@ -14,7 +14,7 @@ class DSExportCsv {
     }
 
     private function getHeaderEdi() {
-        return "#Type;Campagne;Identifiant du déclarant;raison sociale du déclarant;CVI du déclarant;Accises du déclarant;Adresse du déclarant;Code postal du déclarant;Commune du déclarant;Famille du déclarant;Sous famille du déclarant;Certification;Genre;Appellation;Mention;Lieu;Couleur;Cépages;Détail;Libellé;Complément;Millésime;Stock courant;Vrac libre courant;Stock antérieur;Vrac libre antérieur;Télédéclaré;Version;Date de validation;ID doc;ID DRM reprise\n";
+        return "#Type;Campagne;Identifiant du déclarant;raison sociale du déclarant;CVI du déclarant;Accises du déclarant;Adresse du déclarant;Code postal du déclarant;Commune du déclarant;Famille du déclarant;Sous famille du déclarant;Certification;Genre;Appellation;Mention;Lieu;Couleur;Cépages;Détail;Libellé;Complément;Millésime;Stock courant;Vrac libre courant;Stock antérieur;Vrac libre antérieur;Télédéclaré;Version;Referente;Date de validation;ID doc;ID DRM reprise\n";
     }
 
     public function exportAll($header = true) {
@@ -61,6 +61,7 @@ class DSExportCsv {
             $stocks->dont_vraclibre_millesime_anterieur.";".
             (($ds->teledeclare==1)? 'oui' : 'non').";".
             $ds->version.";".
+            (($ds->referente==1)? 'oui' : 'non').";".
             $ds->valide->date_signee.";".
             $ds->_id.";".
             $ds->docid_origine_reprise_produits."\n";

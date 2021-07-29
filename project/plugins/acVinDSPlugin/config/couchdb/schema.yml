@@ -13,6 +13,7 @@ DS:
       docid_origine_reprise_produits: {}
       teledeclare: {}
       version: {}
+      referente: {}  
       declarant:
         type: collection
         definition:

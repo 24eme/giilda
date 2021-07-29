@@ -102,6 +102,11 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = null;
 		$this->valide->date_signee = null;
 		$this->valide->identifiant = null;
+		$this->referente = 0;
+		if ($mother = $this->getMother()) {
+			$mother->referente = 1;
+			$mother->save();
+		}
 	}
 
 	public function validate()
@@ -109,6 +114,11 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = date('Y-m-d');
 		$this->valide->date_signee = $this->valide->date_saisie;
 		$this->valide->identifiant = $this->identifiant;
+		$this->referente = 1;
+		if ($mother = $this->getMother()) {
+			$mother->referente = 0;
+			$mother->save();
+		}
 	}
 
 	public function isValidee()
