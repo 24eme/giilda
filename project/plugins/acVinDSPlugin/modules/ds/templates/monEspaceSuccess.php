@@ -9,7 +9,7 @@
     </div>
 </div>
 
-<h1><?php echo DSConfiguration::getInstance()->getTitle() ?></h1>
+<h1><?php echo str_replace('%millesime%', (explode('-', $date)[0]-1), DSConfiguration::getInstance()->getTitle()) ?></h1>
 
 <div class="col-xs-12">
     <div class="row" style="margin:0;">
@@ -39,22 +39,22 @@
     	<tbody>
         <tr>
         <?php if (!$docRepriseProduits): ?>
-          <td><?php echo DSConfiguration::getInstance()->getTitle() ?> impossible car nous n'avez pas saisie votre DRM de <strong><?php echo (format_date($date, 'MMMM yyyy', 'fr_FR')) ?></strong></td>
+          <td>La saisie de votre <?php echo str_replace('%millesime%', (explode('-', $date)[0]-1), DSConfiguration::getInstance()->getTitle()) ?> est <strong>impossible</strong> car nous n'avez pas saisie votre DRM de <strong><?php echo (format_date($date, 'MMMM yyyy', 'fr_FR')) ?></strong></td>
           <td>
             <a href="<?php echo url_for('drm_mon_espace', $etablissement) ?>">Espace DRM</a>
           </td>
         <?php elseif(!$ds): ?>
-          <td>Vous pouvez saisir votre <?php echo DSConfiguration::getInstance()->getTitle() ?></td>
+          <td>Vous pouvez saisir votre <?php echo str_replace('%millesime%', (explode('-', $date)[0]-1), DSConfiguration::getInstance()->getTitle()) ?></td>
           <td>
             <a href="<?php echo url_for('ds_creation', ['identifiant' => $etablissement->identifiant, 'date' => $date]) ?>" class="btn btn-primary">Saisir les stocks</a>
           </td>
         <?php elseif($ds->isValidee()): ?>
-          <td>Votre <?php echo DSConfiguration::getInstance()->getTitle() ?> est validée</td>
+          <td>Votre <?php echo str_replace('%millesime%', (explode('-', $date)[0]-1), DSConfiguration::getInstance()->getTitle()) ?> est <strong>validée</strong></td>
           <td>
               <a href="<?php echo url_for('ds_visualisation', $ds) ?>" class="btn btn-primary pull-right">Accéder à la déclaration&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
           </td>
         <?php else: ?>
-          <td>Une <?php echo DSConfiguration::getInstance()->getTitle() ?> est en cours de saisie</td>
+          <td>Votre <?php echo str_replace('%millesime%', (explode('-', $date)[0]-1), DSConfiguration::getInstance()->getTitle()) ?> est <strong>en cours de saisie</strong></td>
           <td>
             <a href="<?php echo url_for('ds_stocks', $ds) ?>" class="btn btn-primary pull-right">Reprendre la saisie&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></a>
           </td>
