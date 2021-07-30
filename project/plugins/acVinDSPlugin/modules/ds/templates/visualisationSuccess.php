@@ -20,7 +20,7 @@
             <a class="btn btn-default" tabindex="-1" href="<?php echo url_for('ds_etablissement', $etablissement) ?>"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Retour</a>
         </div>
         <div class="col-xs-4 text-center">
-            <?php if (!$isTeledeclarationMode): ?>
+            <?php if (!$isTeledeclarationMode && $ds->getMaster()->_id == $ds->_id): ?>
             <a onclick="return confirm('Confirmez-vous la réouverture de la déclaration')" class="btn btn-default" href="<?php echo url_for('ds_devalidate', $ds) ?>">Réouvrir la déclaration</span></a>
             <?php endif; ?>
         </div>
