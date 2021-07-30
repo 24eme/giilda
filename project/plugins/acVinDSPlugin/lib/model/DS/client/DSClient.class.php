@@ -69,8 +69,12 @@ class DSClient extends acCouchdbClient {
     	$periodes = array();
     	foreach ($rows as $k => $v) {
     		$ex = explode('-', $k);
-    		if (isset($ex[2])) {
-    			$date = substr($ex[2], 0, 4).'-'.substr($ex[2], 4, 2).'-'.substr($ex[2], 6, 2);
+				$ind = 2;
+    		if (isset($ex[$ind]) && strlen($ex[$ind]) != 8) {
+    			$ind++;
+    		}
+    		if (isset($ex[$ind])) {
+    			$date = substr($ex[$ind], 0, 4).'-'.substr($ex[$ind], 4, 2).'-'.substr($ex[$ind], 6, 2);
     			if (!in_array($date, $periodes)) {
     				$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     			}
