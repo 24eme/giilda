@@ -5,7 +5,7 @@
 
 <section id="principal">
     <h1>
-      <?php echo DSConfiguration::getInstance()->getTitle() ?> au <?php echo (format_date($ds->date_stock, 'dd MMMM yyyy', 'fr_FR')) ?>
+      <?php echo str_replace('%millesime%', $ds->millesime, DSConfiguration::getInstance()->getTitle()) ?> au <?php echo (format_date($ds->date_stock, 'dd MMMM yyyy', 'fr_FR')) ?>
       <span class="text-muted pull-right"><?php if($ds->teledeclare): ?>Télédéclarée et <?php endif; ?>Validée le <?php echo (format_date($ds->valide->date_signee, 'dd/MM/yyyy', 'fr_FR')) ?></span>
     </h1>
 
