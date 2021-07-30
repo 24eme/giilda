@@ -25,10 +25,10 @@
     ?>
 		<tr>
 			<td><strong><?php echo $libelle ?></strong></td>
-			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'stock_declare_millesime_courant') ?>"><?php if($stocks->stock_declare_millesime_courant): ?><?php echoFloat($stocks->stock_declare_millesime_courant) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
-			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'dont_vraclibre_millesime_courant') ?>"><?php if($stocks->dont_vraclibre_millesime_courant): ?><?php echoFloat($stocks->dont_vraclibre_millesime_courant) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
-			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'stock_declare_millesime_anterieur') ?>"><?php if($stocks->stock_declare_millesime_anterieur): ?><?php echoFloat($stocks->stock_declare_millesime_anterieur) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
-			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'dont_vraclibre_millesime_anterieur') ?>"><?php if($stocks->dont_vraclibre_millesime_anterieur): ?><?php echoFloat($stocks->dont_vraclibre_millesime_anterieur) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
+			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'stock_declare_millesime_courant') ?>"><?php if($stocks->stock_declare_millesime_courant !== null): ?><?php echoFloat($stocks->stock_declare_millesime_courant) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
+			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'dont_vraclibre_millesime_courant') ?>"><?php if($stocks->dont_vraclibre_millesime_courant !== null): ?><?php echoFloat($stocks->dont_vraclibre_millesime_courant) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
+			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'stock_declare_millesime_anterieur') ?>"><?php if($stocks->stock_declare_millesime_anterieur !== null): ?><?php echoFloat($stocks->stock_declare_millesime_anterieur) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
+			<td class="text-right <?php echo isVersionnerCssClass($stocks, 'dont_vraclibre_millesime_anterieur') ?>"><?php if($stocks->dont_vraclibre_millesime_anterieur !== null): ?><?php echoFloat($stocks->dont_vraclibre_millesime_anterieur) ?>&nbsp;<span class="text-muted">hl</small><?php endif; ?></td>
 		</tr>
 		<?php endforeach;endforeach; ?>
 	</tbody>
