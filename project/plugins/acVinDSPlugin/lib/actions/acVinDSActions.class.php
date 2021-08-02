@@ -3,7 +3,7 @@ class acVinDSActions extends sfActions
 {
 	public function executeMonEspace(sfWebRequest $request) {
 		$this->etablissement = $this->getRoute()->getEtablissement();
-		$this->date = DSClient::getDateDeclaration($request->getParameter('date', date('Y-m-d')));
+		$this->date = DSClient::getDateDeclaration($request->getParameter('date', null));
 
 		$this->ds = DSClient::getInstance()->findMasterByIdentifiantAndDate($this->etablissement->identifiant, $this->date);
 		$this->docRepriseProduits = DSClient::getDocumentRepriseProduits($this->etablissement->identifiant, $this->date);

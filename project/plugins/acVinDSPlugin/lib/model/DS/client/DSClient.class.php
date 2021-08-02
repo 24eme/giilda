@@ -41,13 +41,16 @@ class DSClient extends acCouchdbClient {
 		public static function getDateDeclaration($date = null)
 		{
 			if (!$date) {
-				$date = date('Y-m-d');
-			} elseif (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
+				$date = DSConfiguration::getInstance()->getDateStockDeclaration();
+			} elseif (!preg_match('/^[0-9]{4}-07-31$/', $date)) {
 				throw new Exception('Date format invalide : '.$date);
+			}
+			if (!$date) {
+				throw new Exception('Aucune date stock declaration configurée pour la DS');
 			}
 			$cm = new CampagneManager('08-01');
 			$campagne = explode('-', $cm->getCampagneByDate($date));
-			return $campagne[0].'-07-31';
+			return $campagne[1].'-07-31';
 		}
 
     public function findByArgs($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT)
@@ -80,7 +83,7 @@ class DSClient extends acCouchdbClient {
     			}
     		}
     	}
-			$date = self::getDateDeclaration(date('Y-m-d'));
+			$date = self::getDateDeclaration();
     	if (!in_array($date, $periodes)) {
     		$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     	}
