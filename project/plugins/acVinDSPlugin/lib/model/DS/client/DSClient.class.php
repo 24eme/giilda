@@ -47,7 +47,7 @@ class DSClient extends acCouchdbClient {
 			}
 			$cm = new CampagneManager('08-01');
 			$campagne = explode('-', $cm->getCampagneByDate($date));
-			return $campagne[1].'-07-31';
+			return $campagne[0].'-07-31';
 		}
 
     public function findByArgs($identifiant, $date, $hydrate = acCouchdbClient::HYDRATE_DOCUMENT)
