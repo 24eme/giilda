@@ -262,7 +262,14 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
           // Reconnaissance par libellé produit
           if(!$founded_produit) {
-            $founded_produit = $this->configuration->identifyProductByLibelle(trim(preg_replace('/ *\(.*/', '', preg_replace("/[ ]+/", " ", $datas[self::CSV_CAVE_LIBELLE_PRODUIT] . ' ' . $datas[self::CSV_CAVE_MENTION]))));
+            $libelle = trim(preg_replace('/ *\(.*/', '', preg_replace("/[ ]+/", " ", $datas[self::CSV_CAVE_LIBELLE_PRODUIT] . ' ' . $datas[self::CSV_CAVE_MENTION])));
+            $founded_produit = $this->configuration->identifyProductByLibelle($libelle);
+            $exceptions = array();
+            $date = $this->drm->getPeriode().'01';
+            while ($founded_produit && $founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1") {
+              $exceptions[] = $founded_produit->getHash();
+              $founded_produit = $this->configuration->identifyProductByLibelle($libelle, $exceptions);
+            }
           }
 
           // Reconnaissance part les colonnes clés de l'arbre produit
@@ -299,7 +306,6 @@ class DRMImportCsvEdi extends DRMCsvEdi {
 
               $date = $this->drm->getPeriode().'01';
               if($founded_produit->getTauxCVO($date) == "-1" && $founded_produit->getTauxDouane($date) == "-1"){
-
                 if($aggregatedEdiList && count($aggregatedEdiList) && count($aggregatedEdiList[0])
                 && isset($aggregatedEdiList[0][$founded_produit->getHash()])){
                   $founded_produit = $all_produits[$aggregatedEdiList[0][$founded_produit->getHash()]];
