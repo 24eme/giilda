@@ -25,10 +25,25 @@ use_helper('Date');
         <?php $fc = FactureClient::getInstance(); ?>
         <?php foreach ($factures->getRawValue() as $facture): ?>
             <?php $f = $fc->find($facture->id); ?>
+            <?php
+            if ($f->isFactureDRM()){
+              $type = 'DRM';
+            } elseif($f->isFactureSV12()){
+              $type = 'SV12';
+            } elseif($f->isFactureDivers()){
+              $type = 'Libre';
+            }
+            if ($societe->getNegociant() && $type == 'SV12') {
+              $type = 'SV12 Interne';
+              if ($sf_user->hasTeledeclaration()) {
+                continue;
+              }
+            }
+             ?>
             <?php $date = $date = format_date($facture->value[FactureSocieteView::VALUE_DATE_FACTURATION], 'dd/MM/yyyy') . ' (créée le ' . $fc->getDateCreation($facture->id) . ')'; ?>
             <tr>
                 <td><?php if ($f->isAvoir()): ?>AVOIR<?php else: ?>FACTURE<?php endif; ?></td>
-                <td><?php if ($f->isFactureDRM()): ?>DRM<?php elseif($f->isFactureSV12()): ?>SV12<?php elseif($f->isFactureDivers()): ?>Libre<?php endif; ?></td>
+                <td><?php echo $type; ?></td>
                 <td>N°&nbsp;<?php echo $f->numero_piece_comptable ?></td>
                 <td><?php echo $date; ?></td>
                 <td><?php if($f->isRedressee()): ?><span class="label label-warning">Redressée</span><?php endif;?></td>
