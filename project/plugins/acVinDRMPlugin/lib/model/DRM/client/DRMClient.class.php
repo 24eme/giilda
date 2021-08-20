@@ -508,6 +508,7 @@ class DRMClient extends acCouchdbClient {
             return $next_drm->generateSuivanteByPeriode($periode, $isTeledeclarationMode);
         }
 
+        #DRM de changement de campagne (aout ou mois de stock)
         $drm = new DRM();
         $drm->identifiant = $identifiant;
         $drm->periode = $periode;
