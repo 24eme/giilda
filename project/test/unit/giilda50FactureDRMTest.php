@@ -25,7 +25,8 @@ foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationCli
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
-$t = new lime_test(68);
+$has_sous_generation = (count(GenerationConfiguration::getInstance()->getSousGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES)) > 0);
+$t = new lime_test(($has_sous_generation) ? 69 : 68);
 
 $t->comment("Configuration");
 
