@@ -273,19 +273,10 @@ class DRMClient extends acCouchdbClient {
                         ->group_level(2)
                         ->startkey(array($identifiant))
                         ->endkey(array($identifiant, array()))
+                        ->limit(1)
                         ->getView("drm", "all")
                 ->rows;
-        $current = ConfigurationClient::getInstance()->getCurrentCampagne();
-        $list = array();
-        foreach ($rows as $r) {
-            $c = $r->key[1];
-            $list[$c] = $c;
-        }
-        krsort($list);
-        if(DRMConfiguration::getInstance()->isCampagneListeMinimale()){
-            return $list;
-        }
-        return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
+        return ConfigurationClient::getInstance()->getCampagneVinicole()->fillCampagnesList($rows[0]->key[1]);
     }
 
     public function viewByIdentifiant($identifiant) {
@@ -539,7 +530,9 @@ class DRMClient extends acCouchdbClient {
         if (!$drm->getEtablissement()->isNegociant()) {
             $dsLast = null;
             try {
-                $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+                if (class_exists('DSClient')) {
+                    $dsLast = DSClient::getInstance()->findLastByIdentifiant($identifiant);
+                }
             } catch (Exception $e) {
 
             }

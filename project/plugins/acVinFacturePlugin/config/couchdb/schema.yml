@@ -130,6 +130,23 @@ Facture:
           fields:
             '*': {}
       telechargee: {required: false, type: date}
+      paiements:
+        class: FacturePaiements
+        required: false
+        type: array_collection
+        definition:
+          fields:
+            '*':
+              class: FacturePaiement
+              type: collection
+              definition:
+                fields:
+                  date : { }
+                  montant: { }
+                  type_reglement: { }
+                  commentaire: { }
+                  execute: {required: false}
+                  versement_comptable: { }
 
 MouvementsFacture:
   definition:

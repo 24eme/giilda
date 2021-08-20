@@ -6,41 +6,56 @@ DS:
       _rev: {}
       type: {}
       identifiant: {}
-      date_emission: {}
+      campagne: {}
+      millesime: {}
       date_echeance: {}
       date_stock: {}
-      drm_origine: {}
-      campagne: {}
-      periode: {}
-      numero_archive: {  }
-      statut: {}
-      commentaire: {}
+      docid_origine_reprise_produits: {}
+      teledeclare: {}
+      version: {}
+      referente: {}  
       declarant:
         type: collection
         definition:
           fields:
-            nom: {  }
-            raison_sociale: {  }
+            nom: { searchable: true }
+            raison_sociale: { searchable: true }
             cvi: {  }
             no_accises: {   }
-            adresse: {  }
-            commune: {  }
+            adresse: { searchable: true }
+            commune: { searchable: true }
             code_postal: {   }
             region: {  }
-      declarations:
+            famille: {  }
+            sous_famille: {  }
+      declaration:
         type: collection
         definition:
           fields:
             '*':
-              class: DSProduit
               type: collection
               definition:
                 fields:
-                  code_produit: { }
-                  produit_libelle: {}
-                  produit_hash: {}
-                  stock_initial: { type: float }
-                  stock_declare: { type: float }
-                  vci: { type: float }
-                  reserve_qualitative: { type: float }
-                  stock_elaboration: { type: float, required: false }
+                  libelle: {}
+                  detail:
+                    type: collection
+                    definition:
+                      fields:
+                        '*':
+                          type: collection
+                          definition:
+                            fields:
+                              denomination_complementaire: {}
+                              stock_initial_millesime_courant: { type: float }
+                              stock_declare_millesime_courant: { type: float }
+                              dont_vraclibre_millesime_courant: { type: float }
+                              stock_declare_millesime_anterieur: { type: float }
+                              dont_vraclibre_millesime_anterieur: { type: float }
+      valide:
+        type: collection
+        definition:
+          fields:
+            date_saisie: { type: date }
+            date_signee: { type: date }
+            identifiant: {  }
+            statut: { }

@@ -28,6 +28,20 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->archivage_document = new ArchivageDocument($this);
     }
 
+    public function updateDatePaiementFromPaiements() {
+        $date = null;
+        foreach($this->paiements as $p) {
+            if ($p->date > $date) {
+                $date = $p->date;
+            }
+        }
+        return $this->date_paiement = $date;
+    }
+
+    public function updateMontantPaiement() {
+        $this->_set('montant_paiement', $this->paiements->getPaiementsTotal());
+    }
+
     public function getCampagne() {
 
         return $this->_get('campagne');
@@ -293,11 +307,12 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $configuration = ConfigurationClient::getCurrent();
                 }
                 $produit_configuration = null;
-                if($configuration->exist($ligneByType->produit_hash)){
-                  $produit_configuration = $configuration->get($ligneByType->produit_hash);
+                if($configuration->existProduit($ligneByType->produit_hash)){
+                  $produit_configuration = $configuration->getProduit($ligneByType->produit_hash);
                 }else{
                   $hashTransformed = preg_replace('/(.*)\/([a-zA-Z0-9]+)\/([a-zA-Z0-9]+)/',"$1",$ligneByType->produit_hash);
-                  $produit_configuration = $configuration->get($hashTransformed);
+
+                  $produit_configuration = $configuration->getProduit($hashTransformed);
                 }
                 $codeProduit = $produit_configuration->getCodeComptable();
 
@@ -650,7 +665,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
             return $this->_get('total_ttc');
         }
 
-        return $this->_get('montant_paiement');
+        return 0;
     }
 
     public function getCodeComptableClient() {
