@@ -118,6 +118,12 @@ class VracRouting {
                                                         array('sf_method' => array('get','post')),
                                                         array('model' => 'Vrac', 'type' => 'object')));
 
+        $r->prependRoute('vrac_change_date_saisie', new VracRoute('/vrac/:numero_contrat/datesaisie',
+                                                        ['module' => 'vrac', 'action' => 'changeDateSaisie'],
+                                                        ['sf_method' => ['post']],
+                                                        ['model' => 'Vrac', 'type' => 'object']
+        ));
+
         $r->prependRoute('vrac_updateVolumeEnleve', new VracRoute('/vrac/:numero_contrat/calculeVolumeEnleve',
                                                         array('module' => 'vrac','action' => 'updateVolumeEnleve'),
                                                         array('sf_method' => array('get')),

@@ -589,6 +589,8 @@ class vracActions extends sfActions {
         $this->redirect403IsNotTeledeclarationAndNotInVrac();
         $this->redirect403IsInVracAndNotAllowedToSee();
 
+        $this->changementDateSaisieForm = new VracChangementDateSaisieForm($this->vrac);
+
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
 
 

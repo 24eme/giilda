@@ -114,4 +114,27 @@ use_helper('Date');
   <?php if ($signatureDemande): ?>
     <?php include_partial('signature_popup', array('vrac' => $vrac, 'societe' => $societe, 'etablissementPrincipal' => $etablissementPrincipal)); ?>
 <?php endif; ?>
+
+<?php if (! $isTeledeclarationMode): ?>
+<div class="modal" id="modal-date-saisie" tabindex="-1" role="dialog" aria-labelledby="ModalDateSaisie">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form action="<?php echo url_for('vrac_change_date_saisie', $vrac) ?>" method="POST">
+        <?php echo $changementDateSaisieForm->renderHiddenFields() ?>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title" id="modal-date-saisie-title">Changement de la date de saisie</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="inputChgtDate">Date de saisie</label>
+              <?php echo $changementDateSaisieForm['date_saisie']->renderError(); ?>
+              <?php echo $changementDateSaisieForm['date_saisie']->render(); ?>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<?php endif ?>
 </section>
