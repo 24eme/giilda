@@ -64,7 +64,7 @@ all:
         marche_millesime_8515: "Cocher la case si la règle  dite du « 85/15 » a été appliquée sur le millésime (millésime entre 85 et 100%)."
         marche_cepage: "Facultatif. Cocher la case en cas de cépage déclaré, puis sélectionner le cépage dans la liste proposée (barre d’auto-complétion)."
         marche_cepage_8515: "Cocher la case si la règle  dite du « 85/15 » a été appliquée sur le cépage (cépage entre 85 et 100%)."
-        marche_agriculture_bio: "Cocher la case si le vin est issu de l’agriculture biologique."
+        marche_agriculture_bio: "Cocher la case si le vin est issu de l’agriculture biologique ou si le vin est considéré à haute valeur environnementale."
         marche_numero_lot: "Facultatif. Indiquer le n° du lot."
         marche_degre: "Indiquer le degré du vin."
         marche_mention: "Le cas échéant, cocher la case « avec mention »  puis sélectionner le nom de Château, de Domaine ou de marque dans la liste qui apparaît, ou le saisir (en précisant Château ou Domaine)."
