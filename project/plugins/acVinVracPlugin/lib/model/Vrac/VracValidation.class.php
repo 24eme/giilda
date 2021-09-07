@@ -88,9 +88,9 @@ class VracValidation extends DocumentValidation {
         if (!$this->document->isCepageAutorise()) {
             $this->addPoint('erreur', 'cepage_autorise', 'Modifier le cépage', $this->generateUrl('vrac_marche', $this->document));
         }
-        $nbLabels =count($this->document->label->toArray());
-        if ( $nbLabels > 1 ) {
-            $this->addPoint('erreur', 'label_unique', 'Le label doit être unique : Veuillez selectionner un label.');
+        $labels = $this->document->label->toArray();
+        if ( count($labels) > 1 ) {
+            $this->addPoint('erreur', 'label_unique', 'Rubrique Marché - Le label doit être unique.Veuillez sélectionner '.$labels['hve'].' ou '.$labels['agriculture_biologique'].' en suivant ce lien.',$this->generateUrl('vrac_marche', $this->document));
         }
     }
 
