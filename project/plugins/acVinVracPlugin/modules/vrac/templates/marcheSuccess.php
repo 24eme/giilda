@@ -167,15 +167,18 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
 
                     <?php if (isset($form['label'])): ?><?php echo $form['label']->renderError(); ?><?php endif; ?>
                     <?php if (isset($form['label'])): ?>
+
                     <?php echo $form['label']->renderError(); ?>
                         <div class="form-group">
                                 <div class="col-xs-8 <?php if ($form['label']->hasError()): ?>has-error<?php endif; ?>">
                                       <div class="row">
                                         <div class="col-xs-11 col-xs-offset-1" >
                                           <?php echo $form['label']->render(); ?>
-                                          &nbsp; <?php echo getPointAideHtml('vrac','marche_agriculture_bio'); ?>
+                                          &nbsp;<?php echo getPointAideHtml('vrac','marche_agriculture_bio'); ?>
                                         </div>
                                       </div>
+
+
                                 </div>
                         </div>
                     <?php endif; ?>
