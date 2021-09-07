@@ -47,11 +47,11 @@ class Configuration extends BaseConfiguration {
     	return $cepages;
     }
 
-    public function identifyProductByLibelle($libelle) {
+    public function identifyProductByLibelle($libelle, $exceptions = array()) {
         if(!$libelle) {
             return;
         }
-        if(array_key_exists($libelle, $this->identifyLibelleProduct)) {
+        if(!$exceptions && array_key_exists($libelle, $this->identifyLibelleProduct)) {
 
             return $this->identifyLibelleProduct[$libelle];
         }
@@ -59,6 +59,9 @@ class Configuration extends BaseConfiguration {
         $libelleSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($libelle)));
         $possibilities = array();
         foreach($this->getProduits() as $produit) {
+            if (in_array($produit->getHash(), $exceptions)) {
+              continue;
+            }
             $libelleProduitSlugify = KeyInflector::slugify(preg_replace("/[ ]+/", " ", trim($produit->getLibelleFormat())));
             //echo $libelleSlugify."/".$libelleProduitSlugify."\n";
             if($libelleSlugify == $libelleProduitSlugify) {
@@ -298,6 +301,12 @@ class Configuration extends BaseConfiguration {
             }
         }
         return false;
+    }
+
+    // Pour compatibilité avec declarvins
+    public function existProduit($hash) {
+
+    	return $this->exist($hash);
     }
 
 }

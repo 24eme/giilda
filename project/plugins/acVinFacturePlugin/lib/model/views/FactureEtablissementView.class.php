@@ -54,4 +54,17 @@ class FactureEtablissementView extends acCouchdbView
 
     }
 
+    public function getYearFaturesBySociete($societe) {
+        $factures = acCouchdbManager::getClient()
+                ->startkey(array(1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-'.(date('Y') - 1).date('md').'00'))
+                ->endkey(array(1, $societe->identifiant, 'FACTURE-'.$societe->identifiant.'-ZZZZZZZZZZ'))
+                ->getView($this->design, $this->view)->rows;
+
+        $facturesResult = array();
+        foreach ($factures as $facture) {
+          $facturesResult[$facture->id] = $facture;
+        }
+        return $facturesResult;
+    }
+
 }

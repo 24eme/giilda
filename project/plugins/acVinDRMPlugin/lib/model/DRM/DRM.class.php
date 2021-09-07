@@ -244,6 +244,9 @@ class DRM extends BaseDRM implements InterfaceMouvementDocument, InterfaceVersio
                 $p->produit_libelle = $produit->produit_libelle;
                 $p->code_inao = $produit->code_inao;
             }
+            if ($produit->getCepage()->hasRerserveIntepro()) {
+                $p->getCepage()->add('reserve_interpro', $produit->getCepage()->reserve_interpro);
+            }
         }
 
         foreach($drm->getAllCrds() as $regime => $crds) {

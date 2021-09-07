@@ -235,6 +235,58 @@ class factureActions extends sfActions {
         }
     }
 
+    public function executePaiement(sfWebRequest $request) {
+        $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
+
+        if(!$this->facture) {
+            return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
+        }
+
+        $this->form = new FacturePaiementForm($this->facture);
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if(!$this->form->isValid()) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        $this->getUser()->setFlash("notice", "Le paiement a bien été ajouté");
+
+        $this->redirect('facture_societe', array('identifiant' => $this->facture->identifiant));
+    }
+
+    public function executePaiements(sfWebRequest $request) {
+        $this->facture = FactureClient::getInstance()->find($request->getParameter('id'));
+
+        if(!$this->facture) {
+            return $this->forward404(sprintf("La facture %s n'existe pas", $request->getParameter('id')));
+        }
+
+        $this->form = new FacturePaiementsMultipleForm($this->facture);
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        if(!$this->form->isValid()) {
+            return sfView::SUCCESS;
+        }
+
+        $this->form->save();
+
+        $this->getUser()->setFlash("notice", "Les paiements ont bien été enregistrés");
+
+        $this->redirect('facture_societe', array('identifiant' => $this->facture->identifiant));
+    }
+
     private function constructFactureFiltersParameters() {
         $values = $this->form->getValues();
         $filters_parameters = array();

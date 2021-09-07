@@ -446,20 +446,9 @@ class VracClient extends acCouchdbClient {
         $rows = $this->startkey(array($identifiant))
                         ->endkey(array($identifiant, array()))
                         ->group_level(2)
+                        ->limit(1)
                         ->getView('vrac', 'soussigneidentifiant')->rows;
-
-        $current = ConfigurationClient::getInstance()->getCurrentCampagne();
-        $list = array();
-        foreach ($rows as $r) {
-            $c = $r->key[1];
-            if (!$c) {
-
-                continue;
-            }
-            $list[$c] = $c;
-        }
-        krsort($list);
-        return ConfigurationClient::getInstance()->getCampagneVinicole()->consoliderCampagnesList($list);
+        return ConfigurationClient::getInstance()->getCampagneVinicole()->fillCampagnesList($rows[0]->key[1]);
     }
 
     public static function getCsvForEtiquettes($date_debut, $date_fin) {

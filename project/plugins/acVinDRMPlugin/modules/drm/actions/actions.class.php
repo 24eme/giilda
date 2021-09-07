@@ -136,7 +136,7 @@ class drmActions extends drmGeneriqueActions {
 
 
                   // Récupère la dernière DRM de la campagne pour regarder si elle a des colonnes Total Alsace banc et Alsace Lieu, si c'est le cas on demande les données des contrats, ds, récolte aggrégées
-                  $drmLast = DRMClient::getInstance()->findLastByIdentifiantAndCampagne($identifiant, DRMClient::getInstance()->buildCampagne($periode));
+                  $drmLast = DRMClient::getInstance()->findLastByIdentifiant($identifiant);
                   if ($drmLast !== null) {
                       $produitsTotaux = null;
                       $withDenomination = array();

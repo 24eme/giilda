@@ -22,8 +22,16 @@ class FactureClient extends acCouchdbClient {
     const TYPE_FACTURE_MOUVEMENT_SV12_NEGO = "MOUVEMENTS_SV12_NEGO";
     const TYPE_FACTURE_MOUVEMENT_DIVERS = "MOUVEMENTS_DIVERS";
 
+    const FACTURE_PAIEMENT_CHEQUE = "CHEQUE";
+    const FACTURE_PAIEMENT_VIREMENT = "VIREMENT";
+    const FACTURE_PAIEMENT_ESPECE = "ESPECE";
+    const FACTURE_PAIEMENT_CB = "CB";
+    const FACTURE_PAIEMENT_AVOIR = "AVOIR";
+
     public static $origines = array(self::FACTURE_LIGNE_ORIGINE_TYPE_DRM, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12, self::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO, self::FACTURE_LIGNE_ORIGINE_TYPE_MOUVEMENTSFACTURE);
     public static $type_facture_mouvement = array(self::TYPE_FACTURE_MOUVEMENT_DRM => 'Facturation DRM',self::FACTURE_LIGNE_ORIGINE_TYPE_SV12 => 'Facturation SV12 globale',self::FACTURE_LIGNE_ORIGINE_TYPE_SV12_NEGO => 'Facturation SV12 Négociants', self::TYPE_FACTURE_MOUVEMENT_DIVERS => 'Facturation libre');
+
+    public static $types_paiements = array(self::FACTURE_PAIEMENT_CHEQUE => "Chèque", self::FACTURE_PAIEMENT_ESPECE => "Espèce", self::FACTURE_PAIEMENT_VIREMENT => "Virement", self::FACTURE_PAIEMENT_CB=> "Carte Bancaire", self::FACTURE_PAIEMENT_AVOIR => "Avoir");
 
     public static function getInstance() {
         return acCouchdbManager::getClient("Facture");
@@ -176,7 +184,12 @@ class FactureClient extends acCouchdbClient {
     public function getMouvementsNonFacturesBySoc($mouvements) {
         $generationFactures = array();
         foreach ($mouvements as $key => $mouvement) {
-            $societe_id = substr($mouvement->etablissement_identifiant, 0, -2);
+
+            if(sfConfig::get('app_societe_no_multi_etablissement')) {
+                $societe_id = $mouvement->etablissement_identifiant;
+            } else {
+                $societe_id = substr($mouvement->etablissement_identifiant, 0, -2);
+            }
             if (isset($generationFactures[$societe_id])) {
                 $generationFactures[$societe_id][$key] = $mouvement;
             } else {
