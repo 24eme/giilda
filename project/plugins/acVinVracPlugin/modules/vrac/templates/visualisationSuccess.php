@@ -132,6 +132,10 @@ use_helper('Date');
               <?php echo $changementDateSaisieForm['date_saisie']->render(); ?>
             </div>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+          <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        </div>
       </form>
     </div>
   </div>
