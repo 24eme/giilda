@@ -30,9 +30,7 @@ class VracChangementDateSaisieForm extends VracForm {
     protected function updateDefaultsFromObject() {
         parent::updateDefaultsFromObject();
         if($this->getValidator('date_saisie') instanceof sfValidatorDate) {
-            $this->setDefault('date_saisie',
-                DateTime::createFromFormat('c', $this->getObject()->valide->date_saisie)->format('d/m/Y')
-            );
+            $this->setDefault('date_saisie', $this->getObject()->getDateSaisie('d/m/Y'));
         }
     }
 
