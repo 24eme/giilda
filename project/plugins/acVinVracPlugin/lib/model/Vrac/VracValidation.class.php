@@ -35,6 +35,8 @@ class VracValidation extends DocumentValidation {
         $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
         $this->addControle('erreur', 'quantite_raisin_surface_expected', "La quantité et/ou la surface sont requises");
         $this->addControle('erreur', 'cepage_autorise', "Cépage non autorisé pour le produit");
+        $this->addControle('erreur', 'label_unique', '');
+
     }
 
     public function controle() {
@@ -85,6 +87,10 @@ class VracValidation extends DocumentValidation {
 
         if (!$this->document->isCepageAutorise()) {
             $this->addPoint('erreur', 'cepage_autorise', 'Modifier le cépage', $this->generateUrl('vrac_marche', $this->document));
+        }
+        $labels = $this->document->label->toArray();
+        if ( count($labels) > 1 ) {
+            $this->addPoint('erreur', 'label_unique', 'Rubrique Marché - Le label doit être unique.Veuillez sélectionner '.$labels['hve'].' ou '.$labels['agriculture_biologique'].' en suivant ce lien.',$this->generateUrl('vrac_marche', $this->document));
         }
     }
 
