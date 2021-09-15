@@ -282,6 +282,16 @@ class Vrac extends BaseVrac {
         return $date->format($format);
     }
 
+    public function getDateSaisie($format = 'Y-m-d')
+    {
+        $date = $this->valide->date_saisie;
+
+        if (! $date) { return null; }
+        if (! $format) { return $date; }
+
+        return (new DateTime($date))->format($format);
+    }
+
     public function getDateSignature($format = 'Y-m-d') {
         return $this->getDate('date_signature', $format);
     }
