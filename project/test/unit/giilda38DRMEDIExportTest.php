@@ -21,31 +21,36 @@ foreach(DRMClient::getInstance()->viewByIdentifiant($viti->identifiant) as $k =>
 $periode = (date('Y')-1)."01";
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
 
+$periode = (date('Y'))."01";
+
 $tmpfname = tempnam("/tmp", "DRM_");
 $temp = fopen($tmpfname, "w");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,stocks_debut,initial,951.4625,,,,,,\n");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,sorties,ventefrancecrd,4.62,,,,,,\n");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,sorties,export,1.89,PAYS-BAS,,,,,\n");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,sorties,export,0.9525,BE,,,,,\n");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,stocks_fin,final,944,,,,,,\n");
-fwrite($temp, "CAVE,201801,".$viti->identifiant.','.$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,complement,tav,43,,,,,,\n");
-fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,14742,,,,\n");
-fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75 cl,,,,,,,collectif suspendu,sorties,utilisations,3118,,,,\n");
-fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75cl,,,,,,,collectif suspendu,stock_fin,fin,11624,,,,\n");
-fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille150cl,,,,,,,collectif suspendu,stock_debut,debut,56,,,,\n");
-fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 150 cl,,,,,,,collectif suspendu,sorties,utilisations,3,,,,\n");
-fwrite($temp, "CRD,201801,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 150cl,,,,,,,collectif suspendu,stock_fin,fin,53,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,stocks_debut,initial,951.4625,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,sorties,ventefrancecrd,4.62,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,sorties,export,1.89,PAYS-BAS,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,sorties,export,0.9525,BE,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.",".$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,stocks_fin,final,944,,,,,,\n");
+fwrite($temp, "CAVE,$periode,".$viti->identifiant.','.$viti->no_accises.",".$produit1->getCertification()->getLibelle().",".$produit1->getGenre()->getLibelle().",".$produit1->getAppellation()->getLibelle().",".$produit1->getMention()->getLibelle().",".$produit1->getLieu()->getLibelle().",".$produit1->getCouleur()->getLibelle().",".$produit1->getCepage()->getLibelle().",,".$produit1->getLibelleFormat().",suspendu,complement,tav,43,,,,,,\n");
+fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille75cl,,,,,,,collectif suspendu,stock_debut,debut,14742,,,,\n");
+fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75 cl,,,,,,,collectif suspendu,sorties,utilisations,3118,,,,\n");
+fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 75cl,,,,,,,collectif suspendu,stock_fin,fin,11624,,,,\n");
+fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille150cl,,,,,,,collectif suspendu,stock_debut,debut,56,,,,\n");
+fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 150 cl,,,,,,,collectif suspendu,sorties,utilisations,3,,,,\n");
+fwrite($temp, "CRD,$periode,".$viti->identifiant.",".$viti->no_accises.",VERT,tranquille,Bouteille 150cl,,,,,,,collectif suspendu,stock_fin,fin,53,,,,\n");
 fclose($temp);
 
-$periode = (date('Y'))."01";
 $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode);
 $import = new DRMImportCsvEdi($tmpfname, $drm);
 $import->importCSV();
 $drm->save();
+$t->comment($drm->_id);
 $drm->validate();
 $drm->generateMouvements();
 $drm->save();
-$drmProduit = $drm->get($produit1->getHash())->get('details/DEFAUT');
+foreach($drm->get($produit1->getHash())->get('details') as $d) {
+    $drmProduit = $d->getHash();
+    break;
+}
 //unlink($tmpfname);
 
 $export = new DRMExportCsvEdi($drm);
@@ -151,7 +156,7 @@ foreach(explode("\n", $csv) as $line) {
         $cepageOK = false;
     }
 
-    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_LIBELLE_COMPLEMENTAIRE] != $drmProduit->denomination_complementaire) {
+    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_LIBELLE_COMPLEMENTAIRE] && $data[DRMCsvEdi::CSV_CAVE_LIBELLE_COMPLEMENTAIRE] != $drmProduit->denomination_complementaire) {
         $denominationOK = false;
     }
 
@@ -159,7 +164,7 @@ foreach(explode("\n", $csv) as $line) {
         $denominationOK = false;
     }
 
-    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_LIBELLE_PRODUIT] != $produit1->getLibelleFormat() . " (".$produit1->getCodeDouane().")") {
+    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && (!preg_match('/'.$produit1->getLibelleFormat().'/', $data[DRMCsvEdi::CSV_CAVE_LIBELLE_PRODUIT]) || !preg_match('/ \('.$produit1->getCodeDouane().'\)/', $data[DRMCsvEdi::CSV_CAVE_LIBELLE_PRODUIT]))) {
         $libelleOK = false;
     }
 
@@ -175,7 +180,7 @@ foreach(explode("\n", $csv) as $line) {
         $typeDRMOK = false;
     }
 
-    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && !$conf->declaration->details->exist($data[DRMCsvEdi::CSV_CAVE_CATEGORIE_MOUVEMENT])) {
+    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'complement' && !$conf->declaration->details->exist($data[DRMCsvEdi::CSV_CAVE_CATEGORIE_MOUVEMENT])) {
         $categorieMouvementOK = false;
     }
 
@@ -183,7 +188,7 @@ foreach(explode("\n", $csv) as $line) {
         $categorieMouvementOK = false;
     }
 
-    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && !$conf->declaration->details->exist($data[DRMCsvEdi::CSV_CAVE_CATEGORIE_MOUVEMENT]."/".$data[DRMCsvEdi::CSV_CAVE_TYPE_MOUVEMENT])) {
+    if($data[DRMCsvEdi::CSV_TYPE] == "CAVE" && $data[DRMCsvEdi::CSV_CAVE_CATEGORIE_MOUVEMENT] != 'complement' && !$conf->declaration->details->exist($data[DRMCsvEdi::CSV_CAVE_CATEGORIE_MOUVEMENT]."/".$data[DRMCsvEdi::CSV_CAVE_TYPE_MOUVEMENT])) {
         $typeMouvementOK = false;
     }
 
@@ -247,5 +252,5 @@ $t->ok($volumeOK, "Vérification de la colonne volume");
 $t->ok($exportOK, "Vérification de la colonne export");
 $t->ok($contratOK, "Vérification de la colonne contrat");
 $t->ok($tav, 'Vérification de l\'export du tav');
-$t->is($nbMouvements, count($drm->mouvements->get($drm->identifiant)), "Tous les mouvements sont présents dans le csv");
+$t->is($nbMouvements, 4, "Les 3 lignes mouvements (1 ventes cdr et 2 export) + le tav sont présents dans le csv");
 $t->ok($nbStocks >= count($drm->getProduitsDetails())*2 && $nbStocks % 2 == 0, "Les lignes de stocks sont toutes présentes");

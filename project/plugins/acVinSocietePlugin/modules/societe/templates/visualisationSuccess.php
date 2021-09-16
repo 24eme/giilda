@@ -56,8 +56,11 @@
     <?php if ($societe->getMasterCompte()->exist('droits') && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
                         <p>
                             <strong>Login de télédéclaration :</strong> <?php echo $societe->getMasterCompte()->getLogin(); ?>
-                            <?php if ($societe->getMasterCompte()->getStatutTeledeclarant() == CompteClient::STATUT_TELEDECLARANT_NOUVEAU) : ?>
+                            <?php if (strpos($societe->getMasterCompte()->mot_de_passe, '{TEXT}') !== false) : ?>
                                 <span class="text-muted">(code de création : <?php echo str_replace('{TEXT}', '', $societe->getMasterCompte()->mot_de_passe); ?>)</span>
+                            <?php elseif (strpos($societe->getMasterCompte()->mot_de_passe, '{OUBLIE}') !== false): ?>
+                                <?php $lien = 'https://'.sfConfig::get('app_routing_context_production_host').url_for("compte_teledeclarant_mot_de_passe_oublie_login", array("login" => $societe->getMasterCompte()->identifiant, "mdp" => str_replace("{OUBLIE}", "", $societe->getMasterCompte()->mot_de_passe))); ?>
+        				                <span class="text-muted">(Mot de passe oublié : <?php echo $lien; ?> )</span>
                             <?php else: ?>
                                 <span class="text-muted">(code de création : Compte déjà créé)</span>
                             <?php endif; ?>

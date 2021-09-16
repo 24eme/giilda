@@ -27,6 +27,10 @@ class DSConfiguration {
         return $this->configuration['name'];
     }
 
+    public function getDateStockDeclaration() {
+        return $this->configuration['date_stock_declaration'];
+    }
+
     public function getTitle() {
         return $this->configuration['title'];
     }

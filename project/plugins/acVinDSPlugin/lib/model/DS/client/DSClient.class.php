@@ -41,9 +41,12 @@ class DSClient extends acCouchdbClient {
 		public static function getDateDeclaration($date = null)
 		{
 			if (!$date) {
-				$date = date('Y-m-d');
-			} elseif (!preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/', $date)) {
+				$date = DSConfiguration::getInstance()->getDateStockDeclaration();
+			} elseif (!preg_match('/^[0-9]{4}-07-31$/', $date)) {
 				throw new Exception('Date format invalide : '.$date);
+			}
+			if (!$date) {
+				throw new Exception('Aucune date stock declaration configurée pour la DS');
 			}
 			$cm = new CampagneManager('08-01');
 			$campagne = explode('-', $cm->getCampagneByDate($date));
@@ -69,14 +72,18 @@ class DSClient extends acCouchdbClient {
     	$periodes = array();
     	foreach ($rows as $k => $v) {
     		$ex = explode('-', $k);
-    		if (isset($ex[2])) {
-    			$date = substr($ex[2], 0, 4).'-'.substr($ex[2], 4, 2).'-'.substr($ex[2], 6, 2);
+				$ind = 2;
+    		if (isset($ex[$ind]) && strlen($ex[$ind]) != 8) {
+    			$ind++;
+    		}
+    		if (isset($ex[$ind])) {
+    			$date = substr($ex[$ind], 0, 4).'-'.substr($ex[$ind], 4, 2).'-'.substr($ex[$ind], 6, 2);
     			if (!in_array($date, $periodes)) {
     				$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     			}
     		}
     	}
-			$date = self::getDateDeclaration(date('Y-m-d'));
+			$date = self::getDateDeclaration();
     	if (!in_array($date, $periodes)) {
     		$periodes[$date] = ucfirst(format_date($date, 'MMMM yyyy', 'fr_FR'));
     	}

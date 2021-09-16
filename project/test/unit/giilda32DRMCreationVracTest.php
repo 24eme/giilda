@@ -8,7 +8,7 @@ if (!($conf->declaration->exist('details/sorties/creationvrac')) || ($conf->decl
     exit(0);
 }
 
-$t = new lime_test(31);
+$t = new lime_test(32);
 
 $nego = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_region')->getEtablissement();
 $nego_horsregion = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_nego_horsregion')->getEtablissement();
@@ -80,15 +80,20 @@ $t->is(count($mvts_nego) - $nb_mvts_nego_init, 1, $drm->_id." : on retrouve le m
 $t->is($mvt_nego->quantite * $mvt_nego->prix_unitaire, $mvt_viti->quantite * $mvt_viti->prix_unitaire, $drm->_id." : la cvo est partagée entre le viti et le nego");
 $t->isnt(current($mvts_viti)->detail_libelle, null, $drm->_id." : le mouvement a un detail_libelle");
 
+$drm = DRMClient::getInstance()->find($drm->_id);
 $drm_mod = $drm->generateModificative();
+$drm_mod->save();
+$drm_mod = DRMClient::getInstance()->find($drm_mod->_id);
 $creationvrac2 = $drm_mod->getProduit($produit_hash, 'details')->sorties->creationvrac_details->get($creationvrac->getKey());
 $creationvrac2->acheteur = $nego_horsregion->identifiant;
 $drm_mod->update();
 $drm_mod->save();
-$t->is($creationvrac2->acheteur, $creationvrac2->getVrac()->acheteur_identifiant, $drm_mod->_id." : L'acheteur stocké est le même que l'acheteur du contrat");
 $drm_mod->validate();
 $drm_mod->save();
+$t->is($drm_mod->getMaster()->_id, $drm_mod->_id, "La modificatrice est bien le document maitre");
+$t->is($creationvrac2->acheteur, $creationvrac2->getVrac()->acheteur_identifiant, $drm_mod->_id." : L'acheteur stocké est le même que l'acheteur du contrat");
 $drm_mod->updateVracs();
+$drm_mod->save();
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($viti->identifiant)->rows), 1, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac ne change rien pour le viti");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego->identifiant)->rows), 0, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac supprime le vrac pour le nego");
 $t->is(count(VracClient::getInstance()->retrieveBySoussigne($nego_horsregion->identifiant)->rows), 1, $drm_mod->_id." : le changement d'acheteur du mouvement de vrac le lie avec le nego hors région");
@@ -98,10 +103,14 @@ $mvts_nego = MouvementfactureFacturationView::getInstance()->getMouvementsNonFac
 $mvts_nego_horscvo = MouvementfactureFacturationView::getInstance()->getMouvementsNonFacturesBySociete($nego_horsregion->getSociete());
 $t->is(count($mvts_viti) - $nb_mvts_viti_init, 3, $drm_mod->_id." : on retrouve le mouvement dans la vue facture du viti");
 $t->is(count($mvts_nego) - $nb_mvts_nego_init, 2, $drm_mod->_id." : on obtient deux mouvements dans la vue facture du négo");
-$t->is(count($mvts_nego_horscvo) - - $nb_mvts_negohr_init, 0, $drm_mod->_id." : on n'obtient pas de mouvement facturable dans la vue facture du négo hors region");
+$t->is(count($mvts_nego_horscvo) - $nb_mvts_negohr_init, 0, $drm_mod->_id." : on n'obtient pas de mouvement facturable dans la vue facture du négo hors region");
 
 
+$drm_mod = DRMClient::getInstance()->find($drm_mod->_id);
 $drm_mod = $drm_mod->generateModificative();
+$drm_mod->save();
+$drm_mod = DRMClient::getInstance()->find($drm_mod->_id);
+
 $drm_mod->getProduit($produit_hash, 'details')->sorties->remove('creationvrac_details');
 $drm_mod->getProduit($produit_hash, 'details')->sorties->add('creationvrac_details');
 $drm_mod->update();

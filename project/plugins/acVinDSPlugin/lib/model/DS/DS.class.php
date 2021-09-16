@@ -73,20 +73,18 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 				if ($regex && !preg_match($regex, $hashCepage)) {
 					continue;
 				}
-				$produit = $this->declaration->add($hashCepage);
-				$produit->libelle = $produitCepage->getLibelle();
-				$hasDetails = false;
 				foreach($produitCepage->getProduits() as $detail) {
 					if ($interpro && $detail->exist('interpro') && $detail->interpro != $interpro) {
 						continue;
 					}
+					if (!$detail->hasCvo()) {
+						continue;
+					}
+					$produit = $this->declaration->add($hashCepage);
+					$produit->libelle = $produitCepage->getLibelle();
 					$produitDetail = $produit->detail->add($detail->getKey());
 					$produitDetail->denomination_complementaire = trim(str_replace($produitCepage->getLibelle(), '', $detail->getLibelle()));
 					$produitDetail->stock_initial_millesime_courant = $detail->total;
-					$hasDetails = true;
-				}
-				if (!$hasDetails) {
-					$this->declaration->remove($hashCepage);
 				}
 			}
 		}
@@ -102,6 +100,11 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = null;
 		$this->valide->date_signee = null;
 		$this->valide->identifiant = null;
+		$this->referente = 0;
+		if ($mother = $this->getMother()) {
+			$mother->referente = 1;
+			$mother->save();
+		}
 	}
 
 	public function validate()
@@ -109,6 +112,11 @@ class DS extends BaseDS implements InterfaceDeclarantDocument, InterfaceVersionD
 		$this->valide->date_saisie = date('Y-m-d');
 		$this->valide->date_signee = $this->valide->date_saisie;
 		$this->valide->identifiant = $this->identifiant;
+		$this->referente = 1;
+		if ($mother = $this->getMother()) {
+			$mother->referente = 0;
+			$mother->save();
+		}
 	}
 
 	public function isValidee()

@@ -4,11 +4,12 @@ require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
 sfContext::createInstance($configuration);
 
-$t = new lime_test(11);
+$t = new lime_test(17);
 
 $compteviti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration');
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_teledeclaration')->getEtablissement();
-$periode = date('Y').'04';
+$annee = date('Y') - 1;
+$periode = $annee.'06';
 
 $produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
 $produit_hash = array_shift($produits);
@@ -50,14 +51,28 @@ $t->ok(!$validation->hasErreur('reserve_interpro'), "le stock fin qui est sous l
 $t->ok(!$validation->hasVigilance('reserve_interpro'), "le stock sous de la réservee, provoque une vigilence (car il y a une erreur)");
 $t->is($produit->getVolumeCommercialisable(), 2, "le volume commercialisable obtenu est bien de 2hl (12 - 10)");
 
-$periode = date('Y').'05';
+$periode = $annee.'07';
 $drm2 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
 
 $drm2->addProduit($produit_hash, 'details');
 $details = $drm2->getProduit($produit_hash, 'details');
 $produit = $details->getCepage();
 
-$t->is($drm2->_get('precedente'), $drm->_id, "La drm précédente est stocké");
+$t->is($drm2->_get('precedente'), $drm->_id, "La drm précédente est stockée");
+$t->ok($produit->exist('reserve_interpro'), 'Le champ réserve interpro reste bien stocké');
 $t->is($produit->getRerserveIntepro(), 10, "la reserve interpro est la même que pour la DRM précédente");
-$t->is($produit->total, 12, "la reserve interpro est la même que pour la DRM précédente");
+$t->is($produit->total, 12, "le stock total est la même que pour la DRM précédente");
 $t->is($produit->getVolumeCommercialisable(), 2, "le volume commercialisable est bien le même que pour la DRM précédente");
+
+$periode = $annee.'08';
+$drm3 = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
+
+$drm3->addProduit($produit_hash, 'details');
+$details = $drm3->getProduit($produit_hash, 'details');
+$produit = $details->getCepage();
+
+$t->is($drm3->_get('precedente'), $drm2->_id, "La drm précédente est stockée");
+$t->ok($produit->exist('reserve_interpro'), 'Le champ réserve interpro reste bien stocké');
+$t->is($produit->getRerserveIntepro(), 10, "la reserve interpro est la même que pour la DRM précédente même si on change de campagne");
+$t->is($produit->total, 0, "le stock total a été réinitialisé");
+$t->is($produit->getVolumeCommercialisable(), -10, "le volume commercialisable a été réinitialisé");

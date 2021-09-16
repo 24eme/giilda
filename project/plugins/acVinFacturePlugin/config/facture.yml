@@ -1,6 +1,7 @@
 all:
   configuration:
     facture:
+      paiements_actif: false
       prefix_sage: "VEN"
       prefix_sage_divers: null
       tva_compte: "44570100"
@@ -23,4 +24,6 @@ all:
           19700101: 19.6
           20140101: 20.0
       export_shell: false
+      export_relances: false
       teledeclaration: false
+      seuil_minimum: null

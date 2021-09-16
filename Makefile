@@ -1,4 +1,4 @@
-all: project/cache project/log project/config/app.yml project/config/databases.yml project/bin/config.inc project/web/components/vins/vins-preview.html project/web/generation .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/ds.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json .views/sv12.json project/data/latex .views/mouvementfacture.json .views/alerte.json
+all: project/cache project/log project/config/app.yml project/config/databases.yml project/bin/config.inc project/web/components/vins/vins-preview.html project/web/generation .views/vrac.json .views/etablissements.json .views/archivage.json .views/mouvements.json .views/societe.json .views/compte.json .views/generation.json .views/drm.json .views/sv12.json project/data/latex .views/mouvementfacture.json .views/alerte.json
 
 project/cache:
 	mkdir project/cache
