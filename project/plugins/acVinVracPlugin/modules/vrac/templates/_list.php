@@ -38,7 +38,7 @@ use_helper('PointsAides');
             $contrats_vises[] = $contrat;
           }
         }
-        $contrats = $contrats + $contrats_vises;
+        $contrats = array_merge($contrats, $contrats_vises);
         foreach ($contrats as $value) {
             // $elt = $value->getRawValue()->value;
                 $v = VracClient::getInstance()->find($value->id, acCouchdbClient::HYDRATE_JSON);
