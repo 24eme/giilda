@@ -589,6 +589,8 @@ class vracActions extends sfActions {
         $this->redirect403IsNotTeledeclarationAndNotInVrac();
         $this->redirect403IsInVracAndNotAllowedToSee();
 
+        $this->changementDateSaisieForm = new VracChangementDateSaisieForm($this->vrac);
+
         $this->isTeledeclarationMode = $this->isTeledeclarationVrac();
 
 
@@ -604,6 +606,21 @@ class vracActions extends sfActions {
             }
             $this->vrac->save();
         }
+    }
+
+    public function executeChangeDateSaisie(sfWebRequest $request)
+    {
+        $this->redirect403IfIsTeledeclaration();
+        $vrac = $this->getRoute()->getVrac();
+
+        $this->form = new VracChangementDateSaisieForm($vrac);
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+        if ($this->form->isValid()) {
+            $this->form->save();
+        }
+
+        $this->redirect('vrac_visualisation', $vrac);
     }
 
     public function executeChangeStatut(sfWebRequest $request) {
