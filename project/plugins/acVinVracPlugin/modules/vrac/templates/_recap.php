@@ -245,7 +245,7 @@ $template_validation = (isset($template_validation)) ? $template_validation : fa
                     <li class="list-group-item clearfix">
                         <span class="col-xs-6">
                             <?php if ($vrac->autorisation_nom_vin): ?><strong>Autorisation d'utilisation du nom du vin</strong><?php endif; ?><br />
-                            <?php if ($vrac->cahier_charge): ?><strong>Présence d'un cachier des charges entre le vendeur et l'acheteur</strong><?php endif; ?>
+                            <?php if ($vrac->cahier_charge): ?><strong>Présence d'un cahier des charges entre le vendeur et l'acheteur</strong><?php endif; ?>
                         </span>
                         <span class="col-xs-6">
                             <?php if ($vrac->autorisation_nom_producteur): ?><strong>Autorisation d'utilisation du nom du producteur</strong><?php endif; ?>

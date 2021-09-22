@@ -19,7 +19,7 @@ all:
         "VIREMENT": "Virement bancaire"
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
-        "ESPECES": "Espèces"
+        "TRAITE": "Traite"
       transactions:
         "MOUTS": null
       required_degre: true
