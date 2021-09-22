@@ -50,13 +50,13 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             }
 
             if (preg_match('/^nouveau_/', $key)) {
-                $identifiant = false;
+                $mouvementIdentifiant = false;
                 if(isset($values['identifiant']) && $values['identifiant'] && SocieteClient::getInstance()->find($values['identifiant']) && $values['quantite']) {
-                    $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . Societe::get01PostfixEtablissementIfExist();
+                    $mouvementIdentifiant = EtablissementClient::getInstance()->getFirstIdentifiant(str_replace('SOCIETE-', '', $values['identifiant']));
                 }
 
                 $keyMvt = str_replace("nouveau_", "", $key);
-                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
+                $mouvement = $this->getObject()->getOrAdd($mouvementIdentifiant)->getOrAdd($keyMvt);
                 $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
             }
         }
@@ -70,7 +70,7 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             }
 
             $societeId = $values['identifiant'];
-            $mouvementIdentifiant = str_replace('SOCIETE-', '', $societeId).Societe::get01PostfixEtablissementIfExist();
+            $mouvementIdentifiant = EtablissementClient::getInstance()->getFirstIdentifiant(str_replace('SOCIETE-', '', $societeId));
             $keyEmbedded = explode('_', $key);
 
             if(!SocieteClient::getInstance()->find($societeId, acCouchdbClient::HYDRATE_JSON)) {
