@@ -234,6 +234,7 @@ class ConfigurationClient extends acCouchdbClient {
         if(is_null($this->countries)) {
             $destinationChoicesWidget = new sfWidgetFormI18nChoiceCountry(array('culture' => 'fr'));
             $this->countries = $destinationChoicesWidget->getChoices();
+			unset($this->countries['FR']);
 			DRMConfiguration::getInstance();
 			$this->countries = array_merge(array("" => ""), DRMConfiguration::getInstance()->getExportPaysDebut(), $this->countries, DRMConfiguration::getInstance()->getExportPaysFin());
         }

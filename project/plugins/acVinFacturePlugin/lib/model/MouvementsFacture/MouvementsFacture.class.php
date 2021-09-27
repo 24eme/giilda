@@ -68,12 +68,14 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return "Facturation libre : " . $this->getLibelle() . " (" . Date::francizeDate($this->getDate()) . ")";
     }
 
-    public function findMouvement($mvtId, $soc) {
-        if(sfConfig::get('app_societe_no_multi_etablissement')) {
-            return $this->mouvements->get($soc)->get($mvtId);
+    public function findMouvement($cle_mouvement, $part_id = null){
+      $cle_mouvement = rtrim($cle_mouvement);
+      foreach($this->document->getMouvements() as $identifiant => $mouvements) {
+	       if ((!$part_id || preg_match('/^'.$part_id.'/', $identifiant)) && array_key_exists($cle_mouvement, $mouvements->toArray())) {
+            return $mouvements[$cle_mouvement];
+          }
         }
-
-        return $this->mouvements->get($soc . '01')->get($mvtId);
+        throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->document->get('_id')));
     }
 
 }

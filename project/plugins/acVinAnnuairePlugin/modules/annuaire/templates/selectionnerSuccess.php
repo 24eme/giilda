@@ -7,7 +7,7 @@ use_helper('PointsAides');
     <li><a href="<?php echo url_for('annuaire', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="active">Annuaire</a><?php echo getPointAideHtml('vrac','annuaire_fil_saisi_retour_annuaire'); ?></li>
   </ol>
 		<h2 class="titre_principal">Ajouter un contact</h2>
-		<form id="principal" method="post" action="<?php echo url_for('annuaire_selectionner', array('identifiant' => $identifiant)); ?><?php if (isset($redirect)): ?>?redirect=<?php echo $redirect ?><?php endif; ?>">
+		<form id="principal" method="post" action="<?php echo url_for('annuaire_selectionner', array('identifiant' => $identifiant, 'acteur' => $acteur)); ?><?php if (isset($redirect)): ?>?redirect=<?php echo $redirect ?><?php endif; ?>">
 				<?php echo $form->renderHiddenFields() ?>
 				<?php echo $form->renderGlobalErrors() ?>
 				<div class="row">

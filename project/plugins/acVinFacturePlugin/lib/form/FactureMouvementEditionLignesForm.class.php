@@ -50,50 +50,51 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
             }
 
             if (preg_match('/^nouveau_/', $key)) {
-                $identifiant = false;
-                foreach ($values as $keyValue => $value) {
-                    if ($keyValue == 'identifiant') {
-                        if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {
-                            $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . Societe::get01PostfixEtablissementIfExist();
-                        }
-                    }
+                $mouvementIdentifiant = false;
+                if(isset($values['identifiant']) && $values['identifiant'] && SocieteClient::getInstance()->find($values['identifiant']) && $values['quantite']) {
+                    $mouvementIdentifiant = EtablissementClient::getInstance()->getFirstIdentifiant(str_replace('SOCIETE-', '', $values['identifiant']));
                 }
 
                 $keyMvt = str_replace("nouveau_", "", $key);
-                $mouvement = $this->getObject()->getOrAdd($identifiant)->getOrAdd($keyMvt);
+                $mouvement = $this->getObject()->getOrAdd($mouvementIdentifiant)->getOrAdd($keyMvt);
                 $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $key)));
             }
         }
         $nodes_to_remove = array();
         foreach ($taintedValues as $key => $values) {
-            if (array_key_exists($key, $this->embeddedForms)) {
-                foreach ($values as $keyValue => $value) {
-                    if ($keyValue == 'identifiant') {
-                        $keyEmbedded = explode('_', $key);
-                        if (($keyEmbedded[0] != str_replace('SOCIETE-', '', $value) . Societe::get01PostfixEtablissementIfExist()) && $keyEmbedded[0] != "nouveau") {
-
-                            if ($value && SocieteClient::getInstance()->find($value) && $values['quantite']) {
-                                $identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . Societe::get01PostfixEtablissementIfExist();
-
-                                $keyMvt = $keyEmbedded[1];
-                                $newKey = $identifiant . '_' . $keyMvt;
-
-                                $mouvementCloned = clone $this->getObject()->getOrAdd($keyEmbedded[0])->get($keyEmbedded[1]);
-                                $mouvementCloned->identifiant = str_replace("SOCIETE-", "", $values['identifiant']) . Societe::get01PostfixEtablissementIfExist();
-
-                                $mouvement = $this->getObject()->getOrAdd($mouvementCloned->identifiant)->add($keyMvt, $mouvementCloned);
-
-                                $this->embedForm($newKey, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $newKey)));
-                                $taintedValues[$newKey] = $taintedValues[$key];
-                                $this->validatorSchema[$newKey] = $this->validatorSchema[$key];
-                                $this->widgetSchema[$newKey] = $this->widgetSchema[$key];
-
-                                $nodes_to_remove[] = $key;
-                            }
-                        }
-                    }
-                }
+            if (!array_key_exists($key, $this->embeddedForms)) {
+                continue;
             }
+            if(!isset($values['identifiant'])) {
+                continue;
+            }
+
+            $societeId = $values['identifiant'];
+            $mouvementIdentifiant = EtablissementClient::getInstance()->getFirstIdentifiant(str_replace('SOCIETE-', '', $societeId));
+            $keyEmbedded = explode('_', $key);
+
+            if(!SocieteClient::getInstance()->find($societeId, acCouchdbClient::HYDRATE_JSON)) {
+                continue;
+            }
+
+            if (($keyEmbedded[0] == $mouvementIdentifiant) || $keyEmbedded[0] == "nouveau" || !$values['quantite']) {
+                continue;
+            }
+
+            $keyMvt = $keyEmbedded[1];
+            $newKey = $mouvementIdentifiant . '_' . $keyMvt;
+
+            $mouvementCloned = clone $this->getObject()->getOrAdd($keyEmbedded[0])->get($keyEmbedded[1]);
+            $mouvementCloned->identifiant = $mouvementIdentifiant;
+
+            $mouvement = $this->getObject()->getOrAdd($mouvementCloned->identifiant)->add($keyMvt, $mouvementCloned);
+
+            $this->embedForm($newKey, new FactureMouvementEtablissementEditionLigneForm($mouvement, array('interpro_id' => $this->interpro_id, 'keyMvt' => $newKey)));
+            $taintedValues[$newKey] = $taintedValues[$key];
+            $this->validatorSchema[$newKey] = $this->validatorSchema[$key];
+            $this->widgetSchema[$newKey] = $this->widgetSchema[$key];
+
+            $nodes_to_remove[] = $key;
         }
 
         foreach ($nodes_to_remove as $nodeToRemoveKey) {
