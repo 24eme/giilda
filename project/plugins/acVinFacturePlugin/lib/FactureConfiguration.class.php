@@ -116,6 +116,14 @@ class FactureConfiguration {
         return $this->configuration['taux_tva'];
     }
 
+    public function getTvaChoices() {
+      return (isset($this->configuration['choix_tva']))? $this->configuration['choix_tva'] : array();
+    }
+
+    public function hasTvaChoices() {
+      return (isset($this->configuration['choix_tva_facture_libre']))? $this->configuration['choix_tva_facture_libre'] : false;
+    }
+
     public function getExercice() {
 
         return $this->configuration['exercice'];

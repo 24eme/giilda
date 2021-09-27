@@ -285,7 +285,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->libelle = $produit_libelle;
                     $detail->prix_unitaire = $ligneByType->prix_unitaire;
                     $detail->quantite = $ligneByType->quantite;
-                    $detail->taux_tva = 0.2;
+                    $detail->taux_tva = ($ligneByType->exist('taux_tva'))? $ligneByType->taux_tva : 0.2;
                     $detail->origine_type = MouvementfactureFacturationView::getInstance()->createOrigine($famille, $ligneByType);
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
@@ -298,7 +298,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->quantite = 0;
                         $detail->libelle = $produit_libelle;
                         $detail->prix_unitaire = $ligneByType->prix_unitaire;
-                        $detail->taux_tva = 0.2;
+                        $detail->taux_tva = ($ligneByType->exist('taux_tva'))? $ligneByType->taux_tva : 0.2;
                     }
                     $detail->quantite += $ligneByType->quantite;
                 }
@@ -329,7 +329,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $identifiants_compte_analytique = explode('_',$ligneByType->produit_hash);
                 $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
                 $detail->add('code_compte',$identifiants_compte_analytique[0]);
-                $detail->taux_tva = 0.2;
+                $detail->taux_tva = (isset($ligneByType->taux_tva))? $ligneByType->taux_tva : 0.2;
             }
         }
     }
