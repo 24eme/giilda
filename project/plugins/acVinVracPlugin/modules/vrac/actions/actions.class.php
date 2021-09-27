@@ -142,14 +142,7 @@ class vracActions extends sfActions {
 
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
-        if($this->getUser()->getCompte()->getSociete()->isNegociant()){
-          if ($isVendeur) {
-              $this->vrac->vendeur_identifiant = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant;
-              $this->vrac->responsable = Vrac::VRAC_RESPONSABLE_VENDEUR;
-          }else {
-              $this->vrac->acheteur_identifiant = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant;
-          }
-        }
+
         $this->vrac->setInformations();
         $this->compte = null;
         $this->etablissementPrincipal = null;
