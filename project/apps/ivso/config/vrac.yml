@@ -20,6 +20,4 @@ all:
         "CB": "Carte bancaire"
         "CHEQUE": "Chèque"
         "TRAITE": "Traite"
-      transactions:
-        "MOUTS": null
       required_degre: true
