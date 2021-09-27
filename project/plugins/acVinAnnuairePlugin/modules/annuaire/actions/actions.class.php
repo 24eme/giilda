@@ -15,6 +15,7 @@ class annuaireActions extends sfActions {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
+        $this->acteur = $request->getParameter('acteur');
 
         $this->initSocieteAndEtablissementPrincipal();
 
@@ -29,7 +30,7 @@ class annuaireActions extends sfActions {
                 if (array_key_exists('type', $values)) {
                     $type = $values['type'];
                 }
-                return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
+                return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers'], 'acteur' => $this->acteur));
             }
         }
     }
@@ -37,6 +38,7 @@ class annuaireActions extends sfActions {
     public function executeAjouter(sfWebRequest $request) {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
+        $this->acteur = $request->getParameter('acteur');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
 
         $this->initSocieteAndEtablissementPrincipal();
@@ -85,13 +87,12 @@ class annuaireActions extends sfActions {
                     return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers']));
                 } else {
                     $this->form->save();
-                    if ($vrac = $this->getUser()->getAttribute('vrac_object')) {
+                    $vrac = $this->getUser()->getAttribute('vrac_object');
+                    if ($vrac && $this->acteur) {
                         $vrac = unserialize($vrac);
-                        $acteur = $this->getUser()->getAttribute('vrac_acteur');
                         $this->etbObject = $this->form->getValue("etablissementObject");
-                        $vrac->{$acteur . '_identifiant'} = $this->etbObject->identifiant;
+                        $vrac->{$this->acteur . '_identifiant'} = $this->etbObject->identifiant;
                         $this->getUser()->setAttribute('vrac_object', serialize($vrac));
-                        $this->getUser()->setAttribute('vrac_acteur', null);
                         if ($vrac->isNew()) {
                             return $this->redirect('vrac_nouveau', array('choix-etablissement' => $vrac->createur_identifiant));
                         } else {
@@ -169,7 +170,6 @@ class annuaireActions extends sfActions {
 
     public function cleanSessions() {
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
     }
 
     /*
