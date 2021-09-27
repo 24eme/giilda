@@ -20,11 +20,11 @@ class CompteAddDroitTask extends sfBaseTask
         $this->name             = 'add-droit';
         $this->briefDescription = '';
         $this->detailedDescription = <<<EOF
-        The [CompteAddDroitTask|INFO] task does things.
-        Call it with:
+The [CompteAddDroitTask|INFO] task does things.
+Call it with:
 
-        [php symfony document:setvalue|INFO]
-        EOF;
+    [php symfony document:setvalue|INFO]
+EOF;
     }
 
     protected function execute($arguments = array(), $options = array())

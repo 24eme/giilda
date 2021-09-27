@@ -26,16 +26,14 @@ $docMouvementsLibres->set('_id', "MOUVEMENTSFACTURE-TEST");
 $form = new FactureMouvementsEditionForm($docMouvementsLibres);
 
 $values["libelle"] = "Test opération";
-$values["mouvements"]["nouveau_1"]["identifiant"] = $societeViti->_id;
-$values["mouvements"]["nouveau_1"]["identifiant_analytique"] = $keyCompta;
-$values["mouvements"]["nouveau_1"]["libelle"] = "Bouchons";
-$values["mouvements"]["nouveau_1"]["prix_unitaire"] = 1.50;
-$values["mouvements"]["nouveau_1"]["quantite"] = 10.00;
-$values["mouvements"]["nouveau_2"]["identifiant"] = $societeViti->_id;
-$values["mouvements"]["nouveau_2"]["identifiant_analytique"] = $keyCompta;
-$values["mouvements"]["nouveau_2"]["libelle"] = "Médailles";
-$values["mouvements"]["nouveau_2"]["prix_unitaire"] = 3.00;
-$values["mouvements"]["nouveau_2"]["quantite"] = 5.00;
+$values["mouvements"]["nouveau"]["nouveau"]["identifiant"] = $societeViti->_id;
+$values["mouvements"]["nouveau"]["nouveau"]["identifiant_analytique"] = $keyCompta;
+$values["mouvements"]["nouveau"]["nouveau"]["libelle"] = "Bouchons";
+$values["mouvements"]["nouveau"]["nouveau"]["prix_unitaire"] = 1.50;
+$values["mouvements"]["nouveau"]["nouveau"]["quantite"] = 10.00;
+if (FactureConfiguration::getInstance()->hasTvaChoices()) {
+  $values["mouvements"]["nouveau"]["nouveau"]["taux_tva"] = '0.100';
+}
 $values["_revision"] = $docMouvementsLibres->_rev;
 
 $form->bind($values);
@@ -44,9 +42,14 @@ $t->ok($form->isValid(), "Le formulaire est valide");
 
 $form->save();
 
-$totalHT = 30;
-$totalTTC = 36;
-$totalTaxe = 6;
+$totalHT = 15;
+if (FactureConfiguration::getInstance()->hasTvaChoices()) {
+  $totalTTC = 16.5;
+  $totalTaxe = 1.5;
+} else {
+  $totalTTC = 18;
+  $totalTaxe = 3;
+}
 
 $mouvement = $docMouvementsLibres->mouvements->getFirst()->getFirst();
 $form = new FactureMouvementsEditionForm($docMouvementsLibres);
@@ -54,12 +57,12 @@ $defaultValues = $form->getDefaults();
 
 $t->ok($docMouvementsLibres->_rev, "Le document a été enregistré");
 $t->is($docMouvementsLibres->libelle, "Test opération", "Le libellé est bien enregistré");
-$t->is($defaultValues["mouvements"][$mouvement->getParent()->getKey()."_".$mouvement->getKey()]["quantite"], $values["mouvements"]["nouveau_1"]["quantite"], "La quantité du formulaire n'a pas bougé");
-$t->is($mouvement->quantite, $values["mouvements"]["nouveau_1"]["quantite"], "La quantité est celle saisie dans le formulaire");
-$t->is($docMouvementsLibres->getNbMvts(), 2, "Le document à 2 mouvements de facturation");
+$t->is($defaultValues["mouvements"][$mouvement->getParent()->getKey()][$mouvement->getKey()]["quantite"], $values["mouvements"]["nouveau"]["nouveau"]["quantite"], "La quantité du formulaire n'a pas bougé");
+$t->is($mouvement->quantite, $values["mouvements"]["nouveau"]["nouveau"]["quantite"], "La quantité est celle saisie dans le formulaire");
+$t->is($docMouvementsLibres->getNbMvts(), 1, "Le document à 1 mouvements de facturation");
 $t->is($docMouvementsLibres->getNbSocietes(), 1, "La document à 1 société");
-$t->is($docMouvementsLibres->getTotalHt(), $totalHT, "Le montant total HT est de 30 €");
-$t->is($docMouvementsLibres->getTotalHtAFacture(), $totalHT, "Le montant total HT à facturer est de 30 €");
+$t->is($docMouvementsLibres->getTotalHt(), $totalHT, "Le montant total HT est de 15 €");
+$t->is($docMouvementsLibres->getTotalHtAFacture(), $totalHT, "Le montant total HT à facturer est de 15 €");
 
 $t->comment("Génération de la facture");
 
@@ -89,7 +92,7 @@ foreach($facture->lignes as $lignes) {
     }
 }
 
-$t->is($nbLignes, 2, "La facture à 2 lignes");
+$t->is($nbLignes, 1, "La facture à 1 lignes");
 
 $generation = FactureClient::getInstance()->createGenerationForOneFacture($facture);
 

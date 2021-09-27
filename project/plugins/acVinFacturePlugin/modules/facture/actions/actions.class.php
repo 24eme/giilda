@@ -36,10 +36,10 @@ class factureActions extends sfActions {
 
     public function executeMouvementsedition(sfWebRequest $request) {
         $this->factureMouvements = MouvementsFactureClient::getInstance()->find('MOUVEMENTSFACTURE-' . $request->getParameter('id'));
-        sfContext::getInstance()->getResponse()->setTitle('FACTURES LIBRES - ' . $this->factureMouvements->identifiant);
-        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
-        if (!$request->isMethod(sfWebRequest::POST)) {
 
+        $this->form = new FactureMouvementsEditionForm($this->factureMouvements, array('interpro_id' => 'INTERPRO-declaration'));
+
+        if (!$request->isMethod(sfWebRequest::POST)) {
             return sfView::SUCCESS;
         }
 
@@ -47,7 +47,7 @@ class factureActions extends sfActions {
 
         if ($this->form->isValid()) {
             $this->form->save();
-            $this->redirect('facture_mouvements', array('id' => $this->factureMouvements->identifiant));
+            $this->redirect('facture_mouvements_edition', array('id' => $this->factureMouvements->identifiant));
         }
     }
 
