@@ -73,8 +73,12 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
         return ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
     }
 
-    public function isReadonly() {
-        return $this->isreadonly;
+    public function getTvaChoices() {
+      return FactureConfiguration::getInstance()->getTvaChoices();
+    }
+
+    public function hasTvaChoices() {
+      return FactureConfiguration::getInstance()->hasTvaChoices();
     }
 
 }
