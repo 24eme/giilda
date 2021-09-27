@@ -391,39 +391,6 @@ class Compte extends BaseCompte implements InterfaceCompteGenerique {
         }
     }
 
-    public function buildDroits($removeAll = false) {
-        if ((!$this->exist('type_societe') || !$this->type_societe) && (!$this->exist('id_societe') || !$this->id_societe)) {
-            throw new sfException("Aucun type de société les droits ne sont pas enregistrables");
-        }
-        if ($removeAll && $this->exist('droits') && $this->droits) {
-            $this->remove('droits');
-        }
-        $droits = $this->add('droits');
-        $acces_teledeclaration = false;
-
-        $type_societe = ($this->exist('type_societe') && $this->type_societe) ? $this->type_societe : null;
-        if (!$type_societe) {
-            $type_societe = $this->getSociete()->getTypeSociete();
-        }
-
-        if ($type_societe == SocieteClient::TYPE_OPERATEUR || $type_societe == SocieteClient::TYPE_COURTIER) {
-            $acces_teledeclaration = true;
-            $droits->add(Roles::TELEDECLARATION_VRAC, Roles::TELEDECLARATION_VRAC);
-            if ($this->getSociete()->isNegociant() || $type_societe == SocieteClient::TYPE_COURTIER) {
-                $droits->add(Roles::TELEDECLARATION_VRAC_CREATION, Roles::TELEDECLARATION_VRAC_CREATION);
-            }
-        }
-        if ($type_societe == SocieteClient::TYPE_OPERATEUR && $this->getSociete()->isViticulteur()){
-            $acces_teledeclaration = true;
-            $droits->add(Roles::TELEDECLARATION_DRM, Roles::TELEDECLARATION_DRM);
-        }
-
-        if ($acces_teledeclaration) {
-            $droits->add(Roles::TELEDECLARATION, Roles::TELEDECLARATION);
-
-        }
-    }
-
     public function hasDroit($droit) {
         if(!$this->exist('droits')) {
 
