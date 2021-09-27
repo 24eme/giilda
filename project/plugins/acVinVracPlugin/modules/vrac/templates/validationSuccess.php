@@ -60,6 +60,8 @@ use_helper('PointsAides');
     <div class="col-xs-4 text-center">
         <?php if (!$isTeledeclarationMode) : ?>
             <a tabindex="-1" href="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</a>
+        <?php else: ?>
+            <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</a>
         <?php endif; ?>
     </div>
     <?php if ($validation->isValide()) : ?>
@@ -75,6 +77,10 @@ use_helper('PointsAides');
             <button class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
             </div>
         <?php endif; ?>
+    <?php else: ?>
+      <div class="col-xs-4 text-right">
+          <button <?php if (!$validation->isValide()) : ?>disabled="disabled"<?php endif; ?> class="btn btn-success" type="submit">Terminer la saisie <span class="glyphicon glyphicon-ok"></span></button>
+      </div>
     <?php endif; ?>
 </div>
 
