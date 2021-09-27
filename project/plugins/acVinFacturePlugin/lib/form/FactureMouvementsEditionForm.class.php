@@ -8,50 +8,90 @@
 class FactureMouvementsEditionForm extends acCouchdbObjectForm {
 
     protected $interpro_id;
-    protected $mvtId;
 
-    public function __construct(\acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
+    public function __construct(acCouchdbJson $object, $options = array(), $CSRFSecret = null) {
         $this->interpro_id = "INTERPRO-declaration";
         if(isset($options['interpro_id'])) {
             $this->interpro_id = $options['interpro_id'];
         }
         parent::__construct($object, $options, $CSRFSecret);
-
     }
 
     public function configure() {
-
         $this->setWidget("libelle", new sfWidgetFormInput());
-
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
+        $this->widgetSchema->setLabel('libelle', 'Libellé opération');
 
-        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
+        $this->embedForm('mouvements', new FactureMouvementsEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
-        $this->widgetSchema->setLabel('libelle', 'Libellé opération');
     }
 
-    public function getFormTemplate() {
-        $mouvements = $this->getObject()->getOrAdd('mouvements');
-        $uniqId = uniqid();
-        $this->mvtId = 'nouveau_' . $uniqId;
-        $mouvements->add('nouveau')->add($uniqId);
-        $form_embed = new FactureMouvementEtablissementEditionLigneForm($mouvements, array('keyMvt' => $this->mvtId, 'interpro_id' => $this->interpro_id));
-        $form = new FactureMouvementsCollectionTemplateForm($this, 'mouvements', $form_embed);
-        return $form->getFormTemplate();
-    }
+    protected function doUpdateObject($values) {
+      $mouvements = $values['mouvements'];
+      unset($values['mouvements']);
+    	parent::doUpdateObject($values);
+      if (!$this->getObject()->date) {
+            $this->getObject()->set('date', date('Y-m-d'));
+            $this->getObject()->getOrAdd('valide')->set('date_saisie', date('Y-m-d'));
+      }
+      $inserted_keys = array();
+      foreach($mouvements as $id => $values) {
+        foreach($values as $key => $mouvement) {
+          if (!$mouvement['identifiant']||!$mouvement['quantite']||!$mouvement['prix_unitaire']) {
+            continue;
+          }
+          if ($id == 'nouveau') {
+            $k = uniqid();
+            $societe = SocieteClient::getInstance()->find($mouvement['identifiant']);
+            $societeMvtKey = EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant);
+          } else {
+            $k = $key;
+            $societe = null;
+            $societeMvtKey = $id;
+          }
 
-    public function getNewMvtId() {
-        return $this->mvtId;
+          $mvt = $this->getObject()->mouvements->getOrAdd($societeMvtKey)->getOrAdd($k);
+          $inserted_keys[$societeMvtKey.'_'.$k] = 1;
+
+          $mvt->identifiant = $societeMvtKey;
+          $mvt->updateIdentifiantAnalytique($mouvement['identifiant_analytique']);
+          $mvt->libelle = $mouvement['libelle'];
+          $mvt->quantite = floatval($mouvement['quantite']);
+          $mvt->prix_unitaire = floatval($mouvement['prix_unitaire']);
+          if (isset($mouvement['taux_tva'])) {
+            $mvt->add('taux_tva', floatval($mouvement['taux_tva']));
+          }
+          if (!$mvt->facture) {
+            $mvt->facture = 0;
+          }
+          $mvt->facturable = 1;
+          if ($societe) {
+            $mvt->region = ($societe->getRegionViticole(false))? $societe->getRegionViticole() : $societe->type_societe;
+          }
+          $mvt->date = $this->getObject()->date;
+        }
+      }
+      // Suppression des lignes supprimees dynamiquement
+      $mvtsToRemove = array();
+      foreach ($this->getObject()->getOrAdd('mouvements') as $etbId => $mvtsEtb) {
+          foreach ($mvtsEtb as $keyMvt => $mvt) {
+              if (!$mvt->facture && !isset($inserted_keys[$etbId . '_' . $keyMvt])) {
+                  $mvtsToRemove[] = $mvt;
+              }
+          }
+      }
+      foreach ($mvtsToRemove as $mvtToRemove) {
+          $mvtToRemove->delete();
+      }
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {
-            if ($form instanceof FactureMouvementEditionLignesForm) {
-                if (isset($taintedValues[$key])) {
-                    $form->bind($taintedValues[$key], $taintedFiles[$key]);
-                    $this->updateEmbedForm($key, $form);
-                }
+            if($taintedValues && $form instanceof FactureMouvementsEditionLignesForm) {
+                $files = ($taintedFiles && isset($taintedFiles[$key]))? $taintedFiles[$key] : null;
+                $form->bind($taintedValues[$key], $files);
+                $this->updateEmbedForm($key, $form);
             }
         }
         parent::bind($taintedValues, $taintedFiles);
@@ -60,75 +100,6 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
     public function updateEmbedForm($name, $form) {
         $this->widgetSchema[$name] = $form->getWidgetSchema();
         $this->validatorSchema[$name] = $form->getValidatorSchema();
-    }
-
-    protected function doUpdateObject($values) {
-
-        $this->getObject()->set('libelle', $values['libelle']);
-        if (!$this->getObject()->getDate()) {
-            $date = date('Y-m-d');
-            $this->getObject()->set('date', $date);
-            $this->getObject()->getOrAdd('valide')->set('date_saisie', $date);
-        }
-
-        $embeddedArrayKeys = array();
-        foreach ($this->getEmbeddedForms() as $mouvementsKey => $mouvementsForm) {
-            foreach ($mouvementsForm->getEmbeddedForms() as $keyMvt => $mvt) {
-                $mvtValues = $values[$mouvementsKey][$keyMvt];
-                $embeddedArrayKeys[] = $keyMvt;
-                if ($mvtValues['identifiant'] && $mvtValues['quantite']) {
-                    $societe = SocieteClient::getInstance()->find($mvtValues['identifiant']);
-                    $societeIdentifiant = str_replace('SOCIETE-', '', $mvtValues['identifiant']);
-                    $keys = explode('_', $keyMvt);
-                    $idEtb = ($keys[0] == 'nouveau') ? EtablissementClient::getInstance()->getFirstIdentifiant($societeIdentifiant) : $keys[0];
-                    $mvtObj = $this->getObject()->getOrAdd('mouvements')->getOrAdd($idEtb)->getOrAdd($keys[1]);
-
-                    $mvtObj['identifiant'] = $idEtb;
-                    $mvtObj->updateIdentifiantAnalytique($mvtValues['identifiant_analytique']);
-                    $mvtObj['libelle'] = $mvtValues['libelle'];
-                    $mvtObj['quantite'] = floatval($mvtValues['quantite']);
-                    $mvtObj['prix_unitaire'] = floatval($mvtValues['prix_unitaire']);
-
-                    if (!$mvtObj->facture) {
-                        $mvtObj->facture = 0;
-                    }
-                    $mvtObj->facturable = 1;
-                    $mvtObj->region = ($societe->getRegionViticole(false))? $societe->getRegionViticole() : $societe->type_societe;
-                    $mvtObj->date = $this->getObject()->getDate();
-                }
-            }
-        }
-        $mvtsToRemove = array();
-        foreach ($this->getObject()->getOrAdd('mouvements') as $etbId => $mvtsEtb) {
-            foreach ($mvtsEtb as $keyMvt => $mvt) {
-                if ($etbId &&
-                        !$mvt->facture &&
-                        !in_array($etbId . '_' . $keyMvt, $embeddedArrayKeys) &&
-                        !in_array('nouveau_' . $keyMvt, $embeddedArrayKeys)) {
-                    $mvtsToRemove[] = $etbId . '_' . $keyMvt;
-                }
-            }
-        }
-        foreach ($mvtsToRemove as $keyToRemove) {
-            $keys = explode('_', $keyToRemove);
-            $this->getObject()->getOrAdd('mouvements')->getOrAdd($keys[0])->remove($keys[1]);
-        }
-        foreach ($this->getObject()->getOrAdd('mouvements') as $etbId => $mvtsEtb) {
-            $cpt = 0;
-            foreach ($mvtsEtb as $keyMvt => $mvt) {
-                if ($etbId) {
-                    $mvt->vrac_numero = 'MOUVEMENTLIBRE_ORDRE_' . sprintf("%03d", $cpt);
-                    $cpt++;
-                }
-            }
-        }
-        $this->getObject()->save();
-    }
-
-    public function setDefaults($defaults) {
-        parent::setDefaults($defaults);
-        $date = Date::francizeDate($this->getObject()->getDate());
-        $this->setDefault('date', $date);
     }
 
 }
