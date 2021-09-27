@@ -128,6 +128,11 @@ class EtablissementClient extends acCouchdbClient {
         return $societeIdentifiant."99";
     }
 
+    public function getBaseIdentifiant($societeIdentifiant) {
+
+        return substr($societeIdentifiant, 0, -2);
+    }
+
     public function getViewClient($view) {
         return acCouchdbManager::getView("etablissement", $view, 'Etablissement');
     }
