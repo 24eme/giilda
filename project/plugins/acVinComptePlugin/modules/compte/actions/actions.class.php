@@ -41,22 +41,6 @@ class compteActions extends sfCredentialActions {
         return $this->redirect('compte_visualisation', $this->compte);
     }
 
-    public function executeModificationCoordonnee(sfWebRequest $request) {
-        $this->compte = $this->getRoute()->getCompte();
-        $this->societe = $this->compte->getSociete();
-        $this->compteForm = new CompteCoordonneeForm($this->compte);
-        if ($request->isMethod(sfWebRequest::POST)) {
-            $this->compteForm->bind($request->getParameter($this->compteForm->getName()));
-            if ($this->compteForm->isValid()) {
-                if($this->compte->isNew()){
-                    $this->compte->setStatut(EtablissementClient::STATUT_ACTIF);
-                }
-                $this->compteForm->save();
-                $this->redirect('compte_visualisation', $this->compte);
-            }
-        }
-    }
-
     public function executeVisualisation(sfWebRequest $request) {
         $this->compte = $this->getRoute()->getCompte();
         $this->societe = $this->compte->getSociete();

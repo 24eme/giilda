@@ -83,12 +83,7 @@ class acVinCompteRouting {
                 ['sf_method' => ['get']],
                 ['model' => 'Compte', 'type' => 'object']
             ));
-        $r->prependRoute('compte_coordonnee_modification', new CompteRoute('/compte-coordonnee/:identifiant/modification',
-            array('module' => 'compte',
-                'action' => 'modificationCoordonnee'),
-            array('sf_method' => array('get', 'post')),
-            array('model' => 'Compte',
-                'type' => 'object')));
+
     }
 
 }
