@@ -142,14 +142,7 @@ class vracActions extends sfActions {
 
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
-        if($this->getUser()->getCompte()->getSociete()->isNegociant()){
-          if ($isVendeur) {
-              $this->vrac->vendeur_identifiant = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant;
-              $this->vrac->responsable = Vrac::VRAC_RESPONSABLE_VENDEUR;
-          }else {
-              $this->vrac->acheteur_identifiant = $this->getUser()->getCompte()->getSociete()->getEtablissementPrincipal()->identifiant;
-          }
-        }
+
         $this->vrac->setInformations();
         $this->compte = null;
         $this->etablissementPrincipal = null;
@@ -189,6 +182,9 @@ class vracActions extends sfActions {
                 return $this->redirect('vrac_marche', $this->vrac);
             }
         }
+
+        $this->getUser()->setAttribute('vrac_object', serialize($this->vrac));
+
         $this->setTemplate('soussigne');
     }
 
@@ -223,7 +219,6 @@ class vracActions extends sfActions {
     public function executeSociete(sfWebRequest $request) {
 
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
         $this->identifiant = $request['identifiant'];
 
         $this->initSocieteAndEtablissementPrincipal();
@@ -235,7 +230,6 @@ class vracActions extends sfActions {
 
     public function executeHistory(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
         $this->identifiant = $request['identifiant'];
 
         $this->initSocieteAndEtablissementPrincipal();
@@ -326,7 +320,6 @@ class vracActions extends sfActions {
             }
         }
         $this->getUser()->setAttribute('vrac_object', serialize($this->vrac));
-        $this->getUser()->setAttribute('vrac_acteur', $this->acteur);
         return $this->redirect('annuaire_selectionner', array('identifiant' => $this->identifiant, 'type' => $this->type));
     }
 
@@ -360,7 +353,6 @@ class vracActions extends sfActions {
             }
         }
         $this->getUser()->setAttribute('vrac_object', serialize($this->vrac));
-        $this->getUser()->setAttribute('vrac_acteur', $this->acteur);
         return $this->redirect('annuaire_commercial_ajouter', array('identifiant' => $this->identifiant));
     }
 
@@ -433,7 +425,6 @@ class vracActions extends sfActions {
 
     public function executeMarche(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Marché', $request["numero_contrat"]));
         $this->urlRetour = $request->getParameter('urlretour', false);
         $this->modeStandalone = ($this->urlRetour !== false);
@@ -494,7 +485,6 @@ class vracActions extends sfActions {
 
     public function executeCondition(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Conditions', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
 
@@ -530,8 +520,6 @@ class vracActions extends sfActions {
 
     public function executeValidation(sfWebRequest $request) {
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
-
 
         $this->getResponse()->setTitle(sprintf('Contrat N° %d - Validation', $request["numero_contrat"]));
         $this->vrac = $this->getRoute()->getVrac();
@@ -574,7 +562,6 @@ class vracActions extends sfActions {
     public function executeVisualisation(sfWebRequest $request) {
         ini_set('memory_limit', '2048M');
         $this->getUser()->setAttribute('vrac_object', null);
-        $this->getUser()->setAttribute('vrac_acteur', null);
         $this->vrac = $this->getRoute()->getVrac();
         $this->getResponse()->setTitle(sprintf('Contrat N° %05d - Visualisation', $this->vrac->numero_archive));
         $this->signatureDemande = false;

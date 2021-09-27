@@ -9,7 +9,7 @@ use_helper('PointsAides');
   </ol>
 
   <h2>Ajouter un contact</h2>
-        <form id="principal" method="post" action="<?php echo url_for('annuaire_ajouter', array('identifiant' => $identifiant, 'type' => $type, 'tiers' => $societeId)) ?>">
+        <form id="principal" method="post" action="<?php echo url_for('annuaire_ajouter', array('identifiant' => $identifiant, 'type' => $type, 'tiers' => $societeId, 'acteur' => $acteur)) ?>">
 
                 <?php echo $form->renderHiddenFields() ?>
                 <?php echo $form->renderGlobalErrors() ?>
