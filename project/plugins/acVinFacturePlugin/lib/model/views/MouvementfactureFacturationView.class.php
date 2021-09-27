@@ -37,11 +37,11 @@ class MouvementfactureFacturationView extends acCouchdbView {
             $paramRegion = array();
         }
 
-        $rows = $this->getRowsByIdentifiant($societe->identifiant.'01', $societe->identifiant.'99', $paramRegion, $facturee, $facturable, $reduceLevel);
+        $rows = $this->getRowsByIdentifiant(EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant), EtablissementClient::getInstance()->getLastIdentifiant($societe->identifiant), $paramRegion, $facturee, $facturable, $reduceLevel);
+
         $identifiantsSupplementaire = array();
         foreach($societe->etablissements as $id => $infos) {
-            $identifiant = str_replace("ETABLISSEMENT-", "", $id);
-            if(preg_match("/^".$societe->identifiant."[0-9]{2}$/", $identifiant)) {
+            if(strpos($id, $societe->identifiant) !== false) {
                 continue;
             }
             $identifiantsSupplementaire[$identifiant] = $identifiant;
