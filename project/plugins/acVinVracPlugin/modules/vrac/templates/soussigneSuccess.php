@@ -447,16 +447,19 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
             <button type="submit" class="btn btn-success">Étape suivante <span class="glyphicon glyphicon-chevron-right"></span></button>
         </div>
         <div class="col-xs-4 text-center">
-            <?php if ($vrac->isBrouillon()) : ?>
-                <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
+            <?php if ($vrac->isBrouillon() && !$vrac->isNew()) : ?>
+                <a tabindex="-1" class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
+            <?php endif; ?>
+            <?php if ($vrac->isBrouillon() && $vrac->isNew()) : ?>
+                <a tabindex="-1" class="btn btn-default" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
             <?php endif; ?>
         </div>
 
         <div class="col-xs-4 col-md-pull-8 text-left">
             <?php if ($isTeledeclarationMode): ?>
-                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default">Suspendre la saisie</a>
+                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Suspendre la saisie</a>
             <?php else: ?>
-                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default">Suspendre la saisie</a>
+                <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Suspendre la saisie</a>
             <?php endif; ?>
         </div>
     </div>

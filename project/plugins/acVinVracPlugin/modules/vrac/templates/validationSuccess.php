@@ -58,12 +58,9 @@ use_helper('PointsAides');
       <a tabindex="-1"  href="<?php echo url_for('vrac_condition',$vrac); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Etape précédente</a>
   </div>
     <div class="col-xs-4 text-center">
-        <?php if ($isTeledeclarationMode && $vrac->isBrouillon()) : ?>
-            <a tabindex="-1" class="btn btn-danger" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>" style="margin-left: 10px">Supprimer le brouillon</a>
-        <?php endif; ?>
         <?php if (!$isTeledeclarationMode) : ?>
-                <a tabindex="-1" href="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</a>
-            <?php endif; ?>
+            <a tabindex="-1" href="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</a>
+        <?php endif; ?>
     </div>
     <?php if ($validation->isValide()) : ?>
         <?php if ($isTeledeclarationMode): ?>
