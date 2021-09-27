@@ -89,7 +89,7 @@ class VracMarcheForm extends VracForm {
         $this->setValidator('cepage_85_15', new sfValidatorBoolean(array('required' => false)));
         $this->setValidator('lot', new sfValidatorString(array('required' => false)));
 
-        if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE))) {
+        if (in_array($this->getObject()->type_transaction, array(VracClient::TYPE_TRANSACTION_VIN_VRAC, VracClient::TYPE_TRANSACTION_VIN_BOUTEILLE, VracClient::TYPE_TRANSACTION_MOUTS))) {
             $this->getValidator('cepage')->setOption('required', false);
         } else {
             $this->getValidator('produit')->setOption('required', false);
