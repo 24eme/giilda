@@ -31,6 +31,7 @@ class Roles
     const TELEDECLARATION_DRM = 'teledeclaration_drm';
     const TELEDECLARATION_VRAC_CREATION = 'teledeclaration_vrac_creation';
     const TELEDECLARATION_DOUANE = 'teledeclaration_douane';
+    const TELEDECLARATION_EXCLUSION = "exclusion_stats";
 
     const OBSERVATOIRE = 'observatoire';
 
@@ -40,6 +41,7 @@ class Roles
       self::TELEDECLARATION_VRAC_CREATION => "Teledeclaration création contrats",
       self::TELEDECLARATION_DRM => "Teledeclaration DRM",
       self::TELEDECLARATION_DOUANE => "Transmission Ciel",
+      self::TELEDECLARATION_EXCLUSION => "Exclusion stats"
       );
 
       public static $teledeclarationLibellesShort = array(
@@ -47,6 +49,7 @@ class Roles
         self::TELEDECLARATION_VRAC_CREATION => "Création contrats",
         self::TELEDECLARATION_DRM => "DRM",
         self::TELEDECLARATION_DOUANE => "Transmission Ciel",
+        self::TELEDECLARATION_EXCLUSION => "Exclusion stats"
         );
 
     protected static $hierarchy = array(
