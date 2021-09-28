@@ -16,6 +16,7 @@ class annuaireActions extends sfActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
         $this->acteur = $request->getParameter('acteur');
+        $this->isVendeur = $request->getParameter('isVendeur');
 
         $this->initSocieteAndEtablissementPrincipal();
 
@@ -30,7 +31,7 @@ class annuaireActions extends sfActions {
                 if (array_key_exists('type', $values)) {
                     $type = $values['type'];
                 }
-                return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers'], 'acteur' => $this->acteur));
+                return $this->redirect('annuaire_ajouter', array('type' => $type, 'identifiant' => $this->identifiant, 'tiers' => $values['tiers'], 'acteur' => $this->acteur, 'isVendeur' => $this->isVendeur));
             }
         }
     }
@@ -39,6 +40,7 @@ class annuaireActions extends sfActions {
         $this->type = $request->getParameter('type');
         $this->identifiant = $request->getParameter('identifiant');
         $this->acteur = $request->getParameter('acteur');
+        $this->isVendeur = $request->getParameter('isVendeur');
         $this->etablissement = EtablissementClient::getInstance()->find($this->identifiant);
 
         $this->initSocieteAndEtablissementPrincipal();
@@ -94,7 +96,7 @@ class annuaireActions extends sfActions {
                         $vrac->{$this->acteur . '_identifiant'} = $this->etbObject->identifiant;
                         $this->getUser()->setAttribute('vrac_object', serialize($vrac));
                         if ($vrac->isNew()) {
-                            return $this->redirect('vrac_nouveau', array('choix-etablissement' => $vrac->createur_identifiant));
+                            return $this->redirect('vrac_nouveau', array('choix-etablissement' => $vrac->createur_identifiant, 'vrac' => array('isVendeur' => $this->isVendeur)));
                         } else {
                             return $this->redirect('vrac_soussigne', array('numero_contrat' => $vrac->numero_contrat));
                         }

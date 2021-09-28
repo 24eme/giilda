@@ -138,7 +138,7 @@ class vracActions extends sfActions {
         $this->redirect403IfICanNotCreate();
         $isMethodPost = $request->isMethod(sfWebRequest::POST);
 
-        $isVendeur = isset($request->getParameter('vrac')['isVendeur']) && $request->getParameter('vrac')['isVendeur'];
+        $this->isVendeur = isset($request->getParameter('vrac')['isVendeur']) && $request->getParameter('vrac')['isVendeur'];
 
         $this->getResponse()->setTitle('Contrat - Nouveau');
         $this->vrac = ($this->getUser()->getAttribute('vrac_object')) ? unserialize($this->getUser()->getAttribute('vrac_object')) : new Vrac();
@@ -153,12 +153,12 @@ class vracActions extends sfActions {
         $this->responsable = null;
         if ($this->isTeledeclarationMode) {
             if ($this->etablissement = $request->getParameter("etablissement")) {
-                $this->vrac->initCreateur($this->etablissement, $isVendeur);
+                $this->vrac->initCreateur($this->etablissement, $this->isVendeur);
                 $this->initSocieteAndEtablissementPrincipal();
             }
 
             if ($this->choixEtablissement = $request->getParameter("choix-etablissement")) {
-                $this->vrac->initCreateur($this->choixEtablissement, $isVendeur);
+                $this->vrac->initCreateur($this->choixEtablissement, $this->isVendeur);
                 $this->etablissement = $this->choixEtablissement;
                 $this->initSocieteAndEtablissementPrincipal();
             }

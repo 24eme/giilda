@@ -97,7 +97,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                                         <div class="form-group <?php if($form['vendeur_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                                               <?php if($isTeledeclarationMode): ?>
                                                   <div class="col-sm-12" id="vendeur_choice">
-                                                    <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Sélectionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'recoltants', 'acteur' => 'vendeur')), 'data-bloc' => '#vendeur_informations', 'data-hide' => '#vendeur_selection')); ?>
+                                                    <?php echo $form['vendeur_identifiant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Sélectionner un vendeur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'recoltants', 'acteur' => 'vendeur', 'isVendeur' => $isVendeur)), 'data-bloc' => '#vendeur_informations', 'data-hide' => '#vendeur_selection')); ?>
                                                     <?php $style_vendeur_compte_inactif = ($compteVendeurActif) ? 'style="display: none;"' : ""; ?>
                                                   </div>
                                               <?php else : ?>
@@ -316,7 +316,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
     	                                    <div class="form-group <?php if($form['acheteur_producteur']->hasError()): ?>has-error<?php endif; ?>">
                                             <?php if($isTeledeclarationMode): ?>
                                               <div class="col-sm-12" id="acheteur_producteur_choice">
-                                                <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Sélectionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'negociants', 'acteur' => 'acheteur')), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection, #bloc_acheteur_type')); ?>
+                                                <?php echo $form['acheteur_producteur']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Sélectionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'negociants', 'acteur' => 'acheteur', 'isVendeur' => $isVendeur)), 'data-bloc' => '#acheteur_producteur_informations', 'data-hide' => '#acheteur_producteur_selection, #bloc_acheteur_type')); ?>
                                               </div>
                                             <?php else: ?>
     	                                        <div class="col-sm-12" id="acheteur_producteur_choice">
@@ -348,7 +348,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
   	                                    <div class="form-group <?php if($form['acheteur_negociant']->hasError()): ?>has-error<?php endif; ?>">
                                           <?php if($isTeledeclarationMode): ?>
   	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
-                                              <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Sélectionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'negociants', 'acteur' => 'acheteur')), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection, #bloc_acheteur_type')); ?>
+                                              <?php echo $form['acheteur_negociant']->render(array('class' => 'form-control select2-soussigne-teledeclaration select-ajax', 'placeholder' => 'Sélectionner un acheteur', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'negociants', 'acteur' => 'acheteur', 'isVendeur' => $isVendeur)), 'data-bloc' => '#acheteur_negociant_informations', 'data-hide' => '#acheteur_negociant_selection, #bloc_acheteur_type')); ?>
                                             </div>
                                           <?php else: ?>
   	                                        <div class="col-sm-12" id="acheteur_negociant_choice">
@@ -405,7 +405,7 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
                             <div class="form-group <?php if($form['mandataire_identifiant']->hasError()): ?>has-error<?php endif; ?>">
                               <?php if($isTeledeclarationMode): ?>
                                 <div class="col-sm-12" id="mandataire_choice">
-                                  <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Sélectionner un mandataire', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'courtier', 'acteur' => 'mandataire')), 'data-bloc' => '#mandataire_informations', 'data-hide' => '#mandataire_selection')); ?>
+                                  <?php echo $form['mandataire_identifiant']->render(array('class' => 'form-control select2', 'placeholder' => 'Sélectionner un mandataire', 'data-url' => url_for('vrac_soussigne_getinfos'),'data-annuaire-link' => url_for('annuaire_selectionner', array('identifiant' => $etablissementPrincipal->identifiant,'type' => 'courtier', 'acteur' => 'mandataire', 'isVendeur' => $isVendeur)), 'data-bloc' => '#mandataire_informations', 'data-hide' => '#mandataire_selection')); ?>
                                 </div>
                             <?php else: ?>
                                 <div class="col-sm-12" id="mandataire_choice">
