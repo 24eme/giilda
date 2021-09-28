@@ -17,7 +17,7 @@ class vracActions extends sfActions {
 
     public function executeIndex(sfWebRequest $request) {
         $this->redirect403IfIsTeledeclaration();
-        $this->vracs = VracClient::getInstance()->retrieveLastDocs(10);
+        $this->vracs = VracClient::getInstance()->retrieveLastDocs(20);
         $this->creationForm = new VracCreationForm();
         $this->uploadForm = new UploadCSVForm();
         //$this->etiquettesForm = new VracEtiquettesForm();
