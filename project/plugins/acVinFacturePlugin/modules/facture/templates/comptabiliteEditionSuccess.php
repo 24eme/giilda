@@ -1,6 +1,8 @@
 <?php use_helper('Float'); ?>
 <?php use_javascript('facture.js'); ?>
 
+<?php include_partial('facture/preTemplate'); ?>
+
 <div class="col-xs-12">
     <h2>Edition des codes analytiques</h2>
 
@@ -77,3 +79,5 @@
 
     </form>
 </div>
+
+<?php include_partial('facture/postTemplate'); ?>
