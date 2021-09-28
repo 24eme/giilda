@@ -39,9 +39,7 @@
                             <a href="<?php echo url_for('etablissement_visualisation', $etablissement); ?>" type="submit" class="btn btn-default">Annuler</a>
                         <?php endif; ?>
                     </div><div class="col-xs-6 text-right">
-                        <button id="btn_valider" type="submit" class="btn btn-success">
-                            <?php echo ($etablissement->isSameCompteThanSociete()) ? 'Valider et saisir les coordonnées' : 'Valider' ?>
-                        </button>
+                        <button id="btn_valider" type="submit" class="btn btn-success">Valider</button>
                     </div>
                 </div>
             </form>

@@ -32,7 +32,7 @@ use_helper('PointsAides');
         $contrats_vises = array();
 
         foreach ($vracs->rows as $contrat) {
-          if($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == 'ATTENTE_SIGNATURE'){
+          if(isset($contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT]) && $contrat->key[VracSoussigneIdentifiantView::VRAC_VIEW_KEY_STATUT] == 'ATTENTE_SIGNATURE'){
             $contrats[] = $contrat;
           }else{
             $contrats_vises[] = $contrat;

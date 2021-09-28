@@ -23,6 +23,13 @@ all:
       taux_tva:
           19700101: 19.6
           20140101: 20.0
+      choix_tva_facture_libre: false
+      choix_tva:
+          '0.200': '20%'
+          '0.100': '10%'
+          '0.055': '5.5%'
+          '0.021': '2.1%'
+          '0.000': '0%'
       export_shell: false
       export_relances: false
       teledeclaration: false
