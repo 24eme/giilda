@@ -27,7 +27,7 @@
     </div>
 
     <div class="col-xs-12">
-        <h3>Les derniers contrats saisis</h3>
+        <h3>Les derniers contrats saisis et télédéclarés</h3>
         <?php include_partial('list', array('vracs' => $vracs)); ?>
     </div>
 </div>

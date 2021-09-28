@@ -111,6 +111,9 @@
                <?php endforeach ?>
                </li>
            <?php endif; ?>
+          <?php if ($etablissement->exist('exclusion_stats') && $etablissement->getExclusionStats()): ?>
+            Exclu des stats : Oui
+          <?php endif ?>
         </ul>
 
         <?php if ($etablissement->commentaire) : ?>
