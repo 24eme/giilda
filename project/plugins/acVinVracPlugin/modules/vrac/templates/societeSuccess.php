@@ -92,10 +92,10 @@ use_helper('PointsAides');
                     Saisir un nouveau contrat <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <?php if ($societe->isNegociant()): ?>
-                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant]); ?>"><b>Manuellement en tant qu'acheteur</b></a></li>
-                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant, 'vrac[isVendeur]' => true]); ?>">Manuellement en tant que vendeur</a></li>
-                  <?php else: ?>
+                  <?php if (!$etablissementCreateur->isCourtier()): ?>
+                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant]); ?>"><?php if($etablissementCreateur->isNegociant()): ?><strong><?php endif; ?>Manuellement en tant qu'acheteur<?php if($etablissementCreateur->isNegociant()): ?></strong><?php endif; ?></a></li>
+                  <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant, 'vrac[isVendeur]' => true]); ?>"><?php if($etablissementCreateur->isViticulteur()): ?><strong><?php endif; ?>Manuellement en tant que vendeur<?php if($etablissementCreateur->isViticulteur()): ?></strong><?php endif; ?></a></li>
+                  <?php elseif($etablissementCreateur->isCourtier()): ?>
                   <li><a href="<?= url_for('vrac_nouveau', ['choix-etablissement' => $etablissementCreateur->identifiant]); ?>">Manuellement</a></li>
                   <?php endif; ?>
                   <li><a href="<?= url_for('vrac_upload_index') ?>">Via un fichier</a></li>
