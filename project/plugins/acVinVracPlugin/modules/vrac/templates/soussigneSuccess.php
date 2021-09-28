@@ -450,14 +450,11 @@ include_partial('vrac/breadcrumbSaisie', array('vrac' => $vrac, 'isTeledeclarati
             <?php if ($vrac->isBrouillon() && !$vrac->isNew()) : ?>
                 <a tabindex="-1" class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
             <?php endif; ?>
-            <?php if ($vrac->isBrouillon() && $vrac->isNew()) : ?>
-                <a tabindex="-1" class="btn btn-default" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
-            <?php endif; ?>
         </div>
 
         <div class="col-xs-4 col-md-pull-8 text-left">
-            <?php if ($isTeledeclarationMode): ?>
-                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Suspendre la saisie</a>
+            <?php if ($vrac->isNew()): ?>
+                <a tabindex="-1" href="<?php echo url_for('vrac_societe', array('identifiant' => $etablissementPrincipal->identifiant)); ?>" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Annuler la saisie</a>
             <?php else: ?>
                 <button type="submit" name="precedent" value="1" tabindex="-1" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Suspendre la saisie</a>
             <?php endif; ?>
