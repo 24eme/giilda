@@ -231,11 +231,25 @@ class VracClient extends acCouchdbClient {
 
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
 
-        return $this->descending(true)
+        $contratsTeledclares = $this->descending(true)
+                        ->startkey(array(1, array()))
+                        ->endkey(array(1))
+                        ->limit($limit)
+                        ->getView('vrac', 'history');
+
+
+        $contratsPapiers = $this->descending(true)
                         ->startkey(array(0, array()))
                         ->endkey(array(0))
                         ->limit($limit)
                         ->getView('vrac', 'history');
+
+        $contrats = array_merge($contratsTeledclares->rows, $contratsPapiers->rows);
+        usort($contrats, function($a, $b) { return $a->key[1] < $b->key[1]; });
+
+        $result = new stdClass();
+        $result->rows = array_slice($contrats, 0, $limit);
+        return $result;
     }
 
     public function getBySoussigne($campagne, $identifiant) {
@@ -245,14 +259,6 @@ class VracClient extends acCouchdbClient {
                         ->endkey(array($identifiant, $campagne))
                         ->reduce(false)
                         ->getView('vrac', 'soussigneidentifiant');
-    }
-
-    public function retrieveAllVracsTeledeclares() {
-
-        return $this->descending(true)
-                        ->startkey(array(1, array()))
-                        ->endkey(array(1))
-                        ->getView('vrac', 'history');
     }
 
     public function retrieveAllVracs() {
