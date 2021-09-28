@@ -41,7 +41,6 @@ DRM:
       version: {  }
       numero_archive: {  }
       taux_tva: { type: float, required: false }
-      exclusion_stats: {required: false}
       droits:
         type: collection
         indexable: false
