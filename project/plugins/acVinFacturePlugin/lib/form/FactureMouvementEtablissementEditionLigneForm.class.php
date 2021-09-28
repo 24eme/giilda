@@ -28,21 +28,12 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
         $this->setValidator("quantite", new sfValidatorNumber(array('required' => false)));
         $this->setValidator("prix_unitaire", new sfValidatorNumber(array('required' => false)));
 
-        if ($this->hasTvaChoices()) {
-          $this->setWidget("taux_tva", new sfWidgetFormChoice(array('choices' => $this->getTvaChoices()), $this->isreadonly));
-          $this->setValidator("taux_tva", new sfValidatorChoice(array('required' => false, 'choices' => array_keys($this->getTvaChoices()))));
-        }
-
         $this->configureTypeSociete(array(SocieteClient::TYPE_OPERATEUR));
         $this->widgetSchema->setNameFormat('facture_mouvement_etablissement_edition_ligne[%s]');
     }
 
     protected function updateDefaultsFromObject() {
       parent::updateDefaultsFromObject();
-      if ($this->hasTvaChoices()) {
-        $tva = ($this->getObject()->getParent()->getKey() == 'nouveau'||!$this->getObject()->exist('taux_tva'))? '0.200' : sprintf('%0.3f', $this->getObject()->taux_tva);
-        $this->setDefault('taux_tva', sprintf('%0.3f', $tva));
-      }
       $this->setDefault('identifiant', EtablissementClient::getInstance()->getBaseIdentifiant($this->getObject()->identifiant));
     }
 
@@ -58,14 +49,6 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     public function getIdentifiantsAnalytiques() {
         return ComptabiliteClient::getInstance()->findCompta()->getAllIdentifiantsAnalytiquesArrayForCompta();
-    }
-
-    public function getTvaChoices() {
-      return FactureConfiguration::getInstance()->getTvaChoices();
-    }
-
-    public function hasTvaChoices() {
-      return FactureConfiguration::getInstance()->hasTvaChoices();
     }
 
 }

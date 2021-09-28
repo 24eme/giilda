@@ -183,7 +183,6 @@ MouvementsFacture:
                         identifiant: {  }
                         libelle: {  }
                         quantite: { type: float }
-                        taux_tva: {required: false, type: float }
                         prix_unitaire: { type: float }
                         facture: { type: integer }
                         facturable: { type: integer }

@@ -3,7 +3,7 @@
 <div class="form-group line mvt_ligne" >
     <div class="col-xs-12">
         <div class="row">
-            <div class="col-xs-3 <?php if($mvtForm["identifiant"]->hasError()): ?>text-danger<?php endif; ?>">
+            <div class="col-xs-4 <?php if($mvtForm["identifiant"]->hasError()): ?>text-danger<?php endif; ?>">
                 <?php echo $mvtForm['identifiant']->renderError(); ?>
                 <?php echo $mvtForm['identifiant']->render(array('class' => 'form-control select2autocomplete input-md', 'autofocus' => 'autofocus', 'placeholder' => 'Rechercher')); ?>
             </div>
@@ -18,16 +18,7 @@
                 <?php echo $mvtForm['libelle']->renderError(); ?>
                 <?php echo $mvtForm['libelle']->render(array('class' => 'form-control input-md select2-libelle')); ?>
             </div>
-            <?php if(isset($mvtForm["taux_tva"])): ?>
-            <div class="col-xs-1 <?php if($mvtForm["taux_tva"]->hasError()): ?>text-danger<?php endif; ?>" style="padding-left: 0;padding-right: 5px;">
-                <?php echo $mvtForm['taux_tva']->renderError(); ?>
-                <?php echo $mvtForm['taux_tva']->render(array('class' => 'form-control input-md select2')); ?>
-                <?php if(isset($item) && $item && $item->facture): ?>
-                <input class="form-control input-md" disabled="disabled" type="text" value="<?php echo $item->getOrAdd('taux_tva'); ?>" />
-                <?php endif; ?>
-            </div>
-            <?php endif; ?>
-            <div class="col-xs-2 <?php if($mvtForm["prix_unitaire"]->hasError()): ?>text-danger<?php endif; ?>" style="padding-left: 0;padding-right: 5px;">
+            <div class="col-xs-2 <?php if($mvtForm["prix_unitaire"]->hasError()): ?>text-danger<?php endif; ?>" style="padding-left: 0;">
                 <?php echo $mvtForm['prix_unitaire']->renderError(); ?>
                 <?php echo $mvtForm['prix_unitaire']->render(array('class' => 'form-control input-md text-right input-float')); ?>
             </div>
