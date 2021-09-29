@@ -29,12 +29,9 @@
     <div class="row row-margin">
         <div class="col-xs-12" style="border-bottom: 1px dotted #d2d2d2;" id="mouvementsfacture_list">
             <div class="row">
-                <div class="col-xs-3 text-center h4 text-muted">Société</div>
+                <div class="col-xs-4 text-center h4 text-muted">Société</div>
                 <div class="col-xs-2 text-center h4 text-muted">Lien comptable</div>
                 <div class="col-xs-3 text-center h4 text-muted">Libellé article</div>
-                <?php if(FactureConfiguration::getInstance()->hasTvaChoices()): ?>
-                <div class="col-xs-1 text-center h4 text-muted">TVA</div>
-              <?php endif; ?>
                 <div class="col-xs-2 text-center h4 text-muted">Prix&nbsp;U.</div>
                 <div class="col-xs-1 text-center h4 text-muted" style="padding-left: 0;">Quantité</div>
             </div>

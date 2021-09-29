@@ -36,11 +36,13 @@ class statistiqueActions extends sfActions {
 		}
 
 		$this->form = new StatistiqueStatsFilterForm($this->statistiquesConfig);
+        $this->form->bind($request->getParameter($this->form->getName()));
+        $values = $this->form->getValues();
 
-		if (!$request->isMethod(sfWebRequest::POST)) {
+		if (!$values || !isset($values['statistiques'])) {
+            $this->form = new StatistiqueStatsFilterForm($this->statistiquesConfig);
 			return sfView::SUCCESS;
 		}
-		$this->form->bind($request->getParameter($this->form->getName()));
 		if ($this->form->isValid()) {
 			$values = $this->form->getValues();
 			if (!isset($this->statistiquesConfig['statistiques'][$values['statistiques']]['aggregation'])) {

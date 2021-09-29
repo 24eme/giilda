@@ -15,4 +15,8 @@ class Comptabilite extends BaseComptabilite {
         }
         return $results;
     }
+
+    public function getDefaultTauxTva() {
+      return round(FactureClient::getInstance()->getTauxTva(date('Y-m-d'))/100,2);
+    }
 }
