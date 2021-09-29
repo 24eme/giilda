@@ -104,6 +104,35 @@ class EtablissementClient extends acCouchdbClient {
         return $this->startkey('ETABLISSEMENT-' . $societe_id . '00')->endkey('ETABLISSEMENT-' . $societe_id . '99')->execute($hydrate);
     }
 
+    public function getFormatIdentifiant() {
+
+        return sfConfig::get('app_etablissement_format_identifiant', "%societe_identifiant%%02d");
+    }
+
+    public function getSocieteIdentifiant($etablissementIdentifiant) {
+        if(strpos($this->getFormatIdentifiant(), "%societe_identifiant%") == false) {
+
+            return str_replace("SOCIETE-", "", EtablissementClient::getInstance()->findByIdentifiant($etablissementIdentifiant, acCouchdbClient::HYDRATE_JSON)->id_societe);
+        }
+
+        return substr($etablissementIdentifiant, 0, -2);
+    }
+
+    public function getFirstIdentifiant($societeIdentifiant) {
+
+        return $societeIdentifiant."01";
+    }
+
+    public function getLastIdentifiant($societeIdentifiant) {
+
+        return $societeIdentifiant."99";
+    }
+
+    public function getBaseIdentifiant($societeIdentifiant) {
+
+        return substr($societeIdentifiant, 0, -2);
+    }
+
     public function getViewClient($view) {
         return acCouchdbManager::getView("etablissement", $view, 'Etablissement');
     }

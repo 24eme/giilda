@@ -5,7 +5,7 @@ all:
       details:
         export_detail:
           required: ["identifiant"]
-      export_pays_debut: { }
+      export_pays_debut: { "FR": "France" }
       export_pays_fin: { "AUTRE": "Autres pays"}
       reprise_donnees_url: true
       sans_contrat_option: true

@@ -217,31 +217,23 @@ class Vrac extends BaseVrac {
         if (!$etb) {
             throw new sfException("L'etablissement d'id $etbId n'existe pas en base");
         }
-        if (!$etb->isCourtier() && !$etb->isNegociant() && !$etb->isRepresentant()) {
-            throw new sfException("La création d'un contrat ne peut pas se faire l'etablissement $etbId n'est ni courtier ni négociant");
-        }
         if ($etb->isCourtier()) {
             $this->mandataire_exist = true;
             $this->responsable = Vrac::VRAC_RESPONSABLE_MANDATAIRE;
             $this->setMandataireIdentifiant($etbId);
             $this->setMandataireInformations();
-        }
-
-        if ($etb->isNegociant()) {
-            if ($isVendeur) {
-                $this->setVendeurIdentifiant($etbId);
-                $this->setVendeurInformations();
-                $this->responsable = Vrac::VRAC_RESPONSABLE_VENDEUR;
-            }else {
-                $this->setAcheteurIdentifiant($etbId);
-                $this->setAcheteurInformations();
-            }
-        }
-
-        if ($etb->isRepresentant()) {
+        } elseif($etb->isRepresentant()) {
             $this->setRepresentantIdentifiant($etbId);
             $this->setRepresentantInformations();
+        } elseif ($isVendeur) {
+            $this->setVendeurIdentifiant($etbId);
+            $this->setVendeurInformations();
+            $this->responsable = Vrac::VRAC_RESPONSABLE_VENDEUR;
+        }else {
+            $this->setAcheteurIdentifiant($etbId);
+            $this->setAcheteurInformations();
         }
+
         $this->valide->statut = VracClient::STATUS_CONTRAT_BROUILLON;
         $this->setDateCampagne(date('Y-m-d'));
         $this->add('createur_identifiant', $etbId);
@@ -280,6 +272,16 @@ class Vrac extends BaseVrac {
             return $d;
         $date = new DateTime($d);
         return $date->format($format);
+    }
+
+    public function getDateSaisie($format = 'Y-m-d')
+    {
+        $date = $this->valide->date_saisie;
+
+        if (! $date) { return null; }
+        if (! $format) { return $date; }
+
+        return (new DateTime($date))->format($format);
     }
 
     public function getDateSignature($format = 'Y-m-d') {

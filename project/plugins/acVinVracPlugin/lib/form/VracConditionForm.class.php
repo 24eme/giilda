@@ -95,7 +95,12 @@ class VracConditionForm extends VracForm {
     }
 
     public function getMoyenPaiement() {
-        return VracConfiguration::getInstance()->getMoyensPaiement();
+        $moyensPaiement = VracConfiguration::getInstance()->getMoyensPaiement();
+        if($this->getObject()->moyen_paiement && !isset($moyensPaiement[$this->getObject()->moyen_paiement])) {
+            $moyensPaiement[$this->getObject()->moyen_paiement] = $this->getObject()->moyen_paiement_libelle;
+        }
+
+        return $moyensPaiement;
     }
 
     public function getCourtageRepartition() {

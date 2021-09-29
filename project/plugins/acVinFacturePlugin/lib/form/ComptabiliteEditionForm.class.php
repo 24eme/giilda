@@ -15,16 +15,15 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
         $this->getObject()->getOrAdd('identifiants_analytiques')->add(self::NOUVELLE_LIGNE);
 
         foreach ($this->getObject()->getOrAdd('identifiants_analytiques') as $iaKey => $identifiant_analytique) {
-
-
             $this->setWidget("identifiant_analytique_numero_compte_" . $iaKey, new sfWidgetFormInput());
             $this->setWidget("identifiant_analytique_" . $iaKey, new sfWidgetFormInput());
             $this->setWidget("identifiant_analytique_libelle_compta_" . $iaKey, new sfWidgetFormInput());
-
+            $this->setWidget("identifiant_analytique_taux_tva_" . $iaKey, new sfWidgetFormInputFloat());
 
             $this->setValidator("identifiant_analytique_numero_compte_" . $iaKey, new sfValidatorNumber(array("required" => false)));
             $this->setValidator("identifiant_analytique_" . $iaKey, new sfValidatorNumber(array("required" => false)));
             $this->setValidator("identifiant_analytique_libelle_compta_" . $iaKey, new sfValidatorString(array('required' => false)));
+            $this->setValidator("identifiant_analytique_taux_tva_" . $iaKey, new sfValidatorNumber(array('required' => false)));
         }
         $this->widgetSchema->setNameFormat('comptabilite_edition[%s]');
     }
@@ -42,8 +41,7 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
                     $identifiants_analytiques->getOrAdd($matches[2])->add('identifiant_analytique' . $matches[1], $value);
                 }
             }
-            if (preg_match('/^identifiant_analytique([a-z_]*)_nouvelle/', $key, $matches)
-                && $values['identifiant_analytique_numero_compte_nouvelle'])  {
+            if (preg_match('/^identifiant_analytique([a-z_]*)_nouvelle/', $key, $matches) && $values['identifiant_analytique_numero_compte_nouvelle'])  {
                 $keyid = $values['identifiant_analytique_numero_compte_nouvelle'] . '_' . $values['identifiant_analytique_nouvelle'];
                 if (!$values['identifiant_analytique_nouvelle']) {
                     $keyid = $values['identifiant_analytique_numero_compte_nouvelle'] . '_' . md5($values['identifiant_analytique_libelle_compta_nouvelle']);
@@ -71,6 +69,11 @@ class ComptabiliteEditionForm extends acCouchdbObjectForm {
             $this->setDefault("identifiant_analytique_numero_compte_" . $iaKey, $identifiant_analytique->identifiant_analytique_numero_compte);
             $this->setDefault("identifiant_analytique_" . $iaKey, $identifiant_analytique->identifiant_analytique);
             $this->setDefault("identifiant_analytique_libelle_compta_" . $iaKey, $identifiant_analytique->identifiant_analytique_libelle_compta);
+            if ($identifiant_analytique->identifiant_analytique_taux_tva === null) {
+              $this->setDefault("identifiant_analytique_taux_tva_" . $iaKey, $this->getObject()->getDefaultTauxTva());
+            } else {
+              $this->setDefault("identifiant_analytique_taux_tva_" . $iaKey, $identifiant_analytique->identifiant_analytique_taux_tva);
+            }
         }
     }
 
