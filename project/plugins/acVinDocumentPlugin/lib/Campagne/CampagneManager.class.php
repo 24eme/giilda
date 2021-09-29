@@ -90,6 +90,9 @@ class CampagneManager {
     public function fillCampagnesList($first_campagne) {
         $campagnes = array();
         $last_campagne = substr($this->getCurrent(), 0, 4) * 1;
+        if (!$first_campagne) {
+            $first_campagne = $last_campagne;
+        }
         for( $i = substr($first_campagne, 0, 4) ; $i <= $last_campagne ; $i++ ) {
             $c = $i.'-'.($i + 1);
             $campagnes[$c] = $c;

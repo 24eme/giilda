@@ -183,7 +183,6 @@ MouvementsFacture:
                         identifiant: {  }
                         libelle: {  }
                         quantite: { type: float }
-                        taux_tva: {required: false, type: float }
                         prix_unitaire: { type: float }
                         facture: { type: integer }
                         facturable: { type: integer }
@@ -209,6 +208,7 @@ Comptabilite:
                   identifiant_analytique_numero_compte: {  }
                   identifiant_analytique: {  }
                   identifiant_analytique_libelle_compta: {  }
+                  identifiant_analytique_taux_tva: { type: float }
 
 
 TemplateFacture:

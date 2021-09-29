@@ -4,7 +4,7 @@
 </ol>
 <div class="row" id="statistiques">
     <div class="col-xs-12">
-	    <form class="popup_form form_delay form-horizontal" id="filtres_stat" action="<?php echo url_for('statistiques_stats') ?>" method="post">
+	    <form class="popup_form form_delay form-horizontal" id="filtres_stat" action="<?php echo url_for('statistiques_stats') ?>" method="GET">
 			<?php echo $form->renderGlobalErrors() ?>
 			<?php echo $form->renderHiddenFields() ?>
 
