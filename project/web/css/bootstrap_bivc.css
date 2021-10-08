@@ -5352,7 +5352,7 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #1c2436;
+  background-color: #fffbfb;
   border: 1px solid #fff;
 }
 .list-group-item:first-child {
@@ -7067,18 +7067,18 @@ button.close {
   background-color: #eee;
 }
 .societe .list-group {
-  border: 2px solid #1c2436;
+  border: 2px solid #fffbfb;
 }
 #col_saisies .list-group-item {
   background-color: #fff;
-  border-bottom: 2px solid #1c2436;
+  border-bottom: 2px solid #fffbfb;
 }
 #col_saisies .list-group-item.disabled {
   background-color: #eee;
 }
 #list-item .list-group-item {
   background-color: #fff;
-  border: 1px solid #1c2436;
+  border: 1px solid #fffbfb;
 }
 #list-item .list-group-item.disabled {
   background-color: #eee;
