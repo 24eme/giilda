@@ -230,6 +230,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
     public function storeLigneFromMouvements($ligneByType, $famille, $modele) {
 
         $etablissements = $this->getEtablissements();
+        $comptabilite = ComptabiliteClient::getInstance()->findCompta();
         $keysOrigin = array();
         if (($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_DRM) || ($modele == FactureClient::FACTURE_LIGNE_ORIGINE_TYPE_SV12)) {
             foreach ($ligneByType->origines as $origine) {
@@ -285,7 +286,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                     $detail->libelle = $produit_libelle;
                     $detail->prix_unitaire = $ligneByType->prix_unitaire;
                     $detail->quantite = $ligneByType->quantite;
-                    $detail->taux_tva = 0.2;
+                    $detail->taux_tva = $comptabilite->getTauxTva();
                     $detail->origine_type = MouvementfactureFacturationView::getInstance()->createOrigine($famille, $ligneByType);
                 } else {
                     foreach ($ligne->get('details') as $present_detail) {
@@ -298,7 +299,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                         $detail->quantite = 0;
                         $detail->libelle = $produit_libelle;
                         $detail->prix_unitaire = $ligneByType->prix_unitaire;
-                        $detail->taux_tva = 0.2;
+                        $detail->taux_tva = $comptabilite->getTauxTva();
                     }
                     $detail->quantite += $ligneByType->quantite;
                 }
@@ -329,7 +330,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
                 $identifiants_compte_analytique = explode('_',$ligneByType->produit_hash);
                 $detail->add('identifiant_analytique',$identifiants_compte_analytique[1]);
                 $detail->add('code_compte',$identifiants_compte_analytique[0]);
-                $detail->taux_tva = 0.2;
+                $detail->taux_tva = $comptabilite->getTauxTva($ligneByType->produit_hash);
             }
         }
     }

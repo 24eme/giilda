@@ -237,12 +237,6 @@ class drmActions extends drmGeneriqueActions {
         $this->identifiant = $request->getParameter('identifiant');
         $this->periode = $request->getParameter('periode');
 
-        if ($this->md5 == 'error') {
-            $this->erreurs = array( (object) array("diagnostic" => "Mauvais format de fichier EDI", "num_ligne" => "", "csv_erreur" => ""));
-
-            return sfView::SUCCESS;
-        }
-
         $this->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $this->periode);
 
         if(!$this->drm) {
@@ -251,6 +245,12 @@ class drmActions extends drmGeneriqueActions {
           $this->drm->periode = $this->periode;
           $this->drm->teledeclare = true;
           $this->drm->constructId();
+        }
+
+        if ($this->md5 == 'error') {
+            $this->erreurs = array( (object) array("diagnostic" => "Mauvais format de fichier EDI", "num_ligne" => "", "csv_erreur" => ""));
+
+            return sfView::SUCCESS;
         }
 
           $fileName = 'import_'.$this->drm->identifiant . '_' . $this->drm->periode.'_'.$this->md5.'.csv';

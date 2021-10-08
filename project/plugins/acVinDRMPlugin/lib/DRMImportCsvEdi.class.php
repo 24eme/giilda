@@ -243,6 +243,9 @@ class DRMImportCsvEdi extends DRMCsvEdi {
           // Reconnaissance par code douane avec équivoque en regardant le libelle
           if (!$founded_produit && $idDouane && count($produitsByCodeDouane) > 1)  {
               foreach($produitsByCodeDouane as $p) {
+                  if(!$p->isActif(substr($datas[self::CSV_PERIODE], 0, 4).'-'.substr($datas[self::CSV_PERIODE], -2).'-01')) {
+                      continue;
+                  }
                   if (KeyInflector::slugify(str_replace(" ", "", $p->getLibelleFormat())) == KeyInflector::slugify(str_replace(" ", "", $libelleProduit))) {
                       $founded_produit = $p;
                       break;
