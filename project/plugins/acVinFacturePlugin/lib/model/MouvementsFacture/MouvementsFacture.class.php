@@ -78,4 +78,14 @@ class MouvementsFacture extends BaseMouvementsFacture {
         throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->document->get('_id')));
     }
 
+    public function getLastMouvement() {
+        $mouvement = null;
+        foreach ($this->mouvements as $mvtsEtb) {
+            foreach ($mvtsEtb as $mvt) {
+                $mouvement = $mvt;
+            }
+        }
+        return $mouvement;
+    }
+
 }
