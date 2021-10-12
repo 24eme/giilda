@@ -1,13 +1,19 @@
 <header id="header">
-  <div class="header-top" style="border-bottom: 1px solid #efefef">
+  <div class="header-top">
     <div class="container">
-      <h1 class="logo-site">
-        <a href="/"><img src="/images/logo_site_bivc.png" alt="Logo Sancerre" height="100px"/></a>
-        <span style="font-size: 24px; display: inline-block; vertical-align: middle">
-            Bureau Interprofessionnel des Vins du Centre-Loire
-            <br/><small>Espace déclaratif professionnel</small>
-        </span>
-      </h1>
+      <div class="row">
+        <div class="col-xs-2">
+          <div class="logo-site">
+            <a href="/"><img src="/images/logo_site_bivc.png" alt="Logo Sancerre" height="100px"/></a>
+          </div>
+        </div>
+        <div class="col-xs-8 text-center">
+          <h1>
+              Bureau Interprofessionnel des Vins du Centre-Loire</br>
+              <small>Espace déclaratif professionnel</small>
+          </h1>
+        </div>
+      </div>
     </div>
   </div>
     <nav class="navbar navbar-default navbar-static-top">
