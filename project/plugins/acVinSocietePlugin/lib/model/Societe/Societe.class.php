@@ -381,7 +381,10 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         return sfConfig::get('app_compte_synchro', true);
     }
 
-    public function save() {
+    public function save($onlyDoc = false) {
+        if ($onlyDoc) {
+          return parent::save();
+        }
         $this->add('date_modification', date('Y-m-d'));
         $this->interpro = "INTERPRO-declaration";
         $compteMaster = $this->getMasterCompte();
