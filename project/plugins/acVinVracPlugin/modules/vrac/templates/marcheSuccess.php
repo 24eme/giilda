@@ -350,7 +350,7 @@ $etablissementPrincipal = (isset($etablissementPrincipal))? $etablissementPrinci
         </div>
         <div class="col-xs-4 text-center">
             <?php if (!$modeStandalone && $isTeledeclarationMode && $vrac->isBrouillon()) : ?>
-                <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>">Supprimer le brouillon</a>
+                <a class="btn btn-default" href="<?php echo url_for('vrac_supprimer_brouillon', $vrac); ?>"><span class="glyphicon glyphicon-trash"></span> Supprimer le brouillon</a>
             <?php endif; ?>
             <?php if (!$modeStandalone && !$isTeledeclarationMode) : ?>
                 <button type="submit" tabindex="-1" name="redirect" value="<?php echo url_for('vrac'); ?>" class="btn btn-default" ><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer en brouillon</button>

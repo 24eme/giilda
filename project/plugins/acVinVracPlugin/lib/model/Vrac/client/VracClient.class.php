@@ -231,11 +231,25 @@ class VracClient extends acCouchdbClient {
 
     public function retrieveLastDocs($limit = self::RESULTAT_LIMIT) {
 
-        return $this->descending(true)
+        $contratsTeledclares = $this->descending(true)
+                        ->startkey(array(1, array()))
+                        ->endkey(array(1))
+                        ->limit($limit)
+                        ->getView('vrac', 'history');
+
+
+        $contratsPapiers = $this->descending(true)
                         ->startkey(array(0, array()))
                         ->endkey(array(0))
                         ->limit($limit)
                         ->getView('vrac', 'history');
+
+        $contrats = array_merge($contratsTeledclares->rows, $contratsPapiers->rows);
+        usort($contrats, function($a, $b) { return $a->key[1] < $b->key[1]; });
+
+        $result = new stdClass();
+        $result->rows = array_slice($contrats, 0, $limit);
+        return $result;
     }
 
     public function getBySoussigne($campagne, $identifiant) {
@@ -245,14 +259,6 @@ class VracClient extends acCouchdbClient {
                         ->endkey(array($identifiant, $campagne))
                         ->reduce(false)
                         ->getView('vrac', 'soussigneidentifiant');
-    }
-
-    public function retrieveAllVracsTeledeclares() {
-
-        return $this->descending(true)
-                        ->startkey(array(1, array()))
-                        ->endkey(array(1))
-                        ->getView('vrac', 'history');
     }
 
     public function retrieveAllVracs() {
@@ -547,7 +553,7 @@ class VracClient extends acCouchdbClient {
     public static function getCsvBySociete($vracs) {
 
         $result = "\xef\xbb\xbf";
-        $result.= "numero_contrat;numero_archive;produit_libelle;quantite;prix_unitaire;millesime;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_signature;";
+        $result.= "numero_contrat;numero_archive;produit_libelle;cepage_libelle;quantite;prix_unitaire;millesime;statut;type_transaction;vendeur_identifiant;vendeur_nom;vendeur_signature;";
         $result.= "acheteur_identifiant;acheteur_nom;acheteur_signature;courtier_identifiant;courtier_nom;courtier_signature\n";
 
         foreach ($vracs as $vracsRows) {
@@ -572,6 +578,7 @@ class VracClient extends acCouchdbClient {
             $result.= $contrat->value[self::VRAC_VIEW_NUMARCHIVE] . ';';
 
             $result.= $vrac->produit_libelle . ';';
+            $result.= $vrac->cepage_libelle . ';';
             $result.= str_replace('.', ',', $quantite) . ';';
             $result.= str_replace('.', ',', $vrac->prix_unitaire) . ';';
             $result.= $vrac->millesime . ';';
@@ -581,15 +588,15 @@ class VracClient extends acCouchdbClient {
 
             $result.= $contrat->value[self::VRAC_VIEW_VENDEUR_ID] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_VENDEUR_NOM] . ';';
-            $result.= ($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_vendeur))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d"). ';';
+            $result.= (($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_vendeur))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d")). ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_ACHETEUR_ID] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_ACHETEUR_NOM] . ';';
-            $result.= ($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_acheteur))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d") . ';';
+            $result.= (($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_acheteur))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d")) . ';';
 
             $result.= $contrat->value[self::VRAC_VIEW_MANDATAIRE_ID] . ';';
             $result.= $contrat->value[self::VRAC_VIEW_MANDATAIRE_NOM] . ';';
-            $result.= ($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_courtier))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d") . ';';
+            $result.= (($vrac->teledeclare)? (new DateTime($vrac->valide->date_signature_courtier))->format("Y-m-d") : (new DateTime($vrac->valide->date_saisie))->format("Y-m-d")) . ';';
 
             $result.="\n";
         }

@@ -18,6 +18,11 @@ use_helper('Float');
 
     </div>
 </div>
+<div class="row row-margin">
+    <div class="col-xs-8">
+        <a href="<?php echo url_for("comptabilite_edition"); ?>" class="btn btn-default">Editer les codes analytiques</a>
+    </div>
+</div>
 <br/>
 <div class="row row-margin">
     <div class="col-xs-12">

@@ -77,10 +77,10 @@ class SocieteAllView extends acCouchdbView
 	$e->value = null;
 	$res[] = $e;
       }
-      return $res; 
+      return $res;
     }
 
-    private function findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes = array(), $raison_sociale = "") {
+    private function findByInterproAndStatutAndRaisonSocialeVIEW($interpro, $statut, $typesocietes = array(), $query = "") {
           $societesViews = array();
       foreach($typesocietes as $ts) {
 	$societesViews = array_merge($societesViews, $this->client->startkey(array($interpro, $statut, $ts))
@@ -89,13 +89,13 @@ class SocieteAllView extends acCouchdbView
       }
       $societes = array();
       foreach ($societesViews as $sView) {
-          if($sView->key[self::KEY_RAISON_SOCIALE] == $raison_sociale){
-              $societes[] = $sView;
-          }
+					if (Search::matchTerm($query, self::makeLibelle($sView->key))) {
+						$societes[] = $sView;
+					}
       }
       return $societes;
     }
-    
+
     private function findByInterproAndStatutVIEW($interpro, $statut, $typesocietes = array()) {
       if (!count($typesocietes)) {
 	if ($statut) {
