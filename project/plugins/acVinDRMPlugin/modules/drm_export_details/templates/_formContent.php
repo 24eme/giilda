@@ -14,7 +14,7 @@
              <th class="col-xs-2 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Type de doc.<?php echo getPointAideHtml('drm','mouvements_export_type_doc') ?></th>
             <th class="col-xs-2 typedoc_show" <?php echo ($docShow)? '' : 'style="display: none;"' ?> >Num.&nbsp;du&nbsp;doc.<?php echo getPointAideHtml('drm','mouvements_export_doc_accompagnement_num') ?></th>
 
-            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow)? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Document</a><?php echo getPointAideHtml('drm','mouvements_export_doc_accompagnement') ?></th>
+            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow)? '' : 'style="display: none;"' ?> ><span style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Document</span><?php echo getPointAideHtml('drm','mouvements_export_doc_accompagnement') ?></th>
 
             <th class="col-xs-2"></th>
         </tr>
