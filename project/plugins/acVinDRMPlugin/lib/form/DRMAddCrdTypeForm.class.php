@@ -68,17 +68,6 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         $this->drm->save();
     }
 
-    public function updateDefaultsFromObject() {
-        parent::updateDefaultsFromObject();
-//        if (count($this->getGenres()) <= 1) {
-//            $genreCrdKeys = array_keys($this->getGenres());
-//            $genreCrd = $genreCrdKeys[0];
-//            foreach ($this->regimeCrds as $regime) {
-//                $this->setDefault('genre_crd_' . $regime, $genreCrd);
-//            }
-//        }
-    }
-
     public function getTypeCouleurs() {
         if (is_null($this->typesCouleurs)) {
             $this->typesCouleurs = DRMClient::$drm_crds_couleurs;
