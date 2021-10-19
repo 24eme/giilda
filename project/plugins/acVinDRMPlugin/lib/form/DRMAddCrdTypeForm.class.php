@@ -34,17 +34,14 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
         foreach ($this->regimeCrds as $regime) {
             $this->setWidget('couleur_crd_' . $regime, new bsWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeCouleurs())));
             $this->setWidget('litrage_crd_' . $regime, new bsWidgetFormChoice(array('expanded' => false, 'multiple' => false, 'choices' => $this->getTypeLitrages())));
-            $this->setWidget('stock_debut_' . $regime, new bsWidgetFormInputInteger());
             $this->setWidget('genre_crd_' . $regime, new bsWidgetFormChoice(array('expanded' => true, 'multiple' => false, 'choices' => $this->getGenres())));
 
             $this->widgetSchema->setLabel('couleur_crd_' . $regime, 'Couleur CRD ');
             $this->widgetSchema->setLabel('litrage_crd_' . $regime, 'Litrage ');
-            $this->widgetSchema->setLabel('stock_debut_' . $regime, 'Stock début ');
             $this->widgetSchema->setLabel('genre_crd_' . $regime, 'Type de produit ');
 
             $this->setValidator('couleur_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeCouleurs())), array('required' => "Aucune couleur de CRD n'a été saisi !")));
             $this->setValidator('litrage_crd_' . $regime, new sfValidatorChoice(array('required' => true, 'choices' => array_keys($this->getTypeLitrages())), array('required' => "Aucun litrage n'a été saisi !")));
-            $this->setValidator('stock_debut_' . $regime, new sfValidatorNumber(array('required' => false)));
             $this->setValidator('genre_crd_' . $regime, new sfValidatorChoice(array('multiple' => false, 'required' => true, 'choices' => array_keys($this->getGenres())), array('required' => "Aucun genre n'a été saisi !")));
 
             if(isset($this->defaultGenre)) {
@@ -64,9 +61,8 @@ class DRMAddCrdTypeForm extends acCouchdbObjectForm {
             $contenances = VracConfiguration::getInstance()->getContenances();
             $litrage = $contenances[$litrage_libelle];
             $genre = $values['genre_crd_' . $regime];
-            $stock_debut = $values['stock_debut_' . $regime];
             if ($genre && $couleur && $litrage) {
-                $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $litrage_libelle, $stock_debut);
+                $this->drm->getOrAdd('crds')->getOrAdd($regime)->getOrAddCrdNode($genre, $couleur, $litrage, $litrage_libelle, 0);
             }
         }
         $this->drm->save();
