@@ -55,7 +55,7 @@ $docShow = $detail->hasTypeDoc('vrac');
 <script>
     $('.drm_details_tableBody').on('keyup', 'td.volume', $.majSommeLabelBind);
 
-    $("table#drm_vrac_details_table a#type_documents_show").click(function () {
+    $("table#drm_vrac_details_table #type_documents_show").click(function () {
         $("table#drm_vrac_details_table").find(".typedoc_show").each(function () {
             $(this).show();
             var content = $('#template_vrac').html().replace(/style="display: none;"/g,'').replace(/typedoc_unshow\" /g,'typedoc_unshow" style="display: none;"');
