@@ -15,7 +15,7 @@ $docShow = $detail->hasTypeDoc('vrac');
             <th class="col-xs-2 typedoc_show" <?php echo ($docShow) ? '' : 'style="display: none;"' ?> >Num.&nbsp;du&nbsp;doc.<?php echo getPointAideHtml('drm','mouvements_contrats_doc_accompagnement_num') ?></th>
 
 
-            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow) ? '' : 'style="display: none;"' ?> ><a style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Documents</a><?php echo getPointAideHtml('drm','mouvements_contrats_doc_accompagnement') ?></th>
+            <th class="col-xs-2 text-center typedoc_unshow" <?php echo (!$docShow) ? '' : 'style="display: none;"' ?> ><span style="cursor: pointer;" id="type_documents_show"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;Documents</span><?php echo getPointAideHtml('drm','mouvements_contrats_doc_accompagnement') ?></th>
 
 
             <th class="col-xs-2"></th>
@@ -55,7 +55,7 @@ $docShow = $detail->hasTypeDoc('vrac');
 <script>
     $('.drm_details_tableBody').on('keyup', 'td.volume', $.majSommeLabelBind);
 
-    $("table#drm_vrac_details_table a#type_documents_show").click(function () {
+    $("table#drm_vrac_details_table #type_documents_show").click(function () {
         $("table#drm_vrac_details_table").find(".typedoc_show").each(function () {
             $(this).show();
             var content = $('#template_vrac').html().replace(/style="display: none;"/g,'').replace(/typedoc_unshow\" /g,'typedoc_unshow" style="display: none;"');
