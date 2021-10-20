@@ -208,7 +208,10 @@ class acCouchdbJson extends acCouchdbJsonFields implements IteratorAggregate, Ar
         return $array_fields;
     }
 
-    
+    public function __debugInfo() {
+
+        return $this->toArray(true, false);
+    }
 
     public function getParentHash() {
         return preg_replace('/\/[^\/]+$/', '', $this->getHash());
