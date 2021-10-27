@@ -110,7 +110,7 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public function getSocieteIdentifiant($etablissementIdentifiant) {
-        if(strpos($this->getFormatIdentifiant(), "%societe_identifiant%") == false) {
+        if(strpos($this->getFormatIdentifiant(), "%societe_identifiant%") === false) {
 
             return str_replace("SOCIETE-", "", EtablissementClient::getInstance()->findByIdentifiant($etablissementIdentifiant, acCouchdbClient::HYDRATE_JSON)->id_societe);
         }

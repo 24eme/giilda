@@ -25,13 +25,6 @@
                                 <?php echo $form['litrage_crd_'.$regime]->render(); ?>
                             </div>
                         </div>
-                        <?php echo $form['stock_debut_'.$regime]->renderError(); ?>
-                        <div class="form-group">
-                            <?php echo $form['stock_debut_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>
-                            <div class="col-sm-4">
-                            <?php echo $form['stock_debut_'.$regime]->render(); ?>
-                            </div>
-                        </div>
                         <?php echo $form['genre_crd_'.$regime]->renderError(); ?>
                         <div class="form-group">
                                 <?php echo $form['genre_crd_'.$regime]->renderLabel(null, array('class' => 'col-sm-4 control-label')) ?>
