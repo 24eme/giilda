@@ -51,7 +51,7 @@
             <a class="btn btn-default btn-lg btn-upper" tabindex="-1" href="<?php echo url_for('facture_mouvements') ?>">Retour</a>
         </div>
         <div class="col-xs-6 text-right">
-            <input type="button" class="btn btn-success btn-lg btn-upper" value="Valider" onclick="this.form.submit();" />
+            <input type="submit" class="btn btn-success btn-lg btn-upper" value="Valider" />
         </div>
     </div>
 

@@ -7,7 +7,7 @@ all:
         vrac_detail:
           creation: false
       export_pays_debut: { "UE": "Union Européenne", "HORSUE": "Hors Union Européenne" }
-      export_pays_fin: { "inconnu": "Inconnu" }
+      export_pays_fin: { "FR": "France", "inconnu": "Inconnu" }
       vrac_multi_produit: false
       crd_only_suspendus: false
       aggregate_edi: [ ]
