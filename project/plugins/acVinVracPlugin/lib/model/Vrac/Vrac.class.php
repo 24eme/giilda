@@ -424,7 +424,9 @@ class Vrac extends BaseVrac {
             $this->valide->statut = VracClient::STATUS_CONTRAT_ATTENTE_SIGNATURE;
             if ($this->acheteur_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_acheteur', date('c'));
-            }else if ($this->mandataire_identifiant == $this->createur_identifiant) {
+            } elseif ($this->vendeur_identifiant == $this->createur_identifiant) {
+                $this->valide->add('date_signature_vendeur', date('c'));
+            }elseif ($this->mandataire_identifiant == $this->createur_identifiant) {
                 $this->valide->add('date_signature_courtier', date('c'));
             }else {
               throw new sfException("Créateur obligatoire pour un contrat télédéclaré");
