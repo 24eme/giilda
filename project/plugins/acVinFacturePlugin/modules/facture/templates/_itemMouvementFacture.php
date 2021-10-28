@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="form-group line mvt_ligne" >
     <div class="col-xs-12">
         <div class="row">
