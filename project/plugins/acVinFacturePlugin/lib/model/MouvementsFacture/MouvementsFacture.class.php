@@ -88,4 +88,15 @@ class MouvementsFacture extends BaseMouvementsFacture {
         return $mouvement;
     }
 
+    public function getSortedMvts() {
+      $result = array();
+      foreach($this->mouvements as $id => $mvts) {
+        foreach($mvts as $key => $mvt) {
+          $result[$mvt->getIndexForSaisieForm()] = $mvt;
+        }
+      }
+      ksort($result);
+      return $result;
+    }
+
 }
