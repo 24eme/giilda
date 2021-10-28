@@ -2398,7 +2398,7 @@ th {
 }
 .table-striped > tbody > tr:nth-of-type(odd),
 .table-horizontal-striped > tbody > tr:nth-of-type(odd) {
-  background-color: #fffbfb;
+  background-color: #f3eadb;
 }
 .table-hover > tbody > tr:hover {
   background-color: #f5f5f5;
@@ -3394,26 +3394,26 @@ fieldset[disabled] .btn-info.active {
   background-color: #fff;
 }
 .btn-warning {
-  color: #333;
-  background-color: #f0ad4e;
-  border-color: #eea236;
+  color: #fff;
+  background-color: #c29140;
+  border-color: #b08338;
 }
 .btn-warning:focus,
 .btn-warning.focus {
-  color: #333;
-  background-color: #ec971f;
-  border-color: #985f0d;
+  color: #fff;
+  background-color: #9d7532;
+  border-color: #503b19;
 }
 .btn-warning:hover {
-  color: #333;
-  background-color: #ec971f;
+  color: #fff;
+  background-color: #9d7532;
 }
 .btn-warning:active,
 .btn-warning.active,
 .open > .dropdown-toggle.btn-warning {
-  color: #333;
-  background-color: #ec971f;
-  border-color: #d58512;
+  color: #fff;
+  background-color: #9d7532;
+  border-color: #826129;
 }
 .btn-warning:active:hover,
 .btn-warning.active:hover,
@@ -3424,9 +3424,9 @@ fieldset[disabled] .btn-info.active {
 .btn-warning:active.focus,
 .btn-warning.active.focus,
 .open > .dropdown-toggle.btn-warning.focus {
-  color: #333;
-  background-color: #d58512;
-  border-color: #985f0d;
+  color: #fff;
+  background-color: #826129;
+  border-color: #503b19;
 }
 .btn-warning:active,
 .btn-warning.active,
@@ -3451,12 +3451,12 @@ fieldset[disabled] .btn-warning:active,
 .btn-warning.disabled.active,
 .btn-warning[disabled].active,
 fieldset[disabled] .btn-warning.active {
-  background-color: #f0ad4e;
-  border-color: #eea236;
+  background-color: #c29140;
+  border-color: #b08338;
 }
 .btn-warning .badge {
-  color: #f0ad4e;
-  background-color: #333;
+  color: #c29140;
+  background-color: #fff;
 }
 .btn-danger {
   color: #fff;
@@ -5009,11 +5009,11 @@ a.label:focus {
   background-color: #31b0d5;
 }
 .label-warning {
-  background-color: #f0ad4e;
+  background-color: #c29140;
 }
 .label-warning[href]:hover,
 .label-warning[href]:focus {
-  background-color: #ec971f;
+  background-color: #9d7532;
 }
 .label-danger {
   background-color: #d9534f;
@@ -5280,7 +5280,7 @@ a.thumbnail.active {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 .progress-bar-warning {
-  background-color: #f0ad4e;
+  background-color: #c29140;
 }
 .progress-striped .progress-bar-warning {
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -5352,8 +5352,8 @@ a.thumbnail.active {
   display: block;
   padding: 10px 15px;
   margin-bottom: -1px;
-  background-color: #fffbfb;
-  border: 1px solid #fff;
+  background-color: #f3eadb;
+  border: 1px solid #E1C18E;
 }
 .list-group-item:first-child {
   border-top-right-radius: 0;
@@ -5407,7 +5407,7 @@ button.list-group-item {
   z-index: 2;
   color: #fff;
   background-color: #1c2436;
-  border-color: #fff;
+  border-color: #E1C18E;
 }
 .list-group-item.active .list-group-item-heading,
 .list-group-item.active:hover .list-group-item-heading,
@@ -5789,14 +5789,14 @@ button.list-group-item-danger.active:focus {
 }
 .panel-default > .panel-heading {
   color: #4e4e4e;
-  background-color: #fffbfb;
+  background-color: #f3eadb;
   border-color: #efefef;
 }
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #efefef;
 }
 .panel-default > .panel-heading .badge {
-  color: #fffbfb;
+  color: #f3eadb;
   background-color: #4e4e4e;
 }
 .panel-default > .panel-body {
@@ -6953,7 +6953,7 @@ button.close {
   height: 6px;
 }
 #content {
-  background: #fffbfb;
+  background: #f3eadb;
   padding: 20px 0;
 }
 #content > .container {
@@ -7012,7 +7012,6 @@ button.close {
   text-align: center;
 }
 .page-header {
-  background: #1c2436;
   display: inline-block;
   color: #fff;
   font-size: 20px;
@@ -7039,7 +7038,7 @@ button.close {
   color: #FFF;
 }
 .table-vertical-striped > tbody > tr > td:nth-of-type(even) {
-  background-color: #fffbfb;
+  background-color: #f3eadb;
 }
 .panel {
   border-width: 1px;
