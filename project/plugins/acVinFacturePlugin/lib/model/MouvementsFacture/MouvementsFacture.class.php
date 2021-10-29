@@ -79,13 +79,11 @@ class MouvementsFacture extends BaseMouvementsFacture {
     }
 
     public function getLastMouvement() {
-        $mouvement = null;
-        foreach ($this->mouvements as $mvtsEtb) {
-            foreach ($mvtsEtb as $mvt) {
-                $mouvement = $mvt;
-            }
+        $mvts = $this->getSortedMvts();
+        if (isset($mvts['999_nouveau_nouveau'])) {
+          unset($mvts['999_nouveau_nouveau']);
         }
-        return $mouvement;
+        return end($mvts);
     }
 
     public function getSortedMvts() {
