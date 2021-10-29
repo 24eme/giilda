@@ -78,14 +78,23 @@ class MouvementsFacture extends BaseMouvementsFacture {
         throw new sfException(sprintf('The mouvement %s of the document %s does not exist', $cle_mouvement, $this->document->get('_id')));
     }
 
-    public function getLastMouvement() {
-        $mouvement = null;
-        foreach ($this->mouvements as $mvtsEtb) {
-            foreach ($mvtsEtb as $mvt) {
-                $mouvement = $mvt;
-            }
+    public function getStartIndexForSaisieForm() {
+        $index = 0;
+        foreach($this->getSortedMvts() as $mvt) {
+          if ($mvt->facture && $index < $mvt->vrac_numero) {
+            $index = $mvt->vrac_numero;
+          }
         }
-        return $mouvement;
+        $index++;
+        return $index;
+    }
+
+    public function getLastMouvement() {
+        $mvts = $this->getSortedMvts();
+        if (isset($mvts['999_nouveau_nouveau'])) {
+          unset($mvts['999_nouveau_nouveau']);
+        }
+        return end($mvts);
     }
 
     public function getSortedMvts() {

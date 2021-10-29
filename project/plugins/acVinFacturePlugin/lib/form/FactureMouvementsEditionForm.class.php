@@ -36,7 +36,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             $this->getObject()->getOrAdd('valide')->set('date_saisie', date('Y-m-d'));
       }
       $inserted_keys = array();
-      $ordre = 1;
+      $ordre = $this->getObject()->getStartIndexForSaisieForm();
       foreach($mouvements as $cle => $mouvement) {
           $kExploded = explode('_', $cle);
           $id = $kExploded[1];
