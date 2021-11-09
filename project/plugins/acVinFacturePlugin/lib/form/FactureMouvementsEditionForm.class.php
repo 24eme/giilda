@@ -22,7 +22,7 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
         $this->setValidator("libelle", new sfValidatorString(array("required" => true)));
         $this->widgetSchema->setLabel('libelle', 'Libellé opération');
 
-        $this->embedForm('mouvements', new FactureMouvementsEditionLignesForm($this->getObject()->mouvements, array('interpro_id' => $this->interpro_id)));
+        $this->embedForm('mouvements', new FactureMouvementEditionLignesForm($this->getObject(), array('interpro_id' => $this->interpro_id)));
 
         $this->widgetSchema->setNameFormat('facture_mouvements_edition[%s]');
     }
@@ -36,8 +36,11 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             $this->getObject()->getOrAdd('valide')->set('date_saisie', date('Y-m-d'));
       }
       $inserted_keys = array();
-      foreach($mouvements as $id => $values) {
-        foreach($values as $key => $mouvement) {
+      $ordre = $this->getObject()->getStartIndexForSaisieForm();
+      foreach($mouvements as $cle => $mouvement) {
+          $kExploded = explode('_', $cle);
+          $id = $kExploded[1];
+          $key = $kExploded[2];
           if (!$mouvement['identifiant']||!$mouvement['quantite']||!$mouvement['prix_unitaire']) {
             continue;
           }
@@ -70,7 +73,8 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
             $mvt->region = ($societe->getRegionViticole(false))? $societe->getRegionViticole() : $societe->type_societe;
           }
           $mvt->date = $this->getObject()->date;
-        }
+          $mvt->vrac_numero = $ordre;
+          $ordre++;
       }
       // Suppression des lignes supprimees dynamiquement
       $mvtsToRemove = array();
@@ -84,11 +88,14 @@ class FactureMouvementsEditionForm extends acCouchdbObjectForm {
       foreach ($mvtsToRemove as $mvtToRemove) {
           $mvtToRemove->delete();
       }
+      if ($this->getObject()->mouvements->exist('nouveau')) {
+        $this->getObject()->mouvements->remove('nouveau');
+      }
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
         foreach ($this->embeddedForms as $key => $form) {
-            if($taintedValues && $form instanceof FactureMouvementsEditionLignesForm) {
+            if($taintedValues && $form instanceof FactureMouvementEditionLignesForm) {
                 $files = ($taintedFiles && isset($taintedFiles[$key]))? $taintedFiles[$key] : null;
                 $form->bind($taintedValues[$key], $files);
                 $this->updateEmbedForm($key, $form);
