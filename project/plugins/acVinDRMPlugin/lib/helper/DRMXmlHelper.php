@@ -141,10 +141,16 @@ function sortForLot1($tabXml) {
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['lies-vins-distilles'];
             if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties']))
                 $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'];
+            if (isset($tabXml['sorties-periode']['sorties-sans-paiement-droits']['ventes']))
+                $xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['ventes'] = $tabXml['sorties-periode']['sorties-sans-paiement-droits']['ventes'];
 
         }
-				if (isset($tabXml['sorties-periode']['autres-sorties'])){
+                if (isset($tabXml['sorties-periode']['autres-sorties'])){
 					$xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['autres-sorties'] = $tabXml['sorties-periode']['autres-sorties'];
+				}
+
+                if (isset($tabXml['sorties-periode']['ventes'])){
+					$xmlSorted['sorties-periode']['sorties-sans-paiement-droits']['ventes'] = $tabXml['sorties-periode']['ventes'];
 				}
     }
     $xmlSorted['stock-fin-periode'] = (isset($tabXml['stock-fin-periode']))? $tabXml['stock-fin-periode'] : 0;
