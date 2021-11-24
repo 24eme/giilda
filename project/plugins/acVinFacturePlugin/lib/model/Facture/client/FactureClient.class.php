@@ -56,24 +56,6 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-' . $idClient . '-' . $date . '00')->endkey('FACTURE-' . $idClient . '-' . $date . '99')->execute($hydrate);
     }
 
-    /** ICI INUTILE => PLUS DE CREATION DEPUIS DES TEMPLATES * */
-    public function createDocFromTemplate($cotisations, $doc, $date_facturation = null, $message_communication = null, $arguments = array()) {
-        $facture = new Facture();
-        $facture->storeDatesCampagne($date_facturation);
-        $facture->constructIds($doc);
-        $facture->storeEmetteur();
-        $facture->storeDeclarant($doc);
-        $facture->storeLignesFromTemplate($cotisations);
-        $facture->updateTotaux();
-        $facture->storeOrigines();
-        $facture->storeTemplates();
-        $facture->arguments = $arguments;
-        if (trim($message_communication)) {
-            $facture->addOneMessageCommunication($message_communication);
-        }
-        return $facture;
-    }
-
     public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
