@@ -48,6 +48,7 @@ EOF;
             $mandatSepa->debiteur->iban = $datas[14];
             $mandatSepa->debiteur->bic = $datas[15];
             $mandatSepa->is_actif = 1;
+            $mandatSepa->is_signe = 1;
             $mandatSepa->save();
             echo sprintf("succes;%s créé dans la bdd\n", $mandatSepa->_id);
         }
