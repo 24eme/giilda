@@ -111,9 +111,10 @@
                 <?php endif; ?>
             </div>
 
-            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
+
 
             <?php if (MandatSepaConfiguration::getInstance()->isActive()): $mandatSepa = $societe->getMandatSepa(); ?>
+            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
                 <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Coordonnées bancaires</strong></h5>
                 <?php if ($mandatSepa): ?>
                   <div class="row">
@@ -140,6 +141,7 @@
                   <li>Aucun mandat de prélèvement SEPA n'a été saisi</li>
                 <?php endif; ?>
             </div>
+            <?php endif; ?>
 
         </div>
     </div>
