@@ -587,9 +587,11 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function getNbPaiementsAutomatique(){
         $nb = 0;
-        foreach($this->paiements as $paiement) {
-            if ($paiement->type_reglement == FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO) {
-                $nb++;
+        if ($this->exist('paiements')) {
+            foreach($this->paiements as $paiement) {
+                if ($paiement->type_reglement == FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO) {
+                    $nb++;
+                }
             }
         }
         return $nb;
