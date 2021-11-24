@@ -99,6 +99,6 @@ for($i=0; $i<$nb_blank;$i++):
 <?php
 include_partial('facture/pdf_generique_reglement', array('facture' => $facture));
 if ($nb_echeances && !$avoir)
-    include_partial('facture/pdf_generique_echeances', array('echeances' => $facture->getEcheancesPapillon(), 'societe' => $facture->getSociete()));
+    include_partial('facture/pdf_generique_echeances', array('facture' => $facture));
 ?>
 \end{document}
