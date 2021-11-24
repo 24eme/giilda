@@ -120,7 +120,7 @@
                   <div class="row">
                     <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>
                     <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
-                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat généré&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">&nbsp;</div>
                     <div style="margin-bottom: 5px;" class="col-xs-3"></div>
                   </div>
                   <div class="row" style="margin-top: 5px;">
