@@ -4,7 +4,7 @@
  * Model for Societe
  *
  */
-class Societe extends BaseSociete implements InterfaceCompteGenerique {
+class Societe extends BaseSociete implements InterfaceCompteGenerique, InterfaceMandatSepaPartie {
 
     private $comptes = null;
 
@@ -568,5 +568,42 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique {
         $this->setStatut($newStatus);
         $this->save();
     }
+
+    /***
+      Fonctions InterfaceMandatSepaPartie
+    */
+
+    public function getMandatSepaIdentifiant() {
+      return $this->getIdentifiant();
+    }
+    public function getMandatSepaNom() {
+      return $this->raison_sociale;
+    }
+    public function getMandatSepaAdresse() {
+      return $this->siege->adresse;
+    }
+    public function getMandatSepaCodePostal() {
+      return $this->siege->code_postal;
+    }
+    public function getMandatSepaCommune() {
+      return $this->siege->commune;
+    }
+
+    public function getMandatSepa() {
+        return MandatSepaClient::getInstance()->findLastBySociete($this->getIdentifiant());
+    }
+
+    public function hasMandatSepa() {
+      return ($this->getMandatSepa() != null);
+    }
+
+    public function hasMandatSepaActif() {
+      $mandat = $this->getMandatSepa();
+      if (!$mandat) {
+          return false;
+      }
+      return $mandat->is_signe;
+    }
+    // fin
 
 }
