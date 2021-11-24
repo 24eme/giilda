@@ -585,6 +585,16 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $this->versement_sepa = 0;
     }
 
+    public function getNbPaiementsAutomatique(){
+        $nb = 0;
+        foreach($this->paiements as $paiement) {
+            if ($paiement->type_reglement == FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO) {
+                $nb++;
+            }
+        }
+        return $nb;
+    }
+
     public function getNbLignesMouvements() {
         $nbLigne = 0;
         foreach ($this->lignes as $lignesType) {
