@@ -56,24 +56,6 @@ class FactureClient extends acCouchdbClient {
         return $this->startkey('FACTURE-' . $idClient . '-' . $date . '00')->endkey('FACTURE-' . $idClient . '-' . $date . '99')->execute($hydrate);
     }
 
-    /** ICI INUTILE => PLUS DE CREATION DEPUIS DES TEMPLATES * */
-    public function createDocFromTemplate($cotisations, $doc, $date_facturation = null, $message_communication = null, $arguments = array()) {
-        $facture = new Facture();
-        $facture->storeDatesCampagne($date_facturation);
-        $facture->constructIds($doc);
-        $facture->storeEmetteur();
-        $facture->storeDeclarant($doc);
-        $facture->storeLignesFromTemplate($cotisations);
-        $facture->updateTotaux();
-        $facture->storeOrigines();
-        $facture->storeTemplates();
-        $facture->arguments = $arguments;
-        if (trim($message_communication)) {
-            $facture->addOneMessageCommunication($message_communication);
-        }
-        return $facture;
-    }
-
     public function createDocFromMouvements($mouvementsSoc, $societe, $modele, $date_facturation, $message_communication) {
         $facture = new Facture();
         $facture->storeDatesCampagne($date_facturation);
@@ -101,45 +83,6 @@ class FactureClient extends acCouchdbClient {
         }
         $facture->storeEmetteur();
         return $facture;
-    }
-
-// INUTILE
-    public function regenerate($facture_or_id) {
-
-        $facture = $facture_or_id;
-
-        if (is_string($facture)) {
-            $facture = $this->find($facture_or_id);
-        }
-
-        if ($facture->isPayee()) {
-
-            throw new sfException(sprintf("La factures %s a déjà été payée", $facture->_id));
-        }
-
-        $cotisations = array();
-
-        $template = null;
-
-        foreach ($facture->getTemplates() as $template_id) {
-            $template = TemplateFactureClient::getInstance()->find($template_id);
-            $cotisations = $cotisations + $template->generateCotisations($facture->identifiant, $template->campagne, true);
-        }
-
-        if (!$template) {
-
-            throw new sfException("Pas de template pour cette facture");
-        }
-
-        $f = $this->createDocFromTemplate($cotisations, $facture->getCompte(), date('Y-m-d'), null, $template->arguments->toArray(true, false));
-
-        $f->_id = $facture->_id;
-        $f->_rev = $facture->_rev;
-        $f->numero_facture = $facture->numero_facture;
-        $f->numero_piece_comptable = $facture->numero_piece_comptable;
-        $f->numero_archive = $facture->numero_archive;
-
-        return $f;
     }
 
     private $documents_origine = array();
@@ -252,18 +195,6 @@ class FactureClient extends acCouchdbClient {
         }
         $mouvementsBySoc = $this->cleanMouvementsBySoc($mouvementsBySoc);
         return $mouvementsBySoc;
-    }
-
-    // INUTILE => On veut les Mouvements
-    public function getComptesIdFilterWithParameters($arguments) {
-        $comptes = CompteClient::getInstance()->getComptes($arguments['requete']);
-
-        $ids = array();
-        foreach ($comptes as $compte) {
-            $ids[] = $compte->_id;
-        }
-
-        return $ids;
     }
 
     private function getGreatestDate($dates) {
