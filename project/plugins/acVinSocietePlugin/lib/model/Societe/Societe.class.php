@@ -602,7 +602,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
       if (!$mandat) {
           return false;
       }
-      return $mandat->is_signe;
+      return $mandat->is_actif;
     }
     // fin
 
