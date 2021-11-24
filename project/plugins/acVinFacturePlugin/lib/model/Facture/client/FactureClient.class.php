@@ -103,45 +103,6 @@ class FactureClient extends acCouchdbClient {
         return $facture;
     }
 
-// INUTILE
-    public function regenerate($facture_or_id) {
-
-        $facture = $facture_or_id;
-
-        if (is_string($facture)) {
-            $facture = $this->find($facture_or_id);
-        }
-
-        if ($facture->isPayee()) {
-
-            throw new sfException(sprintf("La factures %s a déjà été payée", $facture->_id));
-        }
-
-        $cotisations = array();
-
-        $template = null;
-
-        foreach ($facture->getTemplates() as $template_id) {
-            $template = TemplateFactureClient::getInstance()->find($template_id);
-            $cotisations = $cotisations + $template->generateCotisations($facture->identifiant, $template->campagne, true);
-        }
-
-        if (!$template) {
-
-            throw new sfException("Pas de template pour cette facture");
-        }
-
-        $f = $this->createDocFromTemplate($cotisations, $facture->getCompte(), date('Y-m-d'), null, $template->arguments->toArray(true, false));
-
-        $f->_id = $facture->_id;
-        $f->_rev = $facture->_rev;
-        $f->numero_facture = $facture->numero_facture;
-        $f->numero_piece_comptable = $facture->numero_piece_comptable;
-        $f->numero_archive = $facture->numero_archive;
-
-        return $f;
-    }
-
     private $documents_origine = array();
 
     public function getDocumentOrigine($id) {
