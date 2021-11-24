@@ -14,6 +14,23 @@ $echeances = $facture->getEcheancesPapillon();
 	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Références à rappeler avec le règlement}}} \\
 
         \CutlnPapillonEntete
+        <?php if($facture->getNbPaiementsAutomatique()): ?>
+          &
+     \centering \fontsize{7}{8}\selectfont Conformément à votre demande, le montant de cette facture sera prélevé \\ ~ &
+
+      \centering \small{Echéance} &
+      \centering \small{Client~/~Facture} &
+      \multicolumn{1}{c}{\small{Montant TTC}} \\
+
+                  \centering \small{~} &
+                  \centering \fontsize{7}{8}\selectfont sur votre compte n°\textbf{<?php echo $societe->getMandatSepa()->debiteur->iban ?>} le \textbf{<?php echo format_date($facture->paiements[0]->date,'dd/MM/yyyy'); ?>} &
+
+                  \centering \small{\textbf{<?php echo format_date($facture->date_echeance,'dd/MM/yyyy'); ?>}} &
+                  \centering \small{\FactureRefCodeComptableClient~/~\FactureNum} &
+                  \multicolumn{1}{r}{\small{\textbf{<?php echo echoArialFloat($facture->total_ttc); ?>~\texteuro{}}}}  \\
+
+                  \CutlnPapillon
+        <?php else: ?>
         <?php $nb = count($echeances) ; foreach ($echeances as $key => $papillon) : ?>
         &
    \centering \fontsize{7}{8}\selectfont Par chèque à l'ordre : <?php echo ($chequesOrdre)? $chequesOrdre : "Ordre chèque"; ?> \\ ~ &
@@ -31,6 +48,7 @@ $echeances = $facture->getEcheancesPapillon();
 
                 \CutlnPapillon
         <?php endforeach; ?>
+      <?php endif; ?>
 
 \end{tabular}
 \end{minipage}
