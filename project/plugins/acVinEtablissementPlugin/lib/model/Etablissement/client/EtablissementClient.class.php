@@ -120,12 +120,12 @@ class EtablissementClient extends acCouchdbClient {
 
     public function getFirstIdentifiant($societeIdentifiant) {
 
-        return $societeIdentifiant."01";
+        return sprintf(str_replace("%societe_identifiant%", $societeIdentifiant, $this->getFormatIdentifiant()), "01");
     }
 
     public function getLastIdentifiant($societeIdentifiant) {
 
-        return $societeIdentifiant."99";
+        return sprintf(str_replace("%societe_identifiant%", $societeIdentifiant, $this->getFormatIdentifiant()), "99");
     }
 
     public function getBaseIdentifiant($societeIdentifiant) {
