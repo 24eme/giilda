@@ -1,0 +1,4 @@
+all:
+  mandatsepa:
+    configuration:
+      is_active: false

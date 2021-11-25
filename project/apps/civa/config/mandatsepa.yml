@@ -1,0 +1,5 @@
+all:
+  mandatsepa:
+    configuration:
+      is_active: true
+      mention_autorisation: "En signant ce formulaire de mandat, vous autorisez (A) le Conseil Interprofessionnel des Vins d'Alsace (CIVA) à envoyer des instructions à votre banque pour débiter votre compte, et (B) votre banque à débiter votre compte conformément aux instructions du CIVA."

@@ -1,0 +1,37 @@
+
+MandatSepa:
+  definition:
+    fields:
+      _id: { }
+      _rev: { }
+      type: { }
+      date: { }
+      mention_autorisation: { }
+      mention_remboursement: { }
+      mention_droits: { }
+      is_telecharge: { }
+      is_signe: { }
+      is_actif: { }
+      creancier:
+        type: collection
+        class: MandatSepaPartie
+        definition:
+          fields:
+            identifiant_ics: { }
+            nom: { }
+            adresse: { }
+            code_postal: { }
+            commune: { }
+      debiteur:
+        type: collection
+        class: MandatSepaPartie
+        definition:
+          fields:
+            identifiant_rum: { }
+            nom: { }
+            adresse: { }
+            code_postal: { }
+            commune: { }
+            iban: { }
+            bic: { }
+            frequence_prelevement: { }

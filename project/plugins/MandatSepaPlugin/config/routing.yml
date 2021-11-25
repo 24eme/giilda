@@ -1,0 +1,9 @@
+mandatsepa_pdf:
+  url: /mandatsepa/:id/pdf
+  param: { module: mandatsepa, action: pdf }
+  class: MandatSepaRoute
+  options:
+    model:    MandatSepa
+    type:     object
+  requirements:
+    sf_method: [get]
