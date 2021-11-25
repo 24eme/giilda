@@ -16,4 +16,3 @@ all:
       ainsi que l’obligation pour le débiteur de payer une indemnité forfaitaire de 40 €uros
       pour frais de recouvrement (Décret n°2012-1115 du 2 octobre 2012)  \vspace{3cm}'
       export_shell: "%sf_root_dir%/bin/exportSage.sh"
-
