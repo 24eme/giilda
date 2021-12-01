@@ -23,7 +23,7 @@ $echeances = $facture->getEcheancesPapillon();
       \multicolumn{1}{c}{\small{Montant TTC}} \\
 
                   \centering \small{~} &
-                  \centering \fontsize{7}{8}\selectfont sur votre compte bancaire le \textbf{<?php echo format_date($facture->paiements[0]->date,'dd/MM/yyyy'); ?>} &
+                  \centering \fontsize{7}{8}\selectfont sur votre compte n° \textbf{<?php echo $facture->getSociete()->getMandatSepa()->getNumeroCompte() ?>} le \textbf{<?php echo format_date($facture->paiements[0]->date,'dd/MM/yyyy'); ?>} &
 
                   \centering \small{\textbf{<?php echo format_date($facture->date_echeance,'dd/MM/yyyy'); ?>}} &
                   \centering \small{\FactureRefCodeComptableClient~/~\FactureNum} &
