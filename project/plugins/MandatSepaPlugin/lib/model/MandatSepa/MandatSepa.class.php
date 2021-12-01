@@ -87,6 +87,14 @@ class MandatSepa extends BaseMandatSepa {
     return $result;
   }
 
+  public function getNumeroCompte() {
+      $iban = $this->getIban();
+      if (!$iban) {
+          return '';
+      }
+      return substr($iban, 14, -2);
+  }
+
   public function getNumeroRum(){
     if(!$this->debiteur->identifiant_rum){
       return '';

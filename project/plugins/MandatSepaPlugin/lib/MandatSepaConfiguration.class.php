@@ -34,6 +34,13 @@ class MandatSepaConfiguration implements InterfaceMandatSepaPartie {
       return $this->configuration['frequence_prelevement'];
   }
 
+  public function getDelaiEcheancePrelevement() {
+      if(!isset($this->configuration['delai_echeance_prelevement'])){
+        return "+15 days";
+      }
+      return $this->configuration['delai_echeance_prelevement'];
+  }
+
   public function getMentionAutorisation() {
       if(!isset($this->configuration['mention_autorisation'])){
         return "En signant ce formulaire de mandat, vous autorisez (A) le Syndicat des Vins IGP à envoyer des instructions à votre banque pour débiter votre compte, et (B) votre banque à débiter votre compte conformément aux instructions du Syndicat des Vins IGP.";
