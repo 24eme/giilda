@@ -1,6 +1,6 @@
 <?php
 
-class ExportFactureCSV_ivso {
+class ExportFactureCSV_civa {
 
     const TYPE_LIGNE_LIGNE = 'LIGNE';
     const TYPE_LIGNE_ECHEANCE = 'ECHEANCE';
