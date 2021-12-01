@@ -34,14 +34,33 @@ EOF;
                 continue;
             }
             $datas = explode(",", preg_replace('/"/', '', str_replace("\n", "", $line)));
-            if (!isset($datas[1])||$datas[1] != 'PC'||!$datas[14]) {
-                echo sprintf("warning;données manquantes %s\n", implode(',',$datas));
+            $societe = SocieteClient::getInstance()->find($datas[0]);
+            if (!$societe) {
+                echo sprintf("warning;société non trouvée %s\n", implode(',',$datas));
                 continue;
             }
-            $societe = SocieteClient::getInstance()->find($datas[0]);
             $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($societe);
+            if ($datas[1] != 'PC' && $mandatSepa && $mandatSepa->is_actif) {
+                $mandatSepa->is_actif = 0;
+                $mandatSepa->save();
+                echo sprintf("succes;Désactivation de %s\n", $mandatSepa->_id);
+                continue;
+            }
+            if ($datas[1] != 'PC') {
+                continue;
+            }
+            if ($mandatSepa && ($mandatSepa->debiteur->iban != $datas[14]||$mandatSepa->debiteur->bic != $datas[15])) {
+                $mandatSepa->debiteur->iban = $datas[14];
+                $mandatSepa->debiteur->bic = $datas[15];
+                $mandatSepa->save();
+                echo sprintf("succes;Mise à jour de %s\n", $mandatSepa->_id);
+            }
+            if ($mandatSepa && !$mandatSepa->is_actif) {
+                $mandatSepa->is_actif = 1;
+                $mandatSepa->save();
+                echo sprintf("succes;Activation de %s\n", $mandatSepa->_id);
+            }
             if ($mandatSepa) {
-                echo sprintf("infos;%s déjà existant dans la bdd\n", $mandatSepa->_id);
                 continue;
             }
             $mandatSepa = MandatSepaClient::getInstance()->createDoc($societe);
@@ -50,7 +69,7 @@ EOF;
             $mandatSepa->is_actif = 1;
             $mandatSepa->is_signe = 1;
             $mandatSepa->save();
-            echo sprintf("succes;%s créé dans la bdd\n", $mandatSepa->_id);
+            echo sprintf("succes;Création de %s\n", $mandatSepa->_id);
         }
 
     }
