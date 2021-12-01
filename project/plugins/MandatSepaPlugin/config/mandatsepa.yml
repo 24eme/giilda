@@ -2,3 +2,4 @@ all:
   mandatsepa:
     configuration:
       is_active: false
+      delai_echeance_prelevement: '+15 days'
