@@ -110,27 +110,35 @@ class EtablissementClient extends acCouchdbClient {
     }
 
     public function getSocieteIdentifiant($etablissementIdentifiant) {
-        if(strpos($this->getFormatIdentifiant(), "%societe_identifiant%") === false) {
+        if($this->getFormatIdentifiant() == "%societe_identifiant%%02d") {
 
-            return str_replace("SOCIETE-", "", EtablissementClient::getInstance()->findByIdentifiant($etablissementIdentifiant, acCouchdbClient::HYDRATE_JSON)->id_societe);
+            return substr($etablissementIdentifiant, 0, -2);
         }
 
-        return substr($etablissementIdentifiant, 0, -2);
+        if($this->getFormatIdentifiant() == "%societe_identifiant%") {
+
+            return $etablissementIdentifiant;
+        }
+
+        return str_replace("SOCIETE-", "", EtablissementClient::getInstance()->findByIdentifiant($etablissementIdentifiant, acCouchdbClient::HYDRATE_JSON)->id_societe);
     }
 
     public function getFirstIdentifiant($societeIdentifiant) {
+        if(!$this->getFormatIdentifiant()) {
 
-        return $societeIdentifiant."01";
+            return $societeIdentifiant;
+        }
+
+        return sprintf(str_replace("%societe_identifiant%", $societeIdentifiant, $this->getFormatIdentifiant()), "01");
     }
 
     public function getLastIdentifiant($societeIdentifiant) {
+        if(!$this->getFormatIdentifiant()) {
 
-        return $societeIdentifiant."99";
-    }
+            return $societeIdentifiant;
+        }
 
-    public function getBaseIdentifiant($societeIdentifiant) {
-
-        return substr($societeIdentifiant, 0, -2);
+        return sprintf(str_replace("%societe_identifiant%", $societeIdentifiant, $this->getFormatIdentifiant()), "99");
     }
 
     public function getViewClient($view) {
