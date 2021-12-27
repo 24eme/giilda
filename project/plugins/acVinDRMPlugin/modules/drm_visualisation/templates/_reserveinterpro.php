@@ -1,7 +1,7 @@
 <?php use_helper('DRM'); ?>
 <?php
 $produits = $drm->getProduitsReserveInterpro();
-if (count($produits)): ?>
+if (count($produits) && DRMConfiguration::getInstance()->hasActiveReserveInterpro()): ?>
     <div class="row">
         <div class="col-xs-12">
             <h3>Réserve interprofessionnelle</small></h3>
