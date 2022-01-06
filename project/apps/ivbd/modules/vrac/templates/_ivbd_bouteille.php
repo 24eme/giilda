@@ -271,7 +271,7 @@ De convention expresse entre les parties, la délivrance au sens de l'article 16
 %PARTIE 9bis%
 \circled{9}~~\textbf{bis - Résiliation du contrat :}\\
 \hspace*{0.5cm}
-En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur ne pourra invoquer l'article 1657 du code civil :\\
+En cas de non-respect par l'acheteur des dates de retiraison ci-dessus mentionnées, le vendeur pourra invoquer l'article 1657 du code civil :\\
 \hspace*{0.5cm}
  "annulation de droit de la vente pour non enlèvement des vins à la date prévue". En cas de non-agrément motivé du produit (vin non loyal et\\
 \hspace*{0.5cm}
