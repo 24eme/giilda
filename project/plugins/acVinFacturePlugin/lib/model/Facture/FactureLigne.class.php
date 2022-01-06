@@ -21,6 +21,26 @@ class FactureLigne extends BaseFactureLigne {
         return $mouvements;
     }
 
+    public function getQuantite() {
+        $quantite = 0;
+        foreach ($this->details as $detail) {
+            $quantite += $detail->quantite;
+        }
+        return $quantite;
+    }
+
+    public function getPrixUnitaire() {
+        $prixUnitaire = null;
+        foreach ($this->details as $detail) {
+            if($prixUnitaire !== null && $prixUnitaire != $detail->prix_unitaire) {
+                return null;
+            }
+            $prixUnitaire = $detail->prix_unitaire;
+        }
+
+        return $prixUnitaire;
+    }
+
     public function facturerMouvements() {
         foreach ($this->getMouvements() as $mouv) {
             $mouv->facturer();

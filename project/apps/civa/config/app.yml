@@ -1,4 +1,6 @@
 all:
+  etablissement:
+    format_identifiant: false
   drm_negoce:
     correspondances_produits:
       "/declaration/certifications/AOC_ALSACE/genres/TRANQ": "/declaration/certifications/AOP_HORSALSACE/genres/TRANQ/appellations/DEFAUT/mentions/DEFAUT/lieux/DEFAUT/couleurs/DEFAUT/cepages/DEFAUT"

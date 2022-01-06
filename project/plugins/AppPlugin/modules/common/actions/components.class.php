@@ -55,7 +55,7 @@ class commonComponents extends sfComponents {
 
       if($this->getUser()->hasCredential('teledeclaration_vrac')){
         $this->teledeclaration_vrac = true;
-        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissement, 10);
+        $this->contratsSocietesWithInfos = VracClient::getInstance()->retrieveBySocieteWithInfosLimit($this->societe, $this->etablissement);
       }
       if($this->getUser()->hasCredential('teledeclaration_drm')){
         $this->teledeclaration_drm = true;

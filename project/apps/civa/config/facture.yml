@@ -9,4 +9,12 @@ all:
       pdf_produit: false
       pdf_nom_ref_client: "N° ADHÉRENT"
       pdf_nom_taux: "Taux"
-      pdf_display_code_comptable: false
+      pdf_display_code_comptable: true
+      reglement: >
+        Facture payable net et sans escompte à la date d’échéance.
+        Conformément à l’article L. 441-6 du Code de Commerce, tout retard de paiement entraine
+        de plein droit l’application d’une pénalité égale à trois fois le taux d’intérêt légal,
+        ainsi que l’obligation pour le débiteur de payer une indemnité forfaitaire de 40 €uros
+        pour frais de recouvrement (Décret n°2012-1115 du 2 octobre 2012)  \vspace{3cm}
+      export_shell: "%sf_root_dir%/bin/exportSage.sh"
+      seuil_minimum: 20

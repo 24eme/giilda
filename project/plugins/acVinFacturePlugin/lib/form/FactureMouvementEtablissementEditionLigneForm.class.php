@@ -34,7 +34,7 @@ class FactureMouvementEtablissementEditionLigneForm extends acCouchdbObjectForm 
 
     protected function updateDefaultsFromObject() {
       parent::updateDefaultsFromObject();
-      $this->setDefault('identifiant', EtablissementClient::getInstance()->getBaseIdentifiant($this->getObject()->identifiant));
+      $this->setDefault('identifiant', EtablissementClient::getInstance()->getSocieteIdentifiant($this->getObject()->identifiant));
       $lastMouvement = $this->getObject()->getDocument()->getLastMouvement();
       if ($this->getObject()->getKey() == 'nouveau' && $lastMouvement) {
         $this->setDefault('identifiant_analytique', $lastMouvement->identifiant_analytique);
