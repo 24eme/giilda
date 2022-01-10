@@ -1,6 +1,7 @@
 all:
   configuration:
     drm:
+      desactive_reserve_interpro: true
       familles: ["PRODUCTEUR", "PRODUCTEUR_VINIFICATEUR"]
       details:
         export_detail:

@@ -32,7 +32,9 @@
                     <td><a name="mouvement_<?php echo $detail->getHashForKey(); ?>"></a><?php echo $configDetails->getTypeDRMLibelle() ?></td>
                     <td><span class="<?php if($detail->mouvement_coefficient == -1): ?>text-danger<?php endif; ?><?php if($detail->mouvement_coefficient == 1): ?>text-success<?php endif; ?>"><?php echo $detail->getParent()->getKey() ?></span></td>
                     <td><a href="#mouvement_<?php echo $detail->getHashForKey(); ?>"><?php echo $detail->getLibelle() ?></a> <small class="text-muted"><?php echo $detail->getKey() ?></small></td>
-                    <td><small class="text-muted"><?php echo $detail->douane_cat; ?> <?php if ($detail->needDouaneObservation()): ?><span class="glyphicon glyphicon-comment" title="Nécessite une observation"></span><?php endif; ?> <?php if ($detail->needDouaneDateReplacement()): ?><span class="glyphicon glyphicon-calendar" title="Nécessite une date de replacement"></span><?php endif; ?></small></td>
+                    <td><small class="text-muted"><?php echo $detail->douane_cat; ?> <?php if ($detail->needDouaneObservation()): ?><span class="glyphicon glyphicon-comment" title="Nécessite une observation"></span><?php endif; ?> <?php if ($detail->needDouaneDateReplacement()): ?><span class="glyphicon glyphicon-calendar" title="Nécessite une date de replacement"></span><?php endif; ?>
+                    /<br/>lot1:<?php echo $detail->douane_cat_negoce; ?></small>
+                    </td>
                     <td><?php if($detail->isFavoris()): ?><span class="glyphicon glyphicon-star"></span><?php endif; ?></td>
                     <td>
                         <?php if($detail->douane_type == DRMClient::CRD_TYPE_MIXTE): ?>CRD Mixte<?php endif; ?>

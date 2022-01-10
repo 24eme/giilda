@@ -181,9 +181,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             foreach ($droit_douane as $value) {
 
                 $this->setDroit('DOUANE', 'Douane');
-                $date = new DateTime($value['date']);
-
-                $this->setNodeDroit($this->getNoeudDroit('douane', $object)->add(), $date->format('c'), $value['taux'], 'DOUANE', 'Douane');
+                $this->setNodeDroit($this->getNoeudDroit('douane', $object)->add(), $value['date'], $value['taux'], 'DOUANE', 'Douane');
             }
         }
         if ($object->hasDroit(ConfigurationDroits::DROIT_CVO)) {
@@ -192,8 +190,7 @@ class ProduitDefinitionForm extends acCouchdbObjectForm {
             foreach ($droit_cvo as $value) {
 
                 $this->setDroit('CVO', 'Cvo');
-                $date = new DateTime($value['date']);
-                $this->setNodeDroit($this->getNoeudDroit('cvo', $object)->add(), $date->format('c'), $value['taux'], 'CVO', 'Cvo');
+                $this->setNodeDroit($this->getNoeudDroit('cvo', $object)->add(),  $value['date'], $value['taux'], 'CVO', 'Cvo');
             }
         }
         if (array_key_exists('dates_circulation', $values)) {
