@@ -251,4 +251,46 @@ while(<STDIN>) {
 	    print "Valeur répartition : " if ($verbose);
 	    print "0.00\n";
 	}
+
+	if ($field[27] || $field[28] || $field[29] || $field[30]) {
+	    print "Balise Banque : " if ($verbose);
+	    print "#MBQT\n";
+	    print "Type banque : " if ($verbose);
+	    print "1\n";
+	    print "Intitule : " if ($verbose);
+	    print $field[27]."\n";
+	    print "Code banque : " if ($verbose);
+	    print "\n";
+	    print "Code guichet : " if ($verbose);
+	    print "\n";
+	    print "Numéro compte : " if ($verbose);
+	    print "\n";
+	    print "Cle : " if ($verbose);
+	    print "\n";
+	    print "Commentaire : " if ($verbose);
+	    print "\n";
+	    print "Structure banque IBAN : " if ($verbose);
+	    print "3\n";
+	    print "Numero devise : " if ($verbose);
+	    print "1\n";
+        print "adresse : " if ($verbose);
+	    print "\n";
+    	print "complément adresse : " if ($verbose);
+	    print "\n";
+    	print "code postal : " if ($verbose);
+	    print "\n";
+    	print "ville : " if ($verbose);
+	    print "\n";
+    	print "pays : " if ($verbose);
+	    print $field[28]."\n";
+    	print "BIC : " if ($verbose);
+	    print $field[29]."\n";
+    	print "IBAN : " if ($verbose);
+	    print $field[30]."\n";
+    	print "gestion IBAN : " if ($verbose);
+	    print "0\n";
+        print "\n";
+        print "\n";
+        print "\n";
+	}
 }
