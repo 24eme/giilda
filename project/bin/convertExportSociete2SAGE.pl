@@ -12,7 +12,7 @@ while(<STDIN>) {
 	print "numéro de compte (VINSI) :" if ($verbose);
 	print $field[0]."\n";
 	print "intitulé (VINSI) : " if ($verbose);
-	print substr($field[1], 0, 35)."\n";	
+	print substr($field[1], 0, 35)."\n";
 	if ($field[2] eq "CLIENT") {
 	    print "type (client/fournisseur) (VINSI) : " if ($verbose);
 	    print "0\n";
@@ -74,7 +74,7 @@ while(<STDIN>) {
 	print "valeurs stats 10: " if ($verbose);
 	print "\n";
 	print "commentaire (EXPORT SAGE) : " if ($verbose);
-	print $field[21]."\n";
+	print "\n";
 	print "encours : " if ($verbose);
 	print "0.00\n";
 	print "plafond assurance crédit : " if ($verbose);
@@ -186,13 +186,9 @@ while(<STDIN>) {
 	print "livraison partielle : " if ($verbose);
 	print "0\n";
 	print "intitulé modèle de règlement (EXPORT SAGE): " if ($verbose);
-	if ($field[27]) {
-	    print $field[27]."\n";
-	}else{
-	    print "Cheque a 60 Jours Net\n";
-	}
+	print "\n";
 	print "non soumis à pénalités de retard (EXPORT SAGE) : " if ($verbose);
-	print $field[22]."\n";
+	print "\n";
 	print "code banque élément banque : " if ($verbose);
 	print "\n";
 	print "code guichet élément baque : " if ($verbose);
@@ -225,40 +221,38 @@ while(<STDIN>) {
 	}else{
 	    print "40100000\n";
 	}
-	if ($field[23] || $field[24] || $field[25] || $field[26]) {
-	    print "Balise Règlement : " if ($verbose);
-	    print "#MRLT\n";
-	    print "Numéro règlement : " if ($verbose);
-	    print $field[23]."\n";
-	    print "Condition : " if ($verbose);
-	    print $field[24]."\n";
-	    print "Nombre de jours : " if ($verbose);
-	    print $field[25]."\n";
-	    print "Jours tombés 1/6 (EXPORT SAGE) : " if ($verbose);
-	    print $field[26]."\n";
-	    print "Jours tombés 2/6 : " if ($verbose);
-	    print "0\n";
-	    print "Jours tombés 3/6 : " if ($verbose);
-	    print "0\n";
-	    print "Jours tombés 4/6 : " if ($verbose);
-	    print "0\n";
-	    print "Jours tombés 5/6 : " if ($verbose);
-	    print "0\n";
-	    print "Jours tombés 6/6 : " if ($verbose);
-	    print "0\n";
-	    print "Type répartition : " if ($verbose);
-	    print "1\n";
-	    print "Valeur répartition : " if ($verbose);
-	    print "0.00\n";
-	}
+	if ($field[20] || $field[21] || $field[22] || $field[23]) {
+        print "Balise Règlement : " if ($verbose);
+        print "#MRLT\n";
+        print "Numéro règlement : " if ($verbose);
+        print "3\n";
+        print "Condition : " if ($verbose);
+        print "2\n";
+        print "Nombre de jours : " if ($verbose);
+        print "0\n";
+        print "Jours tombés 1/6 (EXPORT SAGE) : " if ($verbose);
+        print "0\n";
+        print "Jours tombés 2/6 : " if ($verbose);
+        print "0\n";
+        print "Jours tombés 3/6 : " if ($verbose);
+        print "0\n";
+        print "Jours tombés 4/6 : " if ($verbose);
+        print "0\n";
+        print "Jours tombés 5/6 : " if ($verbose);
+        print "0\n";
+        print "Jours tombés 6/6 : " if ($verbose);
+        print "0\n";
+        print "Type répartition : " if ($verbose);
+        print "1\n";
+        print "Valeur répartition : " if ($verbose);
+        print "0.00\n";
 
-	if ($field[27] || $field[28] || $field[29] || $field[30]) {
 	    print "Balise Banque : " if ($verbose);
 	    print "#MBQT\n";
 	    print "Type banque : " if ($verbose);
 	    print "1\n";
 	    print "Intitule : " if ($verbose);
-	    print $field[27]."\n";
+	    print $field[20]."\n";
 	    print "Code banque : " if ($verbose);
 	    print "\n";
 	    print "Code guichet : " if ($verbose);
@@ -282,11 +276,11 @@ while(<STDIN>) {
     	print "ville : " if ($verbose);
 	    print "\n";
     	print "pays : " if ($verbose);
-	    print $field[28]."\n";
+	    print $field[21]."\n";
     	print "BIC : " if ($verbose);
-	    print $field[29]."\n";
+	    print $field[22]."\n";
     	print "IBAN : " if ($verbose);
-	    print $field[30]."\n";
+	    print $field[23]."\n";
     	print "gestion IBAN : " if ($verbose);
 	    print "0\n";
         print "\n";
