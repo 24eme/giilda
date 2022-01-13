@@ -157,6 +157,20 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $this->comptes;
     }
 
+    public function addAndSaveSocieteLiee($societe) {
+        $this->add('societes_liees');
+        if(!in_array($societe->_id, $this->societes_liees->toArray())) {
+            $this->societes_liees->add(null, $societe->_id);
+        }
+        $this->save();
+
+        $societe->add('societes_liees');
+        if(!in_array($this->_id, $societe->societes_liees->toArray())) {
+            $societe->societes_liees->add(null, $this->_id);
+        }
+        $societe->save();
+    }
+
     private function addToComptes($compte) {
         if (!$this->comptes) {
             $this->comptes = array();

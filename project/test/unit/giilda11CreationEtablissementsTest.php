@@ -144,3 +144,23 @@ $comptecoop = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $comptecoop->addTag('test', 'test');
 $comptecoop->save();
 $t->is($comptecoop->tags->automatique->toArray(true, false), array('societe', 'ressortissant', 'cooperative', 'etablissement'), "Création d'un etablissement coop met à jour le compte");
+
+$societelie1 = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_societe_lie_1')->getSociete();
+$etablissementlie1 = $societelie1->createEtablissement(EtablissementFamilles::FAMILLE_PRODUCTEUR);
+$etablissementlie1->region = EtablissementClient::REGION_CVO;
+$etablissementlie1->nom = "Etablissement producteur lié";
+$etablissementlie1->save();
+$id = $etablissementlie1->getSociete()->getidentifiant();
+$comptelie1 = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$comptelie1->addTag('test', 'test');
+$comptelie1->save();
+
+$societelie2 = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_societe_lie_2')->getSociete();
+$etablissementlie2 = $societelie1->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
+$etablissementlie2->region = EtablissementClient::REGION_CVO;
+$etablissementlie2->nom = "Etablissement producteur lié";
+$etablissementlie2->save();
+$id = $etablissementlie2->getSociete()->getidentifiant();
+$comptelie2 = CompteClient::getInstance()->findByIdentifiant($id.'01');
+$comptelie2->addTag('test', 'test');
+$comptelie2->save();

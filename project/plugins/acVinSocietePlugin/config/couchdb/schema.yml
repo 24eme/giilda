@@ -61,6 +61,12 @@ Societe:
                 fields:
                   nom: {}
                   ordre: {}
+      societes_liees:
+        type: array_collection
+        required: false
+        definition:
+          fields:
+            '*': { }
       etablissements :
         type: collection
         definition:
