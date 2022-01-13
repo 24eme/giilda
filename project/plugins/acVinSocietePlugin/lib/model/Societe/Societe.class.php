@@ -113,7 +113,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         return $regions;
     }
 
-    public function getEtablissementsObj($withSuspendu = true) {
+    public function getEtablissementsObj($withSuspendu = true, $withSocietesLiees = false) {
         $etablissements = array();
         foreach ($this->etablissements as $id => $obj) {
             $etb = EtablissementClient::getInstance()->find($id);
@@ -125,6 +125,14 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
             $etablissements[$id] = new stdClass();
             $etablissements[$id]->etablissement = $etb;
             $etablissements[$id]->ordre = $obj->ordre;
+        }
+        if($withSocietesLiees && $this->exist('societes_liees')) {
+            foreach($this->societes_liees as $idSociete) {
+                $societe = SocieteClient::getInstance()->find($idSociete);
+                foreach($societe->getEtablissementsObj() as $id => $etb) {
+                    $etablissements[$id] = clone $etb;
+                }
+            }
         }
         return $etablissements;
     }

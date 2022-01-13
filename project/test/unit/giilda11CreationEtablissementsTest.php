@@ -26,7 +26,7 @@ foreach (CompteTagsView::getInstance()->listByTags('test', 'test') as $k => $v) 
 }
 
 
-$t = new lime_test(12);
+$t = new lime_test(16);
 $t->comment('création des différentes établissements');
 
 $societeviti = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getSociete();
@@ -154,9 +154,10 @@ $id = $etablissementlie1->getSociete()->getidentifiant();
 $comptelie1 = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $comptelie1->addTag('test', 'test');
 $comptelie1->save();
+$societelie1 = SocieteClient::getInstance()->find($societelie1->_id);
 
 $societelie2 = CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_societe_lie_2')->getSociete();
-$etablissementlie2 = $societelie1->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
+$etablissementlie2 = $societelie2->createEtablissement(EtablissementFamilles::FAMILLE_NEGOCIANT);
 $etablissementlie2->region = EtablissementClient::REGION_CVO;
 $etablissementlie2->nom = "Etablissement producteur lié";
 $etablissementlie2->save();
@@ -164,3 +165,10 @@ $id = $etablissementlie2->getSociete()->getidentifiant();
 $comptelie2 = CompteClient::getInstance()->findByIdentifiant($id.'01');
 $comptelie2->addTag('test', 'test');
 $comptelie2->save();
+$societelie2 = SocieteClient::getInstance()->find($societelie2->_id);
+
+$t->is(count($societelie1->getEtablissementsObj()), 1, "La société lié 1 à 1 établissement");
+$t->is(count($societelie2->getEtablissementsObj()), 1, "La société lié 2 à 1 établissement");
+
+$t->is(count($societelie1->getEtablissementsObj(true, true)), 2, "La société lié 1 à 1 établissement + 1 établissement lié");
+$t->is(count($societelie2->getEtablissementsObj(true, true)), 2, "La société lié 1 à 1 établissement + 1 établissement lié");
