@@ -27,7 +27,7 @@ EOF;
   const ISCLIENT = 1;
   const ISFOURNISSEUR = 2;
 
-  private function printSociete($societe, $compte, $isclient = 1) {
+  private function printSociete($societe, $compte, $isclient = 1, $mandatSepaActif = false) {
     if (!$this->includeSuspendu && !$societe->isActif()) {
 	return ;
     }
@@ -52,8 +52,8 @@ EOF;
     print $societe->siret.";";
     print $societe->statut.";";
     print $societe->date_modification.";";
-    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";"; 
-    print preg_replace('/[^\+0-9]/i', '', $societe->fax).";"; 
+    print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";";
+    print preg_replace('/[^\+0-9]/i', '', $societe->fax).";";
     print $societe->email.";";
     print $this->routing->generate('societe_visualisation', $societe, true).';';
     try {
@@ -64,6 +64,15 @@ EOF;
       print "INCONNUE;";
     }
     print $societe->isActif().';';
+    if ($mandatSepaActif) {
+        $ms = $societe->getMandatSepa();
+        if ($ms && $ms->is_actif && $ms->getIban()) {
+            print ";";
+            print substr($ms->getIban(), 0, 2).";";
+            print $ms->getBic().";";
+            print $ms->getIban().";";
+        }
+    }
     print "\n";
   }
 
@@ -80,17 +89,27 @@ EOF;
 
     $this->routing = clone ProjectConfiguration::getAppRouting();
 
-    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;\n";
+
+    try {
+        $mandatSepaConfiguration = MandatSepaConfiguration::getInstance();
+        $mandatSepaActif = $mandatSepaConfiguration->isActive();
+    } catch (Exception $e) {
+        $mandatSepaActif = false;
+    }
+
+    $mandatSepaEntetes = ($mandatSepaActif)? 'Banque;Pays;BIC;IBAN;' : '';
+
+    echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
 
     foreach(SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration') as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
-      if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur) 
+      if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur)
 	continue;
       if ($soc->code_comptable_client) {
-	$this->printSociete($soc, $soc->code_comptable_client, self::ISCLIENT);
+	$this->printSociete($soc, $soc->code_comptable_client, self::ISCLIENT, $mandatSepaActif);
       }
       if ($soc->code_comptable_fournisseur) {
-	$this->printSociete($soc, $soc->code_comptable_fournisseur, self::ISFOURNISSEUR);
+	$this->printSociete($soc, $soc->code_comptable_fournisseur, self::ISFOURNISSEUR, $mandatSepaActif);
       }
     }
   }

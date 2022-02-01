@@ -41,10 +41,10 @@ class MouvementfactureFacturationView extends acCouchdbView {
 
         $identifiantsSupplementaire = array();
         foreach($societe->etablissements as $id => $infos) {
-            if(strpos($id, $societe->identifiant) !== false) {
+            if(EtablissementClient::getInstance()->getFirstIdentifiant($societe->identifiant) != $societe->identifiant && strpos($id, $societe->identifiant) !== false) {
                 continue;
             }
-            $identifiantsSupplementaire[$identifiant] = $identifiant;
+            $identifiantsSupplementaire[str_replace("ETABLISSEMENT-", "", $id)] = str_replace("ETABLISSEMENT-", "", $id);
         }
         foreach($identifiantsSupplementaire as $identifiant) {
             $rows = array_merge($rows, $this->getRowsByIdentifiant($identifiant, $identifiant, $paramRegion, $facturee, $facturable, $reduceLevel));
