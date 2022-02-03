@@ -508,7 +508,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getCommentaire() {
         $c = $this->_get('commentaire');
-        $c1 = $this->getMasterCompte()->get('commentaire');
+        $c1 = ($this->getMasterCompte())? $this->getMasterCompte()->get('commentaire') : null;
         if ($c && $c1) {
             return $c . "\n" . $c1;
         }
