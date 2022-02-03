@@ -520,6 +520,15 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
     }
 
+    public function getSocietesLieesIds() {
+        if(!$this->exist('societes_liees')) {
+
+            return array($this->_id);
+        }
+
+        return array_merge(array($this->_id), $this->societes_liees->toArray());
+    }
+
     public function addCommentaire($s) {
         $c = $this->get('commentaire');
         if ($c) {
