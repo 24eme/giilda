@@ -11,6 +11,10 @@ class FactureEtablissementView extends acCouchdbView
     const VALUE_TOTAL_TTC = 2;
     const VALUE_STATUT = 3;
     const VALUE_NUMERO_ARCHIVE = 4;
+    const VALUE_NUMERO_IL = 5;
+    const VALUE_TOTAL_HT = 6;
+    const VALUE_DECLARANT = 7;
+    const VALUE_DATE_PAIEMENT = 8;
 
 
     public static function getInstance() {
