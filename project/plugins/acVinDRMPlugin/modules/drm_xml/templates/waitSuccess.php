@@ -1,6 +1,6 @@
 <?php
 use_helper('Asset');
-$interpro = sfConfig::get('app_teledeclaration_interpro');
+$interpro = strtolower(sfConfig::get('app_teledeclaration_interpro'));
 ?>
 <div style="text-align: center; top: 30%; position: absolute; width: 99%;"><center>
 <img src="<?php echo _compute_public_path('/images/logo_'.$interpro, null, 'png') ?>" height="150" style="display: inline-block"/>
