@@ -1,4 +1,7 @@
 <?php
+use_helper('Float');
+use_helper('Display');
+
 $prix_u_libelle = FactureConfiguration::getInstance()->getNomTaux();
 $titre_type_facture = "Cotisation interprofessionnelle";
 $qt_libelle = "Volume \\tiny{en hl}";
