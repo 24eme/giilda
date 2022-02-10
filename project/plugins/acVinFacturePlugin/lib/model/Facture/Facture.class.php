@@ -186,6 +186,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
+        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            continue;
+        }
         $nb += count($l->details);
       }
       return $nb;
