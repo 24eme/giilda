@@ -15,7 +15,11 @@ class FactureLigne extends BaseFactureLigne {
         $mouvements = array();
         foreach ($this->origine_mouvements as $idDoc => $mouvsKeys) {
             foreach ($mouvsKeys as $mouvKey) {
-                $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $this->getDocument()->identifiant);
+                $identifiant = $this->getDocument()->identifiant;
+                if(!EtablissementClient::getInstance()->getFormatIdentifiant()) {
+                        $identifiant = explode("-", $idDoc)[1];
+                }
+                $mouvements[] = Factureclient::getInstance()->getDocumentOrigine($idDoc)->findMouvement($mouvKey, $identifiant);
             }
         }
         return $mouvements;
