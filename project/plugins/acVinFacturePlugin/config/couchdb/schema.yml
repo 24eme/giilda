@@ -25,6 +25,7 @@ Facture:
       region: {}
       versement_comptable: {type: integer}
       versement_comptable_paiement: {type: integer}
+      versement_sepa: {type: integer, required: false}
       arguments:
         type: collection
         definition:

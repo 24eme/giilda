@@ -17,6 +17,7 @@ all:
       pdf_nom_ref_client: "nom de reference"
       pdf_nom_taux: "Taux"
       pdf_display_code_comptable: true
+      pdf_ligne_details: true
       echeance: "+30 days"
       sans_categories: false
       exercice: "comptable"

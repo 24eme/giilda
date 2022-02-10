@@ -25,4 +25,12 @@ class FactureMouvement extends BaseFactureMouvement {
         $this->setIdentifiantAnalytiqueLibelleCompta($node_analytique->identifiant_analytique_libelle_compta);
     }
 
+    public function getIndexForSaisieForm() {
+      $numOrdre = (!$this->vrac_numero)? 0 : $this->vrac_numero*1; // utilisation du champ vrac_numero pour ordonner la facturation libre
+      if ($this->getKey() == 'nouveau') {
+        $numOrdre = '999';
+      }
+      return sprintf('%03d', $numOrdre).'_'.$this->getParent()->getKey().'_'.$this->getKey();
+    }
+
 }

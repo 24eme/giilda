@@ -186,6 +186,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
+        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            continue;
+        }
         $nb += count($l->details);
       }
       return $nb;
@@ -575,6 +578,29 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->total_taxe = round($this->total_taxe, 2);
     }
 
+    public function addPrelevementAutomatique()
+    {
+      $paiement = $this->add('paiements')->add();
+      $paiement->montant =  $this->total_ttc;
+      $paiement->type_reglement = FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO;
+      $paiement->add('execute',false);
+      $delai = MandatSepaConfiguration::getInstance()->getDelaiEcheancePrelevement();
+      $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
+      $this->versement_sepa = 0;
+    }
+
+    public function getNbPaiementsAutomatique(){
+        $nb = 0;
+        if ($this->exist('paiements')) {
+            foreach($this->paiements as $paiement) {
+                if ($paiement->type_reglement == FactureClient::FACTURE_PAIEMENT_PRELEVEMENT_AUTO) {
+                    $nb++;
+                }
+            }
+        }
+        return $nb;
+    }
+
     public function getNbLignesMouvements() {
         $nbLigne = 0;
         foreach ($this->lignes as $lignesType) {
@@ -623,6 +649,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         if ($this->isNew() && $this->statut != FactureClient::STATUT_REDRESSEE) {
             $this->facturerMouvements();
             $this->storeOrigines();
+            if($this->getSociete()->hasMandatSepaActif()) {
+                $this->addPrelevementAutomatique();
+            }
         }
 
         if (!$this->versement_comptable) {
@@ -639,6 +668,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeDeclarant($doc) {
         $this->numero_adherent = $doc->identifiant;
+        if($doc->exist('num_interne') && $doc->num_interne) {
+            $this->numero_adherent = $doc->num_interne;
+        }
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
 //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;

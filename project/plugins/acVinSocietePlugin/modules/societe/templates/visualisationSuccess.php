@@ -35,6 +35,11 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-9">
+                      <?php foreach($societe->getSocietesLieesIds() as $societeLieeId): ?>
+                        <?php $societeLiee = SocieteClient::getInstance()->find($societeLieeId); ?>
+                        <?php if(!$societeLiee || $societeLiee->_id == $societe->_id): continue; endif; ?>
+                        <a href="<?php echo url_for('societe_visualisation', $societeLiee) ?>"><span class="glyphicon glyphicon-link"></span> <?php echo $societeLiee->raison_sociale ?></a>
+                      <?php endforeach; ?>
                         <p class="lead" style="margin-bottom: 5px;">
                             <span class="label label-primary"><?php echo $societe->type_societe; ?></span>
                             <?php if ($societe->statut == SocieteClient::STATUT_SUSPENDU): ?>
@@ -110,6 +115,38 @@
                     <strong>Commentaires :</strong> <?php echo $societe->commentaire; ?>
                 <?php endif; ?>
             </div>
+
+
+
+            <?php if (MandatSepaConfiguration::getInstance()->isActive()): $mandatSepa = $societe->getMandatSepa(); ?>
+            <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
+                <h5 style="margin-bottom: 15px; margin-top: 15px;" class="text-muted"><strong>Coordonnées bancaires</strong></h5>
+                <?php if ($mandatSepa): ?>
+                  <div class="row">
+                    <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">RUM&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->identifiant_rum; ?></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-3"></div>
+                  </div>
+                  <div class="row" style="margin-top: 5px;">
+                    <div style="margin-bottom: 5px;" class="col-xs-1  text-muted">IBAN&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->iban; ?></div>
+                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Mandat signé&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-3"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if ($mandatSepa->is_signe): ?> checked="checked"<?php endif; ?> disabled /></div>
+                  </div>
+                  <div class="row" style="margin-top: 5px;">
+                    <div style="margin-bottom: 5px;" class="col-xs-1 text-muted">BIC&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-5"><?php echo $mandatSepa->debiteur->bic; ?></div>
+                    <?php if ($mandatSepa->is_signe): ?>
+                    <div style="margin-bottom: 5px;" class="col-xs-3  text-muted">Prélèvement actif&nbsp;</div>
+                    <div style="margin-bottom: 5px;" class="col-xs-3"><input type="checkbox" data-on-text="<span class='glyphicon glyphicon-ok-sign'></span>" data-off-text="<span class='glyphicon'></span>" class="bsswitch ajax" data-size="mini"<?php if($mandatSepa->is_actif): ?> checked="checked"<?php endif; ?> disabled /></div>
+                    <?php endif; ?>
+                  </div>
+                <?php else: ?>
+                  <li>Aucun mandat de prélèvement SEPA n'a été saisi</li>
+                <?php endif; ?>
+            </div>
+            <?php endif; ?>
 
         </div>
     </div>

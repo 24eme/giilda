@@ -24,14 +24,13 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
     }
 
     public function configure() {
-    		if ($this->getObject()->getKey() == 'nouveau') {
-    			$this->virgin_object = $this->getObject()->add('nouveau');
-    		}
-        foreach ($this->getObject() as $key => $mvt) {
-          $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($mvt, array('interpro_id' => $this->interpro_id)));
+        $this->virgin_object = $this->getObject()->mouvements->add('nouveau')->add('nouveau');
+        $mvts = $this->getObject()->getSortedMvts();
+        foreach ($mvts as $identifiant => $mvt) {
+          $this->embedForm($identifiant, new FactureMouvementEtablissementEditionLigneForm($mvt, array('interpro_id' => $this->interpro_id)));
         }
         $this->validatorSchema->setOption('allow_extra_fields', true);
-        $this->widgetSchema->setNameFormat('mouvement[%s]');
+        $this->widgetSchema->setNameFormat('[%s]');
     }
 
     public function bind(array $taintedValues = null, array $taintedFiles = null) {
@@ -44,7 +43,7 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
         if(!is_array($values) || array_key_exists($key, $this->embeddedForms)) {
           continue;
         }
-        $this->embedForm($key, new FactureMouvementEtablissementEditionLigneForm($this->getObject()->add('nouveau')));
+        $this->embedForm($key, new FactureMouvementEditionLignesForm($this->getObject()->mouvements->add('nouveau')->add('nouveau')));
       }
     }
 
@@ -52,13 +51,13 @@ class FactureMouvementEditionLignesForm extends acCouchdbObjectForm {
       unset($this->widgetSchema[$key]);
       unset($this->validatorSchema[$key]);
       unset($this->embeddedForms[$key]);
-      $this->getObject()->remove($key);
+      $this->getObject()->mouvements->remove($key);
     }
 
     public function offsetUnset($offset) {
       parent::offsetUnset($offset);
       if (!is_null($this->virgin_object)) {
-        $this->virgin_object->delete();
+              $this->virgin_object->delete();
       }
     }
 

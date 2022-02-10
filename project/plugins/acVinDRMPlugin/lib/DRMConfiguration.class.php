@@ -227,4 +227,9 @@ class DRMConfiguration {
         return $this->configuration[$name];
     }
 
+    public function hasActiveReserveInterpro() {
+        $desactive = $this->getConfig('desactive_reserve_interpro');
+        return ($desactive === true)? false : true;
+    }
+
 }

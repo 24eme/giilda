@@ -33,7 +33,7 @@ $compare = (isset($options['compare']))? $options['compare'] : false;
 \renewcommand{\familydefault}{\sfdefault}
 \fancyfoot[R]{\thepage~/~\pageref{LastPage}}
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
-\fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
+\fancyhead[L]{\includegraphics[scale=0.3]{\LOGO}}
 
 
 \fancypagestyle{fstyle_0}{
