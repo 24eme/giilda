@@ -58,7 +58,6 @@
 
                 <?php if ($societe->getMasterCompte()->exist('droits')): ?>
                 <div class="list-group-item<?php echo ($societe->isSuspendu()) ? ' disabled': '' ?>">
-    <?php if ($societe->getMasterCompte()->exist('droits') && $societe->getMasterCompte()->hasDroit(Roles::TELEDECLARATION)): ?>
                         <p>
                             <strong>Login de télédéclaration :</strong> <?php echo $societe->getMasterCompte()->getLogin(); ?>
                             <?php if (strpos($societe->getMasterCompte()->mot_de_passe, '{TEXT}') !== false) : ?>
@@ -81,8 +80,7 @@
                                 ?>
                                 <p>Email de télédéclaration : <?php echo $societe->getEmailTeledeclaration(); ?></p>
                             <?php endif; ?>
-        <?php endif; ?>
-    <?php endif; ?>
+                    <?php endif; ?>
                     <p><?php if ($societe->getMasterCompte()->exist('droits')): ?>
                             <strong>Droits :</strong>
                             <?php foreach ($societe->getMasterCompte()->getDroits() as $droit) : ?>
