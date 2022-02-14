@@ -186,6 +186,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $nb = 0;
       foreach($this->lignes as $k => $l) {
         $nb++;
+        if(!FactureConfiguration::getInstance()->isPdfLigneDetails()) {
+            continue;
+        }
         $nb += count($l->details);
       }
       return $nb;
@@ -665,6 +668,9 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
 
     public function storeDeclarant($doc) {
         $this->numero_adherent = $doc->identifiant;
+        if($doc->exist('num_interne') && $doc->num_interne) {
+            $this->numero_adherent = $doc->num_interne;
+        }
         $declarant = $this->declarant;
         $declarant->nom = $doc->raison_sociale;
 //$declarant->num_tva_intracomm = $this->societe->no_tva_intracommunautaire;

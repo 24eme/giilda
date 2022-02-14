@@ -18,3 +18,4 @@ all:
         pour frais de recouvrement (Décret n°2012-1115 du 2 octobre 2012)  \vspace{3cm}
       export_shell: "%sf_root_dir%/bin/exportSage.sh"
       seuil_minimum: 20
+      pdf_ligne_details: false
