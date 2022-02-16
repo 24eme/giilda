@@ -15,6 +15,7 @@ class DRMAllView extends acCouchdbView
     const KEY_HORODATAGE = 11;
     const KEY_COHERENTE = 12;
     const KEY_DIFF = 13;
+    const KEY_IS_EXCLUSION_STATS = 14;
 
     public static function getInstance() {
 
