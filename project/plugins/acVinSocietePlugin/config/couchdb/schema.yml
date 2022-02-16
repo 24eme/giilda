@@ -12,6 +12,7 @@ Societe:
       statut: { }
       code_comptable_client: { }
       code_comptable_fournisseur: { }
+      num_interne: { required: false }
       teledeclaration_email: { required: false }
       paiement_douane_moyen: { required: false }
       paiement_douane_frequence: { required: false }

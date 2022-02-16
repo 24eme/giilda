@@ -144,7 +144,11 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
         }
         foreach ($etablissements as $id => $etbObj) {
             $etablissement = $etbObj->etablissement;
-            $compte = $this->getCompte($etablissement->compte);
+            try {
+                $compte = $this->getCompte($etablissement->compte);
+            } catch (sfException $e) {
+                continue;
+            }
             if ($compte->compte_type == CompteClient::TYPE_COMPTE_SOCIETE) {
                 return $etablissement;
             }
@@ -508,7 +512,7 @@ class Societe extends BaseSociete implements InterfaceCompteGenerique, Interface
 
     public function getCommentaire() {
         $c = $this->_get('commentaire');
-        $c1 = $this->getMasterCompte()->get('commentaire');
+        $c1 = ($this->getMasterCompte())? $this->getMasterCompte()->get('commentaire') : null;
         if ($c && $c1) {
             return $c . "\n" . $c1;
         }

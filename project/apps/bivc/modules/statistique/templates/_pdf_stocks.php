@@ -37,7 +37,7 @@ $headers[$appellation] = $appellation;
 \renewcommand{\familydefault}{\sfdefault}
 \fancyfoot[R]{\thepage~/~\pageref{LastPage}}
 \fancyfoot[L]{<?php echo strftime("%e %B %Y", time()) ?>}
-\fancyhead[L]{\includegraphics[scale=0.6]{\LOGO}}
+\fancyhead[L]{\includegraphics[scale=0.3]{\LOGO}}
 
 <?php $i=0; foreach ($headers as $header): ?>
 \fancypagestyle{fstyle_<?php echo $i ?>}{

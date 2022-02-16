@@ -8,21 +8,26 @@
     <?php echo file_get_contents(sfConfig::get('app_url_header')."?compte=".$compte."&isAdmin=".$isAdmin."&compteOrigine=".$compteOrigine); ?>
 
     <div id="main">
-        <?php if($compte): ?>
         <div style="position:relative;" id="nav">
-            <?php echo file_get_contents(sfConfig::get('app_url_nav')."?compte=".$compte."&active=".$sf_request->getParameter('module')); ?>
-            <?php if(sfConfig::get('sf_debug')): ?>
-                <a style="position: absolute; right: 10px; top: 10px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_nav')."?compte=".$compte."&active=".$sf_request->getParameter('module') ?>">[voir l'url de la nav]</a></pre>
+            <?php if($compte): ?>
+                <?php echo file_get_contents(sfConfig::get('app_url_nav')."?compte=".$compte."&isAdmin=".$sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)."&active=".$sf_request->getParameter('module')); ?>
+                <?php if(sfConfig::get('sf_debug')): ?>
+                    <a style="position: absolute; right: 10px; top: -15px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_nav')."?compte=".$compte."&isAdmin=".($sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN))."&active=".$sf_request->getParameter('module') ?>">[voir l'url de la nav]</a></pre>
+                <?php endif; ?>
+                <?php if ($isAdmin && preg_match('/(drm|facture)/', $sf_request->getParameter('module'))) : ?>
+                    <?php if ($sf_user->isUsurpationCompte()): ?>
+                         <a style="font-size: 20px; position: absolute; right: 15px; top: 10px;" tabindex="-1" href="<?php echo url_for('auth_deconnexion_usurpation') ?>"><span class="glyphicon glyphicon-cloud-download"></span></a>
+                    <?php else: ?>
+                        <a style="font-size: 20px; position: absolute; right: 15px; top: 10px;" tabindex="-1" href="<?php echo url_for('drm_debrayage', array('identifiant' => $compte)) ?>"><span class="glyphicon glyphicon-cloud-upload"></span></a>
+                    <?php endif; ?>
+                <?php endif; ?>
+            <?php else: ?>
+                    <?php echo file_get_contents(sfConfig::get('app_url_nav')."?isAdmin=".$sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)."&active=".$sf_request->getParameter('module')); ?>
+                    <?php if(sfConfig::get('sf_debug')): ?>
+                        <a style="position: absolute; right: 10px; top: 10px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_nav')."?isAdmin=".$sf_user->hasCredential(AppUser::CREDENTIAL_ADMIN)."&active=".$sf_request->getParameter('module') ?>">[voir l'url de la nav]</a></pre>
+                    <?php endif; ?>
             <?php endif; ?>
         </div>
-        <?php else: ?>
-            <div style="position:relative;" id="nav">
-                <?php echo file_get_contents(sfConfig::get('app_url_nav')."?active=".$sf_request->getParameter('module')); ?>
-                <?php if(sfConfig::get('sf_debug')): ?>
-                    <a style="position: absolute; right: 10px; top: 10px; font-size: 10px; color: #ff0000;" href="<?php echo sfConfig::get('app_url_nav')."?active=".$sf_request->getParameter('module') ?>">[voir l'url de la nav]</a></pre>
-                <?php endif; ?>
-            </div>
-        <?php endif; ?>
 <?php else: ?>
 <div id="main">
     <nav class="navbar navbar-default navbar-static-top">

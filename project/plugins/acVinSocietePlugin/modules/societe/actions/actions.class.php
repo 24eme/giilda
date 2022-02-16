@@ -2,6 +2,16 @@
 
 class societeActions extends sfCredentialActions {
 
+    private static $checkSaveContactEntityActions = array('creationSociete', 'societeNew', 'modification', 'addEnseigne', 'switchStatus', 'annulation', 'upload');
+
+    public function preExecute()
+    {
+        $defaults = $this->getRoute()->getDefaults();
+        if (isset($defaults['action']) && in_array($defaults['action'], self::$checkSaveContactEntityActions)) {
+            $this->checkSaveContactEntity();
+        }
+    }
+
     public function executeFullautocomplete(sfWebRequest $request) {
         $interpro = $request->getParameter('interpro_id');
         $q = $request->getParameter('q');

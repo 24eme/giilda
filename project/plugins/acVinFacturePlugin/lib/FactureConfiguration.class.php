@@ -146,6 +146,11 @@ class FactureConfiguration {
         return $this->configuration['seuil_minimum'];
     }
 
+    public function isPdfLigneDetails() {
+
+        return $this->configuration['pdf_ligne_details'];
+    }
+
     public function getReglement() {
       if (isset($this->configuration['reglement'])) {
         return $this->configuration['reglement'];

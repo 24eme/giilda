@@ -11,7 +11,7 @@ $echeances = $facture->getEcheancesPapillon();
 \begin{tabular}{|p{0mm} p{87mm} | p{36mm} p{36mm} p{36mm}|}
             \hline
 	\multicolumn{2}{|>{\columncolor[rgb]{0.8,0.8,0.8}}c|}{\centering \small{\textbf{Modalités de règlement}}} &
-	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{<?php if($facture->getNbPaiementsAutomatique()): ?> Références à rappeler en cas de non prélèvement auto.<?php else: ?>Références à rappeler avec le règlement<?php endif; ?>}}} \\
+	\multicolumn{3}{>{\columncolor[rgb]{0.8,0.8,0.8}}c}{\centering \small{\textbf{Références de facturation}}} \\
 
         \CutlnPapillonEntete
         <?php if($facture->getNbPaiementsAutomatique()): ?>
