@@ -12,7 +12,7 @@ rm -rf $TMP/export_bi_annualise 2> /dev/null
 
 echo "s/;;\(\"\/declaration\/[^\"]*\"\);/;\1;;/" > $TMP/sed_produit_code
 
-CSVHEADER="#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);is_facture;is_vendeur;type de drm;libelle type de drm;date mouvement;famille DRM;extra"
+CSVHEADER="#MOUVEMENT;type document;identifiant declarant;campagne;periode;document id;certification;genre;appellation;mention;lieu;couleur;cepage;code produit;type de mouvement;numero vrac du mouvement;detail identifiant;nom declarant;libelle produit;libelle type;volume mouvement;vrac destinataire;detail libelle;date;version document;cvo;facturable;identifiant mouvement;pays export (si export);is_facture;is_vendeur;type de drm;libelle type de drm;date mouvement;famille DRM;exclusion stats;extra"
 echo $CSVHEADER > $TMP/export_bi_mouvements.csv
 curl -s http://$COUCHHOST:$COUCHPORT/$COUCHBASE/_design/mouvement/_view/consultation  | sed -f bin/unicode2alpha | sed 's/.*"key":\[/MOUVEMENT;/' | sed 's/\],"value":\[/,/' | sed 's/\]\},*//' | grep '^MOUVEMENT;"' | sed 's/,/;/g' | sed 's/\r*$/;/' | sed 's/null//g' | sed 's/;"\/declaration/;\0/' | sed -f $TMP/sed_produit_code | sed 's/"//g' | sed -r 's|[\-]?[0-9]+;$||' | awk -F ';' 'BEGIN{OFS=";"}{EXTRA = "1" ; if ( $6 ~ $3 ) EXTRA = "0" ; print $0 EXTRA}' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' | sed 's|/details/[^/;]*||' | sed 's|/detailsACQUITTE/[^/;]*||' | sed 's/%/%%/g' | awk -F ";" 'BEGIN { OFS=";"} { for(i=1;i<=14;i++) { printf($(i) ";") } for(i=16;i<=20;i++) { printf($(i) ";") } for(i=22;i <= NF - 4;i++) { printf($(i) ";") } printf("0;"$15 ";" $21";"$(NF-2)";"$(NF - 1)";"$(NF)); printf("\n")  }' >> $TMP/export_bi_mouvements.csv
 
@@ -36,7 +36,7 @@ done;
 
 . bin/export_bi_stocks
 
-CSVHEADER="#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom;libelle produit;famille"
+CSVHEADER="#ID;Type document;campagne;identifiant;certifications;genres;appellations;mentions;lieux;couleurs;cepages;date;modificatrice;stock debut;entree;entree revendiquee;sortie;sortie revendiquee;stock fin;nom;libelle produit;famille;exclusion stats"
 echo $CSVHEADER > $TMP/export_bi_drm_stock.csv
 cat $TMP/export_bi_drm_stock_last_modificatrices.csv | sed 's/"//g' | sed 's|/declaration/certifications/||' | sed 's|/genres/|;|' | sed 's|/appellations/|;|' | sed 's|/mentions/|;|' | sed 's|/lieux/|;|' | sed 's|/couleurs/|;|' | sed 's|/cepages/|;|' | sed 's|/details/[^/;]*||' >> $TMP/export_bi_drm_stock.csv
 
