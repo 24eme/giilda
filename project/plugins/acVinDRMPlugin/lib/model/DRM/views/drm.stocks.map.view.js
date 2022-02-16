@@ -9,9 +9,9 @@ function(doc) {
 
       var societe = null;
 
-      var is_exclusion_stats = 0;
+      var is_exclusion_stats = false;
       if (doc.declarant.exclusion_stats) {
-          is_exclusion_stats = doc.declarant.exclusion_stats;
+          is_exclusion_stats = (doc.declarant.exclusion_stats);
       }
 
       for (certification_key in doc.declaration.certifications) {

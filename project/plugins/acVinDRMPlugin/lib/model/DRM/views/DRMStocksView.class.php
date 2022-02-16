@@ -80,7 +80,8 @@ class DRMStocksView extends acCouchdbView
         $drm->volume_sorties = $row->value[self::VALUE_VOLUME_SORTIES];
         $drm->volume_facturable = $row->value[self::VALUE_VOLUME_FACTURABLE];
         $drm->volume_stock_fin_mois = $row->value[self::VALUE_VOLUME_STOCK_FIN_MOIS];
+        $drm->is_exclusion_stats = $row->value[self::VALUE_IS_EXCLUSION_STATS];
 
         return $drm;
     }
-}  
+}
