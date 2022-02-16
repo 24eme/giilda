@@ -258,7 +258,7 @@ while(<STDIN>) {
 	    print "Code guichet : " if ($verbose);
 	    print "\n";
 	    print "Numéro compte : " if ($verbose);
-	    print "\n";
+	    print $field[23]."\n";
 	    print "Cle : " if ($verbose);
 	    print "\n";
 	    print "Commentaire : " if ($verbose);
