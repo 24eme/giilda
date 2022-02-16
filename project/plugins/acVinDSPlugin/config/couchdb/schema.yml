@@ -28,6 +28,7 @@ DS:
             region: {  }
             famille: {  }
             sous_famille: {  }
+            exclusion_stats: { }
       declaration:
         type: collection
         definition:

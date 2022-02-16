@@ -59,7 +59,7 @@ Etablissement:
        crd_regime: { }
        adresse_compta: { searchable: true }
        caution: { }
-       exclusion_stats: {required: false}
+       exclusion_stats: { }
        siret: { required: false }
        intitule: { required: false }
        declaration_commune: { required: false }

@@ -45,6 +45,7 @@ Relance:
             commune: {  }
             code_postal: {   }
             raison_sociale: {  }
+            exclusion_stats: { }
       verifications:
         type: collection
         definition:

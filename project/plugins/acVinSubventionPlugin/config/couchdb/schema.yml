@@ -31,6 +31,7 @@ Subvention:
             code_postal: {   }
             region: {  }
             famille: {  }
+            exclusion_stats: { }
       infos:
         type: collection
         inheritance: SubventionNoeud

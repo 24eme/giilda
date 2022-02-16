@@ -2,10 +2,12 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(44);
+$t = new lime_test(46);
 $t->comment("création d'une DRM avec des sorties facturables et non");
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
+$viti->exclusion_stats = true;
+$viti->save();
 $produits = array_keys(ConfigurationClient::getInstance()->getCurrent()->getProduits());
 $produit_hash = array_shift($produits);
 $periode = date('Ym');
@@ -24,6 +26,9 @@ $drm = DRMClient::getInstance()->createDoc($viti->identifiant, $periode, true);
 $drm->save();
 $t->isnt($drm->periode, null, $drm->_id." : période indiquée");
 $t->isnt($drm->declarant->raison_sociale, null, $drm->_id." : raison sociale du déclaration renseignée");
+
+$t->is($viti->exclusion_stats, true, "Le viti est bien en exclusion stats");
+$t->is($drm->declarant->exclusion_stats, true, "La DRM a bien l'exclusion stats");
 
 $details = $drm->addProduit($produit_hash, 'details');
 $details->stocks_debut->initial = 1000;

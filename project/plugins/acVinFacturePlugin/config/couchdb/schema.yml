@@ -53,6 +53,7 @@ Facture:
             commune: { searchable: true }
             code_postal: {   }
             raison_sociale: { searchable: true }
+            exclusion_stats: { }
       total_ht: {type: float}
       total_ttc: {type: float}
       total_taxe: {type: float}

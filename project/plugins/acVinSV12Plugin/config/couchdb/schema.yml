@@ -25,6 +25,7 @@ SV12:
             code_postal: {   }
             region: {  }
             famille: {  }
+            exclusion_stats: { }
       totaux:
         type: collection
         definition:

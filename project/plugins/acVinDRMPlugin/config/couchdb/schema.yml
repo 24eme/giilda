@@ -473,6 +473,7 @@ DRM:
             caution: { }
             raison_sociale_cautionneur: { }
             famille: {  }
+            exclusion_stats: { }
       societe:
         type: collection
         definition:
