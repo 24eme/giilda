@@ -25,7 +25,11 @@ function(doc) {
                 if (doc.declarant.famille) {
                     familledrm = doc.declarant.famille;
                 }
-                emit([doc.type, identifiant, doc.campagne, doc.periode, doc._id, mouv.produit_hash, mouv.type_drm, mouv.type_hash, mouv.vrac_numero, mouv.detail_identifiant], [doc.declarant.nom, mouv.produit_libelle, mouv.type_drm_libelle, mouv.type_libelle, mouv.volume, mouv.vrac_destinataire, mouv.detail_libelle, mouv.date_version, mouv.version, mouv.cvo, mouv.facturable, doc._id+'/mouvements/'+identifiant+'/'+key, pays, mouv.facture, coefficient_facturation, mouv.date, familledrm]);
+                is_exclusion_stats = 0;
+                if (doc.declarant.exclusion_stats) {
+                    is_exclusion_stats = doc.declarant.exclusion_stats;
+                }
+                emit([doc.type, identifiant, doc.campagne, doc.periode, doc._id, mouv.produit_hash, mouv.type_drm, mouv.type_hash, mouv.vrac_numero, mouv.detail_identifiant], [doc.declarant.nom, mouv.produit_libelle, mouv.type_drm_libelle, mouv.type_libelle, mouv.volume, mouv.vrac_destinataire, mouv.detail_libelle, mouv.date_version, mouv.version, mouv.cvo, mouv.facturable, doc._id+'/mouvements/'+identifiant+'/'+key, pays, mouv.facture, coefficient_facturation, mouv.date, familledrm, is_exclusion_stats]);
             }
         }
     }

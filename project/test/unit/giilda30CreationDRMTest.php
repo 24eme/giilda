@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__).'/../bootstrap/common.php');
 
-$t = new lime_test(46);
+$t = new lime_test(47);
 $t->comment("création d'une DRM avec des sorties facturables et non");
 
 $viti =  CompteTagsView::getInstance()->findOneCompteByTag('test', 'test_viti')->getEtablissement();
@@ -297,3 +297,4 @@ foreach ($mvts_sorted as $type_mvt_drm => $mvts_grouped) {
 }
 $t->ok($baseLibelleFound, $drmNext->_id." : le libelle du mvt du produit est bien $baseLibelle");
 $t->ok($denomComplLibelleFound, $drmNext->_id." : le libelle du mvt du produit est bien $denomComplLibelle");
+$t->ok($mvt->is_exclusion_stats, "L'exclusion stat est bien accessible dans la vue des mouvements");
