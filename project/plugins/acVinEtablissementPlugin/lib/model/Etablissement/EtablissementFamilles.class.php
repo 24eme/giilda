@@ -9,6 +9,7 @@ class EtablissementFamilles
     const FAMILLE_COOPERATIVE = "COOPERATIVE";
     const FAMILLE_COURTIER = "COURTIER";
     const FAMILLE_REPRESENTANT = "REPRESENTANT";
+    const FAMILLE_FANTOME = "FANTOME";
 
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
     const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
@@ -29,6 +30,7 @@ class EtablissementFamilles
     	self::FAMILLE_COURTIER => "Courtier",
 		self::FAMILLE_REPRESENTANT => "Representant",
     	self::FAMILLE_NEGOCIANT_PUR => "Négociant Pur",
+        self::FAMILLE_FANTOME => 'Fantôme'
     );
 
     protected static $type_societe_famille = array(
