@@ -34,4 +34,6 @@ MandatSepa:
             commune: { }
             iban: { }
             bic: { }
+            banque_nom: { }
+            banque_commune: { }
             frequence_prelevement: { }

@@ -35,41 +35,44 @@ EOF;
             }
             $datas = explode(",", preg_replace('/"/', '', str_replace("\n", "", $line)));
             $societe = SocieteClient::getInstance()->find($datas[0]);
-            if (!$societe) {
+            if (!$societe && $datas[1] == 'PC') {
                 echo sprintf("warning;société non trouvée %s\n", implode(',',$datas));
                 continue;
             }
+            if (!$societe) {
+                continue;
+            }
             $mandatSepa = MandatSepaClient::getInstance()->findLastBySociete($societe);
+
             if ($datas[1] != 'PC' && $mandatSepa && $mandatSepa->is_actif) {
                 $mandatSepa->is_actif = 0;
                 $mandatSepa->save();
                 echo sprintf("succes;Désactivation de %s\n", $mandatSepa->_id);
                 continue;
             }
+
             if ($datas[1] != 'PC') {
                 continue;
             }
-            if ($mandatSepa && ($mandatSepa->debiteur->iban != $datas[14]||$mandatSepa->debiteur->bic != $datas[15])) {
-                $mandatSepa->debiteur->iban = $datas[14];
-                $mandatSepa->debiteur->bic = $datas[15];
-                $mandatSepa->save();
-                echo sprintf("succes;Mise à jour de %s\n", $mandatSepa->_id);
+
+            if(!$mandatSepa) {
+                $mandatSepa = MandatSepaClient::getInstance()->createDoc($societe);
             }
-            if ($mandatSepa && !$mandatSepa->is_actif) {
-                $mandatSepa->is_actif = 1;
-                $mandatSepa->save();
-                echo sprintf("succes;Activation de %s\n", $mandatSepa->_id);
-            }
-            if ($mandatSepa) {
-                continue;
-            }
-            $mandatSepa = MandatSepaClient::getInstance()->createDoc($societe);
+
+            $mandatSepa->debiteur->banque_nom = $datas[2];
+            $mandatSepa->debiteur->banque_commune = $datas[3];
             $mandatSepa->debiteur->iban = $datas[14];
             $mandatSepa->debiteur->bic = $datas[15];
             $mandatSepa->is_actif = 1;
             $mandatSepa->is_signe = 1;
-            $mandatSepa->save();
-            echo sprintf("succes;Création de %s\n", $mandatSepa->_id);
+            $isNew = $mandatSepa->isNew();
+            $saved = $mandatSepa->save();
+            if($isNew) {
+                echo sprintf("success;Création de %s\n", $mandatSepa->_id);
+            } elseif($saved) {
+                echo sprintf("success;Modification de %s\n", $mandatSepa->_id);
+            }
+
         }
 
     }
