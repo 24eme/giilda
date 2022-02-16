@@ -66,16 +66,6 @@ class EtablissementFamilles
     	return self::$familles;
     }
 
-    public static function getFamillesForJs()
-    {
-    	$sousFamilles =  self::getSousFamilles();
-    	$result = array();
-    	foreach ($sousFamilles as $key => $value) {
-    		$result[$key] = $value;
-    	}
-    	return $result;
-    }
-
     public static function getFamillesByTypeSociete($typeSociete) {
         $famillesKey = (isset(self::$type_societe_famille[$typeSociete])) ? self::$type_societe_famille[$typeSociete] : array();
         $familles = array();
