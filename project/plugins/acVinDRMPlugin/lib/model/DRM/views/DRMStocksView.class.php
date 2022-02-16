@@ -16,6 +16,8 @@ class DRMStocksView extends acCouchdbView
     const VALUE_VOLUME_STOCK_FIN_MOIS = 5;
     const VALUE_DECLARANT_NOM = 6;
     const VALUE_PRODUIT_LIBELLE = 7;
+    const VALUE_DECLARANT_FAMILLE = 8;
+    const VALUE_IS_EXCLUSION_STATS = 9;
 
     public static function getInstance() {
 

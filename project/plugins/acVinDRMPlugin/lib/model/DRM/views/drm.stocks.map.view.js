@@ -9,6 +9,11 @@ function(doc) {
 
       var societe = null;
 
+      var is_exclusion_stats = 0;
+      if (doc.declarant.exclusion_stats) {
+          is_exclusion_stats = doc.declarant.exclusion_stats;
+      }
+
       for (certification_key in doc.declaration.certifications) {
           var certification = doc.declaration.certifications[certification_key];
           for (genre_key in certification.genres) {
@@ -46,7 +51,7 @@ function(doc) {
                 				     nbDetails += 1;
                                  }
                     				if(nbDetails > 0)  {
-                     				 emit([doc.campagne, societe, doc.identifiant, hash, doc.periode, doc.version], [total_debut_mois, total_entrees, total_recolte, total_sorties, total_facturable, total, doc.declarant.nom, produit_libelle, doc.declarant.famille]);
+                     				 emit([doc.campagne, societe, doc.identifiant, hash, doc.periode, doc.version], [total_debut_mois, total_entrees, total_recolte, total_sorties, total_facturable, total, doc.declarant.nom, produit_libelle, doc.declarant.famille, is_exclusion_stats]);
                     				}
                             } // Boucle cepage
                           } // Boucle couleur
