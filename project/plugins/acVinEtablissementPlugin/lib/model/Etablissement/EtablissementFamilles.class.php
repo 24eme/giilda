@@ -9,6 +9,7 @@ class EtablissementFamilles
     const FAMILLE_COOPERATIVE = "COOPERATIVE";
     const FAMILLE_COURTIER = "COURTIER";
     const FAMILLE_REPRESENTANT = "REPRESENTANT";
+    const FAMILLE_FANTOME = "FANTOME";
 
     // /!\ cooperative est une pseudo famille, elle est basée sur l'exploitation du champ cooperative
     const PSEUDOFAMILLE_COOPERATIVE = "COOPERATIVE";
@@ -29,10 +30,11 @@ class EtablissementFamilles
     	self::FAMILLE_COURTIER => "Courtier",
 		self::FAMILLE_REPRESENTANT => "Representant",
     	self::FAMILLE_NEGOCIANT_PUR => "Négociant Pur",
+        self::FAMILLE_FANTOME => 'Fantôme'
     );
 
     protected static $type_societe_famille = array(
-        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_COOPERATIVE, self::FAMILLE_REPRESENTANT, self::FAMILLE_NEGOCIANT_PUR),
+        SocieteClient::TYPE_OPERATEUR => array(self::FAMILLE_PRODUCTEUR, self::FAMILLE_NEGOCIANT, self::FAMILLE_COOPERATIVE, self::FAMILLE_REPRESENTANT, self::FAMILLE_NEGOCIANT_PUR, self::FAMILLE_FANTOME),
         SocieteClient::TYPE_COURTIER => array(self::FAMILLE_COURTIER),
         SocieteClient::TYPE_AUTRE => array(),
     );
@@ -64,16 +66,6 @@ class EtablissementFamilles
     public static function getFamilles()
     {
     	return self::$familles;
-    }
-
-    public static function getFamillesForJs()
-    {
-    	$sousFamilles =  self::getSousFamilles();
-    	$result = array();
-    	foreach ($sousFamilles as $key => $value) {
-    		$result[$key] = $value;
-    	}
-    	return $result;
     }
 
     public static function getFamillesByTypeSociete($typeSociete) {
