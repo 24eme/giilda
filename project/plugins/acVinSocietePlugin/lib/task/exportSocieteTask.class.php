@@ -67,8 +67,8 @@ EOF;
     if ($mandatSepaActif) {
         $ms = $societe->getMandatSepa();
         if ($ms && $ms->is_actif && $ms->getIban()) {
-            print ";";
-            print substr($ms->getIban(), 0, 2).";";
+            print $ms->getBanqueNom().";";
+            print (substr($ms->getIban(), 0, 2) == 'FR')? 'FRANCE;' : substr($ms->getIban(), 0, 2).";";
             print $ms->getBic().";";
             print $ms->getIban().";";
         }
