@@ -176,13 +176,13 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer, required: false }
                               facturable: { type: integer }
-                              facturable_negociant: { type: integer, required: false }
+                              facturable_negociant: { type: integer, required: false } # Déprécié
                               douane_type: { }
                               douane_cat: { }
                               douane_cat_negoce: { }
                               taxable_douane: { }
                               switch_regime: { required: false }
-                              divisable: { type: integer, required: false }
+                              divisable: { type: integer, required: false } # Déprécié
                   sorties:
                     required: false
                     type: collection
@@ -202,7 +202,7 @@ Configuration:
                               mouvement_coefficient: { type: integer }
                               vrac: { type: integer, required: false }
                               facturable: { type: integer }
-                              facturable_negociant: { type: integer, required: false }
+                              facturable_negociant: { type: integer, required: false } # Déprécié
                               douane_type: { }
                               douane_cat: { }
                               douane_cat_negoce: { }
