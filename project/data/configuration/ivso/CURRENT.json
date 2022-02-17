@@ -1,6 +1,7 @@
 {
    "_id" : "CURRENT",
    "configurations" : {
+       "2022-01-01" : "CONFIGURATION-20220101",
        "2020-08-01" : "CONFIGURATION-20200801",
        "2018-08-01" : "CONFIGURATION-20180801",
        "2016-10-01" : "CONFIGURATION-20161001",
