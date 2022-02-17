@@ -32,7 +32,7 @@
             <div class="col-xs-11">
                 <h3>
                   Espace DRM de <?php echo $societe->raison_sociale; ?>
-                  <?php if ($drm->getEtablissementObject()->famille == EtablissementFamilles::FAMILLE_FANTOME) { echo "<span style='white-space: pre;font-family: monospace;'> /👻\ </span>"; } ?>
+                  <?php if ($etablissement->famille == EtablissementFamilles::FAMILLE_FANTOME) { echo "<span style='white-space: pre;font-family: monospace;'> /👻\ </span>"; } ?>
                   (<?php echo $societe->identifiant; ?>)
                  </h3>
             </div>
