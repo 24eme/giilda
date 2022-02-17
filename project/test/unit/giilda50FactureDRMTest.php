@@ -10,23 +10,12 @@ if($application == "civa") {
 
 $conf = ConfigurationClient::getInstance()->getCurrent();
 
-$hasCVONegociant = false;
-foreach ($conf->declaration->filter('details') as $configDetails) {
-    foreach ($configDetails as $details) {
-        foreach($conf->declaration->details->getDetailsSorted($details) as $detail) {
-            if($detail->isFacturableInverseNegociant()) {
-                $hasCVONegociant = true;
-            }
-        }
-    }
-}
-
 foreach(GenerationClient::getInstance()->findHistoryWithType(array(GenerationClient::TYPE_DOCUMENT_FACTURES, GenerationClient::TYPE_DOCUMENT_FACTURES_MAILS)) as $row) {
     GenerationClient::getInstance()->deleteDoc(GenerationClient::getInstance()->find($row->id, acCouchdbClient::HYDRATE_JSON));
 }
 
 $has_sous_generation = (count(GenerationConfiguration::getInstance()->getSousGeneration(GenerationClient::TYPE_DOCUMENT_FACTURES)) > 0);
-$t = new lime_test(($has_sous_generation) ? 69 : 68);
+$t = new lime_test(($has_sous_generation) ? 64 : 63);
 
 $t->comment("Configuration");
 
@@ -334,26 +323,7 @@ $drm->save();
 $dateFacturation = new DateTime(preg_replace("/([0-9]{4})([0-9]{2})/", '\1-\2-31', $periode));
 $paramFacturation["date_mouvement"] = $dateFacturation->modify("+ 1 month")->format('Y-m-d');
 $facture = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeNego, $paramFacturation);
-
-if($hasCVONegociant) {
-    $t->is($drm->mouvements->get($nego2->getIdentifiant())->getFirst()->facturable, 1, 'Mouvement du negociant est facturable');
-    $t->ok($facture, "La facture est créée");
-    $t->is($facture->total_ht, round($prixHt, 2), "Le total HT est de ".$prixHt." €");
-    $t->is($facture->lignes->get($drm->_id)->libelle,DRMClient::getInstance()->getLibelleFromId($drm->_id)." (sur la base des volumes produits)", 'Libellé de la catégorie');
-    $t->is(count($facture->lignes->get($drm->_id)->details->toArray(true, false)), 5, "La facture à 5 lignes");
-} else {
-    $t->pass("Aucun test");
-    $t->ok(!$facture, "La facture n'est pas créée");
-    $t->pass("Rien à facturer");
-    $t->pass("Aucun test");
-    $t->pass("Aucun test");
-}
+$t->ok(!$facture, "La facture n'est pas créée");
 
 $facture_negoce2 = FactureClient::getInstance()->createAndSaveFacturesBySociete($societeNego2, $paramFacturation);
-if($hasCVONegociant) {
-    $t->ok($facture_negoce2, "La facture de l'acheteur est créée");
-    $t->is($facture_negoce2->total_ht, round($vrac_detail->volume * ($details->getCVOTaux() / 2), 2), "Le total HT est correct");
-} else {
-    $t->ok(!$facture_negoce2, "La facture n'est pas créée");
-    $t->pass("Rien à facturer");
-}
+$t->ok(!$facture_negoce2, "La facture n'est pas créée");

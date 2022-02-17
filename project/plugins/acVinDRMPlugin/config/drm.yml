@@ -17,8 +17,6 @@ all:
       reprise_stocks_changement_campagne: false
       crd_only_suspendus: false
       pdf_cvo: false
-      mouvement_divisable_seuil: false
-      mouvement_divisable_nb_month: 12
       defaults_crds_nodes: [ { 'couleur' : 'VERT', 'contenance' : 0.00750 },{ 'couleur' : 'BLEU', 'contenance' : 0.00750 },{ 'couleur' : 'LIEDEVIN', 'contenance' : 0.00750 } ]
       default_auto_checked: true
       crds_genre: ['TRANQ', 'MOUSSEUX', 'PI', 'ALCOOLS', 'COGNAC-ARMAGNAC']

@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__).'/../../config/ProjectConfiguration.class.php');
 require_once dirname(__FILE__).'/../../lib/vendor/symfony/test/bootstrap/unit.php';
 
-$t = new lime_test(64);
+$t = new lime_test(59);
 $t->comment("Tests de l'existence et du chargement des fichiers de configurations");
 
 $applications = array(
@@ -51,11 +51,6 @@ $t->is($configurationInstance->getRegionDepartement(), ".*", "ivso : La région 
 $configurationInstance = new FactureConfiguration();
 $t->is($configurationInstance->getTVACompte(), "44571502", "ivso : Le tva est 44571502");
 
-$configurationInstance = new DRMConfiguration();
-$t->is($configurationInstance->isMouvementDivisable(), true, "ivso : Les mouvements sont divisables");
-$t->is($configurationInstance->getMouvementDivisableSeuil(), 0, "ivso : Les mouvements sont divisables à partir de 0");
-$t->is($configurationInstance->getMouvementDivisableNbMonth(), 12, "ivso : Les mouvements sont divisables sur 12 mois");
-
 $t->comment("Tests spécifiques de la conf ivbd");
 $configuration = ProjectConfiguration::getApplicationConfiguration("ivbd", 'dev', true);
 
@@ -66,9 +61,6 @@ $t->is($configurationInstance->getRegionDepartement(), "^(24|33|46|47)", "ivbd :
 $configurationInstance = new FactureConfiguration();
 $t->is($configurationInstance->getTVACompte(), "44570100", "ivbd : Le tva est 44570100");
 
-$configurationInstance = new DRMConfiguration();
-$t->is($configurationInstance->isMouvementDivisable(), false, "ivbd : Les mouvements ne sont pas divisables");
-
 $t->comment("Tests spécifiques de la conf bivc");
 $configuration = ProjectConfiguration::getApplicationConfiguration("bivc", 'dev', true);
 $configurationInstance = new VracConfiguration();
@@ -78,5 +70,3 @@ $t->is($configurationInstance->getRegionDepartement(), false, "bivc : La région
 $configurationInstance = new FactureConfiguration();
 $t->is($configurationInstance->getTVACompte(), "44571000", "bivc : Le tva est 44571000");
 
-$configurationInstance = new DRMConfiguration();
-$t->is($configurationInstance->isMouvementDivisable(), false, "ivbd : Les mouvements ne sont pas divisables");

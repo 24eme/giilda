@@ -84,10 +84,6 @@ class DRMESDetails extends BaseDRMESDetails {
         $mouvement_vrac_destinataire = $this->createMouvementVracDestinataire(clone $mouvement, $detail);
         $mouvement_vrac_intermediaire = $this->createMouvementVracIntermediaire(clone $mouvement, $detail);
 
-        if(!$this->getDocument()->isFacturable() && $config->isFacturableInverseNegociant() && $mouvement->cvo > 0) {
-            $mouvement->categorie = FactureClient::FACTURE_LIGNE_MOUVEMENT_TYPE_NEGOCIANT_RECOLTE;
-        }
-
         $mouvements[$this->getDocument()->getIdentifiant()][$md5] = $mouvement;
 
         if ($mouvement_vrac_destinataire) {
@@ -179,10 +175,6 @@ class DRMESDetails extends BaseDRMESDetails {
             $mouvement->facturable = 0;
         }
 
-        if(!$this->getDocument()->isFacturable() && $config->isFacturableInverseNegociant() && $mouvement->cvo > 0) {
-            $mouvement->facturable = 1;
-            $mouvement->remove('coefficient_facturation', 1);
-        }
         return $mouvement;
     }
 
@@ -210,10 +202,6 @@ class DRMESDetails extends BaseDRMESDetails {
         }
         if(!$this->getDocument()->isFacturable()){
             $mouvement->facturable = 0;
-        }
-        if(!$this->getDocument()->isFacturable() && $config->isFacturableInverseNegociant() && $mouvement->cvo > 0) {
-            $mouvement->facturable = 1;
-            $mouvement->remove('coefficient_facturation', 1);
         }
 
         return $mouvement;

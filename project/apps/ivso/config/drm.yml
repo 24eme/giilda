@@ -12,7 +12,6 @@ all:
       crd_only_suspendus: false
       aggregate_edi: [ ]
       declassement_igp: true
-      mouvement_divisable_seuil: 0
       pdf_font_size: "8pt"
       matiere_premiere: true
       delai_ouverture_teledeclaration: "-6 month"
