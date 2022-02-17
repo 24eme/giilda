@@ -409,6 +409,11 @@ class drmActions extends drmGeneriqueActions {
     public function executeMonEspace(sfWebRequest $request) {
         $this->isTeledeclarationMode = $this->isTeledeclarationDrm();
         $view = $this->formCampagne($request, 'drm_etablissement');
+
+        if ($this->isTeledeclarationMode && in_array($this->etablissement->famille, DRMConfiguration::getInstance()->getFamilles()) === false) {
+            throw new sfException(sprintf("Cet etablissement (%s) ne peut pas faire de DRM en télédéclaration", $this->etablissement->_id));
+        }
+
         $this->calendrier = new DRMCalendrier($this->etablissement, $this->campagne, $this->isTeledeclarationMode);
         return $view;
     }
