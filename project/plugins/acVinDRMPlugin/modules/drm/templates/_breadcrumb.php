@@ -8,7 +8,11 @@
     <?php else: ?>
         <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->getEtablissementObject()->identifiant)) ?>">DRM</a></li>
     <?php endif; ?>
-    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->getEtablissementObject()->identifiant)) ?>"><?php echo $drm->getEtablissementObject()->nom ?> (<?php echo $drm->getEtablissementObject()->identifiant ?>)</a></li>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $drm->getEtablissementObject()->identifiant)) ?>">
+        <?php echo $drm->getEtablissementObject()->nom; ?>
+        <?php if ($drm->getEtablissementObject()->famille == EtablissementFamilles::FAMILLE_FANTOME) { echo "<span style='white-space: pre;font-family: monospace;'> /👻\ </span>"; } ?>
+        (<?php echo $drm->getEtablissementObject()->identifiant; ?>)
+    </a></li>
     <li><a class="active" href="">DRM <?php echo getFrPeriodeElision($drm->periode) ?></a></li>
 <?php $notice = sfConfig::get('app_drm_notice'); if ($notice): ?>
     <li class="pull-right"><a href="<?php echo $notice; ?>"><strong class="text-waring">Notice d'aide</strong></a></li>

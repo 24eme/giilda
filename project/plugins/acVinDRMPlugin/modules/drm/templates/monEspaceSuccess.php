@@ -8,7 +8,11 @@
     <?php else: ?>
         <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>">DRM</a></li>
     <?php endif; ?>
-    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>"><?php echo $etablissement->nom ?> (<?php echo $etablissement->identifiant ?>)</a></li>
+    <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>">
+        <?php echo $etablissement->nom; ?>
+        <?php if ($etablissement->famille == EtablissementFamilles::FAMILLE_FANTOME) { echo "<span style='white-space: pre;font-family: monospace;'> /👻\ </span>"; } ?>
+        (<?php echo $etablissement->identifiant; ?>)
+    </a></li>
     <li><a href="<?php echo url_for('drm_etablissement', array('identifiant' => $etablissement->identifiant)) ?>">Calendrier</a></li>
     <li><a href="" class="active"><?php echo ($campagne == -1) ? "Les derniers mois" : $campagne ?></a></li>
 </ol>
