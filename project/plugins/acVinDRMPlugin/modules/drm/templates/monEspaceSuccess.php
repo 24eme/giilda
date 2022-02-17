@@ -30,7 +30,11 @@
               <span class="icon-drm" style="font-size: 46px;"></span>
             </div>
             <div class="col-xs-11">
-                <h3>Espace DRM de <?php echo $societe->raison_sociale; ?> (<?php echo $societe->identifiant; ?>)</h3>
+                <h3>
+                  Espace DRM de <?php echo $societe->raison_sociale; ?>
+                  <?php if ($drm->getEtablissementObject()->famille == EtablissementFamilles::FAMILLE_FANTOME) { echo "<span style='white-space: pre;font-family: monospace;'> /👻\ </span>"; } ?>
+                  (<?php echo $societe->identifiant; ?>)
+                 </h3>
             </div>
           </div>
             <?php
