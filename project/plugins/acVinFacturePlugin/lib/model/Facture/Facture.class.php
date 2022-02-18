@@ -586,7 +586,7 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
       $paiement->add('execute',false);
       $delai = MandatSepaConfiguration::getInstance()->getDelaiEcheancePrelevement();
       $paiement->date = date('Y-m-d',strtotime($this->date_facturation.$delai));
-      $this->versement_sepa = 0;
+      $this->add('versement_sepa', 0);
     }
 
     public function getNbPaiementsAutomatique(){
