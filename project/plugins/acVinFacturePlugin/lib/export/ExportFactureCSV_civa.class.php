@@ -114,6 +114,8 @@ class ExportFactureCSV_civa {
 		 	echo $prefix_sage.';' . $p->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (prelevement automatique);411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $p->date . ';' . $this->getSens($p->montant, "DEBIT") . ';' . $this->getMontant($p->montant, "DEBIT") . ';;V;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
+
+            echo "\n";
 		}
 		}
 	} else {
