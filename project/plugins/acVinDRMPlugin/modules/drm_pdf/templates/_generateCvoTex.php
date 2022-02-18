@@ -23,7 +23,9 @@ if ($drm->mouvements->exist($drm->identifiant)) {
 	}
 }
 
-$totalPrixDroitCvoTTC = $totalPrixDroitCvo * (1 + $drm->getTauxTva());
+$totalPrixDroitCvo = round($totalPrixDroitCvo, 2);
+$totalPrixDroitCvoTTC = round($totalPrixDroitCvo * (1 + $drm->getTauxTva()), 2);
+
 ?>
 
 ~ \\
