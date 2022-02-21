@@ -23,7 +23,7 @@ class ExportFactureCSV_civa {
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
-
+        sfApplicationConfiguration::getActive()->loadHelpers(array('Date'));
         if ($doc_or_id instanceof Facture) {
             $facture = $doc_or_id;
         } else {
@@ -46,20 +46,22 @@ class ExportFactureCSV_civa {
         $aggregateLines = array();
         $code_compte = FactureConfiguration::getInstance()->getDefautCompte();
         $identifiant_analytique = null;
+        $libelles = array();
         foreach ($facture->lignes as $t => $lignes) {
             $origine_mvt = null;
             foreach ($lignes->origine_mouvements as $keyDoc => $mvt) {
                 $origine_mvt = $keyDoc;
             }
-
-	        $libelle = $lignes->libelle;
+            $periode = strtoupper(format_date(substr((explode('-', $t))[2],0,4).'-'.substr((explode('-', $t))[2],-2).'-01', 'MMMM yyyy', 'fr_FR'));
+            $libelle = 'FACTURATION '.$periode;
+            $libelles[$periode] = $periode;
             if (!isset($aggregateLines[$origine_mvt])) {
                 $aggregateLines[$origine_mvt] = array(
                     $prefix_sage,
                     $facture->date_facturation,
                     $facture->date_emission,
                     $facture->numero_piece_comptable,
-                    (strpos($lignes->libelle, '-') !== false && strpos($lignes->libelle, '-') > 1)? substr($lignes->libelle, 0, strpos($lignes->libelle, '-')-1) : $lignes->libelle,
+                    $libelle,
                     $code_compte,
                     null,
                     $identifiant_analytique,
@@ -90,7 +92,7 @@ class ExportFactureCSV_civa {
             echo implode(';', $aggregateLine).";\n";
         }
 	if (!$this->ht) {
-	        echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom. ';' . $this->getSageCompteGeneral($facture) . ';;;;' . $this->getSens($facture->taxe, "CREDIT") . ';' . $this->getMontant($facture->taxe, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
+	        echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';FACTURATION ' . implode(',',$libelles) . ';' . $this->getSageCompteGeneral($facture) . ';;;;' . $this->getSens($facture->taxe, "CREDIT") . ';' . $this->getMontant($facture->taxe, "CREDIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_TVA . ';' . $facture->declarant->nom . ";" . sprintf("%08d", $facture->code_comptable_client) . ";;;;;;";
 	        if ($export_annee_comptable) {
         	    echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
 	        }
@@ -102,7 +104,7 @@ class ExportFactureCSV_civa {
             $i = 0;
             foreach ($facture->echeances as $e) {
                 $i++;
-                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (Echeance ' . ($nbecheance - $i + 1) . '/' . $nbecheance . ');411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
+                echo $prefix_sage.';' . $e->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';COTISATION ' . implode(',',$libelles) . ';411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $e->echeance_date . ';' . $this->getSens($e->montant_ttc, "DEBIT") . ';' . $this->getMontant($e->montant_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
                 }
@@ -111,15 +113,14 @@ class ExportFactureCSV_civa {
             }
 	} elseif ($facture->exist('paiements') && count($facture->paiements->toArray(true, false))){
 		foreach ($facture->paiements as $p) {
-		 	echo $prefix_sage.';' . $p->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';Facture ' . $facture->numero_piece_comptable . ' (prelevement automatique);411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $p->date . ';' . $this->getSens($p->montant, "DEBIT") . ';' . $this->getMontant($p->montant, "DEBIT") . ';;V;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
+		 	echo $prefix_sage.';' . $p->date . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';COTISATION ' . implode(',',$libelles) . ';411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $p->date . ';' . $this->getSens($p->montant, "DEBIT") . ';' . $this->getMontant($p->montant, "DEBIT") . ';;V;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
                 if ($export_annee_comptable) {
                     echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
-
+                }
             echo "\n";
 		}
-		}
 	} else {
-            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';' . $facture->numero_piece_comptable . ' - '.Date::francizeDate($facture->date_facturation).' - '.$facture->declarant->nom.';411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $facture->date_echeance . ';' . $this->getSens($facture->total_ttc, "DEBIT") . ';' . $this->getMontant($facture->total_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
+            echo $prefix_sage.';' . $facture->date_facturation . ';' . $facture->date_emission . ';' . $facture->numero_piece_comptable . ';COTISATION ' . implode(',',$libelles) .';411000;' . sprintf("%d", $facture->code_comptable_client) . ';;' . $facture->date_echeance . ';' . $this->getSens($facture->total_ttc, "DEBIT") . ';' . $this->getMontant($facture->total_ttc, "DEBIT") . ';;;' . $facture->_id . ';' . self::TYPE_LIGNE_ECHEANCE . ';' . $facture->declarant->nom . ";" . sprintf("%d", $facture->code_comptable_client) . ";;;;;;";
             if ($export_annee_comptable) {
                 echo $societe->siege->code_postal . ";" . $societe->siege->commune . ";" . $societe->type_societe . ";";
             }
