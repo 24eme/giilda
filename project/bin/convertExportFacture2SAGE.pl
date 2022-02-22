@@ -141,8 +141,10 @@ while(<STDIN>) {
 if ($htTvaAGG == 1) {
     $infosHt[10] = $totalHt;
     $infosTva[10] = $totalTva;
-    $infosHt[15] = 'Global HT';
-    $infosTva[15] = 'Global TVA';
+    $infosHt[3] = '';
+    $infosTva[3] = '';
+    $infosHt[15] = 'GLOBAL HT';
+    $infosTva[15] = 'GLOBAL TVA';
     printSageEntryFunction(\@infosHt);
     printSageEntryFunction(\@infosTva);
 }
@@ -262,6 +264,6 @@ sub printSageEntryFunction {
 		print "empty;" if ($verbose);
 	    print "\n";
 		print "tiers;" if ($verbose);
-		print encode_utf8(substr(decode_utf8($field[15]), 0, 30))."\n";
+		print encode_utf8(substr(decode_utf8($field[15]), 0, 60))."\n";
 	}
 }
