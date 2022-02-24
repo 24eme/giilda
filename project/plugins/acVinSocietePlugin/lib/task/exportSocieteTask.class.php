@@ -82,6 +82,8 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
+    $onlyFactures = getenv('EXPORT_SOCIETE_ONLY_FACTURES');
+
     $this->includeSuspendu = false;
     if (isset($options['all']) && $options['all']) {
 	$this->includeSuspendu = true;
@@ -101,7 +103,12 @@ EOF;
 
     echo "numéro de compte;intitulé;type (client/fournisseur);abrégé;adresse;address complément;code postal;ville;pays;code NAF;n° identifiant;n° siret;mise en sommeil;date de création;téléphone;fax;email;site;Région viticole;Actif;$mandatSepaEntetes\n";
 
-    foreach(SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration') as $socdata) {
+    if ($onlyFactures) {
+        $societes = FactureEtablissementView::getInstance()->getAllSocietesForCompta();
+    } else {
+        $societes = SocieteAllView::getInstance()->findByInterpro('INTERPRO-declaration');
+    }
+    foreach($societes as $socdata) {
       $soc = SocieteClient::getInstance()->find($socdata->id);
       if (!$soc->code_comptable_client && ! $soc->code_comptable_fournisseur)
 	continue;
