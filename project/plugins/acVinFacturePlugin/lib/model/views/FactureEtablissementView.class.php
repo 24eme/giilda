@@ -37,6 +37,15 @@ class FactureEtablissementView extends acCouchdbView
                     ->getView($this->design, $this->view)->rows;
     }
 
+    public function getAllSocietesForCompta() {
+        $items = $this->getAllFacturesForCompta();
+        $societes = array();
+        foreach($items as $item) {
+            $societes[$item->key[self::KEYS_CLIENT_ID]] = (object) array('id' => 'SOCIETE-'.$item->key[self::KEYS_CLIENT_ID]);
+        }
+        return $societes;
+    }
+
     public function findBySociete($societe) {
             $rows = acCouchdbManager::getClient()
                     ->startkey(array(0, $societe->identifiant))
