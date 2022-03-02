@@ -116,7 +116,7 @@ while(<STDIN>) {
 	    print "\n";
 	    print "\n";
 	    print "code taxe;" if ($verbose);
-	    print "C03\n";
+	    print $field[22] ? $field[22]."\n" : "C03\n";
 	    print "\n";
 	    print "\n";
 	    print "\n";
@@ -216,7 +216,7 @@ sub printSageEntryFunction {
     print "\n";
     print "code taxe;" if ($verbose);
     if ($field[9] eq 'CREDIT') {
-		print "C03\n";
+		print $field[22] ? $field[22]."\n" : "C03\n";
 	}else{
 	    print "\n";
 	}

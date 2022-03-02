@@ -5,6 +5,7 @@ class ExportFactureCSV_civa {
     const TYPE_LIGNE_LIGNE = 'LIGNE';
     const TYPE_LIGNE_ECHEANCE = 'ECHEANCE';
     const TYPE_LIGNE_TVA = 'TVA';
+    const CODE_TVA = '10';
 
     public function __construct($ht = false) {
     	$this->ht = $ht;
@@ -19,7 +20,7 @@ class ExportFactureCSV_civa {
     }
 
     private static function printHeaderBase() {
-        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;mode de paiement;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo";
+        echo "code journal;date;date de saisie;numero de facture;libelle;compte general;compte tiers;compte analytique;date echeance;sens;montant;piece;mode de paiement;id couchdb;type ligne;nom client;code comptable client;origine type;produit type;origine id; volume; cvo; code tva";
     }
 
     public function printFacture($doc_or_id, $export_annee_comptable = false) {
@@ -78,7 +79,8 @@ class ExportFactureCSV_civa {
                     "PRODUIT_TYPE",
                     $origine_mvt,
                     $lignes->quantite,
-                    $lignes->prix_unitaire
+                    $lignes->prix_unitaire,
+                    self::CODE_TVA
                 );
             } else {
                 $aggregateLines[$origine_mvt][10] += $this->getMontant($lignes->montant_ht, "CREDIT");
