@@ -59,9 +59,9 @@ class ExportFactureCSV_civa {
             if (!isset($aggregateLines[$origine_mvt])) {
                 $aggregateLines[$origine_mvt] = array(
                     $prefix_sage,
-                    $facture->date_facturation,
                     $facture->date_emission,
-                    $facture->numero_piece_comptable,
+                    $facture->date_emission,
+                    null,
                     $libelle,
                     $code_compte,
                     null,
@@ -70,7 +70,7 @@ class ExportFactureCSV_civa {
                     $this->getSens($lignes->montant_ht, "CREDIT"),
                     $this->getMontant($lignes->montant_ht, "CREDIT"),
                     null,
-                    null,
+                    $facture->numero_piece_comptable,
                     $facture->_id,
                     self::TYPE_LIGNE_LIGNE,
                     $facture->declarant->nom,
