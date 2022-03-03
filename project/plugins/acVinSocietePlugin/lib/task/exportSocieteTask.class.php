@@ -47,7 +47,7 @@ EOF;
     print ";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
-    print "France;";
+    print "FRANCE;";
     print ";"; //NAF
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";
