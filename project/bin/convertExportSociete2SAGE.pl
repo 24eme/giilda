@@ -25,7 +25,7 @@ while(<STDIN>) {
 	    print "40100000\n";
 	}
 	print "qualité : " if ($verbose);
-    print substr($field[2], 0, 35)."\n";
+    print substr($field[1], 0, 35)."\n";
 	print "abrégé (VINSI)" if ($verbose);
 	print encode_utf8(substr(decode_utf8($field[4]), 0, 17))."\n";
 	print "contact : " if ($verbose);
