@@ -12,8 +12,8 @@ while(<STDIN>) {
 	print "numéro de compte (VINSI) :" if ($verbose);
 	print $field[0]."\n";
 	print "intitulé (VINSI) : " if ($verbose);
-	print substr($field[1], 0, 35)."\n";
-	if ($field[2] eq "CLIENT") {
+	print substr($field[2], 0, 35)."\n";
+	if ($field[3] eq "CLIENT") {
 	    print "type (client/fournisseur) (VINSI) : " if ($verbose);
 	    print "0\n";
 	    print "numéro de compte (VINSI) : " if ($verbose);
@@ -25,34 +25,34 @@ while(<STDIN>) {
 	    print "40100000\n";
 	}
 	print "qualité : " if ($verbose);
-	print "\n";
+    print substr($field[2], 0, 35)."\n";
 	print "abrégé (VINSI)" if ($verbose);
-	print encode_utf8(substr(decode_utf8($field[3]), 0, 17))."\n";
+	print encode_utf8(substr(decode_utf8($field[4]), 0, 17))."\n";
 	print "contact : " if ($verbose);
 	print "\n";
 	print "adresse (VINSI) : " if ($verbose);
-	print encode_utf8(substr(decode_utf8($field[4]), 0, 35))."\n";
-	print "complément adresse (VINSI) : " if ($verbose);
 	print encode_utf8(substr(decode_utf8($field[5]), 0, 35))."\n";
+	print "complément adresse (VINSI) : " if ($verbose);
+	print encode_utf8(substr(decode_utf8($field[6]), 0, 35))."\n";
 	print "code postal (VINSI) : " if ($verbose);
-	print $field[6]."\n";
+	print $field[7]."\n";
 	print "ville (VINSI) : " if ($verbose);
-	print encode_utf8(substr(decode_utf8($field[7]), 0, 35))."\n";
+	print encode_utf8(substr(decode_utf8($field[8]), 0, 35))."\n";
 	print "région : " if ($verbose);
 	print "\n";
 	print "pays (VINSI) : " if ($verbose);
-	print substr(encode_utf8(decode_utf8($field[8])), 0, 35)."\n";
+	print substr(encode_utf8(decode_utf8($field[9])), 0, 35)."\n";
 	print "raccourci : " if ($verbose);
 	print "\n";
 	print "numéro devise : " if ($verbose);
 	print "0\n";
 	print "code NAF (APE) (VINSI) : " if ($verbose);
-	print substr($field[9], 0, 6)."\n";
+	print substr($field[10], 0, 6)."\n";
 	print "n° identifiant (VINSI) : " if ($verbose);
-	print $field[10]."\n";
+	print $field[11]."\n";
 	print "n° siret (VINSI) : " if ($verbose);
-	$field[11] =~ s/[^0-9]//g;
-	print substr($field[11], 0, 14)."\n";
+	$field[12] =~ s/[^0-9]//g;
+	print substr($field[12], 0, 14)."\n";
 	print "valeurs stats 1: " if ($verbose);
 	print "\n";
 	print "valeurs stats 2: " if ($verbose);
@@ -120,7 +120,7 @@ while(<STDIN>) {
 	print "validation des dates d´échéance (oui/non) : " if ($verbose);
 	print "0\n";
 	print "mise en sommeil (VINSI) : " if ($verbose);
-	if ($field[12] eq "ACTIF") {
+	if ($field[13] eq "ACTIF") {
 	    print "0\n";
 	}else{
 	    print "1\n";
@@ -128,9 +128,9 @@ while(<STDIN>) {
 	print "contrôle de l'encours : " if ($verbose);
 	print "0\n";
 	print "date de création (VINSI) : " if ($verbose);
-	$field[13] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
-	$field[13] = '010112' if (!$field[13]);
-	print $field[13]."\n";
+	$field[14] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
+	$field[14] = '010112' if (!$field[14]);
+	print $field[14]."\n";
 	print "hors rappel/relevé : " if ($verbose);
 	print "0\n";
 	print "numéro analytique : " if ($verbose);
@@ -138,13 +138,13 @@ while(<STDIN>) {
 	print "numéro section analytique : " if ($verbose);
 	print "\n";
 	print "téléphone (VINSI) : " if ($verbose);
-	print substr($field[14], 0, 21)."\n";
-	print "télécopie (VINSI) : " if ($verbose);
 	print substr($field[15], 0, 21)."\n";
+	print "télécopie (VINSI) : " if ($verbose);
+	print substr($field[16], 0, 21)."\n";
 	print "email (VINSI) : " if ($verbose);
-	print substr($field[16], 0 ,69)."\n";
+	print substr($field[17], 0 ,69)."\n";
 	print "site (VINSI) : " if ($verbose);
-	print substr($field[17], 0, 69)."\n";
+	print substr($field[18], 0, 69)."\n";
 	print "numéro EASY : " if ($verbose);
 	print "\n";
 	print "placé sous surveillance : " if ($verbose);
@@ -199,7 +199,7 @@ while(<STDIN>) {
 	print "0\n";
 	print "numéro tiers centrale d'achat : " if ($verbose);
 	print "\n";
-	print "collaborateur nom (VINSI : ".$field[18].") : " if ($verbose);
+	print "collaborateur nom (VINSI : ".$field[19].") : " if ($verbose);
 	print "\n";
 	print "collaborateur prénom : " if ($verbose);
 	print "\n";
@@ -216,12 +216,12 @@ while(<STDIN>) {
 	print "NIF représentant légal : " if ($verbose);
 	print "\n";
 	print "compte général rattaché : " if ($verbose);
-	if ($field[2] eq "CLIENT") {
+	if ($field[3] eq "CLIENT") {
 	    print "41100000\n";
 	}else{
 	    print "40100000\n";
 	}
-	if ($field[20] || $field[21] || $field[22] || $field[23]) {
+	if ($field[21] || $field[22] || $field[23] || $field[24]) {
         print "Balise Règlement : " if ($verbose);
         print "#MRLT\n";
         print "Numéro règlement : " if ($verbose);
@@ -252,13 +252,13 @@ while(<STDIN>) {
 	    print "Type banque : " if ($verbose);
 	    print "1\n";
 	    print "Intitule : " if ($verbose);
-	    print $field[20]."\n";
+	    print $field[21]."\n";
 	    print "Code banque : " if ($verbose);
 	    print "\n";
 	    print "Code guichet : " if ($verbose);
 	    print "\n";
 	    print "Numéro compte : " if ($verbose);
-	    print $field[23]."\n";
+	    print $field[24]."\n";
 	    print "Cle : " if ($verbose);
 	    print "\n";
 	    print "Commentaire : " if ($verbose);
@@ -276,11 +276,11 @@ while(<STDIN>) {
     	print "ville : " if ($verbose);
 	    print "\n";
     	print "pays : " if ($verbose);
-	    print $field[21]."\n";
-    	print "BIC : " if ($verbose);
 	    print $field[22]."\n";
-    	print "IBAN : " if ($verbose);
+    	print "BIC : " if ($verbose);
 	    print $field[23]."\n";
+    	print "IBAN : " if ($verbose);
+	    print $field[24]."\n";
     	print "gestion IBAN : " if ($verbose);
 	    print "0\n";
         print "\n";
