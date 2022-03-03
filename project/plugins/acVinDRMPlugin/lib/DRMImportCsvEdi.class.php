@@ -1124,7 +1124,7 @@ private function importAnnexesFromCSV($just_check = false) {
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_DSADSAC:
       case DRMClient::DRM_DOCUMENTACCOMPAGNEMENT_EMPREINTE:
       $annexeTypeMvt = KeyInflector::slugify($csvRow[self::CSV_ANNEXE_TYPEMVT]);
-      $numDocument = KeyInflector::slugify(($csvRow[self::CSV_ANNEXE_QUANTITE]) ? $csvRow[self::CSV_ANNEXE_QUANTITE] :  $csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]);
+      $numDocument = KeyInflector::slugify(($csvRow[self::CSV_ANNEXE_QUANTITE]) ? $csvRow[self::CSV_ANNEXE_QUANTITE] : trim($csvRow[self::CSV_ANNEXE_NUMERODOCUMENT]));
       if (!in_array($annexeTypeMvt, self::$permitted_annexes_type_mouvements)) {
         if ($just_check) {
           $this->csvDoc->addErreur($this->annexesTypeMvtWrongFormatError($num_ligne, $csvRow));
