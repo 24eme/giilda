@@ -240,10 +240,7 @@ class drmActions extends drmGeneriqueActions {
         $this->drm = DRMClient::getInstance()->findMasterByIdentifiantAndPeriode($this->identifiant, $this->periode);
 
         if(!$this->drm) {
-          $this->drm = new DRM();
-          $this->drm->identifiant = $this->identifiant;
-          $this->drm->periode = $this->periode;
-          $this->drm->teledeclare = true;
+          $this->drm = DRMClient::getInstance()->createDoc($this->identifiant, $this->periode, true);
           $this->drm->constructId();
         }
 
