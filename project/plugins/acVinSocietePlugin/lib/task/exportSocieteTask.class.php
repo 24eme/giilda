@@ -32,13 +32,14 @@ EOF;
 	return ;
     }
     print $compte.";";
-    print $societe->raison_sociale.";";
+    print $societe->getIntitule().";";
+    print $societe->getRaisonSocialeWithoutIntitule().";";
     if ($isclient == self::ISCLIENT) {
       print "CLIENT;";
     }else{
       print "FOURNISSEUR;";
     }
-    print $societe->raison_sociale_abregee.";";
+    print strtoupper(substr($societe->getRaisonSocialeWithoutIntitule(), 0, 5)).";";
     print preg_replace('/;.*/', '', $societe->getSiegeAdresses()).";";
     if (preg_match('/;/', $societe->getSiegeAdresses())) {
         print str_replace(';', '-', preg_replace('/.*;/', '', $societe->getSiegeAdresses()));
@@ -46,7 +47,7 @@ EOF;
     print ";";
     print $societe->siege->code_postal.";";
     print $societe->siege->commune.";";
-    print "France;";
+    print "FRANCE;";
     print ";"; //NAF
     print $societe->no_tva_intracommunautaire.";";
     print $societe->siret.";";
