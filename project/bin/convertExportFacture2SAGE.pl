@@ -116,7 +116,7 @@ while(<STDIN>) {
 	    print "\n";
 	    print "\n";
 	    print "code taxe;" if ($verbose);
-	    print $field[22] ? $field[22]."\n" : "C03\n";
+	    print $field[22];
 	    print "\n";
 	    print "\n";
 	    print "\n";
@@ -145,6 +145,8 @@ if ($htTvaAGG == 1) {
     $infosTva[3] = '';
     $infosHt[15] = 'GLOBAL HT';
     $infosTva[15] = 'GLOBAL TVA';
+    $infosHt[12] = '';
+    $infosTva[12] = '';
     printSageEntryFunction(\@infosHt);
     printSageEntryFunction(\@infosTva);
 }
@@ -164,9 +166,7 @@ sub printSageEntryFunction {
 	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	print $field[2]."\n";
     print "piece;" if ($verbose);
-    my $piece = $field[3];
-    $piece =~ s/[^a-z0-9]//ig;
-    print $piece."\n";
+	print $field[23];
     print "numero de facture;" if ($verbose);
     print $field[3]."\n";
     print "piece tréso;" if ($verbose);
@@ -216,7 +216,7 @@ sub printSageEntryFunction {
     print "\n";
     print "code taxe;" if ($verbose);
     if ($field[9] eq 'CREDIT') {
-		print $field[22] ? $field[22]."\n" : "C03\n";
+		print $field[22];
 	}else{
 	    print "\n";
 	}
