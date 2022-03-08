@@ -116,7 +116,7 @@ while(<STDIN>) {
 	    print "\n";
 	    print "\n";
 	    print "code taxe;" if ($verbose);
-	    print $field[22];
+	    print $field[22]."\n";
 	    print "\n";
 	    print "\n";
 	    print "\n";
@@ -166,7 +166,7 @@ sub printSageEntryFunction {
 	$field[2] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
 	print $field[2]."\n";
     print "piece;" if ($verbose);
-	print $field[23];
+	print $field[23]."\n";
     print "numero de facture;" if ($verbose);
     print $field[3]."\n";
     print "piece tréso;" if ($verbose);
@@ -216,7 +216,7 @@ sub printSageEntryFunction {
     print "\n";
     print "code taxe;" if ($verbose);
     if ($field[9] eq 'CREDIT') {
-		print $field[22];
+		print $field[22]."\n";
 	}else{
 	    print "\n";
 	}
