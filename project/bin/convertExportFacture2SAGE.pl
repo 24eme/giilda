@@ -187,7 +187,7 @@ sub printSageEntryFunction {
 	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
     print $field[8]."\n";
     print "partie;" if ($verbose);
-    print "0,000000\n";
+    print "\n";
     print "quantite;" if ($verbose);
     print "\n";
     print "numero devis;" if ($verbose);
@@ -237,7 +237,7 @@ sub printSageEntryFunction {
     print "status reglement;" if ($verbose);
     print "0\n";
     print "montant refle;" if ($verbose);
-    print "0,00\n";
+    print "\n";
     print "date dernier reglement;" if ($verbose);
     print "\n";
     print "date operation;" if ($verbose);
