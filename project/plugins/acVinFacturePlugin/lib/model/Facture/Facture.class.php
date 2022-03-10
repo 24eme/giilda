@@ -28,6 +28,21 @@ class Facture extends BaseFacture implements InterfaceArchivageDocument {
         $this->archivage_document = new ArchivageDocument($this);
     }
 
+    public function updateVersementComptablePaiement() {
+        $versement = true;
+        $date = null;
+        if ($this->exist('paiements')) {
+            foreach ($this->paiements as $p) {
+                $versement = $versement && $p->versement_comptable;
+                if ($p->date > $date) {
+                    $date = $p->date;
+                }
+            }
+        }
+        $this->versement_comptable_paiement = $versement * 1;
+        $this->date_paiement = $date;
+    }
+
     public function updateDatePaiementFromPaiements() {
         $date = null;
         foreach($this->paiements as $p) {
