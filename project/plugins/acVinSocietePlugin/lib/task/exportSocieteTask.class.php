@@ -56,7 +56,8 @@ EOF;
     print preg_replace('/[^\+0-9]/i', '', $societe->telephone).";";
     print preg_replace('/[^\+0-9]/i', '', $societe->fax).";";
     print $societe->email.";";
-    print $this->routing->generate('societe_visualisation', $societe, true).';';
+    print ';';
+    //print $this->routing->generate('societe_visualisation', $societe, true).';';
     try {
       if ($isclient == self::ISCLIENT) {
 	print $societe->getRegionViticole(false).';';
