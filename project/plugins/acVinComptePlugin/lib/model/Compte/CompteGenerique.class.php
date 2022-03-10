@@ -153,7 +153,7 @@ abstract class CompteGenerique extends acCouchdbDocument {
 
         if(preg_match("/^(".$intitules.") /", $raisonSociale, $matches) && !preg_match("/^(".$intitulesExclude.") /", $raisonSociale, $matches)) {
             $intitule = $matches[1];
-            $raisonSociale = preg_replace("/^".$intitule." /", "", $raisonSociale &&  && !preg_match("/^(".$intitulesExclude.") /", $raisonSociale, $matches));
+            $raisonSociale = preg_replace("/^".$intitule." /", "", $raisonSociales);
         }
 
         if(preg_match("/ \((".$intitules.")\)$/", $raisonSociale, $matches) && !preg_match("/ \((".$intitulesExclude.")\)$/", $raisonSociale, $matches)) {
