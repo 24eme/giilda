@@ -182,7 +182,7 @@ sub printSageEntryFunction {
     print "intitule;" if ($verbose);
     print encode_utf8(substr(decode_utf8($field[4]), 0, 35))."\n";
     print "numero reglement;" if ($verbose);
-    print "\n";
+	print $field[24]."\n";
     print "date echeance;" if ($verbose);
 	$field[8] =~ s/\d{2}(\d{2})-(\d{2})-(\d{2})/${3}${2}${1}/;
     print $field[8]."\n";
